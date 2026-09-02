@@ -341,7 +341,13 @@ audits against.
 - **The stair drift (S2) was measured and not fixed.** Reconciling `openings.stair_pass` with
   `rooms/stair-hall.json` means choosing between 7.25 in (the pack, which the Python follows) and
   7.5 in (the prose), which changes drawn stairs on every plan. That is a generator change and a
-  ruling, not an audit correction.
+  ruling, not an audit correction. **RULED AND BUILT 2 Sep 2026, both ways round**: Lucas ruled
+  the pack authoritative, then ruled 7.5 right and moved the pack to it. The divisor is now READ
+  from `storey-graduation.json` by `build/storeys.py::riser_divisor_in` and exists nowhere else in
+  Python. "Changes drawn stairs on every plan" was itself an over-statement: **only two of the
+  sixteen plans place a stair hall**, and one of the two is unmoved
+  (`tidewater-georgian-careful` 21 → 20 risers; `spec-builder-colonial` 17 → 17). See
+  `docs/reports/wp-9.6-the-check-that-could-not-see-the-drawing.md` §7b.
 - **The island rule (S6) was WITHDRAWN, not deferred** — see the correction above. The pairing it
   recommended already existed; the real defect was the `elif`, and WP-9.6 split it.
 - **The unquantified-rule class (S5) was measured and not closed.** 268 of 761 derived rules

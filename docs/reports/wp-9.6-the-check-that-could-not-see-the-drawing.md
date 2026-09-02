@@ -209,9 +209,10 @@ and a plate had been landing off the canvas the whole time.
 
 ## 7. The stair: the input first, then the reader — and the figures that sent me here were wrong
 
-Lucas ruled the pack authoritative (7.25 in) and asked for the ceiling fallback fixed first, then
-the shared reader. Doing the first made the second nearly free — but the numbers that framed the
-question did not survive being run.
+Lucas ruled the pack authoritative and asked for the ceiling fallback fixed first, then the
+shared reader. Doing the first made the second nearly free — but the numbers that framed the
+question did not survive being run. **And the ruling then arrived in two parts**: the pack governs,
+and then, on the one question this package left open, *"7.5 in is right — move the pack."*
 
 **What had been published, in a commit message, two reports, `CLAUDE.md` and a register entry:**
 three spellings giving 16 / 17 / 21 risers, "3.3 ft apart on one house", caused by `openings.py`
@@ -240,20 +241,95 @@ structure would close a cycle. `structure.py` re-exports `storey_heights` and
 `STOREY_CEILING_FRACTION` under their old names, so its three existing test callers are untouched
 and there is exactly one implementation. `stair_pass` reads `storeys.ground_storey_in(plan)`;
 **both invented constants go in one move** and the two spellings agree by construction —
-`tidewater-georgian-careful` 21/21, `spec-builder-colonial` 17/17. Where no ceiling is stated
+`tidewater-georgian-careful` 20/20, `spec-builder-colonial` 17/17. Where no ceiling is stated
 anywhere on the ground level the pass **refuses the stair with a reason** rather than assuming
 9.0; **0 of 16 plans take that branch today**, recorded so the refusal is not read as dead code.
 
-`tests/test_storeys.py`, five guards, including one pinning the transcribed
-`STOREY_CEILING_FRACTION` against the pack's own expression — it is a transcription, not a read,
-and that is defensible only while something holds the two together. Mutation-checked: restoring
-`(ch + 1.0) * 12` with its `or 9.0` turns the agreement test red. The pinned reference-plan
-finding counts did not move (30/65 and 57/74/4).
+### 7b. Then the divisor moved, and the point is that only one file had to change
 
-**Left open, and it is an authoring question rather than a code one.** `rooms/stair-hall.json`'s
-prose still works its example at 7.5 in with a 12 in assembly. The ruling settles which record
-GOVERNS, not which number is architecturally right — if 7.5 is what the period sources support,
-the pack is what should move, and nobody has read a source on it.
+**`build/storeys.py::riser_divisor_in` READS `storey-graduation.json`'s `stair_type` expression**
+with a strict `ceil(module / <number>)` match and **refuses any other shape** rather than falling
+back to a number. That is what made the second half of the ruling a one-line data edit: the two
+Python literals that used to carry 7.25 — one in `openings.py`, one in `structure.py`, each
+commented with the name of the pack it was copied from, so that moving the pack would have moved
+neither — no longer exist. The pack moved and the code followed by construction.
+
+Two records had to move by hand and both are data: the pack's `derived_rules[stair_type]`
+expression, and its **baked copy** in `kits/georgian-colonial-american.kit.json` at
+`/slots/stair_type/parameters/risers_per_storey` — which is
+`oq/a-baked-pack-value-is-a-second-delivery-path` appearing in the course of ordinary work, and
+worth noting because nothing in the corpus would have failed had the second been missed.
+
+**Measured, and only two of sixteen plans place a stair hall at all:**
+
+| plan | storey | at 7.25 in | at 7.5 in |
+|---|---|---|---|
+| `tidewater-georgian-careful` | 147.34 in | 21 risers at 7.017 in | **20 at 7.367 in** |
+| `spec-builder-colonial` | 120.56 in | 17 at 7.092 in | **17 at 7.092 in**, unmoved |
+
+Neither leaves the IRC advisory maximum of 7.75 in; the worst shipped riser is 7.367. And the
+pack's own default — a 120 in storey — now gives **sixteen risers at exactly 7.500 in**, which is
+the example `rooms/stair-hall.json`'s `critical_dimension` has always worked. Reproducing the
+corpus's own worked example is the argument for the number.
+
+**The disagreement it leaves is recorded in three places and reconciled in none.** That same room
+record's `conflict` note calls the historic comfortable band *"7 to 7.25 in rise on an 11 to 11.5
+in tread"*, so the corpus's default stair now sits just outside a band the corpus states about
+itself. It is written into the pack's note, into the room record's own `conflict` note, and into
+the register entry. **Editing either number to make the two agree is the move this corpus names
+first**, and the ruling for `oq/a-grouping-rule-and-a-room-record-can-disagree` — a checker that
+reports agree / disagree / cannot-compare — is where a disagreement like this should surface.
+
+### 7c. Moving the pack broke a snapshot of the pack, and the open question had predicted it
+
+**The baked copy carries the expression AND the value the expression produced, and I moved one.**
+After the edit, `kits/georgian-colonial-american.kit.json` read
+`{"expr": "ceil(module / 7.5)", "computed_at": {"storey_height_in": 120.0, "value": 17}}` — the
+same object stating 7.5 and 17, where 7.5 on a 120 in module gives **16**.
+
+**Nothing caught it, and that is by construction rather than by oversight.** `check_kits.py`
+holds the `computed_at` CONTEXT keys consistent across a slot family and explicitly `continue`s
+on `"value"`; `check_addresses.py::baked_vs_refused` measures a snapshot delivering a value the
+live rule REFUSES, which is a different question. Both were run with the defect in place and both
+came back exactly as before — `check_kits` OK, `check_addresses --strict` at its ratchet of 32.
+
+**`oq/a-baked-pack-value-is-a-second-delivery-path` had already written this down**, in its own
+closing paragraph: *"A derived snapshot is a cached computation with no cache invalidation… it
+cannot see the case where the rule's VALUE has changed and the snapshot has not."* That was
+written on 28 Aug as a general shape with no instance. This is the instance, and it arrived four
+days later in the commit that moved the rule — which is a better argument for the entry than any
+number in it.
+
+**Measured across all 159 kits: 143 baked derived parameters carry both an `expr` and a
+`computed_at.value`. Exactly ONE is of a shape a narrow reader can evaluate** — `ceil(module / D)`
+against a stated `storey_height_in` — and that one is the one that broke. **The other 142 are
+UNJUDGED, not passing**: their expressions and contexts are shapes this reader does not parse. A
+general checker is that open question's to rule on, and authoring one here would be inventing the
+mechanism the question exists to decide, so the guard added is scoped to the single rule this
+package moved.
+
+**And the mutation check for that guard passed on the first attempt, which was wrong.** The
+sed-style replacement it used matched an earlier occurrence in the file and never touched
+`risers_per_storey`, so the test stayed green and read as a test that cannot fail. Re-run with an
+anchored replacement and an assertion that the mutation applied, it goes red on both directions:
+the stale value restored, and the baked expression drifted from the pack's. **A mutation that
+silently does not apply is indistinguishable from a guard that does not work** — assert the
+mutation landed before believing the colour.
+
+`tests/test_storeys.py`, eight guards: the transcribed `STOREY_CEILING_FRACTION` pinned against
+the pack's own expression (it is a transcription, not a read, and that is defensible only while
+something holds the two together); an unjudged level that says so; the floor assembly proved not
+to be a constant; the two spellings agreeing on every shipped plan; the divisor read rather than
+transcribed, **with a scan of every file in `build/` for a stray one**; an unrecognised
+`stair_type` expression refused rather than defaulted; the baked kit copy held against its own
+expression; and the re-export under the old name.
+**Mutation-checked in six directions**, each proved red: restoring `(ch + 1.0) * 12` with its
+`or 9.0`; putting a bare `/ 7.25)` back in `structure.py`; making `riser_divisor_in` return a
+literal; making the reader fall back instead of raising.
+
+The pinned reference-plan finding counts did not move at either divisor (30/65 and 57/74/4) —
+`plan_check` has no stair-riser finding, which is itself worth knowing: **the number changed on
+both engines and no critic layer noticed.**
 
 ## What was deliberately not done
 
@@ -264,10 +340,13 @@ the pack is what should move, and nobody has read a source on it.
   pass at the cap. Changing it is authoring a threshold.
 - **No generator change.** Neither engine was touched. The drawn check reports what the search
   draws; it does not change what it draws. Both reference plans place identically.
-- **The three items that need a ruling stay deferred**, unchanged: the stair's 7.25-against-7.5
-  constant (three spellings, three answers on one shipped plan — 16, 17 and 21 risers), the
-  authored-and-unenforced 12 ft `start_setback_from_front_door_ft` ceiling, and the 268 of 761
-  derived rules carrying no `quantity`.
+- **Two of the three items that needed a ruling stay deferred**: the authored-and-unenforced
+  12 ft `start_setback_from_front_door_ft` ceiling, and the 268 of 761 derived rules carrying no
+  `quantity`. The third — the stair divisor — was ruled during the package and is built; §7b.
+- **The stair divisor was NOT sourced, and the ruling does not claim it was.** 7.5 in is the
+  figure the corpus already worked its own example at. That is consistency, not evidence. No
+  period source for a comfortable riser has been read here, and the record's rival 7–7.25 in band
+  is equally unsourced in this tree.
 - **The code-span half of the citation question stays open.** 120 of 164 mentions still sit in
   backticks and are exempt; the twelve that resolve to nothing are all deliberate illustrations.
   Only the file-selection half is closed.

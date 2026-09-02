@@ -363,7 +363,9 @@ def roof_heights(plan, storeys, footprint_outside):
 # ---------------------------------------------------------------- stairs
 def stair_geometry(plan, geometry_result, storeys):
     """Rise/run from proportions/modules/storey-graduation.json's own stair_type rule
-    (risers = ceil(storey_height_in / 7.25)) and a conventional rise+2*run comfort formula for
+    (risers = ceil(storey_height_in / D), D read from that rule -- 7.5 since Lucas ruled on
+    2 Sep 2026, and NOT quoted here as a number, because a docstring stating the figure is how
+    the last one went stale) and a conventional rise+2*run comfort formula for
     tread, checked against groupings/stair-and-landing-core.json's own hard rules (landing
     depth at least stair width; riser/tread constant through the flight -- this solver only
     ever produces one riser dimension per flight, so that second rule is true by construction)
@@ -377,7 +379,9 @@ def stair_geometry(plan, geometry_result, storeys):
     if not stair_room or not ground or not ground.get("storey_height_ft"):
         return {"applicable": False, "note": "No placed stair-hall, or no ground-storey height, to check."}
     total_rise_in = ground["storey_height_ft"] * 12
-    risers = max(2, math.ceil(total_rise_in / 7.25))          # storey-graduation.json: stair_type
+    # READ, never transcribed -- see build/storeys.py::riser_divisor_in. The literal that
+    # stood here had a twin in openings.py and moving the pack would have moved neither.
+    risers = max(2, math.ceil(total_rise_in / STOREYS.riser_divisor_in()))
     riser_in = round(total_rise_in / risers, 3)
     tread_in = round(max(IRC_MIN_TREAD_IN, 24.0 - 2 * riser_in), 2)
     run_in = round((risers - 1) * tread_in, 2)

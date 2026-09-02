@@ -442,7 +442,9 @@ def stair_pass(plan, C, report):
     # ceiling_height_rule instead, which is what `structure.py` has always done: the deduction
     # is 15.35 in at an 11 ft ceiling and 11.86 in at 8.5 ft, and it is not a constant.
     # Measured on plans/tidewater-georgian-careful.json: 144.0 in became 147.3, and this pass
-    # now agrees with the section that draws the same stair -- 21 risers, not 20 against 21.
+    # now agrees with the section that draws the same stair. (At the 7.25 in divisor that was
+    # 21 risers each where the two had read 20 against 21; at the 7.5 in Lucas ruled on 2 Sep
+    # it is 20 each. The AGREEMENT is what this change bought -- the count is the pack's.)
     storey_in = _storeys().ground_storey_in(plan)
     if storey_in is None:
         # The record states no ceiling anywhere on the ground level. The number that used to
@@ -452,7 +454,11 @@ def stair_pass(plan, C, report):
             "No stair: the ground level states no floor-to-ceiling height, on the level or on "
             "any of its rooms, so the storey it rises through is unjudged.")
         return None
-    risers = max(2, math.ceil(storey_in / 7.25))       # storey-graduation.json's own rule
+    # READ from storey-graduation.json's stair_type rule, never transcribed: this was a bare
+    # 7.25 here and another in structure.py, each commented "storey-graduation.json's own
+    # rule", so moving the pack would have moved neither. Lucas ruled 7.5 on 2 Sep 2026 and
+    # the pack is the only place that number now lives.
+    risers = max(2, math.ceil(storey_in / _storeys().riser_divisor_in()))
     riser_in = round(storey_in / risers, 3)
     tread_in = round(max(10.0, 24.0 - 2 * riser_in), 2)
     treads = risers - 1

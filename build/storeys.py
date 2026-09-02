@@ -31,6 +31,40 @@ from __future__ import annotations
 STOREY_CEILING_FRACTION = 1.0 - 1.25 / 12.0
 
 
+_RISER_DIVISOR = None
+
+
+def riser_divisor_in(root=None):
+    """The acceptable riser, READ from storey-graduation.json rather than transcribed.
+
+    That pack's `stair_type` rule is `ceil(module / D)` and D is the number: 7.25 until
+    2 Sep 2026, 7.5 after Lucas ruled on it. It had been a bare literal in TWO Python files
+    (`openings.py` and `structure.py`), each with a comment naming the pack it was copied
+    from -- so moving the pack would have moved neither. This reads the expression and
+    REFUSES on any shape it does not recognise, because a divisor silently defaulting to a
+    stale number is the failure this replaces.
+    """
+    global _RISER_DIVISOR
+    if _RISER_DIVISOR is None:
+        import json, os, re
+        here = root or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        pack = json.load(open(os.path.join(here, "proportions", "modules",
+                                           "storey-graduation.json"), encoding="utf-8"))
+        rule = next((r for r in pack.get("derived_rules", [])
+                     if r.get("target_slot") == "stair_type"), None)
+        if rule is None:
+            raise ValueError("storey-graduation.json has no stair_type rule to read the "
+                             "riser divisor from")
+        m = re.fullmatch(r"ceil\(module / ([0-9.]+)\)", (rule.get("expression") or "").strip())
+        if not m:
+            raise ValueError("storey-graduation.json's stair_type expression is %r, which "
+                             "this reader does not recognise; it expects "
+                             "'ceil(module / <number>)'. Update build/storeys.py in the same "
+                             "commit as the pack." % rule.get("expression"))
+        _RISER_DIVISOR = float(m.group(1))
+    return _RISER_DIVISOR
+
+
 def storey_heights(plan):
     """Per level: the stated ceiling, the storey it implies, and the floor depth between.
 

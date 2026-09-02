@@ -50,3 +50,31 @@ cannot grow in silence while that is decided.
 computation with no cache invalidation: it was true of the pack on the day it was written and
 nothing re-derives it. `check_addresses` can now see the case where the rule is refused; it
 cannot see the case where the rule's VALUE has changed and the snapshot has not.
+
+## THE PREDICTED CASE HAPPENED, 2 Sep 2026, four days after the sentence above was written
+
+WP-9.6 moved `storey-graduation.json`'s `stair_type` expression from `ceil(module / 7.25)` to
+`ceil(module / 7.5)` on Lucas's ruling. The baked copy in
+`kits/georgian-colonial-american.kit.json` at `/slots/stair_type/parameters/risers_per_storey`
+carries **both** the expression and the value the expression produced, and the edit moved the
+expression and left the value: the same object then read `"expr": "ceil(module / 7.5)"` and
+`"value": 17` on a stated 120 in module, where the expression gives **16**.
+
+**Both instruments were run with the defect in place and neither moved.** `check_kits.py` came
+back OK — it holds the `computed_at` CONTEXT keys consistent across a slot family and explicitly
+`continue`s on `"value"`. `check_addresses.py --strict` came back at its ratchet of 32 — it
+measures a snapshot delivering a value the live rule REFUSES, which is a different question from
+a snapshot contradicting its own expression.
+
+**The size of the class, measured across all 159 kits: 143 baked derived parameters carry both an
+`expr` and a `computed_at.value`.** Of those, **exactly one** is of a shape a narrow reader can
+evaluate (`ceil(module / D)` against a stated `storey_height_in`) — and that one is the one that
+broke. **The other 142 are UNJUDGED, not passing.** Their expressions and contexts are shapes no
+reader in the tree parses, so the honest count of stale snapshots in this corpus is *unknown*,
+not zero.
+
+`tests/test_storeys.py::test_the_baked_kit_copy_agrees_with_its_own_expression` guards the one
+rule WP-9.6 moved, and deliberately does not generalise: a checker over all 143 needs an
+expression evaluator and a decision about what to do with a snapshot whose context no longer
+exists, which is what this question is for. What the instance settles is that the shape is real
+and reachable in ordinary work, not merely conceivable.

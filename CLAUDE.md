@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,309 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,312 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -685,12 +685,54 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   The deduction is NOT constant: 15.35 in at an 11 ft ceiling, 11.86 in at 8.5 ft. On
   `tidewater-georgian-careful` that was 144.0 in against 147.3 -- **20 risers against 21, two
   records of one stair in one house.** Both callers read `storeys.py` now and agree by
-  construction (21/21, 17/17). **It must stay a LEAF**: `structure.py` loads `geometry.py`, which
-  calls `openings.stair_pass`, so openings importing structure closes a cycle. `structure.py`
-  re-exports `storey_heights` and `STOREY_CEILING_FRACTION` under the old names.
+  construction (20/20, 17/17 at the ruled divisor; 21/21 at the old one). **It must stay a LEAF**:
+  `structure.py` loads `geometry.py`, which calls `openings.stair_pass`, so openings importing
+  structure closes a cycle. `structure.py` re-exports `storey_heights` and
+  `STOREY_CEILING_FRACTION` under the old names.
   **Where no ceiling is stated the stair is REFUSED with a reason, never assumed** -- 0 of 16
   plans take that branch today, recorded so the refusal is not read as dead code.
   `tests/test_storeys.py` pins the transcribed fraction against the pack's own expression.
+- **THE RISER DIVISOR IS READ FROM THE PACK, AND LUCAS MOVED THE PACK TO 7.5 IN (2 Sep 2026).**
+  It had been a bare `7.25` in `openings.py` AND in `structure.py`, each commented with the name
+  of the pack it was copied from -- so moving the pack would have moved neither, which is the
+  whole shape of `oq/the-stair-run-is-spelled-three-times`.
+  `build/storeys.py::riser_divisor_in` matches `storey-graduation.json`'s `stair_type` expression
+  against `ceil(module / <number>)` and **REFUSES any other shape rather than falling back**; a
+  test scans every file in `build/` for a stray divisor. Two data records had to move by hand and
+  the second is a trap: the pack's expression, and its **baked copy** in
+  `kits/georgian-colonial-american.kit.json` at `/slots/stair_type/parameters/risers_per_storey`
+  (`oq/a-baked-pack-value-is-a-second-delivery-path`, met in ordinary work -- **nothing in the
+  corpus would have failed had the second been missed**, and the first attempt DID miss half of
+  it: the expression moved and the baked `value` beside it did not, so one object read
+  `ceil(module / 7.5)` and `17` where 7.5 on its own stated 120 in module gives 16.
+  `check_kits.py` came back OK and `check_addresses.py --strict` came back at its ratchet of 32
+  with that defect in place -- the first `continue`s on the `value` key by design, the second
+  measures a snapshot the live rule REFUSES, which is a different question. **That open question's
+  own closing sentence had predicted this exact case four days earlier** and had no instance;
+  it has one now. **143 baked derived parameters carry both an `expr` and a `computed_at.value`
+  and exactly ONE is of a shape a narrow reader can evaluate** -- the other 142 are UNJUDGED, so
+  the count of stale snapshots here is unknown, not zero. The guard added is scoped to this one
+  rule on purpose; a general one is that question's to rule on). Measured: only 2 of 16 plans place a
+  stair hall, `tidewater-georgian-careful` 21 -> **20 risers at 7.367 in**, `spec-builder-colonial`
+  **17 unmoved at 7.092**; neither near the IRC advisory 7.75; and the pack's own 120 in default
+  now gives **16 risers at exactly 7.500**, reproducing the worked example in
+  `rooms/stair-hall.json`'s `critical_dimension`. **The riser count moved on both engines and NO
+  CRITIC LAYER NOTICED** -- `plan_check` has no stair finding, and the pinned reference-plan counts
+  are identical at both divisors. **And the ruling leaves the corpus disagreeing with itself,
+  recorded in three places and reconciled in none**: that same room record's `conflict` note calls
+  the historic comfortable band *"7 to 7.25 in rise"*, so the default stair now sits just outside
+  a band the corpus states about itself. It is written into the pack note, the room record's own
+  `conflict`, and the register entry. **Do not edit either number to make them agree** -- that is
+  `oq/a-grouping-rule-and-a-room-record-can-disagree`'s class and its ruled checker's job.
+  **7.5 in is NOT sourced and the ruling does not claim it is**: it is the figure the corpus
+  already worked its own example at, which is consistency, not evidence.
+- **A MUTATION THAT SILENTLY DOES NOT APPLY LOOKS EXACTLY LIKE A GUARD THAT WORKS (WP-9.6).**
+  Mutation-checking the baked-value guard, the replacement matched an EARLIER occurrence of the
+  same snippet in a 6,000-line kit file and never touched the parameter under test; the suite
+  stayed green and read as "the guard is fine". It is the family this repo keeps meeting -- a
+  negative assertion whose selector broke, a `class="ch"` pin that stopped matching -- wearing
+  the tester's own clothes. **Assert the mutation LANDED** (count the match, or read the value
+  back) before believing the colour. Re-run anchored, the guard went red both ways.
 - **A FIGURE FROM A HYPOTHETICAL INPUT IS NOT A MEASUREMENT, AND THE CAVEAT FALLS OFF (WP-9.6).**
   The finding above was first published as "16 / 17 / 21 risers, 3.3 ft apart, because openings
   falls back to a hardcoded 9.0". **Every number in that was wrong.** The 17 came from feeding

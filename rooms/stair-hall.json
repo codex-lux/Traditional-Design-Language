@@ -195,7 +195,7 @@
     {
       "requirement": "Stair width 36 in minimum above the handrail, headroom 6 ft 8 in, riser 7.75 in maximum, tread 10 in minimum, handrail 34 to 38 in with a graspable profile.",
       "ref": "IRC R311.7",
-      "conflict": "The code minima produce the steepest legal stair, and a 7.75/10 stair is noticeably harder to climb than a 7/11. The historic comfortable band is a 7 to 7.25 in rise on an 11 to 11.5 in tread, and the difference in plan is about 18 in of run - the cheapest comfort in the house. See fault stair-at-the-code-minimum."
+      "conflict": "The code minima produce the steepest legal stair, and a 7.75/10 stair is noticeably harder to climb than a 7/11. The historic comfortable band is a 7 to 7.25 in rise on an 11 to 11.5 in tread, and the difference in plan is about 18 in of run - the cheapest comfort in the house. See fault stair-at-the-code-minimum. AND THE CORPUS NOW DISAGREES WITH ITSELF HERE, WHICH IS RECORDED RATHER THAN RECONCILED: Lucas ruled 2 Sep 2026 that the acceptable riser is 7.5 in and moved proportions/modules/storey-graduation.json's stair_type rule to it, so every stair this corpus derives now sits just outside the historic band stated in the sentence above. Both statements stand; neither was edited to silence the other. See oq/the-stair-run-is-spelled-three-times."
     },
     {
       "requirement": "Guards not less than 34 in on the open side of a stair and 36 in at the landing; baluster spacing such that a 4 in sphere cannot pass.",

@@ -10,7 +10,7 @@ corpus has a derivation. On `plans/tidewater-georgian-careful.json` that was 144
 The derivation now lives in `build/storeys.py`, a LEAF: `structure.py` loads `geometry.py`,
 which calls `openings.stair_pass`, so openings importing structure would close a cycle.
 """
-import json, glob, os, importlib.util, pathlib
+import json, glob, math, os, importlib.util, pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
@@ -93,6 +93,77 @@ def test_the_two_stair_spellings_agree_on_every_shipped_plan():
                        f"structure {sg.get('risers')}")
     assert checked, "no plan produced a stair from both readers — this test would be vacuous"
     assert not bad, ("the two spellings of one stair disagree:\n  " + "\n  ".join(bad))
+
+
+def test_the_riser_divisor_is_READ_from_the_pack_and_not_transcribed():
+    """It was a bare 7.25 in `openings.py` AND in `structure.py`, each commented with the name
+    of the pack it was copied from — so moving the pack would have moved neither. Lucas ruled
+    7.5 on 2 Sep 2026 and the pack is now the only place that number lives."""
+    pack = json.loads((ROOT / "proportions" / "modules" / "storey-graduation.json").read_text())
+    rule = next(r for r in pack["derived_rules"] if r.get("target_slot") == "stair_type")
+    assert rule["expression"] == "ceil(module / %g)" % ST.riser_divisor_in(), (
+        "build/storeys.py read %r out of an expression of %r — they must agree by "
+        "construction" % (ST.riser_divisor_in(), rule["expression"]))
+    # and no OTHER file may carry the number
+    stray = []
+    for py in sorted((ROOT / "build").glob("*.py")):
+        if py.name == "storeys.py":
+            continue
+        for ln, line in enumerate(py.read_text().splitlines(), 1):
+            if "/ 7.25)" in line or "/ 7.5)" in line:
+                if line.lstrip().startswith("#"):
+                    continue
+                stray.append(f"{py.name}:{ln}: {line.strip()}")
+    assert not stray, ("the riser divisor is transcribed outside build/storeys.py, which is "
+                       "how the last one went stale:\n  " + "\n  ".join(stray))
+
+
+def test_the_baked_kit_copy_agrees_with_its_own_expression():
+    """`kits/georgian-colonial-american.kit.json` carries a BAKED copy of this pack rule --
+    `oq/a-baked-pack-value-is-a-second-delivery-path` -- and it carries the expression AND the
+    value the expression produced. **Moving the pack moved the expression and left the value**,
+    so the same object said `ceil(module / 7.5)` and `17` on a 120 in module, where the
+    expression gives 16. `check_kits.py` holds the `computed_at` CONTEXT keys consistent across
+    a slot family and explicitly `continue`s on `"value"`, so nothing compared the two.
+
+    Measured across all 159 kits: **143 baked derived parameters carry both an `expr` and a
+    `computed_at.value`; exactly ONE is of a shape this reader can evaluate**, and that one is
+    the one that broke. The other 142 are UNJUDGED here, not passed -- a general checker is
+    `oq/a-baked-pack-value-is-a-second-delivery-path`'s to rule on, not this test's to invent.
+    """
+    kit = json.loads((ROOT / "kits" / "georgian-colonial-american.kit.json").read_text())
+    p = kit["slots"]["stair_type"]["parameters"]["risers_per_storey"]
+    pack = json.loads((ROOT / "proportions" / "modules" / "storey-graduation.json").read_text())
+    rule = next(r for r in pack["derived_rules"] if r.get("target_slot") == "stair_type")
+    assert p["expr"] == rule["expression"], (
+        "the baked copy's expression (%r) has drifted from the pack's (%r)"
+        % (p["expr"], rule["expression"]))
+    module = p["computed_at"]["storey_height_in"]
+    want = math.ceil(module / ST.riser_divisor_in())
+    assert p["computed_at"]["value"] == want, (
+        "the baked value is %r but %r on a %s in module gives %d -- the expression moved and "
+        "the value did not, which is exactly what nothing checks"
+        % (p["computed_at"]["value"], p["expr"], module, want))
+
+
+def test_an_unrecognised_stair_expression_is_refused_not_defaulted(tmp_path):
+    """A divisor that silently falls back to a stale number is the defect this replaces."""
+    import shutil
+    shutil.copytree(ROOT / "proportions", tmp_path / "proportions")
+    pk = tmp_path / "proportions" / "modules" / "storey-graduation.json"
+    d = json.loads(pk.read_text())
+    for r in d["derived_rules"]:
+        if r.get("target_slot") == "stair_type":
+            r["expression"] = "module * 0.13"        # a shape the reader must not guess at
+    pk.write_text(json.dumps(d))
+    fresh = _mod("build/storeys.py", "storeys_refusal")
+    try:
+        fresh.riser_divisor_in(root=str(tmp_path))
+    except ValueError as e:
+        assert "does not recognise" in str(e), str(e)
+    else:
+        raise AssertionError("an unrecognised stair_type expression was accepted; the reader "
+                             "must refuse rather than fall back to a number")
 
 
 def test_structure_still_exposes_the_derivation_under_its_old_name():
