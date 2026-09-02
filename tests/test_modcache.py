@@ -150,15 +150,23 @@ def test_a_file_already_imported_through_sys_path_is_the_same_object_here():
     import types
     import modcache as mc
     path = os.path.join(ROOT, "mcp_server", "core.py")
-    # arrange: the file imported the way the server imports it
+    # arrange: the file imported the way the server imports it -- AND the way a test
+    # package-imports it, which puts a SECOND object in sys.modules under `mcp_server.core`
+    # (the full suite has both; this test failed in the suite and passed alone until it did)
     sys.path.insert(0, os.path.join(ROOT, "mcp_server"))
     try:
         via_sys = importlib.import_module("core")
     finally:
         sys.path.pop(0)
+    sys.path.insert(0, ROOT)
+    try:
+        via_pkg = importlib.import_module("mcp_server.core")
+    finally:
+        sys.path.pop(0)
+    assert via_pkg is not via_sys, "two names, two objects: the situation the preference below is for"
     mc.invalidate(path)
     via_cache = mc.load("tdlcore", path)
-    assert via_cache is via_sys
+    assert via_cache is via_sys, "the bare name the server imports by wins over the package copy"
     assert mc.load("core", path) is via_sys
     # and a module that never went through sys.path still loads and caches as before
     mod = mc.load("check_ids", os.path.join(ROOT, "build", "check_ids.py"))

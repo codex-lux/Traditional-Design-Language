@@ -115,7 +115,7 @@ def load(name: str, path: str):
         # `_data()` corpora in memory, and `/api/dev/reload` invalidating one of them. A
         # module already in sys.modules whose file is this realpath IS the module; hand it
         # back and remember it, so the first name a path is loaded under wins either way.
-        already = _already_imported(key)
+        already = _already_imported(key, name)
         if already is not None:
             _CACHE[key] = already
             return already
@@ -139,18 +139,31 @@ def load(name: str, path: str):
         return module
 
 
-def _already_imported(realpath):
-    """The sys.modules entry whose __file__ is `realpath`, if one has finished executing."""
-    for mod in list(sys.modules.values()):
+def _already_imported(realpath, name=None):
+    """The sys.modules entry whose __file__ is `realpath`, if one has finished executing.
+
+    One file can sit in sys.modules under TWO names -- `core` from a sys.path import and
+    `mcp_server.core` from a package import -- and the full test suite has both. Prefer the
+    entry named as asked, then the file's own basename (the name the server imports it by),
+    then whichever comes first; a caller that gets the package-imported copy where the
+    server holds the bare one would have the two-object problem back under a new name."""
+    stem = os.path.splitext(os.path.basename(realpath))[0]
+    found = {}
+    for modname, mod in list(sys.modules.items()):
         f = getattr(mod, "__file__", None)
-        if not f:
+        if not f or getattr(mod, "__spec__", None) is None:
             continue
         try:
-            if os.path.realpath(f) == realpath and getattr(mod, "__spec__", None) is not None:
-                return mod
+            if os.path.realpath(f) == realpath:
+                found[modname] = mod
         except (OSError, ValueError):
             continue
-    return None
+    if not found:
+        return None
+    for want in (name, stem):
+        if want in found:
+            return found[want]
+    return next(iter(found.values()))
 
 
 def invalidate(path: str | None = None) -> None:
