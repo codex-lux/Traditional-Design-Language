@@ -1,6 +1,6 @@
 # oq/the-parti-dissolved-its-own-dependencies — a Georgian main block asked to hold a service program the type put in outbuildings
 
-*Status: OPEN · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
+*Status: RULED 2 Sep 2026 · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
 
 **`partis/centre-passage-double-pile.json` names eleven enclosed ground-floor rooms and a porch,
 and the plan built from it places twelve enclosed spaces. Gunston Hall — the one exemplar whose
@@ -78,7 +78,37 @@ version of this paragraph said "every one".) You cannot
 score your way out of a program that does not fit the type; a stated macro-tree would arrange the
 wrong twelve rooms more tidily.
 
-**Three answers, and they cost very different amounts.**
+## Lucas's ruling, 2 Sep 2026: (1) — strip the service out and build the dependency
+
+**Chosen against its own cost, which was stated at the time and is the largest of the three.**
+The diagram is to name what its exemplars are: a Georgian main block whose service is somewhere
+else. That means the six service rooms leave `centre-passage-double-pile`, and the generator
+learns to place a hyphen and a wing — which nothing today can produce.
+
+**What the ruling commits the corpus to, and none of it is small.**
+
+- **A dependency and a hyphen have to be placeable.** `derive_footprint` today has ONE growth mode
+  (add a bay, at constant area) and its exit test is a depth test. A dependency is a second
+  massing element with its own footprint, its own roof and a stated ridge relation to the main
+  block — so the placer gains a choice where it now has none.
+- **`expansion_logic` and `grows_by` get their first real readers.** `four-over-four`'s
+  *"flanking dependencies connected by hyphens (the five-part scheme), or a rear service ell.
+  Growth must respect the axis or the whole logic fails"* has a counter, an HTML dump and an API
+  echo today. So does the parti's own *"Grows to seven bays and then wants dependencies rather
+  than more width."* Both become executable.
+- **`five-part-palladian` is the working model, not a rival.** It already carries two
+  `gallery-corridor` hyphens with the whole service program beyond them, and it composes. Read it
+  before designing anything: the vocabulary this ruling needs mostly exists there.
+- **The exemplar list stays, and that is the point of choosing (1).** Under (2) it would have had
+  to go.
+
+**What was NOT ruled and still has to be decided before code:** whether a dependency is a second
+plan LEVEL, a second massing element, or a new record kind; whether the hyphen is a room
+(`gallery-corridor`, as five-part has it) or a connector with its own schema; and what a brief
+says when the site cannot take a dependency. Those are authoring decisions and this ruling does
+not make them.
+
+**Three answers were offered, and they cost very different amounts.**
 
 1. **Strip the service out of the diagram and teach the generator to build a dependency.** The
    honest one and by far the most work: it needs a hyphen and a wing in the placement, which

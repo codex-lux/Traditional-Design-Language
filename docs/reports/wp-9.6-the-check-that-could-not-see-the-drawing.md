@@ -159,6 +159,54 @@ through `plan_check`, which keeps the whole file at ~5 s; the wiring is proved s
 plan end to end. Both are needed: the ratchet cannot see the call site being deleted, and the
 wiring test cannot see the arithmetic drifting.
 
+## 6. A third of the upper floor was not being drawn, and Lucas found it by looking
+
+Added after the package was pushed, because he read the sheet the way Phase 6 and Phase 9 both
+began — by looking at it — and said the upper floor was cut off and should line up with the floor
+below. Both halves were one defect.
+
+`render_plan.render()` computes the sheet's top margin ONCE:
+
+```python
+top = max(96, (84 if plan.get("geometry_report") else 70) + 14 * _n_banner + 8)
+total_h = top + extra_top + ph + extra_bottom + 84
+...
+for i, lv in enumerate(levels):
+    ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
+```
+
+and then, deep inside the level loop, the room-label block did **`top = cy - block/2`** — the
+same name. So the first plate was positioned from the real margin and every plate after it from
+wherever the last room's label happened to begin. Measured on `tidewater-georgian-careful`,
+`engine="auto"`: ground plate at y=134, **upper plate at y=378.2**, running to y=658 on a canvas
+`total_h` had already sized at **498**. **160 px of the upper floor was outside the viewBox and
+simply not drawn**, and the two levels no longer shared a top edge.
+
+**The sharpest part is eight lines long.** Directly below that assignment sits a paragraph
+explaining that an inner loop had rebound `i`, that this made the upper plate draw the ground
+level's relaxation marks, and that "a drawing lying about the record is the whole subject of
+Phase 6". Someone found and fixed the `i` rebinding and did not notice the `top` rebinding two
+lines above it — same defect, same block, one instance carrying a written warning about the
+other.
+
+The fix is the rename: `label_top`. **Two guards, and their sensitivities differ**, which is
+stated in the test file because a reader would otherwise assume the first one caught it:
+
+| guard | catches this bug? |
+|---|---|
+| `test_every_level_plate_shares_one_top_edge` | **yes** — reverting the rename turns it red (`spec-builder-colonial`, plates at 134.0 and 152.1) |
+| `test_no_drawn_rect_leaves_the_declared_canvas` | **no**, on `heuristic` — the drift there is ~18 px and stays inside the sheet's 84 px of bottom padding. It fires when the canvas is undersized past that padding (mutation-checked at −100 and −160 px), which is the 160 px overflow `auto` actually produced. |
+
+Both are kept because they fail on different mutations. **The canvas guard was nearly deleted for
+passing the obvious mutation**, which would have been the wrong call for the right reason: it does
+not guard the margin, it guards the class.
+
+**And this is the answer to "the before and after SVGs are the exact same".** They were, and that
+was correct — WP-9.6 changed the critic and not the generator, and `render_plan.py`, `geometry.py`
+and `geometry_cp.py` are all absent from the `6a01225..464afdc` diff. The sheets being identical
+was the honest result. What it also meant is that nothing in this package was looking at the ink,
+and a plate had been landing off the canvas the whole time.
+
 ## What was deliberately not done
 
 - **No new numeric threshold.** Severities are unchanged (short axis `serious`, long axis `minor`).

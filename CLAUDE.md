@@ -167,7 +167,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,302 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 24 MCP tools · **43 checks, 1,304 tests**
 (plus the workbench app suite, **62** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -676,6 +676,21 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   number — against-wall runs summed against the room perimeter flag nothing (the kitchen's five
   appliances are 12.75 ft against an 80 ft perimeter) because perimeter is not available wall; a
   real one needs the placed openings. `docs/reports/wp-9.2-the-parti-is-not-the-type.md` §8.
+- **A LOCAL NAMED `top` OVERWROTE THE SHEET'S TOP MARGIN, AND A THIRD OF THE UPPER FLOOR WAS
+  NOT DRAWN (WP-9.6).** `render_plan.render()` computes `top` once, uses it for `total_h` AND for
+  `oy = top + extra_top` inside the level loop -- and the room-label block then did
+  `top = cy - block/2`. The first plate was placed from the real margin and every plate after it
+  from wherever the last room's label began. On `tidewater-georgian-careful` at `engine="auto"`:
+  ground plate y=134, **upper plate y=378.2, running to y=658 on a canvas sized 498** -- 160 px
+  outside the viewBox, not drawn, and the levels no longer aligned. It is `label_top` now.
+  **Eight lines below that assignment sits a paragraph about an inner loop rebinding `i` in the
+  same block** -- someone found and fixed that one and did not see this one. **Lucas found it by
+  looking at the sheet; nothing in the suite could.** `tests/test_sheet_canvas.py` holds two
+  guards and THEIR SENSITIVITIES DIFFER, which is written down because a reader will assume
+  otherwise: the plate-alignment test catches this bug (red on the revert), the
+  no-rect-leaves-the-canvas test does NOT on `heuristic` (~18 px of drift, inside the sheet's
+  84 px of bottom padding) and fires only past that padding. Both are kept because they fail on
+  different mutations.
 - **THE CITATION GUARD VALIDATES 16% OF THE NAMED NAMESPACE, BY TWO MECHANISMS, AND THE SECOND
   IS BIGGER THAN THE FIRST (WP-9.2 audit, corrected by a later pass).** **The second one first,
   because two audit passes missed it and it GROWS.** `check_citations.py` does not scan the tree:
@@ -1166,8 +1181,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **118 entries, of which 44 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-grouping-rule-and-a-room-record-can-disagree, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-parti-dissolved-its-own-dependencies, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **119 entries, of which 42 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

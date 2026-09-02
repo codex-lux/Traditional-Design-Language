@@ -363,7 +363,19 @@ def render(plan, path, scale=7.0):
             lines, size, dsize, tsize, block = use
             gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if use is turned else '<g>'
             s.append(gx)
-            top = cy - block/2
+            # NAMED `label_top`, AND THE NAME IS THE WHOLE FIX. This was `top`, which is the
+            # SHEET'S TOP MARGIN, computed once at line 183 and read by BOTH `total_h` and, once
+            # per level, `oy = top + extra_top`. Reassigning it here meant the FIRST plate was
+            # positioned from the real margin and every plate after it from wherever the last
+            # room's label block happened to begin. Measured on
+            # plans/tidewater-georgian-careful.json: ground plate at y=134, upper plate at
+            # y=378.2 -- 244.2 px lower, running to y=658 on a canvas `total_h` had already
+            # sized at 498. A third of the upper floor was outside the viewBox and simply not
+            # drawn, and the two levels no longer aligned.
+            # READ THE COMMENT DIRECTLY BELOW: an inner loop rebinding `i` was found and fixed
+            # in this same block, and this rebinding two lines above it was not. Same defect,
+            # same eight lines, one of them carrying a paragraph about the other.
+            label_top = cy - block/2
             # `li`, NOT `i`: the plate loop at the top of this function is
             # `for i, lv in enumerate(levels)`, and this inner loop REBOUND IT. By the time
             # the relaxation marks are drawn below, `i` was a stale label-LINE index rather
@@ -378,9 +390,9 @@ def render(plan, path, scale=7.0):
                 # style=, not font-size=: a presentation attribute loses to the .nm and
                 # .dm rules in the sheet's own <style>, so a fitted size written as an
                 # attribute is computed, ignored, and the label overflows anyway
-                s.append(f'<text class="nm" x="{cx:.1f}" y="{top + (li + 0.72) * size * 1.2:.1f}" '
+                s.append(f'<text class="nm" x="{cx:.1f}" y="{label_top + (li + 0.72) * size * 1.2:.1f}" '
                          f'style="font-size:{size:.2f}px" text-anchor="middle">{_esc(ln)}</text>')
-            below = top + len(lines) * size * 1.2
+            below = label_top + len(lines) * size * 1.2
             if dsize:
                 s.append(f'<text class="dm" x="{cx:.1f}" y="{below + dsize:.1f}" '
                          f'style="font-size:{dsize:.2f}px" text-anchor="middle">{_esc(dim)}</text>')

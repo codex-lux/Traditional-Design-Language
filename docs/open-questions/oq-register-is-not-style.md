@@ -64,17 +64,19 @@ axes, and the corpus now has to admit the second.
 - **What a record says when its register is unknown.** *Unjudged is not passed*: a band with a
   register precondition that cannot be resolved must report could-not-evaluate, never quietly pick
   the permissive end.
-- **What register the records that already exist are in — the back-fill, which this entry left out
-  and which is the largest of them.** The corpus holds 60 room records, 17 groupings, 21 partis
-  and 14 reference plans, every one authored before the axis existed. Adding register does not add
-  a column to a blank table; it asks a question of every band already written, and the honest
-  default for all of them is **unknown**, which by the rule above makes every conditioned band
-  unjudged on the day the field lands. So the ruling has a migration shape and no migration plan:
-  either the axis arrives with a back-fill (and every value in it is an editorial call, which is
-  the trap below at 112 records' scale), or it arrives and the corpus goes loudly unjudged until
-  the back-fill is worked, which is OQ 51's `unendorsed` work-list pattern and is the honest one.
-  **Choosing the second means the count has to be a ratcheted meter from the first commit**, not a
-  number in a report.
+- **~~What register the records that already exist are in — the back-fill.~~ RULED 2 Sep 2026:
+  ARRIVE UNKNOWN AND WORK IT AS A METER.** Every record authored before the axis carries register
+  `unknown`, and by the rule directly above this one that makes every band conditioned on register
+  report COULD NOT EVALUATE the day the field lands. **That is the intended state, not a
+  regression**: it follows OQ 51's `unendorsed` pattern, where the backlog is counted rather than
+  assumed away. Back-filling on arrival was refused because all 112 values would be editorial
+  calls with no source — the trap stated at the foot of this entry, at 112 records' scale.
+  **The count must be a ratcheted meter from the first commit**, in the shape of
+  `check_inheritance.py`'s ceilings, and never a number in a report. The remaining three undecided
+  items below are unaffected by this ruling and still block any code.
+  *The size, which is why it needed a ruling:* 60 room records, 17 groupings, 21 partis and 14
+  reference plans — **112** — every one authored before the axis existed. Adding register does not
+  add a column to a blank table; it asks a question of every band already written.
 
 ## The trap this ruling walks into, stated now because it is predictable
 

@@ -1,6 +1,6 @@
 # oq/a-grouping-rule-and-a-room-record-can-disagree — six instances, one of them on fourteen partis, and nothing checks the class
 
-*Status: OPEN · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
+*Status: RULED 2 Sep 2026 · Raised in: the WP-9.2 adversarial audit (1 Sep 2026)*
 
 **`check_addresses.py` polices pack-versus-pack and kit-versus-pack at one address. It does not see
 groupings, room bands or fault tests at all.** So a grouping's `internal_rules` test and the room
@@ -104,7 +104,32 @@ working rather than a silence. What is true is that no supplier exists, so the r
 and it is satisfied in practice only because 0.6–0.8 is a subset of ≤0.85. Loosen the dependency
 band and they disagree, with nothing to notice.
 
-## The question
+## Lucas's ruling, 2 Sep 2026: (1) — a checker, on the `check_addresses.py` model
+
+**Grouping tests get a `quantity`, and a new check compares every grouping rule against every room
+band naming the same quantity, and against every other grouping a parti co-carries.** Catches all
+six above except the keeping room's internal one, and ratchets so a seventh cannot arrive silently.
+Costs a schema field on 26 rules and one new check (`TOTAL_CHECKS` moves; so does
+`tests/test_counts_guard.py`).
+
+**The ruling deliberately does NOT decide a single number, and that is why it was chosen.**
+Precedence was refused because it would enforce the unsourced side at least once: the piazza's
+room record is the one citing *"the measured Charleston piazzas run 8 to 12 ft"* and the grouping
+rule demanding 10 ft has no source at all. The checker's job is to make each disagreement visible
+and unjudged, and hand it to an architect.
+
+**So the checker must report three states, never two** — agrees / disagrees / cannot be compared
+(no `quantity` on one side). A pair it cannot compare is unjudged and is counted; collapsing that
+into "agrees" is the failure this corpus names first. And **`quantity` is not `units`**: OQ 53
+records two live wrong dimensions from comparing one without the other.
+
+**What must not happen, restated because a checker makes it tempting.** Do not reconcile any
+instance by picking the stricter or looser number to turn the new check green. Three of the six
+have a source on one side only and it is not consistently the same side; at least one — the
+sleeping porch, arguably the passage — is a conditional floor with no axis to be conditional on,
+which is `oq/register-is-not-style`'s first customer and not this checker's to settle.
+
+## The question, as it was put
 
 **Should a grouping rule be checkable against the room record it constrains, and if so how?**
 Three shapes, and they are not equivalent:
