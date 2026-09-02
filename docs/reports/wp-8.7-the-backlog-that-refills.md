@@ -182,6 +182,32 @@ them as "cases the records do not decide" would be false, so they are named as w
 **Reading 244 gaps produced 73 more** — the refill measured at full scale rather than on one node,
 and the reason `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` matters.
 
+**A DECLINE IS A REFUSAL THE SCOPE METERS CANNOT SEE, AND IT TURNED THE SUITE RED THREE NODES
+LATER.** `tests/test_construction_scope.py` holds each OQ 88 scope to a FLOOR — the deliveries it
+refused when it was written — because a scope that quietly stops refusing reports success. After
+the declines landed, `opening-proportion/window_surround_wood/exterior_head_assembly_height` read
+**56 against a floor of 59** and the full suite failed.
+
+Nothing had regressed. Three nodes now DECLINE `opening-proportion`, so its rule no longer ARRIVES
+at them and the scope never gets the chance to drop it. Measured rather than inferred, by running
+the test's own reader over the graph with and without those three declines: **56 against 59, and
+the difference is exactly `andalusian-courtyard-vernacular`, `french-provincial-farmhouse` and
+`moorish-andalusian`**. The delivery is refused earlier and by a person quoting the node's own
+record — strictly stronger than an automatic scope test.
+
+**The floor was NOT lowered.** That file's own note warns that a floor lowered without its reason
+reads as a refusal quietly weakened, and a floor that drops by one every time somebody declines a
+pack would protect nothing by the end of this backlog. The second mechanism is counted instead —
+`declined_away`, measured by lifting each decline in place and re-resolving — and the SUM is held
+to the original 59. Both numbers appear in the failure message so the two can be told apart.
+Mutation-checked both ways: lifting a decline moves the count between the two columns and holds
+the total; neutering `rule_scope` still fails, because a decline the node never made cannot make up
+the difference.
+
+The general shape is worth carrying: **two mechanisms can refuse the same delivery, and a meter
+built for one reads the other's success as its own failure.** The same will be true of every scope
+floor as the backlog is worked.
+
 ## What was deliberately not done
 
 **The other 245.** This pass read two nodes to near-fixpoint rather than skimming twenty, because
