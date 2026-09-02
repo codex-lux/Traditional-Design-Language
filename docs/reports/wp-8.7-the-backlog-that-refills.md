@@ -134,6 +134,54 @@ was already there and already counted, and what the declines did was make it vis
 nobody had judged. `oq/a-baked-pack-value-is-a-second-delivery-path` now has a measured size on the
 records a human has actually ruled on, which is the largest thing this backlog has surfaced.
 
+## The full pass: all 244 read, and reading them made 73 more
+
+The first pass above covered two nodes. The rest of the backlog was then read the same way — one
+agent per node, the pack's own stated subject beside the node's own record, `--impact` and the gate
+line, and **every proposed data change put to an independent adversarial check before it was
+written**. 93 nodes, 244 (node, pack) pairs, five workflows.
+
+| | WP-8.7 start | after |
+|---|---|---|
+| role_gaps | 287 | 268 |
+| inherited_packs | 3,356 | 3,252 |
+| unendorsed | 249 | 227 |
+| declines | 10 | 114 |
+| endorsed | 38 | 41 |
+| **judged** | **48** | **155** |
+
+**Twenty-one of the proposed changes were overturned** — about one in five of everything that would
+have touched data — and the overturns are the best evidence the bar held. `english-baroque` ×
+`storey-graduation` was proposed as a decline on the node's own *"but Georgian has graduated storey
+heights"*. The check refused it: the pack carries a fourth rule for a ground storey under a piano
+nobile whose own text says *"this is the one case where the graduation inverts at the bottom"*, and
+the node's `typical_ratios` state *"Rusticated basement 0.5 to 0.75 the height of the principal
+storey above it"* — the same quantity, overlapping bands. The decline rested on negating a
+comparison while the record affirmed one of the pack's own rules elsewhere. Four more were the same
+shape: a difference of degree read as a contradiction.
+
+**The bar refused work in the other direction too.** `sash-light` was tabled on every log and
+vernacular node that carries a blanket refusal of applied systems, because its subject is the
+largest pane the glasshouse could supply — a fact about the glass trade, not a proportional system.
+The same nodes' `chambers-doric` and `facade-classical` gaps WERE declined, because an order and a
+bay count are proportional systems and those records refuse them by name.
+
+**No gate pack was endorsed into by any batch**, so nothing generated changed. The three
+endorsements are `facade-gable` (×2) and `balcony-gallery`, all outside the GATES table.
+
+## The ruling file, and why it has two sections
+
+`oq/the-adjudication-cases-the-records-do-not-decide` carries **152 cases grouped by the pack that
+settles them all at once** — `opening-proportion` and `storey-graduation` are 42 of them between
+them — with the five gated packs marked, because a ruling on those rows authorises generated
+behaviour rather than bookkeeping. Twenty-one rows are marked as having arrived by refusal.
+
+It carries a **separate section for 73 pairs nobody has read**. They did not exist when the reading
+started: declining 114 packs promoted the next one in each chain into the role it vacated. Listing
+them as "cases the records do not decide" would be false, so they are named as what they are.
+**Reading 244 gaps produced 73 more** — the refill measured at full scale rather than on one node,
+and the reason `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` matters.
+
 ## What was deliberately not done
 
 **The other 245.** This pass read two nodes to near-fixpoint rather than skimming twenty, because

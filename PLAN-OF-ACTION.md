@@ -917,7 +917,23 @@ Report: `docs/reports/wp-8.2-the-refusal-half.md` · new open question: **`oq/fo
 
 ### WP-8.7 The adjudication backlog, first pass (OQ 51)
 
-**Status: FIRST PASS COMPLETE (2 Sep 2026) — the tooling, fifteen declines, and the finding that
+**Status: THE BACKLOG IS READ (2 Sep 2026). 244 of 244 gaps adjudicated; 117 judged into the corpus,
+152 put to a ruling, 73 newly surfaced and named as unread. `judged` 48 → 155.** Every (node, pack)
+pair visible when the package started has been read by an agent against the pack's own stated
+subject and the node's own record, and **every proposed data change was put to an independent
+adversarial check first — which overturned 21 of them, one in five**. 114 declines and 3
+endorsements are in the corpus, each decline quoting the node's own file verbatim. No gate pack was
+endorsed into, so nothing generated changed. The product is
+`oq/the-adjudication-cases-the-records-do-not-decide`: 152 cases grouped by the pack that settles
+them all at once, gated packs marked, plus a separately headed list of the 73 pairs the package's
+own declines created and nobody has read — because reading 244 gaps produced 73 more, which is the
+refill at full scale. **The opt-in flip is NOT taken**: `unendorsed` is 227, nowhere near zero, and
+`oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` asks whether the loop is the
+right shape at all. Two costs are recorded rather than buried: `baked_vs_refused` went 32 → 65
+because roughly one decline in five is half-defeated by an ancestor's authored snapshot, and a
+decline can hand a slot to a pack that suits the node worse.
+
+**Status (first pass, 2 Sep 2026) — the tooling, fifteen declines, and the finding that
 changes how the rest should be planned.** OQ 51 is ruled *adjudicate first, flip second*, and
 WP-8.2 built the refusal mechanism. This package worked the backlog for the first time and found
 that **it refills as it is worked**: `resolve_packs` fills a role from the nearest ancestor that

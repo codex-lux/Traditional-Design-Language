@@ -1031,11 +1031,13 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
     `build/check_inheritance.py` pins three ceilings that may only go down -- **268 role_gaps**,
     **3,252 inherited_packs**, **227 unendorsed** -- and one FLOOR that may only go up,
-    **judged 155** (endorsed + declined). **THE BACKLOG REFILLS AS IT IS WORKED AND 245 IS WHAT IS
-    VISIBLE RATHER THAN WHAT IS REQUIRED (WP-8.7, 2 Sep 2026)**: declining a pack re-attributes
-    the role to the next ancestor, so fifteen declines moved the headline by four, and
-    `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint -- five classical
-    orders, a Gothic arch pack and a Mudejar corbel course among them, all reaching a log cabin.
+    **judged 155** (endorsed + declined). **THE WHOLE BACKLOG HAS BEEN READ AND READING IT MADE 73 MORE
+    (WP-8.7, 2 Sep 2026)**: all 244 gaps adjudicated one node at a time, 117 judged into the
+    corpus and 152 put to a ruling in
+    `oq/the-adjudication-cases-the-records-do-not-decide`. Declining a pack re-attributes the role
+    to the next ancestor, so 114 declines produced 73 gaps nobody has read -- listed in that file
+    under their own heading, because calling them cases the records cannot settle would be false.
+    `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint on its own.
     Read `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before costing this
     work from the headline. **`--pair NODE PACK`** is the screen an adjudication needs: the pack's
     own stated subject beside the node's own words, then `--impact`. The published 294/3,367/233 and 293/3,366/222 were both
