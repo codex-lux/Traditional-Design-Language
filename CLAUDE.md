@@ -761,8 +761,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   stair-hall's arithmetic while its own docstring says it has "been read by nothing" (two
   spellings of one rule, unheld); and `room-harmonic.json`'s suite rule is not unreadable, it is
   permanently UNJUDGED by `check_addresses.py` for want of a `quantity`.
-- **THE CORPUS FORBIDS THE SQUARE AND THE TRADITION PREFERS IT (WP-9.2).** 35 of 60 room records
-  carry a `proportion` LOWER bound above 1.0 and **29 of those are NON-CIRCULATION** (35 minus the
+- **THE CORPUS FORBADE THE SQUARE AND THE TRADITION PREFERRED IT — RULED AND EXECUTED 3 Sep 2026.**
+  **Every floor is 1.0 now; 0 of 60 room records carry a `proportion` lower bound above 1.0.**
+  `build/compose.py`'s `UNBANDED_PROPORTION` carries the same floor for the six types that state
+  no band, named and commented rather than inline, because a literal `[1.2, 1.4]` in the composer
+  would have been a 36th floor surviving the removal of 35. The CEILING is untouched and is the
+  well-sourced half. **The measurement that decided it against the study's own preference: of 220
+  declared rooms carrying a band across the 16 plans, 38 sat BELOW their floor and 14 of those were
+  in `good-*` reference plans — a floor charge in any spelling convicts all seven good plans.**
+  What follows is the reading as it stood before the ruling, kept because the argument is why:
+  35 of 60 room records
+  carried a `proportion` LOWER bound above 1.0 and **29 of those are NON-CIRCULATION** (35 minus the
   6 circulation rooms; the parallel study's "13 of 23 habitable" is a narrower denominator and both
   are right -- an earlier version of this line said "habitable" for the 29, which is wrong): `drawing-room`
   [1.25, 2.0], `hall` [1.3, 2.2], `parlor` [1.1, 1.45], `dining-room` [1.15, 1.8]. Mount Vernon's
@@ -781,7 +790,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   the message, both checks charge `ar > phi` alone, `geometry.shape_band()` returns the ceiling
   only, `WIDTH_W` ships at 0.0. **WP-9.4 nearly built the charge**, saw it convict both good
   reference plans and deleted it as unsupported -- the truer reason is that it is BACKWARDS, and 29
-  records still tell the next package to build it again. The ceiling is the well-sourced half and
+  records still told the next package to build it again **until the 3 Sep ruling removed the floors
+  that were saying so. That sentence is why the ruling was worth taking rather than leaving the
+  floors inert: an inert wrong number is an instruction to the next reader.** The ceiling is the well-sourced half and
   it has no floor: Morris's "the Length of no Room exceed a Double Cube" and Scamozzi 1615's same
   2:1 with its reason -- beyond two squares one gets "halls, galleries or passageways rather than
   rooms to live in" -- which makes a room over 2:1 out of CATEGORY rather than out of band, and
@@ -1465,8 +1476,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **129 entries, of which 51 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **129 entries, of which 50 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

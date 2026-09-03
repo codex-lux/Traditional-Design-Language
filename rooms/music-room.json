@@ -14,7 +14,7 @@
     "area_sf": [250, 700],
     "width_ft": [15, 24],
     "length_ft": [18, 32],
-    "proportion": [1.2, 1.7],
+    "proportion": [1.0, 1.7],
     "ceiling_min_ft": 10,
     "critical_dimension": "VOLUME, AND THE FLOOR IS ABOUT 2,500 CUBIC FEET FOR A GRAND PIANO. A concert instrument produces peaks near 100 dB at a metre; in a small hard room that energy has nowhere to go and the level at the listener stays close to the level at the instrument, which is why a grand in a 12 x 14 x 8 room (1,344 cf) is physically uncomfortable and why the player cannot fix it by playing softer - the dynamic range is compressed at both ends. A 16 x 22 x 11 room is 3,872 cf and works. THE TARGET REVERBERATION TIME IS 0.6 TO 0.9 SECONDS, which by Sabine (RT60 = 0.049 V / Sa) in that room, with S about 1,540 sf, needs an average absorption coefficient near 0.14 - a wood floor with a rug, curtains at the windows, a plaster ceiling and some upholstery. Below 0.4 s the room sounds dead and the instrument thin; above 1.2 s the notes smear. SECOND DIMENSION: AVOID EQUAL OR SIMPLY RELATED DIMENSIONS. A room 16 x 16 x 8, or any room where two dimensions are equal or in a 1:2 ratio, piles its low-frequency room modes on top of one another and produces a strong boom at one or two notes. Ratios near 1 : 1.4 : 1.9 are the classic well-behaved set; a safe domestic version is ceiling = 1.25 x width and length = 1.6 x width. THIRD: 36 IN CLEAR ALL ROUND THE INSTRUMENT for tuning, moving and the lid."
   },

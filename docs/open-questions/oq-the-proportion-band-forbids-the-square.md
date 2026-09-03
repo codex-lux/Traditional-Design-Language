@@ -1,6 +1,6 @@
 # oq/the-proportion-band-forbids-the-square — 29 room types may not be square, and the square is what the tradition was aiming at
 
-*Status: OPEN · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
+*Status: RULED 3 Sep 2026 · Raised in: WP-9.2, the precedents measured (1 Sep 2026)*
 
 **Thirty-five of sixty room records carry a `proportion` lower bound above 1.0. Twenty-nine of
 those are not circulation rooms** (counted by `function_class`; the parallel study counts the same
@@ -37,6 +37,56 @@ room of the first class"* — 1.0, 1.25, 1.0, 1.333. The prestige direction runs
 square.
 
 **Attribution corrected by the audit: in Morris's Lecture VII the grammatical subject of that sentence is PALLADIO** — Morris is reporting *"Palladio has observ'd, that there are seven beautiful Proportions"* and the preference for the square sits inside that report. So Morris is not an INDEPENDENT English witness to the rule; he is Palladio at one remove, and the two must not be counted as two sources. The argument that **no source found states a MINIMUM** is unaffected — nothing here states one — but the corroboration is thinner than an earlier version of this text implied.
+
+## Lucas's ruling, 3 Sep 2026: every floor goes to 1.0 — option 2, and NOT the study's own preference
+
+**All 35 records now read `[1.0, hi]`.** The ceiling is untouched on every one of them.
+
+**The ruling went against the study's stated preference, on a measurement taken to decide it.**
+`docs/reports/wp-9.2-what-the-tradition-actually-does.md` §7 Q3 offered three options and its own
+reading favoured the third — replace the floor with a DIRECTION, "this room wants to be square;
+report distance from the square". Measured across the sixteen plans before choosing: **220 declared
+rooms carry a proportion band and 38 sit BELOW their floor, and 14 of those 38 are in `good-*`
+reference plans.** Every good plan but one has at least one. So a floor charge in any form —
+a band test, a direction, a distance-from-square report with a threshold — **convicts all seven
+plans this project holds up as good.** That is not a tuning problem, it is the direction being
+backwards, and it is the second time this corpus has found it: WP-9.4 built the charge, watched it
+convict the good plans, and deleted it as unsupported.
+
+Option 2 over option 1 (delete the floors outright) purely on cost: identical behaviour, and it
+needs no schema change (`room.schema.json` requires exactly two items), no `check_rooms.py` change,
+and leaves `tests/test_voids.py` alone. A one-sided band would have bought nothing and touched three
+more files.
+
+### What actually changed, and what did not
+
+- **35 room records**, floor only. Verified per file by deep-comparing everything except the
+  proportion band, so no note, no ordering and no neighbouring figure moved.
+- **`build/compose.py::room_default_dims` is the only behaviour that changes.** It sizes every
+  instantiated room from `ratio = (pr[0] + pr[1]) / 2`, so the floor was half of what the composer
+  aimed at: it never failed a house, it silently aimed **every room the composer makes** away from
+  the square. That is why this was worth doing even though nothing convicts on the floor.
+- **The 36th floor, which was in code.** `room_default_dims` fell back to a literal `[1.2, 1.4]`
+  for the six types that state no band at all (`attic`, `cellar`, `garage`, `landing`, `terrace`,
+  `workshop`). Removing 35 floors from the data while leaving a 1.2 floor invented in the composer
+  would have missed the point of the ruling; it is `UNBANDED_PROPORTION = [1.0, 1.4]` now, named,
+  commented as editorial, and its ceiling deliberately unmoved.
+- **No reader changed, because no reader charges the floor.** `plan_check.py`'s room layer and its
+  drawn layer both unpack `plo` and use it only in the message; both test `ar > phi` alone.
+  `geometry.shape_band()` returns the ceiling. `WIDTH_W` is a different floor (`width_ft[0]`, in
+  feet) and was not touched.
+- **`geometry.py`'s courtyard bay-count is the one live floor reader** — it averages `prop[0]` and
+  `prop[1]` and bounds the ratio with both. `courtyard` was already `[1.0, 2.2]`, so this ruling is
+  a no-op there. Asserted rather than assumed.
+- **`check_grouping_rules.py` already knows the `proportion` key** and would compare both ends the
+  moment a grouping rule `measures` one. None does today; its ratchet is unmoved by this change.
+
+### What stays open, and it is the better half of the entry
+
+The **ceiling** is the well-sourced half and this ruling does not touch it. And the reading the
+study proposed is still worth having as a REPORT: nearest canonical shape with a percentage error,
+carrying no pass/fail threshold at all. What is refused is a floor that CONVICTS, in any spelling.
+The distinction is the entry's own, and §"The thing that must not happen" below still governs.
 
 ## Why this is a question and not simply a fix
 
