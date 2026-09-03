@@ -1101,8 +1101,26 @@ PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
 # So the one-block case returns a single element at 0,0 covering the footprint derive_footprint
 # already computed, every room in it, in `prep`'s own order -- which makes the slice call below
 # the same call with the same rng draws, not a similar one.
-HYPHEN_DEFAULT_FT = 14.0   # dependency-and-hyphen.json bands hyphen_length_ft 12-20; its midpoint,
+HYPHEN_DEFAULT_FT = 14.0   # dependency-and-hyphen.json bands hyphen_length_ft 12-20. NOT the band's
+                           # midpoint, which is 16 -- an earlier comment here said so and was wrong;
                            # used only until a hyphen room is placed and states its own width.
+
+def is_block_tag(v):
+    """Is this `block` field a massing-element id? One rule, read in both places that ask.
+
+    A `block` is an id, and only a non-empty STRING is one. The plan record on the heavy
+    workbench routes is caller-supplied and nothing validates it against the schema before it
+    reaches here, so a list or a dict arriving in this field became a `TypeError: unhashable
+    type` inside `blocks_for`'s `setdefault` -- an HTTP 500 from a field the schema types
+    `string`. Anything else is ignored, which puts the room in the main block: the conservative
+    answer, and the same one a record written before this field existed already gets.
+
+    It is a named function rather than an inline test because `solve()`'s CP refusal asks the
+    same question 800 lines away, and the two answering differently is how a plan comes to be
+    refused by the prover for a second element the placer does not build.
+    """
+    return isinstance(v, str) and bool(v.strip())
+
 
 def blocks_for(plan, fp, prep, level=0):
     """The massing elements this level's rooms are laid into, main block first.
@@ -1118,7 +1136,7 @@ def blocks_for(plan, fp, prep, level=0):
     E) rather than a new field nobody has authored.
     """
     rooms = prep.get(level) or []
-    tagged = [r for r in rooms if r.get("block")]
+    tagged = [r for r in rooms if is_block_tag(r.get("block"))]
     # x and y are the INTEGER 0, not 0.0, and that is not fussiness: the call this replaces
     # passed `slice_rect(..., 0, 0, W, H, ...)`, and a float origin makes the written record
     # carry `"x_ft": 0.0` where it carried `"x_ft": 0` -- numerically identical, textually not.
@@ -1143,10 +1161,6 @@ def blocks_for(plan, fp, prep, level=0):
     for bid in order:
         rs = by_id[bid]
         need = sum(r["_area"] for r in rs)
-        # Same growth rule as the main block, at its own scale: whole bays wide, depth derived.
-        bays = max(1, round((need / max(fp["target_depth"], 1.0)) / bay))
-        W = round(bays * bay, 2)
-        H = round(need / W, 2) if W else 0.0
         # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
         walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
         side = "E" if ("E" in walls and "W" not in walls) else "W"
@@ -1171,7 +1185,11 @@ def blocks_for(plan, fp, prep, level=0):
         W = round(bays * bay, 2)
         H = round(need_body / W, 2) if W else 0.0
         if side == "W":
-            hx = 0.0 - gap
+            # `west_edge`, not a hardcoded 0.0. The east branch three lines down reads
+            # `east_edge` correctly, and the asymmetry was the tell: a SECOND west element put
+            # its hyphen back at [-gap, 0] on top of the first one's, and possibly on top of the
+            # first dependency. One element hid it, because then `west_edge` IS 0.
+            hx = west_edge - gap
             west_edge -= gap + W
             x = west_edge
         else:
@@ -1469,6 +1487,76 @@ def voids_report(rects_by_level, prep, ring=None):
                  else "No reserved voids on this plan.")}
 
 
+def _record_prep(levels):
+    """The ground rooms `blocks_record` measures, filtered exactly as the SLICER filters them.
+
+    The two call sites below built this dict inline and did NOT apply `is_placed()`, which the
+    slicing path applies in `prep_rooms`. So a room the placer never gives a rectangle to -- an
+    outdoor room with no `void.within_footprint`, a terrace -- still counted toward its block's
+    area and toward the side its `exterior_walls` vote for. Measured on a synthetic dependency
+    holding a garage and a terrace: the sliced element was 20 x 22 ft holding one room, and the
+    element WRITTEN INTO THE RECORD was 50 x 20.8 holding two -- a rectangle no room occupies,
+    in the field a reader takes for the building's shape.
+
+    One function with two callers, for the same reason `plan_check.furniture_shortfalls` is: the
+    two spellings were identical when written and drifted the moment one of them was right.
+    """
+    return {0: [dict(r, _area=(r.get("width_ft") or 10) * (r.get("length_ft") or 12))
+                for r in levels[0]["rooms"] if is_placed(r.get("type"))]}
+
+
+def multi_element_disclosure(plan):
+    """What a multi-element placement does NOT yet judge, stated on the record (OQ 40).
+
+    The block machinery places a dependency beside the house and both renderers draw it there.
+    FIVE layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
+    building, and each is wrong in its own direction on a dependency room -- measured, not
+    supposed, by an adversarial audit of the change that introduced blocks:
+
+      openings   `_boundary_walls` gets the MAIN block's W and H, so a garage at x 84-105 on a
+                 70 ft block reports its east face as a footprint boundary; both renderers and
+                 the DXF exporter then draw the window at x = W, fourteen feet from the room.
+      structure  `wall_lines` sweeps every placed room into one envelope, so a dependency
+                 partition on the bay grid becomes a bearing line beyond W and manufactures a
+                 clear span across the gap between the house and the dependency.
+      vertical   `vertical_score` counts a dependency wall as support for an upper wall above
+                 the main block, where there is no upper floor at all.
+      lot        `derive_footprint` caps the MAIN block at `lot_usable_width_ft`; nothing caps
+                 the built extent, so a capped house can still be wider than its lot.
+      critic     `plan_check`'s drawn layer measures `touches` against the main block, so a
+                 dependency room with windows is convicted of reaching no exterior wall.
+      export_ifc `export_ifc` sizes the floor slab `W + 2*t_ext` centred on the main block, so a
+                 dependency's IfcSpaces float clear of the slab under them.
+
+    None of that is fixed here and none of it is claimed to be. It is DISCLOSED, because the
+    alternative is a record that reports numbers from five instruments pointed at one rectangle
+    while describing two -- and the composer emits no `block` today, so the only way to reach
+    this state is a caller-supplied record, which is exactly the reader who cannot know.
+    """
+    fp = plan.get("footprint") or {}
+    if len(fp.get("blocks") or []) < 2:
+        return None
+    note = {
+        "elements": len(fp["blocks"]),
+        "not_element_aware": ["openings", "structure", "vertical_score", "lot_cap",
+                              "plan_check.drawn", "export_ifc"],
+        "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
+                 "element and each of the layers named reads footprint.width_ft/depth_ft as the "
+                 "whole building. Openings on a dependency wall, spans across the gap, upper-wall "
+                 "support, the lot cap and the drawn exterior-wall test are all unreliable here. "
+                 "Teaching them about elements is a package of its own."),
+    }
+    off = sorted({r["id"] for lv in plan.get("levels", [])
+                  if (lv.get("index") or 0) != 0
+                  for r in lv.get("rooms", []) if is_block_tag(r.get("block"))})
+    if off:
+        # The schema admits `block` on any room; the placer only ever reads level 0.
+        note["ignored_tags_above_ground"] = off
+        note["note"] += (f" And {len(off)} room(s) above the ground level carry a `block` tag that "
+                         "the placer does not read -- they were placed in the main rectangle.")
+    return note
+
+
 def blocks_record(plan, fp, prep):
     """`footprint.blocks` for the record, or None on a one-rectangle house (OQ 40).
 
@@ -1516,8 +1604,7 @@ def write_record(plan, levels, ground, upper, fp, report):
     plan["footprint"] = {"width_ft": fp["W"], "depth_ft": fp["H"], "bays": fp["bays"],
                          "bay_module_ft": fp["bay"], "area_sf": round(gross),
                          "slack_sf": round(fp["slack"])}
-    _blocks = blocks_record(plan, fp, {0: [dict(r, _area=(r.get("width_ft") or 10) * (r.get("length_ft") or 12))
-                                           for r in levels[0]["rooms"]]}) if levels.get(0) else None
+    _blocks = blocks_record(plan, fp, _record_prep(levels)) if levels.get(0) else None
     if _blocks: plan["footprint"]["blocks"] = _blocks
     if void_sf:
         # area_sf keeps its meaning -- the block, outside the reserved voids as much as inside
@@ -1536,6 +1623,8 @@ def write_record(plan, levels, ground, upper, fp, report):
     if fp.get("lot_usable") is not None:
         plan["footprint"]["lot_usable_width_ft"] = round(fp["lot_usable"], 1)
     plan["geometry_report"] = report
+    _me = multi_element_disclosure(plan)
+    if _me: report["multi_element"] = _me
     return plan
 
 
@@ -1753,8 +1842,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
                                  "depth_ft": round(h, 2), "area_sf": round(w * h)}
     plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
                          "area_sf": round(W * H), "slack_sf": round(fpd["slack"])}
-    _blocks = blocks_record(plan, fpd, {0: [dict(r, _area=(r.get("width_ft") or 10) * (r.get("length_ft") or 12))
-                                            for r in levels[0]["rooms"]]}) if levels.get(0) else None
+    _blocks = blocks_record(plan, fpd, _record_prep(levels)) if levels.get(0) else None
     if _blocks: plan["footprint"]["blocks"] = _blocks
     void_sf = fpd.get("void_sf") or 0
     if void_sf:
@@ -1933,7 +2021,8 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
     # Teaching CP about blocks is a package, not a patch. Until then this is a refusal, taken on
     # the same path as a missing ortools: `auto` falls back to the hill-climb with the reason
     # stated in `geometry_report.solver`, and the plate reads that rather than asserting a proof.
-    _blocked = any(r.get("block") for lv in plan.get("levels", []) for r in lv.get("rooms", []))
+    _blocked = any(is_block_tag(r.get("block"))
+                   for lv in plan.get("levels", []) for r in lv.get("rooms", []))
     if _blocked:
         if engine == "cp":
             return {"error": "could not solve with CP-SAT: this plan has more than one massing "

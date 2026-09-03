@@ -61,12 +61,20 @@ def _plan_schema_version():
     to be written against a version that no longer existed, and two tests pinning the stale value
     caught it. A version spelled twice drifts the moment either moves; the corpus's own habit is
     to read the record.
+
+    A failure says WHY. `"unknown"` on its own is a third state wearing the clothes of a value:
+    a reader takes it for a version and cannot tell a missing key from an unreadable file from a
+    schema that has stopped declaring one. Three verdicts, never a silent one.
     """
+    path = os.path.join(ROOT, "schema", "plan.schema.json")
     try:
-        with open(os.path.join(ROOT, "schema", "plan.schema.json"), encoding="utf-8") as fh:
-            return json.load(fh).get("version") or "unknown"
-    except Exception:
-        return "unknown"
+        with open(path, encoding="utf-8") as fh:
+            v = json.load(fh).get("version")
+    except Exception as exc:
+        return f"COULD NOT EVALUATE -- schema/plan.schema.json is unreadable: {exc}"
+    if not v:
+        return "COULD NOT EVALUATE -- schema/plan.schema.json declares no `version`"
+    return v
 
 
 def _mod(name, path):

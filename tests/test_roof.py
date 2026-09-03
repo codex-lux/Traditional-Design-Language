@@ -125,7 +125,12 @@ class TestMainRoofGambrel:
         main = roof_module.main_roof(plan, section, plan["style"])
         gb = roof_module.gambrel_break_check(main)
         assert gb["applicable"] is True
-        assert gb["diff_ok"] is True and gb["break_ok"] is True
+        assert gb["diff_ok"] is True
+        # `break_ok` was `True` here until 3 Sep 2026 and could not have been anything else: the
+        # break fraction is a module constant with no reader that ever overrides it, tested
+        # against the band it was chosen inside. It is unjudged now -- the second occurrence of
+        # `wing_step_down`'s pattern, found by an adversarial audit of the fix to the first.
+        assert gb["break_ok"] is None and gb["break_unjudged_reason"]
 
     def test_gambrel_break_check_not_applicable_to_a_gable_roof(self, roof_module):
         plan, section = _tidewater_section(roof_module)
@@ -521,3 +526,60 @@ class TestRenderRoof:
         out = tmp_path / "chimneys.svg"
         render_roof_module.render_roof(roof, str(out))
         assert 'class="chm"' in out.read_text()
+
+
+class TestThePlateDoesNotConvictAnUnjudgedRule:
+    """The audit's gap #1. `wing_step_down` reports `ok: None` since 3 Sep 2026 because its
+    verdict would be circular -- and `render_roof.py` prints that legend. A falsy check there
+    (`'OK' if w['ok'] else 'FAIL'`) turns None into **FAIL**: an unjudged rule published as a
+    conviction, on the one surface a reader actually looks at. That is the inverse of this
+    project's first rule, and the fix shipped with no test, so reverting it left 156 tests green.
+
+    It would not show until the first plan carrying `dependency-and-hyphen` was composed and
+    rendered -- no plan in `plans/` carries it today -- which is exactly why nothing caught it."""
+
+    def _roof_with_a_wing(self, roof_module):
+        plan, section = _tidewater_section(roof_module, groupings=["dependency-and-hyphen"])
+        main = roof_module.main_roof(plan, section, plan["style"])
+        w = roof_module.wing_step_down(plan, section, main)
+        assert w["computed"] and w["ok"] is None, "fixture must produce an unjudged wing verdict"
+        return plan, section, main, w
+
+    def test_the_legend_says_unjudged_and_never_fail(self, roof_module, render_roof_module, tmp_path):
+        plan, section, main, w = self._roof_with_a_wing(roof_module)
+        rec = roof_module.build_roof(plan)
+        rec.setdefault("checks", {})["wing_step_down"] = w
+        out = tmp_path / "wing_unjudged.svg"
+        render_roof_module.render_roof(rec, str(out))
+        line = next((l for l in out.read_text().splitlines() if "WING RIDGE" in l), None)
+        assert line, "the plate no longer prints a wing legend -- this guard has gone blind"
+        assert "UNJUDGED" in line, f"the plate must say UNJUDGED, it says: {line.strip()[:120]}"
+        assert "FAIL" not in line, (
+            "an unjudged rule is printed as a conviction on the drawing -- the exact inverse of "
+            "'unjudged is not passed', and worse, because a reader believes a plate")
+
+    def test_the_gambrel_legend_reports_its_two_halves_separately(self, roof_module,
+                                                                  render_roof_module, tmp_path):
+        """The same defect one line down, and the one the first fix created.
+
+        `gambrel_break_check` returns a REAL boolean for the pitch difference (two stated pitches
+        compared) and an UNJUDGED break fraction (a module default tested against the band it was
+        chosen inside). The legend ANDed them -- `'OK' if (diff_ok and break_ok) else 'FAIL'` --
+        so the moment the break went unjudged the plate read FAIL for a gambrel whose one real
+        check had passed. One word cannot carry three states for two rules; there are two now."""
+        plan, section = _tidewater_section(roof_module, roof_form="gambrel")
+        rec = roof_module.build_roof(plan)
+        gb = rec["checks"]["gambrel_break"]
+        # Deliberately an assert and not a skip: a skip is a green tick on a guard that has gone
+        # blind, which is the family of defect this whole class exists for.
+        assert gb.get("applicable"), "the fixture style no longer resolves to a gambrel"
+        assert gb["break_ok"] is None and gb["diff_ok"] is True, (
+            "fixture must be the discriminating case: one real verdict beside one unjudged one")
+        out = tmp_path / "gambrel.svg"
+        render_roof_module.render_roof(rec, str(out))
+        line = next((l for l in out.read_text().splitlines() if "GAMBREL" in l and "class=\"dm\"" in l
+                     and "DASHED" not in l), None)
+        assert line, "the plate no longer prints a gambrel legend -- this guard has gone blind"
+        assert "UNJUDGED" in line, f"the unjudged break is not disclosed: {line.strip()[:160]}"
+        assert "FAIL" not in line, (
+            f"a gambrel whose only real check PASSED is convicted on the plate: {line.strip()[:160]}")

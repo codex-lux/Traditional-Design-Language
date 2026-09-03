@@ -84,7 +84,14 @@ def render_roof(roof, path, scale=7.0):
         line2.append(f"CAPE EAVE {'OK' if cape['ok'] else 'FAIL'}")
     gb = checks.get("gambrel_break", {})
     if gb.get("applicable"):
-        line2.append(f"GAMBREL BREAK {'OK' if (gb['diff_ok'] and gb['break_ok']) else 'FAIL'}")
+        # `break_ok` is None where the break fraction is the generator's own default tested
+        # against the band it was taken from -- the same circularity the wing ridge carries, and
+        # the same rule: an unjudged verdict is not a FAIL. `diff_ok` is a real comparison of two
+        # stated pitches and stays boolean, so the two halves are reported separately rather than
+        # ANDed into one word that would have to mean three things.
+        pitch = "OK" if gb.get("diff_ok") else "FAIL"
+        brk = "UNJUDGED" if gb.get("break_ok") is None else ("OK" if gb["break_ok"] else "FAIL")
+        line2.append(f"GAMBREL PITCH DIFF {pitch} · BREAK {brk}")
     if line2:
         s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y+14:.1f}">{" · ".join(line2)}</text>')
 

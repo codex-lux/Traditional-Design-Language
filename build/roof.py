@@ -529,10 +529,30 @@ def gambrel_break_check(main):
     fell_back = []
     break_band = ((break_test["threshold"], break_test["upper"]) if break_test
                   else _fallback_band(fell_back, "gambrel: break_height_above_eave_in band", (0.55, 0.65)))
-    break_ok = break_band[0] <= g["break_fraction"] <= break_band[1]
+    # THE BREAK VERDICT IS UNJUDGED, FOR THE SAME REASON `wing_step_down`'s IS (3 Sep 2026).
+    # Found by an adversarial audit as the SECOND occurrence of that pattern, three functions
+    # above this one. `_style_gambrel_geometry` initialises `break_frac = None` and has no branch
+    # that ever sets it -- there is no `break_height_above_eave` constraint reader -- so it is
+    # ALWAYS `GAMBREL_BREAK_FRACTION_DEFAULT`, 0.625, and this line tested that constant against
+    # the fault's own [0.55, 0.65] band, which it was chosen to sit inside. True by construction,
+    # on every gambrel roof this corpus has ever drawn.
+    #
+    # The docstring above has half-admitted it since it was written ("the defaults ... were
+    # themselves chosen inside these same bands") and ran the check anyway. A disclosure in prose
+    # beside a `True` in the record is not a disclosure: every reader takes the boolean.
+    # It becomes judgeable the day a style states a break height and something reads it.
+    #
+    # `diff_ok` above is NOT the same case and is left as a boolean: the two slopes are read from
+    # independent style constraints (`roof_slope_lower_deg`, `roof_slope_upper_deg`) and their
+    # difference is tested against a threshold neither of them came from.
+    break_ok = None
     return {"applicable": True, "slope_difference_deg": round(diff, 1), "diff_ok": diff_ok,
             "bands_read_from_fallback": fell_back,
-            "break_fraction": g["break_fraction"], "break_band": list(break_band), "break_ok": break_ok}
+            "break_fraction": g["break_fraction"], "break_band": list(break_band),
+            "break_ok": break_ok,
+            "break_unjudged_reason": ("the break fraction is a module constant chosen inside this "
+                                      "band and no style states one, so testing it against the band "
+                                      "would be circular; `break_source` names the constant")}
 
 def dormer_rhythm_check(plan, section, main):
     """Whether this house's dormers can sit on its bays -- in the three states the record has.
@@ -742,13 +762,14 @@ def main():
         print(f"  chimneys: {ch['note']}")
     w = roof["checks"]["wing_step_down"]
     if w.get("computed"):
-        print(f"  dependency wing ridge {w['wing_ridge_grade_ft']} ft ({w['ratio']*100:.0f}% of main, band {w['ratio_band']}) -- {'OK' if w['ok'] else 'FAIL'}")
+        print(f"  dependency wing ridge {w['wing_ridge_grade_ft']} ft ({w['ratio']*100:.0f}% of main, band {w['ratio_band']}) -- {'UNJUDGED' if w['ok'] is None else ('OK' if w['ok'] else 'FAIL')}")
     cape = roof["checks"]["cape_eave"]
     if cape.get("computed"):
         print(f"  Cape eave-to-first-floor {cape['eave_height_above_finished_first_floor_in']} in vs {cape['band_in']} in band -- {'OK' if cape['ok'] else 'FAIL'}")
     gb = roof["checks"]["gambrel_break"]
     if gb.get("applicable"):
-        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {'OK' if gb['diff_ok'] else 'FAIL'}; break at {gb['break_fraction']*100:.0f}% -- {'OK' if gb['break_ok'] else 'FAIL'}")
+        brk = 'UNJUDGED' if gb['break_ok'] is None else ('OK' if gb['break_ok'] else 'FAIL')
+        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {'OK' if gb['diff_ok'] else 'FAIL'}; break at {gb['break_fraction']*100:.0f}% -- {brk}")
     if a.out:
         json.dump(roof, open(a.out, "w"), indent=1, ensure_ascii=False)
         print(f"  wrote {a.out}")

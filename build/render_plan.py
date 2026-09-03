@@ -298,7 +298,17 @@ def render(plan, path, scale=7.0):
             ex0, ey0, ex1, ey1 = ss - x_off, sf - y_off, (lot_w - ss) - x_off, (lot_d - sr) - y_off
             s.append(f'<rect x="{X(ex0):.1f}" y="{Y(ey1):.1f}" width="{(ex1-ex0)*scale:.1f}" height="{(ey1-ey0)*scale:.1f}" '
                      f'fill="none" stroke="{PAL["copper"]}" stroke-width="0.8" stroke-dasharray="5 3"/>')
-        s.append(f'<rect x="{X(0):.1f}" y="{Y(H):.1f}" width="{pw:.1f}" height="{ph:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
+        # One paper ground and one perimeter per MASSING ELEMENT, not one rectangle across the
+        # whole drawn extent. `pw`/`ph` are the extent the sheet is SIZED to, which spans the
+        # hyphen gap: drawing the building outline at that size claims a 114 ft house where a
+        # 70 ft house stands beside a 20 ft dependency, and on a WEST dependency `X(0)` is 34 ft
+        # inside the panel so the rect ran 34 ft past its right edge and off the sheet. The
+        # elements are what the record states, so the elements are what is drawn.
+        _blocks = [(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]) for b in (fp.get("blocks") or [])] \
+            or [(0.0, 0.0, W, H)]
+        for _bx, _by, _bw, _bh in _blocks:
+            s.append(f'<rect x="{X(_bx):.1f}" y="{Y(_by+_bh):.1f}" width="{_bw*scale:.1f}" '
+                     f'height="{_bh*scale:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
         # bay lines
         bm = fp.get("bay_module_ft") or 10
         b = bm
@@ -333,7 +343,9 @@ def render(plan, path, scale=7.0):
             # interior room outline was drawn at the building perimeter's own weight
             s.append(f'<rect class="wl" x="{X(x):.1f}" y="{Y(y+h):.1f}" width="{w*scale:.1f}" height="{h*scale:.1f}" '
                      f'style="stroke-width:1"/>')
-        s.append(f'<rect class="wl" x="{X(0):.1f}" y="{Y(H):.1f}" width="{pw:.1f}" height="{ph:.1f}"/>')
+        for _bx, _by, _bw, _bh in _blocks:
+            s.append(f'<rect class="wl" x="{X(_bx):.1f}" y="{Y(_by+_bh):.1f}" '
+                     f'width="{_bw*scale:.1f}" height="{_bh*scale:.1f}"/>')
         # labels — wrapped, shrunk and where necessary turned to fit the room (see
         # _fit_lines): the name is never truncated and never crosses a wall
         for r in lv["rooms"]:

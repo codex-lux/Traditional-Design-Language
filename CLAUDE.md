@@ -450,6 +450,48 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   tools read them, and a revised plan's `revision_summary` is admitted by the plan schema so
   the DXF round trip reads back. `tests/test_moves.py::TestTheSessionAuditOfTheGuard` and
   `tests/test_revise.py::TestTheSessionAuditOfTheLoop` are the guards.
+- **A MASSING ELEMENT IS PLACED AND SIX LAYERS BELOW THE PLACER READ THE MAIN BLOCK AS THE WHOLE
+  BUILDING (WP-10.1).** OQ 40 is ruled and `geometry.blocks_for` places a dependency beside the
+  house; `openings`, `structure`, `vertical_score`, the lot cap, `plan_check`'s drawn layer and
+  `export_ifc` all still read `footprint.width_ft`/`depth_ft`, and each was MEASURED wrong on a
+  dependency room in its own direction -- a garage window drawn 14 ft from the garage, a clear span
+  manufactured across the hyphen gap, an upper wall "supported" by a wall under no upper floor, a
+  house reporting `lot_capped: true` at 34 ft wider than its lot, a critic convicting a dependency
+  room of reaching no exterior wall, and IfcSpaces floating clear of their slab.
+  **`geometry_report.multi_element` DISCLOSES all six** and names any room above the ground level
+  whose `block` tag the placer does not read. `engine="cp"` REFUSES a multi-element plan outright
+  (one rectangle, `x = NewIntVar(0, Wi)`) and `auto` falls back saying why -- so on a plan with a
+  dependency the engine that PROVES is unavailable and the engine that SEARCHES carries the
+  findings. **The composer writes no `block` on any room**: C2/C3 were reverted when the audit found
+  five more defects below them, so the only route in is a caller-supplied record, which is exactly
+  the reader who cannot know. `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`
+  carries the four things that must be ruled before this is built. Report:
+  `docs/reports/wp-10.1-the-audit-of-the-dependency.md`.
+- **A VALUE DERIVED FROM A THRESHOLD AND THEN TESTED AGAINST IT IS UN-FAILABLE, AND THERE ARE THREE
+  IN ONE FILE (WP-10.1).** `roof.py::wing_step_down` picked its ratio INSIDE the band it then tested
+  against; `gambrel_break_check` tested `GAMBREL_BREAK_FRACTION_DEFAULT = 0.625` against the fault's
+  own `[0.55, 0.65]` -- `_style_gambrel_geometry` initialises `break_frac = None` and **has no branch
+  that ever assigns it**, so `break_ok` was `True` on all 164 styles, forever. Both report `None`
+  with a reason now. The chimney `style_check` is the third and is still un-failable for the one
+  style that can run it. **The second was dismissed on a docstring and died on a run**: the hedge
+  cited to wave it away is about `diff_ok`, a real comparison of two stated pitches. **And fixing it
+  convicted a house on a plate** -- `roof.py`'s CLI and `render_roof.py` both did
+  `'OK' if x else 'FAIL'`, so an unjudged verdict printed as FAIL on the one surface a reader looks
+  at, one line from where the first fix had been made; `render_roof` had also ANDed the gambrel's
+  two halves into one word, so an unjudged break convicted a passing pitch. **One word cannot carry
+  three states for two rules.**
+- **A MUTATION THAT CHANGES NOTHING IS NOT EVIDENCE THAT NOTHING IS WRONG -- IT IS EVIDENCE THE
+  FIXTURE IS BLIND (WP-10.1).** Four guards in this session could not fail, and two were written BY
+  the audit inside the class that exists to catch that. `b["x"] == 0` **cannot fail against a
+  float** (`0.0 == 0` is True) while its own comment claimed to pin the integer origin -- assert the
+  TYPE, excluding `bool`. A single-pile sizing guard ran a 542 sf fixture where
+  `round(542/22/10)` and `round(542/36/10)` are BOTH 2, so the rule under test made no difference to
+  the answer; choose areas that straddle the rounding boundary. A hyphen-gap guard pinned a constant
+  to itself rather than to the grouping file the band lives in. **And one asserted a consequence
+  that does not exist**: `slice_rect` confines a room to its element, so no score can pull a
+  dependency room back into the house -- `bounds=` changes the SCORE (28 points on the winning
+  placement) and therefore which candidate wins, and the honest guard measures that and then reads
+  the call site, which is the weaker form and says so.
 - **A MOVE'S `touches` IS ENFORCED AT APPLY TIME NOW, AND THE REPORT THAT SAID IT WAS TESTED WAS
   WRONG (WP-9.4).** `apply()` diffs the record before and after, holds every written path
   against the move's declaration in the registry's spelling (`levels[].rooms[].windows[].wall`),
@@ -1476,8 +1518,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **129 entries, of which 49 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **130 entries, of which 50 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

@@ -687,7 +687,6 @@ def instantiate(parti_id, brief):
                             if any(a["a"] == x["id"] for x in rooms) and any(a["b"] == x["id"] for x in rooms)],
             "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
     attach_garage(plan, brief, log)
-    stock_the_dependency(plan, brief, log)
     symmetrise_doors(plan)
     # WP-6.2 — after symmetrise, so a door is dimensioned ONCE and both of its records
     # agree. Before this, every composed door was `{"to": id}` and the renderers guessed.
@@ -707,116 +706,29 @@ def instantiate(parti_id, brief):
 # the answer comes from the massing's own expansion logic, so the bedroom question never
 # arises: the garage's only neighbour is the hyphen it arrived through.
 
-# WHERE THE GARAGE LANDS, AND THE HYPHEN IS A ROOM (OQ 40, ruled 3 Sep 2026).
+# WHERE THE GARAGE LANDS, and why the hyphen is not a room.
 #
-# THIS BLOCK USED TO SAY "the catalogue has no room type for a pure link, and inventing one
-# here would be a room with no furniture, no daylight rule and no privacy rank". THAT WAS
-# FALSE, and it stood for four months. `rooms/breezeway.json` is that room and has all three:
-# its own description says the dogtrot, the ranch breezeway and the Palladian hyphen "are the
-# same idea at three social altitudes", its style_variation for `english-palladian` gives
-# name_in_style "hyphen" and for `tidewater-georgian` "hyphen or colonnade", and its `faults`
-# already carry `dependency-that-is-not-subordinate` and `co-equal-mass`.
+# The first attempt here modelled the hyphen as its own room, typed `back-hall` and then
+# `mudroom`. Both fail, and they fail for the same instructive reason: every service room
+# in the catalogue that could plausibly BE a hyphen carries a hard `must_adjoin` on the
+# kitchen (back-hall: "the back hall's entire reason for existing is to connect the kitchen
+# to the rest of the house"; mudroom: "the groceries have to reach the kitchen without
+# crossing a living space"). A 14 ft link out to a detached dependency cannot also touch
+# the kitchen, so any hyphen modelled as one of those rooms is born failing a hard rule.
 #
-# The observation the old reasoning rested on is true and is NOT the whole argument: every
-# service room that could stand in for a link -- `back-hall`, `mudroom` -- carries a hard
-# must_adjoin on the kitchen, so a 14 ft link to a detached dependency modelled as one of those
-# is born failing a hard rule. That is an argument against back-hall and mudroom. It is not an
-# argument against `breezeway` or `gallery-corridor`, which carry no such rule, and the leap
-# from the first to the second is what went wrong.
+# The catalogue has no room type for a pure link, and inventing one here would be a room
+# with no furniture, no daylight rule and no privacy rank -- WP-4.5's business, not this
+# package's. So the hyphen is modelled as what it physically is: a property of the
+# ATTACHMENT (its length is carried on the garage record and governed by the grouping's own
+# 12-20 ft rule), not a room in the plan graph.
 #
-# WHAT THE OLD MODEL COST, measured: the hyphen was "a property of the attachment", and its
-# length lived in a local variable used only inside two f-strings. So `hyphen_length_ft` -- a
-# `strong` rule with a machine test in BOTH hyphen groupings -- has never been evaluated on any
-# plan this composer has produced. A rule nobody can reach is not a rule.
-#
-# AND IT IS WHAT MAKES THE SERVICE STRIP SURVIVABLE. With the link a room, the garage's one
-# interior neighbour is the hyphen, so the mudroom-or-kitchen anchor below is no longer the
-# thing a garage depends on -- which matters because oq/the-parti-dissolved-its-own-dependencies
-# strips the kitchen out of centre-passage-double-pile, and that parti has no mudroom.
-# Placing by ATTACHMENT rather than by adjacency is unchanged and is still the point: it is why
-# the spec-builder Colonial's garage-against-the-primary-bedroom cannot recur.
+# That turns out to be what the corpus already said. rooms/back-hall.json states the modern
+# sequence outright -- "garage, mudroom, back hall, kitchen, and the sequence is the same one
+# the tradesman's entrance had" -- so the room the garage lands on is the MUDROOM, which is
+# also exactly what rooms/garage.json's own must_adjoin requires by direct door. The garage
+# then has precisely one interior neighbour, that neighbour is a threshold room, and the
+# bedroom question cannot arise.
 GARAGE_ANCHOR = "mudroom"
-DEP_ID = "garage-dependency"      # the block the garage and its mudroom sit in
-HYPHEN_ID = "garage-hyphen"      # the room in the gap between that block and the house
-
-def hyphen_room_type(style):
-    """Which room IS the link, for this style. Read from the records' own words (OQ 40).
-
-    The corpus already answers this and nothing was asking: a room's `style_variation` carries
-    `name_in_style`, and `breezeway` calls itself "hyphen" for english-palladian and "hyphen or
-    colonnade" for tidewater-georgian. Where a style in the chain says that, the link is the open
-    one; otherwise it is `gallery-corridor`, the enclosed link, which is what five-part-palladian
-    uses for both of its hyphens today.
-
-    Returns (room_type, why) so the decision is logged rather than inferred by a later reader."""
-    chain = list(PC.style_chain(style, C) or [style])   # (style_id, C) -- not the other order
-    if style not in chain: chain.insert(0, style)
-    br = C["rooms"].get("breezeway") or {}
-    for sv in br.get("style_variation", []):
-        # The test is that the STYLE NAMES THE ROOM AT ALL, not that the name contains a
-        # keyword. A first version matched on "hyphen" or "colonnade" in the name and duly sent
-        # `ranch-style` to the enclosed gallery -- where breezeway's entry reads plainly
-        # "breezeway", and where the mid-century house-to-garage link is the very case this
-        # room's own must_adjoin exception names. A style_variation entry IS the corpus saying
-        # this room appears in that style; reading it through a keyword filter was inventing a
-        # second, narrower test on top of an answer already given.
-        if sv.get("style") in chain and sv.get("name_in_style"):
-            return "breezeway", (f"`rooms/breezeway.json` names itself \"{sv['name_in_style']}\" for "
-                                 f"{sv['style']}, so on this style the link is the open one")
-    return "gallery-corridor", ("no style in this chain names the breezeway, so the link is the "
-                                "enclosed `gallery-corridor` -- what five-part-palladian uses for "
-                                "both of its own hyphens")
-
-def stock_the_dependency(plan, brief, log):
-    """Put the brief's service programme in the dependency when the main block has no place for it.
-
-    THE OTHER HALF OF THE SERVICE STRIP (OQ 40 / oq/the-parti-dissolved-its-own-dependencies).
-    Stripping six service rooms out of `centre-passage-double-pile` moved a programme; it did not
-    delete one, and the ruling says so in as many words -- "the service programme is not deleted,
-    it is RELOCATED". Without this the strip is half done: `instantiate` logs a judgment saying the
-    diagram has no place for the breakfast room the brief requires, and the brief simply goes
-    unmet, which `SCORE_AXES` has no program axis to notice.
-
-    Scope, deliberately narrow. Only rooms the BRIEF requires by name and the parti has no place
-    for; only rooms whose own `function_class` puts them on the service side, because a dependency
-    is where service goes and a drawing room asked for by a brief is a different conversation; and
-    only when a dependency already exists to put them in. Where there is none, the judgment
-    `instantiate` already logs stands unchanged -- this function refuses rather than inventing a
-    dependency nobody asked for."""
-    ground = next((lv for lv in plan["levels"] if lv.get("index") == 0), None)
-    if ground is None:
-        return
-    dep_rooms = [r for r in ground["rooms"] if r.get("block") and not r.get("hyphen")]
-    if not dep_rooms:
-        return
-    dep_id = dep_rooms[0]["block"]
-    landing = next((r for r in dep_rooms if r["type"] == "mudroom"), dep_rooms[0])
-    have = {r["type"] for lv in plan["levels"] for r in lv["rooms"]}
-    SERVICE = {"service", "storage", "dining", "sanitary"}
-    added = []
-    for m in (brief.get("must_have") or []):
-        if m in have:
-            continue
-        rt = C["rooms"].get(m) or {}
-        if rt.get("function_class") not in SERVICE:
-            continue
-        w, l = room_default_dims(m)
-        plan["levels"][0]["rooms"].append({
-            "id": m, "type": m, "name": rt.get("name") or m.replace("-", " ").title(),
-            "width_ft": w, "length_ft": l, "ceiling_ft": 9.0, "block": dep_id,
-            "doors": [{"to": landing["id"], "width_ft": 3.0}],
-            "note": (f"Required by the brief and absent from this diagram, which since 3 Sep 2026 "
-                     f"holds no service programme in its main block. Placed in the dependency, "
-                     f"which is where the type puts its service -- the strip relocated this "
-                     f"programme rather than deleting it."),
-        })
-        have.add(m); added.append(m)
-    if added:
-        log.append(f"AUTHORED: {', '.join(a.replace('-', ' ') for a in added)} placed in the "
-                   f"dependency. The brief requires them and this diagram's main block has no "
-                   f"service programme to hold them — which is the arrangement its own exemplars "
-                   f"use, not a gap in the diagram.")
-
 
 def attach_garage(plan, brief, log):
     """Attach garage-and-hyphen to the plan's massing, or refuse and say why."""
@@ -849,66 +761,33 @@ def attach_garage(plan, brief, log):
                    f"part of this house's composition, or a different massing.")
         return
 
-    # THE HOUSE-SIDE END OF THE LINK. The hyphen has to reach the house at a room that is not a
-    # formal one; anything on the service or circulation side will do, in the order the corpus's
-    # own service sequence names ("garage, mudroom, back hall, kitchen" -- rooms/back-hall.json).
-    HOUSE_END = ("mudroom", "back-hall", "kitchen", "stair-hall", "centre-passage", "entrance-hall")
-    house_end = next((r for t in HOUSE_END for r in ground["rooms"] if r["type"] == t), None)
-    if house_end is None:
-        log.append(f"REFUSED: the brief asks for {bays} garage bays and this diagram offers no "
-                   f"service or circulation room for a hyphen to reach the house at — only formal "
-                   f"rooms, and garage-and-hyphen forbids dooring a link into one. Not placed.")
-        return
-
     anchor = next((r for r in ground["rooms"] if r["type"] == GARAGE_ANCHOR), None)
     made_anchor = False
     if anchor is None:
+        kitchen = next((r for r in ground["rooms"] if r["type"] == "kitchen"), None)
+        if kitchen is None:
+            log.append(f"JUDGMENT: the brief asks for {bays} garage bays and this diagram has "
+                       f"neither a mudroom for the car to land in nor a kitchen to put one beside. "
+                       f"Not placed — the alternative is dooring the garage into a formal room, "
+                       f"which garage-and-hyphen forbids outright.")
+            return
         # Doored onto the kitchen (its own hard rule) and, where the diagram has one, onto the
         # back hall as well -- which is not decoration. rooms/back-hall.json states the modern
         # sequence explicitly, "garage, mudroom, back hall, kitchen, and the sequence is the
         # same one the tradesman's entrance had", and it carries its own should_adjoin on the
         # mudroom. Adding a mudroom that the existing back hall cannot reach would satisfy the
         # garage's rule by breaking the back hall's.
-        # WHERE THE NEW MUDROOM GOES DEPENDS ON WHETHER THE HOUSE STILL HAS A KITCHEN, and
-        # getting this wrong is a real regression this package caused and caught. A first version
-        # put the mudroom in the dependency unconditionally, which cut its door to the kitchen --
-        # and `rooms/mudroom.json` carries a HARD must_adjoin on the kitchen, so every parti with
-        # a kitchen (that is, all of them but the stripped Georgian) started composing with a new
-        # fatal: "Mudroom does not reach a kitchen through a direct door."
-        #
-        # The mudroom belongs beside the kitchen when there is one -- that IS its rule, and the
-        # arrangement is then house(kitchen-mudroom) - hyphen - garage, which is both the historic
-        # sequence and what this function did before. It moves out to the dependency only when the
-        # main block has no kitchen to be beside, which is the stripped-Georgian case the strip
-        # created. Doors are never authored between rooms in different elements: the link is what
-        # crosses the gap, and inventing a direct door across it would be the drawing lying about
-        # the record, which is the whole subject of Phase 6.
-        kitchen = next((r for r in ground["rooms"] if r["type"] == "kitchen" and not r.get("block")), None)
-        if kitchen is not None:
-            doors = [{"to": kitchen["id"], "width_ft": 3.0}, {"to": HYPHEN_ID, "width_ft": 3.0}]
-            back = next((r for r in ground["rooms"] if r["type"] == "back-hall"), None)
-            if back:
-                doors.append({"to": back["id"], "width_ft": 3.0})
-            anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
-                      "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
-                      "doors": doors,
-                      "note": "Added with the garage, in the main block beside the kitchen its own "
-                              "hard rule requires. Without it the kitchen becomes the mudroom, which "
-                              "is the failure rooms/garage.json names. Sits on the service sequence "
-                              "the back hall's own record describes: garage, mudroom, back hall, "
-                              "kitchen -- with the hyphen where the garage detaches from the house."}
-            house_end = anchor          # the link meets the house at the mudroom, as it always did
-        else:
-            anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
-                      "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
-                      "block": DEP_ID,
-                      "doors": [{"to": HYPHEN_ID, "width_ft": 3.0}],
-                      "note": "Added with the garage, IN THE DEPENDENCY, because the main block has "
-                              "no kitchen for it to sit beside -- the case the service strip creates "
-                              "(oq/the-parti-dissolved-its-own-dependencies). Its own hard rule wants "
-                              "a kitchen and this house has none in the block; that is a true finding "
-                              "about a house whose service is elsewhere, and it is left to be raised "
-                              "rather than silenced by a door to a room that is not there."}
+        doors = [{"to": kitchen["id"], "width_ft": 3.0}]
+        back = next((r for r in ground["rooms"] if r["type"] == "back-hall"), None)
+        if back:
+            doors.append({"to": back["id"], "width_ft": 3.0})
+        anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
+                  "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
+                  "doors": doors,
+                  "note": "Added with the garage. Without it the kitchen becomes the mudroom, "
+                          "which is the failure rooms/garage.json names. Sits on the service "
+                          "sequence the back hall's own record describes: garage, mudroom, "
+                          "back hall, kitchen."}
         made_anchor = True
 
     w, l = room_default_dims("garage")
@@ -920,25 +799,7 @@ def attach_garage(plan, brief, log):
     lo_l, hi_l = (C["rooms"].get("garage", {}).get("dimensions", {}).get("length_ft") or [20, 26])
     l = lo_l   # the shallow end of the band: 20 ft takes a 16 ft car with clearance,
                # and every foot past that is depth the room cannot daylight
-    # THE HYPHEN, AS A ROOM (OQ 40). Its width IS `hyphen_length_ft`, so the rule both hyphen
-    # groupings state and machine-test can finally be evaluated on a plan -- before this it was a
-    # local variable interpolated into two f-strings and reachable by nothing.
-    hyphen_type, hyphen_why = hyphen_room_type(brief["style"])
-    hb = (C["rooms"].get(hyphen_type, {}).get("dimensions") or {})
-    lo_w, hi_w = (hb.get("width_ft") or [8, 16])
     hyphen_len = 14.0                              # inside the grouping's own 12-20 ft rule
-    hyphen_len = round(min(max(hyphen_len, lo_w), hi_w), 1)   # and inside the ROOM's own band
-    hyphen = {"id": HYPHEN_ID, "type": hyphen_type, "name": "Hyphen",
-              "width_ft": hyphen_len,
-              "length_ft": round(min(20.0, (hb.get("length_ft") or [10, 24])[1]), 1),
-              "ceiling_ft": 9.0, "block": DEP_ID, "hyphen": True,
-              "doors": [{"to": house_end["id"], "width_ft": 3.0},
-                        {"to": anchor["id"], "width_ft": 3.0}],
-              "note": (f"The link, as a room. {hyphen_why}. Its width is hyphen_length_ft and is "
-                       f"inside garage-and-hyphen's own 12-20 ft rule and the room's own "
-                       f"{lo_w}-{hi_w} ft band. Modelled as a room and not as a property of the "
-                       f"attachment, because a length carried in a note is a rule nothing can "
-                       f"evaluate -- which is what hyphen_length_ft was until this change.")}
 
     garage = {"id": "garage", "type": "garage", "name": f"{int(bays)}-Car Garage",
               "width_ft": width, "length_ft": round(l, 1), "ceiling_ft": 9.0,
@@ -951,7 +812,6 @@ def attach_garage(plan, brief, log):
               "windows": [{"wall": wall, "width_ft": 2.8, "height_ft": 3.6,
                            "count": 2, "operable": True, "egress": False}
                           for wall in ("E", "N")],
-              "block": DEP_ID,
               "doors": [{"to": anchor["id"], "width_ft": 3.0}]
                        + [{"to": "exterior", "width_ft": 9.0, "type": "garage",
                            "note": "Turned off the principal elevation; two 9 ft openings with a "
@@ -966,7 +826,6 @@ def attach_garage(plan, brief, log):
                        f"retrieved — no traditional style has a rule for this room.")}
     if made_anchor:
         ground["rooms"].append(anchor)
-    ground["rooms"].append(hyphen)
     ground["rooms"].append(garage)
 
     plan.setdefault("groupings", [])

@@ -124,16 +124,26 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
     unchanged -- widening W there would put windows on interior walls."""
 
     @staticmethod
-    def _plan_with_a_dependency(compose_module, geometry_module):
-        import json, os
-        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        brief = json.load(open(os.path.join(root, "briefs", "family-georgian.json")))
-        plan, _log, _p = compose_module.instantiate("centre-passage-double-pile", brief)
+    def _plan_with_a_dependency(geometry_module):
+        """Tagged BY HAND, and an EAST dependency on purpose.
+
+        The composer writes no `block` on any room: the packages that would have taught it to
+        were reverted on 3 Sep 2026 when the audit found five further defects downstream of them.
+        The block machinery below stands, so the fixture states the tag the composer will one day
+        write. East rather than west because east is the direction the original defect ran -- a
+        room past the main block's right edge lands in the NEXT LEVEL'S PANEL and is drawn there
+        silently, where a west one merely leaves the canvas and is visibly missing.
+        """
+        from test_geometry import _tagged_dependency_plan
+        plan = _tagged_dependency_plan()
+        for r in plan["levels"][0]["rooms"]:
+            if r.get("block"):
+                r["exterior_walls"] = ["N", "S", "E"]     # an EAST dependency
         geometry_module._SOLVE_CACHE.clear()
-        geometry_module.solve(plan, compose_module.C, engine="heuristic")
+        geometry_module.solve(plan, None, engine="heuristic")
         return plan
 
-    def test_every_room_is_drawn_inside_its_own_levels_panel(self, compose_module, geometry_module):
+    def test_every_room_is_drawn_inside_its_own_levels_panel(self, geometry_module, tmp_path):
         """READS THE EMITTED SVG, and the first version of this test did not.
 
         That version recomputed the panel width from the plan and then checked the plan against
@@ -147,16 +157,16 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
         spec = importlib.util.spec_from_file_location("rp", os.path.join(root, "build", "render_plan.py"))
         rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
 
-        plan = self._plan_with_a_dependency(compose_module, geometry_module)
+        plan = self._plan_with_a_dependency(geometry_module)
         dep = [r for lv in plan["levels"] for r in lv["rooms"] if r.get("block") and r.get("geometry")]
         assert dep, "this fixture must actually produce a dependency, or the test proves nothing"
         assert any(r["geometry"]["x_ft"] + r["geometry"]["width_ft"] > plan["footprint"]["width_ft"]
                    or r["geometry"]["x_ft"] < 0 for r in dep), \
             "and at least one of its rooms must fall outside the main block"
 
-        out = os.path.join("/tmp", "audit_dep_sheet.svg")
-        rp.render(plan, out)
-        svg = open(out).read()
+        out = tmp_path / "audit_dep_sheet.svg"
+        rp.render(plan, str(out))
+        svg = out.read_text()
         canvas_w = float(re.search(r'viewBox="0 0 ([\d.]+) ', svg).group(1))
 
         # Solve the panel width from the renderer's OWN canvas: total = 2*pad + n*panel + (n-1)*gap.
@@ -178,6 +188,57 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
                 f"{r['id']} is labelled at SVG x {min(hits):.0f}, past the ground panel's right "
                 f"edge at {ground_right:.0f} -- it is drawn on another level's plate")
             assert min(hits) >= pad - 0.5, f"{r['id']} is drawn off the left edge of the sheet"
+
+    def test_the_building_outline_is_one_rect_per_element_not_one_across_the_gap(
+            self, geometry_module, tmp_path):
+        """The residual the first fix left, found in the second audit pass.
+
+        Sizing the sheet to the drawn extent was right; drawing the BUILDING at that size was
+        not. The paper ground and the `.wl` perimeter were both `X(0), Y(H), pw, ph` -- the whole
+        extent -- so a 70 ft house beside a 20 ft dependency across a 14 ft hyphen was outlined
+        as one solid 104 ft rectangle with the gap inside it, and the hyphen the reader is meant
+        to see disappeared into the building. On a WEST dependency it was worse than wrong: `X(0)`
+        sits 34 ft into the panel and the rect then ran 34 ft past its right edge, off the sheet.
+
+        Asserted on the EMITTED SVG and on both handednesses, because the west case is the one
+        that leaves the canvas and the east case is the one that hides the gap."""
+        import re, importlib.util, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        spec = importlib.util.spec_from_file_location("rp", os.path.join(root, "build", "render_plan.py"))
+        rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
+        from test_geometry import _tagged_dependency_plan
+
+        for side in ("E", "W"):
+            plan = _tagged_dependency_plan()
+            for r in plan["levels"][0]["rooms"]:
+                if r.get("block"):
+                    r["exterior_walls"] = ["N", "S", side]
+            geometry_module._SOLVE_CACHE.clear()
+            geometry_module.solve(plan, None, engine="heuristic")
+            blocks = plan["footprint"]["blocks"]
+            assert len(blocks) == 2, f"fixture must place two elements, got {len(blocks)}"
+
+            out = tmp_path / f"perimeter_{side}.svg"
+            rp.render(plan, str(out))
+            svg = out.read_text()
+            canvas_w = float(re.search(r'viewBox="0 0 ([\d.]+) ', svg).group(1))
+            wl = [(float(x), float(w)) for x, w in
+                  re.findall(r'<rect class="wl" x="([-\d.]+)"[^>]*width="([\d.]+)"[^>]*/>', svg)]
+            assert wl, "no perimeter rects in the sheet -- the selector has gone stale"
+
+            # The widest outline drawn must be an ELEMENT's width, never the extent that spans
+            # the hyphen. Compared in model feet via the widths the record itself states.
+            widest_px = max(w for _x, w in wl)
+            scale = widest_px / max(b["width_ft"] for b in blocks)
+            extent = max(b["x_ft"] + b["width_ft"] for b in blocks) - min(b["x_ft"] for b in blocks)
+            assert widest_px < (extent - 1.0) * scale, (
+                f"[{side}] the widest outline is {widest_px/scale:.1f} ft against a two-element "
+                f"extent of {extent:.1f} ft -- the gap between the blocks is being drawn as "
+                "building")
+            for x, w in wl:
+                assert x >= -0.5 and x + w <= canvas_w + 0.5, (
+                    f"[{side}] an outline runs from {x:.0f} to {x+w:.0f} on a {canvas_w:.0f} px "
+                    "canvas -- it is drawn off the sheet")
 
     def test_a_one_block_sheet_is_unchanged_by_the_drawn_extent(self, geometry_module):
         """The main block is still the main block: with no dependency the drawn extent equals it
