@@ -69,7 +69,12 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # vanished with them. `judged` did not move, and that is the whole of how the two are told apart
 # -- the flip is the ruling ACCEPTING unadjudicated stranding, not paying it down. `--strict`
 # prints a `withheld` line beside these three saying exactly this, so a reader need not know it.
-RATCHET = {"role_gaps": 258, "inherited_packs": 3123, "unendorsed": 217}
+# 3 Sep 2026 (WP-8.11, THE SECOND FLIP): 258/3123/217 -> 256/3056/215 on `facade-gable`. Same
+# caution as the line above and it now has two instances: 67 more arrivals stopped, nobody read a
+# case, and `judged` is STILL 249. Two flips, 102 arrivals withheld, zero adjudications. The
+# `withheld` line `--strict` prints beside these three is the only thing that distinguishes this
+# from work, and it names both packs.
+RATCHET = {"role_gaps": 256, "inherited_packs": 3056, "unendorsed": 215}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
@@ -86,7 +91,10 @@ RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 # 776 -> 761 on 3 Sep 2026 (WP-8.10, the first flip). Fifteen pairs went with `trim-classical`:
 # a pack rule can no longer land on a forbidden slot it no longer reaches. The same caution as
 # above -- the corpus is not fifteen pairs better, it is fifteen pairs smaller.
-FORBIDDEN_RATCHET = 761
+# 761 -> 723 on 3 Sep 2026 (WP-8.11). Thirty-eight pairs went with `facade-gable`, after fifteen
+# with `trim-classical`: a pack rule cannot land on a forbidden slot it no longer reaches. Smaller
+# corpus, not better corpus -- the meter is measuring less, and that is the flip, not progress.
+FORBIDDEN_RATCHET = 723
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
@@ -114,8 +122,15 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # `--stranding` prints an ALREADY WITHHELD block above the counterfactual for the same reason: a
 # flipped pack has nothing left to drop, so `--stranding trim-classical` now reports a bare zero
 # and that zero means "already paid", not "costs nothing".
-STRANDING = {"stranded": 2889, "rehoused": 1980, "nodes_touched": 124,
-             "dimensioned_before": 7820, "dimensioned_after": 4931}
+# THE SECOND FLIP MOVES TWO OF THE FIVE, and the pattern from the first holds exactly.
+# `facade-gable`'s 32 slots are already withheld, so the BASELINE shrinks again (7820 -> 7788) and
+# `stranded` falls with it (2889 -> 2857). `rehoused` does not move: `facade-gable` re-housed
+# nothing, which is what its 0 `unreached` and 0 `rehoused` said before the flip. And
+# `dimensioned_after` is 4931 for the third package running -- the end state was always going to be
+# this corpus, whichever order the packs flip in, which is the clearest possible demonstration that
+# these are equalities describing a path rather than ceilings describing quality.
+STRANDING = {"stranded": 2857, "rehoused": 1980, "nodes_touched": 124,
+             "dimensioned_before": 7788, "dimensioned_after": 4931}
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all
@@ -629,8 +644,14 @@ def main():
             # realised, not absent, and it is counted here.
             for sid, (pack, _why) in realised.items():
                 per_realised[pack] += 1
-                realised_nodes.add(nid)
+                # SCOPED THE SAME WAY AS THE SLOT COUNTER, and it was not: `realised_nodes` was
+                # added to unconditionally while `already_withheld` was gated on the pack, so
+                # `--stranding facade-gable` printed "32 slot(s) over 36 node(s)" -- the slots
+                # for one pack against the nodes for every flipped pack. More nodes than slots
+                # is impossible for a single pack and that is how it showed. Two counters, one
+                # scoped and one not, which is this package's own recurring shape.
                 if one is None or pack == one:
+                    realised_nodes.add(nid)
                     tot["already_withheld"] += 1
             # EVERY buildable node counts toward the headline, including the ones with nothing
             # to lose. The first version `continue`d before the totals and published 7,678 of a

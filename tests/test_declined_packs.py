@@ -155,11 +155,13 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     # the entire argument this test was written to make, now demonstrated by a mechanism instead
     # of an anecdote: the ceilings fall for two completely different reasons and only the floor
     # can tell them apart.
-    assert ci.RATCHET["unendorsed"] == 217
+    # 223 -> 217 -> 215 across the two flips (WP-8.10, WP-8.11) and 3158 -> 3123 -> 3056.
+    # 102 arrivals stopped in total, no case was read, and `judged` has not moved once.
+    assert ci.RATCHET["unendorsed"] == 215
     assert ci.RATCHET_FLOOR["judged"] == 249, (
         "a flip must not move the floor: stranding is the ruling ACCEPTING unjudged cases, "
         "never adjudicating them")
-    assert ci.RATCHET["inherited_packs"] == 3123, (
+    assert ci.RATCHET["inherited_packs"] == 3056, (
         "208 declines removed 208 real deliveries and the first flip removed 35 more; 3366 was "
         "the figure before any")
 
@@ -221,9 +223,10 @@ def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
     not a role nobody bound, and declining packs will not close it — the slot is handed to the
     next pack, which the kit forbids just as much."""
     ci = _mod("ci_f", "build/check_inheritance.py")
-    # 776 -> 761 (WP-8.10): fifteen pairs left with `trim-classical`, because a pack rule cannot
-    # land on a forbidden slot it no longer reaches. Smaller corpus, not better corpus.
-    assert ci.FORBIDDEN_RATCHET == 761
+    # 776 -> 761 -> 723 (WP-8.10, WP-8.11): fifteen pairs left with `trim-classical` and
+    # thirty-eight with `facade-gable`, because a pack rule cannot land on a forbidden slot it no
+    # longer reaches. Smaller corpus, not better corpus.
+    assert ci.FORBIDDEN_RATCHET == 723
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "

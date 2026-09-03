@@ -81,9 +81,9 @@ def test_the_corpus_wide_figures_are_the_ones_the_ruling_was_not_taken_on(corpus
     # shrank, 7830 -> 7820, and `stranded` fell with it. `after` does not move at all -- the end
     # state was always going to be this corpus, whichever order the packs flip in. A ceiling
     # would have read three of these four as improvement.
-    assert corpus["before"] == 7820, corpus
+    assert corpus["before"] == 7788, corpus
     assert corpus["after"] == 4931, corpus
-    assert corpus["before"] - corpus["after"] == corpus["stranded"] == 2889, corpus
+    assert corpus["before"] - corpus["after"] == corpus["stranded"] == 2857, corpus
     assert corpus["nodes"] == 124 and corpus["buildable"] == 132, corpus
 
 
@@ -92,9 +92,9 @@ def test_the_buckets_are_pinned_because_the_headline_cannot_see_them(corpus):
     `stranded`. Every assertion in the test above still passes on that mutation except the
     stranded one, and it passes only because `before - after` is checked against it — which is an
     accident of arithmetic, not a guard. These three are the guard."""
-    assert corpus["stranded"] == 2889, corpus
-    assert corpus["rehoused"] == 1980, corpus
-    assert corpus["unreached"] == 111, corpus
+    assert corpus["stranded"] == 2857, corpus
+    assert corpus["rehoused"] == 1980, corpus     # facade-gable re-housed nothing, so unmoved
+    assert corpus["unreached"] == 111, corpus     # nor did it reach any slot-record ruling
 
 
 def test_the_flip_does_not_reach_111_slots_and_that_is_a_finding_not_a_rounding(corpus):
@@ -117,12 +117,18 @@ def test_the_flip_does_not_reach_111_slots_and_that_is_a_finding_not_a_rounding(
 
 def test_a_single_pack_can_be_measured_because_that_is_how_the_flip_is_staged():
     """Lucas ruled the flip staged pack by pack, so the meter has to answer one pack at a time.
-    `facade-gable` is the clean case: 32 slots stranded, nothing re-housed, nothing surviving."""
-    g = _nums(_run("facade-gable"))
-    assert g["before"] == 7820, g          # the denominator stays the corpus
-    assert g["stranded"] == 32, g
-    assert g["unreached"] == 0, g
-    assert g["nodes"] == 29, g
+
+    THE CASE MOVED TO `sash-light` IN WP-8.11, and the reason is the meter working rather than a
+    pin going stale: this asked `facade-gable` for its COUNTERFACTUAL, and `facade-gable` is now
+    flipped, so its counterfactual is zero and its 32 slots are reported in the ALREADY WITHHELD
+    block instead. `sash-light` is next by size and still on `cascade`, so it is the live
+    staging question."""
+    g = _nums(_run("sash-light"))
+    assert g["before"] == 7788, g          # the denominator stays the corpus
+    assert g["stranded"] == 70, g
+    assert g["rehoused"] == 6, g
+    assert g["unreached"] == 20, g
+    assert g["nodes"] == 34, g
 
 
 def test_the_per_pack_numbers_say_which_flips_would_actually_do_anything():
@@ -132,11 +138,16 @@ def test_the_per_pack_numbers_say_which_flips_would_actually_do_anything():
     leaves none. A staging order taken off the backlog counts alone (`storey-graduation` 23 gaps
     against `facade-gable` 16) would pick the ineffective one first."""
     grad = _nums(_run("storey-graduation"))
-    gable = _nums(_run("facade-gable"))
+    sash = _nums(_run("sash-light"))
     assert grad["stranded"] == 9, grad
     assert grad["unreached"] == 45, grad
     assert grad["unreached"] > grad["stranded"] * 3, (grad, "the finding has gone")
-    assert gable["unreached"] == 0 and gable["stranded"] > grad["stranded"], (gable, grad)
+    # `sash-light` replaces `facade-gable` as the contrast now that gable is flipped: 70 stranded
+    # against 20 surviving, where `storey-graduation` strands 9 and leaves 45 standing. The
+    # backlog counts still invert the order -- `storey-graduation` has 23 unendorsed gaps and
+    # `sash-light` 11.
+    assert sash["stranded"] > grad["stranded"] * 5, (sash, grad)
+    assert sash["unreached"] < sash["stranded"], (sash, "the contrast has gone")
 
 
 # ---------------------------------------------------------------- the instrument can move
@@ -152,7 +163,9 @@ def test_the_meter_reports_loss_on_a_node_known_to_lose(corpus):
                  for m in re.finditer(r"^    ([a-z0-9-]+)\s+(\d+)$", text, re.M))
     # 64 -> 63: `egyptian-revival` is one of the ten the first flip already stranded, so it has
     # one fewer slot left for the counterfactual to take.
-    assert worst.get("egyptian-revival") == 63, worst
+    # 64 -> 63 -> 62 across the two flips: each one already stranded a slot this counterfactual
+    # can no longer take.
+    assert worst.get("egyptian-revival") == 62, worst
     assert worst.get("ranch-style") == 44, worst
 
 
@@ -161,7 +174,7 @@ def test_a_pack_that_reaches_nobody_unvouched_reports_zero_rather_than_erroring(
     is ambiguous between "nothing to report" and "the sweep broke"."""
     g = _nums(_run("no-such-pack-id"))
     assert g["stranded"] == 0 and g["rehoused"] == 0 and g["unreached"] == 0, g
-    assert g["before"] == g["after"] == 7820, g
+    assert g["before"] == g["after"] == 7788, g
 
 
 def test_the_sweep_refuses_rather_than_printing_a_satisfying_zero():
@@ -180,8 +193,8 @@ def test_the_pinned_counts_are_equalities_and_say_why(corpus):
     measuring less, and every one of these numbers falls as the flip lands — which is the flip
     working, not the corpus improving. Held to the shipped dict so the two cannot drift."""
     ci = _ci()
-    assert ci.STRANDING == {"stranded": 2889, "rehoused": 1980, "nodes_touched": 124,
-                            "dimensioned_before": 7820, "dimensioned_after": 4931}, ci.STRANDING
+    assert ci.STRANDING == {"stranded": 2857, "rehoused": 1980, "nodes_touched": 124,
+                            "dimensioned_before": 7788, "dimensioned_after": 4931}, ci.STRANDING
     for k in ("stranded", "rehoused"):
         assert corpus[k] == ci.STRANDING[k], (k, corpus, ci.STRANDING)
     assert corpus["nodes"] == ci.STRANDING["nodes_touched"]
