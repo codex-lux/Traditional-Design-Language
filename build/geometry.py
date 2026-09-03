@@ -1920,6 +1920,35 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
             out["geometry_report"]["solver"] = {"engine": "heuristic", "reason": "requested"}
         return out
 
+    # CP-SAT CANNOT PLACE A SECOND MASSING ELEMENT, AND MUST SAY SO RATHER THAN PLACE IT WRONGLY
+    # (OQ 40, found by the adversarial audit of the change that made one placeable, 3 Sep 2026).
+    # geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi` -- one rectangle,
+    # one non-negative coordinate space -- and its tiling, `_absorb`, `_snap_fpd`, the hint and the
+    # objective all rest on that. Handed a plan with a dependency it did not fail; it placed the
+    # dependency's rooms INSIDE the main block (the garage at x = 50 of a 0-70 block) while
+    # `footprint.blocks` went on describing an element at x = 84-114. The record and the drawing
+    # then disagreed about where the house is, which is the one thing Phase 6 exists to prevent --
+    # and it silently flattered a published measurement, because rooms crammed into one rectangle
+    # are all reachable and the fatal count looked like a proof of the composition.
+    # Teaching CP about blocks is a package, not a patch. Until then this is a refusal, taken on
+    # the same path as a missing ortools: `auto` falls back to the hill-climb with the reason
+    # stated in `geometry_report.solver`, and the plate reads that rather than asserting a proof.
+    _blocked = any(r.get("block") for lv in plan.get("levels", []) for r in lv.get("rooms", []))
+    if _blocked:
+        if engine == "cp":
+            return {"error": "could not solve with CP-SAT: this plan has more than one massing "
+                             "element (a dependency), and the CP model places every room in a "
+                             "single rectangle. Use the hill-climb, which states the elements.",
+                    "unsolved": True}
+        out = solve_heuristic(plan, parti, candidates, seed)
+        if "error" not in out:
+            out["geometry_report"]["solver"] = {
+                "engine": "heuristic", "fallback": "engine",
+                "reason": "this plan has more than one massing element and the CP model places "
+                          "every room in a single rectangle; fell back to the hill-climb, which "
+                          "places each element in its own"}
+        return out
+
     try:
         # probe the exact import the engine needs — a broken or partial
         # install where `import ortools` succeeds but the sat module is

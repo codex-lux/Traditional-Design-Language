@@ -256,3 +256,61 @@ class TestASecondMassingElement:
             "against the MAIN block's perimeter its east wall is 74 ft away and it is charged one "
             "wall at 14 points -- which is the pull that would drag every dependency room back "
             "inside the house if bounds were not passed")
+
+
+class TestCPRefusesASecondMassingElement:
+    """OQ 40, from the adversarial audit of the change that introduced blocks (3 Sep 2026).
+
+    geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`: one rectangle,
+    one non-negative coordinate space. Handed a plan with a dependency it did NOT fail -- it
+    placed the dependency's rooms inside the main block (the garage at x = 50 of a 0-70 block)
+    while `footprint.blocks` went on describing an element at x = 84-114. The record and the
+    drawing disagreed about where the house is.
+
+    It also flattered a measurement: rooms crammed into one rectangle are all reachable, so the
+    fatal count read as a proof of the composition when it was a proof of something else. The
+    engine refuses now, and `auto` falls back with the reason stated."""
+
+    @staticmethod
+    def _plan_with_a_dependency():
+        import json, os, sys
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        sys.path.insert(0, os.path.join(root, "build"))
+        import compose as CO
+        brief = json.load(open(os.path.join(root, "briefs", "family-georgian.json")))
+        plan, _log, _p = CO.instantiate("centre-passage-double-pile", brief)
+        return plan, CO.C
+
+    def test_engine_cp_refuses_rather_than_flattening_the_dependency(self, geometry_module):
+        plan, C = self._plan_with_a_dependency()
+        assert any(r.get("block") for lv in plan["levels"] for r in lv["rooms"]), \
+            "the fixture must carry a dependency or this proves nothing"
+        geometry_module._SOLVE_CACHE.clear()
+        out = geometry_module.solve(plan, C, engine="cp")
+        assert out.get("error") and "massing element" in out["error"], (
+            "CP must refuse a multi-element plan, not place it in one rectangle")
+        assert out.get("unsolved") is True
+
+    def test_auto_falls_back_and_says_why(self, geometry_module):
+        plan, C = self._plan_with_a_dependency()
+        geometry_module._SOLVE_CACHE.clear()
+        geometry_module.solve(plan, C, engine="auto")
+        solver = plan["geometry_report"]["solver"]
+        assert solver["engine"] == "heuristic" and solver.get("fallback") == "engine"
+        assert "massing element" in solver["reason"], (
+            "the plate reads this reason; it must name the real cause, not 'budget'")
+
+    def test_and_the_fallback_actually_places_the_dependency_outside(self, geometry_module):
+        """The point of falling back rather than proceeding: the engine that runs must put the
+        dependency where the record says it is."""
+        plan, C = self._plan_with_a_dependency()
+        geometry_module._SOLVE_CACHE.clear()
+        geometry_module.solve(plan, C, engine="auto")
+        fw = plan["footprint"]["width_ft"]
+        dep = [r for lv in plan["levels"] for r in lv["rooms"] if r.get("block") and r.get("geometry")]
+        assert dep
+        for r in dep:
+            g = r["geometry"]
+            assert g["x_ft"] >= fw - 0.01 or g["x_ft"] + g["width_ft"] <= 0.01, (
+                f"{r['id']} at x={g['x_ft']} is inside the main block (0..{fw}) while "
+                "footprint.blocks says it is a separate element")

@@ -107,3 +107,89 @@ def test_every_level_plate_shares_one_top_edge(tmp_path):
             f"side by side and share one top margin, so this means the margin was "
             f"reassigned between passes")
     assert multi, "no multi-level plan rendered — this test would pass vacuously"
+
+
+class TestADependencyIsDrawnInsideItsOwnPanel:
+    """OQ 40, found by the adversarial audit of the change that introduced it (3 Sep 2026).
+
+    `render_plan.render` laid out one panel per level, each `footprint.width_ft * scale` wide,
+    and mapped a room at model x to `pad + x*scale`. `footprint.width_ft` is the MAIN BLOCK. So
+    a garage dependency placed at model x = 84 landed at SVG x = 630 in a ground panel ending at
+    532 -- the garage, its mudroom and the breakfast room were drawn ON TOP OF THE UPPER FLOOR'S
+    PLATE. Nothing clipped and nothing complained: the marks were inside the canvas, in the wrong
+    panel. A west dependency at negative x would have gone off the left edge of the sheet
+    entirely.
+
+    The drawn extent is now separate from the main block's, which `derive_openings` still needs
+    unchanged -- widening W there would put windows on interior walls."""
+
+    @staticmethod
+    def _plan_with_a_dependency(compose_module, geometry_module):
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        brief = json.load(open(os.path.join(root, "briefs", "family-georgian.json")))
+        plan, _log, _p = compose_module.instantiate("centre-passage-double-pile", brief)
+        geometry_module._SOLVE_CACHE.clear()
+        geometry_module.solve(plan, compose_module.C, engine="heuristic")
+        return plan
+
+    def test_every_room_is_drawn_inside_its_own_levels_panel(self, compose_module, geometry_module):
+        """READS THE EMITTED SVG, and the first version of this test did not.
+
+        That version recomputed the panel width from the plan and then checked the plan against
+        it -- so it was asserting its own arithmetic, and reverting the fix in render_plan.py
+        left it GREEN. It was exactly the vacuous guard this audit was hunting for, written by
+        the audit. What discriminates is where the marks actually landed, so this reads the
+        room-name labels out of the SVG and solves the panel geometry from the canvas the
+        renderer itself chose."""
+        import re, importlib.util, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        spec = importlib.util.spec_from_file_location("rp", os.path.join(root, "build", "render_plan.py"))
+        rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
+
+        plan = self._plan_with_a_dependency(compose_module, geometry_module)
+        dep = [r for lv in plan["levels"] for r in lv["rooms"] if r.get("block") and r.get("geometry")]
+        assert dep, "this fixture must actually produce a dependency, or the test proves nothing"
+        assert any(r["geometry"]["x_ft"] + r["geometry"]["width_ft"] > plan["footprint"]["width_ft"]
+                   or r["geometry"]["x_ft"] < 0 for r in dep), \
+            "and at least one of its rooms must fall outside the main block"
+
+        out = os.path.join("/tmp", "audit_dep_sheet.svg")
+        rp.render(plan, out)
+        svg = open(out).read()
+        canvas_w = float(re.search(r'viewBox="0 0 ([\d.]+) ', svg).group(1))
+
+        # Solve the panel width from the renderer's OWN canvas: total = 2*pad + n*panel + (n-1)*gap.
+        n_levels = len([lv for lv in plan["levels"] if any("geometry" in r for r in lv["rooms"])])
+        pad, gap = 42, 58
+        panel_w = (canvas_w - 2 * pad - (n_levels - 1) * gap) / n_levels
+        ground_right = pad + panel_w
+
+        # Where the marks actually are: every room-name label the sheet drew, by x.
+        labels = {t.strip(): float(x) for x, t in
+                  re.findall(r'class="nm"[^>]*x="([-\d.]+)"[^>]*>([^<]+)<', svg)}
+        assert labels, "no room labels in the sheet -- the selector has gone stale and this test is vacuous"
+        for r in dep:
+            name = (r.get("name") or r["id"])
+            hits = [v for k, v in labels.items() if k.lower().startswith(name.lower()[:10])]
+            if not hits:
+                continue
+            assert min(hits) <= ground_right + 0.5, (
+                f"{r['id']} is labelled at SVG x {min(hits):.0f}, past the ground panel's right "
+                f"edge at {ground_right:.0f} -- it is drawn on another level's plate")
+            assert min(hits) >= pad - 0.5, f"{r['id']} is drawn off the left edge of the sheet"
+
+    def test_a_one_block_sheet_is_unchanged_by_the_drawn_extent(self, geometry_module):
+        """The main block is still the main block: with no dependency the drawn extent equals it
+        and the sheet must be byte-identical to what it always was."""
+        import json, os, importlib.util
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        spec = importlib.util.spec_from_file_location("rp", os.path.join(root, "build", "render_plan.py"))
+        rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
+        plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
+        geometry_module._SOLVE_CACHE.clear()
+        geometry_module.solve(plan, engine="heuristic")
+        pts = [r["geometry"] for lv in plan["levels"] for r in lv["rooms"] if r.get("geometry")]
+        assert min(g["x_ft"] for g in pts) >= 0.0
+        assert max(g["x_ft"] + g["width_ft"] for g in pts) <= plan["footprint"]["width_ft"] + 0.01, (
+            "this plan is one rectangle; if that stops being true the byte-identity claim is void")
