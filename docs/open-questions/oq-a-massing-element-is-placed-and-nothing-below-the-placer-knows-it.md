@@ -46,7 +46,15 @@ elements — that is obvious — but the shape of the thing they are taught:
    including the hyphen gap — which is open ground the building does not stand on.
 3. **Is a hyphen a third element or the joint between two?** It is written as an element today
    (`role: "hyphen"`), which makes a three-element house of every two-element one, and every count
-   in the table above then has to say which it means.
+   in the table above then has to say which it means. **And a seventh measured defect lives inside
+   this one**: `blocks_for` centres each element on the main block's axis and then slices each with
+   an independent `slice_rect` call, so **nothing makes the house-side room abut the hyphen or the
+   hyphen abut the dependency's anchor**. Measured on the one parti whose door graph was correct:
+   the hyphen at y 9.36–29.36 against a stair at y 30.0–38.71 (missing by 0.64 ft) and a
+   dependency anchor twenty-one feet further on, both its doors `unplaced`, and the hyphen itself
+   fatal-unreachable. **The one room whose entire reason for existing is to connect two elements
+   connected neither.** It is not fixed and not disclosed, because it is only reachable by hand
+   once the composer stopped writing `hyphen`; it belongs to whichever answer this item takes.
 4. **What does `plan_check`'s drawn layer measure `touches` against?** A dependency room's own
    element is the obvious answer and it is not obviously right: a room on the dependency's east
    face looks across the hyphen at the house, and calling that an exterior wall is true of the
