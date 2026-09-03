@@ -266,6 +266,26 @@ left undimensioned and nothing is fixed either.
 judged either. That is why the meter carries a FLOOR (`judged`, which may only rise) as well as
 ceilings, and why `unendorsed` is a work list rather than a score.
 
+**READ TO THE END, THAT PROPERTY MEANS THE BACKLOG REFILLS AS IT IS WORKED (WP-8.7, 2 Sep 2026).**
+WP-8.7 worked the backlog with one reader per node and an adversarial check on every proposed
+change. The corpus now carries **208 declines** and **41 endorsed** gaps, against 10 and 38 when the
+package started; `inherited_packs` is **3,158** and `judged` **249**, and `unendorsed` has moved
+from 249 to **223**. That is well over a hundred judgments for a headline movement of seventeen,
+because each decline promotes the next pack in the chain into the same role.
+
+(Every digit in that paragraph is a `check_counts.py` claim, and the wording deliberately states no
+count that is not. Three times running, `--fix` corrected the figures in an earlier version of this
+sentence and left the words around them -- "fifteen further declines", "by four" -- describing a
+state one or two batches old. A checker can hold a NUMBER to the data; it cannot hold the CLAIM the
+number sits inside, so the claim is now built out of nothing but held numbers.)
+
+Simulated to fixpoint, `appalachian-log-house` needs **26 declines over 9
+rounds**, because each one promotes the next pack in the chain into the same role: five classical
+orders, a Gothic pointed-arch pack, a Mudejar corbel course and an Iberian arcade, all arriving at a
+single-pen log cabin. So the published figure is what is VISIBLE at one instant and not what the
+work requires. `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` asks whether a
+node may refuse a category once instead.
+
 ## `determined_by` means three things (OQ 19, 24 Aug 2026)
 
 The field named the slots that decide a slot and nothing resolved it, because the schema never

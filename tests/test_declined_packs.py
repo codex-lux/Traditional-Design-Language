@@ -121,7 +121,11 @@ def test_a_decline_counts_as_judged_and_not_as_unendorsed():
     refused — and must never be counted as a gap nobody has looked at."""
     ci = _mod("ci_d", "build/check_inheritance.py")
     _, gaps, inherited, declines = ci.measure(ci.load())
-    assert len(declines) == 10, declines
+    # 10 -> 25 -> 114 -> 168 -> 208 as WP-8.7 read the backlog three times over 2-3 Sep 2026.
+    # Every one carries a verbatim quote from its own node, and every one was put to an
+    # independent adversarial check before it was written; 30 proposals were refused by that
+    # check and are tabled instead.
+    assert len(declines) == 208, declines
     applies = ci.applies_to_index()
     unendorsed = [t for t in gaps if t[0] not in applies.get(t[3], ())]
     judged = (len(gaps) - len(unendorsed)) + len(declines)
@@ -138,10 +142,17 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     why a falling `unendorsed` does not mean a corpus getting more correct at the same rate,
     which is the objection OQ 51's own first pass raised against the ruling."""
     ci = _mod("ci_d2", "build/check_inheritance.py")
-    assert ci.RATCHET["unendorsed"] == 249
-    assert ci.RATCHET_FLOOR["judged"] == 48
-    assert ci.RATCHET["inherited_packs"] == 3356, (
-        "ten declines removed ten real deliveries; 3366 was the figure before them")
+    # WP-8.7 read this all the way down THREE TIMES: fifteen declines moved `unendorsed` by four
+    # (249 -> 245), and the third pass's FORTY moved it by TWO (225 -> 223), because each one
+    # promotes the next pack in the chain into the same role. `judged` meanwhile went 209 -> 249,
+    # which is the whole argument for having a floor as well as a ceiling: the work is visible
+    # there and almost invisible in the headline.
+    # `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint, which is
+    # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`.
+    assert ci.RATCHET["unendorsed"] == 223
+    assert ci.RATCHET_FLOOR["judged"] == 249
+    assert ci.RATCHET["inherited_packs"] == 3158, (
+        "208 declines removed 208 real deliveries; 3366 was the figure before any")
 
 
 def test_the_schema_requires_a_reason_and_a_basis():
@@ -236,6 +247,64 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     assert named, "no slot-level ruling names storey-graduation — this test is now vacuous"
 
 
+def test_impact_says_when_a_decline_does_not_reach_an_address():
+    """`--slots` HAS PRINTED THIS SINCE 25 AUG AND `--impact` COUNTED IT AS RE-HOUSED.
+
+    `governed(drop=pid)` removes the pack from `resolve_packs`, but `choose_pack` reads the
+    resolved slot record's own `packs` block FIRST, and that block cascades — so the dropped pack
+    can still be chosen at an address, from an ancestor's ruling carrying its own expression.
+    `--impact` then looked the successor up in the post-drop `packs` dict, found nothing, and
+    printed `-> gibbs-ionic (None)`: a decline that does NOT reach a slot, wearing the format of
+    one that re-housed it. Found on `egyptian-revival`/`gibbs-ionic` by the adversarial check in
+    WP-8.7's third pass, 3 Sep 2026.
+
+    The class is small and now measured rather than assumed: swept over all 168 shipped declines,
+    it held on THREE at SIX addresses — the two `minimal-traditional` declines and
+    `ranch-style`/`storey-graduation`. That sweep also corrected the comment beside the `--slots`
+    branch, which named three ranch-style slots where the tool reports one.
+
+    IT IS FOUR AND SEVEN NOW, AND THE FOURTH IS THE ONE THAT FOUND THE BUG. Writing
+    `egyptian-revival`/`gibbs-ionic` into the corpus added its own `eave_condition` to the class
+    the same adjudication had just discovered. The sweep was measured before the declines were
+    applied and the test failed on the first run after — which is the number behaving correctly,
+    not a regression."""
+    import subprocess, sys
+    out = subprocess.run([sys.executable, "build/check_inheritance.py",
+                          "--impact", "egyptian-revival", "gibbs-ionic"],
+                         cwd=ROOT, capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr
+    assert "eave_condition" in out.stdout
+    assert "the decline does NOT reach this slot" in out.stdout, (
+        "an address the decline cannot reach is being reported as re-housed:\n" + out.stdout)
+    assert "(None)" not in out.stdout, (
+        "the post-drop source lookup is empty and is being printed as if it were a source")
+    assert "1 slot(s) the decline DOES NOT REACH" in out.stdout, out.stdout
+    # NOT a summary line only: the count must be excluded from the re-housed ones, so the
+    # "loses all dimensioning" figure stays about what it says.
+    assert "0 slot(s) would lose all dimensioning." in out.stdout, out.stdout
+
+
+def test_the_unreached_address_sweep_is_three_declines_and_six_addresses():
+    """The figure the comment beside `--slots` now carries, held to the corpus so it cannot rot
+    the way the sentence it replaced did. A ratchet is wrong here: this number should FALL when
+    a stale slot-level ruling is corrected and RISE when a new decline meets one, and either
+    movement is a thing to look at rather than a build to fail."""
+    ci = _mod("ci_unreached", "build/check_inheritance.py")
+    g = ci.load()
+    import glob as _g, json as _j
+    hits = []
+    for path in sorted(_g.glob(os.path.join(ROOT, "styles", "*.json"))):
+        d = _j.load(open(path, encoding="utf-8"))
+        for e in (d.get("declined_packs") or []):
+            after, _k = ci.governed(g, d["id"], drop=e["pack"])
+            still = sorted(s for s, v in after.items() if v[0] == e["pack"])
+            if still:
+                hits.append((d["id"], e["pack"], still))
+    assert len(hits) == 4, hits
+    assert sum(len(h[2]) for h in hits) == 7, hits
+    assert {h[0] for h in hits} == {"egyptian-revival", "minimal-traditional", "ranch-style"}, hits
+
+
 # --------------------------------------------- the decline's SECOND delivery path
 #
 # A decline removes a pack from `resolve_packs`. It does not remove the value that pack
@@ -316,3 +385,100 @@ def test_a_node_that_will_not_resolve_is_reported_and_never_lowers_the_ceiling()
     assert [n for n, _ in unjudged] == [victim], (
         f"a node that raised was not reported as unjudged: {unjudged}")
     assert len(hits) < len(clean), "the sanity of this test depends on the victim having hits"
+
+
+def test_every_diagnostic_flag_actually_runs():
+    """WP-8.7 HOISTED `governed()` AND `CTX` TO MODULE SCOPE AND BROKE `--forbidden` DOING IT.
+
+    Python makes a name local to a whole function if it is assigned ANYWHERE in it, so the
+    `--slots` branch's own `CTX = {...}` made the module-level CTX unreachable from every other
+    branch of `main()`. `--slots` worked (it assigns before it reads) and `--impact`/`--pair`
+    worked (they read CTX inside `governed`, a different scope), so three of the four flags were
+    green and the fourth raised `UnboundLocalError` -- caught by `check_all`, which runs it, and
+    by nothing else.
+
+    Each flag is invoked here as a subprocess and required to exit 0 and print something. A
+    diagnostic nobody runs in a test is a diagnostic that works until it does not."""
+    import subprocess
+    import sys as _sys
+    for args in (["--roles"], ["--gates"], ["--unendorsed"], ["--forbidden"],
+                 ["--slots", "ranch-style"], ["--impact", "ranch-style", "storey-graduation"],
+                 ["--pair", "ranch-style", "storey-graduation"]):
+        p = subprocess.run([_sys.executable, os.path.join(ROOT, "build", "check_inheritance.py")]
+                           + args, capture_output=True, text=True, cwd=ROOT)
+        assert p.returncode == 0, (args, p.stdout[-2000:], p.stderr[-2000:])
+        assert p.stdout.strip(), args
+
+
+def test_pair_reads_the_pack_subject_and_the_nodes_own_words():
+    """`--pair` exists so an adjudication is one screen instead of four files. It must show what
+    the PACK says it dimensions and what the NODE'S OWN record says, because the rule this
+    package works to is that only the second may refuse the first."""
+    import subprocess
+    import sys as _sys
+    p = subprocess.run([_sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
+                        "--pair", "appalachian-log-house", "trim-classical"],
+                       capture_output=True, text=True, cwd=ROOT)
+    assert p.returncode == 0, p.stderr
+    # The report is `textwrap`ped, so a sentence spans lines: normalise before matching, or the
+    # assertion is testing the wrap width rather than the content.
+    out = p.stdout
+    flat = " ".join(out.split())
+    assert "trim-classical" in out and "dimensions" in out
+    assert "governing_logic:" in out
+    assert "There is no applied proportional system" in flat, "the node's own sentence is missing"
+    assert "ALREADY DECLINED" in out, "a pack already declined must say so, or a later pass re-reads it"
+    assert "No live gate" in out or "ARMS" in out, "the gate line is what makes endorsing legible"
+
+
+def _every_declining_node(graph):
+    """(node, pack) for every decline in the corpus, read from the graph rather than listed.
+
+    `THE_FOUR` above is WP-8.2's original four and the tests using it never grew. WP-8.7 added
+    eleven more declines across two nodes and NOT ONE of those tests named them: the mechanism
+    was proved on the first four forever. A fixed list is a guard that stops guarding the moment
+    the data moves past it, which is this repository's most-repeated defect wearing a new hat."""
+    out = []
+    for nid, node in sorted(graph["nodes"].items()):
+        for d in (node.get("declined_packs") or []):
+            out.append((nid, d["pack"]))
+    return out
+
+
+def test_every_decline_in_the_corpus_actually_stops_its_pack(rk, graph):
+    """The mechanism, over the WHOLE corpus rather than the four it was born on."""
+    declines = _every_declining_node(graph)
+    assert len(declines) >= 25, ("declines went DOWN -- if that is intended, re-pin here", len(declines))
+    for nid, pid in declines:
+        packs = rk.resolve_packs(graph, rk.chain_for(graph, nid))
+        assert pid not in packs, f"{nid} still resolves {pid} despite declining it"
+
+
+def test_every_decline_is_proved_against_the_undeclared_corpus(rk, graph):
+    """MUTATION-CHECKED, corpus-wide: strip each node's declines and every pack must come back.
+    Without this, a decline naming a pack that never reached the node would read as a working
+    refusal -- `check_pack_bindings.check_declines` has its own lie-check for exactly that, and
+    this is the same property held from the resolver's side."""
+    import copy
+    for nid, pid in _every_declining_node(graph):
+        g = copy.deepcopy(graph)
+        g["nodes"][nid].pop("declined_packs", None)
+        packs = rk.resolve_packs(g, rk.chain_for(g, nid))
+        assert pid in packs, (
+            f"{nid} does not receive {pid} even undeclared -- that decline refuses nothing")
+
+
+def test_every_node_record_quote_is_verbatim(graph):
+    """`basis: node-record` means a sentence in the node's own file says so. The build checker
+    verifies this; holding it here too means a broken quote fails a fast test rather than only
+    the full suite, and names the node."""
+    import re as _re
+    for nid, node in sorted(graph["nodes"].items()):
+        for d in (node.get("declined_packs") or []):
+            if d.get("basis") != "node-record":
+                continue
+            assert d.get("quote") and d.get("quoted_from"), (nid, d["pack"])
+            raw = open(os.path.join(ROOT, "styles", f"{nid}.json"), encoding="utf-8").read()
+            pat = _re.escape(_re.sub(r"\s+", " ", d["quote"])).replace(r"\ ", r"\s+")
+            assert _re.search(pat, _re.sub(r"\s+", " ", raw)), (
+                f"{nid}/{d['pack']}: quote is not verbatim in the node's own file")

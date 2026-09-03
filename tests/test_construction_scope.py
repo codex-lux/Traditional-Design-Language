@@ -268,6 +268,7 @@ class TestThePerRuleScope(unittest.TestCase):
     def setUpClass(cls):
         g = RK.load_graph()
         cls.refused = {k: 0 for k in SCOPE_FLOOR}
+        cls.declined_away = {k: 0 for k in SCOPE_FLOOR}
         cls.delivered = {k: 0 for k in SCOPE_FLOOR}
         cls.unjudged = {k: 0 for k in SCOPE_FLOOR}
         for nid in sorted(g["nodes"]):
@@ -280,6 +281,51 @@ class TestThePerRuleScope(unittest.TestCase):
                 key = (d["pack"], d["slot"], d.get("dimension"))
                 if key in SCOPE_FLOOR:
                     cls.refused[key] += 1
+
+            # A DECLINE IS A REFUSAL THIS COUNTER CANNOT SEE, and that blindness turned the
+            # suite red three nodes after the fact. WP-8.7 authored 114 `declined_packs`
+            # entries; three of them refuse `opening-proportion`, so its rule no longer
+            # ARRIVES at those nodes and the scope never gets the chance to drop it. `refused`
+            # fell 59 -> 56 and read exactly like a scope that had stopped working.
+            #
+            # Measured rather than assumed, by running this same reader over the graph with
+            # and without those three declines: 56 against 59, and the difference is exactly
+            # `andalusian-courtyard-vernacular`, `french-provincial-farmhouse` and
+            # `moorish-andalusian`. The delivery is refused EARLIER and BY A PERSON, quoting
+            # the node's own record, which is strictly stronger than an automatic scope test.
+            #
+            # So the floor is NOT lowered -- lowering is what the note above `SCOPE_FLOOR`
+            # warns against, and a floor that drops by one every time somebody declines a pack
+            # protects nothing by the end of the backlog. The second mechanism is counted
+            # instead, and the sum is held to the original 59. A scope that really stops
+            # refusing still fails this, because a decline it never had cannot make up the
+            # difference.
+            declined = {d["pack"] for d in (g["nodes"][nid].get("declined_packs") or [])}
+            for key in SCOPE_FLOOR:
+                if key[0] not in declined:
+                    continue
+                # Would this node have received THIS rule but for the decline? Asked by
+                # re-resolving with the decline lifted, rather than assumed. The lift is done
+                # IN PLACE and restored in a finally: a `copy.deepcopy` of the graph per probe
+                # made this class take minutes, and the graph is only read here.
+                original = g["nodes"][nid].get("declined_packs")
+                try:
+                    g["nodes"][nid]["declined_packs"] = [
+                        d for d in (original or []) if d["pack"] != key[0]]
+                    p_chain = RK.chain_for(g, nid)
+                    p_kit, _ = RK.resolve_slots(g, p_chain, RK.scope_for(g, nid))
+                    p_dropped = []
+                    RK.eval_packs(RK.resolve_packs(g, p_chain),
+                                  {"ceiling_height": 108.0}, None, p_kit, p_dropped)
+                finally:
+                    if original is None:
+                        g["nodes"][nid].pop("declined_packs", None)
+                    else:
+                        g["nodes"][nid]["declined_packs"] = original
+                for d in p_dropped:
+                    if (d["pack"], d["slot"], d.get("dimension")) == key:
+                        cls.declined_away[key] += 1
+
             for sid, rows in by_slot.items():
                 for r in rows:
                     key = (r["pack"], sid, r.get("dimension"))
@@ -289,13 +335,22 @@ class TestThePerRuleScope(unittest.TestCase):
                             cls.unjudged[key] += 1
 
     def test_each_scope_refuses_at_least_what_it_refused_when_it_was_written(self):
+        """The floor holds against BOTH refusal mechanisms, not just the scope's own.
+
+        A delivery the scope would have dropped, on a node that has since DECLINED the pack,
+        is refused earlier and by a person. Counting only `refused` made those look like a
+        scope going quiet; counting only the sum would let a real regression hide behind a
+        decline. Both numbers are reported in the failure message so the next reader can tell
+        the two apart at a glance."""
         for key, floor in SCOPE_FLOOR.items():
+            total = self.refused[key] + self.declined_away[key]
             self.assertGreaterEqual(
-                self.refused[key], floor,
-                "%s/%s/%s refuses %d deliveries against a floor of %d. A scope that stops "
-                "refusing reports success: `applies_when` was dropped inside "
+                total, floor,
+                "%s/%s/%s refuses %d deliveries by scope + %d refused earlier by a node's own "
+                "`declined_packs` = %d, against a floor of %d. A scope that stops refusing "
+                "reports success: `applies_when` was dropped inside "
                 "proportion_engine.evaluate() and refused 0 of 293 with every check green."
-                % (key + (self.refused[key], floor)))
+                % (key + (self.refused[key], self.declined_away[key], total, floor)))
 
     def test_no_scope_refuses_everything_it_reaches(self):
         """A rule refused everywhere is a rule that should be deleted, not scoped."""

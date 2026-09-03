@@ -288,5 +288,34 @@
       "note": "Explicitly listed in this pack's own applies_to. Governs the Anglo-planned rooms behind the balcony -- 'an interior stair, an interior corridor, and rooms that are entered rather than passed through,' in this node's own words, which is exactly the framed-room logic room-vernacular reconstructs, as against the beam-strung Hispanic room logic still governing wherever an older Californio wing survives within the same building.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-portada",
+      "reason": "The pack's own notes say it dimensions a bounded ornamental panel against a plain wall whose rhythm exists ONLY inside the frame -- its bay_count note, the rule that reaches composition_parti here, says in as many words that 'the wall on either side has no rhythm at all', and its portada_independence note names the alternative and rejects it: either the panel is a bounded field with its own rhythm 'or it has become the centrepiece of a composed elevation, which is a different tradition.' The node's own bay_rhythm states that different tradition outright -- five to seven regularly spaced openings across the whole balcony elevation, a Georgian rhythm with the door centred, on a front whose defining device is a continuous cantilevered balcony running its length and whose only ornamental clause is a refusal (plain square balusters, 'without turning or classical profile'). This is not the record being silent about ornament and it is not a headline figure coinciding; the pack states that the elevation outside the panel is unrhythmic and unaxial, and the node states that its elevation is rhythmic and axial about a centred door. The Hispanic half of this hybrid is the adobe wall below, which `adobe-module` is bound to dimension; the composed front above it is the Anglo half the node's own record hands to facade-classical.",
+      "basis": "node-record",
+      "quote": "essentially a Georgian rhythm learned in New England and applied to an adobe wall, with the door centred",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; declining passes composition_parti to facade-medieval-english (delivered by english-medieval-timber-frame, itself an unendorsed cascade delivery); 0 slots lose all dimensioning. --pair reports no live gate either way."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's own notes say it is about a rhythm of arched bays carried on piers or columns -- 'an arcade is a rhythm of openings interrupted by supports, not a wall with holes in it' -- and that where the arcade is the shaded exterior circulation it is the building's corridor, with every room opening onto it and no interior corridor. This node's shaded exterior circulation is the opposite structure by hard constraint: the balcony cantilevers from the second-floor joists and posts or columns reaching grade are categorically forbidden, with a posted upper gallery declared to be either Hispanic-tradition or revival and 'in either case is not this type'. The record also assigns arcading to a different node it distinguishes itself from -- 'Mission work is single-storey, institutional, arcaded on square piers... Monterey is domestic, two-storey, balconied' -- and gives the Anglo half an interior stair and an interior corridor, which is the plan consequence the pack says an arcaded range does not have. That is the node contradicting the pack's stated subject, not silence about arches and not a headline figure coinciding.",
+      "basis": "node-record",
+      "quote": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots (arch, porch_ceiling); declining passes arch to facade-medieval-english (delivered by english-medieval-timber-frame, itself an unendorsed cascade delivery -- a worse neighbour, but outside this judgment) and porch_ceiling to balcony-gallery, which this node binds itself and whose own note claims exactly that thing pinned to the front of both storeys; 0 slots lose all dimensioning. --pair reports no live gate either way."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's stated subject is the columned screen the order packs do not answer for -- how many columns there are, where they stand, what they stand on and what the wall behind them is doing -- and its module note says THE MODULE IS THE BAY, the axial intercolumniation from column centre to column centre along the front. The single rule reaching this node writes `porch_type` as `rank_depth`, a Roman temple porch 'of two or three column ranks in front'. The node's hard constraint c01 forbids the premise: the balcony cantilevers from the second-floor framing with no posts or columns reaching grade, and a posted upper gallery 'is either Hispanic-tradition or revival, and in either case is not this type'. Its defining_characteristics repeat it ('carried on the projecting second-floor joists with no posts to grade') and refuse the classical profile even on the balusters ('Plain square wooden balusters and a simple top rail, without turning or classical profile'). There is no colonnade on this building for a peristyle to count ranks of, and this is the same clause on which the node already declined `facade-arcade`.",
+      "basis": "node-record",
+      "quote": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 9 with no direct lineage edge. Governs 1 slot, porch_type, and the cost is stated rather than hidden: porch_type loses ALL dimensioning, because no pack in this library writes a porch type for a cantilevered balcony. The node binds balcony-gallery itself and that pack dimensions the balcony, but it does not answer this slot. An undimensioned porch_type is honest here; two or three ranks of Roman columns delivered to a house whose hard constraint forbids a post to grade is not. No live gate either way."
+    }
   ]
 }

@@ -234,5 +234,34 @@
       "note": "JUDGMENT BINDING, for the reasoning given on the parent queen-anne-american node. A load-bearing brick townhouse still faces a joist-span limit on its floor framing, and this subtype is explicitly the urban, narrow-lot version of the style (townhouse-row is a common massing affinity), which if anything tightens room breadth toward this pack's measured band rather than loosening it.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes say it is for three things, the first of which is \"nearly binary\": a bay count that composes about a centre, plus the ranking of horizontals and the five-by-two-and-a-half double square. Its own negative case states that a composed classical front asserts one public face, one axis and one entrance, is false where the plan is genuinely irregular, and that the honest move there is to go to facade-picturesque. This node's bay rhythm is set by the rooms rather than by a composed count, its symmetry field reads picturesque-asymmetrical, and it already binds facade-picturesque as its primary facade pack — the pack's own stated negative case, met exactly. This is a contradiction of the pack's headline subject, not merely a node that is silent about classical authority.",
+      "basis": "node-record",
+      "quote": "Irregular by room, as in the parent, but tightened by the coursing: heads and sills align across an elevation even where widths do not",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "--impact: the pack currently governs 0 slots on this node and declining it changes no dimension. No slot loses any dimensioning; the node's facade slots are already governed by its own bound packs at higher precedence. Endorsing, by contrast, would arm a live check (build/elevation.py, the build_elevation scope gate), which is why the no-diff direction here is the decline rather than the endorsement."
+    },
+    {
+      "pack": "trim-sawn",
+      "reason": "The pack's notes define it as the sawn and turned millwork family — the scroll saw and the lathe, bargeboards, sawn brackets, turned posts and spindle friezes ordered from one catalogue and cut on one bench. This node's hard structural constraint prohibits exactly that class of member on masonry elevations, and its defining characteristics put moulded, rubbed and gauged brick and terra cotta \"in place of sawn and turned woodwork\". The pack's own notes already read this node as a refusal, naming the file and quoting its tell \"there is no porch spindlework\" among three records that define themselves by refusing the family. This is a mechanism contradiction, not a coincidence of figures: the ornament here is moulded and fired before construction, not cut on site.",
+      "basis": "node-record",
+      "quote": "Applied sawn or turned wooden ornament is prohibited on masonry elevations",
+      "quoted_from": "constraints[1].statement",
+      "decided": "2026-09-02",
+      "note": "--impact: the pack currently governs 0 slots on this node and declining it changes no dimension. None of its eight dimensioned slots (cornice, eave_condition, frieze, modillion_dentil, ornament_vocabulary, porch_rail, porch_support, rake_condition) loses dimensioning, because the pack governs none of them here. --pair reports no live gate, so endorsing would have changed only the meter."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject is the colonnade rather than the column -- \"how many columns there are, where they stand, what they stand on, and what the wall behind them is doing\" -- and the composition_parti rules it delivers here dimension a portico occupying half to three-fifths of the front, a Doric corner contraction, and a centre bay opened a third wider than its neighbours. This node's own tell says the porch, if any, is small and masonry-piered: there is no columned screen standing in front of the wall for those rules to proportion, and a masonry pier is not an intercolumniation. Its symmetry field reads picturesque-asymmetrical and its bay rhythm is set by the rooms, so a centre-bay-widening rule has no composed centre to widen. That is a contradiction of the pack's headline subject, not a node merely silent about classical authority.",
+      "basis": "node-record",
+      "quote": "the porch, if any, is small and masonry-piered",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 1 slot on this node, composition_parti. Declining passes composition_parti to facade-medieval-english (from jacobean). 0 slots lose all dimensioning."
+    }
   ]
 }

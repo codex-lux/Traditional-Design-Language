@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """harvest_habs.py — WP-4.4's harvester for the Historic American Buildings Survey.
 
-WHAT THIS IS FOR. `assets/` holds 322 asset records, every one of them `status: wanted` — a
-shot spec, alt text, what it depicts, and no file. HABS is the obvious first source: it is a
+WHAT THIS IS FOR. `assets/` holds 1,850 asset records, 1,777 of them `status: wanted` — a
+shot spec, alt text, what it depicts, and no file. (It held 322 over three style nodes when this
+was written; the manifest was a frozen snapshot of a generator that had been tracking the whole
+corpus, which is `oq/regenerating-the-asset-manifest-discards-what-was-added-to-it`.) HABS is the obvious first source: it is a
 US Government survey, professionally measured, and its drawings and large-format photographs
 are exactly what the `measured-drawing` and `photograph` records ask for. This script finds the
 Library of Congress SURVEY RECORD for each building a record names and writes back what the

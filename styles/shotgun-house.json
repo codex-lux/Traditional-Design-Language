@@ -248,5 +248,25 @@
       "note": "Optional. The shotgun's full-width front porch takes turned posts, brackets and a valance from the same catalogues as everything else in this family, and this node is thinly bound. What the pack cannot say here is anything about how much: the same house appears with a full spindled porch and with four plain posts, and the difference is the owner's money in the year it was built rather than a rule.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "stone-course",
+      "reason": "The pack's own module is \"One dressed stone: the bed height a banker mason cuts a quoin, jamb or lintel to\", and its module note says outright that it proportions THE DRESSINGS -- quoin, jamb, lintel, mullion, kneeler, coping -- and treats the rubble field as what is left over. It therefore presupposes a wall of stone laid by a waller with dressings cut at a banker. The shotgun's record names its own construction and it is milled softwood carpentry with machine-cut nails and catalogue millwork; the only masonry anywhere in the record is the alternative pier under the porch floor (\"raised on brick or cypress piers\"), which is a foundation and not a wall. A pack that begins at the banker mason's bench has nothing in this building to dimension.",
+      "basis": "node-record",
+      "quote": "Mill-sawn cypress and pine, machine-cut nails and catalogue millwork made it fast and cheap to build",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "Measured --impact: governs 9 slots. Eight re-attribute -- belt_course to vignola-composite (roman-classical); corner_quoin, height_proportion and wing_strategy to timber-bay (french-provincial-farmhouse); daylight_strategy and depth_and_pile to room-vernacular (the node's own binding); foundation_expression to facade-peristyle (roman-classical); window_proportion to sash-light (the node's own binding). roof_material loses all dimensioning. CAVEAT: --impact measures one decline at a time, and timber-bay is declined in this same pass, so corner_quoin, height_proportion and wing_strategy will fall past it to whatever is next or to nothing."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay's module is one structural bay -- bent centre to bent centre -- at sixteen to twenty feet, bounded above by the span a hewn 4 x 8 in joist will make, and its own note states the test: can you draw the frame, and if the plan does not resolve into bays of 16 to 20 feet the building is wearing a costume. The shotgun's record names its own module and it is the room: the whole house is 12-16 ft wide, and its repeated rooms are 11-14 ft square, so the entire building is narrower than one of this pack's bays. The record also describes a mill-sawn, machine-nailed construction rather than the hewn box frame the bay is reckoned from. This is a rival module rather than a coincident figure -- the inverse of the timber-bay trap, where a 16-20 ft log pen agrees in number and not in mechanism.",
+      "basis": "node-record",
+      "quote": "House width of 12-16 feet overall, set by the room, not by the lot",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "Measured --impact: governs 3 slots and NONE loses dimensioning -- chimney to corbel-course (french-provincial-farmhouse), eave_condition to trim-sawn (the node's own binding), roof_pitch to balcony-gallery (creole-cottage-vernacular). It also absorbs three slots from the stone-course decline above, which will now fall past it. --pair reports that ENDORSING would arm a live check: span_check via _timber_bay_applies_to, and the CP model reading the same list, switch span capacity from the light-frame joist table to the bay module's own. Declining arms nothing and leaves the light-frame table in place, which is what \"mill-sawn cypress and pine, machine-cut nails\" describes."
+    }
   ]
 }

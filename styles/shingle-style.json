@@ -282,5 +282,43 @@
       "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound because the node's own text states there is no module governing the design and the interior priority is spatial flow through the living hall rather than fixed ratios, which rules out room-harmonic's treatise proportions as firmly as the exterior rules out a bay system. The fit is approximate — architect-designed Newport houses were not vernacular cottages — but the physical constraints (joist span, daylight depth) still bound wood-frame construction regardless of who designed it, and no better system exists in this library for a non-treatise-proportioned room.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes name three subjects — the bay count ('odd bays compose about a centre'), the ranking of water table, belt and cornice, and the five-by-two-and-a-half double square — and its module is the bay itself, 'the centre-to-centre spacing of the vertical rank of openings on the principal elevation'. The node answers each of those specifically rather than blanketly: its governing_logic states there is no module and no bay system, its bay_rhythm says the rhythm belongs to the openings and not to a structural bay, and hard constraint c01 forbids the water table, belt course and frieze board by name and 'admits no exceptions'. The pack also states its own negative case and this node is it — a genuinely irregular plan, where the pack's own instruction is to go to the picturesque system instead — and the node already binds facade-picturesque as its primary facade pack. Endorsing would arm the build_elevation scope gate for every plan of a style whose symmetry field reads picturesque-asymmetrical.",
+      "basis": "node-record",
+      "quote": "There is no module and no bay system",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 0 of the 16 slots it addresses; declining changes no dimension on this node. cornice, door_surround and pilaster stay with chambers-ionic; height_proportion with storey-graduation; window_proportion, window_grouping_rule and entry_door with opening-pointed; corner_quoin, daylight_strategy and foundation_expression with stone-course; pediment with gibbs-doric; special_window with balcony-gallery; steps_and_stoop with palladio-tuscan. belt_course, water_table and frieze are already bound `forbidden` in the node's resolved kit, so the pack's rules there are refused before precedence is reached. No slot loses all dimensioning."
+    },
+    {
+      "pack": "facade-gable",
+      "reason": "The pack says of itself that a gable is one of three objects — the end of a roof, a parapet carried past it, or a screen standing free of it — that deciding which is 'prior to any dimension in this pack', and that 'every one of these gables is cut stone or moulded plaster'; its single assembly is a kneeler, a raking coping and an apex stone. The node's c05 permits exactly one material change on the elevation, a rock-faced base terminating at or below the first-floor window sill line, and c01 runs the shingle field unbroken across every storey line, corner and change of plane on all elevations, admitting no exceptions, with the skin frequently carried over the roof as one material. A stone coping with kneelers and a finial at the rake is a second material at the top of the wall, and the parapet and screen cases are a wall standing above a roof the shingles are meant to cover. The pack's four material-neutral rules (apex ratio, gable count, width hierarchy) go with the decline, which is accepted honestly: the node states its own rake and eave figures — rake overhang 4 to 10 in, closed tight to the wall plane — and nothing is left undimensioned.",
+      "basis": "node-record",
+      "quote": "shall be the only material change permitted on the elevation",
+      "quoted_from": "constraints[4].statement (shingle-style.c05)",
+      "decided": "2026-09-02",
+      "note": "Governs 0 of the 6 slots it addresses; declining changes no dimension on this node. gable_treatment, rake_condition, dormer and ornament_vocabulary stay with opening-pointed and wing_strategy with stone-course (both themselves unadjudicated cascade deliveries, not settled by this ruling). cornice_return — the slot the pack files its own kneeler rule under — is already bound `forbidden` in the node's resolved kit, as is parapet, so those rules were refused before precedence was reached. No slot loses all dimensioning."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject is not column proportion but the colonnade as a distinct system: \"how many columns there are, where they stand, what they stand on, or what the wall behind them is doing\", and it names its own central question as \"THE SCREEN AND THE WALL\" -- a portico or peristyle standing in front of, or wrapped around, a wall, dimensioned off an axial intercolumniation bay. Its three composition_parti rules are portico_share (a portico occupying half to three fifths of the front, needing \"plain wall each side to be an event\"), corner_contraction and centre_bay_widening (the centre pair opening to frame an entrance on the centre line). The node answers that object directly rather than blanketly: its defining characteristics say the porch is not an added screen at all but a void carved out of the volume, its description.long repeats that \"the porch is a void scooped out of the volume rather than a structure added to it\", its governing_logic states there is no module and no bay system for a screen to be reconciled against, and its symmetry field reads picturesque-asymmetrical, which no centre-framed portico share can compose. A colonnade the node says is not a structure added to the wall cannot be dimensioned by a pack whose whole subject is the relation between that structure and the wall behind it.",
+      "basis": "node-record",
+      "quote": "Porches and loggias read as voids carved out of the volume, not as attached structures",
+      "quoted_from": "defining_characteristics[4]",
+      "decided": "2026-09-02",
+      "note": "Governs 1 of the 7 slots it addresses. Declining passes composition_parti to facade-pavilion (beaux-arts-french) -- itself an unadjudicated cascade delivery, not settled by this ruling. 0 slots lose all dimensioning. The node's own porch figures (\"Porch column height to diameter 5:1 to 8:1 where classical, or shingled piers 16 to 24 in square\") are stated in its own typical_ratios and are unaffected."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "facade-arcade is a bay system by its own title and module: 'The Arcade: Bay, Pier and Springing', module = the clear span of one arch, with rules for bay centres, the count of bays in a run (three or five for a loggia, eight to twenty for a corredor) and a wider end pier because the run is a rhythm. This node's record denies it has a bay system at all, in its own governing_logic, and names what governs instead -- one unbroken material over an irregular volume, gathered by the roof. Its bay_rhythm says the same twice over: the rhythm 'belongs to the openings, not to a structural bay'. The pack's supports are also above the node's stated ones AS DELIVERED -- 38 2/5 in of pier on an 8 ft span, or a 10 1/5 in column, against shingled piers of 16 to 24 in square -- though not outside its BANDS, which overlap the node at 18-24 in and at 7-8 diameters. That clause is secondary and the decline does not rest on it; the basis is the node's own unhedged denial that it has a bay system.",
+      "basis": "node-record",
+      "quote": "There is no module and no bay system; the design is controlled by keeping one material unbroken over an irregular volume",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
+    }
   ]
 }

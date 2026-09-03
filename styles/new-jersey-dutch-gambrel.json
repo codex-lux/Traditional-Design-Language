@@ -251,5 +251,25 @@
       "note": "Unlike its Hudson Valley sibling, this variant's own proportional_system already classifies its symmetry as 'near-symmetrical' rather than 'additive-vernacular,' and states plainly that the door centres 'once symmetry arrives' after c. 1760 on a five-bay front — which covers most of the variant's later floruit (1730-1820). Bound at facade role rather than merely optional for that reason, while still noting the pack's odd-bay/single-entrance model describes only the post-1760 Anglicized form; earlier Bergen sandstone houses (e.g. the Steuben House's 1752 core) are three-bay and not yet composed to this discipline. brick-course was considered and rejected: the style's own diagnostic tells state the stone is 'laid in courses of unequal height,' which contradicts the pack's core premise of a fixed mason's-gauge-rod coursing, unlike the tighter-coursed Hudson Valley sibling.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "brick-course",
+      "reason": "The pack's own notes say it dimensions a wall where \"Storey height, sill height, head height, belt course and plate are all whole numbers of courses off a single datum\", read off the mason's gauge rod at a fixed four-courses-to-eleven-inches measure. This node's own diagnostic tell states the opposite of the premise that mechanism needs: the Bergen sandstone is laid in courses of unequal height, so there is no single course unit for any horizontal to be a whole number of. That is a contradiction of the pack's stated subject, not merely the observation that this is a stone house rather than a brick one. The node's own record has already made this call in prose and never recorded it as a decline: the facade-classical binding note says brick-course \"was considered and rejected\" on exactly this tell.",
+      "basis": "node-record",
+      "quote": "Red-brown stone with wide white lime joints, laid in courses of unequal height",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "governs 8 slots; 7 fall through to a pack the node itself binds or already inherits -- belt_course, cornice, steps_and_stoop, water_table and window_proportion to facade-classical (bound on this node), window_head_masonry and window_surround_wood to sash-light (dutch-colonial-american). window_sill loses all dimensioning: 1 slot with no successor. No live gate; the decline changes dimensions, endorsement would have changed only the meter."
+    },
+    {
+      "pack": "timber-panel",
+      "reason": "The pack's own module note says its subject is the panel that FILLS a frame -- \"a screen in a structural frame\" carrying no load, behind studs at 44 in centres, over a framed wall its own rule sizes at six inches and calls \"a QUARTER the thickness\" of a rubble wall, with infill of daub, brick nogging or lime render. This node's defining characteristics state the opposite wall: load-bearing Newark Basin sandstone, and typical_ratios gives it as 20-28 in thick. A wall that carries its own load in coursed stone is not a frame with non-structural infill, so the pack's stated premise is contradicted rather than merely absent. I weighed the Dyckman Farmhouse note (\"fieldstone below, frame above\") and did not let it decide: a clapboarded or shingled frame storey is not the exposed-frame-and-panel wall this pack dimensions, and the record itself assigns framing \"in wood with a veneer or shingle skin\" to dutch-colonial-revival as one of the things the revival discarded.",
+      "basis": "node-record",
+      "quote": "Load-bearing red-brown Newark Basin sandstone, dressed and coursed on the entrance elevation only, rubble elsewhere",
+      "quoted_from": "defining_characteristics[2]",
+      "decided": "2026-09-02",
+      "note": "governs 5 slots; expressed_frame, material_change_rule and wall_thickness_frame fall through to jetty-overhang (from german-fachwerk) -- itself a half-timber pack, so on those three the decline changes which pack governs rather than removing the class, which is OQ 58's stated limit one layer down. primary_cladding and secondary_cladding lose all dimensioning: 2 slots with no successor. No live gate -- the decline changes dimensions, endorsement would have changed only the meter."
+    }
   ]
 }

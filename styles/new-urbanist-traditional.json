@@ -281,5 +281,16 @@
       "note": "Confirmed in this pack's own applies_to, alongside greek-revival-upland-vernacular and colonial-revival -- precisely the company this node's own lineage keeps: greek-revival-american descends into this node at weight 0.3, named explicitly as 'the American small-town default of 1830-1860... the plainest available classical vocabulary and the one most easily specified in a code.' Bound optional and low because the node's own text is explicit that style is a per-place regional choice made by the individual code, not a single order this style-level node should assert as governing across every child; Tuscan is bound rather than a richer order because it is the one the node's own lineage names as the code-legible default, reserved for the occasional civic or terminating building a New Urbanist code permits within an otherwise plain-vernacular fabric -- per the distinguished_from entry, 'the civic buildings in a New Urbanist town are usually New Classical,' so this node's ordinary fabric buildings do not carry an order and its rare civic ones may.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "vignola-ionic",
+      "reason": "The pack's notes state its subject as Vignola's Ionic skeleton out of the Regola — pedestal, column, entablature with fasciated architrave and modillioned cornice, closing arithmetically to the part. The node's record has already answered that question for itself and answered it against a richer order: it binds vignola-tuscan and says so in those words, on the stated ground that this node's ordinary fabric buildings carry no order at all and its rare civic ones belong to new-classical (\"the civic buildings in a New Urbanist town are usually New Classical\"). That is a sentence in the node's own record contradicting this delivery, not a preference read off the pack's name.",
+      "basis": "node-record",
+      "quote": "Tuscan is bound rather than a richer order",
+      "quoted_from": "proportion_packs[3].note (the vignola-tuscan binding note)",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node, because the directly bound vignola-tuscan already wins every order slot. The decline makes explicit a choice the record had already made in prose."
+    }
   ]
 }

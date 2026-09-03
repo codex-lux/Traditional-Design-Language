@@ -58,13 +58,18 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # re-pinned so the gain cannot be lost. role_gaps and inherited_packs do NOT move on an
 # endorsement -- the cascade still delivers exactly what it delivered; what changed is that a
 # human has now judged eleven of those deliveries to be right.
-RATCHET = {"role_gaps": 287, "inherited_packs": 3356, "unendorsed": 249}
+# 2 Sep 2026 (WP-8.7, the first adjudication pass): 287/3356/249 -> 283/3341/245 on fifteen
+# declines across two log nodes. FIFTEEN DECLINES MOVED `unendorsed` BY FOUR, which is WP-8.2's
+# finding read to its end: declining a pack promotes the next one into the same role. Read
+# `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before treating this
+# number as a measure of how much work is left -- it is what is VISIBLE, not what is required.
+RATCHET = {"role_gaps": 264, "inherited_packs": 3158, "unendorsed": 223}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
 # may itself be unjudged: a pass that judges ten and re-opens three is progress, and a ceiling
 # alone cannot see that. `judged` is endorsed + declined and only ever goes UP.
-RATCHET_FLOOR = {"judged": 48}
+RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 
 # A FOURTH, SEPARATE MEASUREMENT: pack rules landing on a slot the resolved kit binds
 # `forbidden`. Not the OQ 51 backlog and deliberately not mixed into it. See --forbidden.
@@ -188,6 +193,52 @@ def measure(g):
     return build, gaps, inherited_packs, declines
 
 
+# The context a pack rule is evaluated in. One copy: `--slots`, `--impact`, `--pair` and
+# `--forbidden` all resolved their own identical dict, which is four spellings of one fact.
+CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
+       "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
+
+
+def governed(g, nid, drop=None):
+    """(slot -> (pack, source)) for a node, optionally with one pack dropped, and its kit.
+
+    Hoisted out of `main` on 2 Sep 2026 so `--pair` reads it rather than restating it. It reads
+    the CASCADE-RESOLVED slot record, never `load_kit(nid)`: `choose_pack` consults the record's
+    own `packs` block before precedence and that block is usually inherited, so the node's own
+    kit file takes a different branch and reports a different governing pack. That error was
+    published twice before the 25 Aug audit found it."""
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import resolve_kit as rk
+    chain = rk.chain_for(g, nid)
+    packs = rk.resolve_packs(g, chain)
+    if drop:
+        packs = collections.OrderedDict((k, v) for k, v in packs.items() if k != drop)
+    kit, _sv = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
+    by_slot, _ = rk.eval_packs(packs, CTX, None, kit)
+    out = {}
+    for sid, rows in by_slot.items():
+        ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
+        if ch and ch.get("chosen"):
+            out[sid] = (ch["chosen"]["pack"],
+                        packs.get(ch["chosen"]["pack"], {}).get("_source"))
+    return out, kit
+
+
+def pack_file(pid):
+    """The pack's own record, or None."""
+    # sorted(): `tests/test_determinism.py::test_corpus_globs_are_sorted` refuses an unsorted
+    # directory read anywhere in build/, because the order is machine-specific and this one
+    # decides which file wins if two ever declared the same pack id.
+    for p in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
+        try:
+            d = json.load(open(p))
+        except Exception:
+            continue
+        if d.get("id") == pid:
+            return d
+    return None
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--roles", action="store_true")
@@ -206,6 +257,10 @@ def main():
                          "ratcheted separately from the OQ 51 numbers")
     ap.add_argument("--impact", nargs=2, metavar=("NODE", "PACK"),
                     help="what a node loses, and what takes over, if it declines a pack")
+    ap.add_argument("--pair", nargs=2, metavar=("NODE", "PACK"),
+                    help="the one screen an adjudication needs: what the pack claims to "
+                         "dimension, what the node's own record says, what declining costs, "
+                         "and whether endorsing arms a live check")
     ap.add_argument("--unendorsed", action="store_true",
                     help="list the gaps no pack author has vouched for — OQ 51's work list")
     a = ap.parse_args()
@@ -217,8 +272,6 @@ def main():
     if a.slots:
         sys.path.insert(0, os.path.join(ROOT, "build"))
         import resolve_kit as rk
-        CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
-               "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
         chain = rk.chain_for(g, a.slots)
         packs = rk.resolve_packs(g, chain)
         own = {e["pack"] for e in (g["nodes"][a.slots].get("proportion_packs") or [])}
@@ -247,6 +300,18 @@ def main():
                 # not exist to be chosen), and the stale ruling is surfaced here. Same class as
                 # OQ 87: a slot record inherited in full, including a decision the descendant has
                 # since made differently.
+                #
+                # THIS COMMENT USED TO NAME `baseboard`, `crown` AND `chair_rail` ON RANCH-STYLE
+                # AND THE TOOL REPORTS ONE. Swept over every shipped decline on 3 Sep 2026, the
+                # condition holds on FOUR of them at SEVEN addresses in total:
+                # `egyptian-revival`/`gibbs-ionic` (eave_condition),
+                # `minimal-traditional`/`storey-graduation` (chair_rail),
+                # `minimal-traditional`/`trim-classical` (baseboard, crown, interior_door,
+                # wainscot) and `ranch-style`/`storey-graduation` (chair_rail). Small, and now
+                # measured rather than asserted -- the two extra slots were in a comment nothing
+                # ran. The first of the four is the decline whose adjudication FOUND the
+                # `--impact` bug below, and writing it into the corpus grew the class it had just
+                # discovered from three to four.
                 src = packs.get(pid, {}).get("_source")
                 foreign.append((sid, pid, src or "DECLINED by this node — an inherited "
                                                 "slot-level `packs` ruling still names it"))
@@ -265,31 +330,86 @@ def main():
 
 
 
-    if a.forbidden or a.impact:
+    # `--pair` ENDS IN AN IMPACT REPORT, so it needs this block too. The first version set
+    # `a.impact` in the pair branch below and fell through -- which is after this guard, so the
+    # resolver was never imported and the fall-through raised. A guard that runs before the flag
+    # it guards is set is not a guard.
+    if a.forbidden or a.impact or a.pair:
         sys.path.insert(0, os.path.join(ROOT, "build"))
         import resolve_kit as rk
-        CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
-               "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
 
-        def governed(nid, drop=None):
-            """(slot -> chosen pack) for a node, optionally with one pack dropped."""
-            chain = rk.chain_for(g, nid)
-            packs = rk.resolve_packs(g, chain)
-            if drop:
-                packs = collections.OrderedDict(
-                    (k, v) for k, v in packs.items() if k != drop)
-            kit, _sv = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
-            by_slot, _ = rk.eval_packs(packs, CTX, None, kit)
-            out = {}
-            for sid, rows in by_slot.items():
-                ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
-                if ch and ch.get("chosen"):
-                    out[sid] = (ch["chosen"]["pack"], packs.get(ch["chosen"]["pack"], {}).get("_source"))
-            return out, kit
+    if a.pair:
+        # WHY THIS EXISTS. OQ 51's ruling is "adjudicate first", and an adjudication is a reading:
+        # does this node's own record affirm or contradict what this pack claims to dimension? The
+        # facts needed sat in four places -- the pack file, the style file, `--impact` and the
+        # GATES table -- and an agent gathering them by hand gathers them differently each time.
+        # The rule this serves: a decline is written only where a sentence in the NODE'S OWN file
+        # contradicts the PACK'S OWN SUBJECT. Not the pack's name, and never the ancestor's.
+        nid, pid = a.pair
+        node = (g["nodes"].get(nid) or {})
+        if not node:
+            sys.exit(f"no such node: {nid}")
+        d = pack_file(pid)
+        if not d:
+            sys.exit(f"no such pack: {pid}")
+        print("=" * 78)
+        print(f"PACK  {pid} — {d.get('name', '?')}   [{d.get('kind', '?')}]")
+        print("=" * 78)
+        notes = (d.get("notes") or "").strip()
+        if notes:
+            print(textwrap.fill(notes.split("\n\n")[0][:700], 76,
+                                initial_indent="  ", subsequent_indent="  "))
+        slots = sorted({r.get("target_slot") for r in (d.get("derived_rules") or [])
+                        if r.get("target_slot")})
+        print(f"\n  dimensions {len(slots)} slot(s): {', '.join(slots)}")
+        applies_here = nid in applies.get(pid, ())
+        print(f"  applies_to holds {len(applies.get(pid, ()))} node(s); "
+              f"{nid} is {'IN it' if applies_here else 'NOT in it'}")
+        # A pack author may already have refused this node IN PROSE, which no meter can see.
+        for sent in notes.replace("\n", " ").split(". "):
+            if nid in sent:
+                print(f"  ! the pack's own notes name this node: {sent.strip()[:400]}")
+
+        print("\n" + "=" * 78)
+        print(f"NODE  {nid} — {(node.get('name') or '?')}   [rank {node.get('rank')}]")
+        print("=" * 78)
+        ps = node.get("proportional_system") or {}
+        for k in ("governing_logic", "bay_rhythm", "symmetry", "typical_ratios"):
+            v = ps.get(k)
+            if not v:
+                continue
+            v = "; ".join(v) if isinstance(v, list) else str(v)
+            print(textwrap.fill(f"{k}: {v}", 76, initial_indent="  ",
+                                subsequent_indent="      "))
+        long = ((node.get("description") or {}).get("long") or "")
+        if long:
+            print("\n" + textwrap.fill("description.long: " + long[:800], 76,
+                                       initial_indent="  ", subsequent_indent="      "))
+        for t in (node.get("diagnostic_tells") or [])[:5]:
+            print(textwrap.fill("tell: " + (t if isinstance(t, str) else json.dumps(t)), 76,
+                                initial_indent="  - ", subsequent_indent="      "))
+        for x in (node.get("distinguished_from") or [])[:4]:
+            if x.get("difference"):
+                print(textwrap.fill(f"vs {x.get('node', '?')}: {x['difference']}", 76,
+                                    initial_indent="  - ", subsequent_indent="      "))
+        for dp in (node.get("declined_packs") or []):
+            if dp.get("pack") == pid:
+                print(f"\n  ALREADY DECLINED: {dp.get('reason', '')[:300]}")
+
+        gate = GATES.get(pid)
+        print("\n" + "=" * 78)
+        if gate:
+            print("ENDORSING ARMS A LIVE CHECK — a code change with no diff:")
+            for line in (gate if isinstance(gate, (list, tuple)) else [gate]):
+                print(f"  {line}")
+        else:
+            print("No live gate: endorsing this pack changes no behaviour, only the meter.")
+        print("A decline DOES change dimensions. `--impact` below says which.\n")
+        a.impact = [nid, pid]
 
     if a.impact:
         nid, pid = a.impact
-        before, _kit = governed(nid)
+        before, _kit = governed(g, nid)
         chain = rk.chain_for(g, nid)
         src = next((x for x in chain[1:]
                     if any(e["pack"] == pid
@@ -304,19 +424,37 @@ def main():
         if not mine:
             print("Declining it changes no dimension on this node.")
             return
-        after, kit = governed(nid, drop=pid)
-        lost = 0
+        after, kit = governed(g, nid, drop=pid)
+        lost, unreached = 0, 0
         print("If declined:")
         for sid in mine:
             nxt = after.get(sid)
             binding = (kit.get(sid) or {}).get("binding")
             flag = "  [the resolved kit binds this slot FORBIDDEN]" if binding == "forbidden" else ""
-            if nxt:
+            if nxt and nxt[0] == pid:
+                # A DECLINE THAT DOES NOT REACH AN ADDRESS, AND THIS BRANCH IS WHY IT USED TO LOOK
+                # LIKE ONE THAT DID. `choose_pack` consults the resolved slot record's own `packs`
+                # block -- a person's explicit ruling, carrying its own expression -- BEFORE the
+                # rows, and that block cascades like everything else in the kit. So the pack can be
+                # chosen at an address after `resolve_packs` has dropped it, from an ancestor's
+                # ruling the descendant has since decided differently. `--slots` has printed this
+                # since 25 Aug; `--impact` did not, and `packs.get(pid)` is empty after the drop,
+                # so it printed `-> gibbs-ionic (None)` and COUNTED THE SLOT AS SUCCESSFULLY
+                # RE-HOUSED. Found on `egyptian-revival`/`gibbs-ionic` by an adversarial check
+                # in WP-8.7's third pass. Same class as OQ 87, and a fresh instance of
+                # `oq/a-baked-pack-value-is-a-second-delivery-path` in an inherited `slot.packs`
+                # block rather than a baked kit parameter.
+                unreached += 1
+                print(f"  {sid:28s} -> STILL {pid} — the decline does NOT reach this slot: an "
+                      f"inherited slot-level `packs` ruling names it{flag}")
+            elif nxt:
                 print(f"  {sid:28s} -> {nxt[0]:22s} ({nxt[1]}){flag}")
             else:
                 lost += 1
                 print(f"  {sid:28s} -> NOTHING — this slot loses all dimensioning{flag}")
         print(f"\n  {lost} slot(s) would lose all dimensioning.")
+        if unreached:
+            print(f"  {unreached} slot(s) the decline DOES NOT REACH — unjudged, not re-housed.")
         print("\nA decline stops a wrong pack. It does not supply a right one — OQ 58's stated")
         print("limit, one layer down.")
         return

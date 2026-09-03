@@ -165,7 +165,11 @@
       "test": {
         "expression": "chimney_position",
         "direction": "one-of",
-        "set": ["gable-end-interior", "gable-end-exterior", "paired-exterior"],
+        "set": [
+          "gable-end-interior",
+          "gable-end-exterior",
+          "paired-exterior"
+        ],
         "units": "enum",
         "measurable_from": "elevation",
         "note": "Tests that chimney_position excludes interior-central, capturing 'a central chimney is impossible in this plan'. The per-pen span limit (16-20ft between notched corners) has no matching vocabulary variable and stays prose."
@@ -222,6 +226,26 @@
       "authority": "log-module",
       "note": "The type IS a derived_rule of this pack, almost too neatly to need restating: log-module's circulation_parti rule computes a ten-foot passage bounded above by the plate log -- 'a passage wider than the module cannot be roofed continuously without a splice, so it does not happen' -- which is exactly this node's own hard constraint (c02, passage never as wide as the pen it separates) and its own governing_logic ('the passage is dimensioned by airflow and by the width a single roof structure can span between two pens'). Pen dimension, per-pen gable-end chimney, notch geometry and roof pitch all inherit unchanged from the single-pen tradition per the node's own lineage note, so no second pack is needed for them. Bound alone for the same reason as appalachian-log-house: the type has no applied proportional system. Its later frame-built examples -- the node notes dogtrots 'were built in frame well into the twentieth century' -- still carry log-module's dimensions, because, per the pack's own closing note, 'the module survives even where the log does not': the plan outlived the material by two or three generations, so log-module remains the right pack to bind even on a frame dogtrot.",
       "precedence": 1
+    }
+  ],
+  "declined_packs": [
+    {
+      "pack": "brick-course",
+      "reason": "The pack's whole claim is that in a brick building no vertical dimension above the water table is free: storey, sill, head, belt and plate are all whole numbers of COURSES off the mason's rod. This node states the same quantity with a different course -- the course is a log, and its own typical_ratios count 8-10 of them to the plate. Its exemplars do carry brick chimneys, but a brick stack standing in a log wall is a material, not a coursing module, and two coursing systems cannot dimension one wall. The record names which one this is.",
+      "basis": "node-record",
+      "quote": "Wall height 8-10 log courses",
+      "quoted_from": "proportional_system.typical_ratios",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 1 slot, steps_and_stoop, and it does NOT lose dimensioning -- it passes to palladio-tuscan (italian-renaissance), which is itself an unendorsed cascade delivery. Worth stating plainly: declining a wrong pack can hand the slot to a pack that is wronger, and OQ 58's limit (a decline stops a pack, it does not supply one) is doing real work here. 0 slots lose all dimensioning."
+    },
+    {
+      "pack": "trim-classical",
+      "reason": "The pack derives an interior from an order at reduced scale -- base as plinth, dado as die, chair rail as pedestal cap, cornice as entablature, the wall dividing 4:12:3 in nineteenths off the finished ceiling height. That is an applied proportional system by the pack's own account of itself, and it is the category this node's record refuses in as many words; the proportional_system block corroborates, calling the pen-void-pen rhythm \"the only compositional rule the type has\". The refusal is of the CATEGORY rather than of a set of figures, which is exactly the distinction that leaves sash-light on this same node at TABLE.",
+      "basis": "node-record",
+      "quote": "the type has no applied proportional system",
+      "quoted_from": "proportion_packs[0].note (the log-module binding note)",
+      "decided": "2026-09-02",
+      "note": "--impact: governs 0 slots, so the decline changes no dimension. Arrives from english-georgian at cascade depth 12 with no direct lineage edge between them -- WP-8.2's measurement of why a per-edge deny was refused: there is no edge to write this on."
     }
   ]
 }

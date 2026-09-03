@@ -218,5 +218,61 @@
         "column/intercolumniation_roman"
       ]
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "benjamin-doric",
+      "reason": "The pack's own notes make its subject a complete Grecian Doric order and list the five things it does that no Roman order does: no base, seven diameters, an entablature of two, a continuous entasis with no cylindrical lower portion at all, and flutes segmental in wood. The node's c04 forbids the last two outright, and its typical_ratios put the shaft at 4 to 5.5 diameters, the squattest proportion in any Western revival -- the order's own governing figures contradicted, not merely varied. Its distinguished_from entry says the same thing from the other side about the slot the pack actually governs here: Greek Revival 'terminates in a horizontal entablature and a pediment; Egyptian Revival ... terminates in a cavetto with no pediment ever'. This is the pack's stated subject being refused by the node's own record, not an inference from the pack's name or from the ancestor it arrived on.",
+      "basis": "node-record",
+      "quote": "Shafts shall be reed-bundle or palm form and shall never carry classical fluting or entasis",
+      "quoted_from": "constraints[3].statement (egyptian-revival.c04)",
+      "decided": "2026-09-02",
+      "note": "Governs 2 slots (cornice, pilaster); declining hands both to benjamin-ionic delivered from federal-style, and 0 slots lose all dimensioning. Honest consequence: the decline stops the Grecian Doric authority but its successor is another classical order, because no Egyptian pack exists to take a cavetto cornice -- the slot stays wrongly dimensioned by a different hand."
+    },
+    {
+      "pack": "vignola-ionic",
+      "reason": "The pack's notes make its subject Vignola's Ionic in full -- the 18-part module, the fluted shaft of 18 modules, the frontal volute capital drawn from twelve centres, and an entablature it subdivides down to individual mouldings -- and one of the twelve slots it dimensions is literally modillion_dentil. The node's c02 forbids dentils, modillions and egg-and-dart anywhere on the building and requires every terminating horizontal edge to be torus roll below cavetto without intervening classical mouldings; its defining characteristics give columns of bundled-reed or papyrus form with lotus or palm capitals, never fluted. Each of the pack's stated subjects -- the capital, the shaft, the entablature's mouldings -- is named and refused by a sentence of the node's own record.",
+      "basis": "node-record",
+      "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension: the --impact report says so in as many words. The meter moves and nothing else does."
+    },
+    {
+      "pack": "benjamin-ionic",
+      "reason": "The pack's own notes state its subject as Benjamin's Federal Roman Ionic taken as a delta on Vignola -- 'everything not stated here is Vignola's' -- and the third of the five divergences it names is 'THE CORNICE CARRIES MODILLIONS', at 31 minutes on centres, each centred on a column, with a dentilled cornice offered as the alternative. Both of the pack's own offered cornices are named and forbidden by this node's c02, which also requires every terminating horizontal edge to be torus roll below cavetto 'without intervening classical mouldings'. That is the pack's stated subject refused by a sentence of the node's own record, not an inference from the pack's name; it is also the same ground on which this node already declined `vignola-ionic`, the pack this one overlays. The cornice slot the pack governs here is precisely the edge the node's own tell says 'curves outward in a concave sweep rather than stepping out in mouldings'.",
+      "basis": "node-record",
+      "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots (cornice, door_surround, pilaster); declining hands all three to gibbs-ionic delivered from georgian-colonial-american, and 0 slots lose all dimensioning. Honest consequence, and it is the same one recorded for benjamin-doric: the decline stops the Federal Ionic authority but its successor is another classical order, because no Egyptian pack exists to take a cavetto cornice -- the slot stays wrongly dimensioned by a different hand."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "The pack's own notes state its subject as the archaeological Greek Doric order measured by Stuart and Revett -- the column in diameters, the Doric entablature and its mutules per triglyph interval, and an ornament vocabulary stated at zero -- and say explicitly that it dimensions the order rather than a temple front. The node's own diagnostic tell names Greek Doric directly and states that its columns differ from it in both diameter and height, and its c04 forbids the fluting and entasis that the pack's notes discuss as the order's own corrected properties. The headline figure is the trap here and is not the reason: the pack's 5.5 diameters coincides with the top of this node's 4-to-5.5 band, and the node's record says in as many words that its columns are shorter than a Greek Doric's. Coincidence of a number, contradiction of the mechanism.",
+      "basis": "node-record",
+      "quote": "Columns are wider at the base than a Greek Doric and shorter, typically four to five diameters",
+      "quoted_from": "diagnostic_tells[2]",
+      "decided": "2026-09-02",
+      "note": "Governs 0 slots on this node, so declining changes no dimension -- the --impact report says 'Declining it changes no dimension on this node.' and 0 slots lose all dimensioning. The meter moves and nothing else does."
+    },
+    {
+      "pack": "benjamin-corinthian",
+      "reason": "The pack's own notes state its subject as Benjamin's Roman Corinthian taken as a delta on Vignola -- 'everything not stated here is Vignola's' -- set out member by member from the 1816 American Builder's Companion: column eleven diameters, entablature two, cornice forty-eight minutes, frieze forty-one, architrave thirty-one. It dimensions cornice, crown, entablature, frieze, casing, chair_rail, porch_support, ornament_vocabulary and, literally, modillion_dentil. The node's c02 forbids dentils, modillions and egg-and-dart anywhere on the building and requires every terminating horizontal edge to be composed as torus roll below cavetto without intervening classical mouldings, and its second tell says the cornice curves outward in a concave sweep rather than stepping out in mouldings. c04 puts the shaft at 4 to 5.5 base diameters against the pack's eleven and forbids classical fluting and entasis outright. DIRECTION CHECK: the node's column is SHORTER than the order's, so the contradiction is of the order's own governing figure and is read the right way round. Same ground as the node's existing vignola-ionic and benjamin-ionic declines.",
+      "basis": "node-record",
+      "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+      "decided": "2026-09-02",
+      "note": "Arrives from federal-style at cascade depth 4 with no direct lineage edge. Governs 0 slots on this node, so declining changes no dimension -- the --impact report says so in as many words -- and 0 slots lose all dimensioning. The meter moves and nothing else does."
+    },
+    {
+      "pack": "gibbs-ionic",
+      "reason": "The pack's own notes state its subject as Gibbs's Ionic as a delta on Vignola, headed by the entablature at one fifth of the column, and the second of its named divergences is the cornice: 'Gibbs's principal Ionic cornice carries modillions at three quarters of a diameter on centres; Vignola's carries dentils and no modillions. Gibbs offers a dentil version as the alternative'. BOTH of the pack's offered cornices are named and forbidden by this node's c02, which also requires every terminating horizontal edge to be torus roll below cavetto without intervening classical mouldings -- the identical finding already recorded on this node against benjamin-ionic, whose decline note says its three slots would pass to gibbs-ionic, which is how this gap arose. On this node the pack governs cornice, door_surround, eave_condition and pilaster, which is precisely the terminating edge c02 composes. c04 independently puts the shaft at 4 to 5.5 base diameters, against an Ionic order of nine and more, and forbids classical fluting and entasis; the second tell says the cornice sweeps concave rather than stepping out in mouldings.",
+      "basis": "node-record",
+      "quote": "Dentils, modillions, and egg-and-dart are forbidden anywhere on the building.",
+      "quoted_from": "constraints[1].statement (egyptian-revival.c02)",
+      "decided": "2026-09-02",
+      "note": "Arrives from georgian-colonial-american at cascade depth 5 with no direct lineage edge. THE GATE: gibbs-ionic's applies_to IS a live gate -- build/elevation.py:1429 reads `style in gibbs_pack.get('applies_to', [])` to publish gibbs_order_applies_to_style and to drop the note_order_not_named_for_style disclosure -- but this verdict goes the other way, and a decline writes declined_packs without touching applies_to, so the gate is untouched by it. `choose_pack` returns it on 4 slots, which is not the same as the pack emitting a rule for 4: it emits none for eave_condition at all. THE DECLINE IS EFFECTIVE ON THREE -- cornice, door_surround and pilaster, all to chambers-ionic (english-georgian), 0 losing dimensioning, the successor being another classical order, which is OQ 58's stated limit. IT IS NOT EFFECTIVE ON eave_condition: the resolved record there, inherited whole from georgian-colonial-american, carries a slot-level `packs` block naming gibbs-ionic at precedence 1 with its own expression `storey_height / 4 * (7 / 18)`, and `choose_pack` ranks that block above the rows, so dropping the pack from the cascade cannot touch it. Nothing in the generator evaluates that expression today -- `pack_choice` has one producer and no consumer, reaching users only as passthrough through `tdl_resolve_kit` -- so it is a stale ruling served to a reader, not a wrong figure on a sheet. That address stays UNJUDGED by this decline. It is OQ 87's mechanism and a fresh instance of `oq/a-baked-pack-value-is-a-second-delivery-path` in an inherited `slot.packs` block rather than a baked kit parameter; `--impact` now says so in words rather than printing `(None)`."
+    }
   ]
 }

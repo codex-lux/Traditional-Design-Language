@@ -279,5 +279,34 @@
       "note": "The node that supplies the pack's organising rule as a decision procedure: 'bargeboard on the rake with no bracket under the eave: Gothic Revival. Brackets under a wide eave with no bargeboard: Italianate.' That single sentence is why this pack's central rule is a COUNT of members rather than a dimension of any one of them. It also gives the verge overhang at 12-24 in with the reason attached -- 'deep enough to shadow the bargeboard' -- which is what turns a pierced board into tracery.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "chambers-ionic",
+      "reason": "The pack's own notes state its subject as a modular classical order and nothing else: 'PROPORTIONALLY THIS IS VIGNOLA'S IONIC. Eighteen modules of column, four and a half of entablature, one of base', with three departures about which form rather than how big. It reaches this node at cornice, door_surround and frieze -- the entablature and its trim -- and the node's own record contradicts exactly that: it separates itself from Greek Revival by which line governs, giving the entablature to the style it reacts against and the roof to itself, while its governing_logic opens 'Not proportional'. This is not the blanket-refusal trap: unlike sash-light, whose subject is a fact about the glass trade, this pack's stated subject IS an applied modular proportional system, so the node's sentence bites on the pack's actual claim. The node's own door head is a label or drip moulding over the opening, not a Chambers architrave.",
+      "basis": "node-record",
+      "quote": "Greek Revival is symmetrical, horizontal, white, and low-pitched, with the entablature as the governing line; Gothic Revival is asymmetrical, vertical, coloured in earth tones on Downing's explicit instruction, and governed by the roof.",
+      "quoted_from": "distinguished_from[greek-revival-american].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots -- cornice, door_surround, frieze. All three pass to palladio-ionic, delivered from english-palladian; 0 slots lose all dimensioning. So the decline stops this overlay but not the class: a classical Ionic still reaches this cottage's cornice through palladio-ionic, which carries the same contradiction and needs its own adjudication."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes state its subject as a quoted modular classical order and nothing else -- 'Column 9 modules; entablature a fifth of the column divided into twelve as 4 : 3 : 5', an Attic base of half a diameter, a cornice divided into seven and three quarters. That is an applied proportional system for a column and its entablature, so this is not the blanket-refusal trap that spared sash-light: the node's sentences bite on the pack's actual claim rather than on its name. The pack reaches this node at cornice, door_surround and frieze -- the entablature and the trim under it -- and the node's own record hands the entablature-as-governing-line to the very style it reacts against, keeping the roof for itself, while its governing_logic opens 'Not proportional.' The node's own door head is a label or drip moulding stopping in square returns, not a Palladian architrave, and its ornament is sawn pine bargeboard rather than a modillion cornice.",
+      "basis": "node-record",
+      "quote": "Greek Revival is symmetrical, horizontal, white, and low-pitched, with the entablature as the governing line; Gothic Revival is asymmetrical, vertical, coloured in earth tones on Downing's explicit instruction, and governed by the roof.",
+      "quoted_from": "distinguished_from[greek-revival-american].difference",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots -- cornice, door_surround, frieze. All three pass to palladio-tuscan, delivered from italian-renaissance; 0 slots lose all dimensioning. The decline therefore stops this overlay but not the class: a classical order still reaches this wooden cottage's cornice through palladio-tuscan, which carries the same contradiction and needs its own adjudication. This is the second half of the pair the node's chambers-ionic decline named -- that entry's own note predicted this case."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack's own notes state its subject as Palladio's Tuscan ORDER and nothing else -- the module as a whole diameter in 60 minutes, the column at 7 modules, the quarter diminution, the half-diameter base and capital with their internal divisions, and the plain 1-module pedestal -- and every rule it carries is worked from that module. That is an applied proportional system, so this is not the blanket-refusal trap that spared sash-light; the node's sentences bite on the pack's actual claim. It governs cornice, door_surround, frieze and steps_and_stoop here, which is the entablature and the trim beneath it, and the node's own record hands the entablature-as-governing-line to the very style it was built to react against and keeps the roof for itself, while its governing_logic opens 'Not proportional.' and names silhouette hierarchy in its place. Its door head is a label or drip moulding stopping in square returns rather than a Tuscan architrave, and its cornice ornament is sawn pine bargeboard on the rake.",
+      "basis": "node-record",
+      "quote": "Greek Revival is symmetrical, horizontal, white, and low-pitched, with the entablature as the governing line; Gothic Revival is asymmetrical, vertical, coloured in earth tones on Downing's explicit instruction, and governed by the roof.",
+      "quoted_from": "distinguished_from[greek-revival-american].difference",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 9 with no direct lineage edge. Governs 4 slots -- cornice, door_surround, frieze, steps_and_stoop. On decline the first three pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. --pair reports no live gate. This is the adjudication the node's own palladio-ionic entry predicted in its note: that decline sent three of these same slots here, and this one sends them one step further to vignola-tuscan, which is a third Tuscan order pack carrying the identical contradiction and needing its own judgment. The class is not resolved by this decline and this entry does not claim it is."
+    }
   ]
 }

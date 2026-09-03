@@ -264,5 +264,43 @@
       "note": "The record that states the pack's parapet case and the contrast that defines it: 'the wall carries up past the roof plane and is capped with coping stones. Tudor Revival gables end at the rake with a barge or a bargeboard.' Two packs' worth of nodes are separated by that one sentence. It also gives the pack its only coping thickness -- 6-9 in -- its parapet height at 12-24 in above the roof plane, and the shaped profile as '2-4 ogee or quadrant curves terminating in a semicircular or triangular cap', which is the curve count.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "timber-panel",
+      "reason": "timber-panel's own notes say it is the half-timber infill and nogging panel module — the studding, the panel it frames and the jetty it carries — built for the 29 nodes whose records describe half-timbering. This node's record describes the opposite construction in its first defining characteristic, and its third diagnostic tell makes the absence definitional rather than incidental: half-timbering anywhere returns the building to the parent style. The pack's own note already names this node as a case its subject does not reach. A stud-and-panel module cannot dimension an ashlar or brick-with-dressings wall.",
+      "basis": "node-record",
+      "quote": "Masonry construction - ashlar, or brick with stone dressings - with no half-timbering",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots; primary_cladding loses all dimensioning; wall_thickness_frame passes to jetty-overhang (tudor-revival)"
+    },
+    {
+      "pack": "room-vernacular",
+      "reason": "room-vernacular's notes state its subject as the ordinary room against the treatise room: breadth set by span, hearth and daylight, length set by what has to go in it, constrained rather than proportioned. This node's record places itself explicitly on the other side of that same distinction, by name — it argues for the authority of the great house where its parent argues for the charm of the vernacular — and the sentences around it describe axial entry, a legible plan, corridors, and interiors that are bright and long. The two slots at issue are precisely the great-house questions: a prodigy-house public-private gradient and the service range of an E- or H-plan are not what an ordinary room's constraint logic describes.",
+      "basis": "node-record",
+      "quote": "Where picturesque Tudor Revival argues for the charm of the vernacular, Jacobethan argues for the authority of the great house",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots; service_zone_strategy loses all dimensioning; public_private_gradient passes to room-harmonic (english-georgian)"
+    },
+    {
+      "pack": "trim-craftsman",
+      "reason": "trim-craftsman's notes state its subject as a trim family in which every visible member is a plain board with square edges, the only profiles anywhere are a bevel on a cap and an occasional cove under a shelf, and the picture rail is the governing datum. This node's record answers the same question — what its interior finish register is made of — with carved relief panelling and moulded strapwork plaster. Those are mutually exclusive answers, and trim_family is the slot the pack governs here. The decline is honest about its cost: built_ins and newel_balustrade go bare rather than take a mill-catalogue box newel into a house the record calls colder, more formal and considerably more expensive than its parent.",
+      "basis": "node-record",
+      "quote": "with linenfold panelling, a screens passage where the plan allows one, and plaster ceilings in strapwork patterns",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "governs 4 slots; built_ins and newel_balustrade lose all dimensioning; stair_type passes to storey-graduation (english-georgian) and trim_family to trim-classical (english-georgian)"
+    },
+    {
+      "pack": "jetty-overhang",
+      "reason": "The pack's own notes state its subject as a framed timber overhang: 'THE MODULE IS THE JOIST, NOT THE BAY... a jetty is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by the member cantilevering', and its module is 'the depth of the second-floor joist whose cantilever is the jetty'. This node's first defining characteristic answers the construction question in the opposite terms, and its third diagnostic tell makes the absence definitional rather than incidental: half-timbering anywhere returns the building to the parent style. The one slot the pack governs here, wall_thickness_frame, is being given a 7-18 in timber joist depth for a wall the record calls ashlar, or brick with stone dressings.",
+      "basis": "node-record",
+      "quote": "Masonry construction - ashlar, or brick with stone dressings - with no half-timbering",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; wall_thickness_frame loses all dimensioning"
+    }
   ]
 }

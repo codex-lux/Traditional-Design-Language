@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**126 questions, of which 48 are open.** A question is OPEN while
+**129 questions, of which 51 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 48
+## Open — 51
 
 Awaiting a ruling. This is the list to read first.
 
@@ -70,11 +70,14 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
 | **oq/a-massing-states-its-structure-and-nothing-reads-it** | OPEN | [the stair hall is supposed to be the spine wall, and the search does not know it has a job](open-questions/oq-a-massing-states-its-structure-and-nothing-reads-it.md) |
 | **oq/a-material-neutral-assembly-decides-a-material-question** | OPEN | [the authority walk lets a slot that says nothing about a material refuse a question about it](open-questions/oq-a-material-neutral-assembly-decides-a-material-question.md) |
+| **oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times** | OPEN | [the backlog refills as it is worked, and 249 is what is visible at one instant](open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md) |
 | **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | OPEN | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
+| **oq/a-room-count-cap-on-the-heavy-routes** | OPEN | [nothing bounds how many rooms a heavy route will solve, and the body cap is 2,000 times too loose to be the bound](open-questions/oq-a-room-count-cap-on-the-heavy-routes.md) |
 | **oq/a-room-records-prose-states-a-floor-its-own-band-does-not** | OPEN | [35 figures in prose, and nothing can say which are governing](open-questions/oq-a-room-records-prose-states-a-floor-its-own-band-does-not.md) |
 | **oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed** | OPEN | [two accepted moves can leave the record breaking the first one's rule](open-questions/oq-a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed.md) |
 | **oq/a-slug-in-a-code-span-is-not-checked** | OPEN | [the citation guard validates 16% of the namespace it guards, by TWO mechanisms, and the second one is bigger than the one this entry is named for](open-questions/oq-a-slug-in-a-code-span-is-not-checked.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
+| **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-proportion-band-forbids-the-square** | OPEN | [29 room types may not be square, and the square is what the tradition was aiming at](open-questions/oq-the-proportion-band-forbids-the-square.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |

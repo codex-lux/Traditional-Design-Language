@@ -284,5 +284,25 @@
       "note": "Optional, and the node that supplies the pack's projection band: 'bay or oriel projection 18 to 42 in from the wall plane'. The same band holds the Federal shallow bay and this one, and what changes between them is the wall behind it -- there a modulation of a flat elevation, here a projecting mass among several. Note this node also carries `trim-sawn`, and the two describe the same porch-and-bay elevation from different trades.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes name the bay count as its first and \"nearly binary\" decision -- odd bays compose about a centre -- and its stated negative case is that a composed classical front asserts one public face, one axis and one entrance, which is false of a building whose plan is genuinely irregular; where it is false the pack itself says the honest move is to go to facade-picturesque rather than apply the composition anyway. This node's record answers that head-on: its bay rhythm is none regular with openings placed by room, its symmetry is picturesque-asymmetrical, and a defining characteristic is an asymmetrical plan generating an asymmetrical elevation. It already binds facade-picturesque as its primary pack, which is precisely the redirection facade-classical's own note makes. The classical trim this node does inherit is column, cornice and sash profile from the Colonial Revival contact -- a trim transmission, not a bay composition -- and this pack composes the front.",
+      "basis": "node-record",
+      "quote": "None regular. Openings are placed by room, and adjacent windows commonly differ in width, height, and head level.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; declining changes no dimension and 0 slots lose all dimensioning"
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes say it exists to state \"how many columns there are, where they stand, what they stand on, and what the wall behind them is doing\" for a peripteral temple, a Roman arch order or a colossal revival portico, and the three rules by which it reaches this node all write to composition_parti: portico_share (\"THE PORTICO TAKES BETWEEN A HALF AND THREE FIFTHS OF THE FRONT, which is the rule that distinguishes a PORTICO from a COLONNADE\"), corner_contraction and centre_bay_widening. The node's record contradicts that subject directly and twice over: it states as the third of its three compositional rules that the porch is a wrapping, connective element and not a portico, so the pack's portico-share rule dimensions a thing this style declares it does not build; and its bay_rhythm is \"None regular. Openings are placed by room, and adjacent windows commonly differ in width, height, and head level\", which leaves nothing for a corner contraction or a widened centre bay to be measured against. This is the same contradiction the node already reasoned out when it declined facade-classical, arriving here from english-palladian at cascade depth 7 with no lineage edge between them.",
+      "basis": "node-record",
+      "quote": "The third is that the porch is a wrapping, connective element, not a portico",
+      "quoted_from": "description.long",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot on this node, composition_parti; declining passes it to facade-medieval-english (delivered from jacobean), and 0 slots lose all dimensioning. No live gate either way."
+    }
   ]
 }

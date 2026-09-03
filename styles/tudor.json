@@ -259,5 +259,34 @@
       "note": "'No governing system in the classical sense', and 'windows are placed where rooms need them' -- the pack's claim stated by a style four centuries after the Norman one. This node supplies the storey-equality rule, which is the single most useful dating rule in the pack: 'storey heights nearly equal; no graduated diminution, which is what most clearly separates Tudor from Georgian at a glance'. `storey-graduation` is that rule's opposite and the two must never be bound to one node. It also gives the chimney shaft at one and a half to three times its own width above the ridge -- one of the very few things in this tradition composed for effect rather than placed by use. `opening-mullioned` keeps the four-centred arch and the light.",
       "precedence": 5
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "stone-course",
+      "reason": "The pack's own notes say what it is about: a field of coursed rubble that \"has no gauge at all, because the stone arrives as the quarry bed gives it\", against ashlar RESERVED for the corners, edges and openings rubble cannot make -- and the module is a course of the dressing precisely because the wall has none. Tudor's field is not that wall: it is red brick whose diaper patterning IS the structural bond, a gauged wall that makes its own arris and its own openings, so the stone in it is a dressing chosen for contrast rather than the wall that governs. The pack's own figures state the contradiction back: its wall_thickness_masonry note justifies 21.5 in as \"thicker than a brick wall doing the same job because rubble has no bond across its own thickness\", and its daylight_strategy ceiling is set by \"what a rubble wall needs to stand\". The node also sets its openings out by the mullion light and by a four-centred arch struck in voussoirs, not by the lintel span on which the pack's opening cap rests.",
+      "basis": "node-record",
+      "quote": "Diaper patterning in dark burnt headers across a red brick field; the pattern is structural bond, not applied render",
+      "quoted_from": "diagnostic_tells[1]",
+      "decided": "2026-09-02",
+      "note": "Governs 10 slots; declining reassigns nine of them and empties one. corner_quoin, daylight_strategy, depth_and_pile, height_proportion, reveal_masonry and wing_strategy pass to timber-bay, which tudor binds itself; wall_thickness_masonry to facade-medieval-english, also tudor's own; belt_course to jetty-overhang (english-medieval-timber-frame); foundation_expression to facade-classical (italian-renaissance). roof_material loses all dimensioning -- the only slot to do so, and the rule it loses is the Cotswold stone-slate diminishing course at 0.27 ridge-to-eaves, which no Tudor record asks for; no dimension beats that dimension here."
+    },
+    {
+      "pack": "vignola-tuscan",
+      "reason": "The pack's own subject is the Tuscan order encoded from Vignola's figures in modules and parts, the module being the semidiameter -- a classical order used as the dimensioning system for trim, entablature and porch. The node's record contradicts that at the level of the mechanism rather than the category: its lineage note on italian-renaissance says the Italian craftsmen 'brought motifs, not the system that generated them' and that no Tudor building is proportioned classically, its tells say 'No classical order anywhere used structurally; where Renaissance ornament appears it is a roundel, a putto or a shell set into a Gothic surface', and constraint tudor.c02 caps that ornament at roughly 5 percent of the elevation as inset panels only. The node also states in its own proportion_packs note that 'No order pack is bound' and why. This is not the blanket-silence case: the pack claims exactly the thing the node names and refuses.",
+      "basis": "node-record",
+      "quote": "No Tudor building is proportioned classically",
+      "quoted_from": "lineage[2].note",
+      "decided": "2026-09-02",
+      "note": "Governs 8 slots; none loses all dimensioning. baseboard and chair_rail pass to vignola-doric (roman-classical); casing, cornice, crown, door_surround, frieze and porch_depth pass to palladio-tuscan (italian-renaissance). Both successors are themselves order packs arriving through the same unbound cascade, so the decline stops a wrong pack without supplying a right one -- OQ 58's stated limit -- and those two pairs are the next thing to read for this node."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "greek-doric encodes the Greek Doric order from Stuart and Revett -- column height 4 to 6.5 diameters, entasis above the lower third, annulets, mutules per triglyph -- and dimensions column, entablature, modillion_dentil and ornament_vocabulary from it. This node refuses the classical order in its own words and bounds exactly how far classical material may go on a Tudor building: a roundel, a putto or a shell set into a Gothic surface. An entablature is none of those, and it is the one slot the pack reaches here. The node also names its own setting-out system and it is the four-centred arch and the mullion light, with the governing_logic opening 'No governing system in the classical sense'. The direction was checked against the jacobean trap: this is not an argument from column slenderness -- the node states no column proportion at all -- it is the node's own refusal of the order as such.",
+      "basis": "node-record",
+      "quote": "No classical order anywhere used structurally; where Renaissance ornament appears it is a roundel, a putto or a shell set into a Gothic surface",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-09-02",
+      "note": "Delivered by greek-classical at cascade depth 7 with no direct lineage edge. --impact: governs entablature, which falls to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. The successor is another classical order, so this stops a wrong pack without supplying a right one -- OQ 58's stated limit, and the same limit applies to any order pack reaching this node. No live gate."
+    }
   ]
 }

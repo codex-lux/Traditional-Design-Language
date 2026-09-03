@@ -253,5 +253,43 @@
       "note": "Confirmed in this pack's own applies_to, and a materially closer fit here than on its ancestor american-farmhouse-vernacular (where it is bound optional and only for the 1900-1920 tail). Constraint c04 -- board-and-batten battens at 16 or 24 in on centre aligned to the framing, minimum 1x2 nominal, not less than 3/4 in projection -- is this pack's flat-stock, board-series logic almost exactly: a batten sized against the framing module is precisely how this pack's whole family is generated ('the base is a one-by-eight because a one-by-eight is a board'). Unlike american-farmhouse-vernacular, this node has no surviving classical-order-derived trim tradition competing with it -- defining_characteristics state 'ornament essentially absent: no shutters, no keystones, no applied classical elements, no material changes at an outside corner' -- so this is the primary and effectively only trim system genuinely present, bound at role interior (this schema's slot for a governing trim family) rather than optional.",
       "precedence": 2
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "gibbs-ionic",
+      "reason": "The pack's own notes say what it is: Gibbs's Ionic order as a delta on Vignola -- an entablature at one fifth of the column, three fasciae, modillions at three quarters of a diameter, a pedestal rule. It is a classical order, and on this node it is governing `pilaster` and `door_surround`, which are applied classical elements in the literal sense. The node's defining_characteristics state flatly that applied classical elements are absent, and the node's own author already reasoned from that same sentence when binding `trim-craftsman`, writing that this node has no surviving classical-order-derived trim tradition competing with it. This is not the blanket-refusal trap: the record does not merely say 'no proportional system', it names the exact class of thing this pack supplies and says the style does not carry it.",
+      "basis": "node-record",
+      "quote": "Ornament essentially absent: no shutters, no keystones, no applied classical elements",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "Governs 4 slots: casing, cornice, door_surround, pilaster. Declining reassigns all four and strands none -- casing falls to palladio-tuscan (italian-renaissance); cornice, door_surround and pilaster fall to chambers-ionic (english-georgian). 0 slots lose all dimensioning. Note that the replacements are themselves classical orders, so this decline removes a wrong authority without supplying a right one (OQ 58's stated limit); the successor packs are separate gaps for separate adjudication. --pair reports that ENDORSING would arm build/elevation.py::gibbs_applies; a decline arms nothing."
+    },
+    {
+      "pack": "gibbs-doric",
+      "reason": "The pack's notes describe the Gibbs Doric order: an Attic base, scrolled modillions replacing mutules, a triglyph-and-metope frieze with square metopes three quarters of a diameter on a side, twenty-four semicircular flutes. That is an applied classical order, and the same sentence in the node's defining_characteristics that refuses applied classical elements refuses it. The node reinforces this where it distinguishes itself from neo-eclectic -- it reduces to one gable family, one material, one window type, and no motifs -- and its long description records that the idiom has largely stopped applying half-width shutters and three-material fronts. A pediment dimensioned off a Doric triglyph frieze is a motif this record says the style does not carry.",
+      "basis": "node-record",
+      "quote": "Ornament essentially absent: no shutters, no keystones, no applied classical elements",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "Governs 1 slot: pediment. Declining reassigns it to facade-classical (colonial-revival); 0 slots lose all dimensioning. As with gibbs-ionic the successor is itself a classical system, so the decline stops this authority without settling the slot -- facade-classical's reach over this node is a separate question."
+    },
+    {
+      "pack": "chambers-ionic",
+      "reason": "The pack's own notes say what it is without ambiguity: Chambers's Ionic as an overlay on Vignola -- eighteen modules of column, four and a half of entablature, an Attic base, Scamozzi's angular capital, a flat frieze, a pedestal at three tenths, and eustyle intercolumniation revised to 2 1/3 diameters. That is a classical order, and on this node it is governing `pilaster` and `door_surround`, which are applied classical elements in the literal sense. The node's defining_characteristics state that applied classical elements are absent, and the same sentence is already the recorded basis on which this node's author declined `gibbs-ionic` and `gibbs-doric` -- that decline's own note names chambers-ionic as the successor and flags it as a separate gap for separate adjudication. This is that gap, and the record answers it the same way. This is not the blanket-refusal trap: the record does not merely say there is no proportional system, it names the exact class of thing this pack supplies and says the style does not carry it.",
+      "basis": "node-record",
+      "quote": "Ornament essentially absent: no shutters, no keystones, no applied classical elements",
+      "quoted_from": "defining_characteristics",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots: cornice, door_surround, pilaster. Declining reassigns all three and strands none -- cornice and door_surround fall to palladio-ionic (english-palladian), pilaster to benjamin-ionic (federal-style). 0 slots lose all dimensioning. As with gibbs-ionic and gibbs-doric the successors are themselves classical orders, so this decline stops a wrong authority without supplying a right one (OQ 58's stated limit); palladio-ionic and benjamin-ionic over this node are separate gaps for separate adjudication. This is the third decline of a classical order on this node and the successor chain is not exhausted -- oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times. --pair reports no live gate: endorsing would have changed no behaviour, and the decline arms nothing."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes describe nothing but an applied classical order quoted from Ware: a column of nine modules, an entablature a fifth of the column divided 4:3:5, an architrave divided into five with a cimacio, a cornice divided into seven and three quarters, an Attic base of half a diameter. On this node it arrives governing `cornice` and `door_surround`, and a door surround dimensioned off an Ionic module is an applied classical element in the literal sense. The node's defining_characteristics say flatly that this style carries none, and its governing_logic explains why in terms fatal to a profile-based order: composition here 'proceeds by silhouette and colour value rather than by profile and shadow', with wall-to-trim luminance contrast doing the work a moulding's projection would do. This is the same sentence and the same class of pack on which the node has already declined `gibbs-ionic`, `gibbs-doric` and `chambers-ionic`; palladio-ionic is the fourth order reaching the same slots down the same cascade.",
+      "basis": "node-record",
+      "quote": "Ornament essentially absent: no shutters, no keystones, no applied classical elements",
+      "quoted_from": "defining_characteristics[6]",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 14 with no direct lineage edge. Governs 2 slots (cornice, door_surround); both pass to palladio-tuscan (italian-renaissance) and 0 slots lose all dimensioning. Stated plainly, as the node's three earlier order declines were: the successor is itself a classical order, so this decline removes a wrong authority without supplying a right one -- OQ 58's stated limit one layer down, and a separate gap for separate adjudication. --pair reports no live gate either way, so the decline changes dimensions only and arms nothing."
+    }
   ]
 }

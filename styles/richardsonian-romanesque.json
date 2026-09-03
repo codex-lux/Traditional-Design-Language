@@ -255,5 +255,34 @@
       "note": "JUDGMENT BINDING. Not in this pack's applies_to. Bound over room-vernacular because the node explicitly credits 'Beaux-Arts parti discipline' organizing the plan beneath the Romanesque forms, and Richardson is documented as the second American to study at the Ecole des Beaux-Arts — a formally trained, hierarchically composed plan is closer to this pack's rank-and-suite logic (adjacent rooms differing by one term of the series, breadth held constant across a suite) than to room-vernacular's structurally-constrained folk room. No specific source ties Richardson's own room dimensions to Palladio's ratios, and this binding should be read as 'the closest available system for a formally planned room,' not as a documented fact about Richardson's practice.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-pavilion",
+      "reason": "The pack's own notes make its subject a composition in vertical strips, and its composition_parti rule states the travee is \"16 ft on centre and UNIFORM ALONG A RANGE\" -- \"a French range does not graduate its bays or widen a centre one, it repeats a strip\" -- while its dormer rules put exactly one lucarne per travee at 0.6 to 0.9 of the bay's width. The node's bay_rhythm refuses that repetition in the same terms the pack asserts it, and its tell places windows \"grouped in bands of three or five under a single relieving arch or lintel, rather than distributed one per bay\", so there is no one-opening-per-bay axis for a strip to stand on or a lucarne to cap. The massing record adds that mansard-block is forbidden because \"A mansard converts mass into crown and destroys the continuity the style depends on\", which is the pack's third item. This is a contradiction of the pack's stated mechanism, not merely of its figures.",
+      "basis": "node-record",
+      "quote": "The rhythm is A - BBB - A, not A-A-A-A.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 2 slots; declining loses no dimensioning at all -- composition_parti passes to facade-peristyle (roman-classical) and dormer to storey-graduation (beaux-arts-french); 0 slots lose all dimensioning."
+    },
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes name the bay count first and call it \"the only decision here that is nearly binary: odd bays compose about a centre\", and its module is defined as \"the centre-to-centre spacing of the vertical rank of openings on the principal elevation, which is also the width of wall each opening is entitled to\" -- one opening per bay, equal within a storey on Palladio's authority. The node's bay_rhythm refuses that mechanism in the pack's own terms, and its tell says window openings are \"grouped in bands of three or five under a single relieving arch or lintel, rather than distributed one per bay\", so there is no rank of one-per-bay openings for the module to measure. The pack's stated NEGATIVE CASE directs exactly this building elsewhere -- a composed front asserts one public face and one axis, and \"Where it is false, the honest move is not to apply the composition anyway but to go to the picturesque system\" -- and the node is symmetry balanced-asymmetrical with facade-picturesque already bound as its primary. The node's Beaux-Arts credit does not rescue the pack: it is stated of the PLAN (\"Beaux-Arts parti discipline organises the plan beneath it\") while the node's own elevation logic is \"Governed by mass and by the arch.\"",
+      "basis": "node-record",
+      "quote": "The rhythm is A - BBB - A, not A-A-A-A.",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot; pediment loses all dimensioning (nothing else in the cascade reaches it). Accepted as honest: the node's record states no pediment anywhere and a classical pediment is not part of the style's vocabulary, so no dimension is better than a composed-classical one. No other slot moves."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "facade-peristyle proportions the colonnade rather than the column: a front of two to eight columns with a flank of five to seventeen, intercolumniation bands of 1.2 to 4.0 diameters, Vitruvius's function making column height 8 to 10 diameters, a portico taking a half to three fifths of the front, a podium at a quarter of the column, and the Greek refinements. Every one of those presupposes a tall column standing in a screen in front of a wall. This node states its column for itself at 2 to 3.5 shaft diameters, which is below the pack's whole range of 8 to 10 rather than above it, and its first tell warns that a tall slender column under a round arch is a later commercial imitation. The node's governing element is the arch springing from the ground, its wall opening area is 20 to 35 percent because 'the wall must win', and its record says outright there is no porch. The pack governs composition_parti here, and that slot carries portico_share, corner_contraction and centre_bay_widening -- a portico occupying a half to three fifths of the front, on a node whose own tell says there is no porch. (It is NOT where the pack's screen-versus-wall rule sits: `screen_offset`, which the pack itself calls its central rule, targets window_grouping_rule. An earlier draft of this sentence said otherwise.)",
+      "basis": "node-record",
+      "quote": "Column height 2 to 3.5 shaft diameters where columns are used at all",
+      "quoted_from": "proportional_system.typical_ratios[2]",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 12 with no direct lineage edge. --impact: governs composition_parti, and declining leaves that slot with NO dimensioning at all -- 1 slot loses all dimensioning. That is a could-not-evaluate rather than a wrong figure, which is the honest state; the node's own record names mass, the arch and Beaux-Arts parti discipline as what organises it, and no pack in the cascade states that. No live gate."
+    }
   ]
 }

@@ -265,5 +265,16 @@
       "authority": "moorish-arch",
       "note": "The vernacular the Alhambra's domestic work is the grand end of: the same arcade around the same court, in plaster rather than in stone. Primary because the arcade IS this type's structure and its composition at once."
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "opening-proportion",
+      "reason": "The pack's own notes say what it is: it \"owns the RECTANGLE: the ratio of an opening, where its head sits, how it diminishes by storey, how wide its surround is and what the sidelights and transom do\", on Palladio Bk I chs. XXV-XXVI, and it names as its three most useful rules the single head datum shared by every opening on a storey, the window width taken as a quarter to a fifth of the room's breadth, and the architrave at a sixth to a fifth of the void. That is an applied compositional system for openings, not a trade fact like sash-light's pane size, so the node's governing_logic refuses it head-on rather than blanket: this house's whole proportional system is named exhaustively as a shading calculation and a joist span, and the record then contradicts the pack rule by rule -- \"The street elevation has no rhythm worth the name and is not meant to\" against the head datum and the equality-within-a-storey rule; \"Blind or near-blind street elevation with small, high, iron-grilled (reja) openings\" and \"Street openings under 8 percent of street wall area\" against the window-width-from-the-room rule; and \"there is no entablature and no classical order to invoke\" against window_head_wood, whose authority note derives the head from trim-classical's entablature bed at sixteen nineteenths of the ceiling. The rules actually landing here are a Venetian window at four side-light widths, Georgian-Federal sidelights and transom, and a wood surround, delivered to a lime-rendered mass wall whose only trim is a wrought reja that bows out of the face. This is not a coincident number being over-read -- the figures do not coincide, they run opposite -- and the delivery arrives four steps down the cascade from roman-classical with the node absent from all 52 entries of applies_to.",
+      "basis": "node-record",
+      "quote": "Nothing here is compositional — the whole proportional system is a shading calculation and a joist span.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Governs 6 slots; all 6 lose all dimensioning -- entry_door, secondary_door, special_window, transom_sidelight, window_head_wood, window_sill. Nothing else in the cascade reaches any of them, and that is accepted: a Palladian 2:1 entrance with sidelights and a transom is a worse answer for a zaguan than no answer. The three court-and-arcade packs the node binds itself (moorish-arch primary, adobe-module, facade-arcade) are untouched. --pair reports that ENDORSING would arm build_elevation's scope gate (half of an AND with facade-classical); a decline leaves that gate shut, so the arming is moot here."
+    }
   ]
 }

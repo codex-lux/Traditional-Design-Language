@@ -287,5 +287,61 @@
         "ornament_vocabulary/event_count"
       ]
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-picturesque",
+      "reason": "The pack's own notes state its subject plainly: an elevation with no axis, held together by a dominant mass and by continuous horizontal datums -- 'In a classical front the axis does the ordering... In a picturesque front there is no axis.' This node's tell says the opposite in one clause and its symmetry field reads near-symmetrical, with massing described as simple, blocky and largely rectilinear. The five rules that actually reach it are the off-axis entrance distance, the dominant-roof fraction, the balancing porch width, and two rules for a second cladding material -- against a record whose wall is one uninterrupted stucco plane and whose c04 forbids any horizontal articulation of it at all. The node's own shingle-style lineage note names what it took from the picturesque -- 'a continuous unbroken skin over a simplified mass' -- which is the half this pack does not dimension.",
+      "basis": "node-record",
+      "quote": "Composition is symmetrical or simply rectilinear",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "governs 5 slots; declining loses entry_sequence entirely (no other pack dimensions it) and passes material_change_rule to log-module (swiss-chalet), porch_type to facade-peristyle (roman-classical), roof_form to facade-pavilion (beaux-arts-french), secondary_cladding to corbel-course (tuscan-vernacular). 1 slot loses all dimensioning."
+    },
+    {
+      "pack": "vignola-corinthian",
+      "reason": "The pack is Vignola's Corinthian stated in modules -- column 20, entablature 5, pedestal 7 -- and it dimensions the classical trim family: baseboard, casing, chair rail, cornice, entablature, frieze, modillion, pilaster, wainscot. The node's governing_logic refuses exactly that instrument in its own words. This is not the blanket-sentence trap: the sentence bites because the pack's subject IS an order and a module, and the node has already made the argument for itself once -- its trim-craftsman binding note cites 'no order and no module' as what 'rules out any trim family derived from a classical entablature'.",
+      "basis": "node-record",
+      "quote": "There is no order and no module",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node. The trim slots are already held by trim-craftsman, bound by the node at precedence 1."
+    },
+    {
+      "pack": "brick-course",
+      "reason": "The pack's stated subject is that in a brick building there are no free horizontal dimensions above the water table -- storey, sill, head, belt course and plate all whole numbers of courses off one datum, read off the mason's rod. This node's record says its wall is not that assembly, and its c04 forbids the two members the pack proportions from and through: 'no belt course, quoin, water table, or cornice'. The coursing datum this pack works off does not exist in this style's wall, and the record says so in its own words rather than by inference from a cladding id.",
+      "basis": "node-record",
+      "quote": "The revival is stucco over wood frame with normal fenestration",
+      "quoted_from": "distinguished_from[1].difference",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node. No slot loses dimensioning."
+    },
+    {
+      "pack": "vignola-composite",
+      "reason": "The pack's own stated subject is one of the five classical orders set out in modules — it dimensions the classical trim family (baseboard, belt_course, casing, chair_rail, cornice, crown, door_surround, entablature, frieze, modillion_dentil, wainscot, window_surround_wood) off a column-and-entablature module. The node's governing_logic refuses that instrument in its own words, and this is not the blanket-sentence trap: the sentence bites precisely because the pack IS an order and a module. The node has already made this argument about itself twice — its trim-craftsman binding note cites 'no order and no module' as what rules out any trim family derived from a classical entablature, and it declines vignola-corinthian on this exact clause. Declining the Composite and keeping the Corinthian declined would be one order judged and its sibling left standing on the same record.",
+      "basis": "node-record",
+      "quote": "There is no order and no module",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot (frieze); declining passes frieze to palladio-tuscan (italian-renaissance). 0 slots lose all dimensioning. Note that the successor is itself a classical order pack reaching this node by the cascade — a decline stops a wrong pack and does not supply a right one (OQ 58's stated limit); the frieze remains an unjudged cascade delivery."
+    },
+    {
+      "pack": "vignola-ionic",
+      "reason": "Same subject as the Composite and the already-declined Corinthian: the pack's notes state its skeleton as Vignola's own module arithmetic — module of 18 parts, column 18 modules, entablature 4 1/2, pedestal 6 — and it dimensions the same classical trim family. The node's governing_logic states that neither instrument exists in this style, and its own trim-craftsman binding note reads that clause as ruling out any trim family derived from a classical entablature. Declining is consistent with the record's own reading of itself rather than an inference from the pack's name or from the ancestor it arrived through.",
+      "basis": "node-record",
+      "quote": "There is no order and no module",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots; declining changes no dimension on this node. No slot loses dimensioning. It arrives from french-neoclassical at cascade depth 6 with no direct lineage edge."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay is a module-system whose module is the structural bay of a box frame, bent centre to bent centre at 16-20 ft, with the partitions and window jambs falling near the posts and the test 'can you draw the frame?'. The node's governing_logic states that there is no module here at all and names what does the work instead: the arcade bay and the parapet profile, the latter drawn as a freehand curve rather than constructed geometrically. Its bay_rhythm says the arcade sets a regular rhythm at the ground while upper openings are placed by convenience and rarely align, because the wall is conceived as a continuous mass -- which is the opposite of a bent spacing regulating both storeys. The pack currently governs ceiling_height_rule, hearth_position, room_adjacency_overrides and stair_position on this node, none of which the record derives from a frame. The building IS stucco over wood frame, and that is stated rather than hidden: it is light stud framing behind a wall conceived as mass, not an English box frame of bents, and the pack's own module is the bent.",
+      "basis": "node-record",
+      "quote": "There is no order and no module; proportion is set by the arcade bay and by the parapet profile",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by norman-vernacular at cascade depth 11 with no direct lineage edge. Governs 4 slots -- ceiling_height_rule, hearth_position, room_adjacency_overrides, stair_position -- all four passing to log-module (swiss-chalet) on a decline; 0 slots lose all dimensioning. Stated plainly: log-module is another vernacular structural module and its arrival on a California stucco revival is the next adjudication for this node, which this pass does not make. timber-bay's applies_to is a LIVE gate: endorsing would switch span_check's capacity in build/structure.py from the light-frame joist table to the bay module's own, with build/geometry_cp.py reading the same list. Declining arms nothing and keeps the light-frame table, which is the correct table for a 1890-1920 stud-framed building."
+    }
   ]
 }

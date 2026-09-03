@@ -253,5 +253,16 @@
       "note": "Optional, AND FOR HALF OF WHAT THIS NODE HAS. Its 'galleries (Lauben) running the full width of the gable face under the overhang, with SAWN or turned balustrades' are this family -- the same machines, the same members. Its 'carved and inscribed facade band' is not, and neither is the carved bargeboard: carving is a hand craft with a gouge and this whole pack is about machines. WP-4.1 lists Alpine bracket and carved-timber ornament as its own item and it stays there; binding this node for the sawn work and refusing it for the carved work is the honest split, and the pack's notes say so.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "jetty-overhang",
+      "reason": "The pack's own module note says what it dimensions: \"The floor joist: the depth of the second-floor joist whose cantilever is the jetty\", and its notes insist a jetty \"is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by the member cantilevering\"; its second device is a chamfer \"cut out of a single continuous post\" and its pendant count is \"however many posts there are\". Every device it dimensions presupposes a post-and-joist skeleton, and this node's own distinguished_from entry, written against german-fachwerk itself -- the ancestor that delivers the pack -- says its wall is a solid stacked wall with no frame at all and that the two are structurally opposite systems. The counterweight was weighed and does not carry: the lineage note does admit Bohlenstanderbau and Standerbau post-and-beam in the Swiss Mittelland, but it draws the boundary in the same breath (\"The chalet proper is the alpine end of one continuous carpentry region\"), the defining characteristics lead with Blockbau, and every one of the record's twenty-two uses of \"overhang\" is a roof or gable overhang carried on stepped purlin ends, or the Lauben gallery -- never an upper storey cantilevering past the wall below. The record names no jetty, joist, bressumer, soffit or drop anywhere, so this is a contradiction of the pack's stated mechanism rather than a silence about it.",
+      "basis": "node-record",
+      "quote": "Fachwerk is a skeleton frame with infill panels; Blockbau is a solid stacked wall with no frame at all",
+      "quoted_from": "distinguished_from[1].difference",
+      "decided": "2026-09-02",
+      "note": "governs 0 of its 7 slots (belt_course, depth_and_pile, expressed_frame, material_change_rule, ornament_vocabulary, wall_thickness_frame, window_grouping_rule are all governed by higher-precedence packs); no slot loses any dimensioning and declining changes no dimension on this node. --pair reports no live gate, so this moves the meter only."
+    }
   ]
 }

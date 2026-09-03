@@ -23,7 +23,17 @@ The four things it asserts, and why each one is here rather than assumed:
    instant the file is a drawing. The plate itself must also say so -- an SVG this corpus
    generated and did not disclose is the same lie one layer down.
 
-4. NO LICENCE IS ASSERTED WITHOUT EVIDENCE. `license` is a conclusion a person draws;
+4. A BUILDING NAME TRACES TO AN EXEMPLAR, OR IT IS AN UNSOURCED CLAIM ABOUT SOMEBODY'S HOUSE.
+   `provenance.building` is what `harvest_habs.py` SEARCHES ON, so a wrong one does not fail --
+   it fetches a photograph of the wrong building and files it against a style. Nothing checked
+   it: `name_asset_buildings.py` deals each record round its depicted node's own `exemplars`,
+   and a hand-typed name that matches no exemplar was indistinguishable from a dealt one. The
+   name and its location must both be an exemplar's, on a node the record says it depicts. And
+   a building belongs only on a record that wants a PHOTOGRAPH of a real house: the assigner
+   keyed on `role` once and gave 52 line-diagrams a real building, which is the defect this
+   turns from a fixed bug into a standing rule.
+
+5. NO LICENCE IS ASSERTED WITHOUT EVIDENCE. `license` is a conclusion a person draws;
    `rights_evidence` is what a source actually said. A record carrying a licence stronger than
    `unknown` on material this project did not author must carry the evidence it was read from.
    The Library of Congress's rights sentence is byte-identical on a government photograph and on
@@ -41,6 +51,16 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ASSETS = os.path.join(ROOT, "assets", "manifest.json")
 SCHEMA = os.path.join(ROOT, "schema", "asset.schema.json")
+
+def _exemplars():
+    """node id -> its `exemplars`, from `name_asset_buildings.py` -- the module that WRITES the
+    names, so the reader and the writer cannot drift into two answers about what an exemplar is."""
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    n = modcache.load("name_asset_buildings",
+                      os.path.join(ROOT, "build", "name_asset_buildings.py"))
+    return n.exemplars_by_node()
+
 
 # A licence this project may assert about its own generated work without citing anyone.
 OWN_WORK = ("owned",)
@@ -60,6 +80,7 @@ def main():
     schema = json.load(open(SCHEMA))
     assets = doc.get("assets") or []
     errs = []
+    EX = _exemplars()
 
     for a in assets:
         aid = a.get("id", "<no id>")
@@ -114,6 +135,34 @@ def main():
                     errs.append("%s: the plate does not say it is generated. Prose beside an "
                                 "image does not travel with it." % aid)
 
+        building = prov.get("building")
+        if building:
+            if a.get("kind") != "photograph":
+                errs.append("%s: names the building %r and is kinded %r. A building belongs on a "
+                            "photograph of one; a drawing of a rule has nothing to go and look at."
+                            % (aid, building, a.get("kind")))
+            elif a.get("role") == "incorrect":
+                errs.append("%s: names the building %r on a `role: incorrect` record. The corpus "
+                            "names buildings that exemplify a style and never ones that exemplify "
+                            "a fault, so this is a claim about somebody's house." % (aid, building))
+            else:
+                nodes = (a.get("depicts") or {}).get("nodes") or []
+                pool = [e for n_ in nodes for e in EX.get(n_, [])]
+                hit = [e for e in pool if e.get("name") == building]
+                if not pool:
+                    errs.append("%s: names the building %r and depicts no node that records an "
+                                "exemplar, so the name traces to nothing." % (aid, building))
+                elif not hit:
+                    errs.append("%s: names the building %r, which is not an exemplar of any node "
+                                "it depicts (%s). A building name is what the harvester searches "
+                                "on -- an untraceable one fetches a photograph of the wrong house."
+                                % (aid, building, ", ".join(nodes) or "none"))
+                elif prov.get("location") and not any(
+                        e.get("location") == prov["location"] for e in hit):
+                    errs.append("%s: names %r at %r; the exemplar records %r. The location is half "
+                                "the query." % (aid, building, prov["location"],
+                                                (hit[0].get("location") or "no location")))
+
         lic = prov.get("license")
         if lic and lic not in ("unknown",) + OWN_WORK:
             if not prov.get("rights_evidence"):
@@ -151,8 +200,10 @@ def main():
             print("  ... and %d more" % (len(errs) - 40))
         print("\n%d asset problem(s)" % len(errs))
         return 1
-    print("%d asset record(s) valid; %s; every sourced record has the file it claims."
-          % (len(assets), ", ".join("%s %d" % (k, v) for k, v in sorted(by_status.items()))))
+    named = sum(1 for a in assets if (a.get("provenance") or {}).get("building"))
+    print("%d asset record(s) valid; %s; every sourced record has the file it claims; "
+          "%d name a building and every one of them is an exemplar of a node the record depicts."
+          % (len(assets), ", ".join("%s %d" % (k, v) for k, v in sorted(by_status.items())), named))
     return 0
 
 

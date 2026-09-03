@@ -249,5 +249,61 @@
       "note": "Bound optional and low, with a real caveat the node itself supports: this node's own diagnostic tells state that Prairie suppresses structural evidence Craftsman displays, and its distinguished_from entry against craftsman is explicit that Prairie's soffit is clean where Craftsman's shows rafter tails and knee braces -- so this pack's exterior vocabulary (rafter tails, knee braces, exposed structure) does not belong here at all. What plausibly does is the interior catalog-millwork descendant: the 'Prairie box' foursquare that carried the style to most of the country by plan-book (a common massing affinity here) was very often built and trimmed by the same regional lumberyards that supplied Craftsman bungalows next door. It does NOT describe Wright's own architect-designed interiors, whose bespoke geometric oak trim and art-glass-derived ornament are a real gap in this pack set: no pack here owns a first-principles, non-catalog Prairie interior system, and none should be invented for one. SUPERSEDED IN PART, 25 Aug 2026: `trim-prairie` now owns it, reconstructed from measured fabric rather than invented, and takes the interior role on this node. THIS BINDING STAYS AND IS NOT DEMOTED FURTHER, because the sentence above it is still true and is the reason: the plan-book 'Prairie box' really was trimmed out of the same regional catalogue sections as the bungalow next door, and this pack is what describes that house. The node now carries both, in the same shape as `greek-doric` beside `benjamin-doric` -- one pack for what the architects drew, one for what the trade built.",
       "precedence": 2
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-gable",
+      "reason": "The pack's own module note says the question prior to every dimension in it is which of three objects is being drawn — the end of a roof, a parapet carried past the roof plane, or a screen standing free of it — and every rule under it (crow-step tread and rise, coping thickness, parapet height, apex over base, gables per front, the flush-faced gabled dormer, curves per side in a shaped gable) applies to at least one of those three. This node has none of them: its hard constraint c01 disqualifies a gabled principal roof outright, its separation from craftsman is that Prairie 'roofs in hips over casement bands', its eave soffit is stated as a continuous closed plane, and even the plan-book foursquare affinity specifies a hipped dormer. This is not a blanket refusal of proportional systems standing in for a reading of the pack — the node names the pack's own object and forbids it. The figures the pack carries are Flemish, Scottish, Jacobean and Cape Dutch, and there is nothing here for them to measure.",
+      "basis": "node-record",
+      "quote": "A gabled principal roof or an overhang under 24 in disqualifies the node.",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning."
+    },
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's notes name the bay count as the one decision in it that is 'nearly binary' — odd bays compose about a centre, even bays do not — and this node's bay_rhythm answers that it is not bayed at all, the compositional unit being the band with solid wall between bands rather than between windows. The pack's own negative case then states the discriminator explicitly: a composed classical front asserts one public face, one axis and one entrance, and where that is false the honest move is the picturesque system rather than the composition anyway. This node's c04 forbids the entry from being centred on the principal street elevation, its symmetry is balanced-asymmetrical, its tells say the front door cannot be found from the sidewalk, and it already binds facade-picturesque in the primary role — the node has taken the pack's own advice in advance. Its eighth defining characteristic also refuses the orders the pack's opening and horizontal rankings are drawn from.",
+      "basis": "node-record",
+      "quote": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning. --pair reports that ENDORSING would arm a live check (build/elevation.py, the build_elevation scope gate, 'the other half of that AND'); this verdict is a decline, so that gate is not armed by it — arms_gate below is the factual echo of the --pair line, not a claim that this verdict turns the check on."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "The pack's own notes say what it is about in its first line: it is Chambers's Doric ORDER as an overlay on Vignola — the attic base, the single-fascia architrave after the Theatre of Marcellus, the pedestal at three tenths, the diminution by Blondel's conchoid, the column-height band, and an entablature divided two-three-three. Its whole content is the proportioning of a classical order, and it dimensions column, crown, frieze, modillion_dentil, pilaster and porch_support from a semidiameter divided into thirty minutes. This node's eighth defining characteristic names that object and forbids it outright, and its hard constraint c02 forbids any classical or revival ornament besides; there is no order on a Prairie house for these minutes to divide. This is not a blanket refusal of proportional systems standing in for a reading of the pack — the node's own record names orders in the same word the pack is written in.",
+      "basis": "node-record",
+      "quote": "No historical reference of any kind — no orders, no revival motifs, no applied period detail",
+      "quoted_from": "defining_characteristics[7]",
+      "decided": "2026-09-02",
+      "note": "governs 0 slots on this node; --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning. It arrives from english-georgian at cascade depth 7 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's notes state its subject as the thing the order packs do not answer — how many columns there are, where they stand, what they stand on, and what the wall behind them is doing — across a peripteral temple, a Roman arch order and a colossal revival portico; and its module note says in terms that THE MODULE IS THE BAY, the axial intercolumniation from column centre to column centre along the front. This node's bay_rhythm answers that its front is not bayed at all: the compositional unit is the horizontal band, subdivided by mullions at a casement module, with solid wall occurring between bands rather than between windows. Its eighth defining characteristic also refuses the orders the pack is arranging, so there is neither a colonnade to count nor an intercolumniation to set. The pack's four settlements of screen-versus-wall all presuppose a columned screen this node does not have.",
+      "basis": "node-record",
+      "quote": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "governs 1 slot: composition_parti; declining passes it to facade-pavilion (beaux-arts-french). 0 slots lose all dimensioning. The decline stops this pack and does not supply a right one — facade-pavilion is itself a classical successor, which is OQ 58's stated limit one layer down and not settled by this verdict. It arrives from english-palladian at cascade depth 9 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's module note states its premise in one sentence: THE MODULE IS THE VOID AND NOT THE PIER, because 'an arcade is a rhythm of openings interrupted by supports, not a wall with holes in it'; and its largest plan rule makes the arcade the building's own shaded circulation at 12 ft deep and 9 ft clear. The node answers both. Its bay_rhythm says the front is not bayed at all -- the compositional unit is the horizontal band and solid wall occurs between bands rather than between openings -- so there is no void-and-support rhythm for the pier ratio, the bay centres or the bay count to measure. Its c03 requires every window head to die into a single continuous lintel band returning around every corner without interruption, which is the opposite of a head springing from an impost; and its circulation is internal, the plan 'pinwheeling about a massive central masonry chimney'. I weighed the descends_from note to richardsonian-romanesque, which names 'the low sheltering arch' as an inheritance through Sullivan's office, and did not let it decide: one sheltering arch is not a run of bays with imposts, an archivolt depth and a third of its elevation open, which is what this pack dimensions and what the node's own bay_rhythm refuses. It is the same sentence on which the node has already declined `facade-classical` and `facade-peristyle`.",
+      "basis": "node-record",
+      "quote": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 12 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning; no live gate. Worth recording for whoever reads the Romanesque edge later: prairie-school descends_from richardsonian-romanesque, which IS in facade-arcade's applies_to, so the pack has a plausible-looking route here -- and the delivery the cascade actually makes is from italian-renaissance, twelve deep."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "palladio-corinthian is an order-system overlay and its whole content is the proportioning of a classical order off a module -- the same class of pack, reaching the same kind of slot, as the `chambers-doric` this node has already declined. The node's eighth defining characteristic names that object in the pack's own word and forbids it outright, and its hard constraint c02 forbids 'any classical or revival ornament' besides. There is no order on a Prairie house for a Corinthian module to divide: the eave soffit is stated as a continuous closed plane with no brackets, the wall surfaces are 'continuous and unornamented', and the governing_logic is explicit that vertical proportion is handled by ceiling-height differentiation rather than by a facade ratio, so even the pack's height_proportion has nothing to govern.",
+      "basis": "node-record",
+      "quote": "No historical reference of any kind — no orders, no revival motifs, no applied period detail",
+      "quoted_from": "defining_characteristics[7]",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning and no live gate is armed either way."
+    }
   ]
 }

@@ -241,5 +241,33 @@
       "note": "One of the thinnest-bound nodes in the corpus, and the one that most needed a facade pack: 'the gable end turned to the street or canal; the short elevation is the ONLY DESIGNED FACE'. Its facade at 3:1 to 4:1 height to width is the pack's most extreme proportion and is what a canal house is -- a gable with a building behind it. Two things this record adds that the pack carries into its structural conflict: the composition 'resolving on a single vertical axis at the apex', which is what the finial is for, and the vlucht, a facade built deliberately leaning forward so hoisted goods clear the wall, which is a permanent eccentric load on an already slender wall.",
       "precedence": 3
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay's own module note defines its unit as bent-centre to bent-centre in an English box frame, and its closing test is whether the plan resolves into bays with the partitions and window jambs falling near the posts. This node states a different bearing system outright: brick party walls carry the building and timber appears only as floor beams laid across the narrow dimension, with a front wall the record calls impossible if it were bearing because the windows take 50-65 percent of it. There are no bents to count and no post line for a jamb to land on, so the beam span coincides with the pack's 16-20 ft band the way a hewn log does while the mechanism behind it is masonry. The three rules that actually reach here are all consequences of that absent frame -- a first-period New England flush eave where this node carries its party walls above the roof plane as a fire wall, a 45-degree common-rafter pitch over a single bay, and a storey diminution set by what one tree gave a post.",
+      "basis": "node-record",
+      "quote": "Load-bearing brick party walls carried above the roof as fire walls, with timber floor beams spanning the narrow dimension",
+      "quoted_from": "defining_characteristics[1]",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots -- eave_condition, height_proportion, roof_pitch. All three lose all dimensioning: --impact reports NOTHING for each, and none of the node's own bound packs (brick-course, room-vernacular, facade-gable) reaches them. Accepted as honest: no eave projection beats a New England rafter-foot figure on a house whose street front is a masonry gable screen and whose flanks are fire walls carried past the roof. Declining also leaves span_check on the light-frame joist table rather than switching it to the bay module's 16-20 ft capacity, which the node's own c01 caps at 24.6 ft of party-wall span -- a separate question, and not one this pack answers correctly either."
+    },
+    {
+      "pack": "timber-panel",
+      "reason": "timber-panel's own module note says the module is the non-load-bearing infill panel between studs of an expressed timber frame -- 'The panel is a screen in a structural frame' -- and its rules dimension a panel 18-52 in wide at 1:1 to 1:4, a stud face standing 1 1/5 in proud of that panel, a jetty, and a 6 in framed wall a quarter the thickness of masonry. The node's record contradicts the pack's subject in the sentence that exists precisely to separate it from Fachwerk: the canal house hides its timber entirely inside brick and expresses the masonry gable and the anchor plates instead, its walls being load-bearing brick party walls with timber only as floor beams laid across the narrow dimension. There is no expressed frame to stand proud, no panel to infill and no framed wall to be thin. This is the same mechanism the node already used to decline timber-bay, one layer in: the timber is present and it is not the wall.",
+      "basis": "node-record",
+      "quote": "The canal house hides its timber entirely inside brick and expresses instead the masonry gable and the anchor plates",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02"
+    },
+    {
+      "pack": "jetty-overhang",
+      "reason": "The pack's own notes make its subject a framed overhang and its drops, and state the decision everything follows from: 'THE MODULE IS THE JOIST, NOT THE BAY ... a jetty is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by the member cantilevering'. On this node it dimensions expressed_frame, wall_thickness_frame and material_change_rule. It reaches the node from german-fachwerk at cascade depth 3, and the node's own distinguished_from entry against german-fachwerk is the exact sentence that refuses it: the timber is hidden entirely inside brick and what the face expresses is the masonry gable and the anchor plates. The node's defining characteristics put the structure in load-bearing brick party walls carried above the roof as fire walls with timber floor beams spanning the narrow dimension, and its governing_logic makes the storey height follow that beam's span, not a cantilever. The forward lean the node does state -- the vlucht at 1:25 to 1:60 of facade height, required by c03 so hoisted goods clear the wall -- is a leaning masonry wall and not a framed overhang; reading it as a jetty would be exactly the coincidence-read-backwards this exercise warns about.",
+      "basis": "node-record",
+      "quote": "The canal house hides its timber entirely inside brick and expresses instead the masonry gable and the anchor plates",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02",
+      "note": "Delivered by german-fachwerk at cascade depth 3 with no direct lineage edge -- the pack arrives from the very node this sentence distinguishes the style against. Governs 3 slots and ALL THREE lose all dimensioning on a decline: expressed_frame, material_change_rule and wall_thickness_frame have no successor anywhere in the cascade. That is the intended outcome and not a cost to be weighed against the decline -- the node states that it expresses no frame, so an undimensioned expressed_frame is the honest record and a dimensioned one is a false one. Stated so the next reader is not surprised: the node DOES have real vertical material changes (the speklagen bands of white or sandstone crossing dark brick, tell 2), but this pack's material_change_rule is the stone-below/timber-above line taken at a jetty, which is not that. The node already declines timber-panel on this same sentence."
+    }
   ]
 }

@@ -250,5 +250,16 @@
       "note": "Colombage with 'briquette-entre-poteaux or bousillage infill, stuccoed or weatherboarded' -- the same system in a fourth language, and the node that makes the pack's climate conflict concrete. The infill here is named for what fills it (little bricks between posts; mud-and-moss) and the wall is then COVERED, which is the historical norm the pack argues for and which revival work reverses. `balcony-gallery` and `room-vernacular` hold this node's other systems and neither touches the wall.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes place it on the peripteral temple, the Roman arch order and the colossal portico -- how many columns there are, where they stand and what they stand on -- and the three rules it actually delivers to this node are a portico taking half to three fifths of the front, a centre bay opening a third wider 'to frame the entrance', and a stair up one face of a podium. The node's front is four bays, even-numbered, with no privileged bay, and its own tell says there is 'no way to tell which is the entrance': there is no centre for the centre-bay rule to widen and no plain wall each side for a portico to be an event against. Its front shelter is stated as an exclusive either/or -- a posted galerie not less than 6 ft deep, or an abat-vent projecting 30-48 in on brackets or rods with no posts to grade -- and neither is the two- or three-rank column porch the pack's porch_type delivers, while its floor sits 12-36 in above grade on brick piers rather than on a crepidoma or a podium. The pack names the difference from the other side itself, calling the Southern plantation's wrapped colonnade 'a Creole gallery with a Greek order on it'.",
+      "basis": "node-record",
+      "quote": "Even-numbered and centreless by design; there is no privileged bay",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "Governs 3 slots and declining strands all three: composition_parti, porch_type and steps_and_stoop each lose all dimensioning, with no pack behind them. Accepted as honest -- the node states its own galerie depth (6-10 ft), abat-vent projection (30-48 in) and floor height above grade (12-36 in), and no dimension beats a podium-and-portico dimension on a house that admits neither."
+    }
   ]
 }

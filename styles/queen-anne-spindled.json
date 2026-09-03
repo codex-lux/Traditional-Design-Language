@@ -226,5 +226,34 @@
       "note": "The fullest expression of the family and the source of most of its porch figures: posts 5-8 in at the swell spaced 6-9 ft, spindle frieze 10-18 in deep with spindles 1.5-2.5 in at 3-5 in on centre, and a bracket or knee brace 12-24 in on the diagonal at every post head. This record also gives the rule that makes the frieze read: it is 'suspended beneath the porch head, running the full length of the porch', so a valance that stops and restarts at each post is a series of panels and a weaker thing.",
       "precedence": 4
     }
+  ],
+  "declined_packs": [
+    {
+      "pack": "facade-classical",
+      "reason": "The pack's own notes state its negative case in its own words: a composed classical front asserts that the building has one public face, one axis and one entrance, and where that is false the honest move is to go to facade-picturesque rather than apply the composition anyway. This node is that false case stated three times over -- its symmetry is picturesque-asymmetrical, its bay_rhythm is an irregular window rhythm set by rooms, and its defining characteristics name the absence of the very vocabulary the pack dimensions (cornice, frieze, pilaster, pediment, door_surround, special_window). The node has already taken the pack's own advice: facade-picturesque is its precedence-1 binding. This is not a name clash -- the record contradicts the pack's stated subject and prescribes the pack's own stated alternative.",
+      "basis": "node-record",
+      "quote": "Absence of classical detail: no column with entasis, no dentil or modillion cornice, no Palladian window",
+      "quoted_from": "defining_characteristics[6]",
+      "decided": "2026-09-02",
+      "note": "Governs 0 of its 16 slots on this node; facade-picturesque already wins every address the two share, so 0 slots lose all dimensioning and no drawn number changes. The decline removes a wrong pack from the cascade rather than a wrong figure from a sheet. Arrives from english-georgian at cascade depth 6 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's own notes state its subject plainly: it is the COLONNADE rather than the order -- how many columns there are, where they stand, what they stand on and what the wall behind them is doing, across the peripteral temple, the Roman arch order and the colossal revival portico. This node's record answers that with an absence and does so four times: its first defining characteristic puts turned lathe posts in place of classical columns, its seventh names the absence of classical detail outright, its own diagnostic tell says a classical column on an otherwise Queen Anne house puts the building in the free classic subtype instead, and its distinguished_from entry for queen-anne-free-classic makes columns the very thing the two subtypes swap. There is no column screen here to array, and the node's symmetry is picturesque-asymmetrical against a pack that composes an axial front. This is the same contradiction, and the same basis, as the facade-classical decline already recorded on this node.",
+      "basis": "node-record",
+      "quote": "Turned porch posts with a pronounced swell, in place of classical columns or square piers",
+      "quoted_from": "defining_characteristics[0]",
+      "decided": "2026-09-02",
+      "note": "Governs 1 of its 7 slots on this node: composition_parti, which passes to facade-medieval-english (jacobean) on the decline. 0 slots lose all dimensioning. Arrives from english-palladian at cascade depth 8 with no direct lineage edge. No live gate, so no check is armed or disarmed either way."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "facade-arcade dimensions porch_depth at 12 ft, porch_ceiling at 11 ft to the soffit, and porch_support as either a masonry pier 38 2/5 in wide on an 8 ft span or a column of 10 1/5 in lower diameter carrying an arch that springs at 7 ft. This node states all three quantities for itself and every one is below the pack's: porch depth 7 to 10 ft against 12, porch head 8 to 9 ft above deck against an 11 ft soffit, and a turned post 5 to 8 in in diameter at the swell against a 38 in pier or a 10 in column. Three numbers, all in the same direction, on the three slots the pack would govern here. The porch is also trabeated by description -- posts at 6 to 9 ft on centre carrying a spindle frieze beneath the head -- where the pack's whole subject is the arcuated bay, pier and springing.",
+      "basis": "node-record",
+      "quote": "Porch depth 7 to 10 ft; porch head height 8 to 9 ft above deck",
+      "quoted_from": "proportional_system.typical_ratios[4]",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
+    }
   ]
 }

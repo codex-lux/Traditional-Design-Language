@@ -85,6 +85,30 @@ def computed():
     if "partis" in v:
         v["parti_count"] = v["partis"]
 
+    # OQ 51's four numbers. They live in prose in CLAUDE.md, STATE-OF-THE-PROJECT.md, README.md
+    # and docs/inheritance.md, and until now NOTHING derived them: `check_inheritance.py --strict`
+    # pins them against its own RATCHET, which stops the corpus getting worse but says nothing
+    # about whether the DOCUMENTS still describe it. WP-8.7 moved all four and had to find the
+    # six prose sites by grep. Guarded from here.
+    #
+    # Read through modcache from the checker that owns them, never re-derived: `measure()` is 200
+    # lines of cascade walking and a second copy would drift, which is the failure this whole file
+    # exists to catch one layer up.
+    tpath = os.path.join(ROOT, "dist", "taxonomy.json")
+    if os.path.exists(tpath):
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        ci = modcache.load("check_inheritance", os.path.join(ROOT, "build", "check_inheritance.py"))
+        _b, _gaps, _packs, _dec = ci.measure(ci.load())
+        _applies = ci.applies_to_index()
+        _un = [t for t in _gaps if t[0] not in _applies.get(t[3], ())]
+        v["role_gaps"] = len(_gaps)
+        v["inherited_packs"] = len(_packs)
+        v["unendorsed"] = len(_un)
+        v["endorsed"] = len(_gaps) - len(_un)
+        v["declined"] = len(_dec)
+        v["judged"] = v["endorsed"] + v["declined"]
+
     apath = os.path.join(ROOT, "assets", "manifest.json")
     if os.path.exists(apath):
         a = json.load(open(apath))
@@ -97,6 +121,34 @@ def computed():
         v["image_wanted"] = by_status.get("wanted", 0)
         v["image_pairs"] = sum(1 for x in assets if x.get("role") == "correct")
         v["image_critical"] = sum(1 for x in assets if x.get("priority") == "critical")
+
+        # WP-4.4's OTHER four numbers, and the reason they are here (2 Sep 2026): the naming
+        # step finished on 31 Aug and its own figures went stale in eight files within two
+        # days -- 322, 845, 330 and 188 against a live 786, 305 and 180 -- while this checker
+        # stood one field away computing `image_records` from the same file. Every one of them
+        # sat in exactly the fields no claim covered.
+        #
+        # The query and the charter test are the HARVESTER'S, loaded rather than restated:
+        # `query_for` is what decides whether a record can be searched at all, and
+        # `outside_the_survey` is the US-state allowlist. Re-deriving either here would be a
+        # second spelling of a rule that already has one, which is how the citation grammar
+        # came to disagree with itself in three places.
+        v["image_building_named"] = sum(
+            1 for x in assets if (x.get("provenance") or {}).get("building"))
+        v["image_never_harvestable"] = sum(1 for x in assets if x.get("role") == "incorrect")
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        H = modcache.load("harvest_habs", os.path.join(ROOT, "build", "harvest_habs.py"))
+        queries = {}
+        for x in assets:
+            if x.get("status") != "wanted":
+                continue
+            q = H.query_for(x)
+            if q:
+                queries[q] = (x.get("provenance") or {}).get("location")
+        v["image_queries"] = len(queries)
+        v["image_queries_us"] = sum(
+            1 for q, loc in queries.items() if not H.outside_the_survey(loc))
     return v
 
 
@@ -161,6 +213,57 @@ CLAIMS = [
     ("docs/assets.md",         "image_sourced",  r"records — \d+ wanted and (\d+) sourced"),
     ("docs/assets.md",         "image_pairs",    r"sourced, (\d+) good/bad pairs"),
     ("docs/assets.md",         "image_critical", r"good/bad pairs, (\d+) critical"),
+    # The four WP-4.4 numbers that went stale in eight files inside two days (2 Sep 2026).
+    # PLAN-OF-ACTION.md joins the guarded set here: it carried three of the four and was not in
+    # this list at all, which is why its Status block could say 845/330/188 against a live
+    # 786/305/180 while `check_counts.py` reported 0 stale in the same run.
+    ("CLAUDE.md",              "image_building_named", r"round its own `exemplars` and (\d+) of$"),
+    ("CLAUDE.md",              "image_records",        r"^   (\d+) name a building, across \d+ queries"),
+    ("CLAUDE.md",              "image_queries",        r"^   \d+ name a building, across (\d+) queries of which"),
+    ("CLAUDE.md",              "image_queries_us",     r"across \d+ queries of which (\d+) are inside HABS"),
+    ("README.md",              "image_building_named", r"indexes wrongness\. (\d+) name a real$"),
+    ("README.md",              "image_queries",        r"^  building to look for, across (\d+) distinct queries;"),
+    ("README.md",              "image_never_harvestable", r"Of the rest, \*\*(\d+) can never be harvested"),
+    ("README.md",              "image_queries_us",     r"distinct queries; (\d+) of those are in the United States"),
+    ("PLAN-OF-ACTION.md",      "image_building_named", r"\*\*(\d+) records now name a real building\*\*"),
+    ("PLAN-OF-ACTION.md",      "image_queries",        r"name a real building\*\* across (\d+) distinct queries"),
+    ("PLAN-OF-ACTION.md",      "image_queries_us",     r"named eleven; (\d+) of those queries are within HABS"),
+    ("STATE-OF-THE-PROJECT.md", "image_records",       r"\*\*The image layer: (\d+) records,"),
+    ("STATE-OF-THE-PROJECT.md", "image_sourced",       r"\*\*The image layer: \d+ records, (\d+) files,"),
+    ("STATE-OF-THE-PROJECT.md", "image_building_named", r"\d+ records, \d+ files, (\d+) naming a building\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "image_building_named", r"\*\*(\d+) name a real building to go and look for\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "image_queries",        r"own `exemplars`, across (\d+) distinct queries"),
+    ("STATE-OF-THE-PROJECT.md", "image_queries_us",     r"distinct queries of which (\d+) are inside HABS"),
+    ("STATE-OF-THE-PROJECT.md", "image_never_harvestable", r"name none, (\d+) are `role: incorrect`"),
+    ("STATE-OF-THE-PROJECT.md", "image_records",       r"`assets/manifest\.json`, (\d+) records over \d+ style nodes"),
+    # OQ 51's four, in the six places the prose states them (WP-8.7, 2 Sep 2026).
+    ("CLAUDE.md",              "role_gaps",       r"pins three ceilings that may only go down -- \*\*(\d+) role_gaps\*\*"),
+    ("CLAUDE.md",              "inherited_packs", r"\*\*([\d,]+) inherited_packs\*\*"),
+    ("CLAUDE.md",              "unendorsed",      r"\*\*(\d+) unendorsed\*\* -- and one FLOOR"),
+    ("CLAUDE.md",              "judged",          r"\*\*judged (\d+)\*\* \(endorsed \+ declined\)"),
+    ("CLAUDE.md",              "inherited_packs", r"is the one with ([\d,]+) instances"),
+    ("STATE-OF-THE-PROJECT.md", "role_gaps",      r"Measured: \*\*(\d+) \(node, role\) pairs\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "unendorsed",     r"of which \*\*(\d+) involve a pack whose own"),
+    ("STATE-OF-THE-PROJECT.md", "inherited_packs", r"and \*\*([\d,]+)\*\* pack-arrivals purely by descent"),
+    ("STATE-OF-THE-PROJECT.md", "declined",       r"judged by somebody, and (\d+) have now been DECLINED"),
+    ("STATE-OF-THE-PROJECT.md", "inherited_packs", r"is the one with ([\d,]+) instances"),
+    ("README.md",              "role_gaps",       r"first adjudication pass 2 Sep\): (\d+) role gaps"),
+    ("README.md",              "unendorsed",      r"role gaps, (\d+) of them never judged"),
+    ("README.md",              "judged",          r"of them never judged, (\d+) judged"),
+    ("docs/inheritance.md",    "inherited_packs", r"`inherited_packs` is \*\*([\d,]+)\*\*"),
+    ("docs/inheritance.md",    "judged",          r"and `judged` \*\*(\d+)\*\*"),
+    ("docs/inheritance.md",    "unendorsed",      r"from 249 to \*\*(\d+)\*\*"),
+    ("docs/inheritance.md",    "declined",        r"carries \*\*(\d+) declines\*\*"),
+    ("docs/inheritance.md",    "endorsed",        r"declines\*\* and \*\*(\d+) endorsed\*\* gaps"),
+    # THE TRAPS LIST, AND IT IS THE REASON THIS BLOCK EXISTS AT ALL. The claim above matches the
+    # meter paragraph 700 lines lower; CLAUDE.md's traps list carried its OWN copy of
+    # `unendorsed` and went stale at 249 while this checker printed "0 stale" over it -- which is
+    # verbatim the finding WP-4.4's half of this same branch published ("every stale figure sat
+    # in a field no claim covered"), reproduced in the same file by the commit that fixed it.
+    # A number stated twice needs claiming twice.
+    ("CLAUDE.md",              "unendorsed",      r"the live backlog is \*\*(\d+) unjudged\*\* gaps"),
+    # The sentence the plan named and the first pass pointed a claim at a DIFFERENT file instead.
+    ("CLAUDE.md",              "image_never_harvestable", r"still wanted, and (\d+) of those can never be harvested"),
 ]
 
 
@@ -184,6 +287,15 @@ def main():
             continue
         text = open(full).read()
         for key, pattern in claims:
+            if key not in v:
+                # COULD NOT EVALUATE, named. The OQ 51 values need `dist/taxonomy.json`, which
+                # `check_all` builds first and which is tracked -- but a bare run in a tree where
+                # it is absent used to raise KeyError out of `str(v[key])`, so a checker whose
+                # whole subject is honest reporting crashed instead of saying what it could not
+                # judge. Unjudged is not passed, and it is not a traceback either.
+                missing.append(f"{path}: {key} COULD NOT BE EVALUATED -- "
+                               f"run build/build.py first (dist/taxonomy.json is missing)")
+                continue
             rx = re.compile(pattern, re.M)
             hits = list(rx.finditer(text))
             if not hits:
@@ -201,11 +313,22 @@ def main():
             for m in reversed(hits):
                 checked += 1
                 got = m.group(1)
-                if got != want:
-                    stale.append(f"{path}: {key} says {got}, data says {want}")
+                # A THOUSANDS SEPARATOR IS FORMATTING, NOT A DIFFERENT NUMBER. `3,341` in prose
+                # against a computed 3341 is not staleness, and treating it as such would either
+                # fail the build forever or force the prose to write 3341 to suit a checker.
+                # Compared without separators; rewritten under --fix in the form the sentence
+                # already uses, so `--fix` never reformats a number it was only asked to correct.
+                if got.replace(",", "") == want.replace(",", ""):
+                    continue
+                if "," in got and want.isdigit():
+                    want_here = f"{int(want):,}"
+                else:
+                    want_here = want
+                if got != want_here:
+                    stale.append(f"{path}: {key} says {got}, data says {want_here}")
                     if args.fix:
                         a_, b_ = m.span(1)
-                        text = text[:a_] + want + text[b_:]
+                        text = text[:a_] + want_here + text[b_:]
         if args.fix:
             open(full, "w").write(text)
 
