@@ -8367,6 +8367,9 @@
           "precedence": 9
         }
       ],
+      "inherits_packs": [
+        "trim-classical"
+      ],
       "_cascade": [
         "georgian-colonial-american",
         "american-colonial",
@@ -8681,6 +8684,9 @@
           "note": "The piazza order, held at the base pack rather than committed to a specific historical overlay, because the node's own description gives the type three different period dresses for the same columns -- 'heavier piazza columns (Doric or Tuscan at 7-8 diameters)' under Georgian trim, thinning to 'slender Tuscan or Ionic' under Federal -- and Tuscan is the one constant across both. Binding a Gibbs or Palladio overlay here would assert a specific pattern-book commitment the type's own century and a half of continuous building does not support; the base Vignola proportion is the honest choice until a specific building's date and dress are known. Bound secondary and low precedence: the piazza's climate function (see opening-proportion, storey-graduation) generates the type, and the order dresses it rather than governing it.",
           "precedence": 5
         }
+      ],
+      "inherits_packs": [
+        "trim-classical"
       ],
       "_cascade": [
         "american-folk-vernacular",
@@ -17288,6 +17294,9 @@
           "decided": "2026-09-02",
           "note": "Governs 1 slot; declining moves composition_parti to facade-medieval-english, delivered from jacobean. 0 slots lose all dimensioning. --pair reports no live gate, so the change is to the dimension only, not to any check."
         }
+      ],
+      "inherits_packs": [
+        "trim-classical"
       ],
       "_cascade": [
         "victorian",
@@ -30279,6 +30288,9 @@
           "precedence": 2
         }
       ],
+      "inherits_packs": [
+        "trim-classical"
+      ],
       "_cascade": [
         "georgian-colonial-american",
         "american-colonial",
@@ -34968,6 +34980,9 @@
           "note": "Unchanged from the parent, but carrying more weight here than anywhere else: the New England frontispiece is the most heavily carved doorway in colonial America and it is executed in wood at full order, so the order's proportions are visible at arm's length and errors in them are not survivable.",
           "precedence": 1
         }
+      ],
+      "inherits_packs": [
+        "trim-classical"
       ],
       "_cascade": [
         "georgian-colonial-american",
@@ -47433,6 +47448,9 @@
           "precedence": 3
         }
       ],
+      "inherits_packs": [
+        "trim-classical"
+      ],
       "_cascade": [
         "georgian-colonial-american",
         "american-colonial",
@@ -48788,7 +48806,7 @@
       "delivery": "cascade"
     },
     "trim-classical": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "trim-craftsman": {
       "delivery": "cascade"

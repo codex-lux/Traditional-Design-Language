@@ -281,5 +281,8 @@
       "decided": "2026-09-02",
       "note": "Governs 1 slot; declining moves composition_parti to facade-medieval-english, delivered from jacobean. 0 slots lose all dimensioning. --pair reports no live gate, so the change is to the dimension only, not to any check."
     }
+  ],
+  "inherits_packs": [
+    "trim-classical"
   ]
 }
