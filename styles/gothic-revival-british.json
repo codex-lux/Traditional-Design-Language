@@ -297,6 +297,15 @@
       "quoted_from": "constraints[4].statement",
       "decided": "2026-09-02",
       "note": "Governs 6 slots — casing, cornice, crown, door_surround, frieze, steps_and_stoop. Five fall through to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. --pair reports no live gate, so the decline changes dimensions and arms nothing. It stops THIS order and does not de-classicise the node: vignola-tuscan is another Tuscan order pack and is the next candidate at five of the six addresses, needing its own judgment, which this pass does not make."
+    },
+    {
+      "pack": "vignola-tuscan",
+      "reason": "The pack states its subject as Vignola's Tuscan order encoded from his own figures in modules and parts, module = semidiameter in 12 parts, and it dimensions eleven slots off that one module. Seven of them land on this node -- baseboard, casing, chair_rail, cornice, crown, door_surround, frieze -- and cornice, crown and frieze are entablature members by name. The node carries a HARD constraint forbidding classical apparatus throughout and naming orders and entablatures among the forbidden members, and its governing_logic says there is no applied system at all: proportion comes from medieval precedent by measurement and from Pugin's rule that form follows construction. This is the mechanism meeting the record head-on rather than a coincidence of figures. The node has already declined chambers-ionic, palladio-ionic, trim-classical and palladio-tuscan on the same sentence, and the palladio-tuscan entry's own note names vignola-tuscan as the next candidate at five of these six addresses and says in terms that it needs its own judgment; this is that judgment.",
+      "basis": "node-record",
+      "quote": "Classical apparatus — orders, pediments, entablatures, quoins, symmetrical porticoes — is forbidden throughout.",
+      "quoted_from": "constraints[4].statement",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 8 with no direct lineage edge. Governs 7 slots; all seven fall through to chambers-doric (english-georgian) and 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: chambers-doric is another classical order and will carry the identical contradiction to the same seven addresses, so this decline stops THIS order and does not de-classicise the node. chambers-doric on this node is the next adjudication and this pass does not make it."
     }
   ]
 }

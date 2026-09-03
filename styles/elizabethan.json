@@ -261,6 +261,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 9 slots; declining changes dimensions on all 9 and 0 lose all dimensioning. baseboard and chair_rail pass to vignola-doric (roman-classical); balustrade, casing, cornice, crown, door_surround, frieze and porch_depth pass to palladio-tuscan (italian-renaissance). Both successors are order packs of the same kind, so this decline stops one wrong pack and does not remove ruled classical-order dimensioning from the node -- the same reasoning would reach palladio-tuscan and vignola-doric, which are not in this node's pending list and are not judged here."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "The pack's own notes state its subject as the archaeological Greek Doric measured by Stuart and Revett, authored for WP-4.6 specifically to correct Benjamin's nineteenth-century wood-shop departures -- column height in diameters, entasis from the lower third, annulets, mutules per triglyph -- back to the Greek. It is a named, correct authority, and on this node it dimensions column, entablature and modillion_dentil. Elizabethan's proportional_system states a rival and incompatible authority for the same quantities: its orders are a rough, self-taught use on the frontispiece only, devised by mason-architects such as Robert Smythson working from plans and from engraved plates and not from any theory of proportion, and c02 confines them to superimposed applied storeys on the entrance bay which may not run across an elevation, carry a roof or form a portico. This is the same ground on which the node already declines vignola-tuscan, and on which jacobean -- its own nearest sibling -- already declines this very pack. DIRECTION CHECK, because this is the pair the exercise warns about: nothing numeric is compared here. Elizabethan states no column height at all, only a frontispiece order height of a quarter to a third of the elevation in three superimposed storeys, so the 'stubbier than any canonical order' inversion that would have mis-declined greek-doric on jacobean has no counterpart in this record. The ground is the stated derivation, not a range.",
+      "basis": "node-record",
+      "quote": "working from plans and from engraved plates, not from any theory of proportion",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Arrives from greek-classical at cascade depth 8 with no direct lineage edge. Governs 3 slots; declining passes column and entablature to palladio-tuscan (italian-renaissance) and modillion_dentil to vignola-doric (roman-classical), and 0 slots lose all dimensioning. Both successors are order packs and neither is thereby right -- OQ 58's stated limit -- but both are Renaissance orders of the kind transmitted by exactly the engraved plates the node's governing_logic names, so the decline moves in the direction the record points."
     }
   ]
 }

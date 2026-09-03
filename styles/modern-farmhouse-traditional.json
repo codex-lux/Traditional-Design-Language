@@ -281,6 +281,15 @@
       "quoted_from": "defining_characteristics",
       "decided": "2026-09-02",
       "note": "Governs 3 slots: cornice, door_surround, pilaster. Declining reassigns all three and strands none -- cornice and door_surround fall to palladio-ionic (english-palladian), pilaster to benjamin-ionic (federal-style). 0 slots lose all dimensioning. As with gibbs-ionic and gibbs-doric the successors are themselves classical orders, so this decline stops a wrong authority without supplying a right one (OQ 58's stated limit); palladio-ionic and benjamin-ionic over this node are separate gaps for separate adjudication. This is the third decline of a classical order on this node and the successor chain is not exhausted -- oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times. --pair reports no live gate: endorsing would have changed no behaviour, and the decline arms nothing."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "The pack's own notes describe nothing but an applied classical order quoted from Ware: a column of nine modules, an entablature a fifth of the column divided 4:3:5, an architrave divided into five with a cimacio, a cornice divided into seven and three quarters, an Attic base of half a diameter. On this node it arrives governing `cornice` and `door_surround`, and a door surround dimensioned off an Ionic module is an applied classical element in the literal sense. The node's defining_characteristics say flatly that this style carries none, and its governing_logic explains why in terms fatal to a profile-based order: composition here 'proceeds by silhouette and colour value rather than by profile and shadow', with wall-to-trim luminance contrast doing the work a moulding's projection would do. This is the same sentence and the same class of pack on which the node has already declined `gibbs-ionic`, `gibbs-doric` and `chambers-ionic`; palladio-ionic is the fourth order reaching the same slots down the same cascade.",
+      "basis": "node-record",
+      "quote": "Ornament essentially absent: no shutters, no keystones, no applied classical elements",
+      "quoted_from": "defining_characteristics[6]",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 14 with no direct lineage edge. Governs 2 slots (cornice, door_surround); both pass to palladio-tuscan (italian-renaissance) and 0 slots lose all dimensioning. Stated plainly, as the node's three earlier order declines were: the successor is itself a classical order, so this decline removes a wrong authority without supplying a right one -- OQ 58's stated limit one layer down, and a separate gap for separate adjudication. --pair reports no live gate either way, so the decline changes dimensions only and arms nothing."
     }
   ]
 }

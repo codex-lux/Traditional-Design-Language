@@ -121,9 +121,11 @@ def test_a_decline_counts_as_judged_and_not_as_unendorsed():
     refused — and must never be counted as a gap nobody has looked at."""
     ci = _mod("ci_d", "build/check_inheritance.py")
     _, gaps, inherited, declines = ci.measure(ci.load())
-    # 10 -> 25 on 2 Sep 2026 (WP-8.7): fifteen more, on two log nodes whose records refuse an
-    # applied proportional system outright. Every one carries a verbatim quote from its own node.
-    assert len(declines) == 168, declines
+    # 10 -> 25 -> 114 -> 168 -> 208 as WP-8.7 read the backlog three times over 2-3 Sep 2026.
+    # Every one carries a verbatim quote from its own node, and every one was put to an
+    # independent adversarial check before it was written; 30 proposals were refused by that
+    # check and are tabled instead.
+    assert len(declines) == 208, declines
     applies = ci.applies_to_index()
     unendorsed = [t for t in gaps if t[0] not in applies.get(t[3], ())]
     judged = (len(gaps) - len(unendorsed)) + len(declines)
@@ -140,14 +142,17 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     why a falling `unendorsed` does not mean a corpus getting more correct at the same rate,
     which is the objection OQ 51's own first pass raised against the ruling."""
     ci = _mod("ci_d2", "build/check_inheritance.py")
-    # WP-8.7 read this all the way down: FIFTEEN further declines moved `unendorsed` by FOUR
-    # (249 -> 245), because each one promotes the next pack in the chain into the same role.
+    # WP-8.7 read this all the way down THREE TIMES: fifteen declines moved `unendorsed` by four
+    # (249 -> 245), and the third pass's FORTY moved it by TWO (225 -> 223), because each one
+    # promotes the next pack in the chain into the same role. `judged` meanwhile went 209 -> 249,
+    # which is the whole argument for having a floor as well as a ceiling: the work is visible
+    # there and almost invisible in the headline.
     # `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint, which is
     # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`.
-    assert ci.RATCHET["unendorsed"] == 225
-    assert ci.RATCHET_FLOOR["judged"] == 209
-    assert ci.RATCHET["inherited_packs"] == 3198, (
-        "168 declines removed 168 real deliveries; 3366 was the figure before any")
+    assert ci.RATCHET["unendorsed"] == 223
+    assert ci.RATCHET_FLOOR["judged"] == 249
+    assert ci.RATCHET["inherited_packs"] == 3158, (
+        "208 declines removed 208 real deliveries; 3366 was the figure before any")
 
 
 def test_the_schema_requires_a_reason_and_a_basis():
@@ -240,6 +245,64 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     named = [sid for sid, rec in kit.items()
              if any(x.get("pack") == "storey-graduation" for x in (rec.get("packs") or []))]
     assert named, "no slot-level ruling names storey-graduation — this test is now vacuous"
+
+
+def test_impact_says_when_a_decline_does_not_reach_an_address():
+    """`--slots` HAS PRINTED THIS SINCE 25 AUG AND `--impact` COUNTED IT AS RE-HOUSED.
+
+    `governed(drop=pid)` removes the pack from `resolve_packs`, but `choose_pack` reads the
+    resolved slot record's own `packs` block FIRST, and that block cascades — so the dropped pack
+    can still be chosen at an address, from an ancestor's ruling carrying its own expression.
+    `--impact` then looked the successor up in the post-drop `packs` dict, found nothing, and
+    printed `-> gibbs-ionic (None)`: a decline that does NOT reach a slot, wearing the format of
+    one that re-housed it. Found on `egyptian-revival`/`gibbs-ionic` by the adversarial check in
+    WP-8.7's third pass, 3 Sep 2026.
+
+    The class is small and now measured rather than assumed: swept over all 168 shipped declines,
+    it held on THREE at SIX addresses — the two `minimal-traditional` declines and
+    `ranch-style`/`storey-graduation`. That sweep also corrected the comment beside the `--slots`
+    branch, which named three ranch-style slots where the tool reports one.
+
+    IT IS FOUR AND SEVEN NOW, AND THE FOURTH IS THE ONE THAT FOUND THE BUG. Writing
+    `egyptian-revival`/`gibbs-ionic` into the corpus added its own `eave_condition` to the class
+    the same adjudication had just discovered. The sweep was measured before the declines were
+    applied and the test failed on the first run after — which is the number behaving correctly,
+    not a regression."""
+    import subprocess, sys
+    out = subprocess.run([sys.executable, "build/check_inheritance.py",
+                          "--impact", "egyptian-revival", "gibbs-ionic"],
+                         cwd=ROOT, capture_output=True, text=True)
+    assert out.returncode == 0, out.stderr
+    assert "eave_condition" in out.stdout
+    assert "the decline does NOT reach this slot" in out.stdout, (
+        "an address the decline cannot reach is being reported as re-housed:\n" + out.stdout)
+    assert "(None)" not in out.stdout, (
+        "the post-drop source lookup is empty and is being printed as if it were a source")
+    assert "1 slot(s) the decline DOES NOT REACH" in out.stdout, out.stdout
+    # NOT a summary line only: the count must be excluded from the re-housed ones, so the
+    # "loses all dimensioning" figure stays about what it says.
+    assert "0 slot(s) would lose all dimensioning." in out.stdout, out.stdout
+
+
+def test_the_unreached_address_sweep_is_three_declines_and_six_addresses():
+    """The figure the comment beside `--slots` now carries, held to the corpus so it cannot rot
+    the way the sentence it replaced did. A ratchet is wrong here: this number should FALL when
+    a stale slot-level ruling is corrected and RISE when a new decline meets one, and either
+    movement is a thing to look at rather than a build to fail."""
+    ci = _mod("ci_unreached", "build/check_inheritance.py")
+    g = ci.load()
+    import glob as _g, json as _j
+    hits = []
+    for path in sorted(_g.glob(os.path.join(ROOT, "styles", "*.json"))):
+        d = _j.load(open(path, encoding="utf-8"))
+        for e in (d.get("declined_packs") or []):
+            after, _k = ci.governed(g, d["id"], drop=e["pack"])
+            still = sorted(s for s, v in after.items() if v[0] == e["pack"])
+            if still:
+                hits.append((d["id"], e["pack"], still))
+    assert len(hits) == 4, hits
+    assert sum(len(h[2]) for h in hits) == 7, hits
+    assert {h[0] for h in hits} == {"egyptian-revival", "minimal-traditional", "ranch-style"}, hits
 
 
 # --------------------------------------------- the decline's SECOND delivery path

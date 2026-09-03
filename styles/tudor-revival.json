@@ -330,6 +330,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 4 slots on this node: cornice, door_surround, frieze, steps_and_stoop. Declining hands cornice, door_surround and frieze to vignola-tuscan (from roman-classical) and steps_and_stoop to facade-peristyle (from english-palladian); 0 slots lose all dimensioning. Flagged one layer down and outside this ruling's scope, exactly as the palladio-ionic decline flagged it: the fallback for three of the four slots is itself a classical order pack, so this decline stops a wrong pack without supplying a right one — the same classical-module refusal would apply to vignola-tuscan, which is not on this node's pending list and was not judged here."
+    },
+    {
+      "pack": "vignola-tuscan",
+      "reason": "vignola-tuscan is the Tuscan order encoded from Vignola in modules and parts, module = semidiameter, and every one of the eleven slots it dimensions is derived from that order -- including the three it governs on this node, cornice, door_surround and frieze, of which two are entablature members by name. The node's governing_logic opens by refusing exactly that and then names the module it uses instead: the notional structural bay of the imitated timber frame at roughly 8 to 12 ft between posts, plus the gable triangle set by a 10:12-to-16:12 pitch. The record's own account of the entrance is a Tudor arch or a round-arched stone surround, which is what stands in the door_surround slot, and its wall is brick or stone below with stucco and applied timbering above rather than a trabeated classical face.",
+      "basis": "node-record",
+      "quote": "No classical module. Proportion is governed by the notional structural bay of the timber frame being imitated",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 12 with no direct lineage edge. --impact: governs cornice, door_surround and frieze, all three of which fall to benjamin-ionic (federal-style); 0 slots lose all dimensioning. The successor is a RICHER classical order than the one declined, so this decline stops a wrong pack and leaves a worse-suited one behind it -- OQ 58's stated limit, and worth a human's eye if a run of these accumulates on one node."
     }
   ]
 }

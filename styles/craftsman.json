@@ -308,6 +308,24 @@
       "quoted_from": "distinguished_from[2].difference",
       "decided": "2026-09-02",
       "note": "governs 1 slot: composition_parti. --impact: declining passes composition_parti to facade-pavilion (beaux-arts-french); 0 slots would lose all dimensioning. Worth stating plainly that the successor is another classical facade pack and is not obviously right either — a decline stops a wrong pack and does not supply a right one, and craftsman's own bound primary, facade-picturesque, does not currently reach this slot. Arrives from english-palladian at cascade depth 9 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's own module note states its subject in as many words: 'THE MODULE IS THE VOID AND NOT THE PIER ... an arcade is a rhythm of openings interrupted by supports, not a wall with holes in it', with the module the clear span of one arch at the springing, the pier at a third to a half of that span and the springing at two thirds of the opening height. It dimensions arch, column, porch_depth, porch_support, porch_ceiling, window_head_masonry, circulation_parti and daylight_strategy. Craftsman's bay_rhythm states the opposite composition for the same elevation -- openings gathered in twos and threes with wide unbroken wall between the groups, spaced off the framing bay rather than a facade module -- which is precisely the wall-with-holes the pack disowns. Beside it, the node's governing_logic makes the porch BEAM the low datum and hard constraint c04 fixes the porch support as a square post or battered pier on a masonry base not less than 24 in wide; a trabeated porch has no springing for the pack to dimension, and the node's masonry tell confines masonry to chimney, porch base and foundation.",
+      "basis": "node-record",
+      "quote": "with wide unbroken wall between groups; the group spacing follows the framing bay, not a facade module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "Arrives from italian-renaissance at cascade depth 12 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' and 0 slots lose all dimensioning, so this is a meter move only. The node already declines facade-classical on this same field for the same kind of reason -- that pack's module is the facade bay and this pack's module is the arch span, so the two are not literally the same object as the node's 'facade module' clause; the decline rests on the composition sentence (grouped openings in wide unbroken wall) and on c04, both of which bear directly."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "The pack is an order-system overlay whose whole stated subject is where Palladio and Vignola part on the Corinthian -- the column at nine and a half diameters against ten, bound by Book I ch. XIII to a two-diameter intercolumniation, over an Attic base with a fifth-diameter projecture, a pedestal at a quarter of the column and a cornice divided into eight and a half parts. On this node it targets column, porch_support, entablature, crown, modillion_dentil, chair_rail and height_proportion. Craftsman's hard constraint c04 names the porch support and forbids exactly the members the pack proportions, and its colonial-revival contrast states that the style 'has no orders at all'. This is the same ground on which the node already declines chambers-doric and facade-peristyle, one order and one facade system over; it is not the blanket 'no applied proportional system' refusal, because the node binds opening-craftsman, facade-picturesque and trim-craftsman and takes real dimensions from all three.",
+      "basis": "node-record",
+      "quote": "Turned columns, fluted columns, and classical capitals are forbidden",
+      "quoted_from": "constraints[3].statement (craftsman.c04)",
+      "decided": "2026-09-02",
+      "note": "Arrives from english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots -- --impact reports 'Declining it changes no dimension on this node.' -- so no slot loses dimensioning and the meter is the only thing that moves."
     }
   ]
 }

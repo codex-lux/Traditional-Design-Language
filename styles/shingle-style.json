@@ -310,6 +310,15 @@
       "quoted_from": "defining_characteristics[4]",
       "decided": "2026-09-02",
       "note": "Governs 1 of the 7 slots it addresses. Declining passes composition_parti to facade-pavilion (beaux-arts-french) -- itself an unadjudicated cascade delivery, not settled by this ruling. 0 slots lose all dimensioning. The node's own porch figures (\"Porch column height to diameter 5:1 to 8:1 where classical, or shingled piers 16 to 24 in square\") are stated in its own typical_ratios and are unaffected."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "facade-arcade is a bay system by its own title and module: 'The Arcade: Bay, Pier and Springing', module = the clear span of one arch, with rules for bay centres, the count of bays in a run (three or five for a loggia, eight to twenty for a corredor) and a wider end pier because the run is a rhythm. This node's record denies it has a bay system at all, in its own governing_logic, and names what governs instead -- one unbroken material over an irregular volume, gathered by the roof. Its bay_rhythm says the same twice over: the rhythm 'belongs to the openings, not to a structural bay'. The pack's supports are also above the node's stated ones AS DELIVERED -- 38 2/5 in of pier on an 8 ft span, or a 10 1/5 in column, against shingled piers of 16 to 24 in square -- though not outside its BANDS, which overlap the node at 18-24 in and at 7-8 diameters. That clause is secondary and the decline does not rest on it; the basis is the node's own unhedged denial that it has a bay system.",
+      "basis": "node-record",
+      "quote": "There is no module and no bay system; the design is controlled by keeping one material unbroken over an irregular volume",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
     }
   ]
 }

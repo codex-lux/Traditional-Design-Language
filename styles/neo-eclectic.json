@@ -302,6 +302,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 2 slots; 0 lose all dimensioning. cornice -> palladio-ionic (english-palladian); pilaster -> benjamin-ionic (federal-style). The decline removes THIS authority and not the class — both successors are classical order packs, so this is the same shape as the node's existing gibbs-ionic decline and an instance of oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times. Endorsing arms no live check (--pair reports no live gate)."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "palladio-ionic is a module-derived classical order and nothing else -- column nine modules, entablature a fifth of it divided 4:3:5, architrave into five, cornice into seven and three quarters, Attic base half a diameter -- and it arrives here governing `cornice`. The node's governing_logic names that exact mechanism and denies it: where classical proportion appears on a neo-eclectic house it is quotation sized to be seen from the street rather than derived from a module. The distinguished_from entry against colonial-revival sharpens it on this very member -- Colonial Revival has 'correct entablature and door surround profiles with real projection', and 'Neo-eclectic quotes the same motifs without the system' -- and typical_ratios gives the measured consequence, trim profile projection of 1/4 to 3/4 in against the 3 to 6 in of the sources quoted. The node has already declined `gibbs-ionic` and `chambers-ionic` on this same sentence; this is the third order pack down the same cascade.",
+      "basis": "node-record",
+      "quote": "Where classical proportion appears it appears as quotation at the wrong scale, because the element was sized to be seen from the street rather than derived from a module.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 14 with no direct lineage edge. Governs 1 slot, cornice, which passes to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. The decline removes THIS authority and not the class -- the successor is another order pack -- so the node still does not get the wrong-scale quotation its record actually describes. The node's own binding of trim-classical is deliberately at low precedence as a named source of comparison rather than as a governing system, which is the distinction this cascade delivery overrides. No live gate either way."
     }
   ]
 }

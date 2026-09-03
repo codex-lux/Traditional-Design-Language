@@ -357,6 +357,24 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "--impact: governs 1 slot, composition_parti; on a decline it passes to facade-medieval-english (jacobean). 0 slots lose all dimensioning. This decline DOES change a dimension. Arrives from english-palladian at cascade depth 13 with no direct lineage edge; --pair reports no live gate."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's subject is the arcade as a proportioning system -- bay, pier and springing -- and it dimensions arch, column, porch_depth, porch_support, porch_ceiling and window_head_masonry from a pier-to-clear-opening ratio and a springing height. That is an applied system of proportion, not the material or trade arithmetic that spared sash-light on this node, so the node's governing_logic reaches it: this building is dimensioned by material handling and by nothing else, log length setting plan width and log diameter setting course height. The record then refuses the pack's own members by mechanism rather than by taste: openings are cut after the wall is raised, with sawn jambs pegged to the log ends and 'no header over the opening', so there is no arch and no masonry head for the pack to dimension; c01 forbids any log wall longer than 20 ft between notched corners and c05 requires every opening to stop 24 in short of a corner, which leaves no wall in which a repeating arcaded bay could stand. The word porch does not occur anywhere in this node's record.",
+      "basis": "node-record",
+      "quote": "Dimensioned by material handling, not by any system of proportion.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 16 -- the deepest delivery on this node -- with no direct lineage edge. Governs 1 slot, porch_ceiling, and on a decline that slot loses ALL dimensioning. That is accepted deliberately: the node's record describes no porch at all, so a porch ceiling dimensioned from an Italian arcade's springing is an invented figure rather than a gap being filled, and OQ 58's stated limit applies -- a decline stops a wrong pack and does not supply a right one. --pair reports no live gate. Deliberately NOT rested on bay_rhythm's 'There is no bay rhythm', for the reason this node's own facade-peristyle entry gives: a statement about the wall's openings does not by itself reach a colonnade's or an arcade's spacing, and using it that way would be the coincidence-of-quantity error."
+    },
+    {
+      "pack": "palladio-doric",
+      "reason": "The pack states its three subjects as the module (semidiameter in 30 minutes, Palladio's own stated exception), the Attic base that Vignola alone refuses, and a diminution tabulated by column height in Book I ch. XIII. That is the archetypal system of proportion, and it dimensions chair_rail, column, crown, height_proportion, modillion_dentil and porch_support from it. The node's governing_logic refuses the category by name and states the mechanism that stands in its place: log length sets plan width, log diameter sets course height, and the number of courses a crew will lift sets wall height. This is the discrimination the sash-light trap asks for -- sash-light is glass-trade arithmetic and survives the blanket sentence, an order is a proportional system and does not. The node already declines chambers-doric on this exact sentence, which is the same order under a different modern author, and palladio-corinthian and facade-classical besides.",
+      "basis": "node-record",
+      "quote": "Dimensioned by material handling, not by any system of proportion.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by palladian at cascade depth 14 with no direct lineage edge. Governs 0 slots; declining changes no dimension and no slot loses dimensioning. --pair reports no live gate."
     }
   ]
 }

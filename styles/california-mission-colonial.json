@@ -288,6 +288,15 @@
       "quoted_from": "proportion_packs[2].note (the vignola-ionic binding note)",
       "decided": "2026-09-02",
       "note": "governs 0 slots; --impact reports 'Declining it changes no dimension on this node.' The pack arrives from italian-renaissance at cascade depth 7 with no direct lineage edge; its six target slots (chair_rail, column, crown, height_proportion, modillion_dentil, porch_support) are already held here by vignola-ionic and the node's own bindings, so nothing loses dimensioning. No live gate."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "This node has exactly one classical facade -- the church front -- and its own binding note for that order refuses named pattern-book overlays by name, Palladio among them, because no documentary evidence connects a specific pattern book to Ramirez's work. palladio-corinthian is such an overlay, so it is refused at the only address on this node where an order exists at all. Behind that front the type has no column: description.long says of the arcade 'There is no order, no base, no capital, and often no impost moulding' and the first diagnostic tell repeats it as square piers under semicircular arches with no capitals and often no imposts, against a pack that dimensions column, porch_support, entablature, height_proportion, chair_rail, crown and modillion_dentil. Same reading already written on this node against palladio-doric.",
+      "basis": "node-record",
+      "quote": "Bound only for the named exception this node itself records, not for the type: Mission Santa Barbara's church front (built 1815-20 by master mason Jose Antonio Ramirez) carries engaged Ionic columns and a neoclassical temple pediment in local sandstone -- 'a Vitruvian composition executed by people with no Vitruvian training,' in this node's own words. Vignola rather than a named overlay (Gibbs, Palladio, Chambers, Benjamin) because there is no documentary evidence connecting a specific pattern book to Ramirez's work, so the base order is the honest choice rather than inventing a source. This entry governs a single church facade among dozens of mission buildings and should not be read as describing the type.",
+      "quoted_from": "proportion_packs[2].note (the vignola-ionic binding note)",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 7; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node -- the pack's seven target slots are already held by the node's own vignola-ionic binding and its other packs. No live gate. Worth stating: this decline does NOT make the node non-classical. It keeps the order the node chose on evidentiary grounds and stops a second named overlay arriving without one."
     }
   ]
 }

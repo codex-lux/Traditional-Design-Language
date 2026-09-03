@@ -274,6 +274,15 @@
       "quoted_from": "distinguished_from[1].difference",
       "decided": "2026-09-02",
       "note": "--impact: governs 2 slots; BOTH lose all dimensioning. `arch` -> NOTHING and `window_surround_masonry` -> NOTHING. Stated rather than hidden, and honest in both cases: the node's only arch is the fogon mouth, which no pack in this library dimensions and which the record describes as plastered with \"rounded arrises, undulating planes and no true corner\"; and its window surround is a deep inward splay in mud plaster, which is the opposite of the alfiz's shallow rectangular masonry frame. No dimension beats a horseshoe return and an alfiz projection delivered to a splayed adobe reveal. Delivered at cascade depth 5 from spanish-plateresque with no direct lineage edge."
+    },
+    {
+      "pack": "palladio-doric",
+      "reason": "The pack's three stated subjects are all internal to a classical column -- the semidiameter divided into thirty minutes, the Attic base Vignola refuses, and Palladio's diminution tabulated by column height -- and what it dimensions is `column`, `porch_support`, `height_proportion`, `crown`, `chair_rail` and `modillion_dentil`. The node's governing_logic closes the question of what sets those quantities: the viga sets the room and the wall thickness sets the height, nothing else is negotiable, which its own constraint c01 makes numeric (wall height not exceeding ten times thickness). A column module cannot set a height here because the record has already assigned that job to the wall. The support the record does name is a different member entirely: 'Portal on peeled posts with carved corbels (zapatas) carrying a beam, 8-12 ft deep, serving as the building's circulation' -- a peeled post with a zapata has no base to be Attic, no diminution to tabulate and no entablature over it. This is the same node that declined `facade-arcade` and `moorish-arch` on its own words rather than on category.",
+      "basis": "node-record",
+      "quote": "The viga sets the room and the wall thickness sets the height; nothing else is negotiable",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 7 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning and no live gate is involved, so this verdict moves the meter and nothing else."
     }
   ]
 }

@@ -89,7 +89,11 @@ RATCHET = {"own": 0, "cascade": 9,
            #
            # 32 -> 64 on 2 Sep 2026 (WP-8.7), AND THIS ONE IS THE COST OF THE WORK RATHER THAN A
            # SHARPER INSTRUMENT. The package authored 158 further declines; **20 of the corpus's
-           # 168 declines turn out to have a baked survivor**, contributing 46 of these 66. Each
+           # 21 of the 208 declines turn out to have a baked survivor**, and those 21 contribute
+           # 51 of these 71 baked parameters. TWO COUNTS, AND AN EARLIER VERSION OF THIS COMMENT
+           # RAN THEM TOGETHER -- it said "168 declines turn out to have a baked survivor,
+           # contributing 46 of these 66", which reads as though every decline had one. It is a
+           # (node, pack) decline count of 21 across 17 nodes against a PARAMETER count of 51. Each
            # is a decline doing exactly half its job: `resolve_packs` stops delivering the pack,
            # and an ancestor's kit file still carries a snapshot of one of its values as an
            # authored parameter, which nothing refuses. The remaining 20 are the older scope and
@@ -101,7 +105,17 @@ RATCHET = {"own": 0, "cascade": 9,
            # the largest thing OQ 51's backlog has surfaced, and it belongs to
            # `oq/a-baked-pack-value-is-a-second-delivery-path`, which now has a measured size on
            # the nodes a human has actually judged rather than an argument.
-           "baked_vs_refused": 66}
+           #
+           # RAISED 65 -> 66 -> 71 ACROSS WP-8.7's THREE PASSES, and the shape of the movement is
+           # the finding rather than the level: 114 declines carried 65 parameters, 168 carried
+           # 66, 208 carry 71. Measured on the DECLINES rather than the parameters, the rate is
+           # 20 of 168 and then 21 of 208 -- roughly one decline in nine or ten, and falling
+           # slightly rather than holding, because the third pass declined forty packs and only
+           # one of them met a baked snapshot. So this number is a function of the decline count
+           # and will keep rising while the backlog is worked; re-pinning it is the meter
+           # following the work, not a ratchet being relaxed. The number to watch is the RATIO.
+           # Do not lower it by withdrawing declines.
+           "baked_vs_refused": 71}
 
 
 def cobinding(nodes, scope):

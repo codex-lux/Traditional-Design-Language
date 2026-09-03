@@ -307,6 +307,15 @@
       "quoted_from": "constraints[0].statement",
       "decided": "2026-09-02",
       "note": "governs 2 slots (arch, porch_ceiling); declining passes arch to facade-medieval-english (delivered by english-medieval-timber-frame, itself an unendorsed cascade delivery -- a worse neighbour, but outside this judgment) and porch_ceiling to balcony-gallery, which this node binds itself and whose own note claims exactly that thing pinned to the front of both storeys; 0 slots lose all dimensioning. --pair reports no live gate either way."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "The pack's stated subject is the columned screen the order packs do not answer for -- how many columns there are, where they stand, what they stand on and what the wall behind them is doing -- and its module note says THE MODULE IS THE BAY, the axial intercolumniation from column centre to column centre along the front. The single rule reaching this node writes `porch_type` as `rank_depth`, a Roman temple porch 'of two or three column ranks in front'. The node's hard constraint c01 forbids the premise: the balcony cantilevers from the second-floor framing with no posts or columns reaching grade, and a posted upper gallery 'is either Hispanic-tradition or revival, and in either case is not this type'. Its defining_characteristics repeat it ('carried on the projecting second-floor joists with no posts to grade') and refuse the classical profile even on the balusters ('Plain square wooden balusters and a simple top rail, without turning or classical profile'). There is no colonnade on this building for a peristyle to count ranks of, and this is the same clause on which the node already declined `facade-arcade`.",
+      "basis": "node-record",
+      "quote": "The balcony must cantilever from the second-floor framing with no posts or columns reaching grade",
+      "quoted_from": "constraints[0].statement",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 9 with no direct lineage edge. Governs 1 slot, porch_type, and the cost is stated rather than hidden: porch_type loses ALL dimensioning, because no pack in this library writes a porch type for a cantilevered balcony. The node binds balcony-gallery itself and that pack dimensions the balcony, but it does not answer this slot. An undimensioned porch_type is honest here; two or three ranks of Roman columns delivered to a house whose hard constraint forbids a post to grade is not. No live gate either way."
     }
   ]
 }

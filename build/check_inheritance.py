@@ -63,13 +63,13 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # finding read to its end: declining a pack promotes the next one into the same role. Read
 # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before treating this
 # number as a measure of how much work is left -- it is what is VISIBLE, not what is required.
-RATCHET = {"role_gaps": 266, "inherited_packs": 3198, "unendorsed": 225}
+RATCHET = {"role_gaps": 264, "inherited_packs": 3158, "unendorsed": 223}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
 # may itself be unjudged: a pass that judges ten and re-opens three is progress, and a ceiling
 # alone cannot see that. `judged` is endorsed + declined and only ever goes UP.
-RATCHET_FLOOR = {"judged": 209}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
+RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 
 # A FOURTH, SEPARATE MEASUREMENT: pack rules landing on a slot the resolved kit binds
 # `forbidden`. Not the OQ 51 backlog and deliberately not mixed into it. See --forbidden.
@@ -300,6 +300,18 @@ def main():
                 # not exist to be chosen), and the stale ruling is surfaced here. Same class as
                 # OQ 87: a slot record inherited in full, including a decision the descendant has
                 # since made differently.
+                #
+                # THIS COMMENT USED TO NAME `baseboard`, `crown` AND `chair_rail` ON RANCH-STYLE
+                # AND THE TOOL REPORTS ONE. Swept over every shipped decline on 3 Sep 2026, the
+                # condition holds on FOUR of them at SEVEN addresses in total:
+                # `egyptian-revival`/`gibbs-ionic` (eave_condition),
+                # `minimal-traditional`/`storey-graduation` (chair_rail),
+                # `minimal-traditional`/`trim-classical` (baseboard, crown, interior_door,
+                # wainscot) and `ranch-style`/`storey-graduation` (chair_rail). Small, and now
+                # measured rather than asserted -- the two extra slots were in a comment nothing
+                # ran. The first of the four is the decline whose adjudication FOUND the
+                # `--impact` bug below, and writing it into the corpus grew the class it had just
+                # discovered from three to four.
                 src = packs.get(pid, {}).get("_source")
                 foreign.append((sid, pid, src or "DECLINED by this node — an inherited "
                                                 "slot-level `packs` ruling still names it"))
@@ -413,18 +425,36 @@ def main():
             print("Declining it changes no dimension on this node.")
             return
         after, kit = governed(g, nid, drop=pid)
-        lost = 0
+        lost, unreached = 0, 0
         print("If declined:")
         for sid in mine:
             nxt = after.get(sid)
             binding = (kit.get(sid) or {}).get("binding")
             flag = "  [the resolved kit binds this slot FORBIDDEN]" if binding == "forbidden" else ""
-            if nxt:
+            if nxt and nxt[0] == pid:
+                # A DECLINE THAT DOES NOT REACH AN ADDRESS, AND THIS BRANCH IS WHY IT USED TO LOOK
+                # LIKE ONE THAT DID. `choose_pack` consults the resolved slot record's own `packs`
+                # block -- a person's explicit ruling, carrying its own expression -- BEFORE the
+                # rows, and that block cascades like everything else in the kit. So the pack can be
+                # chosen at an address after `resolve_packs` has dropped it, from an ancestor's
+                # ruling the descendant has since decided differently. `--slots` has printed this
+                # since 25 Aug; `--impact` did not, and `packs.get(pid)` is empty after the drop,
+                # so it printed `-> gibbs-ionic (None)` and COUNTED THE SLOT AS SUCCESSFULLY
+                # RE-HOUSED. Found on `egyptian-revival`/`gibbs-ionic` by an adversarial check
+                # in WP-8.7's third pass. Same class as OQ 87, and a fresh instance of
+                # `oq/a-baked-pack-value-is-a-second-delivery-path` in an inherited `slot.packs`
+                # block rather than a baked kit parameter.
+                unreached += 1
+                print(f"  {sid:28s} -> STILL {pid} — the decline does NOT reach this slot: an "
+                      f"inherited slot-level `packs` ruling names it{flag}")
+            elif nxt:
                 print(f"  {sid:28s} -> {nxt[0]:22s} ({nxt[1]}){flag}")
             else:
                 lost += 1
                 print(f"  {sid:28s} -> NOTHING — this slot loses all dimensioning{flag}")
         print(f"\n  {lost} slot(s) would lose all dimensioning.")
+        if unreached:
+            print(f"  {unreached} slot(s) the decline DOES NOT REACH — unjudged, not re-housed.")
         print("\nA decline stops a wrong pack. It does not supply a right one — OQ 58's stated")
         print("limit, one layer down.")
         return

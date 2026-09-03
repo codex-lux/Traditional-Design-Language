@@ -322,6 +322,15 @@
       "quoted_from": "defining_characteristics[3]",
       "decided": "2026-09-02",
       "note": "Governs 0 slots -- declining changes no dimension on this node, and --pair reports no live gate, so nothing is armed either way. The value is that it stops a catalogue of sawn and turned members reaching a node whose own record closes its ornament list at three items, and moves the gap from unjudged to judged. Note the known consequence: a decline re-attributes the interior role to the next unjudged ancestor, so this may surface a new gap rather than close one."
+    },
+    {
+      "pack": "chambers-ionic",
+      "reason": "The pack's own note says its proportions ARE Vignola's Ionic -- eighteen modules of column, four and a half of entablature, one of base -- and that Chambers's departures are about which form, not about how big; it dimensions balustrade, chair_rail, column, frieze, ornament_vocabulary, pilaster and porch_support off that module. The node's governing_logic answers that claim in one clause and does so deliberately, saying it is important to state the economic answer without apology: nothing here is derived from a module of order, and the governing modules are the FHA minimum room dimension, the 16-inch stud bay, the 8-foot precut stud, the 4-by-8 sheet and the maximum insurable loan. The pack governs cornice and pilaster on this node, and the record refuses both at their addresses: c01 caps eave and rake overhang at 12 in and reassigns the node if it is exceeded, its first tell is a roof surface stopping at the wall with no shadow line at all, and its only three-dimensional event on the whole elevation is a small entry projection. The node already declines gibbs-ionic on this identical sentence.",
+      "basis": "node-record",
+      "quote": "Nothing is derived from a module of order",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-georgian at cascade depth 10 with no direct lineage edge. Governs 2 slots: cornice, which passes to palladio-ionic (english-palladian), and pilaster, which passes to benjamin-ionic (federal-style); 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: both successors are Ionic order packs of the same family and carry the same contradiction to the same two addresses, so this decline stops one delivery and not the class. palladio-ionic and benjamin-ionic on this node are the next adjudications."
     }
   ]
 }

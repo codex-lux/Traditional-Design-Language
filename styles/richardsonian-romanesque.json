@@ -274,6 +274,15 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 1 slot; pediment loses all dimensioning (nothing else in the cascade reaches it). Accepted as honest: the node's record states no pediment anywhere and a classical pediment is not part of the style's vocabulary, so no dimension is better than a composed-classical one. No other slot moves."
+    },
+    {
+      "pack": "facade-peristyle",
+      "reason": "facade-peristyle proportions the colonnade rather than the column: a front of two to eight columns with a flank of five to seventeen, intercolumniation bands of 1.2 to 4.0 diameters, Vitruvius's function making column height 8 to 10 diameters, a portico taking a half to three fifths of the front, a podium at a quarter of the column, and the Greek refinements. Every one of those presupposes a tall column standing in a screen in front of a wall. This node states its column for itself at 2 to 3.5 shaft diameters, which is below the pack's whole range of 8 to 10 rather than above it, and its first tell warns that a tall slender column under a round arch is a later commercial imitation. The node's governing element is the arch springing from the ground, its wall opening area is 20 to 35 percent because 'the wall must win', and its record says outright there is no porch. The pack governs composition_parti here, and that slot carries portico_share, corner_contraction and centre_bay_widening -- a portico occupying a half to three fifths of the front, on a node whose own tell says there is no porch. (It is NOT where the pack's screen-versus-wall rule sits: `screen_offset`, which the pack itself calls its central rule, targets window_grouping_rule. An earlier draft of this sentence said otherwise.)",
+      "basis": "node-record",
+      "quote": "Column height 2 to 3.5 shaft diameters where columns are used at all",
+      "quoted_from": "proportional_system.typical_ratios[2]",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 12 with no direct lineage edge. --impact: governs composition_parti, and declining leaves that slot with NO dimensioning at all -- 1 slot loses all dimensioning. That is a could-not-evaluate rather than a wrong figure, which is the honest state; the node's own record names mass, the arch and Beaux-Arts parti discipline as what organises it, and no pack in the cascade states that. No live gate."
     }
   ]
 }

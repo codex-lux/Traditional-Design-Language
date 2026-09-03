@@ -333,6 +333,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "governs 0 slots; declining changes no dimension on this node. No slot loses dimensioning. It arrives from french-neoclassical at cascade depth 6 with no direct lineage edge."
+    },
+    {
+      "pack": "timber-bay",
+      "reason": "timber-bay is a module-system whose module is the structural bay of a box frame, bent centre to bent centre at 16-20 ft, with the partitions and window jambs falling near the posts and the test 'can you draw the frame?'. The node's governing_logic states that there is no module here at all and names what does the work instead: the arcade bay and the parapet profile, the latter drawn as a freehand curve rather than constructed geometrically. Its bay_rhythm says the arcade sets a regular rhythm at the ground while upper openings are placed by convenience and rarely align, because the wall is conceived as a continuous mass -- which is the opposite of a bent spacing regulating both storeys. The pack currently governs ceiling_height_rule, hearth_position, room_adjacency_overrides and stair_position on this node, none of which the record derives from a frame. The building IS stucco over wood frame, and that is stated rather than hidden: it is light stud framing behind a wall conceived as mass, not an English box frame of bents, and the pack's own module is the bent.",
+      "basis": "node-record",
+      "quote": "There is no order and no module; proportion is set by the arcade bay and by the parapet profile",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by norman-vernacular at cascade depth 11 with no direct lineage edge. Governs 4 slots -- ceiling_height_rule, hearth_position, room_adjacency_overrides, stair_position -- all four passing to log-module (swiss-chalet) on a decline; 0 slots lose all dimensioning. Stated plainly: log-module is another vernacular structural module and its arrival on a California stucco revival is the next adjudication for this node, which this pass does not make. timber-bay's applies_to is a LIVE gate: endorsing would switch span_check's capacity in build/structure.py from the light-frame joist table to the bay module's own, with build/geometry_cp.py reading the same list. Declining arms nothing and keeps the light-frame table, which is the correct table for a 1890-1920 stud-framed building."
     }
   ]
 }

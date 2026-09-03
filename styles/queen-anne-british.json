@@ -279,6 +279,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 4 slots (cornice, crown, door_surround, frieze); 0 slots lose all dimensioning. All four pass to palladio-tuscan (italian-renaissance). Stated plainly because it bears on the ruling and repeats the chambers-ionic decline's own caveat: the decline swaps one codified classical order for another rather than removing order governance from the node, so cornice, crown, door_surround and frieze remain dimensioned -- by Tuscan rather than Ionic. It stops this pack, not the class. Whether ANY codified order should govern a picturesque Shaw elevation is the larger question neither this verdict nor the chambers-ionic one settles, and it is now two declines deep down a chain that keeps handing the same four slots to the next order pack in the cascade."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "palladio-tuscan's own notes say what it asserts: the module as a whole diameter in sixty minutes, the column at seven modules, the quarter diminution, the half-diameter base and capital with their internal divisions, and a plain one-module pedestal -- 'enough to lay out the column and the pedestal completely'. It is a codified applied order, and it arrives here governing casing, cornice, crown, door_surround, frieze and steps_and_stoop. The node's governing_logic does not merely say 'no applied system': it names a CLOSED list of the three things this style proportions by precedent -- the sash, the gable and the chimney -- and says the elevation is assembled from those by eye. A codified order is not one of the three. The node has already declined `chambers-ionic` and `palladio-ionic` on this same sentence, and the palladio-ionic decline's own note recorded that its four slots passed to palladio-tuscan and that the chain was not yet finished; this is that next link, read on the same words rather than on the chain.",
+      "basis": "node-record",
+      "quote": "the sash, the gable and the chimney are each proportioned by precedent, and the elevation is assembled from them by eye",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 8 with no direct lineage edge. Governs 6 slots; 0 lose all dimensioning. casing, cornice, crown, door_surround and frieze pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian). Stated plainly because it bears on the ruling: this is the THIRD order pack declined on this node for the same reason and the successor is a fourth, so the decline stops this pack and not the class. That is `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` in progress on a live node, and whether ANY codified order should govern a picturesque Shaw elevation remains the larger question none of the three verdicts settles. No live gate either way."
     }
   ]
 }

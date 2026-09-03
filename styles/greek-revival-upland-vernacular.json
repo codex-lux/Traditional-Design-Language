@@ -292,6 +292,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "governs 0 slots; 0 lose all dimensioning; declining changes no dimension on this node -- trim-classical, bound directly at precedence 1, already wins the trim slots this order pack could otherwise have reached, and the node binds no order pack at all. No node descends from greek-revival-upland-vernacular, so the decline does not propagate."
+    },
+    {
+      "pack": "benjamin-corinthian",
+      "reason": "The pack is Benjamin's Roman Corinthian as a delta on Vignola -- an order overlay, everything not stated in it being Vignola's -- and it dimensions casing, chair_rail, cornice, crown, entablature, frieze, modillion_dentil, ornament_vocabulary and porch_support off a classical module. The node's governing_logic states in its own words that the classical reading here is carried entirely by board width and eave depth with no orders present, and its constraint on porch supports refuses the pack's porch_support delivery by name: free-standing classical columns are out of character and the posts are 4x4 to 6x6, chamfered. Its single stated test against the plantation variant is 'the presence or absence of an actual order'. The counterweight is real and is stated here rather than left out: the node's own description says the doorway was copied 'from a plate in Benjamin or Lafever'. What was copied is a flat pilaster-and-entablature door surround, which trim-classical -- the pack this node actually binds -- already dimensions; the Corinthian order with its modillion cornice and carved capitals is the thing the record says is not present. The node already declines vignola-ionic and greek-doric on this identical sentence.",
+      "basis": "node-record",
+      "quote": "Classical proportion carried entirely by board width and eave depth, with no orders present.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by federal-style at cascade depth 3 with no direct lineage edge. Governs 0 slots -- trim-classical, which this node binds directly, holds these addresses -- so declining changes no dimension and no slot loses dimensioning. --pair reports no live gate. The decline's value is that it records the refusal of the richest order in the corpus on a node whose whole subject is classicism done in boards."
     }
   ]
 }

@@ -341,6 +341,15 @@
       "quoted_from": "defining_characteristics[2]",
       "decided": "2026-09-02",
       "note": "governs 0 slots; declining changes no dimension on this node, no slot loses any dimensioning, and no live check is armed either way"
+    },
+    {
+      "pack": "benjamin-corinthian",
+      "reason": "The pack's own note states its subject as Benjamin's Roman Corinthian taken as a delta on Vignola -- an order-system, and the richest of the five. It dimensions casing, chair_rail, cornice, crown, entablature, frieze, modillion_dentil, ornament_vocabulary and porch_support, and the node's trim characteristic answers three of those addresses by name. The record's sharpest tell is that a Greek Revival house of the same massing carries '10-12 inch pilasters and a 14-inch frieze' where this one carries corner boards of 4-6 inches and a plain fascia of 6-8, so the entablature members this pack sizes are exactly what the type is defined by having thinned away; governing_logic adds that classical proportion survives here 'only as inherited habit in bay spacing and opening alignment', and none of the pack's nine addresses is bay spacing or opening alignment. This is the reading already written on this node against vignola-ionic, trim-classical and greek-doric, applied to one more order arriving down the same branch.",
+      "basis": "node-record",
+      "quote": "no continuous entablature, no pilasters, no columns",
+      "quoted_from": "defining_characteristics[2]",
+      "decided": "2026-09-02",
+      "note": "Delivered by federal-style at cascade depth 4; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node. No live gate."
     }
   ]
 }

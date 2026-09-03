@@ -259,6 +259,15 @@
       "quote": "The canal house hides its timber entirely inside brick and expresses instead the masonry gable and the anchor plates",
       "quoted_from": "distinguished_from[2].difference",
       "decided": "2026-09-02"
+    },
+    {
+      "pack": "jetty-overhang",
+      "reason": "The pack's own notes make its subject a framed overhang and its drops, and state the decision everything follows from: 'THE MODULE IS THE JOIST, NOT THE BAY ... a jetty is not a division of a bay -- it is a cantilever, and a cantilever is dimensioned by the member cantilevering'. On this node it dimensions expressed_frame, wall_thickness_frame and material_change_rule. It reaches the node from german-fachwerk at cascade depth 3, and the node's own distinguished_from entry against german-fachwerk is the exact sentence that refuses it: the timber is hidden entirely inside brick and what the face expresses is the masonry gable and the anchor plates. The node's defining characteristics put the structure in load-bearing brick party walls carried above the roof as fire walls with timber floor beams spanning the narrow dimension, and its governing_logic makes the storey height follow that beam's span, not a cantilever. The forward lean the node does state -- the vlucht at 1:25 to 1:60 of facade height, required by c03 so hoisted goods clear the wall -- is a leaning masonry wall and not a framed overhang; reading it as a jetty would be exactly the coincidence-read-backwards this exercise warns about.",
+      "basis": "node-record",
+      "quote": "The canal house hides its timber entirely inside brick and expresses instead the masonry gable and the anchor plates",
+      "quoted_from": "distinguished_from[2].difference",
+      "decided": "2026-09-02",
+      "note": "Delivered by german-fachwerk at cascade depth 3 with no direct lineage edge -- the pack arrives from the very node this sentence distinguishes the style against. Governs 3 slots and ALL THREE lose all dimensioning on a decline: expressed_frame, material_change_rule and wall_thickness_frame have no successor anywhere in the cascade. That is the intended outcome and not a cost to be weighed against the decline -- the node states that it expresses no frame, so an undimensioned expressed_frame is the honest record and a dimensioned one is a false one. Stated so the next reader is not surprised: the node DOES have real vertical material changes (the speklagen bands of white or sandstone crossing dark brick, tell 2), but this pack's material_change_rule is the stone-below/timber-above line taken at a jetty, which is not that. The node already declines timber-panel on this same sentence."
     }
   ]
 }

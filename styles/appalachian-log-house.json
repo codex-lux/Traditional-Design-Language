@@ -335,6 +335,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "--impact: governs 0 slots, so this changes no dimension and moves only the meter. It arrives from `palladian` at cascade depth 15 with NO direct lineage edge, and like the two order packs already declined here it surfaced only because earlier declines re-attributed the `secondary` role down the chain -- so expect this decline to surface the next order pack on that role rather than close it. --pair reports no live gate, so endorsing would have changed no behaviour either."
+    },
+    {
+      "pack": "vignola-doric",
+      "reason": "The pack is Doric encoded from Vignola's own figures in modules and parts -- an order-system, and the base order beneath the chambers-doric and palladio-doric overlays this node has already declined on this same sentence. It dimensions balustrade, baseboard, casing, chair_rail, column, cornice, crown, door_surround, entablature, frieze, modillion_dentil, porch_depth and porch_support. The node's governing_logic says the type is entirely material-determined -- log length sets plan dimension, log diameter sets course height, riven-shingle performance sets roof pitch, the notch sets the corner -- and then rules out the pack's whole category in one clause. Declining the base order after both of its overlays is the same reading applied to the same object arriving one step further up the chain.",
+      "basis": "node-record",
+      "quote": "There is no applied proportional system and adding one falsifies the type.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 18; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node. No live gate. This is a further instance of oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times: with this one the node has refused twelve packs, of which FOUR are order-systems (chambers-doric, palladio-corinthian, palladio-doric and this) and the other eight are module, trim and facade systems. An earlier draft said 'the same category twelve times', which counts twelve declines of five different kinds as one category; the adversarial check that caught it proposed five orders, which is also wrong. The figure here is measured from each pack's own `kind`."
     }
   ]
 }

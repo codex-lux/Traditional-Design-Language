@@ -278,6 +278,15 @@
       "quoted_from": "lineage[2].note",
       "decided": "2026-09-02",
       "note": "Governs 8 slots; none loses all dimensioning. baseboard and chair_rail pass to vignola-doric (roman-classical); casing, cornice, crown, door_surround, frieze and porch_depth pass to palladio-tuscan (italian-renaissance). Both successors are themselves order packs arriving through the same unbound cascade, so the decline stops a wrong pack without supplying a right one -- OQ 58's stated limit -- and those two pairs are the next thing to read for this node."
+    },
+    {
+      "pack": "greek-doric",
+      "reason": "greek-doric encodes the Greek Doric order from Stuart and Revett -- column height 4 to 6.5 diameters, entasis above the lower third, annulets, mutules per triglyph -- and dimensions column, entablature, modillion_dentil and ornament_vocabulary from it. This node refuses the classical order in its own words and bounds exactly how far classical material may go on a Tudor building: a roundel, a putto or a shell set into a Gothic surface. An entablature is none of those, and it is the one slot the pack reaches here. The node also names its own setting-out system and it is the four-centred arch and the mullion light, with the governing_logic opening 'No governing system in the classical sense'. The direction was checked against the jacobean trap: this is not an argument from column slenderness -- the node states no column proportion at all -- it is the node's own refusal of the order as such.",
+      "basis": "node-record",
+      "quote": "No classical order anywhere used structurally; where Renaissance ornament appears it is a roundel, a putto or a shell set into a Gothic surface",
+      "quoted_from": "diagnostic_tells[4]",
+      "decided": "2026-09-02",
+      "note": "Delivered by greek-classical at cascade depth 7 with no direct lineage edge. --impact: governs entablature, which falls to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. The successor is another classical order, so this stops a wrong pack without supplying a right one -- OQ 58's stated limit, and the same limit applies to any order pack reaching this node. No live gate."
     }
   ]
 }

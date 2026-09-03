@@ -292,6 +292,15 @@
       "quoted_from": "proportion_packs[1].note",
       "decided": "2026-09-02",
       "note": "Governs 0 slots today; declining changes no dimension on this node and 0 slots lose all dimensioning. The other order packs already lost every address here to facade-picturesque, trim-craftsman, stone-course and timber-panel, so the decline records the judgment rather than moving a figure — and, as with the vignola-composite decline, it stops THIS order and does not stop orders."
+    },
+    {
+      "pack": "palladio-tuscan",
+      "reason": "The pack is Palladio's Tuscan as an overlay on Vignola -- module the whole diameter in sixty minutes, column at seven modules with a quarter diminution, half-diameter base and capital with their internal divisions, a plain one-module pedestal, and an entablature the pack honestly leaves to a judgment rule -- and on this node it dimensions door_surround, frieze and steps_and_stoop. The node has already adjudicated this whole class twice in its own binding notes: its facade note says flatly that there is no classical order anywhere in its defining characteristics or constraints, and its interior note chooses trim-craftsman over trim-classical because nothing in its characteristics, tells or constraints calls for a classical order or an entablature-derived interior, the register being rustic timber and stone throughout. Its governing_logic puts the scale in the tower's diameter and height rather than in a column module, and its five hard constraints are about tower geometry, roof pitch, half-timber framing, material-change datums and casements -- no order, no entablature, no stoop. Same ground as the vignola-composite and vignola-corinthian declines already recorded on this node.",
+      "basis": "node-record",
+      "quote": "No classical order anywhere in the defining characteristics or constraints",
+      "quoted_from": "proportion_packs[1].note",
+      "decided": "2026-09-02",
+      "note": "Arrives from italian-renaissance at cascade depth 12 with no direct lineage edge. This gap is the successor the node's OWN vignola-composite decline created -- that note records door_surround and frieze passing to palladio-tuscan. Governs 3 slots; declining passes door_surround and frieze to vignola-tuscan (roman-classical) and steps_and_stoop to facade-classical (beaux-arts-american), and 0 slots lose all dimensioning. Both successors are classical packs and neither is thereby right; worth naming that the second is a Beaux-Arts pack landing on a node whose own facade note says its Ecole descent is inherited only at second hand through the french-eclectic parent. OQ 58's stated limit, one layer down."
     }
   ]
 }

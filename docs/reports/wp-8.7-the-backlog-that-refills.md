@@ -233,3 +233,124 @@ ruling.
 `tests/test_declined_packs.py` (re-pinned, plus the seven-flag guard and a `--pair` content test), `tests/test_wp46_packs.py` (re-pinned; the CLAUDE.md tally guard
 caught the new question before this report was written) ·
 `docs/open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md`.
+
+---
+
+## The second and third passes, and the shape of the tail (2–3 Sep 2026)
+
+The report above describes the first pass. The backlog was then read end to end twice more, under
+the same rule, and the reason to keep reading was to find out whether the refill converges.
+
+**It does, geometrically, which is worse than it sounds.**
+
+| pass | gaps read | declines applied | overturned by the check | new gaps surfaced |
+|---|---|---|---|---|
+| first | 244 | 114 | 21 | 73 |
+| second | 73 | 54 | 2 | 50 |
+| third | 50 | 40 | 7 | 36 |
+
+Each pass surfaces about three quarters of what the last one did. Three points make that a curve
+rather than an anecdote, and the curve says the remaining work is of the order of **a hundred more
+adjudications spread over a dozen passes**, each costing a reader and an independent check. The
+loop terminates. It does not terminate cheaply, and **anyone costing this work from "36 left" will
+be wrong by a factor of three** — which is the thing
+`oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` is asking a ruling about.
+
+Across all three: **367 adjudications, 211 judged into the corpus** (208 declines, 3 endorsements),
+**181 put to a ruling**, `judged` 48 → **249**.
+
+### The adversarial check earned its keep at the same rate throughout
+
+30 of 367 proposals were overturned — 23 of 317 across the first two passes, then 7 of 50 in the
+third. **The rate did not fall as the readers got more practised**, which is the argument for
+keeping the check rather than trusting a reader who has now read forty of these.
+
+The third pass's seven divide into two kinds, and the second kind is the one worth knowing:
+
+- **Four wrong verdicts.** `cape-cod-colonial` / `timber-panel` claimed `wall_thickness_frame` was
+  the only delivery here not obviously wrong; `water_table` is a second, the pack's rule there is
+  an 18 in sill plinth, and the node states that same eighteen inches twice in its own record
+  without either sentence being cited. `queen-anne-patterned-masonry` / `facade-arcade` quoted a
+  comparative whose comparand is another node, re-anchoring "small" to the pack's 12 ft silently —
+  and the same eleven words already stand on that node as the basis for declining `facade-peristyle`
+  *because* a masonry pier is not a classical support, so one clause was doing opposite work in two
+  rulings. `new-jersey-dutch-gambrel` / `jetty-overhang` asserted the node has no vertical material
+  change while its own exemplar list names Dyckman Farmhouse, *"fieldstone below, frame above"*.
+  `mission-revival` / `stone-course` called a `soft` constraint hard, twice, once as the entire
+  ground for the verdict.
+- **Three right verdicts resting on false records**, which no rate measured over verdicts alone
+  would ever catch. `jacobethan-revival` / `chambers-doric` was tabled on the ground that nothing
+  was at stake because the node binds `vignola-doric` — which governs **zero of its 64 slots**; the
+  six addresses are held by four other packs and a `forbidden` binding, so the question is a
+  precedence one and not an overlay one. `rural-gothic-villa` / `palladio-tuscan` and
+  `scottish-baronial` / `vignola-tuscan` were both tabled as "a decline here would be editorial"
+  by readers who had not opened the node's own `declined_packs`: between them those two nodes
+  already carry **five** node-record declines of classical order packs, several quoting the very
+  field the reader called silent, and two of the earlier notes hand the pack now at issue forward
+  by name.
+
+A further **seven sound entries carried a false claim in their `reason` or `note`** and were
+corrected before being written, on the rule that a false record is a false record whether or not
+the verdict survives it. Two examples: a porch-support clause said to meet `porch_depth`, whose
+rule is a flat 96 in judgment slot with a note saying the order *"cannot fix the depth for you"*;
+and three declines arguing from numbers that contradict the packs' **delivered figures** while
+sitting inside their **validity ranges** — true as stated, and stronger than the bands support.
+
+**And one correction was itself wrong.** The check flagged a note claiming a node had "refused the
+same category twelve times" and proposed five orders instead. Reading each pack's own `kind`: twelve
+declines, of which **four** are order-systems. The measured figure went in, with both wrong ones
+recorded beside it. WP-9.5's rule — *re-derive the number, do not re-read the sentence* — applies to
+the checker as much as to the reader.
+
+### `--impact` counted an address a decline cannot reach as re-housed
+
+The `egyptian-revival` / `gibbs-ionic` adjudication saw `--impact` print
+`eave_condition -> gibbs-ionic (None)`: the pack apparently resolving to itself after its own
+decline, with the delivering ancestor printed as `None`. It is neither a hole in the successor
+computation nor a display artefact but **a second delivery path the decline does not clear**.
+`gibbs-ionic` emits no rule for `eave_condition` at all; it is chosen there because the resolved
+slot record, inherited whole from `georgian-colonial-american`, carries a slot-level `packs` block
+naming it at precedence 1 with its own expression `storey_height / 4 * (7 / 18)`, and `choose_pack`
+ranks that block above the rows. Dropping the pack from the cascade cannot touch it.
+
+`--slots` has printed this condition since 25 August. `--impact` did not, and after the drop
+`packs.get(pid)` is empty — so it printed the empty source as though it were a source and **counted
+the slot among those successfully re-housed**. A decline that does not reach an address wearing the
+format of one that does.
+
+Fixed: `--impact` now names the condition and counts it separately, as unjudged rather than
+re-housed. Swept over every shipped decline, the class holds on **four declines at seven addresses**
+— and the fourth is `egyptian-revival` / `gibbs-ionic` itself, so writing the decline that found the
+bug grew the class it had just discovered from three to four, and the new guard failed on its first
+run for exactly that reason. The comment beside the `--slots` branch was corrected in the same
+change: it named three `ranch-style` slots where the tool reports one.
+
+Nothing in the generator evaluates that expression today — `pack_choice` has one producer and no
+consumer, reaching users only as passthrough through `tdl_resolve_kit` — so it is a stale ruling
+served to a reader, not a wrong figure on a sheet. It is OQ 87's mechanism and a fresh instance of
+`oq/a-baked-pack-value-is-a-second-delivery-path` in an inherited `slot.packs` block rather than a
+baked kit parameter.
+
+### Two counts that had been run together
+
+`check_addresses`'s `baked_vs_refused` comment read *"168 declines turn out to have a baked
+survivor, contributing 46 of these 66"*, which says every decline had one. It is a **(node, pack)
+decline count of 21 across 17 nodes** against a **parameter count of 51**. Measured on the declines
+rather than the parameters the rate is 20 of 168 and then 21 of 208 — about one decline in ten, and
+falling slightly rather than the "one in eight, holding" the second pass published, because the
+third pass declined forty packs and one of them met a baked snapshot. The ratchet moves 66 → 71
+because it is a function of the decline count; the number to watch is the ratio.
+
+### The rows this pass added are cut differently from the ones before them
+
+New rows in the ruling table are cut at a clause and mark the elision with `…`. The original 171
+are cut at a hard 300 characters and 81 of them land mid-word — OQ 18's own lesson (*cut at a
+sentence or clause and mark every elision*) arriving one document late. The old rows are **not**
+re-cut, because they cannot be: the table is now the only record of their full text. The document
+says so rather than leaving a reader to notice two conventions.
+
+## Still not done
+
+The `inherits_packs` opt-in flip, which is OQ 51's second half and waits on the ruling; the 36 gaps
+this pass surfaced, listed under their own heading as unread rather than tabled as cases the
+records cannot settle; and `oq/a-baked-pack-value-is-a-second-delivery-path`, now measurably larger.

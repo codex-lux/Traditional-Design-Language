@@ -273,6 +273,15 @@
       "quoted_from": "defining_characteristics",
       "decided": "2026-09-02",
       "note": "governs 1 slot: composition_parti; declining passes it to facade-medieval-english (jacobean), delivered from the same cascade. 0 slots lose all dimensioning. --pair reports no live gate, so endorsing would have changed no behaviour and the decline is the only direction that moves a dimension here. The pack reaches this node from english-palladian at cascade depth 8 with no direct lineage edge between them."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "facade-arcade dimensions porch_support, porch_depth, porch_ceiling and arch for an arcuated bay: a masonry pier 38 2/5 in wide on an 8 ft clear span, or a column of 10 1/5 in lower diameter, carrying an arch springing at 7 ft above the walk, and the pack's own module note says the pier stops being buildable as the span shrinks. This node states its porch support for itself and it is a 5x5 to 8x8 timber post with 45 degree braces -- below the pack's column diameter and a fifth of its pier -- which is a trabeated porch with a diagonal brace at the head, not a pier with an arch on it. The node's module is also declared and is a different thing: the stick grid, a rectangular field of applied boards that is 'decorative rather than structural', where the arcade's module is the structural void. Its first tell, 'Straight lines only', is written about the applied woodwork and is supporting rather than decisive, which is why the quote taken here is the porch figure.",
+      "basis": "node-record",
+      "quote": "Porch post 5x5 to 8x8 with diagonal braces at 45 degrees, brace length 0.3 to 0.5 of post height",
+      "quoted_from": "proportional_system.typical_ratios[4]",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
     }
   ]
 }

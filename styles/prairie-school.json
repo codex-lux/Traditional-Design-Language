@@ -286,6 +286,24 @@
       "quoted_from": "proportional_system.bay_rhythm",
       "decided": "2026-09-02",
       "note": "governs 1 slot: composition_parti; declining passes it to facade-pavilion (beaux-arts-french). 0 slots lose all dimensioning. The decline stops this pack and does not supply a right one — facade-pavilion is itself a classical successor, which is OQ 58's stated limit one layer down and not settled by this verdict. It arrives from english-palladian at cascade depth 9 with no direct lineage edge."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "The pack's module note states its premise in one sentence: THE MODULE IS THE VOID AND NOT THE PIER, because 'an arcade is a rhythm of openings interrupted by supports, not a wall with holes in it'; and its largest plan rule makes the arcade the building's own shaded circulation at 12 ft deep and 9 ft clear. The node answers both. Its bay_rhythm says the front is not bayed at all -- the compositional unit is the horizontal band and solid wall occurs between bands rather than between openings -- so there is no void-and-support rhythm for the pier ratio, the bay centres or the bay count to measure. Its c03 requires every window head to die into a single continuous lintel band returning around every corner without interruption, which is the opposite of a head springing from an impost; and its circulation is internal, the plan 'pinwheeling about a massive central masonry chimney'. I weighed the descends_from note to richardsonian-romanesque, which names 'the low sheltering arch' as an inheritance through Sullivan's office, and did not let it decide: one sheltering arch is not a run of bays with imposts, an archivolt depth and a third of its elevation open, which is what this pack dimensions and what the node's own bay_rhythm refuses. It is the same sentence on which the node has already declined `facade-classical` and `facade-peristyle`.",
+      "basis": "node-record",
+      "quote": "Continuous rather than bayed. The compositional unit is the band, subdivided by mullions at a regular casement module",
+      "quoted_from": "proportional_system.bay_rhythm",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 12 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning; no live gate. Worth recording for whoever reads the Romanesque edge later: prairie-school descends_from richardsonian-romanesque, which IS in facade-arcade's applies_to, so the pack has a plausible-looking route here -- and the delivery the cascade actually makes is from italian-renaissance, twelve deep."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "palladio-corinthian is an order-system overlay and its whole content is the proportioning of a classical order off a module -- the same class of pack, reaching the same kind of slot, as the `chambers-doric` this node has already declined. The node's eighth defining characteristic names that object in the pack's own word and forbids it outright, and its hard constraint c02 forbids 'any classical or revival ornament' besides. There is no order on a Prairie house for a Corinthian module to divide: the eave soffit is stated as a continuous closed plane with no brackets, the wall surfaces are 'continuous and unornamented', and the governing_logic is explicit that vertical proportion is handled by ceiling-height differentiation rather than by a facade ratio, so even the pack's height_proportion has nothing to govern.",
+      "basis": "node-record",
+      "quote": "No historical reference of any kind — no orders, no revival motifs, no applied period detail",
+      "quoted_from": "defining_characteristics[7]",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning and no live gate is armed either way."
     }
   ]
 }

@@ -523,8 +523,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,198 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **225 unjudged** gaps, not the 233 published --
+  is **OQ 51** and is the one with 3,158 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **223 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -1610,16 +1610,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
     stranding.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **266 role_gaps**,
-    **3,198 inherited_packs**, **225 unendorsed** -- and one FLOOR that may only go up,
-    **judged 209** (endorsed + declined). **THE BACKLOG HAS BEEN READ END TO END TWICE AND IT REFILLED BOTH TIMES
-    (WP-8.7, 2 Sep 2026)**: 317 adjudications one node at a time, **171 judged into the corpus**
-    (168 declines, 3 endorsements) and **171 put to a ruling** in
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **264 role_gaps**,
+    **3,158 inherited_packs**, **223 unendorsed** -- and one FLOOR that may only go up,
+    **judged 249** (endorsed + declined). **THE BACKLOG HAS BEEN READ END TO END THREE TIMES AND IT REFILLED EVERY TIME
+    (WP-8.7, 2-3 Sep 2026)**: 367 adjudications one node at a time, **211 judged into the corpus**
+    (208 declines, 3 endorsements) and **181 put to a ruling** in
     `oq/the-adjudication-cases-the-records-do-not-decide`, which carries a SECOND heading for the
-    50 gaps nobody has read -- calling those cases the records cannot settle would be false.
-    Declining a pack re-attributes the role to the next ancestor, so **244 read produced 73, and
-    those 73 produced 50**: converging, slowly. **23 of the proposed data changes were overturned
-    by an independent adversarial check**, about one in six.
+    36 gaps nobody has read -- calling those cases the records cannot settle would be false.
+    Declining a pack re-attributes the role to the next ancestor, so **244 read produced 73, those
+    73 produced 50, and those 50 produced 36**. **THREE POINTS MAKE IT A CURVE AND THE CURVE IS
+    GEOMETRIC**: each pass surfaces about three quarters of what the last one did, so the tail is
+    long rather than short -- of the order of a hundred more adjudications over a dozen passes,
+    each costing a reader and a check. It terminates; it does not terminate cheaply, and anyone
+    costing this work from "36 left" will be wrong by a factor of three.
+    **30 of the proposed data changes were overturned by an independent adversarial check**, about
+    one in six, and THE RATE HAS NOT MOVED ACROSS THREE PASSES (23 of 317, then 7 of 50) -- which
+    is the argument for keeping the check rather than trusting a reader who has read forty of
+    these. Two of the third pass's seven were verdicts that were RIGHT resting on records that
+    were FALSE (a `soft` constraint called hard; a node said to bind a pack that governs zero of
+    its 64 slots), which no rate over verdicts alone would have caught.
     `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint on its own.
     Read `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before costing this
     work from the headline. **`--pair NODE PACK`** is the screen an adjudication needs: the pack's

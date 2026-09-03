@@ -291,6 +291,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 2 slots: cornice and pilaster. Declining sends cornice -> palladio-ionic (english-palladian) and pilaster -> benjamin-ionic (federal-style); 0 slots lose all dimensioning. Both replacements are themselves unadjudicated order packs, so the role re-attributes to the next unjudged ancestor rather than closing — the behaviour CLAUDE.md already records for a correct decline, and the same outcome the gibbs-ionic decline produced one step earlier in this chain. --pair reports no live gate, so the decline changes dimensions and arms nothing."
+    },
+    {
+      "pack": "palladio-ionic",
+      "reason": "palladio-ionic is an order-system overlay: a nine-module column, an entablature at a fifth of the column divided 4 : 3 : 5, an Attic base at half a diameter, a modillion cornice divided into seven and three quarters. Its subject is a governed vertical hierarchy, and it dimensions eight slots on that basis including column, entablature, cornice, height_proportion and modillion_dentil. This node's record refuses that hierarchy in its own words and names what governs instead -- the plywood sheet, the truss spacing, the precut stud and the garage door -- and says its facade proportion is a residual rather than a governed quantity. The pack reaches only one slot here, cornice, and the same sentence says a cornice is frequently absent.",
+      "basis": "node-record",
+      "quote": "Facade proportion is a residual of plan length rather than a governed quantity, and no vertical hierarchy survives at all — there is no base, no piano nobile, no attic, and frequently no cornice.",
+      "quoted_from": "proportional_system.governing_logic",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 13 with no direct lineage edge. --impact: governs cornice, which falls to palladio-tuscan (italian-renaissance); 0 slots lose all dimensioning. The successor is another Palladian order, so this decline stops a wrong pack without supplying a right one -- OQ 58's stated limit. No live gate."
     }
   ]
 }

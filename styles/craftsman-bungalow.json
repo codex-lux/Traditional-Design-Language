@@ -284,6 +284,15 @@
       "quoted_from": "proportional_system.governing_logic",
       "decided": "2026-09-02",
       "note": "Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. The pack arrives from english-georgian at cascade depth 8 with no direct lineage edge (the gap file attributes it to richardsonian-romanesque; --pair reports the delivering ancestor as english-georgian)."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "The pack's subject is Palladio's Corinthian as a delta on Vignola -- the column at nine and a half diameters because it is close-spaced at two, the Attic base, the pedestal at a quarter, the entablature at a fifth divided into twelve -- and it targets this node's column, porch_support, entablature, crown and modillion_dentil. The node dimensions that same support itself and does so incompatibly: a pier of 24 to 30 in narrowing to 10 to 14 in at the beam is a diminution of roughly a half, where a Corinthian shaft diminishes by a sixth, and the node's own tell has the support as clinker brick or fieldstone carrying a tapered wood post rather than a shaft with a base and a capital. Its governing_logic names the rival authority for the same quantities in one sentence -- the plan-book house is proportioned by catalog page, not by module -- which is the ground the node already used to decline timber-bay and brick-course. DIRECTION CHECK: the node's taper is LARGER than the order's, not smaller, so the numeric comparison is being read the right way round.",
+      "basis": "node-record",
+      "quote": "Porch pier base 24 to 30 in wide, tapering to 10 to 14 in at the beam",
+      "quoted_from": "proportional_system.typical_ratios[5]",
+      "decided": "2026-09-02",
+      "note": "Arrives from english-palladian at cascade depth 10 with no direct lineage edge. Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. Same field and same reasoning as the node's existing chambers-doric decline, one order over."
     }
   ]
 }

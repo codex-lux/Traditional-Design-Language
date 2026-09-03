@@ -300,6 +300,15 @@
       "quoted_from": "constraints[4].statement",
       "decided": "2026-09-02",
       "note": "Measured --impact: governs 0 slots; declining changes no dimension on this node and no slot loses all dimensioning. Of the 6 slots the pack dimensions (cornice_return, dormer, gable_treatment, ornament_vocabulary, rake_condition, wing_strategy) none is currently governed by facade-gable here. --pair reports no live gate, so endorsing would have armed nothing either."
+    },
+    {
+      "pack": "chambers-doric",
+      "reason": "Chambers's Doric is an overlay on Vignola whose four stated deltas are the Attic base, the single-fascia architrave after the Theatre of Marcellus, the pedestal at three tenths and Blondel's conchoid diminution -- a full order, dimensioning column, crown, frieze, modillion_dentil, pilaster and porch_support. The node's fourth diagnostic tell answers two of those addresses definitionally: no frieze board, and the presence of a modillioned cornice means the house has left the variant. Its hard constraint c05 says the same in the imperative -- ornament limited to the door surround, a 4-6 in eave moulding and 4-6 in corner boards, with cornice returns, modillions, friezes and pediments over windows forbidden. This is the reading the node has already written against gibbs-doric, the other Doric overlay arriving down the Georgian branch.",
+      "basis": "node-record",
+      "quote": "No cornice, no returns, no frieze board. The presence of a modillioned cornice means the house has left this variant.",
+      "quoted_from": "diagnostic_tells[3]",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-georgian at cascade depth 9; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node. No live gate. The node is not ornament-free -- it binds facade-classical and trim-classical and keeps a door surround -- so this decline stops the modillioned Doric order specifically, which is the thing c05 forbids by name, and leaves the node's own classical bindings in place."
     }
   ]
 }

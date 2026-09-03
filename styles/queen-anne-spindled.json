@@ -245,6 +245,15 @@
       "quoted_from": "defining_characteristics[0]",
       "decided": "2026-09-02",
       "note": "Governs 1 of its 7 slots on this node: composition_parti, which passes to facade-medieval-english (jacobean) on the decline. 0 slots lose all dimensioning. Arrives from english-palladian at cascade depth 8 with no direct lineage edge. No live gate, so no check is armed or disarmed either way."
+    },
+    {
+      "pack": "facade-arcade",
+      "reason": "facade-arcade dimensions porch_depth at 12 ft, porch_ceiling at 11 ft to the soffit, and porch_support as either a masonry pier 38 2/5 in wide on an 8 ft span or a column of 10 1/5 in lower diameter carrying an arch that springs at 7 ft. This node states all three quantities for itself and every one is below the pack's: porch depth 7 to 10 ft against 12, porch head 8 to 9 ft above deck against an 11 ft soffit, and a turned post 5 to 8 in in diameter at the swell against a 38 in pier or a 10 in column. Three numbers, all in the same direction, on the three slots the pack would govern here. The porch is also trabeated by description -- posts at 6 to 9 ft on centre carrying a spindle frieze beneath the head -- where the pack's whole subject is the arcuated bay, pier and springing.",
+      "basis": "node-record",
+      "quote": "Porch depth 7 to 10 ft; porch head height 8 to 9 ft above deck",
+      "quoted_from": "proportional_system.typical_ratios[4]",
+      "decided": "2026-09-02",
+      "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
     }
   ]
 }

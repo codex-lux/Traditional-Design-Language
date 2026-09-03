@@ -307,6 +307,24 @@
       "quoted_from": "constraints[2].statement",
       "decided": "2026-09-02",
       "note": "Governs 0 slots on this node today, so declining changes no dimension and nothing loses dimensioning; it removes a live delivery path that would supply a Doric column, pilaster, crown, frieze, modillion_dentil or porch_support the moment any of those slots resolved to it."
+    },
+    {
+      "pack": "palladio-corinthian",
+      "reason": "The pack's own note states its subject as the order where Palladio and Vignola part -- a column of nine and a half diameters bound to a two-diameter intercolumniation -- and it dimensions chair_rail, column, crown, entablature, height_proportion, modillion_dentil and porch_support on this node. The node carries a HARD constraint that forbids applied classical orders by enumerating their members, dentil courses among them, and then states positively what a porch support must be instead: a square post or a battered pier on a masonry base not less than 24 in wide. Three of the pack's seven addresses are answered by that one sentence, and the node's governing_logic adds that its system 'is dimensional rather than ratio-based', which is the precise opposite of an order laid out in modules and parts. This is the fifth order pack refused here on the same constraint, after chambers-ionic, palladio-ionic, palladio-tuscan and chambers-doric.",
+      "basis": "node-record",
+      "quote": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden. Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide.",
+      "quoted_from": "constraints[2].statement",
+      "decided": "2026-09-02",
+      "note": "Delivered by english-palladian at cascade depth 8; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node. No live gate."
+    },
+    {
+      "pack": "vignola-tuscan",
+      "reason": "Tuscan encoded from Vignola's own figures in modules and parts, dimensioning balustrade, baseboard, casing, chair_rail, cornice, crown, door_surround, entablature, frieze, porch_depth and porch_support. Two of those addresses are answered by name in the node's hard constraint -- 'pedimented door surrounds ... are forbidden' meets door_surround, and 'Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide' meets porch_support -- so this is the pack's own subject contradicted at its own addresses. It does NOT reach porch_depth: that rule is a flat 96 in flagged a judgment slot, whose own note says the order 'cannot fix the depth for you'. Two addresses, not three rather than the 'no canonical module' sentence being stretched. The plainness of the Tuscan is not a defence: the constraint forbids the applied order, not the enriched one. Sixth order pack refused here on the same constraint.",
+      "basis": "node-record",
+      "quote": "Applied classical orders — fluted or turned columns, pedimented door surrounds, dentil courses — are forbidden. Porch supports must be square posts or battered piers on masonry bases not less than 24 in wide.",
+      "quoted_from": "constraints[2].statement",
+      "decided": "2026-09-02",
+      "note": "Delivered by roman-classical at cascade depth 12; there is no direct lineage edge between them. --impact: governs 1 slot, frieze; declining hands it to benjamin-ionic (federal-style) and 0 slots lose all dimensioning. Stated plainly because the direction is uncomfortable and the chain is now visible: this node's earlier palladio-tuscan decline passed frieze TO vignola-tuscan, and this decline passes it on again to a RICHER order than the one refused. The decline stops this order and not the classical order as such -- OQ 58's stated limit, one layer down. The node's frieze wants trim-craftsman, which it already binds; supplying that is a binding decision, not a decline."
     }
   ]
 }
