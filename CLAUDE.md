@@ -450,6 +450,21 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   tools read them, and a revised plan's `revision_summary` is admitted by the plan schema so
   the DXF round trip reads back. `tests/test_moves.py::TestTheSessionAuditOfTheGuard` and
   `tests/test_revise.py::TestTheSessionAuditOfTheLoop` are the guards.
+- **A CALLER-SUPPLIED PLAN REACHED THE SOLVER UNVALIDATED, AND NINE OF ITS FIELDS CRASHED IT
+  (WP-10.1).** `/api/plan/evaluate`, `/api/drawings/{kind}` and `/api/export/{fmt}` read
+  `body.plan` and handed it straight to `build/geometry.py`, while their siblings
+  `/api/plan/critique` and `/api/plan/revise` validate inside `core`. Fuzzed at `solve()`'s entry:
+  **9 of 16 probed fields raise** on a value of the wrong type -- `room.type`, `room.id`,
+  `room.width_ft`, `room.length_ft`, `room.exterior_walls`, `room.doors`, `plan.style`,
+  `plan.massing`, `plan.levels`. `C["rooms"].get(rtype, {})` on a dict is `TypeError: unhashable
+  type`, so it is a 500 and a traceback from an UNAUTHENTICATED route for a field the schema types
+  `string`. `app._plan(body)` is the one reader now and answers 422 naming the path. **The half
+  that matters more than the refusals is that it refuses nothing**: all 16 plan records in the tree
+  and the composer's own DECLARED output validate, checked before the gate went in, because the
+  bench client posts the declared record and a gate that rejects its own traffic is worse than the
+  crash it replaces. A tenth field, `room.block`, is answered at the GEOMETRY layer instead --
+  ignoring a malformed tag is a conservative reading that is available there and is not available
+  for `type`: there is no conservative reading of a room whose type is a list.
 - **A MASSING ELEMENT IS PLACED AND SIX LAYERS BELOW THE PLACER READ THE MAIN BLOCK AS THE WHOLE
   BUILDING (WP-10.1).** OQ 40 is ruled and `geometry.blocks_for` places a dependency beside the
   house; `openings`, `structure`, `vertical_score`, the lot cap, `plan_check`'s drawn layer and
