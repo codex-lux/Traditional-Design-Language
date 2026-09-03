@@ -289,5 +289,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by italian-renaissance at cascade depth 8 with no direct lineage edge. Governs 6 slots; 0 lose all dimensioning. casing, cornice, crown, door_surround and frieze pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian). Stated plainly because it bears on the ruling: this is the THIRD order pack declined on this node for the same reason and the successor is a fourth, so the decline stops this pack and not the class. That is `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` in progress on a live node, and whether ANY codified order should govern a picturesque Shaw elevation remains the larger question none of the three verdicts settles. No live gate either way."
     }
+  ],
+  "inherits_packs": [
+    "facade-gable"
   ]
 }

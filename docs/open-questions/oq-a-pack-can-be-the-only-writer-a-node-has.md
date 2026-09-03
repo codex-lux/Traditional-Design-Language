@@ -1,9 +1,28 @@
 # oq/a-pack-can-be-the-only-writer-a-node-has — flipping a pack can remove the only account of a slot a node can reach
 
-*Status: OPEN · Raised in: WP-8.10, the first opt-in flip (3 September 2026)*
+*Status: CLOSED · Raised in: WP-8.10, the first opt-in flip (3 September 2026) · Ruled the same day*
 
-**OPEN — should a pack be refused the flip where the nodes it strands have no other writer of
-that slot in their own cascade?** OQ 51 was re-ruled on 3 Sep to flip pack inheritance to opt-in,
+> **RULED 3 SEPTEMBER 2026 (Lucas): no new rule. Stage the flip by size and keep going.**
+> Sole-writer status is not a precondition on flipping. The ruling turns on what WP-8.10 built: a
+> stranded slot now NAMES the pack withheld and why (`how: "opt-in.withheld"`, on 2,889 of 2,889),
+> so a node with no alternative writer is not a casualty of the flip — it is a node whose author
+> has an explicit, located question where a silent wrong dimension used to be. Order of flipping is
+> ascending stranded count: `trim-classical` 10 (done), **`facade-gable` 32**, `sash-light` 70, and
+> the five packs whose `applies_to` arms a live behavioural gate last.
+
+**The two options refused, recorded because what was decided against is part of the decision.**
+A *standing precondition* — no flip while any stranded slot has no other writer reaching that node —
+was refused on its measured cost: it disqualifies `facade-gable` and `sash-light`, and would have
+disqualified `trim-classical` retroactively, so the staged flip halts after one pack and the
+remaining 2,889 slots return to adjudicate-first, which the 3 Sep re-ruling had just moved away from
+because its tail is geometric. *Adjudicating each pack's stranded nodes before flipping it* was
+refused on the same ground at a smaller scale: ~29 readings for `facade-gable` and ~34 for
+`sash-light`, each with an adversarial check at the ~1-in-6 overturn rate that held across three
+WP-8.7 passes.
+
+**The question as it was asked, kept below because the measurement is the entry's value and stays
+true whatever was ruled:** should a pack be refused the flip where the nodes it strands have no
+other writer of that slot in their own cascade? OQ 51 was re-ruled on 3 Sep to flip pack inheritance to opt-in,
 staged pack by pack. A flip is supposed to stop a delivery nobody vouched for. Sometimes it does
 something else: it removes the only rule the corpus can offer that node for that slot, and the
 slot goes from wrongly-dimensioned to undimensioned.

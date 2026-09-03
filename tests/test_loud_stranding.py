@@ -11,9 +11,16 @@ DELETED. `withheld_for()` says what the gate stopped, `eval_packs(withheld=...)`
 rules and marks them `withheld_by_opt_in`, and `choose_pack` returns `how: "opt-in.withheld"`
 naming the pack and the reason.
 
-EVERYTHING HERE IS DRIVEN, NEVER READ OFF THE CORPUS. The fixture flips `facade-gable`, which
-this corpus does not flip, so these assertions keep meaning the same thing after a real pack is
-flipped and after the last one is.
+EVERYTHING HERE IS DRIVEN, NEVER READ OFF THE CORPUS. The fixture flips a pack the corpus does
+NOT flip, so these assertions keep meaning the same thing after a real pack is flipped and after
+the last one is.
+
+**THE FIXTURE MOVED IN WP-8.11 AND THAT IS THE POINT OF THIS PARAGRAPH.** It was `facade-gable`
+on `north-german-hall-house` — chosen in WP-8.10 precisely because the corpus left that pack on
+`cascade`. WP-8.11 flipped `facade-gable` for real, which would have turned every driven assertion
+below into an assertion about the shipped corpus: green, and vacuous, since the "counterfactual"
+would have been the status quo. A driven fixture has to name a pack nobody has flipped, so **check
+that before flipping the next one** — `sash-light` is next by size and is not used here.
 """
 import collections
 import copy
@@ -30,8 +37,8 @@ import modcache  # noqa: E402
 
 CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
        "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
-NODE = "north-german-hall-house"
-PACK = "facade-gable"
+NODE = "mediterranean-revival"
+PACK = "trim-craftsman"        # on `cascade`; reaches NODE from `mission-revival` and governs 3 slots
 
 
 def _rk():
@@ -73,17 +80,24 @@ def _choice(g, sid, nid=NODE):
 
 # ------------------------------------------------------------------ withheld_for
 
-def test_withheld_for_is_empty_where_nothing_is_flipped(graph):
-    """A reporting function that always has something to say is not reporting."""
+def test_withheld_for_names_exactly_the_shipped_FLIPS_that_reach_this_node(graph):
+    """WP-8.10 wrote this as "empty where nothing is flipped" and WP-8.11 made it say something:
+    two packs are flipped now, both reach this node, and the report names both and nothing else.
+    That is strictly better than the empty assertion it replaces — a reporting function that
+    always has nothing to say is as unfalsifiable as one that always has something."""
     rk = _rk()
-    assert rk.withheld_for(graph, NODE) == {}
+    got = set(_rk().withheld_for(graph, NODE))
+    assert got == {"trim-classical", "facade-gable"}, sorted(got)
+    assert PACK not in got, (
+        "the driven fixture's pack has been flipped for real — every assertion in this file is "
+        "now about the shipped corpus rather than about the gate; move the fixture")
 
 
 def test_withheld_for_names_the_pack_and_the_ancestor_that_would_have_sent_it(flipped):
     rk = _rk()
     wh = rk.withheld_for(flipped, NODE)
-    assert list(wh) == [PACK], wh
-    assert wh[PACK]["_would_have_come_from"] == wh[PACK]["_source"] == "flemish-vernacular"
+    assert PACK in wh, sorted(wh)
+    assert wh[PACK]["_would_have_come_from"] == wh[PACK]["_source"] == "mission-revival"
     assert "inherits_packs" in wh[PACK]["_why"], wh[PACK]["_why"]
 
 
@@ -92,7 +106,7 @@ def test_an_opt_in_removes_it_from_the_withheld_report(flipped):
     reader is told a delivery was stopped that in fact arrived."""
     rk = _rk()
     flipped["nodes"][NODE]["inherits_packs"] = [PACK]
-    assert rk.withheld_for(flipped, NODE) == {}
+    assert PACK not in rk.withheld_for(flipped, NODE)
     assert PACK in rk.resolve_packs(flipped, rk.chain_for(flipped, NODE))
 
 
@@ -102,7 +116,7 @@ def test_a_declined_pack_is_reported_once_and_by_the_decline(flipped):
     rk = _rk()
     flipped["nodes"][NODE]["declined_packs"] = [
         {"pack": PACK, "why": "a fixture, not a corpus decline"}]
-    assert rk.withheld_for(flipped, NODE) == {}
+    assert PACK not in rk.withheld_for(flipped, NODE)
     assert [r["pack"] for r in rk.refusals_for(flipped, NODE)] == [PACK]
 
 
@@ -112,7 +126,7 @@ def test_a_pack_the_node_binds_itself_is_never_withheld(flipped, graph):
     rk = _rk()
     binder = next(n for n, v in graph["nodes"].items()
                   if any(e["pack"] == PACK for e in (v.get("proportion_packs") or [])))
-    assert rk.withheld_for(flipped, binder) == {}
+    assert PACK not in rk.withheld_for(flipped, binder)
     assert PACK in rk.resolve_packs(flipped, rk.chain_for(flipped, binder))
 
 
@@ -124,7 +138,11 @@ def test_the_rules_are_built_and_marked_rather_than_never_existing(flipped):
     _p, wh, _k, by_slot = _resolve(flipped)
     marked = [r for rows in by_slot.values() for r in rows if r.get("withheld_by_opt_in")]
     assert marked, "the withheld pack contributed no rows at all -- it was dropped, not marked"
-    assert {r["pack"] for r in marked} == {PACK}
+    # PACK is the driven one; the other two are the corpus's own shipped flips reaching this node.
+    # Asserting the SET equals {PACK} would have been a coincidence of WP-8.10's fixture node, and
+    # it broke the moment a real flip touched the same node.
+    assert PACK in {r["pack"] for r in marked}
+    assert {r["pack"] for r in marked} <= {PACK, "trim-classical", "facade-gable"}
     assert all(r["withheld_because"] and "opt-in" in r["withheld_because"] for r in marked)
 
 
@@ -153,7 +171,7 @@ def test_a_withheld_packs_out_of_scope_rule_does_not_inflate_the_scope_meter(fli
 
 # ------------------------------------------------------------------ choose_pack
 
-WITHHELD_SLOTS = ("gable_treatment", "rake_condition", "cornice_return", "dormer")
+WITHHELD_SLOTS = ("trim_family", "built_ins", "newel_balustrade")
 
 
 @pytest.mark.parametrize("sid", WITHHELD_SLOTS)
@@ -161,8 +179,12 @@ def test_the_address_names_the_pack_instead_of_falling_silent(flipped, sid):
     ch = _choice(flipped, sid)
     assert ch["how"] == "opt-in.withheld", ch["how"]
     assert ch["chosen"] is None
-    assert [r["pack"] for r in ch["refused"]] == [PACK] * len(ch["refused"])
-    assert PACK in ch["why"] and "inherits_packs" in ch["why"], ch["why"]
+    # Every refused row is a withheld one, and the driven pack is among them. The address may be
+    # written by more than one withheld pack once the corpus has real flips -- what must hold is
+    # that NONE of them was delivered, not that exactly one wanted to write here.
+    assert ch["refused"] and all(r["withheld_by_opt_in"] for r in ch["refused"])
+    assert PACK in {r["pack"] for r in ch["refused"]}
+    assert "inherits_packs" in ch["why"], ch["why"]
 
 
 def test_the_branch_returns_every_key_its_SIBLING_REFUSAL_does(flipped, graph):
@@ -175,7 +197,7 @@ def test_the_branch_returns_every_key_its_SIBLING_REFUSAL_does(flipped, graph):
     that wrong: a ruled branch also returns `other_quantities`, which is OQ 48's report and is
     read with `.get` everywhere precisely because only one branch produces it. Requiring it here
     would have made a refusal claim to have adjudicated competing quantities it never saw."""
-    withheld = _choice(flipped, "cornice_return")
+    withheld = _choice(flipped, WITHHELD_SLOTS[0])
     forbidden = _choice(graph, "parapet", nid="tidewater-georgian")
     assert forbidden["how"] == "kit.forbidden", forbidden["how"]
     assert set(withheld) == set(forbidden), (
@@ -217,7 +239,7 @@ def test_a_delivered_row_still_wins_at_an_address_a_withheld_one_also_writes(fli
     rk = _rk()
     _p, _w, kit, by_slot = _resolve(flipped)
     live = next(r for rows in by_slot.values() for r in rows if not r["withheld_by_opt_in"])
-    dead = dict(by_slot["cornice_return"][0])
+    dead = dict(by_slot[WITHHELD_SLOTS[0]][0])
     got = rk.choose_pack({}, [dead, live], CTX)
     assert got["how"] != "opt-in.withheld", got
     assert got.get("chosen") is None or got["chosen"]["pack"] != PACK
@@ -231,14 +253,16 @@ def test_wiring_the_reasons_in_did_not_change_what_is_counted(graph):
     off. If this drifts, the meter has started counting the explanation."""
     ci = _ci()
     g = ci.load()
-    for nid in ("egyptian-revival", "ranch-style", "tidewater-georgian", NODE):
+    for nid in ("egyptian-revival", "ranch-style", "tidewater-georgian", NODE):  # noqa: E501
         plain, _k = ci.governed(g, nid)
         out = {}
         withreasons, _k2 = ci.governed(g, nid, withheld_out=out)
         assert plain == withreasons, nid
-        dropped, _k3 = ci.governed(g, nid, drop={"facade-gable"})
+        # A pack still on `cascade`: dropping an already-flipped one is a no-op drop and would
+        # make this test pass without exercising the counterfactual at all.
+        dropped, _k3 = ci.governed(g, nid, drop={PACK})
         out2 = {}
-        dropped2, _k4 = ci.governed(g, nid, drop={"facade-gable"}, withheld_out=out2)
+        dropped2, _k4 = ci.governed(g, nid, drop={PACK}, withheld_out=out2)
         assert dropped == dropped2, nid
 
 
@@ -249,10 +273,18 @@ def test_the_counterfactual_drop_is_reported_as_a_withhold(graph):
     ci = _ci()
     g = ci.load()
     out = {}
-    ci.governed(g, NODE, drop={"facade-gable"}, withheld_out=out)
+    ci.governed(g, NODE, drop={PACK}, withheld_out=out)
     assert out, "the counterfactual stranded nothing here -- pick another fixture node"
-    assert all(p == "facade-gable" for p, _why in out.values()), out
-    assert all("withholds" in why for _p, why in out.values()), out
+    # The node also carries the corpus's REAL flips, so this filters to the counterfactual's own
+    # entries rather than asserting over all of them -- the two mechanisms report side by side
+    # and each says which it is, which is the property worth holding.
+    mine = {sid: why for sid, (pk, why) in out.items() if pk == PACK}
+    assert mine, sorted((sid, pk) for sid, (pk, _w) in out.items())
+    assert all("withholds" in why for why in mine.values()), mine
+    shipped = {pk for pk, _w in out.values()} - {PACK}
+    assert shipped <= {"trim-classical", "facade-gable"}, shipped
+    assert all("delivery: opt-in" in why
+               for pk, why in out.values() if pk in shipped), out
 
 
 def test_the_sweep_reports_every_stranded_slot_as_named():
@@ -265,7 +297,10 @@ def test_the_sweep_reports_every_stranded_slot_as_named():
     import re
     st = int(re.search(r"STRANDED — lose all dimensioning\s+(\d+)", out.stdout).group(1))
     nm = int(re.search(r"NAMED as withheld\s+(\d+)", out.stdout).group(1))
-    assert nm == st == 2889, (nm, st)   # 2899 before the first flip took ten of them
+    # 2899 -> 2889 at the trim-classical flip -> 2857 at facade-gable's: a flipped pack's slots
+    # leave the counterfactual because they are already withheld, and the ALREADY WITHHELD block
+    # above the sweep is where they are now counted (42 over 36 nodes).
+    assert nm == st == 2857, (nm, st)
     assert "reads UNDIMENSIONED, not refused" not in out.stdout, (
         "the closing paragraph still says the defect is unfixed -- 'until X lands' is a lie the "
         "moment X lands (WP-6.4)")

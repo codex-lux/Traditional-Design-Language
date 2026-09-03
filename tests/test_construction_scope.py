@@ -269,6 +269,7 @@ class TestThePerRuleScope(unittest.TestCase):
         g = RK.load_graph()
         cls.refused = {k: 0 for k in SCOPE_FLOOR}
         cls.declined_away = {k: 0 for k in SCOPE_FLOOR}
+        cls.withheld_away = {k: 0 for k in SCOPE_FLOOR}
         cls.delivered = {k: 0 for k in SCOPE_FLOOR}
         cls.unjudged = {k: 0 for k in SCOPE_FLOOR}
         for nid in sorted(g["nodes"]):
@@ -326,6 +327,39 @@ class TestThePerRuleScope(unittest.TestCase):
                     if (d["pack"], d["slot"], d.get("dimension")) == key:
                         cls.declined_away[key] += 1
 
+            # A THIRD REFUSAL MECHANISM, AND IT ARRIVED EXACTLY AS THE SECOND ONE DID (WP-8.11).
+            # OQ 51's opt-in gate stops a flipped pack reaching a node that has not opted in, so
+            # the rule never arrives and the scope never gets to drop it. `facade-gable`'s
+            # `gable_treatment/parapet_height` fell from 14 refusals to 3 the moment that pack
+            # flipped, which reads exactly like a scope that has stopped working -- the same
+            # false signal the decline counter was added for, from a mechanism that did not exist
+            # when it was added.
+            #
+            # THE FLOOR IS NOT LOWERED, for the reason the note above `SCOPE_FLOOR` gives and the
+            # decline block repeats: a floor that drops every time a pack is flipped protects
+            # nothing by the last flip. The third mechanism is counted instead, by the same
+            # in-place counterfactual -- lift the gate, re-resolve, see whether the scope would
+            # have dropped this rule here.
+            own_ids = {e["pack"] for e in (g["nodes"][nid].get("proportion_packs") or [])}
+            opted = set(g["nodes"][nid].get("inherits_packs") or [])
+            for key in SCOPE_FLOOR:
+                pid = key[0]
+                if ((g.get("_packs") or {}).get(pid, {}).get("delivery") != "opt-in"
+                        or pid in own_ids or pid in opted or pid in declined):
+                    continue
+                try:
+                    g["_packs"][pid]["delivery"] = "cascade"
+                    w_chain = RK.chain_for(g, nid)
+                    w_kit, _ = RK.resolve_slots(g, w_chain, RK.scope_for(g, nid))
+                    w_dropped = []
+                    RK.eval_packs(RK.resolve_packs(g, w_chain),
+                                  {"ceiling_height": 108.0}, None, w_kit, w_dropped)
+                finally:
+                    g["_packs"][pid]["delivery"] = "opt-in"
+                for d in w_dropped:
+                    if (d["pack"], d["slot"], d.get("dimension")) == key:
+                        cls.withheld_away[key] += 1
+
             for sid, rows in by_slot.items():
                 for r in rows:
                     key = (r["pack"], sid, r.get("dimension"))
@@ -335,22 +369,29 @@ class TestThePerRuleScope(unittest.TestCase):
                             cls.unjudged[key] += 1
 
     def test_each_scope_refuses_at_least_what_it_refused_when_it_was_written(self):
-        """The floor holds against BOTH refusal mechanisms, not just the scope's own.
+        """The floor holds against ALL THREE refusal mechanisms, not just the scope's own.
 
-        A delivery the scope would have dropped, on a node that has since DECLINED the pack,
-        is refused earlier and by a person. Counting only `refused` made those look like a
-        scope going quiet; counting only the sum would let a real regression hide behind a
-        decline. Both numbers are reported in the failure message so the next reader can tell
-        the two apart at a glance."""
+        A delivery the scope would have dropped, on a node that has since DECLINED the pack or
+        that no longer receives it because the pack is now `delivery: opt-in`, is refused earlier
+        and for a stated reason. Counting only `refused` made those look like a scope going quiet;
+        counting only the sum would let a real regression hide behind a decline or a flip. All
+        three numbers are reported in the failure message so the next reader can tell them apart
+        at a glance.
+
+        The third was added in WP-8.11 for a defect identical in shape to the one that added the
+        second, which is the argument for expecting a fourth: any mechanism that stops a delivery
+        BEFORE the scope sees it looks, to this counter, like the scope failing."""
         for key, floor in SCOPE_FLOOR.items():
-            total = self.refused[key] + self.declined_away[key]
+            total = (self.refused[key] + self.declined_away[key] + self.withheld_away[key])
             self.assertGreaterEqual(
                 total, floor,
                 "%s/%s/%s refuses %d deliveries by scope + %d refused earlier by a node's own "
-                "`declined_packs` = %d, against a floor of %d. A scope that stops refusing "
+                "`declined_packs` + %d never delivered because the pack is `delivery: opt-in` "
+                "= %d, against a floor of %d. A scope that stops refusing "
                 "reports success: `applies_when` was dropped inside "
                 "proportion_engine.evaluate() and refused 0 of 293 with every check green."
-                % (key + (self.refused[key], self.declined_away[key], total, floor)))
+                % (key + (self.refused[key], self.declined_away[key], self.withheld_away[key],
+                          total, floor)))
 
     def test_no_scope_refuses_everything_it_reaches(self):
         """A rule refused everywhere is a rule that should be deleted, not scoped."""

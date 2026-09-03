@@ -3531,7 +3531,9 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # work either -- it is 35 arrivals stopping because `trim-classical` declared
     # `delivery: opt-in`. Nobody read a case. `judged` stays at 249, which is the only figure
     # here that can tell a flip from an adjudication, and it is why the floor exists.
-    assert ci.RATCHET == {"role_gaps": 258, "inherited_packs": 3123, "unendorsed": 217}
+    # 3 Sep 2026 (WP-8.11, the SECOND flip): 258/3123/217 -> 256/3056/215 on `facade-gable`.
+    # `judged` is still 249 after both flips -- 102 arrivals stopped and not one case was read.
+    assert ci.RATCHET == {"role_gaps": 256, "inherited_packs": 3056, "unendorsed": 215}
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():

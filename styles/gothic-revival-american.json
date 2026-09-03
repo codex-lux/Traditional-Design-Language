@@ -308,5 +308,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by italian-renaissance at cascade depth 9 with no direct lineage edge. Governs 4 slots -- cornice, door_surround, frieze, steps_and_stoop. On decline the first three pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. --pair reports no live gate. This is the adjudication the node's own palladio-ionic entry predicted in its note: that decline sent three of these same slots here, and this one sends them one step further to vignola-tuscan, which is a third Tuscan order pack carrying the identical contradiction and needing its own judgment. The class is not resolved by this decline and this entry does not claim it is."
     }
+  ],
+  "inherits_packs": [
+    "facade-gable"
   ]
 }
