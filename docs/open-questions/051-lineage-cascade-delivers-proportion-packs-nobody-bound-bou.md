@@ -2,6 +2,36 @@
 
 *Status: RULED 28 Aug 2026 · Raised in: From the real solver (WP-2.3, 25 Aug 2026)*
 
+> **RE-RULED 3 SEP 2026 BY LUCAS: FLIP TO OPT-IN NOW. This reverses the "flip second" half of the
+> 25 Aug ruling, and it is the ruling that governs.** His words, choosing between keeping the
+> adjudication going and building the flip: *flip to opt-in now* — build `inherits_packs` and make
+> pack inheritance opt-in, **accepting that the unjudged gaps are stranded in one commit rather
+> than adjudicated**. The 25 Aug ruling explicitly refused that on the argument that it "strands
+> 294 role-gaps in one commit"; what changed is the measured cost of the alternative.
+>
+> **The evidence that moved it, and it is the only new fact.** WP-8.7 read the backlog end to end
+> three times and the refill is geometric: **244 → 73 → 50 → 36**, each pass surfacing about three
+> quarters of what the last one did, because declining a pack re-attributes the role to the next
+> ancestor. Three passes bought `judged` 48 → 249 and left 223 unendorsed. At that ratio the
+> remainder is of the order of a hundred more adjudications over a dozen passes, each costing a
+> reader and an independent adversarial check. "Adjudicate first" is not unfinishable; it is
+> finishable at a price that now outweighs the stranding it was preferred to.
+>
+> **What this ruling does NOT say.** It does not say the 249 judgments were wasted — they are the
+> reason the flip lands on a corpus where a quarter of the deliveries have been read by a person.
+> It does not rule on the 181 tabled cases in
+> `oq/the-adjudication-cases-the-records-do-not-decide`, which stay open. And it does not touch the
+> SECOND delivery path: a baked snapshot in an ancestor's kit file is not a cascade delivery, so
+> `inherits_packs` will not stop one — that is
+> `oq/a-baked-pack-value-is-a-second-delivery-path`, measured separately at 71.
+>
+> **The trap to state before anyone builds it.** The flip must strand LOUDLY. A node that stops
+> receiving a pack it was silently receiving loses dimensions on real slots, and the failure mode
+> is a slot that reads as undimensioned rather than as refused. `--impact` already distinguishes a
+> slot that loses all dimensioning from one that re-houses; the flip needs the corpus-wide version
+> of that, counted before and after, or the stranding is exactly the silent corruption OQ 51 was
+> raised about, arriving from the other direction.
+
 **RULED AND HALF-BUILT 28 Aug 2026 (WP-8.2) — the refusal half exists now. `declined_packs`, per
 node.** The 26 August pass found the ruling's three moves were really one: endorsing is a line in
 `applies_to`, binding a different pack does not displace the wrong one, and scoping the edge was

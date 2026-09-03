@@ -3164,8 +3164,43 @@ def test_the_cascade_delivers_packs_nobody_bound_and_it_is_raised_not_papered_ov
     # Re-pinned 25 Aug 2026: OQ 51 was ruled that day, so "still OPEN" is no longer the right guard.
     # What must not regress is that the entry is still there and still says the MECHANISM is
     # unchanged -- a ruling is not a fix, and the cascade delivers exactly what it delivered before.
-    assert "51. **RULED" in oq
-    assert "adjudicate first" in oq
+    #
+    # RE-PINNED AGAIN 3 SEP 2026, AND THE SHAPE OF THE BREAK IS THE REASON TO READ THIS. It asserted
+    # `"adjudicate first" in oq`, which pinned the TEXT OF A RULING rather than a fact about the
+    # corpus -- so when Lucas re-ruled the question (flip pack inheritance to opt-in NOW, reversing
+    # the 25 Aug "flip second"), a test went red for recording the decision correctly. A test that
+    # fails when a human changes their mind is not guarding the code; it is guarding a sentence.
+    # What it may legitimately hold is that the entry is RULED, that the superseded ruling stays
+    # legible beside the new one (`PLAN-OF-ACTION.md` §1's own convention), and above all that the
+    # MECHANISM is untouched -- which is what the assertions above this line actually prove.
+    # The status comes from `check_ids`' own reader, not from matching the rendered prose: the
+    # break this comment is about was a string match on the entry's opening characters, and the
+    # entry now opens with a blockquote. The status vocabulary is spelled in ONE place.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "check_ids_for_oq51", os.path.join(ROOT, "build", "check_ids.py"))
+    ci = importlib.util.module_from_spec(spec); spec.loader.exec_module(ci)
+    qs, errors = ci.read_questions()
+    assert not errors, errors
+    assert qs[51]["state"] == "settled", qs[51]
+    assert "51. " in oq
+    # SCOPED TO ENTRY 51'S OWN FILE, and the first draft of these two assertions was not, which
+    # is worth the four lines. Read against the whole concatenated register, `"flip to opt-in"`
+    # passes on `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`, which also
+    # discusses the flip -- so deleting the re-ruling from entry 51 entirely left the test green.
+    # Mutation-checked in both directions now: removing either sentence from THIS file fails.
+    entry = open(os.path.join(ROOT, "docs", "open-questions", qs[51]["file"]),
+                 encoding="utf-8").read()
+    assert "adjudicate first" in entry, (
+        "the superseded 25 Aug ruling must stay legible beside the 3 Sep one -- what was decided "
+        "and what it replaced are both part of the record")
+    # `"flip to opt-in"` is NOT a usable marker for the new ruling and the second draft of this
+    # test used it anyway: the SUPERSEDED 25 Aug wording is "adjudicate first, flip to opt-in
+    # second", so the phrase survives in the historical text and the assertion passed with the
+    # re-ruling deleted. The marker has to be something only the new ruling says.
+    assert "RE-RULED 3 SEP 2026" in entry, (
+        "the 3 Sep re-ruling is the one that governs and it must be in entry 51 itself, not only "
+        "in a report or in a neighbouring question that happens to mention the flip")
 
 
 # --- OQ 48: quantity, and the ratchet ----------------------------------------------------------

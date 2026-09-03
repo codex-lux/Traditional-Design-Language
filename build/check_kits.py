@@ -21,7 +21,7 @@ pack bindings marked out of calibration.
     python3 build/check_kits.py                # whole corpus
     python3 build/check_kits.py tidewater-georgian --verbose
 """
-import json, os, sys, glob, argparse, collections
+import ast, json, os, sys, glob, argparse, collections
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
@@ -236,6 +236,93 @@ def check_derived_module_family(errs, nid, kit, derives):
                         seen.setdefault(ck, (cv, f"{sid}.{pname}"))
 
 
+# A baked snapshot's context is what `computed_at` STATES, and the three bindings it states are
+# not the five the expressions read. `span` and `room_width` never appear there, so a snapshot
+# whose expression reads one of them agrees or disagrees according to a number nobody wrote down
+# -- REF_CTX's `span: 540.0` happens to be the value they were baked at, and that is a
+# reconstruction, not a record. Those are UNJUDGED and ratcheted; the rest are judged.
+BAKED_CONTEXT_FROM_PACK = ("module", "part", "column_height")
+BAKED_UNJUDGED_CEILING = 8       # may only go DOWN -- close one by recording the binding it reads
+BAKED_JUDGED_FLOOR = 135         # may only go UP -- catches the instrument going blind
+
+
+def check_baked_snapshots(errs, unjudged, nid, kit, stats):
+    """A `kind: derived` parameter carries an `expr` AND the value that expr produced. Nothing
+    re-derived it (`oq/a-baked-pack-value-is-a-second-delivery-path`).
+
+    That question was raised from scope refusals and its sharpest instance arrived in ordinary
+    work: WP-9.6 moved `storey-graduation`'s riser divisor on Lucas's ruling, and the baked copy in
+    `georgian-colonial-american` kept the old VALUE beside the new EXPRESSION -- one object stating
+    a riser count its own expression no longer produces. Both instruments ran with the defect in
+    place and neither moved. (The divisor itself is deliberately not repeated here:
+    `tests/test_storeys.py` refuses it in any file but `build/storeys.py`, and a docstring
+    quoting it would go stale the next time it moves.)
+    THIS FUNCTION IS THE ONE THAT WOULD HAVE: `check_derived_module_family` above holds the
+    context keys consistent across a slot family and explicitly `continue`s on `"value"`, which
+    is the one key that had gone wrong.
+
+    A snapshot is judged by re-deriving its expression AT THE CONTEXT IT RECORDS. It is UNJUDGED
+    -- never passed -- where the expression reads a binding `computed_at` does not carry, because
+    then any verdict is really a verdict about `REF_CTX`. `module`, `part` and `column_height`
+    are not in `computed_at` and do not need to be: they are functions of the pack the parameter
+    names in `source`, so they are recoverable rather than assumed."""
+    for sid, sv in (kit.get("slots") or {}).items():
+        for pname, pv in (sv.get("parameters") or {}).items():
+            if not isinstance(pv, dict) or "expr" not in pv:
+                continue
+            ca = pv.get("computed_at")
+            if not isinstance(ca, dict) or "value" not in ca:
+                continue
+            where = "%s.%s.%s" % (nid, sid, pname)
+            stored = ca["value"]
+            src = pv.get("pack") or pv.get("source")
+            if not isinstance(stored, (int, float)) or isinstance(stored, bool):
+                stats["baked_unjudged"] += 1
+                unjudged.append("%s: stored value is not a number" % where)
+                continue
+            # `<name>_in` is the binding `<name>`, in inches, which is what the bindings are in.
+            # Read generally rather than from a list of three, so recording `span_in` on a
+            # snapshot closes its gap without touching this function.
+            ctx = {k[:-3]: v for k, v in ca.items()
+                   if k.endswith("_in") and isinstance(v, (int, float))}
+            try:
+                tree = ast.parse(pv["expr"], mode="eval")
+            except SyntaxError as e:
+                errs.append("%s: expr does not parse: %s" % (where, e))
+                continue
+            reads = {n.id for n in ast.walk(tree) if isinstance(n, ast.Name)} - set(pe._ALLOWED)
+            gap = reads - set(ctx) - set(BAKED_CONTEXT_FROM_PACK)
+            if gap:
+                stats["baked_unjudged"] += 1
+                unjudged.append("%s: reads %s, which `computed_at` does not record"
+                                % (where, ", ".join(sorted(gap))))
+                continue
+            try:
+                pk = pe.resolve(src)
+                mod = (ORDER_MODULE if pk.get("kind") == "order-system"
+                       else (pk["module"].get("default_size_in") or 6.0))
+                env = dict(pe.DEFAULT_BINDINGS)
+                env.update(ctx)
+                env["module"] = mod
+                env["part"] = mod / pk["module"]["parts"]
+                col = pk.get("column", {})
+                env["column_height"] = (col.get("height_modules", 0) * mod
+                                        if col.get("height_modules") else 0)
+                got = pe.evaluate_expr(pv["expr"], env)
+            except Exception as e:
+                stats["baked_unjudged"] += 1
+                unjudged.append("%s: %s" % (where, e))
+                continue
+            stats["baked_judged"] += 1
+            # The snapshot is stored rounded (resolve_kit writes `round(val, 3)`), so the
+            # tolerance is the rounding, not a fudge for a value that has really moved.
+            if abs(got - stored) > max(0.01, abs(stored) * 0.001):
+                errs.append("%s: the snapshot says %s and its own expression `%s` gives %s at the "
+                            "context it records. A derived value is a cached computation with no "
+                            "cache invalidation; this one is stale."
+                            % (where, stored, pv["expr"], round(got, 4)))
+
+
 def check_slot_fields(errs, warns, nid, kit, ont_fields):
     """A slot may DECLARE fields in elements/slots.json (`fields[]`, with `required` and, for an
     enum, the permitted values under `examples`). `expressed_frame` is the only slot that does, and
@@ -301,6 +388,7 @@ def main():
 
     errs, warns = [], []
     stats = collections.Counter()
+    baked_unjudged = []
     census = collections.Counter()
     invented, judgment, out_of_cal, populated = [], [], [], []
 
@@ -330,6 +418,7 @@ def main():
         check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
         check_determined_by(errs, warns, base, kit, ont_set)
         check_slot_fields(errs, warns, base, kit, ont_fields)
+        check_baked_snapshots(errs, baked_unjudged, base, kit, stats)
         for _s in (kit.get("slots") or {}).values():
             for _pv in (_s.get("parameters") or {}).values():
                 if not isinstance(_pv, dict): continue
@@ -496,6 +585,23 @@ def main():
           "That is the figure OQ 18 is about -- a number nobody can check and nobody said "
           "anything about. An editorial call WITH a note is the corpus working as designed."
           % (census["editorial-bare"], 100.0 * census["editorial-bare"] / max(total, 1)))
+
+    # THE BAKED SNAPSHOTS, AND THE UNJUDGED ONES REPORTED AS UNJUDGED. A snapshot whose
+    # expression reads a binding `computed_at` does not carry is not passing this check; it is
+    # outside it, and saying so is the whole of `oq/a-baked-pack-value-is-a-second-delivery-path`'s
+    # complaint that the count of stale values here was "unknown, not zero".
+    print("\nbaked derived snapshots: %d re-derived at the context they record and AGREEING, "
+          "%d COULD NOT BE JUDGED" % (stats["baked_judged"], stats["baked_unjudged"]))
+    for x in baked_unjudged:
+        print("  ? " + x)
+    if stats["baked_unjudged"] > BAKED_UNJUDGED_CEILING:
+        errs.append("baked snapshots that cannot be judged from their own record: %d against a "
+                    "ceiling of %d. Record the binding the expression reads in `computed_at` "
+                    "rather than raising this." % (stats["baked_unjudged"], BAKED_UNJUDGED_CEILING))
+    if stats["baked_judged"] < BAKED_JUDGED_FLOOR:
+        errs.append("only %d baked snapshots were judged against a floor of %d. This number falls "
+                    "when the instrument goes blind, not only when the corpus shrinks -- check "
+                    "that before re-pinning it." % (stats["baked_judged"], BAKED_JUDGED_FLOOR))
 
     if warns:
         print("\n%d WARNINGS" % len(warns))
