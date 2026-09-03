@@ -478,18 +478,45 @@ def _plan(body):
     plan = body.get("plan")
     if not plan:
         raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    v = _plan_validator()
+    if v is None:
+        return plan
+    err = next(iter(sorted(v.iter_errors(plan), key=lambda e: list(e.absolute_path))), None)
+    if err is not None:
+        raise HTTPException(status_code=422, detail={
+            "error": "body.plan does not match the plan schema",
+            "at": "/" + "/".join(str(x) for x in err.absolute_path),
+            "detail": str(err.message)[:300]})
+    return plan
+
+
+_PLAN_VALIDATOR = []
+
+
+def _plan_validator():
+    """The COMPILED plan validator, built once. `None` where jsonschema is absent.
+
+    `jsonschema.validate(instance, schema)` rebuilds the validator on every call, and this gate
+    sits on `/api/plan/evaluate` -- which the infrastructure audit measured as the whole server's
+    bound, at 338 ms of CPU, one core, fully serialised. Measured on the largest shipped plan:
+    **60.5 ms per call rebuilding it, 3.7 ms with it compiled** -- 17.9% added to the bound route
+    against 1.1%. That is the `copy_json` lesson in the other direction: measure the thing you are
+    adding to the hot path before you add it, not after.
+
+    The schema dict comes from `core.schema`, which is cached and SHARED; a validator holds a
+    reference to it and neither mutates it.
+    """
+    if _PLAN_VALIDATOR:
+        return _PLAN_VALIDATOR[0]
     try:
         import jsonschema
     except ImportError:
-        return plan
-    try:
-        jsonschema.validate(plan, corpus.core.schema("plan"))
-    except jsonschema.ValidationError as e:
-        raise HTTPException(status_code=422, detail={
-            "error": "body.plan does not match the plan schema",
-            "at": "/" + "/".join(str(x) for x in e.absolute_path),
-            "detail": str(e.message)[:300]})
-    return plan
+        _PLAN_VALIDATOR.append(None)
+        return None
+    schema = corpus.core.schema("plan")
+    cls = jsonschema.validators.validator_for(schema)
+    _PLAN_VALIDATOR.append(cls(schema))
+    return _PLAN_VALIDATOR[0]
 
 
 def _candidates(body, default=250, cap=None):

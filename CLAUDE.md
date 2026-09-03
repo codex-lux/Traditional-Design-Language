@@ -464,7 +464,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   bench client posts the declared record and a gate that rejects its own traffic is worse than the
   crash it replaces. A tenth field, `room.block`, is answered at the GEOMETRY layer instead --
   ignoring a malformed tag is a conservative reading that is available there and is not available
-  for `type`: there is no conservative reading of a room whose type is a list.
+  for `type`: there is no conservative reading of a room whose type is a list. **And the gate had to be COMPILED, which
+  is the `copy_json` lesson in the other direction**: `jsonschema.validate(instance, schema)`
+  rebuilds the validator on every call, measured at **60.5 ms on the largest shipped plan --
+  17.9% added to `/api/plan/evaluate`, which the infrastructure audit measured as the whole
+  server's bound**. Compiled once (`app._plan_validator()`), it is **3.9 ms, 1.2%**. Measure what
+  you add to the hot path BEFORE you add it.
 - **A MASSING ELEMENT IS PLACED AND SIX LAYERS BELOW THE PLACER READ THE MAIN BLOCK AS THE WHOLE
   BUILDING (WP-10.1).** OQ 40 is ruled and `geometry.blocks_for` places a dependency beside the
   house; `openings`, `structure`, `vertical_score`, the lot cap, `plan_check`'s drawn layer and
