@@ -687,6 +687,7 @@ def instantiate(parti_id, brief):
                             if any(a["a"] == x["id"] for x in rooms) and any(a["b"] == x["id"] for x in rooms)],
             "note": f"Composed from the {p['name']} parti. {p['trades_away']}"}
     attach_garage(plan, brief, log)
+    stock_the_dependency(plan, brief, log)
     symmetrise_doors(plan)
     # WP-6.2 — after symmetrise, so a door is dimensioned ONCE and both of its records
     # agree. Before this, every composed door was `{"to": id}` and the renderers guessed.
@@ -765,6 +766,57 @@ def hyphen_room_type(style):
     return "gallery-corridor", ("no style in this chain names the breezeway, so the link is the "
                                 "enclosed `gallery-corridor` -- what five-part-palladian uses for "
                                 "both of its own hyphens")
+
+def stock_the_dependency(plan, brief, log):
+    """Put the brief's service programme in the dependency when the main block has no place for it.
+
+    THE OTHER HALF OF THE SERVICE STRIP (OQ 40 / oq/the-parti-dissolved-its-own-dependencies).
+    Stripping six service rooms out of `centre-passage-double-pile` moved a programme; it did not
+    delete one, and the ruling says so in as many words -- "the service programme is not deleted,
+    it is RELOCATED". Without this the strip is half done: `instantiate` logs a judgment saying the
+    diagram has no place for the breakfast room the brief requires, and the brief simply goes
+    unmet, which `SCORE_AXES` has no program axis to notice.
+
+    Scope, deliberately narrow. Only rooms the BRIEF requires by name and the parti has no place
+    for; only rooms whose own `function_class` puts them on the service side, because a dependency
+    is where service goes and a drawing room asked for by a brief is a different conversation; and
+    only when a dependency already exists to put them in. Where there is none, the judgment
+    `instantiate` already logs stands unchanged -- this function refuses rather than inventing a
+    dependency nobody asked for."""
+    ground = next((lv for lv in plan["levels"] if lv.get("index") == 0), None)
+    if ground is None:
+        return
+    dep_rooms = [r for r in ground["rooms"] if r.get("block") and not r.get("hyphen")]
+    if not dep_rooms:
+        return
+    dep_id = dep_rooms[0]["block"]
+    landing = next((r for r in dep_rooms if r["type"] == "mudroom"), dep_rooms[0])
+    have = {r["type"] for lv in plan["levels"] for r in lv["rooms"]}
+    SERVICE = {"service", "storage", "dining", "sanitary"}
+    added = []
+    for m in (brief.get("must_have") or []):
+        if m in have:
+            continue
+        rt = C["rooms"].get(m) or {}
+        if rt.get("function_class") not in SERVICE:
+            continue
+        w, l = room_default_dims(m)
+        plan["levels"][0]["rooms"].append({
+            "id": m, "type": m, "name": rt.get("name") or m.replace("-", " ").title(),
+            "width_ft": w, "length_ft": l, "ceiling_ft": 9.0, "block": dep_id,
+            "doors": [{"to": landing["id"], "width_ft": 3.0}],
+            "note": (f"Required by the brief and absent from this diagram, which since 3 Sep 2026 "
+                     f"holds no service programme in its main block. Placed in the dependency, "
+                     f"which is where the type puts its service -- the strip relocated this "
+                     f"programme rather than deleting it."),
+        })
+        have.add(m); added.append(m)
+    if added:
+        log.append(f"AUTHORED: {', '.join(a.replace('-', ' ') for a in added)} placed in the "
+                   f"dependency. The brief requires them and this diagram's main block has no "
+                   f"service programme to hold them — which is the arrangement its own exemplars "
+                   f"use, not a gap in the diagram.")
+
 
 def attach_garage(plan, brief, log):
     """Attach garage-and-hyphen to the plan's massing, or refuse and say why."""

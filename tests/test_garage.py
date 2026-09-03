@@ -285,3 +285,53 @@ class TestTheHyphenIsARoom:
                 assert (r.get("block") or None) == (other.get("block") or None), (
                     f"{r['id']} ({r.get('block') or 'main'}) is doored to {other['id']} "
                     f"({other.get('block') or 'main'}) across a gap, without the hyphen between")
+
+
+class TestTheServiceProgrammeIsRelocatedNotDeleted:
+    """OQ 40's other half. Stripping six service rooms out of centre-passage-double-pile moved a
+    programme rather than deleting one -- the ruling says so in as many words -- and until
+    `stock_the_dependency` existed the strip was half done: the shipped Georgian brief requires a
+    breakfast room, the diagram no longer had a place for one, and the brief simply went unmet.
+
+    The full suite caught it, as a `must_have` the revision loop was accused of dropping. It had
+    not dropped it; it was never instantiated. A test whose failure message names the wrong
+    culprit is still a test doing its job."""
+
+    @staticmethod
+    def _brief():
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return json.load(open(os.path.join(root, "briefs", "family-georgian.json")))
+
+    def test_a_must_have_service_room_lands_in_the_dependency(self, compose_module):
+        brief = self._brief()
+        plan, _log, _p = compose_module.instantiate("centre-passage-double-pile", brief)
+        rooms = [r for lv in plan["levels"] for r in lv["rooms"]]
+        types = {r["type"] for r in rooms}
+        for must in brief["must_have"]:
+            assert must in types, f"the brief requires {must} and it is nowhere in the plan"
+        bk = next(r for r in rooms if r["type"] == "breakfast-room")
+        assert bk.get("block"), (
+            "the breakfast room belongs in the dependency -- the main block of this diagram holds "
+            "no service programme, which is the arrangement its own exemplars use")
+
+    def test_only_service_side_rooms_are_relocated(self, compose_module):
+        """A dependency is where service goes. A brief asking for a drawing room the parti has no
+        place for is a different conversation and must still reach the judgment log rather than
+        being quietly built out in the wing."""
+        brief = dict(self._brief(), must_have=["drawing-room", "music-room"])
+        plan, log, _p = compose_module.instantiate("centre-passage-double-pile", brief)
+        dep_types = {r["type"] for lv in plan["levels"] for r in lv["rooms"] if r.get("block")}
+        assert "music-room" not in dep_types, "a music room is not service and must not be relocated"
+        assert any("music room" in l and "no place" in l for l in log), (
+            "the composer must still say plainly that it has no place for it")
+
+    def test_nothing_is_relocated_when_there_is_no_dependency(self, compose_module):
+        """No garage bays, no dependency, nothing to stock -- and the judgment `instantiate`
+        already logs stands. This function refuses rather than inventing a dependency nobody
+        asked for."""
+        brief = dict(self._brief())
+        brief["context"] = dict(brief.get("context") or {}, garage_bays=0)
+        plan, log, _p = compose_module.instantiate("centre-passage-double-pile", brief)
+        assert not [r for lv in plan["levels"] for r in lv["rooms"] if r.get("block")]
+        assert any("breakfast room" in l and "no place" in l for l in log)
