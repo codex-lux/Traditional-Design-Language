@@ -63,7 +63,13 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # finding read to its end: declining a pack promotes the next one into the same role. Read
 # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` before treating this
 # number as a measure of how much work is left -- it is what is VISIBLE, not what is required.
-RATCHET = {"role_gaps": 264, "inherited_packs": 3158, "unendorsed": 223}
+# 3 Sep 2026 (WP-8.10, THE FIRST FLIP): 264/3158/223 -> 258/3123/217 on `trim-classical`
+# declaring `delivery: opt-in`. READ THE REASON BEFORE READING THE NUMBERS AS PROGRESS. Not one
+# case was adjudicated: 35 arrivals stopped because a ruled flip stopped them, and six role gaps
+# vanished with them. `judged` did not move, and that is the whole of how the two are told apart
+# -- the flip is the ruling ACCEPTING unadjudicated stranding, not paying it down. `--strict`
+# prints a `withheld` line beside these three saying exactly this, so a reader need not know it.
+RATCHET = {"role_gaps": 258, "inherited_packs": 3123, "unendorsed": 217}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
@@ -77,7 +83,10 @@ RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 # `colonial-revival` was inheriting `transom_sidelight: forbidden` from GOTHIC-REVIVAL-BRITISH
 # while its own defining_characteristics name 'fanlight and/or sidelights' -- OQ 87's mechanism,
 # found because WP-8.3 made the refusal bite and the generator stopped drawing them.
-FORBIDDEN_RATCHET = 776
+# 776 -> 761 on 3 Sep 2026 (WP-8.10, the first flip). Fifteen pairs went with `trim-classical`:
+# a pack rule can no longer land on a forbidden slot it no longer reaches. The same caution as
+# above -- the corpus is not fifteen pairs better, it is fifteen pairs smaller.
+FORBIDDEN_RATCHET = 761
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
@@ -95,8 +104,18 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # Measured 3 Sep 2026 against the whole cascade, gating delivery on "the node binds it, or the
 # pack's own applies_to names it": 7,830 dimensioned slots -> 4,931. That is what the ruling was
 # NOT taken on -- it was taken on ~223, which counts ROLE GAPS and not deliveries.
-STRANDING = {"stranded": 2899, "rehoused": 1982, "nodes_touched": 124,
-             "dimensioned_before": 7830, "dimensioned_after": 4931}
+# 3 Sep 2026, THE FIRST FLIP RE-PINS FOUR OF THE FIVE, and the shape of the move is the reason
+# these are equalities. `trim-classical` is flipped, so its 10 slots have ALREADY lost their
+# dimensioning: `dimensioned_before` 7830 -> 7820 (the baseline itself shrank), `stranded`
+# 2899 -> 2889 and `rehoused` 1982 -> 1980 because the counterfactual can no longer remove what
+# a shipped flip already removed. `dimensioned_after` does NOT move: the end state was always
+# going to be this corpus. A ceiling would have read all four as improvement.
+#
+# `--stranding` prints an ALREADY WITHHELD block above the counterfactual for the same reason: a
+# flipped pack has nothing left to drop, so `--stranding trim-classical` now reports a bare zero
+# and that zero means "already paid", not "costs nothing".
+STRANDING = {"stranded": 2889, "rehoused": 1980, "nodes_touched": 124,
+             "dimensioned_before": 7820, "dimensioned_after": 4931}
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all
@@ -175,6 +194,23 @@ def measure(g):
         # ancestor and has to be judged again -- which is why `unendorsed` is no longer monotone
         # and why RATCHET_FLOOR exists.
         declined = {d["pack"] for d in (n.get("declined_packs") or [])}
+        # THE SAME ARGUMENT AS THE PARAGRAPH ABOVE, FOR THE DELIVERY GATE (WP-8.10). A pack that
+        # declares `delivery: opt-in` and is not named in this node's `inherits_packs` does not
+        # arrive: `resolve_packs` skips it exactly as it skips a decline, so this meter must too
+        # or it goes on describing a corpus nobody resolves. Without this the flip is INVISIBLE
+        # to OQ 51's own backlog -- `inherited_packs` went on counting arrivals that stopped
+        # happening, and the meter built to measure the problem could not see the fix.
+        #
+        # IT MUST NOT MOVE `judged`, and that is the point of putting it here rather than beside
+        # `declines`. A decline is a person reading the cascade and refusing; a withhold is a
+        # ruled flip removing a delivery NOBODY read. The ruling accepts that stranding
+        # explicitly, so counting it as adjudication would let the flip pay down the backlog it
+        # was ruled to strand -- a floor satisfied by not looking.
+        opted_in = set(n.get("inherits_packs") or [])
+        index = g.get("_packs") or {}
+        withheld = {pid for pid, v in index.items()
+                    if v.get("delivery") == "opt-in"
+                    and pid not in own_ids and pid not in opted_in}
         chain = list(n.get("_cascade") or [])
         for pid in sorted(declined):
             if any(e["pack"] == pid
@@ -198,7 +234,7 @@ def measure(g):
                 # 293/222/71 -> 287/249/38. The backlog is 27 larger than was published and
                 # nearly half the endorsed figure was an artefact -- and the error flattered,
                 # which is the direction this corpus has been caught by before.
-                if e["pack"] in own_ids or e["pack"] in declined:
+                if e["pack"] in own_ids or e["pack"] in declined or e["pack"] in withheld:
                     continue
                 if e["role"] not in own_roles:
                     from_anc_role.setdefault(e["role"], (a, e["pack"]))
@@ -217,7 +253,7 @@ CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
        "opening_height": 80.0, "span": 540.0, "wall_thickness": 13.5}
 
 
-def governed(g, nid, drop=None):
+def governed(g, nid, drop=None, withheld_out=None):
     """(slot -> (pack, source)) for a node, optionally with some packs dropped, and its kit.
 
     Hoisted out of `main` on 2 Sep 2026 so `--pair` reads it rather than restating it. It reads
@@ -229,22 +265,48 @@ def governed(g, nid, drop=None):
     `drop` takes a pack id OR a set of them (3 Sep 2026). `--impact` asks the one-pack question
     -- what does declining THIS cost -- and `--stranding` asks the many-pack one the opt-in flip
     needs: what does this node lose if the cascade stops delivering everything nobody vouched
-    for. One function, because the second is the first summed and a second copy would drift."""
+    for. One function, because the second is the first summed and a second copy would drift.
+
+    `withheld_out` IS A DICT PASSED IN AND FILLED, exactly as `eval_packs` takes `scope_dropped`,
+    so the two-value return every caller already unpacks is untouched (WP-8.10). It maps a slot
+    that lost ALL its dimensioning to the pack that was withheld and the reason -- the difference
+    between a stranded slot and a slot no pack ever wanted, which is what the ruling means by
+    stranding LOUDLY.
+
+    THE COUNTS DO NOT MOVE BECAUSE OF IT, and that is load-bearing rather than incidental: the
+    withheld rules are handed to `eval_packs` so they can be MARKED, `choose_pack` filters a
+    marked row before anything else, and `out` records only a slot with a `chosen`. So a
+    stranding figure measured with the reasons on is the same figure measured with them off.
+    `tests/test_stranding.py` holds both against each other."""
     sys.path.insert(0, os.path.join(ROOT, "build"))
     import resolve_kit as rk
     chain = rk.chain_for(g, nid)
     packs = rk.resolve_packs(g, chain)
+    # The counterfactual drop and the corpus's real opt-in gate are the SAME event seen twice --
+    # one hypothetical, one shipped -- so both are handed to `eval_packs` as withheld and both
+    # produce the same marked row. A sweep that modelled the drop as a deletion and the gate as a
+    # mark would report the two differently and the meter would stop describing the mechanism.
+    wh = collections.OrderedDict()
     if drop:
         gone = {drop} if isinstance(drop, str) else set(drop)
+        for k, v in packs.items():
+            if k in gone:
+                rec = dict(v)
+                rec["_why"] = ("the counterfactual withholds `%s` from `%s`" % (k, nid))
+                wh[k] = rec
         packs = collections.OrderedDict((k, v) for k, v in packs.items() if k not in gone)
+    for pid, rec in rk.withheld_for(g, nid).items():
+        wh.setdefault(pid, rec)
     kit, _sv = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
-    by_slot, _ = rk.eval_packs(packs, CTX, None, kit)
+    by_slot, _ = rk.eval_packs(packs, CTX, None, kit, withheld=wh)
     out = {}
     for sid, rows in by_slot.items():
         ch = rk.choose_pack(kit.get(sid) or {}, rows, CTX)
         if ch and ch.get("chosen"):
             out[sid] = (ch["chosen"]["pack"],
                         packs.get(ch["chosen"]["pack"], {}).get("_source"))
+        elif withheld_out is not None and ch and ch.get("how") == "opt-in.withheld":
+            withheld_out[sid] = (ch["refused"][0]["pack"], ch.get("why"))
     return out, kit
 
 
@@ -296,6 +358,31 @@ def main():
     build, gaps, inherited, declines = measure(g)
     applies = applies_to_index()
     unendorsed = [t for t in gaps if t[0] not in applies.get(t[3], ())]
+    # What the shipped flips took out of `inherited`, counted the same way `measure` drops it, so
+    # the two cannot disagree about which arrivals stopped.
+    flipped_packs = sorted(p for p, v in (g.get("_packs") or {}).items()
+                           if v.get("delivery") == "opt-in")
+    withheld_arrivals = 0
+    for nid in build:
+        n = g["nodes"][nid]
+        own = {e["pack"] for e in (n.get("proportion_packs") or [])}
+        ok = set(n.get("inherits_packs") or [])
+        # DECLINES ARE EXCLUDED, and the first version of this counter forgot them: it read 41
+        # against an `inherited_packs` that had fallen by 35, because six nodes DECLINE
+        # `trim-classical` and `measure()` was already dropping those arrivals before the flip.
+        # The flip did not stop them; a decline did. Counting a removal twice, once under each
+        # mechanism, is the same error in miniature as the role-gap-versus-delivery confusion
+        # this whole package began with.
+        gone_already = {d["pack"] for d in (n.get("declined_packs") or [])}
+        seen = set()
+        for anc in (n.get("_cascade") or []):
+            for e in (g["nodes"][anc].get("proportion_packs") or []):
+                pid = e["pack"]
+                if (pid in seen or pid in own or pid in ok or pid in gone_already
+                        or pid not in flipped_packs):
+                    continue
+                seen.add(pid)
+                withheld_arrivals += 1
 
     if a.slots:
         sys.path.insert(0, os.path.join(ROOT, "build"))
@@ -524,6 +611,7 @@ def main():
         one = None if a.stranding == "*" else a.stranding
         tot = collections.Counter()
         per_node, per_slot = collections.Counter(), collections.Counter()
+        per_realised, realised_nodes = collections.Counter(), set()
         for nid in buildable:
             chain = rk.chain_for(g, nid)
             allp = rk.resolve_packs(g, chain)
@@ -532,12 +620,25 @@ def main():
             gone = {p for p in allp
                     if p not in own and nid not in applies.get(p, ())
                     and (one is None or p == one)}
-            before, kit = governed(g, nid)
+            realised = {}
+            before, kit = governed(g, nid, withheld_out=realised)
+            # WHAT A SHIPPED FLIP HAS ALREADY TAKEN, as opposed to what one WOULD take. Once a
+            # pack declares `delivery: opt-in` the counterfactual below has nothing left to
+            # remove for it, so `--stranding <that pack>` prints a bare ZERO -- which reads as
+            # "this flip costs nothing" and is the exact inversion of the truth. The loss is
+            # realised, not absent, and it is counted here.
+            for sid, (pack, _why) in realised.items():
+                per_realised[pack] += 1
+                realised_nodes.add(nid)
+                if one is None or pack == one:
+                    tot["already_withheld"] += 1
             # EVERY buildable node counts toward the headline, including the ones with nothing
             # to lose. The first version `continue`d before the totals and published 7,678 of a
             # corpus that dimensions 7,830 -- a denominator quietly excluding the eight nodes
             # the flip does not touch, which flatters the ratio it is used to compute.
-            after = before if not gone else governed(g, nid, drop=gone)[0]
+            wh_out = {}
+            after = before if not gone else governed(g, nid, drop=gone,
+                                                     withheld_out=wh_out)[0]
             tot["dimensioned_before"] += len(before)
             tot["dimensioned_after"] += len(after)
             if not gone:
@@ -552,6 +653,14 @@ def main():
                     tot["unreached"] += 1
                     continue
                 tot["stranded"] += 1
+                # DOES THE STRANDED SLOT SAY SO? The whole of WP-8.10. A slot every one of whose
+                # rows came from a withheld pack now resolves `how: "opt-in.withheld"` and names
+                # the pack; one that ALSO has delivered rows which reach no ruling resolves
+                # `unresolved` and is stranded without being explained. Counting the two apart is
+                # the difference between "the flip is loud" and "the flip is loud where it
+                # happens to be" -- and only one of those is a measurement.
+                if sid in wh_out:
+                    tot["stranded_named"] += 1
                 per_node[nid] += 1
                 per_slot[sid] += 1
 
@@ -563,8 +672,28 @@ def main():
                   % len(buildable))
             sys.exit(COULD_NOT_EVALUATE)
 
+        flipped = sorted(p for p, v in (g.get("_packs") or {}).items()
+                         if v.get("delivery") == "opt-in")
+        if tot["already_withheld"]:
+            who = "`%s`" % one if one else "%d flipped pack(s): %s" % (
+                len(flipped), ", ".join(flipped))
+            print("ALREADY WITHHELD — %d slot(s) over %d node(s) have LOST their dimensioning "
+                  "to a\nshipped flip of %s. This is realised, not hypothetical, and the "
+                  "counterfactual\nbelow can no longer see it: a flipped pack has nothing left "
+                  "to drop.\n" % (tot["already_withheld"], len(realised_nodes), who))
+            for pid, n in per_realised.most_common():
+                if one is None or pid == one:
+                    print("  %-24s %4d slot(s)" % (pid, n))
+            print("")
+        elif one and one in flipped:
+            # A flipped pack that strands nothing is a real answer and must not read like the
+            # sweep failing to look.
+            print("`%s` IS ALREADY FLIPPED and withholds nothing on this corpus.\n" % one)
+
         scope = "every pack nobody vouched for" if one is None else "`%s`" % one
-        print("If the cascade stopped delivering %s:\n" % scope)
+        print("If the cascade stopped delivering %s%s:\n"
+              % (scope, " (on top of what is already withheld above)"
+                 if tot["already_withheld"] else ""))
         print("  slots dimensioned      %5d -> %5d"
               % (tot["dimensioned_before"], tot["dimensioned_after"]))
         print("  STRANDED — lose all dimensioning        %5d" % tot["stranded"])
@@ -573,6 +702,12 @@ def main():
               "ruling names it — the flip does not reach these)" % tot["unreached"])
         print("  nodes with at least one slot stranded   %5d of %d"
               % (len(per_node), len(buildable)))
+        named = tot["stranded_named"]
+        print("  ...of the stranded, NAMED as withheld    %5d  (%s)"
+              % (named,
+                 "every one — a reader is told which pack and why"
+                 if named == tot["stranded"] else
+                 "%d still read as a bare absence" % (tot["stranded"] - named)))
         if per_node:
             print("\n  worst nodes:")
             for nid, n in per_node.most_common(10):
@@ -581,20 +716,27 @@ def main():
             for sid, n in per_slot.most_common(10):
                 print("    %-34s %3d node(s)" % (sid, n))
         if one is None:
-            drift = {k: v for k, v in STRANDING.items()
+            # THE NEW VALUE, NOT THE OLD ONE TWICE. As shipped in WP-8.9 this comprehension
+            # took `v` from `STRANDING.items()`, so the message read "stranded 2899 -> 2899" --
+            # it could tell you a count had moved and never what it had moved to, which is the
+            # one thing a re-pin needs. Found by using it, on the first flip.
+            drift = {k: tot[k] for k, v in STRANDING.items()
                      if k in tot and tot[k] != v}
-            drift.update({k: len(per_node) for k in ("nodes_touched",)
-                          if len(per_node) != STRANDING["nodes_touched"]})
+            if len(per_node) != STRANDING["nodes_touched"]:
+                drift["nodes_touched"] = len(per_node)
             if drift:
                 print("\nPINNED COUNTS MOVED — these are equalities, not bounds, and a change "
                       "is a deliberate re-pin: " + "; ".join(
                           "%s %s -> %s" % (k, STRANDING[k], v) for k, v in sorted(drift.items())))
                 if a.strict:
                     sys.exit(1)
-        print("\nA stranded slot reads UNDIMENSIONED, not refused: `choose_pack` returns a bare "
-              "None\nand no consumer can tell it from a slot no pack ever wanted. That is what "
-              "the ruling\nmeans by stranding LOUDLY, and it is the thing the flip has to fix "
-              "before it lands.")
+        print("\nA stranded slot NAMES the pack that was withheld and why (WP-8.10): "
+              "`choose_pack`\nreturns `how: \"opt-in.withheld\"` where every row at the address "
+              "came from a withheld\npack, so a reader can tell it from a slot no pack ever "
+              "wanted. That is what the ruling\nmeans by stranding LOUDLY. The residue above — "
+              "stranded but not named — is a slot with\nother delivered rows that reach no "
+              "ruling; it is `unresolved`, which is its own honest\nverdict and not this "
+              "mechanism's to claim.")
         return
 
     if a.forbidden:
@@ -756,6 +898,16 @@ def main():
     print(f"      endorsed    {len(gaps) - len(unendorsed):3d}  an author DID judge these; the cascade delivered what was intended")
     print(f"      declined    {len(declines):3d}  a node has judged these WRONG and the cascade no longer delivers them")
     print(f"      judged      {len(gaps) - len(unendorsed) + len(declines):3d}  endorsed + declined — the only one of these that may only go UP")
+    # WHY THE CEILINGS FELL, PRINTED BESIDE THEM. A flip removes arrivals without anyone reading
+    # a single case, so `role_gaps`, `inherited_packs` and `unendorsed` all drop and a reader
+    # watching them as a progress meter would score the stranding as work done. `judged` is the
+    # only figure that tells the two apart -- it does NOT move here -- and this line is why a
+    # reader does not have to know that to avoid the mistake.
+    if withheld_arrivals:
+        print(f"      withheld    {withheld_arrivals:3d}  arrivals a FLIPPED pack no longer makes "
+              f"({', '.join(flipped_packs)}) — stranded,")
+        print( "                       NOT judged: the ceilings above fall by this without anyone "
+               "having read a case")
     # RE-RULED 3 Sep 2026, and this line said the old ruling for a day after it changed.
     # "Adjudicate first, flip second" is superseded: the flip is now, staged pack by pack.
     print("\nOQ 51 is RE-RULED (3 Sep 2026): flip pack inheritance to opt-in NOW, one pack at a")

@@ -272,5 +272,8 @@
       "note": "Unchanged from the parent, but carrying more weight here than anywhere else: the New England frontispiece is the most heavily carved doorway in colonial America and it is executed in wood at full order, so the order's proportions are visible at arm's length and errors in them are not survivable.",
       "precedence": 1
     }
+  ],
+  "inherits_packs": [
+    "trim-classical"
   ]
 }

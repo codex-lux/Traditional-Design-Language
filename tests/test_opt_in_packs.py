@@ -43,13 +43,22 @@ def graph():
 
 # ---------------------------------------------------------------- inert until flipped
 
-def test_no_pack_is_flipped_yet_and_the_corpus_is_untouched(graph):
-    """The mechanism ships inert. Every pack is on `cascade`, so `resolve_packs` behaves exactly
-    as it did and the OQ 51 ratchets do not move. A flip is a deliberate one-pack edit."""
+def test_exactly_the_flipped_packs_are_flipped_and_they_are_named_here(graph):
+    """WP-8.9 shipped this as "nothing is flipped yet" and WP-8.10 flipped the first pack, which
+    is the assertion firing as designed rather than a pin going stale. It is named rather than
+    counted: a test that only counts lets one pack be swapped for another silently, and the
+    whole discipline is that a flip is a deliberate one-pack edit with its stranding re-pinned in
+    the same commit.
+
+    `trim-classical` was chosen on the measurement -- 10 slots stranded against `facade-gable`'s
+    32 and `sash-light`'s 70 -- and it is not one of the five packs whose `applies_to` arms a
+    live behavioural gate."""
+    flipped = sorted(p for p, v in graph["_packs"].items() if v["delivery"] == "opt-in")
+    assert flipped == ["trim-classical"], (
+        flipped, "a pack has been flipped or unflipped — re-pin the stranding counts and say "
+                 "which, in the same commit")
     deliveries = collections.Counter(v["delivery"] for v in graph["_packs"].values())
-    assert deliveries["opt-in"] == 0, (
-        "a pack has been flipped — re-pin the stranding counts and say which, in the same commit")
-    assert deliveries["cascade"] == len(graph["_packs"]) == 57, deliveries
+    assert deliveries["cascade"] == 56 and len(graph["_packs"]) == 57, deliveries
 
 
 def test_the_pack_index_covers_every_pack_so_a_stale_build_is_loud(graph):
@@ -191,6 +200,14 @@ def test_the_whole_corpus_passes_the_opt_in_check(graph):
             carrying += 1
         cpb.check_opt_ins(n, set(graph["_packs"]), graph, errs)
     assert errs == [], errs[:5]
-    # When this stops being 0, the test above stops being vacuous and this line says when.
-    assert carrying == 0, ("%d node(s) now opt in — the first flip has landed; re-pin the "
+    # No longer vacuous (WP-8.10): six nodes opt in to `trim-classical`, so `check_opt_ins` is
+    # now exercised against real records rather than against an empty loop. Named, not counted --
+    # each is a node the pack's own `applies_to` vouches for AND which receives it by descent,
+    # and authoring them is what kept the flip's cost at the measured 10 instead of 15.
+    assert carrying == 6, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
                            "stranding counts in the same commit" % carrying)
+    opted = sorted(json.load(open(f, encoding="utf-8"))["id"]
+                   for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))
+                   if json.load(open(f, encoding="utf-8")).get("inherits_packs"))
+    assert opted == ["charleston-georgian", "charleston-single-house", "folk-victorian",
+                     "mid-atlantic-georgian", "new-england-georgian", "tidewater-georgian"], opted

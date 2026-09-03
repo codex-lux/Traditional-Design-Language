@@ -142,20 +142,6 @@ own words.
 | `ranch-style` | opening | `minimal-traditional` | Does the node's own statement that large float glass gave it the picture window place the ranch inside sash-light's authority or name the technology that ended it -- and if the latter, what dimensions `shutter` and `window_type`, both of which lose all dimensioning on a decline? |
 | `spanish-colonial-revival` | opening | `richardsonian-romanesque` | Does a twentieth-century revival that specifies multi-light double-hung sash take its light count from the pack's glass-supply arithmetic, or is multi-light here an archaism chosen for style, which the pack expressly says light count never is? |
 
-## `trim-classical` — 10 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| `egyptian-revival` | interior | `greek-revival-american` | Does c02's ban on dentils 'anywhere on the building' reach the interior trim, and if it does, is the pack's dentil-free Greek Revival family enough to satisfy it or must the whole pack go? |
-| `german-pennsylvania-colonial` | interior | `english-georgian` | Does the post-1770 Anglicization -- 'the same house, wearing a different face' -- reach the interior trim family, in rooms whose 7 ft 0 in to 8 ft 6 in ceilings sit at or below trim-classical's own stated calibration floor? |
-| `jacobethan-revival` | interior | `english-georgian` | Does 'There is no classical order except at the entrance porch' refuse a Vignola-derived interior trim family in a house whose own ornament the record calls Renaissance, or does it scope only the exterior order? |
-| `mediterranean-revival` | interior | `italian-renaissance-revival` | Does "window jamb splayed or returned in stucco with no applied casing" describe only the exterior reveal, or does a genuinely thick plastered wall carry the no-casing rule inside as well -- and if so, does that refuse this pack's `casing` and `window_surround_wood` rules while leaving its baseboard |
-| `pennsylvania-bank-house` | interior | `english-georgian` | Does the Stube level of a Pennsylvania bank house take a classical interior trim family at all, and if it does, does the pack's own eight-foot resolution apply to a house whose storey heights are set by the cross-slope rather than by a stud length? |
-| `queen-anne-british` | interior | `english-georgian` | Does a Queen Anne (British) interior take the Georgian 4:12:3 pedestal-column-entablature trim derivation as an acknowledged approximation, or should trim_family go undimensioned until an Aesthetic-movement dado-fill-frieze trim pack exists — given that declining strands trim_family with nothing whi |
-| `queen-anne-patterned-masonry` | interior | `english-georgian` | Does a picturesque urban masonry Queen Anne take the Georgian ceiling-height trim arithmetic for its interiors, or an Aesthetic-movement trim family the corpus has no pack for -- and if the latter, what dimensions baseboard, casing, crown, interior_door and wainscot in the meantime? |
-| ↺ `ranch-style` | interior | `colonial-revival` | Quote is VERBATIM (styles/ranch-style.json, proportional_system.typical_ratios[3]) — that leg passes. The judgment does not. The reason's central claim, "the node states the exact ceiling the pack disowns," misreads the pack: trim-classical's eight-foot conflict is with COST, and its resolution is i |
-| `richardsonian-romanesque` | interior | `beaux-arts-french` | Should a Richardsonian interior take its trim family from beaux-arts-french's inherited Vignola pedestal-column-entablature arithmetic, or should trim_family stand undimensioned until a heavy-oak-and-inglenook trim system exists to supply it? |
-| `scottish-baronial` | interior | `regency` | Does 'None classical' reach the INTERIOR of a house whose own record calls it a Regency house in costume with rooms that are large, square, plastered and comfortable, or is the classical trim family the right dimensioning for a Burn-and-Bryce interior even where the elevation refuses the order? |
 
 ## `room-harmonic` — 9 node(s)
 
@@ -401,8 +387,14 @@ own words.
 
 ## Surfaced by this package's own declines, and NOT YET READ
 
-**36 pairs.** These did not exist when the reading started. Declining a pack promotes the next one
-in the chain into the role it vacated, so working the backlog creates backlog. Three full passes
+**40 pairs — 36 from the third adjudication pass and FOUR MORE FROM THE FIRST OPT-IN FLIP.**
+These did not exist when the reading started. Declining a pack promotes the next one in the chain
+into the role it vacated, so working the backlog creates backlog — **and WP-8.10 showed a FLIP does
+exactly the same thing.** Withholding `trim-classical` from ten nodes promoted `trim-sawn` and
+`trim-craftsman` into the interior role on four of them. The refill is a property of the CASCADE,
+not of adjudication: any mechanism that stops a delivery hands the role to the next ancestor, so
+the flip does not escape the loop it was ruled in order to escape. Those four are marked
+`promoted by the WP-8.10 flip` below. Three full passes
 have now been made — 244 gaps read, then the 73 those declines surfaced, then the 50 the second
 pass surfaced — and the third produced these 36. They are listed separately because calling them
 "cases the records do not decide" would be false: nobody has looked at them yet.
@@ -415,6 +407,10 @@ check. `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` asks
 is the right shape at all rather than whether it should be run again, and three points is enough
 to say the loop terminates but not cheaply.
 
+- `jacobethan-revival` / `trim-sawn` — interior role, promoted by the WP-8.10 flip
+- `mediterranean-revival` / `trim-sawn` — interior role, promoted by the WP-8.10 flip
+- `queen-anne-patterned-masonry` / `trim-craftsman` — interior role, promoted by the WP-8.10 flip
+- `ranch-style` / `trim-sawn` — interior role, promoted by the WP-8.10 flip
 - `american-farmhouse-vernacular` / `gibbs-doric` — secondary role, from `georgian-colonial-american`
 - `appalachian-log-house` / `vignola-ionic` — secondary role, from `roman-classical`
 - `arts-and-crafts-american` / `greek-doric` — primary role, from `greek-classical`
@@ -451,3 +447,32 @@ to say the loop terminates but not cheaply.
 - `spanish-colonial-revival` / `timber-panel` — primary role, from `norman-vernacular`
 - `tudor` / `palladio-tuscan` — primary role, from `italian-renaissance`
 - `tudor-revival` / `greek-doric` — primary role, from `greek-classical`
+
+## Withdrawn by the first opt-in flip — NOT DECIDED (WP-8.10, 3 September 2026)
+
+**Ten cases, and the distinction matters more than the number.** `trim-classical` declared
+`delivery: opt-in` and stopped reaching these ten nodes, so they are no longer live unendorsed
+gaps and the guard on the table above correctly refuses to carry them. **Nobody ruled on one of
+them.** The question each row asked is still a good question; what changed is that the corpus no
+longer delivers the pack whose delivery the question was about, and `trim_family` on all ten now
+resolves `how: "opt-in.withheld"` naming the pack rather than falling silent.
+
+They are kept verbatim because a flip is reversible: writing `inherits_packs` on any of these
+nodes, or returning the pack to `cascade`, makes every one of them live again. Deleting them would
+have destroyed ten readings and left a later session to redo them.
+
+**`scottish-baronial` is the exception worth reading.** Its row asks whether 'None classical'
+reaches the interior — and its kit binds `trim_family` **forbidden** anyway, so that slot reports
+`kit.forbidden` and not `opt-in.withheld`. The flip did not decide its question either; a binding
+that predates the flip already had.
+
+- `egyptian-revival` (interior role, arrived from `greek-revival-american`) — Does c02's ban on dentils 'anywhere on the building' reach the interior trim, and if it does, is the pack's dentil-free Greek Revival family enough to satisfy it or must the whole pack go?
+- `german-pennsylvania-colonial` (interior role, arrived from `english-georgian`) — Does the post-1770 Anglicization -- 'the same house, wearing a different face' -- reach the interior trim family, in rooms whose 7 ft 0 in to 8 ft 6 in ceilings sit at or below trim-classical's own stated calibration floor?
+- `jacobethan-revival` (interior role, arrived from `english-georgian`) — Does 'There is no classical order except at the entrance porch' refuse a Vignola-derived interior trim family in a house whose own ornament the record calls Renaissance, or does it scope only the exterior order?
+- `mediterranean-revival` (interior role, arrived from `italian-renaissance-revival`) — Does "window jamb splayed or returned in stucco with no applied casing" describe only the exterior reveal, or does a genuinely thick plastered wall carry the no-casing rule inside as well -- and if so, does that refuse this pack's `casing` and `window_surround_wood` rules while leaving its baseboard
+- `pennsylvania-bank-house` (interior role, arrived from `english-georgian`) — Does the Stube level of a Pennsylvania bank house take a classical interior trim family at all, and if it does, does the pack's own eight-foot resolution apply to a house whose storey heights are set by the cross-slope rather than by a stud length?
+- `queen-anne-british` (interior role, arrived from `english-georgian`) — Does a Queen Anne (British) interior take the Georgian 4:12:3 pedestal-column-entablature trim derivation as an acknowledged approximation, or should trim_family go undimensioned until an Aesthetic-movement dado-fill-frieze trim pack exists — given that declining strands trim_family with nothing whi
+- `queen-anne-patterned-masonry` (interior role, arrived from `english-georgian`) — Does a picturesque urban masonry Queen Anne take the Georgian ceiling-height trim arithmetic for its interiors, or an Aesthetic-movement trim family the corpus has no pack for -- and if the latter, what dimensions baseboard, casing, crown, interior_door and wainscot in the meantime?
+- `ranch-style` (interior role, arrived from `colonial-revival`) — Quote is VERBATIM (styles/ranch-style.json, proportional_system.typical_ratios[3]) — that leg passes. The judgment does not. The reason's central claim, "the node states the exact ceiling the pack disowns," misreads the pack: trim-classical's eight-foot conflict is with COST, and its resolution is i
+- `richardsonian-romanesque` (interior role, arrived from `beaux-arts-french`) — Should a Richardsonian interior take its trim family from beaux-arts-french's inherited Vignola pedestal-column-entablature arithmetic, or should trim_family stand undimensioned until a heavy-oak-and-inglenook trim system exists to supply it?
+- `scottish-baronial` (interior role, arrived from `regency`) — Does 'None classical' reach the INTERIOR of a house whose own record calls it a Regency house in costume with rooms that are large, square, plastered and comfortable, or is the classical trim family the right dimensioning for a Burn-and-Bryce interior even where the elevation refuses the order?

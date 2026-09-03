@@ -76,9 +76,14 @@ def test_the_corpus_wide_figures_are_the_ones_the_ruling_was_not_taken_on(corpus
     """The ruling accepted "the unjudged gaps stranded in one commit", recorded as ~223. A role
     gap is not a delivery: 2,963 of 3,158 arrivals stop, and they dimension 2,899 slots across
     124 of 132 nodes. That factor of thirteen is why the flip was staged rather than landed."""
-    assert corpus["before"] == 7830, corpus
+    # RE-PINNED BY THE FIRST FLIP (WP-8.10) AND THE SHAPE OF THE MOVE IS THE LESSON.
+    # `trim-classical` is flipped, so its 10 slots are ALREADY undimensioned: the BASELINE
+    # shrank, 7830 -> 7820, and `stranded` fell with it. `after` does not move at all -- the end
+    # state was always going to be this corpus, whichever order the packs flip in. A ceiling
+    # would have read three of these four as improvement.
+    assert corpus["before"] == 7820, corpus
     assert corpus["after"] == 4931, corpus
-    assert corpus["before"] - corpus["after"] == corpus["stranded"] == 2899, corpus
+    assert corpus["before"] - corpus["after"] == corpus["stranded"] == 2889, corpus
     assert corpus["nodes"] == 124 and corpus["buildable"] == 132, corpus
 
 
@@ -87,19 +92,22 @@ def test_the_buckets_are_pinned_because_the_headline_cannot_see_them(corpus):
     `stranded`. Every assertion in the test above still passes on that mutation except the
     stranded one, and it passes only because `before - after` is checked against it — which is an
     accident of arithmetic, not a guard. These three are the guard."""
-    assert corpus["stranded"] == 2899, corpus
-    assert corpus["rehoused"] == 1982, corpus
-    assert corpus["unreached"] == 179, corpus
+    assert corpus["stranded"] == 2889, corpus
+    assert corpus["rehoused"] == 1980, corpus
+    assert corpus["unreached"] == 111, corpus
 
 
-def test_the_flip_does_not_reach_179_slots_and_that_is_a_finding_not_a_rounding(corpus):
+def test_the_flip_does_not_reach_111_slots_and_that_is_a_finding_not_a_rounding(corpus):
     """179 slots stay governed by a pack the flip stopped delivering, because `choose_pack` reads
     the resolved slot record's own `packs` block BEFORE the rows and that block cascades. The
     same condition on the 208 shipped DECLINES is 7 addresses (`tests/test_declined_packs.py`);
     at the scale of the flip it is 179. Whatever ships as `inherits_packs` inherits this hole —
     it is not something the mechanism can close, because the ruling is about delivery and this is
     a slot record naming a pack directly."""
-    assert corpus["unreached"] == 179
+    # 179 -> 111 at the first flip: `trim-classical` carried 119 of the corpus-wide unreached
+    # addresses, and once the pack is gated they are no longer part of the counterfactual at all.
+    # The condition did not go away, the pack did.
+    assert corpus["unreached"] == 111
     assert corpus["unreached"] > 20, (
         "if this collapses toward the decline-scale figure the sweep has probably stopped "
         "detecting the condition rather than the corpus having been cleaned")
@@ -111,7 +119,7 @@ def test_a_single_pack_can_be_measured_because_that_is_how_the_flip_is_staged():
     """Lucas ruled the flip staged pack by pack, so the meter has to answer one pack at a time.
     `facade-gable` is the clean case: 32 slots stranded, nothing re-housed, nothing surviving."""
     g = _nums(_run("facade-gable"))
-    assert g["before"] == 7830, g          # the denominator stays the corpus
+    assert g["before"] == 7820, g          # the denominator stays the corpus
     assert g["stranded"] == 32, g
     assert g["unreached"] == 0, g
     assert g["nodes"] == 29, g
@@ -142,7 +150,9 @@ def test_the_meter_reports_loss_on_a_node_known_to_lose(corpus):
     import re
     worst = dict((m.group(1), int(m.group(2)))
                  for m in re.finditer(r"^    ([a-z0-9-]+)\s+(\d+)$", text, re.M))
-    assert worst.get("egyptian-revival") == 64, worst
+    # 64 -> 63: `egyptian-revival` is one of the ten the first flip already stranded, so it has
+    # one fewer slot left for the counterfactual to take.
+    assert worst.get("egyptian-revival") == 63, worst
     assert worst.get("ranch-style") == 44, worst
 
 
@@ -151,7 +161,7 @@ def test_a_pack_that_reaches_nobody_unvouched_reports_zero_rather_than_erroring(
     is ambiguous between "nothing to report" and "the sweep broke"."""
     g = _nums(_run("no-such-pack-id"))
     assert g["stranded"] == 0 and g["rehoused"] == 0 and g["unreached"] == 0, g
-    assert g["before"] == g["after"] == 7830, g
+    assert g["before"] == g["after"] == 7820, g
 
 
 def test_the_sweep_refuses_rather_than_printing_a_satisfying_zero():
@@ -170,8 +180,8 @@ def test_the_pinned_counts_are_equalities_and_say_why(corpus):
     measuring less, and every one of these numbers falls as the flip lands — which is the flip
     working, not the corpus improving. Held to the shipped dict so the two cannot drift."""
     ci = _ci()
-    assert ci.STRANDING == {"stranded": 2899, "rehoused": 1982, "nodes_touched": 124,
-                            "dimensioned_before": 7830, "dimensioned_after": 4931}, ci.STRANDING
+    assert ci.STRANDING == {"stranded": 2889, "rehoused": 1980, "nodes_touched": 124,
+                            "dimensioned_before": 7820, "dimensioned_after": 4931}, ci.STRANDING
     for k in ("stranded", "rehoused"):
         assert corpus[k] == ci.STRANDING[k], (k, corpus, ci.STRANDING)
     assert corpus["nodes"] == ci.STRANDING["nodes_touched"]

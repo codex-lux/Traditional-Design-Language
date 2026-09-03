@@ -169,7 +169,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,515 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,546 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -553,8 +553,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,158 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **223 unjudged** gaps, not the 233 published --
+  is **OQ 51** and is the one with 3,123 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **217 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -1485,8 +1485,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **129 entries, of which 51 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **130 entries, of which 52 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-pack-can-be-the-only-writer-a-node-has, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
@@ -1658,23 +1658,59 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     thirteen. Put back with the numbers, Lucas ruled **stage it pack by pack** and **a separate
     field, not `applies_to`** — that field already arms five live gates and 57 of the 223 gaps sit
     on them, so gating delivery there would make one endorsement mean three things.
-    **BUILT AND INERT.** A pack declares `delivery: opt-in` (`schema/proportion-pack.schema.json`,
-    indexed into `dist/taxonomy.json` as `_packs` so the resolver does no I/O); a node names it in
-    `inherits_packs` (beside `declined_packs`, whose lie-check `check_opt_ins` mirrors exactly).
-    One conditional in `resolve_packs`. **Nothing is flipped, and `tests/test_opt_in_packs.py`
-    pins that** — the corpus is unchanged and the gate is driven directly to prove it bites,
-    because a mechanism that changes nothing on the day it ships reads exactly like one that does
-    not work.
+    **THE FIRST PACK IS FLIPPED (WP-8.10, 3 Sep): `trim-classical` declares `delivery: opt-in`,
+    six nodes name it in `inherits_packs`, and 10 slots over 10 nodes lost their dimensioning.**
+    A pack declares `delivery: opt-in` (`schema/proportion-pack.schema.json`, indexed into
+    `dist/taxonomy.json` as `_packs` so the resolver does no I/O); a node names it in
+    `inherits_packs` (beside `declined_packs`, whose lie-check `check_opt_ins` mirrors exactly);
+    one conditional in `resolve_packs`.
+    **THE METER'S GATE IS NOT THE MECHANISM'S GATE, AND THE PUBLISHED NUMBER IS NOT WHAT A FLIP
+    LANDS.** `--stranding` drops what `applies_to` does not vouch for; `resolve_packs` drops what
+    `inherits_packs` does not name. On `trim-classical` that is **10 against 15** -- the five
+    extra are vouched nodes, one of them `tidewater-georgian`, a shipped reference plan. Writing
+    the opt-ins first is what keeps the landed cost at the measured one. On `facade-gable` the
+    same gap is 32 → 33. **It is a property of the pack: measure it per pack.**
+    **A STRANDED SLOT NAMES THE PACK NOW** -- `choose_pack` returns `how: "opt-in.withheld"` with
+    the reason, on 2,889 of 2,889. It is tested AFTER `kit.forbidden` and that order is measured:
+    testing it first relabelled `scottish-baronial.trim_family`, which binds the slot `forbidden`,
+    and offered its author a remedy that would not have dimensioned the slot. Found only by the
+    gap between two counters (11 reported withheld, 10 losing dimensioning), which is why the
+    sweep prints both.
+    **THE CEILINGS FELL WITHOUT ONE CASE BEING ADJUDICATED** -- 264/3158/223 → 258/3123/217,
+    because 35 arrivals stopped. **`judged` did not move, at 249**, and that is the entire way the
+    two are told apart; `--strict` prints a `withheld` line beside the three saying so. Read that
+    before quoting a falling `unendorsed` as progress.
     **READ `--stranding <pack>` BEFORE FLIPPING ONE: the backlog count is a bad guide.**
     `storey-graduation` has 23 unendorsed gaps and flipping it strands **9** slots while **45**
     survive it via inherited slot-level `packs` rulings; `facade-gable` has 16 and strands **32**
     with none surviving. A staging order taken off gap counts alone picks the ineffective pack
-    first. **179 slots corpus-wide survive the flip whatever it does**, for that same reason —
-    `choose_pack` reads the slot record's own `packs` block before the rows, and no mechanism
-    about DELIVERY can reach a slot record naming a pack directly.
+    first. **111 slots corpus-wide survive the flip whatever it does** (179 before
+    `trim-classical` flipped and took 119 of them out of the counterfactual), for that same
+    reason — `choose_pack` reads the slot record's own `packs` block before the rows, and no
+    mechanism about DELIVERY can reach a slot record naming a pack directly.
+    **AND A CORPUS-LEVEL WRITER COUNT IS NOT A FACT ABOUT A NODE, WHICH IS HOW THIS FLIP WAS
+    SOLD.** `facade-gable` was set aside as the corpus's SOLE writer of `cornice_return` (29 of
+    its 32 stranded slots) and `trim-classical` preferred because `trim_family` has three writers.
+    Measured per node, **zero of the ten stranded nodes have either other writer in their
+    cascade** — all ten lose the only account they can reach, exactly the condition `facade-gable`
+    was refused for. Size is the only real discriminator (10 / 32 / 70). It is the SAME wrong-grain
+    error as `unendorsed`-for-deliveries one package earlier, and the meter had already answered
+    it: `stranded` IS the per-node measure and `rehoused` is its complement.
+    `oq/a-pack-can-be-the-only-writer-a-node-has`; do not flip a second pack before it is ruled.
+    **AND A FLIP REFILLS THE BACKLOG EXACTLY AS A DECLINE DOES, which is not what it was ruled
+    for.** Withholding `trim-classical` from ten nodes promoted `trim-sawn` and `trim-craftsman`
+    into the interior role on four of them -- four live unendorsed gaps nobody has read, created
+    by the flip. The refill is a property of the CASCADE, not of adjudication: anything that stops
+    a delivery hands the role to the next ancestor. Caught by `test_wp87_adjudication.py`, which
+    was written for declines and needed no change to catch a flip.
+    **Ten tabled cases were WITHDRAWN and not one was decided** -- the `trim-classical` section of
+    `oq/the-adjudication-cases-the-records-do-not-decide` was exactly the ten stranded nodes. Kept
+    verbatim under a heading saying so, because a flip is reversible and deleting them would
+    destroy ten readings.
+    Report: `docs/reports/wp-8.10-the-flip-that-was-sold-on-the-wrong-count.md`.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **264 role_gaps**,
-    **3,158 inherited_packs**, **223 unendorsed** -- and one FLOOR that may only go up,
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **258 role_gaps**,
+    **3,123 inherited_packs**, **217 unendorsed** -- and one FLOOR that may only go up,
     **judged 249** (endorsed + declined). **THE BACKLOG HAS BEEN READ END TO END THREE TIMES AND IT REFILLED EVERY TIME
     (WP-8.7, 2-3 Sep 2026)**: 367 adjudications one node at a time, **211 judged into the corpus**
     (208 declines, 3 endorsements) and **181 put to a ruling** in

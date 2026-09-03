@@ -3527,7 +3527,11 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # The ceilings barely move and `judged` goes 209 -> 249, which is the pattern the ruling
     # predicted -- a decline re-attributes the role to the next ancestor far more often than it
     # closes the gap outright.
-    assert ci.RATCHET == {"role_gaps": 264, "inherited_packs": 3158, "unendorsed": 223}
+    # 3 Sep 2026 (WP-8.10, THE FIRST FLIP): 264/3158/223 -> 258/3123/217, and this one is NOT
+    # work either -- it is 35 arrivals stopping because `trim-classical` declared
+    # `delivery: opt-in`. Nobody read a case. `judged` stays at 249, which is the only figure
+    # here that can tell a flip from an adjudication, and it is why the floor exists.
+    assert ci.RATCHET == {"role_gaps": 258, "inherited_packs": 3123, "unendorsed": 217}
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
