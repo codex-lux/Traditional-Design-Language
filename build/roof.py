@@ -366,17 +366,32 @@ def wing_step_down(plan, section, main):
     wing_eave_ft = round(wing_ridge_ft - (wing_depth_ft / 2.0) * (pitch / 12.0), 2)
     hyphen_length_ft = round(sum(hyphen_band) / 2.0, 2)
     computed_ratio = round(wing_ridge_ft / main_ridge_ft, 4)
-    ok = ridge_band[0] <= computed_ratio <= ridge_band[1]
+    # THE VERDICT IS UNJUDGED, AND IT MUST BE: this check could not fail (3 Sep 2026).
+    # `ratio` two lines above is CHOSEN to sit inside `ridge_band` -- the default when the band
+    # admits it, the band's own midpoint otherwise -- and `wing_ridge_ft` is then main x ratio.
+    # So `computed_ratio` is `ratio` back again to four places, and testing it against the band it
+    # was drawn from returned True by construction, on every plan, for as long as the function has
+    # existed. That is a pass on a figure nobody measured: the OQ 52 family, and the one thing
+    # `unjudged is not passed` most forbids. The schematic figures are kept and still drawn --
+    # a reader is better served by a labelled sketch than by a blank -- but the RULE reports
+    # could-not-evaluate, in this file's own established shape for that (`ok: None`, as the dormer
+    # check returns when no bay count exists). It becomes judgeable when the geometry layer places
+    # a real second volume, which is `oq/the-parti-dissolved-its-own-dependencies`'s own subject;
+    # until then there is no measured wing ridge for the ratio to be a ratio OF.
+    ok = None
     return {
         "applicable": True, "computed": True, "schematic": True,
         "main_ridge_grade_ft": main_ridge_ft, "wing_ridge_grade_ft": wing_ridge_ft, "wing_eave_grade_ft": wing_eave_ft,
         "wing_depth_ft": wing_depth_ft, "hyphen_length_ft": hyphen_length_ft,
         "ratio": computed_ratio, "ratio_band": list(ridge_band), "ok": ok,
+        "unjudged_reason": ("the wing ridge is derived from the band this rule tests it against, so a verdict "
+                            "would be circular; no placed second volume exists to measure one from"),
         "bands_read_from_fallback": fell_back,
-        "note": ("SCHEMATIC: this corpus's geometry solver never places a real second volume, so wing_depth_ft is "
-                 "assumed (one bay module) rather than measured off a placed room. The ratio itself is real and "
-                 "checked against dependency-and-hyphen.json's own stated 0.6-0.8 band, read from that file's "
-                 "prose rather than re-transcribed."),
+        "note": ("SCHEMATIC AND UNJUDGED: this corpus's geometry solver never places a real second volume, so "
+                 "wing_depth_ft is assumed (one bay module) rather than measured off a placed room, and "
+                 "wing_ridge_ft is DERIVED from dependency-and-hyphen.json's own 0.6-0.8 band rather than "
+                 "measured. The figures are drawn as a labelled sketch; the ratio is reported and deliberately "
+                 "not judged, because a rule tested against the band its own input came from cannot fail."),
     }
 
 # ---------------------------------------------------------------- chimneys
@@ -588,9 +603,15 @@ def dormer_rhythm_check(plan, section, main):
 # ---------------------------------------------------------------- plan-view outline + elevation profiles
 def roof_outline(section, main):
     """Plan-view line segments for the roof-plan SVG: the eave rectangle (the outside-to-outside
-    footprint itself), the ridge line, hip lines where the form has them, the gambrel break
-    lines (parallel to the ridge, offset by break_offset_ft on each side), and the dependency
-    wing's own ridge where one was computed."""
+    footprint itself), the ridge line, hip lines where the form has them, and the gambrel break
+    lines (parallel to the ridge, offset by break_offset_ft on each side).
+
+    This docstring promised "and the dependency wing's own ridge where one was computed" until
+    3 Sep 2026 and the body has never emitted a wing line of any kind -- there is no second
+    footprint to draw one on, which is what `wing_step_down` above says about itself. Prose
+    asserting geometry the code does not produce is the class WP-6.4 exists to remove; the
+    sentence goes rather than the claim being left to be believed. When a real second volume is
+    placed, the line comes back here with the code that draws it."""
     fp = section["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
     lines = [{"kind": "eave", "x1": 0.0, "y1": 0.0, "x2": W, "y2": 0.0},

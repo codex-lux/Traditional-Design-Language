@@ -217,14 +217,39 @@ class TestWingStepDown:
         assert band == (0.6, 0.8)
 
     def test_wing_ridge_steps_down_inside_the_bands_own_band(self, roof_module):
-        """The acceptance text's own literal case: 'wing ridges step down'."""
+        """The acceptance text's own literal case: 'wing ridges step down'. The schematic figures
+        are still produced and still drawn; what changed on 3 Sep 2026 is that the VERDICT is
+        unjudged, and the assertion below used to read `w["ok"] is True` -- which could not fail.
+        See the sibling test for why."""
         plan, section = _tidewater_section(roof_module, groupings=["dependency-and-hyphen"])
         main = roof_module.main_roof(plan, section, plan["style"])
         w = roof_module.wing_step_down(plan, section, main)
         assert w["applicable"] is True and w["computed"] is True
         assert w["wing_ridge_grade_ft"] < w["main_ridge_grade_ft"]
         assert w["ratio_band"][0] <= w["ratio"] <= w["ratio_band"][1]
-        assert w["ok"] is True
+        assert w["ok"] is None, "the ridge rule is derived from its own band and must not report a pass"
+        assert w["unjudged_reason"]
+
+    def test_the_ridge_verdict_cannot_be_a_pass_because_it_would_be_circular(self, roof_module):
+        """The defect this replaced, pinned so it cannot come back. `wing_step_down` picks its
+        ratio INSIDE the band it then tests against, so `computed_ratio` is that ratio returned
+        and any band comparison is True by construction -- a pass on a figure nobody measured.
+
+        This asserts the circularity directly rather than asserting the fix's return value: the
+        ratio the record reports must equal the ratio the band implies, on any main ridge height.
+        While that identity holds, a boolean verdict here is unfalsifiable and `ok` must stay None.
+        """
+        plan, section = _tidewater_section(roof_module, groupings=["dependency-and-hyphen"])
+        main = roof_module.main_roof(plan, section, plan["style"])
+        w = roof_module.wing_step_down(plan, section, main)
+        lo, hi = w["ratio_band"]
+        implied = roof_module.WING_RIDGE_RATIO_DEFAULT if lo <= roof_module.WING_RIDGE_RATIO_DEFAULT <= hi \
+            else (lo + hi) / 2.0
+        assert abs(w["ratio"] - implied) < 1e-3, (
+            "the reported ratio no longer equals the one derived from the band -- if a real placed "
+            "wing is now being measured, this test's premise is gone and the verdict can become a "
+            "boolean again; if it is not, something else has broken.")
+        assert lo <= implied <= hi, "the derived ratio is inside the band it is tested against, by construction"
 
     def test_hyphen_length_is_read_from_the_grouping_too(self, roof_module):
         plan, section = _tidewater_section(roof_module, groupings=["dependency-and-hyphen"])

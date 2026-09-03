@@ -382,3 +382,127 @@ of the numbers `check_counts.py` does not police, because it is not derived from
 - **It re-derived what it could and attributed the rest.** Every figure in §V came out of a run
   made for this document; the Phase 9 figures it quotes are attributed to the report that measured
   them, because re-deriving them here would need an engine this container does not have.
+
+---
+
+## IX — The correction, later the same day
+
+*§I–VIII are left exactly as written. This section says what costing the road in §VI found wrong
+with the road, and re-derives the one measurement §V could not take. It is written in this
+document's own tradition — the 26 August review's §VIII, WP-5.2's inline correction block, WP-9.4's
+retraction of its own 127 → 119 — which is that the earlier reading stays legible beside the
+correction rather than being quietly edited away.*
+
+### 1. The road's Tier 1 centrepiece had already been built, and refused
+
+**§VI.1 item 2 is WITHDRAWN.** It names "the arrangement line's WP-9.4, not started, and named the
+centrepiece at planning" and asks for a `parti_slice()` that states the macro-plan. That package
+**ran on 1 September and refused exactly that premise with measurements** —
+`docs/reports/wp-9.4-the-unit-was-not-the-problem.md`, commits `3414f35` and `b33215f`:
+
+- `slice_rect`'s spanning branch **already is** the centre-passage macro-move. Over 3,000 Tidewater
+  candidates there are **two** distinct east/west room signatures and 2,999 are the same one. The
+  quadrant assignment is not being searched; it is already fixed.
+- What varies is the passage's position and width — and that is load-bearing, not noise: the argmin
+  sits five feet west of centre and the centre-line bucket is about 100 points worse.
+- **A probe that built the stated tree anyway took fatal findings from 3 to 8.**
+
+So there was nothing left for `parti_slice()` to state, and stating it again measured worse.
+
+**How the error happened, because the mechanism is the point.** `PLAN-OF-ACTION.md` carried
+`Status: NOT STARTED — the centrepiece` on that package while its report sat in `docs/reports/`.
+This review read the status line. Worse, the same session then re-asserted that stale line in its
+own commit correcting other status lines. *A status line disagreeing with its own section* is a
+defect this project has already named and fixed once — WP-9.3's line said NOT STARTED while its
+body recorded both a build and a withdrawal — and §VII of this review corrected three instances of
+the class while propagating a fourth into its own recommendation.
+
+### 2. §V's unreachable rooms are the weaker engine, not the missing object
+
+§V closes: *"That is §IV.2's missing object, reproduced on the corpus's own benchmarks."* **That
+reading is wrong, and the measurement that settles it can now be taken here.**
+`pip install -r requirements.txt` succeeded after §V was written; `ortools` imports, so CP-SAT runs.
+The same two plans, the same validator, the only variable being the engine:
+
+| plan | engine | fatal | serious | minor | **rooms unreachable** | solver |
+|---|---|---|---|---|---|---|
+| `spec-builder-colonial` | heuristic | 10 | 97 | 90 | **6** | hill-climb |
+| `spec-builder-colonial` | **auto** | **4** | 114 | 92 | **0** | cp-sat, FEASIBLE |
+| `tidewater-georgian-careful` | heuristic | 3 | 62 | 85 | **3** | hill-climb |
+| `tidewater-georgian-careful` | **auto** | **0** | 72 | 80 | **0** | cp-sat, OPTIMAL (hard-only) |
+
+**Every unreachable room on both shipped plans disappears on the proving engine — nine of nine —
+and the fatal count falls 13 → 4.** The rooms nobody could walk to were the guillotine slicer, not
+a missing object in the model. This corroborates WP-9.4 §7 (fatals 123 → 36, unreachable 121 → 34
+over 21 partis) on the two plans this review actually measured, and it means the sentence in §V
+drew a conclusion about the MODEL from an artefact of the ENGINE.
+
+§IV.2 is narrower than §V made it and survives as written: it quotes WP-9.2's *"121 of 123
+**heuristic** fatals"* with the engine named, and Kerr's "these the skeleton of plan" argument for
+circulation as an object does not rest on the fatal count. What does not survive is §V's claim that
+the benchmarks reproduce it.
+
+**The preamble named the container's limits and §V then reasoned past them.** That is the failure
+mode this repository calls *a caveat that survives one paragraph and then drops* — worse than no
+caveat, because downstream the figure looks measured. It was caught by running the thing, which is
+the only method that has ever caught one of these.
+
+### 3. And the engine trade is not free, which is a finding in its own right
+
+Reading the table above as "turn on the proof engine" would be the next error. **Serious findings
+RISE, 159 → 186 across the two plans**, and the rise is almost entirely one layer:
+
+| plan | drawn/serious, heuristic → auto | the rest of the layers |
+|---|---|---|
+| `spec-builder-colonial` | 41 → 45 | fault 18 → 19; furniture, room, adjacency, daylight, code, grouping, plan all identical |
+| `tidewater-georgian-careful` | 32 → 42 | fault 14 → 15; every other layer identical |
+
+By finding kind, CP-SAT draws **more rooms that cannot hold their furniture** (`drawn-furniture-fit`
++9 and +2), **more rooms below their own width floor** (+5, +3) and more over their proportion band
+(+3 on Tidewater) — while drawing rooms **closer to what they declare** (`drawn-vs-declared` −7, −3)
+and eliminating the cut-off room on both plans.
+
+That is WP-9.6's finding reproduced from the other end: *the engine that PROVES draws more
+unbuildable rooms than the one that searches, because it proves what it is told and nothing tells it
+about shape.* The proof engine is better at the structural question and worse at the dimensional
+one. Neither engine is simply the right answer, and any future comparison of the two must name
+which of those two questions it is scoring.
+
+### 4. What §VI's road becomes
+
+Tier 1 items 1 and 3 stand — the rulings, and the precedents' image half. **Item 2 is replaced** by
+the package `oq/the-parti-dissolved-its-own-dependencies` was ruled into on 2 September: strip the
+service program out of `centre-passage-double-pile` and teach the generator to place a dependency.
+Four rulings taken while costing it settle the shape: a dependency is a **second massing element**
+(ruled as OQ 40, so the two questions cannot drift); the hyphen is a **room, chosen by style**;
+every **proportion floor goes to 1.0**; and the record is corrected before the work.
+
+One constraint found in the costing decides that package's scope: **stripping the six service rooms
+deletes the garage.** `compose.attach_garage` anchors on a mudroom, or a kitchen to build one
+beside, and this parti has no mudroom — so the strip and the dependency placement cannot ship
+separately, and the garage becoming a dependency is what makes the strip survivable.
+
+### 5. Three claims in the wing layer, corrected here
+
+Found while costing, all pre-existing, none of them this review's own:
+
+- **`roof.py`'s `wing_step_down()` could not fail.** It chose a ridge ratio inside the band, derived
+  the wing ridge from it, and then tested that ratio against the band it came from — True by
+  construction, on every plan, since the function was written. It reports **unjudged** now, with its
+  reason, in this file's own established shape for that; the schematic figures are still produced
+  and still drawn, and the plate reads `WING RIDGE 70% OF MAIN — UNJUDGED` rather than OK. A falsy
+  check in `render_roof.py` would have printed that as FAIL, which is the three-state rule breaking
+  on the one surface a reader looks at; that is fixed in the same commit.
+- **`roof_outline`'s docstring promised a wing ridge it has never drawn.** The body emits no wing
+  line of any kind, and there is no second footprint to draw one on.
+- **`STATE-OF-THE-PROJECT.md` claimed wing ridges step down on both shipped plans**, while
+  `TestWingStepDown::test_neither_shipped_plan_actually_carries_the_grouping` and
+  `docs/structure.md` have both pinned the opposite for as long as they have existed.
+
+### 6. What this correction did not do
+
+It changed no data, adjudicated nothing, and raised no new open question — everything it names was
+already named. It did not re-run the 21-parti sweep: WP-9.4's figures are quoted as that package's,
+with its engine and its tree state, and the figures re-derived here are this container's own, on the
+two shipped plans, with their engine named on every row. `ezdxf` and `ifcopenshell` are still absent,
+so the two CAD selftests still report could-not-evaluate — a named unjudged state, never a pass.

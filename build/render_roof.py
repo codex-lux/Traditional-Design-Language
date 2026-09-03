@@ -74,7 +74,11 @@ def render_roof(roof, path, scale=7.0):
     line2 = []
     w = checks.get("wing_step_down", {})
     if w.get("computed"):
-        line2.append(f"WING RIDGE {w['ratio']*100:.0f}% OF MAIN — {'OK' if w['ok'] else 'FAIL'}")
+        # `ok` is None where the rule could not be judged, and the plate must not read that as a
+        # FAIL -- a falsy check here turned an unjudged verdict into a conviction on the drawing,
+        # which is the three-state rule breaking on the one surface a reader actually looks at.
+        verdict = "UNJUDGED" if w.get("ok") is None else ("OK" if w["ok"] else "FAIL")
+        line2.append(f"WING RIDGE {w['ratio']*100:.0f}% OF MAIN — {verdict}")
     cape = checks.get("cape_eave", {})
     if cape.get("computed"):
         line2.append(f"CAPE EAVE {'OK' if cape['ok'] else 'FAIL'}")
