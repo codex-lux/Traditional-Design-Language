@@ -71,7 +71,17 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (27 Aug 2026)
+## Where the work stands (3 Sep 2026)
+
+**READ `docs/reports/project-review-2026-09-03.md` FIRST if you are about to plan work rather than
+do a named package.** It is the second review of the whole project against `VISION.md` and the
+UI/UX documents (the first is `project-review-2026-08-26.md`, and both are kept: the earlier one is
+the record of what the project looked like before Phases 6 through 9). Its verdict in one line:
+**the checker has arrived and the generator has not**, and the three rulings that unblock the
+generator — the dependency, the register, and the proportion floor — are recorded and unbuilt. Its
+§IV is the current list of things the system says that are not true, and it supersedes any older
+ranking of those. **This heading said 27 Aug for a week, above entries dated 2 Sep**, which is the
+same class of staleness as the "until X lands" trap below.
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
