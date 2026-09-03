@@ -162,6 +162,10 @@
                   "type": "string",
                   "description": "0.5.0 (OQ 40, ruled 3 Sep 2026). Which massing element this room sits in: the id of an entry in footprint.blocks. ABSENT MEANS THE MAIN BLOCK, so every plan written before this field, and every plan that is one rectangle, is unchanged and places byte-identically. This is a narrow sibling field with a closed reader set, on level_offset_ft's precedent (OQ 56): `level` keeps its meaning -- a storey, and the thing stacking and storey heights are computed from -- and a dependency is NOT a level. Expressing one as a level would hand it to geometry.py's `src = ground if idx == 0 else (upper if idx == 1 else {})` and it would be drawn nowhere, while structure.py's unfiltered eave sum added its height to the main block's. See OQ 40 for the full costing of that refusal."
                 },
+                "hyphen": {
+                  "type": "boolean",
+                  "description": "0.5.0 (OQ 40). True on the room that IS the link between two massing elements, so the placer puts it in the gap rather than in the dependency, and so its own `width_ft` states `hyphen_length_ft` instead of a constant standing in for it. The room type is chosen by style -- `breezeway` where the style's own style_variation names it a hyphen or colonnade, `gallery-corridor` where the link is enclosed."
+                },
                 "windows": {
                   "type": "array",
                   "items": {

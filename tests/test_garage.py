@@ -209,3 +209,79 @@ def test_no_parti_declares_a_garage_room_without_the_grouping_that_governs_it():
         f"these partis carry a garage room that no grouping governs: {offenders}. "
         f"Add garage-and-hyphen to their groupings, or remove the room and let "
         f"attach_garage() place it against the massing.")
+
+
+class TestTheHyphenIsARoom:
+    """OQ 40 / oq/the-parti-dissolved-its-own-dependencies, ruled 3 Sep 2026.
+
+    The link between the house and a dependency is a ROOM, and which room is chosen by style.
+    Before this it was a property of the attachment whose length lived in a local variable used
+    only inside two f-strings -- which is why `hyphen_length_ft`, a strong machine-tested rule in
+    BOTH hyphen groupings, had never been evaluated on any plan this composer produced."""
+
+    @staticmethod
+    def _brief():
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return json.load(open(os.path.join(root, "briefs", "family-georgian.json")))
+
+    def test_the_link_is_a_room_in_the_record(self, compose_module):
+        plan, _log, _p = compose_module.instantiate("centre-passage-double-pile", self._brief())
+        hy = [r for lv in plan["levels"] for r in lv["rooms"] if r.get("hyphen")]
+        assert len(hy) == 1, "exactly one room is the link"
+        assert hy[0]["type"] in ("breezeway", "gallery-corridor")
+        assert hy[0].get("block"), "the link belongs to the dependency it links to"
+
+    def test_the_links_width_is_hyphen_length_ft_and_is_inside_both_bands(self, compose_module):
+        """The figure the rule tests. It must satisfy the GROUPING's 12-20 ft band and the
+        ROOM's own width band at once -- a link inside one and outside the other is a rule
+        satisfied by breaking a record."""
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        plan, _log, _p = compose_module.instantiate("centre-passage-double-pile", self._brief())
+        hy = next(r for lv in plan["levels"] for r in lv["rooms"] if r.get("hyphen"))
+        w = hy["width_ft"]
+        assert 12.0 <= w <= 20.0, "outside garage-and-hyphen's own stated band"
+        band = json.load(open(os.path.join(root, "rooms", hy["type"] + ".json")))["dimensions"]["width_ft"]
+        assert band[0] <= w <= band[1], f"{w} is outside {hy['type']}'s own {band} ft band"
+
+    def test_which_room_is_the_link_is_read_from_the_records_own_words(self, compose_module):
+        """Not an authored table: `breezeway`'s style_variation names it "hyphen" for
+        english-palladian and "hyphen or colonnade" for tidewater-georgian, and the Georgian
+        chain reaches those. A style the room does not name gets the enclosed gallery."""
+        t, why = compose_module.hyphen_room_type("tidewater-georgian")
+        assert t == "breezeway" and "breezeway.json" in why
+        assert compose_module.hyphen_room_type("craftsman")[0] == "gallery-corridor"
+
+    def test_a_new_mudroom_keeps_its_kitchen_door_where_the_house_has_a_kitchen(self, compose_module):
+        """THE REGRESSION THIS PACKAGE CAUSED AND CAUGHT. A first version moved the created
+        mudroom into the dependency unconditionally, which cut the door to the kitchen that
+        rooms/mudroom.json requires HARD -- so every parti with a kitchen began composing with a
+        new fatal, 'Mudroom does not reach a kitchen through a direct door'. The mudroom belongs
+        beside the kitchen when there is one; it moves out only when there is none."""
+        plan, _log, _p = compose_module.instantiate("centre-passage-single-pile", self._brief())
+        rooms = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+        mud = next((r for r in rooms.values() if r["type"] == "mudroom"), None)
+        assert mud is not None, "this brief asks for garage bays, so a mudroom is created"
+        kitchen = next((r for r in rooms.values() if r["type"] == "kitchen" and not r.get("block")), None)
+        assert kitchen is not None, "the single-pile parti still has a kitchen"
+        assert not mud.get("block"), "with a kitchen in the house the mudroom stays in the house"
+        assert any(d.get("to") == kitchen["id"] for d in (mud.get("doors") or [])), (
+            "the mudroom must keep the kitchen door its own hard rule requires")
+
+    def test_no_door_is_authored_across_the_gap_between_two_elements(self, compose_module):
+        """A door between rooms in different massing elements would be the drawing lying about
+        the record -- there is a hyphen's width of outside air between them. Only the link
+        itself may have a door at each end."""
+        plan, _log, _p = compose_module.instantiate("centre-passage-double-pile", self._brief())
+        rooms = {r["id"]: r for lv in plan["levels"] for r in lv["rooms"]}
+        for r in rooms.values():
+            if r.get("hyphen"):
+                continue
+            for d in (r.get("doors") or []):
+                other = rooms.get(d.get("to"))
+                if other is None or other.get("hyphen"):
+                    continue
+                assert (r.get("block") or None) == (other.get("block") or None), (
+                    f"{r['id']} ({r.get('block') or 'main'}) is doored to {other['id']} "
+                    f"({other.get('block') or 'main'}) across a gap, without the hyphen between")

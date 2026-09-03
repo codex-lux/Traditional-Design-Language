@@ -68,9 +68,13 @@
     "must_adjoin": [
       {
         "room": "mudroom",
-        "why": "The car-to-house transition needs a dirty room to land in, or the kitchen becomes it.",
+        "why": "The car-to-house transition needs a dirty room to land in, or the kitchen becomes it.. VIA ADDED 3 Sep 2026 (OQ 40): when the garage is a DEPENDENCY rather than a room in the main block, it reaches its mudroom through the hyphen -- which is the same fact this rule already describes, one element further out. Without it a correctly-composed five-part garage drew a serious finding for the arrangement its own grouping prescribes",
         "relation": "direct-door",
-        "strength": "strong"
+        "strength": "strong",
+        "via": [
+          "breezeway",
+          "gallery-corridor"
+        ]
       }
     ],
     "should_adjoin": [

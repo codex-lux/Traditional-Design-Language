@@ -93,11 +93,19 @@
     "must_adjoin": [
       {
         "room": "hall",
-        "why": "the dogtrot passage exists between two rooms and is meaningless without them; in the historic type the two pens are the hall (working, cooking, eating) and the chamber",
+        "why": "the dogtrot passage exists between two rooms and is meaningless without them; in the historic type the two pens are the hall (working, cooking, eating) and the chamber. VIA ADDED 3 Sep 2026 (OQ 40): the `exceptions` sentence below names the mid-century breezeway and the Palladian hyphen, and it is INERT -- build/plan_check.py resolves `exceptions` by intersecting the list with the style-id chain, so prose describing a case matches no style and this hard rule stood against every breezeway the corpus could place. That is OQ 59's failure mode: the record states the right thing where no checker can read it. The `via` list is that exception in the form the checker reads -- the link reaches the hall THROUGH the room at its far end, which is what a house-to-garage breezeway and a main-block-to-dependency hyphen both physically are",
         "relation": "shared-wall",
         "strength": "hard",
         "exceptions": [
           "the mid-century breezeway, whose two sides are the house and the garage, and the Palladian hyphen, whose two sides are the main block and a dependency"
+        ],
+        "via": [
+          "garage",
+          "kitchen",
+          "centre-passage",
+          "stair-hall",
+          "entrance-hall",
+          "back-hall"
         ]
       }
     ],

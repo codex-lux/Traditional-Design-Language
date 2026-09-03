@@ -1150,15 +1150,44 @@ def blocks_for(plan, fp, prep, level=0):
         # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
         walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
         side = "E" if ("E" in walls and "W" not in walls) else "W"
+        # A hyphen room tagged into this element states the gap; otherwise the grouping's own
+        # band midpoint stands in and says so. This is the whole reason the hyphen is a ROOM:
+        # `hyphen_length_ft` is a machine-tested rule in both hyphen groupings and it had never
+        # been evaluated on any plan, because the only hyphen this composer produced was a local
+        # variable inside two f-strings.
+        hyph = [r for r in rs if C["rooms"].get(r["type"], {}).get("function_class") == "circulation"
+                and r.get("hyphen")]
+        gap = float(hyph[0].get("width_ft") or HYPHEN_DEFAULT_FT) if hyph else HYPHEN_DEFAULT_FT
+        body = [r for r in rs if r not in hyph]
+        need_body = sum(r["_area"] for r in body) or need
+        # A dependency is sized against a SINGLE-PILE depth, not the main block's own pile.
+        # Using the main block's produced a 10 x 50 ft splinter off a 70 ft house: the target
+        # depth for a double-pile main block is 36 ft, and dividing a small service programme by
+        # it leaves one bay of width and all the area in depth. The massing catalogue states the
+        # relation in its own prose -- five-part-palladian is "2-2.5 main / 1-1.5 wings" -- and a
+        # wing one room deep is what that describes.
+        dep_depth = PILE["single-pile"]
+        bays = max(1, round((need_body / dep_depth) / bay))
+        W = round(bays * bay, 2)
+        H = round(need_body / W, 2) if W else 0.0
         if side == "W":
-            west_edge -= HYPHEN_DEFAULT_FT + W
+            hx = 0.0 - gap
+            west_edge -= gap + W
             x = west_edge
         else:
-            x = east_edge + HYPHEN_DEFAULT_FT
+            hx = east_edge
+            x = east_edge + gap
             east_edge = x + W
+        if hyph:
+            # The hyphen is its own element, in the gap, lower and shallower than both -- which
+            # is dependency-and-hyphen.json's own rule about it.
+            hh = min(H, float(hyph[0].get("length_ft") or H))
+            out.append({"id": bid + "-hyphen", "role": "hyphen", "x": round(hx, 2),
+                        "y": round((fp["H"] - hh) / 2.0, 2), "W": round(gap, 2), "H": round(hh, 2),
+                        "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
                     "y": round((fp["H"] - H) / 2.0, 2),   # centred on the main block's axis
-                    "W": W, "H": H, "rooms": [r["id"] for r in rs],
+                    "W": W, "H": H, "rooms": [r["id"] for r in body],
                     "attached_to": "main", "side": side})
     return out
 
