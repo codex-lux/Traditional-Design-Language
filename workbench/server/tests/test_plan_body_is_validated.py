@@ -20,6 +20,33 @@ import pytest
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 
+@pytest.fixture(autouse=True, scope="module")
+def _own_heavy_bucket():
+    """This file spends the SHARED heavy bucket, so it hands it back.
+
+    `client` is session-scoped, so every test file in this suite shares one identity and one
+    60-per-hour heavy budget. This file makes ~31 metered calls -- and it sorts immediately
+    before `test_revision_routes.py`, which then took 429s and failed ten tests. In isolation
+    all of them pass, which is exactly the shape that gets misdiagnosed as flakiness.
+
+    Raising the cap for this file and resetting the counters on the way OUT is the smaller fix:
+    the alternative is trimming the fuzz matrix, and the matrix is the test. It does not weaken
+    anything -- `test_revision_routes.py::test_both_new_routes_refuse_when_the_heavy_bucket_is_spent`
+    still sets the cap to 1 and watches both routes answer 429, which is where the limiter is
+    actually guarded.
+    """
+    from workbench.server import limits
+    old = os.environ.get("HEAVY_CALLS_PER_HOUR")
+    os.environ["HEAVY_CALLS_PER_HOUR"] = "10000"
+    limits.reset()
+    yield
+    if old is None:
+        os.environ.pop("HEAVY_CALLS_PER_HOUR", None)
+    else:
+        os.environ["HEAVY_CALLS_PER_HOUR"] = old
+    limits.reset()
+
+
 def _plan():
     return json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
 
