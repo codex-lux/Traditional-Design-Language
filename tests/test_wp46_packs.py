@@ -3676,3 +3676,45 @@ def test_dist_taxonomy_is_fresh_because_seventeen_tests_read_it_as_if_it_were_so
         "dist/taxonomy.json was STALE -- a source file changed and the artefact was not rebuilt. "
         "It has now been regenerated, so this test will pass on the next run; commit the artefact "
         "with the change that caused it. 17 tests read this file, including every OQ 51 pin.")
+
+
+def test_the_invariant_print_does_not_convict_a_pack_on_an_evaluation_error():
+    """The THIRD occurrence of `'OK' if x else 'FAIL'` over a tri-state (WP-10.1's audit).
+
+    `check_invariants` sets `holds: None` with an `error` when the expression cannot be evaluated
+    at all, and `proportion_engine show --invariants` printed **FAIL** for it -- a pack convicted
+    of breaking its own invariant on the strength of a crash. The SELFTEST in the same file has
+    always read it correctly (`if i["holds"] is not True`), so the file knew and the print did
+    not, which is how these survive a reading.
+
+    Found by sweeping for the pattern after `roof.py`'s CLI and `render_roof.py`'s legend were
+    each caught doing it. Asserted on the CLI's real output with a real pack whose invariant is
+    forced to error, because that is the surface a reader sees."""
+    import io, contextlib, importlib.util, os, sys
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    spec = importlib.util.spec_from_file_location("pe", os.path.join(root, "build", "proportion_engine.py"))
+    pe = importlib.util.module_from_spec(spec); spec.loader.exec_module(pe)
+
+    pid = next(p for p in sorted(pe.PACKS) if pe.resolve(p).get("invariants"))
+    pack = pe.resolve(pid)
+    pack["invariants"] = [dict(pack["invariants"][0], expression="no_such_name / 0")]
+    rows = pe.check_invariants(pack)
+    assert rows and rows[0]["holds"] is None and rows[0].get("error"), (
+        "the fixture no longer produces an unjudged invariant, so this guard is vacuous")
+
+    real_resolve = pe.resolve
+    pe.resolve = lambda p: pack if p == pid else real_resolve(p)
+    argv = sys.argv
+    sys.argv = ["proportion_engine.py", "show", pid]
+    buf = io.StringIO()
+    try:
+        with contextlib.redirect_stdout(buf):
+            pe.main()
+    finally:
+        sys.argv = argv
+        pe.resolve = real_resolve
+    line = next((l for l in buf.getvalue().splitlines() if rows[0]["statement"][:40] in l), None)
+    assert line, "the invariant block no longer prints -- this guard has gone blind"
+    assert "FAIL" not in line, (
+        f"an invariant that could not be evaluated is printed as a conviction: {line.strip()}")
+    assert "N/EV" in line, f"and the unjudged state is not disclosed at all: {line.strip()}"

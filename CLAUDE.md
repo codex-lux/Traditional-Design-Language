@@ -479,7 +479,11 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `'OK' if x else 'FAIL'`, so an unjudged verdict printed as FAIL on the one surface a reader looks
   at, one line from where the first fix had been made; `render_roof` had also ANDed the gambrel's
   two halves into one word, so an unjudged break convicted a passing pitch. **One word cannot carry
-  three states for two rules.**
+  three states for two rules.** **Sweeping for the DISPLAY half of the pattern found a THIRD
+  FILE**: `proportion_engine.py`'s `show --invariants` printed FAIL for a `holds: None` -- a pack
+  convicted of breaking its own invariant on the strength of a crash -- while the SELFTEST twenty
+  lines below had always read `is not True` correctly. The tri-state is handled where the number is
+  COMPUTED and collapsed where it is DISPLAYED, so sweep the plates and the CLIs, not the checkers.
 - **A MUTATION THAT CHANGES NOTHING IS NOT EVIDENCE THAT NOTHING IS WRONG -- IT IS EVIDENCE THE
   FIXTURE IS BLIND (WP-10.1).** Four guards in this session could not fail, and two were written BY
   the audit inside the class that exists to catch that. `b["x"] == 0` **cannot fail against a
