@@ -185,6 +185,57 @@ def check_declines(node, packs, graph, errors):
                         f"wearing a citation (check_openings.py's discipline).")
 
 
+def check_opt_ins(node, packs, graph, errors):
+    """`inherits_packs`, OQ 51's DELIVERY half (re-ruled 3 Sep 2026).
+
+    The exact mirror of `check_declines` above, and it exists for the same reason in the same
+    words: an opt-in that admits nothing reads EXACTLY like a considered one. It appears in the
+    record and it does nothing -- worse than never having been written, because the delivery now
+    looks decided.
+
+    Three lies, two of them straight mirrors of the decline's and the third with no counterpart:
+    a pack that does not reach the node by descent (nothing to admit), a pack the node already
+    binds (`resolve_packs` takes the node's own binding at chain[0], so the opt-in is inert), and
+    opting into a pack this node also DECLINES -- which the refusal half cannot have, because
+    there was only ever one field to contradict.
+
+    It does NOT require the pack to have flipped. An opt-in written before its pack declares
+    `delivery: opt-in` is inert but correct, and that is the whole staging discipline: the nodes
+    that should keep a pack say so first, the pack flips second, and the stranding meter reads
+    the difference."""
+    nid = node["id"]
+    opt = node.get("inherits_packs") or []
+    if not opt:
+        return
+    own = {e["pack"] for e in (node.get("proportion_packs") or [])}
+    declined = {d.get("pack") for d in (node.get("declined_packs") or [])}
+    gnode = (graph.get("nodes") or {}).get(nid) or {}
+    chain = list(gnode.get("_cascade") or [])
+    reachable = {e["pack"]
+                 for a in chain
+                 for e in ((graph["nodes"].get(a) or {}).get("proportion_packs") or [])}
+    seen = set()
+    for i, pid in enumerate(opt):
+        if pid not in packs:
+            errors.append(f"{nid}: inherits_packs[{i}] names '{pid}', which is not a pack id")
+            continue
+        if pid in seen:
+            errors.append(f"{nid}: opts into '{pid}' twice -- one statement per (node, pack)")
+        seen.add(pid)
+        if pid in declined:
+            errors.append(
+                f"{nid}: opts into '{pid}' and DECLINES it. One of the two is a judgment somebody "
+                f"changed and did not delete; the record cannot hold both.")
+        if pid in own:
+            errors.append(
+                f"{nid}: opts into '{pid}' and BINDS it as well. `resolve_packs` takes the node's "
+                f"own binding at chain[0] and never gates it, so the opt-in admits nothing.")
+        elif pid not in reachable:
+            errors.append(
+                f"{nid}: opts into '{pid}', which does not reach it by descent. The opt-in admits "
+                f"nothing while reading as a considered delivery.")
+
+
 def check_node(node, packs, errors, warnings, strict):
     nid = node["id"]
     entries = node.get("proportion_packs")
@@ -363,6 +414,7 @@ def main():
         check_node(node, packs, errors, warnings, args.strict)
 
         check_declines(node, packs, graph, errors)
+        check_opt_ins(node, packs, graph, errors)
     print(f"{bound} of {len(buildable)} buildable (style/variant) node(s) bound"
           + (f" (checking only '{args.node}')" if args.node else ""))
     if not args.node:

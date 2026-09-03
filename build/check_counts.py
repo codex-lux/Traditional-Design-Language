@@ -21,6 +21,7 @@ Run:  python3 build/check_counts.py [--fix] [--verbose]
 Exit: 0 clean, 1 if any claim is stale (or was rewritten under --fix).
 """
 import argparse
+import collections
 import glob
 import json
 import os
@@ -136,6 +137,7 @@ def computed():
         v["image_building_named"] = sum(
             1 for x in assets if (x.get("provenance") or {}).get("building"))
         v["image_never_harvestable"] = sum(1 for x in assets if x.get("role") == "incorrect")
+
         sys.path.insert(0, os.path.join(ROOT, "build"))
         import modcache
         H = modcache.load("harvest_habs", os.path.join(ROOT, "build", "harvest_habs.py"))
@@ -149,6 +151,18 @@ def computed():
         v["image_queries"] = len(queries)
         v["image_queries_us"] = sum(
             1 for q, loc in queries.items() if not H.outside_the_survey(loc))
+    # THE BAKED SNAPSHOTS (`oq/a-baked-pack-value-is-a-second-delivery-path`), read from the
+    # checker that OWNS the judgment rather than re-derived here, so the prose and the build
+    # cannot drift into two answers about what "judged" means. Same discipline as the OQ 51
+    # figures: `check_kits.check_baked_snapshots` decides, this only counts what it decided.
+    _ck = modcache.load("check_kits", os.path.join(ROOT, "build", "check_kits.py"))
+    _errs, _unj, _st = [], [], collections.Counter()
+    for _f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
+        _ck.check_baked_snapshots(_errs, _unj, os.path.basename(_f).split(".")[0],
+                                  json.load(open(_f, encoding="utf-8")), _st)
+    v["baked_judged"] = _st["baked_judged"]
+    v["baked_unjudged"] = _st["baked_unjudged"]
+    v["baked_snapshots"] = _st["baked_judged"] + _st["baked_unjudged"]
     return v
 
 
@@ -236,6 +250,16 @@ CLAIMS = [
     ("STATE-OF-THE-PROJECT.md", "image_queries_us",     r"distinct queries of which (\d+) are inside HABS"),
     ("STATE-OF-THE-PROJECT.md", "image_never_harvestable", r"name none, (\d+) are `role: incorrect`"),
     ("STATE-OF-THE-PROJECT.md", "image_records",       r"`assets/manifest\.json`, (\d+) records over \d+ style nodes"),
+    # The baked snapshots, in the two places the prose states them (3 Sep 2026). The judged and
+    # unjudged counts are the honest pair -- quoting one without the other is how "0 stale" comes
+    # to read as "none stale", which is the distinction the whole check exists to keep.
+    ("CLAUDE.md",              "baked_judged",    r"\*\*(\d+) judged and all agreeing, 8 that cannot"),
+    ("CLAUDE.md",              "baked_unjudged",  r"judged and all agreeing, (\d+) that cannot be judged"),
+    ("CLAUDE.md",              "baked_snapshots", r"said (\d+) kit parameters carry both an `expr`"),
+    ("docs/open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md",
+                               "baked_snapshots", r"\*\*Of the (\d+) snapshots, \d+ can be judged"),
+    ("docs/open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md",
+                               "baked_judged",    r"Of the \d+ snapshots, (\d+) can be judged from their own record"),
     # OQ 51's four, in the six places the prose states them (WP-8.7, 2 Sep 2026).
     ("CLAUDE.md",              "role_gaps",       r"pins three ceilings that may only go down -- \*\*(\d+) role_gaps\*\*"),
     ("CLAUDE.md",              "inherited_packs", r"\*\*([\d,]+) inherited_packs\*\*"),

@@ -256,10 +256,23 @@ def resolve_packs(graph, chain):
     """
     node = graph["nodes"].get(chain[0]) if chain else None
     declined = {d["pack"] for d in ((node or {}).get("declined_packs") or [])}
+    # OQ 51's DELIVERY HALF, re-ruled 3 Sep 2026: a pack may declare `delivery: opt-in`, and one
+    # that does reaches a node only where the node binds it or names it here. Staged per pack --
+    # a pack that declares nothing behaves exactly as it always has, so this is inert until a
+    # pack is flipped, and each flip is one pack's worth of stranding rather than the corpus's.
+    # Read beside `declined` because they are the same question answered opposite ways and a
+    # reader looking for "why does this node not have that pack" should find both here.
+    opted_in = set((node or {}).get("inherits_packs") or [])
     out = collections.OrderedDict()
     for nid in chain:
         for pb in graph["nodes"][nid].get("proportion_packs", []) or []:
             pid = pb["pack"]
+            # The node's OWN binding is never gated -- `nid != chain[0]` -- for the same reason
+            # the decline guard carries that test: chain[0] is the node, and a node that binds a
+            # pack has opted into it by binding it. Gating that would delete an authored record.
+            if (nid != chain[0] and pid not in opted_in
+                    and (graph.get("_packs", {}).get(pid, {}).get("delivery") == "opt-in")):
+                continue
             # A node may not decline a pack it BINDS ITSELF -- that is a binding to delete, not a
             # decline to write, and check_pack_bindings errors on it. The `nid != chain[0]` guard
             # is belt and braces so a corpus that slipped past the checker still resolves

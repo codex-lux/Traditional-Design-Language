@@ -80,6 +80,24 @@ RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 FORBIDDEN_RATCHET = 776
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
+# A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
+# -- flip pack inheritance to opt-in, staged pack by pack -- and the ruling requires the flip to
+# strand LOUDLY: a node that stops receiving a pack it was silently receiving loses dimensions on
+# real slots, and a slot reading UNDIMENSIONED rather than REFUSED is OQ 51's own silent
+# corruption arriving from the other direction. `--stranding` is that count.
+#
+# WHY THESE ARE NOT RATCHETS. A ceiling that may only fall is satisfied by measuring less, and
+# every number here falls as the flip lands -- which is the flip working, not the corpus
+# improving. `RATCHET_FLOOR`'s own comment makes the same argument one layer up. So these are
+# pinned as EQUALITIES: a change to any of them is a deliberate re-pin with the reason recorded,
+# never a bound quietly satisfied.
+#
+# Measured 3 Sep 2026 against the whole cascade, gating delivery on "the node binds it, or the
+# pack's own applies_to names it": 7,830 dimensioned slots -> 4,931. That is what the ruling was
+# NOT taken on -- it was taken on ~223, which counts ROLE GAPS and not deliveries.
+STRANDING = {"stranded": 2899, "rehoused": 1982, "nodes_touched": 124,
+             "dimensioned_before": 7830, "dimensioned_after": 4931}
+
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all
 # receive `storey-graduation` -- a second-to-first-storey ratio -- and all four say in their own
@@ -200,19 +218,25 @@ CTX = {"ceiling_height": 108.0, "storey_height": 120.0, "opening_width": 36.0,
 
 
 def governed(g, nid, drop=None):
-    """(slot -> (pack, source)) for a node, optionally with one pack dropped, and its kit.
+    """(slot -> (pack, source)) for a node, optionally with some packs dropped, and its kit.
 
     Hoisted out of `main` on 2 Sep 2026 so `--pair` reads it rather than restating it. It reads
     the CASCADE-RESOLVED slot record, never `load_kit(nid)`: `choose_pack` consults the record's
     own `packs` block before precedence and that block is usually inherited, so the node's own
     kit file takes a different branch and reports a different governing pack. That error was
-    published twice before the 25 Aug audit found it."""
+    published twice before the 25 Aug audit found it.
+
+    `drop` takes a pack id OR a set of them (3 Sep 2026). `--impact` asks the one-pack question
+    -- what does declining THIS cost -- and `--stranding` asks the many-pack one the opt-in flip
+    needs: what does this node lose if the cascade stops delivering everything nobody vouched
+    for. One function, because the second is the first summed and a second copy would drift."""
     sys.path.insert(0, os.path.join(ROOT, "build"))
     import resolve_kit as rk
     chain = rk.chain_for(g, nid)
     packs = rk.resolve_packs(g, chain)
     if drop:
-        packs = collections.OrderedDict((k, v) for k, v in packs.items() if k != drop)
+        gone = {drop} if isinstance(drop, str) else set(drop)
+        packs = collections.OrderedDict((k, v) for k, v in packs.items() if k not in gone)
     kit, _sv = rk.resolve_slots(g, chain, rk.scope_for(g, nid))
     by_slot, _ = rk.eval_packs(packs, CTX, None, kit)
     out = {}
@@ -255,6 +279,10 @@ def main():
     ap.add_argument("--forbidden", action="store_true",
                     help="pack rules landing on a slot the resolved kit binds `forbidden` — "
                          "ratcheted separately from the OQ 51 numbers")
+    ap.add_argument("--stranding", nargs="?", const="*", metavar="PACK",
+                    help="what the corpus LOSES if the cascade stops delivering packs nobody "
+                         "vouched for — the before/after OQ 51's flip may not land without. "
+                         "Optionally scoped to one pack, which is how the flip is staged")
     ap.add_argument("--impact", nargs=2, metavar=("NODE", "PACK"),
                     help="what a node loses, and what takes over, if it declines a pack")
     ap.add_argument("--pair", nargs=2, metavar=("NODE", "PACK"),
@@ -334,7 +362,7 @@ def main():
     # `a.impact` in the pair branch below and fell through -- which is after this guard, so the
     # resolver was never imported and the fall-through raised. A guard that runs before the flag
     # it guards is set is not a guard.
-    if a.forbidden or a.impact or a.pair:
+    if a.forbidden or a.impact or a.pair or a.stranding:
         sys.path.insert(0, os.path.join(ROOT, "build"))
         import resolve_kit as rk
 
@@ -457,6 +485,116 @@ def main():
             print(f"  {unreached} slot(s) the decline DOES NOT REACH — unjudged, not re-housed.")
         print("\nA decline stops a wrong pack. It does not supply a right one — OQ 58's stated")
         print("limit, one layer down.")
+        return
+
+    if a.stranding:
+        # WHAT THE FLIP TAKES AWAY, COUNTED BEFORE AND AFTER (OQ 51, re-ruled 3 Sep 2026).
+        #
+        # The gate modelled here is "the node binds the pack, or the pack's own `applies_to`
+        # names it" -- i.e. somebody vouched. That is deliberately NOT the mechanism the flip
+        # will ship (Lucas ruled a separate field, because `applies_to` already arms five live
+        # behavioural gates and one endorsement may not come to mean three things). It is the
+        # WORST CASE the flip is bounded by, and the point of measuring it before building is
+        # that the ruling was taken on ~223 -- a count of ROLE GAPS -- while the deliveries this
+        # stops number 2,963 and the slots they dimension number 2,899.
+        #
+        # THREE OUTCOMES, AND THE FOURTH ONE IS STRUCTURALLY EMPTY -- worth stating, because the
+        # first draft printed it and a zero looks like information. A slot the resolved kit binds
+        # `forbidden` never appears in `before` at all: `eval_packs` MARKS its rows
+        # `refused_by_kit` and `choose_pack` returns `chosen: None`, so it is already outside the
+        # dimensioned set and cannot be stranded by anything. `--impact` annotates that case
+        # because it walks the slots ONE pack governs, which is a different population.
+        #
+        # OF THE THREE THAT REMAIN, the last is the one a naive sweep gets wrong. `--impact`
+        # learned it on 3 Sep: `choose_pack` reads the resolved slot record's own `packs` block
+        # BEFORE the rows, and that block cascades, so a pack can still be chosen at an address
+        # after `resolve_packs` has stopped delivering it.
+        #
+        # THE DIRECTION IS MEASURED RATHER THAN ASSUMED, because the two instruments get it
+        # wrong opposite ways and a plan written before the code guessed the other one. In
+        # `--impact` the bug read as RELIEF: it looked the successor up in the post-drop dict,
+        # found nothing, printed the empty source as a source and counted the slot re-housed.
+        # Here, deleting the branch sends those slots to `stranded` instead -- 2,899 -> 3,078,
+        # over-stating the COST. Same omission, opposite lie, and only the bucket split shows
+        # it: `dimensioned_before/after` are byte-identical either way, so a test pinning the
+        # headline alone cannot see this at all.
+        NODES = g["nodes"]
+        buildable = sorted(x for x, n in NODES.items()
+                           if n.get("rank") in ("style", "variant"))
+        one = None if a.stranding == "*" else a.stranding
+        tot = collections.Counter()
+        per_node, per_slot = collections.Counter(), collections.Counter()
+        for nid in buildable:
+            chain = rk.chain_for(g, nid)
+            allp = rk.resolve_packs(g, chain)
+            own = {e["pack"] for e in (NODES[nid].get("proportion_packs") or [])}
+            # What the node would STOP receiving. Scoped to one pack when staging.
+            gone = {p for p in allp
+                    if p not in own and nid not in applies.get(p, ())
+                    and (one is None or p == one)}
+            before, kit = governed(g, nid)
+            # EVERY buildable node counts toward the headline, including the ones with nothing
+            # to lose. The first version `continue`d before the totals and published 7,678 of a
+            # corpus that dimensions 7,830 -- a denominator quietly excluding the eight nodes
+            # the flip does not touch, which flatters the ratio it is used to compute.
+            after = before if not gone else governed(g, nid, drop=gone)[0]
+            tot["dimensioned_before"] += len(before)
+            tot["dimensioned_after"] += len(after)
+            if not gone:
+                continue
+            for sid, (pack, _src) in before.items():
+                nxt = after.get(sid)
+                if nxt and nxt[0] not in gone:
+                    if pack in gone:
+                        tot["rehoused"] += 1
+                    continue
+                if nxt:            # still governed by a pack the flip stopped delivering
+                    tot["unreached"] += 1
+                    continue
+                tot["stranded"] += 1
+                per_node[nid] += 1
+                per_slot[sid] += 1
+
+        # AN INSTRUMENT THAT FINDS NOTHING AND A CORPUS WITH NOTHING TO FIND PRINT THE SAME
+        # NUMBER. `--forbidden` carries the same guard for the same reason.
+        if not tot["dimensioned_before"]:
+            print("COULD NOT EVALUATE — the sweep ran over %d buildable node(s) and found no "
+                  "dimensioned slot at all. That is the instrument, not the corpus."
+                  % len(buildable))
+            sys.exit(COULD_NOT_EVALUATE)
+
+        scope = "every pack nobody vouched for" if one is None else "`%s`" % one
+        print("If the cascade stopped delivering %s:\n" % scope)
+        print("  slots dimensioned      %5d -> %5d"
+              % (tot["dimensioned_before"], tot["dimensioned_after"]))
+        print("  STRANDED — lose all dimensioning        %5d" % tot["stranded"])
+        print("  re-housed on another pack               %5d" % tot["rehoused"])
+        print("  still governed by the dropped pack      %5d  (an inherited slot-level `packs` "
+              "ruling names it — the flip does not reach these)" % tot["unreached"])
+        print("  nodes with at least one slot stranded   %5d of %d"
+              % (len(per_node), len(buildable)))
+        if per_node:
+            print("\n  worst nodes:")
+            for nid, n in per_node.most_common(10):
+                print("    %-34s %3d" % (nid, n))
+            print("\n  worst slots:")
+            for sid, n in per_slot.most_common(10):
+                print("    %-34s %3d node(s)" % (sid, n))
+        if one is None:
+            drift = {k: v for k, v in STRANDING.items()
+                     if k in tot and tot[k] != v}
+            drift.update({k: len(per_node) for k in ("nodes_touched",)
+                          if len(per_node) != STRANDING["nodes_touched"]})
+            if drift:
+                print("\nPINNED COUNTS MOVED — these are equalities, not bounds, and a change "
+                      "is a deliberate re-pin: " + "; ".join(
+                          "%s %s -> %s" % (k, STRANDING[k], v) for k, v in sorted(drift.items())))
+                if a.strict:
+                    sys.exit(1)
+        print("\nA stranded slot reads UNDIMENSIONED, not refused: `choose_pack` returns a bare "
+              "None\nand no consumer can tell it from a slot no pack ever wanted. That is what "
+              "the ruling\nmeans by stranding LOUDLY, and it is the thing the flip has to fix "
+              "before it lands.")
         return
 
     if a.forbidden:
@@ -618,8 +756,14 @@ def main():
     print(f"      endorsed    {len(gaps) - len(unendorsed):3d}  an author DID judge these; the cascade delivered what was intended")
     print(f"      declined    {len(declines):3d}  a node has judged these WRONG and the cascade no longer delivers them")
     print(f"      judged      {len(gaps) - len(unendorsed) + len(declines):3d}  endorsed + declined — the only one of these that may only go UP")
-    print("\nOQ 51 is RULED: adjudicate the unendorsed first, flip pack inheritance to opt-in after.")
-    print("`--unendorsed` prints the work list in leverage order.")
+    # RE-RULED 3 Sep 2026, and this line said the old ruling for a day after it changed.
+    # "Adjudicate first, flip second" is superseded: the flip is now, staged pack by pack.
+    print("\nOQ 51 is RE-RULED (3 Sep 2026): flip pack inheritance to opt-in NOW, one pack at a")
+    print("time. A pack declares `delivery: opt-in`; a node names it in `inherits_packs`.")
+    print("`--stranding <pack>` says what a flip costs — read it before flipping, because the")
+    print("backlog count is a bad guide: `storey-graduation` has 23 gaps and strands 9 slots")
+    print("while 45 survive it, `facade-gable` has 16 and strands 32 with none surviving.")
+    print("`--unendorsed` still prints the adjudication work list in leverage order.")
 
     # Compared one at a time against RATCHET, deliberately. A tuple comparison here is
     # lexicographic: it would let inherited_packs double unnoticed as long as role_gaps had fallen

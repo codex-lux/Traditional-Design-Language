@@ -533,7 +533,11 @@
       "description": "Packs that reach this node BY DESCENT and do not belong on it. The refusal half of OQ 51's adjudication, and the exact mirror of adding a node to a pack's `applies_to`: one records that somebody read the cascade and agreed, this records that somebody read it and did not. Additive -- it strands nothing, because it removes only what an author names, and it is not the opt-in flip, which stays where the ruling put it. A decline is per (node, pack) and NOT per (node, pack, role): a node reaching one pack in two roles is ONE judgment, the same distinction `check_inheritance.py --unendorsed` already prints as NODES versus GAPS. `slots`/`slots_except` cannot do this job -- they live on the ANCESTOR's binding, so they change behaviour for every descendant and for the ancestor itself, and a child re-binding the pack unscoped shadows them entirely. A PER-EDGE deny was designed and refused (WP-8.2): only 111 of 222 gaps have a direct lineage edge to their delivering ancestor at all, and a subtree deny on `english-georgian`/`storey-graduation` would have touched 26 receivers to fix 18, undoing five of the eleven endorsements the 26 Aug pass had just made.",
       "items": {
         "type": "object",
-        "required": ["pack", "reason", "basis"],
+        "required": [
+          "pack",
+          "reason",
+          "basis"
+        ],
         "additionalProperties": false,
         "properties": {
           "pack": {
@@ -545,7 +549,10 @@
             "description": "Why this pack does not belong on this node, in a sentence. Not 'wrong style' -- what about the building refuses it. `ranch-style` refuses `storey-graduation` because it has one storey and a rule for graduating a stack has no stack to graduate."
           },
           "basis": {
-            "enum": ["node-record", "editorial"],
+            "enum": [
+              "node-record",
+              "editorial"
+            ],
             "description": "`node-record` means this node's own record decides it, and `quote` proves it. `editorial` is the honest alternative and never the default: a decline with no quote is a judgment, and this corpus's rule is that a judgment says so."
           },
           "quote": {
@@ -566,6 +573,13 @@
           }
         }
       }
+    },
+    "inherits_packs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Pack ids this node OPTS IN to receiving by descent. The delivery half of OQ 51, re-ruled 3 Sep 2026, and the exact mirror of `declined_packs`: that one records a person reading the cascade and refusing a delivery, this one records a person reading it and wanting one. IT ONLY MEANS ANYTHING FOR A PACK THAT DECLARES `delivery: opt-in`. Until a pack declares it, the cascade delivers as it always has and an entry here is a no-op -- which is what makes the flip stageable: one pack moves at a time, and the nodes that should keep it say so first. PER-NODE, and that grain is measured rather than chosen. A per-EDGE opt-in mirroring `inherits_kit` was costed and refused: only about half of all gaps reach their delivering ancestor through a direct lineage edge at all, `_cascade` is flattened so the delivering edge is not recoverable from the chain, and `english-georgian` delivers some fifty gaps of which five are direct. It is NOT `applies_to` under another name. `applies_to` says a pack's author vouched for the node and additionally arms five live behavioural gates; this says the node receives the pack. Keeping them apart is why restoring a dimension cannot silently switch on `graduation_check` or the elevation generator. `check_pack_bindings.py` errors on an entry that opts into nothing -- a pack that does not reach this node by descent, or one the node already binds itself, which `resolve_packs` takes at chain[0] anyway -- and on opting into a pack this node also declines. An opt-in that admits nothing reads exactly like a considered one, which is the failure `declined_packs` already states for the refusal direction."
     }
   }
 }

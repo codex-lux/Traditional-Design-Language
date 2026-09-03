@@ -144,7 +144,22 @@ bundle = {
     "regional_of": "variant to its parent style; carries the cascade",
     "revives": "deliberate resurrection after a gap"
   },
-  "slots": SLOTS, "massings": list(massings.values()), "nodes": nodes
+  "slots": SLOTS, "massings": list(massings.values()), "nodes": nodes,
+  # EVERY PACK'S DELIVERY DISCIPLINE, indexed so `resolve_packs` can read it without I/O.
+  # OQ 51's flip (re-ruled 3 Sep 2026) gates delivery on a per-pack `delivery: opt-in`, and the
+  # resolver is called on every node of every check -- reading 57 pack files there to answer one
+  # boolean would put file I/O inside the function the corpus resolves through. It is a dict
+  # already in hand instead.
+  #
+  # PRESENT EVEN WHEN EVERY PACK IS ON THE DEFAULT, deliberately. An absent `_packs` and a corpus
+  # where nothing is flipped read identically at the resolver, so a stale `dist/taxonomy.json`
+  # would silently disable the gate rather than fail -- a guard that cannot fire, which is the
+  # commonest defect in this repository. `tests/test_stranding.py` holds the index to covering
+  # every pack id so the staleness is loud.
+  "_packs": {d["id"]: {"delivery": d.get("delivery", "cascade")}
+             for d in (json.load(open(f, encoding="utf-8"))
+                       for f in sorted(glob.glob("proportions/*/*.json")))
+             if d.get("id")}
 }
 # Atomic, as above: dist/taxonomy.json is 2.96 MB and is read by the workbench server and by
 # `check_frontend`; a truncated one is a hard failure in both.

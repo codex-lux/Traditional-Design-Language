@@ -124,7 +124,9 @@ continuation number, which `check_citations.py` refuses in prose and exempts in 
 but that checker reads line by line, so a code span straddling a newline has no closing backtick
 on either line and is not a code span to it. A pushed commit subject cannot be rewritten to suit
 a checker written after it, so the quotation has to be shaped to the reader.) So the package has a commit and
-a closed question and never had a number. The series is 8.1, 8.2, 8.3, 8.4, 8.6. Renumbering 8.6
+a closed question and never had a number. The series is 8.1, 8.2, 8.3, 8.4, 8.6, and then
+8.7 (the adjudication passes), 8.8 (the baked snapshots) and 8.9 (OQ 51's delivery half).
+Renumbering 8.6
 down is not available: `2601c0e`'s subject names it, and a pushed commit subject cannot be
 rewritten — the same constraint OQ 90 records for `f768c02` and `426ed35`.
 **This entry exists because the audit's own report claimed to cover "WP-8.1 through WP-8.5" and
@@ -167,7 +169,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **46 checks, 1,494 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,515 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -185,9 +187,10 @@ plus the three appended suites -- so the PASS count the corpus job prints is
 `len(CHECKS)` of 34, read "39 of 42 checks passed" after WP-4.4's asset checker against a
 `len(CHECKS)` of 39, read "40 of 43 checks passed" after WP-9.1's critic-suspect meter against a
 `len(CHECKS)` of 40, read "41 of 44 checks passed" after WP-9.2's move-registry check against
-a `len(CHECKS)` of 41, and reads "43 of 46 checks passed" after WP-9.7's
+a `len(CHECKS)` of 41, read "43 of 46 checks passed" after WP-9.7's
 grouping-rule checker met PR #19's move-registry check at the merge, against a `len(CHECKS)` of
-43. **Two sessions each added a check and each published 44**, which is the fifth time
+43, and reads "44 of 47 checks passed" after WP-8.9's stranding sweep, against a `len(CHECKS)`
+of 44. **Two sessions each added a check and each published 44**, which is the fifth time
 this number has gone wrong at exactly a merge; the guard caught it here too.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
@@ -424,6 +427,33 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **A BAKED SNAPSHOT IS NOW JUDGED AGAINST ITS OWN EXPRESSION, AND THE EVALUATOR THE QUESTION
+  ASKED FOR HAD EXISTED ALL ALONG IN TWO PLACES (3 Sep 2026).**
+  `oq/a-baked-pack-value-is-a-second-delivery-path` said 143 kit parameters carry both an `expr`
+  and the `computed_at.value` it produced, that exactly one was of a shape a reader could
+  evaluate, and that the count of stale snapshots was therefore "unknown, not zero". It is
+  knowable: `check_kits.py::check_baked_snapshots` re-derives each one AT THE CONTEXT THE SNAPSHOT
+  RECORDS — **135 judged and all agreeing, 8 that cannot be judged, 0 stale.**
+  **`proportion_engine.evaluate_expr` parses every shape in use, and `resolve_kit.eval_parameters`
+  has been re-deriving every baked parameter and comparing it to the stored value all along**,
+  setting `r["stored"]` on a disagreement. `stored` is a display field: nothing reads it, nothing
+  fails on it. What was missing was never an evaluator, it was a verdict.
+  **The 8 are unjudged because `computed_at` records three bindings and the expressions read
+  five**: seven read `span` and one reads `room_width`, neither ever recorded. They all reconcile
+  at a span of 540 — `check_kits.REF_CTX`'s value, and evidently what they were baked at — but
+  that is a RECONSTRUCTION of the context, not a record of it, and a check may not convict or
+  acquit on a number nobody wrote down. All eight are on `georgian-colonial-american`.
+  **THE CHECKER'S OWN RATCHETS CANNOT GUARD IT, which is why the identity of the eight is pinned
+  as a SET in `tests/test_baked_snapshots.py`.** Deleting the gap detection sends them to be judged
+  against `DEFAULT_BINDINGS`, whose `span` is 240 — measured, that CONVICTS SEVEN as stale and lets
+  the eighth pass in silence, both wrong directions from one deletion, while `baked_judged` rises
+  135 → 143 (above its floor) and `baked_unjudged` falls 8 → 0 (below its ceiling) and neither
+  ratchet notices. The remedy for the eight is one field: `computed_at` reads `<name>_in` as the
+  binding `<name>` for ANY key, so writing `span_in` makes them judgeable with no code change.
+  **Do not quote this against `baked_vs_refused`**: that is the OTHER half of the same question — a
+  snapshot delivering a value the live rule REFUSES, ratcheted at 71 — and a snapshot can be
+  perfectly faithful to its expression and still be a delivery nobody authorised. Two halves, two
+  meters, neither quotable for the other.
 - **THE DIFF GUARD WAS BLIND FOUR WAYS, AND THE MOVES BEHIND IT WERE WRONG IN FIVE MORE (the
   session's audit of WP-9.4).** `_paths_written` stopped at a list whose length changed, so a
   move that ADDED a room hid every other write behind `levels[].rooms[]` and
@@ -1600,15 +1630,48 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `italian-renaissance` as the one control case. Ruled 25 Aug to stop at the principle
     (`docs/model.md`); a fault would need the elevation layer to model ornament ZONES, which it
     does not.
-  - **OQ 51 (RULED 25 Aug, and the largest thing outstanding — this is the next work)** — the
-    lineage cascade delivers packs nobody bound. **Ruling: adjudicate first, flip second.** Work the
-    gaps nobody has judged, in leverage order; where the inherited pack is right for the node, add
-    the node to that pack's `applies_to` — that IS the adjudication, and it moves the gap from
-    unendorsed to endorsed; where it is wrong, bind the right pack or scope the edge. When
-    `unendorsed` approaches zero, add `inherits_packs` and make inheritance opt-in, at which point
-    it is a safety net rather than a cliff that strands 287 gaps in one commit. Doing it the other
-    way round was costed and refused: opt-in now is a morning of mechanism and a corpus-wide
-    stranding.
+  - **OQ 51 — RE-RULED 3 SEP 2026: FLIP TO OPT-IN NOW, and this reverses the 25 Aug ruling's
+    second half.** The lineage cascade delivers packs nobody bound. Lucas's ruling of 25 Aug was
+    *adjudicate first, flip second* — work the unjudged gaps, then add `inherits_packs` when
+    `unendorsed` approaches zero, "at which point it is a safety net rather than a cliff that
+    strands 287 gaps in one commit". **That is no longer the ruling.** Build `inherits_packs` and
+    make pack inheritance opt-in NOW, accepting the stranding.
+    **The one new fact that moved it is the measured cost of the alternative**: WP-8.7 read the
+    backlog end to end three times and the refill is geometric — **244 → 73 → 50 → 36**, each pass
+    surfacing about three quarters of the last, because declining a pack re-attributes the role to
+    the next ancestor. Three passes bought `judged` 48 → 249 and left 223 unendorsed; the remainder
+    is of the order of a hundred more adjudications over a dozen passes. Adjudicate-first is
+    finishable, at a price that now outweighs the stranding it was preferred to.
+    **Three things the ruling does NOT say**, because each is a way to over-read it: the 249
+    judgments are not wasted (they are why the flip lands on a corpus a quarter of which a person
+    has read); the 181 tabled cases in `oq/the-adjudication-cases-the-records-do-not-decide` stay
+    open; and the flip does NOT close the second delivery path — a baked snapshot in an ancestor's
+    kit file is not a cascade delivery, so `inherits_packs` cannot stop one.
+    **THE FLIP MUST STRAND LOUDLY.** A node that stops receiving a pack it was silently receiving
+    loses dimensions on real slots, and the failure mode is a slot reading as undimensioned rather
+    than as refused — OQ 51's own silent corruption arriving from the other direction.
+    **MEASURED 3 SEP 2026, AND THE NUMBER RE-RULED THE RULING.** `--stranding` sweeps all 132
+    buildable nodes: gating delivery on a vouch stops **2,963 of 3,158 arrivals** and takes
+    **7,830 dimensioned slots to 4,931 — 2,899 losing ALL dimensioning, 37%, over 124 of 132
+    nodes**, `egyptian-revival` 65 → 1 and `tidewater-georgian` (a shipped reference plan) −17.
+    The ruling had been taken on ~223, which counts ROLE GAPS and not deliveries: a factor of
+    thirteen. Put back with the numbers, Lucas ruled **stage it pack by pack** and **a separate
+    field, not `applies_to`** — that field already arms five live gates and 57 of the 223 gaps sit
+    on them, so gating delivery there would make one endorsement mean three things.
+    **BUILT AND INERT.** A pack declares `delivery: opt-in` (`schema/proportion-pack.schema.json`,
+    indexed into `dist/taxonomy.json` as `_packs` so the resolver does no I/O); a node names it in
+    `inherits_packs` (beside `declined_packs`, whose lie-check `check_opt_ins` mirrors exactly).
+    One conditional in `resolve_packs`. **Nothing is flipped, and `tests/test_opt_in_packs.py`
+    pins that** — the corpus is unchanged and the gate is driven directly to prove it bites,
+    because a mechanism that changes nothing on the day it ships reads exactly like one that does
+    not work.
+    **READ `--stranding <pack>` BEFORE FLIPPING ONE: the backlog count is a bad guide.**
+    `storey-graduation` has 23 unendorsed gaps and flipping it strands **9** slots while **45**
+    survive it via inherited slot-level `packs` rulings; `facade-gable` has 16 and strands **32**
+    with none surviving. A staging order taken off gap counts alone picks the ineffective pack
+    first. **179 slots corpus-wide survive the flip whatever it does**, for that same reason —
+    `choose_pack` reads the slot record's own `packs` block before the rows, and no mechanism
+    about DELIVERY can reach a slot record naming a pack directly.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
     `build/check_inheritance.py` pins three ceilings that may only go down -- **264 role_gaps**,
     **3,158 inherited_packs**, **223 unendorsed** -- and one FLOOR that may only go up,
