@@ -149,3 +149,110 @@ class TestUnderBandIsReported:
         rects = {0: {"a": (0.0, 0.0, 20.0, 20.0)}}
         prep = {0: [{"id": "a", "type": "parlor", "name": "Parlor"}]}
         assert geometry_module.under_band(rects, prep) == []
+
+
+class TestASecondMassingElement:
+    """OQ 40, ruled 3 Sep 2026: a dependency is a second massing element, not a second level.
+
+    The discipline the whole change is held to is that a plan declaring no second block must
+    place BYTE-IDENTICALLY -- all sixteen plans in this corpus are one rectangle and two of them
+    ship, so their placements are the regression guard. These tests pin both halves: that one
+    block still goes through the one-block path, and that a second block is actually placed
+    outside the first rather than sliced out of it."""
+
+    @staticmethod
+    def _plan(name):
+        import json, os
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        return json.load(open(os.path.join(root, "plans", name + ".json")))
+
+    @staticmethod
+    def _tag_a_dependency(plan):
+        for r in plan["levels"][0]["rooms"]:
+            if r["type"] in ("kitchen", "pantry", "breakfast-room"):
+                r["block"] = "west-dependency"
+                r["exterior_walls"] = ["N", "S", "W"]
+        return plan
+
+    def test_a_one_block_plan_reports_exactly_one_element_at_the_origin(self, geometry_module):
+        g = geometry_module
+        plan = self._plan("tidewater-georgian-careful")
+        levels, prep = g.prep_rooms(plan)
+        fp = g.derive_footprint(plan, None, prep)
+        blocks = g.blocks_for(plan, fp, prep, 0)
+        assert len(blocks) == 1
+        b = blocks[0]
+        assert b["role"] == "main" and b["x"] == 0 and b["y"] == 0, (
+            "the main block must sit at the INTEGER origin -- a float there writes `x_ft: 0.0` "
+            "where the record carried `x_ft: 0`, numerically identical and textually not, and it "
+            "made a placement-hash comparison report both shipped plans as moved when they had not")
+        assert set(b["rooms"]) == {r["id"] for r in prep[0]}, "every room belongs to the one block"
+
+    def test_a_one_block_plan_writes_no_blocks_key(self, geometry_module):
+        """Sixteen records that have never needed the key must not grow one."""
+        g = geometry_module
+        plan = self._plan("spec-builder-colonial")
+        g._SOLVE_CACHE.clear()
+        g.solve(plan, engine="heuristic")
+        assert "blocks" not in (plan.get("footprint") or {})
+
+    def test_a_tagged_room_is_placed_outside_the_main_block(self, geometry_module):
+        """The point of the whole change: a dependency is BESIDE the house, not carved out of it.
+
+        Without this, tagging rooms into a block would be an expensive way of relabelling them
+        while the slicer went on cutting one rectangle -- which is what expressing a dependency
+        as a level would have done, silently."""
+        g = geometry_module
+        plan = self._tag_a_dependency(self._plan("tidewater-georgian-careful"))
+        tagged = {r["id"] for r in plan["levels"][0]["rooms"] if r.get("block")}
+        assert tagged, "the fixture tagged nothing -- the room types have been renamed"
+        g._SOLVE_CACHE.clear()
+        g.solve(plan, engine="heuristic")
+
+        blocks = plan["footprint"]["blocks"]
+        assert blocks[0]["id"] == "main", "main block is always first"
+        dep = next(b for b in blocks if b["id"] == "west-dependency")
+        assert dep["role"] == "dependency" and dep["attached_to"] == "main"
+
+        placed = {r["id"]: r.get("geometry") for lv in plan["levels"] for r in lv["rooms"]}
+        for rid in tagged:
+            gm = placed[rid]
+            assert gm, f"{rid} was tagged into a block and then not placed at all"
+            assert gm["x_ft"] + gm["width_ft"] <= 0.01, (
+                f"{rid} is drawn inside the main block at x={gm['x_ft']} -- a dependency must be "
+                "placed outside it, across the hyphen")
+        main_x = [gm["x_ft"] for rid, gm in placed.items() if gm and rid not in tagged]
+        assert min(main_x) >= 0.0, "no main-block room drifted west of the origin"
+
+    def test_the_gap_between_the_blocks_is_the_hyphens_own_band(self, geometry_module):
+        """The separation is not arbitrary: dependency-and-hyphen.json bands hyphen_length_ft at
+        12-20 ft and the default sits inside it. When a hyphen ROOM is placed it will state its
+        own width and this constant stops being read -- that is the next package, and this test
+        is what should notice."""
+        g = geometry_module
+        assert 12.0 <= g.HYPHEN_DEFAULT_FT <= 20.0
+        plan = self._tag_a_dependency(self._plan("tidewater-georgian-careful"))
+        g._SOLVE_CACHE.clear()
+        g.solve(plan, engine="heuristic")
+        dep = next(b for b in plan["footprint"]["blocks"] if b["id"] == "west-dependency")
+        gap = 0.0 - (dep["x_ft"] + dep["width_ft"])
+        assert abs(gap - g.HYPHEN_DEFAULT_FT) < 0.01, f"gap {gap} is not the hyphen band's width"
+
+    def test_a_wing_rooms_walls_are_the_wings_own(self, geometry_module):
+        """exterior_score must charge a dependency room against the DEPENDENCY's perimeter.
+        Charged against the main block's it would be missing walls it actually has, at 14 points
+        each, and the solver would pull every wing room back inside to stop paying."""
+        g = geometry_module
+        # The discriminating wall is the dependency's EAST one -- the face that looks back across
+        # the hyphen at the house. A first version of this test used the west wall and could not
+        # fail: a room at negative x is already past the main block's west edge, so `W` was
+        # satisfied either way and both calls returned 0.0. The test was measuring nothing.
+        rooms = [{"id": "k", "exterior_walls": ["N", "S", "E"]}]
+        rects = {"k": (-34.0, 0.0, 20.0, 40.0)}          # a west dependency, its east face at -14
+        bounds = {"k": (-34.0, 0.0, 20.0, 40.0)}
+        assert g.exterior_score(rects, rooms, 60.0, 40.0, bounds=bounds) == 0.0, (
+            "against its own element the wing room has all three walls it declares")
+        assert g.exterior_score(rects, rooms, 60.0, 40.0) == 14.0, (
+            "against the MAIN block's perimeter its east wall is 74 ft away and it is charged one "
+            "wall at 14 points -- which is the pull that would drag every dependency room back "
+            "inside the house if bounds were not passed")

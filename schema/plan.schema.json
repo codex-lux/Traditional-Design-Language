@@ -2,93 +2,368 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
-  "required": ["id", "name", "style", "levels"],
+  "required": [
+    "id",
+    "name",
+    "style",
+    "levels"
+  ],
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-    "name": { "type": "string" },
-    "style": { "type": "string", "description": "style node id. Drives which exceptions apply, which constraints are checked, and which kit resolves." },
-    "massing": { "type": "string", "description": "massing id, where the plan is meant to sit in a known skeleton." },
-    "groupings": { "type": "array", "items": { "type": "string" },
-      "description": "Groupings the plan claims to contain. Declaring one asks the validator to check its internal rules." },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "style": {
+      "type": "string",
+      "description": "style node id. Drives which exceptions apply, which constraints are checked, and which kit resolves."
+    },
+    "massing": {
+      "type": "string",
+      "description": "massing id, where the plan is meant to sit in a known skeleton."
+    },
+    "groupings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Groupings the plan claims to contain. Declaring one asks the validator to check its internal rules."
+    },
     "context": {
-      "type": "object", "additionalProperties": false,
+      "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "climate_zone": { "type": "string" },
-        "lot_width_ft": { "type": "number" }, "lot_depth_ft": { "type": "number" },
-        "garage_bays": { "type": "integer", "minimum": 0, "description": "Carried from the brief's context by build/compose.py::instantiate, which copies the brief's context whole, and read by the garage dependency logic. Pre-existing and found by the session's audit: a composed plan for a brief naming garage bays failed this schema, so tdl_check_plan and the bench's revise route refused every such candidate." },
-        "entrance_faces": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
-        "jurisdiction": { "type": "string", "description": "Code checks are advisory and jurisdictional; naming this makes the caveat explicit." },
-        "date_of_representation": { "type": "integer", "description": "Which year within the style's span the design represents. Sash pattern, hardware and fanlights are all date-conditional." },
-        "budget_tier": { "enum": ["value", "mid", "custom", "unlimited"] }
+        "climate_zone": {
+          "type": "string"
+        },
+        "lot_width_ft": {
+          "type": "number"
+        },
+        "lot_depth_ft": {
+          "type": "number"
+        },
+        "garage_bays": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Carried from the brief's context by build/compose.py::instantiate, which copies the brief's context whole, and read by the garage dependency logic. Pre-existing and found by the session's audit: a composed plan for a brief naming garage bays failed this schema, so tdl_check_plan and the bench's revise route refused every such candidate."
+        },
+        "entrance_faces": {
+          "enum": [
+            "N",
+            "NE",
+            "E",
+            "SE",
+            "S",
+            "SW",
+            "W",
+            "NW"
+          ]
+        },
+        "jurisdiction": {
+          "type": "string",
+          "description": "Code checks are advisory and jurisdictional; naming this makes the caveat explicit."
+        },
+        "date_of_representation": {
+          "type": "integer",
+          "description": "Which year within the style's span the design represents. Sash pattern, hardware and fanlights are all date-conditional."
+        },
+        "budget_tier": {
+          "enum": [
+            "value",
+            "mid",
+            "custom",
+            "unlimited"
+          ]
+        }
       }
     },
     "levels": {
-      "type": "array", "minItems": 1,
+      "type": "array",
+      "minItems": 1,
       "items": {
-        "type": "object", "required": ["id", "rooms"], "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "id",
+          "rooms"
+        ],
+        "additionalProperties": false,
         "properties": {
-          "id": { "type": "string" },
-          "name": { "type": "string" },
-          "index": { "type": "integer", "description": "0 ground, 1 first above, -1 cellar. Used for stacking checks." },
-          "floor_to_ceiling_ft": { "type": "number" },
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer",
+            "description": "0 ground, 1 first above, -1 cellar. Used for stacking checks."
+          },
+          "floor_to_ceiling_ft": {
+            "type": "number"
+          },
           "rooms": {
             "type": "array",
             "items": {
-              "type": "object", "required": ["id", "type"], "additionalProperties": false,
+              "type": "object",
+              "required": [
+                "id",
+                "type"
+              ],
+              "additionalProperties": false,
               "properties": {
-                "id": { "type": "string", "description": "unique within the plan" },
-                "type": { "type": "string", "description": "room id from the room catalogue" },
-                "name": { "type": "string" },
-                "width_ft": { "type": "number", "description": "The SHORT dimension. Most room rules key off it." },
-                "length_ft": { "type": "number" },
-                "ceiling_ft": { "type": "number" },
-                "window_head_ft": { "type": "number", "description": "Head height above finished floor. With room depth this decides whether the far end of the room is lit." },
-                "exterior_walls": { "type": "array", "items": { "enum": ["N","NE","E","SE","S","SW","W","NW"] },
-                  "description": "Which walls are on the outside. Counted against the room type's sides_lit requirement." },
-                "windows": { "type": "array", "items": {
-                  "type": "object", "additionalProperties": false,
-                  "properties": { "wall": { "type": "string" }, "width_ft": { "type": "number" },
-                    "height_ft": { "type": "number" }, "count": { "type": "integer" },
-                    "sill_ft": { "type": "number" }, "operable": { "type": "boolean", "default": true },
-                    "egress": { "type": "boolean" },
-                    "positions_ft": { "type": "array", "items": { "type": "number" },
-                      "description": "0.3.0. One centreline per UNIT of this window group, along its wall, in the plan's own model coordinates (x for an N or S wall, y for E or W). An array rather than a single figure because a group of `count` windows is `count` physical openings, each seated in whatever run the doors left: giving one position and letting each renderer re-derive the spacing put the two renderers 0.7 in apart on the first plan it was tried on. Written by build/openings.py; absent on a hand-authored record, which the renderers then space by rule and say so." },
-                    "unit_type": { "type": "string", "description": "0.3.0, FILLED BY WP-7.3. What KIND of window this is, carried VERBATIM from the style kit's resolved `window_type` slot. There is no closed enum: the kits use ~40 free strings and normalising them is a change to the kit corpus with its own ruling, so inventing one here would be a second spelling that drifts the moment either side changes. Measured across all 159 kits THROUGH THE LINEAGE (build/resolve_kit.py, not the flat kit file — 120 of 159 carry `status: empty` and the cascade answers anyway): 119 styles resolve a value, 40 have none. Where none resolves the unit carries `unit_type_unresolved` and NO kind, because a window whose sash kind nobody authored must not be drawn as a double-hung on the grounds that it is the commonest." },
-                    "role": { "type": "string", "description": "0.3.0, WP-7.3. The window's ROLE, decided by openings/window-grammar.json from the room, the wall's exposure and the storey: `lit`, `obscured`, `transom-band`, `borrowed-light`, `door-light`, `bay` or `none`. This is the PLAN half of OQ 91's answer — whether an opening is an ordinary lit window, a high transom band, a borrowed light off another room or the one deep bay a library takes follows from what the room is FOR, and is the same in a Georgian house and a Tudor one. The STYLE half is `unit_type`. Neither layer may state the other's. `bay` is RECORDED AND NEVER DIMENSIONED: nothing in this corpus models a volume outside the block." },
-                    "role_rule": { "type": "string", "description": "0.3.0, WP-7.3. The id of the window-grammar rule that decided the role, so every opening can cite its reason. The grammar's default is itself a named rule for exactly that purpose." },
-                    "unit_type_from": { "type": "string", "description": "0.3.0, WP-7.3. The ancestor style the sash kind was INHERITED from, present only when it is not this style's own. The lineage cascade delivers what nobody bound (OQ 51): `tidewater-georgian` states no `window_type` and resolves `double-hung` from `georgian-colonial-american`, and a reader has to be able to see that rather than read it as the style's own call." },
-                    "unit_type_unresolved": { "type": "object", "additionalProperties": false, "required": ["reason"], "properties": { "reason": { "type": "string", "minLength": 1 } }, "description": "0.3.0, WP-7.3. Present when no sash kind could be resolved — 40 of 159 styles. The COULD NOT EVALUATE state with its reason, never collapsed into a default." },
-                    "unplaced": { "$ref": "#/$defs/unplaced" } } } },
-                "doors": { "type": "array", "items": {
-                  "type": "object", "required": ["to"], "additionalProperties": false,
-                  "properties": { "to": { "type": "string", "description": "another room id, or 'exterior'" },
-                    "width_ft": { "type": "number" }, "type": { "enum": ["swing","double","pocket","cased-opening","open","garage","bulkhead"] },
-                    "height_ft": { "type": "number", "description": "0.3.0. Leaf height. Three faults in the corpus — six-eight-door-in-a-tall-room, every-door-the-same-door, door-too-wide-for-its-surround — test a door height and could not be evaluated from a plan record at all, because there was no field to hold one. Partly closes OQ 39." },
-                    "rank": { "enum": ["principal","secondary","service","chamber","closet"],
-                      "description": "0.3.0. Where this door sits in the house's hierarchy. The kits have always stated the graduation (`principal 84 in, secondary 80 in, service 78 in`) and the fault `every-door-the-same-door` requires at least three distinct specifications per house; neither could be checked, because a door had no rank to check." },
-                    "wall": { "enum": ["N","E","S","W"], "description": "0.3.0. Which wall of the owning room the opening is in. An exterior door had NO wall in 0.2.0, so each renderer guessed one — and both guessed the first declared exterior wall, which is how a centre passage declaring doors at both ends had both drawn on its front." },
-                    "position_ft": { "type": "number", "description": "0.3.0. Centreline along that wall, in model coordinates. Absent means the renderers place it by rule, as they always have, and say so on the sheet." },
-                    "swing_into": { "type": "string", "description": "0.3.0. Room id the leaf opens into, or 'exterior'." },
-                    "hinge": { "enum": ["low","high"], "description": "0.3.0. Which jamb carries the hinges, low or high along the wall's own running axis." },
-                    "unplaced": { "$ref": "#/$defs/unplaced" },
-                    "note": { "type": "string" } } },
-                  "description": "Doors imply a direct-door adjacency in both directions; the validator derives the graph from them." },
-                "fixtures": { "type": "array", "items": { "type": "string" },
-                  "description": "Plumbing and equipment present — wc, lavatory, tub, shower, sink, dishwasher, washer, water-heater, furnace. Drives the servicing checks." },
-                "fixture_layout": { "type": "array",
+                "id": {
+                  "type": "string",
+                  "description": "unique within the plan"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "room id from the room catalogue"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "width_ft": {
+                  "type": "number",
+                  "description": "The SHORT dimension. Most room rules key off it."
+                },
+                "length_ft": {
+                  "type": "number"
+                },
+                "ceiling_ft": {
+                  "type": "number"
+                },
+                "window_head_ft": {
+                  "type": "number",
+                  "description": "Head height above finished floor. With room depth this decides whether the far end of the room is lit."
+                },
+                "exterior_walls": {
+                  "type": "array",
+                  "items": {
+                    "enum": [
+                      "N",
+                      "NE",
+                      "E",
+                      "SE",
+                      "S",
+                      "SW",
+                      "W",
+                      "NW"
+                    ]
+                  },
+                  "description": "Which walls are on the outside. Counted against the room type's sides_lit requirement."
+                },
+                "block": {
+                  "type": "string",
+                  "description": "0.5.0 (OQ 40, ruled 3 Sep 2026). Which massing element this room sits in: the id of an entry in footprint.blocks. ABSENT MEANS THE MAIN BLOCK, so every plan written before this field, and every plan that is one rectangle, is unchanged and places byte-identically. This is a narrow sibling field with a closed reader set, on level_offset_ft's precedent (OQ 56): `level` keeps its meaning -- a storey, and the thing stacking and storey heights are computed from -- and a dependency is NOT a level. Expressing one as a level would hand it to geometry.py's `src = ground if idx == 0 else (upper if idx == 1 else {})` and it would be drawn nowhere, while structure.py's unfiltered eave sum added its height to the main block's. See OQ 40 for the full costing of that refusal."
+                },
+                "windows": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "wall": {
+                        "type": "string"
+                      },
+                      "width_ft": {
+                        "type": "number"
+                      },
+                      "height_ft": {
+                        "type": "number"
+                      },
+                      "count": {
+                        "type": "integer"
+                      },
+                      "sill_ft": {
+                        "type": "number"
+                      },
+                      "operable": {
+                        "type": "boolean",
+                        "default": true
+                      },
+                      "egress": {
+                        "type": "boolean"
+                      },
+                      "positions_ft": {
+                        "type": "array",
+                        "items": {
+                          "type": "number"
+                        },
+                        "description": "0.3.0. One centreline per UNIT of this window group, along its wall, in the plan's own model coordinates (x for an N or S wall, y for E or W). An array rather than a single figure because a group of `count` windows is `count` physical openings, each seated in whatever run the doors left: giving one position and letting each renderer re-derive the spacing put the two renderers 0.7 in apart on the first plan it was tried on. Written by build/openings.py; absent on a hand-authored record, which the renderers then space by rule and say so."
+                      },
+                      "unit_type": {
+                        "type": "string",
+                        "description": "0.3.0, FILLED BY WP-7.3. What KIND of window this is, carried VERBATIM from the style kit's resolved `window_type` slot. There is no closed enum: the kits use ~40 free strings and normalising them is a change to the kit corpus with its own ruling, so inventing one here would be a second spelling that drifts the moment either side changes. Measured across all 159 kits THROUGH THE LINEAGE (build/resolve_kit.py, not the flat kit file — 120 of 159 carry `status: empty` and the cascade answers anyway): 119 styles resolve a value, 40 have none. Where none resolves the unit carries `unit_type_unresolved` and NO kind, because a window whose sash kind nobody authored must not be drawn as a double-hung on the grounds that it is the commonest."
+                      },
+                      "role": {
+                        "type": "string",
+                        "description": "0.3.0, WP-7.3. The window's ROLE, decided by openings/window-grammar.json from the room, the wall's exposure and the storey: `lit`, `obscured`, `transom-band`, `borrowed-light`, `door-light`, `bay` or `none`. This is the PLAN half of OQ 91's answer — whether an opening is an ordinary lit window, a high transom band, a borrowed light off another room or the one deep bay a library takes follows from what the room is FOR, and is the same in a Georgian house and a Tudor one. The STYLE half is `unit_type`. Neither layer may state the other's. `bay` is RECORDED AND NEVER DIMENSIONED: nothing in this corpus models a volume outside the block."
+                      },
+                      "role_rule": {
+                        "type": "string",
+                        "description": "0.3.0, WP-7.3. The id of the window-grammar rule that decided the role, so every opening can cite its reason. The grammar's default is itself a named rule for exactly that purpose."
+                      },
+                      "unit_type_from": {
+                        "type": "string",
+                        "description": "0.3.0, WP-7.3. The ancestor style the sash kind was INHERITED from, present only when it is not this style's own. The lineage cascade delivers what nobody bound (OQ 51): `tidewater-georgian` states no `window_type` and resolves `double-hung` from `georgian-colonial-american`, and a reader has to be able to see that rather than read it as the style's own call."
+                      },
+                      "unit_type_unresolved": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "reason"
+                        ],
+                        "properties": {
+                          "reason": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        },
+                        "description": "0.3.0, WP-7.3. Present when no sash kind could be resolved — 40 of 159 styles. The COULD NOT EVALUATE state with its reason, never collapsed into a default."
+                      },
+                      "unplaced": {
+                        "$ref": "#/$defs/unplaced"
+                      }
+                    }
+                  }
+                },
+                "doors": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "to"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "to": {
+                        "type": "string",
+                        "description": "another room id, or 'exterior'"
+                      },
+                      "width_ft": {
+                        "type": "number"
+                      },
+                      "type": {
+                        "enum": [
+                          "swing",
+                          "double",
+                          "pocket",
+                          "cased-opening",
+                          "open",
+                          "garage",
+                          "bulkhead"
+                        ]
+                      },
+                      "height_ft": {
+                        "type": "number",
+                        "description": "0.3.0. Leaf height. Three faults in the corpus — six-eight-door-in-a-tall-room, every-door-the-same-door, door-too-wide-for-its-surround — test a door height and could not be evaluated from a plan record at all, because there was no field to hold one. Partly closes OQ 39."
+                      },
+                      "rank": {
+                        "enum": [
+                          "principal",
+                          "secondary",
+                          "service",
+                          "chamber",
+                          "closet"
+                        ],
+                        "description": "0.3.0. Where this door sits in the house's hierarchy. The kits have always stated the graduation (`principal 84 in, secondary 80 in, service 78 in`) and the fault `every-door-the-same-door` requires at least three distinct specifications per house; neither could be checked, because a door had no rank to check."
+                      },
+                      "wall": {
+                        "enum": [
+                          "N",
+                          "E",
+                          "S",
+                          "W"
+                        ],
+                        "description": "0.3.0. Which wall of the owning room the opening is in. An exterior door had NO wall in 0.2.0, so each renderer guessed one — and both guessed the first declared exterior wall, which is how a centre passage declaring doors at both ends had both drawn on its front."
+                      },
+                      "position_ft": {
+                        "type": "number",
+                        "description": "0.3.0. Centreline along that wall, in model coordinates. Absent means the renderers place it by rule, as they always have, and say so on the sheet."
+                      },
+                      "swing_into": {
+                        "type": "string",
+                        "description": "0.3.0. Room id the leaf opens into, or 'exterior'."
+                      },
+                      "hinge": {
+                        "enum": [
+                          "low",
+                          "high"
+                        ],
+                        "description": "0.3.0. Which jamb carries the hinges, low or high along the wall's own running axis."
+                      },
+                      "unplaced": {
+                        "$ref": "#/$defs/unplaced"
+                      },
+                      "note": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "description": "Doors imply a direct-door adjacency in both directions; the validator derives the graph from them."
+                },
+                "fixtures": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Plumbing and equipment present — wc, lavatory, tub, shower, sink, dishwasher, washer, water-heater, furnace. Drives the servicing checks."
+                },
+                "fixture_layout": {
+                  "type": "array",
                   "description": "0.3.0. Where the fixtures actually stand. `fixtures` has always been a list of strings and the room catalogue has always carried each item's `footprint_in` and `clearance_in`; the two vocabularies never met, so a bathroom could be checked for whether it COULD hold a tub and never for whether the tub, the WC and the door swing fit together. Written by build/openings.py.",
-                  "items": { "type": "object", "required": ["item"], "additionalProperties": false,
-                    "properties": { "item": { "type": "string" }, "wall": { "enum": ["N","E","S","W"] },
-                      "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
-                      "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
-                      "unplaced": { "$ref": "#/$defs/unplaced" } } } },
-                "stacks_over": { "type": "string", "description": "room id on the level below, for plumbing and structure." },
-                "geometry": { "$ref": "#/$defs/geometry" },
-                "note": { "type": "string" }
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "item"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "item": {
+                        "type": "string"
+                      },
+                      "wall": {
+                        "enum": [
+                          "N",
+                          "E",
+                          "S",
+                          "W"
+                        ]
+                      },
+                      "x_ft": {
+                        "type": "number"
+                      },
+                      "y_ft": {
+                        "type": "number"
+                      },
+                      "width_ft": {
+                        "type": "number"
+                      },
+                      "depth_ft": {
+                        "type": "number"
+                      },
+                      "unplaced": {
+                        "$ref": "#/$defs/unplaced"
+                      }
+                    }
+                  }
+                },
+                "stacks_over": {
+                  "type": "string",
+                  "description": "room id on the level below, for plumbing and structure."
+                },
+                "geometry": {
+                  "$ref": "#/$defs/geometry"
+                },
+                "note": {
+                  "type": "string"
+                }
               }
             }
           }
@@ -96,113 +371,449 @@
       }
     },
     "site": {
-      "type": "object", "additionalProperties": false,
+      "type": "object",
+      "additionalProperties": false,
       "description": "Lot and settlement data beyond what `context` already carries. `context.lot_width_ft`/`lot_depth_ft`/`entrance_faces` stay where they were first established (WP-0.1) and are already load-bearing across the reference corpus and the composer; this object holds the fields WP-2.4 added so the composer can honour lot width, site-scope constraints (the Charleston piazza bearing, a bank house's cross-slope) can evaluate, and the renderer can draw the lot. A plan or brief with no site data omits this object entirely — nothing requires it.",
       "properties": {
-        "street_bearing_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing (0 = north, clockwise) of the street the principal front faces." },
-        "setback_front_ft": { "type": "number" },
-        "setback_side_ft": { "type": "number" },
-        "setback_rear_ft": { "type": "number" },
-        "slope_direction_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing of the downhill direction across the lot. Distinct from cross_slope_pct, which is the slope's magnitude." },
-        "cross_slope_pct": { "type": "number", "description": "Cross-slope of the site across the building's depth, as a percentage -- what a bank house's plan type depends on existing at all." },
-        "prevailing_summer_wind_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing the prevailing summer wind blows FROM." },
-        "piazza_bearing_deg": { "type": "number", "minimum": 0, "maximum": 359, "description": "Compass bearing a piazza, porch, loggia or gallery faces, for a style that ties that orientation to sun or wind -- the Charleston single house's canonical use." },
-        "party_wall_condition": { "enum": ["freestanding", "party-wall-one-side", "party-wall-both-sides", "row"] },
-        "note": { "type": "string" }
+        "street_bearing_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 359,
+          "description": "Compass bearing (0 = north, clockwise) of the street the principal front faces."
+        },
+        "setback_front_ft": {
+          "type": "number"
+        },
+        "setback_side_ft": {
+          "type": "number"
+        },
+        "setback_rear_ft": {
+          "type": "number"
+        },
+        "slope_direction_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 359,
+          "description": "Compass bearing of the downhill direction across the lot. Distinct from cross_slope_pct, which is the slope's magnitude."
+        },
+        "cross_slope_pct": {
+          "type": "number",
+          "description": "Cross-slope of the site across the building's depth, as a percentage -- what a bank house's plan type depends on existing at all."
+        },
+        "prevailing_summer_wind_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 359,
+          "description": "Compass bearing the prevailing summer wind blows FROM."
+        },
+        "piazza_bearing_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 359,
+          "description": "Compass bearing a piazza, porch, loggia or gallery faces, for a style that ties that orientation to sun or wind -- the Charleston single house's canonical use."
+        },
+        "party_wall_condition": {
+          "enum": [
+            "freestanding",
+            "party-wall-one-side",
+            "party-wall-both-sides",
+            "row"
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
       }
     },
     "adjacencies": {
       "type": "array",
       "description": "Relationships the doors do not express — a shared wall, a sight line, an acoustic separation.",
-      "items": { "type": "object", "required": ["a", "b", "relation"], "additionalProperties": false,
-        "properties": { "a": { "type": "string" }, "b": { "type": "string" },
-          "relation": { "enum": ["direct-door","shared-wall","same-floor","visible-from","acoustically-separated","not-visible-from","above","below"] } } }
+      "items": {
+        "type": "object",
+        "required": [
+          "a",
+          "b",
+          "relation"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "type": "string"
+          },
+          "b": {
+            "type": "string"
+          },
+          "relation": {
+            "enum": [
+              "direct-door",
+              "shared-wall",
+              "same-floor",
+              "visible-from",
+              "acoustically-separated",
+              "not-visible-from",
+              "above",
+              "below"
+            ]
+          }
+        }
+      }
     },
-    "measurements": { "type": "object",
-      "description": "Any additional numbers for the fault corpus to test — elevation dimensions, trim sizes, ratios. Keys must match the fault corpus vocabulary; see tdl_measurement_vocabulary." },
-    "declared": { "type": "object",
+    "measurements": {
+      "type": "object",
+      "description": "Any additional numbers for the fault corpus to test — elevation dimensions, trim sizes, ratios. Keys must match the fault corpus vocabulary; see tdl_measurement_vocabulary."
+    },
+    "declared": {
+      "type": "object",
       "description": "Design choices the plan asserts, keyed by element slot id, for checking against the style's forbidden variants. e.g. {\"roof_form\": \"gambrel\", \"shutter\": \"none\"}. Most values are a bare variant id; a slot of cardinality `many` may instead take an object, which states its variant under `variant` so the forbidden-variant check still reaches it.",
       "properties": {
         "dormer": {
           "description": "WHETHER THIS HOUSE CARRIES DORMERS, and it has three states on purpose. The string \"none\" is a house STATED to have none — a measured zero the fault corpus may judge. An object states how many and on which face. OMITTING THE KEY ENTIRELY is could-not-evaluate: the record does not say, and every dormer measurement is then absent rather than zero. That third state is why the field exists — build/roof.py's dormer_rhythm_check could not tell a house with no dormers from a house whose dormers the record had no way to state, and build/elevation.py refused dormer_count outright for the same reason (OQ 52, and the cape-central-chimney incident of OQ 59, where a refusal written as 0 convicted a parti named for its chimney). POSITIONS ARE NOT AUTHORED: the kit's own alignment_rule — 'each dormer centred on a window of the storey below' — derives them, so a record cannot state a rhythm that contradicts the style it claims. The slot is `dormer` and not `dormers` because that is the ontology's own id (elements/slots.json, cardinality many); a plural key here read as a slot nobody had heard of.",
           "oneOf": [
-            { "const": "none" },
-            { "type": "object", "required": ["count"], "additionalProperties": false,
+            {
+              "const": "none"
+            },
+            {
+              "type": "object",
+              "required": [
+                "count"
+              ],
+              "additionalProperties": false,
               "properties": {
-                "count": { "type": "integer", "minimum": 0, "maximum": 24,
-                  "description": "How many on the named face. The kit's count_parity says odd for this tradition; the checker reports a breach rather than refusing the record." },
-                "face": { "enum": ["N","S","E","W"], "description": "Which elevation. Defaults to the entrance face." },
-                "variant": { "type": "string",
-                  "description": "A dormer variant id from the style's own kit slot (gabled, pedimented, hipped…). Checked against it, never invented here." }
-              } }
+                "count": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 24,
+                  "description": "How many on the named face. The kit's count_parity says odd for this tradition; the checker reports a breach rather than refusing the record."
+                },
+                "face": {
+                  "enum": [
+                    "N",
+                    "S",
+                    "E",
+                    "W"
+                  ],
+                  "description": "Which elevation. Defaults to the entrance face."
+                },
+                "variant": {
+                  "type": "string",
+                  "description": "A dormer variant id from the style's own kit slot (gabled, pedimented, hipped…). Checked against it, never invented here."
+                }
+              }
+            }
           ]
         }
-      } },
-    "footprint": { "type": "object",
-      "description": "0.3.0. The block the placement solved into, as build/geometry.py writes it. Held out of the schema until now, which meant a placed plan could not validate against its own contract.",
+      }
+    },
+    "footprint": {
+      "type": "object",
+      "description": "0.3.0. The block the placement solved into, as build/geometry.py writes it. Held out of the schema until now, which meant a placed plan could not validate against its own contract. 0.5.0: the scalars here continue to describe THE MAIN BLOCK and nothing about them has changed -- every existing reader (structure, roof, the exporters, the renderers) keeps working unread. A house with a dependency additionally carries `blocks`, which describes every element including the main one.",
       "properties": {
-        "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
-        "area_sf": { "type": "number" }, "bays": { "type": "integer" },
-        "bay_module_ft": { "type": "number" },
-        "heated_area_sf": { "type": "number" }, "void_area_sf": { "type": "number" } } },
-    "geometry_report": { "type": "object",
-      "description": "0.3.0. What the placement cost and what it could not honour — relaxations (located on the walls they are true of), under- and over-band rooms against BOTH the catalogue band and the declaration, and the solver's own account of itself including which engine ran and why. Shape is build/geometry.py's; kept open because it is a report, not a contract. This said 'severed doors' until WP-6.4 and nothing ever produced that field: a door the placement could not realise is in `opening_report.unplaced`, with its reason." },
-    "opening_report": { "type": "object",
-      "description": "0.3.0. What build/openings.py placed and what it could not: every unplaced door with its reason, the doors it offset for the butler's-pantry rule, the exterior doors it seated on a passage axis, and the fixture tallies. A report rather than a contract, so its shape is open — but the unplaced list is the load-bearing half, because an opening nobody could place must never read as an opening nobody declared." },
-    "stair": { "type": "object",
+        "width_ft": {
+          "type": "number"
+        },
+        "depth_ft": {
+          "type": "number"
+        },
+        "area_sf": {
+          "type": "number"
+        },
+        "bays": {
+          "type": "integer"
+        },
+        "bay_module_ft": {
+          "type": "number"
+        },
+        "heated_area_sf": {
+          "type": "number"
+        },
+        "void_area_sf": {
+          "type": "number"
+        },
+        "blocks": {
+          "type": "array",
+          "description": "0.5.0 (OQ 40). Every massing element this house is composed of, main block first. Absent on a one-rectangle house, which is what all sixteen plans in this corpus are today. A room joins an element by its own `block` field; a room with none is in the main block.",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "role",
+              "x_ft",
+              "y_ft",
+              "width_ft",
+              "depth_ft"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string",
+                "enum": [
+                  "main",
+                  "dependency",
+                  "hyphen",
+                  "ell"
+                ],
+                "description": "What this element is in the composition. `main` is the block the parti is a diagram of; a `dependency` is subordinate to it and its ridge must sit below the main ridge; a `hyphen` links the two and is lower and shallower than both, which is `dependency-and-hyphen`'s own stated rule."
+              },
+              "x_ft": {
+                "type": "number",
+                "description": "Origin, in the same frame as room geometry. The main block is at 0,0."
+              },
+              "y_ft": {
+                "type": "number"
+              },
+              "width_ft": {
+                "type": "number"
+              },
+              "depth_ft": {
+                "type": "number"
+              },
+              "area_sf": {
+                "type": "number"
+              },
+              "bays": {
+                "type": "integer"
+              },
+              "attached_to": {
+                "type": "string",
+                "description": "The id of the element this one attaches to. Absent on the main block."
+              },
+              "note": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "geometry_report": {
+      "type": "object",
+      "description": "0.3.0. What the placement cost and what it could not honour — relaxations (located on the walls they are true of), under- and over-band rooms against BOTH the catalogue band and the declaration, and the solver's own account of itself including which engine ran and why. Shape is build/geometry.py's; kept open because it is a report, not a contract. This said 'severed doors' until WP-6.4 and nothing ever produced that field: a door the placement could not realise is in `opening_report.unplaced`, with its reason."
+    },
+    "opening_report": {
+      "type": "object",
+      "description": "0.3.0. What build/openings.py placed and what it could not: every unplaced door with its reason, the doors it offset for the butler's-pantry rule, the exterior doors it seated on a passage axis, and the fixture tallies. A report rather than a contract, so its shape is open — but the unplaced list is the load-bearing half, because an opening nobody could place must never read as an opening nobody declared."
+    },
+    "stair": {
+      "type": "object",
       "description": "0.3.0. The stair as an object rather than as a room with a name on it. Until WP-6.2 nothing in the system drew a stair, and a 'Stair Hall' was an empty rectangle with lettering — while rooms/stair-hall.json has always carried the flight itself as furniture ([120, 78] in, dog-leg with a half landing) and build/structure.py has always computed the risers and treads, into a section report that no plan ever saw.",
       "additionalProperties": false,
       "properties": {
-        "room": { "type": "string", "description": "room id the flight sits in." },
-        "level": { "type": "integer", "description": "level index the stair rises FROM." },
-        "form": { "enum": ["straight", "dog-leg", "u-return", "l-return", "winder", "spiral"] },
-        "risers": { "type": "integer" }, "riser_in": { "type": "number" },
-        "treads": { "type": "integer" }, "tread_in": { "type": "number" },
-        "width_ft": { "type": "number", "description": "clear width of one flight." },
-        "run_ft": { "type": "number" }, "landing_depth_ft": { "type": "number" },
-        "up_direction": { "enum": ["N","E","S","W"], "description": "which way a person climbing is walking at the foot." },
-        "well": { "type": "object", "additionalProperties": false,
+        "room": {
+          "type": "string",
+          "description": "room id the flight sits in."
+        },
+        "level": {
+          "type": "integer",
+          "description": "level index the stair rises FROM."
+        },
+        "form": {
+          "enum": [
+            "straight",
+            "dog-leg",
+            "u-return",
+            "l-return",
+            "winder",
+            "spiral"
+          ]
+        },
+        "risers": {
+          "type": "integer"
+        },
+        "riser_in": {
+          "type": "number"
+        },
+        "treads": {
+          "type": "integer"
+        },
+        "tread_in": {
+          "type": "number"
+        },
+        "width_ft": {
+          "type": "number",
+          "description": "clear width of one flight."
+        },
+        "run_ft": {
+          "type": "number"
+        },
+        "landing_depth_ft": {
+          "type": "number"
+        },
+        "up_direction": {
+          "enum": [
+            "N",
+            "E",
+            "S",
+            "W"
+          ],
+          "description": "which way a person climbing is walking at the foot."
+        },
+        "well": {
+          "type": "object",
+          "additionalProperties": false,
           "description": "The rectangle the whole stair occupies in plan, in model coordinates — what an upper landing must sit over and what nothing else may be placed in.",
-          "properties": { "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
-                          "width_ft": { "type": "number" }, "depth_ft": { "type": "number" } } },
-        "flights": { "type": "array",
-          "items": { "type": "object", "additionalProperties": false,
-            "properties": { "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
-                            "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
-                            "treads": { "type": "integer" },
-                            "direction": { "enum": ["N","E","S","W"] } } } },
-        "unplaced": { "$ref": "#/$defs/unplaced" },
-        "note": { "type": "string" } } },
-    "note": { "type": "string" },
-    "revision_summary": { "type": "object",
-      "description": "0.4.0 (WP-9.4). What a DXF round trip carries of a revision_report: its `summary` block, `stop_reason` and `mode`, plus a note saying the full report is NOT in the drawing. Written by build/export_dxf.py into the plan-meta XDATA (capped near 16 KB per entity, which a six-round report exceeds) and handed back by build/import_dxf.py; never authored. The session's audit found the round-tripped record failing this schema on exactly this key, so a revised plan could be exported and not read back.",
-      "properties": {
-        "rounds": { "type": "integer", "minimum": 0 },
-        "moves_applied": { "type": "integer", "minimum": 0 },
-        "moves_refused": { "type": "integer", "minimum": 0 },
-        "key_before": { "type": "array", "items": { "type": "number" } },
-        "key_after": { "type": "array", "items": { "type": "number" } },
-        "stop_reason": { "type": ["string", "null"] },
-        "seconds": { "type": "number" },
-        "mode": { "type": ["string", "null"], "enum": ["placed", "declared", null] },
-        "note": { "type": "string" }
+          "properties": {
+            "x_ft": {
+              "type": "number"
+            },
+            "y_ft": {
+              "type": "number"
+            },
+            "width_ft": {
+              "type": "number"
+            },
+            "depth_ft": {
+              "type": "number"
+            }
+          }
+        },
+        "flights": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x_ft": {
+                "type": "number"
+              },
+              "y_ft": {
+                "type": "number"
+              },
+              "width_ft": {
+                "type": "number"
+              },
+              "depth_ft": {
+                "type": "number"
+              },
+              "treads": {
+                "type": "integer"
+              },
+              "direction": {
+                "enum": [
+                  "N",
+                  "E",
+                  "S",
+                  "W"
+                ]
+              }
+            }
+          }
+        },
+        "unplaced": {
+          "$ref": "#/$defs/unplaced"
+        },
+        "note": {
+          "type": "string"
+        }
       }
     },
-    "revision_report": { "type": "object",
-      "description": "0.4.0 (WP-9.2). What build/revise.py did to this record and why: every round with the moves it applied, the finding each move answered, the corpus sentence it executed, the finding ids it cleared and opened, the key before and after; what remains, split by class (placement, critic-suspect, architect, advisory); what was handed to the architect with the fault's own right fix quoted; what was refused and why; why the loop stopped. A report rather than a contract, so its shape is open. It is authored history and rides in the record, not placement output — and it is NOT carried whole into a DXF (XDATA is capped near 16 KB per entity); export_dxf.py carries `summary` only and says so." },
-    "provenance": { "type": "object",
+    "note": {
+      "type": "string"
+    },
+    "revision_summary": {
+      "type": "object",
+      "description": "0.4.0 (WP-9.4). What a DXF round trip carries of a revision_report: its `summary` block, `stop_reason` and `mode`, plus a note saying the full report is NOT in the drawing. Written by build/export_dxf.py into the plan-meta XDATA (capped near 16 KB per entity, which a six-round report exceeds) and handed back by build/import_dxf.py; never authored. The session's audit found the round-tripped record failing this schema on exactly this key, so a revised plan could be exported and not read back.",
+      "properties": {
+        "rounds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "moves_applied": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "moves_refused": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "key_before": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "key_after": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "stop_reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "seconds": {
+          "type": "number"
+        },
+        "mode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "placed",
+            "declared",
+            null
+          ]
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "revision_report": {
+      "type": "object",
+      "description": "0.4.0 (WP-9.2). What build/revise.py did to this record and why: every round with the moves it applied, the finding each move answered, the corpus sentence it executed, the finding ids it cleared and opened, the key before and after; what remains, split by class (placement, critic-suspect, architect, advisory); what was handed to the architect with the fault's own right fix quoted; what was refused and why; why the loop stopped. A report rather than a contract, so its shape is open. It is authored history and rides in the record, not placement output — and it is NOT carried whole into a DXF (XDATA is capped near 16 KB per entity); export_dxf.py carries `summary` only and says so."
+    },
+    "provenance": {
+      "type": "object",
       "description": "Where this record came from and how much to trust it — the structured provenance WP-2.1 asked for after carrying source_image, confidence and the style reasoning as prose in `note`. Optional: an authored record needs none; an ingested one (traced from a drawing, imported from a drafter's DXF) should say so. Added in 0.2.0 (WP-5.5).",
       "additionalProperties": false,
       "properties": {
-        "source": { "type": "string", "description": "The drawing, image file, HABS sheet or DXF this record was produced from." },
-        "method": { "enum": ["authored","traced","dxf-import","multimodal-reading"],
-          "description": "authored: written directly against the schema. traced: transcribed by tracing a drawing (the WP-5.5 form). dxf-import: extracted from a drafter's DXF and completed by a human. multimodal-reading: read off an image by a model (the WP-2.1 batch)." },
-        "transcription_confidence": { "enum": ["high","medium","low"],
-          "description": "Overall confidence of the transcription. Where it varies by field, use field_confidence as well." },
-        "field_confidence": { "type": "object", "additionalProperties": { "enum": ["high","medium","low"] },
-          "description": "Per-field confidence where it differs from the overall call, keyed by a dotted field path (e.g. \"levels.0.rooms.kitchen.windows\")." },
-        "style_reasoning": { "type": "string", "description": "Why the style id was chosen — a traced record's style is a judgment; the reasoning rides with it, never silently." },
-        "traced_by": { "type": "string", "description": "Who or what performed the transcription." }
+        "source": {
+          "type": "string",
+          "description": "The drawing, image file, HABS sheet or DXF this record was produced from."
+        },
+        "method": {
+          "enum": [
+            "authored",
+            "traced",
+            "dxf-import",
+            "multimodal-reading"
+          ],
+          "description": "authored: written directly against the schema. traced: transcribed by tracing a drawing (the WP-5.5 form). dxf-import: extracted from a drafter's DXF and completed by a human. multimodal-reading: read off an image by a model (the WP-2.1 batch)."
+        },
+        "transcription_confidence": {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ],
+          "description": "Overall confidence of the transcription. Where it varies by field, use field_confidence as well."
+        },
+        "field_confidence": {
+          "type": "object",
+          "additionalProperties": {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "description": "Per-field confidence where it differs from the overall call, keyed by a dotted field path (e.g. \"levels.0.rooms.kitchen.windows\")."
+        },
+        "style_reasoning": {
+          "type": "string",
+          "description": "Why the style id was chosen — a traced record's style is a judgment; the reasoning rides with it, never silently."
+        },
+        "traced_by": {
+          "type": "string",
+          "description": "Who or what performed the transcription."
+        }
       }
     }
   },
@@ -212,29 +823,79 @@
       "description": "0.3.0. Where the placement actually put this room, in model feet — x east, y north, origin at the block's SW corner, the frame build/render_plan.py fixed. Written by build/geometry.py::write_record and, before 0.3.0, forbidden by this schema's own additionalProperties, so every placed plan was invalid against the contract it was placed from.",
       "additionalProperties": false,
       "properties": {
-        "x_ft": { "type": "number" }, "y_ft": { "type": "number" },
-        "width_ft": { "type": "number" }, "depth_ft": { "type": "number" },
-        "area_sf": { "type": "number" },
-        "void": { "type": "object", "additionalProperties": false,
+        "x_ft": {
+          "type": "number"
+        },
+        "y_ft": {
+          "type": "number"
+        },
+        "width_ft": {
+          "type": "number"
+        },
+        "depth_ft": {
+          "type": "number"
+        },
+        "area_sf": {
+          "type": "number"
+        },
+        "void": {
+          "type": "object",
+          "additionalProperties": false,
           "description": "OQ 55's reserved void: an outdoor room inside the block, excluded from the heated envelope and drawn open.",
-          "properties": { "roofed": { "type": "boolean" },
-                          "within_footprint": { "type": "boolean" } } }
+          "properties": {
+            "roofed": {
+              "type": "boolean"
+            },
+            "within_footprint": {
+              "type": "boolean"
+            }
+          }
+        }
       }
     },
     "unplaced": {
       "type": "object",
-      "required": ["reason"],
+      "required": [
+        "reason"
+      ],
       "additionalProperties": false,
       "description": "0.3.0. This opening, fixture or stair is DECLARED and could not be placed, and here is why. The whole point is that it is not deleted: 'unjudged is not passed' applies to geometry as much as to a checker, and the failure this field exists to prevent is the one that shipped — an opening the placement could not realise was dropped in silence by both renderers, so a kitchen with five declared doors was drawn with none and read as a finished room.",
       "properties": {
-        "reason": { "type": "string", "minLength": 1 },
-        "declared_wall": { "enum": ["N","E","S","W"] },
-        "needs": { "type": "object",
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "declared_wall": {
+          "enum": [
+            "N",
+            "E",
+            "S",
+            "W"
+          ]
+        },
+        "needs": {
+          "type": "object",
           "description": "0.4.0 (WP-9.1). The numbers the prose in `reason` already carries, as fields: what this opening, fixture or stair NEEDED and could not get — a shared-wall run in feet, a free run, the stair's long and short dimension. Prose first and the figure beside it, never instead of it: a revision move reads these, and tests/test_critique.py holds each figure to the sentence it rides with so the two cannot drift.",
-          "additionalProperties": { "type": ["number", "string", "boolean"] } },
-        "have": { "type": "object",
+          "additionalProperties": {
+            "type": [
+              "number",
+              "string",
+              "boolean"
+            ]
+          }
+        },
+        "have": {
+          "type": "object",
           "description": "0.4.0 (WP-9.1). What the placement actually offered against `needs`, in the same units and names.",
-          "additionalProperties": { "type": ["number", "string", "boolean", "array"] } }
+          "additionalProperties": {
+            "type": [
+              "number",
+              "string",
+              "boolean",
+              "array"
+            ]
+          }
+        }
       }
     }
   }

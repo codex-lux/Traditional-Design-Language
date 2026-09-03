@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**129 questions, of which 50 are open.** A question is OPEN while
+**129 questions, of which 49 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 50
+## Open — 49
 
 Awaiting a ruling. This is the list to read first.
 
@@ -42,7 +42,6 @@ Awaiting a ruling. This is the list to read first.
 | **37** | OPEN | [`find_faults` cuts through tie groups up to 104 wide](open-questions/037-find-faults-cuts-through-tie-groups-up-wide.md) |
 | **38** | OPEN | [`resolve_kit.choose_pack` reports an unranked tie as the author's ruling](open-questions/038-resolve-kit-choose-pack-reports-unranked-tie-author-s-ruli.md) |
 | **39** | HALF CLOSED 26 AUG 2026 | [the record's vertical opening data is thin and half-dormant](open-questions/039-record-s-vertical-opening-data-thin-half-dormant.md) |
-| **40** | OPEN | [the flat footprint versus declared wings](open-questions/040-flat-footprint-versus-declared-wings.md) |
 | **64** | OPEN | [the loupe magnifies the pen with the drawing, and the Drawn Language says a pen is a pen](open-questions/064-loupe-magnifies-pen-drawing-drawn-language-says-pen.md) |
 | **66** | OPEN | [the score's eight axis weights are editorial and have never been tested against a plan anyone ranked by hand](open-questions/066-score-s-eight-axis-weights-editorial-never-been.md) |
 | **67** | OPEN | [the composer now recommends different plans, and that was a side effect rather than a decision](open-questions/067-composer-recommends-different-plans-side-effect-rather-dec.md) |
@@ -83,7 +82,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
-## Settled — 79
+## Settled — 80
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -118,6 +117,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **33** | CLOSED 26 AUG 2026 | [relaxations are counted but not located](open-questions/033-relaxations-counted-located.md) |
 | **34** | CLOSED 26 AUG 2026 | [composer decisions are prose lines, not records](open-questions/034-composer-decisions-prose-lines-records.md) |
 | **35** | FIXED 25 AUG 2026 | [`core.check_plan` now returns a distinct "could not validate: the jsonschema package is not installed" (with `unvalidated: true`) via an explicit `except ImportError`, and the workbench's brief validation does the same; surfaced by the WP-5.2 adversarial audit and fixed there](open-questions/035-core-check-plan-returns-distinct-validate-jsonschema-packa.md) |
+| **40** | RULED 3 Sep 2026 | [the flat footprint versus declared wings](open-questions/040-flat-footprint-versus-declared-wings.md) |
 | **41** | CLOSED 27 AUG 2026 | [the solver's door floor sits below the renderers' draw test](open-questions/041-solver-s-door-floor-sits-below-renderers-draw.md) |
 | **42** | CLOSED 24 AUG 2026 | [`types_present` is not aliased](open-questions/042-types-present-aliased.md) |
 | **43** | CLOSED 24 AUG 2026 | [The EQUIVALENT groups are asymmetric in practice and symmetric in the code](open-questions/043-equivalent-groups-asymmetric-practice-symmetric-code.md) |

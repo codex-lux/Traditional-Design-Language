@@ -608,17 +608,25 @@ def level_score(rects, rooms):
         if got < lo * 0.85: s += 12
     return s
 
-def exterior_score(rects, rooms, W, H, tol=0.6):
+def exterior_score(rects, rooms, W, H, tol=0.6, bounds=None):
+    """`bounds` (OQ 40) maps a room id to the massing element it sits in, as (x, y, W, H).
+
+    A wing room's north wall is the WING's north wall; charged against the main block's it
+    would be missing three walls it actually has, at 14 points each, and the solver would pull
+    every dependency room back into the main rectangle to stop paying. With `bounds` absent --
+    or on a one-element house, where every room maps to (0, 0, W, H) -- this is the arithmetic
+    it has always done."""
     s = 0.0
     for r in rooms:
         want = set(r.get("exterior_walls") or [])
         if not want: continue
         x, y, w, h = rects[r["id"]]
+        bx, by, bW, bH = (bounds or {}).get(r["id"], (0.0, 0.0, W, H))
         have = set()
-        if y <= tol: have.add("S")
-        if y + h >= H - tol: have.add("N")
-        if x <= tol: have.add("W")
-        if x + w >= W - tol: have.add("E")
+        if y - by <= tol: have.add("S")
+        if y + h >= by + bH - tol: have.add("N")
+        if x - bx <= tol: have.add("W")
+        if x + w >= bx + bW - tol: have.add("E")
         missing = {d for d in want if d in "NSEW"} - have
         s += len(missing) * 14
     return s
@@ -1078,6 +1086,83 @@ PILE = {"single-pile": 22.0, "one-and-a-half-pile": 28.0, "double-pile": 36.0,
         "triple-pile": 46.0, "variable": 32.0}
 
 
+# ---------------------------------------------------------------- massing elements (OQ 40)
+# A house is one rectangle in this corpus until a room says otherwise. OQ 40 was ruled on
+# 3 Sep 2026: a dependency is a SECOND MASSING ELEMENT -- not a second plan level (which
+# `write_record` below would hand an empty source and draw nowhere, while structure.py's
+# unfiltered eave sum added its storey height to the main block) and not a new record kind
+# (which forfeits plan_check's `via` bridge, on which butlers-pantry's HARD must_adjoin
+# kitchen depends). A room joins an element by its own `block` field; a room with none is in
+# the main block.
+#
+# THE DISCIPLINE THIS FUNCTION EXISTS TO KEEP: a plan that declares no second block must place
+# BYTE-IDENTICALLY. All sixteen plans in this corpus are one rectangle, two of them ship, and
+# their placements and pinned relaxation counts are the regression guard for the whole change.
+# So the one-block case returns a single element at 0,0 covering the footprint derive_footprint
+# already computed, every room in it, in `prep`'s own order -- which makes the slice call below
+# the same call with the same rng draws, not a similar one.
+HYPHEN_DEFAULT_FT = 14.0   # dependency-and-hyphen.json bands hyphen_length_ft 12-20; its midpoint,
+                           # used only until a hyphen room is placed and states its own width.
+
+def blocks_for(plan, fp, prep, level=0):
+    """The massing elements this level's rooms are laid into, main block first.
+
+    Returns a list of {id, role, x, y, W, H, rooms}. `rooms` is the ordered list of room ids
+    that belong to the element. The main block is always first and always at the origin, so a
+    reader that only understands one rectangle can take element zero and be right.
+
+    A dependency is sized from its OWN rooms' declared areas -- never from a share of the main
+    block's -- because that is what makes it a second element rather than a subdivision of the
+    first. Its side comes from the rooms' own `exterior_walls`, which is the corpus's existing
+    idiom for laterality (five-part's kitchen dependency declares W and its carriage dependency
+    E) rather than a new field nobody has authored.
+    """
+    rooms = prep.get(level) or []
+    tagged = [r for r in rooms if r.get("block")]
+    # x and y are the INTEGER 0, not 0.0, and that is not fussiness: the call this replaces
+    # passed `slice_rect(..., 0, 0, W, H, ...)`, and a float origin makes the written record
+    # carry `"x_ft": 0.0` where it carried `"x_ft": 0` -- numerically identical, textually not.
+    # A first pass here used 0.0 and a placement-hash comparison duly reported both shipped
+    # plans as moved; they had not moved, the instrument had. Keeping the int keeps the record
+    # byte-identical as well as the geometry, and costs nothing.
+    main = {"id": "main", "role": "main", "x": 0, "y": 0,
+            "W": fp["W"], "H": fp["H"], "rooms": [r["id"] for r in rooms if not r.get("block")]}
+    if not tagged:
+        # The whole corpus, today. One element, every room, the footprint as derived.
+        main["rooms"] = [r["id"] for r in rooms]
+        return [main]
+
+    bay = fp["bay"]
+    by_id, order = {}, []
+    for r in tagged:
+        by_id.setdefault(r["block"], []).append(r)
+        if r["block"] not in order: order.append(r["block"])
+
+    out = [main]
+    west_edge, east_edge = 0.0, fp["W"]
+    for bid in order:
+        rs = by_id[bid]
+        need = sum(r["_area"] for r in rs)
+        # Same growth rule as the main block, at its own scale: whole bays wide, depth derived.
+        bays = max(1, round((need / max(fp["target_depth"], 1.0)) / bay))
+        W = round(bays * bay, 2)
+        H = round(need / W, 2) if W else 0.0
+        # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
+        walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
+        side = "E" if ("E" in walls and "W" not in walls) else "W"
+        if side == "W":
+            west_edge -= HYPHEN_DEFAULT_FT + W
+            x = west_edge
+        else:
+            x = east_edge + HYPHEN_DEFAULT_FT
+            east_edge = x + W
+        out.append({"id": bid, "role": "dependency", "x": round(x, 2),
+                    "y": round((fp["H"] - H) / 2.0, 2),   # centred on the main block's axis
+                    "W": W, "H": H, "rooms": [r["id"] for r in rs],
+                    "attached_to": "main", "side": side})
+    return out
+
+
 def derive_footprint(plan, parti=None, prep=None):
     """Bay module, bay count and footprint, with the lot cap and the growth ordering.
 
@@ -1355,6 +1440,26 @@ def voids_report(rects_by_level, prep, ring=None):
                  else "No reserved voids on this plan.")}
 
 
+def blocks_record(plan, fp, prep):
+    """`footprint.blocks` for the record, or None on a one-rectangle house (OQ 40).
+
+    Returns None rather than a single-entry list when there is one element, and that is
+    deliberate: every plan in this corpus is one rectangle, and writing a `blocks` key onto all
+    sixteen of them would be a schema-visible change to records nothing has asked to change.
+    The footprint scalars beside it already describe the main block and always have."""
+    blocks = blocks_for(plan, fp, prep, 0)
+    if len(blocks) < 2:
+        return None
+    out = []
+    for b in blocks:
+        row = {"id": b["id"], "role": b["role"], "x_ft": float(b["x"]), "y_ft": float(b["y"]),
+               "width_ft": float(b["W"]), "depth_ft": float(b["H"]),
+               "area_sf": round(b["W"] * b["H"])}
+        if b.get("attached_to"): row["attached_to"] = b["attached_to"]
+        out.append(row)
+    return out
+
+
 def write_record(plan, levels, ground, upper, fp, report):
     """Write coordinates, footprint and geometry_report back into the plan record.
 
@@ -1382,6 +1487,9 @@ def write_record(plan, levels, ground, upper, fp, report):
     plan["footprint"] = {"width_ft": fp["W"], "depth_ft": fp["H"], "bays": fp["bays"],
                          "bay_module_ft": fp["bay"], "area_sf": round(gross),
                          "slack_sf": round(fp["slack"])}
+    _blocks = blocks_record(plan, fp, {0: [dict(r, _area=(r.get("width_ft") or 10) * (r.get("length_ft") or 12))
+                                           for r in levels[0]["rooms"]]}) if levels.get(0) else None
+    if _blocks: plan["footprint"]["blocks"] = _blocks
     if void_sf:
         # area_sf keeps its meaning -- the block, outside the reserved voids as much as inside
         # them, which is what the roof spans and the lot must hold. What it never meant and
@@ -1447,6 +1555,11 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     except Exception:
         _floor = None
 
+    gblocks = blocks_for(plan, fp, prep, 0)
+    # room id -> the element's own rectangle, so exterior_score charges a wing room against the
+    # wing's walls and not against the main block's. One element -> every room maps to 0,0,W,H,
+    # which is exactly what the function did before it took this argument.
+    gbounds = {rid: (b["x"], b["y"], b["W"], b["H"]) for b in gblocks for rid in b["rooms"]}
     best = None
     for _ in range(candidates):
         gr, grelax = {}, []
@@ -1456,8 +1569,15 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
             if drew: ring_used += 1
             else: gr, grelax, ring_failed = {}, [], ring_failed + 1
         if not drew:
-            slice_rect(copy.deepcopy(prep[0]), 0, 0, W, H, bay, tol, rng, gr, grelax)
-        sg = (level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H) + adjacency_score(gr, prep[0], levels[0]["rooms"])
+            # OQ 40: one slice per massing element. With one element -- every plan in this
+            # corpus today -- `gblocks` is a single entry at 0,0 holding every room in prep's
+            # own order, so this is the same single call with the same rng draws it always was.
+            for _b in gblocks:
+                _rs = [r for r in prep[0] if r["id"] in set(_b["rooms"])]
+                if _rs:
+                    slice_rect(copy.deepcopy(_rs), _b["x"], _b["y"], _b["W"], _b["H"],
+                               bay, tol, rng, gr, grelax)
+        sg = (level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H, bounds=gbounds) + adjacency_score(gr, prep[0], levels[0]["rooms"])
               + entrance_score(gr, prep[0], W, H, ewalls) + principal_and_service_score(gr, prep[0], W, H, ewalls)
               + ceremonial_score(gr, prep[0], W, H, ewalls) + centre_hall_symmetry_score(gr, prep[0], W, H)
               + void_enclosure_score(gr, prep[0], W, H, void_shape))
@@ -1604,6 +1724,9 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
                                  "depth_ft": round(h, 2), "area_sf": round(w * h)}
     plan["footprint"] = {"width_ft": W, "depth_ft": H, "bays": bays, "bay_module_ft": bay,
                          "area_sf": round(W * H), "slack_sf": round(fpd["slack"])}
+    _blocks = blocks_record(plan, fpd, {0: [dict(r, _area=(r.get("width_ft") or 10) * (r.get("length_ft") or 12))
+                                            for r in levels[0]["rooms"]]}) if levels.get(0) else None
+    if _blocks: plan["footprint"]["blocks"] = _blocks
     void_sf = fpd.get("void_sf") or 0
     if void_sf:
         plan["footprint"]["void_area_sf"] = round(void_sf)
