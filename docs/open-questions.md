@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**130 questions, of which 50 are open.** A question is OPEN while
+**131 questions, of which 51 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 50
+## Open — 51
 
 Awaiting a ruling. This is the list to read first.
 
@@ -71,6 +71,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-massing-states-its-structure-and-nothing-reads-it** | OPEN | [the stair hall is supposed to be the spine wall, and the search does not know it has a job](open-questions/oq-a-massing-states-its-structure-and-nothing-reads-it.md) |
 | **oq/a-material-neutral-assembly-decides-a-material-question** | OPEN | [the authority walk lets a slot that says nothing about a material refuse a question about it](open-questions/oq-a-material-neutral-assembly-decides-a-material-question.md) |
 | **oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times** | OPEN | [the backlog refills as it is worked, and 249 is what is visible at one instant](open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md) |
+| **oq/a-pack-can-be-the-only-writer-a-node-has** | OPEN | [flipping a pack can remove the only account of a slot a node can reach](open-questions/oq-a-pack-can-be-the-only-writer-a-node-has.md) |
 | **oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds** | OPEN | [the analyst's `placement` class reads the record's fields for four drawn kinds and the engine's name for five](open-questions/oq-a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds.md) |
 | **oq/a-room-count-cap-on-the-heavy-routes** | OPEN | [nothing bounds how many rooms a heavy route will solve, and the body cap is 2,000 times too loose to be the bound](open-questions/oq-a-room-count-cap-on-the-heavy-routes.md) |
 | **oq/a-room-records-prose-states-a-floor-its-own-band-does-not** | OPEN | [35 figures in prose, and nothing can say which are governing](open-questions/oq-a-room-records-prose-states-a-floor-its-own-band-does-not.md) |

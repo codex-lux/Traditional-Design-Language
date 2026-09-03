@@ -1035,6 +1035,7 @@
     "octagon-house",
     "folk-victorian"
   ],
+  "delivery": "opt-in",
   "sources": [
     "Giacomo Barozzi da Vignola, Regola delli cinque ordini d'architettura (1562) - the pedestal at one third and the entablature at one quarter of the column, which is the derivation the whole pack rests on; encoded in the tdl order packs vignola-tuscan, vignola-doric, vignola-ionic, vignola-corinthian and vignola-composite",
     "Andrea Palladio, I quattro libri dell'architettura (1570), Book I ch. XXVI - the architrave of an opening at one sixth to one fifth of its breadth, and the frieze and cornice over it at three quarters and five quarters of the architrave; transcription at c82.net/architecture/book1",

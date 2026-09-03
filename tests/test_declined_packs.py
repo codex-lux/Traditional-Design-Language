@@ -149,10 +149,19 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     # there and almost invisible in the headline.
     # `appalachian-log-house` needs 26 declines over 9 rounds to reach fixpoint, which is
     # `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times`.
-    assert ci.RATCHET["unendorsed"] == 223
-    assert ci.RATCHET_FLOOR["judged"] == 249
-    assert ci.RATCHET["inherited_packs"] == 3158, (
-        "208 declines removed 208 real deliveries; 3366 was the figure before any")
+    # 3 Sep 2026 (WP-8.10): 223 -> 217 and 3158 -> 3123 on the FIRST FLIP, and this test is the
+    # right place to say why. Not one case was adjudicated -- `trim-classical` declared
+    # `delivery: opt-in` and 35 arrivals simply stopped. `judged` is UNCHANGED at 249, which is
+    # the entire argument this test was written to make, now demonstrated by a mechanism instead
+    # of an anecdote: the ceilings fall for two completely different reasons and only the floor
+    # can tell them apart.
+    assert ci.RATCHET["unendorsed"] == 217
+    assert ci.RATCHET_FLOOR["judged"] == 249, (
+        "a flip must not move the floor: stranding is the ruling ACCEPTING unjudged cases, "
+        "never adjudicating them")
+    assert ci.RATCHET["inherited_packs"] == 3123, (
+        "208 declines removed 208 real deliveries and the first flip removed 35 more; 3366 was "
+        "the figure before any")
 
 
 def test_the_schema_requires_a_reason_and_a_basis():
@@ -212,7 +221,9 @@ def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
     not a role nobody bound, and declining packs will not close it — the slot is handed to the
     next pack, which the kit forbids just as much."""
     ci = _mod("ci_f", "build/check_inheritance.py")
-    assert ci.FORBIDDEN_RATCHET == 776
+    # 776 -> 761 (WP-8.10): fifteen pairs left with `trim-classical`, because a pack rule cannot
+    # land on a forbidden slot it no longer reaches. Smaller corpus, not better corpus.
+    assert ci.FORBIDDEN_RATCHET == 761
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "
@@ -458,14 +469,30 @@ def test_every_decline_is_proved_against_the_undeclared_corpus(rk, graph):
     """MUTATION-CHECKED, corpus-wide: strip each node's declines and every pack must come back.
     Without this, a decline naming a pack that never reached the node would read as a working
     refusal -- `check_pack_bindings.check_declines` has its own lie-check for exactly that, and
-    this is the same property held from the resolver's side."""
+    this is the same property held from the resolver's side.
+
+    THE OPT-IN GATE IS LIFTED TOO, AND THAT IS NOT A WEAKENING (WP-8.10). Once `trim-classical`
+    declared `delivery: opt-in`, the six declines against it stopped refusing anything: the gate
+    already stops the pack, so removing the decline changed nothing and this test fired on
+    `american-farmhouse-vernacular`. The decline is not REFUTED by that, it is SUPERSEDED by a
+    stronger gate -- a decline is a person's judgment that the pack is wrong for the node, the
+    flip is a delivery mechanism, and this corpus keeps those apart everywhere else. Deleting the
+    six would destroy six adjudications and take `judged` 249 -> 243, through its own floor.
+
+    So the counterfactual restores BOTH: no decline and no gate. The property under test is
+    unchanged and still bites -- "this decline names a delivery the cascade would really make" --
+    and it is now asked of the cascade rather than of whichever gates happen to be shipped.
+    """
     import copy
     for nid, pid in _every_declining_node(graph):
         g = copy.deepcopy(graph)
         g["nodes"][nid].pop("declined_packs", None)
+        if (g.get("_packs") or {}).get(pid, {}).get("delivery") == "opt-in":
+            g["_packs"][pid]["delivery"] = "cascade"
         packs = rk.resolve_packs(g, rk.chain_for(g, nid))
         assert pid in packs, (
-            f"{nid} does not receive {pid} even undeclared -- that decline refuses nothing")
+            f"{nid} does not receive {pid} even undeclared and ungated -- that decline "
+            f"refuses nothing")
 
 
 def test_every_node_record_quote_is_verbatim(graph):

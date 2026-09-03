@@ -2,6 +2,64 @@
 
 *Status: RULED 28 Aug 2026 · Raised in: From the real solver (WP-2.3, 25 Aug 2026)*
 
+> **RE-RULED 3 SEP 2026 BY LUCAS: FLIP TO OPT-IN NOW. This reverses the "flip second" half of the
+> 25 Aug ruling, and it is the ruling that governs.** His words, choosing between keeping the
+> adjudication going and building the flip: *flip to opt-in now* — build `inherits_packs` and make
+> pack inheritance opt-in, **accepting that the unjudged gaps are stranded in one commit rather
+> than adjudicated**. The 25 Aug ruling explicitly refused that on the argument that it "strands
+> 294 role-gaps in one commit"; what changed is the measured cost of the alternative.
+>
+> **The evidence that moved it, and it is the only new fact.** WP-8.7 read the backlog end to end
+> three times and the refill is geometric: **244 → 73 → 50 → 36**, each pass surfacing about three
+> quarters of what the last one did, because declining a pack re-attributes the role to the next
+> ancestor. Three passes bought `judged` 48 → 249 and left 223 unendorsed. At that ratio the
+> remainder is of the order of a hundred more adjudications over a dozen passes, each costing a
+> reader and an independent adversarial check. "Adjudicate first" is not unfinishable; it is
+> finishable at a price that now outweighs the stranding it was preferred to.
+>
+> **What this ruling does NOT say.** It does not say the 249 judgments were wasted — they are the
+> reason the flip lands on a corpus where a quarter of the deliveries have been read by a person.
+> It does not rule on the 181 tabled cases in
+> `oq/the-adjudication-cases-the-records-do-not-decide`, which stay open. And it does not touch the
+> SECOND delivery path: a baked snapshot in an ancestor's kit file is not a cascade delivery, so
+> `inherits_packs` will not stop one — that is
+> `oq/a-baked-pack-value-is-a-second-delivery-path`, measured separately at 71.
+>
+> **BUILT, STAGED, AND THE MEASUREMENT CHANGED THE RULING'S OWN SHAPE (3 Sep 2026).** Measuring
+> before building found the cost was not what the ruling was taken on. "The unjudged gaps" was
+> recorded as ~223 — but **a role gap is not a delivery.** Swept over all 132 buildable nodes,
+> gating on a vouch stops **2,963 of 3,158 arrivals** and takes **7,830 dimensioned slots to
+> 4,931: 2,899 slots losing ALL dimensioning, 37%, across 124 of 132 nodes.** `egyptian-revival`
+> goes 65 → 1; `tidewater-georgian`, a shipped reference plan, loses 17. Put back to Lucas with
+> those numbers, he ruled again: **stage it pack by pack**, and **use a separate field, not
+> `applies_to`** — that field already arms five live behavioural gates, and gating delivery on it
+> would make one endorsement mean three things, so restoring a dimension would silently switch on
+> `graduation_check` or the elevation generator.
+>
+> **The mechanism, inert until a pack is flipped.** A pack declares `delivery: opt-in`; a node
+> names it in `inherits_packs`. One conditional in `resolve_packs`, beside the `declined` set,
+> because they are the same question answered opposite ways. Per-NODE, and that grain is measured
+> rather than chosen — a per-EDGE opt-in mirroring `inherits_kit` was costed and refused above.
+> `check_pack_bindings.check_opt_ins` is the exact mirror of `check_declines`: an opt-in that
+> admits nothing reads exactly like a considered one.
+>
+> **`--stranding` is the meter the ruling demanded, and its per-pack answers are the useful part.**
+> The backlog count is a bad guide to what a flip does: `storey-graduation` has 23 unendorsed gaps
+> and flipping it strands **9** slots while leaving **45** governed by inherited slot-level `packs`
+> rulings it cannot reach; `facade-gable` has 16 gaps and strands **32** with none surviving. A
+> staging order taken off the gap counts alone would pick the ineffective pack first.
+>
+> **179 slots corpus-wide survive the flip entirely**, for that same reason — `choose_pack` reads
+> the slot record's own `packs` block before the rows, and that block cascades. The flip cannot
+> close it and neither can any mechanism about delivery.
+
+> **The trap to state before anyone builds it.** The flip must strand LOUDLY. A node that stops
+> receiving a pack it was silently receiving loses dimensions on real slots, and the failure mode
+> is a slot that reads as undimensioned rather than as refused. `--impact` already distinguishes a
+> slot that loses all dimensioning from one that re-houses; the flip needs the corpus-wide version
+> of that, counted before and after, or the stranding is exactly the silent corruption OQ 51 was
+> raised about, arriving from the other direction.
+
 **RULED AND HALF-BUILT 28 Aug 2026 (WP-8.2) — the refusal half exists now. `declined_packs`, per
 node.** The 26 August pass found the ruling's three moves were really one: endorsing is a line in
 `applies_to`, binding a different pack does not displace the wrong one, and scoping the edge was

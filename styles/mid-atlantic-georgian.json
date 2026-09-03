@@ -256,5 +256,8 @@
       "note": "Carries more here than in the other variants because this is the one region that regularly breaks the front forward: a pedimented centre pavilion projecting 12–24 in with a Venetian window over the door. The pack's special_window.width cap (0.72 of the bay) is what decides whether that window will fit the bay at all.",
       "precedence": 2
     }
+  ],
+  "inherits_packs": [
+    "trim-classical"
   ]
 }

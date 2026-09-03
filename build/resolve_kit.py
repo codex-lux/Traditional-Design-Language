@@ -256,10 +256,23 @@ def resolve_packs(graph, chain):
     """
     node = graph["nodes"].get(chain[0]) if chain else None
     declined = {d["pack"] for d in ((node or {}).get("declined_packs") or [])}
+    # OQ 51's DELIVERY HALF, re-ruled 3 Sep 2026: a pack may declare `delivery: opt-in`, and one
+    # that does reaches a node only where the node binds it or names it here. Staged per pack --
+    # a pack that declares nothing behaves exactly as it always has, so this is inert until a
+    # pack is flipped, and each flip is one pack's worth of stranding rather than the corpus's.
+    # Read beside `declined` because they are the same question answered opposite ways and a
+    # reader looking for "why does this node not have that pack" should find both here.
+    opted_in = set((node or {}).get("inherits_packs") or [])
     out = collections.OrderedDict()
     for nid in chain:
         for pb in graph["nodes"][nid].get("proportion_packs", []) or []:
             pid = pb["pack"]
+            # The node's OWN binding is never gated -- `nid != chain[0]` -- for the same reason
+            # the decline guard carries that test: chain[0] is the node, and a node that binds a
+            # pack has opted into it by binding it. Gating that would delete an authored record.
+            if (nid != chain[0] and pid not in opted_in
+                    and (graph.get("_packs", {}).get(pid, {}).get("delivery") == "opt-in")):
+                continue
             # A node may not decline a pack it BINDS ITSELF -- that is a binding to delete, not a
             # decline to write, and check_pack_bindings errors on it. The `nid != chain[0]` guard
             # is belt and braces so a corpus that slipped past the checker still resolves
@@ -295,6 +308,56 @@ def refusals_for(graph, style_id):
         rec = dict(d)
         rec["_would_have_come_from"] = deliverer
         out.append(rec)
+    return out
+
+
+def withheld_for(graph, style_id):
+    """What the OPT-IN GATE withheld, and which ancestor would otherwise have delivered it.
+
+    The mirror of `refusals_for` above, for OQ 51's delivery half. A DECLINE is the node
+    refusing a pack; a WITHHOLD is the pack requiring an admission the node has not written.
+    Both answer "why does this node not have that pack", so a reader looking for one finds the
+    other beside it -- the same argument `resolve_packs` makes for reading `opted_in` beside
+    `declined`.
+
+    Out of band rather than a key in `resolve_packs`' mapping, for the reason `refusals_for`'s
+    docstring gives: `check_addresses.cobinding` does `sorted(resolve_packs(...).keys())` and
+    `eval_packs` iterates `packs.items()`, so a sentinel key becomes a pack id in two checkers.
+
+    IT RETURNS A MAPPING WHERE `refusals_for` RETURNS A LIST, and the difference is not drift.
+    These records are fed straight to `eval_packs(withheld=...)`, which takes the same
+    `{pack_id: binding}` shape `resolve_packs` returns, so the withheld rules can be built and
+    MARKED rather than never existing. A reporting caller reads `.values()`. Every record
+    therefore carries `_source` and `_overridden_by_ancestor` too: `eval_packs` reads the first
+    unconditionally, and a record shaped differently from a delivered one is a second shape to
+    keep in step.
+
+    A pack the node DECLINES is not reported here. The decline is the node's own statement and
+    `refusals_for` already carries it; naming one absence twice would have a reader believe two
+    things happened.
+    """
+    n = graph["nodes"].get(style_id) or {}
+    chain = chain_for(graph, style_id)
+    opted_in = set(n.get("inherits_packs") or [])
+    declined = {d["pack"] for d in (n.get("declined_packs") or [])}
+    own = {e["pack"] for e in (n.get("proportion_packs") or [])}
+    index = graph.get("_packs") or {}
+    out = collections.OrderedDict()
+    for nid in chain[1:]:
+        for pb in graph["nodes"][nid].get("proportion_packs", []) or []:
+            pid = pb["pack"]
+            if pid in out or pid in own or pid in opted_in or pid in declined:
+                continue
+            if index.get(pid, {}).get("delivery") != "opt-in":
+                continue
+            rec = dict(pb)
+            rec["_source"] = nid
+            rec["_overridden_by_ancestor"] = []
+            rec["_would_have_come_from"] = nid
+            rec["_why"] = ("`%s` declares `delivery: opt-in` and `%s` does not name it in "
+                           "`inherits_packs`; it would have come from `%s`"
+                           % (pid, style_id, nid))
+            out[pid] = rec
     return out
 
 
@@ -349,7 +412,7 @@ def scope_facts(slots):
     return {"resolved_slots": slots or {}, "resolved_variants": canonical}
 
 
-def eval_packs(packs, ctx, module_override, kit, scope_dropped=None):
+def eval_packs(packs, ctx, module_override, kit, scope_dropped=None, withheld=None):
     """Every rule the bound packs contribute, keyed by target slot.
 
     `oq/forbidden-stops-the-pack-cascade` (WP-8.3): A PACK RULE MAY NOT WRITE TO A SLOT THE RESOLVED KIT BINDS `forbidden`.
@@ -375,6 +438,19 @@ def eval_packs(packs, ctx, module_override, kit, scope_dropped=None):
     passes `{}` and means it. It is also what OQ 88's scope reads: `scope_facts` is applied HERE
     rather than by every caller, because a caller who forgot it got `resolved_slots: None`, every
     scope `unknown`, and a mechanism silently inert with nothing said.
+
+    `withheld` IS OQ 51'S DELIVERY HALF WEARING WP-8.3'S CLOTHES (WP-8.10). A caller passes the
+    packs the opt-in gate stopped -- `withheld_for()`'s mapping -- and their rules are built and
+    marked `withheld_by_opt_in` with a reason, exactly as a kit-forbidden rule is marked and not
+    deleted, and for the identical argument stated three paragraphs up: a slot whose pack was
+    withheld would otherwise read UNDIMENSIONED, indistinguishable from a slot no pack ever
+    wanted. That absence is OQ 51's own silent corruption arriving from the other direction,
+    which is why the ruling requires the flip to strand LOUDLY. A marked row is never chosen --
+    `choose_pack` filters it before anything else.
+
+    It is OPTIONAL, like `scope_dropped` and unlike `kit`, and the asymmetry is deliberate: a
+    caller that does not ask for the reasons gets exactly the mapping it always got, so the
+    seven existing call sites are untouched and not one of them silently changes meaning.
     """
     if scope_dropped is None:
         scope_dropped = []
@@ -386,7 +462,12 @@ def eval_packs(packs, ctx, module_override, kit, scope_dropped=None):
     # the two-value return every existing caller already unpacks.
     if scope_dropped is None:
         scope_dropped = []
-    for pid, binding in packs.items():
+    # Delivered first, then withheld, so a slot's delivered rows keep the order every reader
+    # already depends on -- `choose_pack` groups by walking this list and takes
+    # `next(iter(groups))`, so appending the withheld ones cannot displace a winner.
+    stream = [(pid, b, False) for pid, b in packs.items()]
+    stream += [(pid, b, True) for pid, b in (withheld or {}).items()]
+    for pid, binding, is_withheld in stream:
         try:
             pk = pe.resolve(pid)
         except Exception as e:
@@ -449,13 +530,23 @@ def eval_packs(packs, ctx, module_override, kit, scope_dropped=None):
             # rule came from. The drop is recorded, not silent: a rule that vanishes with no
             # trace is the failure this corpus polices, so `scope_dropped` carries every one.
             if r.get("out_of_scope"):
-                scope_dropped.append({"pack": pid, "slot": r["target_slot"],
-                                      "dimension": r.get("dimension"),
-                                      "why": r["out_of_scope"]})
+                # NOT recorded for a WITHHELD pack: `scope_dropped` means "scope removed this
+                # delivery", and a pack the opt-in gate already stopped delivers nothing for
+                # scope to remove. Counting it would inflate OQ 88's meter with rules that were
+                # never going to arrive -- a different lie in the same family.
+                if not is_withheld:
+                    scope_dropped.append({"pack": pid, "slot": r["target_slot"],
+                                          "dimension": r.get("dimension"),
+                                          "why": r["out_of_scope"]})
                 continue
             refused, why = _refused(r["target_slot"])
             by_slot[r["target_slot"]].append({
                 "refused_by_kit": refused, "refused_because": why,
+                # Always present, True or False, for the same reason `refused_by_kit` is: a key
+                # that appears only on the bad rows makes `r.get(k)` and `r[k]` disagree about a
+                # row nobody looked at.
+                "withheld_by_opt_in": is_withheld,
+                "withheld_because": binding.get("_why") if is_withheld else None,
                 "pack": pid, "role": binding.get("role"), "from": binding["_source"],
                 "style_precedence": binding.get("precedence"),
                 "dimension": r.get("dimension"), "quantity": r.get("quantity"),
@@ -513,6 +604,34 @@ def choose_pack(rec, rows, ctx):
                 "refused": list(rows),
                 "why": next((r.get("refused_because") for r in rows if r.get("refused_because")),
                             "the resolved kit binds this slot `forbidden`")}
+    # OQ 51's DELIVERY HALF (WP-8.10), tested AFTER the kit's refusal and BEFORE everything
+    # else, and that position is measured rather than chosen.
+    #
+    # AFTER `kit.forbidden`, because the kit's own `forbidden` binding is the node's explicit
+    # statement and it is unconditional: a slot the kit forbids stays refused however the pack
+    # arrives, so calling it WITHHELD offers the author a remedy -- write `inherits_packs` --
+    # that would not dimension the slot. The first version of this branch tested first and
+    # relabelled exactly one address that way, `scottish-baronial.trim_family`, which binds the
+    # slot `forbidden` and had read `kit.forbidden` correctly since WP-8.3. It was found by the
+    # eleven-versus-ten discrepancy between the slots reported withheld and the slots that
+    # actually lost dimensioning -- a defect visible only in the gap between two counters, which
+    # is why both are printed.
+    #
+    # BEFORE the precedence branches, because a withheld row is not a candidate: the pack did
+    # not reach this node, so it cannot be set aside on precedence or compared on quantity.
+    delivered = [r for r in live_rows if not r.get("withheld_by_opt_in")]
+    if live_rows and not delivered:
+        # EVERY BRANCH OF THIS FUNCTION RETURNS THE SAME KEYS -- see the note just above, which
+        # records this branch's sibling shipping in WP-8.3 with keys missing and no caller to
+        # find it. `ranked`, `rejected` and `stale_calibration` are indexed unconditionally.
+        return {"how": "opt-in.withheld", "chosen": None, "ranked": [],
+                "rejected": [], "stale_calibration": False,
+                "refused": list(live_rows),
+                "why": next((r.get("withheld_because") for r in live_rows
+                             if r.get("withheld_because")),
+                            "every pack that writes here requires an opt-in this node has not "
+                            "written")}
+    live_rows = delivered
     rows = live_rows
     declared = rec.get("packs") or []
     if declared:
@@ -751,7 +870,9 @@ def main():
            "storey_height": a.storey if a.storey else a.ceiling + 12.0,
            "opening_height": 80.0, "opening_width": a.opening, "span": a.span}
     scope_dropped = []
-    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, slots, scope_dropped)
+    withheld = withheld_for(graph, a.style)
+    pack_slots, pack_errors = eval_packs(packs, ctx, a.module, slots, scope_dropped,
+                                         withheld=withheld)
 
     if a.json:
         payload = {"style": a.style, "chain": chain, "context": ctx, "date": a.date,
@@ -791,6 +912,19 @@ def main():
         print("  %-20s %-10s from %-28s%s%s" % (pid, b.get("role", "-"), b["_source"], pr, ov))
     for e in pack_errors:
         print("  ! %s" % e)
+    # Both halves of "why does this node not have that pack", side by side, because a reader
+    # who has to know which of the two mechanisms to ask about already knows the answer.
+    # `refusals_for` had been written for exactly this and NO SURFACE CALLED IT (found WP-8.10);
+    # a reporting function nothing reads is a report nobody gets.
+    for r in refusals_for(graph, a.style):
+        print("  - %-20s DECLINED by this node%s%s"
+              % (r["pack"],
+                 " (would have come from %s)" % r["_would_have_come_from"]
+                 if r.get("_would_have_come_from") else "",
+                 " -- %s" % short(r["why"], 60) if r.get("why") else ""))
+    for pid, r in withheld.items():
+        print("  - %-20s WITHHELD: the pack requires an opt-in; it would have come from %s"
+              % (pid, r["_would_have_come_from"]))
 
     if a.slot:
         rec = slots.get(a.slot)
@@ -960,7 +1094,7 @@ def main():
 
     covered = sorted(set(pack_slots) & set(slots))
     ruled = unruled = 0
-    unruled_slots, refused_slots = [], []
+    unruled_slots, refused_slots, withheld_slots = [], [], []
     for s in covered:
         ch = choose_pack(slots[s], pack_slots[s], ctx)
         if ch and ch["how"] in ("slot.packs", "style.proportion_packs", "single"):
@@ -968,6 +1102,12 @@ def main():
         elif ch and ch["how"] == "unresolved":
             unruled += 1
             unruled_slots.append(s)
+        elif ch and ch["how"] == "opt-in.withheld":
+            # THE FIFTH STATE (WP-8.10). The guard below is why this branch exists at all: it
+            # counts a `how` this summary does not name as "in NO bucket", and a state in no
+            # bucket reads as absent -- which for THIS state would be the exact silence the
+            # opt-in flip was required to break.
+            withheld_slots.append(s)
         elif ch and ch["how"] == "kit.forbidden":
             # THE FOURTH STATE, AND IT HAS TO BE IN THE TOTALS. WP-8.3 added it and this loop
             # counted it as neither ruled nor unresolved, so `american-farmhouse-vernacular`
@@ -977,11 +1117,12 @@ def main():
             refused_slots.append(s)
     print("\nPACK RESOLUTION  (%d of %d slots have a bound pack speaking to them)" % (len(covered), len(slots)))
     print("  %d resolved by an explicit ruling, %d still unresolved, %d REFUSED because the "
-          "resolved kit forbids the slot" % (ruled, unruled, len(refused_slots)))
-    if len(covered) != ruled + unruled + len(refused_slots):
+          "resolved kit forbids the slot, %d WITHHELD because the pack requires an opt-in"
+          % (ruled, unruled, len(refused_slots), len(withheld_slots)))
+    if len(covered) != ruled + unruled + len(refused_slots) + len(withheld_slots):
         print("  ! %d slot(s) in NO bucket -- choose_pack returned a `how` this summary does "
               "not name, and a state in no bucket reads as absent"
-              % (len(covered) - ruled - unruled - len(refused_slots)))
+              % (len(covered) - ruled - unruled - len(refused_slots) - len(withheld_slots)))
     # OQ 48: where two packs at one address MEASURE DIFFERENT THINGS, precedence picks a winner and
     # the other quantity is set aside. It used to be discarded with nothing said; now it is named,
     # because a rule that was silently dropped is unjudged and unjudged must not read as absent.
@@ -1006,6 +1147,12 @@ def main():
         print("  unresolved: " + ", ".join(unruled_slots))
     if refused_slots:
         print("  refused (kit binds the slot `forbidden`): " + ", ".join(refused_slots))
+    if withheld_slots:
+        # Named, never merely counted. This is the list a node's author works: each slot here is
+        # undimensioned because an ancestor's pack now requires an admission, and writing that
+        # pack into `inherits_packs` -- or declining it -- is the whole remedy.
+        print("  WITHHELD (the pack requires an opt-in this node has not written): "
+              + ", ".join(withheld_slots))
     stale = [s for s in covered if (choose_pack(slots[s], pack_slots[s], ctx) or {}).get("stale_calibration")]
     if stale:
         print("  ! in_calibration is static and was set at a 9 ft ceiling; re-check at this context: %s"

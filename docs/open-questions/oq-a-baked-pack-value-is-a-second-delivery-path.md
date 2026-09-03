@@ -16,28 +16,32 @@
 rule reaches any of them.**
 
 A kit parameter marked `kind: derived` with `source: <pack>` is a pack rule's value copied into
-a kit file. `build/check_addresses.py::baked_vs_refused` measures the collision: **32 pairs today**, over
-**18 nodes** and **three packs** — `opening-proportion`'s `exterior_head_assembly_in` on 13,
-`storey-graduation` on 12 across four parameters, and `sash-light`'s `projection_in` on 7
-(`chateauesque`, `cotswold-cottage-revival`, `egyptian-revival`, `french-eclectic`,
-`french-normandy-revival`, `italian-renaissance-revival`, `italianate-townhouse`,
-`jacobethan-revival`, `mid-atlantic-georgian`, `queen-anne-patterned-masonry`,
-`renaissance-revival-american`, `ranch-style`, `tudor-revival` among them).
+a kit file. `build/check_addresses.py::baked_vs_refused` measures the collision: **71 pairs today**,
+over **29 nodes** and **seven packs** — `opening-proportion` 13, `gibbs-ionic` 13,
+`storey-graduation` 12, `trim-classical` 11, `facade-classical` 11, `sash-light` 7,
+`brick-course` 4.
 
-**Split by WHICH refusal the baked value escapes, because that is what makes it three problems
-and not one:** 18 escape a kit that binds the slot `forbidden`, 2 escape OQ 88's construction
-scope, and **12 escape a DECLINE — a refusal a person wrote by hand.** The last group is the
-sharpest and was invisible until 28 Aug 2026: `ranch-style` and `minimal-traditional` each
-declare `declined_packs: [storey-graduation]`, and each still resolves baked parameters sourced
-from it, so `check_inheritance.py --impact ranch-style storey-graduation` names the declined
-pack as the governing pack of a slot.
+**Split by WHICH refusal the baked value escapes, because that is what makes it more than one
+problem:** **51 escape a DECLINE — a refusal a person wrote by hand** — and 20 escape OQ 88's
+construction scope. The decline group is the sharpest and was invisible until 28 Aug 2026:
+`ranch-style` and `minimal-traditional` each declare `declined_packs: [storey-graduation]`, and
+each still resolves baked parameters sourced from it, so
+`check_inheritance.py --impact ranch-style storey-graduation` names the declined pack as the
+governing pack of a slot.
 
-**This paragraph has now been wrong three times, in the same direction each time, and the reason
-is worth more than the number.** It published 18, then 20, then stayed at 20 while the meter
-moved to 32 — every correction lagged an improvement to the INSTRUMENT rather than a change in
-the corpus. `check_counts.py` polices figures derived from the corpus and a ratchet is not one,
-so nothing here goes stale loudly. Quote `check_addresses.py --strict` rather than this
-sentence if the two ever disagree.
+**This paragraph has now been wrong four times, in the same direction each time, and the reason is
+worth more than the number.** It published 18, then 20, then stayed at 20 while the meter moved to
+32, then stayed at 32 while three adjudication passes took it to 71 — every correction lagging
+either an improvement to the INSTRUMENT or a change somewhere else in the corpus.
+`check_counts.py` polices figures derived from the corpus and a ratchet is not one, so nothing here
+goes stale loudly. **Quote `check_addresses.py --strict` rather than this sentence if the two ever
+disagree** — that instruction was in this paragraph the whole time it was wrong, which is worth
+knowing about instructions of that kind.
+
+**And the 71 is a function of the decline count, not a regression.** 114 declines carried 65
+parameters, 168 carried 66, 208 carry 71; measured on the DECLINES rather than the parameters it is
+20 of 168 and then 21 of 208, roughly one decline in ten and falling. Re-pinning the ratchet as the
+backlog is worked is the meter following the work.
 
 **The measurement itself had to be fixed to see them, and that is worth recording.** The two
 refusals are reported two different ways: WP-8.3's kit refusal MARKS the row
@@ -53,10 +57,10 @@ delivered.**
 **Why it is not patched.** Deleting the baked parameter on the ancestor removes it from every
 descendant, and 30 of the 33 nodes that resolve it are frame nodes the rule is right for. What
 is wanted is a scope on the PARAMETER, read where `resolve_slots` assembles it — a kit-schema
-change and a new reader inside the hottest function in `build/`. The 32 is ratcheted so it
+change and a new reader inside the hottest function in `build/`. The count is ratcheted so it
 cannot grow in silence while that is decided.
 
-**The general shape is worth stating separately from the 32.** A derived snapshot is a cached
+**The general shape is worth stating separately from the count.** A derived snapshot is a cached
 computation with no cache invalidation: it was true of the pack on the day it was written and
 nothing re-derives it. `check_addresses` can now see the case where the rule is refused; it
 cannot see the case where the rule's VALUE has changed and the snapshot has not.
@@ -88,3 +92,55 @@ rule WP-9.6 moved, and deliberately does not generalise: a checker over all 143 
 expression evaluator and a decision about what to do with a snapshot whose context no longer
 exists, which is what this question is for. What the instance settles is that the shape is real
 and reachable in ordinary work, not merely conceivable.
+
+## MEASURED, 3 Sep 2026 — the count is not unknown any more, and it is 0
+
+**Of the 143 snapshots, 135 can be judged from their own record and every one of them agrees with
+its own expression. The other 8 cannot be judged, and that is a different sentence from passing.**
+`build/check_kits.py::check_baked_snapshots` re-derives each snapshot's expression **at the context
+the snapshot itself records** and compares it to the stored value.
+
+**The evaluator this question asked for already existed, in two places, and neither was wired to a
+verdict.** `proportion_engine.evaluate_expr` is a general safe evaluator that parses every one of
+the shapes in use — there was never a parsing problem. And `resolve_kit.eval_parameters` has been
+re-deriving every baked parameter and comparing it against `computed_at.value` all along, setting
+`r["stored"]` when the two disagree. `stored` is a display field: nothing reads it, nothing fails
+on it. So the sentence "a checker over all 143 needs an expression evaluator" was wrong about what
+was missing. What was missing was a check.
+
+**What the record cannot answer, and why those 8 are unjudged.** `computed_at` carries three
+bindings — `ceiling_height_in`, `storey_height_in`, `opening_width_in` — and the expressions read
+five. Seven snapshots read `span` and one reads `room_width`, neither of which is ever recorded.
+All eight reconcile at a span of 540, which is `check_kits.REF_CTX`'s value and evidently what they
+were baked at — **but that is a reconstruction of the context, not a record of it**, and a check
+may not convict or acquit on a number nobody wrote down. All eight are on
+`georgian-colonial-american`, where the `facade-classical` and `trim-classical` rules were baked.
+
+**The remedy is one field, not a schema argument.** Recording the binding in `computed_at` closes
+the gap: the reader maps `<name>_in` to the binding `<name>` for any key rather than for a list of
+three, so writing `span_in: 540.0` on those seven makes them judgeable with no code change.
+`tests/test_baked_snapshots.py::test_recording_the_binding_closes_the_gap_without_touching_the_checker`
+proves it both ways — the snapshot becomes judged, and a wrong value then fails. **The open half of
+this question is therefore now narrow: should `computed_at` be required to record every binding its
+expression reads?** That is a kit-schema change and a regeneration of eight records, and it would
+take `baked_unjudged` to 0 honestly rather than by looking away.
+
+**The guard's own ratchets cannot guard it, which is worth knowing before anyone tightens them.**
+Deleting the gap detection sends the 8 to be judged against `DEFAULT_BINDINGS`, whose `span` is
+240.0 — measured, that **convicts seven of them as stale** and lets the eighth pass in silence.
+*Unjudged reported as failed* in seven cases, and reported as passed in one, from a single
+deletion. Meanwhile `baked_judged` rises 135 → 143 (above its floor) and `baked_unjudged` falls
+8 → 0 (below its ceiling), so neither ratchet notices. `tests/test_baked_snapshots.py` pins the
+identity of the eight as a SET for exactly that reason.
+
+**And it catches what it was written for.** Restoring WP-9.6's defect — `ceil(module / 7.5)` beside
+a stored `17` — makes `check_kits` fail with the value, the expression and the recomputation named;
+`check_addresses.py --strict` stays green with the defect in place, confirming this entry's account
+that the two measure different things.
+
+**Still open, and unchanged by this:** the ORIGINAL subject of this question — a scope, a decline or
+a `forbidden` binding refusing a live rule while the ancestor's snapshot of it still delivers. That
+is `check_addresses.py::baked_vs_refused`, ratcheted at 71, and no amount of re-deriving a snapshot
+against its own expression touches it. A snapshot can be perfectly faithful to its expression and
+still be a delivery nobody authorised. **The two halves are now measured separately and neither
+should be quoted for the other.**

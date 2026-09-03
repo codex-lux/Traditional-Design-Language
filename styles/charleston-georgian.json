@@ -259,5 +259,8 @@
       "note": "Retained but marginal. The piazza is framed in timber against a masonry body, so the bay governs the piazza and nothing else; the pack's own bay of 16 ft is too long for a piazza, whose bays run 9–12 ft on centre, set by the order rather than by the frame.",
       "precedence": 9
     }
+  ],
+  "inherits_packs": [
+    "trim-classical"
   ]
 }
