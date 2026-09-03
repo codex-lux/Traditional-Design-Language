@@ -103,6 +103,14 @@ CHECKS = [
     # nobody bound, so it moves independently of the backlog. 4 s. Reports; fixing it changes
     # dimensions on most of the corpus and is its own package.
     ("check_inheritance.py", ["--forbidden", "--strict"]),
+    # A FIFTH NUMBER, AND IT MEASURES A CHANGE THAT HAS NOT LANDED. OQ 51 was re-ruled 3 Sep 2026
+    # -- pack inheritance becomes opt-in, staged pack by pack -- and this is what that costs:
+    # 2,899 slots losing ALL dimensioning across 124 of 132 nodes, against the ~223 the ruling
+    # was taken on, which counts ROLE GAPS and not deliveries. It runs in the build so that each
+    # stage of the flip has to re-pin it deliberately and nobody can land one silently. 6.5 s.
+    # Pinned as EQUALITIES rather than a ceiling: every one of these falls as the flip lands,
+    # and a may-only-fall bound is satisfied by measuring less.
+    ("check_inheritance.py", ["--stranding", "--strict"]),
     # check_gazetteer guards OQ 65: every style must be placeable on the Phylogeny's map
     # from its own regions and hearth. The map already reports a style it cannot place —
     # but as a line in a panel, which is where a new style goes quietly missing.

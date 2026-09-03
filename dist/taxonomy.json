@@ -48626,5 +48626,178 @@
       ],
       "_descendants": []
     }
+  },
+  "_packs": {
+    "adobe-module": {
+      "delivery": "cascade"
+    },
+    "balcony-gallery": {
+      "delivery": "cascade"
+    },
+    "brick-course": {
+      "delivery": "cascade"
+    },
+    "corbel-course": {
+      "delivery": "cascade"
+    },
+    "dutch-gambrel": {
+      "delivery": "cascade"
+    },
+    "jetty-overhang": {
+      "delivery": "cascade"
+    },
+    "log-module": {
+      "delivery": "cascade"
+    },
+    "octagon-geometry": {
+      "delivery": "cascade"
+    },
+    "sash-light": {
+      "delivery": "cascade"
+    },
+    "stone-course": {
+      "delivery": "cascade"
+    },
+    "storey-graduation": {
+      "delivery": "cascade"
+    },
+    "timber-bay": {
+      "delivery": "cascade"
+    },
+    "timber-panel": {
+      "delivery": "cascade"
+    },
+    "greek-doric": {
+      "delivery": "cascade"
+    },
+    "moorish-arch": {
+      "delivery": "cascade"
+    },
+    "vignola-composite": {
+      "delivery": "cascade"
+    },
+    "vignola-corinthian": {
+      "delivery": "cascade"
+    },
+    "vignola-doric": {
+      "delivery": "cascade"
+    },
+    "vignola-ionic": {
+      "delivery": "cascade"
+    },
+    "vignola-tuscan": {
+      "delivery": "cascade"
+    },
+    "benjamin-corinthian": {
+      "delivery": "cascade"
+    },
+    "benjamin-doric": {
+      "delivery": "cascade"
+    },
+    "benjamin-ionic": {
+      "delivery": "cascade"
+    },
+    "benjamin-tuscan": {
+      "delivery": "cascade"
+    },
+    "chambers-composite": {
+      "delivery": "cascade"
+    },
+    "chambers-corinthian": {
+      "delivery": "cascade"
+    },
+    "chambers-doric": {
+      "delivery": "cascade"
+    },
+    "chambers-ionic": {
+      "delivery": "cascade"
+    },
+    "chambers-tuscan": {
+      "delivery": "cascade"
+    },
+    "gibbs-composite": {
+      "delivery": "cascade"
+    },
+    "gibbs-corinthian": {
+      "delivery": "cascade"
+    },
+    "gibbs-doric": {
+      "delivery": "cascade"
+    },
+    "gibbs-ionic": {
+      "delivery": "cascade"
+    },
+    "gibbs-tuscan": {
+      "delivery": "cascade"
+    },
+    "palladio-composite": {
+      "delivery": "cascade"
+    },
+    "palladio-corinthian": {
+      "delivery": "cascade"
+    },
+    "palladio-doric": {
+      "delivery": "cascade"
+    },
+    "palladio-ionic": {
+      "delivery": "cascade"
+    },
+    "palladio-tuscan": {
+      "delivery": "cascade"
+    },
+    "facade-arcade": {
+      "delivery": "cascade"
+    },
+    "facade-classical": {
+      "delivery": "cascade"
+    },
+    "facade-gable": {
+      "delivery": "cascade"
+    },
+    "facade-medieval-english": {
+      "delivery": "cascade"
+    },
+    "facade-pavilion": {
+      "delivery": "cascade"
+    },
+    "facade-peristyle": {
+      "delivery": "cascade"
+    },
+    "facade-picturesque": {
+      "delivery": "cascade"
+    },
+    "facade-portada": {
+      "delivery": "cascade"
+    },
+    "opening-craftsman": {
+      "delivery": "cascade"
+    },
+    "opening-mullioned": {
+      "delivery": "cascade"
+    },
+    "opening-pointed": {
+      "delivery": "cascade"
+    },
+    "opening-proportion": {
+      "delivery": "cascade"
+    },
+    "room-harmonic": {
+      "delivery": "cascade"
+    },
+    "room-vernacular": {
+      "delivery": "cascade"
+    },
+    "trim-classical": {
+      "delivery": "cascade"
+    },
+    "trim-craftsman": {
+      "delivery": "cascade"
+    },
+    "trim-prairie": {
+      "delivery": "cascade"
+    },
+    "trim-sawn": {
+      "delivery": "cascade"
+    }
   }
 }

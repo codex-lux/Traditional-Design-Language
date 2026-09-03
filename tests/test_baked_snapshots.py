@@ -171,3 +171,31 @@ def test_a_parameter_with_no_stored_value_is_not_counted_at_all():
     errs, unjudged, stats = _run(kit)
     assert errs == [] and unjudged == []
     assert stats["baked_judged"] == 0 and stats["baked_unjudged"] == 0
+
+
+# ------------------------------------------------------------------ run modes
+
+def test_a_corpus_wide_bound_is_not_judged_on_a_single_kit_run():
+    """SHIPPED BROKEN IN WP-8.8 AND FOUND BY A TEST ABOUT SOMETHING ELSE. The two bounds are
+    corpus-wide claims — 135 judged, 8 unjudged — and they were asserted unconditionally, so
+    `check_kits.py <one-style>` saw ~10 snapshots against a floor of 135 and errored on every
+    node in the corpus. The floor was working correctly on a question nobody had asked it.
+
+    It did not show on `check_kits.py` with no argument, which is how the package verified. It
+    showed on `test_kit_cascade.py`'s dangling-replace test, whose CLEANUP re-runs one kit and
+    asserts the corpus is clean again — a test about `replace` ops, on the full suite, after the
+    targeted suites were green. Same shape as the unsorted glob WP-8.7 shipped."""
+    import subprocess
+    one = subprocess.run([sys.executable, "build/check_kits.py", "tidewater-georgian"],
+                         cwd=ROOT, capture_output=True, text=True)
+    assert one.returncode == 0, one.stdout[-800:]
+    assert "ERROR" not in one.stdout.upper(), one.stdout[-800:]
+    assert "corpus-wide" in one.stdout, (
+        "a single-kit run must SAY the bounds were not judged, not silently skip them — "
+        "unjudged is not passed")
+    whole = subprocess.run([sys.executable, "build/check_kits.py"],
+                           cwd=ROOT, capture_output=True, text=True)
+    assert whole.returncode == 0, whole.stdout[-800:]
+    assert "135 re-derived" in whole.stdout, (
+        "the corpus run must still judge them, or scoping the bound turned it off")
+    assert "corpus-wide" not in whole.stdout, whole.stdout[-400:]

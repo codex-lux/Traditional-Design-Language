@@ -594,14 +594,26 @@ def main():
           "%d COULD NOT BE JUDGED" % (stats["baked_judged"], stats["baked_unjudged"]))
     for x in baked_unjudged:
         print("  ? " + x)
-    if stats["baked_unjudged"] > BAKED_UNJUDGED_CEILING:
-        errs.append("baked snapshots that cannot be judged from their own record: %d against a "
-                    "ceiling of %d. Record the binding the expression reads in `computed_at` "
-                    "rather than raising this." % (stats["baked_unjudged"], BAKED_UNJUDGED_CEILING))
-    if stats["baked_judged"] < BAKED_JUDGED_FLOOR:
-        errs.append("only %d baked snapshots were judged against a floor of %d. This number falls "
-                    "when the instrument goes blind, not only when the corpus shrinks -- check "
-                    "that before re-pinning it." % (stats["baked_judged"], BAKED_JUDGED_FLOOR))
+    # A CORPUS-WIDE CLAIM MAY NOT BE ENFORCED ON A FILTERED RUN, and shipping it that way made
+    # `check_kits.py <one-style>` fail on every node in the corpus. WP-8.8 added these two bounds
+    # and asserted them unconditionally; a single-kit run sees ~10 snapshots against a floor of
+    # 135 and errors, which is the floor working correctly on a question nobody asked it. Caught
+    # by `test_kit_cascade.py`'s dangling-replace test, whose CLEANUP re-runs one kit and asserts
+    # the corpus is clean again -- so it was found by a test about something else, on the full
+    # suite, after the targeted suites were green. The same shape as the unsorted glob in WP-8.7.
+    if a.style:
+        print("  (both bounds are corpus-wide and are NOT judged on a single-kit run)")
+    else:
+        if stats["baked_unjudged"] > BAKED_UNJUDGED_CEILING:
+            errs.append("baked snapshots that cannot be judged from their own record: %d against "
+                        "a ceiling of %d. Record the binding the expression reads in "
+                        "`computed_at` rather than raising this."
+                        % (stats["baked_unjudged"], BAKED_UNJUDGED_CEILING))
+        if stats["baked_judged"] < BAKED_JUDGED_FLOOR:
+            errs.append("only %d baked snapshots were judged against a floor of %d. This number "
+                        "falls when the instrument goes blind, not only when the corpus shrinks "
+                        "-- check that before re-pinning it."
+                        % (stats["baked_judged"], BAKED_JUDGED_FLOOR))
 
     if warns:
         print("\n%d WARNINGS" % len(warns))

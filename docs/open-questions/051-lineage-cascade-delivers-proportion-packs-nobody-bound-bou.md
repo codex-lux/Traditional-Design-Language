@@ -25,6 +25,34 @@
 > `inherits_packs` will not stop one — that is
 > `oq/a-baked-pack-value-is-a-second-delivery-path`, measured separately at 71.
 >
+> **BUILT, STAGED, AND THE MEASUREMENT CHANGED THE RULING'S OWN SHAPE (3 Sep 2026).** Measuring
+> before building found the cost was not what the ruling was taken on. "The unjudged gaps" was
+> recorded as ~223 — but **a role gap is not a delivery.** Swept over all 132 buildable nodes,
+> gating on a vouch stops **2,963 of 3,158 arrivals** and takes **7,830 dimensioned slots to
+> 4,931: 2,899 slots losing ALL dimensioning, 37%, across 124 of 132 nodes.** `egyptian-revival`
+> goes 65 → 1; `tidewater-georgian`, a shipped reference plan, loses 17. Put back to Lucas with
+> those numbers, he ruled again: **stage it pack by pack**, and **use a separate field, not
+> `applies_to`** — that field already arms five live behavioural gates, and gating delivery on it
+> would make one endorsement mean three things, so restoring a dimension would silently switch on
+> `graduation_check` or the elevation generator.
+>
+> **The mechanism, inert until a pack is flipped.** A pack declares `delivery: opt-in`; a node
+> names it in `inherits_packs`. One conditional in `resolve_packs`, beside the `declined` set,
+> because they are the same question answered opposite ways. Per-NODE, and that grain is measured
+> rather than chosen — a per-EDGE opt-in mirroring `inherits_kit` was costed and refused above.
+> `check_pack_bindings.check_opt_ins` is the exact mirror of `check_declines`: an opt-in that
+> admits nothing reads exactly like a considered one.
+>
+> **`--stranding` is the meter the ruling demanded, and its per-pack answers are the useful part.**
+> The backlog count is a bad guide to what a flip does: `storey-graduation` has 23 unendorsed gaps
+> and flipping it strands **9** slots while leaving **45** governed by inherited slot-level `packs`
+> rulings it cannot reach; `facade-gable` has 16 gaps and strands **32** with none surviving. A
+> staging order taken off the gap counts alone would pick the ineffective pack first.
+>
+> **179 slots corpus-wide survive the flip entirely**, for that same reason — `choose_pack` reads
+> the slot record's own `packs` block before the rows, and that block cascades. The flip cannot
+> close it and neither can any mechanism about delivery.
+
 > **The trap to state before anyone builds it.** The flip must strand LOUDLY. A node that stops
 > receiving a pack it was silently receiving loses dimensions on real slots, and the failure mode
 > is a slot that reads as undimensioned rather than as refused. `--impact` already distinguishes a

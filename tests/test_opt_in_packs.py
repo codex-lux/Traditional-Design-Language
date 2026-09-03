@@ -1,0 +1,196 @@
+"""`inherits_packs` — OQ 51's delivery half, staged pack by pack.
+
+Lucas re-ruled OQ 51 on 3 Sep 2026: pack inheritance becomes opt-in. Measuring it first changed
+the shape — flipping everything at once would strand 2,899 slots across 124 of 132 nodes, against
+the ~223 the ruling was taken on, which counts ROLE GAPS and not deliveries. So the switch is per
+PACK (`delivery: opt-in` on the pack) and the admission is per NODE (`inherits_packs`), and one
+pack moves at a time.
+
+**NOTHING IS FLIPPED TODAY AND THAT IS THE POINT OF THE FIRST TEST.** A mechanism that changes
+nothing on the day it ships is indistinguishable from one that does not work, so the corpus is
+pinned unchanged AND the gate is driven directly to prove it bites.
+
+Per-node, not per-edge, and that grain is measured rather than chosen: only about half of all gaps
+reach their delivering ancestor through a direct lineage edge at all, and `_cascade` is flattened,
+so the delivering edge is not recoverable from the chain. A per-edge deny was designed and refused
+in OQ 51 with numbers; do not re-propose it.
+"""
+import collections
+import json
+import os
+import sys
+
+import pytest
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, os.path.join(ROOT, "build"))
+import modcache  # noqa: E402
+
+
+def _rk():
+    return modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
+
+
+def _cpb():
+    return modcache.load("check_pack_bindings",
+                         os.path.join(ROOT, "build", "check_pack_bindings.py"))
+
+
+@pytest.fixture(scope="module")
+def graph():
+    return json.load(open(os.path.join(ROOT, "dist", "taxonomy.json"), encoding="utf-8"))
+
+
+# ---------------------------------------------------------------- inert until flipped
+
+def test_no_pack_is_flipped_yet_and_the_corpus_is_untouched(graph):
+    """The mechanism ships inert. Every pack is on `cascade`, so `resolve_packs` behaves exactly
+    as it did and the OQ 51 ratchets do not move. A flip is a deliberate one-pack edit."""
+    deliveries = collections.Counter(v["delivery"] for v in graph["_packs"].values())
+    assert deliveries["opt-in"] == 0, (
+        "a pack has been flipped — re-pin the stranding counts and say which, in the same commit")
+    assert deliveries["cascade"] == len(graph["_packs"]) == 57, deliveries
+
+
+def test_the_pack_index_covers_every_pack_so_a_stale_build_is_loud(graph):
+    """`resolve_packs` reads `graph["_packs"]`. An ABSENT index and a corpus with nothing flipped
+    read identically at the resolver — a stale `dist/taxonomy.json` would silently disable the
+    gate rather than fail, which is this repository's commonest defect. So the index is required
+    to exist and to name every pack on disk."""
+    import glob
+    on_disk = set()
+    for f in sorted(glob.glob(os.path.join(ROOT, "proportions", "*", "*.json"))):
+        d = json.load(open(f, encoding="utf-8"))
+        if d.get("id"):
+            on_disk.add(d["id"])
+    assert graph.get("_packs"), "the graph carries no _packs index — the gate cannot fire"
+    assert set(graph["_packs"]) == on_disk, (
+        sorted(on_disk - set(graph["_packs"])), sorted(set(graph["_packs"]) - on_disk))
+
+
+# ---------------------------------------------------------------- the gate
+
+@pytest.fixture
+def flipped(graph):
+    """A scratch graph with `facade-gable` flipped. Never written; the corpus stays on default."""
+    import copy
+    g = copy.deepcopy(graph)
+    g["_packs"]["facade-gable"]["delivery"] = "opt-in"
+    return g
+
+
+def _has(rk, g, nid, pid="facade-gable"):
+    return pid in rk.resolve_packs(g, rk.chain_for(g, nid))
+
+
+NODE = "north-german-hall-house"      # receives facade-gable by descent; loses 4 slots without it
+
+
+def test_the_gate_bites_and_the_opt_in_admits(graph, flipped):
+    """Four states, driven rather than asserted from the source."""
+    rk = _rk()
+    assert _has(rk, graph, NODE), "precondition: the cascade delivers it today"
+    assert not _has(rk, flipped, NODE), "flipping the pack must stop the delivery"
+    flipped["nodes"][NODE]["inherits_packs"] = ["facade-gable"]
+    assert _has(rk, flipped, NODE), "the node's opt-in must admit it again"
+
+
+def test_a_node_that_binds_a_pack_is_never_gated(graph, flipped):
+    """`chain[0]` is the node, and a node that BINDS a pack has opted into it by binding it.
+    Gating that would delete an authored record — the same reason `declined_packs` carries a
+    `nid != chain[0]` guard."""
+    rk = _rk()
+    binder = next(n for n, v in graph["nodes"].items()
+                  if any(e["pack"] == "facade-gable" for e in (v.get("proportion_packs") or [])))
+    assert _has(rk, flipped, binder), binder
+
+
+def test_an_opt_in_for_a_pack_that_has_not_flipped_changes_nothing(graph):
+    """The staging discipline: the nodes that should keep a pack say so FIRST, the pack flips
+    SECOND. So an opt-in written ahead of its flip must be inert and correct, not an error."""
+    import copy
+    rk = _rk()
+    g = copy.deepcopy(graph)
+    before = sorted(rk.resolve_packs(g, rk.chain_for(g, NODE)))
+    g["nodes"][NODE]["inherits_packs"] = ["facade-gable"]
+    assert sorted(rk.resolve_packs(g, rk.chain_for(g, NODE))) == before
+
+
+def test_the_gate_preserves_what_four_callers_read_unconditionally(graph, flipped):
+    """`_source` and `_overridden_by_ancestor` are read without a guard by `resolve_kit.main`,
+    `eval_packs`, and `check_inheritance.governed`; and `choose_pack` does `next(iter(groups))`,
+    so the OrderedDict's nearest-first order decides which quantity wins at a multi-quantity
+    address. A filter that dropped either would be silent until a plate came out wrong."""
+    rk = _rk()
+    flipped["nodes"][NODE]["inherits_packs"] = ["facade-gable"]
+    got = rk.resolve_packs(flipped, rk.chain_for(flipped, NODE))
+    assert all("_source" in v and "_overridden_by_ancestor" in v for v in got.values())
+    plain = rk.resolve_packs(graph, rk.chain_for(graph, NODE))
+    assert list(got) == list(plain), "insertion order must survive the gate"
+
+
+def test_the_gate_reports_out_of_band_and_never_as_a_key(graph, flipped):
+    """`check_addresses.cobinding` does `sorted(resolve_packs(...).keys())`, so a sentinel key
+    would be read as a pack id by a checker. `refusals_for` is the precedent for saying so
+    elsewhere."""
+    rk = _rk()
+    got = rk.resolve_packs(flipped, rk.chain_for(flipped, NODE))
+    ids = set(json.load(open(os.path.join(ROOT, "dist", "taxonomy.json"),
+                             encoding="utf-8"))["_packs"])
+    assert set(got) <= ids, sorted(set(got) - ids)
+
+
+# ---------------------------------------------------------------- the lie-check
+
+def _errs(node, graph, **over):
+    cpb = _cpb()
+    n = dict(node); n.update(over)
+    out = []
+    cpb.check_opt_ins(n, set(graph["_packs"]), graph, out)
+    return out
+
+
+@pytest.fixture(scope="module")
+def node():
+    return json.load(open(os.path.join(ROOT, "styles", "carpenter-gothic.json"), encoding="utf-8"))
+
+
+def test_an_opt_in_that_admits_nothing_is_an_error_four_ways(node, graph):
+    """An opt-in that admits nothing reads exactly like a considered one — the mirror of the
+    decline's own stated failure, in the same words. Every branch entered."""
+    assert "does not reach it by descent" in _errs(node, graph, inherits_packs=["moorish-arch"])[0]
+    binds = node["proportion_packs"][0]["pack"]
+    assert "BINDS it as well" in _errs(node, graph, inherits_packs=[binds])[0]
+    declines = node["declined_packs"][0]["pack"]
+    assert "DECLINES it" in _errs(node, graph, inherits_packs=[declines])[0]
+    assert "is not a pack id" in _errs(node, graph, inherits_packs=["no-such-pack"])[0]
+
+
+def test_opting_in_twice_is_an_error_because_one_statement_per_pair(node, graph):
+    errs = _errs(node, graph, inherits_packs=["chambers-doric", "chambers-doric"])
+    assert any("twice" in e for e in errs), errs
+
+
+def test_a_node_with_no_opt_in_is_not_an_error(node, graph):
+    """A check that fires on everything is not a check, and every node in the corpus is this
+    case today."""
+    assert _errs(node, graph, inherits_packs=[]) == []
+    n = dict(node); n.pop("inherits_packs", None)
+    assert _errs(n, graph) == []
+
+
+def test_the_whole_corpus_passes_the_opt_in_check(graph):
+    """Vacuous today by construction — nothing carries the field — and pinned so it stops being
+    vacuous the moment the first flip authors one."""
+    import glob
+    cpb = _cpb()
+    errs, carrying = [], 0
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
+        n = json.load(open(f, encoding="utf-8"))
+        if n.get("inherits_packs"):
+            carrying += 1
+        cpb.check_opt_ins(n, set(graph["_packs"]), graph, errs)
+    assert errs == [], errs[:5]
+    # When this stops being 0, the test above stops being vacuous and this line says when.
+    assert carrying == 0, ("%d node(s) now opt in — the first flip has landed; re-pin the "
+                           "stranding counts in the same commit" % carrying)
