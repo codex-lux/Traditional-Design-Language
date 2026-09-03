@@ -108,23 +108,6 @@ own words.
 | `spanish-plateresque` | opening | `italian-renaissance` | Does 'the plain wall around it has no proportional system at all' refuse a Palladian head datum and sill for this style's windows, or only refuse regulating where those windows are placed — and if it refuses, what dimensions the four slots instead? |
 | `tuscan-vernacular` | opening | `roman-classical` | Does a mezzadria farmhouse whose openings are cut by internal need through a half-metre rubble wall take its head datum, sill heights, secondary-door graduation and sidelight/Venetian-window dimensions from Palladio's opening system, or should those six slots be left with no dimensioning at all? |
 
-## `facade-gable` — 13 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| `arts-and-crafts-british` | secondary | `gothic-revival-british` | Does 'no shaped gable' refuse the whole of facade-gable on this node, when the only rule reaching it is the Cotswold kneeler for a roof-end gable -- a detail this node's own Cotswold descent supports -- and a decline leaves cornice_return with no dimensioning at all? |
-| `california-bungalow` | secondary | `gothic-revival-british` | Should a node whose gable is stated as the end of a roof with an exposed truss take a gable-geometry pack whose dimensioned cases are largely parapet and screen gables, when the node's own Mission hybrid note admits a shaped parapet on the common Los Angeles product? |
-| `carpenter-gothic` | secondary | `gothic-revival-british` | Does a bargeboarded softwood rake take facade-gable's geometry half -- apex ratio, gable count, hierarchy, dormer-as-gable -- while its stone kneeler, coping and apex assembly is refused, or is the whole pack a masonry pack that should not reach a plank-built cottage at all? |
-| `dogtrot-vernacular` | facade | `flemish-vernacular` | Does a log or frame dogtrot's cornice_return take facade-gable's masonry kneeler figure (part * 1.2, 8-24 in) by default, or should the slot lose all dimensioning until a pack that describes a timber gable rake is bound? |
-| `german-pennsylvania-colonial` | facade | `flemish-vernacular` | Should a plain Pennsylvania German masonry gable -- a roof end with no parapet or coping anywhere in its record -- take facade-gable's kneeler as its cornice_return, or should that slot stand undimensioned until a pack for the plain masonry verge exists? |
-| `hudson-valley-dutch` | facade | `dutch-urban-gable-house` | Does the Hudson Valley stone gable's rake take facade-gable's stone kneeler-and-coping, or does the mouse-tooth vlechtingen tumbling the node names for its Kingston and Albany town houses replace it — and if the pack is right only for the urban brick front, should it be endorsed for the townhouse-ro |
-| ↺ `italianate-townhouse` | secondary | `gothic-revival-british` | The quote IS verbatim (exact substring of constraints[0].statement, correctly cut before the period), but it does not bear on the pack's subject and the contradiction is inferred rather than stated. The pack's own notes and module note say its subject is deciding whether a gable is a roof end, a par |
-| `modern-farmhouse-traditional` | secondary | `gothic-revival-british` | Should a pack whose dimensioned rules are the shaped, stepped, parapeted and screen gables of Scotland and the Low Countries reach a node whose gable is a plain fibre-cement roof end -- given that the one rule the node's own c02 wants (the kneeler at `cornice_return`) arrives embedded in a cut-stone |
-| `north-german-hall-house` | facade | `flemish-vernacular` | Does a thatch-verged timber gable take facade-gable, whose roof-end members are all cut stone, when the node states no coping, kneeler or crow-step either way -- and is leaving gable_treatment, rake_condition, cornice_return and dormer with no dimensioning at all acceptable on the one elevation this |
-| `pennsylvania-bank-house` | facade | `flemish-vernacular` | Does a Pennsylvania bank house's gable end carry a coped, kneelered verge that cornice_return can be dimensioned from, or does the roof oversail a plain stone gable -- and if the latter, what dimensions cornice_return instead? |
-| `queen-anne-american` | secondary | `gothic-revival-british` | Should a masonry parapet and crow-step gable pack reach a balloon-framed American Queen Anne whose only stated gable treatment is a shingle-filled roof end, given that the node's stated 9:12-14:12 pitch puts its apex ratio below the pack's own 0.55-1.05 band? |
-| `queen-anne-spindled` | facade | `jacobean` | Does a wooden cross-gable filled with cut shingles count as a roof end for facade-gable's purposes, making its height-to-width and gable-count rules applicable while its masonry members stay simply inert -- or is a masonry-derived gable pack the wrong authority for a shingled timber gable regardless |
-| `stick-style` | facade | `jacobean` | Does facade-gable's material-neutral half -- the apex-height-over-width ratio, the gables-per-front count and the hierarchy rule that calls equal gable widths a builder's composition -- govern a Stick Style front whose own c05 requires gables of comparable weight, or does this pack reach the node on |
 
 ## `sash-light` — 11 node(s)
 
@@ -387,11 +370,17 @@ own words.
 
 ## Surfaced by this package's own declines, and NOT YET READ
 
-**40 pairs — 36 from the third adjudication pass and FOUR MORE FROM THE FIRST OPT-IN FLIP.**
+**53 pairs — 36 from the third adjudication pass, FOUR from the first opt-in flip and THIRTEEN
+from the second.**
 These did not exist when the reading started. Declining a pack promotes the next one in the chain
 into the role it vacated, so working the backlog creates backlog — **and WP-8.10 showed a FLIP does
 exactly the same thing.** Withholding `trim-classical` from ten nodes promoted `trim-sawn` and
-`trim-craftsman` into the interior role on four of them. The refill is a property of the CASCADE,
+`trim-craftsman` into the interior role on four of them; withholding `facade-gable` from
+twenty-nine promoted `chambers-doric`, `facade-classical` and `facade-medieval-english` on
+thirteen. **The rate is not falling: four from a ten-slot flip, thirteen from a thirty-two-slot
+one.** And three of the thirteen promote `facade-classical`, which is one of the five packs whose
+`applies_to` arms a LIVE BEHAVIOURAL GATE — so a flip can hand a reader a row where ruling is
+authorising a behaviour change, not merely restoring a dimension. Those are marked ⚡ below. The refill is a property of the CASCADE,
 not of adjudication: any mechanism that stops a delivery hands the role to the next ancestor, so
 the flip does not escape the loop it was ruled in order to escape. Those four are marked
 `promoted by the WP-8.10 flip` below. Three full passes
@@ -411,6 +400,19 @@ to say the loop terminates but not cheaply.
 - `mediterranean-revival` / `trim-sawn` — interior role, promoted by the WP-8.10 flip
 - `queen-anne-patterned-masonry` / `trim-craftsman` — interior role, promoted by the WP-8.10 flip
 - `ranch-style` / `trim-sawn` — interior role, promoted by the WP-8.10 flip
+- `arts-and-crafts-british` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `california-bungalow` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `carpenter-gothic` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `dogtrot-vernacular` / `facade-classical` — facade role, from `english-georgian`, promoted by the WP-8.11 flip ⚡ LIVE GATE
+- `german-pennsylvania-colonial` / `facade-classical` — facade role, from `english-georgian`, promoted by the WP-8.11 flip ⚡ LIVE GATE
+- `italianate-townhouse` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `modern-farmhouse-traditional` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `pennsylvania-bank-house` / `facade-classical` — facade role, from `english-georgian`, promoted by the WP-8.11 flip ⚡ LIVE GATE
+- `queen-anne-american` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `queen-anne-spindled` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `queen-anne-spindled` / `facade-medieval-english` — facade role, from `jacobean`, promoted by the WP-8.11 flip
+- `stick-style` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
+- `stick-style` / `facade-medieval-english` — facade role, from `jacobean`, promoted by the WP-8.11 flip
 - `american-farmhouse-vernacular` / `gibbs-doric` — secondary role, from `georgian-colonial-american`
 - `appalachian-log-house` / `vignola-ionic` — secondary role, from `roman-classical`
 - `arts-and-crafts-american` / `greek-doric` — primary role, from `greek-classical`
@@ -476,3 +478,31 @@ that predates the flip already had.
 - `ranch-style` (interior role, arrived from `colonial-revival`) — Quote is VERBATIM (styles/ranch-style.json, proportional_system.typical_ratios[3]) — that leg passes. The judgment does not. The reason's central claim, "the node states the exact ceiling the pack disowns," misreads the pack: trim-classical's eight-foot conflict is with COST, and its resolution is i
 - `richardsonian-romanesque` (interior role, arrived from `beaux-arts-french`) — Should a Richardsonian interior take its trim family from beaux-arts-french's inherited Vignola pedestal-column-entablature arithmetic, or should trim_family stand undimensioned until a heavy-oak-and-inglenook trim system exists to supply it?
 - `scottish-baronial` (interior role, arrived from `regency`) — Does 'None classical' reach the INTERIOR of a house whose own record calls it a Regency house in costume with rooms that are large, square, plastered and comfortable, or is the classical trim family the right dimensioning for a Burn-and-Bryce interior even where the elevation refuses the order?
+
+## Withdrawn by the second opt-in flip — NOT DECIDED (WP-8.11, 3 September 2026)
+
+**Thirteen more, and the distinction is the same one the section above makes.** `facade-gable`
+declared `delivery: opt-in`, so these thirteen are no longer live unendorsed gaps and the guard on
+the table correctly refuses to carry them. **Nobody ruled on one of them.**
+
+They are kept verbatim for the same reason: a flip is reversible, and writing `inherits_packs` on
+any of these nodes — or returning the pack to `cascade` — makes every one live again.
+
+**Twenty-nine nodes lost a slot to this flip and only thirteen had been tabled**, because the
+tabling passes read the backlog as it stood, and `facade-gable` reached more nodes than anyone had
+got to. That gap is not an oversight in the table; it is the size of the flip against the size of
+the reading.
+
+- `arts-and-crafts-british` (secondary role, arrived from `gothic-revival-british`) — Does 'no shaped gable' refuse the whole of facade-gable on this node, when the only rule reaching it is the Cotswold kneeler for a roof-end gable -- a detail this node's own Cotswold descent supports -- and a decline leaves cornice_return with no dimensioning at all?
+- `california-bungalow` (secondary role, arrived from `gothic-revival-british`) — Should a node whose gable is stated as the end of a roof with an exposed truss take a gable-geometry pack whose dimensioned cases are largely parapet and screen gables, when the node's own Mission hybrid note admits a shaped parapet on the common Los Angeles product?
+- `carpenter-gothic` (secondary role, arrived from `gothic-revival-british`) — Does a bargeboarded softwood rake take facade-gable's geometry half -- apex ratio, gable count, hierarchy, dormer-as-gable -- while its stone kneeler, coping and apex assembly is refused, or is the whole pack a masonry pack that should not reach a plank-built cottage at all?
+- `dogtrot-vernacular` (facade role, arrived from `flemish-vernacular`) — Does a log or frame dogtrot's cornice_return take facade-gable's masonry kneeler figure (part * 1.2, 8-24 in) by default, or should the slot lose all dimensioning until a pack that describes a timber gable rake is bound?
+- `german-pennsylvania-colonial` (facade role, arrived from `flemish-vernacular`) — Should a plain Pennsylvania German masonry gable -- a roof end with no parapet or coping anywhere in its record -- take facade-gable's kneeler as its cornice_return, or should that slot stand undimensioned until a pack for the plain masonry verge exists?
+- `hudson-valley-dutch` (facade role, arrived from `dutch-urban-gable-house`) — Does the Hudson Valley stone gable's rake take facade-gable's stone kneeler-and-coping, or does the mouse-tooth vlechtingen tumbling the node names for its Kingston and Albany town houses replace it — and if the pack is right only for the urban brick front, should it be endorsed for the townhouse-ro
+- `italianate-townhouse` (secondary role, arrived from `gothic-revival-british`) — The quote IS verbatim (exact substring of constraints[0].statement, correctly cut before the period), but it does not bear on the pack's subject and the contradiction is inferred rather than stated. The pack's own notes and module note say its subject is deciding whether a gable is a roof end, a par
+- `modern-farmhouse-traditional` (secondary role, arrived from `gothic-revival-british`) — Should a pack whose dimensioned rules are the shaped, stepped, parapeted and screen gables of Scotland and the Low Countries reach a node whose gable is a plain fibre-cement roof end -- given that the one rule the node's own c02 wants (the kneeler at `cornice_return`) arrives embedded in a cut-stone
+- `north-german-hall-house` (facade role, arrived from `flemish-vernacular`) — Does a thatch-verged timber gable take facade-gable, whose roof-end members are all cut stone, when the node states no coping, kneeler or crow-step either way -- and is leaving gable_treatment, rake_condition, cornice_return and dormer with no dimensioning at all acceptable on the one elevation this
+- `pennsylvania-bank-house` (facade role, arrived from `flemish-vernacular`) — Does a Pennsylvania bank house's gable end carry a coped, kneelered verge that cornice_return can be dimensioned from, or does the roof oversail a plain stone gable -- and if the latter, what dimensions cornice_return instead?
+- `queen-anne-american` (secondary role, arrived from `gothic-revival-british`) — Should a masonry parapet and crow-step gable pack reach a balloon-framed American Queen Anne whose only stated gable treatment is a shingle-filled roof end, given that the node's stated 9:12-14:12 pitch puts its apex ratio below the pack's own 0.55-1.05 band?
+- `queen-anne-spindled` (facade role, arrived from `jacobean`) — Does a wooden cross-gable filled with cut shingles count as a roof end for facade-gable's purposes, making its height-to-width and gable-count rules applicable while its masonry members stay simply inert -- or is a masonry-derived gable pack the wrong authority for a shingled timber gable regardless
+- `stick-style` (facade role, arrived from `jacobean`) — Does facade-gable's material-neutral half -- the apex-height-over-width ratio, the gables-per-front count and the hierarchy rule that calls equal gable widths a builder's composition -- govern a Stick Style front whose own c05 requires gables of comparable weight, or does this pack reach the node on

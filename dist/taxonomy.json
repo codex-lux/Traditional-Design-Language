@@ -22377,6 +22377,9 @@
           "note": "Delivered by italian-renaissance at cascade depth 9 with no direct lineage edge. Governs 4 slots -- cornice, door_surround, frieze, steps_and_stoop. On decline the first three pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian); 0 slots lose all dimensioning. --pair reports no live gate. This is the adjudication the node's own palladio-ionic entry predicted in its note: that decline sent three of these same slots here, and this one sends them one step further to vignola-tuscan, which is a third Tuscan order pack carrying the identical contradiction and needing its own judgment. The class is not resolved by this decline and this entry does not claim it is."
         }
       ],
+      "inherits_packs": [
+        "facade-gable"
+      ],
       "_cascade": [
         "romantic-revivals",
         "gothic-revival-british",
@@ -39324,6 +39327,9 @@
           "note": "Delivered by italian-renaissance at cascade depth 8 with no direct lineage edge. Governs 6 slots; 0 lose all dimensioning. casing, cornice, crown, door_surround and frieze pass to vignola-tuscan (roman-classical) and steps_and_stoop to facade-peristyle (english-palladian). Stated plainly because it bears on the ruling: this is the THIRD order pack declined on this node for the same reason and the successor is a fourth, so the decline stops this pack and not the class. That is `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` in progress on a live node, and whether ANY codified order should govern a picturesque Shaw elevation remains the larger question none of the three verdicts settles. No live gate either way."
         }
       ],
+      "inherits_packs": [
+        "facade-gable"
+      ],
       "_cascade": [
         "british-picturesque",
         "gothic-revival-british",
@@ -48770,7 +48776,7 @@
       "delivery": "cascade"
     },
     "facade-gable": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "facade-medieval-english": {
       "delivery": "cascade"

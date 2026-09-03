@@ -50,15 +50,16 @@ def test_exactly_the_flipped_packs_are_flipped_and_they_are_named_here(graph):
     whole discipline is that a flip is a deliberate one-pack edit with its stranding re-pinned in
     the same commit.
 
-    `trim-classical` was chosen on the measurement -- 10 slots stranded against `facade-gable`'s
-    32 and `sash-light`'s 70 -- and it is not one of the five packs whose `applies_to` arms a
-    live behavioural gate."""
+    The order is ascending stranded count, which is what Lucas ruled on 3 Sep when he closed
+    `oq/a-pack-can-be-the-only-writer-a-node-has`: `trim-classical` 10, then `facade-gable` 32,
+    then `sash-light` 70, with the five packs whose `applies_to` arms a live behavioural gate
+    last. Neither flipped pack is one of those five."""
     flipped = sorted(p for p, v in graph["_packs"].items() if v["delivery"] == "opt-in")
-    assert flipped == ["trim-classical"], (
+    assert flipped == ["facade-gable", "trim-classical"], (
         flipped, "a pack has been flipped or unflipped — re-pin the stranding counts and say "
                  "which, in the same commit")
     deliveries = collections.Counter(v["delivery"] for v in graph["_packs"].values())
-    assert deliveries["cascade"] == 56 and len(graph["_packs"]) == 57, deliveries
+    assert deliveries["cascade"] == 55 and len(graph["_packs"]) == 57, deliveries
 
 
 def test_the_pack_index_covers_every_pack_so_a_stale_build_is_loud(graph):
@@ -81,18 +82,26 @@ def test_the_pack_index_covers_every_pack_so_a_stale_build_is_loud(graph):
 
 @pytest.fixture
 def flipped(graph):
-    """A scratch graph with `facade-gable` flipped. Never written; the corpus stays on default."""
+    """A scratch graph with a still-unflipped pack flipped. Never written; the corpus is untouched.
+
+    MOVED IN WP-8.11, and the reason generalises: this was `facade-gable`, chosen in WP-8.10
+    because the corpus left it on `cascade`. Flipping it for real would have made every assertion
+    below a statement about the shipped corpus instead of about the gate -- green, and vacuous.
+    A driven fixture must name a pack nobody has flipped; check that before flipping the next."""
     import copy
     g = copy.deepcopy(graph)
-    g["_packs"]["facade-gable"]["delivery"] = "opt-in"
+    assert g["_packs"][PACK]["delivery"] == "cascade", (
+        "%s has been flipped for real -- this fixture no longer drives anything" % PACK)
+    g["_packs"][PACK]["delivery"] = "opt-in"
     return g
 
 
-def _has(rk, g, nid, pid="facade-gable"):
+PACK = "trim-craftsman"               # on `cascade`; reaches NODE from `mission-revival`
+NODE = "mediterranean-revival"        # receives it by descent; loses 3 slots without it
+
+
+def _has(rk, g, nid, pid=PACK):
     return pid in rk.resolve_packs(g, rk.chain_for(g, nid))
-
-
-NODE = "north-german-hall-house"      # receives facade-gable by descent; loses 4 slots without it
 
 
 def test_the_gate_bites_and_the_opt_in_admits(graph, flipped):
@@ -100,7 +109,7 @@ def test_the_gate_bites_and_the_opt_in_admits(graph, flipped):
     rk = _rk()
     assert _has(rk, graph, NODE), "precondition: the cascade delivers it today"
     assert not _has(rk, flipped, NODE), "flipping the pack must stop the delivery"
-    flipped["nodes"][NODE]["inherits_packs"] = ["facade-gable"]
+    flipped["nodes"][NODE]["inherits_packs"] = [PACK]
     assert _has(rk, flipped, NODE), "the node's opt-in must admit it again"
 
 
@@ -110,7 +119,7 @@ def test_a_node_that_binds_a_pack_is_never_gated(graph, flipped):
     `nid != chain[0]` guard."""
     rk = _rk()
     binder = next(n for n, v in graph["nodes"].items()
-                  if any(e["pack"] == "facade-gable" for e in (v.get("proportion_packs") or [])))
+                  if any(e["pack"] == PACK for e in (v.get("proportion_packs") or [])))
     assert _has(rk, flipped, binder), binder
 
 
@@ -121,7 +130,7 @@ def test_an_opt_in_for_a_pack_that_has_not_flipped_changes_nothing(graph):
     rk = _rk()
     g = copy.deepcopy(graph)
     before = sorted(rk.resolve_packs(g, rk.chain_for(g, NODE)))
-    g["nodes"][NODE]["inherits_packs"] = ["facade-gable"]
+    g["nodes"][NODE]["inherits_packs"] = [PACK]
     assert sorted(rk.resolve_packs(g, rk.chain_for(g, NODE))) == before
 
 
@@ -131,7 +140,7 @@ def test_the_gate_preserves_what_four_callers_read_unconditionally(graph, flippe
     so the OrderedDict's nearest-first order decides which quantity wins at a multi-quantity
     address. A filter that dropped either would be silent until a plate came out wrong."""
     rk = _rk()
-    flipped["nodes"][NODE]["inherits_packs"] = ["facade-gable"]
+    flipped["nodes"][NODE]["inherits_packs"] = [PACK]
     got = rk.resolve_packs(flipped, rk.chain_for(flipped, NODE))
     assert all("_source" in v and "_overridden_by_ancestor" in v for v in got.values())
     plain = rk.resolve_packs(graph, rk.chain_for(graph, NODE))
@@ -204,10 +213,14 @@ def test_the_whole_corpus_passes_the_opt_in_check(graph):
     # now exercised against real records rather than against an empty loop. Named, not counted --
     # each is a node the pack's own `applies_to` vouches for AND which receives it by descent,
     # and authoring them is what kept the flip's cost at the measured 10 instead of 15.
-    assert carrying == 6, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
+    assert carrying == 8, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
                            "stranding counts in the same commit" % carrying)
     opted = sorted(json.load(open(f, encoding="utf-8"))["id"]
                    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))
                    if json.load(open(f, encoding="utf-8")).get("inherits_packs"))
+    # Six from `trim-classical`, two from `facade-gable`. Every one is a node the pack's own
+    # `applies_to` vouches for AND which receives it by descent -- the two conditions that make an
+    # opt-in a translation of an existing judgment rather than a new one.
     assert opted == ["charleston-georgian", "charleston-single-house", "folk-victorian",
-                     "mid-atlantic-georgian", "new-england-georgian", "tidewater-georgian"], opted
+                     "gothic-revival-american", "mid-atlantic-georgian", "new-england-georgian",
+                     "queen-anne-british", "tidewater-georgian"], opted

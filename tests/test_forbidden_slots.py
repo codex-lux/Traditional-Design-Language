@@ -231,11 +231,11 @@ def test_the_disclosure_names_the_refusal_on_a_style_it_bites_on(rk, graph):
 
 def test_the_forbidden_meter_is_still_ratcheted_apart_from_the_backlog():
     ci = _mod("ci_f2", "build/check_inheritance.py")
-    # 776 -> 761 on 3 Sep 2026 (WP-8.10, the first opt-in flip). Fifteen pairs went with
-    # `trim-classical`: a pack rule cannot land on a forbidden slot it no longer reaches. The
-    # corpus is fifteen pairs SMALLER, not fifteen pairs better -- the same caution the ratchet
-    # dict itself now carries.
-    assert ci.FORBIDDEN_RATCHET == 761
+    # 776 -> 761 -> 723 on 3 Sep 2026 (WP-8.10 and WP-8.11, the first two opt-in flips). Fifteen
+    # pairs went with `trim-classical` and thirty-eight with `facade-gable`: a pack rule cannot
+    # land on a forbidden slot it no longer reaches. The corpus is fifty-three pairs SMALLER, not
+    # fifty-three pairs better -- the same caution the ratchet dict itself now carries.
+    assert ci.FORBIDDEN_RATCHET == 723
     assert ci.FORBIDDEN_RATCHET not in ci.RATCHET.values()
 
 

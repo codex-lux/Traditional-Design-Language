@@ -333,6 +333,7 @@
     "gothic-revival-american",
     "queen-anne-british"
   ],
+  "delivery": "opt-in",
   "sources": [
     "R. W. Brunskill, Traditional Buildings of Britain, Gollancz, London, 1981",
     "Royal Commission on the Ancient and Historical Monuments of Scotland, inventory volumes",
