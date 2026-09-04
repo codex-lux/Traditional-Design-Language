@@ -1770,7 +1770,56 @@ the stack is the roof layer's.
 
 ### WP-11.5 Stacking is a rule on the diagram
 
-**Status: IN PROGRESS (4 Sep 2026).** Part VII item 4; findings F1, F2, F6, E3.
+**Status: COMPLETE, 4 September 2026** — the mechanism is built, measured both ways and ships
+**defaulted OFF** (`geometry.STACK_HARD = False`); flipping it is a ruling and the numbers are
+below. The transfer-beam half and the CP hard pin are deliberately not built. Report:
+`docs/reports/wp-11.5-stacking-as-a-rule.md`. Part VII item 4; findings F1, F2, F6, E3.
+
+**Delivered.** `geometry.declared_stack_breaks` is the ONE reader of a `stacks_over` claim against
+a placement, on `plan_check`'s own rule, so the search, the charge and the critic cannot convict
+and acquit the same house. The search keeps TWO incumbents — best overall, and best that breaks no
+declared claim — and prefers the second when it exists. It is not a rejection: an emptied pool is a
+placement failure where the corpus wants a stated compromise. When no strict candidate exists,
+`geometry_report.stacking` says so and names the count. `geometry.STACK_HARD` is the named switch,
+because `_SOLVE_CACHE` is keyed on arguments and a rule nobody can sweep is a rule nobody can
+refuse.
+
+**THE HEADLINE MEASUREMENT: THE COST OF THE RULE IS A PROPERTY OF THE POOL, NOT OF THE RULE.** One
+seed on the spec Colonial — 70.5 points at the shipped 250 candidates, 24.9 at 500, and **nothing
+at 1,000**, where the unconstrained winner already satisfies every claim. Broken claims 4 → 1 at
+250 and 4 → 0 at 1,000 on that plan; 8 → 2 and 3 → 0 on the Tidewater. That is WP-7.4's finding
+arriving on a rule rather than a weight, and it is the third package to measure a term whose
+verdict depends on the pool — `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford`.
+
+**THE CRITIC'S KEY DOES NOT CLEARLY REWARD IT AND THE ROOM SIZES DO.** At 1,000 candidates the
+spec fatal floor improves by one and its minor floor worsens by six; the Tidewater fatal count is
+unchanged with a serious ceiling three worse. But measured on the spec Colonial's own rooms, rule
+off against on: the **Stair Hall goes from 36 sf against a 76 sf floor — 53% short — to 64 sf and
+16% short**, the Mud Room from 16% to 6%, the Study joins at 16%, and total shortfall falls from
+**46 sf to 30 sf**. Forcing the bath over the laundry forced a better subdivision. The
+minor-finding count rose while the house got materially better, which is why the report leads with
+the rooms.
+
+**THE NUMBER THAT DECIDED THE DEFAULT IS STRUCTURAL.** On `spec-builder-colonial` the strict
+candidate introduces **two over-capacity clear spans where there were none, the worst 40.0 ft
+against a 20 ft capacity**. On the Tidewater plan the same rule goes the other way: spans 2 → 4
+but the worst falls **53.9 ft → 36.0**. Two shipped plans, opposite structural verdicts, at a pool
+where the rule is not free. Better rooms against worse structure on one plan and the reverse on
+the other is a trade for a person, so the switch ships `False` with the measurement beside it and
+a suite that drives the other state. **The one blind guard the package found was that disclosure
+itself** — both shipped plans always find a strict candidate at 250, so the branch never ran and
+deleting it left the suite green; a pool of ONE drives it, and six of six mutations were caught on
+the re-run.
+
+**Not built, with reasons.** The CP hard pin — OQ 95 already built, measured and refused it, and
+the blocker is the downgrade loop reading `kind == "wall"` so a stack pin outranks every authored
+exterior wall; teaching it a second kind needs an ORDERING ruling between an authored
+`stacks_over` and an authored `exterior_walls`. The transfer-beam half — 10 beams to zero on the
+Tidewater plan and 45 corpus-wide is a far stronger constraint and is not attempted on one
+measurement. Raising the pool — the audit says one evaluate is already ~85% of the server's
+capacity at 250, and four times the search on the bench's hot path is a cost decision.
+
+**Original package text, left as written:**
 
 **TWO FINDINGS BEFORE ANY CODE, AND BOTH CHANGE WHAT THIS PACKAGE CAN BE.**
 

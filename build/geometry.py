@@ -876,6 +876,27 @@ def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
 # this one carries a name so the sweep that set it can be re-run against it.
 STACK_W = 40.0
 
+# DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). A named switch, not a literal
+# threaded through the loop, for the reason WP-7.4 records: `_SOLVE_CACHE` is keyed on call
+# ARGUMENTS, so a sweep over a module constant silently measures the first value unless the
+# cache is cleared -- and a sweep that cannot be run is a rule nobody can refuse. Clear
+# `_SOLVE_CACHE` between settings.
+#
+# **DEFAULT OFF, AND THE NUMBER THAT DECIDED IT IS A 40 FT CLEAR SPAN.** The rule works: broken
+# claims 4 -> 1 on the spec Colonial and 8 -> 2 on the Tidewater at the shipped 250 candidates,
+# and 4 -> 0 and 3 -> 0 at 1,000. It also more than halves the spec Colonial's worst squeezed
+# room (Stair Hall 53% short -> 16%, total shortfall 46 sf -> 30 sf). But at 250 candidates the
+# strict candidate on that same plan introduces **two over-capacity clear spans where there were
+# none, the worst 40.0 ft against a 20 ft capacity** -- a structural defect on a shipped
+# reference plan, traded for a waste stack. On the Tidewater plan the same trade goes the other
+# way: 2 spans -> 4, but the worst falls 53.9 ft -> 36.0.
+#
+# Two shipped plans, opposite structural verdicts, at a pool size the infrastructure audit says
+# is already the server's bound and at which the rule is NOT free. That is a ruling, not a
+# default: `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford`. The mechanism is
+# built, guarded and measured both ways; flipping it is one line.
+STACK_HARD = False
+
 # WP-7.4 (OQ 97). The span charge, and both halves of its form were chosen by sweep.
 #
 # OQ 97 asked whether span capacity should be a search term "and at what force", and answered
@@ -938,6 +959,56 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog):
     return charge, over
 
 
+def declared_stack_breaks(g, u, upperrooms):
+    """Every `stacks_over` claim the placement BREAKS, in ONE place (WP-11.5).
+
+    Strict positive rectangle intersection -- plan_check's drawn layer's own rule, so the
+    search, the charge and the critic cannot convict and acquit the same house. It was spelled
+    once inside `vertical_score` and is now spelled once here, because WP-11.5 needs the same
+    test at CANDIDATE-REJECTION time and a second transcription is the
+    `openings.required_wall_ft` error (an arbiter carrying its own copy of a rule) in a new
+    place.
+
+    A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS NOT A BREAK AND IS NOT RETURNED. The
+    generator cannot answer it; counting it as broken would convict a placement of something
+    nobody could have placed, and counting it as satisfied would be a fake pass. It is neither,
+    and `declared_stack_census` below is what says how many there are."""
+    ut = {r["id"]: r for r in upperrooms}
+    out = []
+    for rid, (x, y, w, h) in u.items():
+        so = (ut.get(rid, {}) or {}).get("stacks_over")
+        if not so:
+            continue
+        t = g.get(so)
+        if not t:
+            continue
+        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
+                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
+            out.append({"room": rid, "over": so,
+                        "name": ut[rid].get("name") or rid})
+    return out
+
+
+def declared_stack_census(g, u, upperrooms):
+    """`{claimed, judged, broken, unjudged}` for a placement's declared stacking.
+
+    THREE STATES, because two would lie: `unjudged` counts a claim whose target is not on the
+    level below or whose own room was not placed, and `judged` is the denominator any rate
+    should be read against. A placement that satisfies zero of zero claims is not a placement
+    that stacks."""
+    ut = {r["id"]: r for r in upperrooms}
+    claimed = judged = 0
+    for r in upperrooms:
+        if not r.get("stacks_over"):
+            continue
+        claimed += 1
+        if r["id"] in u and g.get(r["stacks_over"]):
+            judged += 1
+    broken = len(declared_stack_breaks(g, u, upperrooms))
+    return {"claimed": claimed, "judged": judged, "broken": broken,
+            "satisfied": judged - broken, "unjudged": claimed - judged}
+
+
 def vertical_score(g, u, groundrooms, upperrooms, plan):
     """The reason both levels are solved together: bearing lines, stacks, and the stair."""
     if not u: return 0.0, []
@@ -994,16 +1065,11 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     #
     # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
     # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
-    for rid, (x, y, w, h) in u.items():
-        so = (ut.get(rid, {}) or {}).get("stacks_over")
-        if not so: continue
-        t = g.get(so)
-        if not t: continue
-        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
-                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
-            s += STACK_W
-            notes.append(f"{ut[rid].get('name') or rid} declares it stacks over "
-                         f"{gt.get(so, {}).get('name') or so} and is drawn clear of it.")
+    for br in declared_stack_breaks(g, u, upperrooms):
+        s += STACK_W
+        notes.append(f"{br['name']} declares it stacks over "
+                     f"{gt.get(br['over'], {}).get('name') or br['over']} and is drawn clear "
+                     f"of it.")
 
     # OQ 55: nothing may sit over an UNROOFED reserved void. A courtyard is open to the sky --
     # a room placed above it has no floor and no bearing, and the roof plane it would need is
@@ -1782,6 +1848,16 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     # which is exactly what the function did before it took this argument.
     gbounds = {rid: (b["x"], b["y"], b["W"], b["H"]) for b in gblocks for rid in b["rooms"]}
     best = None
+    # DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). Two incumbents: the best
+    # candidate overall, and the best that breaks NO claim its own author wrote. The strict one
+    # wins if it exists.
+    #
+    # IT IS NOT A `continue`, AND THAT IS THE WHOLE DESIGN. Rejecting a breaking candidate
+    # outright empties the pool on any plan whose claims the slicing tree cannot satisfy, and an
+    # empty pool is a placement failure where the corpus wants a stated compromise. When no
+    # strict candidate exists the search SAYS SO on the record and falls back to the charge it
+    # has always paid -- a silent fallback would be a hard rule that is not one.
+    best_strict = None
     for _ in range(candidates):
         gr, grelax = {}, []
         drew = False
@@ -1821,6 +1897,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
+        _breaks = len(declared_stack_breaks(gr, ur, prep.get(1, []))) if (ur and STACK_HARD) else 0
         # WP-7.4 (OQ 97): the structural check the corpus already runs, run here too. See
         # _span_charge -- this is structure.span_check itself and not a proxy.
         #
@@ -1848,8 +1925,13 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
         # satisfies 40.08 < 40.1. The error is bounded at 0.05, but it meant a
         # 250-candidate search did not reliably return its own argmin.
-        if best is None or tot < best["_raw"]:
-            best = {"_raw": tot,
+        # ONE ROW, TWO INCUMBENTS (WP-11.5). Built once and shared by reference: an earlier
+        # draft built it twice and the two copies are a second transcription waiting to drift.
+        # Nothing downstream mutates a row.
+        _row = None
+        if ((best is None or tot < best["_raw"])
+                or (_breaks == 0 and (best_strict is None or tot < best_strict["_raw"]))):
+            _row = {"_raw": tot, "_breaks": _breaks,
                     "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
                     # Level stamped as the two lists merge — slice_rect does not know which
                     # storey it is slicing, and a mark has to know which plan it belongs on (OQ 33).
@@ -1857,6 +1939,40 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                                     + [dict(r, level=1) for r in urelax]),
                     "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1),
                     "span_charge": round(spc, 1), "spans_over_capacity": sp_over}
+        if _row is not None and (best is None or tot < best["_raw"]):
+            best = _row
+        if _row is not None and _breaks == 0 and (best_strict is None
+                                                  or tot < best_strict["_raw"]):
+            best_strict = _row
+
+    # THE STRICT WINNER TAKES IT IF ONE EXISTS (WP-11.5), and the record says which happened.
+    # `declared` is the denominator: a plan with no `stacks_over` claim at all takes this branch
+    # with `claimed: 0` and the rule is vacuous on it, which is stated rather than implied.
+    _claimed = (sum(1 for r in prep.get(1, []) if r.get("stacks_over"))
+                if STACK_HARD else 0)
+    _stacking = {"claimed": _claimed,
+                 "rule": "hard" if (_claimed and best_strict is not None) else "charge"}
+    if _claimed and best_strict is not None:
+        if best_strict is not best:
+            _stacking["cost_points"] = round(best_strict["_raw"] - best["_raw"], 1)
+            _stacking["note"] = (
+                f"A candidate satisfying all {_claimed} declared stacking claim(s) was preferred "
+                f"over a cheaper one that broke "
+                f"{best['_breaks']}, at {_stacking['cost_points']} points.")
+        else:
+            _stacking["note"] = (f"The best candidate overall already satisfied all {_claimed} "
+                                 f"declared stacking claim(s); the rule cost nothing.")
+        best = best_strict
+    elif _claimed:
+        # NOT A SILENT FALLBACK. No candidate in the pool satisfied every claim, so the search
+        # is paying STACK_W instead and the sheet must be able to say so -- a hard rule that
+        # quietly becomes a charge is worse than the charge, because a reader then believes the
+        # claims were honoured.
+        _stacking["note"] = (
+            f"NO CANDIDATE of {candidates} satisfied all {_claimed} declared stacking claim(s); "
+            f"the best breaks {best['_breaks']} and is charged {STACK_W:g} points for each. The "
+            f"rule fell back to the charge and this note is the disclosure.")
+        _stacking["broken"] = best["_breaks"]
 
     # --- write coordinates back into the plan (write_record does it, below)
     rel = best["relaxations"]
@@ -1874,6 +1990,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                                  "does not land on a bearing line and a window bay that will not centre." if rel
                                  else "Every cut landed on a bay line.")},
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
+        "stacking": _stacking,
         "reading": (DEMERIT_NOTE +
                     "Ground and upper were solved together and scored as a pair, so an upper "
                     "layout that would score LOWER alone is rejected when it leaves walls "

@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,687 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,700 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -510,6 +510,47 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   an English rule. **RULE I IS CORRUPT IN THE ONLY REACHABLE TEXT** (*"add the Length 1 Bo Height of
   the Room together"*), so the DEPTH keeps its two anchors and the constant records that the rule
   behind them is UNRECOVERED rather than absent -- a third state, not a gap.
+- **DECLARED STACKING IS A RULE IN THE SEARCH NOW, AND ITS COST IS A PROPERTY OF THE POOL RATHER
+  THAN OF THE RULE (WP-11.5).** `geometry.declared_stack_breaks` is the ONE reader of a
+  `stacks_over` claim against a placement, on `plan_check`'s own strict-intersection rule; the
+  search keeps TWO incumbents (best overall, best breaking no declared claim) and prefers the
+  second when it exists. **It is not a rejection**: an emptied pool is a placement failure where
+  the corpus wants a stated compromise, and when no strict candidate exists
+  `geometry_report.stacking` SAYS SO and names the count -- a hard rule that quietly becomes a
+  charge is worse than the charge. `geometry.STACK_HARD` is the switch; clear `_SOLVE_CACHE`
+  between settings. **MEASURED: 70.5 points at the shipped 250 candidates, 24.9 at 500, and
+  NOTHING at 1,000**, where the unconstrained winner already satisfies every claim. Broken claims
+  4 -> 1 at 250 and 4 -> 0 at 1,000 on the spec Colonial, 8 -> 2 and 3 -> 0 on the Tidewater.
+  **IT SHIPS DEFAULTED OFF (`STACK_HARD = False`) AND THE NUMBER THAT DECIDED THAT IS
+  STRUCTURAL**: on `spec-builder-colonial` the strict candidate introduces **two over-capacity
+  clear spans where there were NONE, the worst 40.0 ft against a 20 ft capacity**, while on the
+  Tidewater plan the same rule takes spans 2 -> 4 with the worst falling **53.9 -> 36.0 ft**. Two
+  shipped plans, opposite structural verdicts. Better rooms against worse structure is a trade for
+  a person; `tests/test_stacking_rule.py` DRIVES the flag rather than reading the corpus's own
+  state (WP-8.11), so the other setting is guarded rather than dead. **The one blind guard of the
+  package was the no-strict-candidate DISCLOSURE** -- both shipped plans always find a strict
+  candidate at 250, so that branch never ran and deleting it left the suite green. A pool of ONE
+  forces it; six of six mutations caught on the re-run.
+  **THREE PACKAGES HAVE NOW MEASURED A TERM WHOSE VERDICT DEPENDS ON THE POOL** -- WP-7.4's
+  stacking weight looked inert at 250 and moved 12 candidates at 2,000, WP-11.3's centre-bay term
+  changed behaviour at 1,500 -- **and the pool has never been the subject**:
+  `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford`.
+  **AND THE CRITIC'S KEY DOES NOT SEE THE BENEFIT, WHICH IS IN THE ROOM SIZES.** On the spec
+  Colonial, rule off against on: the **Stair Hall goes from 36 sf against a 76 sf floor (53%
+  SHORT) to 64 sf (16%)**, the Mud Room 16% -> 6%, the Study joins at 16%, total shortfall
+  **46 sf -> 30 sf**. The minor-finding count ROSE while the house got materially better, because
+  a finding count weights a waste stack landing on nothing the same as a label. **Read the rooms
+  before quoting the key on a placement change.**
+  **The massing selector this package was written around DOES NOT EXIST**: all 40 massings carry a
+  `structural_logic` string and NOT ONE says the upper floor repeats the lower. The corpus's one
+  such sentence is on a parti, and one instance is not a population a prose reader may be built
+  on. `stacks_over` is the authored, machine-readable statement and it needs no selector.
+  **OQ 95's refusal of the CP HARD PIN STILL STANDS** -- the downgrade loop reads
+  `kind == "wall"`, so a stack pin outranks every authored exterior wall and a stack-only core
+  reports infeasible rather than relaxing. Teaching it a second kind needs an ORDERING ruling
+  between an authored `stacks_over` and an authored `exterior_walls`, and the corpus says both
+  things: exterior walls "are aspirations, not rectangle edges", and OQ 95 MEASURED an authored
+  kitchen wall being downgraded to serve a stack.
 - **A NEW FINDING LAYER MUST BE MAPPED TO A SCORING AXIS, AND WP-11.4 PUSHED WITHOUT DOING IT
   (found by WP-11.5).** `plan_check` gained a `hearth` layer and `compose.SCORE_LAYERS` did not
   gain a `hearth` key, so both findings landed in `score_unclassified_layers` and no axis counted
@@ -1790,8 +1831,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **136 entries, of which 52 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **137 entries, of which 53 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

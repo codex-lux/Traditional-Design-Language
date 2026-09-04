@@ -68,6 +68,14 @@ class TestSolveSmoke:
         # and re-fires `porch-nobody-can-sit-on`, which WP-7.4 had cleared. Read _clamp_cut's
         # docstring before trying it again -- the arithmetic there is right and the shipped
         # expression is wrong, and shipping the fix alone still makes the corpus worse.
+        # STAYS 5, AND WP-11.5 MEASURED WHAT WOULD MOVE IT. Declared stacking as a RULE rather
+        # than a charge (`geometry.STACK_HARD`, default False) takes this number to 6: the
+        # strict candidate costs 17.0 points here and carries one more off-grid cut, while
+        # taking this plan's broken stacking claims from 1 to 0. It is defaulted off because on
+        # `spec-builder-colonial` the same rule introduces two over-capacity clear spans where
+        # there were none, the worst 40.0 ft against a 20 ft capacity. Read
+        # `docs/reports/wp-11.5-stacking-as-a-rule.md` before flipping it; clear `_SOLVE_CACHE`
+        # between settings, because the cache is keyed on call arguments and not on constants.
         assert report["relaxations"]["count"] == 5
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
@@ -121,6 +129,19 @@ class TestUnderBandIsReported:
         # WP-7.4: the dining room is no longer the one squeezed on this plan, so asserting on
         # it by name would pin an outcome the terms just changed. What still holds is that the
         # room the hill-climb DOES squeeze is squeezed materially, not by a rounding.
+        #
+        # STAYS >= 20, AND WP-11.5 MEASURED THE RULE THAT WOULD MOVE IT TO 16. Declared
+        # stacking as a rule (`geometry.STACK_HARD`, default False) subdivides this ground floor
+        # differently and the rooms come out markedly better:
+        #
+        #   off  Stair Hall 36 sf against a 76 sf floor, 53% SHORT; Mud Room 28 vs 34, 16%
+        #   on   Stair Hall 64 sf, 16% short; Mud Room 32, 6%; Study 64 vs 76, 16% (new)
+        #
+        # The worst squeeze more than halves, the stair hall gains 78% of its own area, and total
+        # shortfall falls 46 sf -> 30 sf across one more room. It is still defaulted off, because
+        # the same candidate introduces two over-capacity clear spans on this plan where there
+        # were none -- the worst 40.0 ft against a 20 ft capacity. Better rooms, worse structure,
+        # on one plan; the other plan trades the opposite way. That is a ruling and not a default.
         worst = max(ub["rooms"], key=lambda r: r["short_by_pct"])
         assert worst["short_by_pct"] >= 20, worst
 
