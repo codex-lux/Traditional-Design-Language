@@ -130,3 +130,81 @@ Hammond-Harwood is claiming to be the diagram those buildings are instances of. 
 is the other half of the same reading — the stair hall's structural job — and
 `oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it` is a third. They are separable: this
 one is about how many rooms, those are about where the walls go.
+
+
+## The three open items, ruled 3 Sep 2026
+
+The 2 September ruling chose option (1) — strip the service out and build the dependency — and left
+three things explicitly undecided "before code". All three are settled now.
+
+**1. A dependency is a SECOND MASSING ELEMENT**, not a second plan level and not a new record kind.
+Ruled jointly with **OQ 40**, whose entry carries the full costing and the two refusals; the two are
+the same question from opposite ends and ruling either alone is how they drift. In short: a level
+would be silently drawn nowhere (`geometry.py` hands any index above 1 an empty source) and would
+add its storey height to the main block's eave, making the dependency a third storey on top of the
+house; a new record kind forfeits the `via` bridge and `attaches_to` for nothing.
+
+**2. The hyphen is a ROOM, and WHICH room is chosen by style.** `breezeway` where the style's own
+`style_variation` names it an open colonnade; `gallery-corridor` where the link is enclosed.
+
+*That it must be a room at all is forced rather than preferred.* `rooms/butlers-pantry.json` carries
+a HARD `must_adjoin kitchen` with `via: ["back-hall", "gallery-corridor"]`, and `plan_check`'s `via`
+clause matches on the room TYPE of a room in `levels[].rooms[]`. A hyphen that is a connector with
+its own schema is not in that array, so the bridge breaks and a hard rule fires **fatal on every
+five-part plan**. The one existing precedent for the other answer argues against itself:
+`compose.attach_garage` models the hyphen as a property of the attachment, and its
+`hyphen_length_ft` is a **local variable used only inside two f-strings** — which is why that
+figure, a `strong` machine-tested rule in *both* hyphen groupings, has never been evaluated on any
+plan this composer has produced.
+
+*That it is chosen by style is what the records already say.* `rooms/breezeway.json` **is** the
+hyphen and nothing in the code knows: its `style_variation` for `english-palladian` gives
+`name_in_style: "hyphen"` — *"always subordinate in height and in bay rhythm — the fault
+`dependency-that-is-not-subordinate` is what happens when it is not"* — and for
+`tidewater-georgian`, `"hyphen or colonnade"`, *"frequently an open colonnaded walk to a detached
+kitchen"*. Its `faults` already list `dependency-that-is-not-subordinate` and `co-equal-mass`; its
+`slots` already include `wing_strategy`; its `massing_fit` already includes `five-part-palladian`.
+Its own description says the dogtrot, the ranch breezeway and the Palladian hyphen *"are the same
+idea at three social altitudes"* — which is the ruling, written by the corpus before the question
+was asked. `gallery-corridor` is the enclosed case and is what `five-part-palladian` uses today.
+
+**`build/compose.py` states the opposite in a comment and must be corrected in the same change**:
+*"The catalogue has no room type for a pure link, and inventing one here would be a room with no
+furniture, no daylight rule and no privacy rank."* That is false — `breezeway` has all three — and
+the objection it rests on (that every candidate room hard-requires a kitchen door) is true of
+`back-hall` and `mudroom` and false of `breezeway` and `gallery-corridor`.
+
+Two record fixes come with the ruling. `breezeway`'s `must_adjoin hall` exception is **prose**, and
+`plan_check` intersects a rule's `exceptions` with the style-id chain, so it is inert — the OQ 59
+failure mode again, a record stating the right thing where no checker can read it. And `breezeway`
+carries no `void` block, so it would be placed and heated as a solid rectangle despite its own
+`critical_dimension` saying **BOTH ENDS MUST BE OPEN**.
+
+**3. What a brief says when the site cannot take a dependency: it REFUSES, in the shape the corpus
+already has for exactly this.** `plan.schema.json`'s `$defs.unplaced` — a prose `reason` plus
+`needs` and `have` objects carrying the same figures as fields — is the settled form for "declared,
+could not be placed, and here is why", and a refused dependency is that. The arithmetic is
+`main_W + hyphen_length_ft + dependency_W` against `compose.lot_usable_width_ft`, which already
+exists; what is missing is only that nothing knows a dependency's width. `compose.py` already writes
+the sentence *"At {bays} bays this diagram is at the width it grows to; further area wants a
+dependency, not more room"* and nothing acts on it.
+
+### The constraint that decides this package's scope, found while costing it
+
+**Stripping the six service rooms DELETES THE GARAGE.** `attach_garage` anchors on a mudroom, or on
+a kitchen to build one beside, and `centre-passage-double-pile` has neither once the kitchen leaves;
+the function then refuses with *"this diagram has neither a mudroom for the car to land in nor a
+kitchen to put one beside"*. So on the shipped Georgian brief the ruling to build dependencies
+would, before any new code, remove the one dependency this corpus can currently place. **The strip
+and the dependency placement cannot ship as separate packages**, and the garage becoming a
+dependency is what makes the strip survivable.
+
+Two things measured while costing, both worth having: the stripped ground floor is `porch, passage,
+stair, drawing, dining, library` — **five enclosed spaces plus the portico, against Gunston Hall's
+six**, which is this entry's own target hit exactly. And three of the four contested corners
+`geometry_cp` reports on this parti are service rooms the strip removes, so some of the wing
+pressure resolves for free.
+
+One thing the strip breaks that no score will notice: the shipped brief's `must_have:
+"breakfast-room"` stops being satisfiable, and `SCORE_AXES` has no program axis, so it degrades in a
+log line. That is to be stated, not quietly fixed by widening `must_have`.

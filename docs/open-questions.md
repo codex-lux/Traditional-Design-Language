@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**130 questions, of which 51 are open.** A question is OPEN while
+**131 questions, of which 50 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 51
+## Open — 50
 
 Awaiting a ruling. This is the list to read first.
 
@@ -42,7 +42,6 @@ Awaiting a ruling. This is the list to read first.
 | **37** | OPEN | [`find_faults` cuts through tie groups up to 104 wide](open-questions/037-find-faults-cuts-through-tie-groups-up-wide.md) |
 | **38** | OPEN | [`resolve_kit.choose_pack` reports an unranked tie as the author's ruling](open-questions/038-resolve-kit-choose-pack-reports-unranked-tie-author-s-ruli.md) |
 | **39** | HALF CLOSED 26 AUG 2026 | [the record's vertical opening data is thin and half-dormant](open-questions/039-record-s-vertical-opening-data-thin-half-dormant.md) |
-| **40** | OPEN | [the flat footprint versus declared wings](open-questions/040-flat-footprint-versus-declared-wings.md) |
 | **64** | OPEN | [the loupe magnifies the pen with the drawing, and the Drawn Language says a pen is a pen](open-questions/064-loupe-magnifies-pen-drawing-drawn-language-says-pen.md) |
 | **66** | OPEN | [the score's eight axis weights are editorial and have never been tested against a plan anyone ranked by hand](open-questions/066-score-s-eight-axis-weights-editorial-never-been.md) |
 | **67** | OPEN | [the composer now recommends different plans, and that was a side effect rather than a decision](open-questions/067-composer-recommends-different-plans-side-effect-rather-dec.md) |
@@ -68,6 +67,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
+| **oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it** | OPEN | [six layers read the main block as the whole building](open-questions/oq-a-massing-element-is-placed-and-nothing-below-the-placer-knows-it.md) |
 | **oq/a-massing-states-its-structure-and-nothing-reads-it** | OPEN | [the stair hall is supposed to be the spine wall, and the search does not know it has a job](open-questions/oq-a-massing-states-its-structure-and-nothing-reads-it.md) |
 | **oq/a-material-neutral-assembly-decides-a-material-question** | OPEN | [the authority walk lets a slot that says nothing about a material refuse a question about it](open-questions/oq-a-material-neutral-assembly-decides-a-material-question.md) |
 | **oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times** | OPEN | [the backlog refills as it is worked, and 249 is what is visible at one instant](open-questions/oq-a-node-that-refuses-a-category-must-decline-it-twenty-six-times.md) |
@@ -79,12 +79,11 @@ Awaiting a ruling. This is the list to read first.
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
-| **oq/the-proportion-band-forbids-the-square** | OPEN | [29 room types may not be square, and the square is what the tradition was aiming at](open-questions/oq-the-proportion-band-forbids-the-square.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
-## Settled — 79
+## Settled — 81
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -119,6 +118,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **33** | CLOSED 26 AUG 2026 | [relaxations are counted but not located](open-questions/033-relaxations-counted-located.md) |
 | **34** | CLOSED 26 AUG 2026 | [composer decisions are prose lines, not records](open-questions/034-composer-decisions-prose-lines-records.md) |
 | **35** | FIXED 25 AUG 2026 | [`core.check_plan` now returns a distinct "could not validate: the jsonschema package is not installed" (with `unvalidated: true`) via an explicit `except ImportError`, and the workbench's brief validation does the same; surfaced by the WP-5.2 adversarial audit and fixed there](open-questions/035-core-check-plan-returns-distinct-validate-jsonschema-packa.md) |
+| **40** | RULED 3 Sep 2026 | [the flat footprint versus declared wings](open-questions/040-flat-footprint-versus-declared-wings.md) |
 | **41** | CLOSED 27 AUG 2026 | [the solver's door floor sits below the renderers' draw test](open-questions/041-solver-s-door-floor-sits-below-renderers-draw.md) |
 | **42** | CLOSED 24 AUG 2026 | [`types_present` is not aliased](open-questions/042-types-present-aliased.md) |
 | **43** | CLOSED 24 AUG 2026 | [The EQUIVALENT groups are asymmetric in practice and symmetric in the code](open-questions/043-equivalent-groups-asymmetric-practice-symmetric-code.md) |
@@ -167,5 +167,6 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/regenerating-the-asset-manifest-discards-what-was-added-to-it** | CLOSED 31 Aug 2026 | [and it would also quintuple it](open-questions/oq-regenerating-the-asset-manifest-discards-what-was-added-to-it.md) |
 | **oq/register-is-not-style** | RULED 1 Sep 2026 | [folk and polite are not two styles, and the corpus has nowhere to say so](open-questions/oq-register-is-not-style.md) |
 | **oq/the-parti-dissolved-its-own-dependencies** | RULED 2 Sep 2026 | [a Georgian main block asked to hold a service program the type put in outbuildings](open-questions/oq-the-parti-dissolved-its-own-dependencies.md) |
+| **oq/the-proportion-band-forbids-the-square** | RULED 3 Sep 2026 | [29 room types may not be square, and the square is what the tradition was aiming at](open-questions/oq-the-proportion-band-forbids-the-square.md) |
 | **oq/the-revision-loops-authority-over-topology** | RULED 1 Sep 2026 | [what the generator may change when the critic tells it to](open-questions/oq-the-revision-loops-authority-over-topology.md) |
 | **oq/the-stair-run-is-spelled-three-times** | CLOSED 2 Sep 2026 | [16, 17 and 21 risers for one house, and the section draws the third](open-questions/oq-the-stair-run-is-spelled-three-times.md) |

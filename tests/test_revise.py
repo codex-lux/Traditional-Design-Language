@@ -116,13 +116,40 @@ class TestWhatTheLoopTouches:
         RV.revise(plan, rounds=1, **FAST)
         assert json.dumps(plan, sort_keys=True) == before
 
-    def test_the_revised_plan_validates_against_schema_0_4_0(self):
+    def test_the_revised_plan_validates_against_the_plan_schema(self):
+        """Renamed from ..._schema_0_4_0 on 3 Sep 2026, when the schema went to 0.5.0 for the
+        second massing element (OQ 40). The version is no longer written into this test's NAME,
+        because a name is the one part of a test nobody updates; what matters is that the report
+        says the same version the schema does, and `revise.py` now READS that rather than
+        restating it -- the literal "0.4.0" in its report dict is what made this test fail."""
         import jsonschema
         r = RV.revise(load_plan("tidewater-georgian-careful"), rounds=2, **FAST)
         schema = json.load(open(os.path.join(ROOT, "schema", "plan.schema.json")))
-        assert schema["version"] == "0.4.0"
         jsonschema.validate(r["plan"], schema)
-        assert r["plan"]["revision_report"]["schema"] == "0.4.0"
+        assert r["plan"]["revision_report"]["schema"] == schema["version"], (
+            "the revision report names a different schema version from the schema itself")
+
+    def test_an_unreadable_schema_says_so_rather_than_reporting_a_version(self, monkeypatch):
+        """`"unknown"` was a third state wearing the clothes of a value. A reader of the report
+        cannot tell it from a version, and this corpus's whole first rule is that it must be able
+        to. Both failure paths are exercised, because they were one line and are now two."""
+        import builtins
+        real_open = builtins.open
+
+        def boom(path, *a, **kw):
+            if str(path).endswith("plan.schema.json"):
+                raise OSError("no such file")
+            return real_open(path, *a, **kw)
+        monkeypatch.setattr(builtins, "open", boom)
+        v = RV._plan_schema_version()
+        assert v.startswith("COULD NOT EVALUATE") and "unreadable" in v, v
+        monkeypatch.undo()
+
+        real_load = json.load
+        monkeypatch.setattr(RV.json, "load", lambda fh: {k: x for k, x in real_load(fh).items()
+                                                         if k != "version"})
+        v = RV._plan_schema_version()
+        assert v.startswith("COULD NOT EVALUATE") and "no `version`" in v, v
 
     def test_a_re_derive_move_keeps_the_placement_and_a_re_place_move_strips_it(self, monkeypatch):
         """Count the solves. A round whose only move touches the elevation's inputs must not

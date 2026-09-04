@@ -449,6 +449,76 @@ def _clamp(value, default, cap, floor=1):
         return default
 
 
+def _plan(body):
+    """`body.plan`, required and SCHEMA-VALIDATED, in one place for every route that takes one.
+
+    Three heavy routes -- /api/plan/evaluate, /api/drawings/{kind} and /api/export/{fmt} -- read
+    `body.plan` and handed it straight to `build/geometry.py`, while their siblings
+    /api/plan/critique and /api/plan/revise validate it inside `core`. Nothing in between checked
+    anything, and the record is caller-supplied. Fuzzed at the solver's entry (WP-10.1's audit,
+    3 Sep 2026): **9 of 16 probed fields raise out of `solve()`** on a value of the wrong type --
+    `room.type`, `room.id`, `room.width_ft`, `room.length_ft`, `room.exterior_walls`,
+    `room.doors`, `plan.style`, `plan.massing`, `plan.levels`. `C["rooms"].get(rtype, {})` on a
+    dict is `TypeError: unhashable type`, which is a 500 and a traceback from an UNAUTHENTICATED
+    route, for a field the schema types `string`.
+
+    A tenth was `room.block`, fixed at the geometry layer in the same audit because the block
+    machinery is new and the conservative reading (ignore it) is available there. It is not
+    available for `type` or `width_ft`: there is no conservative reading of a room whose type is
+    a list, so the honest answer is a 422 naming the field rather than a guess or a crash.
+
+    This rejects nothing the schema accepts. Both shipped plans and the bench's own DECLARED
+    record validate -- checked, because the client posts the declared record and a gate that
+    refuses the client's own traffic is worse than the crash it replaces.
+
+    Where `jsonschema` is absent the plan passes through UNVALIDATED rather than being refused,
+    which is the same call `core.check_plan` makes: the package is in `requirements.txt` and its
+    absence is a deployment fault, not a caller's.
+    """
+    plan = body.get("plan")
+    if not plan:
+        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    v = _plan_validator()
+    if v is None:
+        return plan
+    err = next(iter(sorted(v.iter_errors(plan), key=lambda e: list(e.absolute_path))), None)
+    if err is not None:
+        raise HTTPException(status_code=422, detail={
+            "error": "body.plan does not match the plan schema",
+            "at": "/" + "/".join(str(x) for x in err.absolute_path),
+            "detail": str(err.message)[:300]})
+    return plan
+
+
+_PLAN_VALIDATOR = []
+
+
+def _plan_validator():
+    """The COMPILED plan validator, built once. `None` where jsonschema is absent.
+
+    `jsonschema.validate(instance, schema)` rebuilds the validator on every call, and this gate
+    sits on `/api/plan/evaluate` -- which the infrastructure audit measured as the whole server's
+    bound, at 338 ms of CPU, one core, fully serialised. Measured on the largest shipped plan:
+    **60.5 ms per call rebuilding it, 3.7 ms with it compiled** -- 17.9% added to the bound route
+    against 1.1%. That is the `copy_json` lesson in the other direction: measure the thing you are
+    adding to the hot path before you add it, not after.
+
+    The schema dict comes from `core.schema`, which is cached and SHARED; a validator holds a
+    reference to it and neither mutates it.
+    """
+    if _PLAN_VALIDATOR:
+        return _PLAN_VALIDATOR[0]
+    try:
+        import jsonschema
+    except ImportError:
+        _PLAN_VALIDATOR.append(None)
+        return None
+    schema = corpus.core.schema("plan")
+    cls = jsonschema.validators.validator_for(schema)
+    _PLAN_VALIDATOR.append(cls(schema))
+    return _PLAN_VALIDATOR[0]
+
+
 def _candidates(body, default=250, cap=None):
     cap = core.MAX_CANDIDATES if cap is None else cap
     """Clamp the search width: it multiplies a full placement loop, so an
@@ -463,9 +533,7 @@ def _candidates(body, default=250, cap=None):
 @app.post("/api/plan/evaluate")
 def plan_evaluate(request: Request, body: dict = Body(...)):
     _heavy(request)
-    plan = body.get("plan")
-    if not plan:
-        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    plan = _plan(body)
     # WP-6.3: `auto`, not `heuristic`. This default shadowed evaluate.evaluate()'s own, so
     # flipping that one alone changed nothing a browser could see — the sheet a reader
     # judges the house by went on coming from the fallback engine. Measured on the shipped
@@ -587,9 +655,7 @@ def plan_critique(request: Request, body: dict = Body(...)):
     Not run per edit on purpose -- evaluate is this server's bound (the infrastructure
     audit) and a classification is asked for, like a proof."""
     _heavy(request)
-    plan = body.get("plan")
-    if not plan:
-        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    plan = _plan(body)
     res = core.critique_plan(plan, engine=_engine(body), candidates=_candidates(body),
                              place=bool(body.get("place", True)), parti=_parti_id(body))
     if "error" in res:
@@ -604,9 +670,7 @@ def plan_revise(request: Request, body: dict = Body(...)):
     /api/jobs/{id}/plan. The knobs are bounded here the way the compose route bounds its
     revise_* options, so a body cannot ask for an unbounded job."""
     _heavy(request)
-    plan = body.get("plan")
-    if not plan:
-        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    plan = _plan(body)
     opts = {"engine": _engine(body), "candidates": _candidates(body)}
     try:
         # floor 1: a revise of zero rounds is a critique, and the critique route exists
@@ -645,9 +709,7 @@ def job_revised_plan(job_id: str):
 @app.post("/api/drawings/{kind}")
 def drawings(kind: str, request: Request, body: dict = Body(...)):
     _heavy(request)
-    plan = body.get("plan")
-    if not plan:
-        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    plan = _plan(body)
     res = corpus.drawing(kind, plan, parti=body.get("parti"), face=body.get("face"),
                          candidates=_candidates(body))
     if "error" in res:
@@ -659,9 +721,7 @@ def drawings(kind: str, request: Request, body: dict = Body(...)):
 @app.post("/api/export/{fmt}")
 def export_cad(fmt: str, request: Request, body: dict = Body(...)):
     _heavy(request)  # an export solves the plan first — same class as /drawings
-    plan = body.get("plan")
-    if not plan:
-        raise HTTPException(status_code=422, detail={"error": "body.plan is required"})
+    plan = _plan(body)
     res = corpus.export_cad(fmt, plan, kind=body.get("kind"), parti=body.get("parti"),
                             face=body.get("face"), candidates=_candidates(body))
     if "error" in res:

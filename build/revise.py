@@ -53,6 +53,30 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def _plan_schema_version():
+    """The plan schema's own version, read rather than restated.
+
+    This was the literal "0.4.0", a second spelling of a number the schema already carries -- so
+    bumping the schema to 0.5.0 for the second massing element left the revision report claiming
+    to be written against a version that no longer existed, and two tests pinning the stale value
+    caught it. A version spelled twice drifts the moment either moves; the corpus's own habit is
+    to read the record.
+
+    A failure says WHY. `"unknown"` on its own is a third state wearing the clothes of a value:
+    a reader takes it for a version and cannot tell a missing key from an unreadable file from a
+    schema that has stopped declaring one. Three verdicts, never a silent one.
+    """
+    path = os.path.join(ROOT, "schema", "plan.schema.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            v = json.load(fh).get("version")
+    except Exception as exc:
+        return f"COULD NOT EVALUATE -- schema/plan.schema.json is unreadable: {exc}"
+    if not v:
+        return "COULD NOT EVALUATE -- schema/plan.schema.json declares no `version`"
+    return v
+
+
 def _mod(name, path):
     b = os.path.join(ROOT, "build")
     if b not in sys.path:
@@ -372,7 +396,7 @@ def revise(plan, rounds=6, engine="auto", candidates=250, budget_s=None, brief=N
                 for i in after["assessment"]["critic_suspect"]]
     refused = [m for r in log for m in r["moves"] if m.get("refused") or m.get("refused_by_measurement")]
     applied_n = sum(1 for r in log for m in r["moves"] if m.get("accepted"))
-    report = {"schema": "0.4.0", "mode": "placed" if place else "declared",
+    report = {"schema": _plan_schema_version(), "mode": "placed" if place else "declared",
               "engine": {"requested": engine, "final": after["engine"]["ran"], "candidates": ctx["candidates"]},
               "rounds": log, "stop_reason": stop,
               "key_before": list(before["key"]), "key_after": list(after["key"]),

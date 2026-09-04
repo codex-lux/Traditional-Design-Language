@@ -423,12 +423,28 @@ def pick_partis(brief, limit=12):
     return above + tied[:room]
 
 # ---------------------------------------------------------------- instantiation
+# The shape the composer aims a room at when its record states no `proportion` band at all.
+# Six room types are in that position: attic, cellar, garage, landing, terrace, workshop.
+#
+# EDITORIAL, AND NAMED HERE RATHER THAN HIDDEN IN AN `or` (3 Sep 2026). This was written inline as
+# `or [1.2, 1.4]`, which made it a floor of 1.2 that no record states and no reader could find:
+# when Lucas ruled every authored proportion FLOOR to 1.0 -- because no period source states a
+# minimum room ratio and the tradition's prestige direction runs toward the square -- a literal in
+# the composer would have kept a 36th floor alive in code after 35 were removed from the data.
+# The floor moves with them. The 1.4 ceiling is left exactly as it was: it is equally editorial,
+# but it is a CEILING, and the ceiling is the half of this band the sources do support (Morris's
+# "the Length of no Room exceed a Double Cube", Scamozzi's same 2:1 with its reason). Changing it
+# would be authoring a number, which this ruling does not license.
+#
+# `oq/the-proportion-band-forbids-the-square` carries the ruling and the measurement behind it.
+UNBANDED_PROPORTION = [1.0, 1.4]
+
 def room_default_dims(room_type):
     rt = C["rooms"].get(room_type)
     if not rt: return 10.0, 12.0
     lo, hi = rt["dimensions"]["area_sf"]
     a = (lo + hi) / 2.0
-    pr = rt["dimensions"].get("proportion") or [1.2, 1.4]
+    pr = rt["dimensions"].get("proportion") or UNBANDED_PROPORTION
     ratio = (pr[0] + pr[1]) / 2.0
     w = math.sqrt(a / ratio)
     return round(w, 1), round(w * ratio, 1)

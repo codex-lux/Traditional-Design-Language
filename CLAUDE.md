@@ -71,7 +71,17 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (27 Aug 2026)
+## Where the work stands (3 Sep 2026)
+
+**READ `docs/reports/project-review-2026-09-03.md` FIRST if you are about to plan work rather than
+do a named package.** It is the second review of the whole project against `VISION.md` and the
+UI/UX documents (the first is `project-review-2026-08-26.md`, and both are kept: the earlier one is
+the record of what the project looked like before Phases 6 through 9). Its verdict in one line:
+**the checker has arrived and the generator has not**, and the three rulings that unblock the
+generator — the dependency, the register, and the proportion floor — are recorded and unbuilt. Its
+§IV is the current list of things the system says that are not true, and it supersedes any older
+ranking of those. **This heading said 27 Aug for a week, above entries dated 2 Sep**, which is the
+same class of staleness as the "until X lands" trap below.
 
 Phases 0, 1, 2, 3 complete. Phase 4 complete through WP-4.3, WP-4.5 and WP-4.6; WP-4.4 is
 environment-blocked. **Phase 5 is part-built** — WP-5.1 (DXF/IFC export), WP-5.2 (the workbench
@@ -169,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,545 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,568 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -212,7 +222,15 @@ numbers here are the 27 Aug merge's own measurement (`pytest --collect-only` for
 total), taken because main and this branch had
 drifted to 33/1,009 and 35/1,006 respectively and NEITHER was right. `check_counts.py` polices
 counts DERIVED FROM THE CORPUS, and neither a test count nor a check count is one of them, so
-**every number in this paragraph goes stale silently** -- nor are numbers written into JSX, which
+**every number in this paragraph goes stale silently** -- and on 3 Sep the HAND CORRECTION
+ITSELF FAILED TO LAND: the merge that made the test count stale measured 1,569, edited this
+line, and committed the INDEX, which still held 1,546. `git commit` without `-a` takes what was
+staged, and the staging had happened before the measurement. `65901a2`'s message says the number
+"was measured with pytest --collect-only and corrected here" and its diff contains no such
+correction -- a false claim in a pushed commit message, the shape WP-7.5 records for WP-7.4,
+committed by the very commit congratulating itself on catching the sixth staleness. **Re-read
+the file after correcting a number in it**; the only thing that has ever caught one of these is
+looking at what actually landed -- nor are numbers written into JSX, which
 is how the Kit's header claimed 95 slots against an ontology holding 97.
 **Every open question Lucas has ruled on is executed** as of 25 Aug 2026 — OQ 12, OQ 13, OQ 14, OQ 15,
 OQ 19, OQ 26, OQ 27, OQ 29, OQ 31, OQ 32, OQ 33, OQ 34, OQ 35, OQ 36, OQ 37, OQ 38, OQ 39, and 40 through 46 besides. **OQ 18** is HALF CLOSED: all 162 silent editorial
@@ -470,6 +488,72 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   tools read them, and a revised plan's `revision_summary` is admitted by the plan schema so
   the DXF round trip reads back. `tests/test_moves.py::TestTheSessionAuditOfTheGuard` and
   `tests/test_revise.py::TestTheSessionAuditOfTheLoop` are the guards.
+- **A CALLER-SUPPLIED PLAN REACHED THE SOLVER UNVALIDATED, AND NINE OF ITS FIELDS CRASHED IT
+  (WP-10.1).** `/api/plan/evaluate`, `/api/drawings/{kind}` and `/api/export/{fmt}` read
+  `body.plan` and handed it straight to `build/geometry.py`, while their siblings
+  `/api/plan/critique` and `/api/plan/revise` validate inside `core`. Fuzzed at `solve()`'s entry:
+  **9 of 16 probed fields raise** on a value of the wrong type -- `room.type`, `room.id`,
+  `room.width_ft`, `room.length_ft`, `room.exterior_walls`, `room.doors`, `plan.style`,
+  `plan.massing`, `plan.levels`. `C["rooms"].get(rtype, {})` on a dict is `TypeError: unhashable
+  type`, so it is a 500 and a traceback from an UNAUTHENTICATED route for a field the schema types
+  `string`. `app._plan(body)` is the one reader now and answers 422 naming the path. **The half
+  that matters more than the refusals is that it refuses nothing**: all 16 plan records in the tree
+  and the composer's own DECLARED output validate, checked before the gate went in, because the
+  bench client posts the declared record and a gate that rejects its own traffic is worse than the
+  crash it replaces. A tenth field, `room.block`, is answered at the GEOMETRY layer instead --
+  ignoring a malformed tag is a conservative reading that is available there and is not available
+  for `type`: there is no conservative reading of a room whose type is a list. **And the gate had to be COMPILED, which
+  is the `copy_json` lesson in the other direction**: `jsonschema.validate(instance, schema)`
+  rebuilds the validator on every call, measured at **60.5 ms on the largest shipped plan --
+  17.9% added to `/api/plan/evaluate`, which the infrastructure audit measured as the whole
+  server's bound**. Compiled once (`app._plan_validator()`), it is **3.9 ms, 1.2%**. Measure what
+  you add to the hot path BEFORE you add it.
+- **A MASSING ELEMENT IS PLACED AND SIX LAYERS BELOW THE PLACER READ THE MAIN BLOCK AS THE WHOLE
+  BUILDING (WP-10.1).** OQ 40 is ruled and `geometry.blocks_for` places a dependency beside the
+  house; `openings`, `structure`, `vertical_score`, the lot cap, `plan_check`'s drawn layer and
+  `export_ifc` all still read `footprint.width_ft`/`depth_ft`, and each was MEASURED wrong on a
+  dependency room in its own direction -- a garage window drawn 14 ft from the garage, a clear span
+  manufactured across the hyphen gap, an upper wall "supported" by a wall under no upper floor, a
+  house reporting `lot_capped: true` at 34 ft wider than its lot, a critic convicting a dependency
+  room of reaching no exterior wall, and IfcSpaces floating clear of their slab.
+  **`geometry_report.multi_element` DISCLOSES all six** and names any room above the ground level
+  whose `block` tag the placer does not read. `engine="cp"` REFUSES a multi-element plan outright
+  (one rectangle, `x = NewIntVar(0, Wi)`) and `auto` falls back saying why -- so on a plan with a
+  dependency the engine that PROVES is unavailable and the engine that SEARCHES carries the
+  findings. **The composer writes no `block` on any room**: C2/C3 were reverted when the audit found
+  five more defects below them, so the only route in is a caller-supplied record, which is exactly
+  the reader who cannot know. `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`
+  carries the four things that must be ruled before this is built. Report:
+  `docs/reports/wp-10.1-the-audit-of-the-dependency.md`.
+- **A VALUE DERIVED FROM A THRESHOLD AND THEN TESTED AGAINST IT IS UN-FAILABLE, AND THERE ARE THREE
+  IN ONE FILE (WP-10.1).** `roof.py::wing_step_down` picked its ratio INSIDE the band it then tested
+  against; `gambrel_break_check` tested `GAMBREL_BREAK_FRACTION_DEFAULT = 0.625` against the fault's
+  own `[0.55, 0.65]` -- `_style_gambrel_geometry` initialises `break_frac = None` and **has no branch
+  that ever assigns it**, so `break_ok` was `True` on all 164 styles, forever. Both report `None`
+  with a reason now. The chimney `style_check` is the third and is still un-failable for the one
+  style that can run it. **The second was dismissed on a docstring and died on a run**: the hedge
+  cited to wave it away is about `diff_ok`, a real comparison of two stated pitches. **And fixing it
+  convicted a house on a plate** -- `roof.py`'s CLI and `render_roof.py` both did
+  `'OK' if x else 'FAIL'`, so an unjudged verdict printed as FAIL on the one surface a reader looks
+  at, one line from where the first fix had been made; `render_roof` had also ANDed the gambrel's
+  two halves into one word, so an unjudged break convicted a passing pitch. **One word cannot carry
+  three states for two rules.** **Sweeping for the DISPLAY half of the pattern found a THIRD
+  FILE**: `proportion_engine.py`'s `show --invariants` printed FAIL for a `holds: None` -- a pack
+  convicted of breaking its own invariant on the strength of a crash -- while the SELFTEST twenty
+  lines below had always read `is not True` correctly. The tri-state is handled where the number is
+  COMPUTED and collapsed where it is DISPLAYED, so sweep the plates and the CLIs, not the checkers.
+- **A MUTATION THAT CHANGES NOTHING IS NOT EVIDENCE THAT NOTHING IS WRONG -- IT IS EVIDENCE THE
+  FIXTURE IS BLIND (WP-10.1).** Four guards in this session could not fail, and two were written BY
+  the audit inside the class that exists to catch that. `b["x"] == 0` **cannot fail against a
+  float** (`0.0 == 0` is True) while its own comment claimed to pin the integer origin -- assert the
+  TYPE, excluding `bool`. A single-pile sizing guard ran a 542 sf fixture where
+  `round(542/22/10)` and `round(542/36/10)` are BOTH 2, so the rule under test made no difference to
+  the answer; choose areas that straddle the rounding boundary. A hyphen-gap guard pinned a constant
+  to itself rather than to the grouping file the band lives in. **And one asserted a consequence
+  that does not exist**: `slice_rect` confines a room to its element, so no score can pull a
+  dependency room back into the house -- `bounds=` changes the SCORE (28 points on the winning
+  placement) and therefore which candidate wins, and the honest guard measures that and then reads
+  the call site, which is the weaker form and says so.
 - **A MOVE'S `touches` IS ENFORCED AT APPLY TIME NOW, AND THE REPORT THAT SAID IT WAS TESTED WAS
   WRONG (WP-9.4).** `apply()` diffs the record before and after, holds every written path
   against the move's declaration in the registry's spelling (`levels[].rooms[].windows[].wall`),
@@ -781,8 +865,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   stair-hall's arithmetic while its own docstring says it has "been read by nothing" (two
   spellings of one rule, unheld); and `room-harmonic.json`'s suite rule is not unreadable, it is
   permanently UNJUDGED by `check_addresses.py` for want of a `quantity`.
-- **THE CORPUS FORBIDS THE SQUARE AND THE TRADITION PREFERS IT (WP-9.2).** 35 of 60 room records
-  carry a `proportion` LOWER bound above 1.0 and **29 of those are NON-CIRCULATION** (35 minus the
+- **THE CORPUS FORBADE THE SQUARE AND THE TRADITION PREFERRED IT — RULED AND EXECUTED 3 Sep 2026.**
+  **Every floor is 1.0 now; 0 of 60 room records carry a `proportion` lower bound above 1.0.**
+  `build/compose.py`'s `UNBANDED_PROPORTION` carries the same floor for the six types that state
+  no band, named and commented rather than inline, because a literal `[1.2, 1.4]` in the composer
+  would have been a 36th floor surviving the removal of 35. The CEILING is untouched and is the
+  well-sourced half. **The measurement that decided it against the study's own preference: of 220
+  declared rooms carrying a band across the 16 plans, 38 sat BELOW their floor and 14 of those were
+  in `good-*` reference plans — a floor charge in any spelling convicts all seven good plans.**
+  What follows is the reading as it stood before the ruling, kept because the argument is why:
+  35 of 60 room records
+  carried a `proportion` LOWER bound above 1.0 and **29 of those are NON-CIRCULATION** (35 minus the
   6 circulation rooms; the parallel study's "13 of 23 habitable" is a narrower denominator and both
   are right -- an earlier version of this line said "habitable" for the 29, which is wrong): `drawing-room`
   [1.25, 2.0], `hall` [1.3, 2.2], `parlor` [1.1, 1.45], `dining-room` [1.15, 1.8]. Mount Vernon's
@@ -801,7 +894,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   the message, both checks charge `ar > phi` alone, `geometry.shape_band()` returns the ceiling
   only, `WIDTH_W` ships at 0.0. **WP-9.4 nearly built the charge**, saw it convict both good
   reference plans and deleted it as unsupported -- the truer reason is that it is BACKWARDS, and 29
-  records still tell the next package to build it again. The ceiling is the well-sourced half and
+  records still told the next package to build it again **until the 3 Sep ruling removed the floors
+  that were saying so. That sentence is why the ruling was worth taking rather than leaving the
+  floors inert: an inert wrong number is an instruction to the next reader.** The ceiling is the well-sourced half and
   it has no floor: Morris's "the Length of no Room exceed a Double Cube" and Scamozzi 1615's same
   2:1 with its reason -- beyond two squares one gets "halls, galleries or passageways rather than
   rooms to live in" -- which makes a room over 2:1 out of CATEGORY rather than out of band, and
@@ -1485,8 +1580,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **130 entries, of which 51 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 40, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-proportion-band-forbids-the-square, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **131 entries, of which 50 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

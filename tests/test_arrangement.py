@@ -93,7 +93,18 @@ def test_a_room_drawn_as_a_sliver_is_named_even_when_its_area_is_right(pc):
 
 
 def test_a_room_drawn_at_its_declared_shape_is_not_named(pc):
-    """The other half. 16 x 18 is inside the dining room's own 1.15-1.8 band."""
+    """The other half: a room drawn at the shape it declares draws no proportion finding.
+
+    THE SENTENCE HERE USED TO BE FALSE AND THE ASSERTION WAS ALWAYS RIGHT (corrected 3 Sep 2026).
+    It read "16 x 18 is inside the dining room's own 1.15-1.8 band". 18/16 is 1.125, which was
+    BELOW that band's floor -- so the docstring described a case the record convicted, while the
+    test passed for a different reason: every proportion check in this corpus charges `ar > phi`,
+    the ceiling alone, and none has ever read the floor. The docstring, not the code, was the
+    thing that would have misled the next reader into thinking the floor was live.
+
+    Lucas ruled every floor to 1.0 on 3 Sep, so 1.125 is now inside the band on the record too and
+    the docstring and the assertion finally mean the same thing.
+    `oq/the-proportion-band-forbids-the-square`."""
     assert not _drawn(pc, _house(), "to 1, against the")
 
 
