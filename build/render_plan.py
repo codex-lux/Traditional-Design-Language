@@ -18,6 +18,7 @@ def _mod(n, p):
     return _mc.load(n, p)
 C = _mod("plan_check", f"{ROOT}/build/plan_check.py").load_corpus()
 DISC = _mod("disclosures", f"{ROOT}/build/disclosures.py")
+HEARTH = _mod("hearths", f"{ROOT}/build/hearths.py")
 
 _PARTIS = None
 def _partis():
@@ -447,6 +448,38 @@ def render(plan, path, scale=7.0):
                          f'style="font-size:{tsize:.2f}px;fill:{PAL["brass"]}" '
                          f'text-anchor="middle">{_esc(tail)}</text>')
             s.append('</g>')
+        # THE FIRE (WP-11.4). Drawn before the openings so a window tick reads over the breast
+        # rather than under it, and drawn as POCHE -- a chimney breast is masonry, and drawing it
+        # as a thin outline would make it read as a cupboard. A hearth the record states on an
+        # `interior` wall is NOT DRAWN and is counted in the banner instead: the record names the
+        # wall it is opposite and this renderer does not know which of four sides that is, and
+        # putting it on a plausible one is the invention the whole layer exists to stop.
+        for r in lv["rooms"]:
+            for h in (r.get("hearth") or []):
+                b = HEARTH.breast(r, h)
+                if not b or b.get("undrawable"):
+                    continue
+                bx, by = X(b["x_ft"]), Y(b["y_ft"] + b["depth_ft"])
+                bw, bh = b["width_ft"] * scale, b["depth_ft"] * scale
+                s.append(f'<rect x="{bx:.1f}" y="{by:.1f}" width="{bw:.1f}" height="{bh:.1f}" '
+                         f'fill="{PAL["rule"]}" stroke="{PAL["ink"]}" stroke-width="1.2">'
+                         f'<title>{_esc(r.get("name") or r["id"])}: fireplace, '
+                         f'{h.get("width_in", "?")} in opening, breast '
+                         f'{b["projection_in"]} in — Morris 1734, judgment</title></rect>')
+                # the opening itself, as a gap in the face of the breast
+                if b["wall"] in ("E", "W"):
+                    oy0 = Y(b["y_ft"] + b["depth_ft"] - (b["depth_ft"] - (h.get("width_in") or 36)/12.0)/2.0)
+                    oh = ((h.get("width_in") or 36) / 12.0) * scale
+                    ox = X(b["x_ft"] + (b["width_ft"] if b["wall"] == "W" else 0))
+                    s.append(f'<line x1="{ox:.1f}" y1="{oy0:.1f}" x2="{ox:.1f}" '
+                             f'y2="{oy0 + oh:.1f}" stroke="{PAL["copper"]}" stroke-width="2"/>')
+                else:
+                    ox0 = X(b["x_ft"] + (b["width_ft"] - (h.get("width_in") or 36)/12.0)/2.0)
+                    ow = ((h.get("width_in") or 36) / 12.0) * scale
+                    oy = Y(b["y_ft"] + (b["depth_ft"] if b["wall"] == "S" else 0))
+                    s.append(f'<line x1="{ox0:.1f}" y1="{oy:.1f}" x2="{ox0 + ow:.1f}" '
+                             f'y2="{oy:.1f}" stroke="{PAL["copper"]}" stroke-width="2"/>')
+
         # openings -- windows into the run the doors leave, then the doors themselves
         op = level_openings[i]
         for win in op["windows"]:

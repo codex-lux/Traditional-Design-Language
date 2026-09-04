@@ -22,7 +22,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4**, **8.6**, **8.7**, **8.8**, **8.9**, **8.10**, **8.11** *(no 8.5 — see the note in CLAUDE.md; it shipped as `6f9e7c7` before the numbering existed)* | **8.1-8.4, 8.6 complete (28 Aug 2026); 8.7-8.11 complete (2-3 Sep)** — **WP-8.8** made the baked-snapshot class knowable (135 judged, 0 stale, 8 unjudgeable for want of a recorded binding) and found the evaluator the question asked for had existed in two places all along. **WP-8.9** measured OQ 51's flip before building it and found the ruling had been taken on `unendorsed` — a count of ROLE GAPS — where the thing a gate stops is DELIVERIES: 2,899 slots, not ~223, a factor of thirteen. Put back with the numbers, Lucas ruled *stage it pack by pack* and *a separate field*; the `--stranding` meter and the `delivery: opt-in` / `inherits_packs` mechanism shipped inert. **WP-8.10** landed the first flip and built the loudness the ruling required: `trim-classical` is opt-in, six vouched nodes admit it, 10 slots over 10 nodes are stranded, and every stranded slot in the corpus (2,889 of 2,889) now NAMES the pack withheld and why. It found the meter's gate and the mechanism's gate were different predicates (10 against 15, one of the five a shipped reference plan), that `measure()` could not see a flip at all, and that the flip was sold on a corpus-level writer count that described no node — the same wrong-grain error as WP-8.9's, one package later. — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` |
 | **9 — Arrangement** | **WP-9.1, 9.5, 9.6, 9.7** complete · **9.2 text half done, image half waiting on Lucas's download** · **9.3 part built** · **9.4 COMPLETE AND ITS OWN PREMISE REFUSED** (`docs/reports/wp-9.4-the-unit-was-not-the-problem.md` — cite the FILENAME, two WP-9.4s exist) | **In progress (1 Sep 2026; this row was corrected on 3 Sep, having said "9.2, 9.3, 9.4, 9.5 not started" while four of those five had moved and two more packages had shipped with no section of their own — see `docs/reports/project-review-2026-09-03.md` §VII. The 9.4 cell in that same correction still said NOT STARTED and was itself wrong — the package had run on 1 Sep and refused `parti_slice` with its measurement, a probe taking fatals 3 to 8. Corrected again hours later; see that review's §IX, which is about this exact line)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
 | **10 — The second massing element** | **WP-10.1** | **Complete, and two of its three packages withdrawn by its own audit (3 Sep 2026)** — OQ 40 ruled a dependency a second massing element and the machinery ships and is DORMANT: the block placer, `exterior_score(bounds=)`, plan schema 0.5.0, both reference plans byte-identical. The service strip and the hyphen-as-a-room were WITHDRAWN when the audit found eight blocking defects, five of which reduce to **six layers below the placer reading the main block as the whole building** — a garage window drawn 14 ft from the garage, a span manufactured across the hyphen gap, a house reporting `lot_capped: true` at 34 ft wider than its lot. CP-SAT refuses a multi-element plan rather than flattening it (which had also flattered a number this session published); `geometry_report.multi_element` discloses the six. Report: `docs/reports/wp-10.1-the-audit-of-the-dependency.md` · new question: `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` |
-| **11 — The house the sheet should have drawn** | **WP-11.1, 11.2, 11.3 COMPLETE · 11.4 through 11.11 planned** | **In progress (4 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. Three packages are unblocked (11.1 the sheet's disclosures, 11.2 the diagram reaching the record, 11.5 stacking as a rule); the container (11.6) waits on four rulings, the axis (11.3) on one, the hearth (11.4) on a schema ruling; the phase's own section carries a recommendation on each |
+| **11 — The house the sheet should have drawn** | **WP-11.1, 11.2, 11.3, 11.4 COMPLETE · 11.5 through 11.11 planned** | **In progress (4 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. Three packages are unblocked (11.1 the sheet's disclosures, 11.2 the diagram reaching the record, 11.5 stacking as a rule); the container (11.6) waits on four rulings, and the axis (11.3) and the hearth (11.4) waited on one apiece; all five were ruled on 4 Sep and 11.1 through 11.4 have shipped. The phase's own section carries the ruling on each |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -1674,7 +1674,85 @@ only is UNJUDGED, not convicted and not acquitted.
 
 ### WP-11.4 The hearth in the plan
 
-**Status: NOT STARTED. Blocked on a schema ruling.** Part VII item 3; findings D1, D2, D3, G5.
+**Status: COMPLETE, 4 September 2026.** Ruled the same day. Report:
+`docs/reports/wp-11.4-the-fire.md`. Part VII item 3; findings D1, D2, D3, G5.
+
+**Delivered.** `hearth` as an ARRAY on a plan room (schema **0.7.0**: `wall`, `position_ft`,
+`width_in`, `flue`, `note`), `build/hearths.py` reading it against the massing's `hearth` value and
+the room record's own `servicing.heat`, `plan_check` publishing a census and two findings from the DECLARED record, `render_plan.py` drawing the breast as poché with the opening in copper, and `roof.py`
+standing its stacks over stated flues — which closes D3 the way OQ 85 closed the window on the
+chimney axis. Three hearths authored on the Tidewater plan; its two stacks moved 6.2 and 8.6 ft off
+the gable centre line onto real fires.
+
+**The rule the package turns on: a hearth is AUTHORED and never inferred.**
+`rooms/bedchamber.json` says an unheated chamber is historically normal and *"should be said out
+loud rather than quietly given a register"*, so a checker demanding a fire wherever a type usually
+has one would invent exactly what that sentence forbids. `wants_a_hearth` returns FOUR verdicts —
+`stated` 12, `optional` 1, `none` 5, `unstated` 42 of 60 records — and `none` is the one a
+two-state reader loses: *"Historically none"* carries no fireplace word, so the centre passage
+would have been filed as unstated and hunted for a fire the corpus refuses it.
+
+**Measured (six numbers, eight seeds, both plans, SEARCH engine).** Everything identical except
+the spec plan's minor count, `89–98 → 90–99`: one true new finding, its dining room having no fire
+under a massing that draws paired end stacks. **And the six numbers did not see the stacks move** —
+two chimneys travelled 6.2 and 8.6 ft on the elevation with every column unchanged. The six are a
+plan-layer instrument and a roof change is invisible to them.
+**ON CP-SAT THERE ARE READINGS AND NO COMPARISON, DELIBERATELY** — tidewater `0/62/85` and
+spec-builder `4/87/96` at a 120 s budget, but a before-and-after needs the same instrument twice
+and CP-SAT under a budget is not deterministic under load, so a baseline sharing four cores with
+the after run would have been unattributable. The sound argument is a guard instead: nothing
+`hearth_report` reads is a placement, and a test holds the census and findings identical on an
+unplaced record. What that does NOT cover is the roof's stack reconciliation, which reads each
+hearth's room rectangle and has been measured on neither plan under CP.
+
+**Found.** (1) **Fourteen of the sixteen plan records state no `massing` at all**, so every
+massing-gated check is silent on 87.5% of them and two others (`plan_check.py`'s grouping
+`attaches_to` branch and its style `massing_affinities` branch) do not say so —
+`oq/fourteen-of-sixteen-plans-name-no-massing`. Corpus census: 3 stated, 1 absent, 15 declined,
+**219 unjudged of 238 rooms**. (2) The refusal gave the WRONG REASON to those fourteen — one
+message about compounds handed to plans that named no massing; three cases now carry three
+messages, pinned distinct. (3) **This package's own authored data carried a false claim about a
+check that does not exist**: the dining hearth's note said its disagreement with
+`rooms/dining-room.json` was reported, and the only comparison made is against the massing's stack
+walls, which W satisfies. Corrected, scope pinned by test; the obvious prose reader was measured at
+**2 of 5 precise** and refused —
+`oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it`. (4) **A figure was lifted out of prose about
+something else and published as MEASURED**: `rooms/closet.json` returned a 30.0 in fireplace
+opening at `judgment: false` from a sentence about an air barrier, in a record whose first four
+words are *"None required and none wanted."* Gated on `wants_a_hearth`'s verdict rather than a
+tighter regex, and found by re-DERIVING a claim in the report rather than re-reading it. (5) **The
+reconciliation swallowed its own failures**: a bare `except Exception` around `stack_axes`
+collapsed *"could not read the hearths"* into *"this record states no hearth"*, which is WP-9.1's
+`except: pass` in a new place — a fourth note state now. (6) **`hearth_report`'s branch order is
+load-bearing**: `none` is tested before the unreadable-massing branch, so the corpus's own refusal
+of a fire is not downgraded to "nobody could tell". (7) **The check was put in the one
+layer that cannot run it**: `drawn_layer` early-returns without a placement and nothing
+`hearth_report` reads is a placement, so the spec plan's fireless dining room produced no finding,
+no census and no reason until somebody placed it. Moved beside the other declared layers;
+`hearth_summary` is published on an unplaced record and the finding kinds lost their `drawn-`
+prefix. (8) **MORRIS'S OWN RULE WAS BEING
+INTERPOLATED RATHER THAN EXECUTED, AND THE LEVEL'S STATED CEILING WAS BEING IGNORED.** The width
+came off two rows of Morris's table with a CLAMPED linear interpolation, so every room under a
+12 ft cube got 36.0 in flat and every room over a 22 ft cube 49.0 flat -- 6.6 in too wide on a
+small room, 7.9 too narrow on a large one, and only 0.3 out in the middle where a lazy fixture
+would have looked. Lecture VI Rule II is recoverable from the 1734 first edition
+(`sqrt(L + B + H) / 2` in feet) and reproduces both discarded anchors; it is executed now. And it
+wants a ceiling the plan STATES (`floor_to_ceiling_ft`, 11 and 10) while the code reached for an
+editorial constant on every room -- the three authored openings moved 46.3/43.7/41.8 -> 42.8/41.1/
+39.8 and a test holds each against the rule. Still `judgment: true`: no facsimile has been read,
+and a rule read correctly out of an English treatise is still an English rule. (9)
+**Three of twelve guards were blind and the mutation harness itself had a typo** — the breast test held the breast
+inside the room rather than on its named wall, nothing drove the off-the-stack-wall finding
+(WP-8.11's "a driven fixture must not be the shipped corpus"), and nothing validated a plan against
+the schema at all. Twelve of twelve caught on the re-run.
+
+**Deliberately not done.** No move writes a hearth. **The placer reserves nothing for the breast** —
+a 12 ft dining room with a 22 in breast has 10.2 ft of clear width and `furniture_shortfalls` has
+not been told; reserving it in `geometry.py` alone would give the two engines two different rooms,
+so it goes with WP-11.6. An `interior` hearth is counted and not drawn. Exterior versus interior
+stacks are not modelled, because the massing vocabulary does not state the difference.
+
+**Original package text, left as written:**
 
 **Build.** A `hearth` on a plan room (`{wall, width_ft, flue}`; width editorial from Morris's table
 with `judgment: true` until an American source is read), the massing's `hearth` value read as a
@@ -1804,6 +1882,11 @@ so, exactly as `storey-graduation`'s 7.5 in riser divisor does.
    the opening width comes from Morris's Lecture 6 table as an editorial derivation carrying
    `judgment: true` until an American source is read, per the study's §6 item 6 — a London figure
    may not be imported into a Chesapeake record as though it were measured.
+   *(Delivered as Morris's own RULE rather than his table: Lecture VI Rule II,
+   `sqrt(L + B + H) / 2` in feet, which is what he calculated the table from. The ruling's
+   substance is unchanged — the figure is editorial and carries `judgment: true` — and the wording
+   is left as it was given. WP-11.4's report has the reason the table was worse: interpolating it
+   clamped at both ends.)*
 3. **The four questions of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`
    (WP-11.6). RULED, all four, and the entry carries them in full.** An element has its own
    envelope and its own roof with a stated ridge relation; the lot cap is on the BUILT EXTENT

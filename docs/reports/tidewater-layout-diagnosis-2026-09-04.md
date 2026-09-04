@@ -560,8 +560,11 @@ the drawing room from the front to get there.
 **D1. There is no fireplace anywhere in the plan.** Not in a room record field, not as a thing
 the placer reserves, not as a line on the plate. `grep -i "hearth|fireplace|chimney"` over
 `plan_check.py`, `geometry.py`, `geometry_cp.py`, `compose.py`, `openings.py` and
-`render_plan.py` finds one comment and one measurement note; `build/arrangement.py` declares the
-chimney-breast measurement NOT_DERIVABLE *"because the plan has no chimney footprint."* The massing
+`render_plan.py` finds one comment and one measurement note; `build/arrangement.py` declares four chimney and
+firebox measurements NOT_DERIVABLE, one of them *"because the plan has no chimney footprint"*
+(that exact phrase is `central_chimney_base_dimension_ft`'s; the chimney-breast entry's own reason
+is *"no record carries a chimney plan dimension"*, corrected here after WP-11.4 re-derived the
+quotation and found it attached to the sibling key). The massing
 this plan declares says `hearth: "gable-end-paired"` and *"Paired end chimneys serve four
 fireplaces per floor."* Every principal room in the type has a fireplace and every chamber over it
 has one stacked on the same flue. A Tidewater Georgian plan with no hearth is a plan of a house

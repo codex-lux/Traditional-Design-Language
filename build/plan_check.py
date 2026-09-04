@@ -1270,6 +1270,17 @@ def drawn_layer(plan, rooms, level_of, C, F):
                      f'the plan is not really Georgian."',
                      kind="drawn-windows-unaligned")
     out["axis"] = ax_census
+
+    # THE FIRE IS **NOT** JUDGED HERE, AND THE FIRST DRAFT PUT IT HERE (WP-11.4). It reads a
+    # room's authored `hearth`, the massing's `hearth` and the room type's `servicing.heat`, and
+    # NOT ONE of those is a placement. Sitting in this layer it fell behind the early return at
+    # the top of the function, so on an unplaced record it produced no finding, no census and no
+    # reason -- a check that could not fire reading exactly like a check that passed, in the
+    # package written to stop that. It runs in `check()` with the other declared-record layers;
+    # `hearths.breast` and `hearths.stack_axes` DO read placement and are the renderer's and the
+    # roof's, not this layer's. If a placed hearth check is ever wanted -- a breast overlapping a
+    # door, a fixture, or the room's own furniture run -- it belongs here and this one stays
+    # where it is.
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out
@@ -2123,11 +2134,49 @@ def check(plan, C=None, strict=False):
     # stair, a room drawn at 63% of its declared area, and a bathroom no door reaches all
     # produced no finding at all. Each of those is now a finding, and a record with no
     # placement gets a single `info` saying the layer could not evaluate — never a pass.
+
+    # --- THE FIRE (WP-11.4), a DECLARED-record layer
+    #
+    # `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` D1: there was no fireplace anywhere
+    # in the plan layer, while `massings/catalog.json` said `hearth: gable-end-paired` and "Paired
+    # end chimneys serve four fireplaces per floor" and `roof.py` drew the stacks. This reads what
+    # the massing states and what the ROOM TYPE's own `servicing.heat` states, and reports where
+    # they and the record disagree. It never infers a hearth: `rooms/bedchamber.json` says an
+    # unheated chamber is historically normal and "should be said out loud rather than quietly
+    # given a register", so a checker that demanded a fire wherever a type usually has one would
+    # be inventing exactly what that sentence forbids.
+    HE = _load("hearths", f"{ROOT}/build/hearths.py")
+    hr = HE.hearth_report(plan, C)
+    hearth_summary = {"massing": hr["massing_hearth"], "readable": hr["readable"],
+                      "walls": hr["walls"], "census": hr["census"], "why": hr["why"]}
+    for row in hr["rooms"]:
+        if row["state"] == "absent":
+            F.add("minor", "hearth",
+                 f'{row["name"]} has no hearth in the record and rooms/{row["type"]}.json says '
+                 f'this room has one: "{(row.get("quote") or "")[:120]}". The massing states '
+                 f'{hr["massing_hearth"]!r}, so there is a stack for it to vent into.',
+                 room=row["room"], kind="room-without-a-hearth",
+                 fix="State the hearth on the room, or say in the record that this one is "
+                     "unheated — the corpus asks for the choice to be made out loud.")
+        elif row.get("off_the_stack_wall"):
+            F.add("minor", "hearth",
+                 f'{row["name"]} states a hearth on '
+                 f'{"/".join(row["off_the_stack_wall"])} and this massing puts its stacks on '
+                 f'{"/".join(hr["walls"] or [])}. Both may be right — rooms/dining-room.json '
+                 f'puts the dining fire on "the interior wall opposite the sideboard" whatever '
+                 f'the massing pairs — and the disagreement is reported rather than resolved.',
+                 room=row["room"], kind="hearth-off-the-stack-wall")
+
     drawn = drawn_layer(plan, rooms, level_of, C, F)
 
     counts = {}
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms), "drawn_summary": drawn,
+            # The hearth census is NOT under drawn_summary and that is deliberate: it reads the
+            # authored record, the massing and the room type, never a placement, so it is
+            # published beside the other declared-record summaries and is present on an unplaced
+            # record. See the note where drawn_layer's fire block used to be.
+            "hearth_summary": hearth_summary,
             "elevation_summary": elevation_summary,
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
             # The could-not-judge detail, not just its count. fault_summary already counts

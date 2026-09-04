@@ -72,17 +72,30 @@ def _mod(name, path):
 # name in this dict is filtered out of the returned measurements, so the fault it belongs
 # to reports COULD NOT EVALUATE -- which is the honest answer and is not a pass.
 NOT_DERIVABLE = {
-    # OQ 52's exact class. roof.py places stacks in ELEVATION space and no record in this
-    # corpus carries a chimney PLAN dimension; `elevation.NOT_MODELLED` already refuses the
-    # four elevation spellings of this on the ground that the only figure available
-    # (brick-course's 22 in) is flagged `judgment: true`. Re-deriving it here from the same
-    # unavailable fact, under a plan-shaped name, would be that defect wearing a new hat.
+    # OQ 52's exact class. roof.py places stacks in ELEVATION space and the only figure
+    # available for a breast (brick-course's 22 in) is flagged `judgment: true`;
+    # `elevation.NOT_MODELLED` already refuses the four elevation spellings on that ground.
+    # Re-deriving it here under a plan-shaped name would be that defect wearing a new hat.
+    #
+    # THE REASONS BELOW WERE REWRITTEN BY WP-11.4 AND THE OLD ONES ARE WHY. They said "no
+    # record carries a chimney PLAN dimension" and "the plan has no chimney footprint", and
+    # both stopped being true the moment `hearth` landed on a plan room (schema 0.7.0):
+    # `build/hearths.py::breast` returns a rectangle in model feet and `render_plan.py` draws
+    # it. **The entries STAY, and the distinction is the point.** The projection exists and is
+    # Morris 1734's depth column interpolated, carrying `judgment: true` — and this corpus's
+    # rule is that a judgment figure may be DRAWN but never published as a MEASUREMENT (the
+    # chimney's 22 in is the standing precedent). So the refusal is unchanged and its GROUND
+    # has moved from "there is no such thing in the plan" to "there is, and it is a judgment".
+    # Leaving the old wording would have been WP-6.4's finding exactly: a comment asserting a
+    # state of the world that the package one directory over had just falsified.
     "chimney_breast_projection_or_wall_thickness_in":
-        "no record carries a chimney plan dimension; the one figure that exists is flagged judgment",
+        "the plan carries a chimney breast since WP-11.4, but its projection is Morris 1734 "
+        "interpolated and flagged judgment; a judgment figure may be drawn and not measured",
     "central_chimney_base_dimension_ft":
-        "as chimney_breast_projection_or_wall_thickness_in -- the plan has no chimney footprint",
+        "as chimney_breast_projection_or_wall_thickness_in -- a hearth states its wall and "
+        "opening, and nothing in the corpus states a central stack's base in plan",
     "firebox_depth_in":
-        "no firebox is modelled in plan",
+        "a hearth states its opening width, never its depth; no firebox is modelled in plan",
     "wall_thickness_in":
         "the plan record states no wall thickness; construction_type says what a wall is OF, not how thick",
     # No HVAC model exists anywhere in this corpus -- no slot, no kit parameter, no line in

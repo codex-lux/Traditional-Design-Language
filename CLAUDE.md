@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,641 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,687 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -468,6 +468,124 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE PLAN LAYER HAS A FIRE NOW, AND FOURTEEN OF THE SIXTEEN PLAN RECORDS CANNOT BE JUDGED BY
+  IT (WP-11.4).** `hearth` is an ARRAY on a plan room (schema **0.7.0**), `build/hearths.py` reads
+  it, `render_plan.py` draws the breast as poché, and `roof.py` stands its stacks over stated flues
+  instead of at the centre of each gable end -- the Tidewater stacks moved 6.2 and 8.6 ft onto real
+  fires. **A HEARTH IS AUTHORED AND NEVER INFERRED**, because `rooms/bedchamber.json` says an
+  unheated chamber is historically normal and *"should be said out loud rather than quietly given a
+  register"*: a checker demanding a fire wherever a type usually has one invents what that sentence
+  forbids. `wants_a_hearth` returns **FOUR** verdicts -- `stated` 12, `optional` 1, `none` 5,
+  `unstated` 42 of 60 records -- and `none` is the one a two-state reader loses, because
+  *"Historically none"* carries no fireplace word, so the centre passage would be filed `unstated`
+  and hunted for a fire the corpus positively refuses it. **The 42 are not a gap**: the records
+  speak two vocabularies, period rooms stating a fire and modern rooms stating ductwork, so a
+  Georgian plan built from modern room types has no room-level statement about its fires at all.
+  **The massing is read conservatively -- six forms, everything else refused BY NAME** (a compound
+  like *"gable-end-paired or central-stack"* is a statement about a type that admits both, and
+  resolving it is authoring), which is `massing_bays`' discipline and the same reason.
+  **AND FOURTEEN OF SIXTEEN PLAN RECORDS STATE NO `massing` AT ALL** -- every record in
+  `plans/reference/`, the seven `good-*` included -- so every massing-gated check is silent on
+  87.5% of them, and two more do not say so (`plan_check.py`'s grouping `attaches_to` branch and
+  its style `massing_affinities` branch). Corpus census: 3 stated, 1 absent, 15 declined, **219 unjudged of 238 rooms**.
+  `oq/fourteen-of-sixteen-plans-name-no-massing`. **Do not close it by deriving the massing from
+  the parti**: that would make all three checks live on a fact the author declined to state.
+- **A TABLE IS NOT THE RULE, AND INTERPOLATING ONE CLAMPS AT BOTH ENDS (WP-11.4).** The
+  fireplace opening came off two rows of Morris 1734's chimney table with a LINEAR interpolation
+  clamped by `max(0, min(1, t))`, so every room under a 12 ft cube got 36.0 in flat and every room
+  over a 22 ft cube 49.0 flat: **6.6 in too wide on a small room, 7.9 too narrow on a large one,
+  and 0.3 out in the middle** where a fixture probing one point would have called the change
+  cosmetic. Morris introduces the table as *"a Table of all the foregoing Proportions calculated in
+  the [preceding] Manner"* -- the rule is the source and the table is its arithmetic. **Lecture VI
+  Rule II is recoverable from the 1734 first edition** (`sqrt(L + B + H) / 2` in feet, the room's
+  three dimensions) and reproduces both discarded anchors to a quarter inch, which is a CONSISTENCY
+  CHECK and not an independent corroboration -- where those anchors came from is unrecorded, so a
+  common origin cannot be excluded. **And Rule II wants a ceiling the plan STATES**
+  (`floor_to_ceiling_ft`, 11 and 10 on the Tidewater plan; `build/storeys.py` has read that field
+  for two packages) while the code reached for an editorial constant on every room, one function
+  from the comment refusing exactly that. The three authored openings moved 46.3/43.7/41.8 ->
+  42.8/41.1/39.8 and a test holds each against the rule, which is what makes an authored figure
+  checkable at all. **Still `judgment: true`, and recovering the rule does not weaken that**: no
+  facsimile page has been read here, and a rule read correctly out of an English treatise is still
+  an English rule. **RULE I IS CORRUPT IN THE ONLY REACHABLE TEXT** (*"add the Length 1 Bo Height of
+  the Room together"*), so the DEPTH keeps its two anchors and the constant records that the rule
+  behind them is UNRECOVERED rather than absent -- a third state, not a gap.
+- **THE HEARTH CHECK WENT INTO THE ONE LAYER THAT CANNOT RUN IT (WP-11.4).** It was written into
+  `plan_check.drawn_layer`, which early-returns on a record with no placement -- and NOTHING
+  `hearth_report` reads is a placement: the room's authored `hearth`, the massing's `hearth`, the
+  room type's `servicing.heat`. So `spec-builder-colonial`'s dining room, which has no fire under a
+  massing that draws paired end stacks, produced **no finding, no census and no reason** until
+  somebody placed it -- a check that could not fire reading exactly like a check that passed, in
+  the package written to stop that. It runs beside the other declared-record layers now and
+  `hearth_summary` is published on an unplaced record; the finding kinds lost their `drawn-` prefix
+  (`room-without-a-hearth`, `hearth-off-the-stack-wall`). **`breast` and `stack_axes` DO read
+  placement** and belong to the renderer and the roof; a placed hearth check -- a breast
+  overlapping a door or a furniture run -- would belong in `drawn_layer` and is not built. **Ask
+  what a check READS before choosing its layer**, not what it is about.
+- **THE ROOF'S HEARTH RECONCILIATION SWALLOWED ITS OWN FAILURES, AND `hearth_report`'S BRANCH
+  ORDER IS LOAD-BEARING (WP-11.4).** `roof.py` wrapped `stack_axes` in a bare
+  `except Exception: axes = None`, which reverts to the centre-line rule SILENTLY and then says
+  *"this record states no hearth"* about a record carrying three -- the sheet drawing stacks over
+  nothing while the plate asserts there is nothing to stand over. That is WP-9.1's `except: pass`
+  exactly. **Four note states now**: positioned over N stated flues / states N and none could be
+  positioned / COULD NOT BE READ, with the exception text / states none, *"not a house with no
+  fires"*. And in `hearth_report`, **`none` is tested BEFORE the unreadable-massing branch**, so a
+  room the corpus positively refuses a fire (`rooms/centre-passage.json`: *"Historically none. The
+  passage is the unheated buffer between two heated rooms"*) stays `declined` whatever the massing
+  says; reversed, the corpus's own refusal is downgraded to "nobody could tell", which is the
+  fake-unjudged direction and is as dishonest as a fake pass. WP-8.11's `kit.forbidden` ordering
+  lesson in a new place, with its own guard, because the test that happened to catch the mutation
+  was about the readable case.
+- **A NOTE ON A DATA RECORD CAN CLAIM A CHECK THAT DOES NOT EXIST, AND THIS ONE WAS WRITTEN BY THE
+  PACKAGE REMOVING THE SAME SHAPE ONE LAYER DOWN (WP-11.4).** The Tidewater dining hearth was
+  authored on the W gable with a note saying its disagreement with `rooms/dining-room.json`'s
+  *"interior wall opposite the sideboard"* *"is reported by build/hearths.py rather than resolved
+  silently."* **It is not.** The only comparison made is against the MASSING's stack walls, and W
+  is exactly where `gable-end-paired` puts them, so it passes in silence. Corrected, and
+  `tests/test_hearths.py` pins the actual scope so an absent finding cannot be read as a comparison
+  that came back clean. **The obvious fix was measured and refused**: a prose reader over
+  `servicing.heat` for a named wall returns five hits of which **two** are the thing sought --
+  `dining-room` and `bedchamber` real, `drawing-room`'s *"compositional centre"*, `library`'s
+  *"clear of the chimney breast"* and `breezeway`'s *"each pen has its own gable-end hearth"* three
+  different jobs sharing one syntax. That is
+  `oq/a-room-records-prose-states-a-floor-its-own-band-does-not` exactly.
+  `oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it`.
+- **A FIGURE LIFTED OUT OF PROSE ABOUT SOMETHING ELSE WAS PUBLISHED AS MEASURED, BY THE PACKAGE
+  WRITTEN TO STOP A VERSION OF THAT (WP-11.4).** `opening_width_in` searched a room record's
+  `servicing.heat` for `NN in` and took the first hit. `rooms/closet.json` opens *"None required
+  and none wanted"* and four clauses later describes a closet ceiling *"drywalled from a stepladder
+  through a 30 in opening"* -- an air barrier, about a DOORWAY -- so a room that wants no heat at
+  all published **30.0 in at `judgment: false`**, a measured fireplace opening. **The gate is
+  `wants_a_hearth`'s verdict, NOT a tighter regex**: a pattern cannot tell a doorway from a
+  chimneypiece and the verdict already can, and tightening the pattern until the number looks right
+  is the move `check_grouping_rules.py`'s prose meter exists to refuse. After the gate,
+  `bedchamber`'s *"30-36 in opening"* is the ONE own-figure in all 60 records, which is what
+  `build/hearths.py`'s docstring had been claiming while there were two. **It was found by
+  re-DERIVING a claim in the package's own report rather than re-reading it** -- WP-9.5's
+  technique, and still the only thing that has ever caught one of these here.
+- **A REFUSAL WITH ONE MESSAGE FOR THREE CAUSES TELLS MOST OF ITS READERS THE WRONG THING
+  (WP-11.4).** `flue_walls` refused with *"a compound is a statement about a type that admits both
+  arrangements"* and handed that to every plan stating no massing at all -- a true sentence about a
+  different situation, on 14 of 16 records. The three cases call for three different actions
+  (author a `massing`; author the `hearth` field in the catalogue; rule on the compound), so there
+  are three messages, held distinct by a test. **A refusal's value is its reason; one reason for
+  three causes is a refusal that has stopped being one.**
+- **THE PHASE'S SIX NUMBERS DID NOT SEE TWO CHIMNEYS MOVE EIGHT FEET (WP-11.4).** `key`,
+  `diverged`, `windows_unplaced`, `downgraded`, `transfers` and `score` were byte-identical on both
+  plans across eight seeds while `roof.py` moved the Tidewater stacks 6.2 and 8.6 ft off the gable
+  centre line onto stated flues. They are a PLAN-LAYER instrument and a roof or elevation change is
+  invisible to them. The one movement they did report was real -- the spec plan's minor count
+  `89-98 -> 90-99`, its dining room having no fire under a massing that draws paired end stacks.
+- **A DRIVEN FIXTURE MUST NOT ACCIDENTALLY BE THE SHIPPED CORPUS, AND THAT IS NOW THE SECOND
+  PACKAGE IT HAS BITTEN (WP-11.4, after WP-8.11).** Twelve mutations, three blind on the first
+  pass: the breast guard asserted only that the breast lies INSIDE the room's x-extent, which is
+  true of either wall, so swapping east for west stayed green; `drawn-hearth-off-the-stack-wall`
+  had no fixture driving it, because all three shipped hearths sit on E/W, which is exactly where
+  `gable-end-paired` puts its stacks; and nothing validated a plan against `plan.schema.json` at
+  all, so the `wall` enum could have become a bare string. **And the harness itself had a typo**
+  (`_h` for `h`), so one mutation reported NO MATCH -- this repo's own lesson, *a mutation that
+  silently does not apply looks exactly like a guard that works*, met while applying it. Assert the
+  match count before believing the colour.
 - **THE SHEET NOW SAYS WHAT THE PLACEMENT GAVE UP, AND THE FIVE COUNTS WERE ALL ALREADY IN THE
   RECORD (WP-11.1).** The plate read *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED
   FACTS"* over a placement carrying `downgraded_wall_pins` of length SIXTEEN and `objective: null`.
@@ -1653,8 +1771,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **134 entries, of which 50 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **136 entries, of which 52 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

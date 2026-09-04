@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
   "required": [
@@ -359,6 +359,22 @@
                       "unplaced": {
                         "$ref": "#/$defs/unplaced"
                       }
+                    }
+                  }
+                },
+                "hearth": {
+                  "type": "array",
+                  "description": "THE FIRES IN THIS ROOM, AUTHORED AND NEVER INFERRED (WP-11.4, plan schema 0.7.0). Until this the plan layer had no fireplace at all -- not a field, not a placer reservation, not a line on the plate -- while massings/catalog.json said `hearth: gable-end-paired` and `Paired end chimneys serve four fireplaces per floor`, and roof.py and elevation.py drew the stacks over rooms that contained no fire. Two records of one house, which is OQ 85's shape one layer down. It is a LIST because a keeping room can have two, and it is AUTHORED because the corpus says a room's fire is a decision: rooms/bedchamber.json states `A corner or gable-end fireplace with a 30-36 in opening, or none at all: unheated chambers are historically normal and should be said out loud rather than quietly given a register`. A generator that gave every room of a type a fireplace would be inventing exactly what that sentence forbids.",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": ["wall"],
+                    "properties": {
+                      "wall": {"enum": ["N", "S", "E", "W", "interior"], "description": "Which wall the breast stands in. `interior` is a real answer and rooms/dining-room.json is why: `Historically a fireplace on the interior wall opposite the sideboard`, which is not a gable end however the massing pairs its stacks."},
+                      "position_ft": {"type": "number", "description": "Along that wall from its west or south end. Absent means the centre of the wall, which is what a room composed about its fire does."},
+                      "width_in": {"type": "number", "description": "The opening. The room record's own figure where it states one (bedchamber's 30-36 in); otherwise build/hearths.py executes Morris 1734 Lecture VI Rule II -- `sqrt(length + breadth + height) / 2` in feet, on the level's own stated `floor_to_ceiling_ft` -- and marks the result `judgment: true`, because a London figure in an English treatise may not be published as a measurement of an American room and no facsimile has been read here."},
+                      "flue": {"type": "string", "description": "Which stack this fire vents into, so two fires on one flue are one stack in the roof. Free-form id, matched only against other hearths in the same plan."},
+                      "note": {"type": "string"}
                     }
                   }
                 },
