@@ -276,5 +276,8 @@
       "decided": "2026-09-02",
       "note": "governs 2 slots (casing, crown); on decline both pass to vignola-tuscan (roman-classical); 0 slots lose all dimensioning. It reaches here at cascade depth 8 from italian-renaissance with no direct lineage edge. As with the palladio-ionic decline recorded on this node, the fallback is itself a classical order pack, so the decline stops this delivery without settling whether an order should be dimensioning this style's casing and crown at all."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

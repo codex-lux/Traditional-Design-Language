@@ -78,13 +78,13 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # flips now, 136 arrivals withheld, and `judged` has been 249 throughout. The pattern is stable
 # enough to state as a rule: a flip moves every ceiling here and never the floor, because it
 # removes deliveries rather than judging them.
-RATCHET = {"role_gaps": 255, "inherited_packs": 3022, "unendorsed": 214}
+RATCHET = {"role_gaps": 222, "inherited_packs": 2762, "unendorsed": 180}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
 # may itself be unjudged: a pass that judges ten and re-opens three is progress, and a ceiling
 # alone cannot see that. `judged` is endorsed + declined and only ever goes UP.
-RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
+RATCHET_FLOOR = {"judged": 250}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 
 # A FOURTH, SEPARATE MEASUREMENT: pack rules landing on a slot the resolved kit binds
 # `forbidden`. Not the OQ 51 backlog and deliberately not mixed into it. See --forbidden.
@@ -101,7 +101,7 @@ RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 # 723 -> 721 on 3 Sep 2026 (WP-8.12). Only two pairs this time, against fifteen and thirty-eight
 # for the first two flips -- `sash-light` strands the most slots of the three and touches the
 # fewest forbidden ones, so this meter and the stranding meter are not proxies for each other.
-FORBIDDEN_RATCHET = 721
+FORBIDDEN_RATCHET = 712
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
@@ -141,8 +141,8 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # `dimensioned_after` is 4931 for the FOURTH -- the end state has never once moved, whichever
 # pack flips and in whatever order, which is the plainest possible demonstration that these
 # describe a path being walked rather than a corpus getting better.
-STRANDING = {"stranded": 2787, "rehoused": 1980, "nodes_touched": 124,
-             "dimensioned_before": 7718, "dimensioned_after": 4931}
+STRANDING = {"stranded": 2585, "rehoused": 1895, "nodes_touched": 124,
+             "dimensioned_before": 7516, "dimensioned_after": 4931}
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all
@@ -228,11 +228,29 @@ def measure(g):
         # to OQ 51's own backlog -- `inherited_packs` went on counting arrivals that stopped
         # happening, and the meter built to measure the problem could not see the fix.
         #
-        # IT MUST NOT MOVE `judged`, and that is the point of putting it here rather than beside
-        # `declines`. A decline is a person reading the cascade and refusing; a withhold is a
-        # ruled flip removing a delivery NOBODY read. The ruling accepts that stranding
-        # explicitly, so counting it as adjudication would let the flip pay down the backlog it
-        # was ruled to strand -- a floor satisfied by not looking.
+        # THIS LINE MUST NOT MOVE `judged` -- and WP-8.13 MOVED IT ANYWAY, BY A ROUTE THIS
+        # COMMENT DID NOT SEE. The reasoning below is still right about what it says: a
+        # withhold is not counted as a decline, and that is the point of putting it here
+        # rather than beside `declines`. A decline is a person reading the cascade and
+        # refusing; a withhold is a ruled flip removing a delivery NOBODY read, and counting
+        # it as adjudication would let the flip pay down the backlog it was ruled to strand --
+        # a floor satisfied by not looking.
+        #
+        # WHAT IT MISSED IS THE OTHER HALF OF `judged`, WHICH IS `endorsed` AND NOT `declined`.
+        # Withholding a pack VACATES the role it was filling, and the role re-attributes to the
+        # next ancestor -- the same mechanism that makes `unendorsed` non-monotone. If that next
+        # pack both ARRIVES (the node opted into it) and VOUCHES (its `applies_to` names the
+        # node), the re-attributed gap lands in `endorsed`, and `judged` = endorsed + declined
+        # rises with nobody having read anything. Measured at the five-pack flip: exactly one,
+        # `american-farmhouse-vernacular` / `opening`, vacated by `opening-proportion` and
+        # landing on `sash-light`, which that node opted into in WP-8.12 and whose `applies_to`
+        # names it. 249 -> 250.
+        #
+        # THE FLOOR IS NOT VIOLATED (it only forbids going DOWN) and the classification is not
+        # wrong -- an author really did vouch for that pack on that node. What is dead is the
+        # READING three packages rested on: `judged` was cited as the one number that tells a
+        # flip from an adjudication, and it no longer is. Read the `--strict` `withheld` line
+        # for that instead. `tests/test_opt_in_packs.py` pins this instance by name.
         opted_in = set(n.get("inherits_packs") or [])
         index = g.get("_packs") or {}
         withheld = {pid for pid, v in index.items()

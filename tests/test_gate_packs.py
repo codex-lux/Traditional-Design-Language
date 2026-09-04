@@ -97,7 +97,16 @@ def test_the_elevation_gate_is_an_AND_and_this_is_why_it_matters():
     # changing what an endorsement MEANS, not just where it lands, and the guard caught it on the
     # first run after the batch. Anything joining this set has to be swept
     # (`build/sweep_gates.py opening-proportion --json`, diffed) before it is endorsed.
-    ARMS_IF_ENDORSED = {"facade-classical": {"folk-victorian", "greek-revival-upland-vernacular"},
+    # AND IT WENT BACK TO EMPTY ON 4 Sep 2026, BY A DIFFERENT MECHANISM AGAIN (WP-8.13). Both
+    # packs declared `delivery: opt-in` in the five-pack flip, so neither reaches
+    # `folk-victorian` or `greek-revival-upland-vernacular` any more and neither node carries a
+    # pending gap attributed to `facade-classical`. **The two are not endorsed and nothing was
+    # decided** -- the question of whether that endorsement should arm the generator is still
+    # open, it has simply stopped being reachable through this pack. Empty here now means
+    # "no pending node is in the other pack's list", which is what it meant when the test was
+    # written; it does NOT mean the 2 Sep finding was retracted. The set is still pinned rather
+    # than asserted empty, because the refill can put a node back into it at any flip.
+    ARMS_IF_ENDORSED = {"facade-classical": set(),
                         "opening-proportion": set()}
     assert (op_pending & fc) == ARMS_IF_ENDORSED["opening-proportion"], (
         "the set of opening-proportion gaps that would arm the generator changed -- sweep and "
@@ -112,13 +121,37 @@ def test_the_sweeper_can_tell_an_armed_gate_from_an_unarmed_one():
     `build_section()["graduation"]` — the key is `storey_graduation` — so it reported "off, 0
     findings" for all 128 styles including the 43 the pack already endorses, and would have shown
     NO CHANGE after any endorsement. An instrument that cannot move is worse than a test that
-    cannot fail, because its output is a number rather than a green tick."""
+    cannot fail, because its output is a number rather than a green tick.
+
+    THE TWO DIRECTIONS NEED TWO PACKS NOW, AND THE FLIP IS WHY (WP-8.13). Until
+    `storey-graduation` declared `delivery: opt-in`, the sweep ran over all 128 styles the pack
+    REACHED — 43 in its `applies_to` and 85 not — so one pack showed both verdicts and
+    `not all(...)` was a real vacuity guard. The gate stops the pack at every node that has not
+    opted in, so the swept population is now exactly the 43, and all 43 are armed **because the
+    two populations have become the same set**. That is the gate working, and it is the
+    "counterfactual becomes the status quo" shape this repository keeps meeting: the assertion's
+    discriminating power came from a difference the flip removed.
+
+    So the ARMED direction is proved on the gate pack and the UNARMED direction on a pack that is
+    not a gate pack at all — `timber-panel`, which the flip programme does not cover, sweeps 23
+    styles and arms none. Two packs, one control each, and the per-style equality below is
+    unchanged and is still the real property."""
     sw = _mod("_sw2", "build/sweep_gates.py")
     res = sw.sweep("storey-graduation")
     verdicts = {s: any(v.get("applicable") for v in per.values())
                 for s, per in res["styles"].items()}
     assert any(verdicts.values()), "the sweeper reports every style unarmed — it is reading the wrong key"
-    assert not all(verdicts.values()), "the sweeper reports every style armed — it is not reading the gate"
     listed = set(_pack("storey-graduation").get("applies_to") or [])
     for style, armed in verdicts.items():
         assert armed == (style in listed), (style, armed)
+    assert set(verdicts) == listed, (
+        "the swept population is no longer the pack's own `applies_to`; if the gate has been "
+        "lifted this test needs its `not all(...)` guard back")
+
+    unarmed = sw.sweep("timber-panel")
+    uv = {s: any(v.get("applicable") for v in per.values())
+          for s, per in unarmed["styles"].items()}
+    assert uv, "the sweeper returned no styles for a pack that is on `cascade`"
+    assert not any(uv.values()), (
+        "the sweeper reports a style armed for a pack that arms no gate — it is not reading the "
+        "gate at all")

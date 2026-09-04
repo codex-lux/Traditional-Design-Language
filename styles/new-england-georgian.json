@@ -274,7 +274,10 @@
     }
   ],
   "inherits_packs": [
+    "facade-classical",
+    "opening-proportion",
     "sash-light",
+    "storey-graduation",
     "trim-classical"
   ]
 }

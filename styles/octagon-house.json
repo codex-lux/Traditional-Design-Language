@@ -252,5 +252,8 @@
       "note": "Confirmed in the pack's own applies_to. The earlier and plainer octagons carry Greek Revival millwork directly ('the actual carpentry, trim profiles, and door and window stock of the earlier octagons are straight Greek Revival millwork,' per the node's own lineage record), which this pack covers; the later Italianate-bracketed examples are dressed by whatever trim the borrowed style itself supplies.",
       "precedence": 4
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

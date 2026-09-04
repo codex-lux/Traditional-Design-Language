@@ -268,9 +268,9 @@ ceilings, and why `unendorsed` is a work list rather than a score.
 
 **READ TO THE END, THAT PROPERTY MEANS THE BACKLOG REFILLS AS IT IS WORKED (WP-8.7, 2 Sep 2026).**
 WP-8.7 worked the backlog with one reader per node and an adversarial check on every proposed
-change. The corpus now carries **208 declines** and **41 endorsed** gaps, against 10 and 38 when the
-package started; `inherited_packs` is **3,022** and `judged` **249**, and `unendorsed` has moved
-from 249 to **214**. That is well over a hundred judgments for a headline movement of seventeen,
+change. The corpus now carries **208 declines** and **42 endorsed** gaps, against 10 and 38 when the
+package started; `inherited_packs` is **2,762** and `judged` **250**, and `unendorsed` has moved
+from 249 to **180**. That is well over a hundred judgments for a headline movement of seventeen,
 because each decline promotes the next pack in the chain into the same role.
 
 (Every digit in that paragraph is a `check_counts.py` claim, and the wording deliberately states no
@@ -285,6 +285,65 @@ orders, a Gothic pointed-arch pack, a Mudejar corbel course and an Iberian arcad
 single-pen log cabin. So the published figure is what is VISIBLE at one instant and not what the
 work requires. `oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times` asks whether a
 node may refuse a category once instead.
+
+## A pack may require an opt-in (OQ 51's delivery half, WP-8.9 through 8.13)
+
+Declining a pack (above) is the REFUSAL half of OQ 51. This is the delivery half, and it is the
+one that changed the default: **a pack may declare `delivery: opt-in`, and then it arrives only at
+a node whose own record names it in `inherits_packs`.**
+
+```json
+// proportions/systems/opening-proportion.json
+"delivery": "opt-in"
+
+// styles/tidewater-georgian.json
+"inherits_packs": ["facade-classical", "gibbs-ionic", "opening-proportion", "sash-light"]
+```
+
+`delivery` is indexed into `dist/taxonomy.json` as `_packs` so the resolver does no I/O, and
+`resolve_packs` reads it in one conditional. **A stale index DISABLES the gate rather than failing**
+— an absent `_packs` and a corpus with nothing flipped resolve identically — so the index is
+required to name every pack on disk, and a test holds it there.
+
+`inherits_packs` sits beside `declined_packs` and has the same lie-check shape:
+`check_pack_bindings.check_opt_ins` refuses an opt-in on a pack the node BINDS, one it DECLINES,
+and — the condition that matters most — **one the cascade would never have delivered to that node
+anyway**. An opt-in that admits nothing while reading as a considered delivery is the failure it
+exists to catch; WP-8.13 wrote 40 and 14 were refused on exactly that ground.
+
+**A vouch is not a delivery, and the two gates are different predicates.** `check_inheritance.py
+--stranding` models the gate as "somebody vouched" — the pack's own `applies_to` names the node —
+while `resolve_packs` gates on `inherits_packs`. The gap between them has been 10 against 15, 32
+against 33, 70 against 84 and 202 against a larger figure again, so **measure it per pack and write
+the opt-ins first**; that is what holds a flip's landed cost to its measured one.
+
+### The flip strands, and it strands LOUDLY
+
+A node that stops receiving a pack it was silently receiving loses dimensions on real slots, and the
+failure mode is a slot reading UNDIMENSIONED rather than REFUSED — OQ 51's own silent corruption
+arriving from the other direction. So `choose_pack` returns `how: "opt-in.withheld"` naming the pack
+and the remedy wherever every row at an address came from a withheld pack, and `resolve_kit`'s
+summary carries a fourth bucket beside ruled / unresolved / refused.
+
+**That branch is tested AFTER `kit.forbidden`, and the order is measured, not chosen**: testing it
+first relabelled a slot the kit binds `forbidden` and offered its author a remedy that would not
+have dimensioned it.
+
+### The programme is finished
+
+Eight packs are `delivery: opt-in`: `trim-classical`, `facade-gable`, `sash-light` (one per package,
+in ascending stranded count), then `opening-proportion`, `facade-classical`, `storey-graduation`,
+`timber-bay` and `gibbs-ionic` together. The other 49 are on `cascade` because nothing plans to move
+them — which is what a driven test counterfactual needs, and why fixtures here name a pack the
+programme does not cover rather than one "scheduled last".
+
+**Three things a reader should not have to rediscover.** A flip REFILLS the backlog exactly as a
+decline does, because anything that stops a delivery hands the role to the next ancestor. The
+combined cost of several flips is NOT the sum of their separate costs — packs rehouse each other, so
+withholding two can strand a slot neither would strand alone. And a flip can move `judged`, which
+was thought impossible: a vacated role re-attributing onto a pack the node opted into and whose
+`applies_to` names it lands in `endorsed`. Read `--strict`'s `withheld` line to tell a flip from a
+reading; `judged` no longer does that on its own.
 
 ## `determined_by` means three things (OQ 19, 24 Aug 2026)
 

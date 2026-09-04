@@ -279,5 +279,8 @@
       "note": "Bound narrowly and at low precedence. It reaches only the formally planned principal rooms implied by the Beaux-Arts axial plan noted above - the great hall, the stair, the salon - and it says nothing about the Gothic register that dominates the exterior (crockets, finials, tracery) or the room-harmonic pack does not already cover. This is the honest ceiling of what a classical trim family can claim on a building whose ornamental vocabulary is genuinely bifurcated; no pack in this corpus encodes the late-Gothic half.",
       "precedence": 5
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

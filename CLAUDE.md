@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,568 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,569 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -637,8 +637,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,022 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **214 unjudged** gaps, not the 233 published --
+  is **OQ 51** and is the one with 2,762 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **180 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -1022,6 +1022,24 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `oq/a-grouping-rule-and-a-room-record-can-disagree`'s class and its ruled checker's job.
   **7.5 in is NOT sourced and the ruling does not claim it is**: it is the figure the corpus
   already worked its own example at, which is consistency, not evidence.
+- **AN UNVERIFIED RULING READS EXACTLY LIKE A RULING, AND NOTHING HERE CHECKS ONE (WP-8.13,
+  4 Sep 2026).** PR #26's body was published carrying *"(Ruled 4 Sep: flip all five remaining packs
+  in ONE package)"* when no such ruling had been made: the refill's concentration on the gated packs
+  was a FINDING and the next step was a question standing to be asked. Lucas ruled exactly that
+  hours later, which does not make the sentence true when it was written -- it asserted an
+  authorisation that did not exist. Corrected in the PR's own Amendment 2 rather than silently
+  overwritten, on PR #21's precedent.
+  **THE CLASS IS THE POINT AND IT IS UNGUARDED.** `check_counts.py` polices numbers derived from
+  the corpus, `check_citations.py` polices ids, `check_openings.py` verifies a quoted sentence
+  against the record it names, and `check_moves.py` holds every move's `basis` to a sentence really
+  in the record -- **the corpus checks its sources harder than it checks its authorisations.**
+  Every "RULED BY LUCAS", "ruled 25 Aug", "re-ruled 3 Sep" line in this file is unguarded prose,
+  and a wrong one is worse than a wrong measurement: a measurement can be re-derived from the
+  corpus, and a ruling exists only in a conversation the corpus cannot read. *Sources or
+  `kind: editorial`* is the rule for facts; there is no equivalent for permissions.
+  **The remedy is not a checker** -- nothing in the tree can verify a conversation -- it is to
+  write the question and the answer as two separate acts, and to date the second from when it
+  arrived rather than from when it was expected. First known instance, and it was Claude's.
 - **A MUTATION THAT SILENTLY DOES NOT APPLY LOOKS EXACTLY LIKE A GUARD THAT WORKS (WP-9.6).**
   Mutation-checking the baked-value guard, the replacement matched an EARLIER occurrence of the
   same snippet in a 6,000-line kit file and never touched the parameter under test; the suite
@@ -1857,13 +1875,49 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     ">= 150 rows" and three flips have withdrawn 34, so it is now the pack headings' own counts
     held against the parsed rows — two independent regexes that must agree, mutation-checked both
     ways.
+    **THE PROGRAMME IS FINISHED (WP-8.13, 4 Sep): all five live-gate packs flipped TOGETHER --
+    `opening-proportion`, `facade-classical`, `storey-graduation`, `timber-bay`, `gibbs-ionic` --
+    26 opt-ins, 202 slots over 62 nodes.** Lucas re-ruled the staging when the refill's
+    concentration on the gated packs was put to him: staging them singly would have spread over
+    five packages the one decision that mattered. All eight packs the programme named are flipped
+    and the other 49 are on `cascade` because nothing plans to move them.
+    **THE COMBINED FLIP STRANDS MORE THAN THE SUM OF ITS PARTS, and the DIRECTION is the
+    surprise**: per-pack 146+25+9+1+0 = **181**, combined **202**. The naive expectation is LOWER
+    (a node losing one slot to two packs is counted by each), and it is higher because the five
+    REHOUSE EACH OTHER -- a slot stranded by `opening-proportion` alone is picked up by
+    `facade-classical`, so neither single-pack sweep counts it. Each per-pack figure measures a
+    world in which the other four still deliver. **The sum is a bound in neither direction.** Third
+    instance of the wrong-grain shape (`unendorsed` for deliveries, a corpus writer count for a
+    node fact) and the FIRST caught before publication.
+    **THE FLIP DISSOLVED WP-8.12'S OWN FINDING.** Refill 4 / 13 / 10 / **36** across the four
+    flips -- still not proportional, now the largest -- but **0 of 36 land on a live-gate pack**
+    against 10 of 10 last time, because all five are flipped and deliver nothing. The
+    concentration was a property of the staging order and finishing the programme ended it.
+    **`judged` MOVED, 249 -> 250, AND `measure()`'s OWN COMMENT SAID IT COULD NOT.** The route is
+    `endorsed`, not `declined` -- the half the comment did not consider. Withholding a pack VACATES
+    its role, the role re-attributes to the next ancestor, and where that pack both ARRIVES (the
+    node opted in) and VOUCHES (`applies_to` names it) the gap lands in `endorsed`. One instance,
+    pinned BY NAME because a count cannot tell it from an adjudication:
+    `american-farmhouse-vernacular`/`opening`, vacated by `opening-proportion` and landing on
+    `sash-light`. The floor is not violated and the classification is not wrong; **what died is the
+    reading three packages rested on, that `judged` tells a flip from an adjudication.** Read
+    `--strict`'s `withheld` line for that instead.
+    **AN OPT-IN NEEDS TWO CONDITIONS AND WP-8.13 FIRST WROTE ONE.** The list came from each pack's
+    `applies_to` minus binders and decliners -- 40 entries -- and `check_opt_ins` refused **14**,
+    because `applies_to` says the pack is FOR a style and says nothing about whether the cascade
+    DELIVERS it there. All 14 were no-ops, PROVED: removing them left every stranding figure
+    byte-identical. 26 written; 41 entries over 24 nodes corpus-wide.
+    **And the fixture rule expires**: "name a pack scheduled LAST" had nowhere to point once the
+    schedule emptied, so it is "not scheduled at all" now -- `timber-panel` (131 slots) against
+    `brick-course` (1 stranded, 66 surviving).
     Reports: `docs/reports/wp-8.10-the-flip-that-was-sold-on-the-wrong-count.md`,
-    `docs/reports/wp-8.11-the-second-flip-and-the-fixture-that-would-have-gone-quiet.md` and
-    `docs/reports/wp-8.12-the-refill-that-was-not-proportional.md`.
+    `docs/reports/wp-8.11-the-second-flip-and-the-fixture-that-would-have-gone-quiet.md`,
+    `docs/reports/wp-8.12-the-refill-that-was-not-proportional.md` and
+    `docs/reports/wp-8.13-the-programme-that-dissolved-its-own-finding.md`.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **255 role_gaps**,
-    **3,022 inherited_packs**, **214 unendorsed** -- and one FLOOR that may only go up,
-    **judged 249** (endorsed + declined). **THE BACKLOG HAS BEEN READ END TO END THREE TIMES AND IT REFILLED EVERY TIME
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **222 role_gaps**,
+    **2,762 inherited_packs**, **180 unendorsed** -- and one FLOOR that may only go up,
+    **judged 250** (endorsed + declined). **THE BACKLOG HAS BEEN READ END TO END THREE TIMES AND IT REFILLED EVERY TIME
     (WP-8.7, 2-3 Sep 2026)**: 367 adjudications one node at a time, **211 judged into the corpus**
     (208 declines, 3 endorsements) and **181 put to a ruling** in
     `oq/the-adjudication-cases-the-records-do-not-decide`, which carries a SECOND heading for the

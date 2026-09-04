@@ -8066,6 +8066,9 @@
           "note": "Delivered by roman-classical at cascade depth 11; there is no direct lineage edge between them. Governs 3 slots -- cornice, door_surround, frieze -- and all three pass to benjamin-ionic (federal-style); 0 slots lose all dimensioning. This gap is the successor the node's OWN palladio-tuscan decline created, whose note already records that cornice, door_surround and frieze would pass to vignola-tuscan. The fallback is again a classical order and is not thereby right: a decline stops a wrong pack and does not supply a right one, which is OQ 58's stated limit one layer down. TWO THINGS THE ADVERSARIAL CHECK ADDED. The strongest support is not cited in the reason above and is worth knowing: the resolved kit binds `entablature` FORBIDDEN on this node in the corpus's own words. And the resolved `frieze` record runs the OTHER WAY -- inherited from `palladian`, it states that a classical frieze band runs as part of the same continuous entablature as the cornice, module-derived from the bound order, with `no-frieze-band` FORBIDDEN. That is an OQ 87-class stale inheritance sitting on one of the very slots being declined, and it is named here rather than left for the next reader to find."
         }
       ],
+      "inherits_packs": [
+        "storey-graduation"
+      ],
       "_cascade": [
         "gothic-revival-american",
         "romantic-revivals",
@@ -8371,6 +8374,9 @@
         }
       ],
       "inherits_packs": [
+        "facade-classical",
+        "gibbs-ionic",
+        "opening-proportion",
         "sash-light",
         "trim-classical"
       ],
@@ -9016,6 +9022,9 @@
           "note": "Bound narrowly and at low precedence. It reaches only the formally planned principal rooms implied by the Beaux-Arts axial plan noted above - the great hall, the stair, the salon - and it says nothing about the Gothic register that dominates the exterior (crockets, finials, tracery) or the room-harmonic pack does not already cover. This is the honest ceiling of what a classical trim family can claim on a building whose ornamental vocabulary is genuinely bifurcated; no pack in this corpus encodes the late-Gothic half.",
           "precedence": 5
         }
+      ],
+      "inherits_packs": [
+        "storey-graduation"
       ],
       "_cascade": [
         "eclectic-revivals",
@@ -12604,6 +12613,9 @@
           "note": "JUDGMENT BINDING, inherited: the plan below the roof is 'a standard centre-passage double pile' per the node's own massing_affinities, identical to the colonial-revival plan that binds room-harmonic. Not room-vernacular, despite dutch-colonial-american's presence in that pack's applies_to list, because the node is explicit that the plan is NOT the vernacular original's -- it 'imposes a symmetrical centre-passage plan' the original never had.",
           "precedence": 8
         }
+      ],
+      "inherits_packs": [
+        "storey-graduation"
       ],
       "_cascade": [
         "colonial-revival",
@@ -22777,6 +22789,9 @@
           "note": "Delivered by roman-classical at cascade depth 8 with no direct lineage edge. Governs 7 slots; all seven fall through to chambers-doric (english-georgian) and 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: chambers-doric is another classical order and will carry the identical contradiction to the same seven addresses, so this decline stops THIS order and does not de-classicise the node. chambers-doric on this node is the next adjudication and this pass does not make it."
         }
       ],
+      "inherits_packs": [
+        "storey-graduation"
+      ],
       "_cascade": [
         "british-picturesque",
         "english-georgian",
@@ -24552,6 +24567,9 @@
           "decided": "2026-09-02",
           "note": "Delivered by federal-style at cascade depth 3 with no direct lineage edge. Governs 0 slots -- trim-classical, which this node binds directly, holds these addresses -- so declining changes no dimension and no slot loses dimensioning. --pair reports no live gate. The decline's value is that it records the refusal of the richest order in the corpus on a node whose whole subject is classicism done in boards."
         }
+      ],
+      "inherits_packs": [
+        "storey-graduation"
       ],
       "_cascade": [
         "greek-revival-american",
@@ -28432,6 +28450,9 @@
           "precedence": 12
         }
       ],
+      "inherits_packs": [
+        "gibbs-ionic"
+      ],
       "_cascade": [
         "early-republic",
         "tidewater-georgian",
@@ -30305,7 +30326,11 @@
         }
       ],
       "inherits_packs": [
+        "gibbs-ionic",
+        "opening-proportion",
         "sash-light",
+        "storey-graduation",
+        "timber-bay",
         "trim-classical"
       ],
       "_cascade": [
@@ -30718,6 +30743,9 @@
           "decided": "2026-09-02",
           "note": "Delivered by english-georgian at cascade depth 10 with no direct lineage edge. Governs 2 slots: cornice, which passes to palladio-ionic (english-palladian), and pilaster, which passes to benjamin-ionic (federal-style); 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: both successors are Ionic order packs of the same family and carry the same contradiction to the same two addresses, so this decline stops one delivery and not the class. palladio-ionic and benjamin-ionic on this node are the next adjudications."
         }
+      ],
+      "inherits_packs": [
+        "facade-classical"
       ],
       "_cascade": [
         "mid-century-traditional",
@@ -34999,7 +35027,10 @@
         }
       ],
       "inherits_packs": [
+        "facade-classical",
+        "opening-proportion",
         "sash-light",
+        "storey-graduation",
         "trim-classical"
       ],
       "_cascade": [
@@ -37217,6 +37248,9 @@
           "precedence": 4
         }
       ],
+      "inherits_packs": [
+        "storey-graduation"
+      ],
       "_cascade": [
         "romantic-revivals",
         "italianate-american",
@@ -38211,6 +38245,9 @@
           "decided": "2026-09-02",
           "note": "Delivered by english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning and no live gate is armed either way."
         }
+      ],
+      "inherits_packs": [
+        "storey-graduation"
       ],
       "_cascade": [
         "american-arts-and-crafts",
@@ -39343,7 +39380,8 @@
         }
       ],
       "inherits_packs": [
-        "facade-gable"
+        "facade-gable",
+        "storey-graduation"
       ],
       "_cascade": [
         "british-picturesque",
@@ -43697,6 +43735,9 @@
           "note": "governs 2 slots (casing, crown); on decline both pass to vignola-tuscan (roman-classical); 0 slots lose all dimensioning. It reaches here at cascade depth 8 from italian-renaissance with no direct lineage edge. As with the palladio-ionic decline recorded on this node, the fallback is itself a classical order pack, so the decline stops this delivery without settling whether an order should be dimensioning this style's casing and crown at all."
         }
       ],
+      "inherits_packs": [
+        "storey-graduation"
+      ],
       "_cascade": [
         "british-picturesque",
         "regency",
@@ -44392,6 +44433,9 @@
           "decided": "2026-09-02",
           "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
         }
+      ],
+      "inherits_packs": [
+        "storey-graduation"
       ],
       "_cascade": [
         "victorian",
@@ -47470,6 +47514,9 @@
         }
       ],
       "inherits_packs": [
+        "facade-classical",
+        "gibbs-ionic",
+        "opening-proportion",
         "trim-classical"
       ],
       "_cascade": [
@@ -47902,6 +47949,9 @@
           "decided": "2026-09-02",
           "note": "Delivered by roman-classical at cascade depth 12 with no direct lineage edge. --impact: governs cornice, door_surround and frieze, all three of which fall to benjamin-ionic (federal-style); 0 slots lose all dimensioning. The successor is a RICHER classical order than the one declined, so this decline stops a wrong pack and leaves a worse-suited one behind it -- OQ 58's stated limit, and worth a human's eye if a run of these accumulates on one node."
         }
+      ],
+      "inherits_packs": [
+        "storey-graduation"
       ],
       "_cascade": [
         "eclectic-revivals",
@@ -48698,10 +48748,10 @@
       "delivery": "cascade"
     },
     "storey-graduation": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "timber-bay": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "timber-panel": {
       "delivery": "cascade"
@@ -48764,7 +48814,7 @@
       "delivery": "cascade"
     },
     "gibbs-ionic": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "gibbs-tuscan": {
       "delivery": "cascade"
@@ -48788,7 +48838,7 @@
       "delivery": "cascade"
     },
     "facade-classical": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "facade-gable": {
       "delivery": "opt-in"
@@ -48818,7 +48868,7 @@
       "delivery": "cascade"
     },
     "opening-proportion": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "room-harmonic": {
       "delivery": "cascade"
