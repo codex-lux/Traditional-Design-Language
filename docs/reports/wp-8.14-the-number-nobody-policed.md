@@ -128,3 +128,73 @@ The class stays where it is documented.
 - **Nothing about the unguarded-ruling class.** `CLAUDE.md`'s WP-8.13 trap says nothing in the tree
   can verify a conversation, and that stands. The audit checked the four packages' prose for other
   unsupported ruling claims and found none.
+
+## VI. AND §IV WAS ITSELF APPLIED IN ONE FILE AND NOT ITS FIVE NEIGHBOURS
+
+**Found after the audit was committed, by running the meter rather than reading it.** §IV above
+corrected `CLAUDE.md`'s OQ 51 staging paragraph — three present-tense instructions for a programme
+that had finished — and did not sweep for the same sentences anywhere else. **Six survived, across
+five files**, and one more claim beside them was falsified rather than merely spent. That is
+WP-9.5's second-commonest shape (*a fix applied in one file and not its neighbour*) occurring
+inside the section that names it, which is the second time in this report a lesson has demonstrated
+itself.
+
+**The substantive one is not prose in a document. It is what `check_inheritance.py` PRINTS**, on
+every `--strict` run — the surface a reader is most likely to actually see:
+
+| the footer said | re-derived |
+|---|---|
+| *"flip … NOW, **one pack at a time**"* | superseded: ruled 4 Sep, the last five flipped together |
+| *"`--stranding <pack>` … **read it before flipping**"* | spent: all eight named packs are flipped |
+| *"`storey-graduation` has 23 gaps and **strands 9 slots** while **45 survive** it"* | **STRANDED = 0** |
+| *"`facade-gable` has 16 and **strands 32** with none surviving"* | **STRANDED = 0** |
+
+And forty lines above it, `judged` *"does **NOT** move here"* — **the exact claim WP-8.13 falsified
+and corrected at `measure()`, 700 lines away in the same file.** One correction, one file, two
+locations, one of them updated.
+
+The same file's `--stranding` **argparse help** is the sixth: *"the before/after OQ 51's flip may
+not land without … which is how the flip **is** staged"*. It has landed and the staging is over.
+Two printed surfaces in one file, and neither is prose any checker opens.
+
+### Why all four figures were free to rot, and it is §III's rule one layer over
+
+`check_counts.py`'s `CLAIMS` list is `(file, key, regex)` over **markdown only** — `CLAUDE.md`,
+`STATE-OF-THE-PROJECT.md`, `README.md`, `docs/`. It never opens `build/*.py`. So a number a checker
+*prints* is outside every guard in the tree, for exactly the structural reason `unreached` was.
+
+§III's rule was **name the figure the checker does not derive.** Its companion, and the thing this
+section adds: **name the SURFACE the checker does not read.** A checker's own output is the worst
+case of it, because it carries the authority of having been computed while being hand-typed.
+
+### The fix carries no number
+
+The footer now states the programme as finished and **the two per-pack illustrations are deleted
+rather than restated in the past tense.** `CLAUDE.md` keeps them in the past tense because there
+they are the record of why the flip order was chosen; a CLI's job is to say what is true now, and
+an illustration with no live use is an instruction to the next reader — the argument the 3 Sep
+proportion-floor ruling turned on. **Removing a rottable number beats guarding it** where the
+number has no reader.
+
+The other four are one line each: `PLAN-OF-ACTION.md`'s *"check it before flipping `sash-light`"*,
+the same sentence in two test docstrings, and `tests/test_stranding.py`'s opening line stating the
+per-pack staging as current when its own body two lines down explains WP-8.13 superseded it.
+**Neither test changes**: `test_opt_in_packs.py` already asserts its driven pack is on `cascade`,
+and mutation-checking that — flipping `trim-craftsman` for real in both the pack file and
+`dist/taxonomy.json`, with the mutation read back before believing the colour — fires it by name
+along with four other tests.
+
+**And the correction to those docstrings contained the same defect a third time.** The replacement
+prose for `test_loud_stranding.py` said the rule was held by *"the assert below"*. That file has no
+such assert — `test_opt_in_packs.py` does. What actually bites there is
+`test_withheld_for_names_exactly_the_shipped_FLIPS_that_reach_this_node`, which reports the flipped
+pack as an extra set item. **Caught by running the mutation instead of trusting the sentence**,
+which is §I's first technique applied to this section's own output.
+
+### Deliberately not done
+
+**No extension of `check_counts.py` to scan `build/*.py`.** It would have to tell a live claim from
+a historical one inside a print string — the `docs/open-questions` code-span exemption in a new
+place, where the blind spot is load-bearing — and inventing a mechanism at the end of a long
+session is how WP-9.4 produced four guards that could not fail. The instance is closed by deleting
+the number; the class is stated here and in `CLAUDE.md`.

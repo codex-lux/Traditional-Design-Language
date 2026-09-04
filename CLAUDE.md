@@ -1044,6 +1044,35 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   tense -- advice for a decision nobody can make again -- which is WP-6.4's *"until X lands is a
   lie the moment X lands"* at the scale of a whole entry: four packages of guidance accumulated
   and none retired when the thing it guided finished.
+  **AND THE COMPANION RULE, WHICH THE AUDIT EARNED BY BREAKING THE FIRST ONE: NAME THE SURFACE THE
+  CHECKER DOES NOT READ.** Correcting those three instructions here and not sweeping for them left
+  SIX live across five files, the substantive one being what `check_inheritance.py` PRINTS on every
+  `--strict` run -- a superseded ruling (*"flip NOW, one pack at a time"*, after the 4 Sep ruling
+  flipped five together), a spent instruction (*"read `--stranding <pack>` before flipping"*, with
+  nothing left to flip) and TWO counterfactuals that re-derive to **0** (`storey-graduation` 9 of
+  23 gaps, `facade-gable` 32 of 16 -- a flipped pack has nothing left to withhold). Forty lines
+  above them, `judged` *"does NOT move here"* -- the claim WP-8.13 falsified and corrected at
+  `measure()`, 700 lines away IN THE SAME FILE. The sixth is the same file's `--stranding`
+  ARGPARSE HELP (*"the flip may not land without ... which is how the flip IS staged"*): two
+  printed surfaces in one file, neither of them prose any checker opens.
+  **`check_counts.py`'s `CLAIMS` list is
+  (file, key, regex) over MARKDOWN and never opens `build/*.py`**, so a number a checker prints is
+  outside every guard in the tree for exactly the structural reason `unreached` was -- and it
+  carries the authority of having been computed while being hand-typed.
+  **The fix carries no number**: the footer states the programme finished and the two
+  illustrations are DELETED rather than restated in the past tense. They stay past-tense HERE,
+  where they are the record of why the flip order was chosen; a CLI says what is true now, and an
+  illustration with no reader is an instruction to the next one. Removing a rottable number beats
+  guarding it where the number has no live use. **No checker was extended to scan `build/*.py`** --
+  telling a live claim from a historical one inside a print string is the code-span exemption in a
+  new place, and inventing a mechanism late in a session is how WP-9.4 shipped four guards that
+  could not fail.
+  **And the correction to two test docstrings carried the same defect a third time**: the new
+  prose for `test_loud_stranding.py` claimed the rule was held by *"the assert below"* and that
+  file has none -- `test_opt_in_packs.py` does. Caught by RUNNING the mutation (flipping
+  `trim-craftsman` for real in the pack file and `dist/taxonomy.json`, reading it back first)
+  rather than by re-reading the sentence, which is the only thing that has ever caught one of
+  these.
   Report: `docs/reports/wp-8.14-the-number-nobody-policed.md`.
 - **AN UNVERIFIED RULING READS EXACTLY LIKE A RULING, AND NOTHING HERE CHECKS ONE (WP-8.13,
   4 Sep 2026).** PR #26's body was published carrying *"(Ruled 4 Sep: flip all five remaining packs

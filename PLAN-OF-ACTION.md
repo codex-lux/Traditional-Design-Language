@@ -1006,6 +1006,18 @@ one-directional measurement — the other direction is 223 against 181 and 202, 
 inverts with the direction and **a per-pack figure is a property of the corpus it was measured
 against, not of the pack.**
 
+**§VI, added after the audit was committed: the audit corrected those spent instructions in
+`CLAUDE.md` and did not sweep, and SIX survived across five files.** The substantive ones are the
+two surfaces `check_inheritance.py` PRINTS — its `--strict` footer (a superseded ruling, a spent
+instruction, and two counterfactuals that re-derive to 0) and its `--stranding` argparse help —
+plus the falsified `judged` comment corrected 700 lines away in the same file. **`check_counts.py`
+reads markdown only and never opens `build/*.py`**, so a number a checker prints sat outside every
+guard for exactly the structural reason `unreached` did. The companion rule: §III says name the
+figure the checker does not derive; §VI says **name the SURFACE the checker does not read.** Fixed
+by carrying no number — the illustrations are deleted from the CLI and kept in the past tense in
+`CLAUDE.md`, where they are the record of why the order was chosen. No checker was extended to
+scan `build/*.py`, and the reason is stated.
+
 ### WP-8.13 The last five packs, and the finding the flip dissolved (OQ 51)
 
 **Status: COMPLETE, 4 September 2026 — OQ 51's delivery half is FINISHED.** Report:
@@ -1068,8 +1080,10 @@ size — and flips `facade-gable`: two opt-ins, **32 slots over 29 nodes**, of w
 **The finding is about tests.** Both suites drove the gate through `facade-gable` *because* the
 corpus left it on `cascade`; flipping it for real would have made every assertion a statement
 about the shipped corpus — green, and vacuous. Both fixtures moved to `trim-craftsman`, and the
-rule is now in their docstrings: **a driven fixture must name a pack nobody has flipped.** Check
-it before flipping `sash-light`.
+rule is now in their docstrings: **a driven fixture must name a pack nobody has flipped.** That
+sentence ended *"check it before flipping `sash-light`"* until WP-8.12 flipped it; with the
+schedule empty (WP-8.13) the durable form is a pack nobody PLANS to flip, and the fixtures name
+one.
 
 Also: a scoping defect WP-8.10 shipped (`--stranding <pack>` counted slots per pack and nodes
 corpus-wide), and the refill measured a second time — 4 gaps from a 10-slot flip, **13 from a

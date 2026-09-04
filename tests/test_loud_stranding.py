@@ -19,8 +19,17 @@ the last one is.
 on `north-german-hall-house` — chosen in WP-8.10 precisely because the corpus left that pack on
 `cascade`. WP-8.11 flipped `facade-gable` for real, which would have turned every driven assertion
 below into an assertion about the shipped corpus: green, and vacuous, since the "counterfactual"
-would have been the status quo. A driven fixture has to name a pack nobody has flipped, so **check
-that before flipping the next one** — `sash-light` is next by size and is not used here.
+would have been the status quo. A driven fixture has to name a pack nobody has flipped.
+
+**THE INSTRUCTION THAT USED TO CLOSE THIS PARAGRAPH IS SPENT AND THE RULE IS NOT.** It read
+*"check that before flipping the next one -- `sash-light` is next by size"*; WP-8.12 flipped
+`sash-light` and WP-8.13 flipped the last five together, so there is no next one. The rule now
+reads: name a pack nobody PLANS to flip. What holds it is not this prose: unlike
+`test_opt_in_packs.py`, this file has NO fixture assert of its own, and what fails if `PACK` is
+ever flipped for real is `test_withheld_for_names_exactly_the_shipped_FLIPS_that_reach_this_node`
+below, which reports it as an extra item in the flipped set and so names the pack. Verified by
+flipping `trim-craftsman` for real and watching it fire. A second assert here would be a second
+spelling of a guard that already bites.
 """
 import collections
 import copy

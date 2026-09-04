@@ -96,7 +96,9 @@ def flipped(graph):
     MOVED IN WP-8.11, and the reason generalises: this was `facade-gable`, chosen in WP-8.10
     because the corpus left it on `cascade`. Flipping it for real would have made every assertion
     below a statement about the shipped corpus instead of about the gate -- green, and vacuous.
-    A driven fixture must name a pack nobody has flipped; check that before flipping the next."""
+    A driven fixture must name a pack nobody has flipped -- which, since WP-8.13 emptied the
+    schedule, means one nobody PLANS to flip; the sentence here used to say "check that before
+    flipping the next" and there is no next. The assert below is what holds it."""
     import copy
     g = copy.deepcopy(graph)
     assert g["_packs"][PACK]["delivery"] == "cascade", (

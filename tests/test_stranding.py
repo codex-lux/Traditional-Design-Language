@@ -116,7 +116,11 @@ def test_the_flip_does_not_reach_111_slots_and_that_is_a_finding_not_a_rounding(
 # ---------------------------------------------------------------- staging
 
 def test_a_single_pack_can_be_measured_because_that_is_how_the_flip_is_staged():
-    """Lucas ruled the flip staged pack by pack, so the meter has to answer one pack at a time.
+    """The flip was staged pack by pack, so the meter has to answer one pack at a time.
+
+    That staging was Lucas's 3 Sep ruling and it was SUPERSEDED on 4 Sep, when he ruled the last
+    five packs flipped together -- the per-pack question outlived the per-pack schedule, which is
+    why this test does.
 
     THE CASE HAS MOVED THREE TIMES AND THE THIRD MOVE RETIRES THE RULE THAT CAUSED THE FIRST
     TWO. WP-8.11 moved it from `facade-gable` to `sash-light` because gable had been flipped and
