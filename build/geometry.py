@@ -28,7 +28,7 @@ building; a slightly larger house is just a slightly larger house.
   python3 build/geometry.py plans/<id>.json [--out plans/<id>.geo.json] [--svg dist/<id>.svg]
 """
 from __future__ import annotations
-import json, os, math, random, argparse, importlib.util, copy, hashlib
+import json, os, math, random, argparse, importlib.util, copy, hashlib, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -1210,6 +1210,80 @@ def blocks_for(plan, fp, prep, level=0):
     return out
 
 
+def parti_for(plan, parti=None):
+    """The parti this placement is of: the one the caller passed, else the one the RECORD names.
+
+    A plan record may name its parti since WP-11.2 (`plan.parti`, an id and never a record --
+    WP-9.4's rule, because a caller-supplied parti RECORD reached `bay_module_ft` unchecked and
+    put 114 bays of half a foot on a house). Until then the diagram's own bay module could not
+    reach the placement at all: `centre-passage-double-pile` states 9 ft and every sheet of it
+    was drawn on this function's 10 ft default, because the only route in was a caller who
+    happened to pass the parti separately, and the CLI, the bench's drawing route and the
+    shipped reference plans all did not.
+
+    The id becomes a path in exactly ONE place in this repository -- `core.load_parti` -- and
+    this is not a fourth copy of that join: it calls it. Loaded lazily, because `core` loads
+    THIS module and an import at module scope would close the cycle."""
+    if parti:
+        return parti
+    pid = plan.get("parti")
+    if not pid or not isinstance(pid, str):
+        return None
+    core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+    return core.load_parti(pid)
+
+
+def massing_bays(massing):
+    """What the massing states about its own bay count, read CONSERVATIVELY.
+
+    `bays` is prose across the catalogue -- "5", "3-5", "variable", "irregular", "5-7 main",
+    "3 (narrow end to street)", "1 per face" -- so this reads only the two forms it can be sure
+    of, a bare integer and a bare range, and reports every other as UNREADABLE rather than
+    guessing. "5-7 main" is refused deliberately: the word `main` is doing work (the count is of
+    the main block of a multi-element house) and a reader that dropped it would state a fact
+    about the wrong thing.
+
+    Returns {"min", "max", "stated", "readable"}; `readable` False means the massing said
+    something this function may not act on, which is not the same as the massing saying nothing.
+    """
+    stated = (massing or {}).get("bays")
+    out = {"stated": stated, "readable": False, "min": None, "max": None}
+    if not isinstance(stated, str):
+        return out
+    t = stated.strip()
+    m = re.fullmatch(r"(\d+)", t)
+    if m:
+        out.update(readable=True, min=int(m.group(1)), max=int(m.group(1)))
+        return out
+    m = re.fullmatch(r"(\d+)\s*[-–]\s*(\d+)", t)
+    if m:
+        lo, hi = int(m.group(1)), int(m.group(2))
+        if lo <= hi:
+            out.update(readable=True, min=lo, max=hi)
+    return out
+
+
+def wants_a_centre_bay(plan, parti, massing):
+    """Whether this diagram needs an ODD bay count, and why, stated rather than assumed.
+
+    A five-bay Georgian's one non-negotiable move is the door in the middle bay with two
+    windows either side, and an even count has no middle bay -- so a diagram whose entrance is
+    on the axis of a through-passage cannot be drawn on six bays however good the placement is.
+    The corpus states this twice and neither statement had a reader: `four-over-four` says
+    `bays: "5"` and *"Facade symmetry is a hard constraint, not a preference"*, and
+    `centre-passage-core`'s own description says the passage *"makes the facade symmetrical
+    because the door is now genuinely in the middle."*
+
+    Two signals, and the massing's own stated count is the stronger: it is a fact about this
+    record's massing rather than an inference from its circulation type. Returns (bool, why)."""
+    mb = massing_bays(massing)
+    if mb["readable"] and mb["min"] == mb["max"] and mb["min"] % 2 == 1:
+        return True, f'the massing states {mb["stated"]} bays'
+    if (parti or {}).get("circulation_parti") == "center-hall":
+        return True, "a centre-hall diagram puts its door in the middle bay"
+    return False, None
+
+
 def derive_footprint(plan, parti=None, prep=None):
     """Bay module, bay count and footprint, with the lot cap and the growth ordering.
 
@@ -1221,6 +1295,7 @@ def derive_footprint(plan, parti=None, prep=None):
 
     Returns a dict of footprint facts, or one carrying `error` when the lot cannot hold
     even the minimum two bays."""
+    parti = parti_for(plan, parti)
     bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
     catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
     maxbay = catalog_maxbay
@@ -1273,7 +1348,27 @@ def derive_footprint(plan, parti=None, prep=None):
     else:
         void_ranges = None
         def depth_for(width): return target_depth
-    grown, bays = [], max(2, min(maxbay, round((need / target_depth) / bay)))
+    # WP-11.2. THE MASSING'S OWN BAY COUNT IS THE STARTING POINT, AND ITS PARITY SURVIVES
+    # GROWTH. Until this the count came only from the area arithmetic below, so
+    # `four-over-four`'s `bays: "5"` had no reader and the shipped Tidewater sheet was drawn
+    # SIX bays wide under a title that says five -- and an even count has no middle bay, which
+    # is where a Georgian door goes. The growth loop steps by TWO on a diagram that wants a
+    # centre bay, so a five-bay house that will not fit becomes seven and never six.
+    odd_wanted, odd_why = wants_a_centre_bay(plan, parti, m)
+    mb = massing_bays(m)
+    step = 2 if odd_wanted else 1
+    from_area = max(2, min(maxbay, round((need / target_depth) / bay)))
+    start = from_area
+    if mb["readable"]:
+        # the massing's stated minimum is a floor on the diagram, not a target for the area:
+        # a house with more program than five bays hold grows, and one with less does not
+        # shrink below the count its own massing names.
+        start = max(mb["min"], from_area)
+        if mb["max"] is not None:
+            start = min(start, max(mb["max"], from_area))
+    if odd_wanted and start % 2 == 0:
+        start += 1
+    grown, bays = [], max(2, start)
     growth_ceiling = catalog_maxbay + 3
     if lot_maxbay is not None: growth_ceiling = min(growth_ceiling, lot_maxbay)
     while True:
@@ -1283,10 +1378,12 @@ def derive_footprint(plan, parti=None, prep=None):
         # `depth_for(W)` rather than the bare `target_depth` main's side used: on a ring massing
         # the pile describes the RANGE and the block's target is ranges x pile PLUS the void
         # band (OQ 55), so a fixed target shrinks a courtyard block to a light well.
-        if H <= depth_for(W) * 1.18 or bays >= growth_ceiling: break
-        bays += 1; grown.append(bays)
-    while bays > 2 and need / ((bays - 1) * bay) <= depth_for((bays - 1) * bay) * 1.18:
-        bays -= 1
+        if H <= depth_for(W) * 1.18 or bays + step > growth_ceiling: break
+        bays += step; grown.append(bays)
+    floor_bays = max(2, mb["min"] if mb["readable"] else 2)
+    while bays - step >= floor_bays and \
+            need / ((bays - step) * bay) <= depth_for((bays - step) * bay) * 1.18:
+        bays -= step
     # OQ 55: on a ring massing the bay count decides the COURT's proportion, not just the
     # block's, and the court's proportion is the number the diagram turns on --
     # rooms/courtyard.json says so at length ("below about 0.8 the court is a light well...
@@ -1318,7 +1415,13 @@ def derive_footprint(plan, parti=None, prep=None):
     W = round(bays * bay, 2); H = round(need / W, 2)
     # `tol` is carried in the dict (main's side) so solve_heuristic and geometry_cp read one
     # relaxation allowance rather than each recomputing it. The void keys are OQ 55's.
+    # A diagram that wanted a centre bay and did not get one is a REFUSAL, named -- not a
+    # silent six. Today the only way here is a lot too narrow to hold the odd count.
+    forced_even = bool(odd_wanted and bays % 2 == 0)
     return {"bay": bay, "tol": tol, "bays": bays, "W": W, "H": H,
+            "wants_centre_bay": odd_wanted, "centre_bay_why": odd_why,
+            "bay_count_forced_even": forced_even,
+            "massing_bays": mb["stated"], "massing_bays_readable": mb["readable"],
             "slack": (W * H) - max(a0, au),
             "grown": grown, "lot_usable": lot_usable, "lot_maxbay": lot_maxbay,
             "catalog_maxbay": catalog_maxbay, "growth_ceiling": growth_ceiling,

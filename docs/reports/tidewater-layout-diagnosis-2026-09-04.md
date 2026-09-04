@@ -8,6 +8,14 @@ work on the composer and the workbench, so each finding names the layer that own
 fix would have to touch. Where a finding was already recorded somewhere in this tree it says so and
 cites the place; where it is new it says that too.*
 
+**THE FIGURES IN THIS REPORT ARE AS-FOUND ON 4 SEPTEMBER 2026 AND SOME ARE ALREADY HISTORY.**
+Phase 11 began the same day. WP-11.1 put five of the counts below on the plate itself; WP-11.2
+made the plan name its parti, which moved the footprint from six bays of 10 ft to seven of 9 and
+therefore moved every number measured on a placement. This document is the DIAGNOSIS and is left
+as it was written — a report that quietly updates its own evidence is worth nothing — so read
+`build/diagnose_sheet.py --seeds` for what is true now, and the Phase 11 package reports for what
+each number did and why. Where a figure here is quoted later it should be quoted with its date.
+
 *Provenance discipline, stated first. Three things were read: the screenshot Lucas supplied; the
 declared record in `plans/tidewater-georgian-careful.json`, unchanged; and two fresh placements of
 that record made here on 4 Sep — one on the CP-SAT engine (`--engine cp`, the engine the sheet

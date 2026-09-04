@@ -17,6 +17,25 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 C = _mod("plan_check", f"{ROOT}/build/plan_check.py").load_corpus()
+DISC = _mod("disclosures", f"{ROOT}/build/disclosures.py")
+
+_PARTIS = None
+def _partis():
+    """The parti records, by id, read once -- `disclosures.style_disagreement` uses them to
+    ask whether the parti a plan names lists the style it is being judged as. Read lazily and
+    cached because most sheets never carry a `parti` and a glob per render is a glob per
+    render."""
+    global _PARTIS
+    if _PARTIS is None:
+        import glob as _glob
+        _PARTIS = {}
+        for f in sorted(_glob.glob(f"{ROOT}/partis/*.json")):
+            try:
+                rec = json.load(open(f))
+                _PARTIS[rec["id"]] = rec
+            except Exception:
+                continue
+    return _PARTIS
 
 PAL = {"ground":"#0B1B29","paper":"#0F2536","rule":"#24455E","ink":"#EDE7DA","ink2":"#9FB3C2",
        "ink3":"#63808F","brass":"#D8B26A","verd":"#7FB3A3","copper":"#C4734A","iron":"#C4553A"}
@@ -147,6 +166,15 @@ def render(plan, path, scale=7.0):
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
     all_diverged.sort(key=lambda d: -abs(d["pct"]))
     diverged_ids = {d["id"] for d in all_diverged}
+    # what each of those rooms ASKED for and what it GOT, for the table under the plates
+    _decl_pair = {r["id"]: (r["width_ft"], r["length_ft"])
+                  for lv in levels for r in lv["rooms"]
+                  if r.get("width_ft") and r.get("length_ft")}
+    _drawn_pair = {r["id"]: (r["geometry"]["width_ft"], r["geometry"]["depth_ft"])
+                   for lv in levels for r in lv["rooms"] if r.get("geometry")}
+    _name_unique = {}
+    for _d in all_diverged:
+        _name_unique[_d["name"]] = _name_unique.get(_d["name"], 0) + 1
     # and the same for the relaxation marks: which ones can be drawn on a wall of their own
     # level is decided here so the banner can state the ones that cannot.
     _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
@@ -161,17 +189,20 @@ def render(plan, path, scale=7.0):
     # workbench's page prose, which is the one place it cannot travel -- this file's whole
     # output is a sheet somebody prints or hands to a builder, and it carried no disclosure
     # at all. A reader could not tell a proof from a search on the drawing itself.
-    _solver = plan.get("geometry_report", {}).get("solver") or {}
-    _engine_line = ""
-    if _solver.get("engine") == "cp-sat":
-        _engine_line = "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"
-    elif _solver.get("engine"):
-        _reason = _solver.get("reason")
-        _engine_line = "PLACEMENT SEARCHED, NOT PROVED — HILL-CLIMB" + (
-            f" — {_reason.upper()}" if _reason and _reason != "requested" else "")
-    _n_banner = sum(1 for c in (plan.get("geometry_report", {}).get("infeasible"),
-                                all_undrawable, all_diverged, all_unlocated,
-                                _engine_line) if c)
+    # WP-11.1: every banner line is computed in build/disclosures.py, and the workbench's
+    # disclosure strip reads the SAME list through core.placement_summary. Before this the
+    # engine line was built here and nowhere else, and it asserted the placement was proved
+    # "against the record's declared facts" while the solver's own record said sixteen of
+    # those facts had been set aside to reach it. Four more lines the record already carried
+    # -- the set-aside walls, the objective that did not run, the undrawn windows and the
+    # transfer beams -- had no reader at all.
+    _banner = DISC.banner(plan, undrawable=all_undrawable, diverged=all_diverged,
+                          unlocated=all_unlocated, styles=C["styles"], partis=_partis())
+    # The banner's HEIGHT is the number of ROWS it wraps to, not the number of lines it holds
+    # -- and the row count needs the plate's width, which is computed below and depends on
+    # nothing above. So `_n_banner` is resolved after `total_w` rather than here; taking the
+    # line count would under-reserve exactly when a line is long enough to wrap, which is the
+    # case where a disclosure would then be drawn through the top of the first plate.
 
     # ---------------------------------------------------------- WP-2.4 site / lot geometry
     # Model coordinates already put south (the street side, by the existing window-wall
@@ -200,11 +231,22 @@ def render(plan, path, scale=7.0):
         extra_top = max(0.0, lot_d - draw_H - y_off) * scale
 
     pad, gap = 42, 58
-    top = max(96, (84 if plan.get("geometry_report") else 70) + 14 * _n_banner + 8)
     pw, ph = draw_W*scale, draw_H*scale
     panel_w = pw + extra_left + extra_right
     total_w = pad*2 + len(levels)*panel_w + (len(levels)-1)*gap
-    total_h = top + extra_top + ph + extra_bottom + 84
+    _banner_rows = [row for ln in _banner for row in _wrap_banner(ln["text"], total_w - 2*pad)]
+    _n_banner = max(0, len(_banner_rows) - 1)   # the first row sits on the fixed y=70 line
+    top = max(96, (84 if plan.get("geometry_report") else 70) + 14 * _n_banner + 8)
+    # +84 is the footer (scale bar, legend, north arrow). The ∗ table sits below it and its
+    # height is COMPUTED, not guessed: a fixed allowance is how a third of the upper floor
+    # came to be drawn outside this canvas once already.
+    _table_rows = 0
+    if all_diverged:
+        _cw = max(210.0, (pad*2 + len(levels)*panel_w + (len(levels)-1)*gap - 2*pad) / 3.0)
+        _cols = max(1, int((pad*2 + len(levels)*panel_w + (len(levels)-1)*gap - 2*pad) // _cw))
+        _table_rows = -(-len(all_diverged) // _cols)
+    total_h = top + extra_top + ph + extra_bottom + 84 + (
+        (66 - 84 + 15 + _table_rows * 11 + 14) if _table_rows else 0)
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
          f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
     s.append(f'<style>'
@@ -226,57 +268,16 @@ def render(plan, path, scale=7.0):
              f'{fp.get("bays","?")} BAYS OF {fp.get("bay_module_ft","?")} FT · '
              f'{_fmt(W)} x {_fmt(H)} · {fp.get("area_sf","?")} SF GROSS</text>')
     gr = plan.get("geometry_report", {})
+    # The banner stack. `style=`, not `fill=`: `.lb` sets a fill and a class rule beats a
+    # presentation attribute, so a line that computes a colour and writes it as an attribute
+    # is drawn in the same quiet grey as every other caption -- a warning the sheet does not
+    # give. Found once in WP-6.1 and it applies to every line here.
     banner_y = 70
-    if gr:
-        banner_y = 84
-        rl = gr.get("relaxations", {})
-        # style=, not fill=: `.lb` sets a fill, and a class rule beats a presentation
-        # attribute -- so this banner and the infeasibility line below it were computing a
-        # colour and then being drawn in the same quiet grey as every other caption. A
-        # warning the sheet renders as neutral is a warning the sheet does not give.
-        s.append(f'<text class="lb" x="{pad}" y="70" style="fill:{PAL["copper"] if rl.get("count") else PAL["verd"]}">'
-                 f'{rl.get("count",0)} CUT(S) OFF THE BAY LINE'
-                 + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "") + '</text>')
-        # WP-2.3: a proven-infeasible plan is drawn as the labelled least-bad
-        # relaxation, never as if it were fine — the label is data, not decoration
-        inf = gr.get("infeasible")
-        if inf:
-            n = len(inf.get("conflicts", []))
-            s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["iron"]}">'
-                     f'INFEASIBLE AS DECLARED — {n} CONFLICT(S) PROVEN; THIS DRAWING IS THE '
-                     f'LEAST-BAD RELAXATION (SEE GEOMETRY_REPORT.INFEASIBLE)</text>')
+    for _line in _banner:
+        for _row in _wrap_banner(_line["text"], total_w - 2*pad):
+            s.append(f'<text class="lb" x="{pad}" y="{banner_y}" '
+                     f'style="fill:{PAL[_line["tone"]]}">{_esc(_row)}</text>')
             banner_y += 14
-
-    # WP-6.1 — the two disclosures this sheet owed and did not make. The wording of the
-    # first is the DXF exporter's, verbatim: it has stated this since WP-5.1 while the SVG
-    # said nothing, which is the whole reason a kitchen could be drawn with none of its
-    # five declared doors and read as a kitchen nobody can enter.
-    if all_undrawable:
-        names = ", ".join(f'{u["from"]}–{u["to"]}' for u in all_undrawable[:6])
-        more = f" (+{len(all_undrawable)-6} MORE)" if len(all_undrawable) > 6 else ""
-        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["iron"]}">'
-                 f'{len(all_undrawable)} DECLARED DOOR(S) WITHOUT A DRAWABLE OPENING — '
-                 f'IN THE RECORD, NOT THE LINEWORK: {_esc(names.upper())}{more}</text>')
-        banner_y += 14
-    if all_diverged:
-        w0 = all_diverged[0]
-        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["copper"]}">'
-                 f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE RECORD DOES NOT DECLARE, '
-                 f'MARKED ∗ — WORST {_esc((w0["name"] or "").upper())} '
-                 f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA</text>')
-        banner_y += 14
-    if _engine_line:
-        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:'
-                 f'{PAL["verd"] if _solver.get("engine") == "cp-sat" else PAL["copper"]}">'
-                 f'{_esc(_engine_line)}</text>')
-        banner_y += 14
-    # A mark the solver puts on no wall of its own level is counted here rather than
-    # dropped at the middle of the plan, which is where an extentless one used to land.
-    if all_unlocated:
-        s.append(f'<text class="lb" x="{pad}" y="{banner_y}" style="fill:{PAL["iron"]}">'
-                 f'{len(all_unlocated)} CUT(S) OFF THE BAY LINE THE SOLVER LOCATED ON NO '
-                 f'WALL OF THEIR LEVEL — COUNTED, NOT DRAWN</text>')
-        banner_y += 14
 
     for i, lv in enumerate(levels):
         ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
@@ -619,6 +620,38 @@ def render(plan, path, scale=7.0):
         street_bearing = site.get("street_bearing_deg") if has_lot else None
         cap = "NORTH IS UP" + (f" · STREET BEARS {street_bearing:.0f}°" if street_bearing is not None else "")
         s.append(f'<text class="dm" x="{X(W):.1f}" y="{Y(0)+34:.1f}" text-anchor="end">{cap}</text>')
+    # WP-11.1 — WHAT THE RECORD ASKED FOR. The plate prints the DRAWN figure, which it must:
+    # it is what was drawn. Until this table the declaration it departed from appeared only as
+    # a ∗ and a count in the banner, so a reader could not tell a room the placement ruined
+    # from a room the author drew small -- and on the shipped Tidewater plan that is 24 of 25
+    # rooms. It is a TABLE under the plates rather than a second line inside each room,
+    # deliberately: the label fitter reserves space for every line it draws, so a per-room
+    # record line would have shrunk names until they dropped out, and a room that loses its
+    # name to gain a disclosure has traded one silence for another.
+    if all_diverged:
+        ty = top + extra_top + ph + extra_bottom + 66
+        s.append(f'<text class="lb" x="{pad}" y="{ty:.0f}" style="fill:{PAL["copper"]}">'
+                 f'WHAT THE RECORD ASKED FOR — ∗ ROOMS, DRAWN AGAINST DECLARED</text>')
+        col_w = max(210.0, (total_w - 2*pad) / 3.0)
+        per_col = max(1, -(-len(all_diverged) // max(1, int((total_w - 2*pad) // col_w))))
+        for n, d in enumerate(all_diverged):
+            cx0 = pad + (n // per_col) * col_w
+            cy0 = ty + 15 + (n % per_col) * 11
+            g = _decl_pair.get(d["id"])
+            asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
+            drew = _drawn_pair.get(d["id"])
+            got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
+            # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two
+            # rows a reader could not tell apart -- and one of them was drawn 15 ft long
+            # while the other was drawn 14, so the rows differed only in figures nobody
+            # could attribute. Same defect class as WP-9.4's two rooms sharing an id, on
+            # the surface rather than in the diff guard.
+            label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
+                else f'{d["name"]} ({d["id"]})'
+            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">'
+                     f'{_esc(label)}: drawn {got}, record {asked} '
+                     f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)</text>')
+
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
     return path
@@ -875,6 +908,28 @@ def derive_openings(rooms, W, H, tol=0.6):
             "windows": windows, "windows_off_footprint": off_footprint,
             "windows_crowded": crowded, "inferred_widths": inferred_widths,
             "inferred_positions": inferred_positions}
+
+# The `.lb` face is monospaced at 8.5px with .14em of letter-spacing, so one character costs
+# 8.5*0.60 + 8.5*0.14 px. A banner line longer than the plate is a disclosure the sheet does not
+# make: the first WP-11.1 draft ran the undrawn-window line 160 characters and the canvas cut it
+# mid-word, which is this repository's oldest class of defect (a mark inside no viewBox) wearing
+# the clothes of the package sent to fix it. Wrapping, never truncating -- a disclosure that does
+# not fit is still owed.
+LB_ADVANCE_PX = 8.5 * (0.60 + 0.14)
+
+def _wrap_banner(text, width_px):
+    if width_px <= 0: return [text]
+    per_row = max(20, int(width_px // LB_ADVANCE_PX))
+    if len(text) <= per_row: return [text]
+    rows, line = [], ""
+    for word in text.split(" "):
+        trial = f"{line} {word}".strip()
+        if len(trial) > per_row and line:
+            rows.append(line); line = "  " + word     # the continuation is indented, not flush
+        else:
+            line = trial
+    if line: rows.append(line)
+    return rows
 
 def declared_divergence(rooms, tol_ft=0.5):
     """Rooms DRAWN at a size their own record does not declare. The sheet prints the placed

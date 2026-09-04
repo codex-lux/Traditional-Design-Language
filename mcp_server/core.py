@@ -59,6 +59,32 @@ def _data():
             "rooms": rooms, "groupings": groupings,
             "ontology_version": sd["version"], "engine": _load_engine()}
 
+_PARTIS_CACHE = None
+
+
+def _disclosures():
+    return _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
+
+
+def _partis():
+    """The parti records by id. `_data()` does not carry them — it is the STYLE-side corpus —
+    and `load_parti` reads one by id from a caller-supplied string, which is deliberately the
+    only path that joins a caller's value to a path (see its docstring). This is the read-all
+    accessor, cached, used by the disclosure that asks whether the parti a plan names lists the
+    style the sheet judged it as."""
+    global _PARTIS_CACHE
+    if _PARTIS_CACHE is None:
+        out = {}
+        for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
+            try:
+                rec = json.load(open(f))
+                out[rec["id"]] = rec
+            except Exception:
+                continue
+        _PARTIS_CACHE = out
+    return _PARTIS_CACHE
+
+
 def _yr(v):
     if v is None: return "?"
     return f"{-v} BC" if v < 0 else str(v)
@@ -1453,6 +1479,14 @@ def placement_summary(out):
     # it already held. The stair and the fixture layout are here for the same reason: they
     # are placement facts, and there is nowhere else for a reader to get them.
     return {"footprint": out["footprint"], "geometry_report": out["geometry_report"],
+            # WP-11.1: what this placement GAVE UP, computed once in build/disclosures.py and
+            # rendered by both surfaces -- the printed plate draws these lines and the bench
+            # shows the same list, so the two cannot drift the way the citation grammar's three
+            # spellings did. Before this the bench's own paragraph told a reader that the walls
+            # a proof had to give up "are named above rather than dropped", and nothing above
+            # named them: `downgraded_wall_pins` had no reader on any surface.
+            "disclosures": _disclosures().banner(out, styles=_data()["styles"],
+                                                 partis=_partis()),
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),
                        "geometry": r.get("geometry"),
                        "doors": r.get("doors"), "windows": r.get("windows"),

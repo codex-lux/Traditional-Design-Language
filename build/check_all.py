@@ -83,6 +83,13 @@ CHECKS = [
     ("arrangement.py", ["selftest"]),
     ("check_windows.py", []),
     ("check_partis.py", []),
+    # WP-11.2: a plan record against the PARTI it names. `check_partis.py` above holds a parti
+    # to the styles it claims; this holds a hand-authored plan to the diagram it claims to be an
+    # instance of, which nothing did -- the composer copies a parti's `stacks_over` onto every
+    # candidate it emits, so a composed plan is right by construction and both SHIPPED reference
+    # plans are hand-authored. The Tidewater plan had dropped the two claims that organise its
+    # upper floor.
+    ("check_plans.py", []),
     ("check_counts.py", []),
     # Citations, not counts. check_counts.py guards a NUMBER computed from the data;
     # this guards a REFERENCE -- that every `OQ N` resolves, that no cited id hides

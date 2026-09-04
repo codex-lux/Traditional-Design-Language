@@ -3,6 +3,7 @@
   "name": "Tidewater Georgian, five bays, carefully planned",
   "style": "tidewater-georgian",
   "massing": "four-over-four",
+  "parti": "centre-passage-double-pile",
   "groupings": [
     "centre-passage-core",
     "georgian-service-core",
@@ -518,6 +519,7 @@
           "exterior_walls": [
             "N"
           ],
+          "stacks_over": "stair",
           "windows": [
             {
               "wall": "N",
@@ -545,6 +547,7 @@
           "exterior_walls": [
             "S"
           ],
+          "stacks_over": "passage",
           "windows": [
             {
               "wall": "S",

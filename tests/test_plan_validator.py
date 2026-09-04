@@ -81,7 +81,9 @@ class TestShippedPlans:
         # shared baseline of 53, and 53 + 4 - 1 is an arithmetic prediction rather than a
         # reading of the tree -- which is the habit this repository has been caught by more
         # than once. Re-derived on the merged tree:
-        assert result["counts"]["serious"] == 56
+        # 57, moved from 56 by WP-11.2: this plan names no parti, but its massing does
+        # state `bays: "5"`, so the odd-count rule moved its footprint too.
+        assert result["counts"]["serious"] == 57
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal
