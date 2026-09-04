@@ -102,7 +102,30 @@ class TestTheWeightsAreDeliberate:
               # evaluate — and an info is pulled out of every axis's fraction already. The
               # mapping is for the day a placed plan is scored, when a room nothing reaches
               # must cost a candidate something.
-              "drawn": "connections"}
+              "drawn": "connections",
+              # WP-11.5, re-pinned after doing what this test's own message demands. WP-11.4
+              # added the `hearth` layer to plan_check and did not map it here, so both its
+              # findings landed in `score_unclassified_layers` and the guard below went red on
+              # the first full build after that package was pushed -- naming the layer and the
+              # remedy in its own assertion message.
+              #
+              # MEASURED BEFORE RE-PINNING, on family-georgian, THREE WAYS -- unmapped,
+              # rooms, canon. The returned SET is identical in all three and so is its ORDER:
+              # centre-passage-double-pile, five-part-palladian, foursquare-quadrant,
+              # connected-farmstead. Only the two candidates that carry hearth findings move at
+              # all (78.7 / 68.7 unmapped, 78.4 / 68.4 on rooms, 78.1 / 68.3 on canon); the
+              # other two are byte-identical because they emit no hearth finding. So this
+              # re-pin re-ranks nothing today AND the choice between the two live axes changes
+              # nothing today either -- which is worth knowing before anyone spends an argument
+              # on it. Same shape as the `drawn` note above, stated for the same reason.
+              #
+              # `rooms` IS WHERE THE CORPUS ALREADY PUTS HEAT: a room's fire is read from that
+              # room's own `servicing.heat`, and `servicing` is mapped to `rooms` six lines up.
+              # The compromise is in compose.py beside the mapping -- one of the layer's two
+              # findings is a record-against-massing disagreement that belongs on `canon`, and
+              # splitting one layer across two axes is the re-weighting the `drawn` note
+              # declines for the same reason.
+              "hearth": "rooms"}
 
     def test_every_layer_is_mapped_to_the_axis_it_is_mapped_to(self, compose_module):
         """SCORE_LAYERS is as load-bearing as the weights and was not pinned at all. An

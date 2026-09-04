@@ -142,6 +142,30 @@ SCORE_LAYERS = {
     # already flagged as editorial and whose returned set has changed once as a side effect
     # (OQ 66, OQ 67). Not worth doing silently in a package about something else.
     "drawn": "connections",
+    # WP-11.5, closing a defect WP-11.4 pushed. That package added a `hearth` layer to
+    # `plan_check` and did not map it here, so both its findings landed in
+    # `score_unclassified_layers` and no axis counted them --
+    # `test_every_layer_the_validator_emitted_is_classified` went red on the first full build
+    # after the push and named the layer and the remedy in its own message. The guard did its
+    # job; the package that tripped it committed before its build finished.
+    #
+    # `rooms` IS THE AXIS THE CORPUS ALREADY PUTS HEAT ON. A room's fire is read from that
+    # room's own `servicing.heat` and `servicing` is mapped to `rooms` three lines above; a
+    # room the corpus gives a fire and the record does not is a fact about that room.
+    #
+    # MEASURED THREE WAYS on family-georgian before this was pinned, because `test_score.py`
+    # demands it: unmapped / rooms / canon return the SAME SET IN THE SAME ORDER, and only the
+    # two candidates carrying hearth findings move at all -- 78.7 / 68.7 unmapped, 78.4 / 68.4
+    # here, 78.1 / 68.3 on canon. The axis choice changes nothing today; the argument below is
+    # what decides it, not a number.
+    #
+    # THE COMPROMISE, STATED RATHER THAN HIDDEN, exactly as the `drawn` note above states its
+    # own: `hearth-off-the-stack-wall` is not a room fact. It is a disagreement between the
+    # plan record and the MASSING about where the stacks stand, which belongs on `canon`.
+    # Splitting one layer across two axes is the alternative and it is the same re-weighting
+    # the `drawn` note declines, on a composite whose weights are already editorial. It rides
+    # on `rooms` and this comment is the record of it.
+    "hearth": "rooms",
 }
 
 # What a room is still worth once something has been found against it. A serious finding

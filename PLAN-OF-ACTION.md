@@ -1770,7 +1770,36 @@ the stack is the roof layer's.
 
 ### WP-11.5 Stacking is a rule on the diagram
 
-**Status: NOT STARTED. Unblocked — needs no ruling.** Part VII item 4; findings F1, F2, F6, E3.
+**Status: IN PROGRESS (4 Sep 2026).** Part VII item 4; findings F1, F2, F6, E3.
+
+**TWO FINDINGS BEFORE ANY CODE, AND BOTH CHANGE WHAT THIS PACKAGE CAN BE.**
+
+**1. The selector this package names matches NOTHING.** It says *"any massing whose
+`structural_logic` states a stacked plan"*. All 40 massings carry a `structural_logic` string and
+**not one of them says the upper floor repeats the lower** — they state spans, bearing walls,
+ventilation, roof framing and materials. `four-over-four`'s reads *"Two rooms deep requires an
+interior bearing wall, which the stair hall supplies. Paired end chimneys serve four fireplaces
+per floor."* The corpus's one authored sentence to that effect is on a PARTI —
+`centre-passage-double-pile`'s description, *"two rooms either side, **repeated above**"* — and
+one instance is not a population a prose reader may be built on
+(`oq/a-room-records-prose-states-a-floor-its-own-band-does-not`'s 2-of-5 lesson).
+**So no massing-level selector is available, and inventing one is authoring.** The authored,
+machine-readable statement already exists and is per-room: `stacks_over`. A room whose author
+wrote that claim is the corpus saying this room stacks, and honouring it needs no selector at all.
+
+**2. A HARD STACKING PIN IN `geometry_cp.py` WAS ALREADY BUILT, MEASURED AND REFUSED (OQ 95).**
+Its own comment: a hard version *"downgraded an authored kitchen wall to satisfy an inferred
+stack"*, because the downgrade loop reads `[key for _t, k, key in core if k == "wall" and key]`
+and a non-wall pin can never enter it — so a stack pin outranks every authored exterior wall in
+the corpus, and a stack-only core makes the loop `break` and report infeasible. **The blocker is
+the loop, not the pin.** This package's real content is to teach the loop a second pin kind and
+an ordering, and then to measure both orderings rather than argue one.
+
+**Baseline, measured 4 Sep before any change** (heuristic, one seed, all 16 plan records): 7
+declared claims on the two shipped plans, **5 satisfied, 2 broken, 0 unjudged**; **45 transfer
+beams** across the 5 records that have an upper level. The claims the diagnosis named are among
+them — `spec-builder-colonial`'s Hall Bath over its laundry and the Tidewater Chamber Bath over
+its powder room are the two broken.
 
 For `four-over-four` (and any massing whose `structural_logic` states a stacked plan): passage over
 passage, landing over stair, wet over wet, and every upper partition on a bearing line below are

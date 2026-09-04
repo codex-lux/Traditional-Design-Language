@@ -510,6 +510,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   an English rule. **RULE I IS CORRUPT IN THE ONLY REACHABLE TEXT** (*"add the Length 1 Bo Height of
   the Room together"*), so the DEPTH keeps its two anchors and the constant records that the rule
   behind them is UNRECOVERED rather than absent -- a third state, not a gap.
+- **A NEW FINDING LAYER MUST BE MAPPED TO A SCORING AXIS, AND WP-11.4 PUSHED WITHOUT DOING IT
+  (found by WP-11.5).** `plan_check` gained a `hearth` layer and `compose.SCORE_LAYERS` did not
+  gain a `hearth` key, so both findings landed in `score_unclassified_layers` and no axis counted
+  them. **The guard worked exactly as designed** --
+  `test_score.py::test_every_layer_the_validator_emitted_is_classified` went red naming the layer
+  AND the remedy in its own assertion message -- and the reason it was not seen before the push is
+  the process, not the guard: **a stop hook asked for a commit while the full build was still
+  running, and the build was the only thing that could have caught it.** A `check_all.py` that has
+  not finished is not a green build; if a push has to go out first, say so and re-run.
+  **`SCORE_LAYERS` IS PINNED BY A TEST WHOSE MESSAGE IS AN INSTRUCTION**: *"Re-measure the returned
+  sets before re-pinning"*, because a layer is worth a different number of points on a different
+  axis and an independent audit once moved `grouping` from canon to rooms and got a DIFFERENT
+  returned set with the whole suite green. Measured three ways on family-georgian before re-pinning
+  -- unmapped / rooms / canon return the SAME SET IN THE SAME ORDER, and only the two candidates
+  carrying hearth findings move (78.7/68.7, 78.4/68.4, 78.1/68.3). The axis choice changes nothing
+  today, so the argument decides it: `rooms`, because a room's fire is read from that room's own
+  `servicing.heat` and `servicing` already maps to `rooms`. The compromise is stated beside the
+  mapping -- `hearth-off-the-stack-wall` is a record-against-massing fact that belongs on `canon`,
+  and splitting one layer across two axes is the re-weighting the `drawn` note declines.
 - **THE HEARTH CHECK WENT INTO THE ONE LAYER THAT CANNOT RUN IT (WP-11.4).** It was written into
   `plan_check.drawn_layer`, which early-returns on a record with no placement -- and NOTHING
   `hearth_report` reads is a placement: the room's authored `hearth`, the massing's `hearth`, the
