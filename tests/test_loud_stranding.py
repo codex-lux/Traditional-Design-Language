@@ -19,8 +19,17 @@ the last one is.
 on `north-german-hall-house` — chosen in WP-8.10 precisely because the corpus left that pack on
 `cascade`. WP-8.11 flipped `facade-gable` for real, which would have turned every driven assertion
 below into an assertion about the shipped corpus: green, and vacuous, since the "counterfactual"
-would have been the status quo. A driven fixture has to name a pack nobody has flipped, so **check
-that before flipping the next one** — `sash-light` is next by size and is not used here.
+would have been the status quo. A driven fixture has to name a pack nobody has flipped.
+
+**THE INSTRUCTION THAT USED TO CLOSE THIS PARAGRAPH IS SPENT AND THE RULE IS NOT.** It read
+*"check that before flipping the next one -- `sash-light` is next by size"*; WP-8.12 flipped
+`sash-light` and WP-8.13 flipped the last five together, so there is no next one. The rule now
+reads: name a pack nobody PLANS to flip. What holds it is not this prose: unlike
+`test_opt_in_packs.py`, this file has NO fixture assert of its own, and what fails if `PACK` is
+ever flipped for real is `test_withheld_for_names_exactly_the_shipped_FLIPS_that_reach_this_node`
+below, which reports it as an extra item in the flipped set and so names the pack. Verified by
+flipping `trim-craftsman` for real and watching it fire. A second assert here would be a second
+spelling of a guard that already bites.
 """
 import collections
 import copy
@@ -87,7 +96,11 @@ def test_withheld_for_names_exactly_the_shipped_FLIPS_that_reach_this_node(graph
     always has nothing to say is as unfalsifiable as one that always has something."""
     rk = _rk()
     got = set(_rk().withheld_for(graph, NODE))
-    assert got == {"trim-classical", "facade-gable", "sash-light"}, sorted(got)
+    # SIX of the eight shipped flips reach this node -- `opening-proportion` and `timber-bay`
+    # do not, which is why the set is asserted rather than a count: a count would have been
+    # satisfied by any six and this names which.
+    assert got == {"trim-classical", "facade-gable", "sash-light", "facade-classical",
+                   "storey-graduation", "gibbs-ionic"}, sorted(got)
     assert PACK not in got, (
         "the driven fixture's pack has been flipped for real — every assertion in this file is "
         "now about the shipped corpus rather than about the gate; move the fixture")
@@ -142,7 +155,9 @@ def test_the_rules_are_built_and_marked_rather_than_never_existing(flipped):
     # Asserting the SET equals {PACK} would have been a coincidence of WP-8.10's fixture node, and
     # it broke the moment a real flip touched the same node.
     assert PACK in {r["pack"] for r in marked}
-    assert {r["pack"] for r in marked} <= {PACK, "trim-classical", "facade-gable", "sash-light"}
+    assert {r["pack"] for r in marked} <= {PACK, "trim-classical", "facade-gable", "sash-light",
+                                           "facade-classical", "storey-graduation",
+                                           "gibbs-ionic"}
     assert all(r["withheld_because"] and "opt-in" in r["withheld_because"] for r in marked)
 
 
@@ -300,7 +315,8 @@ def test_the_sweep_reports_every_stranded_slot_as_named():
     # 2899 -> 2889 at the trim-classical flip -> 2857 at facade-gable's: a flipped pack's slots
     # leave the counterfactual because they are already withheld, and the ALREADY WITHHELD block
     # above the sweep is where they are now counted (42 over 36 nodes).
-    assert nm == st == 2787, (nm, st)
+    # 2899 -> 2889 -> 2857 -> 2787 -> 2585 across the four flips.
+    assert nm == st == 2585, (nm, st)
     assert "reads UNDIMENSIONED, not refused" not in out.stdout, (
         "the closing paragraph still says the defect is unfixed -- 'until X lands' is a lie the "
         "moment X lands (WP-6.4)")

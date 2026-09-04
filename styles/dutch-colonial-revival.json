@@ -280,5 +280,8 @@
       "note": "JUDGMENT BINDING, inherited: the plan below the roof is 'a standard centre-passage double pile' per the node's own massing_affinities, identical to the colonial-revival plan that binds room-harmonic. Not room-vernacular, despite dutch-colonial-american's presence in that pack's applies_to list, because the node is explicit that the plan is NOT the vernacular original's -- it 'imposes a symmetrical centre-passage plan' the original never had.",
       "precedence": 8
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

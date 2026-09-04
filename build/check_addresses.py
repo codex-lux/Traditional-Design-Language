@@ -125,7 +125,7 @@ RATCHET = {"own": 0, "cascade": 9,
            # words: a baked value in an ancestor's kit file is not a cascade delivery, so
            # `inherits_packs` cannot stop one. These four went because the rule they were
            # measured against went, not because the second delivery path was closed.
-           "baked_vs_refused": 67}
+           "baked_vs_refused": 60}
 
 
 def cobinding(nodes, scope):

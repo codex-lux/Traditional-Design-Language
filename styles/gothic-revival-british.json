@@ -307,5 +307,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by roman-classical at cascade depth 8 with no direct lineage edge. Governs 7 slots; all seven fall through to chambers-doric (english-georgian) and 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: chambers-doric is another classical order and will carry the identical contradiction to the same seven addresses, so this decline stops THIS order and does not de-classicise the node. chambers-doric on this node is the next adjudication and this pass does not make it."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

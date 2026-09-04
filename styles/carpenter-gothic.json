@@ -285,5 +285,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by roman-classical at cascade depth 11; there is no direct lineage edge between them. Governs 3 slots -- cornice, door_surround, frieze -- and all three pass to benjamin-ionic (federal-style); 0 slots lose all dimensioning. This gap is the successor the node's OWN palladio-tuscan decline created, whose note already records that cornice, door_surround and frieze would pass to vignola-tuscan. The fallback is again a classical order and is not thereby right: a decline stops a wrong pack and does not supply a right one, which is OQ 58's stated limit one layer down. TWO THINGS THE ADVERSARIAL CHECK ADDED. The strongest support is not cited in the reason above and is worth knowing: the resolved kit binds `entablature` FORBIDDEN on this node in the corpus's own words. And the resolved `frieze` record runs the OTHER WAY -- inherited from `palladian`, it states that a classical frieze band runs as part of the same continuous entablature as the cornice, module-derived from the bound order, with `no-frieze-band` FORBIDDEN. That is an OQ 87-class stale inheritance sitting on one of the very slots being declined, and it is named here rather than left for the next reader to find."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

@@ -332,5 +332,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by english-georgian at cascade depth 10 with no direct lineage edge. Governs 2 slots: cornice, which passes to palladio-ionic (english-palladian), and pilaster, which passes to benjamin-ionic (federal-style); 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: both successors are Ionic order packs of the same family and carry the same contradiction to the same two addresses, so this decline stops one delivery and not the class. palladio-ionic and benjamin-ionic on this node are the next adjudications."
     }
+  ],
+  "inherits_packs": [
+    "facade-classical"
   ]
 }

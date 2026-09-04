@@ -340,5 +340,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by roman-classical at cascade depth 12 with no direct lineage edge. --impact: governs cornice, door_surround and frieze, all three of which fall to benjamin-ionic (federal-style); 0 slots lose all dimensioning. The successor is a RICHER classical order than the one declined, so this decline stops a wrong pack and leaves a worse-suited one behind it -- OQ 58's stated limit, and worth a human's eye if a run of these accumulates on one node."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

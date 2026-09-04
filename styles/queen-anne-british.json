@@ -291,6 +291,7 @@
     }
   ],
   "inherits_packs": [
-    "facade-gable"
+    "facade-gable",
+    "storey-graduation"
   ]
 }
