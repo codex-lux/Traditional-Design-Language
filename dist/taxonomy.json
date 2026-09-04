@@ -8315,7 +8315,10 @@
           "name": "Drayton Hall",
           "location": "Ashley River, Charleston County, South Carolina",
           "year": 1742,
-          "note": "Palladian double portico, never modernized with plumbing or electricity; the most archaeologically intact Georgian house in the Lowcountry."
+          "note": "Palladian double portico, never modernized with plumbing or electricity; the most archaeologically intact Georgian house in the Lowcountry.",
+          "precedent": "drayton-hall",
+          "standing": "icon",
+          "why": "The owner calls it the nation's earliest fully executed Palladian house; never restored, so its Flemish bond, string courses and 70 by 52 ft block read as built, and the survey's 1984 data pages measure them."
         },
         {
           "name": "Colonel John Stuart House",
@@ -20872,7 +20875,10 @@
           "name": "Drayton Hall",
           "location": "Ashley River, Charleston County, South Carolina",
           "year": 1742,
-          "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible."
+          "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible.",
+          "precedent": "drayton-hall",
+          "standing": "canonical",
+          "why": "The family's type specimen for the double-pile block: 70'-5\" x 52'-2\", seven bays, two storeys over a raised basement, with its service below and its symmetry completed by a blind door (HABS SC-377)."
         },
         {
           "name": "Mount Pleasant",
@@ -47446,7 +47452,10 @@
           "name": "Westover",
           "location": "Charles City County, Virginia",
           "year": 1750,
-          "note": "Built by William Byrd III shortly after the 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Segmental window heads, ogee brick water table, steep hipped roof, tall paired chimneys; the Portland stone doorways were added c. 1767."
+          "note": "Built by William Byrd III shortly after the 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Segmental window heads, ogee brick water table, steep hipped roof, tall paired chimneys; the Portland stone doorways were added c. 1767.",
+          "precedent": "westover",
+          "standing": "icon",
+          "why": "The node's own record calls its segmental heads and ogee water table 'the standard by which the rest is judged', and the 1939 survey records the seven-bay Flemish-bond front with two stacks at each end that every Tidewater description begins from."
         },
         {
           "name": "Stratford Hall",
@@ -47464,7 +47473,10 @@
           "name": "Gunston Hall",
           "location": "Mason Neck, Fairfax County, Virginia",
           "year": 1759,
-          "note": "Built 1755–59 for George Mason; the interiors are William Buckland's first American work, and the Palladian and Chinese Chippendale rooms are directly traceable to imported pattern books."
+          "note": "Built 1755–59 for George Mason; the interiors are William Buckland's first American work, and the Palladian and Chinese Chippendale rooms are directly traceable to imported pattern books.",
+          "precedent": "gunston-hall",
+          "standing": "canonical",
+          "why": "The best-documented of the four -- 30 HABS sheets and 56 data pages -- and the house whose six enclosed ground rooms the centre-passage parti's own count is measured against (wp-9.2-the-parti-is-not-the-type.md)."
         }
       ],
       "sources": [

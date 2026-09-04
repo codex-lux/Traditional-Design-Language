@@ -63,7 +63,7 @@ The system is a stack of nine layers. Reading it bottom-up, each layer is a prec
 
 **8. The generator.** The composer (`build/compose.py`) seeds from the partis native to the style, sizes rooms from the catalog, revises against the validator until it stops improving, and returns four contrasting candidates ranked fatal-first then by style fidelity — each with what it trades away and a log of every assumption. **Since Phase 9 (1 Sep 2026) the revision is a loop with a critic in it**: `build/critique.py` judges the DRAWN house and sorts every finding into what a generator can do about it (actionable, the engine's, the critic's own invention, the architect's), and `build/revise.py` applies the registered moves of `moves/registry.json` — each a corpus rule made executable, quoting the sentence it executes — round after round, accepting only a strict improvement and rolling anything else back. It runs on the returned candidates by default, and the workbench can ask for it on the record in hand (WP-9.3: the critique and revise chips, the Revision panel); WP-9.4 audited all three and found the things the reports said were checked, and a second pass then audited WP-9.4's own guard and found it blind four ways (§VIII of the same report), `docs/reports/wp-9.4-the-things-the-reports-said-were-checked.md`. `docs/revise.md`. Geometry (`build/geometry.py`, `render_plan.py`) then places rectangles on the parti's bay grid, both levels solved jointly for vertical alignment, counts every relaxation off the grid, and renders an SVG that is strictly a view of the data. Above it sit walls and structure (`structure.py`), roof (`roof.py`) and the elevation generator (`elevation.py`).
 
-**9. The interfaces.** The MCP server (`mcp_server/`, 26 tools) is the real answer to "navigable by AI": not a file format but a server an agent consults mid-conversation, with progressive disclosure built in. Beside it, `dist/taxonomy.html` (the interactive phylogeny), `dist/orders.html` (the live order-drawing tool, running a JavaScript port of the engine checked to agree with the Python to 0.02 inches), `dist/taxonomy.json` for platform ingestion, and an agent digest. The image layer (`assets/manifest.json`, 1850 records over 142 style nodes) is the evidence layer: good/bad pairs authored from the data before any image exists.
+**9. The interfaces.** The MCP server (`mcp_server/`, 27 tools) is the real answer to "navigable by AI": not a file format but a server an agent consults mid-conversation, with progressive disclosure built in. Beside it, `dist/taxonomy.html` (the interactive phylogeny), `dist/orders.html` (the live order-drawing tool, running a JavaScript port of the engine checked to agree with the Python to 0.02 inches), `dist/taxonomy.json` for platform ingestion, and an agent digest. The image layer (`assets/manifest.json`, 1850 records over 142 style nodes) is the evidence layer: good/bad pairs authored from the data before any image exists.
 
 ### The pipeline as a whole
 
@@ -117,7 +117,7 @@ The following layers run clean, are schema-checked, and do what their documentat
 
 **A real regression suite.** **861 tests across 35 files**, each named for the finding it protects (was 304 across 16, 291 across 14). `make check` runs **31 checkers** then the suite, in one run of about eight minutes. Three of the checkers are newer than the last review and each exists because a class of silent corruption was found: `check_counts.py` fails the build when a number in the prose disagrees with the data; `check_addresses.py` compares what two co-binding packs MEAN at one address; `check_inheritance.py` reports what the lineage cascade delivers that nobody bound.
 
-**The MCP server.** 26 tools registered, imports cleanly, `core.py` callable directly.
+**The MCP server.** 27 tools registered, imports cleanly, `core.py` callable directly.
 
 **Repository hygiene and documentation.** The repo is consolidated, git-tracked, `_to_delete/` cleared, duplicate root files removed, every README count script-reproducible, and no doc references a path that does not exist.
 
@@ -126,6 +126,16 @@ Taken together: **Phases 0, 1, 2 and 3 are complete, and Phase 4 is complete thr
 ---
 
 ## Part III — What is begun but needs to be fleshed out
+
+**THE BENCH HAS A GRAMMAR AND NO LITERATURE (WP-11.1, 4 Sep 2026).** Asked where the research is thin,
+the survey found the corpus templated on the surface — every buildable node 2–4 exemplars, 4–5 sources,
+5 constraints — and unmetered underneath: **542 `measured` kit parameters cite no source** on the parameter
+or its slot while the provenance census had pinned editorial-bare at 0 for a year; **an exemplar had no
+locator** (482, 410 buildings, zero URLs in `styles/`); 24 buildable nodes cite only what a sibling cites;
+no period building exists in `plans/`. `precedents/` is the building's own record now, one file per
+building with the archival refs and the HABS written data quoted verbatim; `check_precedents.py` and
+`check_research.py` guard it; `tdl_precedents` serves it. The research runs in tranches
+(`PLAN-OF-ACTION.md` Phase 11). Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md`.
 
 **THE LARGEST OUTSTANDING ITEM, NOW RULED AND THEREFORE THE NEXT PACKAGE: the lineage cascade
 delivers proportion packs nobody bound (OQ 51).**
@@ -265,13 +275,14 @@ That order keeps faith with the project's own founding discipline — validator 
 | Geometry | `geometry_cp.py` | CP-SAT over the bay grid, named conflict sets | Complete — the WP-2.3 engine that survived the 25 Aug merge (`build/solver.py` deleted; OQ 55's open-void guarantee lapsed with it) |
 | Back-end | `structure.py`, `roof.py`, `elevation.py` | walls, section, roof plan, front elevation | Functional |
 | Site | `site` on plan/brief schemas | lot, setbacks, bearing, slope | Functional |
-| Interface | `mcp_server/` | 26 tools | Functional |
+| Interface | `mcp_server/` | 27 tools | Functional |
+| Evidence | `precedents/` | **3 records** at seeding, rising through the tranches | WP-11.1 — the building behind an exemplar, refs with `retrieved`/`via`, the survey quoted, never a `license`; `check_precedents.py` |
 | Evidence | `assets/manifest.json` | **1777 wanted, 73 sourced** | 73 drawn from the packs, over 142 style nodes; the harvest is still environment-blocked |
 | Back-end | `construction/` | 2 catalogs | Complete — WP-3.1's data side |
 | Governance | `docs/open-questions/` | **103 entries, 33 open** | **A DIRECTORY since 28 Aug 2026 (WP-8.1)** — one file per question, filename == id; `docs/open-questions.md` is a generated index. Four id-collision conversion tables are in its README: ids 32–41 → 54–63, two blocks of 64–66, 72–83 → 78–89, 78–85 → 91–98, plus the work-package renumber 5.7–5.10 → 5.11–5.14 (OQ 90). **FIVE collisions now, and the fifth is why the numbers are FROZEN AT 99** (OQ 99, ruled on main 28 Aug): every question raised since is NAMED `oq/<slug>` and lives in `docs/open-questions/oq-<slug>.md`, because a slug is derived from its subject and cannot be issued twice. The directory and the slug are complementary — one turns a duplicate id into a conflict git REFUSES, the other stops the id being derivable from the working tree. **OQ 90 is closed at its third option**: a work-package number is a LABEL, not an identifier — two packages may share a number, no two may share a report filename, and `check_ids.py` enforces that |
 | Provenance | `rule_append` | honoured, with the contributing ancestor recorded | **OQ 16 closed 25 Aug** — the code had shipped; only the label was open |
 | Governance | `docs/reports/` | **22 package reports** | One per completed WP |
-| Checks | `build/*.py` | **38 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance`, `check_ids`, `check_citations`, `check_division_guards`. `check_all` runs **41** — the 38 in its loop plus three appended suites, and the runner's own `len(results)` is the number to read |
+| Checks | `build/*.py` | **46 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance`, `check_ids`, `check_citations`, `check_division_guards`, and (WP-11.1) `check_precedents`, `check_research`. `check_all` runs **49** — the 46 in its loop plus three appended suites, and the runner's own `len(results)` is the number to read |
 | Checks | `tests/` | **1,195 tests, 44 files** | Plus the workbench server suite and 62 under `node --test`; one run, ~40 min; CI on GitHub Actions. These two rows are NOT policed by `check_counts.py`, which covers only counts derived from the corpus, so they go stale silently — `tests/test_counts_guard.py` pins the CLAUDE.md figures instead |
 
 *The four numbers a new session should not trust without re-reading them: **132 of 132 bound** (counts a node's own array, not what it receives — OQ 51); **0 silent editorial parameters** (the notes say no source is recorded, which is not the same as sourced — OQ 18); **61.5% of hard constraints tested** (unchanged since 24 Aug and not re-verified here); and **1777 wanted, 73 sourced** (the 73 were DRAWN from the proportion packs, not fetched; the harvester still has never run against a reachable host).*

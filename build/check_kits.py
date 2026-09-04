@@ -425,6 +425,14 @@ def main():
                 census[_pv.get("kind")] += 1
                 if _pv.get("kind") == "editorial" and not _pv.get("source") and not _pv.get("note"):
                     census["editorial-bare"] += 1
+                # WP-11.1. The census had counted the OTHER kind for a year. `measured` is "from
+                # surviving fabric or a documented standard" (the schema's words), and 672 of
+                # 1,161 carried no `source`; 542 sat on a slot with no `sources[]` either. Both
+                # are SUBSETS of `measured` and stay out of the denominator, as editorial-bare does.
+                if _pv.get("kind") == "measured" and not _pv.get("source"):
+                    census["measured-bare"] += 1
+                    if not _s.get("sources"):
+                        census["measured-bare-slot"] += 1
         unknown = set(slots) - ont_set
         missing = ont_set - set(slots)
         if unknown:
@@ -585,6 +593,12 @@ def main():
           "That is the figure OQ 18 is about -- a number nobody can check and nobody said "
           "anything about. An editorial call WITH a note is the corpus working as designed."
           % (census["editorial-bare"], 100.0 * census["editorial-bare"] / max(total, 1)))
+    print("  measured with NO source on the parameter: %d (%.1f%%); %d of those on a slot with no "
+          "`sources[]` either. That is the figure WP-11.1 is about -- a number claiming to have been "
+          "measured that nothing on the record says where. build/check_research.py ratchets it and "
+          "splits it by whether a generator reads the slot."
+          % (census["measured-bare"], 100.0 * census["measured-bare"] / max(total, 1),
+             census["measured-bare-slot"]))
 
     # THE BAKED SNAPSHOTS, AND THE UNJUDGED ONES REPORTED AS UNJUDGED. A snapshot whose
     # expression reads a binding `computed_at` does not carry is not passing this check; it is

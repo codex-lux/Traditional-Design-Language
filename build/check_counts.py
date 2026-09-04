@@ -46,6 +46,18 @@ def computed():
     buildable = [n for n in nodes if n.get("rank") in ("style", "variant")]
     v["nodes"] = len(nodes)
     v["buildable"] = len(buildable)
+    # WP-11.1. docs/model.md's rank table said 89 styles / 43 variants against 90 / 42 for as long
+    # as the table existed; nothing computed a per-rank value. And "482 exemplars" was published
+    # in STATE-OF-THE-PROJECT.md with no claim on it while gen_readme_counts.py computed the
+    # figure and never rendered it -- WP-8.14's class, the one figure nobody polices.
+    for rank in ("tradition", "family", "style", "variant"):
+        v["rank_%s" % rank] = sum(1 for n in nodes if n.get("rank") == rank)
+    v["exemplars"] = sum(len(n.get("exemplars") or []) for n in nodes)
+    v["precedents"] = len(sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))))
+    # The tool count was pinned in four tests and hand-typed in fourteen prose places, none of
+    # them claimed. gen_readme_counts.py:97 counts the decorators the same way for README only.
+    _srv = open(os.path.join(ROOT, "mcp_server", "server.py"), encoding="utf-8").read()
+    v["mcp_tools"] = len(re.findall(r"@mcp\.tool\(\)", _srv))
     v["bound"] = sum(1 for n in buildable if n.get("proportion_packs"))
     for role in ("opening", "facade", "interior"):
         v["no_%s_role" % role] = sum(
@@ -176,6 +188,15 @@ def computed():
     v["baked_judged"] = _st["baked_judged"]
     v["baked_unjudged"] = _st["baked_unjudged"]
     v["baked_snapshots"] = _st["baked_judged"] + _st["baked_unjudged"]
+    # WP-11.1. The research meter's headline figures, read from the checker that owns them.
+    _cr = modcache.load("check_research", os.path.join(ROOT, "build", "check_research.py"))
+    _rt = _cr.measure()["totals"]
+    v["measured_unsourced"] = _rt["measured_unsourced"]
+    v["measured_unsourced_read"] = _rt["measured_unsourced_read"]
+    v["shared_only_nodes"] = len(_rt["shared_only_nodes"])
+    v["sourceless_nodes"] = len(_rt["sourceless_nodes"])
+    v["exemplars_with_precedent"] = _rt["exemplars_with_precedent"]
+    v["read_slots"] = len(_rt["read_slots"])
     return v
 
 
@@ -302,6 +323,26 @@ CLAIMS = [
     ("CLAUDE.md",              "unendorsed",      r"the live backlog is \*\*(\d+) unjudged\*\* gaps"),
     # The sentence the plan named and the first pass pointed a claim at a DIFFERENT file instead.
     ("CLAUDE.md",              "image_never_harvestable", r"still wanted, and (\d+) of those can never be harvested"),
+    # WP-11.1. The rank table that said 89/43 against 90/42, the exemplar count nobody claimed, the
+    # tool count typed by hand in fourteen places, and the research meter's own figures.
+    ("docs/model.md",          "rank_style",     r"^\| `style` \| (\d+) \|"),
+    ("docs/model.md",          "rank_variant",   r"^\| `variant` \| (\d+) \|"),
+    ("docs/model.md",          "rank_family",    r"^\| `family` \| (\d+) \|"),
+    ("docs/model.md",          "rank_tradition", r"^\| `tradition` \| (\d+) \|"),
+    ("STATE-OF-THE-PROJECT.md", "exemplars",     r"enforceable constraints, (\d+) exemplars,"),
+    ("CLAUDE.md",              "mcp_tools",      r"· (\d+) MCP tools ·"),
+    ("STATE-OF-THE-PROJECT.md", "mcp_tools",     r"\(`mcp_server/`, (\d+) tools\)"),
+    ("STATE-OF-THE-PROJECT.md", "mcp_tools",     r"\*\*The MCP server\.\*\* (\d+) tools registered"),
+    ("STATE-OF-THE-PROJECT.md", "mcp_tools",     r"\| Interface \| `mcp_server/` \| (\d+) tools \|"),
+    ("mcp_server/README.md",   "mcp_tools",      r"^(\d+) tools that let an AI consult"),
+    ("CLAUDE.md",              "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
+    ("CLAUDE.md",              "measured_unsourced_read", r"cite no source\*\* on the parameter or its slot, (\d+) of them on one of the"),
+    ("CLAUDE.md",              "read_slots",              r"of them on one of the (\d+) generator-read slots"),
+    ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works a sibling also cites"),
+    ("CLAUDE.md",              "exemplars_with_precedent", r"(\d+) of \d+ exemplars carry a `precedent`"),
+    ("CLAUDE.md",              "exemplars",                r"\d+ of (\d+) exemplars carry a `precedent`"),
+    ("CLAUDE.md",              "precedents",               r"\*\*(\d+) precedent records\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "precedents",              r"\| Evidence \| `precedents/` \| \*\*(\d+) records\*\*"),
 ]
 
 

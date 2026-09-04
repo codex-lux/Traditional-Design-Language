@@ -437,6 +437,19 @@
           },
           "note": {
             "type": "string"
+          },
+          "precedent": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "description": "WP-11.1. The id of the building's own record in `precedents/`, which carries the archival references (HABS, NRHP, a list entry, the institution) and, where one exists, the survey's written data quoted verbatim. An exemplar without one is a name a reader can find and a checker cannot resolve. `build/check_precedents.py` holds this to the record's own `nodes` in both directions."
+          },
+          "standing": {
+            "enum": ["icon", "canonical", "regional", "documentary"],
+            "description": "WP-11.1. What this building is to THIS node, editorially: `icon` -- the building a fluent reader names first, the one the style is known by; `canonical` -- a type specimen, well documented, that the node's own figures can be held against; `regional` -- the local expression, right for the region and not the style's whole reach; `documentary` -- plain, surveyed, useful to measure and not to admire. A judgment, and `why` says whose."
+          },
+          "why": {
+            "type": "string",
+            "description": "One sentence for `standing`, in the project's voice, saying what makes it so and where the reason comes from."
           }
         }
       }

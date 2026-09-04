@@ -229,7 +229,10 @@
       "name": "Drayton Hall",
       "location": "Ashley River, Charleston County, South Carolina",
       "year": 1742,
-      "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible."
+      "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible.",
+      "precedent": "drayton-hall",
+      "standing": "canonical",
+      "why": "The family's type specimen for the double-pile block: 70'-5\" x 52'-2\", seven bays, two storeys over a raised basement, with its service below and its symmetry completed by a blind door (HABS SC-377)."
     },
     {
       "name": "Mount Pleasant",

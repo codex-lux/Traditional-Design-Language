@@ -202,7 +202,10 @@
       "name": "Drayton Hall",
       "location": "Ashley River, Charleston County, South Carolina",
       "year": 1742,
-      "note": "Palladian double portico, never modernized with plumbing or electricity; the most archaeologically intact Georgian house in the Lowcountry."
+      "note": "Palladian double portico, never modernized with plumbing or electricity; the most archaeologically intact Georgian house in the Lowcountry.",
+      "precedent": "drayton-hall",
+      "standing": "icon",
+      "why": "The owner calls it the nation's earliest fully executed Palladian house; never restored, so its Flemish bond, string courses and 70 by 52 ft block read as built, and the survey's 1984 data pages measure them."
     },
     {
       "name": "Colonel John Stuart House",
