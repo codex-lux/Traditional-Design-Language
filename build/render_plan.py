@@ -120,6 +120,26 @@ def render(plan, path, scale=7.0):
     fp = plan.get("footprint", {})
     W, H = fp.get("width_ft", 40), fp.get("depth_ft", 30)
 
+    # THE DRAWN EXTENT IS NOT THE MAIN BLOCK'S (OQ 40, 3 Sep 2026). `W` and `H` are the main
+    # block, and they must stay that: `derive_openings` below reads them to decide which walls
+    # are exterior, and widening them there would put windows on interior walls. But the SHEET
+    # has to hold every element, and a house with a dependency has rooms outside the main
+    # rectangle -- west of it at negative x, or east of it beyond `width_ft`.
+    #
+    # Found by rendering one. The plate is laid out as one panel per level, each `W * scale`
+    # wide; a garage dependency placed at model x = 84 landed at SVG x = 630 in a ground panel
+    # that ends at 532, so the garage, its mudroom and the breakfast room were drawn ON TOP OF
+    # THE UPPER FLOOR'S PLATE. Nothing clipped and nothing complained -- the marks were inside
+    # the canvas, just inside the wrong panel. That is this repository's own most expensive
+    # class of bug (a third of an upper floor drawn outside its viewBox, found by looking at a
+    # sheet rather than by any test), and it was introduced by the change that made a second
+    # element placeable and caught by the audit of that change rather than by it.
+    _pts = [r["geometry"] for lv in plan["levels"] for r in lv["rooms"] if r.get("geometry")]
+    draw_x0 = min([g["x_ft"] for g in _pts] + [0.0]) if _pts else 0.0
+    draw_y0 = min([g["y_ft"] for g in _pts] + [0.0]) if _pts else 0.0
+    draw_W = (max([g["x_ft"] + g["width_ft"] for g in _pts] + [W]) if _pts else W) - draw_x0
+    draw_H = (max([g["y_ft"] + g["depth_ft"] for g in _pts] + [H]) if _pts else H) - draw_y0
+
     # WP-6.1: resolved up front rather than inside the level loop, because the sheet's
     # banner has to state the totals and the banner is drawn before the plates.
     level_openings = [derive_openings(lv["rooms"], W, H) for lv in levels]
@@ -175,13 +195,13 @@ def render(plan, path, scale=7.0):
         setback_rear = site.get("setback_rear_ft")
         y_off = setback_front
         extra_left = x_off * scale
-        extra_right = max(0.0, lot_w - W - x_off) * scale
+        extra_right = max(0.0, lot_w - draw_W - x_off) * scale
         extra_bottom = y_off * scale
-        extra_top = max(0.0, lot_d - H - y_off) * scale
+        extra_top = max(0.0, lot_d - draw_H - y_off) * scale
 
     pad, gap = 42, 58
     top = max(96, (84 if plan.get("geometry_report") else 70) + 14 * _n_banner + 8)
-    pw, ph = W*scale, H*scale
+    pw, ph = draw_W*scale, draw_H*scale
     panel_w = pw + extra_left + extra_right
     total_w = pad*2 + len(levels)*panel_w + (len(levels)-1)*gap
     total_h = top + extra_top + ph + extra_bottom + 84
@@ -261,8 +281,8 @@ def render(plan, path, scale=7.0):
     for i, lv in enumerate(levels):
         ox = pad + i*(panel_w+gap) + extra_left; oy = top + extra_top
         # convert model (x east, y north, origin SW) to screen (y down)
-        X = lambda v, ox=ox: ox + v*scale
-        Y = lambda v, oy=oy: oy + (H - v)*scale
+        X = lambda v, ox=ox: ox + (v - draw_x0)*scale
+        Y = lambda v, oy=oy: oy + (draw_H + draw_y0 - v)*scale
         s.append(f'<text class="lb" x="{ox}" y="{oy-12}">{_esc((lv.get("name") or lv["id"]).upper())}</text>')
         if has_lot:
             lx0, ly0, lx1, ly1 = -x_off, -y_off, lot_w - x_off, lot_d - y_off
@@ -278,7 +298,17 @@ def render(plan, path, scale=7.0):
             ex0, ey0, ex1, ey1 = ss - x_off, sf - y_off, (lot_w - ss) - x_off, (lot_d - sr) - y_off
             s.append(f'<rect x="{X(ex0):.1f}" y="{Y(ey1):.1f}" width="{(ex1-ex0)*scale:.1f}" height="{(ey1-ey0)*scale:.1f}" '
                      f'fill="none" stroke="{PAL["copper"]}" stroke-width="0.8" stroke-dasharray="5 3"/>')
-        s.append(f'<rect x="{X(0):.1f}" y="{Y(H):.1f}" width="{pw:.1f}" height="{ph:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
+        # One paper ground and one perimeter per MASSING ELEMENT, not one rectangle across the
+        # whole drawn extent. `pw`/`ph` are the extent the sheet is SIZED to, which spans the
+        # hyphen gap: drawing the building outline at that size claims a 114 ft house where a
+        # 70 ft house stands beside a 20 ft dependency, and on a WEST dependency `X(0)` is 34 ft
+        # inside the panel so the rect ran 34 ft past its right edge and off the sheet. The
+        # elements are what the record states, so the elements are what is drawn.
+        _blocks = [(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]) for b in (fp.get("blocks") or [])] \
+            or [(0.0, 0.0, W, H)]
+        for _bx, _by, _bw, _bh in _blocks:
+            s.append(f'<rect x="{X(_bx):.1f}" y="{Y(_by+_bh):.1f}" width="{_bw*scale:.1f}" '
+                     f'height="{_bh*scale:.1f}" fill="{PAL["paper"]}" stroke="none"/>')
         # bay lines
         bm = fp.get("bay_module_ft") or 10
         b = bm
@@ -313,7 +343,9 @@ def render(plan, path, scale=7.0):
             # interior room outline was drawn at the building perimeter's own weight
             s.append(f'<rect class="wl" x="{X(x):.1f}" y="{Y(y+h):.1f}" width="{w*scale:.1f}" height="{h*scale:.1f}" '
                      f'style="stroke-width:1"/>')
-        s.append(f'<rect class="wl" x="{X(0):.1f}" y="{Y(H):.1f}" width="{pw:.1f}" height="{ph:.1f}"/>')
+        for _bx, _by, _bw, _bh in _blocks:
+            s.append(f'<rect class="wl" x="{X(_bx):.1f}" y="{Y(_by+_bh):.1f}" '
+                     f'width="{_bw*scale:.1f}" height="{_bh*scale:.1f}"/>')
         # labels — wrapped, shrunk and where necessary turned to fit the room (see
         # _fit_lines): the name is never truncated and never crosses a wall
         for r in lv["rooms"]:

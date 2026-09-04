@@ -168,7 +168,11 @@ def test_provenance_validates_and_gates_method():
     # CURRENT version is what makes the next one show up here too.
     # 0.4.0 (WP-9.1/9.2): `unplaced` carries its figures as `needs`/`have` beside the prose, and
     # the record carries the loop's own `revision_report`.
-    assert schema["version"] == "0.4.0"
+    # 0.5.0 (OQ 40, 3 Sep 2026): a house may be composed of more than one massing element. A room
+    # carries an optional `block`, and `footprint` an optional `blocks` -- both additive, so the
+    # footprint scalars still describe the main block and every existing reader is untouched. This
+    # pin did its job and caught the bump, which is the whole reason it names the current version.
+    assert schema["version"] == "0.5.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

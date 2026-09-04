@@ -366,17 +366,32 @@ def wing_step_down(plan, section, main):
     wing_eave_ft = round(wing_ridge_ft - (wing_depth_ft / 2.0) * (pitch / 12.0), 2)
     hyphen_length_ft = round(sum(hyphen_band) / 2.0, 2)
     computed_ratio = round(wing_ridge_ft / main_ridge_ft, 4)
-    ok = ridge_band[0] <= computed_ratio <= ridge_band[1]
+    # THE VERDICT IS UNJUDGED, AND IT MUST BE: this check could not fail (3 Sep 2026).
+    # `ratio` two lines above is CHOSEN to sit inside `ridge_band` -- the default when the band
+    # admits it, the band's own midpoint otherwise -- and `wing_ridge_ft` is then main x ratio.
+    # So `computed_ratio` is `ratio` back again to four places, and testing it against the band it
+    # was drawn from returned True by construction, on every plan, for as long as the function has
+    # existed. That is a pass on a figure nobody measured: the OQ 52 family, and the one thing
+    # `unjudged is not passed` most forbids. The schematic figures are kept and still drawn --
+    # a reader is better served by a labelled sketch than by a blank -- but the RULE reports
+    # could-not-evaluate, in this file's own established shape for that (`ok: None`, as the dormer
+    # check returns when no bay count exists). It becomes judgeable when the geometry layer places
+    # a real second volume, which is `oq/the-parti-dissolved-its-own-dependencies`'s own subject;
+    # until then there is no measured wing ridge for the ratio to be a ratio OF.
+    ok = None
     return {
         "applicable": True, "computed": True, "schematic": True,
         "main_ridge_grade_ft": main_ridge_ft, "wing_ridge_grade_ft": wing_ridge_ft, "wing_eave_grade_ft": wing_eave_ft,
         "wing_depth_ft": wing_depth_ft, "hyphen_length_ft": hyphen_length_ft,
         "ratio": computed_ratio, "ratio_band": list(ridge_band), "ok": ok,
+        "unjudged_reason": ("the wing ridge is derived from the band this rule tests it against, so a verdict "
+                            "would be circular; no placed second volume exists to measure one from"),
         "bands_read_from_fallback": fell_back,
-        "note": ("SCHEMATIC: this corpus's geometry solver never places a real second volume, so wing_depth_ft is "
-                 "assumed (one bay module) rather than measured off a placed room. The ratio itself is real and "
-                 "checked against dependency-and-hyphen.json's own stated 0.6-0.8 band, read from that file's "
-                 "prose rather than re-transcribed."),
+        "note": ("SCHEMATIC AND UNJUDGED: this corpus's geometry solver never places a real second volume, so "
+                 "wing_depth_ft is assumed (one bay module) rather than measured off a placed room, and "
+                 "wing_ridge_ft is DERIVED from dependency-and-hyphen.json's own 0.6-0.8 band rather than "
+                 "measured. The figures are drawn as a labelled sketch; the ratio is reported and deliberately "
+                 "not judged, because a rule tested against the band its own input came from cannot fail."),
     }
 
 # ---------------------------------------------------------------- chimneys
@@ -514,10 +529,30 @@ def gambrel_break_check(main):
     fell_back = []
     break_band = ((break_test["threshold"], break_test["upper"]) if break_test
                   else _fallback_band(fell_back, "gambrel: break_height_above_eave_in band", (0.55, 0.65)))
-    break_ok = break_band[0] <= g["break_fraction"] <= break_band[1]
+    # THE BREAK VERDICT IS UNJUDGED, FOR THE SAME REASON `wing_step_down`'s IS (3 Sep 2026).
+    # Found by an adversarial audit as the SECOND occurrence of that pattern, three functions
+    # above this one. `_style_gambrel_geometry` initialises `break_frac = None` and has no branch
+    # that ever sets it -- there is no `break_height_above_eave` constraint reader -- so it is
+    # ALWAYS `GAMBREL_BREAK_FRACTION_DEFAULT`, 0.625, and this line tested that constant against
+    # the fault's own [0.55, 0.65] band, which it was chosen to sit inside. True by construction,
+    # on every gambrel roof this corpus has ever drawn.
+    #
+    # The docstring above has half-admitted it since it was written ("the defaults ... were
+    # themselves chosen inside these same bands") and ran the check anyway. A disclosure in prose
+    # beside a `True` in the record is not a disclosure: every reader takes the boolean.
+    # It becomes judgeable the day a style states a break height and something reads it.
+    #
+    # `diff_ok` above is NOT the same case and is left as a boolean: the two slopes are read from
+    # independent style constraints (`roof_slope_lower_deg`, `roof_slope_upper_deg`) and their
+    # difference is tested against a threshold neither of them came from.
+    break_ok = None
     return {"applicable": True, "slope_difference_deg": round(diff, 1), "diff_ok": diff_ok,
             "bands_read_from_fallback": fell_back,
-            "break_fraction": g["break_fraction"], "break_band": list(break_band), "break_ok": break_ok}
+            "break_fraction": g["break_fraction"], "break_band": list(break_band),
+            "break_ok": break_ok,
+            "break_unjudged_reason": ("the break fraction is a module constant chosen inside this "
+                                      "band and no style states one, so testing it against the band "
+                                      "would be circular; `break_source` names the constant")}
 
 def dormer_rhythm_check(plan, section, main):
     """Whether this house's dormers can sit on its bays -- in the three states the record has.
@@ -588,9 +623,15 @@ def dormer_rhythm_check(plan, section, main):
 # ---------------------------------------------------------------- plan-view outline + elevation profiles
 def roof_outline(section, main):
     """Plan-view line segments for the roof-plan SVG: the eave rectangle (the outside-to-outside
-    footprint itself), the ridge line, hip lines where the form has them, the gambrel break
-    lines (parallel to the ridge, offset by break_offset_ft on each side), and the dependency
-    wing's own ridge where one was computed."""
+    footprint itself), the ridge line, hip lines where the form has them, and the gambrel break
+    lines (parallel to the ridge, offset by break_offset_ft on each side).
+
+    This docstring promised "and the dependency wing's own ridge where one was computed" until
+    3 Sep 2026 and the body has never emitted a wing line of any kind -- there is no second
+    footprint to draw one on, which is what `wing_step_down` above says about itself. Prose
+    asserting geometry the code does not produce is the class WP-6.4 exists to remove; the
+    sentence goes rather than the claim being left to be believed. When a real second volume is
+    placed, the line comes back here with the code that draws it."""
     fp = section["footprint"]
     W, D = fp["width_ft"], fp["depth_ft"]
     lines = [{"kind": "eave", "x1": 0.0, "y1": 0.0, "x2": W, "y2": 0.0},
@@ -721,13 +762,14 @@ def main():
         print(f"  chimneys: {ch['note']}")
     w = roof["checks"]["wing_step_down"]
     if w.get("computed"):
-        print(f"  dependency wing ridge {w['wing_ridge_grade_ft']} ft ({w['ratio']*100:.0f}% of main, band {w['ratio_band']}) -- {'OK' if w['ok'] else 'FAIL'}")
+        print(f"  dependency wing ridge {w['wing_ridge_grade_ft']} ft ({w['ratio']*100:.0f}% of main, band {w['ratio_band']}) -- {'UNJUDGED' if w['ok'] is None else ('OK' if w['ok'] else 'FAIL')}")
     cape = roof["checks"]["cape_eave"]
     if cape.get("computed"):
         print(f"  Cape eave-to-first-floor {cape['eave_height_above_finished_first_floor_in']} in vs {cape['band_in']} in band -- {'OK' if cape['ok'] else 'FAIL'}")
     gb = roof["checks"]["gambrel_break"]
     if gb.get("applicable"):
-        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {'OK' if gb['diff_ok'] else 'FAIL'}; break at {gb['break_fraction']*100:.0f}% -- {'OK' if gb['break_ok'] else 'FAIL'}")
+        brk = 'UNJUDGED' if gb['break_ok'] is None else ('OK' if gb['break_ok'] else 'FAIL')
+        print(f"  gambrel slope difference {gb['slope_difference_deg']} deg -- {'OK' if gb['diff_ok'] else 'FAIL'}; break at {gb['break_fraction']*100:.0f}% -- {brk}")
     if a.out:
         json.dump(roof, open(a.out, "w"), indent=1, ensure_ascii=False)
         print(f"  wrote {a.out}")

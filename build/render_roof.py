@@ -74,13 +74,24 @@ def render_roof(roof, path, scale=7.0):
     line2 = []
     w = checks.get("wing_step_down", {})
     if w.get("computed"):
-        line2.append(f"WING RIDGE {w['ratio']*100:.0f}% OF MAIN — {'OK' if w['ok'] else 'FAIL'}")
+        # `ok` is None where the rule could not be judged, and the plate must not read that as a
+        # FAIL -- a falsy check here turned an unjudged verdict into a conviction on the drawing,
+        # which is the three-state rule breaking on the one surface a reader actually looks at.
+        verdict = "UNJUDGED" if w.get("ok") is None else ("OK" if w["ok"] else "FAIL")
+        line2.append(f"WING RIDGE {w['ratio']*100:.0f}% OF MAIN — {verdict}")
     cape = checks.get("cape_eave", {})
     if cape.get("computed"):
         line2.append(f"CAPE EAVE {'OK' if cape['ok'] else 'FAIL'}")
     gb = checks.get("gambrel_break", {})
     if gb.get("applicable"):
-        line2.append(f"GAMBREL BREAK {'OK' if (gb['diff_ok'] and gb['break_ok']) else 'FAIL'}")
+        # `break_ok` is None where the break fraction is the generator's own default tested
+        # against the band it was taken from -- the same circularity the wing ridge carries, and
+        # the same rule: an unjudged verdict is not a FAIL. `diff_ok` is a real comparison of two
+        # stated pitches and stays boolean, so the two halves are reported separately rather than
+        # ANDed into one word that would have to mean three things.
+        pitch = "OK" if gb.get("diff_ok") else "FAIL"
+        brk = "UNJUDGED" if gb.get("break_ok") is None else ("OK" if gb["break_ok"] else "FAIL")
+        line2.append(f"GAMBREL PITCH DIFF {pitch} · BREAK {brk}")
     if line2:
         s.append(f'<text class="dm" x="{ox:.1f}" y="{legend_y+14:.1f}">{" · ".join(line2)}</text>')
 

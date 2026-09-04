@@ -209,3 +209,4 @@ def test_no_parti_declares_a_garage_room_without_the_grouping_that_governs_it():
         f"these partis carry a garage room that no grouping governs: {offenders}. "
         f"Add garage-and-hyphen to their groupings, or remove the room and let "
         f"attach_garage() place it against the massing.")
+

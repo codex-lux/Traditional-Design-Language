@@ -710,7 +710,17 @@ def main():
         inv = check_invariants(pk)
         if inv:
             print(f"\n  INVARIANTS")
-            for i in inv: print(f"      [{'ok ' if i['holds'] else 'FAIL'}] {i['statement'][:100]}")
+            # THIRD OCCURRENCE OF THE SAME PATTERN (3 Sep 2026, WP-10.1's audit), found by
+            # sweeping for it after roof.py's CLI and render_roof.py both printed FAIL for an
+            # unjudged verdict. `check_invariants` sets `holds: None` with an `error` when the
+            # expression cannot be evaluated at all, and this line convicted the pack of failing
+            # its own invariant on the strength of a crash. The SELFTEST twenty lines below has
+            # always read it correctly (`if i["holds"] is not True: ... i.get("error")`), so the
+            # file knew and the print did not -- which is how these survive.
+            for i in inv:
+                mark = "ok  " if i["holds"] else ("N/EV" if i["holds"] is None else "FAIL")
+                why = f"  ({i['error']})" if i.get("error") else ""
+                print(f"      [{mark}] {i['statement'][:100]}{why}")
         if a.rules:
             ev = evaluate(pk, a.module, {"ceiling_height": a.ceiling} if a.ceiling else None)
             print(f"\n  DERIVED RULES  (ceiling {_fmt_in(ev['bindings']['ceiling_height'])}, opening {_fmt_in(ev['bindings']['opening_width'])})")
