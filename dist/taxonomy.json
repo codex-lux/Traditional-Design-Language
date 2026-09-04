@@ -3212,6 +3212,9 @@
           "note": "Delivered by federal-style at cascade depth 4; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node. No live gate."
         }
       ],
+      "inherits_packs": [
+        "sash-light"
+      ],
       "_cascade": [
         "american-folk-vernacular",
         "greek-revival-american",
@@ -8368,6 +8371,7 @@
         }
       ],
       "inherits_packs": [
+        "sash-light",
         "trim-classical"
       ],
       "_cascade": [
@@ -10920,6 +10924,9 @@
           "note": "Arrives from english-palladian at cascade depth 10 with no direct lineage edge. Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. Same field and same reasoning as the node's existing chambers-doric decline, one order over."
         }
       ],
+      "inherits_packs": [
+        "sash-light"
+      ],
       "_cascade": [
         "craftsman",
         "american-arts-and-crafts",
@@ -11328,6 +11335,9 @@
           "decided": "2026-09-02",
           "note": "Arrives from english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots -- --impact reports 'Declining it changes no dimension on this node.' -- so no slot loses dimensioning and the meter is the only thing that moves."
         }
+      ],
+      "inherits_packs": [
+        "sash-light"
       ],
       "_cascade": [
         "american-arts-and-crafts",
@@ -24195,6 +24205,9 @@
           "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
         }
       ],
+      "inherits_packs": [
+        "sash-light"
+      ],
       "_cascade": [
         "greek-revival-american",
         "early-republic",
@@ -30292,6 +30305,7 @@
         }
       ],
       "inherits_packs": [
+        "sash-light",
         "trim-classical"
       ],
       "_cascade": [
@@ -34985,6 +34999,7 @@
         }
       ],
       "inherits_packs": [
+        "sash-light",
         "trim-classical"
       ],
       "_cascade": [
@@ -48677,7 +48692,7 @@
       "delivery": "cascade"
     },
     "sash-light": {
-      "delivery": "cascade"
+      "delivery": "opt-in"
     },
     "stone-course": {
       "delivery": "cascade"

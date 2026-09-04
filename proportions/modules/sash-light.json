@@ -422,6 +422,7 @@
     "craftsman-bungalow",
     "minimal-traditional"
   ],
+  "delivery": "opt-in",
   "sources": [
     "National Park Service, Preservation Brief 9: The Repair of Historic Wooden Windows",
     "New Hampshire Division of Historical Resources, guidance on historic window sashes (muntin widths, 7x9 and 8x10 lights, glazing putty)",
