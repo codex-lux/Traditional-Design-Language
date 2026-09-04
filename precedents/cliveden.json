@@ -1,0 +1,146 @@
+{
+  "id": "cliveden",
+  "name": "Cliveden",
+  "aka": [
+    "Benjamin Chew House"
+  ],
+  "location": {
+    "text": "Germantown, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1763-1767",
+    "circa": false,
+    "altered": "A 19th-century rear addition (the survey: 'rear addition, approximately 20' x 30''; 'a standing seam metal roof'); the rear courtyard of the original three-part plan was later filled in.",
+    "note": "The Library's item says 'Built as a country residence in 1763-1767 for Benjamin Chew'; the Wikipedia infobox prints 1767, 'Attributed to William Peters'. Recorded as the item states it."
+  },
+  "nodes": [
+    "mid-atlantic-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1184",
+      "url": "https://www.loc.gov/pictures/item/pa1164",
+      "title": "Cliveden, 6401 Germantown Avenue, Philadelphia, Philadelphia County, PA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The drawings resource page reads 'Drawings from Survey HABS PA-1184'; the item's significance line: 'Built as a country residence in 1763-1767 for Benjamin Chew, a prominent'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa1164",
+      "url": "https://www.loc.gov/pictures/item/pa1164",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cliveden_(Benjamin_Chew_House)",
+      "title": "Cliveden (Benjamin Chew House) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000677",
+      "url": "https://en.wikipedia.org/wiki/Cliveden_(Benjamin_Chew_House)",
+      "title": "NRHP reference No. 66000677; added October 15, 1966; designated NHL January 20, 1961; contributing to the Colonial Germantown Historic District (ID66000678) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "pa1164",
+    "survey_no": "PA-1184",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1100/pa1164/data/pa1164data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: \" 1. Overall dimensions: Main block, approximately 53' C^ive-bay front} X kk'1 rear addition, approximately.20/ X 30V; West Wing, approximately 18' X 26', excluding curving arcade; East Wing, approximately 18' X 36'. 2. Foundations: Masonry foundations of superior quality. The front foundation wall has ashlar finish.",
+        "page": "HABS No. PA-1184, Part II.B.1-2; no page marker legible in the extract span"
+      },
+      {
+        "field": "walls",
+        "text": "3. Walls: The south (front) elevation is constructed of grey stone, possibly of local origin, and has an ashlar finish. Superb sandstone lintels are placed over the heads of all window openings. There is a sandstone beltcourse at the second floor level. Cut stone window jambs are used in the basement windows. The central bay is a projected pavilion which has a pediment at the attic level and is crested with an ornamental urn.",
+        "page": "HABS No. PA-1184, Part II.B.3; no page marker legible in the extract span"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: Brick. There are two large chimneys on the main block. There is one chimney on the 19th century addition. Each flanking wing has one chimney.",
+        "page": "HABS No. PA-1184, Part II.B.6; no page marker legible in the extract span"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings: a. Doorways and doors: The main entrance has double doors, four panels each. Lesser doors are six- and four- panel types. b. Windows and shutters: All windows are 12-over-12 sash. Most of the glass in these windows is 18th and 19th century. There are exterior shutters on all windows on the ground floor.",
+        "page": "HABS No. PA-1184, Part II.B.7; no page marker legible in the extract span"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering: The gable\" roof of the main block is covered with wood shingles, probably red cedar. The 19th century addition has a standing seam metal roof which has been covered with asphalt. b. Cornice: There is an elegant wood dentiled cornice around the , main block. A similar dentiled cornice is used on the flanking wings. c. Dormers: There are a pair of dormer windows on the front of the main block. They have Gothic sash and are flanked by consoles. There is also a dormer on the rear of the main block. d. Urns: Ornamental urns are on the ridge of the roof and the two front corners of the roof, as well as the one on the central pediment.",
+        "page": "HABS No. PA-1184, Part II.B.8; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "main_block_width_ft",
+      "as_printed": "Main block, approximately 53' C^ive-bay front}",
+      "value": 53,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "'Approximately'."
+    },
+    {
+      "name": "main_block_depth_ft",
+      "as_printed": "X kk'1",
+      "value": 44,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The OCR prints 'kk'; the same tier's scans print '4' as 'k' elsewhere (Stratford's '8 3/k\"'), so read as 44'. A reading, marked as one."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "C^ive-bay front}",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR for '(five-bay front)'; a reading."
+    },
+    {
+      "name": "wing_width_ft",
+      "as_printed": "West Wing, approximately 18' X 26', excluding curving arcade",
+      "value": 18,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "There are two large chimneys on the main block",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The main block only; one on the addition and one on each wing besides."
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "All windows are 12-over-12 sash",
+      "value": 24,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Twelve over twelve; recorded as the total per window."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "There are a pair of dormer windows on the front of the main block ... There is also a dormer on the rear",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Two on the front, one on the rear; the as_printed joins two sentences of one quote with an ellipsis and the quote itself is contiguous."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the mid-atlantic-georgian node already carried were kept exactly. The extract's spans carry no page markers at all for this survey, and every quote says so."
+}

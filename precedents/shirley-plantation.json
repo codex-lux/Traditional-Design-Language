@@ -1,0 +1,142 @@
+{
+  "id": "shirley-plantation",
+  "name": "Shirley Plantation",
+  "aka": [
+    "Shirley"
+  ],
+  "location": {
+    "text": "Charles City County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "ca. 1738",
+    "circa": true,
+    "altered": "Remodelled in the 1770s by Charles Carter, who installed the interior woodwork and added the porticoes; the porticoes modified in 1831 (the DHR entry). The 1930s survey sheet argues the roof and porticoes are original, against a tradition that they are nineteenth-century additions.",
+    "note": "Three dates are on the record because three sources give them: the DHR entry says 'built ca. 1738 following the marriage of Elizabeth Hill ... to John Carter'; the 1930s survey sheet prints 'Date of erection: c. 1765 Builder-Owner: Charles Carter'; the Wikipedia infobox prints 'circa 1723'. Recorded as the state register states it, with the others noted rather than resolved."
+  },
+  "nodes": [
+    "tidewater-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-388",
+      "url": "https://www.loc.gov/resource/hhh.va0313.photos?st=pdf",
+      "title": "1. General view - Shirley, 501 Shirley Plantation Road, Shirley, Charles City County, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search hit reads 'Data Page(s): Shirley, 501 Shirley Plantation Road, Shirley, Charles City County, VA Photos from Survey HABS VA-388'. Wikipedia's external-links line, read the same day, gives 21 photos, 5 data pages and 2 photo caption pages, with the stable (2 photos, 1 data page) and a dependency (2 photos) as separate items. The survey number is also printed on the data page ('HABS So. VA-388', 'HABS Ho. VA-388')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0313",
+      "url": "https://www.loc.gov/pictures/item/va0313",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the photo resource the search returned and of the data PDF actually fetched; the landing page itself was not opened (loc.gov/pictures refuses extraction from here). Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Shirley_Plantation",
+      "title": "Shirley Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "69000328",
+      "url": "https://www.dhr.virginia.gov/historic-registers/018-0022",
+      "title": "NRHP reference No. 69000328; added October 1, 1969; designated NHL April 15, 1970 (as both the Wikipedia infobox and the DHR page print it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "018-0022",
+      "url": "https://www.dhr.virginia.gov/historic-registers/018-0022",
+      "title": "Shirley – DHR",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "va0313",
+    "survey_no": "VA-388",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0300/va0313/data/va0313data.pdf",
+    "prepared": "'Prepared at Washington Office', Virginia District (1930s); later addenda are a photograph set and the Colonial Williamsburg Agricultural Buildings Project's reduced measured drawings",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SHIRLEY j .. Shirley, Charles City County, Virginia Owner: Mrs, Marian Oliver Date of erection: c. 1765 Builder-Owner: Charles Carter Condition: Good Description: The mansion is of brick laid in Flemish bond and is almost square in plan. It is two full stories high below a heavy man- sard roof. The two main elevations are treated with superim- posed porticos with variations of the Tuscan orders in lower and upper colonnades.",
+        "page": "HABS No. VA-388, Virginia District sheet 'Prepared at Washington Office'; no page number printed on the sheet"
+      },
+      {
+        "field": "walls",
+        "text": "The crown mould of the lower order coincides with the string course of the second floor and is received by it. The main cornice of the house carries around the upper porch and is used for the rake of the pediment. This cornice is enriched with modillions and dentils. The walls are divided half way of their height by a moulded and a gauged brick string course- The windows are also equal, all having twelve-over-twelve-light sashes. The wall within the three-bay porticos is plastered and whitened and con- tains a center door with a window on either side. The main ele- vations are five bays and the sides four bays. On one of these latter is a single-bay dwarf portico covering a side entrance.",
+        "page": "HABS No. VA-388, same sheet, continuing the description; no page number printed"
+      },
+      {
+        "field": "roof",
+        "text": "An unfortunate feature of the house is its high mansard roof pierced by numerous large gabled dormers with twelve-over- eight sashes. Their scale is too large for the house and ad- versely affects the design. At the apex of the upper slope of the roof is a pineapple finial, and flanking it are a pair of large chimneystacks with moulded caps. It has been said that the roof and porticos are nineteenth-century additions, but the architectural evidence is that they are original.",
+        "page": "HABS No. VA-388, same sheet; no page number printed"
+      },
+      {
+        "field": "plan",
+        "text": "In plan Shirley resembles no other Virginia building, un- less it be the Governor's Palace in Williamsburg.",
+        "page": "HABS No. VA-388, same sheet, immediately before the 'HABS So. VA-388' running header"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two full stories high below a heavy man- sard roof",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two full storeys under a mansard the surveyor counts separately."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "The main ele- vations are five bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count_side",
+      "as_printed": "the sides four bays",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "all having twelve-over-twelve-light sashes",
+      "value": 24,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Twelve over twelve; recorded as the total per window."
+    },
+    {
+      "name": "dormer_sash_lights",
+      "as_printed": "gabled dormers with twelve-over- eight sashes",
+      "value": 20,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Twelve over eight in the dormers; the total per dormer sash."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "a pair of large chimneystacks",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Two stacks flanking the finial at the apex -- interior, not at the gables, which the node's prose calls the Tidewater rule."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on tidewater-georgian. Worth carrying: the survey's mansard with two INTERIOR stacks at the apex, and a plan 'almost square' that 'resembles no other Virginia building', sit against the node's own prose (gable-end chimneys, a lower hipped or gabled roof, single-pile plans); this is a river seat named for the region rather than a specimen of the recipe, and its standing on the node says so."
+}

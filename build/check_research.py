@@ -63,16 +63,16 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #   editorial_read 69            Editorial parameters on a read slot (the hand list said 55).
 #   shared_only_nodes 24         Nodes whose every source is shared with another node.
 #   untested_nodes 3             Nodes with constraints and not one carrying a test.
-#   exemplars_with_precedent 4   A FLOOR: exemplars naming a `precedents/` record.
-#   nodes_with_a_precedent 3     A FLOOR.
+#   exemplars_with_precedent 171 A FLOOR: exemplars naming a `precedents/` record.
+#   nodes_with_a_precedent 27    A FLOOR.
 RATCHET = {
     "measured_unsourced": 542,
     "measured_unsourced_read": 272,
     "editorial_read": 69,
     "shared_only_nodes": 24,
     "untested_nodes": 3,
-    "exemplars_with_precedent": 4,      # FLOOR -- may only RISE
-    "nodes_with_a_precedent": 3,        # FLOOR -- may only RISE
+    "exemplars_with_precedent": 171,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171)
+    "nodes_with_a_precedent": 27,       # FLOOR -- may only RISE (3 at seeding)
 }
 FLOORS = ("exemplars_with_precedent", "nodes_with_a_precedent")
 

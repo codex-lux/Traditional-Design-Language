@@ -1,0 +1,79 @@
+{
+  "id": "hampton-plantation",
+  "name": "Hampton Plantation",
+  "aka": [
+    "Hampton"
+  ],
+  "location": {
+    "text": "McClellanville, Charleston County, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "c. 1735",
+    "circa": true,
+    "altered": "The survey: Daniel Horry 'squared the house by adding another pair of rooms on the second story and large extensions at each end', one of them the ballroom, with false windows for symmetry; 'About 1790 the deep portico was added'. The SC register: 'greatly enlarged after 1757, and with final additions made in 1790-91'.",
+    "note": "The 1930s survey sheet says 'About 1735 Noe Serre ... built a substantial plantation house on Wambaw Creek' (OCR 'Ko& Serre', 'Wainbaw'); the SC register says 'erected in 1735'; the Wikipedia infobox prints 1730. Recorded as the survey states it."
+  },
+  "nodes": [
+    "charleston-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-72",
+      "url": "https://www.loc.gov/item/sc0336",
+      "title": "Hampton Plantation, Wambaw Creek, South side, McClellanville, Charleston County, SC | Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Call number HABS SC,10-McCLEL.V,3- (the search hit prints a C. E. Peterson photograph 'c. 1935 DISTANT VIEW' under it). The survey number is read from the data page's own header ('Hampton Plantation HABS NO, SC-72')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0336",
+      "url": "https://www.loc.gov/item/sc0336",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hampton_Plantation",
+      "title": "Hampton Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000582",
+      "url": "https://en.wikipedia.org/wiki/Hampton_Plantation",
+      "title": "NRHP reference No. 70000582; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710016",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710016/index.htm",
+      "title": "Hampton Plantation - National Register - South Carolina",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'an excellent example of a modest sized frame structure that evolved through organic growth into a large, unified Georgian frame country house. The structure includes one of the earliest examples of the use of the giant portico in American domestic architecture, and Hampton is South Carolina's finest example of a large two-and-one-half story frame Georgian' (the search snippet ends there)."
+    }
+  ],
+  "survey": {
+    "item": "sc0336",
+    "survey_no": "SC-72",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0300/sc0336/data/sc0336data.pdf",
+    "prepared": "'District of South Carolina Historic American Buildings Survey Prepared at Washington Office' (as the 1930s sheet reads); bibliography 'S. G. Stoney: Plantations of the Carolina Low Country'",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Historical Data: About 1735 Ko& Serre, grandson of a Huguenot emigrant, \"built a substantial plantation house on Wainbaw Creek. This house passed to Daniel Kuger Horry when he married Judith, daughter of IToe Sorrfe. Horry squared the house by adding another pair of rooms on the second story and large extensions at each end. One of these is taken uo \"by the large \"ballroom. For the sake of symmetry false windows have 'been used in the outside of these additions. About 1790 the deep portico was added, and G-eorge Washington was the first guest to pass through its tall colonade.",
+        "page": "HABS No. SC-72, 1930s sheet 'Prepared at Washington Office', headed 'Hampton, Mount Pleasant Vicinity'; no page number printed"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on charleston-georgian, a frame Lowcountry country house the state register calls the state's finest of its kind, with a giant portico added when Georgian was already giving way. The survey's sheet is a paragraph of history with the building's growth in it and no dimensions."
+}

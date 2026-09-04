@@ -1,0 +1,59 @@
+{
+  "id": "stenton",
+  "name": "Stenton",
+  "location": {
+    "text": "Germantown, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1723–1730",
+    "circa": false,
+    "note": "The Wikipedia infobox prints '1723–1730' with 'John Nicholas (d. 1756), master builder'; the Library's item says 'ca. 1728 Initial Construction'. Recorded as the infobox states it."
+  },
+  "nodes": [
+    "mid-atlantic-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1714",
+      "url": "https://www.loc.gov/pictures/item/pa0910",
+      "title": "Stenton, Courtland & Eighteenth Streets, Philadelphia, Philadelphia County, PA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS PA-1714 Building/structure dates: ca. 1728 Initial Construction'. Wikipedia's external-links section, read the same day, gives '4 photos, 10 measured drawings, 1 photo caption page' and a separate PA-1714-A for the kitchen wing (3 measured drawings) -- no data pages, which the PDF fetched confirms (covers only). No survey block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0910",
+      "url": "https://www.loc.gov/pictures/item/pa0910",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/pa4148",
+      "title": "Stenton, 4601 North 18th Street, Philadelphia, Philadelphia County, PA (HALS PA-24)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Historic American Landscapes Survey record ('See also HABS PA-1714 for additional documentation'); Wikipedia gives it 7 data pages, on the grounds rather than the house."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Stenton_(mansion)",
+      "title": "Stenton (mansion) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000690",
+      "url": "https://en.wikipedia.org/wiki/Stenton_(mansion)",
+      "title": "NRHP reference No. 66000690; added January 12, 1965 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the mid-atlantic-georgian node already carried were kept exactly. Ten HABS sheets and no written data: measurable, not quotable."
+}

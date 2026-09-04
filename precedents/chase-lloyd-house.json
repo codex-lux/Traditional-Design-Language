@@ -1,0 +1,93 @@
+{
+  "id": "chase-lloyd-house",
+  "name": "Chase-Lloyd House",
+  "aka": [
+    "Chase House",
+    "Samuel Chase House"
+  ],
+  "location": {
+    "text": "22 Maryland Avenue, Annapolis, Maryland",
+    "country": "United States",
+    "state": "Maryland"
+  },
+  "dates": {
+    "built": "1769-1774",
+    "circa": false,
+    "note": "The MHT entry prints 'Period/Date of Construction: 1769-1774'; the survey's bound guidebook entry says 'started in 1769 by Samuel Chase ... Edward Lloyd ... who finished it in 1772'; the 1940 sheet prints 'Date of erection: 1769'; the Wikipedia infobox prints 1769 with 'Buckland, William and Noke, William'. Recorded as the state register states it."
+  },
+  "nodes": [
+    "mid-atlantic-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MD-243",
+      "url": "https://www.loc.gov/pictures/item/md0022",
+      "title": "Chase-Lloyd House, 22 Maryland Avenue & King George Street, Annapolis, Anne Arundel County, MD",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's summary line reads 'Photo(s): 25 Measured Drawing(s): Survey number: HABS MD-243'. The survey number is also printed in the data page's own addendum header ('ADDENDUM to Chase-Lloyd House HABS No. MD-243')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "md0022",
+      "url": "https://www.loc.gov/pictures/item/md0022",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Chase-Lloyd_House",
+      "title": "Chase–Lloyd House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000260",
+      "url": "https://en.wikipedia.org/wiki/Chase-Lloyd_House",
+      "title": "NRHP reference No. 70000260; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox prints it; the MHT page prints the same dates)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "AA-628",
+      "url": "https://apps.mht.maryland.gov/nr/NRDetail.aspx?NRID=35&FROM=NRNHLList.aspx",
+      "title": "National Register Properties in Maryland",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Maryland Historical Trust: 'Chase-Lloyd House Inventory No.: AA-628 Date Listed: 4/15/1970 Location: 22 Maryland Avenue, Annapolis, Anne Arundel County Category: Building Period/Date of Construction: 1769-1774 NHL Date: 4/15/1970'."
+    }
+  ],
+  "survey": {
+    "item": "md0022",
+    "survey_no": "MD-243",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0000/md0022/data/md0022data.pdf",
+    "prepared": "Prepared by Lelos H. Smith, 1940 (as the sheet reads), under John H. Scarff, District Officer, Baltimore",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "CHASE HOUSE Annapolis, Anne Arundel County, Maryland Owner: Episcopal Home for Women Pate of erection: 1769 Builder: Samuel Chase Description: Outstanding example three-story house. Additional data: Sold 1771 to Edward Lloyd for £504 sterling (&3491.17.7 colonial currency). Prepared by Lelos H. Smith, 1940",
+        "page": "HABS No. MD-243, 1940 sheet; no page number printed"
+      },
+      {
+        "field": "significance",
+        "text": "II. CHASE-LLOYD HOUSE, 22 Maryland Avenue. (Open 10-12 and 2-4). A rare ex- ample of a three-story Georgian mansion, this impressive house was started in 1769 by- Samuel Chase, one of Maryland's four signers. He sold the property to Edward Lloyd of Wye House on the Eastern Shore who finished it in 1772. Lloyd's enormous wealth made possible the elegance of the interior. The carved detail is exquisite. Especially noteworthy are a magnificent Palladian window over the landing and finely wrought silver door-knobs.",
+        "page": "HABS No. MD-243; a numbered guidebook-style entry bound into the data pages ahead of the 1940 sheet, under the district officer's header ('John H. Scarff - District Officer, 1012 Keyser Building, Baltimore'); no page number printed"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Outstanding example three-story house",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on mid-atlantic-georgian, the three-storey Annapolis brick house across the street from the Hammond-Harwood House. The survey's written data is two short 1930s-40 entries with no dimensions; the 25 photographs and the measured drawings are where the figures live."
+}

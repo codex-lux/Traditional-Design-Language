@@ -22,7 +22,12 @@
       "properties": {
         "text": { "type": "string", "description": "The exemplar's own `location` string, exactly -- the asset checker reads it as half the query." },
         "country": { "type": "string" },
-        "state": { "type": "string", "description": "State, county or region, as the source writes it." }
+        "state": { "type": "string", "description": "State, county or region, as the source writes it." },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Other nodes' `location` strings for the same building, exactly as they print them. Found by Tranche 1: georgian-colonial-american locates the Hammond-Harwood House at 'Annapolis, Maryland' and mid-atlantic-georgian at '19 Maryland Avenue, Annapolis, Maryland'; an existing exemplar's location may not be renamed (the asset layer reads it), so a record must be able to say both. `check_precedents.py` accepts `text` or any alias as the join."
+        }
       }
     },
     "dates": {

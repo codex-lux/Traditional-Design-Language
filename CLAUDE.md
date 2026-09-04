@@ -71,7 +71,7 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 `python3 build/geometry.py <plan> --engine cp` places a plan by constraint rather than by search
 (`build/geometry_cp.py`; `engine="auto"` is already the default everywhere).
 
-## Where the work stands (3 Sep 2026)
+## Where the work stands (4 Sep 2026)
 
 **READ `docs/reports/project-review-2026-09-03.md` FIRST if you are about to plan work rather than
 do a named package.** It is the second review of the whole project against `VISION.md` and the
@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,570 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,579 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -442,7 +442,7 @@ record now (`schema/precedent.schema.json`, one file per building, shared by eve
 it), with archival refs that each record `retrieved` and `via`, the HABS written data quoted
 verbatim with every figure `as_printed`, and never a `license`; an exemplar names it through
 `precedent` and states a `standing` with a `why`. `build/check_precedents.py` holds the two
-directions to each other. **3 precedent records**; 4 of 482 exemplars carry a `precedent`.
+directions to each other. **161 precedent records** after Tranche 1 (WP-11.2, the 28 nodes the platform exercises); 171 of 551 exemplars carry a `precedent`.
 `tdl_precedents` is the 27th MCP tool. **The route is measured**: `WebFetch` is egress-blocked for
 loc.gov, Wikipedia, Wikidata, SAH Archipedia and Historic England; the Tavily tier searches
 everything and EXTRACTS `tile.loc.gov` data PDFs, Wikipedia and `npgallery.nps.gov`, and a HABS

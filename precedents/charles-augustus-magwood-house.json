@@ -1,0 +1,110 @@
+{
+  "id": "charles-augustus-magwood-house",
+  "name": "Charles Augustus Magwood House",
+  "aka": [
+    "Magwood House"
+  ],
+  "location": {
+    "text": "61-63 Smith Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "after 1820, before 1825",
+    "circa": true,
+    "altered": "After 1905 (the Gibsons): sash changed to two-over-two, window hoods and the street entry reconfigured; circa 1930 divided into five apartments; Historic Charleston Foundation reconfigured the major openings and put a temporary stair in the original stair-hall position before selling in 2009 (the survey's history).",
+    "note": "The Library's item prints 'after. 1820- before. 1825 Initial Construction; after 1905 Subsequent'; the survey says 'Constructed around 1825'."
+  },
+  "nodes": [
+    "charleston-single-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-441",
+      "url": "https://www.loc.gov/pictures/item/sc1207",
+      "title": "Charles Augustus Magwood House, 61-63 Smith Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS SC-441; Building/structure dates: after. 1820- before. 1825 Initial Construction; Building/structure dates: after 1905 Subsequent Work'. The survey number is also printed in the data page's own header ('HABS SC-441 CHARLES AUGUSTUS MAGWOOD HOUSE') and running marker ('Magwood House HABS No. SC-441 (Page 3)'). Measured drawings include 'Interior Elevations and Details' (sheet 9)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc1207",
+      "url": "https://www.loc.gov/pictures/item/sc1207",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "sc1207",
+    "survey_no": "SC-441",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc1200/sc1207/data/sc1207data.pdf",
+    "prepared": "Historic American Buildings Survey, National Park Service (2015; the sheet's coordinates were 'obtained through Google Earth in September 2015'); the historian's name is not in the extract",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Description: The Charles Augustus Magwood house is a two-and-a-half story wood frame structure over a full English basement. It is a typical ‘Charleston single’. Its primary street façade faces east, with a double piazza extending the length of the south elevation of the main house and hyphen. The main house is one bay wide (north-south) and five bays deep (east-west). A wood frame hyphen, which is roughly one-and-a-half bays wide (north-south) and three bays deep (east-west), connects the main house to the dependency building behind. The English basement is constructed of load-bearing brick-and-mortar walls that have been stuccoed and scored to mimic stone.",
+        "page": "HABS No. SC-441; the running marker 'Magwood House HABS No. SC-441 (Page 3)' follows within the same description, so this span is on Page 2"
+      },
+      {
+        "field": "roof",
+        "text": "The wood frame structure above is clad in horizontal wooden weatherboard painted white. The red terne metal roof is gabled, with a triangular pediment protruding from its south facing slope. A distinctive fanlight centered in the triangular pediment lights the finished garret above. Two dormers flank the centered triangular pediment. All three are roofed with terne metal. There is a third dormer window positioned on the north slope of Magwood House HABS No. SC-441 (Page 3) the roof, above the center stair hall. The piazza is covered by a low shed roof, also clad in red terne metal.",
+        "page": "Magwood House HABS No. SC-441 (Page 3) -- the marker falls inside the span, as quoted"
+      },
+      {
+        "field": "porches",
+        "text": "A two-story piazza runs the southern length of the house, stepping in at the hyphen and continuing along its south elevation before terminating in the east wall of the dependency. The piazza is supported by a brick-and-mortar arcade that runs the length of the south and west elevations of the main house. The arcade is on level with the English or walk-out ground-floor-level basement, and the two levels of the double piazza correspond with the first and second stories of the wood frame structure.",
+        "page": "HABS No. SC-441 (Page 3)"
+      },
+      {
+        "field": "other",
+        "text": "The Charles Augustus Magwood house is Greek revival in style. Simple Tuscan columns and turned wooden balusters ornament the double piazza.",
+        "page": "HABS No. SC-441 (Page 3)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two-and-a-half story wood frame structure over a full English basement",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "The main house is one bay wide (north-south)",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The street (gable) end, as the survey counts it; the node's prose says two or three."
+    },
+    {
+      "name": "bay_count_flank",
+      "as_printed": "five bays deep (east-west)",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The long flank behind the piazza."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "Two dormers flank the centered triangular pediment ... There is a third dormer window positioned on the north slope",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two on the south slope and one on the north; the as_printed joins two sentences of one contiguous quote."
+    },
+    {
+      "name": "piazza_tiers",
+      "as_printed": "A two-story piazza",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on charleston-single-house as the documentary case: a 2015 HABS survey with measured drawings and a Part II description of a plain single house. It is Greek Revival and c. 1825, past the node's Georgian-to-Federal span; it is here because the node's own prose says the builders changed the trim and never the diagram, and this is the diagram measured."
+}

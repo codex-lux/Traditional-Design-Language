@@ -27,7 +27,8 @@
       "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1100/ca1106/data/ca1106data.pdf",
       "retrieved": "2026-09-04",
       "via": "tavily-extract",
-      "note": "The data page's own header prints 'HABS No. CA-38-1' (and the 1934 sheet 'HABS No. 38-1', District no. 38, Northern California, Irving F. Morrow, District Officer). That 1930s district-numbered form is not the shape check_precedents.py admits for a HABS id (XX-nnn, optional letter suffix), so the number is carried here and in `survey.prepared` rather than in `id`; the `loc-item` below locates the record."
+      "note": "The data page's own header prints 'HABS No. CA-38-1' (and the 1934 sheet 'HABS No. 38-1', District no. 38, Northern California, Irving F. Morrow, District Officer). That 1930s district-numbered form is not the shape check_precedents.py admits for a HABS id (XX-nnn, optional letter suffix), so the number is carried here and in `survey.prepared` rather than in `id`; the `loc-item` below locates the record. Carried in `id` since the closing pass of WP-11.1 widened HABS_RE to admit the district-numbered form.",
+      "id": "CA-38-1"
     },
     {
       "kind": "loc-item",
@@ -65,7 +66,7 @@
   "survey": {
     "item": "ca1106",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1100/ca1106/data/ca1106data.pdf",
-    "prepared": "HABS No. CA-38-1 (as the header prints it; see the habs ref's note for why the number is not in `survey_no`). The quoted description is from the ADDENDUM, which cites the National Register nomination form prepared in 1970 by Allen W. Welts of the National Park Service; the original entry is the 1934 District No. 38 sheet, Irving F. Morrow, District Officer.",
+    "prepared": "HABS No. CA-38-1 (as the header prints it). The quoted description is from the ADDENDUM, which cites the National Register nomination form prepared in 1970 by Allen W. Welts of the National Park Service; the original entry is the 1934 District No. 38 sheet, Irving F. Morrow, District Officer.",
     "retrieved": "2026-09-04",
     "via": "tavily-extract",
     "quotes": [
@@ -114,7 +115,8 @@
         "text": "A. Physical mstory 1. Date of Erection: 1836-1846. Construction of the adobe began in 1836 but was not completed until 1846. 2. Architect: None.",
         "page": "Addendum Part I.A; no page marker legible in the extract span."
       }
-    ]
+    ],
+    "survey_no": "CA-38-1"
   },
   "measurements": [
     {

@@ -1,0 +1,34 @@
+{
+  "id": "charles-graves-house",
+  "name": "Charles Graves House",
+  "location": {
+    "text": "123 Tradd Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "note": "No build date was read from a source this record cites: the Wikipedia article read gives Federal details and no date, and the marker entry's snippet says the house 'was constructed for Charles Graves, a local factor' without a year. The node's exemplar says late eighteenth century and its year is null; both are left as they stand."
+  },
+  "nodes": [
+    "charleston-single-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Charles_Graves_House",
+      "title": "Charles Graves House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The interior follows the normal Charleston single house plan. There is a three-story stair hall in the center with a single room on either side ... A two-story piazza with Tuscan columns, ceiling panels, and plain balusters is on the west facade. The house has brick covered in stucco that looks like stone, a string course made of bricks, quoining, and decorative brick work that looks like dentils.' The article carries a single-source notice."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=48674",
+      "title": "123 Tradd Street",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Historical marker database entry: 'This three-story masonry single house with hipped roof and Federal style details was constructed for Charles Graves, a local factor. A two-story piazza with' (the search snippet ends there)."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-single-house node already carried were kept exactly. No HABS record was found ('\"123 Tradd Street\" Charleston SC HABS Graves house' on loc.gov returned other buildings) and no register page was read."
+}

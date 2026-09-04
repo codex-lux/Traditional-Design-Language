@@ -1,0 +1,122 @@
+{
+  "id": "mount-airy",
+  "name": "Mount Airy",
+  "aka": [
+    "Mount Airy Plantation",
+    "John Tayloe Plantation"
+  ],
+  "location": {
+    "text": "Warsaw, Richmond County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1758",
+    "circa": false,
+    "altered": "Interior of the main house gutted by fire in 1844 (the survey's data form); the Library's item lists '1844 Subsequent Work'.",
+    "note": "Four dates are on the record because four sources give them: the HABS data form prints 'DATE OF CONSTRUCTION (INCLUDE SOURCE) 1758'; the DHR entry says 'built 1748-58 by the wealthy planter John Tayloe II'; the Wikipedia infobox prints '1758–62' while its lead says 'constructed in 1764'; the Library's item says '1764 Initial Construction'. Recorded as the survey states it, with the others noted rather than resolved. The designer is likewise disputed: the survey form says 'attributed to John Ariss'; the DHR says the designer is unknown and the stone facades adapt a Gibbs plate, with William Buckland employed from 1762."
+  },
+  "nodes": [
+    "tidewater-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-72",
+      "url": "https://www.loc.gov/pictures/item/va0892",
+      "title": "Mount Airy, 361 Millpond Road (State Route 646), Warsaw, Richmond County, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS VA-72 Building/structure dates: 1764 Initial Construction Building/structure dates: 1844 Subsequent Work'; call number HABS VA,80-WAR.V,4-. The dependencies are separate items (dairy VA-72-B va1223, smokehouse VA-72-D va1225, orangery ruins VA-72-E va1226, ice house VA-72-F va2472). The survey number is also printed on the data form ('HABS NO. VA-72')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0892",
+      "url": "https://www.loc.gov/pictures/item/va0892",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mount_Airy_(Warsaw,_Virginia)",
+      "title": "Mount Airy Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000845",
+      "url": "https://www.dhr.virginia.gov/historic-registers/079-0013",
+      "title": "NRHP reference No. 66000845; added October 15, 1966; designated NHL October 9, 1960 (as both the Wikipedia infobox and the DHR page print it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "079-0013",
+      "url": "https://www.dhr.virginia.gov/historic-registers/079-0013",
+      "title": "Mount Airy – DHR",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "va0892",
+    "survey_no": "VA-72",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0800/va0892/data/va0892data.pdf",
+    "prepared": "Architectural Data Form compiled by Druscilla J. Null, HABS, dated 8/12/83 (as the form reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SHAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) 5-part plan, with main house, covered passageways and flanking dependencies; main house is 2-storv. 7-bav front: passageways are 1-story; dependencies are 2-story, 3-hay fronts EXTERIOR FEATURES OF NOTE Main block: projecting 3-bay central pedimented pavilions on NE and SW facades with rusti- cated cut-stone decoration; NE facade has recessed entrance loggia and Doric pilastered piers; SW facade has arched rusticated recessed loggia; stone cornice, quoins, belt course? wafer fable anH T.rinr1r»T.T arrh-j fravps",
+        "page": "HABS No. VA-72, Architectural Data Form (Form 10-920); the form carries no page number. The last clause is OCR noise on the sheet's own text and is quoted as printed."
+      },
+      {
+        "field": "significance",
+        "text": "SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) Mount Airy is the most outstanding 18th century stone house erected in Virginia and the earliest known full Palladian villa constructed in the American colonies.",
+        "page": "HABS No. VA-72, Architectural Data Form; no page number"
+      },
+      {
+        "field": "other",
+        "text": "MAJOR ALTERATIONS AND ADDITIONS WITH DATES Interior of main house gutted by fire in 1844",
+        "page": "HABS No. VA-72, Architectural Data Form; no page number"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "main house is 2-storv",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR 'storv' for 'story'."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "7-bav front",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR 'bav' for 'bay'."
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "projecting 3-bay central pedimented pavilions",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "dependency_bay_count",
+      "as_printed": "dependencies are 2-story, 3-hay fronts",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR 'hay' for 'bay'."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on tidewater-georgian. The survey's written data for this house is a one-page 1983 form, not a Part II description, so it carries no overall dimensions. It is stone where the node's recipe is brick, and it is here for the five-part composition the node's prose says Virginia and Maryland have more surviving examples of than any other region."
+}

@@ -1,0 +1,107 @@
+{
+  "id": "jeremiah-lee-mansion",
+  "name": "Jeremiah Lee Mansion",
+  "aka": [
+    "Jeremiah Lee House"
+  ],
+  "location": {
+    "text": "Marblehead, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1768",
+    "circa": false,
+    "altered": "Used as a bank 1804-1909; acquired and restored by the Marblehead Historical Society in 1909 (the survey's data form)."
+  },
+  "nodes": [
+    "new-england-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-859",
+      "url": "https://www.loc.gov/pictures/item/ma0153",
+      "title": "Jeremiah Lee House, 161 Washington Street, Marblehead, Essex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Significance: One of the finest and most elaborate Georgian houses in the northern colonies. Survey number: HABS MA-859 Building/structure dates: 1768 Initial'. The survey number is also printed on the data form ('Jeremiah Lee House HABS No. MA-859')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0153",
+      "url": "https://www.loc.gov/pictures/item/ma0153",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Jeremiah_Lee_Mansion",
+      "title": "Jeremiah Lee Mansion - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000766",
+      "url": "https://en.wikipedia.org/wiki/Jeremiah_Lee_Mansion",
+      "title": "NRHP reference No. 66000766; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ma0153",
+    "survey_no": "MA-859",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0100/ma0153/data/ma0153data.pdf",
+    "prepared": "Architectural Data Form compiled by Druscilla J. Null, HABS, dated 7/19/84 (as the form reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SHAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) Rectangular; 7-bay front; 3 stories; hipped roof; slightly projecting 3-bay pavilion on front; octagonal cupola EXTERIOR FEATURES OF NOTE V/ood quoins; 1st and 2nd floor windows have splayed wooden lintels with keystones; central pavilion is pedimented and lit by a lunnette; 1-story pedimented entrance porch supported by Ionic columns.",
+        "page": "HABS No. MA-859, Architectural Data Form (Form 10-920, June 1983); no page number on the form"
+      },
+      {
+        "field": "walls",
+        "text": "MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Frame, sheathed with rusticated boards to imitate stone",
+        "page": "HABS No. MA-859, Architectural Data Form; no page number"
+      },
+      {
+        "field": "significance",
+        "text": "SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) One of the finest and most elaborate Georgian houses in the northern colonies. The grace and opulance of the house is physical documentation of the wealth and aspirations of New England merchant princes such as Jeremiah Lee.",
+        "page": "HABS No. MA-859, Architectural Data Form; no page number"
+      },
+      {
+        "field": "other",
+        "text": "MAJOR ALTERATIONS AND ADDITIONS WITH DATES House was used as a bank from 1804-1909. Acquired and restored by the Marblehead Historical Society in 1909.",
+        "page": "HABS No. MA-859, Architectural Data Form; no page number"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "7-bay front",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "3 stories",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "slightly projecting 3-bay pavilion on front",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the new-england-georgian node already carried were kept exactly; the Library titles the item 'Jeremiah Lee House'."
+}

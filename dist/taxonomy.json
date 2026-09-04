@@ -3097,25 +3097,55 @@
           "name": "American Gothic House (Dibble House)",
           "location": "300 American Gothic Street, Eldon, Iowa",
           "year": 1882,
-          "note": "Built 1881-82 by local carpenters Bussy and Herald; 504 square feet, board-and-batten, with two catalogue Gothic windows in the gable as the building's entire ornamental content. The specimen case for 'whatever the mill offered'. National Register 1974."
+          "note": "Built 1881-82 by local carpenters Bussy and Herald; 504 square feet, board-and-batten, with two catalogue Gothic windows in the gable as the building's entire ornamental content. The specimen case for 'whatever the mill offered'. National Register 1974.",
+          "precedent": "american-gothic-house",
+          "standing": "icon",
+          "why": "The node's own prose calls it 'the perfect specimen precisely because it is a plain board-and-batten farmhouse with a single pointed Gothic window in the gable', and Wikipedia records the 504 sq ft and the local carpenters behind it."
         },
         {
           "name": "Jarrell Plantation farmhouse",
           "location": "711 Jarrell Plantation Road, Juliette, Jones County, Georgia",
           "year": 1847,
-          "note": "Plain-style Georgia piedmont farmhouse of heart pine, with a second 1895 house on the same site by the next generation - two dated points on the same vernacular line. Georgia state historic site; National Register 1973."
+          "note": "Plain-style Georgia piedmont farmhouse of heart pine, with a second 1895 house on the same site by the next generation - two dated points on the same vernacular line. Georgia state historic site; National Register 1973.",
+          "precedent": "jarrell-plantation-farmhouse",
+          "standing": "regional",
+          "why": "The Georgia piedmont's 'simple heart-pine house typical of most plantations' in the state's own words (Digital Library of Georgia), and the node's two dated points on one vernacular line."
         },
         {
           "name": "Seeley Farmhouse",
           "location": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
           "year": 1850,
-          "note": "L-shaped, with a two-storey pedimented centre and one-and-a-half-storey flanking wings; the transitional case where the Greek Revival trim discipline is fading into plain farmhouse practice. National Register 1978."
+          "note": "L-shaped, with a two-storey pedimented centre and one-and-a-half-storey flanking wings; the transitional case where the Greek Revival trim discipline is fading into plain farmhouse practice. National Register 1978.",
+          "precedent": "seeley-farmhouse",
+          "standing": "documentary",
+          "why": "The node's own transitional case between Greek Revival trim and plain farmhouse practice, held here by a single register row (May 23, 1978, #78001909) and nothing else read."
         },
         {
           "name": "Levi Coffin House",
           "location": "113 U.S. 27, Fountain City, Wayne County, Indiana",
           "year": 1839,
-          "note": "A brick I-house with a two-storey rear wing - the prosperous, disciplined end of the farmhouse spectrum, built by Quaker emigrants and reduced to trim-only classicism. National Historic Landmark."
+          "note": "A brick I-house with a two-storey rear wing - the prosperous, disciplined end of the farmhouse spectrum, built by Quaker emigrants and reduced to trim-only classicism. National Historic Landmark.",
+          "precedent": "levi-coffin-house",
+          "standing": "canonical",
+          "why": "The brick I-house the node names as 'the prosperous, disciplined end of the farmhouse spectrum', with ten HABS measured sheets (IN-79) that a later pass can take the type's dimensions from."
+        },
+        {
+          "name": "Harry S. Truman Farm Home",
+          "location": "Grandview, Jackson County, Missouri",
+          "year": 1894,
+          "note": "The Young family's frame farmhouse of 1894-95, built after the 1867 house burned, where Truman farmed from 1906 to 1917. A plain Missouri farmhouse of the railroad-catalogue decades, drawn by HABS in twelve sheets (MO-1937). National Historic Landmark district 1985.",
+          "precedent": "harry-s-truman-farm-home",
+          "standing": "documentary",
+          "why": "Twelve HABS measured sheets exist for it (Wikipedia's external links, MO-1937), which makes it the node's best-drawn plain farmhouse of the 1890s, whatever its other fame."
+        },
+        {
+          "name": "Herbert Hoover Birthplace Cottage",
+          "location": "West Branch, Cedar County, Iowa",
+          "year": 1871,
+          "note": "A two-room board-and-batten cottage of about 1871, 20 ft 4 in by 20 ft 10 in over its rear porch on the 1983 HABS data form, with a one-bay shed-roofed front porch; moved in the 1880s, put back and restored in the 1930s. The bottom of the farmhouse spectrum, measured.",
+          "precedent": "herbert-hoover-birthplace-cottage",
+          "standing": "documentary",
+          "why": "The HABS data form (IA-21) calls it 'an example of vernacular construction' and states its plan dimensions, which the node's other plain examples do not have."
         }
       ],
       "sources": [
@@ -6964,19 +6994,46 @@
           "name": "Atwood-Higgins House",
           "location": "Bound Brook Island, Wellfleet, Massachusetts",
           "year": 1730,
-          "note": "Built c. 1730 as a half house and expanded to a full Cape in the late 18th or early 19th century — the growth grammar preserved in one building. Now within Cape Cod National Seashore."
+          "note": "Built c. 1730 as a half house and expanded to a full Cape in the late 18th or early 19th century — the growth grammar preserved in one building. Now within Cape Cod National Seashore.",
+          "precedent": "atwood-higgins-house",
+          "standing": "icon",
+          "why": "Ernest Allen Connally's 1959 HABS survey of Cape Cod houses 'reported that this was locally considered to be the best example on Cape Cod' (HABS MA-1087), and it is the house the node's own growth grammar is written on -- a half house doubled to a full Cape."
         },
         {
           "name": "Jabez Wilder House",
           "location": "Main Street, Hingham, Massachusetts",
           "year": 1690,
-          "note": "Documented by HABS; a bow-roof ('rainbow roof') Cape, the coastal variant in which the rafters are given a slight convex curve. Date is traditional and not independently confirmed."
+          "note": "Documented by HABS; a bow-roof ('rainbow roof') Cape, the coastal variant in which the rafters are given a slight convex curve. Date is traditional and not independently confirmed.",
+          "precedent": "jabez-wilder-house",
+          "standing": "canonical",
+          "why": "The bow-roof ('rainbow roof') Cape the node's own note describes, drawn by HABS as MA-137 -- the coastal variant with the rafters given a slight convex curve, on the South Shore rather than the peninsula."
         },
         {
           "name": "Dillingham House",
           "location": "Sandwich, Massachusetts",
           "year": 1650,
-          "note": "Among the earliest Cape-form dwellings on the peninsula; substantially enlarged in the 18th century, so the original half-house core must be read through later fabric."
+          "note": "Among the earliest Cape-form dwellings on the peninsula; substantially enlarged in the 18th century, so the original half-house core must be read through later fabric.",
+          "precedent": "dillingham-house",
+          "standing": "regional",
+          "why": "Among the earliest Cape-form dwellings on the peninsula (the node's own note), a founding family's house in the town that is the type's hearth -- and, on Wikipedia's account, moved and raised to two storeys since, so regional rather than canonical."
+        },
+        {
+          "name": "Elisha Cobb House",
+          "location": "Prince Valley Road, Truro, Massachusetts",
+          "year": 1800,
+          "note": "A plain Outer Cape 'double house' of about 1800, grown from a house-and-a-half by the usual quarter, with the unusual twist of two short saltbox lean-tos behind instead of one: plank walls under shingle, one central brick stack, 9/6 sash, a box cornice, and hewn rafters about 4 by 10 on purlins. Inside the National Seashore and recorded by HABS with measured drawings, which is what it is here for.",
+          "precedent": "elisha-cobb-house",
+          "standing": "documentary",
+          "why": "HABS MA-705 calls it 'a typical Cape Cod \"double house\"' and states its over-all dimensions, plank walls, single central stack, 9/6 sash and rafter size -- a plain measured specimen rather than a famous one, inside Cape Cod National Seashore."
+        },
+        {
+          "name": "Swift-Daley House",
+          "location": "Eastham, Massachusetts",
+          "year": 1741,
+          "note": "A full Cape of 1741 on the Outer Cape, built by Joshua Knowles with the bowed roof that Eastham's ship's carpenters gave their houses: wide board floors, a deep keeping-room fireplace and the narrow winder stair beside it. The house of Nathaniel Swift before he left for Chicago and the meat-packing trade; restored by the Daleys from 1939 and a museum of the Eastham Historical Society since 1974.",
+          "precedent": "swift-daley-house",
+          "standing": "regional",
+          "why": "The Outer Cape's variant stated by its keeper: the Eastham Historical Society dates it to 1741 by Joshua Knowles and calls its bowed roof 'typical of early houses built by ship's carpenters', the coastal form the node's note gives the Jabez Wilder House on the mainland."
         }
       ],
       "sources": [
@@ -8309,7 +8366,10 @@
           "name": "Miles Brewton House",
           "location": "27 King Street, Charleston, South Carolina",
           "year": 1769,
-          "note": "Ezra Waite, joiner. Double house with a two-storey pedimented portico, superimposed Doric and Ionic; generally considered the finest surviving Georgian town house in America."
+          "note": "Ezra Waite, joiner. Double house with a two-storey pedimented portico, superimposed Doric and Ionic; generally considered the finest surviving Georgian town house in America.",
+          "precedent": "miles-brewton-house",
+          "standing": "icon",
+          "why": "The node's own note calls it 'generally considered the finest surviving Georgian town house in America'; the SC register calls it the most distinguished town house of the colonial period, and the 1930s survey, in one sentence, a square double house with a two-tier portico of stone pillars."
         },
         {
           "name": "Drayton Hall",
@@ -8324,13 +8384,37 @@
           "name": "Colonel John Stuart House",
           "location": "104-106 Tradd Street, Charleston, South Carolina",
           "year": 1772,
-          "note": "Notable surviving interior joinery."
+          "note": "Notable surviving interior joinery.",
+          "precedent": "colonel-john-stuart-house",
+          "standing": "documentary",
+          "why": "A National Historic Landmark surveyed twice by HABS (SC-156) whose written data is a paragraph about its owner; the node's own note gives it three words, and it is here to be photographed and measured rather than admired."
         },
         {
           "name": "Heyward-Washington House",
           "location": "87 Church Street, Charleston, South Carolina",
           "year": 1772,
-          "note": "Double house on a single-house lot; Washington lodged here in 1791."
+          "note": "Double house on a single-house lot; Washington lodged here in 1791.",
+          "precedent": "heyward-washington-house",
+          "standing": "canonical",
+          "why": "The SC register's 'very fine three-story brick Charleston double house' on a lot the node's own note says is a single-house lot -- the type specimen for the double house on the peninsula, with HABS SC-64 and the museum's records behind it."
+        },
+        {
+          "name": "William Gibbes House",
+          "location": "64 South Battery, Charleston, South Carolina",
+          "year": null,
+          "note": "Built shortly after 1772 and redecorated in 1794, when the double stair with its iron rail was added: a two-storey frame double house on a high English basement, its street front centred on an attic pediment over a pedimented door aedicule, modillion cornice carried round every side, tiled hip roof. No HABS record was found; the state register's description is the source.",
+          "precedent": "william-gibbes-house",
+          "standing": "canonical",
+          "why": "The SC register calls it 'one of the finest two-story frame residences in America' and describes 'the usual Georgian four-room double pile floor plan, known in Charleston simply as a double house' -- the frame version of the plan the node's brick Brewton and Heyward houses carry."
+        },
+        {
+          "name": "Hampton Plantation",
+          "location": "McClellanville, Charleston County, South Carolina",
+          "year": 1735,
+          "note": "A frame house of about 1735 on Wambaw Creek, squared and extended at each end by Daniel Horry after 1757 with false windows for symmetry and a ballroom in one extension, and given its deep giant portico about 1790 -- Washington was the first guest to pass through it. The survey's sheet is history rather than description.",
+          "precedent": "hampton-plantation",
+          "standing": "regional",
+          "why": "The SC register calls it the state's finest large two-and-a-half-storey frame Georgian and its portico one of the earliest giant porticoes in American domestic work; a Santee rice-country seat rather than a peninsula house, so the region's expression and not the hearth's."
         }
       ],
       "sources": [
@@ -8627,25 +8711,53 @@
           "name": "Robert Pringle House",
           "location": "70 Tradd Street, Charleston, South Carolina",
           "year": 1774,
-          "note": "Circa 1774; a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly."
+          "note": "Circa 1774; a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly.",
+          "precedent": "robert-pringle-house",
+          "standing": "canonical",
+          "why": "The node's own note calls it 'a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly', dated by its own 1774 date stone; the one source read adds that its two rooms a floor are three bays and two bays deep, which the type's diagram does not require to be equal."
         },
         {
           "name": "Timothy Ford House",
           "location": "54 Meeting Street, Charleston, South Carolina",
           "year": 1806,
-          "note": "Built circa 1800-1806; the type at full Federal maturity, three storeys with a two-tier piazza."
+          "note": "Built circa 1800-1806; the type at full Federal maturity, three storeys with a two-tier piazza.",
+          "precedent": "timothy-ford-house",
+          "standing": "canonical",
+          "why": "The node's own note calls it 'the type at full Federal maturity, three storeys with a two-tier piazza'; no survey and no register page were found, so this standing rests on the node and on a newspaper column that describes the same house."
         },
         {
           "name": "Charles Elliott House",
           "location": "43 Legare Street, Charleston, South Carolina",
           "year": 1759,
-          "note": "Circa 1759; among the earliest documented single houses, showing the plan fully resolved a generation before Federal trim arrives."
+          "note": "Circa 1759; among the earliest documented single houses, showing the plan fully resolved a generation before Federal trim arrives.",
+          "precedent": "charles-elliott-house"
         },
         {
           "name": "Charles Graves House",
           "location": "123 Tradd Street, Charleston, South Carolina",
           "year": null,
-          "note": "Late eighteenth century; normal single-house plan with a three-storey central stair hall, one room each side, and a two-storey west piazza on Tuscan columns."
+          "note": "Late eighteenth century; normal single-house plan with a three-storey central stair hall, one room each side, and a two-storey west piazza on Tuscan columns.",
+          "precedent": "charles-graves-house",
+          "standing": "canonical",
+          "why": "The node's own note and the one article read agree on 'the normal Charleston single house plan' -- a three-storey stair hall in the centre with one room either side and a two-storey piazza on Tuscan columns -- which is the diagram the node is about, stated without ornament."
+        },
+        {
+          "name": "Robert Brewton House",
+          "location": "71 Church Street, Charleston, South Carolina",
+          "year": 1730,
+          "note": "Built 1730 (the survey's and the register's date; the Charleston Museum says between 1721 and 1740): a stuccoed brick house, three storeys by the survey's count and two and a half by the museum's, three bays to the street with quoins, a hipped roof and a two-storey wrought-iron balcony on the street front. Its side piazza has been removed.",
+          "precedent": "robert-brewton-house",
+          "standing": "icon",
+          "why": "The HABS form calls it the 'earliest existing example of Charleston \"single house\"' and the SC register 'the earliest accurately dated example' -- the building the type's origin is argued from, whichever source is read."
+        },
+        {
+          "name": "Charles Augustus Magwood House",
+          "location": "61-63 Smith Street, Charleston, South Carolina",
+          "year": 1825,
+          "note": "Built about 1825 for a merchant's son: a two-and-a-half-storey frame single house over a full English basement of stuccoed brick scored to read as stone, one bay to the street by the survey's count and five deep, with a double piazza on a brick arcade along the south flank, a pediment and fanlight on the south slope, and a hyphen to the dependency behind. Greek Revival trim on the Georgian diagram; HABS SC-441 (2015) with measured drawings.",
+          "precedent": "charles-augustus-magwood-house",
+          "standing": "documentary",
+          "why": "The survey's own significance line calls it 'an example of the typical Charleston single house', and it is the one single house on this node with a modern HABS Part II description and measured drawings -- the diagram the node's prose says the builders never changed, measured in 2015."
         }
       ],
       "sources": [
@@ -9676,25 +9788,55 @@
           "name": "H. A. C. Taylor House",
           "location": "Newport, Rhode Island",
           "year": 1885,
-          "note": "McKim, Mead & White. The canonical first fully realised Colonial Revival house; symmetrical cubic block, one-storey Ionic entry portico, flanking Palladian windows. Demolished 1952."
+          "note": "McKim, Mead & White. The canonical first fully realised Colonial Revival house; symmetrical cubic block, one-storey Ionic entry portico, flanking Palladian windows. Demolished 1952.",
+          "precedent": "h-a-c-taylor-house",
+          "standing": "icon",
+          "why": "Hitchcock's Rhode Island Architecture (1939), as inscribed on the RISD Archives print: 'The first Colonial Revival house; with academic plan, eclectic eighteenth century detail and even the typical early Newport gable-above-hip roof' -- the sentence behind the node's 'canonical first'."
         },
         {
           "name": "Hill-Stead",
           "location": "Farmington, Connecticut",
           "year": 1901,
-          "note": "Theodate Pope Riddle with McKim, Mead & White. Free phase at its most confident: a colossal portico and a rambling plan under an ostensibly colonial skin."
+          "note": "Theodate Pope Riddle with McKim, Mead & White. Free phase at its most confident: a colossal portico and a rambling plan under an ostensibly colonial skin.",
+          "precedent": "hill-stead",
+          "standing": "canonical",
+          "why": "Designated a National Historic Landmark 'as a nationally significant example of Colonial Revival architecture' (Wikipedia), and HABS CT-472's 90-odd data pages describe its massing, structure and openings."
         },
         {
           "name": "Governor's Palace (reconstruction)",
           "location": "Williamsburg, Virginia",
           "year": 1934,
-          "note": "Perry, Shaw & Hepburn. Not a revival house but the instrument of the accuracy phase - it supplied the measured profiles that disciplined the style after 1930."
+          "note": "Perry, Shaw & Hepburn. Not a revival house but the instrument of the accuracy phase - it supplied the measured profiles that disciplined the style after 1930.",
+          "precedent": "governors-palace-reconstruction",
+          "standing": "documentary",
+          "why": "The node's own note: not a revival house but the instrument of the accuracy phase; Colonial Williamsburg's journal records the 1927 authorisation and the 1929 discovery of the Bodleian Plate it was built from."
         },
         {
           "name": "Dr. Glenn R. Frye House",
           "location": "Hickory, North Carolina",
           "year": 1937,
-          "note": "Two-storey stone Colonial Revival with frame wing; a competent late-phase example of the type as built for professionals rather than magnates. NRHP 2009."
+          "note": "Two-storey stone Colonial Revival with frame wing; a competent late-phase example of the type as built for professionals rather than magnates. NRHP 2009.",
+          "precedent": "dr-glenn-r-frye-house",
+          "standing": "documentary",
+          "why": "A National Register nomination (NC HPO CT1102, 2009) for a late-phase professional's house whose section 8 says of Hickory's Colonial Revival that 'only a small number of these houses were rendered in stone'."
+        },
+        {
+          "name": "The Orchard (James L. Breese House)",
+          "location": "Southampton, New York",
+          "year": 1898,
+          "note": "Stanford White of McKim, Mead & White for James L. Breese, 1897-1906: an 1858 house swallowed into a U-shaped summer place, two and a half storeys of white-painted shingle behind a two-storey portico. The Taylor House is gone; this is the firm's Colonial Revival country house that stands. NRHP 1980; condominiums since.",
+          "precedent": "the-orchard-james-l-breese-house",
+          "standing": "canonical",
+          "why": "By the same firm as the node's two named houses and still standing: Wikipedia's summary -- designed 1897-1906, an 1858 house incorporated, two and a half storeys of white shingle behind a two-storey portico -- is the free phase's rambling plan under a colonial skin, which is how the node describes Hill-Stead."
+        },
+        {
+          "name": "Springwood",
+          "location": "Hyde Park, New York",
+          "year": 1916,
+          "note": "Franklin D. Roosevelt's Hyde Park house, recast in 1915-16 by Hoppin & Koen from an Italianate villa of c. 1850 into a stone-and-stucco Colonial Revival mansion: the central roof raised for a full third floor, two fieldstone wings added, the plan a rough U of two and three storeys (NPS). HABS NY-4355 holds the photographs; its written data is a one-sheet cover.",
+          "precedent": "springwood",
+          "standing": "regional",
+          "why": "The NPS's own description -- an Italianate villa recast by Hoppin & Koen as a stone-and-stucco Colonial Revival mansion -- is the free phase's method, a colonial skin on an inherited body, in the Hudson Valley; the house the style's most famous client was born in."
         }
       ],
       "sources": [
@@ -10824,19 +10966,46 @@
           "name": "Bungalow Heaven Landmark District",
           "location": "Pasadena, California",
           "year": 1900,
-          "note": "More than 800 modest bungalows built c. 1900-1930 and designated a landmark district in 1989 — the type at neighbourhood scale, largely from published plans."
+          "note": "More than 800 modest bungalows built c. 1900-1930 and designated a landmark district in 1989 — the type at neighbourhood scale, largely from published plans.",
+          "precedent": "bungalow-heaven-landmark-district",
+          "standing": "icon",
+          "why": "The node's own prose says the type 'is defined by its distribution channel rather than by a place', and the California OHP listing calls this sixteen-block district of 522 contributing buildings 'the largest intact grouping of working class housing' of the Arts and Crafts period in Pasadena -- the type at the scale it was actually built."
         },
         {
           "name": "Sears Modern Homes",
           "location": "United States, shipped nationally from Chicago",
           "year": 1908,
-          "note": "The precut kit programme, 1908-1940, which sold roughly 70,000 houses; surviving examples are documented in most Midwestern and Eastern states. Listed here as a product line rather than a single building because that is what the node actually is."
+          "note": "The precut kit programme, 1908-1940, which sold roughly 70,000 houses; surviving examples are documented in most Midwestern and Eastern states. Listed here as a product line rather than a single building because that is what the node actually is.",
+          "precedent": "sears-modern-homes",
+          "standing": "documentary",
+          "why": "A product line and not a building, kept because the node's own prose calls the precut kit 'the first fully specified traditional kit of parts in history'; the standing is documentary because the record can cite only the programme, no surveyed member having been found."
         },
         {
           "name": "Craftsman Farms (the Log House)",
           "location": "Parsippany-Troy Hills, New Jersey",
           "year": 1911,
-          "note": "Stickley's own house, whose published plans and derivatives seeded the plan-book trade this variant runs on."
+          "note": "Stickley's own house, whose published plans and derivatives seeded the plan-book trade this variant runs on.",
+          "precedent": "craftsman-farms",
+          "standing": "documentary",
+          "why": "Stickley's own house is the source of the plans this variant runs on (the node's exemplar note), not a bungalow itself; the National Register form records the log-and-fieldstone house he built to demonstrate them."
+        },
+        {
+          "name": "Bowen Court",
+          "location": "539 E. Villa Street, Pasadena, California",
+          "year": 1910,
+          "note": "Arthur and Alfred Heineman, 1910-12: twenty-three bungalows on an L-shaped court, the oldest surviving bungalow court in Pasadena and built at $1,253 a unit against a $1,750 median for a single-family house of the period. The type multiplied on one lot, which is the node's economy stated as a site plan.",
+          "precedent": "bowen-court",
+          "standing": "canonical",
+          "why": "The Pasadena bungalow-courts nomination calls it 'the most well known extant bungalow court in Pasadena, and perhaps in the larger Los Angeles region as well', and one of the two oldest to survive."
+        },
+        {
+          "name": "Major Harry E. Kunkel House",
+          "location": "1542 North McCadden Place, Los Angeles, California",
+          "year": 1910,
+          "note": "A one-storey Los Angeles bungalow of 1910, architect unknown, measured by HABS: about 31 ft wide, 52 ft deep and 15 ft tall, 1,088 sq ft, side-gabled at a low pitch with a shed dormer, exposed rafter tails, a recessed porch and no chimney at all. The plain case, with figures.",
+          "precedent": "major-harry-e-kunkel-house",
+          "standing": "documentary",
+          "why": "The HABS data page (CA-2969) calls it 'a typical example of a Craftsman bungalow' and states its overall dimensions, which none of the node's other exemplars can offer."
         }
       ],
       "sources": [
@@ -11235,25 +11404,55 @@
           "name": "Gamble House",
           "location": "Pasadena, California",
           "year": 1908,
-          "note": "Greene and Greene, 1908-09. The style's upper limit, where the Japanese parent is most visible in the shaped beam ends and layered roofs."
+          "note": "Greene and Greene, 1908-09. The style's upper limit, where the Japanese parent is most visible in the shaped beam ends and layered roofs.",
+          "precedent": "gamble-house",
+          "standing": "icon",
+          "why": "The HABS data page's own significance statement: 'the most complete and best preserved example of the work of Architects Greene and Greene ... one of the finest examples of the American Craftsman Movement', and the node's exemplar calls it the style's upper limit."
         },
         {
           "name": "Robert R. Blacker House",
           "location": "Pasadena, California",
           "year": 1907,
-          "note": "Greene and Greene. Larger and earlier than the Gamble, with the timber grammar at its most explicitly Japanese."
+          "note": "Greene and Greene. Larger and earlier than the Gamble, with the timber grammar at its most explicitly Japanese.",
+          "precedent": "robert-r-blacker-house",
+          "standing": "canonical",
+          "why": "Larger and earlier than the Gamble (the node's own note), and Wikipedia's Greene and Greene article counts it among the 'ultimate bungalows' whose every element was custom made -- the fully-worked case, without a HABS survey to measure it by."
         },
         {
           "name": "Craftsman Farms (the Log House)",
           "location": "Parsippany-Troy Hills, New Jersey",
           "year": 1911,
-          "note": "Gustav Stickley's own house, 1908-1911 — the publisher of the style building outside its Californian idiom."
+          "note": "Gustav Stickley's own house, 1908-1911 — the publisher of the style building outside its Californian idiom.",
+          "precedent": "craftsman-farms",
+          "standing": "canonical",
+          "why": "The publisher of the style building his own house in hewn chestnut and fieldstone (the National Register form's words), which is the node's own reason for naming it: the style outside its Californian idiom."
         },
         {
           "name": "Bungalow Heaven Landmark District",
           "location": "Pasadena, California",
           "year": 1900,
-          "note": "More than 800 modest Craftsman houses built c. 1900-1930; designated 1989. The style as it was actually inhabited, at plan-book scale."
+          "note": "More than 800 modest Craftsman houses built c. 1900-1930; designated 1989. The style as it was actually inhabited, at plan-book scale.",
+          "precedent": "bungalow-heaven-landmark-district",
+          "standing": "canonical",
+          "why": "'The style as it was actually inhabited, at plan-book scale' is the node's own reason, and the OHP listing's 522 contributing buildings are the count behind it."
+        },
+        {
+          "name": "Thorsen House",
+          "location": "Berkeley, California",
+          "year": 1909,
+          "note": "Greene and Greene, 1909, for William R. Thorsen -- the last of the five 'ultimate bungalows' and the one built outside Pasadena, on Piedmont Avenue in Berkeley. National Register 1978; Berkeley Landmark no. 4.",
+          "precedent": "thorsen-house",
+          "standing": "regional",
+          "why": "Wikipedia records it as 'the last of five so-called \"ultimate bungalows\"' by the Greenes and the only one in the Bay Area, which is the node's hearth extended north."
+        },
+        {
+          "name": "Ivan Carter McIndoo House",
+          "location": "310 North Fulton Street, Fresno, California",
+          "year": 1913,
+          "note": "A two-and-a-half storey side-gabled shingle house of c. 1913 in Fresno's North Park tract, two bays wide and three deep on a pier-and-beam foundation, with a cantilevered sleeping porch and one interior brick chimney; moved one block to save it from a freeway in 1992 and recorded by HABS then. The surveyor's own word for the scale is 'bungaloid'.",
+          "precedent": "ivan-carter-mcindoo-house",
+          "standing": "documentary",
+          "why": "The HABS data page (CA-2885) describes it as 'the aesthetics of a natural Craftsman bungalow, as applied to larger dwellings ca. 1913', which is a full Part II description of the style at the scale the node's own prose describes."
         }
       ],
       "sources": [
@@ -11633,19 +11832,64 @@
           "name": "Lafitte's Blacksmith Shop",
           "location": "941 Bourbon Street, New Orleans, Louisiana",
           "year": 1772,
-          "note": "Briquette-entre-poteaux with a steep hipped roof; among the oldest surviving structures in New Orleans and the clearest surviving statement of the urban cottage before the Spanish-period fires."
+          "note": "Briquette-entre-poteaux with a steep hipped roof; among the oldest surviving structures in New Orleans and the clearest surviving statement of the urban cottage before the Spanish-period fires.",
+          "precedent": "lafittes-blacksmith-shop",
+          "standing": "icon",
+          "why": "The node's own note calls it 'the clearest surviving statement of the urban cottage before the Spanish-period fires', and HABS LA-24 recorded it as 'an example of the small cottage type in New Orleans of over a century ago, and is one of the very few remaining'."
         },
         {
           "name": "Fontenette-Bienvenu House",
           "location": "201 North Main Street, St. Martinville, Louisiana",
           "year": 1817,
-          "note": "A one-and-a-half-storey Creole cottage of colombage construction with Federal detailing — the type absorbing Anglo trim while keeping its plan. Listed on the National Register 1997, delisted 2024."
+          "note": "A one-and-a-half-storey Creole cottage of colombage construction with Federal detailing — the type absorbing Anglo trim while keeping its plan. Listed on the National Register 1997, delisted 2024.",
+          "precedent": "fontenette-bienvenu-house",
+          "standing": "regional",
+          "why": "The Bayou Teche expression: a colombage cottage of 1817 with Federal detailing (the node's own note, echoed by the register-derived description), on the Teche rather than in the Vieux Carre, and now delisted, which is a fact about the register and not about the house."
         },
         {
           "name": "Kent Plantation House",
           "location": "Alexandria, Rapides Parish, Louisiana",
           "year": 1800,
-          "note": "Bousillage Creole house, the oldest standing structure in Rapides Parish; a raised cottage version of the same four-room, no-corridor plan with its outbuildings intact."
+          "note": "Bousillage Creole house, the oldest standing structure in Rapides Parish; a raised cottage version of the same four-room, no-corridor plan with its outbuildings intact.",
+          "precedent": "kent-plantation-house",
+          "standing": "regional",
+          "why": "The Red River reach of the type: the node's own note calls it the oldest standing structure in Rapides Parish and a raised-cottage version of the four-room, no-corridor plan, and the loc.gov record for HABS LA-1303 calls it the oldest known standing structure in central Louisiana."
+        },
+        {
+          "name": "La Rionda Cottage",
+          "location": "1218-1220 Burgundy Street, New Orleans, Louisiana",
+          "year": 1811,
+          "note": "A Vieux Carre cottage of 1811 by Antonio La Rionda, and the plan paragraph of this node measured: four rooms in a square, 29 by 40-9, two front doors and two front windows straight on the banquette, two chimneys on the spine wall each serving a pair of rooms, an open loggia behind between a cabinet and a kitchen, and a gable roof carried out over the sidewalk. Restored by the city under Richard Koch in 1940 and drawn by HABS.",
+          "precedent": "la-rionda-cottage",
+          "standing": "documentary",
+          "why": "HABS LA-192 states the whole plan in one sentence -- 29'-0\" x 40'-9\", 'four rooms arranged in a square', an open loggia between a cabinet and a kitchen, two chimneys on the central wall, a gable roof with a sidewalk overhang -- which is the node's plan paragraph measured."
+        },
+        {
+          "name": "Maison Olivier",
+          "location": "St. Martinville, Louisiana",
+          "year": 1815,
+          "note": "The Teche country's raised Creole cottage of about 1815, listed on the register as the 'Acadian House' and a National Historic Landmark since 1974: brick below, colombage above, a gallery across the front and the four-room, no-corridor plan behind it. Kept by the Longfellow-Evangeline State Historic Site, the first state park in Louisiana, which is why it is the Bayou Teche house a reader is shown.",
+          "precedent": "maison-olivier",
+          "standing": "canonical",
+          "why": "The register lists it (as 'Acadian House', NHL 1974) and HABS LA-1276 recorded it as 'Olivier House'; the Longfellow-Evangeline site keeps it as the Teche's raised Creole cottage of about 1815, the node's Bayou Teche region made specific in one well-documented building."
+        },
+        {
+          "name": "LaPointe-Krebs House",
+          "location": "Pascagoula, Mississippi",
+          "year": 1757,
+          "note": "The Gulf Coast's oldest house and Mississippi's only French-period building above ground: a cypress-and-cedar frame filled with oyster-shell concrete, a bousillage room added to the west, two stuccoed brick stacks, a broken-pitch gable roof over porches on three sides, and dates offered from 1721 to 1772. The Creole plan in its coastal materials, sixty miles east of the parishes.",
+          "precedent": "lapointe-krebs-house",
+          "standing": "regional",
+          "why": "SAH Archipedia calls it 'the oldest building in Mississippi, the sole above-ground structure remaining from Mississippi's French period', and HABS MS-18 recorded its oyster-shell-concrete frame walls and three-sided porch -- the Mississippi Gulf Coast reach the node's geography names."
+        },
+        {
+          "name": "Badin-Roque House",
+          "location": "Natchez vicinity, Natchitoches Parish, Louisiana",
+          "year": null,
+          "note": "The Cane River's rarest survivor: a one-storey cottage of cedar posts set in the ground and filled with bousillage, 27 by 30 feet under an unbroken steep roof cantilevered over the front gallery, on Isle Brevelle in the Creole community of the Metoyers. One of four poteaux-en-terre houses known to stand in the country, dated anywhere from the 1770s to the 1830s depending on who is asked, and drawn by HABS.",
+          "precedent": "badin-roque-house",
+          "standing": "regional",
+          "why": "HABS LA-1361, the Cane River area survey, measures it at 27' x 30' and records it as a poteaux-en-terre house of which 'only three other French Creole examples are known', the Natchitoches reach of the node's geography in its rarest constructional form."
         }
       ],
       "sources": [
@@ -16572,25 +16816,55 @@
           "name": "First Harrison Gray Otis House",
           "location": "141 Cambridge Street, Boston, Massachusetts",
           "year": 1796,
-          "note": "Charles Bulfinch. Three-storey brick, five bays, Palladian window over the entrance with a lunette above it; the canonical urban Federal front."
+          "note": "Charles Bulfinch. Three-storey brick, five bays, Palladian window over the entrance with a lunette above it; the canonical urban Federal front.",
+          "precedent": "first-harrison-gray-otis-house",
+          "standing": "icon",
+          "why": "The node's own note calls it 'the canonical urban Federal front', and the HABS data form records the five-bay, three-storey brick block by Bulfinch that every account of the style's town house begins from."
         },
         {
           "name": "Gore Place",
           "location": "52 Gore Street, Waltham, Massachusetts",
           "year": 1806,
-          "note": "Five-part plan roughly 190 feet long with bowed oval projections; the most fully realised Federal country house in New England."
+          "note": "Five-part plan roughly 190 feet long with bowed oval projections; the most fully realised Federal country house in New England.",
+          "precedent": "gore-place",
+          "standing": "canonical",
+          "why": "HABS MA-210 quotes the National Historic Landmark statement -- 'a noteworthy example of a five-part Federal house' -- for the country-house parti the node describes at roughly 190 feet with bowed projections."
         },
         {
           "name": "Nathaniel Russell House",
           "location": "51 Meeting Street, Charleston, South Carolina",
           "year": 1808,
-          "note": "Begun 1803. Free-flying cantilevered stair, rectangular, oval and square rooms stacked in one block, full-height polygonal bay on the garden front."
+          "note": "Begun 1803. Free-flying cantilevered stair, rectangular, oval and square rooms stacked in one block, full-height polygonal bay on the garden front.",
+          "precedent": "nathaniel-russell-house",
+          "standing": "icon",
+          "why": "The South Carolina register's nomination calls it 'an exercise in ellipses' and the National Trust 'one of America's most important neoclassical dwellings'; a National Historic Landmark with HABS SC-145 behind it."
         },
         {
           "name": "Homewood",
           "location": "3400 North Charles Street, Baltimore, Maryland",
           "year": 1808,
-          "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian parti with Adamesque detail throughout - the clearest demonstration that Federal is a surface treatment applied to an inherited plan."
+          "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian parti with Adamesque detail throughout - the clearest demonstration that Federal is a surface treatment applied to an inherited plan.",
+          "precedent": "homewood",
+          "standing": "canonical",
+          "why": "The node's own claim -- Federal as a surface on the inherited five-part parti -- and the 34 HABS sheets of MD-35, the most measured of the four, to test it against."
+        },
+        {
+          "name": "Gardner-Pingree House",
+          "location": "128 Essex Street, Salem, Massachusetts",
+          "year": 1804,
+          "note": "Samuel McIntire for John Gardner, 1804. The Salem front every account of the Federal style reaches for, and the house McIntire's own entry in the reference literature singles out for its interior; a National Historic Landmark. HABS recorded it as the Gardner-White-Pingree Place (MA-271) and the extractor returned only the survey's cover, so its figures are not yet on the record.",
+          "precedent": "gardner-pingree-house",
+          "standing": "icon",
+          "why": "The building Federal Salem is known by -- the node's own hearth is 'Boston and Salem' -- a National Historic Landmark, and the house Wikipedia's McIntire entry names among his best work."
+        },
+        {
+          "name": "The Octagon",
+          "location": "1799 New York Avenue NW, Washington, D.C.",
+          "year": 1800,
+          "note": "William Thornton for John Tayloe III, 1798-1800: the HABS data form's own inventory is an irregular hexagon with a projecting semicircular entrance bay, three storeys on a raised basement under a low hipped roof, a one-storey Ionic porch, a belt course, recessed panels between the floors and a fanlight over the door -- the Federal kit laid on a plan no Georgian builder drew. Served as the executive mansion after the White House burned in 1814.",
+          "precedent": "the-octagon",
+          "standing": "canonical",
+          "why": "A National Historic Landmark with 12 HABS sheets and a data form that itemises the Federal elements on a geometrically free plan -- the record that shows the style is a surface on any plan, which is the node's own claim about Homewood."
         }
       ],
       "sources": [
@@ -20869,7 +21143,10 @@
           "name": "Westover",
           "location": "Charles City County, Virginia",
           "year": 1750,
-          "note": "Built by William Byrd III shortly after a 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Steep hipped roof, tall paired interior-end chimneys, Portland stone doorways added c. 1767."
+          "note": "Built by William Byrd III shortly after a 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Steep hipped roof, tall paired interior-end chimneys, Portland stone doorways added c. 1767.",
+          "precedent": "westover",
+          "standing": "canonical",
+          "why": "The 1939 survey's one-sentence description is the parent type's whole recipe -- Flemish bond, two storeys, hipped roof, two chimneys each end, seven bays, centre door, nine-over-nine sash -- on the house the tidewater child holds as its icon."
         },
         {
           "name": "Drayton Hall",
@@ -20884,13 +21161,37 @@
           "name": "Mount Pleasant",
           "location": "Fairmount Park, Philadelphia, Pennsylvania",
           "year": 1765,
-          "note": "Built 1762–65 for John Macpherson; stuccoed and scored rubble with brick quoins, pedimented central pavilion, flanking dependencies — the Mid-Atlantic Palladian composition at full strength."
+          "note": "Built 1762–65 for John Macpherson; stuccoed and scored rubble with brick quoins, pedimented central pavilion, flanking dependencies — the Mid-Atlantic Palladian composition at full strength.",
+          "precedent": "mount-pleasant",
+          "standing": "regional",
+          "why": "The node's own exemplar note calls it 'the Mid-Atlantic Palladian composition at full strength', which is the region's expression of the parent and not the parent's whole reach; its survey, HABS PA-1130, is on the record and its written data could not be read."
         },
         {
           "name": "Hammond-Harwood House",
           "location": "Annapolis, Maryland",
           "year": 1774,
-          "note": "William Buckland's last work. The entrance is a Gibbs surround executed in southern pine and rusticated to imitate stone, taken directly from Gibbs's A Book of Architecture (1728), as are the oeil-de-boeuf windows in the pediment — pattern-book transmission caught in the act."
+          "note": "William Buckland's last work. The entrance is a Gibbs surround executed in southern pine and rusticated to imitate stone, taken directly from Gibbs's A Book of Architecture (1728), as are the oeil-de-boeuf windows in the pediment — pattern-book transmission caught in the act.",
+          "precedent": "hammond-harwood-house",
+          "standing": "canonical",
+          "why": "Buckland's last and most complete house, the one Jefferson drew; the family's type specimen for the five-part plan at town scale (HABS MD-251, 5 quotes, 10 figures)."
+        },
+        {
+          "name": "Mount Vernon",
+          "location": "Fairfax County, Virginia",
+          "year": 1787,
+          "note": "A farmhouse of the 1730s enlarged by Washington in campaigns completed by 1787 (the DHR's date): rusticated and sanded boards scored to read as stone, a cupola, and the two-storey river piazza. HABS VA-505 is photographs only; the house's own institution holds the measured record.",
+          "precedent": "mount-vernon",
+          "standing": "icon",
+          "why": "The house the whole family is known by outside the profession, and the DHR's own summary sets its composition off by the three things the node's prose lists -- rusticated wooden siding, cupola and portico; the new-england-georgian child already cites it for the rusticated boards."
+        },
+        {
+          "name": "George Wythe House",
+          "location": "Williamsburg, Virginia",
+          "year": 1754,
+          "note": "Built about 1750-54 by Richard Taliaferro, most likely to his own design: a plain five-bay two-storey brick double pile on the Palace Green, with ten HABS measured drawings (VA-1009) and no written data. The DHR calls it the Virginia house that has spawned the most imitations.",
+          "precedent": "george-wythe-house",
+          "standing": "canonical",
+          "why": "The DHR's 'few colonial Virginia houses are so admired or have spawned so many imitations' is the type specimen's job description, and its ten HABS sheets make the plain five-bay brick block the node's prose describes at its most modest a thing a generator can be held against."
         }
       ],
       "sources": [
@@ -21275,25 +21576,46 @@
           "name": "Whitemarsh Hall",
           "location": "Wyndmoor, Springfield Township, Pennsylvania",
           "year": 1921,
-          "note": "Horace Trumbauer for E. T. Stotesbury, 1916-21. Neo-Georgian at Beaux-Arts scale, 147 rooms; demolished 1980 and still the largest American house deliberately destroyed."
+          "note": "Horace Trumbauer for E. T. Stotesbury, 1916-21. Neo-Georgian at Beaux-Arts scale, 147 rooms; demolished 1980 and still the largest American house deliberately destroyed.",
+          "precedent": "whitemarsh-hall",
+          "standing": "icon",
+          "why": "The node's own note -- Neo-Georgian at Beaux-Arts scale, 147 rooms, the largest American house deliberately destroyed -- which Wikipedia's infobox confirms at 100,000 square feet and six floors."
         },
         {
           "name": "Governor's Palace (reconstruction)",
           "location": "Williamsburg, Virginia",
           "year": 1934,
-          "note": "Perry, Shaw & Hepburn. The reference library for the whole variant: bonds, profiles, hardware, dormers and paint, all published and copied for forty years."
+          "note": "Perry, Shaw & Hepburn. The reference library for the whole variant: bonds, profiles, hardware, dormers and paint, all published and copied for forty years.",
+          "precedent": "governors-palace-reconstruction",
+          "standing": "documentary",
+          "why": "The node's own note calls it the reference library for the whole variant; Colonial Williamsburg's own journal and research reports document how Perry, Shaw & Hepburn derived it."
         },
         {
           "name": "Widener Library, Harvard University",
           "location": "Cambridge, Massachusetts",
           "year": 1915,
-          "note": "Horace Trumbauer with Julian Abele. The institutional register, and evidence that the variant's brick-and-limestone grammar scales far past the house."
+          "note": "Horace Trumbauer with Julian Abele. The institutional register, and evidence that the variant's brick-and-limestone grammar scales far past the house.",
+          "precedent": "widener-library-harvard-university",
+          "standing": "canonical",
+          "why": "The node's institutional register, on the node's own claim that the variant's brick-and-limestone grammar scales past the house; Harvard's archives guide records Trumbauer's firm and Abele as chief designer."
         },
         {
           "name": "Griffith-Sowers House",
           "location": "Rowan County, near Salisbury, North Carolina",
           "year": 1932,
-          "note": "Five-bay centre block with connected wings, slate roof; a well-documented ordinary-scale example, NRHP 2009."
+          "note": "Five-bay centre block with connected wings, slate roof; a well-documented ordinary-scale example, NRHP 2009.",
+          "precedent": "griffith-sowers-house",
+          "standing": "documentary",
+          "why": "The NC HPO nomination (RW0971, 2009) describes the five-part plan with a centre block 'just under fifty feet in width' and an eleven-bay front -- but as a frame house with flush sheathing, which is worth knowing on a brick node."
+        },
+        {
+          "name": "Woodrow Wilson House",
+          "location": "2340 S Street NW, Washington, D.C.",
+          "year": 1915,
+          "note": "Waddy Butler Wood for Henry Parker Fairbanks, 1915-16; Wilson's home from 1921 to his death. HABS DC-133 calls it 'a distinguished example of the large townhouse in the Georgian Revival style' and describes Wood matching John Russell Pope's brick, Indiana limestone and wrought iron next door, then setting three Palladian windows in limestone arches across the front in the mode of Robert Adam. National Historic Landmark, 1964.",
+          "precedent": "woodrow-wilson-house",
+          "standing": "canonical",
+          "why": "HABS's own statement of significance calls it 'a distinguished example of the large townhouse in the Georgian Revival style', and its account of Wood taking Pope's materials and manner from the house next door is the variant's discrimination-by-precedent, as the node describes it."
         }
       ],
       "sources": [
@@ -23369,25 +23691,64 @@
           "name": "Andalusia",
           "location": "Bensalem Township, Bucks County, Pennsylvania",
           "year": 1834,
-          "note": "Thomas Ustick Walter's Doric temple front added to a 1794 house built for John Craig, acquired by Nicholas Biddle c. 1814 and turned to face the Delaware. The manifesto building of the American Greek Revival, by the man who later built the U.S. Capitol dome."
+          "note": "Thomas Ustick Walter's Doric temple front added to a 1794 house built for John Craig, acquired by Nicholas Biddle c. 1814 and turned to face the Delaware. The manifesto building of the American Greek Revival, by the man who later built the U.S. Capitol dome.",
+          "precedent": "andalusia",
+          "standing": "icon",
+          "why": "The node's own note calls it the manifesto building of the American Greek Revival, and HABS PA-1248 describes the hexastyle Doric portico, the dimensions and the openings in full."
         },
         {
           "name": "Rose Hill Mansion",
           "location": "Geneva (town of Fayette), Seneca County, New York",
           "year": 1837,
-          "note": "Hexastyle Ionic portico with fully pedimented gable and Ionic colonnades on the flanking single-storey wings; builders working directly from Lafever's plates. National Historic Landmark."
+          "note": "Hexastyle Ionic portico with fully pedimented gable and Ionic colonnades on the flanking single-storey wings; builders working directly from Lafever's plates. National Historic Landmark.",
+          "precedent": "rose-hill-mansion",
+          "standing": "canonical",
+          "why": "A National Historic Landmark that the node's note ties to Lafever's plates and that its owner, Historic Geneva, calls 'one of the finest examples of Greek Revival Architecture'; no HABS data page was found for it."
         },
         {
           "name": "Berry Hill",
           "location": "3105 River Road, Halifax County, Virginia",
           "year": 1844,
-          "note": "Begun 1842; architect John Evans Johnson, builder Josiah Dabbs. Octastyle Doric portico with an entablature six and a half feet deep, correctly detailed with triglyphs, metopes and guttae, plus matching tetrastyle Doric dependencies."
+          "note": "Begun 1842; architect John Evans Johnson, builder Josiah Dabbs. Octastyle Doric portico with an entablature six and a half feet deep, correctly detailed with triglyphs, metopes and guttae, plus matching tetrastyle Doric dependencies.",
+          "precedent": "berry-hill",
+          "standing": "canonical",
+          "why": "The Virginia Department of Historic Resources calls it 'A premier monument of the American Greek Revival', and HABS VA-304 holds 17 photographs and a 1930s index card for it."
         },
         {
           "name": "Oak Alley",
           "location": "Vacherie, St. James Parish, Louisiana",
           "year": 1839,
-          "note": "Begun 1837. A peripteral colonnade of 28 stuccoed brick Doric columns on all four sides - the Greek temple hybridised with the Creole gallery house, and structurally a shading device before it is a quotation."
+          "note": "Begun 1837. A peripteral colonnade of 28 stuccoed brick Doric columns on all four sides - the Greek temple hybridised with the Creole gallery house, and structurally a shading device before it is a quotation.",
+          "precedent": "oak-alley",
+          "standing": "regional",
+          "why": "The node's own note: the Greek temple hybridised with the Creole gallery house, a shading device before it is a quotation -- the Gulf South's reading of the style, with HABS LA-71 behind it."
+        },
+        {
+          "name": "Second Bank of the United States",
+          "location": "420 Chestnut Street, Philadelphia, Pennsylvania",
+          "year": 1824,
+          "note": "William Strickland, 1818-24, on a Parthenon model: eight Doric columns over a stylobate of steps at each end, a triglyph frieze, blank pediments. Not a house. It is here because the node's prose says the professional line -- Latrobe, Strickland, Walter -- 'produced the banks', and this is the bank. HABS PA-137, 20 measured drawings.",
+          "precedent": "second-bank-of-the-united-states",
+          "standing": "icon",
+          "why": "The node's own prose names the Latrobe-to-Strickland line that produced the banks; this is Strickland's Parthenon-fronted bank, which the National Park Service and Wikipedia describe as a significant early monumental example of the style, with 20 HABS sheets."
+        },
+        {
+          "name": "Millford Plantation",
+          "location": "Pinewood, Sumter County, South Carolina",
+          "year": 1841,
+          "note": "Built 1839-41 for John L. Manning by Nathaniel F. Potter of Providence. HABS SC-257 measures it: a three-storey centre of 45 by 70 feet, five bays each way, with two-storey wings of about 20 by 20, brick burned on the site and stuccoed to read as ashlar, a hexastyle Corinthian portico -- Corinthian, where the node's substitution list says Doric -- and floor-length six-over-nine sash that slide up into the wall. Restored 1960; a National Historic Landmark. HABS spells it Milford.",
+          "precedent": "millford-plantation",
+          "standing": "canonical",
+          "why": "The HABS surveyor's own words -- 'One of the most important Greek Revival country mansions of South Carolina' -- with over-all dimensions, bay counts, portico, chimneys and sash all stated in the survey, which is what a type specimen for measurement needs."
+        },
+        {
+          "name": "Avery-Downer House",
+          "location": "Granville, Licking County, Ohio",
+          "year": 1842,
+          "note": "Built 1838-42 for Alfred Avery by Benjamin Morgan, the builder of Lafever's St. Luke's Episcopal down the street; the museum's own account has the entrance copied from the Tower of the Winds and the plaster and mouldings taken from the Grecian pattern books. Lafever transmitted by a village carpenter, which is the node's thesis in one house. Now the Robbins Hunter Museum. No HABS survey was found and the register number was not read.",
+          "precedent": "avery-downer-house",
+          "standing": "regional",
+          "why": "The node's geography runs to the Ohio Valley and names Lafever's plates as the carpenters' source; the Robbins Hunter Museum's own account has Avery choosing the style from Lafever's church next door and the same builder copying the Tower of the Winds -- a pattern-book descent stated by the owner."
         }
       ],
       "sources": [
@@ -25559,25 +25920,64 @@
           "name": "Villard Houses",
           "location": "451 Madison Avenue, New York, New York",
           "year": 1884,
-          "note": "Joseph Morrill Wells for McKim, Mead & White, after the Palazzo della Cancelleria in Rome. The founding building of the style in America."
+          "note": "Joseph Morrill Wells for McKim, Mead & White, after the Palazzo della Cancelleria in Rome. The founding building of the style in America.",
+          "precedent": "villard-houses",
+          "standing": "icon",
+          "why": "The node's own prose opens with it -- 'Italian Renaissance Revival begins in 1882 on Madison Avenue' -- and the HABS sheet caption says why: 'Appearing as a single Italian palazzo, the Villard Houses were actually six residences built around a central courtyard.'"
         },
         {
           "name": "Boston Public Library, McKim Building",
           "location": "Boston, Massachusetts",
           "year": 1895,
-          "note": "McKim, Mead & White. Not domestic, but the clearest demonstration of the arcaded palazzo wall as a compositional system."
+          "note": "McKim, Mead & White. Not domestic, but the clearest demonstration of the arcaded palazzo wall as a compositional system.",
+          "precedent": "boston-public-library-mckim-building",
+          "standing": "canonical",
+          "why": "The node's own exemplar note: not domestic, 'but the clearest demonstration of the arcaded palazzo wall as a compositional system'; a National Historic Landmark since 1986 (Wikipedia)."
         },
         {
           "name": "The Breakers",
           "location": "Newport, Rhode Island",
           "year": 1895,
-          "note": "Richard Morris Hunt for Cornelius Vanderbilt II, on a sixteenth-century Genoese palazzo model. The style at maximum budget, where it overlaps Beaux-Arts."
+          "note": "Richard Morris Hunt for Cornelius Vanderbilt II, on a sixteenth-century Genoese palazzo model. The style at maximum budget, where it overlaps Beaux-Arts.",
+          "precedent": "the-breakers",
+          "standing": "canonical",
+          "why": "The node's own note calls it 'the style at maximum budget, where it overlaps Beaux-Arts', and the HABS data page measures that budget: about 250 x 150 ft, thirteen stone chimneys, a steel lattice frame."
         },
         {
           "name": "Vizcaya",
           "location": "Miami, Florida",
           "year": 1916,
-          "note": "F. Burrall Hoffman with Paul Chalfin. Veneto villa parti around a true cortile; the point where Italian Renaissance Revival and Mediterranean Revival separate."
+          "note": "F. Burrall Hoffman with Paul Chalfin. Veneto villa parti around a true cortile; the point where Italian Renaissance Revival and Mediterranean Revival separate.",
+          "precedent": "vizcaya",
+          "standing": "regional",
+          "why": "The point where the node says Italian Renaissance Revival and Mediterranean Revival separate, and the register agrees: Wikipedia's style line reads 'Mediterranean Revival Style; with Baroque, Italian Renaissance, Italian Renaissance Revival'."
+        },
+        {
+          "name": "Henry Clay Frick House",
+          "location": "1 East 70th Street, New York, New York",
+          "year": 1914,
+          "note": "Thomas Hastings of Carrère and Hastings, 1913-14: a single-family palazzo on a full Fifth Avenue block front, built low on purpose and now the Frick Collection. National Historic Landmark 2008; the city landmark designation covers the facade only.",
+          "precedent": "henry-clay-frick-house",
+          "standing": "canonical",
+          "why": "The Register lists it as an NHL (Wikipedia infobox, 08001091, 2008) and it is the palazzo formula at domestic scale on the avenue where the node says the buyers lived."
+        },
+        {
+          "name": "University Club of New York",
+          "location": "1 West 54th Street, New York, New York",
+          "year": 1899,
+          "note": "McKim, Mead and White, 1899: nine storeys composed as a three-storey Florentine palazzo, each great storey holding a mezzanine, on a corner of Fifth Avenue. The proportional system the node describes -- change the ground storey and everything above must change -- run at its largest scale.",
+          "precedent": "university-club-of-new-york",
+          "standing": "canonical",
+          "why": "The node's own prose names clubs among the formula's applications, and the Register (80002726, 1980) and the city (landmark 0263, 1967) both list this one."
+        },
+        {
+          "name": "Payne Whitney House",
+          "location": "972 Fifth Avenue, New York, New York",
+          "year": 1909,
+          "note": "Stanford White, completed 1909, on a 45 ft frontage: a bowed granite town house 'in the High Italian Renaissance style', among the last houses White designed before 1906, and since 1952 the French embassy's cultural services. New York City landmark 1970.",
+          "precedent": "payne-whitney-house",
+          "standing": "canonical",
+          "why": "Wikipedia records it as designed 'in the High Italian Renaissance style by architect Stanford White', and it is the node's formula at row-house width rather than block scale."
         }
       ],
       "sources": [
@@ -28715,25 +29115,64 @@
           "name": "C. A. Nothnagle Log House",
           "location": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
           "year": 1643,
-          "note": "Traditionally dated circa 1638-1643 and claimed as the oldest log house in North America. The date is traditional, not dendrochronologically established, and later dates have been argued; the building is nonetheless the standard reference for the New Sweden log transmission."
+          "note": "Traditionally dated circa 1638-1643 and claimed as the oldest log house in North America. The date is traditional, not dendrochronologically established, and later dates have been argued; the building is nonetheless the standard reference for the New Sweden log transmission.",
+          "precedent": "c-a-nothnagle-log-house",
+          "standing": "icon",
+          "why": "The node's own prose calls it 'the standard reference for the New Sweden log transmission' while refusing its traditional date; Wikipedia records the 1976 listing and the 1638-1643 claim."
         },
         {
           "name": "Lower Swedish Cabin",
           "location": "Creek Road, Drexel Hill, Upper Darby Township, Pennsylvania",
           "year": 1650,
-          "note": "Likely built between 1640 and 1650 by New Sweden settlers, restored and archaeologically excavated 1989; listed on the National Register 1982. Same dating caveat as Nothnagle."
+          "note": "Likely built between 1640 and 1650 by New Sweden settlers, restored and archaeologically excavated 1989; listed on the National Register 1982. Same dating caveat as Nothnagle.",
+          "precedent": "lower-swedish-cabin",
+          "standing": "canonical",
+          "why": "The Delaware Valley survivor HABS measured -- eight sheets under PA-135 per Wikipedia's external links -- with the same dating caveat the node attaches to Nothnagle."
         },
         {
           "name": "John Oliver Place",
           "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
           "year": 1822,
-          "note": "Built in the 1820s, replacing a 1818 cabin on the same site; the oldest surviving structure on the Cades Cove loop and a textbook single-pen with an exterior gable-end chimney."
+          "note": "Built in the 1820s, replacing a 1818 cabin on the same site; the oldest surviving structure on the Cades Cove loop and a textbook single-pen with an exterior gable-end chimney.",
+          "precedent": "john-oliver-place",
+          "standing": "canonical",
+          "why": "The node's own 'textbook single-pen with an exterior gable-end chimney', which the Park Service's inventory confirms in its own words: 'single-room, half-dovetail notched log cabin set on fieldstone footings ... a stone chimney'."
         },
         {
           "name": "Jacob Wolf House",
           "location": "Norfork, Baxter County, Arkansas",
           "year": 1829,
-          "note": "A two-storey hewn-log dogtrot built as a courthouse - the oldest standing public structure in Arkansas, and evidence that the system was used well beyond domestic building. National Register 1973."
+          "note": "A two-storey hewn-log dogtrot built as a courthouse - the oldest standing public structure in Arkansas, and evidence that the system was used well beyond domestic building. National Register 1973.",
+          "precedent": "jacob-wolf-house",
+          "standing": "regional",
+          "why": "The Ozark two-storey dogtrot built as a courthouse, which Arkansas Heritage records the Park Service calling 'the only surviving example with at least moderate historic integrity constructed for a civic purpose'."
+        },
+        {
+          "name": "Morton Homestead",
+          "location": "Prospect Park, Delaware County, Pennsylvania",
+          "year": 1698,
+          "note": "A New Sweden log house of about 1698 on Darby Creek, later joined by a second log block and a stone centre, and once claimed as the birthplace of John Morton; the Pennsylvania end of the same Delaware Valley hearth as the Lower Swedish Cabin. National Register 1970.",
+          "precedent": "morton-homestead",
+          "standing": "regional",
+          "why": "The node's own hearth is 'the Delaware Valley and southeastern Pennsylvania', and the Register (70000546, per the Wikipedia infobox) lists this c. 1698 log house within it."
+        },
+        {
+          "name": "Walker Sisters Place",
+          "location": "Little Greenbrier, Great Smoky Mountains National Park, Sevier County, Tennessee",
+          "year": 1859,
+          "note": "A tulip-poplar log house of the 1840s-1870s in a cove of the Smokies, with springhouse and corn crib, worked by five sisters until 1964 under a lifetime lease from the park; recorded by HABS as the Walker Family Farm (TN-121, the house as TN-121-A). National Register 1976.",
+          "precedent": "walker-sisters-place",
+          "standing": "canonical",
+          "why": "HABS recorded the whole farm building by building (TN-121 and its lettered parts), and the Park Service's own historian is quoted by Wikipedia calling the family the best exhibit of 'the character of the mountain people' in the park."
+        },
+        {
+          "name": "Bertolet-Herbein Cabin",
+          "location": "Limekiln vicinity, Berks County, Pennsylvania",
+          "year": null,
+          "note": "A Pennsylvania-German log cabin in the Oley Valley measured by HABS in 1960: one and a half storeys, about 20 by 30 ft, a large stone chimney slightly off centre with the rooms divided by it, a ladder-like corner stair and a 4 by 10 ft kitchen fireplace. The Continental plan the node's kit distinguishes from the Anglo gable-end pen -- the German channel, not the Upland South result. Undated by the survey as read; then 'in imminent danger of demolition'.",
+          "precedent": "bertolet-herbein-cabin",
+          "standing": "documentary",
+          "why": "The HABS data page (PA-1047, James C. Massey, 1960) calls it 'one of the few surviving examples of a simple and picturesque type of home built by the first settlers in the Pennsylvania-German country' and states its dimensions."
         }
       ],
       "sources": [
@@ -30280,25 +30719,55 @@
           "name": "Stenton",
           "location": "Germantown, Philadelphia, Pennsylvania",
           "year": 1730,
-          "note": "James Logan's brick country seat, built 1723–30; the earliest fully Georgian house in the region and among the plainest — a wall with almost no trim on it."
+          "note": "James Logan's brick country seat, built 1723–30; the earliest fully Georgian house in the region and among the plainest — a wall with almost no trim on it.",
+          "precedent": "stenton",
+          "standing": "canonical",
+          "why": "The node's own note calls it 'the earliest fully Georgian house in the region and among the plainest -- a wall with almost no trim on it', and HABS PA-1714's ten measured drawings make that wall measurable even though the survey wrote no data pages for it."
         },
         {
           "name": "Mount Pleasant",
           "location": "Fairmount Park, Philadelphia, Pennsylvania",
           "year": 1765,
-          "note": "Built 1762–65 for John Macpherson. Rubble stuccoed and scored to imitate ashlar with brick quoins, a pedimented centre pavilion, a Venetian window over the door and two flanking dependencies."
+          "note": "Built 1762–65 for John Macpherson. Rubble stuccoed and scored to imitate ashlar with brick quoins, a pedimented centre pavilion, a Venetian window over the door and two flanking dependencies.",
+          "precedent": "mount-pleasant",
+          "standing": "icon",
+          "why": "The node's own prose leads its Palladian paragraph with it -- pedimented pavilion, Venetian window, rubble stuccoed and scored to ashlar with real brick quoins, two flanking dependencies -- and it is the house a fluent reader names first for the region's top rank."
         },
         {
           "name": "Cliveden",
           "location": "Germantown, Philadelphia, Pennsylvania",
           "year": 1767,
-          "note": "Built 1763–67 for Benjamin Chew in Wissahickon schist, with a pedimented and pilastered centre and urns on the roof ridge; the site of the Battle of Germantown in 1777."
+          "note": "Built 1763–67 for Benjamin Chew in Wissahickon schist, with a pedimented and pilastered centre and urns on the roof ridge; the site of the Battle of Germantown in 1777.",
+          "precedent": "cliveden",
+          "standing": "canonical",
+          "why": "The survey gives the stone recipe the node is built on in figures -- a 53 by 44 ft five-bay block of grey ashlar with sandstone lintels over every window and a sandstone belt course at the second floor, twelve-over-twelve sash, two stacks on the main block -- which is what 'expresses its wall rather than its trim' measures as."
         },
         {
           "name": "Hammond-Harwood House",
           "location": "19 Maryland Avenue, Annapolis, Maryland",
           "year": 1774,
-          "note": "William Buckland's last work. The rusticated Gibbs door surround and the oeil-de-boeuf windows in the pediment are taken directly from Gibbs's A Book of Architecture (1728), executed in southern pine to read as stone."
+          "note": "William Buckland's last work. The rusticated Gibbs door surround and the oeil-de-boeuf windows in the pediment are taken directly from Gibbs's A Book of Architecture (1728), executed in southern pine to read as stone.",
+          "precedent": "hammond-harwood-house",
+          "standing": "icon",
+          "why": "The node's own prose ends its Palladian paragraph on this doorway -- 'pattern-book transmission caught in the act, in a building that still stands' -- and the 1940 survey records the five-part plan it belongs to at 44 by 42 ft with 18 ft links, in Flemish bond over a two-course water table."
+        },
+        {
+          "name": "Hope Lodge",
+          "location": "Whitemarsh Township, Montgomery County, Pennsylvania",
+          "year": null,
+          "note": "Dated 1721-23 by the 1930s HABS sheet and about 1750 by later scholarship (Wikipedia names Edmund Woolley); the record keeps both. Two and a half storeys and basement, brick-fronted with stone side and rear walls under stucco, a through-hall 'of unusual width' with the stair rising laterally from its rear, round-arched doorways, and a detached kitchen wing joined by a brick-paved porch. Twelve HABS sheets.",
+          "precedent": "hope-lodge",
+          "standing": "documentary",
+          "why": "The plain surveyed case the node needed: a stone house with a brick front, a wide through-hall and no pavilion, drawn on twelve HABS sheets with a written description, so the region's ordinary wall can be measured rather than the Palladian exceptions."
+        },
+        {
+          "name": "Chase-Lloyd House",
+          "location": "22 Maryland Avenue, Annapolis, Maryland",
+          "year": 1774,
+          "note": "Begun 1769 by Samuel Chase and finished for Edward Lloyd IV, with William Buckland brought in for the interior: a three-storey brick town house across Maryland Avenue from the Hammond-Harwood House, with a Palladian window over the stair landing. The MHT dates it 1769-1774; the survey says finished 1772.",
+          "precedent": "chase-lloyd-house",
+          "standing": "canonical",
+          "why": "The survey calls it 'a rare example of a three-story Georgian mansion' and the Annapolis concentration the node's hearth names has no other three-storey brick specimen on the record; Buckland's hand ties it to the Hammond-Harwood House opposite."
         }
       ],
       "sources": [
@@ -31848,25 +32317,55 @@
           "name": "Larkin House",
           "location": "464 Calle Principal, Monterey, California",
           "year": 1835,
-          "note": "Built by Thomas Oliver Larkin, United States consul; generally identified as the first house of the type and its clearest statement — adobe below, New England frame above, cantilevered balcony on two sides, shingle hip roof. National Historic Landmark."
+          "note": "Built by Thomas Oliver Larkin, United States consul; generally identified as the first house of the type and its clearest statement — adobe below, New England frame above, cantilevered balcony on two sides, shingle hip roof. National Historic Landmark.",
+          "precedent": "larkin-house",
+          "standing": "icon",
+          "why": "The node's own 'first house of the type and its clearest statement', and the survey (HABS CA-128) is where the type's figures live -- 46'-6\" by 52'-6\", 24 in adobe, cedar-shingled hip, interior stair from an entrance hall -- though it also records balconies 'supported by 6\" square ... wood columns', which the node's cantilever test would have to answer."
         },
         {
           "name": "Casa Amesti",
           "location": "516 Polk Street, Monterey, California",
           "year": 1834,
-          "note": "Contemporary with or slightly earlier than the Larkin House; the question of priority between the two is not fully settled and the type is better dated c. 1834–35 than to a single building."
+          "note": "Contemporary with or slightly earlier than the Larkin House; the question of priority between the two is not fully settled and the type is better dated c. 1834–35 than to a single building.",
+          "precedent": "casa-amesti",
+          "standing": "canonical",
+          "why": "Cardwell's 1956 survey (HABS CA-143) is the best written account of a Monterey adobe in this set -- 41 1/2 by 84 ft, common-bond adobe, French doors to the balconies, hip roof gabled out over them -- and it reads the two-storey form as later than 1834, which is the priority question the node's own note leaves open."
         },
         {
           "name": "Cooper-Molera Adobe",
           "location": "Polk and Munras, Monterey, California",
           "year": 1827,
-          "note": "Begun 1827 for Captain John Rogers Cooper, a New England shipmaster, and enlarged through the 1830s and 40s; shows the transition from Californio adobe to the Monterey type within one building."
+          "note": "Begun 1827 for Captain John Rogers Cooper, a New England shipmaster, and enlarged through the 1830s and 40s; shows the transition from Californio adobe to the Monterey type within one building.",
+          "precedent": "cooper-molera-adobe",
+          "standing": "canonical",
+          "why": "The node's own note names it for showing the transition from Californio adobe to the Monterey type within one building, and the National Trust, its owner, describes the compound -- two adobe houses, store, warehouse and barns inside an adobe wall on two and a half acres -- that makes it a type specimen of the merchant's establishment; its HABS record is photographs only."
         },
         {
           "name": "Rancho Petaluma Adobe",
           "location": "Petaluma, Sonoma County, California",
           "year": 1836,
-          "note": "Mariano Vallejo's ranch headquarters, the largest surviving Monterey-type building — a two-storey adobe with a continuous upper balcony around a courtyard."
+          "note": "Mariano Vallejo's ranch headquarters, the largest surviving Monterey-type building — a two-storey adobe with a continuous upper balcony around a courtyard.",
+          "precedent": "rancho-petaluma-adobe",
+          "standing": "canonical",
+          "why": "The Library's own item record calls it 'the largest existing example of domestic adobe architecture in the United States', and its survey (HABS CA-38-1, nineteen data pages) is the one on this node that states wall thickness (up to 3 ft), wall height (23 ft) and the 20 ft wing the verandah wraps."
+        },
+        {
+          "name": "Casa Soberanes",
+          "location": "336 Pacific Street, Monterey, California",
+          "year": 1838,
+          "note": "The Estrada-Soberanes adobe, built by Jose Estrada in the later 1830s on the survey's dating (Wikipedia says 1842 and Rafael Estrada): a long, low two-storey house with thirty-three-inch walls at the base and a balcony-veranda across the east front. The main roof is cantilevered over the veranda on rafter extensions, and the balcony carries no posts, which is why its roof is shingle over the balcony and tile elsewhere -- the tile would have been too heavy to carry beyond the wall. California Historical Landmark No. 712; HABS CA-1892.",
+          "precedent": "casa-soberanes",
+          "standing": "documentary",
+          "why": "The surveyed plain example whose survey (HABS CA-1892) states a wall thickness and describes the cantilevered veranda roof, so the node's own definition of the type -- a balcony that floats -- is held to a measured building rather than to the Larkin House, whose survey says its balconies stand on columns."
+        },
+        {
+          "name": "Los Cerritos Ranch House",
+          "location": "4600 Virginia Road, Long Beach, California",
+          "year": 1844,
+          "note": "John Temple's 'two-story Monterey-style adobe', built in 1844 as the headquarters of his cattle operation on the Rancho Los Cerritos grant (the site's own account) -- the type carried to the Los Angeles basin. The site's collection notes say the flat roof is the Spanish Colonial feature and the two storeys the Monterey one, that the south wing still had its flat roof in an 1872 photograph, and that the courtyard was extensively remodelled in the 1930s by architect Kenneth Wing. National Historic Landmark and California Historical Landmark No. 978; no HABS record was found.",
+          "precedent": "los-cerritos-ranch-house",
+          "standing": "regional",
+          "why": "The southern outlier, for a node whose geography names 'Los Angeles and Santa Barbara' and whose four exemplars all stand north of Salinas; the owner calls it a two-storey Monterey-style adobe and the register a National Historic Landmark (1970), and nothing here has been measured by a survey."
         }
       ],
       "sources": [
@@ -33936,19 +34435,55 @@
           "name": "Schermerhorn Symphony Center",
           "location": "Nashville, Tennessee",
           "year": 2006,
-          "note": "David M. Schwarz Architects. A new building type designed entirely within the classical system, with a full Doric peristyle and correct entablature at civic scale."
+          "note": "David M. Schwarz Architects. A new building type designed entirely within the classical system, with a full Doric peristyle and correct entablature at civic scale.",
+          "precedent": "schermerhorn-symphony-center",
+          "standing": "canonical",
+          "why": "The node's own note: a new building type designed entirely within the classical system; the owner's fact sheet gives its plan at 301 by 274 feet and the architect's page calls it 'much more' than a draped Neo-Classical style."
         },
         {
           "name": "15 Central Park West",
           "location": "New York, New York",
           "year": 2008,
-          "note": "Robert A. M. Stern Architects. Limestone-clad, base-shaft-cap, with real reveals and cornices at high-rise scale — proof that the system survives the change of building type and the change of structural material."
+          "note": "Robert A. M. Stern Architects. Limestone-clad, base-shaft-cap, with real reveals and cornices at high-rise scale — proof that the system survives the change of building type and the change of structural material.",
+          "precedent": "15-central-park-west",
+          "standing": "icon",
+          "why": "The node's own note calls it proof that the system survives the change of building type and structural material, and Wikipedia records it as one of the most financially successful apartment buildings ever built, at $2 billion of sales."
         },
         {
           "name": "Poundbury",
           "location": "Dorset, England",
           "year": 1993,
-          "note": "Leon Krier's masterplan for the Duchy of Cornwall, under construction from 1993. The movement's argument made at town scale, and its most-tested and most-criticized case."
+          "note": "Leon Krier's masterplan for the Duchy of Cornwall, under construction from 1993. The movement's argument made at town scale, and its most-tested and most-criticized case.",
+          "precedent": "poundbury",
+          "standing": "icon",
+          "why": "The node's own note: the movement's argument made at town scale, and its most-tested case; Wikipedia and the Duchy of Cornwall agree on Krier's direction and the 2028 completion."
+        },
+        {
+          "name": "Richmond Riverside",
+          "location": "Richmond upon Thames, London, England",
+          "year": 1988,
+          "note": "Quinlan Terry's mixed-use development on the Thames at Richmond, 1984-88: offices, flats and shops behind a run of classical fronts, and the case that made the argument in Britain a decade before Poundbury. Unlisted; Wikipedia's New Classical article names it first among its examples.",
+          "precedent": "richmond-riverside",
+          "standing": "canonical",
+          "why": "Wikipedia's article on the movement lists it first among its examples ('Richmond Riverside, Richmond, England, 1988, by Quinlan Terry'), and Historic England's biography of Terry names it among the works of the architect it calls a 'successful exponent of, and advocate for, Classicism'."
+        },
+        {
+          "name": "Whitman College, Princeton University",
+          "location": "Princeton, New Jersey",
+          "year": 2007,
+          "note": "Demetri Porphyrios, commissioned 2002, completed 2007, $136 million: a family of load-bearing stone buildings -- random fieldstone and coursed Indiana limestone, slate roofs -- in Princeton's Collegiate Gothic, by a Driehaus laureate. Gothic in idiom, so it is on this node for the method and not the orders: Porphyrios's own claim is that 'Whitman College is important for the revival of traditional architecture in the States'.",
+          "precedent": "whitman-college-princeton-university",
+          "standing": "canonical",
+          "why": "The largest American campus commission of the movement's institutional cohort, by the 2004 Driehaus laureate, and the architect's own words in Princeton's bulletin -- 'important for the revival of traditional architecture in the States'; the node's hearth includes the Notre Dame school this cohort came out of."
+        },
+        {
+          "name": "Tuscaloosa Federal Building and Courthouse",
+          "location": "Tuscaloosa, Alabama",
+          "year": 2011,
+          "note": "HBRA Architects for the General Services Administration's Design Excellence programme, 127,000 square feet, $47.8 million: a Doric front in Indiana limestone after the Temple of Zeus at Nemea, an Ionic atrium after the Erechtheion, and a client -- the presiding judge -- who told Architect magazine that 'People need to have the sense they're coming to a place of justice, not an office building'. The exception Semes names to federal patronage's refusal of the classical; LEED gold.",
+          "precedent": "tuscaloosa-federal-building-and-courthouse",
+          "standing": "canonical",
+          "why": "The federal civic type done inside the classical system under the GSA's own programme, which Steven Semes (Common Edge, 2020) singles out as the exception the GSA resisted; Architect magazine records the orders it is derived from and the client's stated reason."
         }
       ],
       "sources": [
@@ -34294,25 +34829,64 @@
           "name": "Fairbanks House",
           "location": "Dedham, Massachusetts",
           "year": 1637,
-          "note": "The oldest surviving timber-frame dwelling in North America; dendrochronology supports a construction date in the late 1630s. Later lean-tos and wings make it a textbook of accretive growth."
+          "note": "The oldest surviving timber-frame dwelling in North America; dendrochronology supports a construction date in the late 1630s. Later lean-tos and wings make it a textbook of accretive growth.",
+          "precedent": "fairbanks-house",
+          "standing": "icon",
+          "why": "The building the type is known by: the node's own note calls it the oldest surviving timber-frame dwelling in North America, and the HABS data sheet calls it 'perhaps the earliest and most important house of the 17th century standing in Massachusetts'."
         },
         {
           "name": "Paul Revere House",
           "location": "North Square, Boston, Massachusetts",
           "year": 1680,
-          "note": "Urban two-storey house with a framed overhang; the only surviving 17th-century dwelling in downtown Boston."
+          "note": "Urban two-storey house with a framed overhang; the only surviving 17th-century dwelling in downtown Boston.",
+          "precedent": "paul-revere-house",
+          "standing": "regional",
+          "why": "The urban expression of the type rather than its rule: the node's own note calls it the only surviving 17th-century dwelling in downtown Boston, and HABS MA-491 recorded it in 1941 in five sheets."
         },
         {
           "name": "Parson Capen House",
           "location": "Topsfield, Massachusetts",
           "year": 1683,
-          "note": "The canonical post-medieval elevation: front and gable overhangs, carved drop pendants, central stack, casement openings."
+          "note": "The canonical post-medieval elevation: front and gable overhangs, carved drop pendants, central stack, casement openings.",
+          "precedent": "parson-capen-house",
+          "standing": "canonical",
+          "why": "The node's own note calls it 'the canonical post-medieval elevation' and the HABS data sheet 'perhaps the outstanding 17th century house remaining', a type specimen the kit's overhang, pendant and casement bindings can be held against."
         },
         {
           "name": "John Whipple House",
           "location": "Ipswich, Massachusetts",
           "year": 1677,
-          "note": "Two-phase First Period house; the later block carries the jetty. Ipswich preserves the densest surviving concentration of the type."
+          "note": "Two-phase First Period house; the later block carries the jetty. Ipswich preserves the densest surviving concentration of the type.",
+          "precedent": "john-whipple-house",
+          "standing": "canonical",
+          "why": "A two-phase First Period house whose later block carries the jetty (the node's own note), among the first National Historic Landmarks of 1960 and recorded by HABS as MA-460."
+        },
+        {
+          "name": "Jackson House",
+          "location": "Portsmouth, New Hampshire",
+          "year": 1664,
+          "note": "Built 1664 by Richard Jackson, a woodworker: the oldest wood-frame house in New Hampshire and a saltbox by accretion — the rear lean-to is an addition, and Historic New England's 2009 repairs found it had never been tied into the roof frame. Two-room, central-chimney plan under a steep roof, weathered clapboard, the Piscataqua reach of the Massachusetts Bay tradition.",
+          "precedent": "jackson-house",
+          "standing": "canonical",
+          "why": "The NHL nomination calls it 'one of the finest of the surviving seventy or so seventeenth century wooden houses in New England', and Historic New England, its owner, holds it as the oldest wood-frame house in New Hampshire."
+        },
+        {
+          "name": "Coffin House",
+          "location": "Newbury, Massachusetts",
+          "year": 1678,
+          "note": "Dendrochronology puts the frame at 1678, not the traditional 1654, and its principal-rafter/common-purlin roof is among the oldest extant; a house that grew by a 1713 cross-wing and was split between two brothers in 1785, so the south facade reads its additions in the placement of its windows. Unpainted clapboard and a plain face: the type as it was lived in rather than as it was restored.",
+          "precedent": "coffin-house",
+          "standing": "documentary",
+          "why": "A measured specimen rather than a showpiece: HABS MA-472 recorded it, the Oxford Tree-Ring Laboratory dated its frame to 1678, and Wikipedia's list of the oldest buildings in Massachusetts names its roof among the oldest principal-rafter/common-purlin examples."
+        },
+        {
+          "name": "Buttolph-Williams House",
+          "location": "Wethersfield, Connecticut",
+          "year": 1711,
+          "note": "The Connecticut River valley's version of the frame: two and a half storeys, three bays wide and one deep, a steep side-gable roof, a large central stone-and-brick stack and diamond-pane casements reconstructed to the original openings. The setting of The Witch of Blackbird Pond, and a National Historic Landmark of 1968.",
+          "precedent": "buttolph-williams-house",
+          "standing": "regional",
+          "why": "The valley expression the node's geography names as its second hearth: Wikipedia's description gives three bays and one pile under a steep side gable with a central chimney and diamond-pane windows, an NHL of 1968 on the Connecticut River rather than the Bay."
         }
       ],
       "sources": [
@@ -34969,25 +35543,55 @@
           "name": "Isaac Royall House",
           "location": "Medford, Massachusetts",
           "year": 1737,
-          "note": "Built out from a late 17th-century Usher core in the 1730s and raised to three storeys in the 1740s. The west facade is rusticated to simulate ashlar; the east has aproned windows, a modillion cornice and wooden quoining. The surviving slave quarters make it the most historically important Georgian house in New England."
+          "note": "Built out from a late 17th-century Usher core in the 1730s and raised to three storeys in the 1740s. The west facade is rusticated to simulate ashlar; the east has aproned windows, a modillion cornice and wooden quoining. The surviving slave quarters make it the most historically important Georgian house in New England.",
+          "precedent": "isaac-royall-house",
+          "standing": "canonical",
+          "why": "The 1983 survey form names, in the node's own order, the 'wooden imitation masonry', the 'wooden west front rusticated and adorned with a colossal order' and quoining 'among the earliest examples' -- the stone-out-of-pine argument the node opens with, in the surveyor's words."
         },
         {
           "name": "Vassall-Craigie-Longfellow House",
           "location": "105 Brattle Street, Cambridge, Massachusetts",
           "year": 1759,
-          "note": "Wood construction with a giant order of Ionic pilasters and a pedimented centre pavilion — the classical apparatus in pine at full scale."
+          "note": "Wood construction with a giant order of Ionic pilasters and a pedimented centre pavilion — the classical apparatus in pine at full scale.",
+          "precedent": "vassall-craigie-longfellow-house",
+          "standing": "icon",
+          "why": "The Library's item and the Wikipedia infobox both file it as 'New England High Georgian', and the node's own note -- 'the classical apparatus in pine at full scale' -- is the sentence a fluent reader would reach for first; HABS MA-169 has measured drawings and written data this pass could not read."
         },
         {
           "name": "Jeremiah Lee Mansion",
           "location": "Marblehead, Massachusetts",
           "year": 1768,
-          "note": "Three storeys of rusticated wood scored to imitate stone, with a projecting pedimented pavilion and a two-storey stair hall; among the most ambitious wooden houses in colonial America."
+          "note": "Three storeys of rusticated wood scored to imitate stone, with a projecting pedimented pavilion and a two-storey stair hall; among the most ambitious wooden houses in colonial America.",
+          "precedent": "jeremiah-lee-mansion",
+          "standing": "canonical",
+          "why": "The 1984 survey form states the specimen in one line -- 'Rectangular; 7-bay front; 3 stories; hipped roof; slightly projecting 3-bay pavilion on front; octagonal cupola' on a frame 'sheathed with rusticated boards to imitate stone' -- and calls it one of the finest Georgian houses in the northern colonies."
         },
         {
           "name": "Lady Pepperrell House",
           "location": "Kittery Point, Maine",
           "year": 1760,
-          "note": "A restrained late-Georgian block with a giant order of pilasters and a pedimented doorway; the type at its most disciplined."
+          "note": "A restrained late-Georgian block with a giant order of pilasters and a pedimented doorway; the type at its most disciplined.",
+          "precedent": "lady-pepperrell-house",
+          "standing": "regional",
+          "why": "The coastal-Maine expression the node's geography names and no other exemplar covers; a National Historic Landmark with no HABS record of its own, so it is placed by its register listing and not by a survey."
+        },
+        {
+          "name": "Wentworth-Gardner House",
+          "location": "Portsmouth, New Hampshire",
+          "year": 1760,
+          "note": "Built 1760 as a wedding gift for Thomas Wentworth: a two-and-a-half-storey frame house on the Piscataqua whose street front is rusticated and whose doorway carries a broken-scroll pediment on pilasters -- the whole of the node's 'everything the house has to spend goes on the doorway' in one elevation. Nearly sold to the Metropolitan Museum in the 1910s; now a house museum.",
+          "precedent": "wentworth-gardner-house",
+          "standing": "icon",
+          "why": "The doorway the node's prose describes -- pilasters, full entablature, a scroll pediment carved in pine at a scale no English house of the rank would attempt in stone -- is the one on this house, and the National Trust's page calls it one of the finest extant examples of high-style Georgian in New England."
+        },
+        {
+          "name": "Hunter House",
+          "location": "54 Washington Street, Newport, Rhode Island",
+          "year": 1748,
+          "note": "Built about 1748 for Deputy Governor Jonathan Nichols Jr. and enlarged after 1756 by Joseph Wanton Jr., who added a south wing and a second chimney and made a central-hall Georgian house of it; balustraded gambrel roof, a carved pineapple over the door, and Townsend-Goddard furniture inside. The Preservation Society of Newport County's first rescue.",
+          "precedent": "hunter-house",
+          "standing": "regional",
+          "why": "The Newport expression the node's geography and hearth both name and no other exemplar covered -- a merchant's waterfront house with a gambrel rather than the hip the Boston houses carry, which the owner calls one of the finest examples of Colonial architecture in Newport."
         }
       ],
       "sources": [
@@ -35573,25 +36177,73 @@
           "name": "Palacio de los Gobernadores (Palace of the Governors)",
           "location": "Santa Fe, New Mexico",
           "year": 1610,
-          "note": "Founded with the villa in 1610, with substantial construction c. 1618–25 and a rebuilding in 1731 after the Pueblo Revolt. The famous portal is a 1909–13 reconstruction by Jesse Nussbaum and is not colonial fabric."
+          "note": "Founded with the villa in 1610, with substantial construction c. 1618–25 and a rebuilding in 1731 after the Pueblo Revolt. The famous portal is a 1909–13 reconstruction by Jesse Nussbaum and is not colonial fabric.",
+          "precedent": "palace-of-the-governors",
+          "standing": "canonical",
+          "why": "The one-storey adobe file behind a portal that the node's plan logic describes, standing since 1610-14 on the survey's dating (HABS NM-2); canonical rather than icon because the survey itself records the 1853 collapse of the west end and the 1909-13 portal, so the fabric a visitor sees is a known reconstruction."
         },
         {
           "name": "Taos Pueblo",
           "location": "Taos, New Mexico",
           "year": 1400,
-          "note": "The Puebloan substrate, in continuous occupation for more than six centuries. Included here not as a Spanish colonial building but because the New Mexican adobe tradition is unintelligible without it."
+          "note": "The Puebloan substrate, in continuous occupation for more than six centuries. Included here not as a Spanish colonial building but because the New Mexican adobe tradition is unintelligible without it.",
+          "precedent": "taos-pueblo",
+          "standing": "icon",
+          "why": "The node's own prose calls the tradition 'Puebloan first' and this the substrate 'without which the New Mexican adobe tradition is unintelligible'; it is the terraced coursed-earth roomblock every reader pictures, and HABS NM-102 holds its photogrammetric record."
         },
         {
           "name": "Mission San Esteban del Rey",
           "location": "Acoma Pueblo, New Mexico",
           "year": 1641,
-          "note": "Built 1629–41 with adobe walls up to nine feet thick and roof timbers carried on foot some thirty miles from Mount Taylor; built by Acoma labour to a Franciscan plan."
+          "note": "Built 1629–41 with adobe walls up to nine feet thick and roof timbers carried on foot some thirty miles from Mount Taylor; built by Acoma labour to a Franciscan plan.",
+          "precedent": "mission-san-esteban-del-rey",
+          "standing": "canonical",
+          "why": "The survey (HABS NM-5) confirms the node's own story of timber carried up the rock by hand, and the pueblo around it (HABS NM-6, 86 sheets) is the best-measured Puebloan settlement in the record; the node's nine-foot wall is a figure the survey's written data does not state."
         },
         {
           "name": "Hacienda de los Martínez",
           "location": "Taos, New Mexico",
           "year": 1804,
-          "note": "A fully enclosed two-placita adobe hacienda with no exterior windows on the ground floor — the defended domestic type at full development."
+          "note": "A fully enclosed two-placita adobe hacienda with no exterior windows on the ground floor — the defended domestic type at full development.",
+          "precedent": "hacienda-de-los-martinez",
+          "standing": "canonical",
+          "why": "The node's own note calls it 'the defended domestic type at full development', and HABS NM-70 is a set of measured drawings of exactly that plan -- drawings this container cannot open, which is why the record locates them and states nothing."
+        },
+        {
+          "name": "San Francisco de Asís Mission Church",
+          "location": "Ranchos de Taos, New Mexico",
+          "year": 1816,
+          "note": "The Ranchos de Taos church, built 1772-1816 by the Franciscans in adobe brick laid in adobe mortar with an adobe plaster surface (Wikipedia's materials line): on the Park Service's description 'a large, sculpted Spanish Colonial church with massive adobe buttresses and two front-facing bell towers', four beehive buttresses at the back, re-mudded by the parish and its visitors for two weeks each June after a hard plaster proved damaging -- the maintained annual practice the node's prose describes, on the building O'Keeffe, Adams and Strand made the tradition's best-known wall. National Historic Landmark; no HABS record was found.",
+          "precedent": "san-francisco-de-asis-mission-church",
+          "standing": "icon",
+          "why": "The building a fluent reader names first for New Mexican adobe after the pueblos themselves -- the Park Service's 'massive adobe buttresses' and the June re-mudding it describes are the node's own prose made visible -- and the National Historic Landmark designation (1970) and not a survey is what stands behind it here."
+        },
+        {
+          "name": "El Santuario de Chimayó",
+          "location": "Chimayó, New Mexico",
+          "year": 1816,
+          "note": "Don Bernardo Abeyta's shrine chapel of 1816, a single-storey adobe on the survey's own sheet, 'a shrine for the miraculous cure of disease, one of the few on the American continent'. The 1930s survey (HABS NM-9) records that the pitched tin roof and the wooden towers were recent additions before 1929, so the roofline in the famous photographs is not the 1816 azotea.",
+          "precedent": "el-santuario-de-chimayo",
+          "standing": "regional",
+          "why": "The village shrine of the Santa Cruz valley -- Chimayó is named in the node's own regions -- and its survey states the one thing a reader most needs to know about it, that the pitched roof and towers are twentieth-century additions."
+        },
+        {
+          "name": "Kit Carson House",
+          "location": "Taos, New Mexico",
+          "year": 1825,
+          "note": "A plain Taos town house of 1825 (the Library's record says c. 1858) on Kit Carson Avenue, whose register entry gives its style as 'Spanish Colonial; Territorial' -- the milled-wood Territorial vocabulary the pueblo-revival node says the revival stripped from the tradition. National Historic Landmark; HABS NM-111 is photographs only.",
+          "precedent": "kit-carson-house",
+          "standing": "documentary",
+          "why": "The ordinary house rather than the hacienda, listed (NHL 1963, per the register) for its occupant and surveyed for its photographs, which makes it the plain example the node otherwise lacks; the two dates on its record are thirty-three years apart and neither is edited."
+        },
+        {
+          "name": "San José de Gracia Church",
+          "location": "Las Trampas, Taos County, New Mexico",
+          "year": 1776,
+          "note": "Built by the settlers of Las Trampas between about 1760 and 1776, on Bunting's reading for the survey (HABS NM-61, 1961): a single-nave cruciform church with transepts and a projecting apse, adobe walls 'as great as six feet in thickness', a clay-covered timber roof, and a choir balcony reached by a ladder. Its isolation is why it survives unmodernised, and Meem's 1931-32 restoration is where the revival learned the type.",
+          "precedent": "san-jose-de-gracia-church",
+          "standing": "canonical",
+          "why": "The best-documented village church in the tradition -- Bunting's survey data, Kubler's monograph behind it -- and the one whose written record states a wall thickness, which every other New Mexican building on this node lacks."
         }
       ],
       "sources": [
@@ -35912,19 +36564,55 @@
           "name": "Seaside",
           "location": "Walton County, Florida",
           "year": 1981,
-          "note": "Robert Davis with Duany Plater-Zyberk; land assembled 1978, construction begun 1981, urban code drawn in the early 1980s. The founding case and the origin of the single-sheet form-based code."
+          "note": "Robert Davis with Duany Plater-Zyberk; land assembled 1978, construction begun 1981, urban code drawn in the early 1980s. The founding case and the origin of the single-sheet form-based code.",
+          "precedent": "seaside",
+          "standing": "icon",
+          "why": "The node's own hearth and founding case; DPZ's project page states the programme (624 units, 80 civic amenities on 80 acres) and Wikipedia records that private ownership let the developers write their own code."
         },
         {
           "name": "Kentlands",
           "location": "Gaithersburg, Maryland",
           "year": 1988,
-          "note": "DPZ charrette June 1988, construction from 1989, first residents 1991. The first full-scale test of the method in a cold-climate Mid-Atlantic context and on a conventional developer's pro forma."
+          "note": "DPZ charrette June 1988, construction from 1989, first residents 1991. The first full-scale test of the method in a cold-climate Mid-Atlantic context and on a conventional developer's pro forma.",
+          "precedent": "kentlands",
+          "standing": "canonical",
+          "why": "The node's own note calls it the first full-scale cold-climate test on a conventional developer's pro forma; Wikipedia dates the charrette to June 1988 and DPZ's own comparison table gives 680 acres and 4,600 units."
         },
         {
           "name": "Windsor",
           "location": "Vero Beach, Florida",
           "year": 1989,
-          "note": "Founded 1989 by Hilary and Galen Weston with a DPZ plan and code; town hall by Leon Krier, 1999. The movement's most tightly coded and most expensively executed village."
+          "note": "Founded 1989 by Hilary and Galen Weston with a DPZ plan and code; town hall by Leon Krier, 1999. The movement's most tightly coded and most expensively executed village.",
+          "precedent": "windsor",
+          "standing": "canonical",
+          "why": "DPZ's own project page: 'With the exception of the Poundbury Code, this is the most precise small town code designed by DPZ' -- the node's 'most tightly coded' in the planner's words."
+        },
+        {
+          "name": "Celebration",
+          "location": "Osceola County, Florida",
+          "year": 1994,
+          "note": "The Walt Disney Company's town near Orlando, established 1994: master plan by Jacquelin T. Robertson of Cooper, Robertson & Partners with Robert A. M. Stern, an architectural pattern book by Urban Design Associates, and civic buildings by Graves, Johnson, Pelli, Venturi and Stern. The movement's method on a corporation's land and budget, and the case its critics cite first; 11,178 people at the 2020 census.",
+          "precedent": "celebration",
+          "standing": "canonical",
+          "why": "Wikipedia's account -- a master plan by two Driehaus laureates and a pattern book written to govern the architecture -- is the node's own mechanism (the pattern book as transmission) executed by the largest developer ever to adopt it."
+        },
+        {
+          "name": "Rosemary Beach",
+          "location": "Walton County, Florida",
+          "year": 1995,
+          "note": "Founded 1995 by Patrick D. Bienvenue for Leucadia and coded by DPZ: 105 acres, 800 units, and by DPZ's own account a deliberate departure from Seaside's pastel clapboard toward masonry, dark-stained wood and a Caribbean and St. Augustine palette -- the second Walton County test of the same code with a different regional vernacular, which is the node's point about style entering last.",
+          "precedent": "rosemary-beach",
+          "standing": "regional",
+          "why": "DPZ's own project page states the departure from Seaside's palette toward masonry and a Caribbean-St. Augustine vernacular on the same coast -- style entering last, as the node says it must -- fourteen years and eight miles from the founding case."
+        },
+        {
+          "name": "Poundbury",
+          "location": "Dorset, England",
+          "year": 1993,
+          "note": "Leon Krier's masterplan for the Duchy of Cornwall on the west edge of Dorchester, under construction from 1993 and due for completion in 2028 with 2,750 homes; DPZ's own newsletter says DPZ wrote its code and regulating plan in 1989, and DPZ's Windsor page calls the Poundbury Code the only one of theirs more precise than Windsor's. The same town the new-classical node names; one record for both.",
+          "precedent": "poundbury",
+          "standing": "canonical",
+          "why": "DPZ's own pages name the Poundbury Code as the most precise small-town code the firm has written, and Wikipedia describes the town's design as based on 'traditional architecture and New Urbanist philosophy' under Krier -- the movement's method carried to England."
         }
       ],
       "sources": [
@@ -38562,25 +39250,82 @@
           "name": "New Mexico Building, Panama-California Exposition",
           "location": "Balboa Park, San Diego, California",
           "year": 1915,
-          "note": "Rapp & Rapp, modelled on the mission church of San Esteban del Rey at Acoma Pueblo. The founding building of the style; survives as the Balboa Park Club."
+          "note": "Rapp & Rapp, modelled on the mission church of San Esteban del Rey at Acoma Pueblo. The founding building of the style; survives as the Balboa Park Club.",
+          "precedent": "new-mexico-building-panama-california-exposition",
+          "standing": "canonical",
+          "why": "The node's own 'founding building of the style', and the San Diego Union of August 1915 said of it what the node says of the style: 'The prototype of the building was the old mission on the rock at Acoma' and 'Lines are crude and blunt ... due, of course, to the faithful following of the Acoma model' (San Diego History Center, Amero)."
         },
         {
           "name": "New Mexico Museum of Art (Museum of Fine Arts)",
           "location": "Santa Fe, New Mexico",
           "year": 1917,
-          "note": "Rapp, Rapp & Hendrickson, 1915-17. The permanent version of the exposition building, drawing additionally on Laguna, Cochiti, San Felipe, Santa Ana and Pecos. It fixed Santa Fe Style for the century."
+          "note": "Rapp, Rapp & Hendrickson, 1915-17. The permanent version of the exposition building, drawing additionally on Laguna, Cochiti, San Felipe, Santa Ana and Pecos. It fixed Santa Fe Style for the century.",
+          "precedent": "new-mexico-museum-of-art",
+          "standing": "icon",
+          "why": "The node's own prose: 'That building fixed the style.' Amero's history of its San Diego twin says Hewett chose Rapp 'to duplicate the design of the San Diego building for the Santa Fe Museum of Fine Arts' and sends San Diegans to Santa Fe to see 'its twin ... in unblemished splendor'."
         },
         {
           "name": "La Fonda on the Plaza",
           "location": "Santa Fe, New Mexico",
           "year": 1922,
-          "note": "Rapp & Rapp; substantially remodelled and enlarged by John Gaw Meem from 1929. The commercial and touristic centre of the style."
+          "note": "Rapp & Rapp; substantially remodelled and enlarged by John Gaw Meem from 1929. The commercial and touristic centre of the style.",
+          "precedent": "la-fonda-on-the-plaza",
+          "standing": "canonical",
+          "why": "The node's own 'commercial and touristic centre of the style', and the hotel's own timeline names the three hands -- Rapp, Colter, Meem -- that made it the style's most-visited building; no register number was found for it."
         },
         {
           "name": "Zimmerman Library, University of New Mexico",
           "location": "Albuquerque, New Mexico",
           "year": 1938,
-          "note": "John Gaw Meem, 1936-38. Pueblo Revival at institutional scale and at its highest level of design control."
+          "note": "John Gaw Meem, 1936-38. Pueblo Revival at institutional scale and at its highest level of design control.",
+          "precedent": "zimmerman-library",
+          "standing": "canonical",
+          "why": "The node's own 'Pueblo Revival at institutional scale and at its highest level of design control', listed on the National Register in 2016 under Meem's name; the register entry is the reason and it carries no measurement."
+        },
+        {
+          "name": "Carlos Vierra House",
+          "location": "1002 Old Pecos Trail, Santa Fe, New Mexico",
+          "year": 1922,
+          "note": "The painter Carlos Vierra designed and built his own house between 1918 and 1922 (the Nordfeldt House nomination): 'terraced forms' after Pueblo prototypes, in the nomination's words -- and, as the same nomination notes, 'a typical suburban home of the era, complete with a two-car garage, four baths, a concrete basement housing modern utilities' behind them. The first houses Meem designed in 1925-26 are said to show a clear debt to it. National Register, 1979.",
+          "precedent": "carlos-vierra-house",
+          "standing": "canonical",
+          "why": "The style's first domestic statement, by a member of the committee the node's own prose describes, and the register nomination that names it is candid that the Puebloan terraces stand over a suburban plan -- the appropriation-and-invention story the node tells, at house scale."
+        },
+        {
+          "name": "Los Poblanos",
+          "location": "Los Ranchos de Albuquerque, New Mexico",
+          "year": 1934,
+          "note": "John Gaw Meem's remodelling of an adobe ranch house for Albert and Ruth Hanna McCormick Simms in 1932, closing an L-plan into a full placita ringed by a portal, and La Quinta, the single-storey H-plan pavilion he designed beside it in 1934: the revival's placita house done in real adobe with vigas, deep-set windows and a sala grande. National Register historic district, 1982.",
+          "precedent": "los-poblanos",
+          "standing": "regional",
+          "why": "Meem's domestic Pueblo Revival at its most complete and in Albuquerque's North Valley rather than Santa Fe -- the register lists it as a district under his name -- for a node whose four exemplars were all institutional buildings."
+        },
+        {
+          "name": "Cristo Rey Church",
+          "location": "1120 Canyon Road, Santa Fe, New Mexico",
+          "year": 1940,
+          "note": "Meem's parish church of 1939-40 on Canyon Road, built for the Coronado quatercentenary and to house the 1761 stone reredos from La Castrense: on Wikipedia's account the largest adobe building in the United States, of 150,000 to 200,000 adobes, with corbelled vigas and a clerestory over the altar -- carried on a hidden steel frame. The mission-church type at a scale the tradition never built.",
+          "precedent": "cristo-rey-church",
+          "standing": "canonical",
+          "why": "The revival's largest work in real adobe and its clearest borrowing of the mission-church type -- and the steel frame inside it is the 'stucco over ... wood frame' half of the node's own vocabulary, so it is a type specimen of the revival's method rather than of the tradition's."
+        },
+        {
+          "name": "Laboratory of Anthropology (Museum of Indian Arts and Culture)",
+          "location": "Santa Fe, New Mexico",
+          "year": 1931,
+          "note": "Meem's 1931 building for the Laboratory of Anthropology, in what the register calls the Spanish Pueblo Revival -- the institutional type between Rapp's Museum of Fine Arts and Meem's own Zimmerman Library, and now the Museum of Indian Arts and Culture. National Register, 1983; State Register, 1982.",
+          "precedent": "laboratory-of-anthropology",
+          "standing": "canonical",
+          "why": "Meem's first large Santa Fe commission in the style, listed on the National Register under his name; a type specimen of the institutional Pueblo Revival between Rapp's museum and Meem's own library."
+        },
+        {
+          "name": "Painted Desert Inn",
+          "location": "Petrified Forest National Park, Apache County, Arizona",
+          "year": 1940,
+          "note": "Lyle E. Bennett's National Park Service inn of 1937-40 over the rim of the Painted Desert, built by the CCC round the basalt-and-petrified-wood walls of Herbert Lore's earlier inn, with Mary Colter's 1947 redecoration and Fred Kabotie's murals. The survey (HABS AZ-161) reproduces a 1974 Park Service judgment that most Pueblo Revival is frame with fake vigas and that this one is 'purer' because every viga and savino carries the roof. National Historic Landmark.",
+          "precedent": "painted-desert-inn",
+          "standing": "documentary",
+          "why": "The surveyed example: HABS AZ-161 is the one written record on this node, and it states the distinction the node's own vocabulary admits without ranking -- stone walls and structural vigas against 'wood frame construction with plastered exteriors faking adobe'."
         }
       ],
       "sources": [
@@ -40609,25 +41354,64 @@
           "name": "Homeplace Plantation House (Keller Homeplace)",
           "location": "Hahnville, St. Charles Parish, Louisiana",
           "year": 1791,
-          "note": "Built 1787–91. Stuccoed brick ground storey, cypress above, encircling gallery under a two-storey hip roof; designated a National Historic Landmark in 1970 as one of the finest French colonial raised cottages in the country."
+          "note": "Built 1787–91. Stuccoed brick ground storey, cypress above, encircling gallery under a two-storey hip roof; designated a National Historic Landmark in 1970 as one of the finest French colonial raised cottages in the country.",
+          "precedent": "homeplace-plantation-house",
+          "standing": "icon",
+          "why": "The node's own prose stands on its gallery ('Standing on a raised gallery at Homeplace or Parlange'), and HABS LA-155 states the type in four lines -- brick ground storey, bousillage main floor, a two-storey porch 'On all sides', a hipped 'French West Indies type' roof."
         },
         {
           "name": "Parlange Plantation House",
           "location": "Pointe Coupee Parish, Louisiana",
           "year": 1750,
-          "note": "Traditionally dated c. 1750; some fabric analysis argues for c. 1830–40, and the date should be treated as contested. Brick raised basement, bousillage of mud, moss and animal hair above, encircling gallery, octagonal pigeonniers."
+          "note": "Traditionally dated c. 1750; some fabric analysis argues for c. 1830–40, and the date should be treated as contested. Brick raised basement, bousillage of mud, moss and animal hair above, encircling gallery, octagonal pigeonniers.",
+          "precedent": "parlange-plantation-house",
+          "standing": "icon",
+          "why": "The register's nomination calls it 'the finest and least altered example of a large French colonial plantation house in the United States ... a classic example of a two-story raised-cottage type', and the node's own prose stands on its gallery beside Homeplace."
         },
         {
           "name": "Madame John's Legacy",
           "location": "632 Dumaine Street, New Orleans, Louisiana",
           "year": 1789,
-          "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on a site occupied since c. 1730; six-bay gallery on shaped colonnettes, brick basement, double-pitched roof over Norman trusses with two dormers."
+          "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on a site occupied since c. 1730; six-bay gallery on shaped colonnettes, brick basement, double-pitched roof over Norman trusses with two dormers.",
+          "precedent": "madame-johns-legacy",
+          "standing": "canonical",
+          "why": "The urban type specimen: a National Historic Landmark of 1970 whose 1788 building contract with the master carpenter Roberto Jones the HABS data page cites, and whose historical inventory the same page quotes as 'six large apartments, galleries front and rear ... and a store under the house'."
         },
         {
           "name": "Destrehan Plantation",
           "location": "Destrehan, St. Charles Parish, Louisiana",
           "year": 1790,
-          "note": "Built 1787–90 as a raised Creole house and given Greek Revival columns in an 1840 remodelling — the two traditions visible in one building, and a useful case for teaching the distinction."
+          "note": "Built 1787–90 as a raised Creole house and given Greek Revival columns in an 1840 remodelling — the two traditions visible in one building, and a useful case for teaching the distinction.",
+          "precedent": "destrehan-plantation",
+          "standing": "canonical",
+          "why": "The documented specimen in the strict sense: Wikipedia records the 1787 building contract with Charles Paquet on file at the parish courthouse as making it the oldest documented house in the lower Mississippi valley, and the node's note keeps it for the 1840 Greek Revival columns laid over a raised Creole frame."
+        },
+        {
+          "name": "Magnolia Mound Plantation House",
+          "location": "Baton Rouge, Louisiana",
+          "year": 1791,
+          "note": "A 1790s bousillage house on four-foot piers above the river, made polite between 1815 and 1820 -- outer posts replaced by brick piers, a Federal parlour with a cove ceiling, a rear gallery -- and restored 1971-75. Three rooms across the front under a hipped roof of cypress shakes with flared, bracketed eaves; the 1978 HABS report is unusually complete and the reason the house is here.",
+          "precedent": "magnolia-mound-plantation-house",
+          "standing": "canonical",
+          "why": "HABS LA-1130 (1978) states the type's whole arithmetic -- 72'-0\" x 35'-7\" without galleries, four-foot piers, bousillage between pegged cypress members, ten risers to the gallery, a hipped roof with flared eaves -- on a house restored 1971-75, so its figures can be read against the kit."
+        },
+        {
+          "name": "Pitot House",
+          "location": "1440 Moss Street, New Orleans, Louisiana",
+          "year": 1799,
+          "note": "Built 1799 on Bayou St. John for the merchant Bartholemé Bosque and the home of James Pitot, the city's first American mayor: a brick ground storey under a colombage main floor, galleries on two sides on stuccoed brick columns below and turned colonnettes above, a broad hipped roof, and Samuel Wilson Jr.'s 1964 survey finding five rooms a floor and no chimney at all. Moved 150 yards in 1964 to save it from a school; the Louisiana Landmarks Society's museum since.",
+          "precedent": "pitot-house",
+          "standing": "canonical",
+          "why": "Samuel Wilson Jr.'s 1964 HABS report (LA-1116) sets the type down as a plan 'common for the period in this region' with 'the broad hipped roof and the colonnaded porticoes', gives it 39'-4\" x 60'-8\" in seven by four bays, and the Louisiana Landmarks Society keeps it as the only Creole colonial country house open to the public in New Orleans."
+        },
+        {
+          "name": "Whitney Plantation",
+          "location": "Wallace, St. John the Baptist Parish, Louisiana",
+          "year": 1790,
+          "note": "The Big House of Habitation Haydel, a raised Creole house of about 1790 on the German Coast with Federal finish laid over its Creole frame, and the plantation's outbuildings around it; HABS drew the house and the outbuildings to the sheet. Since 2014 the first plantation museum in the country given wholly to the enslaved people who built and worked it.",
+          "precedent": "whitney-plantation",
+          "standing": "documentary",
+          "why": "A plain-documented rather than a celebrated specimen: HABS LA-1194 recorded the Big House in measured drawings and field records, and the register lists the district under Louisiana's French Creole Architecture multiple-property submission -- surveyed to the sheet rather than admired."
         }
       ],
       "sources": [
@@ -43133,25 +43917,55 @@
           "name": "Hoxie House",
           "location": "Sandwich, Massachusetts",
           "year": 1675,
-          "note": "A two-and-a-half-storey half house with an integral rear lean-to; frequently called the oldest house on Cape Cod, and a saltbox rather than a Cape despite its location."
+          "note": "A two-and-a-half-storey half house with an integral rear lean-to; frequently called the oldest house on Cape Cod, and a saltbox rather than a Cape despite its location.",
+          "precedent": "hoxie-house",
+          "standing": "icon",
+          "why": "The saltbox a visitor to Cape Cod is shown first: the node's own note says it is 'frequently called the oldest house on Cape Cod', and Wikipedia's list of historic houses in Massachusetts calls it 'Cape Cod's oldest saltbox house'."
         },
         {
           "name": "John Quincy Adams Birthplace",
           "location": "141 Franklin Street, Quincy, Massachusetts",
           "year": 1717,
-          "note": "Central-chimney saltbox with two rooms per floor flanking the stack; the lean-to was added c. 1764, so the rear slope shows the classic break. Often mis-dated to 1663 in popular sources."
+          "note": "Central-chimney saltbox with two rooms per floor flanking the stack; the lean-to was added c. 1764, so the rear slope shows the classic break. Often mis-dated to 1663 in popular sources.",
+          "precedent": "john-quincy-adams-birthplace",
+          "standing": "canonical",
+          "why": "Well documented on both sides of the argument the node's own note raises about its date: the 1979 HABS data form (MA-597) gives the plan, the raised purlin roof and 'approx. 36' X 33'', while itself printing the 1663 date the node says is a popular error."
         },
         {
           "name": "Stanley-Whitman House",
           "location": "Farmington, Connecticut",
           "year": 1720,
-          "note": "A jettied saltbox — the type in its hybrid form, with a framed overhang on the front and a catslide behind."
+          "note": "A jettied saltbox — the type in its hybrid form, with a framed overhang on the front and a catslide behind.",
+          "precedent": "stanley-whitman-house",
+          "standing": "canonical",
+          "why": "A type specimen of the hybrid the node's note describes -- a framed overhang in front and a catslide behind -- and a National Historic Landmark of 1960 whose Wikipedia description calls it 'a well-preserved saltbox with post-medieval construction features'."
         },
         {
           "name": "Boardman House",
           "location": "Saugus, Massachusetts",
           "year": 1692,
-          "note": "Unusually unaltered First Period frame with an integral lean-to; the framing is legible throughout."
+          "note": "Unusually unaltered First Period frame with an integral lean-to; the framing is legible throughout.",
+          "precedent": "boardman-house",
+          "standing": "documentary",
+          "why": "The frame to measure rather than the facade to admire: the node's own note calls it 'unusually unaltered' with the framing 'legible throughout', Historic New England says it is unaltered from the seventeenth and eighteenth centuries, and HABS MA-492 drew it."
+        },
+        {
+          "name": "John Adams Birthplace",
+          "location": "133 Franklin Street, Quincy, Massachusetts",
+          "year": 1681,
+          "note": "The plainer and older of the two Adams saltboxes, 75 feet from the other on the same property; built c. 1681 as a two-room central-chimney house, its purlin roof later raised on the north to take the lean-to. The 1897 restoration stripped the brick nogging from the studs, so the frame the 1979 HABS team measured is the survivor of a restoration as much as of a century.",
+          "precedent": "john-adams-birthplace",
+          "standing": "documentary",
+          "why": "Measured by the 1979 HABS team at 41'-8\" x 42'-5\" with its lean-to, and the survey names the brick-nogged stud walls and the raised purlin roof, so it is the plain specimen whose figures can be read rather than the famous one next door."
+        },
+        {
+          "name": "Hyland House",
+          "location": "Guilford, Connecticut",
+          "year": 1713,
+          "note": "A five-bay saltbox on the Connecticut shore, built 1713 for Isaac Parmelee: stone central stack, clapboard, diamond-pane sash symmetrical about a simply framed door with a five-light transom, and the rear roof face carried down to the first floor. Its chamfered girts are held to be an early example of that decoration -- the one carved decision, made carefully. A museum since 1918.",
+          "precedent": "hyland-house",
+          "standing": "regional",
+          "why": "The Connecticut shore's version, described by Wikipedia in the node's own terms -- five bays, a stone central chimney and the rear roof face extended to the first floor 'giving the house a classic New England saltbox profile' -- with chamfered girts held to be an early example of that decoration."
         }
       ],
       "sources": [
@@ -44339,19 +45153,55 @@
           "name": "Isaac Bell House",
           "location": "Newport, Rhode Island",
           "year": 1883,
-          "note": "McKim, Mead and White, 1881-83. Shingled walls over a brick base, bamboo-turned porch columns, an open living hall, and a Japanese-influenced lightness; the most complete surviving statement of the style."
+          "note": "McKim, Mead and White, 1881-83. Shingled walls over a brick base, bamboo-turned porch columns, an open living hall, and a Japanese-influenced lightness; the most complete surviving statement of the style.",
+          "precedent": "isaac-bell-house",
+          "standing": "icon",
+          "why": "The node's own exemplar calls it 'the most complete surviving statement of the style', the 1971 surveyor calls it 'a typical example of the Shingle Style ... distinguished by the extreme open character of its planning', and it is the building the Library's own HABS highlights page chose for Rhode Island."
         },
         {
           "name": "Mary Fiske Stoughton House",
           "location": "Cambridge, Massachusetts",
           "year": 1883,
-          "note": "H. H. Richardson, 1882-83. Shingles stretched over irregular volumes as a taut skin with minimal ornament; the building that demonstrated the surface doctrine in wood."
+          "note": "H. H. Richardson, 1882-83. Shingles stretched over irregular volumes as a taut skin with minimal ornament; the building that demonstrated the surface doctrine in wood.",
+          "precedent": "mary-fiske-stoughton-house",
+          "standing": "canonical",
+          "why": "SAH Archipedia calls it 'Richardson's purest engagement with the American Shingle tradition' and the node's note says it 'demonstrated the surface doctrine in wood'; the 1969 HABS data page gives its 48 x 92 ft and 9 ft ceilings."
         },
         {
           "name": "William Watts Sherman House",
           "location": "Newport, Rhode Island",
           "year": 1876,
-          "note": "H. H. Richardson, 1874-76. The prototype, and simultaneously an American Queen Anne; contemporaries reported that builders could not find a name for it, which is the reticulation problem stated by the people who were there."
+          "note": "H. H. Richardson, 1874-76. The prototype, and simultaneously an American Queen Anne; contemporaries reported that builders could not find a name for it, which is the reticulation problem stated by the people who were there.",
+          "precedent": "william-watts-sherman-house",
+          "standing": "canonical",
+          "why": "The prototype by the node's own account and Wikipedia's ('the prototype for what became known as the Shingle Style'), and the register's own style word for it is Queen Anne -- which is the reticulation problem the node names, stated by the record."
+        },
+        {
+          "name": "Newport Casino",
+          "location": "Newport, Rhode Island",
+          "year": 1881,
+          "note": "McKim, Mead and White, 1879-81, for James Gordon Bennett Jr.: the firm's first major commission, a shingled club of shops, courts and apartments around a lawn, and the surface doctrine's first public statement. National Historic Landmark 1987; HABS RI-331 holds twenty-one data pages that could not be fetched from here.",
+          "precedent": "newport-casino",
+          "standing": "canonical",
+          "why": "Wikipedia: 'The Newport Casino was the firm's first major commission and helped to establish the firm's national reputation', in the Shingle style, two years before the Bell house."
+        },
+        {
+          "name": "William G. Low House",
+          "location": "Bristol, Rhode Island",
+          "year": 1887,
+          "note": "Charles McKim, 1886-87: the whole house under one enormous gable, the style reduced to a single shape. Demolished in 1962, and photographed by HABS (RI-346) just before -- so a precedent with no register number, kept because the literature names it first.",
+          "precedent": "william-g-low-house",
+          "standing": "icon",
+          "why": "Leland Roth, quoted by Wikipedia: 'the Low House has come to represent the high mark of the Shingle Style'; Scully saw it as 'at once a climax and a kind of conclusion' for McKim."
+        },
+        {
+          "name": "Redwood",
+          "location": "Bar Harbor, Maine",
+          "year": 1879,
+          "note": "William Ralph Emerson, 1879, for C. J. Morrill: the first Shingle Style house in Bar Harbor and among the earliest anywhere, and one of the few of the resort's cottages to survive. National Register 1978.",
+          "precedent": "redwood-bar-harbor",
+          "standing": "regional",
+          "why": "The National Register nomination calls it 'one of the first, if not the earliest' of the style, and Wikipedia 'the first Shingle style house built in Bar Harbor' -- the Maine resort end of the node's geography."
         }
       ],
       "sources": [
@@ -45450,25 +46300,64 @@
           "name": "Palacio de los Gobernadores (Palace of the Governors)",
           "location": "Santa Fe, New Mexico",
           "year": 1610,
-          "note": "Founded with the villa in 1610 though the surviving fabric largely postdates the 1680 Pueblo Revolt and the 1731 rebuilding. Caution: the famous portal is a 1909–13 reconstruction by Jesse Nussbaum, not colonial fabric."
+          "note": "Founded with the villa in 1610 though the surviving fabric largely postdates the 1680 Pueblo Revolt and the 1731 rebuilding. Caution: the famous portal is a 1909–13 reconstruction by Jesse Nussbaum, not colonial fabric.",
+          "precedent": "palace-of-the-governors",
+          "standing": "canonical",
+          "why": "The oldest public building of the tradition and a one-storey adobe file of rooms behind a portal, which is the node's own plan diagram; but the 1930s survey (HABS NM-2) records a west end lost in 1853 and a portal restored in 1909-13, so it is a specimen with a known restoration history rather than the thing the style is known by."
         },
         {
           "name": "Mission San Esteban del Rey",
           "location": "Acoma Pueblo, New Mexico",
           "year": 1641,
-          "note": "Adobe walls up to nine feet thick on a mesa top, timbers carried on foot from Mount Taylor thirty miles away — the clearest statement of what remoteness did to the architecture."
+          "note": "Adobe walls up to nine feet thick on a mesa top, timbers carried on foot from Mount Taylor thirty miles away — the clearest statement of what remoteness did to the architecture.",
+          "precedent": "mission-san-esteban-del-rey",
+          "standing": "canonical",
+          "why": "The survey (HABS NM-5) tells the node's own remoteness story in its own words -- every timber carried up the rock on men's backs, water a quarter mile by foot trail -- and the pueblo beside it is HABS NM-6 with 86 measured sheets, so the pair is the best-measured place in the province."
         },
         {
           "name": "González-Alvarez House ('The Oldest House')",
           "location": "St. Augustine, Florida",
           "year": 1723,
-          "note": "Coquina shellstone ground storey with a later frame upper floor; the surviving example of the Florida branch, which used shellstone where the Southwest used adobe."
+          "note": "Coquina shellstone ground storey with a later frame upper floor; the surviving example of the Florida branch, which used shellstone where the Southwest used adobe.",
+          "precedent": "gonzalez-alvarez-house",
+          "standing": "regional",
+          "why": "The Florida branch's surviving house, right for St. Augustine and not for the Southwest: the survey (HABS FL-138) gives a coquina-rubble two-room plan with a rear loggia under a shingled gable, which is Manucy's 'St. Augustine plan' and not the flat azotea the node's Southwest prose describes."
         },
         {
           "name": "Mission San Xavier del Bac",
           "location": "Tucson, Arizona",
           "year": 1797,
-          "note": "Fired brick, lime-plastered, vaulted and domed — the one borderlands building where a full Mexican Baroque portada was actually achieved, and therefore the exception that proves the rationing rule."
+          "note": "Fired brick, lime-plastered, vaulted and domed — the one borderlands building where a full Mexican Baroque portada was actually achieved, and therefore the exception that proves the rationing rule.",
+          "precedent": "mission-san-xavier-del-bac",
+          "standing": "icon",
+          "why": "The building the borderlands are known by and the node's own stated exception -- the one place the full portada was achieved -- and the survey (HABS AZ-13) states the reason in a figure: fired brick 8 by 16 by 3 inches throughout, with brick dome and vaults raised without centering, where every other building on this node is sun-dried earth."
+        },
+        {
+          "name": "Spanish Governor's Palace",
+          "location": "105 Plaza de Armas, San Antonio, Texas",
+          "year": 1749,
+          "note": "The comandancia of the Presidio San Antonio de Béxar, dated by the 1749 keystone over its door: on the Park Service's description 'a one-story masonry and stucco structure with ten rooms' round a courtyard with a fountain, and on Wikipedia's 'the only remaining example in Texas of an aristocratic 18th-century Spanish Colonial in-town residence' -- stone where New Mexico is earth. Restored 1930-31 by Harvey P. Smith, who added rooms at the rear on excavated footings (the city's archaeology report). National Historic Landmark; HABS TX-3540 is measured drawings and field records only.",
+          "precedent": "spanish-governors-palace",
+          "standing": "regional",
+          "why": "The Texas province's building, for a node whose regions list Texas and whose exemplars named none: Wikipedia's 'only remaining example in Texas' of the in-town residence and the National Historic Landmark designation (1970) are the reasons, and the HABS record is drawings the survey never wrote up."
+        },
+        {
+          "name": "Casa de Estudillo",
+          "location": "Old Town, San Diego, California",
+          "year": 1827,
+          "note": "A single-storey adobe facing the old plaza of Old Town, its walls of sun-dried brick plastered both sides and its corredors roofed on eucalyptus logs, carrizo mats and tile (the survey's own description) -- the Californian courtyard house in its plainest form. Reduced to ruin after 1887 and rebuilt in 1910 by Hazel Waterman for John D. Spreckels; the survey says the reconstruction changed ridge lines and window positions, so what stands is a careful 1910 reading of the 1827 house (the survey itself says 1825).",
+          "precedent": "casa-de-estudillo",
+          "standing": "canonical",
+          "why": "The surveyed courtyard house of the Californian province (HABS CA-45, 1930s written data), whose 'roofs of corridors' of carrizo under tile are the node's corredor stated by a surveyor; canonical rather than icon because the survey itself says the fabric is a 1910 reconstruction."
+        },
+        {
+          "name": "Ximenez-Fatio House",
+          "location": "22 Aviles Street, St. Augustine, Florida",
+          "year": 1802,
+          "note": "A Second Spanish Period masonry town house of 1797-1802, two-and-a-half storeys and six bays on Aviles Street, with the loggia centred on the rear and both stairs essentially exterior -- Manucy's 'St. Augustine plan' at its most legible -- and a frame-topped rear ell added as the household grew. HABS FL-116: twelve data pages and thirteen sheets.",
+          "precedent": "ximenez-fatio-house",
+          "standing": "documentary",
+          "why": "The plain, fully measured St. Augustine house: the survey states its 50'-9 1/8\" by 30'-11\" main block, its six-over-nine sash and its exterior loggia stair, which is more than any other Florida building on this node can be held to."
         }
       ],
       "sources": [
@@ -47461,13 +48350,19 @@
           "name": "Stratford Hall",
           "location": "Westmoreland County, Virginia",
           "year": 1738,
-          "note": "Built c. 1725–38. H-plan of two three-bay hip-roofed end blocks about a central great hall, raised on a high basement, with two clusters of chimney stacks joined by arches and rails; floor levels distinguished by brick of different colours and sizes in Flemish bond."
+          "note": "Built c. 1725–38. H-plan of two three-bay hip-roofed end blocks about a central great hall, raised on a high basement, with two clusters of chimney stacks joined by arches and rails; floor levels distinguished by brick of different colours and sizes in Flemish bond.",
+          "precedent": "stratford-hall",
+          "standing": "icon",
+          "why": "The node's own prose names it for the clustered stacks 'joined with arches and rails', and the 1969 survey measures the recipe behind them -- 92'-6\" by 62'-8\", walls 19 in above a 7 1/2 in water table, eight chimneys in two clusters."
         },
         {
           "name": "Carter's Grove",
           "location": "James City County, Virginia",
           "year": 1755,
-          "note": "Built 1750–55 for Carter Burwell; among the finest surviving colonial Virginia interior joinery, and a legible five-part composition before its twentieth-century alteration."
+          "note": "Built 1750–55 for Carter Burwell; among the finest surviving colonial Virginia interior joinery, and a legible five-part composition before its twentieth-century alteration.",
+          "precedent": "carters-grove",
+          "standing": "canonical",
+          "why": "The survey records the brick vocabulary the node's prose calls the region's achievement -- torus water table, four-course belt, rubbed jambs and gauged flat arches, nine-over-nine sash -- on a house whose roof was raised eleven feet in 1928, so what it is held against is the surveyor's 'formerly'."
         },
         {
           "name": "Gunston Hall",
@@ -47477,6 +48372,24 @@
           "precedent": "gunston-hall",
           "standing": "canonical",
           "why": "The best-documented of the four -- 30 HABS sheets and 56 data pages -- and the house whose six enclosed ground rooms the centre-passage parti's own count is measured against (wp-9.2-the-parti-is-not-the-type.md)."
+        },
+        {
+          "name": "Shirley Plantation",
+          "location": "Charles City County, Virginia",
+          "year": 1738,
+          "note": "Built ca. 1738 for John Carter and Elizabeth Hill (the DHR's date; the 1930s survey says c. 1765 and Wikipedia c. 1723) and remodelled in the 1770s. Flemish bond, almost square in plan, two full storeys under a mansard the surveyor disliked, with superimposed Tuscan porticoes on both main fronts and a pair of interior stacks flanking a pineapple finial. Twelve-over-twelve sash throughout.",
+          "precedent": "shirley-plantation",
+          "standing": "regional",
+          "why": "A James River seat whose survey says its plan 'resembles no other Virginia building' and whose stacks sit at the apex rather than the gables -- right for the river-plantation region the node's hearth names, and a specimen of the recipe in nothing but its brick."
+        },
+        {
+          "name": "Mount Airy",
+          "location": "Warsaw, Richmond County, Virginia",
+          "year": 1758,
+          "note": "Built 1758 (the survey's date; the DHR says 1748-58, the Library 1764) for John Tayloe II, attributed to John Ariss, in stone: a five-part plan of two-storey seven-bay main house, one-storey passageways and two-storey three-bay dependencies, with rusticated three-bay pedimented pavilions on both fronts and a recessed loggia in each. Interior gutted by fire in 1844.",
+          "precedent": "mount-airy",
+          "standing": "canonical",
+          "why": "The survey's own form calls it 'the earliest known full Palladian villa constructed in the American colonies', and it is the five-part composition the node's prose says Virginia and Maryland have more surviving examples of than any other region -- a type specimen of the arrangement, in a stone the node's brick recipe does not cover."
         }
       ],
       "sources": [

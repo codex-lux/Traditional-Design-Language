@@ -1,0 +1,55 @@
+{
+  "id": "vassall-craigie-longfellow-house",
+  "name": "Vassall-Craigie-Longfellow House",
+  "aka": [
+    "Longfellow House–Washington's Headquarters National Historic Site",
+    "Henry W. Longfellow Place",
+    "Longfellow National Historic Site"
+  ],
+  "location": {
+    "text": "105 Brattle Street, Cambridge, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1759",
+    "circa": false
+  },
+  "nodes": [
+    "new-england-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-169",
+      "url": "https://www.loc.gov/pictures/item/ma0260",
+      "title": "Henry W. Longfellow Place, 105 Brattle Street, Cambridge, Middlesex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS MA-169; Building/structure dates: 1759 Initial Construction'; the item is titled for the place and lists 'Vassall-Craigie-Longfellow House & Garden' among its names. The data PDF's OCR returned only its cover sheets ('Vassall-Craigie-Longfellow House and Garden HABS No. MASS-169 ... An addendum to Longfellow House and Garden ... in HABS Catalog (1941)') on three extracts, so the written data could not be read and no survey block is carried."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0260",
+      "url": "https://www.loc.gov/pictures/item/ma0260",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Longfellow_House%E2%80%93Washington%27s_Headquarters_National_Historic_Site",
+      "title": "Longfellow House–Washington's Headquarters National Historic Site - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000049",
+      "url": "https://en.wikipedia.org/wiki/Longfellow_House%E2%80%93Washington%27s_Headquarters_National_Historic_Site",
+      "title": "NRHP reference No. 66000049; added October 15, 1966 (as the Wikipedia infobox prints it; the infobox's style line reads 'New England High Georgian')",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the new-england-georgian node already carried were kept exactly; the Library files the house under the place name 'Henry W. Longfellow Place'. The survey's written data could not be read through this container's extraction tier."
+}

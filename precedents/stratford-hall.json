@@ -1,0 +1,193 @@
+{
+  "id": "stratford-hall",
+  "name": "Stratford Hall",
+  "aka": [
+    "Stratford"
+  ],
+  "location": {
+    "text": "Westmoreland County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1738",
+    "circa": true,
+    "altered": "Extensively restored in the 1930s (the survey's own words: 'having been extensively restored in the 1930's'); the 1937 restoration underpinned the foundations and replaced the deteriorated original sash in 1937-38; chimney caps modified in the 1930s.",
+    "note": "The Wikipedia infobox prints 1738; the DHR entry says 'built in the 1730s by Thomas Lee'; the node's own exemplar says c. 1725-38. Recorded as the infobox states it, with the others noted rather than resolved."
+  },
+  "nodes": [
+    "tidewater-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-307",
+      "url": "https://www.loc.gov/pictures/item/va0982",
+      "title": "Stratford, State Route 214, Stratford Hall, Westmoreland County, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's summary line: 'Photo(s): 139 Measured Drawing(s): 34'. Wikipedia's external-links line, read the same day, gives 139 photos, 34 measured drawings, 15 data pages. The survey number is also printed in the data page's own running header ('STRATFORD HALL HABS No. VA-307 (page 5)')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0982",
+      "url": "https://www.loc.gov/pictures/item/va0982",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Stratford_Hall_(plantation)",
+      "title": "Stratford Hall (plantation) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000851",
+      "url": "https://www.dhr.virginia.gov/historic-registers/096-0024",
+      "title": "NRHP reference No. 66000851; added October 15, 1966; designated NHL October 7, 1960 (as both the Wikipedia infobox and the DHR page print it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Read from the Wikipedia infobox (extract) and confirmed on the DHR page (search), which prints 'NRHP Reference Number 66000851'. The Register's own database was not opened."
+    },
+    {
+      "kind": "state-register",
+      "id": "096-0024",
+      "url": "https://www.dhr.virginia.gov/historic-registers/096-0024",
+      "title": "Stratford Hall – DHR",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "va0982",
+    "survey_no": "VA-307",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0900/va0982/data/va0982data.pdf",
+    "prepared": "Prepared by: Melvin M. Rotsch, Architect, Stratford Project Supervisor, August 1969 (as the sheet reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: Nine-hay, two-story Stratford Hall, a fine example of an early eighteenth century planation mansion, is outstanding for its H-plan and its two clusters of massive chimneys. The second, main floor, or piano nobile contains the great hall and other formal rooms.",
+        "page": "HABS No. VA-307, Part II.A.1; the extract's nearest page marker, following the span, reads 'STRATFORD HALL HABS No. VA-307 (page 5)'"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Overall dimensions: 92'-6\" x 62'~8\" 2. Foundations: At the east wing, 28\" thick English bond brick walls extend below the cellar floor. The east chimneys are supported on three brick barrel vaults. Elsewhere, the foundations, 28\" in thickness, extended less than one foot below grade. During 1937 restoration work the foundations were underpinned with new brick work to a depth of not less than 18\".",
+        "page": "HABS No. VA-307, Part II.B.1-2; immediately precedes the '(page 5)' marker"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction, finish, and color: The perimeter walls and the two cross bearing walls are 2V in thickness at the ground floor level and 19\" thick above the water table at the main floor level. The bricks, which are red-brown in color, are laid in Flemish bond throughout except at the foundations, below the ground floor level, which are English bond. Above the 2 1/2\" projecting, 7 1/2\" high watertable with its three courses of brick—one cavetto, one ovolo, and one regular course—the brick is rubbed at the corners and jambs.",
+        "page": "STRATFORD HALL HABS No. VA-307 (page 5), Part II.B.3"
+      },
+      {
+        "field": "structural_system",
+        "text": "h. Structural system; The exterior and interior masonry walls are bearing walls which support the wood floor structures which are inaccessable. The roof structure, however, is one of the few truss roofs of the early eighteenth century in America.",
+        "page": "HABS No. VA-307 (page 5), Part II.B.4 -- the OCR prints 'h.' for '4.'"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: In the center of each east and west wing are four massive chimneys rising ahove the roof ridges. Each chimney stack provided flues for two fireplaces. The flues are capped. The corbeled and moulded brick caps of the chimneys were modified in the 1930's. Brick arches, a stretcher in depth support corbeling matching the caps and span between each stack which are laid in Flemish bond with glazed headers and rubbed brick corners. Above the ridges, platforms are set between the stacks which are infilled with railings having turned balusters.",
+        "page": "HABS No. VA-307, Part II.B.6; no page marker legible in the extract span"
+      },
+      {
+        "field": "openings",
+        "text": "b, Windows and shutters: The window openings of the ground floor which have segmental arches a stretcher in depth have double facia architrave trim. In the openings the upper sash is fixed while the lower sash is sliding, em- ploying a sash-weight system which apparently dates from the original construction. Each sash has eight lights, 7 3/V'x9 5/8\" in size, and were installed in 1937-38 to match and replace the deteriorated original sash. The window openings of the main floor have square heads; flat arches, a stretcher, closer and header in depth; maximum rubbed brick jambs with closers; double facia architrave trim; and moulded sills",
+        "page": "HABS No. VA-307, Part II.B.7.b; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "Nine-hay",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR 'hay' for 'bay'; a reading."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two-story",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_width_ft",
+      "as_printed": "92'-6\"",
+      "value": 92.5,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "62'~8\"",
+      "value": 62.67,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The OCR prints '~' where the hyphen stands; read as 62'-8\"."
+    },
+    {
+      "name": "foundation_thickness_in",
+      "as_printed": "28\" thick English bond brick walls",
+      "value": 28,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "wall_thickness_ground_floor_in",
+      "as_printed": "2V in thickness at the ground floor level",
+      "from_quote": 2,
+      "note": "The OCR prints '2V' and the figure cannot be read from it -- no value is recorded rather than a guess. The same sheet prints '4' as 'h' and 'k' elsewhere, so 'V' is not that error and the number is unknown."
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "19\" thick above the water table at the main floor level",
+      "value": 19,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "water_table_projection_in",
+      "as_printed": "2 1/2\" projecting",
+      "value": 2.5,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "water_table_height_in",
+      "as_printed": "7 1/2\" high watertable",
+      "value": 7.5,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "water_table_courses",
+      "as_printed": "three courses of brick—one cavetto, one ovolo, and one regular course",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "In the center of each east and west wing are four massive chimneys",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Four in each of two wings, two clusters of four."
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "Each sash has eight lights",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Ground-floor sash; eight lights per sash, sixteen per window."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass over the Georgian nodes. The exemplar name and location the tidewater-georgian node already carried were kept exactly. The wall thickness at the ground floor is the one figure the survey states that this record cannot read, and it is carried unread. The rights line was not read (the loc.gov landing page refuses extraction from this container), so no `rights_evidence` is recorded."
+}

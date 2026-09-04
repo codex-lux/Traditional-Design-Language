@@ -1,0 +1,39 @@
+{
+  "id": "timothy-ford-house",
+  "name": "Timothy Ford House",
+  "aka": [
+    "Timothy Ford's House"
+  ],
+  "location": {
+    "text": "54 Meeting Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "ca. 1800-1806",
+    "circa": true,
+    "altered": "The piazza screen carries 'a 20th-century Colonial Revival doorway, complete with an open pediment, Ionic engaged columns and a fanlight' (Charleston Mercury)."
+  },
+  "nodes": [
+    "charleston-single-house"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.charlestonmercury.com/single-post/meeting-street-memoriestimothy-ford-house-54-meeting-st",
+      "title": "Meeting Street MemoriesTimothy Ford House: 54 Meeting St.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Charleston Mercury: 'Ford's three-and-a-half-story stuccoed brick Charleston single house was built on a raised basement and boasted a slate roof, a course of dentals below the eave and a wide belt course between the floors.' A newspaper, not a survey; recorded as one."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=39318",
+      "title": "Timothy Ford's House",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Historical marker database entry for the Preservation Society of Charleston's 2003 marker at 54 Meeting Street: 'built this fine Charleston single house'."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-single-house node already carried were kept exactly. There is no Wikipedia article (the title returns 404), no HABS record was found ('\"Timothy Ford House\" OR \"54 Meeting Street\" Charleston SC HABS' on loc.gov returned nothing), and no register page was read; the two references are a marker and a newspaper column, which is the weakest locator in this set and is said to be."
+}

@@ -54,7 +54,7 @@ SCHEMA = os.path.join(ROOT, "schema", "precedent.schema.json")
 # to spelling it this way.
 COULD_NOT_EVALUATE = 3
 
-HABS_RE = re.compile(r"^[A-Z]{2}-\d{1,4}(-[A-Z])?$")      # VA-141, VA-402-A
+HABS_RE = re.compile(r"^[A-Z]{2}-\d{1,4}(-[A-Z0-9]{1,3})?$")  # VA-141, VA-402-A, and the 1930s district form CA-38-1 (found by Tranche 1E)
 LOC_ITEM_RE = re.compile(r"^[a-z]{2}\d{4}$")               # va0433
 NRHP_RE = re.compile(r"^\d{8}$")                           # 66000701
 ID_SHAPES = {"habs": HABS_RE, "haer": HABS_RE, "loc-item": LOC_ITEM_RE, "nrhp": NRHP_RE, "nhl": NRHP_RE}
@@ -64,9 +64,10 @@ KIT_POINTER_RE = re.compile(r"^precedents/([a-z0-9][a-z0-9-]*)#(?:survey\.([a-z_
 # may only improve. The floors are the point: a may-only-fall ceiling on dangling references is
 # satisfied by deleting the references, and the floors are what stop that reading as progress.
 RATCHET = {
-    "precedents": 3,                    # FLOOR -- may only RISE
-    "exemplars_with_precedent": 4,      # FLOOR -- may only RISE
-    "precedents_with_survey": 3,        # FLOOR -- may only RISE
+    # Seeded 3 / 4 / 3 on 4 Sep 2026; re-pinned the same day to what Tranche 1 landed (WP-11.2).
+    "precedents": 161,                  # FLOOR -- may only RISE
+    "exemplars_with_precedent": 171,    # FLOOR -- may only RISE
+    "precedents_with_survey": 77,       # FLOOR -- may only RISE
     "dangling_precedent": 0,
     "back_reference_disagreements": 0,
     "refs_without_locator": 0,
@@ -240,10 +241,12 @@ def main():
                         rep.err(where, "node %r names it %r; the record says %r. The exemplar name is the "
                                        "join key check_assets.py reads, so they must agree exactly"
                                        % (nid, e.get("name"), rec.get("name")))
-                    if e.get("location") and e["location"] != (rec.get("location") or {}).get("text"):
-                        rep.err(where, "node %r locates it at %r; the record says %r. The location is half "
-                                       "the harvest query and must agree exactly"
-                                       % (nid, e["location"], (rec.get("location") or {}).get("text")))
+                    loc = rec.get("location") or {}
+                    accepted = [loc.get("text")] + list(loc.get("aliases") or [])
+                    if e.get("location") and e["location"] not in accepted:
+                        rep.err(where, "node %r locates it at %r; the record says %r (aliases %r). The location "
+                                       "is half the harvest query and must agree exactly with `text` or an alias"
+                                       % (nid, e["location"], loc.get("text"), loc.get("aliases") or []))
 
     # The other direction: an exemplar naming a record.
     for nid, exs in sorted(EX.items()):

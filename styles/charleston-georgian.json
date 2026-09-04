@@ -196,7 +196,10 @@
       "name": "Miles Brewton House",
       "location": "27 King Street, Charleston, South Carolina",
       "year": 1769,
-      "note": "Ezra Waite, joiner. Double house with a two-storey pedimented portico, superimposed Doric and Ionic; generally considered the finest surviving Georgian town house in America."
+      "note": "Ezra Waite, joiner. Double house with a two-storey pedimented portico, superimposed Doric and Ionic; generally considered the finest surviving Georgian town house in America.",
+      "precedent": "miles-brewton-house",
+      "standing": "icon",
+      "why": "The node's own note calls it 'generally considered the finest surviving Georgian town house in America'; the SC register calls it the most distinguished town house of the colonial period, and the 1930s survey, in one sentence, a square double house with a two-tier portico of stone pillars."
     },
     {
       "name": "Drayton Hall",
@@ -211,13 +214,37 @@
       "name": "Colonel John Stuart House",
       "location": "104-106 Tradd Street, Charleston, South Carolina",
       "year": 1772,
-      "note": "Notable surviving interior joinery."
+      "note": "Notable surviving interior joinery.",
+      "precedent": "colonel-john-stuart-house",
+      "standing": "documentary",
+      "why": "A National Historic Landmark surveyed twice by HABS (SC-156) whose written data is a paragraph about its owner; the node's own note gives it three words, and it is here to be photographed and measured rather than admired."
     },
     {
       "name": "Heyward-Washington House",
       "location": "87 Church Street, Charleston, South Carolina",
       "year": 1772,
-      "note": "Double house on a single-house lot; Washington lodged here in 1791."
+      "note": "Double house on a single-house lot; Washington lodged here in 1791.",
+      "precedent": "heyward-washington-house",
+      "standing": "canonical",
+      "why": "The SC register's 'very fine three-story brick Charleston double house' on a lot the node's own note says is a single-house lot -- the type specimen for the double house on the peninsula, with HABS SC-64 and the museum's records behind it."
+    },
+    {
+      "name": "William Gibbes House",
+      "location": "64 South Battery, Charleston, South Carolina",
+      "year": null,
+      "note": "Built shortly after 1772 and redecorated in 1794, when the double stair with its iron rail was added: a two-storey frame double house on a high English basement, its street front centred on an attic pediment over a pedimented door aedicule, modillion cornice carried round every side, tiled hip roof. No HABS record was found; the state register's description is the source.",
+      "precedent": "william-gibbes-house",
+      "standing": "canonical",
+      "why": "The SC register calls it 'one of the finest two-story frame residences in America' and describes 'the usual Georgian four-room double pile floor plan, known in Charleston simply as a double house' -- the frame version of the plan the node's brick Brewton and Heyward houses carry."
+    },
+    {
+      "name": "Hampton Plantation",
+      "location": "McClellanville, Charleston County, South Carolina",
+      "year": 1735,
+      "note": "A frame house of about 1735 on Wambaw Creek, squared and extended at each end by Daniel Horry after 1757 with false windows for symmetry and a ballroom in one extension, and given its deep giant portico about 1790 -- Washington was the first guest to pass through it. The survey's sheet is history rather than description.",
+      "precedent": "hampton-plantation",
+      "standing": "regional",
+      "why": "The SC register calls it the state's finest large two-and-a-half-storey frame Georgian and its portico one of the earliest giant porticoes in American domestic work; a Santee rice-country seat rather than a peninsula house, so the region's expression and not the hearth's."
     }
   ],
   "sources": [

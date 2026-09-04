@@ -1,7 +1,9 @@
 {
   "id": "westover",
   "name": "Westover",
-  "aka": ["Westover Plantation"],
+  "aka": [
+    "Westover Plantation"
+  ],
   "location": {
     "text": "Charles City County, Virginia",
     "country": "United States",
@@ -13,7 +15,10 @@
     "altered": "The survey's 1939 entry gives 'c. 1726' and attributes the house to William Byrd II; the style node records the correction to William Byrd III after the 1749 fire, and the NPS article says the same. East wing rebuilt about 1900 after the original was destroyed in the Civil War; modern connections join both wings to the house (survey).",
     "note": "Two dates are on the record because two sources give them. The node's own exemplar says 1750 and explains why; the 1939 survey says c. 1726. Neither is edited to agree with the other."
   },
-  "nodes": ["tidewater-georgian"],
+  "nodes": [
+    "tidewater-georgian",
+    "georgian-colonial-american"
+  ],
   "refs": [
     {
       "kind": "habs",
@@ -74,11 +79,43 @@
     ]
   },
   "measurements": [
-    { "name": "bay_count", "as_printed": "front seven bays", "value": 7, "unit": "count", "from_quote": 0 },
-    { "name": "storey_count", "as_printed": "two stories", "value": 2, "unit": "count", "from_quote": 0 },
-    { "name": "chimney_stack_count", "as_printed": "two chimneys each endj", "value": 4, "unit": "count", "from_quote": 0, "note": "Two at each of two gable ends; the 'j' is OCR." },
-    { "name": "dormer_count", "as_printed": "five hipped dormers on roof", "value": 5, "unit": "count", "from_quote": 0 },
-    { "name": "sash_lights", "as_printed": "all sash 9-over-9 lights", "value": 18, "unit": "count", "from_quote": 0, "note": "Nine over nine; recorded as the total per sash." }
+    {
+      "name": "bay_count",
+      "as_printed": "front seven bays",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "two chimneys each endj",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two at each of two gable ends; the 'j' is OCR."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "five hipped dormers on roof",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "all sash 9-over-9 lights",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Nine over nine; recorded as the total per sash."
+    }
   ],
   "note": "Seeded 4 Sep 2026 from the WP-11.1 pilot. Worth carrying: the 1939 surveyor records the plan as 'off center through hall', which wp-9.2-what-the-tradition-actually-does.md §2f already quotes against the assumption that a Tidewater Georgian house has a symmetrical centre passage; and five hipped dormers on a house whose style node's shipped reference plan declares none."
 }
