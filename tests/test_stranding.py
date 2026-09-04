@@ -204,13 +204,41 @@ def test_the_sweep_refuses_rather_than_printing_a_satisfying_zero():
     assert ci.COULD_NOT_EVALUATE == 3, ci.COULD_NOT_EVALUATE
 
 
+def test_unreached_is_pinned_where_the_prose_can_be_held_to_it(corpus):
+    """THE ONE OQ 51 FIGURE NOBODY POLICED IS THE ONE THAT ROTTED (WP-8.14).
+
+    `check_counts.py` derives six values from the corpus -- role_gaps, inherited_packs,
+    unendorsed, endorsed, declined, judged -- and `unreached` was not among them. CLAUDE.md
+    carried **111** for three flips after it stopped being true (179 before any flip, 111 after
+    `trim-classical`, then 96, then 47) while THIS FILE was re-pinned at every one. A number
+    corrected in the test and not in its prose neighbour: WP-9.5's second-commonest shape,
+    occurring inside the register entry that documents that shape.
+
+    The chain is prose -> `STRANDING["unreached"]` -> corpus. `check_counts.py` reads the
+    constant (deliberately, rather than re-running a 6.5 s sweep on every build) and
+    `check_inheritance.py --stranding --strict` holds the constant to the corpus, failing on
+    drift because its check is generic over `STRANDING.items()` -- which is why adding the key
+    was the whole of the fix.
+
+    This test is the third link: it asserts the key is IN the dict, so a future flip cannot
+    re-pin `unreached` by deleting it from the pinned set and leaving the prose unguarded."""
+    ci = _ci()
+    assert "unreached" in ci.STRANDING, (
+        "`unreached` left STRANDING -- `check_counts.py` reads it from there to hold CLAUDE.md's "
+        "figure, so removing it silently unguards the one number that has already rotted once")
+    assert ci.STRANDING["unreached"] == corpus["unreached"] == 47, (
+        ci.STRANDING.get("unreached"), corpus["unreached"])
+
+
 def test_the_pinned_counts_are_equalities_and_say_why(corpus):
     """`STRANDING` is not a ratchet, deliberately. A ceiling that may only fall is satisfied by
     measuring less, and every one of these numbers falls as the flip lands — which is the flip
     working, not the corpus improving. Held to the shipped dict so the two cannot drift."""
     ci = _ci()
     assert ci.STRANDING == {"stranded": 2585, "rehoused": 1895, "nodes_touched": 124,
-                            "dimensioned_before": 7516, "dimensioned_after": 4931}, ci.STRANDING
+                            "dimensioned_before": 7516, "dimensioned_after": 4931,
+                            # joined in WP-8.14 -- see the test above for why
+                            "unreached": 47}, ci.STRANDING
     for k in ("stranded", "rehoused"):
         assert corpus[k] == ci.STRANDING[k], (k, corpus, ci.STRANDING)
     assert corpus["nodes"] == ci.STRANDING["nodes_touched"]

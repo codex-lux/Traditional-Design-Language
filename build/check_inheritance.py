@@ -142,7 +142,16 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # pack flips and in whatever order, which is the plainest possible demonstration that these
 # describe a path being walked rather than a corpus getting better.
 STRANDING = {"stranded": 2585, "rehoused": 1895, "nodes_touched": 124,
-             "dimensioned_before": 7516, "dimensioned_after": 4931}
+             "dimensioned_before": 7516, "dimensioned_after": 4931,
+             # `unreached` JOINED THIS DICT IN WP-8.14 AND THE REASON IS THE FINDING.
+             # It is the one OQ 51 figure `check_counts.py` does not derive, and it is the one
+             # that rotted: CLAUDE.md said 111 for three flips after it stopped being true --
+             # 179 before any flip, 111 after the first, then 96, then 47 -- while
+             # `tests/test_stranding.py` was re-pinned at every flip. A number corrected in the
+             # test and not in its prose neighbour, inside the entry that documents that shape.
+             # Pinned here so the sweep holds it to the corpus, and quoted from here by
+             # `check_counts.py` so the prose is held to the pin.
+             "unreached": 47}
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all

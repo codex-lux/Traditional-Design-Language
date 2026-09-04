@@ -51,8 +51,25 @@ by `opening-proportion` alone is picked up by `facade-classical`, so neither sin
 counts it; withhold both and it strands. Each per-pack figure measures a world in which the other
 four are still delivering.
 
-So the sum is not a bound in either direction. Landed: `dimensioned_before` **7718 → 7516**, which
-is 202 exactly.
+So the sum is not a bound in either direction — **and this report first asserted that from one
+measurement, which only showed the from-below sum under-stating.** Restoring each of the five one
+at a time FROM the all-withheld corpus (the opposite counterfactual) gives 167 + 46 + 9 + 1 + 0 =
+**223**, over-stating by 21:
+
+```
+    181   sum of marginal costs, measured from below
+    202   the flip, measured jointly
+    223   sum of marginal restorations, measured from above
+```
+
+The inequality inverts with the direction of measurement, so **a per-pack figure is a property of
+the corpus it was measured against and not of the pack.** The two-directional claim is now
+supported rather than asserted; it was true when written and the evidence for it was not here.
+(Every published per-pack figure — 10 / 32 / 70 / 146 / 25 / 9 / 1 / 0 — re-derives exactly under
+the condition its own package measured, and un-flipping all eight returns the corpus to 7,830,
+which is the pre-flip baseline to the slot.)
+
+Landed: `dimensioned_before` **7718 → 7516**, which is 202 exactly.
 
 This is the third instance of the same wrong-grain shape — `unendorsed` for deliveries (WP-8.9), a
 corpus writer count for a node fact (WP-8.10) — and **the first caught before publication rather

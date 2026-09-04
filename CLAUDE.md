@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,569 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,570 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -1022,6 +1022,29 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `oq/a-grouping-rule-and-a-room-record-can-disagree`'s class and its ruled checker's job.
   **7.5 in is NOT sourced and the ruling does not claim it is**: it is the figure the corpus
   already worked its own example at, which is consistency, not evidence.
+- **THE ONE FIGURE A CHECKER DID NOT DERIVE IS THE ONE THAT ROTTED (WP-8.14, 4 Sep 2026).**
+  `check_counts.py` derives SIX values for OQ 51 -- `role_gaps`, `inherited_packs`, `unendorsed`,
+  `endorsed`, `declined`, `judged` -- and holds this file's prose to each. **`unreached` was not
+  among them**, and it is the one that went wrong: this file said **111 slots survive a flip
+  whatever it does** for three flips after it stopped being true (179 → 111 → 96 → **47**), while
+  `tests/test_stranding.py` was re-pinned at every one. **The test knew and the prose did not** --
+  WP-9.5's second-commonest shape, occurring inside the register entry that documents that shape.
+  Of seven figures the layer publishes, exactly one was unpoliced and exactly that one rotted;
+  nothing about that is coincidence.
+  **Closed as a three-link chain rather than a re-pin**: `unreached` joins `STRANDING`, where the
+  sweep's drift check -- generic over `STRANDING.items()`, which is why adding the key was the
+  whole of the fix -- holds it to the corpus; `check_counts.py` reads the constant and holds the
+  prose to it (88 → 89 claims); `test_stranding.py` asserts the key is IN the dict, so a future
+  flip cannot unguard the prose by dropping it. The middle link reads a constant rather than
+  re-running a 6.5 s sweep every build -- a deliberate weaker link, complete because the first
+  link closes it.
+  **The general rule: when a layer publishes N figures and a checker derives N-1, name the one it
+  does not.** It is not safe by being small; it is the one nobody will re-measure.
+  And the same audit found the staging paragraph carrying THREE spent instructions in the present
+  tense -- advice for a decision nobody can make again -- which is WP-6.4's *"until X lands is a
+  lie the moment X lands"* at the scale of a whole entry: four packages of guidance accumulated
+  and none retired when the thing it guided finished.
+  Report: `docs/reports/wp-8.14-the-number-nobody-policed.md`.
 - **AN UNVERIFIED RULING READS EXACTLY LIKE A RULING, AND NOTHING HERE CHECKS ONE (WP-8.13,
   4 Sep 2026).** PR #26's body was published carrying *"(Ruled 4 Sep: flip all five remaining packs
   in ONE package)"* when no such ruling had been made: the refill's concentration on the gated packs
@@ -1793,14 +1816,22 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     because 35 arrivals stopped. **`judged` did not move, at 249**, and that is the entire way the
     two are told apart; `--strict` prints a `withheld` line beside the three saying so. Read that
     before quoting a falling `unendorsed` as progress.
-    **READ `--stranding <pack>` BEFORE FLIPPING ONE: the backlog count is a bad guide.**
-    `storey-graduation` has 23 unendorsed gaps and flipping it strands **9** slots while **45**
-    survive it via inherited slot-level `packs` rulings; `facade-gable` has 16 and strands **32**
-    with none surviving. A staging order taken off gap counts alone picks the ineffective pack
-    first. **111 slots corpus-wide survive the flip whatever it does** (179 before
-    `trim-classical` flipped and took 119 of them out of the counterfactual), for that same
-    reason — `choose_pack` reads the slot record's own `packs` block before the rows, and no
-    mechanism about DELIVERY can reach a slot record naming a pack directly.
+    **THE BACKLOG COUNT WAS A BAD GUIDE TO WHAT A FLIP COST, and this paragraph is the record of
+    why the order was chosen rather than advice for a decision anyone can still make** — the
+    programme is finished and every pack it named is flipped. The figures below were measured
+    against corpora that no longer exist and are kept in the past tense: `storey-graduation` HAD
+    23 unendorsed gaps and stranded **9** slots while **45** survived it via inherited slot-level
+    `packs` rulings; `facade-gable` HAD 16 and stranded **32** with none surviving. `--stranding
+    <pack>` reports 0 for both now, because a flipped pack has nothing left to drop.
+    **The corpus-wide figure for slots that survive a flip whatever it does is 47** — it was 179
+    before any pack flipped, 111 after the first, and it fell through 96 to 47 as the rest landed,
+    because each flip takes its own survivors out of the counterfactual. **This file said 111 for
+    three flips after it stopped being true**, while `tests/test_stranding.py` carried 96 and then
+    47: a number corrected in the test and not in its prose neighbour, which is WP-9.5's
+    second-commonest shape appearing inside the entry that documents it. The mechanism is
+    unchanged and is the durable half — `choose_pack` reads the slot record's own `packs` block
+    before the rows, and no mechanism about DELIVERY can reach a slot record naming a pack
+    directly.
     **AND A CORPUS-LEVEL WRITER COUNT IS NOT A FACT ABOUT A NODE, WHICH IS HOW THIS FLIP WAS
     SOLD.** `facade-gable` was set aside as the corpus's SOLE writer of `cornice_return` (29 of
     its 32 stranded slots) and `trim-classical` preferred because `trim_family` has three writers.
@@ -1843,7 +1874,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `test_loud_stranding.py` both drove the gate through `facade-gable` precisely because the
     corpus left it on `cascade`, and flipping it would have turned every assertion into a statement
     about the shipped corpus — green, and vacuous. Both moved to `trim-craftsman` on
-    `mediterranean-revival`; **check this before flipping `sash-light`.**
+    `mediterranean-revival`. That instruction read *check this before flipping `sash-light`* until `sash-light` was flipped; the durable form of it is in the fixture rule below.
     And the meter had a scoping defect WP-8.10 shipped: `--stranding <pack>` printed "32 slot(s)
     over 36 node(s)" because the slot counter was scoped to the pack and the node counter was not.
     More nodes than slots is impossible for one pack, which is how it showed.
@@ -1866,8 +1897,9 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `opening-proportion`, against three of thirteen last time.** It follows from the order: the
     five gated packs flip LAST, so they are what is still delivering when everything else has been
     withheld and they inherit each vacated role. **The order chosen to make the early flips safe
-    back-loads exactly the rows whose adjudication authorises a behaviour change.** Worth a ruling
-    before the gated packs come up; they are not more of the same.
+    back-loads exactly the rows whose adjudication authorises a behaviour change.** It was put to
+    Lucas as a ruling rather than continued, and he ruled the five go together (WP-8.13, below),
+    which ended the concentration: 0 of 36 refill gaps land on a gated pack.
     **A DRIVEN FIXTURE SHOULD NAME A PACK SCHEDULED LAST, NOT ONE SCHEDULED NEXT** — WP-8.11 moved
     `test_stranding.py`'s case to `sash-light`, the very next pack, guaranteeing another move one
     package later. It is `opening-proportion` now (gated, therefore last, therefore stable).
@@ -1886,7 +1918,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     (a node losing one slot to two packs is counted by each), and it is higher because the five
     REHOUSE EACH OTHER -- a slot stranded by `opening-proportion` alone is picked up by
     `facade-classical`, so neither single-pack sweep counts it. Each per-pack figure measures a
-    world in which the other four still deliver. **The sum is a bound in neither direction.** Third
+    world in which the other four still deliver. **The sum is a bound in neither direction --
+    and WP-8.14 measured the OTHER direction to establish that**, because 181 < 202 alone only
+    shows the from-below sum under-stating. Restoring each of the five one at a time FROM the
+    all-withheld corpus gives 167+46+9+1+0 = **223**, over-stating by 21 in the other
+    direction: 181 < 202 < 223. A per-pack figure is a property of the corpus it was measured
+    against, not of the pack. Third
     instance of the wrong-grain shape (`unendorsed` for deliveries, a corpus writer count for a
     node fact) and the FIRST caught before publication.
     **THE FLIP DISSOLVED WP-8.12'S OWN FINDING.** Refill 4 / 13 / 10 / **36** across the four

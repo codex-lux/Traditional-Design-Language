@@ -109,6 +109,19 @@ def computed():
         v["endorsed"] = len(_gaps) - len(_un)
         v["declined"] = len(_dec)
         v["judged"] = v["endorsed"] + v["declined"]
+        # THE SEVENTH OQ 51 VALUE, ADDED IN WP-8.14 BECAUSE IT IS THE ONE THAT ROTTED.
+        # The six above are derived from the corpus here; `unreached` was not, and CLAUDE.md
+        # carried 111 for three flips after it stopped being true (179 -> 111 -> 96 -> 47) while
+        # `tests/test_stranding.py` was re-pinned at every one. A number corrected in the test
+        # and not in its prose neighbour -- WP-9.5's second-commonest shape, inside the entry
+        # that documents it.
+        #
+        # READ FROM THE PIN RATHER THAN RE-SWEPT, and that is a deliberate weaker link: the
+        # `--stranding` sweep costs ~6.5 s and `check_counts` runs on every build. The chain is
+        # still complete -- the prose is held to `STRANDING["unreached"]` here, and that constant
+        # is held to the corpus by `check_inheritance.py --stranding --strict` in `check_all`,
+        # which fails on any drift because its check is generic over `STRANDING.items()`.
+        v["unreached"] = ci.STRANDING["unreached"]
 
     apath = os.path.join(ROOT, "assets", "manifest.json")
     if os.path.exists(apath):
@@ -265,6 +278,7 @@ CLAIMS = [
     ("CLAUDE.md",              "inherited_packs", r"\*\*([\d,]+) inherited_packs\*\*"),
     ("CLAUDE.md",              "unendorsed",      r"\*\*(\d+) unendorsed\*\* -- and one FLOOR"),
     ("CLAUDE.md",              "judged",          r"\*\*judged (\d+)\*\* \(endorsed \+ declined\)"),
+    ("CLAUDE.md",              "unreached",       r"slots that survive a flip whatever it does is (\d+)\*\*"),
     ("CLAUDE.md",              "inherited_packs", r"is the one with ([\d,]+) instances"),
     ("STATE-OF-THE-PROJECT.md", "role_gaps",      r"Measured: \*\*(\d+) \(node, role\) pairs\*\*"),
     ("STATE-OF-THE-PROJECT.md", "unendorsed",     r"of which \*\*(\d+) involve a pack whose own"),
