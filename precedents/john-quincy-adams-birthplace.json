@@ -1,0 +1,128 @@
+{
+  "id": "john-quincy-adams-birthplace",
+  "name": "John Quincy Adams Birthplace",
+  "location": {
+    "text": "141 Franklin Street, Quincy, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1716",
+    "circa": false,
+    "altered": "Lean-to added in the 18th century (HABS data form; the node's exemplar says c. 1764); major restoration by the Quincy Historical Society in 1897; most windows are replacements with a Federal muntin profile (HABS).",
+    "note": "The node's exemplar says 1717 and warns that the house is 'often mis-dated to 1663 in popular sources'; the Wikipedia infobox says 1716; the HABS data form of 1979-83 itself prints 'Ca. 1663, with 18th.century lean-to'. Recorded as the register and the node have it, with the survey's own date left standing beside them."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-597",
+      "title": "Adams, John Quincy, Birthplace, 141 Franklin Street, Quincy, Norfolk County, MA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0500/ma0553/data/ma0553data.pdf",
+      "note": "The data form prints 'HABS NO. MA-597'. Recorded in the 1979 Lowell project co-sponsored by HABS, the NPS North Atlantic Regional Office and the Adams National Historic Site.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0553",
+      "url": "https://www.loc.gov/resource/hhh.ma0553.photos?st=single",
+      "title": "1. Historic American Buildings Survey Frank O. Branzetti ... Adams Birthplace, 141 Franklin Street, Quincy, Norfolk County, MA",
+      "note": "The search returned a photo-resource URL rather than the item landing page; the item id is its path segment.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000128",
+      "url": "https://en.wikipedia.org/wiki/John_Quincy_Adams_Birthplace",
+      "title": "NRHP reference No. 66000128; added October 15, 1966; designated NHL December 19, 1960 (as the Wikipedia infobox prints it)",
+      "note": "The NHL nomination text below carries the same number in its path, so it is read on two surfaces.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/66000128_text",
+      "title": "Form NO. 10-300 (Rev. 10-74) NATIONAL HISTORIC LANDMARK -- John Quincy Adams Birthplace nomination text (NPGallery)",
+      "note": "Says the house 'is remarkably similar in size and design to the John Adams Birthplace, located some 75 feet north of it on the same property'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/John_Quincy_Adams_Birthplace",
+      "title": "John Quincy Adams Birthplace - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nps.gov/adam/learn/historyculture/birthplaces.htm",
+      "title": "Birthplaces - Adams National Historical Park (U.S. National Park Service)",
+      "note": "Operator, with the John Adams Birthplace.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0553",
+    "survey_no": "MA-597",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0500/ma0553/data/ma0553data.pdf",
+    "prepared": "Historic American Buildings Survey Summer Team, 1979 (the companion form for MA-596 names Susan McCown, editor, HABS, 1983)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "ADAMS, JOHN QUINCY, BIRTHPLACE HABS NO. MA-597 SECONDARY OR COMMON NAMES OF STRUCTURE COMPLETE ADDRESS (DESCRIBE LOCATION FOR RURALSITES) 141 Franklin Street DATE OF CONSTRUCTION (INCLUDESOURCE) ARCHITECT(S) (INCLUDESOURCE) Ca. 1663, with 18th.century lean-to | Samuel Belcher, original owner, was builder",
+        "page": "HABS Architectural Data Form, page 1; no page number printed on the form's first sheet"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "ectangular in shape; measures approx. 36' X 33'",
+        "page": "HABS Architectural Data Form, page 1, 'Shape and dimensions of structure'; the leading letter is cut off in the scan"
+      },
+      {
+        "field": "walls",
+        "text": "The foundation of granite fieldstone is generally original. The walls of the original house were originally wood stud with brick nngging and rlay mnrtar -infill",
+        "page": "HABS Architectural Data Form, page 1, 'Material of construction'"
+      },
+      {
+        "field": "structural_system",
+        "text": "The original house has a purlin system roof, which was raised on its west eleva- tion to accommodate the lean-to. Gable rafters are sawn; lean-to rafters are hand-hewn. Post-and-Beam construction is used. Summer beams on the first floor of the original house run lengthwise, whereas second floor beams run thwartwise. Cornerposts are visible on the inside. Second floor posts are flared.",
+        "page": "HABS Architectural Data Form, continuation page; no page marker legible in the extract span"
+      },
+      {
+        "field": "stairways",
+        "text": "There are two stairways from the first floor to the second. The front stairway, is a winder. The rear stairway is a straight run. A third stairway leads to the gable attic from the second floor- a winder,",
+        "page": "HABS Architectural Data Form, page 1, 'Interior features of note'"
+      },
+      {
+        "field": "openings",
+        "text": "The main (east) frontispiece is pedimented and pilastered. The west elevation has an early board door with many layers of paint. Most of the windows are replacements having a Federal muntin profile. Roof asphalt covering is over original sheathing, which was laid vertically",
+        "page": "HABS Architectural Data Form, page 1, 'Exterior features of note'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approx. 36' X 33'",
+      "value": 36,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The form does not say which figure is the front; 36 is taken as the width because the house is a two-room-plus-lean-to plan wider than it is deep, which is a reading."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "approx. 36' X 33'",
+      "value": 33,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "See the width note; 'approx.' is the form's own word."
+    }
+  ],
+  "nodes": [
+    "saltbox-colonial"
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "madame-johns-legacy",
+  "name": "Madame John's Legacy",
+  "location": {
+    "text": "632 Dumaine Street, New Orleans, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1788",
+    "circa": false,
+    "note": "The Wikipedia infobox says 1788; the node's exemplar says 1789, rebuilt for Don Manuel de Lanzos after the 1788 fire; the HABS data page cites 'a building contract, dated April 1, 1788, between Manuel de Lanzos and the Master Carpenter, Roberto Jones'. One year's difference between the contract and the completion."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-39",
+      "title": "Madame John's Legacy, 628-632 Dumaine Street, New Orleans, Orleans Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0023/data/la0023data.pdf",
+      "note": "The addendum cover prints 'ADDENDUM TO MADAME JOHN'S LEGACY HABS No. LA-39 628-632 Dumaine Street'. The loc.gov item page prints the call number 'HABS LA,36-NEWOR,16-'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0023",
+      "url": "https://www.loc.gov/pictures/item/la0023",
+      "title": "Madame John's Legacy, 632 Dumaine Street, New Orleans, Orleans Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000256",
+      "url": "https://en.wikipedia.org/wiki/Madame_John%27s_Legacy",
+      "title": "NRHP reference No. 70000256; added and designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Madame_John%27s_Legacy",
+      "title": "Madame John's Legacy - Wikipedia",
+      "note": "Says the Louisiana State Museum owns the house.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "la0023",
+    "survey_no": "LA-39",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0023/data/la0023data.pdf",
+    "prepared": "Not legible in the extracted spans (the historical narrative reads as a mid-century Louisiana State Museum-era account; the addendum cover names the National Park Service, Washington, D.C. 20013)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "In this inventory a description of the house is given as ''a principal house composed of six large apartments, galleries front and rear, and an uncovered gallery on the South side giving on the garden with two closets on the rear gallery} an attic which extends over the whole house, and a store under the house; plus a kitchen in the yard with a chamber adjoining",
+        "page": "HABS No. LA-39; no page marker legible in the extract span (the running head 'MADAME' is cut at the chunk edge)"
+      },
+      {
+        "field": "significance",
+        "text": "To confound the problem there is in existance a building contract, dated April 1, 1788, between Kanuel de Lanzos and the Master Carpenter, Roberto Jones for  building that answers the description of the present structure known as Mme. Johns.",
+        "page": "HABS No. LA-39; no page marker legible in the extract span"
+      },
+      {
+        "field": "openings",
+        "text": "front and rear, is enclosed by a wooden railing with wooden colonettes and balusters. The rather small windows are raany- paned with broad muntins to hold the glazing, and all are finished with heavy batten shutters •",
+        "page": "HABS No. LA-39; no page marker legible in the extract span; the chunk begins mid-sentence"
+      },
+      {
+        "field": "general_description",
+        "text": "tltls is the kind of house that prospering colonists built after they progressed from the first rude little cabin-type dwellings. It was up off the ground and safe from frequent floodings. The broad galleries gave protection from sun and rain. It was snug with its thick walls, shuttered windows, and the enclosed basement area. And it was spacious enough to permit a comfortable, even luxurious way of life.",
+        "page": "HABS No. LA-39; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "principal_room_count",
+      "as_printed": "six large apartments",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "From a historical inventory the survey quotes, not from the surveyor's own measurement."
+    }
+  ],
+  "note": "This building is also named by the french-colonial-american node, which is not linked here.",
+  "nodes": [
+    "raised-creole-plantation"
+  ]
+}

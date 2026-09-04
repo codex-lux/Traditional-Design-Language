@@ -204,19 +204,46 @@
       "name": "Atwood-Higgins House",
       "location": "Bound Brook Island, Wellfleet, Massachusetts",
       "year": 1730,
-      "note": "Built c. 1730 as a half house and expanded to a full Cape in the late 18th or early 19th century — the growth grammar preserved in one building. Now within Cape Cod National Seashore."
+      "note": "Built c. 1730 as a half house and expanded to a full Cape in the late 18th or early 19th century — the growth grammar preserved in one building. Now within Cape Cod National Seashore.",
+      "precedent": "atwood-higgins-house",
+      "standing": "icon",
+      "why": "Ernest Allen Connally's 1959 HABS survey of Cape Cod houses 'reported that this was locally considered to be the best example on Cape Cod' (HABS MA-1087), and it is the house the node's own growth grammar is written on -- a half house doubled to a full Cape."
     },
     {
       "name": "Jabez Wilder House",
       "location": "Main Street, Hingham, Massachusetts",
       "year": 1690,
-      "note": "Documented by HABS; a bow-roof ('rainbow roof') Cape, the coastal variant in which the rafters are given a slight convex curve. Date is traditional and not independently confirmed."
+      "note": "Documented by HABS; a bow-roof ('rainbow roof') Cape, the coastal variant in which the rafters are given a slight convex curve. Date is traditional and not independently confirmed.",
+      "precedent": "jabez-wilder-house",
+      "standing": "canonical",
+      "why": "The bow-roof ('rainbow roof') Cape the node's own note describes, drawn by HABS as MA-137 -- the coastal variant with the rafters given a slight convex curve, on the South Shore rather than the peninsula."
     },
     {
       "name": "Dillingham House",
       "location": "Sandwich, Massachusetts",
       "year": 1650,
-      "note": "Among the earliest Cape-form dwellings on the peninsula; substantially enlarged in the 18th century, so the original half-house core must be read through later fabric."
+      "note": "Among the earliest Cape-form dwellings on the peninsula; substantially enlarged in the 18th century, so the original half-house core must be read through later fabric.",
+      "precedent": "dillingham-house",
+      "standing": "regional",
+      "why": "Among the earliest Cape-form dwellings on the peninsula (the node's own note), a founding family's house in the town that is the type's hearth -- and, on Wikipedia's account, moved and raised to two storeys since, so regional rather than canonical."
+    },
+    {
+      "name": "Elisha Cobb House",
+      "location": "Prince Valley Road, Truro, Massachusetts",
+      "year": 1800,
+      "note": "A plain Outer Cape 'double house' of about 1800, grown from a house-and-a-half by the usual quarter, with the unusual twist of two short saltbox lean-tos behind instead of one: plank walls under shingle, one central brick stack, 9/6 sash, a box cornice, and hewn rafters about 4 by 10 on purlins. Inside the National Seashore and recorded by HABS with measured drawings, which is what it is here for.",
+      "precedent": "elisha-cobb-house",
+      "standing": "documentary",
+      "why": "HABS MA-705 calls it 'a typical Cape Cod \"double house\"' and states its over-all dimensions, plank walls, single central stack, 9/6 sash and rafter size -- a plain measured specimen rather than a famous one, inside Cape Cod National Seashore."
+    },
+    {
+      "name": "Swift-Daley House",
+      "location": "Eastham, Massachusetts",
+      "year": 1741,
+      "note": "A full Cape of 1741 on the Outer Cape, built by Joshua Knowles with the bowed roof that Eastham's ship's carpenters gave their houses: wide board floors, a deep keeping-room fireplace and the narrow winder stair beside it. The house of Nathaniel Swift before he left for Chicago and the meat-packing trade; restored by the Daleys from 1939 and a museum of the Eastham Historical Society since 1974.",
+      "precedent": "swift-daley-house",
+      "standing": "regional",
+      "why": "The Outer Cape's variant stated by its keeper: the Eastham Historical Society dates it to 1741 by Joshua Knowles and calls its bowed roof 'typical of early houses built by ship's carpenters', the coastal form the node's note gives the Jabez Wilder House on the mainland."
     }
   ],
   "sources": [

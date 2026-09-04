@@ -1,0 +1,40 @@
+{
+  "id": "hyland-house",
+  "name": "Hyland House",
+  "aka": [
+    "Hyland-Wildman House"
+  ],
+  "location": {
+    "text": "Guilford, Connecticut",
+    "country": "United States",
+    "state": "Connecticut"
+  },
+  "dates": {
+    "built": "1713",
+    "circa": false,
+    "note": "The Wikipedia infobox gives 1713 and names Isaac Parmelee as architect; the same article's history section is the source for the museum's opening in 1918."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hyland_House",
+      "title": "Hyland House Museum - Wikipedia",
+      "note": "The infobox is headed 'Hyland–Wildman House' and lists it as a contributing property of the Guilford Historic Town Center (ID76001988).",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "76001989",
+      "url": "https://en.wikipedia.org/wiki/Hyland_House",
+      "title": "NRHP reference No. 76001989; added March 26, 1976 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "No HABS survey was found: the loc.gov search '\"Hyland House\" Guilford HABS CT' returned only the Acadian House, a different Guilford saltbox.",
+  "nodes": [
+    "saltbox-colonial"
+  ]
+}

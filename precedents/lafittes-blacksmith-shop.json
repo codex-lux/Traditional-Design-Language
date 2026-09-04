@@ -1,0 +1,108 @@
+{
+  "id": "lafittes-blacksmith-shop",
+  "name": "Lafitte's Blacksmith Shop",
+  "aka": [
+    "941 Bourbon Street (Cottage)"
+  ],
+  "location": {
+    "text": "941 Bourbon Street, New Orleans, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1770s",
+    "circa": true,
+    "altered": "The 1930s survey found the fireplaces bricked up, both chimneys removed above the roof, the brick partitions replaced by wooden ones, the ground floor replaced in concrete and a corrugated iron shed added in front.",
+    "note": "The Wikipedia infobox says 1770s; the node's exemplar says 1772; the HABS data page says 'Date of Erection Unknown'. Recorded as the register has it."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-24",
+      "title": "941 Bourbon Street (Cottage), New Orleans, Orleans Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0018/data/la0018data.pdf",
+      "note": "The data page prints 'Cottage at 941 Bourbon Street, HABS No. LA-24' and 'Louisiana - 24'; the loc.gov item page gives the other title 'Lafitte's Blacksmith Shop'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0018",
+      "url": "https://www.loc.gov/pictures/item/la0018",
+      "title": "941 Bourbon Street (Cottage), New Orleans, Orleans Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000255",
+      "url": "https://en.wikipedia.org/wiki/Lafitte%27s_Blacksmith_Shop",
+      "title": "NRHP reference No. 70000255; added and designated NHL April 15, 1970; part of the Vieux Carre Historic District (ID66000377) (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lafitte%27s_Blacksmith_Shop",
+      "title": "Lafitte's Blacksmith Shop - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "la0018",
+    "survey_no": "LA-24",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0018/data/la0018data.pdf",
+    "prepared": "District No. 18, Historic American Buildings Survey, Richard Koch, District Officer, 614 Audubon Building, New Orleans (as the header reads); undated on the extracted spans",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "This building, ordinarily termed Lafitte!s Black- smith Shop, situated in the heart of the Vieux Carre on the corner of Bourbon and St, Phillip Streets, is an example of the small cottage type in New Orleans of over a century ago, and is one of the very few remaining.",
+        "page": "Louisiana - 24, page 1, 'Additional Data'; the marker 'Louisiana - 24 . Page Z' (Page 2) follows"
+      },
+      {
+        "field": "walls",
+        "text": "Materials of Construction Walls of brick between posts. Ex- terior walls stuccoed. Interior walls plastered, some rooms lately covered with T & G ceiling. Ground floors of concrete. Framing timber and other woodwork cypress. Roof covered with slate",
+        "page": "Louisiana - 24, page 1"
+      },
+      {
+        "field": "condition",
+        "text": "Owner Henry and John August Barbe Date of Erection Unknown Architect Unknown Builder Unknown Present Condition Badly in need of repairs. Chimneys have been removed above the roof. Partitions on first floor have been removed.",
+        "page": "Louisiana - 24, page 1"
+      },
+      {
+        "field": "chimneys",
+        "text": "Partitions of brick between posts formerly di- vided the building longitudinally, these having been re- placed with wooden partitions. The inside brick walls were originally plastered but have subsequently been covered with T & G ceiling and the ceiling bearas in rooms 3 and 4 have likewise been covered with wood. The original ground floor was pro- bably of wood, but has been replaced with a concrete floor. All fire places have been bricked up and the two chimneys were removed abcve the roof.",
+        "page": "Louisiana - 24 . Page Z (Page 2)"
+      },
+      {
+        "field": "dormers",
+        "text": "The two rooms in the attic have plastered walls and ceilings with floor and base of wood. The roof and sides of the dormers are covered with slate nailed to the sheath- ing and the ridges are covered with terra-cotta tile.",
+        "page": "Louisiana - 24, page 2"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "the two chimneys were removed abcve the roof",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Two stacks originally; both removed above the roof by the time of the survey."
+    },
+    {
+      "name": "attic_room_count",
+      "as_printed": "The two rooms in the attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "nodes": [
+    "creole-cottage-vernacular"
+  ]
+}

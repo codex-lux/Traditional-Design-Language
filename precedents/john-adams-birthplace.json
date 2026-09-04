@@ -1,0 +1,121 @@
+{
+  "id": "john-adams-birthplace",
+  "name": "John Adams Birthplace",
+  "location": {
+    "text": "133 Franklin Street, Quincy, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "ca. 1681",
+    "circa": true,
+    "altered": "Brick nogging removed in the 1897 restoration; the purlin roof raised on the north to take the lean-to and altered further by a gabled addition off it; a modern storm porch west of the lean-to (HABS data form).",
+    "note": "The HABS data form ('Ca. 1681, with later additions') and the Wikipedia infobox (1681) agree."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-596",
+      "title": "Adams, John, Birthplace, 133 Franklin Street, Quincy, Norfolk County, MA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0500/ma0554/data/ma0554data.pdf",
+      "note": "The form's first sheet prints 'HABS NO. MA-596'; its second sheet's running head prints 'HABS No. MA-956 (page 2)', a transposition on the sheet itself. Recorded in the 1979 Lowell project; Susan McCown, editor, 1983.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0554",
+      "url": "https://www.loc.gov/pictures/item/ma0554",
+      "title": "John Adams Birthplace, 133 Franklin Street, Quincy, Norfolk County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000129",
+      "url": "https://en.wikipedia.org/wiki/John_Adams_Birthplace",
+      "title": "NRHP reference No. 66000129; added October 15, 1966; designated NHL December 19, 1960 (as the Wikipedia infobox prints it)",
+      "note": "The NHL nomination text below carries the same number in its path.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/66000129_text",
+      "title": "Form No 10-300 (Rev 10-74) ... John Adams Birthplace nomination text (NPGallery)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/John_Adams_Birthplace",
+      "title": "John Adams Birthplace - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nps.gov/adam/learn/historyculture/birthplaces.htm",
+      "title": "Birthplaces - Adams National Historical Park (U.S. National Park Service)",
+      "note": "Operator.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0554",
+    "survey_no": "MA-596",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0500/ma0554/data/ma0554data.pdf",
+    "prepared": "Historic American Buildings Survey Summer Team, 1979; Susan McCown, editor, Historic American Buildings Survey, 1983 (as the form's compiler line reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "ADAMS, JOHN, BIRTHPLACE HABS NO. MA-596 SECONDARY OR COMMON NAMES OF STRUCTURE COMPLETE ADDRESS (DESCRIBE LOCATION FOR RURAL SfTES) 133 Franklin Street DATE OF CONSTRUCTION (INCLUDE SOURCE) Ca. 1681, with later additions",
+        "page": "HABS Architectural Data Form, page 1"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "ectangular main house, with lean-to and porch addition. Measures 41'-8\" X 42'-5\".",
+        "page": "HABS Architectural Data Form, page 1, 'Shape and dimensions of structure'; the leading letter is cut off in the scan"
+      },
+      {
+        "field": "walls",
+        "text": "nogging and clay mortar. The brick and mortar were removed during the 1897 restoration. The walls are constructed with wood studs. The house is covered with clapboards painted red. The house has a purlin system roof, which was raised on the north elevation to accommodate the lean-to and altered further by a gabled addition off the lean-to. The earlier gabled portion is still intact.",
+        "page": "ADAMS, JOHN, BIRTHPLACE HABS No. MA-956 (page 2) -- as the running head prints it"
+      },
+      {
+        "field": "stairways",
+        "text": "The main stair is a winder type. The lean- to attic features the remains of two stairways to the first floor, but both have been closed.off.",
+        "page": "HABS Architectural Data Form, page 1, 'Interior features of note'"
+      },
+      {
+        "field": "openings",
+        "text": "The front frontispiece features a pedimented and pilastered surround. Some original roof sheathing is visible..The present sheathing is asphalt. White fascia boards flank gable slope.",
+        "page": "HABS Architectural Data Form, page 1, 'Exterior features of note'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "41'-8\" X 42'-5\"",
+      "value": 41.67,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "With lean-to and porch addition, as the form says; which figure is the front is not stated."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "41'-8\" X 42'-5\"",
+      "value": 42.42,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Includes the lean-to and porch, which is why the depth exceeds the width of a two-room house."
+    }
+  ],
+  "nodes": [
+    "saltbox-colonial"
+  ]
+}

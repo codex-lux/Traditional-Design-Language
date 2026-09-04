@@ -1,0 +1,128 @@
+{
+  "id": "parlange-plantation-house",
+  "name": "Parlange Plantation House",
+  "aka": [
+    "Parlange Plantation",
+    "Parlange"
+  ],
+  "location": {
+    "text": "Pointe Coupee Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "c. 1750",
+    "circa": true,
+    "altered": "The survey says the rear gallery was added and the dining room brought out to fill the first small rear porch, giving the double break to the rear roof; the original cypress shingles replaced with asbestos except on the east side (HABS LA-34).",
+    "note": "Four statements of the date and they do not agree: the NHL nomination says 'erected about 1750'; the Wikipedia infobox 'c. 1750 (disputed)'; the node's exemplar c. 1750 with fabric analysis arguing for c. 1830-40; and the Koch-era HABS data page itself 'Between 1830 and 1840', adding 'Judging from the details of the interior, the house was erected between 1830 and 1840' and allowing that 'in the 30's an older house was remodeled'. Recorded as the register and node have it; the survey's reading stands beside it unedited."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-34",
+      "title": "Parlange Plantation, State Highway 93, New Roads vicinity, Pointe Coupee Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0022/data/la0022data.pdf",
+      "note": "The 1930s page prints 'HA.BS No. La. 34' and 'Louisiana - 34'; the addendum cover prints 'HABS No. LA-34', which is the form recorded.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0022",
+      "url": "https://www.loc.gov/pictures/item/la0022",
+      "title": "Parlange Plantation, State Highway 93, New Roads, Pointe Coupee Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000258",
+      "url": "https://en.wikipedia.org/wiki/Parlange_Plantation_House",
+      "title": "NRHP reference No. 70000258; added April 15, 1970; designated NHL May 30, 1974 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Parlange_Plantation_House",
+      "title": "Parlange Plantation House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/d831ed5d-0bcc-4dec-84a6-7b116980740c",
+      "title": "National Register nomination form, Parlange Plantation House (NPGallery)",
+      "note": "Its statement of significance: 'The Parlange Plantation House, erected about 1750, is the finest and least altered example of a large French colonial plantation house in the United States. It is a classic example of a two-story raised-cottage type of house as it developed in the lower Mississippi Valley.'",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "la0022",
+    "survey_no": "LA-34",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0022/data/la0022data.pdf",
+    "prepared": "District of Louisiana, Richard Koch, District Officer (as the header reads); the reference line cites Saxon, Old Louisiana, and Spratling, Old Plantation Houses in Louisiana; undated on the extracted spans",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "PARLANGE PLANTATION Date of Erection Between 1830 and 1840. 81.J.ilder Louisiana - 34 Pe.g;e 1 Unknown; probably Colonel Charles Parlange or a Denis. Present Condition Goods1 Number of Stories One., v.rith basement and attic11 Materials of Construction Basement of brick - fir st story, fr rune plastered - walls filled with either brick or mud and moss ( briquete entre potee.ux). Roof, cypress shingles.",
+        "page": "Louisiana - 34 Page 1 (the marker is printed inside the span)"
+      },
+      {
+        "field": "walls",
+        "text": "The walls of the basement are of briok whitewashed as are also the floors, though the la~ ~e sorubbed and reddened with briok dust, ari old Louisiana oustom, The first story walls are of a wood or w.u& °'.,J MO!(s frame filled in with brick~and then plastered, a medieval form of construction brought to Louisiana by the French and known as Briquet~ entre Poteaux, Judging from the details of th& interior, the house was ereoted between 1830 and 1840,",
+        "page": "Louisiana - 34, page 2 or 3; no page marker legible in the extract span"
+      },
+      {
+        "field": "plan",
+        "text": "'£he plan of Parlnnge is typical of the early larger houses; ln the center !-:.re two drawing rooms vrith bed rooms on each end., Behind the bed rooms are dressing: rooms which form the ends of o. le.rge enclosed rear porch. A gallery, Oroc.d on the front but narrow on the sides and rear, completely surrounds",
+        "page": "Louisiana - 34 Page 2 (the marker precedes the span); the chunk ends mid-sentence and its continuation is the next quote, kept separate"
+      },
+      {
+        "field": "porches",
+        "text": "but narrow on the sides and rear, completely surrounds the li vin,; quar-ters, givin~; circulation while providing shelter from the heat ,md rain of summer. The rear gallery was added and obviously the din-ing room as is, was an afterthou,;ht,",
+        "page": "Louisiana - 34 Page 2"
+      },
+      {
+        "field": "roof",
+        "text": "Slender wooc\\ colonettes on the squatty brick columns o:i\" the basement support the hi,;h pitched :G'l\"\"ench roof; and, as is comrnon in si1nilar roofs, the side rooi's are :more steeply pitched~ givinE the muss e. strong horizontal feeling, while the rear has a double pitch most pi<'turesque when vievred from under the large oaks on the ea.st.",
+        "page": "Louisiana - 34 Page 2"
+      },
+      {
+        "field": "dormers",
+        "text": "The dormers are small with ~nigh pointed gables, vrhich give them. a d.ecicled French chara.::d:.er;",
+        "page": "Louisiana - 34; no page marker legible in the extract span"
+      },
+      {
+        "field": "dependencies",
+        "text": "On ev.ch oic.e of the approach to the house w-as a formal garden_. and \"in their centers still stand two oc'tag;one.l pigcormiers of whitewashed brick with steep shi:ncle r·oof's and turned wood. f:i.nials ..",
+        "page": "Louisiana - 34; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "One., v.rith basement and attic11",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "One principal storey over a brick basement, with attic; OCR noise as printed."
+    },
+    {
+      "name": "pigeonnier_count",
+      "as_printed": "two oc'tag;one.l pigcormiers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "note": "This building is also named by the french-colonial-american node, which is not linked here.",
+  "nodes": [
+    "raised-creole-plantation"
+  ]
+}

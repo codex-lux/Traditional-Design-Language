@@ -1,0 +1,81 @@
+{
+  "id": "kent-plantation-house",
+  "name": "Kent Plantation House",
+  "aka": [
+    "Kent House"
+  ],
+  "location": {
+    "text": "Alexandria, Rapides Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1800",
+    "circa": true,
+    "altered": "Moved a few blocks to its present site in January 1964 after the American Legion gave it up (Great American Treasures page); the loc.gov catalogue prints '1880' among its structure dates.",
+    "note": "The Wikipedia infobox and the node's exemplar say 1800 (Wikipedia names Pierre Baillio II); the house's own site says 'built circa 1795'; the loc.gov sheet says 'Competed in 1800'. Recorded as the register has it."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1303",
+      "title": "Kent Plantation House, 3601 Bayou Rapides Road, Alexandria, Rapides Parish, LA",
+      "url": "https://www.loc.gov/pictures/item/la0428",
+      "note": "The loc.gov sheet pages print 'Survey number: HABS LA-1303'; the data PDF's cover prints 'HABS No. LA-1303' and consists of reduced copies of measured drawings.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0428",
+      "url": "https://www.loc.gov/pictures/item/la0428",
+      "title": "Kent Plantation House, 3601 Bayou Rapides Road, Alexandria, Rapides Parish, LA",
+      "note": "'The Kent House is the oldest known standing structure in central Louisiana.'",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000362",
+      "url": "https://en.wikipedia.org/wiki/Kent_Plantation_House",
+      "title": "NRHP reference No. 71000362; added August 5, 1971 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kent_Plantation_House",
+      "title": "Kent Plantation House",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://kenthouse.org",
+      "title": "Kent House - Tourist Attractions, Things to Do, History",
+      "note": "Operator. 'an authentic Creole plantation house built circa 1795 prior to the Louisiana Purchase'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "la0428",
+    "survey_no": "LA-1303",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0400/la0428/data/la0428data.pdf",
+    "prepared": "Not stated on the extracted cover (reduced copies of measured drawings)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "KENT PLANTATION HOUSE 3601 Bayou Rapides Road Alexandria Rapides Parish Louisiana REDUCED COPIES OF MEASURED DRAWINGS HISTORIC AMERICAN BUILDINGS SURVEY National Park Service U.S. Department of the Interior 1849 C St. NW Washington, DC 20240 HABS No. LA-1303",
+        "page": "Cover sheet; no page number printed"
+      }
+    ]
+  },
+  "note": "One extract query failed to fetch and the other returned the drawings' cover only; no descriptive data was reached.",
+  "nodes": [
+    "creole-cottage-vernacular"
+  ]
+}

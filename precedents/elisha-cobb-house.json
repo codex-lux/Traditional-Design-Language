@@ -1,0 +1,134 @@
+{
+  "id": "elisha-cobb-house",
+  "name": "Elisha Cobb House",
+  "aka": [
+    "Collinson House"
+  ],
+  "location": {
+    "text": "Prince Valley Road, Truro, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "c. 1800",
+    "circa": true,
+    "altered": "Doubled from a 'house-and-a-half'; the chimney changed and the main stair put into its present state when the house was doubled; modern brick underpinnings replaced the original small rock underpinnings; 'many original features have been removed due to modern \"restoration\"' (HABS).",
+    "note": "The HABS data page gives 'Circa 1800' and adds that it 'may have been built as early as the late eighteenth century'."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-705",
+      "title": "Elisha Cobb House, Prince Valley Road, Truro, Barnstable County, MA",
+      "url": "https://www.loc.gov/pictures/item/ma0027",
+      "note": "The loc.gov item page prints 'Survey number: HABS MA-705'; the data page's running head prints 'ELISHA COBB HOUSE HABS No. MA-705'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0027",
+      "url": "https://www.loc.gov/pictures/item/ma0027",
+      "title": "Elisha Cobb House, Prince Valley Road, Truro, Barnstable County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0027",
+    "survey_no": "MA-705",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0000/ma0027/data/ma0027data.pdf",
+    "prepared": "Not legible in the extracted spans; the building is 'number 14040 in Cape Cod National Seashore' (OCR 'lUO^O'), which dates the record after 1961",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The Elisha Cobb House is a typical Cape Cod \"double house\" except that it has two salt box lean-tos instead one con- tinuous lean-to. Various interior alterations have been made.",
+        "page": "HABS No. MA-705, page 1, 'Significance'; no page number printed on the first sheet"
+      },
+      {
+        "field": "other",
+        "text": "PART I. HISTORICAL INFORMATION A. Physical History: 1. Date of erection: Circa 1800. 2. Architect: Unknown.",
+        "page": "HABS No. MA-705, page 1"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "The over-all dimensions of the house are 28!-3\" on the west by 35 —U\" on the south. The house has modern red brick underpinnings which replaced the original small rock underpinnings. The walls are plank with exterior wood shingles and interior plaster, except for the south side which is clapboarded. thm frame is post and beam. All doors have red brick stoops, The house has one large red brick chimney in the center. The south front of the house has a center five panel door with a four light transom. The rear \"salt box\" porches each have an exterior six panel door.",
+        "page": "HABS No. MA-705, Part II; no page marker legible in the extract span (the document's markers read 'ELISHA COBB HOUSE HABS No. MA-705 (Page h)')"
+      },
+      {
+        "field": "openings",
+        "text": "The windows are 9/6 light double hung sash. The house has exterior wooden blinds.",
+        "page": "HABS No. MA-705, Part II; no page marker legible in the extract span"
+      },
+      {
+        "field": "roof",
+        "text": "The gable roof is covered with wood shingles and has a simple box cornice. The roof boards run perpendicular to the ridge, and are sup- ported on hewn rafters and purlins. The rafters are about U x 10\".",
+        "page": "HABS No. MA-705, Part II; no page marker legible in the extract span"
+      },
+      {
+        "field": "plan",
+        "text": "The first floor has a south center front door opening into a small entry and stair hall. To the east and west of this hall are the main front rooms. To the rear and north of these rooms is the old kitchen which is the largest room in the house. The old kitchen is flanked on the east end by a small bedroom and a pantry. It is flanked on the west end by a small kitchenette and a bath.",
+        "page": "HABS No. MA-705, Part II; no page marker legible in the extract span"
+      },
+      {
+        "field": "structural_system",
+        "text": "Roman Numerals which commonly appear on Cape Cod trusses read from one to five here. The trusses over the later fourth of the house are of slightly different manufacture. These are Roman Numeraled one on first truss and the second is not visible. The roof of the \"salt box porch on later quarter of the house seems to have been built at the 3ame time as the quarter house.",
+        "page": "HABS No. MA-705, Part II; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "28!-3\" on the west",
+      "value": 28.25,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OCR for 28'-3\"; the west side is the gable end, so this is the depth. A reading."
+    },
+    {
+      "name": "overall_width_ft",
+      "as_printed": "35 —U\" on the south",
+      "value": 35.33,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OCR for 35'-4\" on the south front; the 'U' is the survey's typewriter 4 as elsewhere in this scan. A reading, marked as one."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "one large red brick chimney in the center",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "front_sash_lights",
+      "as_printed": "9/6 light double hung sash",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Nine over six; recorded as the total per sash."
+    },
+    {
+      "name": "rafter_depth_in",
+      "as_printed": "about U x 10\"",
+      "value": 10,
+      "unit": "in",
+      "from_quote": 4,
+      "note": "OCR for 4 x 10 in; a reading."
+    },
+    {
+      "name": "roof_truss_count",
+      "as_printed": "read from one to five here",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "The original trusses carry Roman numerals I to V; the later quarter's are counted separately."
+    }
+  ],
+  "nodes": [
+    "cape-cod-colonial"
+  ]
+}

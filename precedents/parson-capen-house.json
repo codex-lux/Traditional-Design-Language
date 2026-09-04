@@ -1,0 +1,77 @@
+{
+  "id": "parson-capen-house",
+  "name": "Parson Capen House",
+  "aka": [
+    "Parson Joseph Capen House"
+  ],
+  "location": {
+    "text": "Topsfield, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1683",
+    "circa": false,
+    "altered": "Restored about 1915 by George Francis Dow (HABS data sheet).",
+    "note": "The HABS data sheet and the node's exemplar both say 1683; the Wikipedia infobox prints 'Built 1694'. Recorded as the survey states it, with the disagreement noted rather than resolved."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-214",
+      "title": "Parson Joseph Capen House, 1 Howlett Street, Topsfield, Essex County, MA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0100/ma0170/data/ma0170data.pdf",
+      "note": "The addendum cover prints 'HABS No. MA-214'; the 1930s sheet's number is OCR-garbled ('MASS-2-H-'). The loc.gov sheet read by search carries 'HABS MASS,5-TOP,1- (sheet 3 of 3)'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0170",
+      "url": "http://www.loc.gov/pictures/item/ma0170.sheet.00003a",
+      "title": "HABS MASS,5-TOP,1- (sheet 3 of 3) - Parson Joseph Capen House, 1 Howlett Street, Topsfield, Essex County, MA",
+      "note": "The search returned a sheet URL rather than the item landing page; the item id is its path segment.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000139",
+      "url": "https://en.wikipedia.org/wiki/Parson_Capen_House",
+      "title": "NRHP reference No. 66000139; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Parson_Capen_House",
+      "title": "Parson Capen House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ma0170",
+    "survey_no": "MA-214",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0100/ma0170/data/ma0170data.pdf",
+    "prepared": "District of Massachusetts, Lewis M. Lawrence, District Officer (as the 1930s sheet reads); undated on the sheet",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "OP CAFEN HOUSE Topsfield, Massachusetts Qvmer; Topsfield Historical Association Date of Erection; 1683 Present Condition: Good irials of Construction: Frame, brick chimney",
+        "page": "1930s HABS data sheet (number OCR-garbled 'MASS-2-H-'); no page number printed"
+      },
+      {
+        "field": "significance",
+        "text": "This is perhaps the outstanding 17th century house remaining from point of view of excellence ■ of the architecture and beauty of site. It was restored about 1915 by George Francis Dow,",
+        "page": "1930s HABS data sheet, 'Additional Data'; no page number printed"
+      }
+    ]
+  },
+  "nodes": [
+    "new-england-colonial"
+  ]
+}

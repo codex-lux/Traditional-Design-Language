@@ -210,25 +210,64 @@
       "name": "Fairbanks House",
       "location": "Dedham, Massachusetts",
       "year": 1637,
-      "note": "The oldest surviving timber-frame dwelling in North America; dendrochronology supports a construction date in the late 1630s. Later lean-tos and wings make it a textbook of accretive growth."
+      "note": "The oldest surviving timber-frame dwelling in North America; dendrochronology supports a construction date in the late 1630s. Later lean-tos and wings make it a textbook of accretive growth.",
+      "precedent": "fairbanks-house",
+      "standing": "icon",
+      "why": "The building the type is known by: the node's own note calls it the oldest surviving timber-frame dwelling in North America, and the HABS data sheet calls it 'perhaps the earliest and most important house of the 17th century standing in Massachusetts'."
     },
     {
       "name": "Paul Revere House",
       "location": "North Square, Boston, Massachusetts",
       "year": 1680,
-      "note": "Urban two-storey house with a framed overhang; the only surviving 17th-century dwelling in downtown Boston."
+      "note": "Urban two-storey house with a framed overhang; the only surviving 17th-century dwelling in downtown Boston.",
+      "precedent": "paul-revere-house",
+      "standing": "regional",
+      "why": "The urban expression of the type rather than its rule: the node's own note calls it the only surviving 17th-century dwelling in downtown Boston, and HABS MA-491 recorded it in 1941 in five sheets."
     },
     {
       "name": "Parson Capen House",
       "location": "Topsfield, Massachusetts",
       "year": 1683,
-      "note": "The canonical post-medieval elevation: front and gable overhangs, carved drop pendants, central stack, casement openings."
+      "note": "The canonical post-medieval elevation: front and gable overhangs, carved drop pendants, central stack, casement openings.",
+      "precedent": "parson-capen-house",
+      "standing": "canonical",
+      "why": "The node's own note calls it 'the canonical post-medieval elevation' and the HABS data sheet 'perhaps the outstanding 17th century house remaining', a type specimen the kit's overhang, pendant and casement bindings can be held against."
     },
     {
       "name": "John Whipple House",
       "location": "Ipswich, Massachusetts",
       "year": 1677,
-      "note": "Two-phase First Period house; the later block carries the jetty. Ipswich preserves the densest surviving concentration of the type."
+      "note": "Two-phase First Period house; the later block carries the jetty. Ipswich preserves the densest surviving concentration of the type.",
+      "precedent": "john-whipple-house",
+      "standing": "canonical",
+      "why": "A two-phase First Period house whose later block carries the jetty (the node's own note), among the first National Historic Landmarks of 1960 and recorded by HABS as MA-460."
+    },
+    {
+      "name": "Jackson House",
+      "location": "Portsmouth, New Hampshire",
+      "year": 1664,
+      "note": "Built 1664 by Richard Jackson, a woodworker: the oldest wood-frame house in New Hampshire and a saltbox by accretion — the rear lean-to is an addition, and Historic New England's 2009 repairs found it had never been tied into the roof frame. Two-room, central-chimney plan under a steep roof, weathered clapboard, the Piscataqua reach of the Massachusetts Bay tradition.",
+      "precedent": "jackson-house",
+      "standing": "canonical",
+      "why": "The NHL nomination calls it 'one of the finest of the surviving seventy or so seventeenth century wooden houses in New England', and Historic New England, its owner, holds it as the oldest wood-frame house in New Hampshire."
+    },
+    {
+      "name": "Coffin House",
+      "location": "Newbury, Massachusetts",
+      "year": 1678,
+      "note": "Dendrochronology puts the frame at 1678, not the traditional 1654, and its principal-rafter/common-purlin roof is among the oldest extant; a house that grew by a 1713 cross-wing and was split between two brothers in 1785, so the south facade reads its additions in the placement of its windows. Unpainted clapboard and a plain face: the type as it was lived in rather than as it was restored.",
+      "precedent": "coffin-house",
+      "standing": "documentary",
+      "why": "A measured specimen rather than a showpiece: HABS MA-472 recorded it, the Oxford Tree-Ring Laboratory dated its frame to 1678, and Wikipedia's list of the oldest buildings in Massachusetts names its roof among the oldest principal-rafter/common-purlin examples."
+    },
+    {
+      "name": "Buttolph-Williams House",
+      "location": "Wethersfield, Connecticut",
+      "year": 1711,
+      "note": "The Connecticut River valley's version of the frame: two and a half storeys, three bays wide and one deep, a steep side-gable roof, a large central stone-and-brick stack and diamond-pane casements reconstructed to the original openings. The setting of The Witch of Blackbird Pond, and a National Historic Landmark of 1968.",
+      "precedent": "buttolph-williams-house",
+      "standing": "regional",
+      "why": "The valley expression the node's geography names as its second hearth: Wikipedia's description gives three bays and one pile under a steep side gable with a central chimney and diamond-pane windows, an NHL of 1968 on the Connecticut River rather than the Bay."
     }
   ],
   "sources": [

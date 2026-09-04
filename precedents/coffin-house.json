@@ -1,0 +1,81 @@
+{
+  "id": "coffin-house",
+  "name": "Coffin House",
+  "aka": [
+    "Tristram Coffin House",
+    "Coffyn House"
+  ],
+  "location": {
+    "text": "Newbury, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1678",
+    "circa": false,
+    "altered": "Cross-wing added on the north-east side in 1713 (dendrochronology, per Wikipedia); legally divided into two dwellings in 1785.",
+    "note": "Traditionally dated 1654 by Joshua Coffin (1845); the Oxford Tree-Ring Laboratory's 2002 reading, cited by Wikipedia, has the original timbers felled in the winters of 1676-77 and 1677-78. The HABS cover calls it the 'Coffyn House'."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-472",
+      "title": "Tristram Coffin House, 14 High Road, Newbury Old Town, Essex County, MA",
+      "url": "https://www.loc.gov/pictures/item/ma0656",
+      "note": "The loc.gov item page prints 'Survey number: HABS MA-472'; the data page's cover prints 'HABS No, MASS-472'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0656",
+      "url": "https://www.loc.gov/pictures/item/ma0656",
+      "title": "Tristram Coffin House, 14 High Road, Newbury Old Town, Essex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Coffin_House",
+      "title": "Coffin House - Wikipedia",
+      "note": "No NRHP infobox on the article; no register reference is recorded here.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/coffin-house",
+      "title": "Coffin House | Historic New England",
+      "note": "Owner since 1929 (as SPNEA).",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://historicmassachusetts.org/2023/06/17/the-tristam-coffin-house-14-high-rd-newbury-ma-1678",
+      "title": "The Tristam Coffin House, 14 High Rd., Newbury MA (1678)",
+      "note": "Reproduces the MACRIS inventory text, which reads 'Massachusetts Historic Landmark; HABS: MASS 472'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0656",
+    "survey_no": "MA-472",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0656/data/ma0656data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer (as the cover reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Coffyn House ;New\"bury,Massachusetts HABS No, MASS-472 '<# HAB5 PHOTOGRAPHS WRITTEN HISTORICAL AND DESCRIPTIVE DATA District of Massachusetts m Historic American Buildings Survey Frank Chouteau Brown, district Officer 76 Chestnut Street,Boston, Mass.",
+        "page": "Cover sheet; no page number printed"
+      }
+    ]
+  },
+  "note": "Both extract queries returned the cover sheet only; no descriptive data was reached.",
+  "nodes": [
+    "new-england-colonial"
+  ]
+}

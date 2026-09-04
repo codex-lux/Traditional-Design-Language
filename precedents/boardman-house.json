@@ -1,0 +1,80 @@
+{
+  "id": "boardman-house",
+  "name": "Boardman House",
+  "aka": [
+    "Scotch House",
+    "Scotch-Boardman House"
+  ],
+  "location": {
+    "text": "Saugus, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1692",
+    "circa": false,
+    "note": "Historic New England, the Wikipedia infobox and the node's exemplar all give 1692. The loc.gov catalogue entry for HABS MA-492, under the name 'Scotch House', prints '1651 Initial Construction' -- the tradition that a house for Scottish prisoners stood here, which the present frame post-dates. Recorded as HNE states it, with the catalogue date noted."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-492",
+      "title": "Scotch House, 7 Howard Street, Saugus, Essex County, MA",
+      "url": "https://www.loc.gov/pictures/item/ma0168",
+      "note": "The loc.gov item page prints 'Survey number: HABS MA-492'; the data page's cover is OCR-garbled ('HABS Hoy MS2^492'). Wikipedia's external-links line reads '2 photos, 2 measured drawings, supplemental material'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0168",
+      "url": "https://www.loc.gov/pictures/item/ma0168",
+      "title": "Scotch House, 7 Howard Street, Saugus, Essex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000131",
+      "url": "https://en.wikipedia.org/wiki/Boardman_House_(Saugus,_Massachusetts)",
+      "title": "NRHP reference No. 66000131; added October 15, 1966; designated NHL November 5, 1961 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Boardman_House_(Saugus,_Massachusetts)",
+      "title": "Boardman House (Saugus, Massachusetts) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/boardman-house",
+      "title": "Boardman House | Historic New England",
+      "note": "Owner. Its page says the house 'remains unaltered from the seventeenth and eighteenth centuries'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0168",
+    "survey_no": "MA-492",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0100/ma0168/data/ma0168data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer (as the cover reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "HABS Hoy MS2^492'. ;0attgus j\\\" Massachusetts HrtdO MASS- S\"- SAU • PHOTOGRAPHS WRITTEH HISTORICAL AND DESCRIPTIVE DATA District of Massachusetts REDUCED COPIES OF MEASURED DRAWINGS Historic American Buildings Survey Frank Chouteau Brown, District Officer 76 Chestnut Street, Boston, Mass.",
+        "page": "Cover sheet; no page number printed. The survey number is taken from the loc.gov item page because the header's OCR is illegible."
+      }
+    ]
+  },
+  "note": "Both extract queries returned the cover sheet only; no descriptive data was reached.",
+  "nodes": [
+    "saltbox-colonial"
+  ]
+}
