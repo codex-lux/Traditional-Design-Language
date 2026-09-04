@@ -1859,6 +1859,55 @@ term is worse in the middle of its range than at either end, and a rule is the e
 
 ### WP-11.6 The container the programme describes
 
+**Status: IN PROGRESS (4 Sep 2026) — layer 1 of 6 taught, in the ruled order, measuring after
+each as the ruling requires.** `openings` reads the room's own element and
+`geometry_report.multi_element` names **five** layers, down from six. The falling count is the
+ruling's own check.
+
+**THE INSTRUMENT FIRST, AND TWO OF ITS PROBES WERE WRONG.** The six defects are measured directly
+rather than inferred from the disclosure list, so a name leaving that list is evidence. Baseline on
+the reference fixture (the Tidewater plan with its kitchen, pantry and breakfast room tagged into a
+west dependency, which is `test_geometry.py`'s own fixture):
+
+| layer | probe | baseline |
+|---|---|---|
+| openings | dependency openings refused | **9 of 14** |
+| structure | dependency partition inside the main wall set / the dependency's own envelope walls | **1 / 0 of 2** |
+| vertical_score | upper edges credited to a dependency-only wall line | **0 — NOT REPRODUCED on this fixture** |
+| lot_cap | built extent over the lot, uncapped | **24 ft over an 80 ft lot, `lot_capped: null`** |
+| plan_check.drawn | dependency rooms convicted of reaching no exterior wall | **2** |
+| export_ifc | dependency rooms off the slab | **3** |
+
+**Two probes read 0 on the first run and neither zero was a defect's absence.** The openings probe
+looked for a window drawn far from its room and found none, because the real defect is a window
+REFUSED outright — every dependency opening came back *"the placement puts this room on no such
+boundary wall"*. The structure probe read a `bearing_lines_x` key that does not exist. **A probe
+pointed at the wrong defect and a probe reading a missing key both report zero, and zero reads as
+"nothing wrong".** The lot probe reads 0 honestly on the shipped lot of 140 ft and needed a
+narrower one to fire; `vertical_score` still does not reproduce and is recorded as such rather than
+as absent.
+
+**LAYER 1: `openings`.** `openings.envelopes()` maps each room to its own element's rectangle and
+`_boundary_walls` tests against that. Refused dependency openings **9 → 5**, and the five that
+remain are honest — the kitchen's north edge is 23.72 against its element's 29.12 and genuinely
+does not reach that face. **The join is the room's own `block` tag, not a room list on the block**:
+`blocks_record` writes no membership, so a first version read `b["rooms"]`, found nothing on every
+plan, and left all nine refusals in place while reporting success.
+
+**AND THE OLD READING DID NOT LOSE THE DEPENDENCY'S WALLS, IT ASSERTED ONE FORTY-ONE FEET AWAY.**
+`x <= tol` is satisfied by any x at or west of 0.6, so a room at x = −41 tested as sitting on the
+main block's west face. That is the mechanism behind the entry's *"a window drawn fourteen feet
+from the room"*, and it is worse than reporting nothing.
+
+**The one-rectangle regression holds**: both shipped plans place byte-identically, scores 685.3 and
+592.3 unmoved, and `envelopes()` returns an empty map below two elements so every caller falls back
+to the main block by construction rather than by luck.
+
+**Still to do: layers 2 through 6** (`structure`, `vertical_score`, the lot cap, `plan_check.drawn`,
+`export_ifc`), then the parti and plan re-authoring and CP-SAT's per-element solve.
+
+**Original package text, left as written:**
+
 **Status: NOT STARTED. UNBLOCKED — the four rulings of
 `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` were taken on 4 Sep 2026
 and this section carries them in full below.** This line read *"Blocked on the four rulings"* for

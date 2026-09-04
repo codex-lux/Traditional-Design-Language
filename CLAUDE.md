@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,700 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,708 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -529,6 +529,34 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   paired end stacks). WP-11.4 measured that movement on the PLACED key and did not run either
   suite. **Both are the same root cause as the layer-map miss**: a package that commits before its
   build finishes learns what it broke from the next package's build.
+- **`openings` READS THE ROOM'S OWN MASSING ELEMENT NOW, AND THE DISCLOSURE IS AT FIVE (WP-11.6,
+  layer 1 of 6).** `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` is RULED
+  (4 Sep: an element has its own envelope and its own roof; the lot cap is on the BUILT EXTENT
+  hyphen included; the hyphen is a THIRD ELEMENT carrying one room; the drawn layer measures
+  `touches` against the room's OWN element) and **the ruling's operative half is the ORDER**:
+  openings first, then structure, vertical_score, the lot cap, plan_check.drawn, export_ifc,
+  measuring after each -- because an element-aware `openings` makes a dependency's windows real
+  and therefore turns `structure`'s missing envelope into a DRAWN collision rather than a silent
+  absence. **The check is a FALLING COUNT in `geometry_report.multi_element`**, six names to five
+  to none; do not remove a name until the layer it names reads the element.
+  **THE OLD READING DID NOT LOSE THE DEPENDENCY'S WALLS, IT ASSERTED ONE FORTY-ONE FEET AWAY** --
+  `x <= tol` is satisfied by any x at or west of 0.6, so a room at x = -41 tested as sitting on
+  the main block's WEST face, which is the mechanism behind the entry's "a window drawn fourteen
+  feet from the room". Measured on the reference fixture, refused dependency openings **9 -> 5**,
+  and the five that remain are honest. **The join is the room's own `block` tag, NOT a room list
+  on the block**: `blocks_record` writes id, role, x, y, width, depth and area and no membership,
+  so a first version read `b["rooms"]`, found nothing on every plan, and left all nine refusals in
+  place while reporting success.
+- **TWO OF THE SIX PROBES READ ZERO ON THEIR FIRST RUN AND NEITHER ZERO WAS A DEFECT'S ABSENCE
+  (WP-11.6).** The openings probe looked for a window drawn FAR FROM its room and found none,
+  because the real defect is a window REFUSED outright ("the placement puts this room on no such
+  boundary wall"); the structure probe read a `bearing_lines_x` key that does not exist. **A probe
+  pointed at the wrong defect and a probe reading a missing key both report 0, and 0 reads as
+  nothing-wrong** -- the same shape as the stacking meter's missing `vertical` key one package
+  earlier, twice in two packages. The lot probe reads 0 HONESTLY on the shipped 140 ft lot and
+  needed an 80 ft one to fire (24 ft over, `lot_capped: null`); `vertical_score`'s defect does not
+  reproduce on this fixture at all and is recorded as NOT REPRODUCED rather than as absent.
+  **Before believing a meter's zero, make it report non-zero once.**
 - **DECLARED STACKING IS A RULE IN THE SEARCH NOW, AND ITS COST IS A PROPERTY OF THE POOL RATHER
   THAN OF THE RULE (WP-11.5).** `geometry.declared_stack_breaks` is the ONE reader of a
   `stacks_over` claim against a placement, on `plan_check`'s own strict-intersection rule; the

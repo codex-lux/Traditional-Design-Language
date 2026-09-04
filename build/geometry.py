@@ -1679,12 +1679,16 @@ def multi_element_disclosure(plan):
 
     The block machinery places a dependency beside the house and both renderers draw it there.
     FIVE layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
-    building, and each is wrong in its own direction on a dependency room -- measured, not
+    building (six until WP-11.6 taught `openings`; the entry below is kept for the record and
+    marked), and each is wrong in its own direction on a dependency room -- measured, not
     supposed, by an adversarial audit of the change that introduced blocks:
 
-      openings   `_boundary_walls` gets the MAIN block's W and H, so a garage at x 84-105 on a
-                 70 ft block reports its east face as a footprint boundary; both renderers and
-                 the DXF exporter then draw the window at x = W, fourteen feet from the room.
+      openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
+                 so on the reference fixture a dependency at x -41..-14 touched no boundary at
+                 all and NINE of fourteen declared openings came back `unplaced` saying "the
+                 placement puts this room on no such boundary wall" -- a refusal produced by the
+                 instrument rather than by the house. `envelopes()` maps a room to its own
+                 element by the `block` tag the placer itself groups on.
       structure  `wall_lines` sweeps every placed room into one envelope, so a dependency
                  partition on the bay grid becomes a bearing line beyond W and manufactures a
                  clear span across the gap between the house and the dependency.
@@ -1707,7 +1711,19 @@ def multi_element_disclosure(plan):
         return None
     note = {
         "elements": len(fp["blocks"]),
-        "not_element_aware": ["openings", "structure", "vertical_score", "lot_cap",
+        # FIVE, DOWN FROM SIX (WP-11.6). `openings` is taught: `openings.envelopes()` maps each
+        # room to its OWN element's rectangle and `_boundary_walls` tests against that instead of
+        # the main block. Measured on the reference fixture, dependency openings refused fell
+        # 9 -> 5, and the five that remain are honest -- a kitchen whose north edge is 23.72
+        # against its element's 29.12 really does not reach that face.
+        #
+        # **THE FALLING COUNT IS THE RULING'S OWN CHECK** ("must name five, then four, then none
+        # -- a falling count, in the record, is how this ruling is checked rather than claimed").
+        # Do not remove a name here until the layer it names reads the element. The order is
+        # ruled and it is not arbitrary: openings first, because it makes the dependency's
+        # windows real and therefore turns `structure`'s missing envelope into a DRAWN collision
+        # rather than a silent absence.
+        "not_element_aware": ["structure", "vertical_score", "lot_cap",
                               "plan_check.drawn", "export_ifc"],
         "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
                  "element and each of the layers named reads footprint.width_ft/depth_ft as the "

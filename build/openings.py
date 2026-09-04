@@ -146,17 +146,65 @@ def _shared(a, b, tol=0.4):
 _OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
 
-def _boundary_walls(rect, W, H, tol=0.6):
-    """Which of a room's own walls lie on the footprint boundary, with their runs."""
-    x, y, w, h = rect
+def envelopes(plan):
+    """`{room_id: (x0, y0, x1, y1)}` -- the rectangle each room's OWN massing element occupies
+    (WP-11.6, ruling 1: an element has its own envelope, not the union).
+
+    Every layer below the placer was written when a house was one rectangle. This is the first
+    of the six to be told otherwise, and it is first because of the order the ruling states: an
+    element-aware `openings` makes a dependency's windows REAL, which turns `structure`'s missing
+    envelope walls into a drawn collision instead of a silent absence. Fixing them in the other
+    order would leave the shield in place.
+
+    A plan with no `footprint.blocks` -- which is every plan in this corpus -- gets an empty map
+    and every caller falls back to the main block, so the one-rectangle case is untouched by
+    construction rather than by luck.
+
+    THE JOIN IS THE ROOM'S OWN `block` TAG, NOT A ROOM LIST ON THE BLOCK. `blocks_record` writes
+    id, role, x, y, width, depth and area and no membership, so a first version of this read
+    `b["rooms"]`, found nothing on every plan, and left all nine refusals in place while
+    reporting success. The tag is what the placer itself groups by (`blocks_for` reads
+    `r["block"]`), so reading it here keeps one spelling of what an element contains.
+    """
+    fp = plan.get("footprint") or {}
+    by_id = {b["id"]: (b["x_ft"], b["y_ft"], b["x_ft"] + b["width_ft"],
+                       b["y_ft"] + b["depth_ft"]) for b in (fp.get("blocks") or [])}
+    if len(by_id) < 2:
+        return {}
+    main = by_id.get("main")
     out = {}
-    if y <= tol:
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            tag = r.get("block")
+            env = by_id.get(tag) if tag else main
+            # A hyphen room is tagged into the DEPENDENCY's id by the composer and placed in the
+            # element `<id>-hyphen`; prefer the element it was actually placed in.
+            if tag and f"{tag}-hyphen" in by_id and r.get("hyphen"):
+                env = by_id[f"{tag}-hyphen"]
+            if env:
+                out[r["id"]] = env
+    return out
+
+
+def _boundary_walls(rect, W, H, tol=0.6, env=None):
+    """Which of a room's own walls lie on ITS ELEMENT's boundary, with their runs.
+
+    `env` is `(x0, y0, x1, y1)` for the element the room sits in; absent, it is the main block
+    at the origin, which is what `W`/`H` have always meant and what every one-rectangle plan
+    still gets. **A dependency room touches none of the main block's boundary** -- on the
+    reference fixture at x -41..-14 against a 63 ft block, nine of fourteen declared openings
+    came back `unplaced` with "the placement puts this room on no such boundary wall", which is
+    a refusal produced by the instrument rather than by the house."""
+    x, y, w, h = rect
+    x0, y0, x1, y1 = env if env else (0.0, 0.0, W, H)
+    out = {}
+    if y <= y0 + tol:
         out["S"] = (x, x + w)
-    if y + h >= H - tol:
+    if y + h >= y1 - tol:
         out["N"] = (x, x + w)
-    if x <= tol:
+    if x <= x0 + tol:
         out["W"] = (y, y + h)
-    if x + w >= W - tol:
+    if x + w >= x1 - tol:
         out["E"] = (y, y + h)
     return out
 
@@ -306,7 +354,7 @@ def _place_interior(level_rooms, occupied, report):
         report["placed"] += 1
 
 
-def _place_exterior(level_rooms, occupied, W, H, C, report):
+def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
     """Exterior doors, and the one rule that fixes the reported symptom.
 
     op-passage-axis. styles/tidewater-georgian.json c03 is HARD — "Centre passage 10-14 ft
@@ -327,7 +375,7 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
                 d["unplaced"] = {"reason": "the room is not placed on this level"}
                 report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
             continue
-        bw = _boundary_walls(rect, W, H)
+        bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
         declared = [w for w in (r.get("exterior_walls") or []) if w in bw] or list(bw)
         fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
 
@@ -348,7 +396,9 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
                 served.add(seg[0])
             # a porch on the south end serves the south end even where the shared wall
             # between the two runs east-west
-            for w2, run in _boundary_walls(_rect(other), W, H).items() if _rect(other) else []:
+            for w2, run in _boundary_walls(_rect(other), W, H,
+                                           env=(envs or {}).get(other["id"])).items() \
+                    if _rect(other) else []:
                 if w2 in bw:
                     served.add(w2)
 
@@ -396,7 +446,7 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
                                        "rule": "op-passage-axis"})
 
 
-def _place_windows(level_rooms, occupied, W, H, report):
+def _place_windows(level_rooms, occupied, W, H, report, envs=None):
     """Windows into the run the doors left, centred on the bay grid where a bay line falls
     inside the free space. build/geometry.py's own header says the bay module is what
     "joists span, windows centre on, the facade composes from" — and no renderer or pass
@@ -407,7 +457,7 @@ def _place_windows(level_rooms, occupied, W, H, report):
             for win in (r.get("windows") or []):
                 win["unplaced"] = {"reason": "the room is not placed on this level"}
             continue
-        bw = _boundary_walls(rect, W, H)
+        bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
         for win in (r.get("windows") or []):
             wall = win.get("wall")
             n = win.get("count") or 1
@@ -815,12 +865,13 @@ def place(plan, C=None):
                           "block the solver produced, and this plan has not been placed")
         plan["opening_report"] = report
         return plan
+    envs = envelopes(plan)
     for lv in plan["levels"]:
         rooms = [r for r in lv["rooms"]]
         occupied = {}
         _place_interior(rooms, occupied, report)
-        _place_exterior(rooms, occupied, W, H, C, report)
-        _place_windows(rooms, occupied, W, H, report)
+        _place_exterior(rooms, occupied, W, H, C, report, envs)
+        _place_windows(rooms, occupied, W, H, report, envs)
         fixture_pass(rooms, C, report, occupied)
     stair = stair_pass(plan, C, report)
     if stair:
