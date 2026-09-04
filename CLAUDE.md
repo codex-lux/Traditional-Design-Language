@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,568 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,641 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -370,6 +370,14 @@ FORBIDDEN and a lime-plaster face carrying no masonry word, so the frame-wall si
 a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Report:
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
+**Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4 Sep 2026): WP-11.1, 11.2
+and 11.3 are complete, 11.4 through 11.11 are planned.** Raised by Lucas against the workbench's own
+sheet, with the instruction to diagnose before building; the diagnosis is
+`docs/reports/tidewater-layout-diagnosis-2026-09-04.md` and all five of the phase's questions were
+ruled the same day. Reports: `docs/reports/wp-11.{1,2,3}-*.md`. **Read WP-11.3's refusal before
+proposing a score term for the axis**, and WP-11.2's cost table before quoting any fatal count on
+the Tidewater plan.
+
 **Phase 9 — the critique and the corrective revisions — is COMPLETE (2 Sep 2026): WP-9.1,
 WP-9.2, WP-9.3 (the surfaces) and WP-9.4 (the adversarial audit of the other three).**
 Lucas asked for recursive self-improvement — a critic that reads the drawn house, and a
@@ -459,6 +467,56 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 `build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
+
+- **THE SHEET NOW SAYS WHAT THE PLACEMENT GAVE UP, AND THE FIVE COUNTS WERE ALL ALREADY IN THE
+  RECORD (WP-11.1).** The plate read *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED
+  FACTS"* over a placement carrying `downgraded_wall_pins` of length SIXTEEN and `objective: null`.
+  `build/disclosures.py` is the ONE spelling of every banner line; `render_plan.py` draws them and
+  the bench renders the same list through `placement.disclosures`. **Do not add a third.** The
+  lines: declared exterior walls set aside, the objective that did not run (gated on
+  `engine == "cp-sat"` — the hill-climb's score IS its objective and a first draft published the
+  opposite about it), undrawn window units, transfer beams, a style/title disagreement, and a table
+  under the plates giving every ∗ room's declared figure. **A banner line WRAPS rather than
+  truncating** and `top` reserves per ROW, not per line: the first draft ran 160 characters off the
+  canvas edge, which is a disclosure the sheet does not make, produced by the package sent to make
+  the sheet disclose.
+- **A PLAN NAMES ITS PARTI NOW, AND THAT IS HOW THE DIAGRAM REACHES THE PLACER (WP-11.2, plan
+  schema 0.6.0).** An id, never a record, through `core.load_parti` — not a fourth copy of that
+  join. Until it, `centre-passage-double-pile`'s 9 ft module could not reach `derive_footprint` at
+  all: the CLI, the bench's drawing route and both shipped plans passed no parti, so every sheet was
+  drawn on the placer's 10 ft default. `massing_bays()` reads the massing's own `bays` (two forms
+  accepted, five prose forms refused BY NAME — `"5-7 main"` is refused because `main` is doing work)
+  and growth steps by TWO where the diagram wants a centre bay. **`build/check_plans.py` holds a
+  hand-authored plan to the parti it names**: the shipped Tidewater record had dropped two of its
+  five `stacks_over` claims and nothing could notice, because `compose.py` copies them and NOTHING
+  CHECKED A PLAN THE COMPOSER DID NOT WRITE. **The cost is stated**: the odd bay count costs about
+  three fatal findings on the hill-climb (8-seed means 6.2 → 9.2) and zero on CP-SAT, and the drawn
+  furniture along-axis ratchet went 69 → 74. **The parti's 9 ft module contradicts its own
+  exemplars** (Gunston measures 12.17 over five bays) — `oq/the-partis-bay-module-contradicts-its-own-exemplars`.
+- **A SINGLE-SEED COMPARISON OF A HILL-CLIMB NUMBER COMPARES TWO DRAWS (WP-11.2).** The first
+  before-and-after of the bay change read fatal 3 → 8 and looked decisive; at three seeds the same
+  footprints gave 3–8 and 8–10, and at eight they gave two overlapping distributions whose means
+  differ by three. `build/diagnose_sheet.py --seeds` reports every column as a spread, and
+  `--baseline` prints the six numbers every Phase 11 package is held to, on BOTH engines. WP-9.6's
+  rule (ratchet the deterministic figures, never the ones that drift) one layer up.
+- **THERE IS AN AXIS VOCABULARY NOW, AND A SCORE TERM FOR IT WAS REFUSED WITH THE MEASUREMENT
+  (WP-11.3).** `build/axis.py`: the footprint's centre line, the bay a door stands in, the mirror,
+  vertical alignment — each COULD NOT EVALUATE with a reason rather than a zero, and an EVEN bay
+  count is that state rather than a pass, because six bays have no middle bay for any door to stand
+  in. The tolerance is half a bay module, **editorial, ruled 4 Sep 2026**, marked in the field that
+  carries it. **Symmetry and alignment are REFUSED on an incomplete front** — seven undrawn window
+  units on the Tidewater plan — because convicting that facade of asymmetry charges the house twice
+  for one cause. A `centre_bay_score` was built and swept: paid at every weight, moving the winner
+  at none, and at 1,500 candidates it moves the door to the wrong side of the centre. **A door in
+  the centre bay is a property of a plan organised about an axis, not of a placement scored for
+  one.** Deleted rather than left inert at weight zero.
+- **THREE OF ONE SESSION'S OWN NEW GUARDS WERE BLIND, ALL THREE FOUND BY MUTATION AND NONE BY
+  RE-READING (WP-11.1 through 11.3).** A canvas-height comparison that held for a second reason (a
+  plan with no diverged rooms also loses a banner line); an `all(... for b in [])` over a growth
+  loop that never ran on the fixture; and a refusal test that accepted the right answer for the
+  wrong reason (delete the gable guard and the reader returns COULD NOT EVALUATE anyway, because
+  the E wall has no openings). **Assert the REASON, not only the verdict, and check the fixture
+  enters the code under test.**
 
 - **A BAKED SNAPSHOT IS NOW JUDGED AGAINST ITS OWN EXPRESSION, AND THE EVALUATOR THE QUESTION
   ASKED FOR HAD EXISTED ALL ALONG IN TWO PLACES (3 Sep 2026).**

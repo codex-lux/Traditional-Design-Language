@@ -1163,6 +1163,113 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # says which. This is the same discipline as `fault_not_applicable` -- the question did
     # not arise is a fourth state, not a pass.
     out["entrance_axis"] = axis_census
+
+    # --- THE CENTRE LINE, THE BAY THE DOOR STANDS IN, AND THE MIRROR (WP-11.3)
+    #
+    # The block above asks whether the front door lines up with the passage it opens into.
+    # This asks the questions one level out, which nothing has ever asked: is the "centre
+    # passage" in the CENTRE, is the door in the middle BAY, is the front mirrored about the
+    # axis, and does an upper opening stand over a lower one. `docs/reports/
+    # tidewater-layout-diagnosis-2026-09-04.md` B1: the sheet's centre passage was the whole
+    # WEST bay of a six-bay house, and the one executable rule the corpus has about a passage
+    # -- its width as a share of the facade -- PASSED it at 11/60 = 0.183, because that rule
+    # measures the passage's width and not its place.
+    #
+    # `build/axis.py` is the vocabulary and this is its only critic reader. It binds where the
+    # DIAGRAM asks for a centre bay (`geometry.wants_a_centre_bay`, from the massing's own
+    # stated bay count or the parti's circulation type), so a Charleston single house entered
+    # sideways off a piazza is not judged by it -- that is the corpus's own exception, in
+    # rooms/centre-passage.json, and it is why this does not simply fire on every plan.
+    AX = _load("axis", f"{ROOT}/build/axis.py")
+    GEOM = _load("geometry", f"{ROOT}/build/geometry.py")
+    ax_census = {"wants_centre_bay": False, "spine": None, "door": None,
+                 "mirror": None, "alignment": None}
+    try:
+        _parti = GEOM.parti_for(plan)
+        _massing = (C.get("massings") or {}).get(plan.get("massing") or "") or {}
+        _wants, _why = GEOM.wants_a_centre_bay(plan, _parti, _massing)
+    except Exception:
+        _wants, _why = False, None
+    ax_census["wants_centre_bay"] = bool(_wants)
+    ax_census["why"] = _why
+    if _wants:
+        sp = AX.spine(plan, 0, C)
+        ax_census["spine"] = sp["verdict"]
+        if sp["verdict"] == "off-centre":
+            _add("serious", "drawn",
+                 f'{sp["name"]} is drawn {sp["off_ft"]} ft off the footprint\'s own centre '
+                 f'line, which is more than the {sp["tol_ft"]} ft this diagram allows — '
+                 f'{_why}, and groupings/centre-passage-core.json says the passage "makes the '
+                 f'facade symmetrical because the door is now genuinely in the middle". A '
+                 f'passage that is not in the middle cannot do that.',
+                 room=sp["room"], kind="drawn-passage-off-centre",
+                 off_ft=sp["off_ft"], need_ft=sp["tol_ft"],
+                 fix="Place the through-passage on the footprint's centre line; the period's "
+                     "own off-centre passages (Westover, Wilton) move the ROOMS either side, "
+                     "not the passage.")
+
+        dr = AX.door_bay(plan)
+        ax_census["door"] = dr["verdict"]
+        if dr["verdict"] == "off-the-centre-bay":
+            _add("serious", "drawn",
+                 f'The front door stands in bay {dr["bay"] + 1} of {dr["bays"]}, not the '
+                 f'middle bay ({dr["centre_bay"] + 1}). {_why}, and a centre-door front is '
+                 f'the one move this type cannot do without: two windows either side of the '
+                 f'door is what makes the elevation read.',
+                 room=dr.get("room"), kind="drawn-door-off-the-centre-bay",
+                 fix="Bring the entrance to the middle bay, or state a diagram that does not "
+                     "put its door in the centre.")
+        elif dr["verdict"] == "could-not-evaluate" and "even count" in (dr.get("why") or ""):
+            # NOT a pass, and the loudest of the three states here: a house with an even bay
+            # count has no middle bay for any door to stand in, so the question does not
+            # arise -- because the answer was made impossible before the door was placed.
+            _add("serious", "drawn",
+                 f'This diagram wants a door in its middle bay and the front has '
+                 f'{dr.get("bays")} bays, an EVEN count with no middle bay at all. {_why}. '
+                 f'Nothing about the door can be judged: the placement removed the question.',
+                 kind="drawn-no-centre-bay",
+                 fix="An odd bay count. build/geometry.py grows by two on a diagram that wants "
+                     "a centre bay; an even count here means the lot or the program forced it.")
+
+        # SYMMETRY AND ALIGNMENT ARE JUDGED ONLY ON A COMPLETE FRONT, and that is a refusal
+        # rather than a gap. A facade missing seven of its eleven declared units is not the
+        # facade the record describes, and convicting it of asymmetry would charge the house
+        # twice for one cause -- the undrawn windows are already a disclosure of their own
+        # (WP-11.1). The census says how many plans went unjudged and why, so a check that
+        # cannot fire cannot read as a check that passed (WP-8.6).
+        mi = AX.mirror(plan, 0)
+        al = AX.alignment(plan)
+        incomplete = (mi.get("declared_but_unplaced") or 0)
+        if mi["verdict"] == "could-not-evaluate" or incomplete:
+            ax_census["mirror"] = "could-not-evaluate"
+            _add("info", "drawn",
+                 f'Facade symmetry could not be judged: {incomplete or "no"} declared window '
+                 f'unit(s) on the entrance front were not drawn, so the drawn front is not the '
+                 f'one the record describes. massings/catalog.json calls symmetry "a hard '
+                 f'constraint, not a preference" and this is a refusal to judge it on an '
+                 f'incomplete elevation, not a pass.',
+                 kind="drawn-facade-symmetry-unjudged")
+        else:
+            ax_census["mirror"] = mi["verdict"]
+            if mi["verdict"] == "not-mirrored":
+                _add("serious", "drawn",
+                     f'{len(mi["unmatched"])} of {mi["openings"]} opening(s) on the entrance '
+                     f'front have no partner reflected about the centre line. '
+                     f'massings/catalog.json: "Facade symmetry is a hard constraint, not a '
+                     f'preference."',
+                     kind="drawn-facade-unmirrored")
+        if al["verdict"] == "could-not-evaluate" or incomplete:
+            ax_census["alignment"] = "could-not-evaluate"
+        else:
+            ax_census["alignment"] = al["verdict"]
+            if al["verdict"] == "not-aligned":
+                _add("serious", "drawn",
+                     f'{al["unaligned"]} upper opening(s) on the entrance front stand over no '
+                     f'opening below. massings/catalog.json: "Window bays must align '
+                     f'vertically; a misaligned upper window is a structural admission that '
+                     f'the plan is not really Georgian."',
+                     kind="drawn-windows-unaligned")
+    out["axis"] = ax_census
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out
