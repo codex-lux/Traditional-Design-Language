@@ -445,6 +445,84 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE BROWSER WALK IS RUNNABLE IN A SESSION AND IT CATCHES WHAT THE UNIT TESTS CANNOT
+  (WP-11.2).** `workbench/app/e2e/walk.mjs` needs a built app and a live server, and this tree
+  ships no `node_modules` -- so it had never been run in a session on this branch. It runs:
+  `cd workbench/app && npm install && npm run build` (the registry is reachable),
+  `pip install uvicorn fastapi httpx`, and Chromium is already at `/opt/pw-browsers` where
+  `walk.sh` looks for it. **151 checks, about two minutes.** It was GREEN on the pristine tree and
+  RED on WP-11.2's change, on a defect 81 passing unit tests and a clean `vite build` had both
+  missed: `ReferenceError: LABEL_PAD is not defined`, a third use of a constant replaced by a
+  function, in the divergence mark for a room too small to carry its dimension string. **There was
+  no console error for the first twenty seconds** -- the throw only happens on the render that HAS
+  a placement, which arrives after an evaluate, by which time the walk had timed out on
+  `svg[role="img"]`. Instrument it with a probe that logs `pageerror` AND every `/api/` response
+  and polls for a minute; the error is there, it is just late.
+  **And `vite build` WARNS and still builds on a duplicate `style` attribute** -- React keeps the
+  last, so the drag handle's gilt stroke was silently dropped and the affordance would have gone
+  invisible. Read the build's warnings, not only its exit code.
+- **A GUARD THAT READS A SELECTOR RATHER THAN A PROPERTY GOES BLIND ON THE NEXT EDIT, AND THIS IS
+  THE FOURTH INSTANCE (WP-11.2).** `walk.mjs`'s drag-preview check filtered lines on the `stroke`
+  ATTRIBUTE containing "gilt". The pen ladder moved every stroke into `style=` -- `var(--lw-cut)`
+  does not resolve in an SVG presentation attribute, so it had to -- and `getAttribute('stroke')`
+  then returns null on every mark on the sheet: the check would have counted zero previews on a
+  working drag and passed nothing while looking green. It reads COMPUTED STYLE now, which is what
+  the pen check thirty lines below it already does and says why (WP-5.7's `stroke-width` inversion).
+  Two more in the same package: `test_every_level_plate_shares_one_top_edge` selected the plate by
+  its dark HEX and `test_the_building_outline...` selected `<rect class="wl">`, both retired by
+  WP-11.1; and this package's own new band selector over-specified the attribute ORDER and went
+  stale the moment the band gained a `data-wall`. Select on the property, and put `[^>]*?` between
+  attributes you do not control the order of.
+
+- **THE PLAN SHEET IS DRAWN IN GRAPHIC STANDARD No. 1 NOW, AND THE STANDARD WAS ALREADY WRITTEN
+  DOWN (WP-11.1).** `workbench/app/src/theme/tokens.css` has carried it verbatim since WP-5.2 --
+  cream ground, a warm graphite ink ladder, five named line weights, poche as *"a body: coal skin,
+  salmon flesh"*, letterspaced roman capitals, and *"Color names things; it never outlines them"* --
+  and `build/render_plan.py` obeyed none of its GRAMMAR while `svg_theme.py` translated its COLOURS
+  on the way to the browser. **`build/sheet_style.py` is the one spelling now**: `LIGHT`, `LW`,
+  `INK_FOR`, `POCHE`, `FACE`, `TRACK`, `DASH`, plus `DARK` for the three renderers still in the dark
+  register. **Hex literals in the four renderers: 52 -> 0**, and all ten sheets `corpus.drawing()`
+  produces hash byte-identical across that move.
+  **THE WALL IS A BODY AND NOTHING ABOUT IT IS NEW DATA**: `structure.wall_thickness(plan)` has read
+  `declared.construction_type` against `construction/wall-assemblies.json` since WP-3.1 and no
+  drawing had ever read it (Tidewater 15.5 / 11 / 4.5 in declared; the spec Colonial 8 / 5.5 / 4.5
+  **defaulted, and the sheet says so**). The envelope is drawn OUTWARD from the block because the
+  rooms tile it exactly, so the block edge is the wall's INSIDE face; interior walls are centred on
+  the shared line and therefore eat half a thickness from each room, which the schedule states on
+  every plate -- `oq/the-placement-carries-no-wall-bands`. An opening is a HOLE cut from
+  `derive_openings`' own spans, so a gap and the leaf in it cannot disagree.
+  **TWO REGISTERS, ruled 4 Sep 2026**: `presentation` (drawing and names) and `working` (dimension
+  strings, the `∗`, the `△` on the field). `render()` defaults to **working** and
+  `corpus.drawing()` to **presentation**, deliberately -- a machine that does not choose keeps every
+  disclosure (`test_measurement_honesty` counts one triangle per relaxation off a bare
+  `render(out, path)`), and the surface a PERSON reads is the clean one. Nothing is deleted by
+  either: the six banner lines are a MARGIN SCHEDULE below the border on both, wrapped to it.
+  **The scale is 13 px/ft, `--px-per-ft` from the standard**, and it is a floor rather than a taste:
+  at the old 7 a 4.5 in partition is 2.6 px of body between two 3 px cut lines.
+  **ONE TOKEN IS USED AGAINST ITS OWN NAME AND THE REASON IS SCALE**: `--poche-partition` is
+  `--sepia-pale`, which reads as a field in a large-scale DETAIL and, at plan scale, leaves under
+  two pixels of fill eight values off the vellum -- measured, a partition read as a HOLLOW TUBE
+  beside a solid exterior wall, which says something about the record that is not true. The
+  partition takes `--sepia` (the standard's own "timber & age"), a choice between named duties and
+  not a new colour; `sheet_style.POCHE.partition_large` keeps the token's own value for the
+  register it was written for.
+  **THREE GUARDS HAD SELECTORS THIS PACKAGE RETIRED AND ALL THREE WOULD HAVE PASSED VACUOUSLY** --
+  the plate-top check selected the paper ground BY ITS DARK HEX (the ground is gone; the plate
+  states `data-plate-top` now), the per-element outline check read `<rect class="wl">`, and the
+  palette-totality check scanned four renderer sources that now hold no hex at all. **And widening
+  that last one opened a hole a mutation found: `LIGHT` vouched for itself**, so
+  `"smuggled": "#123456"` in it passed. `test_the_light_register_quotes_the_standard_and_does_not_
+  invent_it` holds every `LIGHT` value against `tokens.css`. Report:
+  `docs/reports/wp-11.1-the-sheet-in-its-own-standard.md`.
+- **A SCREENSHOT WHOSE WINDOW IS EXACTLY THE CANVAS SIZE LIES ABOUT THE BOTTOM OF THE SHEET
+  (WP-11.1).** Rasterising the new sheet at `--window-size=W,H` for the SVG's own W and H showed the
+  title block truncated after two of six lines, and two crops agreed. Every line was in the file, at
+  the right `y`, inside the viewBox -- `getBoundingClientRect()` in the page put all six exactly
+  where the renderer had -- and the missing 60 px were the page's own body margin pushing the
+  document down. **Twenty minutes went into a defect that was not in the drawing.** Shoot with
+  padding, and measure the drawing (`getBBox`, `getBoundingClientRect`, a pixel profile) before
+  believing a picture of it.
+
 - **A BAKED SNAPSHOT IS NOW JUDGED AGAINST ITS OWN EXPRESSION, AND THE EVALUATOR THE QUESTION
   ASKED FOR HAD EXISTED ALL ALONG IN TWO PLACES (3 Sep 2026).**
   `oq/a-baked-pack-value-is-a-second-delivery-path` said 143 kit parameters carry both an `expr`
@@ -1580,8 +1658,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **131 entries, of which 50 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **132 entries, of which 51 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

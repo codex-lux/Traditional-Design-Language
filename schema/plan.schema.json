@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
   "required": [
@@ -589,6 +589,43 @@
               }
             }
           }
+        },
+        "wall": {
+          "type": "object",
+          "description": "0.5.1 (WP-11.2). The wall assembly this house is built of, written by build/openings.py::place from build/assemblies.py::wall_thickness, which reads the plan's own declared.construction_type against construction/wall-assemblies.json. It is on the record so the two renderers read ONE number: workbench/app/src/sheet/derive.js carried WALL_T = 0.75 and PART_T = 0.42, two literals matching no assembly in the catalogue, while build/render_plan.py drew no wall body at all. The figures are `conventional` typical construction data and not a period source -- the catalogue's own $comment says so -- and `note` states when the type was DEFAULTED rather than declared, which every consumer is expected to print rather than swallow.",
+          "properties": {
+            "construction_type": {
+              "type": "string"
+            },
+            "bearing": {
+              "type": "string"
+            },
+            "exterior_in": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "bearing_interior_in": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "partition_in": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "note": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "description": "Why this assembly rather than the declared one, when it was not declared."
+            }
+          },
+          "required": [
+            "construction_type",
+            "exterior_in",
+            "bearing_interior_in",
+            "partition_in"
+          ]
         }
       }
     },

@@ -434,9 +434,25 @@ const handleLive = await (async () => {
   await page.mouse.move(h.x, h.y);
   await page.mouse.down();
   await page.mouse.move(h.x + 30, h.y, { steps: 6 });
-  const preview = await page.evaluate(() => [...document.querySelectorAll('line')]
-    .filter((l) => (l.getAttribute('stroke') || '').includes('gilt')
-      && l.getAttribute('stroke-dasharray')).length);
+  // COMPUTED STYLE, NOT THE ATTRIBUTE. The sheet's stroke widths moved onto the pen ladder
+  // (`sheet/pen.js`), and `var(--lw-cut)` does not resolve inside an SVG presentation
+  // attribute -- so every mark states its weight and its ink in `style=` now and
+  // `getAttribute('stroke')` returns null on all of them. Reading the attribute here would
+  // have made this check count zero previews on a working drag: a guard that reads a
+  // selector rather than a property is this repository's most-repeated way of going blind,
+  // and the pen check thirty lines below carries the same lesson in its own comment.
+  const preview = await page.evaluate(() => {
+    const toRGB = (hex) => {
+      const h = hex.replace('#', '');
+      const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+      return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+    };
+    const gilt = toRGB(getComputedStyle(document.documentElement)
+      .getPropertyValue('--gilt-deep').trim());
+    return [...document.querySelectorAll('line')]
+      .filter((l) => getComputedStyle(l).stroke === gilt
+        && l.getAttribute('stroke-dasharray')).length;
+  });
   const panned = await scrollPos();
   await page.mouse.move(h.x, h.y, { steps: 4 });
   await page.mouse.up();

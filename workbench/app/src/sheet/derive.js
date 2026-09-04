@@ -23,8 +23,40 @@
    wall by rule: doors take their position first, windows are distributed into what is
    left, and a window with nowhere to go is reported rather than drawn on top. */
 
-export const WALL_T = 0.75;      // exterior wall thickness drawn (poché band)
-export const PART_T = 0.42;      // partition thickness drawn
+/* THE WALL COMES FROM THE RECORD, AND THESE TWO ARE WHAT IT REPLACED.
+
+   `WALL_T = 0.75` and `PART_T = 0.42` were literals — 9 in of envelope and 5 in of
+   partition, a house convention rather than a reading, and matching NO assembly in
+   `construction/wall-assemblies.json`. The Tidewater plan declares `solid-masonry-two-wythe`,
+   which is 15.5 in and 4.5 in; the spec Colonial declares nothing and takes platform frame's
+   8 in and 4.5 in, which the sheet has to SAY rather than assume.
+
+   `build/openings.py::place` writes `footprint.wall` (plan schema 0.5.1) from
+   `build/assemblies.py::wall_thickness`, which reads the plan's own
+   `declared.construction_type`. `wallOf()` below is the one reader.
+
+   The fallback is kept and is NOT silent: a record placed before 0.5.1 carries no assembly,
+   and a sheet that quietly drew 9 in on it would be inventing the thing this change removed.
+   `wallOf` returns `stated: false` and the plate says so. */
+export const WALL_FALLBACK = { exterior_ft: 0.75, bearing_ft: 0.55, partition_ft: 0.42 };
+
+export function wallOf(footprint) {
+  const w = (footprint || {}).wall;
+  if (!w || !(w.exterior_in > 0)) return { ...WALL_FALLBACK, stated: false, note: null };
+  return {
+    exterior_ft: w.exterior_in / 12,
+    bearing_ft: (w.bearing_interior_in || w.exterior_in) / 12,
+    partition_ft: (w.partition_in || w.exterior_in) / 12,
+    stated: true,
+    type: w.construction_type,
+    note: w.note || null,
+  };
+}
+
+/* Kept so a caller that has no placement still has a number, and so `partitions()` keeps its
+   old signature. Every DRAWN thickness goes through `wallOf`. */
+export const WALL_T = WALL_FALLBACK.exterior_ft;
+export const PART_T = WALL_FALLBACK.partition_ft;
 
 /* The reveal either side of a leaf. A door is not its leaf: it is the leaf, the jambs it
    hangs in and the lining round them, and a wall run that cannot hold all three cannot
@@ -107,7 +139,7 @@ export function sharedEdge(a, b, tol = 0.4) {
 
 /* Interior partition segments: each room edge not on the footprint boundary, deduped.
    Returned as rects (model feet) centred on the shared line. */
-export function partitions(rooms, W, H, tol = 0.6) {
+export function partitions(rooms, W, H, tol = 0.6, t = PART_T) {
   const segs = [];
   const seen = new Set();
   const key = (x0, y0, x1, y1) =>
@@ -125,8 +157,8 @@ export function partitions(rooms, W, H, tol = 0.6) {
       if (seen.has(k)) continue;
       seen.add(k);
       segs.push(e.horiz
-        ? { x: e.x0, y: e.y0 - PART_T / 2, w: e.x1 - e.x0, h: PART_T }
-        : { x: e.x0 - PART_T / 2, y: e.y0, w: PART_T, h: e.y1 - e.y0 });
+        ? { x: e.x0, y: e.y0 - t / 2, w: e.x1 - e.x0, h: t }
+        : { x: e.x0 - t / 2, y: e.y0, w: t, h: e.y1 - e.y0 });
     }
   }
   return segs;

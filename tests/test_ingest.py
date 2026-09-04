@@ -172,7 +172,12 @@ def test_provenance_validates_and_gates_method():
     # carries an optional `block`, and `footprint` an optional `blocks` -- both additive, so the
     # footprint scalars still describe the main block and every existing reader is untouched. This
     # pin did its job and caught the bump, which is the whole reason it names the current version.
-    assert schema["version"] == "0.5.0"
+    # 0.5.1 (WP-11.2, 4 Sep 2026): `footprint.wall` -- the assembly the house is built of, from its
+    # own `declared.construction_type`, written by openings.place so BOTH renderers read one number
+    # instead of the two literals derive.js carried. Additive, and stripped with the rest of the
+    # footprint by `strip_placement`, so the DXF round trip returns the authored record unchanged.
+    # It caught the bump again, which is exactly what naming the current version is for.
+    assert schema["version"] == "0.5.1"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

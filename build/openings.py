@@ -807,6 +807,16 @@ def place(plan, C=None):
     fp = plan.get("footprint") or {}
     W = fp.get("width_ft")
     H = fp.get("depth_ft")
+    # THE WALL ASSEMBLY GOES ONTO THE RECORD, so both renderers read one number instead of
+    # each carrying its own. `workbench/app/src/sheet/derive.js` had `WALL_T = 0.75` and
+    # `PART_T = 0.42` -- two literals, a house convention rather than a reading, and neither
+    # of them any house in this corpus: the Tidewater plan declares solid masonry two wythe,
+    # which is 15.5 in of envelope and 4.5 in of partition. `build/assemblies.py` is a LEAF
+    # for exactly this reason (see its header, and build/storeys.py's before it): the drawing
+    # needs the number and `structure.py` cannot give it without closing an import cycle.
+    if W and H:
+        fp["wall"] = _mod("assemblies", os.path.join(ROOT, "build", "assemblies.py")) \
+            .wall_thickness(plan)
     report = {"placed": 0, "unplaced": [], "offset": [], "axis": [],
               "windows_placed": 0, "windows_unplaced": 0,
               "fixtures_placed": 0, "fixtures_unplaced": 0}

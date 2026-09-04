@@ -710,8 +710,13 @@ def job_revised_plan(job_id: str):
 def drawings(kind: str, request: Request, body: dict = Body(...)):
     _heavy(request)
     plan = _plan(body)
+    register = body.get("register") or "presentation"
+    if register not in ("presentation", "working"):
+        raise HTTPException(status_code=422,
+                            detail={"error": "register must be 'presentation' or 'working'",
+                                    "got": str(register)[:40]})
     res = corpus.drawing(kind, plan, parti=body.get("parti"), face=body.get("face"),
-                         candidates=_candidates(body))
+                         candidates=_candidates(body), register=register)
     if "error" in res:
         raise HTTPException(status_code=422, detail=res)
     return res
