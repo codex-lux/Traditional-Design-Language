@@ -1,0 +1,52 @@
+{
+  "id": "carlos-vierra-house",
+  "name": "Carlos Vierra House",
+  "location": {
+    "text": "1002 Old Pecos Trail, Santa Fe, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1918-1922",
+    "circa": false,
+    "note": "The National Register nomination for the B. J. O. Nordfeldt House, read the same day, says 'Vierra designed and built his personal residence between 1918 and 1922'; the county list gives no date. The exemplar year is 1922."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Santa_Fe_County,_New_Mexico",
+      "title": "National Register of Historic Places listings in Santa Fe County, New Mexico - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Entry 96: 'Carlos Vierra House | August 3, 1979 (#79001554) | 1002 Old Pecos Trail ... | Santa Fe | Former residence of artist Carlos Vierra, an early example of Pueblo Revival architecture in Santa Fe.' The house's own article title answered 404."
+    },
+    {
+      "kind": "nrhp",
+      "id": "79001554",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Santa_Fe_County,_New_Mexico",
+      "title": "NRHP #79001554, listed August 3, 1979 (as the county list prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nmhistoricpreservation.org/assets/files/cprc-pending-nominations/NM_Santa%20Fe%20County_NordfeldtHouse.pdf",
+      "title": "National Register of Historic Places Registration Form (B. J. O. Nordfeldt House), New Mexico Historic Preservation Division",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Its account of this house: Vierra's 'devotion to Pueblo prototypes inspired terraced forms ... but his house is also \"a typical suburban home of the era, complete with a two-car garage, four baths, a concrete basement housing modern utilities, and the standard separation of public rooms on the ground floor from the private bedrooms above.\"'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Carlos_Vierra",
+      "title": "Carlos Vierra - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The first houses in 1925 and 1926 that John Gaw Meem designed show a clear debt to his mentor, Carlos Vierra.'"
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the style's first domestic statement, by the painter who sat on the committee the node describes. No HABS record was found (the loc.gov search for Pueblo Revival houses in Santa Fe or Albuquerque naming Meem or Vierra returned only the Scottish Rite Temple's data page, which mentions the 1915 New Mexico Building)."
+}

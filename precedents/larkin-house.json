@@ -1,0 +1,149 @@
+{
+  "id": "larkin-house",
+  "name": "Larkin House",
+  "aka": [
+    "Thomas O. Larkin House"
+  ],
+  "location": {
+    "text": "464 Calle Principal, Monterey, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1834-1837",
+    "circa": false,
+    "altered": "The survey records the south balcony added in 1891, the southwest corner altered and glass-enclosed about 1905, and Mrs. Alice Larkin Toulmin's restoration-and-modernisation (servants' quarters, powder room, bathrooms, a second-floor hall). An exterior boxed-in stairway on the south wall was removed.",
+    "note": "The survey says 'built between 1834 and 1837'; the style node's exemplar says 1835 and its prose 'built the first of them at Monterey in 1835'. The node's year sits inside the survey's span."
+  },
+  "nodes": [
+    "monterey-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-128",
+      "title": "Larkin House, 464 Calle Principal, Monterey, Monterey County, CA",
+      "url": "https://www.loc.gov/pictures/item/ca0394",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'The Larkin House, built between 1834 and 1837, was Monterey's first recorded two-story adobe ... HABS CA-128'. The data page prints 'Cal-128'. The Wikipedia external-links line gives '13 photos, 16 measured drawings, 7 data pages, supplemental material'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0394",
+      "url": "https://www.loc.gov/pictures/item/ca0394",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Larkin_House",
+      "title": "Larkin House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000215",
+      "url": "https://en.wikipedia.org/wiki/Larkin_House",
+      "title": "NRHP reference No. 66000215; added October 15, 1966; designated NHL December 19, 1960; contributing property of the Monterey Old Town Historic District (ID70000137) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "106",
+      "url": "https://en.wikipedia.org/wiki/Larkin_House",
+      "title": "California Historical Landmark No. 106, designated March 29, 1933 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca0394",
+    "survey_no": "CA-128",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0300/ca0394/data/ca0394data.pdf",
+    "prepared": "No author or date line legible in the extract; the owner line reads 'Mrs. Alice Larkin Touljnin - Deeded to State of California' and the sheet is headed 'Thomas O. Larkin House H.A.B.S.'",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Exterior - The Larkin House is approximately k6t~6\" wide and 52,-6\" long.",
+        "page": "The running marker 'Cal-128 5' is printed a few lines below, inside the walls paragraph."
+      },
+      {
+        "field": "foundations",
+        "text": "The foundations are probably rough stone which is common to this area.",
+        "page": "Cal-128 5 (same span)."
+      },
+      {
+        "field": "walls",
+        "text": "The walls are load bearing sun dried adobe bricks of a general measurement of 11\" by 2hu thick where it was possible to check dimensions. However, judging from the varying thickness of measured walls it is possible that there may be bricks of other sizes or that some of the walls may be filled with rubble stone and an adobe brick and plaster finish. All the exterior walls, except the southeast garden entrance wall, were plastered with adobe plaster and painted. The bond was not Cal-128 5 CA'J 1\" evident. A native stone called chalk rock is used in the garden entrance vail. The exterior terraces are brick \"but originally were pise de terre (rammed earth).",
+        "page": "Cal-128 5 (the marker is printed in the middle of this span, as quoted)."
+      },
+      {
+        "field": "porches",
+        "text": "The balconies are supported by 6\" square irregularly spaced wood columns. The south balcony was added in 1891 and the southwest corner was altered and glass enclosed in approxi- mately 1905. It is supported on irregularly spaced columns, which are less refined in design than the framework of the north and east balconies. The balcony flooring is 1\" by 8\" wood plank.",
+        "page": "Cal-128 5 or the page after it; no further marker in the span."
+      },
+      {
+        "field": "openings",
+        "text": "There are four original exterior door openings on the first floor. They are the double door opening on the north wall, the two single door openings on the east wall and the single opening nearest the southeast corner of the south wall. The door openings on the north and east wall of the second floor are considered original. All the second story openings open onto the balcony. The doors in these openings vary from three to six lights and are wood paneled in the lower half. There are five exterior screen doors of later addi- tion. The windows of both stories are fitted with double hung redwood sash and vary from twenty to twenty-four lights. There are two windows in the north wall which are protected by iron grilles which were a later addition.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "roof",
+        "text": "The roof is a simple hip roof with the sides extended in gable form to cover the exterior balconies. The balconies have a simple flat wood facia with modern gutters attached. The roof is cedar shingles.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "plan",
+        "text": "Interior - The plan of the building is a basic adobe plan with room to room circulation. (Additions have changed two of the interior door openings on the second floor). All JB&$or rooms on both floors have access to exterior circulation. The Larkin House has an interior wood stairway raising from the entrance hall.",
+        "page": "No page marker legible in the extract span; the search result for the same PDF places the stairway sentence at 'Cal-128 Page 6'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "k6t~6\" wide",
+      "value": 46.5,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR; read as 46'-6\". A reading."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "52,-6\" long",
+      "value": 52.5,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR; read as 52'-6\". A reading."
+    },
+    {
+      "name": "adobe_brick_thickness_in",
+      "as_printed": "11\" by 2hu thick",
+      "value": 24,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "OCR; '2hu' read as 24\", so the brick, and the wall it makes, is 24 in through. A reading -- the sentence itself says other sizes may exist."
+    },
+    {
+      "name": "balcony_column_size_in",
+      "as_printed": "6\" square irregularly spaced wood columns",
+      "value": 6,
+      "unit": "in",
+      "from_quote": 3
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "vary from twenty to twenty-four lights",
+      "value": 20,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The lower bound of the band the survey states, per sash."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. Worth carrying: the survey says the balconies 'are supported by 6\" square irregularly spaced wood columns', on the house the style node calls the type's 'clearest statement' -- while the node's prose says the defining balcony is cantilevered 'with no posts reaching the ground' and that a balcony on posts 'belongs to the Hispanic tradition or to the twentieth-century revival'. The survey also gives twenty-to-twenty-four-light sash against the node's 'double-hung six-over-six sash', and a 24 in adobe wall, which sits at the bottom of the node's 24-30 in band."
+}

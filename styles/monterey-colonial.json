@@ -216,25 +216,55 @@
       "name": "Larkin House",
       "location": "464 Calle Principal, Monterey, California",
       "year": 1835,
-      "note": "Built by Thomas Oliver Larkin, United States consul; generally identified as the first house of the type and its clearest statement — adobe below, New England frame above, cantilevered balcony on two sides, shingle hip roof. National Historic Landmark."
+      "note": "Built by Thomas Oliver Larkin, United States consul; generally identified as the first house of the type and its clearest statement — adobe below, New England frame above, cantilevered balcony on two sides, shingle hip roof. National Historic Landmark.",
+      "precedent": "larkin-house",
+      "standing": "icon",
+      "why": "The node's own 'first house of the type and its clearest statement', and the survey (HABS CA-128) is where the type's figures live -- 46'-6\" by 52'-6\", 24 in adobe, cedar-shingled hip, interior stair from an entrance hall -- though it also records balconies 'supported by 6\" square ... wood columns', which the node's cantilever test would have to answer."
     },
     {
       "name": "Casa Amesti",
       "location": "516 Polk Street, Monterey, California",
       "year": 1834,
-      "note": "Contemporary with or slightly earlier than the Larkin House; the question of priority between the two is not fully settled and the type is better dated c. 1834–35 than to a single building."
+      "note": "Contemporary with or slightly earlier than the Larkin House; the question of priority between the two is not fully settled and the type is better dated c. 1834–35 than to a single building.",
+      "precedent": "casa-amesti",
+      "standing": "canonical",
+      "why": "Cardwell's 1956 survey (HABS CA-143) is the best written account of a Monterey adobe in this set -- 41 1/2 by 84 ft, common-bond adobe, French doors to the balconies, hip roof gabled out over them -- and it reads the two-storey form as later than 1834, which is the priority question the node's own note leaves open."
     },
     {
       "name": "Cooper-Molera Adobe",
       "location": "Polk and Munras, Monterey, California",
       "year": 1827,
-      "note": "Begun 1827 for Captain John Rogers Cooper, a New England shipmaster, and enlarged through the 1830s and 40s; shows the transition from Californio adobe to the Monterey type within one building."
+      "note": "Begun 1827 for Captain John Rogers Cooper, a New England shipmaster, and enlarged through the 1830s and 40s; shows the transition from Californio adobe to the Monterey type within one building.",
+      "precedent": "cooper-molera-adobe",
+      "standing": "canonical",
+      "why": "The node's own note names it for showing the transition from Californio adobe to the Monterey type within one building, and the National Trust, its owner, describes the compound -- two adobe houses, store, warehouse and barns inside an adobe wall on two and a half acres -- that makes it a type specimen of the merchant's establishment; its HABS record is photographs only."
     },
     {
       "name": "Rancho Petaluma Adobe",
       "location": "Petaluma, Sonoma County, California",
       "year": 1836,
-      "note": "Mariano Vallejo's ranch headquarters, the largest surviving Monterey-type building — a two-storey adobe with a continuous upper balcony around a courtyard."
+      "note": "Mariano Vallejo's ranch headquarters, the largest surviving Monterey-type building — a two-storey adobe with a continuous upper balcony around a courtyard.",
+      "precedent": "rancho-petaluma-adobe",
+      "standing": "canonical",
+      "why": "The Library's own item record calls it 'the largest existing example of domestic adobe architecture in the United States', and its survey (HABS CA-38-1, nineteen data pages) is the one on this node that states wall thickness (up to 3 ft), wall height (23 ft) and the 20 ft wing the verandah wraps."
+    },
+    {
+      "name": "Casa Soberanes",
+      "location": "336 Pacific Street, Monterey, California",
+      "year": 1838,
+      "note": "The Estrada-Soberanes adobe, built by Jose Estrada in the later 1830s on the survey's dating (Wikipedia says 1842 and Rafael Estrada): a long, low two-storey house with thirty-three-inch walls at the base and a balcony-veranda across the east front. The main roof is cantilevered over the veranda on rafter extensions, and the balcony carries no posts, which is why its roof is shingle over the balcony and tile elsewhere -- the tile would have been too heavy to carry beyond the wall. California Historical Landmark No. 712; HABS CA-1892.",
+      "precedent": "casa-soberanes",
+      "standing": "documentary",
+      "why": "The surveyed plain example whose survey (HABS CA-1892) states a wall thickness and describes the cantilevered veranda roof, so the node's own definition of the type -- a balcony that floats -- is held to a measured building rather than to the Larkin House, whose survey says its balconies stand on columns."
+    },
+    {
+      "name": "Los Cerritos Ranch House",
+      "location": "4600 Virginia Road, Long Beach, California",
+      "year": 1844,
+      "note": "John Temple's 'two-story Monterey-style adobe', built in 1844 as the headquarters of his cattle operation on the Rancho Los Cerritos grant (the site's own account) -- the type carried to the Los Angeles basin. The site's collection notes say the flat roof is the Spanish Colonial feature and the two storeys the Monterey one, that the south wing still had its flat roof in an 1872 photograph, and that the courtyard was extensively remodelled in the 1930s by architect Kenneth Wing. National Historic Landmark and California Historical Landmark No. 978; no HABS record was found.",
+      "precedent": "los-cerritos-ranch-house",
+      "standing": "regional",
+      "why": "The southern outlier, for a node whose geography names 'Los Angeles and Santa Barbara' and whose four exemplars all stand north of Salinas; the owner calls it a two-storey Monterey-style adobe and the register a National Historic Landmark (1970), and nothing here has been measured by a survey."
     }
   ],
   "sources": [

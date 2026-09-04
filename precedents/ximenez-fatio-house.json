@@ -1,0 +1,169 @@
+{
+  "id": "ximenez-fatio-house",
+  "name": "Ximenez-Fatio House",
+  "aka": [
+    "Ximénez-Fatio House"
+  ],
+  "location": {
+    "text": "22 Aviles Street, St. Augustine, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "1797-1802",
+    "circa": false,
+    "altered": "The survey, quoting Manucy, records 'rather drastic enlargement' for a growing family: a two-storey rear ell whose second storey is frame with clapboarding and matched boarding.",
+    "note": "The Wikipedia infobox prints 'Built 1797-1802'; the survey's general statement quotes Manucy's 'Built in the early 1800's'. The node year is taken from the infobox."
+  },
+  "nodes": [
+    "spanish-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "FL-116",
+      "title": "Ximenez-Fatio House, 22 Aviles Street, Saint Augustine, St. Johns County, FL",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0200/fl0205/data/fl0205data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's running header prints 'XIMENEZ-FATIO HOUSE HABS No. FLA-116 (Page 11)' (older state abbreviation); the Wikipedia external-links line gives '6 photos, 13 measured drawings, 12 data pages, supplemental material'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "fl0205",
+      "url": "https://www.loc.gov/resource/hhh.fl0205.sheet?sp=1&st=image",
+      "title": "Ximenez-Fatio House, 22 Aviles Street, Saint Augustine, St. Johns County, FL -- Drawings from Survey HABS FL-116",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ximenez-Fatio_House",
+      "title": "Ximenez-Fatio House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73002135",
+      "url": "https://en.wikipedia.org/wiki/Ximenez-Fatio_House",
+      "title": "NRHP reference No. 73002135; added July 25, 1973 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "fl0205",
+    "survey_no": "FL-116",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0200/fl0205/data/fl0205data.pdf",
+    "prepared": "No author or date line in the extract spans; the description cites Albert Manucy, The Houses of St. Augustine, 1565-1821 (1962), and the house is kept by the Colonial Dames.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "[Second Spanish Period, 1784-1821] is the town house long associated with the Fatio family. Built in the early 1800'a, it plainly shows the influence of Spaniard^ English and American - as well as a growing family which caused rather drastic enlargement.\" [Albert Manucy, The Houses of St. Augustine, 1565-1821 (St. Augustine, Florida: St. Augustine Historical Society, 1962), p. 46.] 2. Condition of fabric: Well maintained as an historic house museum by the Colonial Dames.",
+        "page": "Part II.A; precedes '(Page 7)'."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Number of stories: Two-and-a-half stories, with two- story rear ell. 2. Number of bays: Six-bay front by seven bays (including rear ell). 3. Over-all dimensions: 50'-9 1/8\" (front) x 30'-11\" (main block); 15'-7 1/2\" x 50'-10 7/8\" (rear ell).",
+        "page": "Part II.B.1-3; precedes 'XIMENEZ-F.ATIO HOUSE HABS No. KLA-116 (Page 7)'."
+      },
+      {
+        "field": "walls",
+        "text": "The rear ell's second story is of frame construction with clapboarding on the south side (Cadiz Street) and matched board siding on the rear (west side). This second story of the rear ell has a plastered wall surface on the north side (under the gallery, which gives access to the four rooms). Generally the exterior surface of the house is painted a light buff-cream color. 7. Structural system, framing: Interior partitions appear to be of both frame and masonry or tabby construction.",
+        "page": "HABS No. FLA-116 (Page 7)"
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows and shutters: Six-over-nine light, double- hung, wooden sash set in simple molded wooden frames. The exception to this is a six-over-six light, double-hung, wooden sash, in the wall, which protects one side of the loggia stairway. With one exception, there are no exterior shutters. (On the north side of the main section of the house there is an exterior, louvered, wooden shutter).",
+        "page": "Part II.B.10.b; no page marker legible in the extract span."
+      },
+      {
+        "field": "stairways",
+        "text": "2. Stairways: There are two staircases. Both are essen- tially exterior - one in the loggia, and one at the rear of the gallery. a. Main stairway: Three-run, closed-string, open-newel, wooden stair with turned wooden balusters (three per tread), molded handrails, and turned newel posts.",
+        "page": "Part II.C.2; no page marker legible in the extract span."
+      },
+      {
+        "field": "plan",
+        "text": "Of course, the main struc- ture in this case was a variation of the \"St, Augustine plan\" (p. 55): it had a \"loggia (open-sided room) as an integral part of the plan, centered on the side [the rear, in this case].\" The second-floor plan is similar.",
+        "page": "Part II.C.1; no page marker legible in the extract span."
+      },
+      {
+        "field": "dependencies",
+        "text": "2. Outbuildings: A rectangular (33'-ll\" x 14'-3\") kitchen ^s'^b^ building with two rooms is located In the garden to the !£' northwest of the main structure. (The rear wall of this kitchen is almost in line with the rear [west] wall of the rear ell - only three feet from the ell's gallery.) The tabby and/or coquina structure , which, may predate the main building, is plastered and painted the same buff- cream color as the house.",
+        "page": "HABS No. FLA-116 (Page 11)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "50'-9 1/8\" (front)",
+      "value": 50.76,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "30'-11\" (main block)",
+      "value": 30.92,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "rear_ell_width_ft",
+      "as_printed": "15'-7 1/2\"",
+      "value": 15.63,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "rear_ell_length_ft",
+      "as_printed": "50'-10 7/8\" (rear ell)",
+      "value": 50.91,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "Six-bay front",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two-and-a-half stories",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two storeys and an attic storey, as the survey counts it."
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "Six-over-nine light",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Six over nine; the total per sash."
+    },
+    {
+      "name": "kitchen_length_ft",
+      "as_printed": "33'-ll\"",
+      "value": 33.92,
+      "unit": "ft",
+      "from_quote": 6,
+      "note": "OCR 'll' for 11; a reading."
+    },
+    {
+      "name": "kitchen_width_ft",
+      "as_printed": "14'-3\"",
+      "value": 14.25,
+      "unit": "ft",
+      "from_quote": 6
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the well-documented plain St. Augustine example (12 HABS data pages, 13 drawings) beside the Oldest House: the rear loggia 'St. Augustine plan' the node's Florida branch turns on, stated by the survey in Manucy's words."
+}

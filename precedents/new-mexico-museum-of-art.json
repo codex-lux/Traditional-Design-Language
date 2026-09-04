@@ -1,0 +1,39 @@
+{
+  "id": "new-mexico-museum-of-art",
+  "name": "New Mexico Museum of Art (Museum of Fine Arts)",
+  "aka": [
+    "Museum of Fine Arts",
+    "Museum of New Mexico Art Gallery"
+  ],
+  "location": {
+    "text": "Santa Fe, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1915-1917",
+    "circa": false,
+    "note": "The style node's exemplar says 'Rapp, Rapp & Hendrickson, 1915-17' and gives 1917; Wikipedia says established 1917, architect Isaac Rapp, at 107 West Palace Avenue, and that it 'was given its current name in 2007, having previously been referred to as The Museum of Fine Arts'."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/New_Mexico_Museum_of_Art",
+      "title": "New Mexico Museum of Art - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://sandiegohistory.org/archives/amero/newmex",
+      "title": "History of the Balboa Park Club / New Mexico Building in Balboa Park - San Diego History Center",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The San Diego side of the pairing: Hewett 'chose Rapp to duplicate the design of the San Diego building for the Santa Fe Museum of Fine Arts', and 'If people in San Diego want to see what the Balboa Park building looked like in 1915, they should go to Santa Fe where its twin exists in unblemished splendor!'"
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. No register number is asserted: the Wikipedia article carries no NRHP infobox, and the one search for a listing ('\"Museum of Fine Arts\" Santa Fe 1917 Rapp \"National Register\" OR \"State Register\" contributing Santa Fe Historic District', over wikipedia.org / nps.gov / nmhistoricpreservation.org / sah-archipedia.org / nmartmuseum.org) returned nothing on the building. The Palace of the Governors infobox names the Santa Fe Historic District as ID73001150; whether the museum is a contributing property was not verified. No HABS record was found."
+}

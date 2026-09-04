@@ -1,0 +1,39 @@
+{
+  "id": "cristo-rey-church",
+  "name": "Cristo Rey Church",
+  "aka": [
+    "Cristo Rey Parish"
+  ],
+  "location": {
+    "text": "1120 Canyon Road, Santa Fe, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1939-1940",
+    "circa": false,
+    "note": "Wikipedia: 'commissioned by Archbishop of Santa Fe Rudolph Gerken in 1939 and completed in 1940'; the Meem works list prints 'Cristo Rey Church, Santa Fe (1939)'. The exemplar year is 1940."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cristo_Rey_Church",
+      "title": "Cristo Rey Church - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'claimed by some sources to be the largest adobe building in the United States'; 'requiring 150,000–200,000 individual adobes'; 'built from adobe, though it is supported by a hidden steel frame rather than relying completely on traditional building techniques'; 'The ceiling is supported on massive, corbeled vigas'. A title with the '(Santa Fe, New Mexico)' disambiguator answered 404."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/80fbeeb6-071f-4f1f-a785-46c1ad74648d",
+      "title": "National Register of Historic Places Multiple Property Documentation, 'Buildings Designed by John Gaw Meem, 1925-1959' (NPGallery)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'In 1939, he received two church commissions in Santa Fe ... The latter stands as one of Meem's notable achievements.' The MPS cover document, not an individual nomination; whether the church is individually listed was not established."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the largest thing the style ever built in real adobe -- and, on Wikipedia's account, on a hidden steel frame, which is the 'stucco over ... wood frame' half of the node's own vocabulary at church scale. No register number and no HABS record were found."
+}

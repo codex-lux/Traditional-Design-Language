@@ -1,0 +1,109 @@
+{
+  "id": "painted-desert-inn",
+  "name": "Painted Desert Inn",
+  "aka": [
+    "Stone Tree House"
+  ],
+  "location": {
+    "text": "Petrified Forest National Park, Apache County, Arizona",
+    "country": "United States",
+    "state": "Arizona"
+  },
+  "dates": {
+    "built": "1937-1940",
+    "circa": false,
+    "altered": "Incorporates the walls of Herbert Lore's earlier stone-and-petrified-wood inn, of which 'About 50% of the walls were rebuilt when the lodge was constructed in 1939-40'; redecorated in 1947 by Mary Colter for the Fred Harvey Company with murals by Fred Kabotie (survey).",
+    "note": "The survey's own section heading is 'Painted Desert Inn, 1937-1940' and its drawings were approved January 15, 1937; the Wikipedia infobox names the architects as Lyle E. Bennett and Mary Jane Colter. The exemplar year is 1940."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "AZ-161",
+      "title": "Painted Desert Inn, Navajo, Apache County, AZ",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0200/az0292/data/az0292data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's running header prints 'PAINTED DESERT INN HABS NO. AZ-161 (Page 2)'. A second Library item, az0365 'Painted Desert Inn, Residence 76', surfaced in the same search and was not opened."
+    },
+    {
+      "kind": "loc-item",
+      "id": "az0292",
+      "url": "https://www.loc.gov/pictures/item/az0292",
+      "title": "Painted Desert Inn, Navajo, Apache County, AZ - Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Library's own significance line, as the search result prints it: 'The Painted Desert Inn is a pueblo revival structure perched on the rim of the Painted Desert in Arizona's Petrified Forest National Park.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Painted_Desert_Inn",
+      "title": "Painted Desert Inn - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "87001421",
+      "url": "https://en.wikipedia.org/wiki/Painted_Desert_Inn",
+      "title": "NRHP reference No. 87001421; added May 28, 1987; designated NHL May 28, 1987 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "az0292",
+    "survey_no": "AZ-161",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0200/az0292/data/az0292data.pdf",
+    "prepared": "No author line in the extract spans; the report has a table of contents (I. Introduction ... V. Painted Desert Inn, 1940-1947) and quotes a December 1974 NPS Western Region evaluation by Robert M. Cox, Gordon S. Chappell, Roger E. Kelly and Thomas D. Mulhern, Jr.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "on the site into a combined restaurant, hotel, trading post, and museum. NPS architect Lyle E. Bennett, influenced by southwestern vernacular architecture, designed the building. In 1947 the Fred Harvey Company, which assumed operation of the concession, brought in its own designer, Mary Colter, to redecorate, and hired Fred Kabotie, a Hopi Indian, to paint murals in the lunch room and dining room.",
+        "page": "Immediately precedes the marker 'PAINTED DESERT INN HABS NO. AZ-161 (Page 2)'."
+      },
+      {
+        "field": "walls",
+        "text": "These walls were constructed of basalt boulders and petrified wood laid up in mud mortar, and pointed with Portland cement mortar. About 50% of the walls were rebuilt when the lodge was constructed in 1939-40. The basic failure was due to the instability of these walls which did not have adequate footings for the clay soil on which they were erected and were not properly bonded to provide integral strength.",
+        "page": "No page marker legible in the extract span; the survey is quoting a later structural evaluation of Lore's original walls."
+      },
+      {
+        "field": "structural_system",
+        "text": "The Painted Desert Inn is a much purer form of Pueblo/Mexican revival architecture in that all roof vigas and savinos are authentically structural in function. The only exception is the top floor room which serves merely as a cover over the skylight in the trading post, and is of frame construction plastered to match the rest.",
+        "page": "No page marker legible in the extract span; the survey is quoting the 1974 NPS Western Region team's report."
+      },
+      {
+        "field": "other",
+        "text": "The drawings showed a twenty-eight-room, two-story building patterned after native architecture found throughout the southwest, although",
+        "page": "Section III; no page marker legible in the extract span."
+      },
+      {
+        "field": "other",
+        "text": "1. Change from frame construction to stone side walls, parapets, and flagstone steps from room 104 [the trading post] to room 13 [the tap room]. This change was recommended by the Supervising Architect due to lack of lumber and no funds to purchase same. 2. Use of flagstone floors in rooms 7 to 12 inclusive and hand hewn flagstone hearths instead of concrete as indicated.",
+        "page": "Section IV, quoting Supervising Architect Skidmore's report; follows the marker '(Page 25)'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two-story building",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "room_count",
+      "as_printed": "twenty-eight-room",
+      "value": 28,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "As drawn in 1937, not as built."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the surveyed example. Worth carrying: the survey reproduces a 1974 NPS judgment that most twentieth-century Pueblo Revival 'is essentially \"phony\" -- in that the buildings are really of wood frame construction with plastered exteriors faking adobe construction and with interior fake vigas', and that this one is 'purer' because its vigas and savinos carry the roof -- the distinction the node's own vocabulary ('stucco over adobe, concrete block, or wood frame') admits without ranking."
+}

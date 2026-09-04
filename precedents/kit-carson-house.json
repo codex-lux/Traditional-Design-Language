@@ -1,0 +1,54 @@
+{
+  "id": "kit-carson-house",
+  "name": "Kit Carson House",
+  "aka": [
+    "Kit Carson Home and Museum"
+  ],
+  "location": {
+    "text": "Taos, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1825",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1825'; the Library's HABS item record prints 'Building/structure dates: ca. 1858 Initial Construction'. Two dates thirty-three years apart, on the record; neither changed. The exemplar year is the infobox's."
+  },
+  "nodes": [
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-111",
+      "title": "Kit Carson House, Kit Carson Avenue, Taos, Taos County, NM",
+      "url": "http://www.loc.gov/pictures/item/nm0097",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own lines: 'Survey number: HABS NM-111 · Building/structure dates: ca. 1858 Initial Construction · National Register of Historic Places NRIS Number: 66000948'. The Wikipedia external-links line gives '2 photos'. The data PDF at tile.loc.gov/.../nm/nm0000/nm0097/data/nm0097data.pdf failed to fetch once and on a second read returned only a photographs cover ('Kit; Carson House \\Taos ... HABS No. NK-111 ... PHOTOGK&PHS'), so no `survey` block is recorded."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0097",
+      "url": "http://www.loc.gov/pictures/item/nm0097",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kit_Carson_House",
+      "title": "Kit Carson House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000948",
+      "url": "https://en.wikipedia.org/wiki/Kit_Carson_House",
+      "title": "NRHP reference No. 66000948; added October 15, 1966; designated NHL May 23, 1963 (as the Wikipedia infobox prints it; the Library's item prints the same NRIS number)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the plain Taos town house -- the infobox calls its style 'Spanish Colonial; Territorial', which is the milled-wood Territorial vocabulary the pueblo-revival node says the revival stripped out. Nothing here states a dimension."
+}

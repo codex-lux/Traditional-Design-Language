@@ -1,0 +1,181 @@
+{
+  "id": "rancho-petaluma-adobe",
+  "name": "Rancho Petaluma Adobe",
+  "aka": [
+    "Vallejo Adobe",
+    "Petaluma Adobe",
+    "Casa Grande"
+  ],
+  "location": {
+    "text": "Petaluma, Sonoma County, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1836-1846",
+    "circa": false,
+    "altered": "About half the planned four-winged building survives (survey). The two-storey wrapping porch and verandah were reconstructed in the 1910s and again in the 1950s; a concrete bond beam was installed at the top of the walls in the 1950s; the mud plaster was removed between 1934 and 1959 and a lime whitewash applied 1994-95 (survey addendum).",
+    "note": "The survey addendum's 'Date of Erection: 1836-1846. Construction of the adobe began in 1836 but was not completed until 1846'; the Wikipedia infobox prints 'Built 1836'; the style node gives 1836."
+  },
+  "nodes": [
+    "monterey-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "title": "Vallejo Adobe (Petaluma Adobe), Adobe Road at Casa Grande, Petaluma Vicinity, Sonoma County, California",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1100/ca1106/data/ca1106data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's own header prints 'HABS No. CA-38-1' (and the 1934 sheet 'HABS No. 38-1', District no. 38, Northern California, Irving F. Morrow, District Officer). That 1930s district-numbered form is not the shape check_precedents.py admits for a HABS id (XX-nnn, optional letter suffix), so the number is carried here and in `survey.prepared` rather than in `id`; the `loc-item` below locates the record."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca1106",
+      "url": "https://www.loc.gov/pictures/item/ca1106",
+      "title": "Vallejo Adobe, Adobe Road at Casa Grande, Petaluma, Sonoma County, CA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Library's own significance line, as the search result prints it: 'Constructed in 1836-46 in the Monterey Colonial style, the adobe is the largest existing example of domestic adobe architecture in the United States'. The collection listing gives 'Photo(s): 32 | Measured Drawing(s): 10 | Data Page(s): 19 | Photo Caption Page(s): 3'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Petaluma_Adobe",
+      "title": "Rancho Petaluma Adobe - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000151",
+      "url": "https://en.wikipedia.org/wiki/Petaluma_Adobe",
+      "title": "NRHP reference No. 70000151; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "18",
+      "url": "https://en.wikipedia.org/wiki/Petaluma_Adobe",
+      "title": "California Historical Landmark No. 18, designated June 1, 1932 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca1106",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1100/ca1106/data/ca1106data.pdf",
+    "prepared": "HABS No. CA-38-1 (as the header prints it; see the habs ref's note for why the number is not in `survey_no`). The quoted description is from the ADDENDUM, which cites the National Register nomination form prepared in 1970 by Allen W. Welts of the National Park Service; the original entry is the 1934 District No. 38 sheet, Irving F. Morrow, District Officer.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Overall dimensions: Originally planned as a two-story, four-winged structure with a central courtyard, archaeological investigation shows that approximately one-half of the original structure remains. The three surviving wings form an F-shaped building measuring approximately 60 feet by 178 feet, with each wing approximately 20 feet wide.",
+        "page": "Addendum Part II.B.1; the nearest legible marker, 'HABS No. CA-38-1 (Page 4)', follows a few paragraphs later."
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The foundations were originally open field stone, following the contours of the ground. The walls have been underpinned with non-contributing concrete footings. Stone retaining walls under the verandah and mud sills are modem at the west and south elevations of the main block.",
+        "page": "Addendum Part II.B.2; before '(Page 4)'."
+      },
+      {
+        "field": "walls",
+        "text": "3. Walls: The walls are constructed of adobe brick and measure up to three feet wide and approximately 23 feet high. The adobe bricks measure approximately 3\" x 11\" x 21\" and have a high grass content. Historic photographs and HABS drawings indicate that portions of the walls were originally covered with mud plaster and lime whitewash.",
+        "page": "Addendum Part II.B.3; before '(Page 4)'."
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system: Wood truss roof system and wood lintels above doorways and windows. A concrete bond beam was installed at the top of the walls in the 1950s.",
+        "page": "Addendum Part II.B.4; before '(Page 4)'."
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches: The two-story, wrapping, wooden porch and verandah were reconstructed in the 1910s and again in the 1950s.",
+        "page": "Addendum Part II.B.5; before '(Page 4)'."
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: One chimney exists at the eastern end of the south wing.",
+        "page": "Addendum Part II.B.6; the marker 'HABS No. CA-38-1 (Page 4)' is printed inside the sentence that follows."
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings: a. Doorways and doors: The doorways appear to have their original wood sill plates and lintels, but the thresholds have probably been replaced. All door openings have wood jambs. Doorways on the second floor of the south wing have more elaborate surrounds that are wide, profiled, and occupy approximately half of the depth of the wall.",
+        "page": "HABS No. CA-38-1 (Page 4)"
+      },
+      {
+        "field": "significance",
+        "text": "All rooms are accessed from the encircling verandah. The Vallejo Adobe is the largest surviving domestic adobe structure in the United States.",
+        "page": "Addendum Part II.A; no page marker legible in the extract span."
+      },
+      {
+        "field": "other",
+        "text": "A. Physical mstory 1. Date of Erection: 1836-1846. Construction of the adobe began in 1836 but was not completed until 1846. 2. Architect: None.",
+        "page": "Addendum Part I.A; no page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approximately 60 feet by 178 feet",
+      "value": 178,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The long arm, north-south."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "approximately 60 feet by 178 feet",
+      "value": 60,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The F's reach east, wings included."
+    },
+    {
+      "name": "wing_width_ft",
+      "as_printed": "each wing approximately 20 feet wide",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two-story",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "up to three feet wide",
+      "value": 36,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "A maximum, as the survey states it."
+    },
+    {
+      "name": "wall_height_ft",
+      "as_printed": "approximately 23 feet high",
+      "value": 23,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "adobe_brick_thickness_in",
+      "as_printed": "approximately 3\" x 11\" x 21\"",
+      "value": 3,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "One chimney exists",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. The survey's 20 ft wing with walls up to 36 in leaves about 14 ft clear, which is a viga-length room the node's parent tradition describes; and a 36 in wall is 6 in over the node's own 24-30 in ground-storey band. The wrapping two-storey porch is a posted verandah on the survey's account, reconstructed twice."
+}

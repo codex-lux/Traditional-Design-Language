@@ -223,25 +223,64 @@
       "name": "Palacio de los Gobernadores (Palace of the Governors)",
       "location": "Santa Fe, New Mexico",
       "year": 1610,
-      "note": "Founded with the villa in 1610 though the surviving fabric largely postdates the 1680 Pueblo Revolt and the 1731 rebuilding. Caution: the famous portal is a 1909–13 reconstruction by Jesse Nussbaum, not colonial fabric."
+      "note": "Founded with the villa in 1610 though the surviving fabric largely postdates the 1680 Pueblo Revolt and the 1731 rebuilding. Caution: the famous portal is a 1909–13 reconstruction by Jesse Nussbaum, not colonial fabric.",
+      "precedent": "palace-of-the-governors",
+      "standing": "canonical",
+      "why": "The oldest public building of the tradition and a one-storey adobe file of rooms behind a portal, which is the node's own plan diagram; but the 1930s survey (HABS NM-2) records a west end lost in 1853 and a portal restored in 1909-13, so it is a specimen with a known restoration history rather than the thing the style is known by."
     },
     {
       "name": "Mission San Esteban del Rey",
       "location": "Acoma Pueblo, New Mexico",
       "year": 1641,
-      "note": "Adobe walls up to nine feet thick on a mesa top, timbers carried on foot from Mount Taylor thirty miles away — the clearest statement of what remoteness did to the architecture."
+      "note": "Adobe walls up to nine feet thick on a mesa top, timbers carried on foot from Mount Taylor thirty miles away — the clearest statement of what remoteness did to the architecture.",
+      "precedent": "mission-san-esteban-del-rey",
+      "standing": "canonical",
+      "why": "The survey (HABS NM-5) tells the node's own remoteness story in its own words -- every timber carried up the rock on men's backs, water a quarter mile by foot trail -- and the pueblo beside it is HABS NM-6 with 86 measured sheets, so the pair is the best-measured place in the province."
     },
     {
       "name": "González-Alvarez House ('The Oldest House')",
       "location": "St. Augustine, Florida",
       "year": 1723,
-      "note": "Coquina shellstone ground storey with a later frame upper floor; the surviving example of the Florida branch, which used shellstone where the Southwest used adobe."
+      "note": "Coquina shellstone ground storey with a later frame upper floor; the surviving example of the Florida branch, which used shellstone where the Southwest used adobe.",
+      "precedent": "gonzalez-alvarez-house",
+      "standing": "regional",
+      "why": "The Florida branch's surviving house, right for St. Augustine and not for the Southwest: the survey (HABS FL-138) gives a coquina-rubble two-room plan with a rear loggia under a shingled gable, which is Manucy's 'St. Augustine plan' and not the flat azotea the node's Southwest prose describes."
     },
     {
       "name": "Mission San Xavier del Bac",
       "location": "Tucson, Arizona",
       "year": 1797,
-      "note": "Fired brick, lime-plastered, vaulted and domed — the one borderlands building where a full Mexican Baroque portada was actually achieved, and therefore the exception that proves the rationing rule."
+      "note": "Fired brick, lime-plastered, vaulted and domed — the one borderlands building where a full Mexican Baroque portada was actually achieved, and therefore the exception that proves the rationing rule.",
+      "precedent": "mission-san-xavier-del-bac",
+      "standing": "icon",
+      "why": "The building the borderlands are known by and the node's own stated exception -- the one place the full portada was achieved -- and the survey (HABS AZ-13) states the reason in a figure: fired brick 8 by 16 by 3 inches throughout, with brick dome and vaults raised without centering, where every other building on this node is sun-dried earth."
+    },
+    {
+      "name": "Spanish Governor's Palace",
+      "location": "105 Plaza de Armas, San Antonio, Texas",
+      "year": 1749,
+      "note": "The comandancia of the Presidio San Antonio de Béxar, dated by the 1749 keystone over its door: on the Park Service's description 'a one-story masonry and stucco structure with ten rooms' round a courtyard with a fountain, and on Wikipedia's 'the only remaining example in Texas of an aristocratic 18th-century Spanish Colonial in-town residence' -- stone where New Mexico is earth. Restored 1930-31 by Harvey P. Smith, who added rooms at the rear on excavated footings (the city's archaeology report). National Historic Landmark; HABS TX-3540 is measured drawings and field records only.",
+      "precedent": "spanish-governors-palace",
+      "standing": "regional",
+      "why": "The Texas province's building, for a node whose regions list Texas and whose exemplars named none: Wikipedia's 'only remaining example in Texas' of the in-town residence and the National Historic Landmark designation (1970) are the reasons, and the HABS record is drawings the survey never wrote up."
+    },
+    {
+      "name": "Casa de Estudillo",
+      "location": "Old Town, San Diego, California",
+      "year": 1827,
+      "note": "A single-storey adobe facing the old plaza of Old Town, its walls of sun-dried brick plastered both sides and its corredors roofed on eucalyptus logs, carrizo mats and tile (the survey's own description) -- the Californian courtyard house in its plainest form. Reduced to ruin after 1887 and rebuilt in 1910 by Hazel Waterman for John D. Spreckels; the survey says the reconstruction changed ridge lines and window positions, so what stands is a careful 1910 reading of the 1827 house (the survey itself says 1825).",
+      "precedent": "casa-de-estudillo",
+      "standing": "canonical",
+      "why": "The surveyed courtyard house of the Californian province (HABS CA-45, 1930s written data), whose 'roofs of corridors' of carrizo under tile are the node's corredor stated by a surveyor; canonical rather than icon because the survey itself says the fabric is a 1910 reconstruction."
+    },
+    {
+      "name": "Ximenez-Fatio House",
+      "location": "22 Aviles Street, St. Augustine, Florida",
+      "year": 1802,
+      "note": "A Second Spanish Period masonry town house of 1797-1802, two-and-a-half storeys and six bays on Aviles Street, with the loggia centred on the rear and both stairs essentially exterior -- Manucy's 'St. Augustine plan' at its most legible -- and a frame-topped rear ell added as the household grew. HABS FL-116: twelve data pages and thirteen sheets.",
+      "precedent": "ximenez-fatio-house",
+      "standing": "documentary",
+      "why": "The plain, fully measured St. Augustine house: the survey states its 50'-9 1/8\" by 30'-11\" main block, its six-over-nine sash and its exterior loggia stair, which is more than any other Florida building on this node can be held to."
     }
   ],
   "sources": [
