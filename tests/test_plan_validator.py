@@ -114,7 +114,15 @@ class TestShippedPlans:
         # fatal 4 are UNMOVED**, which is the evidence that this surfaced dropped facts rather
         # than changing any judgement: every long-axis finding is minor, and nothing was
         # re-graded.
-        assert result["counts"]["minor"] == 74
+        # 74 -> 75 on 4 Sep 2026 (WP-11.4): the hearth. This plan is massed `gable-end-paired`
+        # and its roof draws paired end stacks, and its dining room states no fire while
+        # `rooms/dining-room.json` says "Historically a fireplace on the interior wall opposite
+        # the sideboard". One finding, on the DECLARED record -- nothing `hearth_report` reads
+        # is a placement. **WP-11.4 measured this movement on the PLACED key (89-98 -> 90-99)
+        # and did not run this suite, so the commit went out with this pin red.** Fatal and
+        # serious are unmoved, which is what says the hearth layer surfaced a fact rather than
+        # re-grading anything.
+        assert result["counts"]["minor"] == 75
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the

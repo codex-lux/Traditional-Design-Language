@@ -510,6 +510,25 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   an English rule. **RULE I IS CORRUPT IN THE ONLY REACHABLE TEXT** (*"add the Length 1 Bo Height of
   the Room together"*), so the DEPTH keeps its two anchors and the constant records that the rule
   behind them is UNRECOVERED rather than absent -- a third state, not a gap.
+- **AN ABSENT OPTIONAL DEPENDENCY WAS REPORTED AS A FAILURE, AND IT HAD BEEN MASKING REAL ONES
+  (found 4 Sep 2026).** Three `workbench/server/tests` asserted through packages this machine does
+  not have -- two import `anthropic` (not in `requirements.txt`) and one posts to an ingest route
+  that answers **501 Not Implemented** without `ezdxf`, which is the CORRECT answer and not the
+  422 the test is about. All three FAILED rather than skipping, so `check_all.py` reported
+  `FAIL pytest workbench/server/tests` for a reason with nothing to do with the code. **That is
+  the direction this corpus names as the dangerous one, and it had a measured cost**: the build
+  was red anyway, which is exactly the noise that let WP-11.4's two REAL pin failures sit
+  unnoticed in the same run. Every sibling that needs an optional package already used
+  `pytest.importorskip` -- `test_export_cad.py` for ezdxf and ifcopenshell, `conftest.py` for
+  fastapi -- so the convention existed and these three were outside it. **A red build nobody can
+  act on is worse than no build**, because the next real failure arrives inside it.
+- **AND THE TWO REAL FAILURES WERE WP-11.4'S, BOTH PINS DOING THEIR JOB (4 Sep 2026).** The plan
+  schema version pin in `test_ingest.py` (0.6.0 against a schema at 0.7.0 -- **caught by that pin
+  for the third time in two days**) and `spec-builder-colonial`'s declared minor count in
+  `test_plan_validator.py` (74 -> 75, the dining room with no fire under a massing that draws
+  paired end stacks). WP-11.4 measured that movement on the PLACED key and did not run either
+  suite. **Both are the same root cause as the layer-map miss**: a package that commits before its
+  build finishes learns what it broke from the next package's build.
 - **DECLARED STACKING IS A RULE IN THE SEARCH NOW, AND ITS COST IS A PROPERTY OF THE POOL RATHER
   THAN OF THE RULE (WP-11.5).** `geometry.declared_stack_breaks` is the ONE reader of a
   `stacks_over` claim against a placement, on `plan_check`'s own strict-intersection rule; the
