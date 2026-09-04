@@ -55,14 +55,16 @@ def dep_rooms(p):
 
 
 class TestTheDisclosureFalls:
-    def test_it_names_five_layers_and_openings_is_not_one_of_them(self, placed):
-        """The ruling's own check. `openings` was taught at WP-11.6 and left the list; the five
-        that remain are named because they still read the main block as the whole building."""
+    def test_it_names_four_layers_and_the_two_taught_are_not_among_them(self, placed):
+        """The ruling's own check. `openings` and `structure` were taught at WP-11.6 and left
+        the list; the four that remain are named because they still read the main block as the
+        whole building."""
         me = placed["geometry_report"]["multi_element"]
         assert me["elements"] == 2
-        assert me["not_element_aware"] == ["structure", "vertical_score", "lot_cap",
+        assert me["not_element_aware"] == ["vertical_score", "lot_cap",
                                            "plan_check.drawn", "export_ifc"]
         assert "openings" not in me["not_element_aware"]
+        assert "structure" not in me["not_element_aware"]
 
     def test_a_one_rectangle_plan_discloses_NOTHING(self):
         """Every plan in this corpus is one rectangle. The disclosure exists for the record a
@@ -141,3 +143,101 @@ class TestOpeningsReadsTheRoomsOwnElement:
             1 for lv in placed["levels"] for r in lv["rooms"] if r["id"] in deps
             for w in (r.get("windows") or []) if not w.get("unplaced"))
         assert placed_ct >= 3, "no dependency window was placed at all"
+
+
+ST = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
+
+
+class TestStructureIsPerElement:
+    """Layer 2. Ruling 1: an element has its own envelope. `build_section` runs
+    `wall_lines`/`bearing_lines`/`span_check` once per element over that element's own rooms, at
+    that element's own origin."""
+
+    def test_the_main_elements_wall_set_is_not_contaminated(self, placed):
+        """Before: a dependency partition at x -23.3 entered the wall set of a 0-63 block, and
+        `span_check` leaned the main block's floor on it."""
+        sec = ST.build_section(placed)
+        W = placed["footprint"]["width_ft"]
+        bad = [w for lv in sec["levels"] for w in lv["walls"]
+               if w.get("element") == "main" and w["axis"] == "x"
+               and (w["position_ft"] < -0.01 or w["position_ft"] > W + 0.01)]
+        assert bad == [], bad
+
+    def test_the_dependency_has_its_own_two_envelope_walls(self, placed):
+        """Before: 0 of 2. Its structure was unmodelled -- not wrong, ABSENT, which reads as a
+        building with no walls rather than as a building nobody measured."""
+        sec = ST.build_section(placed)
+        el = next(b for b in placed["footprint"]["blocks"] if b["id"] != "main")
+        xs = {round(w["position_ft"], 2) for lv in sec["levels"] for w in lv["walls"]
+              if w.get("element") == el["id"] and w["axis"] == "x"}
+        for face in (round(el["x_ft"], 2), round(el["x_ft"] + el["width_ft"], 2)):
+            assert any(abs(x - face) < 0.51 for x in xs), (face, sorted(xs))
+
+    def test_no_span_is_computed_across_the_gap(self, placed):
+        """The entry's own words: "manufactures a clear span across the gap between the house and
+        the dependency". It cannot now, because each element's `span_check` sees only its own
+        bearing lines -- by construction rather than by a filter."""
+        sec = ST.build_section(placed)
+        gap = [s for lv in sec["levels"] for s in lv["spans"]
+               if s["from_ft"] < -0.01 and s["to_ft"] > 0.01]
+        assert gap == [], gap
+
+    def test_AND_THE_DEPENDENCYS_OWN_SPANS_ARE_JUDGED_AND_FAIL(self, placed):
+        """The shield lesson arriving exactly as the ruling predicted. Teaching openings made
+        the dependency's windows real; teaching structure makes its spans real, and they are
+        over capacity -- 27.0 ft and 20.07 ft against a 20 ft hand-framed cap. A silence became
+        a finding, which is the whole point of modelling it."""
+        sec = ST.build_section(placed)
+        el = next(b for b in placed["footprint"]["blocks"] if b["id"] != "main")
+        over = [s for lv in sec["levels"] for s in lv["spans_exceeding_capacity"]
+                if s.get("element") == el["id"]]
+        assert over, "the dependency's structure is unmodelled again"
+        assert max(s["span_ft"] for s in over) > 20.0
+
+    def test_a_one_element_plan_carries_no_element_tag_at_all(self):
+        """The byte-identity guard. Sixteen records have never needed one and must not grow one."""
+        sec = ST.build_section(json.load(open(os.path.join(
+            ROOT, "plans", "tidewater-georgian-careful.json"))))
+        assert all("element" not in w for lv in sec["levels"] for w in lv["walls"])
+        assert all("element" not in s for lv in sec["levels"] for s in lv["spans"])
+        # and the numbers this plan has always reported
+        over = [s for lv in sec["levels"] for s in lv["spans_exceeding_capacity"]]
+        assert round(max(s["span_ft"] for s in over), 2) == 53.94
+
+
+class TestTheCriticIsNOTTaughtAndItsSYMPTOMWENTAWAYANYWAY:
+    """THE FINDING OF THIS PACKAGE THAT A METER WOULD HAVE GOT WRONG.
+
+    `plan_check`'s landlocked test short-circuits at `if seated: continue` -- it runs only on a
+    room whose windows are ALL unplaced. Teaching `openings` seated the dependency's windows, so
+    the count of "reaches no exterior wall" findings fell 2 -> 0 **while the `touches` arithmetic
+    four lines below still read `fp_w`/`fp_h` and was still wrong**. A meter watching the finding
+    would have reported layer 5 taught by accident. The probe drives the condition instead."""
+
+    def test_the_symptom_is_absent_as_shipped(self, placed):
+        c = PC.check(placed)
+        assert not [f for f in c["findings"]
+                    if "no exterior wall" in (f.get("statement") or "")
+                    and f.get("room") in dep_rooms(placed)]
+
+    def test_and_the_layer_is_STILL_WRONG_when_the_test_is_reached(self, placed):
+        """Strip the placement from the dependency's windows and the test runs. It convicts a
+        kitchen that sits on its own element's south and west faces."""
+        deps = dep_rooms(placed)
+        forced = json.loads(json.dumps(placed))
+        for lv in forced["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] in deps:
+                    for w in (r.get("windows") or []):
+                        w["unplaced"] = {"reason": "forced to reach the touches test"}
+        c = PC.check(forced)
+        convicted = {f["room"] for f in c["findings"]
+                     if "no exterior wall" in (f.get("statement") or "") and f.get("room") in deps}
+        assert convicted, (
+            "the drawn layer stopped convicting dependency rooms -- if `touches` was taught to "
+            "read the element, take `plan_check.drawn` out of the disclosure and delete this test")
+        assert "plan_check.drawn" in placed["geometry_report"]["multi_element"][
+            "not_element_aware"], "the disclosure must still name the layer this test convicts on"
+
+
+PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))

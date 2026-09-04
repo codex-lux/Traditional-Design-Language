@@ -1859,9 +1859,9 @@ term is worse in the middle of its range than at either end, and a rule is the e
 
 ### WP-11.6 The container the programme describes
 
-**Status: IN PROGRESS (4 Sep 2026) — layer 1 of 6 taught, in the ruled order, measuring after
-each as the ruling requires.** `openings` reads the room's own element and
-`geometry_report.multi_element` names **five** layers, down from six. The falling count is the
+**Status: IN PROGRESS (4 Sep 2026) — layers 1 and 2 of 6 taught, in the ruled order, measuring
+after each as the ruling requires.** `openings` reads the room's own element, `structure` runs once
+per element, and `geometry_report.multi_element` names **four** layers, down from six. The falling count is the
 ruling's own check.
 
 **THE INSTRUMENT FIRST, AND TWO OF ITS PROBES WERE WRONG.** The six defects are measured directly
@@ -1903,7 +1903,20 @@ from the room"*, and it is worse than reporting nothing.
 592.3 unmoved, and `envelopes()` returns an empty map below two elements so every caller falls back
 to the main block by construction rather than by luck.
 
-**Still to do: layers 2 through 6** (`structure`, `vertical_score`, the lot cap, `plan_check.drawn`,
+**LAYER 2: `structure`.** `build_section` runs `wall_lines`/`bearing_lines`/`span_check` once per
+element at that element's own origin. Walls tagged `main` outside the main block **1 → 0**, the
+dependency's own envelope walls **0 of 2 → 2 of 2**, and a span across the gap is impossible by
+construction. **Its structure, judged for the first time, immediately fails** — 27.0 and 20.07 ft
+against a 20 ft cap, which is the ruling's own predicted shield lesson.
+
+**AND TEACHING LAYER 1 MADE LAYER 5'S FINDING DISAPPEAR WITHOUT FIXING LAYER 5.** `plan_check`'s
+landlocked test short-circuits at `if seated: continue`, so seating the dependency's windows took
+"reaches no exterior wall" from 2 to 0 while the `touches` arithmetic below stayed wrong. A meter
+watching the finding would have reported layer 5 taught two layers early. Driven, it convicts 2
+rooms. **Three probes in one package had to be corrected and all three would have read a clean
+zero.**
+
+**Still to do: layers 3 through 6** (`structure`, `vertical_score`, the lot cap, `plan_check.drawn`,
 `export_ifc`), then the parti and plan re-authoring and CP-SAT's per-element solve.
 
 **Original package text, left as written:**

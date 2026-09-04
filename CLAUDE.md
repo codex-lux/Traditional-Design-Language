@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,708 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,715 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -547,6 +547,26 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   on the block**: `blocks_record` writes id, role, x, y, width, depth and area and no membership,
   so a first version read `b["rooms"]`, found nothing on every plan, and left all nine refusals in
   place while reporting success.
+- **`structure` IS PER ELEMENT NOW, AND THE DEPENDENCY'S OWN SPANS FAIL THE MOMENT THEY EXIST
+  (WP-11.6, layer 2 of 6).** `build_section` runs `wall_lines`/`bearing_lines`/`span_check` ONCE
+  PER ELEMENT over that element's own rooms at that element's own origin, tagging each wall and
+  span. Measured: walls tagged `main` outside the main block **1 -> 0** (a dependency partition at
+  x -23.3 on a 0-63 block), the dependency's own envelope walls **0 of 2 -> 2 of 2**, and a span
+  across the gap is now IMPOSSIBLE BY CONSTRUCTION rather than filtered. **And its structure,
+  judged for the first time, immediately fails** -- 27.0 and 20.07 ft against a 20 ft hand-framed
+  cap. That is the ruling's own predicted shield lesson: teaching openings made its windows real,
+  teaching structure makes its spans real. A one-element plan takes the same path with one element,
+  so the sixteen one-rectangle records stay byte-identical by construction rather than by a branch,
+  and neither grows an `element` key.
+- **TEACHING ONE LAYER MADE ANOTHER LAYER'S FINDING DISAPPEAR WITHOUT FIXING IT (WP-11.6).**
+  `plan_check`'s landlocked test short-circuits at `if seated: continue` -- it runs ONLY on a room
+  whose windows are all unplaced. Seating the dependency's windows at layer 1 took "reaches no
+  exterior wall" findings from **2 to 0** while the `touches` arithmetic four lines below still
+  read `fp_w`/`fp_h` and was still wrong. **A meter watching the FINDING would have reported layer
+  5 taught, by accident, two layers early.** Drive the condition instead: strip the placement from
+  those windows and the layer convicts 2 rooms, one of them a kitchen on its own element's south
+  and west faces. `plan_check.drawn` stays in the disclosure and a test pins both halves. **When a
+  symptom vanishes after you changed something else, find out which.**
 - **TWO OF THE SIX PROBES READ ZERO ON THEIR FIRST RUN AND NEITHER ZERO WAS A DEFECT'S ABSENCE
   (WP-11.6).** The openings probe looked for a window drawn FAR FROM its room and found none,
   because the real defect is a window REFUSED outright ("the placement puts this room on no such

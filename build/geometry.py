@@ -1679,8 +1679,8 @@ def multi_element_disclosure(plan):
 
     The block machinery places a dependency beside the house and both renderers draw it there.
     FIVE layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
-    building (six until WP-11.6 taught `openings`; the entry below is kept for the record and
-    marked), and each is wrong in its own direction on a dependency room -- measured, not
+    building (six until WP-11.6, which taught `openings` and then `structure`; their entries
+    below are kept for the record and marked), and each is wrong in its own direction on a dependency room -- measured, not
     supposed, by an adversarial audit of the change that introduced blocks:
 
       openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
@@ -1689,9 +1689,11 @@ def multi_element_disclosure(plan):
                  placement puts this room on no such boundary wall" -- a refusal produced by the
                  instrument rather than by the house. `envelopes()` maps a room to its own
                  element by the `block` tag the placer itself groups on.
-      structure  `wall_lines` sweeps every placed room into one envelope, so a dependency
-                 partition on the bay grid becomes a bearing line beyond W and manufactures a
-                 clear span across the gap between the house and the dependency.
+      structure  TAUGHT AT WP-11.6 and no longer in the list. `wall_lines` swept every placed
+                 room into one envelope, so a dependency partition became a bearing line beyond
+                 W and the gap between the elements could be spanned; the dependency itself got
+                 no envelope walls at all (measured 0 of 2). `build_section` runs the three
+                 structure functions once per element now, at the element's own origin.
       vertical   `vertical_score` counts a dependency wall as support for an upper wall above
                  the main block, where there is no upper floor at all.
       lot        `derive_footprint` caps the MAIN block at `lot_usable_width_ft`; nothing caps
@@ -1723,7 +1725,16 @@ def multi_element_disclosure(plan):
         # ruled and it is not arbitrary: openings first, because it makes the dependency's
         # windows real and therefore turns `structure`'s missing envelope into a DRAWN collision
         # rather than a silent absence.
-        "not_element_aware": ["structure", "vertical_score", "lot_cap",
+        # FOUR, down from five (WP-11.6 layer 2). `structure` is taught: `build_section` runs
+        # `wall_lines`/`bearing_lines`/`span_check` ONCE PER ELEMENT over that element's own
+        # rooms, with the element's own origin. Measured on the reference fixture: the main
+        # element's wall set no longer carries the dependency's partition (an x line at -23.3 on
+        # a 0-63 block), the dependency has its own two envelope walls where it had 0 of 2, and
+        # no span is computed across the gap. **The dependency's own structure is judged for the
+        # first time and immediately fails**: 27.0 ft and 20.07 ft against a 20 ft hand-framed
+        # capacity. That is the shield lesson arriving as the ruling predicted -- teaching
+        # openings made its windows real, teaching structure makes its spans real.
+        "not_element_aware": ["vertical_score", "lot_cap",
                               "plan_check.drawn", "export_ifc"],
         "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
                  "element and each of the layers named reads footprint.width_ft/depth_ft as the "
