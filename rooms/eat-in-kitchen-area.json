@@ -37,6 +37,7 @@
   "furniture": [
     {
       "item": "island counter with seating",
+      "kind": "object",
       "footprint_in": [
         40,
         96
@@ -47,6 +48,7 @@
     },
     {
       "item": "table, seats 4",
+      "kind": "object",
       "footprint_in": [
         36,
         48

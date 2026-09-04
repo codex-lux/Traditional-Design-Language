@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "parlor suite - sofa and matching chairs",
+      "kind": "object",
       "footprint_in": [
         72,
         30
@@ -49,6 +50,7 @@
     },
     {
       "item": "carpet, wall to wall or nearly",
+      "kind": "covering",
       "footprint_in": [
         144,
         168
@@ -59,6 +61,7 @@
     },
     {
       "item": "parlor organ or upright piano",
+      "kind": "object",
       "footprint_in": [
         58,
         26
@@ -70,6 +73,7 @@
     },
     {
       "item": "centre table with the family Bible and the album",
+      "kind": "object",
       "footprint_in": [
         42,
         30
@@ -79,6 +83,7 @@
     },
     {
       "item": "photographs and mourning pieces on the walls",
+      "kind": "object",
       "footprint_in": [
         20,
         3
@@ -88,6 +93,7 @@
     },
     {
       "item": "coffin on trestles",
+      "kind": "object",
       "footprint_in": [
         28,
         80

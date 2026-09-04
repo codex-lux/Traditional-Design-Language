@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "table, seats 4",
+      "kind": "object",
       "footprint_in": [
         36,
         48
@@ -47,6 +48,7 @@
     },
     {
       "item": "banquette",
+      "kind": "object",
       "footprint_in": [
         24,
         72

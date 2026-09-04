@@ -20,11 +20,16 @@
     "critical_dimension": "THE OVERHANG, WHICH IS AN EXTERIOR DIMENSION THAT DECIDES WHETHER THE ROOM IS USABLE. Shade depth needed = glass height / tan(solar altitude). At 40 degrees north the noon sun is about 73 degrees up at the summer solstice and 26 degrees at the winter solstice; an 8 ft high south glass wall therefore needs 2 ft 5 in of overhang to be fully shaded at midsummer noon, and would need over 16 ft to be shaded at midwinter noon - which is exactly what you want, because in winter you want the sun in. A 3 FT OVERHANG ON A SOUTH SUNROOM at 40 degrees north shades the glass around midday from roughly May to August and admits it from October to February: that is the whole design, and it is one number. WEST GLASS CANNOT BE SHADED BY AN OVERHANG AT ALL - at 4 p.m. in July the sun is 25 to 30 degrees up and arriving nearly horizontally - so a west-facing sunroom needs a vertical device or a deciduous tree or it will reach 110 degrees F. THE SECOND DIMENSION IS DEPTH, AND IT IS SMALL: 9 to 12 ft. A sunroom deeper than about 14 ft has a back zone that is neither in the light nor in the room, and the furniture ends up in a line along the glass with a corridor behind it."
   },
   "furniture": [
-    {"item": "wicker or rattan seating group", "footprint_in": [72, 32], "clearance_in": 30, "note": "light furniture is not a style preference here: the room is used differently by season and the furniture gets moved toward and away from the glass", "placement": "freestanding"},
-    {"item": "two chairs and a small table", "footprint_in": [60, 30], "clearance_in": 30, "placement": "freestanding"},
-    {"item": "small dining or games table", "footprint_in": [42, 42], "clearance_in": 36, "essential": false, "note": "a sunroom that can seat four to eat is worth twice one that cannot, and 42 in of table plus 36 in of pull each side is 114 in = 9 ft 6 in, which sets the room's minimum depth if this use is wanted", "placement": "freestanding"},
-    {"item": "plant shelf or staging at the glass", "footprint_in": [96, 14], "clearance_in": 24, "essential": false, "note": "in the conservatory version this is the room's programme. Note that plants and people want different humidity, and that a planted sunroom will condense on its glazing in winter.", "placement": "against-wall"},
-    {"item": "daybed", "footprint_in": [78, 34], "clearance_in": 24, "essential": false, "note": "the sleeping-porch survival, and the room's original use", "placement": "against-wall"}
+    {"item": "wicker or rattan seating group",
+     "kind": "object", "footprint_in": [72, 32], "clearance_in": 30, "note": "light furniture is not a style preference here: the room is used differently by season and the furniture gets moved toward and away from the glass", "placement": "freestanding"},
+    {"item": "two chairs and a small table",
+     "kind": "object", "footprint_in": [60, 30], "clearance_in": 30, "placement": "freestanding"},
+    {"item": "small dining or games table",
+     "kind": "object", "footprint_in": [42, 42], "clearance_in": 36, "essential": false, "note": "a sunroom that can seat four to eat is worth twice one that cannot, and 42 in of table plus 36 in of pull each side is 114 in = 9 ft 6 in, which sets the room's minimum depth if this use is wanted", "placement": "freestanding"},
+    {"item": "plant shelf or staging at the glass",
+     "kind": "object", "footprint_in": [96, 14], "clearance_in": 24, "essential": false, "note": "in the conservatory version this is the room's programme. Note that plants and people want different humidity, and that a planted sunroom will condense on its glazing in winter.", "placement": "against-wall"},
+    {"item": "daybed",
+     "kind": "object", "footprint_in": [78, 34], "clearance_in": 24, "essential": false, "note": "the sleeping-porch survival, and the room's original use", "placement": "against-wall"}
   ],
   "daylight": {
     "depth_multiplier": 2.8,

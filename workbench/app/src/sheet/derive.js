@@ -112,6 +112,7 @@ export function levelRooms(plan, placement, levelIndex) {
         windows: p.windows || r.windows || [],
         doors: p.doors || r.doors || [],
         fixture_layout: p.fixture_layout || r.fixture_layout || [],
+        furniture_layout: p.furniture_layout || r.furniture_layout || [],
         exterior_walls: r.exterior_walls || [],
         window_head_ft: r.window_head_ft,
         declared_width_ft: r.width_ft, declared_length_ft: r.length_ft,

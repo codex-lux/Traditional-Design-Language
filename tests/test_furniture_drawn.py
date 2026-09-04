@@ -146,7 +146,18 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-DRAWN_SHORT_CEILING = 86
+DRAWN_SHORT_CEILING = 88   # 86 until WP-11.3; see the note below, and it was NOT the placement
+# WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
+# both ways over all sixteen plans: the two extra shortfalls are the library table in
+# `good-02-portico-library-house` and `good-05-lobby-gallery-mansion`, and they appear because
+# the CATALOGUE was corrected, not because the drawing changed. `rooms/library.json` authored
+# that table `against-wall` while its own note reads "the table is in the MIDDLE of a library
+# and against a wall in a study, and that difference is what distinguishes the two rooms" --
+# the study's answer, on the library's record. Corrected to `freestanding` on the strength of
+# that sentence, the fit check charges clearance on two sides instead of one (6.83 ft -> 10.33)
+# and two libraries that had passed now fail. The conviction is right and the ceiling is raised
+# rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
+# byte-identical across the whole package, which is how the cause was isolated.
 DRAWN_LONG_CEILING = 69
 
 

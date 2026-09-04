@@ -38,6 +38,7 @@
  "furniture": [
   {
    "item": "outdoor table, seats 6",
+   "kind": "object",
    "footprint_in": [
     40,
     72
@@ -47,6 +48,7 @@
   },
   {
    "item": "lounge seating group",
+   "kind": "object",
    "footprint_in": [
     84,
     108

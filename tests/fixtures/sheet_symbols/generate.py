@@ -26,6 +26,14 @@ render_plan = _load("render_plan")
 # of the contract and does not belong in a fixture
 ROOM_KEYS = ("id", "type", "name", "width_ft", "length_ft", "exterior_walls",
              "windows", "doors", "geometry")
+# WP-11.3 CONSIDERED ADDING `furniture_layout` HERE AND DID NOT, for two reasons worth
+# recording. This fixture exists to hold TWO implementations of one derivation to one answer,
+# and furniture has only one: the marks are computed in build/furniture.py at placement time
+# and written onto the record, so both renderers draw them and neither derives anything.
+# Second, `freeze()` re-solves with the LIVE solver, so regenerating it on a machine where
+# CP-SAT answers rewrites the frozen placement -- measured here, 4,104 lines of diff moving
+# every door and window position, which is precisely what the README warns this file must
+# never absorb. The furniture guards are tests/test_furniture_pass.py and the browser walk.
 
 def freeze(plan_id):
     plan = json.loads((ROOT / "plans" / f"{plan_id}.json").read_text())

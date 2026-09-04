@@ -39,6 +39,7 @@
  "furniture": [
   {
    "item": "counter run",
+   "kind": "object",
    "footprint_in": [
     96,
     25
@@ -49,6 +50,7 @@
   },
   {
    "item": "glazed upper cupboards for china and glass",
+   "kind": "object",
    "footprint_in": [
     96,
     13
@@ -59,6 +61,7 @@
   },
   {
    "item": "plate and silver drawers",
+   "kind": "object",
    "footprint_in": [
     36,
     22
@@ -69,6 +72,7 @@
   },
   {
    "item": "small sink",
+   "kind": "object",
    "footprint_in": [
     18,
     16
@@ -79,6 +83,7 @@
   },
   {
    "item": "warming or holding cupboard / undercounter refrigeration",
+   "kind": "object",
    "footprint_in": [
     24,
     24
@@ -90,6 +95,7 @@
   },
   {
    "item": "a place to stage a whole course",
+   "kind": "reservation",
    "footprint_in": [
     60,
     25

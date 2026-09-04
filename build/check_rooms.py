@@ -273,6 +273,16 @@ def check_room(rep, path, room, u, room_ids):
         # one, so `plan_check` inferred it from the item's NAME with a regex -- which called
         # 84 items against-wall where the authored data calls 159. Required here so it cannot
         # go missing again in silence.
+        # WP-11.3: `kind` says what the ENTRY is -- a thing, a reserved run of floor, a rug,
+        # something another pass draws, or an alternative to an item above it. Required for
+        # `placement`'s own reason: a field the schema declares and no record carries is one
+        # some reader will infer with a regex, and over these strings a regex is wrong in both
+        # directions -- it reads the nursery glider's "cannot be put against a wall" as
+        # against-wall, and misses the library table whose note names both placements to
+        # contrast them.
+        if not f.get("kind"):
+            rep.err(where, f"furniture '{f['item']}' states no `kind` — without it a drawing "
+                           f"cannot tell a chair from a clear route, and both carry a footprint")
         if not f.get("placement"):
             rep.err(where, f"furniture '{f['item']}' states no `placement` — without it the "
                            f"fit check has to guess whether it needs clearance on one side "

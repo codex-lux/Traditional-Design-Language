@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "water closet",
+      "kind": "object",
       "footprint_in": [
         20,
         28
@@ -49,6 +50,7 @@
     },
     {
       "item": "corner or projection basin",
+      "kind": "object",
       "footprint_in": [
         16,
         14
@@ -60,6 +62,7 @@
     },
     {
       "item": "door",
+      "kind": "placed-elsewhere",
       "footprint_in": [
         26,
         26

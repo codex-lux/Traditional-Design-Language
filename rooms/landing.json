@@ -29,6 +29,7 @@
  "furniture": [
   {
    "item": "window seat",
+   "kind": "object",
    "footprint_in": [
     18,
     60

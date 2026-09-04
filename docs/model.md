@@ -109,5 +109,8 @@ number overrule an authored one — the same error class the corpus names in OQ 
 
 The one arrangement rule this admits is stated by the corpus rather than inferred:
 `needs_uninterrupted_wall_ft` on a furniture item, authored only where the item's own `note`
-states the run in words, with the number beside the sentence so the two cannot drift. One item
-carries it today.
+states the run in words, with the number beside the sentence so the two cannot drift. FIVE items
+carry it: the dining room's sideboard, the bedroom's desk, the kitchen's range, the living room's
+sofa and the study's camera wall. This paragraph read "One item carries it today" until WP-11.3 --
+WP-7.4 had corrected the count to five and neither this file nor `schema/room.schema.json` was
+updated, which is the class WP-6.4 exists to name.

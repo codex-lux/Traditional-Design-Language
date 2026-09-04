@@ -10,7 +10,7 @@ import React from 'react';
 import { wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
          divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
-import { PEN, POCHE, inked } from './pen.js';
+import { PEN, POCHE, DASH, inked } from './pen.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -572,15 +572,47 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           </text>
         )}
 
-        {/* fixtures, from room.fixture_layout and from nothing else */}
+        {/* fixtures, from room.fixture_layout and from nothing else.
+            WP-11.3 put this mark on the pen ladder: it had carried `stroke="var(--ink-2)"` as
+            an ATTRIBUTE and a literal `1.4 1` dash since WP-6.2, and WP-11.2 moved nineteen
+            stroke widths onto PEN and walked past this one. It keeps its DASH, which is what
+            tells a derived wet fixture from a derived furniture arrangement on the sheet, and
+            it carries `data-fixture` so the walk can count it by what it IS rather than by the
+            dash it happens to be drawn with. */}
         {rooms.map((r) => (r.fixture_layout || [])
           .filter((f) => !f.unplaced && f.x_ft != null)
           .map((f, i) => (
-            <rect key={r.id + 'fx' + i} x={f.x_ft} y={-f.y_ft - f.depth_ft}
-              width={f.width_ft} height={f.depth_ft} fill="none" stroke="var(--ink-2)"
-              strokeDasharray="1.4 1" vectorEffect="non-scaling-stroke">
+            <rect key={r.id + 'fx' + i} data-fixture x={f.x_ft} y={-f.y_ft - f.depth_ft}
+              width={f.width_ft} height={f.depth_ft}
+              style={{ ...PEN.fine, strokeDasharray: DASH.extent }}
+              vectorEffect="non-scaling-stroke">
               <title>{f.item}</title>
             </rect>
+          )))}
+
+        {/* furniture, from room.furniture_layout and from nothing else (WP-11.3).
+            The MARKS are on the record — build/furniture.py mapped furniture/symbols.json into
+            each item's own rectangle once, at placement time — so this draws what is there and
+            derives nothing. That is WP-6.2's finding applied a layer up: handing both renderers
+            one position and letting each re-derive the geometry from it put them 0.7 in apart
+            on the first plan it was tried on. Fine pen, SOLID; the fixtures keep the dash. */}
+        {rooms.map((r) => (r.furniture_layout || [])
+          .filter((f) => !f.unplaced && f.marks)
+          .map((f, i) => (
+            <g key={r.id + 'fu' + i} data-furniture={f.symbol || 'block'}>
+              <title>{f.item}</title>
+              {f.marks.map((m, j) => (m.rect ? (
+                <rect key={j} x={m.rect[0]} y={-m.rect[1] - m.rect[3]}
+                  width={m.rect[2]} height={m.rect[3]}
+                  style={PEN.fine} vectorEffect="non-scaling-stroke" />
+              ) : m.line ? (
+                <line key={j} x1={m.line[0]} y1={-m.line[1]} x2={m.line[2]} y2={-m.line[3]}
+                  style={PEN.fine} vectorEffect="non-scaling-stroke" />
+              ) : m.circle ? (
+                <circle key={j} cx={m.circle[0]} cy={-m.circle[1]} r={m.circle[2]}
+                  style={PEN.fine} vectorEffect="non-scaling-stroke" />
+              ) : null))}
+            </g>
           )))}
 
         {/* dimensions — ticks, primes, never decimal feet */}

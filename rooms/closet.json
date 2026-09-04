@@ -41,6 +41,7 @@
   "furniture": [
     {
       "item": "hanging rod, single, with shelf over",
+      "kind": "object",
       "footprint_in": [
         36,
         24
@@ -51,6 +52,7 @@
     },
     {
       "item": "hanging rod, double-hung",
+      "kind": "variant",
       "footprint_in": [
         36,
         24
@@ -62,6 +64,7 @@
     },
     {
       "item": "a single adult's hanging clothes",
+      "kind": "reservation",
       "footprint_in": [
         72,
         24
@@ -72,6 +75,7 @@
     },
     {
       "item": "coat closet at the entry",
+      "kind": "variant",
       "footprint_in": [
         48,
         26

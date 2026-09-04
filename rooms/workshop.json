@@ -29,6 +29,7 @@
   "furniture": [
     {
       "item": "bench",
+      "kind": "object",
       "footprint_in": [
         30,
         96
@@ -38,6 +39,7 @@
     },
     {
       "item": "table saw with outfeed",
+      "kind": "object",
       "footprint_in": [
         36,
         96

@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "shelf, 14 in deep",
+      "kind": "object",
       "footprint_in": [
         36,
         14
@@ -48,6 +49,7 @@
     },
     {
       "item": "the linen a four-bedroom household actually holds",
+      "kind": "reservation",
       "footprint_in": [
         144,
         14
@@ -58,6 +60,7 @@
     },
     {
       "item": "hot water cylinder, where the room is an airing cupboard",
+      "kind": "object",
       "footprint_in": [
         24,
         24

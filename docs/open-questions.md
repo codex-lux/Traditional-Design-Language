@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**132 questions, of which 51 are open.** A question is OPEN while
+**133 questions, of which 52 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 51
+## Open — 52
 
 Awaiting a ruling. This is the list to read first.
 
@@ -64,6 +64,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
+| **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |

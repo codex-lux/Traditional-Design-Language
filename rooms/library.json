@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "bookcases, wall-hung or built-in",
+      "kind": "object",
       "footprint_in": [
         144,
         12
@@ -48,16 +49,18 @@
     },
     {
       "item": "library table or partners' desk",
+      "kind": "object",
       "footprint_in": [
         72,
         40
       ],
       "clearance_in": 42,
       "note": "the table is in the MIDDLE of a library and against a wall in a study, and that difference is what distinguishes the two rooms",
-      "placement": "against-wall"
+      "placement": "freestanding"
     },
     {
       "item": "two easy chairs and a reading lamp",
+      "kind": "object",
       "footprint_in": [
         34,
         36
@@ -67,6 +70,7 @@
     },
     {
       "item": "sofa",
+      "kind": "object",
       "footprint_in": [
         78,
         34
@@ -77,6 +81,7 @@
     },
     {
       "item": "library steps or ladder",
+      "kind": "object",
       "footprint_in": [
         24,
         24
@@ -88,6 +93,7 @@
     },
     {
       "item": "globe, atlas stand, map table",
+      "kind": "object",
       "footprint_in": [
         30,
         30

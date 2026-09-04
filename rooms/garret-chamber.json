@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "bed under the slope",
+      "kind": "object",
       "footprint_in": [
         58,
         81
@@ -48,6 +49,7 @@
     },
     {
       "item": "chest of drawers",
+      "kind": "object",
       "footprint_in": [
         36,
         20
@@ -58,6 +60,7 @@
     },
     {
       "item": "hanging storage under the slope",
+      "kind": "object",
       "footprint_in": [
         72,
         24
@@ -68,6 +71,7 @@
     },
     {
       "item": "a standing person",
+      "kind": "reservation",
       "footprint_in": [
         24,
         18

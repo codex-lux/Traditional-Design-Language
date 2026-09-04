@@ -41,6 +41,7 @@
   "furniture": [
     {
       "item": "changing bench",
+      "kind": "object",
       "footprint_in": [
         48,
         18
@@ -50,6 +51,7 @@
     },
     {
       "item": "shower, open or enclosed",
+      "kind": "object",
       "footprint_in": [
         42,
         42
@@ -60,6 +62,7 @@
     },
     {
       "item": "water closet",
+      "kind": "object",
       "footprint_in": [
         20,
         28
@@ -69,6 +72,7 @@
     },
     {
       "item": "sauna benches, two levels",
+      "kind": "object",
       "footprint_in": [
         72,
         24
@@ -80,6 +84,7 @@
     },
     {
       "item": "sauna stove and rock chamber",
+      "kind": "object",
       "footprint_in": [
         24,
         20
@@ -91,6 +96,7 @@
     },
     {
       "item": "towel and clothes hooks",
+      "kind": "object",
       "footprint_in": [
         36,
         4

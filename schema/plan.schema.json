@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
   "required": [
@@ -318,6 +318,29 @@
                     "type": "string"
                   },
                   "description": "Plumbing and equipment present — wc, lavatory, tub, shower, sink, dishwasher, washer, water-heater, furnace. Drives the servicing checks."
+                },
+                "furniture_layout": {
+                  "type": "array",
+                  "description": "0.6.0 (WP-11.3). Where this room's furniture was arranged, written by build/openings.py::furniture_pass from the room CATALOGUE's own `furniture` array after the openings, the stair and the wet fixtures have taken their runs. Solver output, stripped by openings.strip_placement exactly as `fixture_layout` is, so the DXF round trip still returns the authored record. Every entry names the grammar rule that seated it and that rule's GRADE, because furniture/grammar.json grades each rule by how much of it the corpus states: `reading` where the record gives both the rule and the figure, `editorial-from-prose` where it gives the rule in words and we supply the number, `editorial` where it says nothing and the judgment is ours. An item that could not be seated is `unplaced` with a reason and is never dropped. This layer NEVER sizes a room -- OQ 92, ruled 27 Aug 2026, and docs/model.md: authority runs from the programme to the furniture and not back.",
+                  "items": {
+                    "type": "object",
+                    "required": ["item"],
+                    "additionalProperties": false,
+                    "properties": {
+                      "item": {"type": "string"},
+                      "rule": {"type": "string", "description": "The furniture/grammar.json rule that seated it."},
+                      "grade": {"enum": ["reading", "editorial-from-prose", "editorial"]},
+      "marks": {"type": "array", "items": {"type": "object"},
+                "description": "What to DRAW, in model feet: this item's symbol from furniture/symbols.json mapped into its own rectangle by build/furniture.py::marks_for, ONCE, at placement time. Both renderers draw these and derive nothing -- WP-6.2 measured that handing the renderers one position and letting each re-derive the geometry from it put them 0.7 in apart on the first plan it was tried on, and a symbol id beside a rectangle is exactly that invitation. Three primitives: `rect` [x, y, w, d], `line` [x1, y1, x2, y2], `circle` [cx, cy, r]."},
+                      "symbol": {"type": "string"},
+                      "wall": {"enum": ["N", "S", "E", "W"]},
+                      "x_ft": {"type": "number"},
+                      "y_ft": {"type": "number"},
+                      "width_ft": {"type": "number"},
+                      "depth_ft": {"type": "number"},
+                      "unplaced": {"type": "object"}
+                    }
+                  }
                 },
                 "fixture_layout": {
                   "type": "array",

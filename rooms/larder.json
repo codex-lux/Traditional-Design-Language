@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "stone or slate shelf",
+      "kind": "object",
       "footprint_in": [
         60,
         18
@@ -49,6 +50,7 @@
     },
     {
       "item": "upper shelving, timber",
+      "kind": "object",
       "footprint_in": [
         60,
         12
@@ -59,6 +61,7 @@
     },
     {
       "item": "hook rail for hanging",
+      "kind": "object",
       "footprint_in": [
         48,
         6
@@ -69,6 +72,7 @@
     },
     {
       "item": "meat safe or fly-screened cupboard",
+      "kind": "object",
       "footprint_in": [
         36,
         20
@@ -80,6 +84,7 @@
     },
     {
       "item": "low and high air vents",
+      "kind": "object",
       "footprint_in": [
         9,
         9

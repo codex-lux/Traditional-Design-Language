@@ -39,6 +39,7 @@
  "furniture": [
   {
    "item": "settee or day bed against the inner wall",
+   "kind": "object",
    "footprint_in": [
     72,
     26
@@ -50,6 +51,7 @@
   },
   {
    "item": "console or side table between windows",
+   "kind": "object",
    "footprint_in": [
     42,
     16
@@ -59,6 +61,7 @@
   },
   {
    "item": "pictures on the inner wall",
+   "kind": "object",
    "footprint_in": [
     36,
     4
@@ -69,6 +72,7 @@
   },
   {
    "item": "clear walking route",
+   "kind": "reservation",
    "footprint_in": [
     42,
     240

@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "sofa (horsehair, 19th c) or settee",
+      "kind": "object",
       "footprint_in": [
         72,
         30
@@ -49,6 +50,7 @@
     },
     {
       "item": "six to eight side chairs, set against the walls",
+      "kind": "object",
       "footprint_in": [
         20,
         20
@@ -59,6 +61,7 @@
     },
     {
       "item": "centre table with a lamp",
+      "kind": "object",
       "footprint_in": [
         42,
         42
@@ -69,6 +72,7 @@
     },
     {
       "item": "pier glass or overmantel mirror",
+      "kind": "object",
       "footprint_in": [
         36,
         6
@@ -78,6 +82,7 @@
     },
     {
       "item": "piano or parlor organ",
+      "kind": "object",
       "footprint_in": [
         58,
         26
@@ -89,6 +94,7 @@
     },
     {
       "item": "whatnot / etagere in the corner",
+      "kind": "object",
       "footprint_in": [
         24,
         16
@@ -99,6 +105,7 @@
     },
     {
       "item": "coffin on trestles, in the middle of the floor",
+      "kind": "object",
       "footprint_in": [
         28,
         80

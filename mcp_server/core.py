@@ -1456,7 +1456,12 @@ def placement_summary(out):
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),
                        "geometry": r.get("geometry"),
                        "doors": r.get("doors"), "windows": r.get("windows"),
-                       "fixture_layout": r.get("fixture_layout")}
+                       "fixture_layout": r.get("fixture_layout"),
+                       # WP-11.3: and the furniture, for the reason the comment above gives for
+                       # the fixtures -- it is a placement fact and there is nowhere else for a
+                       # reader to get it. Omitted, the browser sheet drew none of it while the
+                       # Python sheet drew all of it, from one record.
+                       "furniture_layout": r.get("furniture_layout")}
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "stair": out.get("stair"),
             "opening_report": out.get("opening_report"),

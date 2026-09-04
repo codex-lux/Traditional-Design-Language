@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "full tester bedstead with hangings",
+      "kind": "object",
       "footprint_in": [
         66,
         84
@@ -48,6 +49,7 @@
     },
     {
       "item": "clothes press or chest of drawers",
+      "kind": "object",
       "footprint_in": [
         48,
         22
@@ -57,6 +59,7 @@
     },
     {
       "item": "pair of side chairs and a small table",
+      "kind": "object",
       "footprint_in": [
         48,
         30
@@ -67,6 +70,7 @@
     },
     {
       "item": "washstand",
+      "kind": "object",
       "footprint_in": [
         30,
         20
@@ -77,6 +81,7 @@
     },
     {
       "item": "fireplace",
+      "kind": "object",
       "footprint_in": [
         54,
         20

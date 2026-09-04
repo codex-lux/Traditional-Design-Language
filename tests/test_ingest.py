@@ -177,7 +177,13 @@ def test_provenance_validates_and_gates_method():
     # instead of the two literals derive.js carried. Additive, and stripped with the rest of the
     # footprint by `strip_placement`, so the DXF round trip returns the authored record unchanged.
     # It caught the bump again, which is exactly what naming the current version is for.
-    assert schema["version"] == "0.5.1"
+    # 0.6.0 (WP-11.3, 4 Sep 2026): `room.furniture_layout` -- where a dry room's furniture was
+    # arranged, with the MARKS to draw it, so both renderers draw one answer and neither derives.
+    # Additive and stripped by `strip_placement` with the fixtures. It caught the bump a fourth
+    # time, and this time it caught something else with it: the schema edit that was to admit
+    # `marks` reported success and changed nothing, so the solved record failed its own schema
+    # and the workbench sat on "placing…" with a 200 and no placement.
+    assert schema["version"] == "0.6.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

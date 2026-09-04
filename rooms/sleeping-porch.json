@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "pair of iron or wooden bedsteads",
+      "kind": "object",
       "footprint_in": [
         100,
         80
@@ -49,6 +50,7 @@
     },
     {
       "item": "single bed or day bed",
+      "kind": "object",
       "footprint_in": [
         38,
         78
@@ -58,6 +60,7 @@
     },
     {
       "item": "blanket chest or built-in locker",
+      "kind": "object",
       "footprint_in": [
         42,
         20
@@ -68,6 +71,7 @@
     },
     {
       "item": "roll-down canvas or wood-slat blinds",
+      "kind": "object",
       "footprint_in": [
         144,
         4

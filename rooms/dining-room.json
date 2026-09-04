@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "dining table, seats 8",
+      "kind": "object",
       "footprint_in": [
         40,
         96
@@ -51,6 +52,7 @@
     },
     {
       "item": "dining chair",
+      "kind": "object",
       "footprint_in": [
         19,
         21
@@ -60,6 +62,7 @@
     },
     {
       "item": "sideboard",
+      "kind": "object",
       "footprint_in": [
         20,
         66
@@ -72,6 +75,7 @@
     },
     {
       "item": "china cupboard or corner cupboard",
+      "kind": "object",
       "footprint_in": [
         18,
         42

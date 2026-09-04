@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "the stair itself, dog-leg with half landing",
+      "kind": "placed-elsewhere",
       "footprint_in": [
         120,
         78
@@ -48,6 +49,7 @@
     },
     {
       "item": "clear landing at the foot",
+      "kind": "reservation",
       "footprint_in": [
         60,
         48
@@ -58,6 +60,7 @@
     },
     {
       "item": "hall clock or tall case",
+      "kind": "object",
       "footprint_in": [
         22,
         12
@@ -69,6 +72,7 @@
     },
     {
       "item": "window seat or chair on the half landing",
+      "kind": "object",
       "footprint_in": [
         48,
         20

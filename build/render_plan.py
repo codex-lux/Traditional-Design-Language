@@ -387,6 +387,7 @@ def _style_block(register):
         f'.sw{{stroke:{L["hair"]};stroke-width:{W_["construction"]};fill:none}}'
         # the fine pen: fixtures, treads, hatching
         f'.fn{{stroke:{L["ink2"]};stroke-width:{W_["fine"]};fill:none}}'
+             f'.fu{{stroke:{L["ink2"]};stroke-width:{W_["fine"]};fill:none}}'
         # construction: the bay grid and its extensions, left visible
         f'.gd{{stroke:{L["hair"]};stroke-width:{W_["construction"]};fill:none}}'
         # the sheet as an object
@@ -878,6 +879,30 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 s.append(f'<rect class="fn" x="{X(f["x_ft"]):.1f}" y="{Y(f["y_ft"]+f["depth_ft"]):.1f}" '
                          f'width="{f["width_ft"]*scale:.1f}" height="{f["depth_ft"]*scale:.1f}" '
                          f'style="stroke-dasharray:{SS.DASH["extent"]}"><title>{_esc(f["item"])}</title></rect>')
+
+        # furniture, from room["furniture_layout"] and from nothing else (WP-11.3). The fine
+        # pen, SOLID -- the fixtures keep their dash, so a reader can tell a derived wet
+        # fixture from a derived furniture arrangement without a legend. The shapes are
+        # furniture/symbols.json's, mapped into each item's own rectangle by
+        # build/furniture.py::marks_for; this renderer computes no geometry of its own, which
+        # is what lets the browser sheet draw the same marks from the same one answer.
+        for r in lv["rooms"]:
+            for f in (r.get("furniture_layout") or []):
+                for m in (f.get("marks") or []):
+                    if "rect" in m:
+                        mx, my, mw, mh = m["rect"]
+                        s.append(f'<rect class="fu" x="{X(mx):.1f}" y="{Y(my + mh):.1f}" '
+                                 f'width="{mw * scale:.1f}" height="{mh * scale:.1f}">'
+                                 f'<title>{_esc(f["item"])}</title></rect>')
+                    elif "line" in m:
+                        x1, y1, x2, y2 = m["line"]
+                        s.append(f'<line class="fu" x1="{X(x1):.1f}" y1="{Y(y1):.1f}" '
+                                 f'x2="{X(x2):.1f}" y2="{Y(y2):.1f}"/>')
+                    elif "circle" in m:
+                        cx_, cy_, rr = m["circle"]
+                        s.append(f'<circle class="fu" cx="{X(cx_):.1f}" cy="{Y(cy_):.1f}" '
+                                 f'r="{rr * scale:.1f}"><title>{_esc(f["item"])}</title></circle>')
+
 
         # ---------------------------------------------------------- P7, at its location
         # A compromise is counted AND appears on the drawing, at its location (OQ 33). The

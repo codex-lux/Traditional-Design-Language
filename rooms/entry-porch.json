@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "rocking chair",
+      "kind": "object",
       "footprint_in": [
         26,
         30
@@ -49,6 +50,7 @@
     },
     {
       "item": "porch swing, hung",
+      "kind": "object",
       "footprint_in": [
         60,
         24
@@ -60,6 +62,7 @@
     },
     {
       "item": "two chairs and a small table",
+      "kind": "object",
       "footprint_in": [
         72,
         30
@@ -69,6 +72,7 @@
     },
     {
       "item": "clear route from step to door",
+      "kind": "reservation",
       "footprint_in": [
         36,
         96

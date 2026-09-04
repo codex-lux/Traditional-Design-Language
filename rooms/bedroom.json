@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "queen bed",
+      "kind": "object",
       "footprint_in": [
         64,
         86
@@ -48,6 +49,7 @@
     },
     {
       "item": "full bed (a secondary or child's room)",
+      "kind": "variant",
       "footprint_in": [
         58,
         81
@@ -58,6 +60,7 @@
     },
     {
       "item": "twin beds, pair",
+      "kind": "variant",
       "footprint_in": [
         100,
         80
@@ -68,6 +71,7 @@
     },
     {
       "item": "nightstand",
+      "kind": "object",
       "footprint_in": [
         22,
         18
@@ -78,6 +82,7 @@
     },
     {
       "item": "chest of drawers",
+      "kind": "object",
       "footprint_in": [
         36,
         20
@@ -88,6 +93,7 @@
     },
     {
       "item": "desk (any bedroom occupied by anyone under twenty-five)",
+      "kind": "object",
       "needs_uninterrupted_wall_ft": 6.0,
       "footprint_in": [
         48,

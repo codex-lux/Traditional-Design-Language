@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **47 checks, 1,568 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,796 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -199,8 +199,9 @@ plus the three appended suites -- so the PASS count the corpus job prints is
 `len(CHECKS)` of 40, read "41 of 44 checks passed" after WP-9.2's move-registry check against
 a `len(CHECKS)` of 41, read "43 of 46 checks passed" after WP-9.7's
 grouping-rule checker met PR #19's move-registry check at the merge, against a `len(CHECKS)` of
-43, and reads "44 of 47 checks passed" after WP-8.9's stranding sweep, against a `len(CHECKS)`
-of 44. **Two sessions each added a check and each published 44**, which is the fifth time
+43, read "44 of 47 checks passed" after WP-8.9's stranding sweep against a `len(CHECKS)`
+of 44, and reads "45 of 48 checks passed" after WP-11.3's furniture grammar, against a
+`len(CHECKS)` of 45. **Two sessions each added a check and each published 44**, which is the fifth time
 this number has gone wrong at exactly a merge; the guard caught it here too.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
@@ -445,6 +446,71 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **AN EDIT THAT REPORTS SUCCESS AND CHANGES NOTHING IS INVISIBLE FOR THREE LAYERS (WP-11.3).**
+  A step that was to add `marks` to `schema/plan.schema.json` ran a `replace` whose target was
+  not in the file, asserted nothing, re-parsed the unchanged JSON successfully and PRINTED ITS
+  OWN SUCCESS. The consequence: the solved record failed its own schema, `core.check_plan`
+  returned `{"error": ...}`, and `workbench/server/evaluate.py`'s early
+  `if "error" in check: return out` sits ABOVE the branch that attaches the placement -- so the
+  API answered **200 with neither `placement` nor `placement_error`** and the Plan Workbench sat
+  on "placing…" for ever. No exception, no console error, nothing in a log; 1,796 unit tests and
+  a clean `vite build` all passed. It took a probe on the evaluate RESPONSE BODY to see that both
+  fields were absent. **Assert that an edit landed and then re-read the file** -- this file
+  records that rule for a corrected NUMBER and it is exactly as true of a schema key. And when a
+  surface hangs with no error, read the response body before reading the code: a 200 that is
+  missing a field is the shape an early return makes.
+- **A RECORD CAN CONTRADICT ITS OWN NOTE, AND A REGEX CANNOT FIND IT (WP-11.3).**
+  `rooms/library.json` authored its table `placement: "against-wall"` while the item's own note
+  reads *"the table is in the MIDDLE of a library and against a wall in a study, and that
+  difference is what distinguishes the two rooms"* -- the STUDY's answer, on the LIBRARY's record,
+  and `rooms/study.json` has its desk correctly against a wall. **The sweep for this class returned
+  one hit and it was a false positive** (`nursery`'s glider, whose note says it *cannot* go against
+  a wall, agreeing with its `freestanding`) and missed the real one, because the library's note
+  names both placements in order to contrast them. That is `check_grouping_rules.py`'s lesson in a
+  new place: author the field, never tighten the regex until the number looks better. Correcting
+  the one record moved `tests/test_furniture_drawn.py`'s short ceiling **86 -> 88** with the
+  placement BYTE-IDENTICAL -- a table in the middle takes clearance on two sides, 6.83 ft becomes
+  10.33, and two `good-*` reference plans are convicted correctly. **When a ratchet moves, re-derive
+  which layer moved it**: this one was the catalogue and not the drawing, and the byte-identity of
+  the fixtures, the geometry and the relaxation counts is how that was isolated rather than guessed.
+- **`kind` ON A FURNITURE ITEM, AND THINNESS IS NOT ONE OF ITS VALUES (WP-11.3).** 278 items,
+  `object` 241 / `reservation` 23 / `variant` 6 / `placed-elsewhere` 5 / `covering` 3, required by
+  `check_rooms.py` on `placement`'s WP-7.2 precedent. `reservation` is OQ 92's own named class --
+  *"clearance reservations wearing an item's shape"*, a clear route or a standing person, carrying
+  a footprint and a clearance and not being a thing. **`placed-elsewhere` has one member and it is
+  the sharp one**: `rooms/stair-hall.json` carries *"the stair itself, dog-leg with half landing"*
+  as furniture at 120 x 78 in and `openings.stair_pass` already draws it. `variant` is an
+  alternative to an object listed EARLIER in the same room -- `bedroom` states a queen bed, a full
+  bed and twin beds, all `essential` by default, and a naive pass draws three beds in one room.
+  **A television is an `object` that has no plan bulk**, so thinness is a SCALE rule
+  (`fg-too-thin-to-draw`, citing `plan_check.py`'s own `fw < 8`) and not a kind. And
+  `footprint_in` means one piece for some items and the whole group for others, over 38 that name
+  a count -- drawn once and disclosed,
+  `oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`.
+- **EVERY FURNITURE RULE DECLARES A GRADE, WHICH IS "UNJUDGED IS NOT PASSED" APPLIED TO
+  PROVENANCE (WP-11.3).** `furniture/grammar.json`: `reading` where the record states the rule AND
+  the figure, `editorial-from-prose` where it states the rule in words and the number is ours,
+  `editorial` where no sentence exists at all. Ten rules -- four editorial, three readings, and
+  **three STATED AND NOT EXECUTED** (the library table centred *because it is a library*, the
+  parlor's peripheral arrangement, the hall's high table facing down the room), each needing a fact
+  no record carries. `build/check_furniture.py` **calls** `check_openings.check_basis` rather than
+  copying it -- that function already walks `furniture[<item>].note`, so the reuse needed no change
+  -- and an `editorial` rule that QUOTES a record is an error in the other direction, because a
+  judgment wearing a citation reads as sourced.
+- **THE MARKS GO ON THE RECORD, WHICH IS WP-6.2'S RULE A LAYER UP (WP-11.3).**
+  `furniture/symbols.json` states each symbol as primitives in a unit square; `furniture.marks_for`
+  maps them into the item's own rectangle ONCE, in Python, and writes the result. Both renderers
+  draw what is there and derive nothing -- handing them a symbol id beside a rectangle is exactly
+  the invitation that put the two 0.7 in apart on the first plan WP-6.2 tried it on. **The JS port
+  was written and then deleted because there was nothing left to port.**
+  **THE ARC THAT LEFT THE ROOM IS THE ENTRY'S OWN LESSON**: the piano's first symbol drew a grand's
+  bent side as an arc whose radius scaled off the item's SHORT side, and it swept outside the item
+  **13 times in 1,078 marks while every item RECTANGLE stayed inside its room the whole time**. The
+  rectangle guard could not see it; it was found by looking at the sheet. There are two tests now
+  and the second says in its own name that it is not the first. `arc` left the vocabulary with the
+  curve, because a primitive no symbol uses is an unreachable branch in two renderers.
+  And `symbol_for` matches WHOLE WORDS where `_FIXTURE_ALIASES` matches substrings: bare substrings
+  drew *"desk (any BEDroom occupied by anyone under twenty-five)"* as a bed.
 - **THE BROWSER WALK IS RUNNABLE IN A SESSION AND IT CATCHES WHAT THE UNIT TESTS CANNOT
   (WP-11.2).** `workbench/app/e2e/walk.mjs` needs a built app and a live server, and this tree
   ships no `node_modules` -- so it had never been run in a session on this branch. It runs:
@@ -1658,8 +1724,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **132 entries, of which 51 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **133 entries, of which 52 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
