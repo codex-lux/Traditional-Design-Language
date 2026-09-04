@@ -195,6 +195,30 @@ rectangle. `geometry_cp.py`'s own docstring says it: *"`exterior_walls` speaks E
 fully-massed house."* The infeasibility is the model reporting, correctly, that the programme is
 not a box; the solver's remedy is to delete the exposure and keep the box.
 
+### I.4 Why the plate says `palladian · 6 bays` under a title that says Tidewater Georgian, five bays
+
+Three fields share that header and each has a different writer, and nothing compares them.
+
+- **The title** is the plan record's free-text `name`. Nothing derives it and nothing reads the
+  "five bays" in it.
+- **The style slot** is `plan.style`, printed verbatim. Exactly three things write it: loading an
+  example plan (which sets `tidewater-georgian`); composing from a brief, which copies the brief's
+  style onto every candidate; and the Plan Workbench's typed style picker. The word `palladian`
+  occurs nowhere in the bench's source, so it arrived through one of those three. **Choosing a
+  candidate from a composed set never rewrites the style**: candidates differ in parti, massing and
+  placement, never in style. Whatever wrote it, the consequence is the same — every fault and kit
+  check on that plate was judged against the Palladian cascade, because the checker reads
+  `plan.style` and nothing else, and the plate does not say so.
+- **The bay count** is `derive_footprint`'s arithmetic: sum the declared room areas, take a width on
+  a default 10 ft module, and 60 ft is six bays. It reads neither the massing's `bays: "5"`, nor the
+  parti's `bay_module_ft: 9`, nor the title.
+
+So an input style selection and a candidate do not "resolve" a discrepancy; there is no
+resolution step. Whichever field was written last is what the plate prints, beside two others
+written by nobody in particular. The fix is in Part VII item 6 (the sheet says which style it
+judged by and flags a title, a parti's native-style list and a style field that disagree) and
+item 2 (the massing's bay count is a fact to satisfy, not a number to overwrite).
+
 ---
 
 ## II. What the type does — the yardstick, with sources
@@ -614,10 +638,12 @@ chambers open off a corridor whose windows are the facade's second storey, so th
 house upstairs is a hallway. On the placement here it is a 31 x 20 ft interior blob of 620 sf with
 no window at all, +72% on its record. The parti declares `upperpassage.stacks_over: passage` and
 `landing.stacks_over: stair`; **the plan record carries neither**, so the critic — which checks
-`stacks_over` faithfully — has nothing to check. Three of the parti's five stacking claims travelled
-into this record, the record added one of its own (powder over the cellar stair), and the two
-that organise the floor — passage over passage, landing over stair — did not.
-*Owner: the parti→plan hand-off, then placer. NEW.*
+`stacks_over` faithfully — has nothing to check. Three of the parti's five stacking claims are in
+this record, the record adds one of its own (powder over the cellar stair), and the two that
+organise the floor — passage over passage, landing over stair — are absent. The composer would
+have copied them (`compose.py` copies every parti room's `stacks_over` onto the record it emits);
+this record is HAND-AUTHORED and nothing checks a hand-authored plan against the parti it names.
+*Owner: the plan record, and the absence of a plan-against-parti check. NEW.*
 
 **F3. The chambers are galleries.** Principal Chamber 10 x 40 (4.0) the full depth of the west
 bay, with a window on three of its four walls; Chamber 2 13 x 31 (2.4); Chamber 3 12'-1" x 31 (2.6). Ware's category
@@ -828,7 +854,7 @@ under two layers is one whose fix in the lower layer is unreachable until the up
 | Layer | Findings | What it would have to learn |
 |---|---|---|
 | **Massing / parti** (`massings/catalog.json`, `partis/centre-passage-double-pile.json`) | A1, A2, A3, B3, E1, E5, F7, G4, H1, I1 | That a five-part house is five elements, each with its own rooms; that a portico, a hyphen, a dependency and a terrace are ELEMENTS with a position relative to the block and not rooms with three exposures; that the bay count is odd and the module is the parti's; where the stair hall is (on the axis) and not only that there is one |
-| **Composer** (`build/compose.py`, `derive_footprint`) | A3, A5, C3, F2 | To carry the parti's `bay_module_ft` and every `stacks_over` into the record; to size from the type's commitments (Part V) rather than from area |
+| **Composer and record** (`build/compose.py`, `derive_footprint`, the plan file) | A3, A5, C3, F2 | To carry the parti's `bay_module_ft` into the footprint; to check a hand-authored record against the parti it names (the composer copies `stacks_over`; nothing checks a hand-authored plan); to size from the type's commitments (Part V) rather than from area |
 | **Placer** (`build/geometry.py`, `build/geometry_cp.py`) | B1, B2, B4, B6, C1, C2, C4, D2, E2, E3, F1, F3, F4, F5, F6, G3, G4, H2, H3, I2, I3, I4 | An axis; the front as a fact and not a 3.5-point preference; hard stacking on this parti; the square as the direction (the 3 Sep ruling) and not only a ceiling; the hearth as a reserved thing; that the objective must run or the sheet must say it did not |
 | **Openings / facade** (`build/openings.py`) | G1, G2, G5 | That a facade is composed and windows derived from it, not the reverse; vertical alignment; the blind bay under the stack, in the plan too |
 | **Room and plan schema** | D1, D3, H5 | A hearth (wall, width, flue) on a room; a level below ground |
@@ -1041,3 +1067,73 @@ a five-part house and the box is what is wrong.
   "attributed". Nothing here should be promoted from `editorial` on the strength of this document.
 - **Whether the workbench's "coverage" hard constraint admits unowned floor.** The engine's hard
   set names coverage; the screenshot appears to show two gaps; not reconciled.
+
+---
+
+## IX. What carries to the other styles, and what does not
+
+Lucas asked, after reading the above, how much of a diagnosis built on Georgian precedents carries
+to the rest of the corpus, and how to tell a universal rule from a style's own without running
+this whole exercise 164 times. Sorted by where each rule actually lives, the fifty-one findings
+fall into four strata, and the corpus already has a home for each.
+
+**Stratum 1 — universal, about bodies and fixtures.** A 9 ft dining room cannot take its table; a
+5 x 31 ft bathroom is a corridor; a 2 ft closet; a bath over no wet room; a bedroom entered
+through another. These live in `rooms/` and the furniture arithmetic, they hold from a Pueblo
+house to a Second Empire villa, and the corpus is already strong here — this is the stratum
+Lucas's own examples name (a bathroom in the middle of a kitchen, a 3 ft living room), and it
+needs no more precedent work. *Findings: C2, F3, F4, F5 (the width half), F6, H3, and the
+furniture half of E2.*
+
+**Stratum 2 — universal, about the instrument.** Relaxed-is-not-proved on the sheet; the objective
+that never ran; the unreported windows; the missing hearth object; a hand-authored record that
+drops the parti's stacking claims with nothing to notice; the absent axis vocabulary; no wall
+thickness. These are defects of the model and the bench, not of any style. Fixed once, every
+style inherits the fix. *Findings: A2 (the solver half), A4, D1, D3, F1 (the disclosure half),
+F2, G1, I2, J1–J7 — about half the report.*
+
+**Stratum 3 — type-level, about the diagram.** The centred door, the odd bay count, the through
+passage, the stair in or on the axis, the front pair for entertaining, paired end stacks, floor
+over floor, the kitchen out of the block. These belong to `centre-passage-double-pile` and
+`four-over-four`, and that parti already lists fifteen styles that share it. **The precedent
+research in Part II was research on the parti, not on the style**: it carries to Federal,
+Colonial Revival, Greek Revival, New England Georgian and the rest of that list without another
+pass, and it carries to nothing that uses a different diagram — a Charleston single house is
+entered sideways off a piazza and has no through-passage by definition, and the corpus already
+says so in `centre-passage-core.attaches_to`. *Findings: A1, A3, B1–B6, C1, C3, D2, E1, E3, E4,
+F7, G2–G5, H1, I1, I3, I4.*
+
+**Stratum 4 — style-level, the residue.** The kitchen detached in the yard rather than in a rear
+ell; the 12 to 14 ft furnished passage; end chimneys rather than a central stack; the raised
+basement; the 11 ft ceiling. These are the Tidewater particulars, and they are few because the
+model's own premise — a style is a set of bindings on a universal slot set — predicts they should
+be. The corpus already has the mechanisms: `style_variation` on a room or grouping,
+`applies_to_styles` and `exceptions` on a fault, the style node's `constraints` and
+`diagnostic_tells`, and the register axis. *Findings: C4 (the north library is a polite English
+rule, conditioned), E5, G4 (the detached half), H1 (the yard half), and the passage width in B1.*
+
+**What follows for method.** The unit of precedent research is the PARTI, not the style: 21
+against 164, and each parti already names its exemplars, so the pass in Part II is a template
+whose input is that list. Do it per parti; for the diagrams whose exemplars HABS covers, it is a
+day. Then for each style write only the DIFFERENTIAL against its parti — what this style does that
+its diagram does not already say — which is the discipline `check_partis.py` already uses for its
+control-diagram test, and which keeps a Tidewater fact from being laundered into a Federal rule.
+
+Two guards keep generalising from homogenising. **A rule enters at the lowest stratum whose sources
+support it and never higher**: Kerr's 16 ft dining room is a polite English figure and stays a
+register-conditioned band, exactly as the 2 Sep study warned. **And the register axis Lucas ruled
+on 1 Sep is what lets a stratum-3 rule vary without splitting into two styles**: a folk and a
+polite centre-passage house share the diagram and differ in passage width, trim and service, and
+that difference is register, not style. Without the axis the temptation is to mint style nodes to
+carry it, which is the homogenising move wearing the other coat.
+
+The one place per-style research is still worth real effort is stratum 4's hearth and service:
+end chimneys in the Chesapeake, the central stack in New England, the corner fireplace in the
+Hudson Valley, the courtyard kitchen in New Mexico. Everything else on the list is either
+everybody's or the parti's.
+
+**Where each stratum is fixed.** Stratum 1 needs nothing new. Stratum 2 is Phase 11's first three
+packages (`PLAN-OF-ACTION.md`). Stratum 3 is the container, the axis, the hearth-as-placement-rule
+and the stacking packages, each written against the parti and inherited by its fifteen styles.
+Stratum 4 is authoring, one `style_variation` at a time, and is the only stratum where the report
+for the next style is not already written.

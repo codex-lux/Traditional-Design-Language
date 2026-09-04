@@ -73,6 +73,20 @@ named dimension. Eight were found this way in WP-4.6; that is OQ 48. Useful whil
 
 ## Where the work stands (3 Sep 2026)
 
+**AND READ `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` BEFORE TOUCHING THE PLACER, THE
+SHEET OR THE PARTI (4 Sep 2026).** Lucas put the bench's own Tidewater sheet in front of a session
+and asked for the diagnosis before his own list. Fifty-one findings, eight root causes, four strata
+(Part IX says which fixes are everybody's, the instrument's, the parti's, or the style's), and the
+finding that decides the order: the plate's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S
+DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls, both ends of
+the passage among them, with `objective: null` -- the compositional objective never ran, so every
+soft term the corpus has was inert on the engine the bench draws, and the search it refuses to draw
+scores 712.6 against the proof's 835.0. **Relaxed is not proved.** The declared record is
+infeasible in one rectangle because its `exterior_walls` are the exposures of a five-part house.
+There is no hearth anywhere in the plan layer and no axis vocabulary anywhere in the code. The
+work is `PLAN-OF-ACTION.md` Phase 11, WP-11.1 through 11.11, nothing started; three are
+unblocked and the container waits on four rulings the phase recommends answers to.
+
 **READ `docs/reports/project-review-2026-09-03.md` FIRST if you are about to plan work rather than
 do a named package.** It is the second review of the whole project against `VISION.md` and the
 UI/UX documents (the first is `project-review-2026-08-26.md`, and both are kept: the earlier one is
