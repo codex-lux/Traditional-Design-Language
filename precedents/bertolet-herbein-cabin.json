@@ -105,18 +105,18 @@
     {
       "name": "overall_width_ft",
       "as_printed": "approximately 20 feet by 30 feet",
-      "value": 30,
+      "value": 20,
       "unit": "ft",
       "from_quote": 2,
-      "note": "The survey does not say which figure is the front; the cabin 'faces southeast'."
+      "note": "Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): the survey does not say which figure is the front; the convention across precedents/ is that the FIRST figure printed is overall_width_ft (badin-roque-house reads '27\\' x 30\\'' the same way), and this record had read the larger. Swapped to the convention; the cabin 'faces southeast'."
     },
     {
       "name": "overall_depth_ft",
       "as_printed": "approximately 20 feet by 30 feet",
-      "value": 20,
+      "value": 30,
       "unit": "ft",
       "from_quote": 2,
-      "note": "Same caveat."
+      "note": "Same convention."
     },
     {
       "name": "storey_count",

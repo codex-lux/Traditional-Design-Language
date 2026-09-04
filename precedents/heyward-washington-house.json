@@ -77,7 +77,7 @@
       },
       {
         "field": "significance",
-        "text": "Historical Data: Judge Thomas Heyward 1 s house on the west side of Church Street just north of Tradd was at one time considered one of the most splendid houses in Charleston. Although not so lar~e, this house h<1.s many features in common with the Brewton House. Fn~merly couble verandas adorned the t.hree-story brick structure.",
+        "text": "HistoricRl Data: Judge Thomas Heyward 1 s house on the west side of Church Street just north of Tradd was at one time considered one of the most splendid houses in Charleston. Although not so lar~e, this house h<1.s many features in common with the Brewton House. Fn~merly couble verandas adorned the t.hree-story brick structure.",
         "page": "HABS No. SC-64, 'Historical Data' sheet; no page number printed"
       }
     ]
@@ -92,5 +92,5 @@
       "note": "The same survey's historical sheet calls it a 'three-story brick structure' and the SC register a 'three-story brick Charleston double house'. Both as printed; neither reconciled here."
     }
   ],
-  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-georgian node already carried were kept exactly. Worth carrying: the survey's two sheets disagree with each other about the storey count, and the survey's 1750 is twenty years off the register's 1770-71."
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-georgian node already carried were kept exactly. Worth carrying: the survey's two sheets disagree with each other about the storey count, and the survey's 1750 is twenty years off the register's 1770-71. Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): quote 1 had one OCR token silently corrected ('Historical' for the page's 'HistoricRl'); restored, because a quote is verbatim or it is not a quote."
 }

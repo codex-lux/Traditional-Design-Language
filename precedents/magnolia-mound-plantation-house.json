@@ -171,14 +171,6 @@
       "from_quote": 4
     },
     {
-      "name": "chimney_stack_count",
-      "as_printed": "An inner brick chimney ... An additional brick chimney",
-      "value": 2,
-      "unit": "count",
-      "from_quote": 5,
-      "note": "One original inner stack and one added in the early nineteenth century."
-    },
-    {
       "name": "window_sash_lights",
       "as_printed": "nine-over-six-light double hung sashes",
       "value": 15,
@@ -203,5 +195,6 @@
   ],
   "nodes": [
     "raised-creole-plantation"
-  ]
+  ],
+  "note": "Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): a chimney_stack_count 2 measurement was removed: its as_printed joined two spans with an ellipsis, so it was a count inferred from the prose rather than a figure the survey printed (the two spans are still in the quotes)."
 }

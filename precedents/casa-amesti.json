@@ -114,12 +114,12 @@
       "from_quote": 1
     },
     {
-      "name": "adobe_brick_width_in",
+      "name": "adobe_brick_dimension_in",
       "as_printed": "11-1/2\" by Zkn by U\"",
       "value": 11.5,
       "unit": "in",
       "from_quote": 2,
-      "note": "Only the first figure of the brick's three is legible; 'Zkn' and 'U\"' are OCR and are NOT read. The Larkin House sheet, by the same programme, gives 11\" by 24\"."
+      "note": "Only the first figure of the brick's three is legible; 'Zkn' and 'U\"' are OCR and are NOT read. The Larkin House sheet, by the same programme, gives 11\" by 24\". Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): renamed from adobe_brick_width_in; the source does not say which axis 11-1/2 in is."
     },
     {
       "name": "ground_floor_opening_count_1842",

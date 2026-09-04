@@ -132,15 +132,7 @@
       "unit": "count",
       "from_quote": 3,
       "note": "Twelve over twelve; recorded as the total per window."
-    },
-    {
-      "name": "dormer_count",
-      "as_printed": "There are a pair of dormer windows on the front of the main block ... There is also a dormer on the rear",
-      "value": 3,
-      "unit": "count",
-      "from_quote": 4,
-      "note": "Two on the front, one on the rear; the as_printed joins two sentences of one quote with an ellipsis and the quote itself is contiguous."
     }
   ],
-  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the mid-atlantic-georgian node already carried were kept exactly. The extract's spans carry no page markers at all for this survey, and every quote says so."
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the mid-atlantic-georgian node already carried were kept exactly. The extract's spans carry no page markers at all for this survey, and every quote says so. Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): a dormer_count 3 measurement was removed: its as_printed joined two spans with an ellipsis, so it was a count inferred from the prose rather than a figure the survey printed (the two spans are still in the quotes)."
 }

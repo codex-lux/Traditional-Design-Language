@@ -74,6 +74,7 @@ RATCHET = {
     "malformed_ids": 0,
     "license_keys": 0,
     "kit_pointers_unresolved": 0,
+    "as_printed_not_in_quote": 0,
 }
 FLOORS = ("precedents", "exemplars_with_precedent", "precedents_with_survey")
 
@@ -223,6 +224,19 @@ def main():
                 if not (0 <= ms.get("from_quote", -1) < nq):
                     rep.err("%s.measurements[%d]" % (where, j),
                             "from_quote %r indexes no quote (the survey has %d)" % (ms.get("from_quote"), nq))
+                    continue
+                # THE AUDIT'S OWN TEST, MADE PERMANENT. `as_printed` is what was read; it must be
+                # a contiguous span of the quote it names. Four Tranche 1 counts were two spans
+                # joined with an ellipsis -- an inference wearing a quotation -- and this is what
+                # caught them. Whitespace-normalised, because the extract's line breaks are not the
+                # page's.
+                q = " ".join(str(sv["quotes"][ms["from_quote"]].get("text", "")).split())
+                ap = " ".join(str(ms.get("as_printed", "")).split())
+                if ap and ap not in q:
+                    counts["as_printed_not_in_quote"] += 1
+                    rep.err("%s.measurements[%d]" % (where, j),
+                            "as_printed %r is not a contiguous span of quote %d -- a figure assembled from the "
+                            "prose is a reading, and belongs in `note`, not in as_printed" % (ms.get("as_printed"), ms["from_quote"]))
         elif rec.get("measurements"):
             rep.err(where, "carries measurements with no survey to index into")
 
@@ -297,7 +311,7 @@ def main():
     for k in ("dangling_precedent",):
         m[k] = max(m[k], counts[k])
     for k in ("back_reference_disagreements", "refs_without_locator", "malformed_ids", "license_keys",
-              "kit_pointers_unresolved", "kit_pointers"):
+              "kit_pointers_unresolved", "kit_pointers", "as_printed_not_in_quote"):
         m[k] = counts[k]
 
     live_state = None

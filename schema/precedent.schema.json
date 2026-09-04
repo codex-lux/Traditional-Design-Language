@@ -77,7 +77,7 @@
       "description": "The Historic American Buildings Survey's WRITTEN historical and descriptive data for this building, quoted verbatim. It is text about the plates, not the plates: it states overall dimensions, storeys, bays, walls, chimneys, roof and openings as a surveyor recorded them, and it is a poor source for room dimensions, which live on the measured drawings (wp-9.2-what-the-tradition-actually-does.md §7 Q10). OCR is noisy -- a `4` reads as `h` -- so every figure taken from a quote is carried `as_printed` in `measurements`.",
       "properties": {
         "item": { "type": "string", "description": "The Library's item id, e.g. va0433." },
-        "survey_no": { "type": "string", "description": "The HABS number as the data page's own header prints it, e.g. VA-141." },
+        "survey_no": { "type": "string", "description": "The HABS number in the Library's normalised form (VA-141), which is what the refs carry and what a search resolves. Where the data page's own header prints an older form -- MASS-223, FLA-116, a 1930s SC-104 later renumbered -- say so in the habs ref's note; the audit of Tranche 1 found six such pages and this description had asked for the header's form, which would have made the field unsearchable." },
         "data_url": { "type": "string" },
         "prepared": { "type": "string", "description": "Who wrote the data page and when, as it says." },
         "retrieved": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
@@ -103,6 +103,7 @@
     },
     "measurements": {
       "type": "array",
+      "description": "Every figure a quote states. `as_printed` MUST be a contiguous substring of the quote it indexes (checked, whitespace-normalised): a count assembled from two spans joined with an ellipsis is an inference wearing a quotation, and four were removed at the 4 Sep audit. Where a survey prints two plan figures and does not say which is the front, the FIRST figure printed is `overall_width_ft`; say in `note` that the front is unstated.",
       "items": {
         "type": "object",
         "required": ["name", "as_printed", "from_quote"],

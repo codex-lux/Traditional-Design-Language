@@ -150,12 +150,12 @@
       "from_quote": 0
     },
     {
-      "name": "wall_thickness_in",
+      "name": "wall_thickness_max_in",
       "as_printed": "up to three feet wide",
       "value": 36,
       "unit": "in",
       "from_quote": 2,
-      "note": "A maximum, as the survey states it."
+      "note": "A maximum, as the survey states it; renamed from wall_thickness_in at the 4 Sep audit because a ceiling is not a thickness."
     },
     {
       "name": "wall_height_ft",

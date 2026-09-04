@@ -91,14 +91,6 @@
       "note": "The long flank behind the piazza."
     },
     {
-      "name": "dormer_count",
-      "as_printed": "Two dormers flank the centered triangular pediment ... There is a third dormer window positioned on the north slope",
-      "value": 3,
-      "unit": "count",
-      "from_quote": 1,
-      "note": "Two on the south slope and one on the north; the as_printed joins two sentences of one contiguous quote."
-    },
-    {
       "name": "piazza_tiers",
       "as_printed": "A two-story piazza",
       "value": 2,
@@ -106,5 +98,5 @@
       "from_quote": 2
     }
   ],
-  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on charleston-single-house as the documentary case: a 2015 HABS survey with measured drawings and a Part II description of a plain single house. It is Greek Revival and c. 1825, past the node's Georgian-to-Federal span; it is here because the node's own prose says the builders changed the trim and never the diagram, and this is the diagram measured."
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on charleston-single-house as the documentary case: a 2015 HABS survey with measured drawings and a Part II description of a plain single house. It is Greek Revival and c. 1825, past the node's Georgian-to-Federal span; it is here because the node's own prose says the builders changed the trim and never the diagram, and this is the diagram measured. Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): a dormer_count 3 measurement was removed: its as_printed joined two spans with an ellipsis, so it was a count inferred from the prose rather than a figure the survey printed (the two spans are still in the quotes)."
 }

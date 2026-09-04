@@ -131,15 +131,7 @@
       "unit": "in",
       "from_quote": 2,
       "note": "The shake's length, not its exposure; the survey gives no exposure."
-    },
-    {
-      "name": "storey_count",
-      "as_printed": "First ... Second ... Third - designed as a billiard room",
-      "value": 3,
-      "unit": "count",
-      "from_quote": 8,
-      "note": "Three floors above a full basement, counted from the plan description; the survey states no storey figure of its own."
     }
   ],
-  "note": "This survey carries no over-all dimensions line: its Part II.B begins at '1. Foundations'. The exterior figures a kit could use are therefore the chimney count and the eave description ('Long overhanging eaves with exposed rafter construction'), which names the condition and not the projection. Also named, without a precedent key, by arts-and-crafts-american and california-bungalow, both at 'Pasadena, California'. Seeded 4 Sep 2026."
+  "note": "This survey carries no over-all dimensions line: its Part II.B begins at '1. Foundations'. The exterior figures a kit could use are therefore the chimney count and the eave description ('Long overhanging eaves with exposed rafter construction'), which names the condition and not the projection. Also named, without a precedent key, by arts-and-crafts-american and california-bungalow, both at 'Pasadena, California'. Seeded 4 Sep 2026. Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): a storey_count 3 measurement was removed: its as_printed joined two spans with an ellipsis, so it was a count inferred from the prose rather than a figure the survey printed (the two spans are still in the quotes)."
 }
