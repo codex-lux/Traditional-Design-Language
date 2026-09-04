@@ -76,6 +76,13 @@ CHECKS = [
     # for exactly that reason.
     ("check_openings.py", []),
     ("check_furniture.py", []),
+    # WP-11.4. threshold/grammar.json's grades and quotes, on check_furniture.py's own
+    # pattern -- and, the half that is not about prose, the proof that build/threshold.py's
+    # closed hearth tables are TOTAL over every `hearth_position` variant id and every
+    # massing `hearth` value in the corpus. A token neither table names fails the build; it
+    # earned that on its first run, on twelve massing values written in a vocabulary the kit
+    # slot does not use.
+    ("check_threshold.py", []),
     # WP-9.1. The arrangement layer's own selftest: that every derivation still moves when
     # the house it measures changes (a check that cannot fail is worse than none), that no
     # name in NOT_DERIVABLE reaches the returned measurements, and that every route in the

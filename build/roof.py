@@ -42,7 +42,8 @@ GEOM = _mod("geometry", f"{ROOT}/build/geometry.py")
 ST = _mod("structure", f"{ROOT}/build/structure.py")
 C = PC.load_corpus()
 
-DEFAULT_ROOF_FORM = "side-gable"
+# DEFAULT_ROOF_FORM moved to build/threshold.py with roof_form_for, its only reader. A
+# second copy of a default here is how two files come to disagree about the same building.
 DEFAULT_CHIMNEY_HEIGHT_ABOVE_RIDGE_IN = 72.0   # matches storey-graduation-adjacent kit default seen on tidewater-georgian's own chimney slot
 # Gambrel geometry has no single universal migrated constraint the way roof_pitch_rise_per_12
 # does -- but the SAME numbers ("lower slope 60-72 degrees, upper slope 18-30 degrees, break at
@@ -137,29 +138,32 @@ def _massing(massing_id):
     return C["massings"].get(massing_id, {})
 
 # ---------------------------------------------------------------- roof form
+# MOVED TO build/threshold.py (WP-11.4) AND RE-EXPORTED HERE UNDER THE OLD NAMES.
+# `roof_form_for` and the ridge axis are pure functions of the plan and the massing -- no
+# section, no structure, no ridge height -- and the PLACEMENT layer needs the axis to know
+# which two walls are the gable ends before any of this file's machinery exists. Spelling
+# that arithmetic a second time down there is the failure this corpus meets most often, so
+# there is one spelling and this file reads it. `tests/test_threshold_pass.py` holds the
+# whole of build_roof's output over both shipped plans, all fourteen reference plans and a
+# 164-style sweep byte-identical across the move.
+_TH = None
+
+
+def _threshold():
+    global _TH
+    if _TH is None:
+        _TH = _mod("threshold", f"{ROOT}/build/threshold.py")
+    return _TH
+
+
 def roof_form_for(plan, massing):
-    """plan.declared.roof_form (the element slot every plan already has access to, exactly the
-    pattern structure.py's wall_thickness() established for construction_type) governs; falls
-    back to the massing's own first-listed roof_default with an explicit note when undeclared --
-    'unjudged is not passed' applied a second time, at the roof layer. A declared form outside
-    the massing's roof_default list is NOT treated as an error -- massings/catalog.json's own
-    roof_default is a list of typical forms, not an exhaustive permitted set -- but is noted."""
-    declared = (plan.get("declared") or {}).get("roof_form")
-    defaults = massing.get("roof_default") or [DEFAULT_ROOF_FORM]
-    if declared:
-        note = None if declared in defaults else (
-            f"'{declared}' is declared but is not in massing '{massing.get('id')}''s own roof_default list "
-            f"({', '.join(defaults)}) -- not an error, that list is typical forms, not an exhaustive set, but worth a second look.")
-        return declared, note
-    return defaults[0], f"No roof_form declared; used massing '{massing.get('id')}''s first default ('{defaults[0]}')."
+    return _threshold().roof_form_for(plan, massing)
+
 
 # ---------------------------------------------------------------- main-volume geometry
 def _rect_face_axis(form):
-    """Which plan axis the ridge runs along, for the two single-ridge gable forms. side-gable:
-    ridge parallel to the wider/entrance-parallel dimension (axis 'x', the convention this
-    corpus's own render_plan.py/structure.py already use -- S/N walls run along x).
-    front-gable: ridge perpendicular to the entrance (axis 'y', W/E walls run along y)."""
-    return "x" if form in ("side-gable", "hip") else "y"   # hip's ridge, where one exists, also runs along x by this corpus's own W>=D convention below
+    return _threshold().ridge_axis(form)
+
 
 def main_roof(plan, section, style):
     """The primary roof volume over the whole footprint. Reuses structure.py's own
@@ -460,10 +464,9 @@ def chimney_positions(plan, style, section, main):
 
     W, D = section["footprint"]["width_ft"], section["footprint"]["depth_ft"]
     axis, ridge_ft = ridge["axis"], ridge["grade_to_ridge_ft"]
-    if axis == "x":
-        positions = [(0.0, D / 2.0), (W, D / 2.0)]
-    else:
-        positions = [(W / 2.0, 0.0), (W / 2.0, D)]
+    # ONE spelling of the two gable-end points, in build/threshold.py, read by this file for
+    # the stack's HEIGHT and by the placement layer for its PLAN (WP-11.4).
+    positions = _threshold().gable_end_points(W, D, axis)
 
     style_constraint = next((c for c in C["styles"].get(style, {}).get("constraints", [])
                               if (c.get("test") or {}).get("expression") == "chimney_height_above_ridge_ft"), None)

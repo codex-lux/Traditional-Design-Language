@@ -323,7 +323,27 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const yOff = hasLot ? (site.setback_front_ft || 0) : 0;
 
   // viewBox in model feet (y already negated screenward): margins for street, dims, bar
-  const mL = 11, mR = 15, mT = hasLot ? Math.max(15, lotD - H - yOff + 8) : 15, mB = hasLot ? Math.max(9, yOff + 7) : 9;
+  /* WP-11.4. The stoop stands outside the entrance wall and an exterior stack outside its
+     gable end, both at a negative coordinate or past `width_ft`, so the plate has to be wide
+     enough to hold them. `build/render_plan.py::threshold_rects` is the same reckoning in
+     the same order; a plate sized to the rooms alone cuts them off with no error anywhere. */
+  const thRects = [
+    ...((placement?.threshold?.steps) || []).flatMap((st) => [st.platform, st.flight].filter(Boolean)),
+    ...((placement?.hearths?.stacks) || []),
+  ];
+  const outL = Math.max(0, ...thRects.map((r) => -r.x_ft));
+  const outR = Math.max(0, ...thRects.map((r) => r.x_ft + r.width_ft - W));
+  const outB = Math.max(0, ...thRects.map((r) => -r.y_ft));
+  const outT = Math.max(0, ...thRects.map((r) => r.y_ft + r.depth_ft - H));
+  // A FLOOR, AND ON THE SHIPPED PLAN IT IS NOT REACHED: an exterior stack projects 3.1 ft and
+  // the flight 3.5, against margins of 11 and 9 ft that this sheet already carried for the
+  // street and the dimension line. So this widening changes nothing today and is inert rather
+  // than wrong -- said plainly, because a reader who mutates it and sees the walk stay green
+  // should know why. build/render_plan.py's plate has no such margin and the same reckoning
+  // there is load-bearing; its guard goes red on the revert.
+  const mL = Math.max(11, outL + 3), mR = Math.max(15, outR + 3);
+  const mT = Math.max(hasLot ? Math.max(15, lotD - H - yOff + 8) : 15, outT + 3);
+  const mB = Math.max(hasLot ? Math.max(9, yOff + 7) : 9, outB + 3);
   const view = { x: -mL, y: -H - mT, w: W + mL + mR, h: H + mT + mB + 6 };
   // a zero-width space after each interpunct: the title may fold at a word boundary,
   // and never inside a word — without it 'TIDEWATER·GEORGIAN,·FIVE·BAYS,·CAREFULLY·
@@ -571,6 +591,36 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             stair not drawn — see record
           </text>
         )}
+
+        {/* WP-11.4 — the stoop and the gable-end stacks, from plan.threshold and plan.hearths
+            and from nothing else. Both are BRICK, so both take the wall's own body: the same
+            masonry poché and the same cut line the envelope is drawn in, because they are the
+            same trade and a reader must not have to learn a second convention for a second
+            brick. The STACK is on every plate because it passes through every floor; the
+            STOOP only on the ground, because it is at grade. */}
+        {((placement?.hearths?.stacks) || []).map((sk, i) => (
+          <rect key={'sk' + i} data-stack={sk.wall} x={sk.x_ft} y={-sk.y_ft - sk.depth_ft}
+            width={sk.width_ft} height={sk.depth_ft}
+            style={POCHE.masonry} vectorEffect="non-scaling-stroke">
+            <title>{`chimney stack, ${sk.stack_plan_in} in square, ${sk.side} to the ${sk.wall} gable end`}</title>
+          </rect>
+        ))}
+        {levelIndex === 0 && ((placement?.threshold?.steps) || []).map((st, i) => (
+          <g key={'th' + i} data-threshold={st.room}>
+            {[['platform', st.platform], ['flight', st.flight]].filter(([, r]) => r).map(([part, r]) => (
+              <rect key={part} data-part={part} x={r.x_ft} y={-r.y_ft - r.depth_ft}
+                width={r.width_ft} height={r.depth_ft}
+                style={POCHE.masonry} vectorEffect="non-scaling-stroke">
+                <title>{part === 'platform' ? 'stoop platform'
+                  : `${st.riser_count} risers at ${st.riser_height_in} in, treads ${st.tread_depth_in} in`}</title>
+              </rect>
+            ))}
+            {(st.nosings || []).map((n, j) => (
+              <line key={'n' + j} x1={n.line[0]} y1={-n.line[1]} x2={n.line[2]} y2={-n.line[3]}
+                style={PEN.medium} vectorEffect="non-scaling-stroke" />
+            ))}
+          </g>
+        ))}
 
         {/* fixtures, from room.fixture_layout and from nothing else.
             WP-11.3 put this mark on the pen ladder: it had carried `stroke="var(--ink-2)"` as

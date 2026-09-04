@@ -1,0 +1,170 @@
+{
+  "id": "threshold-grammar",
+  "version": "0.1.0",
+  "name": "The threshold and the stack",
+  "kind": "editorial",
+  "judgment": true,
+  "description": "Where the stoop, its flight and the gable-end stacks go on a placed plan, and what each figure is taken from. Every one of these things is stated somewhere in the kit already; none of them had ever reached a drawing. This file says which rule drew each of them and how much of that rule is the corpus's.",
+  "note": "MODELLED ON furniture/grammar.json (WP-11.3), WHICH IS MODELLED ON openings/grammar.json (WP-6.2), and the citation machinery is build/check_openings.py::check_basis CALLED and not copied -- that function already resolves a kit's slot and its parameters without the path having to spell `slots.` or `parameters.`, which is exactly how a kit figure is addressed here. Every rule declares a GRADE, because the whole difference between reading a record and inventing one is whether the number was in the sentence.",
+  "grades": {
+    "reading": "The record states the rule AND the figure. The number is in the record, under the key the basis names.",
+    "editorial-from-prose": "The record states the rule in words, or states the figure in a form a drawing cannot use directly (a band, a minimum). The rule is the corpus's and the choice of number is ours.",
+    "editorial": "No sentence in the corpus states this. It is ours entirely, and it is named so that a reader can disagree with it."
+  },
+  "resolution": {
+    "order": [
+      "placement rule",
+      "refusal"
+    ],
+    "note": "A thing is drawn only where every figure it needs is stated. Where one is missing the refusal rule that names the missing figure is recorded on the plan, which is a verdict and not a silence."
+  },
+  "executed": [
+    "th-stoop-at-the-entrance-door",
+    "th-platform-width",
+    "th-platform-depth",
+    "th-riser-height",
+    "th-riser-count",
+    "th-tread-depth",
+    "th-stack-at-the-gable-end",
+    "th-which-side-of-the-end-wall",
+    "th-stack-plan-size"
+  ],
+  "stated_not_executed": [
+    "th-the-stack-serves-the-end-rooms"
+  ],
+  "placement_rules": [
+    {
+      "id": "th-stoop-at-the-entrance-door",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "door": "exterior, on the entrance face"
+      },
+      "rule": "The stoop and its flight stand outside the entrance door, centred on it, on the face the plan states as its entrance. Where the room carrying that door is typed `entry-porch`, THAT ROOM IS THE PLATFORM and only the flight is drawn outside the block.",
+      "basis": "kits/georgian-colonial-american.kit.json steps_and_stoop.platform_depth_in: \"The stoop is a solid masonry platform, wider than the entrance composition by about 18 in each side, reached by three to five risers of 6 to 7 in with treads of 12 to 14 in.\"",
+      "note": "The record states the composition and never says the stoop is at the entrance, because it did not have to: the slot is in the `threshold` group and its platform is 'the entrance composition plus about 18 in of platform each side'. That the entrance is the door on `context.entrance_faces` is this pass's reading, and the flight is clamped to the extent of the room's own placed rectangle so a stoop is never wider than the wall it descends from. The entry-porch clause is a reading of the plan record rather than the kit: an entry-porch room is already a placed, dimensioned raised platform, and drawing a second one in front of it would put two thresholds on one house."
+    },
+    {
+      "id": "th-platform-width",
+      "grade": "reading",
+      "applies_to": {
+        "figure": "platform_width_in"
+      },
+      "rule": "The platform is as wide as the kit's own derived figure.",
+      "basis": "kits/georgian-colonial-american.kit.json steps_and_stoop.platform_width_in: \"the entrance composition plus about 18 in of platform each side\"",
+      "note": "`module * 0.8 + part * 4` from `facade-classical`, 122.4 in on tidewater-georgian's own bindings. A derived figure with a source pack and a stated expression is the strongest form in this corpus and is read exactly as it stands. On the shipped Tidewater plan it lands within 0.2 ft of the placed entry porch's own width, which is corroboration and is reported rather than used."
+    },
+    {
+      "id": "th-platform-depth",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "figure": "the stoop's depth"
+      },
+      "rule": "The stoop is as deep as the ONE value every statement of its depth admits. Where those statements do not intersect, the depth is unjudged and nothing is drawn.",
+      "basis": "kits/georgian-colonial-american.kit.json porch_depth.stoop_min_depth_in: \"A Georgian entry portico is 5 to 8 ft deep — enough to stand out of the rain under, not enough to sit in; the depth is set by the projection of the order, not by use.\"",
+      "note": "THE CORPUS STATES THIS DEPTH THREE TIMES, IN TWO SLOTS, AND THE THREE DO NOT AGREE: `steps_and_stoop.platform_depth_in` bands it [36, 60] in, `porch_depth.stoop_depth_ft` bands it [4, 6] ft = [48, 72] in, and `porch_depth.stoop_min_depth_in` states a floor of 48 in. A 36 in stoop is inside the first band and below the third. 48 in is the only value all three admit -- the low end of one band, the midpoint of the other, and the stated minimum exactly -- which is why it is taken rather than either midpoint. That is a reading of an intersection and not a reconciliation: none of the three is edited to agree with the others, which is `oq/a-grouping-rule-and-a-room-record-can-disagree`'s standing rule applied in the kit layer."
+    },
+    {
+      "id": "th-riser-height",
+      "grade": "reading",
+      "applies_to": {
+        "figure": "riser_height_in"
+      },
+      "rule": "The riser is the kit's own derived height.",
+      "basis": "kits/georgian-colonial-american.kit.json steps_and_stoop.riser_height_in: \"two and a half courses, which is a good riser and NOT a whole number of courses — the honest problem in coursed step construction\"",
+      "note": "`part * 2.5` from `brick-course`, 6.875 in. Not drawn in plan -- a plan has no risers to show -- but recorded on every step entry, because the flight's own extent is the tread count and the riser height is what a reader needs to know the flight is real."
+    },
+    {
+      "id": "th-riser-count",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "figure": "riser_count_from_grade"
+      },
+      "rule": "Where the resolved count is a band, the flight is drawn at the band's LOW end.",
+      "basis": "kits/tidewater-georgian.kit.json steps_and_stoop.riser_count_from_grade",
+      "note": "EDITORIAL, and the reason is about what a plan asserts: the flight's tread count is the only thing on this drawing that claims ground OUTSIDE the house, and the least the band permits is the least the drawing claims. Three facts are recorded beside it rather than averaged. The band is [3, 6] and `measured`. The slot's own basis sentence says 'three to five risers', which the band's own top end contradicts. And `georgian-colonial-american`, the parent, DERIVES the count as `ceil(part * 2.4 / 6.75)` = 4 from `storey-graduation` -- a figure the child's band replaces and the resolved record then does not carry. That last is not one node's oddity: 224 (node, slot, parameter) triples over 58 nodes and 7 distinct parameters have a nearer band standing over an ancestor's expression. `oq/a-child-band-replaces-an-ancestor-derivation`."
+    },
+    {
+      "id": "th-tread-depth",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "figure": "tread_depth_in"
+      },
+      "rule": "Where the resolved tread depth is a band, the tread is drawn at the band's midpoint.",
+      "basis": "kits/georgian-colonial-american.kit.json steps_and_stoop.tread_depth_in: \"reached by three to five risers of 6 to 7 in with treads of 12 to 14 in\"",
+      "note": "EDITORIAL, and deliberately NOT the low end that the riser count takes: a tread is bounded above and below by use, and the band's own note says the width of the band IS the uncertainty. 13 in on tidewater-georgian. The two rules take different ends of their bands for different reasons and both reasons are written down, which is the point of grading them separately."
+    },
+    {
+      "id": "th-stack-at-the-gable-end",
+      "grade": "reading",
+      "applies_to": {
+        "slot": "hearth_position"
+      },
+      "rule": "Where the node's own kit makes a gable-end hearth canonical, a stack stands at the middle of each gable-end wall.",
+      "basis": "kits/tidewater-georgian.kit.json hearth_position.rule: \"Hearths are at the gable ends, on the outside walls of the end rooms, so the mass of the stack sits outside the heated volume in summer.\"",
+      "note": "The NODE'S OWN kit and never the cascade, for the reason build/roof.py::chimney_positions states at length: an inherited `forbidden` is a prohibition an ancestor made and never overturned, and an inherited CANONICAL VARIANT is a positive claim the descendant never made. `colonial-revival` proves it here as it proved it there -- its `hearth_position` is `open`, so the cascade hands it `central-open-hearth` from `english-gothic`, seven steps up and date-gated to 1180-1450. The massing's own `hearth` field is the fallback. Which gable end is which comes from the ridge axis, which is a pure function of the declared roof form; the point on the wall is its mid-depth, which is where a double pile's own partition falls and therefore where one stack can serve the two end rooms -- `massings/catalog.json`'s four-over-four says 'Paired end chimneys serve four fireplaces per floor'."
+    },
+    {
+      "id": "th-which-side-of-the-end-wall",
+      "grade": "reading",
+      "applies_to": {
+        "slot": "hearth_position"
+      },
+      "rule": "Which face of the end wall the mass stands on is read from the node's own canonical hearth positions through a closed table. Where they name no side, or both, the stack is not drawn.",
+      "basis": "kits/tidewater-georgian.kit.json hearth_position.note: \"Kept separate from `chimney` because the ontology separates the roof expression from the plan fact.\"",
+      "note": "THE ANSWER IS IN A DIFFERENT SLOT FROM THE QUESTION, AND THE RECORD SAYS SO ITSELF. `tidewater-georgian`'s `chimney` slot makes BOTH `gable-end-paired-interior` and `gable-end-exterior` canonical -- two variants that put the same mass on opposite faces of the same wall -- so the roof-expression slot cannot decide a plan fact. `hearth_position` is the plan slot by its own note, and its canonical `exterior-end` settles it. `build/threshold.py::SIDE_OF` is the closed table, on build/construction_vocabulary.py's precedent; it maps two of the fifteen hearth-position variant ids in use onto a side and records a reason for each of the other thirteen. `build/check_threshold.py` proves the table is total over the corpus, so a new variant id fails the build rather than defaulting to a side."
+    },
+    {
+      "id": "th-stack-plan-size",
+      "grade": "reading",
+      "applies_to": {
+        "figure": "chimney.stack_plan_in"
+      },
+      "rule": "The stack is a square of the kit's own derived plan dimension.",
+      "basis": "kits/georgian-colonial-american.kit.json chimney.stack_plan_in: \"chimney plan dimensions are whole bricks; a stack is 1.5 x 2 bricks (13.5 x 18 in), 2 x 2 (18 in), 2 x 3 (18 x 27 in)\"",
+      "note": "`part * 8` from `brick-course`, 22 in. THE SIZE IS THE ONE THING THIS PASS READS FROM THE CASCADE, deliberately: a dimension arriving through the lineage is what the cascade is for, and it is the canonical VARIANT -- a positive claim about the building -- that must come from the node's own file. `tidewater-georgian`'s own kit states the stack's height above the ridge and not its plan. That the 22 in is the stack's own section, so that an exterior stack projects a full 22 in beyond the wall's outside face, is a reading of the note's own examples, which are section dimensions."
+    }
+  ],
+  "refusal_rules": [
+    {
+      "id": "th-only-the-entrance-door",
+      "grade": "reading",
+      "applies_to": {
+        "door": "exterior, not on the entrance face"
+      },
+      "rule": "Steps are drawn at the entrance door only: an exterior door on the face the plan states as its entrance, carried by a room whose `function_class` is not a service class. Every other exterior door is named as having none.",
+      "basis": "kits/georgian-colonial-american.kit.json steps_and_stoop.platform_width_in: \"the entrance composition plus about 18 in of platform each side\"",
+      "note": "The slot describes the ENTRANCE composition and nothing in this corpus states a service door's steps. On the shipped Tidewater plan that is three doors on the north front named rather than three flights invented. A raised floor needs steps at the back door too, and this refusal is the record's silence reported rather than filled. THE SERVICE-CLASS CLAUSE IS NOT A TIDINESS: a door carries no `rank` on any record in this corpus -- the field exists at plan schema 0.3.0 and nothing writes it -- so the room's own `function_class` is the only structured fact available, and it is needed. On the SEARCH engine the Tidewater plan puts one exterior door on the S front; on CP-SAT it puts the KITCHEN's there as well, legal by the record (S is among that room's declared exterior walls) and a service door on the entrance front all the same. Without the clause the sheet gives it the entrance composition's 10 ft platform and asserts something the record does not say; with it, the sheet NAMES it, which is the placement's own defect reported rather than dressed."
+    },
+    {
+      "id": "th-a-portico-only-where-one-is-canonical",
+      "grade": "reading",
+      "applies_to": {
+        "slot": "porch_type"
+      },
+      "rule": "A portico's columns are drawn only where the node's own resolved porch_type makes a portico canonical. `portico_bays` on a node whose canonical porch is a stoop is not read.",
+      "basis": "kits/georgian-colonial-american.kit.json porch_type.canonical: \"The threshold is a raised stoop under a worked door surround; where a portico occurs it is one bay wide, centred, and carries the bound order.\"",
+      "note": "THE PRECONDITION IS THE FIRST CLAUSE OF THE SLOT'S OWN RULE -- 'WHERE A PORTICO OCCURS it is one bay wide'. Read without it, `portico_bays = 1` would put a portico on 5 of the 8 nodes that resolve one, `tidewater-georgian` among them: a shipped reference plan whose own kit calls the entry portico ATYPICAL there and says why -- 'a timber portico that reads correctly on a clapboard New England front reads as an addition on a brick one'. That is WP-8.4's finding in a new place, and it is the reason this package draws no column."
+    },
+    {
+      "id": "th-a-column-needs-a-diameter",
+      "grade": "reading",
+      "applies_to": {
+        "slot": "porch_support"
+      },
+      "rule": "A column is not drawn without a diameter in inches stated by a record.",
+      "basis": "kits/georgian-colonial-american.kit.json porch_support.column_height_diameters: \"Porch supports are columns of the bound order at full nine-diameter proportion, each answered by a pilaster on the wall behind, and spaced by the order's intercolumniation.\"",
+      "note": "THE CORPUS STATES THE COLUMN'S HEIGHT IN DIAMETERS AND ALMOST NEVER A DIAMETER. Measured over all 159 nodes that carry a kit: 23 have a canonical portico, 8 resolve a `portico_bays`, 3 have both, and exactly ONE (`neoclassical-revival`, base_diameter_in [20, 28], measured) states a diameter in inches -- and that one states no bay count. The intersection of the three facts a drawn column needs is EMPTY across the corpus. The plan of action asked for columns; this is why there are none, and it is a measurement rather than a deferral."
+    }
+  ],
+  "stated_rules_not_executed": [
+    {
+      "id": "th-the-stack-serves-the-end-rooms",
+      "grade": "editorial-from-prose",
+      "room": null,
+      "item": "the hearths",
+      "rule": "The stack serves the two end rooms of its own end, one hearth each per floor.",
+      "basis": "kits/tidewater-georgian.kit.json hearth_position.rule: \"Hearths are at the gable ends, on the outside walls of the end rooms, so the mass of the stack sits outside the heated volume in summer.\"",
+      "note": "STATED AND NOT EXECUTED. The record says the end rooms and no record says which rooms those are on a placed plan; `hearth_position.fireplaces_per_stack` is [2, 4] and `massings/catalog.json`'s four-over-four says four fireplaces per floor over two stacks, so the arithmetic is available and the ROOMS are not. Naming the rooms would mean choosing them from a placement -- and on the shipped Tidewater plan the placement puts twelve rooms in a parti that names eleven, so the two rooms adjoining each stack are not the two the type means. `oq/which-rooms-take-the-hearth`. PLAN-OF-ACTION.md's own words for this package: raise it, do not read it."
+    }
+  ]
+}

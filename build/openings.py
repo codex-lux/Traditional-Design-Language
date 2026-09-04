@@ -54,6 +54,20 @@ def _storeys():
     return _STOREYS
 
 
+_THRESH = None
+
+
+def _thresh():
+    """build/threshold.py -- the stoop and the gable-end stacks (WP-11.4). Loaded lazily and
+    cached. It is NOT a leaf (it loads `resolve_kit` for the cascade-resolved kit), and that
+    closes no cycle: `resolve_kit` reaches only `proportion_engine` and, through it,
+    `construction_vocabulary`, and neither reaches `geometry`."""
+    global _THRESH
+    if _THRESH is None:
+        _THRESH = _mod("threshold", os.path.join(ROOT, "build", "threshold.py"))
+    return _THRESH
+
+
 _FURN = None
 
 
@@ -79,7 +93,8 @@ def required_wall_ft(width_ft):
 # declared its own `wall` — that is an authored fact and is NOT here — while a door had no
 # wall at all until 0.3.0, so on a door `wall` is placement output. That distinction cost
 # one round-trip failure to find (WP-6.2) and is worth the two constants.
-PLACEMENT_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report")
+PLACEMENT_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report",
+                       "threshold", "hearths")
 PLACEMENT_ROOM_KEYS = ("geometry", "fixture_layout", "furniture_layout")
 PLACEMENT_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
 PLACEMENT_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
@@ -780,7 +795,9 @@ def place(plan, C=None):
     report = {"placed": 0, "unplaced": [], "offset": [], "axis": [],
               "windows_placed": 0, "windows_unplaced": 0,
               "fixtures_placed": 0, "fixtures_unplaced": 0,
-              "furniture_placed": 0, "furniture_unplaced": 0, "furniture_skipped": {}}
+              "furniture_placed": 0, "furniture_unplaced": 0, "furniture_skipped": {},
+              "threshold_steps": 0, "threshold_unplaced": 0,
+              "stacks_placed": 0, "stacks_unplaced": 0}
     if not W or not H:
         report["note"] = ("no footprint on this record — openings are placed against the "
                           "block the solver produced, and this plan has not been placed")
@@ -806,6 +823,20 @@ def place(plan, C=None):
     # pins its drawn counts as an EQUALITY over all sixteen plans and re-solves to get them.
     for i, (rooms, occupied) in enumerate(holds):
         furniture_pass(rooms, C, report, occupied, stair=stair, level_index=i)
+    # WP-11.4. The stoop and the stacks are PLAN-level and run last, after every room-level
+    # pass, because both read the placed exterior doors and the placed rooms and neither
+    # writes to a room. Nothing above this line can see them, which is what keeps every
+    # placement pin in the suite byte-identical across this package.
+    th = _thresh().entrance_pass(plan, C, report)
+    he = _thresh().hearth_pass(plan, C, report)
+    # counted from the records themselves rather than incremented inside the passes: a
+    # counter a pass forgets to bump on an early return is a silence wearing a number, and
+    # the two passes have EIGHT early returns between them -- two for a kit or an entrance
+    # face the record does not give, six for a hearth the record does not locate.
+    report["threshold_steps"] = len(th["steps"])
+    report["threshold_unplaced"] = len(th["unplaced"])
+    report["stacks_placed"] = len(he["stacks"])
+    report["stacks_unplaced"] = len(he["unplaced"])
     plan["opening_report"] = report
     return plan
 

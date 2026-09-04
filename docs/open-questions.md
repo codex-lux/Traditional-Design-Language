@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**133 questions, of which 52 are open.** A question is OPEN while
+**136 questions, of which 55 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 52
+## Open — 55
 
 Awaiting a ruling. This is the list to read first.
 
@@ -62,6 +62,7 @@ Awaiting a ruling. This is the list to read first.
 | **96** | OPEN | [`_shared`'s first-match-wins ordering can report a corner kiss as a shared edge](open-questions/096-shared-s-first-match-wins-ordering-report-corner-kiss-sha.md) |
 | **98** | OPEN | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
+| **oq/a-child-band-replaces-an-ancestor-derivation** | OPEN | [224 figures where a band stands over an expression](open-questions/oq-a-child-band-replaces-an-ancestor-derivation.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
@@ -79,11 +80,13 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-slug-in-a-code-span-is-not-checked** | OPEN | [the citation guard validates 16% of the namespace it guards, by TWO mechanisms, and the second one is bigger than the one this entry is named for](open-questions/oq-a-slug-in-a-code-span-is-not-checked.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
+| **oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it** | OPEN | [two vocabularies for one fact](open-questions/oq-the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it.md) |
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-placement-carries-no-wall-bands** | OPEN | [the rooms tile the footprint exactly, so the walls are drawn where no room allows for them](open-questions/oq-the-placement-carries-no-wall-bands.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
+| **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
 ## Settled — 81
 

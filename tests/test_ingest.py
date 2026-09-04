@@ -183,7 +183,14 @@ def test_provenance_validates_and_gates_method():
     # time, and this time it caught something else with it: the schema edit that was to admit
     # `marks` reported success and changed nothing, so the solved record failed its own schema
     # and the workbench sat on "placing…" with a 200 and no placement.
-    assert schema["version"] == "0.6.0"
+    # 0.7.0 (WP-11.4, 4 Sep 2026): `threshold` and `hearths` -- the stoop at the entrance door
+    # and the gable-end stacks in plan, both written by openings.place and both stripped by
+    # `strip_placement`. And ONE FIX RATHER THAN AN ADDITION, which is why the bump is a minor
+    # and not a patch: `geometry.void` now admits `heated`, which build/geometry.py has written
+    # since OQ 55 and this schema forbade -- two of the fourteen reference plans had been
+    # INVALID against the contract they were placed from for three phases, unnoticed because
+    # nothing validates a placed plan except the API's own gate. It caught the bump a fifth time.
+    assert schema["version"] == "0.7.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

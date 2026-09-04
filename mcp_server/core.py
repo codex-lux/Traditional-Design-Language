@@ -1464,6 +1464,12 @@ def placement_summary(out):
                        "furniture_layout": r.get("furniture_layout")}
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "stair": out.get("stair"),
+            # WP-11.4: the stoop and the gable-end stacks, plan-level placement facts on the
+            # same argument as the stair. Omitted, the browser sheet would have drawn neither
+            # while the Python sheet drew both -- the exact defect WP-11.3 found here for the
+            # furniture, one package earlier, in this same return.
+            "threshold": out.get("threshold"),
+            "hearths": out.get("hearths"),
             "opening_report": out.get("opening_report"),
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "

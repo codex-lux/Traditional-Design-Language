@@ -399,6 +399,18 @@ const built = await page.evaluate(() => ({
   furniture: document.querySelectorAll('[data-furniture]').length,
   furnitureSymbols: new Set([...document.querySelectorAll('[data-furniture]')]
     .map((g) => g.getAttribute('data-furniture'))).size,
+  // WP-11.4. The stoop and the gable-end stacks. Counted by what they ARE and measured
+  // against the PLATE, because the failure this catches is not a missing mark: it is a mark
+  // drawn outside the viewBox, where nothing errors and nothing is seen.
+  stacks: [...document.querySelectorAll('[data-stack]')].map((r) => ({
+    x: +r.getAttribute('x'), w: +r.getAttribute('width'), wall: r.getAttribute('data-stack'),
+  })),
+  stoops: [...document.querySelectorAll('[data-threshold] rect')].map((r) => ({
+    x: +r.getAttribute('x'), y: +r.getAttribute('y'),
+    w: +r.getAttribute('width'), h: +r.getAttribute('height'),
+  })),
+  vb: (document.querySelector('svg[role="img"]') || document.querySelector('svg'))
+    ?.getAttribute('viewBox'),
 }));
 check(`the stair is drawn or its absence is stated (${built.stair} mark(s), refused=${built.refused})`,
   built.stair > 0);
@@ -410,6 +422,27 @@ check(`wet-room fixtures are drawn from the record (${built.fixtures})`, built.f
 check(`dry-room furniture is drawn from the record (${built.furniture} items, `
       + `${built.furnitureSymbols} distinct symbols)`,
   built.furniture > 10 && built.furnitureSymbols > 2);
+// WP-11.4 — the stoop and the stacks, from plan.threshold and plan.hearths. Both stand
+// OUTSIDE the block, so the plate has to have grown for them; a stack drawn at x = -3.1 on a
+// viewBox starting at -11 is invisible and raises nothing, which is why the extent is
+// asserted here and not only the count.
+{
+  const vb = (built.vb || '').split(/\s+/).map(Number);
+  const inside = built.stacks.length > 0 && built.stacks.every(
+    (s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
+  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length}, `
+        + `walls ${built.stacks.map((s) => s.wall).join('/')}, viewBox ${built.vb})`,
+    built.stacks.length === 2 && inside);
+  // COUNTED AS A PROPERTY AND NOT AS A NUMBER. The first version asserted exactly one, and
+  // the walk answered TWO: on CP-SAT the placement puts the KITCHEN's exterior door on the
+  // entrance front as well, so the count is the engine's and not the record's. What must hold
+  // on any engine is that every mark of the flight lies on the plate.
+  const onPlate = built.stoops.length > 0 && built.stoops.every(
+    (r) => r.x >= vb[0] && r.x + r.w <= vb[0] + vb[2]
+        && r.y >= vb[1] && r.y + r.h <= vb[1] + vb[3]);
+  check(`the entrance stoop is drawn from the record and lies on the plate `
+        + `(${built.stoops.length} mark(s))`, onPlate);
+}
 
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {

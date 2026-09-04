@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.",
   "type": "object",
   "required": [
@@ -660,6 +660,72 @@
       "type": "object",
       "description": "0.3.0. What build/openings.py placed and what it could not: every unplaced door with its reason, the doors it offset for the butler's-pantry rule, the exterior doors it seated on a passage axis, and the fixture tallies. A report rather than a contract, so its shape is open — but the unplaced list is the load-bearing half, because an opening nobody could place must never read as an opening nobody declared."
     },
+    "threshold": {
+      "type": "object",
+      "description": "0.7.0 (WP-11.4). The stoop and its flight at the entrance door, the portico's supports where any node in this corpus could state one, and every refusal by name. Written by build/threshold.py::entrance_pass from the CASCADE-RESOLVED kit; nothing here is derived by a renderer. `figures` carries each dimension beside the rule that chose it and that rule's GRADE, so a reader can tell a derived figure with a source pack from a band this pass took an end of. A shape rather than a contract on its edges, but `unplaced` is the load-bearing half: a thing the corpus does not dimension is named here and never drawn.",
+      "properties": {
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "room": {"type": "string"},
+              "wall": {"enum": ["N", "S", "E", "W"]},
+              "door_position_ft": {"type": "number"},
+              "riser_count": {"type": "integer"},
+              "riser_height_in": {"type": "number"},
+              "tread_depth_in": {"type": "number"},
+              "flight_width_ft": {"type": "number"},
+              "platform_is_the_room": {
+                "type": "boolean",
+                "description": "true where the entrance door is carried by a room typed `entry-porch`: that room IS the raised platform, already placed and dimensioned, so only the flight is drawn outside the block and `platform` is absent."
+              },
+              "platform": {"$ref": "#/$defs/threshold_rect"},
+              "flight": {"$ref": "#/$defs/threshold_rect"},
+              "nosings": {
+                "type": "array",
+                "description": "the nosing lines INSIDE the flight -- treads minus one of them, because the flight rectangle's own edges are the top and bottom nosings. Each is {\"line\": [x1, y1, x2, y2]} in model feet, the SAME primitive vocabulary furniture/symbols.json uses and build/furniture.py::marks_for emits, so both renderers draw a nosing with the code they already have for a furniture mark.",
+                "items": {"type": "object", "properties": {"line": {"type": "array", "items": {"type": "number"}}}}
+              },
+              "rule": {"type": "string"},
+              "grade": {"type": "string"}
+            }
+          }
+        },
+        "supports": {"type": "array", "items": {"type": "object"}},
+        "unplaced": {"type": "array", "items": {"type": "object"}},
+        "figures": {"type": "object"}
+      }
+    },
+    "hearths": {
+      "type": "object",
+      "description": "0.7.0 (WP-11.4). The gable-end stacks in PLAN, as squares of the kit's own `chimney.stack_plan_in`, on the face of the end wall the node's own `hearth_position` names. build/roof.py has placed the same two points since WP-3.3 for the stack's HEIGHT and no drawing had ever read them. `hearth_rooms` is deliberately null: which rooms take a hearth is stated in no record in this corpus (oq/which-rooms-take-the-hearth), and PLAN-OF-ACTION.md's words for this package are to raise it rather than read it.",
+      "properties": {
+        "stacks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "wall": {"enum": ["N", "S", "E", "W"]},
+              "side": {"enum": ["exterior", "interior"]},
+              "stack_plan_in": {"type": "number"},
+              "source": {"type": "string"},
+              "x_ft": {"type": "number"},
+              "y_ft": {"type": "number"},
+              "width_ft": {"type": "number"},
+              "depth_ft": {"type": "number"},
+              "rule": {"type": "string"},
+              "grade": {"type": "string"}
+            }
+          }
+        },
+        "unplaced": {"type": "array", "items": {"type": "object"}},
+        "source": {"type": ["string", "null"]},
+        "side": {"type": ["string", "null"]},
+        "hearth_rooms": {"type": "null"},
+        "hearth_rooms_note": {"type": "string"}
+      }
+    },
     "stair": {
       "type": "object",
       "description": "0.3.0. The stair as an object rather than as a room with a name on it. Until WP-6.2 nothing in the system drew a stair, and a 'Stair Hall' was an empty rectangle with lettering — while rooms/stair-hall.json has always carried the flight itself as furniture ([120, 78] in, dog-leg with a half landing) and build/structure.py has always computed the risers and treads, into a section report that no plan ever saw.",
@@ -882,6 +948,17 @@
     }
   },
   "$defs": {
+    "threshold_rect": {
+      "type": "object",
+      "description": "0.7.0. A rectangle in MODEL FEET, in the same frame as room.geometry -- so it may sit OUTSIDE the block, at a negative coordinate, which a stoop and an exterior stack both do. The block edge is the wall's INSIDE face (WP-11.1), so anything outside the house begins one wall thickness beyond it.",
+      "properties": {
+        "x_ft": {"type": "number"},
+        "y_ft": {"type": "number"},
+        "width_ft": {"type": "number"},
+        "depth_ft": {"type": "number"}
+      },
+      "required": ["x_ft", "y_ft", "width_ft", "depth_ft"]
+    },
     "geometry": {
       "type": "object",
       "description": "0.3.0. Where the placement actually put this room, in model feet — x east, y north, origin at the block's SW corner, the frame build/render_plan.py fixed. Written by build/geometry.py::write_record and, before 0.3.0, forbidden by this schema's own additionalProperties, so every placed plan was invalid against the contract it was placed from.",
@@ -905,8 +982,11 @@
         "void": {
           "type": "object",
           "additionalProperties": false,
-          "description": "OQ 55's reserved void: an outdoor room inside the block, excluded from the heated envelope and drawn open.",
+          "description": "OQ 55's reserved void: an outdoor room inside the block, excluded from the heated envelope and drawn open. `heated` ADMITTED AT 0.7.0 (WP-11.4), found in ordinary work: build/geometry.py has written {\"heated\": false, \"roofed\": ...} here since OQ 55 and this object forbade it, so every PLACED plan carrying a reserved void was invalid against the contract it was placed from -- two of the fourteen reference plans, for three phases, unnoticed because nothing validates a placed plan except the API's own gate and a reference plan never goes through it. The same shape the `geometry` object's own 0.3.0 description records one level up.",
           "properties": {
+            "heated": {
+              "type": "boolean"
+            },
             "roofed": {
               "type": "boolean"
             },

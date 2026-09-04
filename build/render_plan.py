@@ -393,7 +393,27 @@ def _style_block(register):
         # the sheet as an object
         f'.bd{{stroke:{L["rule"]};stroke-width:1;fill:none}}'
         f'.mk{{fill:{L["paper"]};stroke:{L["ink"]};stroke-width:{W_["fine"]}}}'
+        # WP-11.4. The stoop is masonry and the stack is masonry, so both take the wall's own
+        # body -- the same poché and the same cut line, because they are the same trade and
+        # the reader must not have to learn a second convention for a second brick.
+        f'.st{{fill:{SS.POCHE["masonry"]};stroke:{L["coal"]};stroke-width:{W_["cut"]};stroke-linejoin:miter}}'
+        f'.ns{{stroke:{L["ink"]};stroke-width:{W_["medium"]};fill:none}}'
         f'</style>')
+
+
+def threshold_rects(plan):
+    """Every rectangle WP-11.4 puts outside the block, in the `room.geometry` shape, so the
+    plate's own extent code can hold them without knowing what they are. Read from the record
+    and derived from nothing: build/threshold.py placed them and this file draws them."""
+    out = []
+    th = plan.get("threshold") or {}
+    for st in (th.get("steps") or []):
+        for k in ("platform", "flight"):
+            if st.get(k):
+                out.append(st[k])
+    for sk in ((plan.get("hearths") or {}).get("stacks") or []):
+        out.append(sk)
+    return out
 
 
 def render(plan, path, scale=PX_PER_FT, register="working"):
@@ -421,6 +441,12 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # hold the exterior wall, which is drawn OUTSIDE the block it wraps: without the `ext_ft`
     # margin below, the envelope's own outer face is off the plate.
     _pts = [r["geometry"] for lv in plan["levels"] for r in lv["rooms"] if r.get("geometry")]
+    # ...AND IT IS NOT THE ROOMS' EITHER, SINCE WP-11.4. The stoop stands outside the entrance
+    # wall and an exterior stack outside its gable end -- both at negative coordinates or past
+    # `width_ft` -- and a plate sized to the rooms would have cut them off the sheet without
+    # any error anywhere. `tests/test_sheet_canvas.py` is the guard that would have caught it,
+    # and this is what keeps it green.
+    _pts = _pts + threshold_rects(plan)
     draw_x0 = min([g["x_ft"] for g in _pts] + [0.0]) - ext_ft if _pts else -ext_ft
     draw_y0 = min([g["y_ft"] for g in _pts] + [0.0]) - ext_ft if _pts else -ext_ft
     draw_W = (max([g["x_ft"] + g["width_ft"] for g in _pts] + [W]) if _pts else W) + ext_ft - draw_x0
@@ -642,6 +668,37 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             s.append(f'<rect class="{cls}" data-wall="{bd["wall"]}"{blk} x="{X(bd["x_ft"]):.1f}" '
                      f'y="{Y(bd["y_ft"] + bd["depth_ft"]):.1f}" width="{bd["width_ft"]*scale:.1f}" '
                      f'height="{bd["depth_ft"]*scale:.1f}"><title>{_esc(bd["why"])}</title></rect>')
+
+        # ---------------------------------------------------------- the stoop and the stacks
+        # WP-11.4, from plan["threshold"] and plan["hearths"] and from nothing else. The
+        # STACK is drawn on every plate because it passes through every floor; the STOOP
+        # only on the ground, because it is at grade. Both in the wall's own body: they are
+        # brick, and this drawing says so with the poché it already has for brick.
+        for sk in ((plan.get("hearths") or {}).get("stacks") or []):
+            s.append(f'<rect class="st" data-stack="{sk["wall"]}" x="{X(sk["x_ft"]):.1f}" '
+                     f'y="{Y(sk["y_ft"] + sk["depth_ft"]):.1f}" '
+                     f'width="{sk["width_ft"]*scale:.1f}" height="{sk["depth_ft"]*scale:.1f}">'
+                     f'<title>{_esc("chimney stack, %s in square, %s to the %s gable end" % (sk["stack_plan_in"], sk["side"], sk["wall"]))}</title></rect>')
+        if i == 0:
+            for st in ((plan.get("threshold") or {}).get("steps") or []):
+                # `data-threshold` names the ROOM, as it does in the browser sheet, so a
+                # selector written for one renderer finds the same thing in the other; the
+                # part is on the rect inside it.
+                s.append(f'<g data-threshold="{_esc(st["room"])}">')
+                for key, why in (("platform", "stoop platform"),
+                                 ("flight", "%s risers at %s in, treads %s in"
+                                  % (st["riser_count"], st["riser_height_in"], st["tread_depth_in"]))):
+                    r_ = st.get(key)
+                    if not r_: continue
+                    s.append(f'<rect class="st" data-part="{key}" x="{X(r_["x_ft"]):.1f}" '
+                             f'y="{Y(r_["y_ft"] + r_["depth_ft"]):.1f}" '
+                             f'width="{r_["width_ft"]*scale:.1f}" height="{r_["depth_ft"]*scale:.1f}">'
+                             f'<title>{_esc(why)}</title></rect>')
+                for ns in (st.get("nosings") or []):
+                    x1, y1, x2, y2 = ns["line"]
+                    s.append(f'<line class="ns" x1="{X(x1):.1f}" y1="{Y(y1):.1f}" '
+                             f'x2="{X(x2):.1f}" y2="{Y(y2):.1f}"/>')
+                s.append('</g>')
 
         # ---------------------------------------------------------- labels
         # Wrapped, shrunk and where necessary turned to fit the room; never truncated. The

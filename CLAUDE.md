@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,796 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **49 checks, 1,612 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -200,8 +200,9 @@ plus the three appended suites -- so the PASS count the corpus job prints is
 a `len(CHECKS)` of 41, read "43 of 46 checks passed" after WP-9.7's
 grouping-rule checker met PR #19's move-registry check at the merge, against a `len(CHECKS)` of
 43, read "44 of 47 checks passed" after WP-8.9's stranding sweep against a `len(CHECKS)`
-of 44, and reads "45 of 48 checks passed" after WP-11.3's furniture grammar, against a
-`len(CHECKS)` of 45. **Two sessions each added a check and each published 44**, which is the fifth time
+of 44, read "45 of 48 checks passed" after WP-11.3's furniture grammar, and reads
+"46 of 49 checks passed" after WP-11.4's threshold grammar, against a
+`len(CHECKS)` of 46. **Two sessions each added a check and each published 44**, which is the fifth time
 this number has gone wrong at exactly a merge; the guard caught it here too.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
@@ -511,6 +512,82 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   curve, because a primitive no symbol uses is an unreachable branch in two renderers.
   And `symbol_for` matches WHOLE WORDS where `_FIXTURE_ALIASES` matches substrings: bare substrings
   drew *"desk (any BEDroom occupied by anyone under twenty-five)"* as a bed.
+- **A PARAMETER'S PRECONDITION CAN BE THE FIRST SIX WORDS OF ITS OWN SLOT'S PROSE, AND NOTHING
+  READS PROSE (WP-11.4).** `porch_type.portico_bays` resolves to 1 on `tidewater-georgian` and
+  `PLAN-OF-ACTION.md` asked for "columns and their answering pilasters where `portico_bays = 1`".
+  Read that way it puts a portico on **5 of the 8 nodes that resolve one** -- all `stoop-only` --
+  including a shipped reference plan whose kit calls the entry portico ATYPICAL and says why. The
+  condition is the slot rule's own opening clause: *"WHERE A PORTICO OCCURS it is one bay wide"*.
+  That is WP-8.4's `granted_when` finding in a new place, and worse, because here the condition is
+  not a field at all. **And where a portico IS canonical the column has no width**: 23 nodes have a
+  canonical portico, 8 resolve a `portico_bays`, and **exactly 1 of the 159 that carry a kit states a
+  diameter in inches**
+  (`neoclassical-revival`, and it states no bay count) -- the intersection of the three facts a
+  drawn column needs is EMPTY, so this corpus can draw no column anywhere. `build/check_threshold.py`
+  re-derives all four numbers every run and WARNS the moment a node acquires all three.
+- **THE DRAWN STACK REACHES ONE NODE IN 159, AND THAT IS THE CORPUS RATHER THAN THE CODE
+  (WP-11.4).** Swept over all 159 kits with the Tidewater block: 15 styles draw a stoop and **1
+  draws stacks**. It decomposes -- **14 of 159 make a hearth position canonical in their OWN kit**
+  (the reader `roof.py` argues for at length and this pass adopts), **3 of those name a gable end**,
+  **1 names a side**. Do not read a low count here as a thin implementation; read it as the
+  measurement it is, and see `oq/which-rooms-take-the-hearth` and
+  `oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it` for the two gaps that
+  produce it.
+- **THE ANSWER TO A SLOT'S QUESTION CAN LIVE IN A DIFFERENT SLOT, AND THE ONTOLOGY SAYS WHICH
+  (WP-11.4).** `tidewater-georgian`'s `chimney` slot makes BOTH `gable-end-paired-interior` and
+  `gable-end-exterior` canonical -- the same mass on opposite faces of one wall -- so the
+  roof-expression slot cannot decide a plan fact. `hearth_position`'s own note is the authority:
+  *"Kept separate from `chimney` because the ontology separates the roof expression from the plan
+  fact."* Its canonical `exterior-end` settles it. `build/roof.py` reads `chimney` for the stack's
+  HEIGHT; `build/threshold.py` reads `hearth_position` for its PLAN; the split is the ontology's
+  and not a convenience.
+- **THE MASSING'S `hearth` IS A SECOND VOCABULARY, IN PROSE, AND SEVEN OF FORTY STATE A
+  DISJUNCTION (WP-11.4).** Kits name variant ids (`exterior-end`, `gable-end-paired`); massings
+  write sentences -- `gable-end or corner`, `gable-end-paired or central-stack`, `party-wall or
+  end`, `central or end`, `central or none`, `interior or end`. **`roof.py::chimney_positions`
+  reads that field with `"gable-end" in hearth`**, which answers TRUE for two disjunctions, and
+  that fallback fires on **135 of 159 styles**; neither shipped plan is affected, which is why
+  nothing has caught it. `build/threshold.py` carries `SIDE_OF` and `MASSING_HEARTH` as two CLOSED
+  tables, proved total by `check_threshold.py` -- **which failed on its own first run**, on twelve
+  massing values the kit vocabulary does not use. `roof.py` is NOT changed: it decides a height and
+  the measurement belongs to whoever moves it.
+  `oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it`.
+- **A CHILD BAND REPLACES AN ANCESTOR'S DERIVATION AND THE RESOLVED RECORD LOSES IT -- 224 TIMES
+  (WP-11.4).** `georgian-colonial-american` derives `steps_and_stoop.riser_count_from_grade` as
+  `ceil(part * 2.4 / 6.75)` = 4 from `storey-graduation`; `tidewater-georgian` `extends` the slot
+  with a `[3, 6]` band, the child's object replaces the parent's whole object (correct, and what
+  `extends` means), and the resolved kit then holds a range where one step up the corpus holds an
+  expression with a source pack. `resolve_kit.py federal-style --verbose` prints the 4; the same
+  command on `tidewater-georgian` prints nothing. **224 (node, slot, parameter) triples over 58
+  nodes and 7 distinct parameters** -- `casing.width_in`, `height_proportion.second_over_first`,
+  `pediment.rise_over_span`, `pilaster.projection_in`, `pilaster.width_in`,
+  `steps_and_stoop.riser_count_from_grade`, `window_sill.projection_in`.
+  `oq/a-child-band-replaces-an-ancestor-derivation`.
+- **THREE STATEMENTS OF ONE DEPTH, AND THE FIGURE IS THE INTERSECTION AND NEVER AN AVERAGE
+  (WP-11.4).** The stoop's depth is `platform_depth_in` [36, 60] in, `porch_depth.stoop_depth_ft`
+  [4, 6] ft and `porch_depth.stoop_min_depth_in` 48 in -- and a 36 in stoop is inside the first and
+  below the third. 48 in is the only value all three admit, and it is drawn for that reason rather
+  than as anybody's midpoint. Where three statements do not intersect the figure is UNJUDGED and
+  nothing is drawn; a test fails when the pass splits the difference. Do not edit any of the three
+  to agree with the others -- `oq/a-grouping-rule-and-a-room-record-can-disagree`'s standing rule,
+  one layer up in the kit.
+- **A BYTE-IDENTITY PIN CAN BE MEASURING THE PLACEMENT AND CALLING IT THE ROOF (WP-11.4).**
+  `build_roof`'s return embeds `section`, which embeds the PLACED plan. The pin taken across the
+  move of `roof_form_for` / the ridge axis / the two gable-end points into `build/threshold.py`
+  went green across the move and RED two commits later, on a change that added two keys to the
+  placed record and touched no roof code at all. **A pin that reads "the roof changed" when the
+  roof did not is worse than no pin.** It hashes `main`, `chimneys`, `checks`, `outline`,
+  `elevation_profiles` and `footprint` now, measured on a `git archive HEAD` checkout of the
+  pristine tree and again on the working tree: `0d94e0cd...`, over 180 records.
+- **TWO OF THE FOURTEEN REFERENCE PLANS HAD BEEN FAILING THEIR OWN PLAN SCHEMA SINCE OQ 55
+  (WP-11.4, found in ordinary work).** `geometry.py` writes `{"heated": false, "roofed": ...}` into
+  `geometry.void` and the schema's `void` object forbade `heated` under
+  `additionalProperties: false`. **Nothing validates a PLACED plan** except the API's own gate
+  (WP-10.1), and a reference plan never goes through it. The `geometry` object's own 0.3.0
+  description records the identical shape one nesting level out -- fixed there, left open in its
+  child. Admitted at 0.7.0; 16 of 16 validate now, and
+  `tests/test_threshold_pass.py::TestThePlacedRecordValidates` is the guard, reporting COULD NOT
+  EVALUATE without `jsonschema` rather than passing.
 - **THE BROWSER WALK IS RUNNABLE IN A SESSION AND IT CATCHES WHAT THE UNIT TESTS CANNOT
   (WP-11.2).** `workbench/app/e2e/walk.mjs` needs a built app and a live server, and this tree
   ships no `node_modules` -- so it had never been run in a session on this branch. It runs:
@@ -1724,8 +1801,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **133 entries, of which 52 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **136 entries, of which 55 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
