@@ -1,0 +1,89 @@
+{
+  "id": "springwood",
+  "name": "Springwood",
+  "aka": [
+    "Home of Franklin D. Roosevelt National Historic Site",
+    "Franklin D. Roosevelt House"
+  ],
+  "location": {
+    "text": "Hyde Park, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "c. 1793; Italianate villa c. 1850; enlarged and recast in the Colonial Revival 1915-16",
+    "circa": true,
+    "altered": "The NPS: 'The 1915 alterations resulted in extensive changes to the house interior including the raising of the central roof to create a full third floor, expansion of the entrance hall, addition of the living room and a large suite of bedrooms above, and enlargement of the service areas.' Wikipedia: 'The home was more than doubled in size by adding two large fieldstone wings'.",
+    "note": "The NPS page: 'The original house was built about 1793 and later renovated into an Italianate style villa about 1850 ... The enlargement, completed in 1916'. The Wikipedia infobox prints 'Built 1800–1845' and 'Architectural style Federal, Italianate' for the whole site. Both kept; the exemplar year is the enlargement's completion."
+  },
+  "nodes": [
+    "colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-4355",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny1200/ny1240/data/ny1240data.pdf",
+      "title": "Springwood (Franklin D. Roosevelt House), Hyde Park, Dutchess County, NY",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the addendum cover ('Addendum To Sprfngwood (Franklin D. Roosevelt House) HABS No. NY-4355' in OCR) and in the caption index found by search ('Photographs NY-4355-1 through NY-4355-64 were transmitted to the Library of Congress in 1941')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny1240",
+      "url": "https://www.loc.gov/pictures/item/ny1240",
+      "title": "Springwood, Hyde Park, Dutchess County, NY",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item page summary read 'pdf version of data pages [24kb]'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000056",
+      "url": "https://en.wikipedia.org/wiki/Home_of_Franklin_D._Roosevelt_National_Historic_Site",
+      "title": "NRHP reference No. 66000056; added October 15, 1966; designated NHS January 15, 1944 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "state-register",
+      "id": "02707.000485",
+      "url": "https://en.wikipedia.org/wiki/Home_of_Franklin_D._Roosevelt_National_Historic_Site",
+      "title": "NYSRHP No. 02707.000485; designated June 23, 1980 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Home_of_Franklin_D._Roosevelt_National_Historic_Site",
+      "title": "Home of Franklin D. Roosevelt National Historic Site - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nps.gov/places/springwood.htm",
+      "title": "Springwood (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'transforming it from an Italianate villa into a Colonial Revival–style mansion designed by Hoppin & Koen of New York City' and 'The stone and stucco house has a roughly U-shaped plan of two and three stories'."
+    }
+  ],
+  "survey": {
+    "item": "ny1240",
+    "survey_no": "NY-4355",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny1200/ny1240/data/ny1240data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Addendum To Sprfngwood (Franklin D. Roosevelt House) HABS No. NY-4355 (Hyde Park) (Borne of Frank!inDelano Roosevelt National Historic Site) Hyde Park New York J • PHOTOGRAPHS • Historic American Buildings Survey National Park Service Department of the Interior Washington, D.C. 20240",
+        "page": "addendum cover; the 24 kb data PDF carries nothing else legible on two passes"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026. The 'data pages' are a one-sheet addendum cover for photographs; the description of the house on this record is the NPS's, not HABS's."
+}

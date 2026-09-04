@@ -1,0 +1,98 @@
+{
+  "id": "berry-hill",
+  "name": "Berry Hill",
+  "aka": [
+    "Berry Hill Plantation"
+  ],
+  "location": {
+    "text": "3105 River Road, Halifax County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1842-44",
+    "circa": false,
+    "note": "Three dates on the record. The Virginia DHR: 'erected in 1842-44 for James Coles Bruce'; the node: begun 1842, year 1844; the 1930s HABS form: 'Date of Erection: 1835-1840'; the Wikipedia infobox: 'Built 1839' and the text 'transformed c. 1839'. Recorded as the state register states it, the others kept in their own quotes and notes."
+  },
+  "nodes": [
+    "greek-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-304",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0492/data/va0492data.pdf",
+      "title": "Berry Hill Plantation, State Route 659 vicinity, South Boston vicinity, Halifax County, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header ('Berry Hill HABS No. VA-304'). Wikipedia's external links, read the same day, give '17 photos, 2 data pages, supplemental material'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0492",
+      "url": "http://www.loc.gov/pictures/resource/hhh.va0492.photos.162011p",
+      "title": "Berry Hill Plantation, State Route 659 vicinity, South Boston, Halifax County, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "A photo resource page for the item, which is what the search returned; a second hit (va0492.photos.162012p, 'North elevation (front)', published 1940) carries the call number HABS VA,42-BOSTS.V,1-."
+    },
+    {
+      "kind": "nrhp",
+      "id": "69000246",
+      "url": "https://www.dhr.virginia.gov/historic-registers/041-0004",
+      "title": "NRHP Reference Number 69000246; NRHP listed 11/25/1969; NHL 11/11/1971 (as the DHR page prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "041-0004",
+      "url": "https://www.dhr.virginia.gov/historic-registers/041-0004",
+      "title": "Berry Hill – DHR (Virginia Department of Historic Resources), VLR listed 11/05/1968",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Its text: 'A premier monument of the American Greek Revival ... erected in 1842-44 for James Coles Bruce ... Its architect, John E. Johnson ... contractor was Josiah Dabbs.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Berry_Hill_Plantation",
+      "title": "Berry Hill Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/69000246_text",
+      "title": "National Historic Landmark nomination text for Berry Hill, Halifax County, Virginia (NPGallery)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Describes 'the entrance hall with its superb pair of stairs which curve after a long run and meet overhead' and 'deep Greek Revival cornices decorated with water leaf mouldin' in the drawing rooms."
+    }
+  ],
+  "survey": {
+    "item": "va0492",
+    "survey_no": "VA-304",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0492/data/va0492data.pdf",
+    "prepared": "District of Virginia, Eugene Bradbury, Architect in Charge, Grace Securities Building, Richmond (1930s form; the Library's photographs of the item are published 1940)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "BERRY HILL (Residence) Halifax County, Virginia Owner: Malcolm G. Bruce Date of Erection: 1835-1840 Architect: Builder: Present Condition: Excellent Number of Stories.: Two and Basement Materials of Construction: Brick, stuccoed",
+        "page": "HABS No. VA-304 Page 1"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two and Basement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys over a basement."
+    }
+  ],
+  "note": "Written 4 Sep 2026. The 1930s form is an index card: storeys, material and a date that the state register and the node both place five to nine years later. `greek-revival-southern-plantation` also names this building; see the Andalusia note."
+}

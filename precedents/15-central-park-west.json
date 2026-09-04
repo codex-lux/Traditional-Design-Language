@@ -1,0 +1,47 @@
+{
+  "id": "15-central-park-west",
+  "name": "15 Central Park West",
+  "aka": [
+    "15 CPW"
+  ],
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "2005-2008",
+    "circa": false,
+    "note": "Wikipedia: 'constructed from 2005 to 2008', infobox 'Completed 2008'; Robert A.M. Stern Architects selected August 2005."
+  },
+  "nodes": [
+    "new-classical"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/15_Central_Park_West",
+      "title": "15 Central Park West - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Infobox: roof 550.01 ft (the Tower) and 230.97 ft (the House); 35 and 19 floors; architects Robert A.M. Stern Architects and SLCE Architects; 202 units. The land lot 'has an area of 57,899 ft2 ... with a frontage of 232.31 ft along Central Park West and a depth of 346.64 ft'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.ramsa.com/projects/project/15-central-park-west",
+      "title": "15 Central Park West — Robert A.M. Stern Architects, LLP",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Architect. 'completely clad in limestone' and 'The nineteen-story House joins the palisade of park-facing apartment houses'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Robert_A._M._Stern",
+      "title": "Robert A. M. Stern - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'one of the most financially successful apartment buildings ever constructed, with sales totaling $2 billion'; Driehaus Prize 2011."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A living building; the architect's page and Wikipedia are the record. The heights and floor counts are Wikipedia's and live in the ref note."
+}

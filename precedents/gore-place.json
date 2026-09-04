@@ -1,0 +1,85 @@
+{
+  "id": "gore-place",
+  "name": "Gore Place",
+  "aka": [
+    "Governor Christopher Gore Mansion",
+    "Governor Christopher Gore Place"
+  ],
+  "location": {
+    "text": "52 Gore Street, Waltham, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1805-06",
+    "circa": false,
+    "note": "The HABS addendum quotes the National Historic Landmark website's 'Built in 1805-06'; SAH Archipedia gives 1805-1806 with Rebecca Gore and Jacques G. Legrand; the Wikipedia infobox prints 'Built 1804-1806'; the node's exemplar year is 1806. None edited to agree."
+  },
+  "nodes": [
+    "federal-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-210",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0800/ma0811/data/ma0811data.pdf",
+      "title": "Governor Christopher Gore Mansion (Governor Christopher Gore Place) (Gore Place), 52 Gore Street, Waltham, Middlesex County, Massachusetts",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the addendum's own header ('HABS MA-210 HABS MASS,9-WALTH,2-'). The Library's item page summary, from a loc.gov search the same day, reads 'five-part Federal house. HABS MA-210'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0811",
+      "url": "https://www.loc.gov/pictures/item/ma0811",
+      "title": "Governor Christopher Gore Mansion, 52 Gore Street, Waltham, Middlesex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000542",
+      "url": "https://en.wikipedia.org/wiki/Gore_Place",
+      "title": "NRHP reference No. 70000542; added to NRHP and designated NHL December 30, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gore_Place",
+      "title": "Gore Place - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "monograph",
+      "url": "https://sah-archipedia.org/buildings/MA-01-WT1",
+      "title": "Keith N. Morgan, 'Gore Place', in Buildings of Massachusetts: Metropolitan Boston (Charlottesville: University of Virginia Press, 2009), 472-473, as SAH Archipedia MA-01-WT1",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "States 'An early New England example of a five-part villa plan, Gore Place employs hyphens and side wings, all ornamented with halfround windows' and that 'Rebecca Gore seems primarily to have designed the house'."
+    }
+  ],
+  "survey": {
+    "item": "ma0811",
+    "survey_no": "MA-210",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0800/ma0811/data/ma0811data.pdf",
+    "prepared": "Addendum, undated on the extracted span; it cites the National Historic Landmark website 'accessed 22 December 2013' and a coordinate 'obtained using Google Earth on 22 December 2013'",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Statement of Significance: From the National Historic Landmark website: “Built in 1805-06, this is a noteworthy example of a five-part Federal house. Elaborately carved interior mantels contrast with simpler woodwork. In addition, Gore Place is nationally significant as representative of the central role of domestic labor in American labor history.",
+        "page": "HABS MA-210 addendum; no page marker legible in the extract span"
+      },
+      {
+        "field": "other",
+        "text": "Due to the incomplete nature of the documentation and the lack of field measurements to verify the drawings, the drawings may not meet HABS standards and have been marked as such. Most of these drawings are still in pencil, that combined with the age of the drawings, presented challenges when digitizing them, so the scanned images are not as clear as most of the drawings within the HABS collection.",
+        "page": "HABS MA-210 addendum; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026. The written data is a 2013 addendum wrapping unfinished 1930s pencil drawings that the addendum itself says 'may not meet HABS standards' for want of field measurements -- so the Library holds no verified dimensions for this house, and the node's 'roughly 190 feet long' stays the node's. `new-england-federal` also names the building; see the Otis House note."
+}

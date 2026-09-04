@@ -1,0 +1,41 @@
+{
+  "id": "boston-public-library-mckim-building",
+  "name": "Boston Public Library, McKim Building",
+  "aka": [
+    "Boston Central Library",
+    "McKim Building"
+  ],
+  "location": {
+    "text": "Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1888-1895",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1888-1895 (McKim Building)'; 'opened to public' February 1895; the node's exemplar says 1895."
+  },
+  "nodes": [
+    "italian-renaissance-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "73000317",
+      "url": "https://en.wikipedia.org/wiki/Boston_Public_Library,_McKim_Building",
+      "title": "U.S. National Register of Historic Places, designated May 6, 1973, reference no. 73000317; National Historic Landmark designated February 24, 1986, same number; contributing to the Back Bay Historic District (73001948) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Boston_Public_Library,_McKim_Building",
+      "title": "Boston Central Library - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Location as the infobox prints it: 700 Boylston Street, Boston. 'While the NHL designation excludes the newer Johnson Building, the city designation includes the annex's facade'."
+    }
+  ],
+  "note": "No HABS survey was found: two queries ('\"Boston Public Library\" Copley Square Boston Suffolk County HABS MA survey' and '\"Boston Public Library\" Dartmouth Street Boston HABS MA- loc.gov pictures item McKim', both on loc.gov) returned other Boston surveys. Not domestic, as the node's own exemplar note says. Seeded 4 Sep 2026."
+}

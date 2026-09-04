@@ -1,0 +1,55 @@
+{
+  "id": "griffith-sowers-house",
+  "name": "Griffith-Sowers House",
+  "aka": [
+    "Griffith–Sowers House"
+  ],
+  "location": {
+    "text": "Rowan County, near Salisbury, North Carolina",
+    "country": "United States",
+    "state": "North Carolina"
+  },
+  "dates": {
+    "built": "ca. 1930-1932",
+    "circa": true,
+    "note": "The NC nomination: 'When built in ca.1930-1932'; the Wikipedia infobox: 'Built 1930', architect Percy Bloxam; the node's year is 1932."
+  },
+  "nodes": [
+    "georgian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "09000703",
+      "url": "https://en.wikipedia.org/wiki/Griffith%E2%80%93Sowers_House",
+      "title": "NRHP reference No. 09000703; added September 9, 2009 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "state-register",
+      "id": "RW0971",
+      "url": "https://files.nc.gov/ncdcr/nr/RW0971.pdf",
+      "title": "Griffith-Sowers House, Salisbury vicinity, Rowan County, RW0971, Listed 9/9/2009 -- North Carolina State Historic Preservation Office nomination by Davyd Foard Hood",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The nomination's description: 'a large, flush-sheathed, two-story-with-attic frame Colonial Revival-style country house' with 'a five-part plan composed of a dominant five-bay wide center block, covered by a side-gable roof, that is linked by shallow one-bay wide hyphens to its flanking, recessed, perpendicular gable-front two-story wings, which are two bays in width'; 'The main block, just under fifty feet in width'; 'The south-facing façade ... is eleven bays wide'; 'covered with a slate roof' on 'a common bond brick foundation'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Griffith%E2%80%93Sowers_House",
+      "title": "Griffith–Sowers House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.rowancountync.gov/DocumentCenter/View/11983/Griffith-Sowers-Report-PDF",
+      "title": "Griffith-Sowers House Rowan County, NC (Rowan County Historic Landmarks Commission report)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written 4 Sep 2026. No HABS; the nomination is the measured document and it describes a FRAME house with flush sheathing, called Colonial Revival by its author -- worth knowing on a node whose prose is about Flemish-bond brick, a water table and a belt course. The five-part plan and the just-under-fifty-foot centre block are the nomination's figures and live in its ref note, not in a survey block, because they are not HABS's."
+}

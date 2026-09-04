@@ -1,0 +1,145 @@
+{
+  "id": "the-breakers",
+  "name": "The Breakers",
+  "aka": [
+    "Cornelius Vanderbilt House",
+    "Cornelius Vanderbilt II House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1893-1895",
+    "circa": false,
+    "note": "Wikipedia: 'built between 1893 and 1895'; the survey: 'Date of erection: 189^ - July, 1895' (OCR; read as 1894); the node's exemplar says 1895. The survey also records the earlier house on the site, by Peabody and Stearns for Pierre Lorillard, altered for Vanderbilt in 1886 and 'destroyed by fire' on 25 November 1892."
+  },
+  "nodes": [
+    "italian-renaissance-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-339",
+      "url": "https://www.loc.gov/item/ri0039",
+      "title": "The Breakers, Ochre Point Avenue, Newport, Newport County, RI | Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The photographs listing reads 'Photos from Survey HABS RI-339'; the survey number is also printed in the data page's own running head ('\"THE BREAKERS\" (Cornelius Vanderbilt House) HABS No. RI-339 (Page 2)')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0039",
+      "url": "https://www.loc.gov/item/ri0039",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000019",
+      "url": "https://en.wikipedia.org/wiki/The_Breakers",
+      "title": "NRHP reference No. 71000019; added September 10, 1971; designated NHL October 12, 1994 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox's own style word is 'Neo Italian Renaissance'; the article gives '70-room mansion, with a gross area of 138,300 square feet ... on five floors'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Breakers",
+      "title": "The Breakers - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "rights_evidence": "The Library of Congress does not own rights to material in its collections. Ultimately, it is the researcher's obligation to assess copyright or other use restrictions and obtain permission from third parties when necessary before publishing or otherwise distributing materials found in the Library's collections.",
+  "rights_evidence_url": "https://www.loc.gov/item/ri0039",
+  "survey": {
+    "item": "ri0039",
+    "survey_no": "RI-339",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0039/data/ri0039data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: About 250 feet by 150 feet; rectangular with kitchen ell at north corner; 3% stories.",
+        "page": "HABS No. RI-339, Part II.B.1; no page marker legible in the span (the next legible is '(Page 5)')"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The foundations are of cement made by Alsen's Port- land Cement Works, Hamburg, Germany. Approximately 10,000 barrels of concrete were used.",
+        "page": "HABS No. RI-339, Part II.B.2; same span"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction. Buff Indiana limestone was employed for the walls. Brick and tile were used in some areas.",
+        "page": "HABS No. RI-339, Part II.B.3; same span"
+      },
+      {
+        "field": "structural_system",
+        "text": "k. Structural system: Steel beams form a lattice that carries the shallow brick and tile arches. The building is fireproof.",
+        "page": "HABS No. RI-339, Part II.B.4; same span ('k.' is OCR for '4.')"
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: There are thirteen stone chimneys. The chimney caps are in form of Renaissance sarcophagi.",
+        "page": "HABS No. RI-339, Part II.B.5; the marker '(Page 5)' follows"
+      },
+      {
+        "field": "openings",
+        "text": "6. Openings: a. The entrance doors are carved oak. Although very heavy, they are perfectly balanced on their hinges. The interior doors of the vestibule are topped by a semi-circular fan- light. Both the hand^wrought iron grille doors and fanlight are glazed. In order to facilitate cleaning, the door leaves open like pages in a book, giving clear access to the plate glass panel within. Entry onto the loggia fron the house is through French windows in the oortile, or great hall, billiard room, and morning room. There are French windows that open to the southwest terrace from the music room. The French windows have semi-circular top lights",
+        "page": "HABS No. RI-339 (Page 5), Part II.B.6; the chunk ends mid-sentence"
+      },
+      {
+        "field": "stairways",
+        "text": "2. Stairways: Five marble steps in the entrance hall ascend to the main floor level. The marble grand staircase rises from the great ■ hall floor to a landing and thence in opposite directions to second- ary landings and thence in twin flights to the westerly second-floor gallery of the great hall. The flights sweep upward in graceful curves on open arches. The closed marble stringers are carved in a Vitruvian wave motif and are surmounted by elaborate wrought iron and bronze railings. There is a fountain within the arch below the first flight.",
+        "page": "HABS No. RI-339 (Page 5), Part II.C.2"
+      },
+      {
+        "field": "general_description",
+        "text": "rooms of \"The Breakers\" enclose a two story cortile and loggia that face southeast to the sea. 2. Condition of fabric: The building and its furnishings-: are in excellent condition.",
+        "page": "HABS No. RI-339, Part II.A; the chunk begins mid-sentence; no page marker legible"
+      },
+      {
+        "field": "other",
+        "text": "2. Date of erection: 189^ - July, 1895. 3. Architect: Richard Morris Hunt.",
+        "page": "HABS No. RI-339 (Page 2), Part I.A"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "About 250 feet by 150 feet",
+      "value": 250,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "'About'; the survey does not say which figure is the entrance front."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "About 250 feet by 150 feet",
+      "value": 150,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Same caveat."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "3% stories",
+      "value": 3.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR prints '3%'; read as 3 1/2, the same figure Wikipedia's 'five floors' does not corroborate -- the two count differently and neither is edited."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "thirteen stone chimneys",
+      "value": 13,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "The overall 250 x 150 ft is the one exterior figure the survey states; the rest of its Part II is interior finish. Seeded 4 Sep 2026."
+}

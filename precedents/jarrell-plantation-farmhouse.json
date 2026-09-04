@@ -1,0 +1,56 @@
+{
+  "id": "jarrell-plantation-farmhouse",
+  "name": "Jarrell Plantation farmhouse",
+  "aka": [
+    "Jarrell Plantation",
+    "Jarrell Plantation State Historic Site"
+  ],
+  "location": {
+    "text": "711 Jarrell Plantation Road, Juliette, Jones County, Georgia",
+    "country": "United States",
+    "state": "Georgia"
+  },
+  "dates": {
+    "built": "1847",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1847, 1895, 1920' for the site as a whole; the 1847 house is John Fitz Jarrell's, the 1895 house his son Benjamin Richard Jarrell's, as the node's exemplar says. The Digital Library of Georgia: 'In 1847, John Fitz Jarrell built a simple heart-pine house typical of most plantations'."
+  },
+  "nodes": [
+    "american-farmhouse-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "73000624",
+      "url": "https://en.wikipedia.org/wiki/Jarrell_Plantation",
+      "title": "NRHP reference No. 73000624; added May 9, 1973 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Read from the infobox as the search result printed it, not from the National Register's own database. The infobox locates it at '711 Jarrell Plantation Road, East Juliette, Georgia'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Jarrell_Plantation",
+      "title": "Jarrell Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://dlg.usg.edu/record/dlg_ggpd_y-ga-bn200-pp2-bs1-bj3-b2006-belec-p-btext",
+      "title": "Jarrell Plantation State Historic Site - Digital Library of Georgia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "A state parks brochure held by the Digital Library of Georgia; it carries the 1847 heart-pine statement."
+    },
+    {
+      "kind": "institution",
+      "url": "https://friendsofgastateparks.org/jarrell-plantation-historic-site",
+      "title": "Jarrell Plantation Historic Site | Friends of Georgia State Parks",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'this cotton plantation was owned by a single family for more than 140 years'."
+    }
+  ],
+  "note": "The register lists the whole site as a district; the exemplar names the 1847 house within it, so this record's dates are the house's and its numbers are the site's. No HABS survey was sought beyond the register query; none appeared. Seeded 4 Sep 2026."
+}

@@ -1,0 +1,41 @@
+{
+  "id": "robert-r-blacker-house",
+  "name": "Robert R. Blacker House",
+  "aka": [
+    "Blacker House",
+    "Robert Roe Blacker House"
+  ],
+  "location": {
+    "text": "Pasadena, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1907",
+    "circa": false,
+    "note": "Wikipedia: 'It was built in 1907 for Robert Roe Blacker and Nellie Canfield Blacker.'"
+  },
+  "nodes": [
+    "craftsman"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "86000147",
+      "url": "https://en.wikipedia.org/wiki/Robert_R._Blacker_House",
+      "title": "NRHP reference No. 86000147; added February 6, 1986 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Robert_R._Blacker_House",
+      "title": "Robert R. Blacker House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Location as the infobox prints it: 1177 Hillcrest Ave, Pasadena. 'This house was a lavish project for the Greene brothers, costing in excess of US$100,000.00'."
+    }
+  ],
+  "note": "No HABS survey was found: the query 'Blacker House 1177 Hillcrest Avenue Pasadena HABS CA survey Greene' restricted to loc.gov returned nothing about the building. Seeded 4 Sep 2026."
+}

@@ -1,0 +1,58 @@
+{
+  "id": "vizcaya",
+  "name": "Vizcaya",
+  "aka": [
+    "Villa Vizcaya",
+    "Vizcaya Museum and Gardens"
+  ],
+  "location": {
+    "text": "Miami, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "1914-1923",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1914-23'; the HALS Rose Garden data page says 'built between 1914-1922'; the node's exemplar says 1916. All kept."
+  },
+  "nodes": [
+    "italian-renaissance-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "70000181",
+      "url": "https://en.wikipedia.org/wiki/Vizcaya_Museum_and_Gardens",
+      "title": "NRHP reference No. 70000181 (original) 78003193 (increase); added September 29, 1970; boundary increase November 15, 1978; designated NHLD April 19, 1994 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox. The HALS data page prints the OTHER number against the 1970 date ('listed in the National Register of Historic Places on September 29, 1970 (National Register Number: 78003193)'); both are on the record here and neither is corrected."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Vizcaya_Museum_and_Gardens",
+      "title": "Vizcaya Museum and Gardens - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Location as the infobox prints it: 3251 South Miami Avenue. Its style line reads 'Mediterranean Revival Style; with Baroque, Italian Renaissance, Italian Renaissance Revival', which is the separation the node's exemplar note describes."
+    },
+    {
+      "kind": "other",
+      "id": "HALS FL-27-B",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0900/fl0952/data/fl0952data.pdf",
+      "title": "VIZCAYA, ROSE GARDEN (Vizcaya, Fountain Garden) HALS FL-27-B 3251 South Miami Avenue Miami Miami-Dade County Florida",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "A Historic American LANDSCAPES Survey of the Rose Garden, not a HABS survey of the villa; read for its dates and its register statement. Its own words: 'Vizcaya Museum and Gardens formerly known as \"Villa Vizcaya\" was built between 1914-1922 for James Deering, Vice president of International Harvester Company.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/item/fl0953",
+      "title": "Vizcaya, Marine Garden, 3251 South Miami Avenue, Miami, Miami-Dade County, FL | Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Marine Garden's HALS item; listed so a later pass knows the Library's Vizcaya records are landscape surveys."
+    }
+  ],
+  "note": "No HABS survey of the villa itself was found: 'Vizcaya \"Deering\" villa main house Miami HABS FL- loc.gov pictures item' returned only the HALS garden records. Also named, without a precedent key, by mediterranean-revival at 'Miami, Florida'. Seeded 4 Sep 2026."
+}

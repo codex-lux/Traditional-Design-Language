@@ -235,25 +235,64 @@
       "name": "Andalusia",
       "location": "Bensalem Township, Bucks County, Pennsylvania",
       "year": 1834,
-      "note": "Thomas Ustick Walter's Doric temple front added to a 1794 house built for John Craig, acquired by Nicholas Biddle c. 1814 and turned to face the Delaware. The manifesto building of the American Greek Revival, by the man who later built the U.S. Capitol dome."
+      "note": "Thomas Ustick Walter's Doric temple front added to a 1794 house built for John Craig, acquired by Nicholas Biddle c. 1814 and turned to face the Delaware. The manifesto building of the American Greek Revival, by the man who later built the U.S. Capitol dome.",
+      "precedent": "andalusia",
+      "standing": "icon",
+      "why": "The node's own note calls it the manifesto building of the American Greek Revival, and HABS PA-1248 describes the hexastyle Doric portico, the dimensions and the openings in full."
     },
     {
       "name": "Rose Hill Mansion",
       "location": "Geneva (town of Fayette), Seneca County, New York",
       "year": 1837,
-      "note": "Hexastyle Ionic portico with fully pedimented gable and Ionic colonnades on the flanking single-storey wings; builders working directly from Lafever's plates. National Historic Landmark."
+      "note": "Hexastyle Ionic portico with fully pedimented gable and Ionic colonnades on the flanking single-storey wings; builders working directly from Lafever's plates. National Historic Landmark.",
+      "precedent": "rose-hill-mansion",
+      "standing": "canonical",
+      "why": "A National Historic Landmark that the node's note ties to Lafever's plates and that its owner, Historic Geneva, calls 'one of the finest examples of Greek Revival Architecture'; no HABS data page was found for it."
     },
     {
       "name": "Berry Hill",
       "location": "3105 River Road, Halifax County, Virginia",
       "year": 1844,
-      "note": "Begun 1842; architect John Evans Johnson, builder Josiah Dabbs. Octastyle Doric portico with an entablature six and a half feet deep, correctly detailed with triglyphs, metopes and guttae, plus matching tetrastyle Doric dependencies."
+      "note": "Begun 1842; architect John Evans Johnson, builder Josiah Dabbs. Octastyle Doric portico with an entablature six and a half feet deep, correctly detailed with triglyphs, metopes and guttae, plus matching tetrastyle Doric dependencies.",
+      "precedent": "berry-hill",
+      "standing": "canonical",
+      "why": "The Virginia Department of Historic Resources calls it 'A premier monument of the American Greek Revival', and HABS VA-304 holds 17 photographs and a 1930s index card for it."
     },
     {
       "name": "Oak Alley",
       "location": "Vacherie, St. James Parish, Louisiana",
       "year": 1839,
-      "note": "Begun 1837. A peripteral colonnade of 28 stuccoed brick Doric columns on all four sides - the Greek temple hybridised with the Creole gallery house, and structurally a shading device before it is a quotation."
+      "note": "Begun 1837. A peripteral colonnade of 28 stuccoed brick Doric columns on all four sides - the Greek temple hybridised with the Creole gallery house, and structurally a shading device before it is a quotation.",
+      "precedent": "oak-alley",
+      "standing": "regional",
+      "why": "The node's own note: the Greek temple hybridised with the Creole gallery house, a shading device before it is a quotation -- the Gulf South's reading of the style, with HABS LA-71 behind it."
+    },
+    {
+      "name": "Second Bank of the United States",
+      "location": "420 Chestnut Street, Philadelphia, Pennsylvania",
+      "year": 1824,
+      "note": "William Strickland, 1818-24, on a Parthenon model: eight Doric columns over a stylobate of steps at each end, a triglyph frieze, blank pediments. Not a house. It is here because the node's prose says the professional line -- Latrobe, Strickland, Walter -- 'produced the banks', and this is the bank. HABS PA-137, 20 measured drawings.",
+      "precedent": "second-bank-of-the-united-states",
+      "standing": "icon",
+      "why": "The node's own prose names the Latrobe-to-Strickland line that produced the banks; this is Strickland's Parthenon-fronted bank, which the National Park Service and Wikipedia describe as a significant early monumental example of the style, with 20 HABS sheets."
+    },
+    {
+      "name": "Millford Plantation",
+      "location": "Pinewood, Sumter County, South Carolina",
+      "year": 1841,
+      "note": "Built 1839-41 for John L. Manning by Nathaniel F. Potter of Providence. HABS SC-257 measures it: a three-storey centre of 45 by 70 feet, five bays each way, with two-storey wings of about 20 by 20, brick burned on the site and stuccoed to read as ashlar, a hexastyle Corinthian portico -- Corinthian, where the node's substitution list says Doric -- and floor-length six-over-nine sash that slide up into the wall. Restored 1960; a National Historic Landmark. HABS spells it Milford.",
+      "precedent": "millford-plantation",
+      "standing": "canonical",
+      "why": "The HABS surveyor's own words -- 'One of the most important Greek Revival country mansions of South Carolina' -- with over-all dimensions, bay counts, portico, chimneys and sash all stated in the survey, which is what a type specimen for measurement needs."
+    },
+    {
+      "name": "Avery-Downer House",
+      "location": "Granville, Licking County, Ohio",
+      "year": 1842,
+      "note": "Built 1838-42 for Alfred Avery by Benjamin Morgan, the builder of Lafever's St. Luke's Episcopal down the street; the museum's own account has the entrance copied from the Tower of the Winds and the plaster and mouldings taken from the Grecian pattern books. Lafever transmitted by a village carpenter, which is the node's thesis in one house. Now the Robbins Hunter Museum. No HABS survey was found and the register number was not read.",
+      "precedent": "avery-downer-house",
+      "standing": "regional",
+      "why": "The node's geography runs to the Ohio Valley and names Lafever's plates as the carpenters' source; the Robbins Hunter Museum's own account has Avery choosing the style from Lafever's church next door and the same builder copying the Tower of the Winds -- a pattern-book descent stated by the owner."
     }
   ],
   "sources": [

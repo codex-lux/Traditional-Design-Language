@@ -207,25 +207,64 @@
       "name": "C. A. Nothnagle Log House",
       "location": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
       "year": 1643,
-      "note": "Traditionally dated circa 1638-1643 and claimed as the oldest log house in North America. The date is traditional, not dendrochronologically established, and later dates have been argued; the building is nonetheless the standard reference for the New Sweden log transmission."
+      "note": "Traditionally dated circa 1638-1643 and claimed as the oldest log house in North America. The date is traditional, not dendrochronologically established, and later dates have been argued; the building is nonetheless the standard reference for the New Sweden log transmission.",
+      "precedent": "c-a-nothnagle-log-house",
+      "standing": "icon",
+      "why": "The node's own prose calls it 'the standard reference for the New Sweden log transmission' while refusing its traditional date; Wikipedia records the 1976 listing and the 1638-1643 claim."
     },
     {
       "name": "Lower Swedish Cabin",
       "location": "Creek Road, Drexel Hill, Upper Darby Township, Pennsylvania",
       "year": 1650,
-      "note": "Likely built between 1640 and 1650 by New Sweden settlers, restored and archaeologically excavated 1989; listed on the National Register 1982. Same dating caveat as Nothnagle."
+      "note": "Likely built between 1640 and 1650 by New Sweden settlers, restored and archaeologically excavated 1989; listed on the National Register 1982. Same dating caveat as Nothnagle.",
+      "precedent": "lower-swedish-cabin",
+      "standing": "canonical",
+      "why": "The Delaware Valley survivor HABS measured -- eight sheets under PA-135 per Wikipedia's external links -- with the same dating caveat the node attaches to Nothnagle."
     },
     {
       "name": "John Oliver Place",
       "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
       "year": 1822,
-      "note": "Built in the 1820s, replacing a 1818 cabin on the same site; the oldest surviving structure on the Cades Cove loop and a textbook single-pen with an exterior gable-end chimney."
+      "note": "Built in the 1820s, replacing a 1818 cabin on the same site; the oldest surviving structure on the Cades Cove loop and a textbook single-pen with an exterior gable-end chimney.",
+      "precedent": "john-oliver-place",
+      "standing": "canonical",
+      "why": "The node's own 'textbook single-pen with an exterior gable-end chimney', which the Park Service's inventory confirms in its own words: 'single-room, half-dovetail notched log cabin set on fieldstone footings ... a stone chimney'."
     },
     {
       "name": "Jacob Wolf House",
       "location": "Norfork, Baxter County, Arkansas",
       "year": 1829,
-      "note": "A two-storey hewn-log dogtrot built as a courthouse - the oldest standing public structure in Arkansas, and evidence that the system was used well beyond domestic building. National Register 1973."
+      "note": "A two-storey hewn-log dogtrot built as a courthouse - the oldest standing public structure in Arkansas, and evidence that the system was used well beyond domestic building. National Register 1973.",
+      "precedent": "jacob-wolf-house",
+      "standing": "regional",
+      "why": "The Ozark two-storey dogtrot built as a courthouse, which Arkansas Heritage records the Park Service calling 'the only surviving example with at least moderate historic integrity constructed for a civic purpose'."
+    },
+    {
+      "name": "Morton Homestead",
+      "location": "Prospect Park, Delaware County, Pennsylvania",
+      "year": 1698,
+      "note": "A New Sweden log house of about 1698 on Darby Creek, later joined by a second log block and a stone centre, and once claimed as the birthplace of John Morton; the Pennsylvania end of the same Delaware Valley hearth as the Lower Swedish Cabin. National Register 1970.",
+      "precedent": "morton-homestead",
+      "standing": "regional",
+      "why": "The node's own hearth is 'the Delaware Valley and southeastern Pennsylvania', and the Register (70000546, per the Wikipedia infobox) lists this c. 1698 log house within it."
+    },
+    {
+      "name": "Walker Sisters Place",
+      "location": "Little Greenbrier, Great Smoky Mountains National Park, Sevier County, Tennessee",
+      "year": 1859,
+      "note": "A tulip-poplar log house of the 1840s-1870s in a cove of the Smokies, with springhouse and corn crib, worked by five sisters until 1964 under a lifetime lease from the park; recorded by HABS as the Walker Family Farm (TN-121, the house as TN-121-A). National Register 1976.",
+      "precedent": "walker-sisters-place",
+      "standing": "canonical",
+      "why": "HABS recorded the whole farm building by building (TN-121 and its lettered parts), and the Park Service's own historian is quoted by Wikipedia calling the family the best exhibit of 'the character of the mountain people' in the park."
+    },
+    {
+      "name": "Bertolet-Herbein Cabin",
+      "location": "Limekiln vicinity, Berks County, Pennsylvania",
+      "year": null,
+      "note": "A Pennsylvania-German log cabin in the Oley Valley measured by HABS in 1960: one and a half storeys, about 20 by 30 ft, a large stone chimney slightly off centre with the rooms divided by it, a ladder-like corner stair and a 4 by 10 ft kitchen fireplace. The Continental plan the node's kit distinguishes from the Anglo gable-end pen -- the German channel, not the Upland South result. Undated by the survey as read; then 'in imminent danger of demolition'.",
+      "precedent": "bertolet-herbein-cabin",
+      "standing": "documentary",
+      "why": "The HABS data page (PA-1047, James C. Massey, 1960) calls it 'one of the few surviving examples of a simple and picturesque type of home built by the first settlers in the Pennsylvania-German country' and states its dimensions."
     }
   ],
   "sources": [

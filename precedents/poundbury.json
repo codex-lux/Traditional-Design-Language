@@ -1,0 +1,53 @@
+{
+  "id": "poundbury",
+  "name": "Poundbury",
+  "location": {
+    "text": "Dorset, England",
+    "country": "United Kingdom",
+    "state": "Dorset"
+  },
+  "dates": {
+    "built": "Under construction from 1993; due for completion 2028",
+    "circa": false,
+    "note": "The node: 'under construction from 1993'; Wikipedia: land in the ducal estate west of Dorchester allocated for housing by West Dorset District Council in 1988, 'Due for completion in 2028'; the Duchy of Cornwall: 'Once complete in 2028, Poundbury will include 2,750 homes'. DPZ's 2024 newsletter says DPZ 'designed a code and regulating plan in 1989' for it -- Krier's masterplan and a DPZ code, which the node's prose does not mention."
+  },
+  "nodes": [
+    "new-classical",
+    "new-urbanist-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Poundbury",
+      "title": "Poundbury - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'Under the direction of its lead architect and planner Léon Krier, its design is based on traditional architecture and New Urbanist philosophy. The 2021 census showed a population of 4,100.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://duchyofcornwall.org/estate/poundbury",
+      "title": "Poundbury | Duchy of Cornwall",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Landowner and master developer. 'currently home to 5,000 people and over 260 businesses ... 35% of the homes being built are affordable'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Duchy_of_Cornwall",
+      "title": "Duchy of Cornwall - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'In 1988, West Dorset District Council allocated land in the ducal estate, west of Dorchester, for housing development, which became known as Poundbury.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.dpz.com/dpz-summer-newsletter-2024",
+      "title": "DPZ Summer Newsletter 2024",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Poundbury, Dorchester, where DPZ designed a code and regulating plan in 1989'."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A town, not a building, on two nodes with one record. Wikipedia's population (4,100 at the 2021 census) and the Duchy's (5,000) are both on the record and dated differently."
+}

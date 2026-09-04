@@ -1,0 +1,94 @@
+{
+  "id": "the-octagon",
+  "name": "The Octagon",
+  "aka": [
+    "Octagon House",
+    "Col. John Tayloe House",
+    "American Institute of Architects Headquarters"
+  ],
+  "location": {
+    "text": "1799 New York Avenue NW, Washington, D.C.",
+    "country": "United States",
+    "state": "District of Columbia"
+  },
+  "dates": {
+    "built": "1798-1800",
+    "circa": false,
+    "altered": "Original flat roof replaced ca. 1825 (survey data form).",
+    "note": "The HABS data form prints 'DATE OF CONSTRUCTION (INCLUDESOURCE) 1798-1800'; the Wikipedia infobox prints 'Built 1799' and its text 'erected between 1799 and 1800'. Recorded as the survey states it."
+  },
+  "nodes": [
+    "federal-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "DC-25",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0100/dc0195/data/dc0195data.pdf",
+      "title": "Octagon House, 1799 (1741) New York Avenue, Northwest, Washington, District of Columbia, DC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data form ('Octagon House HABS NO. DC-25'). Wikipedia's external links, read the same day, give '175 photos, 12 measured drawings, 2 data pages, 12 photo caption pages'; the ice house and stable are DC-808 and DC-336."
+    },
+    {
+      "kind": "loc-item",
+      "id": "dc0195",
+      "url": "https://www.loc.gov/pictures/item/dc0195",
+      "title": "Octagon House, 1799 (1741) New York Avenue Northwest, Washington, District of Columbia, DC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000863",
+      "url": "https://en.wikipedia.org/wiki/The_Octagon_House",
+      "title": "NRHP reference No. 66000863; added October 15, 1966; designated NHL December 19, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Octagon_House",
+      "title": "The Octagon House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "dc0195",
+    "survey_no": "DC-25",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0100/dc0195/data/dc0195data.pdf",
+    "prepared": "Architectural Data Form (Form 10-920, June 1983); compiler not legible in the extract span",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "HISTORIC NAME OF STRUCTURE (INCLUDE SOURCE FOR NAME) Octagon House HABS NO. DC-25 SECONDARY OR COMMON NAMES OF STRUCTURE Col. John Tayloe House; American Institute of Architects Headquarters COMPLETE ADDRESS (DESCRIBE LOCATION FOR RURAL SITES) 1799 New York Avenue, NW DATE OF CONSTRUCTION (INCLUDESOURCE) 1798-1800 ARCHITECTS) (INCLUDE SOURCE) William Thornton SIGNIFICANCE {ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) Excellent and innovative example of Federal style domestic architecture.",
+        "page": "HABS No. DC-25, Architectural Data Form; the form prints no page number"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "STYLE (IFAPPROPRIATE) Federal MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Brick with sandstone trim w HAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) rregular hexagonal shape with projecting semi-circular entrance bay; 3-story on raised basement: low hipped roof EXTERIOR FEATURES OF NOTE 1-story Ionic porch; belt course; recessed panels between floors; fanlight over entrance",
+        "page": "HABS No. DC-25, Architectural Data Form, same sheet"
+      },
+      {
+        "field": "plan",
+        "text": "INTERIOR FEATURES OF NOTE (DESCRIBE FLOOR PLANS, IF NOT SKETCHED) Circular vestibule; central 3-story curving stairwell; elaborate plasterwork; elaborately carved mantels MAJOR ALTERATIONS AND ADDITIONS WITH DATES Original flat roof replaced ca. 1825.",
+        "page": "HABS No. DC-25, Architectural Data Form, same sheet"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3-story on raised basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Three storeys above a raised basement."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A one-page data form: it names the Federal kit (belt course, recessed panels between floors, fanlight, one-storey Ionic porch) and states no dimension beyond the storey count; the 12 measured drawings were not read."
+}

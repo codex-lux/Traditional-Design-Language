@@ -1,0 +1,50 @@
+{
+  "id": "c-a-nothnagle-log-house",
+  "name": "C. A. Nothnagle Log House",
+  "aka": [
+    "Braman-Nothnagle Log House",
+    "Nothnagle Log House"
+  ],
+  "location": {
+    "text": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "some parts 1638-1643; the remainder completed by 1685",
+    "circa": true,
+    "altered": "Wikipedia: 'A large addition was constructed in the early 18th century. A wooden floor was built over the original dirt floor around 1730.'",
+    "note": "As the Wikipedia infobox states it. The node's own exemplar says the date 'is traditional, not dendrochronologically established, and later dates have been argued'; nothing read here settles it."
+  },
+  "nodes": [
+    "log-vernacular-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "76001153",
+      "url": "https://en.wikipedia.org/wiki/C._A._Nothnagle_Log_House",
+      "title": "NRHP reference No. 76001153; NJRHP No. 1385 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Read from the infobox as the search result printed it, not from the National Register's own database. Added to the Register in 1976 per the article."
+    },
+    {
+      "kind": "state-register",
+      "id": "1385",
+      "url": "https://en.wikipedia.org/wiki/C._A._Nothnagle_Log_House",
+      "title": "NJRHP No. 1385 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/C._A._Nothnagle_Log_House",
+      "title": "C. A. Nothnagle Log House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'built sometime between 1638 and 1643 by Finnish settlers in the colony of New Sweden'; 'The fireplace was probably built of bricks brought to America as ship's ballast.' Location as the infobox prints it: Swedesboro-Paulsboro Road, Gibbstown."
+    }
+  ],
+  "note": "No HABS survey was found ('Nothnagle log house Gibbstown Gloucester County New Jersey HABS NJ survey' on loc.gov returned unrelated New Jersey surveys). The scandinavian-log-vernacular node names it at 'Gibbstown, New Jersey, USA' -- a different location string, so a different join key, and that node is not listed here. Seeded 4 Sep 2026."
+}

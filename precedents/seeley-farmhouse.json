@@ -1,0 +1,29 @@
+{
+  "id": "seeley-farmhouse",
+  "name": "Seeley Farmhouse",
+  "location": {
+    "text": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "c. 1850",
+    "circa": true,
+    "note": "The county listing found gives only the listing date; the c. 1850 is the node's exemplar's own year and is not confirmed by a source read here."
+  },
+  "nodes": [
+    "american-farmhouse-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "78001909",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Schenectady_County,_New_York",
+      "title": "National Register of Historic Places listings in Schenectady County, New York - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The county list's own row: 'Seeley Farmhouse | May 23, 1978 (#78001909) | 2 Freeman's Bridge Rd. | Glenville'. No article of its own was found; the nomination was not opened."
+    }
+  ],
+  "note": "The thinnest record in this set: one register row. The greek-revival-northern node names the same building at the same location string and could join this record. Seeded 4 Sep 2026."
+}

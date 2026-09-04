@@ -1,0 +1,186 @@
+{
+  "id": "bertolet-herbein-cabin",
+  "name": "Bertolet-Herbein Cabin",
+  "location": {
+    "text": "Limekiln vicinity, Berks County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "note": "The survey's physical-history line ('Erected ...') was cut off in the extract, so no date is recorded; the survey's own statement of significance calls it 'a simple and picturesque type of home built by the first settlers in the Pennsylvania-German country' and says its window frames are 'post-Revolutionary'. The survey was prepared August 1960 and said the cabin was then 'in imminent danger of demolition'; its present state and location were not verified here."
+  },
+  "nodes": [
+    "log-vernacular-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1047",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0100/pa0119/data/pa0119data.pdf",
+      "title": "[PDF] Bertolet-Herbein Cabin HABS No. PA-10^7 - Loc",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number as the OCR prints it is 'PA-10^7' in the title and '(HABS No. PA-104?)' in the running heads; both are read as PA-1047, and that is a READING of noisy OCR, marked as one. The location line: 'of Limekiln (Oley Line), Limekiln Vicinity, Berks County, Pennsylvania'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0119",
+      "url": "https://www.loc.gov/pictures/item/pa0119",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page itself was not opened."
+    }
+  ],
+  "survey": {
+    "item": "pa0119",
+    "survey_no": "PA-1047",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0100/pa0119/data/pa0119data.pdf",
+    "prepared": "Prepared by James C. Massey, Architect National Park Service August 1960 (as printed)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "This building is one of the few surviving examples of Significance: of a simple and picturesque type of home built \"by the first settlers in the Pennsylvania-German country. It is in imminent danger of demolition.",
+        "page": "HABS No. PA-1047, cover 'Brief Statement of Significance'; the search result's snippet of the same document, no page number"
+      },
+      {
+        "field": "other",
+        "text": "Pronounced Germanic overtones mark this small one-and-a-half story log cabin, and its three-room plan is typical of German building ... ^^Pennsylvania ... Across one end of the house is the kitchen, with entrances at both front and back, and a steep ladder-like stair- way to the attic in an outside corner. 3he larger remainder of the house is divided laterally into two rooms, a sitting room in the front, and behind it, a chamber.",
+        "page": "HABS No. PA-1047, Part I, quoting a published description 'by James C. Massey'; the ellipses are the OCR's own and are quoted as printed; no page marker legible"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: One-and-a-half stories, rectangular plan, approximately 20 feet by 30 feet.",
+        "page": "HABS No. PA-1047, Part II.B.1; the marker 'Page 4 (HABS No. PA-104?)' follows"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Rubble, light gray local stone.",
+        "page": "HABS No. PA-1047, Part II.B.2; same span"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Log, chinked with mortar.",
+        "page": "HABS No. PA-1047, Part II.B.3; same span"
+      },
+      {
+        "field": "openings",
+        "text": "4. Openings: a. Doorways and doors: Two Dutch half doors, at oppo- site sides of the cabin; crude frames and hardware; three-foot by six-foot stoops at both doors. b. Windows and shutters: Three double-hung windows with broad shutters on original strap hinges. Window frames are post-Revolutionary; six-over-six light windows.",
+        "page": "HABS No. PA-1047, Page 4, Part II.B.4"
+      },
+      {
+        "field": "roof",
+        "text": "5. Roof: a. Shape, covering: Steep gable roof flares at lower third of height—tin covered. Roof construction hand-hewn: no ridge pole, rafters notched into extra large sill set on top of wall. Rafters tied half way up with large wooden pegs. b. Eaves: Overhanging eaves.",
+        "page": "HABS No. PA-1047, Page 4, Part II.B.5"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimney: Large stone chimney, slightly off-center of the house.",
+        "page": "HABS No. PA-1047, Page 4, Part II.B.6"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plans: Rectangular plan; two rooms separated by free-standing fireplace; stairs in corner. Partial cellar.",
+        "page": "HABS No. PA-1047, Page 4, Part II.C.1"
+      },
+      {
+        "field": "stairways",
+        "text": "2. Stairway: Simple ladder-like corner stairway without railing—three steps, landing, straight run.",
+        "page": "HABS No. PA-1047, Page 4, Part II.C.2"
+      },
+      {
+        "field": "finishes",
+        "text": "4. Wall and ceiling finish: Log and plaster interior finish. Summer beam exposed runs from wall to fire- place and rests on 12-inch by 14-inch chimney beam.",
+        "page": "HABS No. PA-1047, Page 4, Part II.C.4"
+      },
+      {
+        "field": "other",
+        "text": "9. Heating: Large stone kitchen fireplace, four feet by ten feet, with original wood crane.",
+        "page": "HABS No. PA-1047, Part II.C.9; the marker 'Page 5 (HABS No. PA-104?)' follows"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approximately 20 feet by 30 feet",
+      "value": 30,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The survey does not say which figure is the front; the cabin 'faces southeast'."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "approximately 20 feet by 30 feet",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "Same caveat."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "One-and-a-half stories",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "window_count",
+      "as_printed": "Three double-hung windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "door_stoop_width_ft",
+      "as_printed": "three-foot by six-foot stoops",
+      "value": 3,
+      "unit": "ft",
+      "from_quote": 5
+    },
+    {
+      "name": "door_stoop_length_ft",
+      "as_printed": "three-foot by six-foot stoops",
+      "value": 6,
+      "unit": "ft",
+      "from_quote": 5
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Large stone chimney, slightly off-center",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 7
+    },
+    {
+      "name": "chimney_beam_depth_in",
+      "as_printed": "12-inch by 14-inch chimney beam",
+      "value": 12,
+      "unit": "in",
+      "from_quote": 10
+    },
+    {
+      "name": "chimney_beam_width_in",
+      "as_printed": "12-inch by 14-inch chimney beam",
+      "value": 14,
+      "unit": "in",
+      "from_quote": 10
+    },
+    {
+      "name": "kitchen_fireplace_depth_ft",
+      "as_printed": "four feet by ten feet",
+      "value": 4,
+      "unit": "ft",
+      "from_quote": 11
+    },
+    {
+      "name": "kitchen_fireplace_width_ft",
+      "as_printed": "four feet by ten feet",
+      "value": 10,
+      "unit": "ft",
+      "from_quote": 11
+    }
+  ],
+  "note": "The Pennsylvania-German channel the node's own prose calls 'the far larger channel', measured by HABS in 1960: a 20 x 30 ft pen with the chimney 'slightly off-center' and a three-room (Massey) or two-room (data page) plan divided by the fireplace -- the survey disagrees with itself on the count and both statements are quoted. The central chimney is the Continental plan the node's own kit distinguishes from the Anglo gable-end pen, so this is the German ancestor and not the Upland South descendant. Seeded 4 Sep 2026."
+}

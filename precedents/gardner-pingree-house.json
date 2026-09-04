@@ -1,0 +1,81 @@
+{
+  "id": "gardner-pingree-house",
+  "name": "Gardner-Pingree House",
+  "aka": [
+    "Gardner-White-Pingree Place",
+    "Gardner–Pingree House"
+  ],
+  "location": {
+    "text": "128 Essex Street, Salem, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1804",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1804', architect Samuel McIntire. HABS records the house under the name Gardner-White-Pingree Place."
+  },
+  "nodes": [
+    "federal-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-271",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0693/data/ma0693data.pdf",
+      "title": "Gardner-White-Pingree Place, 128 Essex Street, Salem, Essex County, MA (House & Garden)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's cover OCRs as 'HABS-Ho.- :Mfi:SS-27l', i.e. MASS-271 in the pre-1960s state numbering; the Library's photo pages read 'Photos from Survey HABS MA-271'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0693",
+      "url": "https://www.loc.gov/resource/hhh.ma0693.photos/%3Fsp%3D1%26st%3Dgrid",
+      "title": "Gardner-White-Pingree Place, 128 Essex Street, Salem, Essex County, MA (House & Garden)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "A photo-gallery resource page for the item, which is what the search returned; the item landing page was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000541",
+      "url": "https://en.wikipedia.org/wiki/Gardner%E2%80%93Pingree_House",
+      "title": "NRHP reference No. 70000541; added December 30, 1970; contributing to Essex Institute Historic District (#72000147) and Salem Common Historic District (#76000303) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gardner%E2%80%93Pingree_House",
+      "title": "Gardner–Pingree House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Samuel_McIntire",
+      "title": "Samuel McIntire - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Names the house among McIntire's Salem works and says of the Pingree House interior that 'he used rectangles throughout the designs'."
+    }
+  ],
+  "survey": {
+    "item": "ma0693",
+    "survey_no": "MA-271",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0693/data/ma0693data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer, 76 Chestnut Street, Boston (as the cover reads, OCR 'Chotiteau'); 1930s",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "HABS-Ho.- :Mfi:SS-27l HA85 .MASS. S - SAL PHOTOGRAPHS WRITTEN HISTORICAL ANP DESCRIPTIVE DATA District of Massachusetts REDUCED COPIES OF MEASURED DRAWINGS JTZZm Historic American Buildings Survey Frank Chotiteau Brown district Ofiicer 76 Chestnut Street,Boston,Mass.",
+        "page": "cover sheet; three extraction passes (two queries and one at advanced depth) returned nothing beyond it, so whatever description the sheet carries was not read"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026. The extractor returned only the cover of the data pages, so this record locates the survey and quotes none of its description. The measured drawings exist ('REDUCED COPIES OF MEASURED DRAWINGS' on the cover) and were not read."
+}

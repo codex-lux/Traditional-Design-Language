@@ -1,0 +1,66 @@
+{
+  "id": "levi-coffin-house",
+  "name": "Levi Coffin House",
+  "aka": [
+    "Levi Coffin Home",
+    "Levi Coffin State Historic Site"
+  ],
+  "location": {
+    "text": "113 U.S. 27, Fountain City, Wayne County, Indiana",
+    "country": "United States",
+    "state": "Indiana"
+  },
+  "dates": {
+    "built": "c. 1838-1839",
+    "circa": true,
+    "altered": "Restored after the state's 1967 purchase 'to appear as it did in the 1840s' (Wikipedia); opened as a historic site in 1970.",
+    "note": "Wikipedia: 'constructed circa 1838-39 in the Federal style'; the node's exemplar says 1839. The infobox's own style word is Federal, which is where the southern-federal node names it too."
+  },
+  "nodes": [
+    "american-farmhouse-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IN-79",
+      "url": "https://www.loc.gov/pictures/item/in0140",
+      "title": "Levi Coffin House, Main Cross & Mill Streets, Fountain City, Wayne ...",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'HABS IN-79 National Register of Historic'. The Wikipedia external-links section, read the same day, gives '10 measured drawings' and no data pages; the PDF at the tile.loc.gov data path, fetched the same day, carries only the cover sheet 'REDUCED COPIES OF MEASURED DRAWINGS', so no survey block is recorded."
+    },
+    {
+      "kind": "loc-item",
+      "id": "in0140",
+      "url": "https://www.loc.gov/pictures/item/in0140",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "66000009",
+      "url": "https://en.wikipedia.org/wiki/Levi_Coffin_House",
+      "title": "NRHP reference No. 66000009; added October 15, 1966; designated NHL June 23, 1965 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The same number is the NPGallery NHL file id. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/66000009_text",
+      "title": "[PDF] Levi Coffin Home - NPGallery",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The nomination; its own words name 'a site drawing (HABS) by R. G. Exley, labeled the Levi Coffin House' and give the address as '115 Main Cross Street (U.S. Route 27)'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Levi_Coffin_House",
+      "title": "Levi Coffin House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The two-story, eight room, brick home'."
+    }
+  ],
+  "note": "Ten HABS sheets and no written data: the dimensions of this I-house are on the drawings, which this container cannot open. The southern-federal node names it at the same location string and could join this record. Seeded 4 Sep 2026."
+}

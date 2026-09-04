@@ -1,0 +1,50 @@
+{
+  "id": "lower-swedish-cabin",
+  "name": "Lower Swedish Cabin",
+  "aka": [
+    "Lower Swedish Log Cabin",
+    "Swedish Cabin"
+  ],
+  "location": {
+    "text": "Creek Road, Drexel Hill, Upper Darby Township, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1640-1650",
+    "circa": true,
+    "note": "The Wikipedia infobox prints 'Built 1640-1650'; the node's exemplar says 'likely built between 1640 and 1650' with the same dating caveat as Nothnagle. The node's exemplar says 'listed on the National Register 1982'; the infobox prints 'Added to NRHP June 9, 1980' and 'Designated PHMC October 21, 1989'. Recorded, neither changed."
+  },
+  "nodes": [
+    "log-vernacular-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-135",
+      "url": "https://en.wikipedia.org/wiki/Lower_Swedish_Cabin",
+      "title": "Lower Swedish Cabin - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the article's External links: 'Historic American Buildings Survey (HABS) No. PA-135, \"Lower Swedish Log Cabin, Darby Creek vicinity (Clifton Heights), Darby, Delaware County, PA\", 4 photos, 8 measured drawings, 2 data pages, 1 photo caption page, supplemental material'. The same section lists HABS No. PA-136 for the demolished Upper Swedish Log Cabin nearby. The Library item id was not found ('\"Lower Swedish Log Cabin\" Darby Creek Delaware County PA HABS PA-135 loc.gov item' returned other Pennsylvania records), so the two data pages were not fetched and no survey block is recorded."
+    },
+    {
+      "kind": "nrhp",
+      "id": "80003484",
+      "url": "https://en.wikipedia.org/wiki/Lower_Swedish_Cabin",
+      "title": "NRHP reference No. 80003484; added June 9, 1980 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lower_Swedish_Cabin",
+      "title": "Lower Swedish Cabin - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Infobox style line: 'Swedish Plan'."
+    }
+  ],
+  "note": "Eight HABS sheets exist for this cabin and are the measured record the node's Delaware Valley hearth most needs; they and the two data pages await a pass that can find the item id. Seeded 4 Sep 2026."
+}

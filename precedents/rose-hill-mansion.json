@@ -1,0 +1,63 @@
+{
+  "id": "rose-hill-mansion",
+  "name": "Rose Hill Mansion",
+  "aka": [
+    "Rose Hill"
+  ],
+  "location": {
+    "text": "Geneva (town of Fayette), Seneca County, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1837-1839",
+    "circa": false,
+    "note": "Historic Geneva: 'built between 1837 and 1839, the earliest reference date for its completion is September 7, 1839'; the Wikipedia infobox prints 'Built 1839'; the node's exemplar year is 1837."
+  },
+  "nodes": [
+    "greek-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "73001269",
+      "url": "https://en.wikipedia.org/wiki/Rose_Hill_Mansion",
+      "title": "NRHP reference No. 73001269; added February 6, 1973; designated NHL June 24, 1986 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building. Historic Geneva's own page gives the NHL designation as 1987; the two disagree by a year and neither is corrected here."
+    },
+    {
+      "kind": "state-register",
+      "id": "09902.000002",
+      "url": "https://en.wikipedia.org/wiki/Rose_Hill_Mansion",
+      "title": "NYSRHP No. 09902.000002; designated NYSRHP June 23, 1980 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rose_Hill_Mansion",
+      "title": "Rose Hill Mansion - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://historicgeneva.org/rose-hill-mansion",
+      "title": "Rose Hill Mansion - A Historic Geneva Property",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'the 1839 Greek Revival Mansion features 21 furnished rooms'."
+    },
+    {
+      "kind": "other",
+      "url": "https://historicgeneva.org/historic-geneva/rose-hill-turns-175",
+      "title": "Rose Hill Turns 175! (Historic Geneva, 30 Aug 2014)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Source of the 1837-1839 construction span and the 7 September 1839 completion reference."
+    }
+  ],
+  "note": "Written 4 Sep 2026. Wikipedia's external links say HABS holds 'Rose Hill, Geneva vicinity: 3 photos and captions' but print no survey number, and a loc.gov search on three phrasings did not surface the item, so no `habs` reference is recorded rather than a guessed one. No written data page is claimed for it."
+}

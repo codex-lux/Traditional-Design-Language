@@ -1,0 +1,64 @@
+{
+  "id": "h-a-c-taylor-house",
+  "name": "H. A. C. Taylor House",
+  "aka": [
+    "H.A.C. Taylor House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1885-86",
+    "circa": false,
+    "altered": "Demolished 1952 for the subdivision of its grounds; some salvage went into the outbuildings of the adjacent Ocean Lawn (Wikimapia entry, a low-authority source recorded because no other fetched page states the demolition).",
+    "note": "The RISD Archives print is inscribed 'DATE: 1886'; the University at Buffalo record (from Scully) gives '1885 - 86'; the node's exemplar year is 1885."
+  },
+  "nodes": [
+    "colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://digitalcommons.risd.edu/archives_1939riarchitectureexhibition/128",
+      "title": "\"H.A.C. Taylor House\" by RISD McKim, Mead and White and RISD Archives (1939 Rhode Island Architecture Exhibition, archives identifier 23.4.4)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Inscription on the verso, as the record prints it: 'H.A.C. TAYLOR HOUSE, Annandale Road, Newport. 1886. By McKim / Mead and White. The first Colonial Revival house; with academic plan, / eclectic eighteenth century detail and even the typical early Newport / gable-above-hip roof. (Rhode Island Architecture, Hitchcock.)'"
+    },
+    {
+      "kind": "monograph",
+      "url": "https://digitalcommons.risd.edu/archives_1939riarchitectureexhibition/128",
+      "title": "Henry-Russell Hitchcock, Rhode Island Architecture (1939), as quoted on the RISD print's inscription",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The book itself was not opened; the quotation reaches this record at one remove."
+    },
+    {
+      "kind": "other",
+      "url": "https://digital.lib.buffalo.edu/index.php/items/show/30803",
+      "title": "H. A. C. Taylor House · Digital Collections - University at Buffalo Libraries",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Source given as Vincent Scully, The Shingle Style and the Stick Style (rev. ed., 1971); date '1885 - 86'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.jstor.org/stable/community.27601096",
+      "title": "H.A.C. Taylor House | JSTOR (community collection)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Carries the same Hitchcock sentence: 'The first Colonial Revival house with academic plan, / eclectic eighteenth century detail and even the typical early Newport / gable-above-hip roof.'"
+    },
+    {
+      "kind": "other",
+      "url": "http://wikimapia.org/18014365/H-A-C-Taylor-House",
+      "title": "H.A.C. Taylor House - Newport, Rhode Island (Wikimapia)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The house was demolished in 1952 for subdivision of its grounds.' A user-edited map; recorded for the demolition only, and said so."
+    }
+  ],
+  "note": "Written 4 Sep 2026. Demolished, so no register and no HABS; what survives is photographs and Hitchcock's 1939 sentence, which is the citation behind the node's 'canonical first fully realised Colonial Revival house'."
+}

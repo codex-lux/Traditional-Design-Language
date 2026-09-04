@@ -1,0 +1,35 @@
+{
+  "id": "rosemary-beach",
+  "name": "Rosemary Beach",
+  "location": {
+    "text": "Walton County, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "Founded 1995",
+    "circa": false,
+    "note": "Wikipedia: 'The town was founded in 1995 by Patrick D. Bienvenue, President of Leucadia Financial Corporation, and was designed by Duany Plater-Zyberk & Company'; DPZ's project page: '1995 Designed', 105 ac., 800 units, 55,000 sq.ft. retail."
+  },
+  "nodes": [
+    "new-urbanist-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rosemary_Beach,_Florida",
+      "title": "Rosemary Beach, Florida - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.dpz.com/projects/rosemary-beach",
+      "title": "Rosemary Beach (DPZ CoDesign project page)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Planner. 'Eschewing Seaside’s Key West pastel clapboard look, Rosemary favored more masonry and adopted a darker wood-stain palette' and 'Unique aesthetic: Caribbean + St. Augustine + earth-tone palette'."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A town; DPZ's page locates it at 'South Walton, Florida'."
+}

@@ -225,19 +225,55 @@
       "name": "Seaside",
       "location": "Walton County, Florida",
       "year": 1981,
-      "note": "Robert Davis with Duany Plater-Zyberk; land assembled 1978, construction begun 1981, urban code drawn in the early 1980s. The founding case and the origin of the single-sheet form-based code."
+      "note": "Robert Davis with Duany Plater-Zyberk; land assembled 1978, construction begun 1981, urban code drawn in the early 1980s. The founding case and the origin of the single-sheet form-based code.",
+      "precedent": "seaside",
+      "standing": "icon",
+      "why": "The node's own hearth and founding case; DPZ's project page states the programme (624 units, 80 civic amenities on 80 acres) and Wikipedia records that private ownership let the developers write their own code."
     },
     {
       "name": "Kentlands",
       "location": "Gaithersburg, Maryland",
       "year": 1988,
-      "note": "DPZ charrette June 1988, construction from 1989, first residents 1991. The first full-scale test of the method in a cold-climate Mid-Atlantic context and on a conventional developer's pro forma."
+      "note": "DPZ charrette June 1988, construction from 1989, first residents 1991. The first full-scale test of the method in a cold-climate Mid-Atlantic context and on a conventional developer's pro forma.",
+      "precedent": "kentlands",
+      "standing": "canonical",
+      "why": "The node's own note calls it the first full-scale cold-climate test on a conventional developer's pro forma; Wikipedia dates the charrette to June 1988 and DPZ's own comparison table gives 680 acres and 4,600 units."
     },
     {
       "name": "Windsor",
       "location": "Vero Beach, Florida",
       "year": 1989,
-      "note": "Founded 1989 by Hilary and Galen Weston with a DPZ plan and code; town hall by Leon Krier, 1999. The movement's most tightly coded and most expensively executed village."
+      "note": "Founded 1989 by Hilary and Galen Weston with a DPZ plan and code; town hall by Leon Krier, 1999. The movement's most tightly coded and most expensively executed village.",
+      "precedent": "windsor",
+      "standing": "canonical",
+      "why": "DPZ's own project page: 'With the exception of the Poundbury Code, this is the most precise small town code designed by DPZ' -- the node's 'most tightly coded' in the planner's words."
+    },
+    {
+      "name": "Celebration",
+      "location": "Osceola County, Florida",
+      "year": 1994,
+      "note": "The Walt Disney Company's town near Orlando, established 1994: master plan by Jacquelin T. Robertson of Cooper, Robertson & Partners with Robert A. M. Stern, an architectural pattern book by Urban Design Associates, and civic buildings by Graves, Johnson, Pelli, Venturi and Stern. The movement's method on a corporation's land and budget, and the case its critics cite first; 11,178 people at the 2020 census.",
+      "precedent": "celebration",
+      "standing": "canonical",
+      "why": "Wikipedia's account -- a master plan by two Driehaus laureates and a pattern book written to govern the architecture -- is the node's own mechanism (the pattern book as transmission) executed by the largest developer ever to adopt it."
+    },
+    {
+      "name": "Rosemary Beach",
+      "location": "Walton County, Florida",
+      "year": 1995,
+      "note": "Founded 1995 by Patrick D. Bienvenue for Leucadia and coded by DPZ: 105 acres, 800 units, and by DPZ's own account a deliberate departure from Seaside's pastel clapboard toward masonry, dark-stained wood and a Caribbean and St. Augustine palette -- the second Walton County test of the same code with a different regional vernacular, which is the node's point about style entering last.",
+      "precedent": "rosemary-beach",
+      "standing": "regional",
+      "why": "DPZ's own project page states the departure from Seaside's palette toward masonry and a Caribbean-St. Augustine vernacular on the same coast -- style entering last, as the node says it must -- fourteen years and eight miles from the founding case."
+    },
+    {
+      "name": "Poundbury",
+      "location": "Dorset, England",
+      "year": 1993,
+      "note": "Leon Krier's masterplan for the Duchy of Cornwall on the west edge of Dorchester, under construction from 1993 and due for completion in 2028 with 2,750 homes; DPZ's own newsletter says DPZ wrote its code and regulating plan in 1989, and DPZ's Windsor page calls the Poundbury Code the only one of theirs more precise than Windsor's. The same town the new-classical node names; one record for both.",
+      "precedent": "poundbury",
+      "standing": "canonical",
+      "why": "DPZ's own pages name the Poundbury Code as the most precise small-town code the firm has written, and Wikipedia describes the town's design as based on 'traditional architecture and New Urbanist philosophy' under Krier -- the movement's method carried to England."
     }
   ],
   "sources": [

@@ -1,0 +1,54 @@
+{
+  "id": "whitemarsh-hall",
+  "name": "Whitemarsh Hall",
+  "aka": [
+    "Edward T. Stotesbury mansion"
+  ],
+  "location": {
+    "text": "Wyndmoor, Springfield Township, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1916-1921",
+    "circa": false,
+    "altered": "Demolished 1980 (Wikipedia infobox).",
+    "note": "The Wikipedia infobox: construction started 1916, completed 1921, demolished 1980, 6 floors, 100,000 square feet; its text: 147 rooms, 'the largest American house ever to be demolished on purpose'. Wikipedia files it under both 'Georgian architecture in Pennsylvania' and 'Neoclassical architecture in Pennsylvania' and its infobox says 'Neoclassical Revival'; the node calls it Neo-Georgian."
+  },
+  "nodes": [
+    "georgian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Whitemarsh_Hall",
+      "title": "Whitemarsh Hall - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/88705227",
+      "title": "\"Whitemarsh Hall,\" Edward Townsend Stotesbury house, Wyndmoor, Pennsylvania -- Frances Benjamin Johnston photograph collection, Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Photographs of the house and its Greber gardens, 1920-1930; not a HABS survey."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/item/2004677247",
+      "title": "[\"Whitemarsh Hall,\" Edward Townsend Stotesbury house, Wyndmoor, Pennsylvania. Interior] | Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Horace_Trumbauer",
+      "title": "Horace Trumbauer - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Lists 'Whitemarsh Hall (Edward T. Stotesbury mansion), Wyndmoor, Pennsylvania (1916–21, demolished 1980)'."
+    }
+  ],
+  "note": "Written 4 Sep 2026. Demolished; a loc.gov search for a HABS survey returned only Johnston's photographs, so none is recorded. No register."
+}

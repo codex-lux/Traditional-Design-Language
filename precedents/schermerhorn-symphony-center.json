@@ -1,0 +1,44 @@
+{
+  "id": "schermerhorn-symphony-center",
+  "name": "Schermerhorn Symphony Center",
+  "location": {
+    "text": "Nashville, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "2003-2006",
+    "circa": false,
+    "note": "The Nashville Symphony's fact sheet: groundbreaking December 3, 2003, topping-off April 26, 2005, grand opening September 9, 2006; the Wikipedia infobox prints the same opening date and 'Built April 26, 2005'."
+  },
+  "nodes": [
+    "new-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.dmsas.com/project/schermerhorn-symphony-center",
+      "title": "Schermerhorn Symphony Center - Nashville - David M. Schwarz Architects",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Architect. 'Completed in September 2006, Schermerhorn is a 197,000 SF, new-construction hall' and 'While reading as Neo-Classical to the casual observer, the building is much more' (cut in the extract)."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nashvillesymphony.org/media/1484/ssc_fact_sheet.pdf",
+      "title": "SSC Architectural and Acoustical Fact Sheet - Nashville Symphony",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner's fact sheet. 'Measuring 301 by 274 feet, the four-story structure features a 29-foot-high north entrance flanked by columns ... 26,000 pieces of Indiana limestone, South Dakota granite and marble, 302 windows and 36,500 square feet of copper roofing ... a 125-foot colonnade encloses a landscaped garden'. Project cost $123.5 million. These are the owner's figures, not a survey's, and are recorded here rather than in `measurements`."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Schermerhorn_Symphony_Center",
+      "title": "Schermerhorn Symphony Center - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Names David M. Schwarz Architects (2015 Driehaus Prize) with Earl Swensson Associates as architect of record and Paul Scarbrough of Akustiks for the acoustics."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A living building: the archival references are the architect's and the owner's own pages. The owner's fact sheet gives the plan dimensions (301 by 274 ft) and the entrance height (29 ft) and they are kept in its ref note because they are not a HABS survey's."
+}

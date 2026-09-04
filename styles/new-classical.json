@@ -217,19 +217,55 @@
       "name": "Schermerhorn Symphony Center",
       "location": "Nashville, Tennessee",
       "year": 2006,
-      "note": "David M. Schwarz Architects. A new building type designed entirely within the classical system, with a full Doric peristyle and correct entablature at civic scale."
+      "note": "David M. Schwarz Architects. A new building type designed entirely within the classical system, with a full Doric peristyle and correct entablature at civic scale.",
+      "precedent": "schermerhorn-symphony-center",
+      "standing": "canonical",
+      "why": "The node's own note: a new building type designed entirely within the classical system; the owner's fact sheet gives its plan at 301 by 274 feet and the architect's page calls it 'much more' than a draped Neo-Classical style."
     },
     {
       "name": "15 Central Park West",
       "location": "New York, New York",
       "year": 2008,
-      "note": "Robert A. M. Stern Architects. Limestone-clad, base-shaft-cap, with real reveals and cornices at high-rise scale — proof that the system survives the change of building type and the change of structural material."
+      "note": "Robert A. M. Stern Architects. Limestone-clad, base-shaft-cap, with real reveals and cornices at high-rise scale — proof that the system survives the change of building type and the change of structural material.",
+      "precedent": "15-central-park-west",
+      "standing": "icon",
+      "why": "The node's own note calls it proof that the system survives the change of building type and structural material, and Wikipedia records it as one of the most financially successful apartment buildings ever built, at $2 billion of sales."
     },
     {
       "name": "Poundbury",
       "location": "Dorset, England",
       "year": 1993,
-      "note": "Leon Krier's masterplan for the Duchy of Cornwall, under construction from 1993. The movement's argument made at town scale, and its most-tested and most-criticized case."
+      "note": "Leon Krier's masterplan for the Duchy of Cornwall, under construction from 1993. The movement's argument made at town scale, and its most-tested and most-criticized case.",
+      "precedent": "poundbury",
+      "standing": "icon",
+      "why": "The node's own note: the movement's argument made at town scale, and its most-tested case; Wikipedia and the Duchy of Cornwall agree on Krier's direction and the 2028 completion."
+    },
+    {
+      "name": "Richmond Riverside",
+      "location": "Richmond upon Thames, London, England",
+      "year": 1988,
+      "note": "Quinlan Terry's mixed-use development on the Thames at Richmond, 1984-88: offices, flats and shops behind a run of classical fronts, and the case that made the argument in Britain a decade before Poundbury. Unlisted; Wikipedia's New Classical article names it first among its examples.",
+      "precedent": "richmond-riverside",
+      "standing": "canonical",
+      "why": "Wikipedia's article on the movement lists it first among its examples ('Richmond Riverside, Richmond, England, 1988, by Quinlan Terry'), and Historic England's biography of Terry names it among the works of the architect it calls a 'successful exponent of, and advocate for, Classicism'."
+    },
+    {
+      "name": "Whitman College, Princeton University",
+      "location": "Princeton, New Jersey",
+      "year": 2007,
+      "note": "Demetri Porphyrios, commissioned 2002, completed 2007, $136 million: a family of load-bearing stone buildings -- random fieldstone and coursed Indiana limestone, slate roofs -- in Princeton's Collegiate Gothic, by a Driehaus laureate. Gothic in idiom, so it is on this node for the method and not the orders: Porphyrios's own claim is that 'Whitman College is important for the revival of traditional architecture in the States'.",
+      "precedent": "whitman-college-princeton-university",
+      "standing": "canonical",
+      "why": "The largest American campus commission of the movement's institutional cohort, by the 2004 Driehaus laureate, and the architect's own words in Princeton's bulletin -- 'important for the revival of traditional architecture in the States'; the node's hearth includes the Notre Dame school this cohort came out of."
+    },
+    {
+      "name": "Tuscaloosa Federal Building and Courthouse",
+      "location": "Tuscaloosa, Alabama",
+      "year": 2011,
+      "note": "HBRA Architects for the General Services Administration's Design Excellence programme, 127,000 square feet, $47.8 million: a Doric front in Indiana limestone after the Temple of Zeus at Nemea, an Ionic atrium after the Erechtheion, and a client -- the presiding judge -- who told Architect magazine that 'People need to have the sense they're coming to a place of justice, not an office building'. The exception Semes names to federal patronage's refusal of the classical; LEED gold.",
+      "precedent": "tuscaloosa-federal-building-and-courthouse",
+      "standing": "canonical",
+      "why": "The federal civic type done inside the classical system under the GSA's own programme, which Steven Semes (Common Edge, 2020) singles out as the exception the GSA resisted; Architect magazine records the orders it is derived from and the client's stated reason."
     }
   ],
   "sources": [

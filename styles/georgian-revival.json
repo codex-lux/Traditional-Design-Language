@@ -219,25 +219,46 @@
       "name": "Whitemarsh Hall",
       "location": "Wyndmoor, Springfield Township, Pennsylvania",
       "year": 1921,
-      "note": "Horace Trumbauer for E. T. Stotesbury, 1916-21. Neo-Georgian at Beaux-Arts scale, 147 rooms; demolished 1980 and still the largest American house deliberately destroyed."
+      "note": "Horace Trumbauer for E. T. Stotesbury, 1916-21. Neo-Georgian at Beaux-Arts scale, 147 rooms; demolished 1980 and still the largest American house deliberately destroyed.",
+      "precedent": "whitemarsh-hall",
+      "standing": "icon",
+      "why": "The node's own note -- Neo-Georgian at Beaux-Arts scale, 147 rooms, the largest American house deliberately destroyed -- which Wikipedia's infobox confirms at 100,000 square feet and six floors."
     },
     {
       "name": "Governor's Palace (reconstruction)",
       "location": "Williamsburg, Virginia",
       "year": 1934,
-      "note": "Perry, Shaw & Hepburn. The reference library for the whole variant: bonds, profiles, hardware, dormers and paint, all published and copied for forty years."
+      "note": "Perry, Shaw & Hepburn. The reference library for the whole variant: bonds, profiles, hardware, dormers and paint, all published and copied for forty years.",
+      "precedent": "governors-palace-reconstruction",
+      "standing": "documentary",
+      "why": "The node's own note calls it the reference library for the whole variant; Colonial Williamsburg's own journal and research reports document how Perry, Shaw & Hepburn derived it."
     },
     {
       "name": "Widener Library, Harvard University",
       "location": "Cambridge, Massachusetts",
       "year": 1915,
-      "note": "Horace Trumbauer with Julian Abele. The institutional register, and evidence that the variant's brick-and-limestone grammar scales far past the house."
+      "note": "Horace Trumbauer with Julian Abele. The institutional register, and evidence that the variant's brick-and-limestone grammar scales far past the house.",
+      "precedent": "widener-library-harvard-university",
+      "standing": "canonical",
+      "why": "The node's institutional register, on the node's own claim that the variant's brick-and-limestone grammar scales past the house; Harvard's archives guide records Trumbauer's firm and Abele as chief designer."
     },
     {
       "name": "Griffith-Sowers House",
       "location": "Rowan County, near Salisbury, North Carolina",
       "year": 1932,
-      "note": "Five-bay centre block with connected wings, slate roof; a well-documented ordinary-scale example, NRHP 2009."
+      "note": "Five-bay centre block with connected wings, slate roof; a well-documented ordinary-scale example, NRHP 2009.",
+      "precedent": "griffith-sowers-house",
+      "standing": "documentary",
+      "why": "The NC HPO nomination (RW0971, 2009) describes the five-part plan with a centre block 'just under fifty feet in width' and an eleven-bay front -- but as a frame house with flush sheathing, which is worth knowing on a brick node."
+    },
+    {
+      "name": "Woodrow Wilson House",
+      "location": "2340 S Street NW, Washington, D.C.",
+      "year": 1915,
+      "note": "Waddy Butler Wood for Henry Parker Fairbanks, 1915-16; Wilson's home from 1921 to his death. HABS DC-133 calls it 'a distinguished example of the large townhouse in the Georgian Revival style' and describes Wood matching John Russell Pope's brick, Indiana limestone and wrought iron next door, then setting three Palladian windows in limestone arches across the front in the mode of Robert Adam. National Historic Landmark, 1964.",
+      "precedent": "woodrow-wilson-house",
+      "standing": "canonical",
+      "why": "HABS's own statement of significance calls it 'a distinguished example of the large townhouse in the Georgian Revival style', and its account of Wood taking Pope's materials and manner from the house next door is the variant's discrimination-by-precedent, as the node describes it."
     }
   ],
   "sources": [

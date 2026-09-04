@@ -1,0 +1,77 @@
+{
+  "id": "homewood",
+  "name": "Homewood",
+  "aka": [
+    "Homewood Museum",
+    "Charles Carroll Jr. Mansion"
+  ],
+  "location": {
+    "text": "3400 North Charles Street, Baltimore, Maryland",
+    "country": "United States",
+    "state": "Maryland"
+  },
+  "dates": {
+    "built": "1801-1808",
+    "circa": false,
+    "note": "The node says begun 1801 and gives 1808; Wikipedia says construction began in 1801 and was mostly finished by 1808 while its infobox prints 'Built 1801'; the HABS data pages are extracts of Charles Carroll of Carrollton's letters of 30 January and 12 February 1801 about the house to be built."
+  },
+  "nodes": [
+    "federal-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MD-35",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0000/md0084/data/md0084data.pdf",
+      "title": "Homewood (Charles Carroll Jr. Mansion), North Charles & Thirty-fourth Streets, Baltimore, Independent City, MD",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the addendum cover ('HABS MD-35 HABS MD,4-BALT,1-'); the 1930s running head OCRs as 'MBS No. MD-36 Page 1' and 'HABS No. MD-35 Page 2'. Wikipedia's external links, read the same day, give '180 photos, 34 measured drawings, 6 data pages, 10 photo caption pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "md0084",
+      "url": "https://www.loc.gov/pictures/item/md0084",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched (found by a loc.gov search that returned the tile.loc.gov path); the landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71001033",
+      "url": "https://en.wikipedia.org/wiki/Homewood_Museum",
+      "title": "NRHP reference No. 71001033; added September 10, 1971; designated NHL November 11, 1971 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Homewood_Museum",
+      "title": "Homewood Museum - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "md0084",
+    "survey_no": "MD-35",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0000/md0084/data/md0084data.pdf",
+    "prepared": "Extracts of the Carroll letters 'submitted by John H. Soarff, District Officer of Maryland, through the courtesy of Mr, J, G. D, Paul' (as the OCR prints the name; the District Officer was John H. Scarff), 1930s; the addendum cover is later",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "EXTRACTS FROM LETTER YJRITTEN BY CHARLES CARROLL OF 4-- &/u~T CARROLLTON TO HIS SOW, CHARI&S CARROLL, JR., REGARD- j . im THE BUILDING OP HOMEWOOD. January 30, 1801 Respecting the plan of your house to be built on Homewood, we will discourse at large when you and Harriet pay me a visit, \"which I suppose will be in a little time after Mrs. Cat on's return. That house with the out^-houses will I am confident greatly exceed $10,000 and that is the utmost sum which must be laid out in buildings on Homewood.",
+        "page": "running head OCRs as 'MBS No. MD-36 Page 1' (the cover reads MD-35)"
+      },
+      {
+        "field": "other",
+        "text": "Annapolis 12 February, .1801 4 -(bfi^r While you live in Baltimore it will be necessary for the health of your family and for the exercise of your mind and body to have a house on Homewood to retreat to in the summer and autumn 1 would recommend the repair of the present buildings on that farm and some additional rooms to make it cool, comfortable and convenient residence during those",
+        "page": "HABS No. MD-35 Page 2"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026. The written data is documentary, not descriptive: letters about the commission, no dimensions. The 34 measured drawings are where Homewood's figures live and none was read here. `southern-federal` also names this building; see the Otis House note."
+}

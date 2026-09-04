@@ -1,0 +1,44 @@
+{
+  "id": "university-club-of-new-york",
+  "name": "University Club of New York",
+  "location": {
+    "text": "1 West 54th Street, New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1899",
+    "circa": false,
+    "note": "The McKim, Mead & White article's table: 'University Club of New York | Manhattan | 1899'."
+  },
+  "nodes": [
+    "italian-renaissance-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "80002726",
+      "url": "https://en.wikipedia.org/wiki/University_Club_of_New_York",
+      "title": "U.S. National Register of Historic Places, designated April 16, 1980, reference no. 80002726; New York State Register 06101.000545, June 23, 1980; New York City Landmark 0263, January 11, 1967 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/University_Club_of_New_York",
+      "title": "University Club of New York - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://en.wikipedia.org/wiki/McKim,_Mead_%26_White",
+      "title": "McKim, Mead & White - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Source of the 1899 date; the same article lists the firm's other Manhattan clubs (Century, Metropolitan, Harvard, Colony, Harmonie)."
+    }
+  ],
+  "note": "A club and not a house, added because the node's own description names 'clubs, banks, libraries and apartment buildings' among the formula's applications and this is the palazzo formula at nine storeys read as three. No HABS survey was found (query on loc.gov returned nothing). The address is the one the search results and the club's own site give; the location string is therefore a street address rather than a district. Seeded 4 Sep 2026."
+}

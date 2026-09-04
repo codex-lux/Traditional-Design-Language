@@ -1,0 +1,50 @@
+{
+  "id": "harry-s-truman-farm-home",
+  "name": "Harry S. Truman Farm Home",
+  "aka": [
+    "Solomon Young Farm",
+    "Truman Farm"
+  ],
+  "location": {
+    "text": "Grandview, Jackson County, Missouri",
+    "country": "United States",
+    "state": "Missouri"
+  },
+  "dates": {
+    "built": "1894-1895",
+    "circa": false,
+    "note": "Wikipedia: the farm house was 'built in 1894-95 after the 1867 house was destroyed by fire'; its infobox prints 'Built 1867' for the farm property. Truman lived there 1906-1917; his nephew's 1991 interview (NPS) 'talks about the modifications made to the house to make it \"modern\"'."
+  },
+  "nodes": [
+    "american-farmhouse-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MO-1937",
+      "url": "https://en.wikipedia.org/wiki/Harry_S._Truman_Farm_Home",
+      "title": "Harry S. Truman Farm Home - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the article's External links: 'Historic American Buildings Survey (HABS) No. MO-1937, \"Harry S. Truman Farm Home, 12302 Blue Ridge Boulevard, Grandview, Jackson County, MO\", 12 measured drawings'. The Library item id was not found (two loc.gov queries returned other Missouri surveys), so no data page was fetched and no survey block is recorded."
+    },
+    {
+      "kind": "nrhp",
+      "id": "78001650",
+      "url": "https://en.wikipedia.org/wiki/Harry_S._Truman_Farm_Home",
+      "title": "NRHP reference No. 78001650; added May 5, 1978; designated NHLD February 4, 1985 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/hstr/learn/historyculture/truman-farm-home-photo-tour.htm",
+      "title": "Truman Family Farm - Harry S Truman National Historic Site (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'The physical address for the Truman Farm Home is 12301 Blue Ridge Boulevard, Grandview, Missouri, 64030' -- one digit off the HABS title's 12302."
+    }
+  ],
+  "note": "A HABS-drawn plain farmhouse of the 1890s -- twelve sheets -- chosen for the measurement a later pass can take from them; the written data, if any, was not reached. Seeded 4 Sep 2026."
+}

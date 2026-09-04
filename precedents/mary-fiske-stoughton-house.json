@@ -1,0 +1,194 @@
+{
+  "id": "mary-fiske-stoughton-house",
+  "name": "Mary Fiske Stoughton House",
+  "aka": [
+    "Stoughton House",
+    "Mrs. Edwin Stoughton House"
+  ],
+  "location": {
+    "text": "Cambridge, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1882-1883",
+    "circa": false,
+    "altered": "The Wikipedia infobox: 'altered 1900, 1925, ca. 1970'; the Library's item record: '1883 Initial Construction', '1900 Subsequent Work', '1925 Subsequent Work'. The survey records that the 'large library, conservatory, and music room' were added in 1900 for John Fiske, that the open loggia over the front porch has been enclosed, and that the kitchen wing was converted to a garage after 1969 (Wikipedia caption).",
+    "note": "The node's exemplar says 1882-83 and the infobox 'Built 1882-83'; the Library's record says 1883. Kept as the infobox states it."
+  },
+  "nodes": [
+    "shingle-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-1033",
+      "url": "https://www.loc.gov/resource/hhh.ma0255.photos?sp=9",
+      "title": "Mary Fiske Stoughton House, 90 Brattle Street, Cambridge, Middlesex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own lines: 'Survey number: HABS MA-1033'; call number 'HABS MASS,9-CAMB,62-'; 'National Register of Historic Places NRIS Number: 89001246'; 'Photo Caption Page(s): 1'. The survey number is also printed in the data page's own running head ('HABS No. MA-1033 (page 2)'), read by extract the same day."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0255",
+      "url": "https://www.loc.gov/resource/hhh.ma0255.photos?sp=9",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item id is read from the path of the Library resource the search returned; the pictures landing page was not opened."
+    },
+    {
+      "kind": "nhl",
+      "id": "89001246",
+      "url": "https://en.wikipedia.org/wiki/Mary_Fiske_Stoughton_House",
+      "title": "NRHP reference No. 89001246; added June 29, 1989; designated NHL June 29, 1989 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The same number is printed on the Library's item record as the NRIS number. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/89001246_text",
+      "title": "[PDF] National Register of Historic Places Registration Form - NPGallery",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The NHL nomination; its own words: 'Richardson did not invent the \"Shingle Style,\" but he was its finest'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mary_Fiske_Stoughton_House",
+      "title": "Mary Fiske Stoughton House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/MA-01-BS3",
+      "title": "Mrs. Edwin Stoughton House | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'A masterpiece of domestic architecture, the Stoughton House was Richardson's purest engagement with the American Shingle tradition.'"
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/resource/hhh.ma0255.photos?sp=9",
+  "survey": {
+    "item": "ma0255",
+    "survey_no": "MA-1033",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0200/ma0255/data/ma0255data.pdf",
+    "prepared": "PREPARED BY DANIEL REIFF AND SUSAN MAYCOCK, EDITED BY PETER DENIS MYERS AND BILL LEBOVICH, HABS (as the data page prints it); the bibliography 'only goes to 1969 when the data was prepared', in a Cambridge Historical Commission / HABS project of September 1967 to June 1969",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1.Architectural character: The house conveys the mass,yet movement HABS No. MA-1033 (page 2) that exemplify the best of Richardson\"s architecture.",
+        "page": "HABS No. MA-1033 (page 2); the running head falls inside the span and is quoted as printed"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1.Overall dimensions: 48' x 92'",
+        "page": "HABS No. MA-1033, Part II.B.1; between the '(page 2)' and '(Page 4)' markers"
+      },
+      {
+        "field": "foundations",
+        "text": "2.Foundations:rough stones of varying size.",
+        "page": "HABS No. MA-1033, Part II.B.2; same span"
+      },
+      {
+        "field": "walls",
+        "text": "3,Wall construction: wood frame covered in natural shingles",
+        "page": "HABS No. MA-1033, Part II.B.3; same span"
+      },
+      {
+        "field": "porches",
+        "text": "4.Porches: Front porch measures approximately 24' x 10'. Loggia now glassed in. Kitchen stoop is a very small entry with four risers. The side entrance faces Ash Street,dates from remodeling. There is a narrow porch on that entrance. There is a rear entrance and a well entrance to the cellar. The second floor library has a porch opening off of it.",
+        "page": "HABS No. MA-1033, Part II.B.4; same span"
+      },
+      {
+        "field": "chimneys",
+        "text": "5.Chimneys: All five have tall chimney potts with louvered circular vents.",
+        "page": "HABS No. MA-1033, Part II.B.5; same span"
+      },
+      {
+        "field": "openings",
+        "text": "Old photographs show that the windows on the front had shutters hinged at the top. Most of the windows are multi-pane (of varying number) over a single pane.",
+        "page": "HABS No. MA-1033, Part II.B.6; same span"
+      },
+      {
+        "field": "roof",
+        "text": "7.Roof :covered with green asbesto shingles",
+        "page": "HABS No. MA-1033, Part II.B.7; same span"
+      },
+      {
+        "field": "plan",
+        "text": "1.Floor plans (see sketch) First floor: (from east to west)living room,old study (later rear entrance hall),front foyer and stairway (later music room),dining room,and porch (and later conservatory),pantry,kitchen (old partitions removed)",
+        "page": "HABS No. MA-1033, Part II.C.1; same span"
+      },
+      {
+        "field": "ceiling_heights",
+        "text": "Both first and second floors are 9 feet, high,",
+        "page": "HABS No. MA-1033; the marker '(Page 4)' follows this span"
+      },
+      {
+        "field": "openings",
+        "text": "Doorway between hall and living room,6 feet wide,with pocket sliding doors,each one of five horizontal rectangular panels. Same between living room and old study. Between hall and dining room,doorway six feet wide,closed by folding accordian doors,each of four",
+        "page": "HABS No. MA-1033 (Page 4), Part II.C.5; the chunk ends mid-sentence"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "48' x 92'",
+      "value": 48,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey does not say which figure fronts Brattle Street."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "48' x 92'",
+      "value": 92,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Same caveat."
+    },
+    {
+      "name": "porch_width_ft",
+      "as_printed": "approximately 24' x 10'",
+      "value": 24,
+      "unit": "ft",
+      "from_quote": 4
+    },
+    {
+      "name": "porch_depth_ft",
+      "as_printed": "approximately 24' x 10'",
+      "value": 10,
+      "unit": "ft",
+      "from_quote": 4
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "All five",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "ceiling_height_ft",
+      "as_printed": "Both first and second floors are 9 feet, high",
+      "value": 9,
+      "unit": "ft",
+      "from_quote": 9
+    },
+    {
+      "name": "interior_doorway_width_ft",
+      "as_printed": "6 feet wide,with pocket sliding doors",
+      "value": 6,
+      "unit": "ft",
+      "from_quote": 10
+    }
+  ],
+  "note": "The Library's item record lists only a photo caption page under 'Medium', and the data pages were found by fetching the PDF at the tile.loc.gov path regardless -- they exist, prepared 1969. The overall 48 x 92 ft and the 9 ft ceilings are the two figures in this record a kit could use. Seeded 4 Sep 2026."
+}

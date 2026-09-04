@@ -1,0 +1,41 @@
+{
+  "id": "american-gothic-house",
+  "name": "American Gothic House (Dibble House)",
+  "aka": [
+    "American Gothic House",
+    "Dibble House"
+  ],
+  "location": {
+    "text": "300 American Gothic Street, Eldon, Iowa",
+    "country": "United States",
+    "state": "Iowa"
+  },
+  "dates": {
+    "built": "1881-1882",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1881-1882', 'Architect Bussy and Herald (local carpenters)', area '504 sq ft (46.8 m2) (house)' -- the figure the node's exemplar carries."
+  },
+  "nodes": [
+    "american-farmhouse-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74002291",
+      "url": "https://en.wikipedia.org/wiki/American_Gothic_House",
+      "title": "NRHP reference No. 74002291; added October 1, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/American_Gothic_House",
+      "title": "American Gothic House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'the house remained (with one 1897 exception) a private residence well into the late twentieth century'; donated to the State Historical Society of Iowa in 1991 and 'preserved in its 1930 appearance'."
+    }
+  ],
+  "note": "The register lists it as 'Dibble House'; the infobox's own style word is 'Carpenter Gothic', which is where the carpenter-gothic and folk-victorian nodes name it too, at the shorter location 'Eldon, Iowa' -- a different join key, so those nodes are not listed here. No HABS survey was sought beyond the register query; none appeared. Seeded 4 Sep 2026."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "avery-downer-house",
+  "name": "Avery-Downer House",
+  "aka": [
+    "Robbins Hunter Museum"
+  ],
+  "location": {
+    "text": "Granville, Licking County, Ohio",
+    "country": "United States",
+    "state": "Ohio"
+  },
+  "dates": {
+    "built": "1838-1842",
+    "circa": false,
+    "note": "The Robbins Hunter Museum's page: 'In 1838, Alfred Avery ... began construction on this house'; the Ohio Historical Marker 4-45 and the museum's home page: 'Built in 1842'. Recorded as the span between the two."
+  },
+  "nodes": [
+    "greek-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://www.robbinshunter.org",
+      "title": "Robbins Hunter Museum",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. '1842 Greek Revival Landmark & Historic House Museum ... listed on the National Register of Historic Places'."
+    },
+    {
+      "kind": "institution",
+      "url": "http://www.robbinshunter.org/new-page",
+      "title": "Greek REvival Architecture — Robbins Hunter Museum",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'For his architectural design he chose the classical Greek Revival or Grecian style which he had grown to love in the architecture of St. Luke's Episcopal Church by Minard Lafever just down the street. He chose the same builder, Benjamin Morgan, to construct his own house.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://remarkableohio.org/marker/4-45-the-robbins-hunter-museum-avery-downer-house",
+      "title": "4-45 The Robbins Hunter Museum-Avery Downer House (Remarkable Ohio, Ohio History Connection)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Built in 1842 in the Greek Revival Architectural Style for Alfred Avery from designs by Minard Lefever' -- the marker's spelling."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/2eac0c61-9e76-432c-a844-532bb58eedbd",
+      "title": "National Register of Historic Places Inventory Nomination Form, Granville Multiple Resource Area, Granville, Licking County, Ohio (NPGallery)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "States that 'the Avery-Downer House' was 'already listed on the National Register' when the district was nominated; the house's own reference number was not read, so no `nrhp` reference is recorded."
+    }
+  ],
+  "note": "Written 4 Sep 2026. No HABS survey was found by a loc.gov search and no Wikipedia article exists under either spelling (the 'Avery-Hunter House' at 221 East Broadway is a different Granville house). The museum's own account -- Lafever's church down the street, the same builder, the Tower of the Winds copied for the entrance -- is the pattern-book transmission the node describes, stated by the owner."
+}

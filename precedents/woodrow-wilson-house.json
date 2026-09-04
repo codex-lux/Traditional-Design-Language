@@ -1,0 +1,104 @@
+{
+  "id": "woodrow-wilson-house",
+  "name": "Woodrow Wilson House",
+  "aka": [
+    "Henry Parker Fairbanks House",
+    "Fairbanks-Wilson House"
+  ],
+  "location": {
+    "text": "2340 S Street NW, Washington, D.C.",
+    "country": "United States",
+    "state": "District of Columbia"
+  },
+  "dates": {
+    "built": "1915-16",
+    "circa": false,
+    "note": "The HABS addendum: 'Designed by Washington Architect Waddy Butler Wood in 1915 and built in 1915-16 for businessman Henry Parker Fairbanks'; the Wikipedia infobox: 'Built 1915'."
+  },
+  "nodes": [
+    "georgian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "DC-133",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0100/dc0104/data/dc0104data.pdf",
+      "title": "Woodrow Wilson House (Henry Parker Fairbanks House), 2340 South S Street, NW, Washington, District of Columbia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header ('Woodrow Wilson House (Henry Parker Fairbanks House) HABS No. DC-133'); the garden parterre is a separate item (dc1178)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "dc0104",
+      "url": "https://www.loc.gov/pictures/item/dc0104",
+      "title": "Woodrow Wilson House, 2340 South S Street, Northwest, Washington, District of Columbia, DC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000873",
+      "url": "https://en.wikipedia.org/wiki/Woodrow_Wilson_House_(Washington,_D.C.)",
+      "title": "NRHP reference No. 66000873; added October 15, 1966; designated NHL July 19, 1964 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Woodrow_Wilson_House_(Washington,_D.C.)",
+      "title": "Woodrow Wilson House (Washington, D.C.) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/thingstodo/woodrow-wilson-house.htm",
+      "title": "Tour the Woodrow Wilson House (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "dc0104",
+    "survey_no": "DC-133",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0100/dc0104/data/dc0104data.pdf",
+    "prepared": "Addendum 'Prepared by: Emily H. Eig 10/30/1976', as the data page reads",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Statement of Significance: Historic House Museum The Woodrow Wilson House was the home of Thomas Woodrow Wilson, 28th President of the United States, from 1921 until his death in 1924. Wilson was the first and only President to choose Washington for his permanent residence. Designed by Washington Architect Waddy Butler Wood in 1915 and built in 1915-16 for businessman Henry Parker Fairbanks, the house is a distinguished ex- ample of the large townhouse in the Georgian Revival style. It is typical of its Kalorama neighborhood in size and formal design and its interior plan Is reflective of the social demands characteristic of",
+        "page": "HABS No. DC-133, addendum, opening page; no page number printed in the span"
+      },
+      {
+        "field": "general_description",
+        "text": "Making use of materials (type of brick, Indiana limestone and style of wrought iron railing) identical to those used by Pope, Wood then employed forms that would reflect those used by Pope. Working in the mode of Robert Adam, Wood echoed the effect of the three bay facade of 2310 with its large central Palladian window and placed three smaller, but substantial Palladian windows set back slightly within decorative limestone arches firmly across the facade, then added a small refined central porch sup- ported by two",
+        "page": "HABS No. DC-133, addendum, historical section on the facade; no page marker in the span, which is cut by the extractor"
+      },
+      {
+        "field": "plan",
+        "text": "main entrance door leads into a small Vestibule which gives access to the Entrance Hall. This Entrance Hall has open- ings leading on the east to an Office with fireplace, \"Trunk Room\" and Closet; to the west to a Reception Room and to the south to the main Hall and Stair. The Kitchen, Pantry and Storeroom are located in the southwest corner. They are reached through an ante- room which appears to be designated as an \"Ice Room,\" and is entered near the Reception Room.",
+        "page": "HABS No. DC-133, addendum, description of the basement (entrance) level; no page marker in the span"
+      },
+      {
+        "field": "plan",
+        "text": "First Floor: The First Floor is reached by a wide center Stair which returns at a halfway landing. A large double hung arched interior window is located at the landing on the south wall. This Stair leads to a large center Hall which opens to the formal enter- taining rooms.",
+        "page": "HABS No. DC-133, addendum, description of the first floor; no page marker in the span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "facade_opening_count",
+      "as_printed": "three smaller, but substantial Palladian windows set back slightly within decorative limestone arches firmly across the facade",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The count of Palladian openings across the front as the survey describes it; the survey does not print a bay count as such."
+    }
+  ],
+  "note": "Written 4 Sep 2026. The addendum's description is of the plan and the facade's relation to John Russell Pope's house at 2310; no over-all dimension was reached in three passes, and the measured drawings the item holds ('Drawings from Survey HABS DC-133') were not read."
+}
