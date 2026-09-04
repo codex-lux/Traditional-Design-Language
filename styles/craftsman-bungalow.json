@@ -294,5 +294,8 @@
       "decided": "2026-09-02",
       "note": "Arrives from english-palladian at cascade depth 10 with no direct lineage edge. Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. Same field and same reasoning as the node's existing chambers-doric decline, one order over."
     }
+  ],
+  "inherits_packs": [
+    "sash-light"
   ]
 }

@@ -55,11 +55,11 @@ def test_exactly_the_flipped_packs_are_flipped_and_they_are_named_here(graph):
     then `sash-light` 70, with the five packs whose `applies_to` arms a live behavioural gate
     last. Neither flipped pack is one of those five."""
     flipped = sorted(p for p, v in graph["_packs"].items() if v["delivery"] == "opt-in")
-    assert flipped == ["facade-gable", "trim-classical"], (
+    assert flipped == ["facade-gable", "sash-light", "trim-classical"], (
         flipped, "a pack has been flipped or unflipped — re-pin the stranding counts and say "
                  "which, in the same commit")
     deliveries = collections.Counter(v["delivery"] for v in graph["_packs"].values())
-    assert deliveries["cascade"] == 55 and len(graph["_packs"]) == 57, deliveries
+    assert deliveries["cascade"] == 54 and len(graph["_packs"]) == 57, deliveries
 
 
 def test_the_pack_index_covers_every_pack_so_a_stale_build_is_loud(graph):
@@ -213,14 +213,20 @@ def test_the_whole_corpus_passes_the_opt_in_check(graph):
     # now exercised against real records rather than against an empty loop. Named, not counted --
     # each is a node the pack's own `applies_to` vouches for AND which receives it by descent,
     # and authoring them is what kept the flip's cost at the measured 10 instead of 15.
-    assert carrying == 8, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
-                           "stranding counts in the same commit" % carrying)
+    assert carrying == 12, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
+                            "stranding counts in the same commit" % carrying)
     opted = sorted(json.load(open(f, encoding="utf-8"))["id"]
                    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))
                    if json.load(open(f, encoding="utf-8")).get("inherits_packs"))
-    # Six from `trim-classical`, two from `facade-gable`. Every one is a node the pack's own
-    # `applies_to` vouches for AND which receives it by descent -- the two conditions that make an
-    # opt-in a translation of an existing judgment rather than a new one.
-    assert opted == ["charleston-georgian", "charleston-single-house", "folk-victorian",
-                     "gothic-revival-american", "mid-atlantic-georgian", "new-england-georgian",
-                     "queen-anne-british", "tidewater-georgian"], opted
+    # Six from `trim-classical`, two from `facade-gable`, seven from `sash-light` -- and TWELVE
+    # nodes rather than fifteen, because three of them opt into TWO packs. A node's
+    # `inherits_packs` is a list and later flips APPEND to it; the WP-8.12 authoring script
+    # asserted the key was absent and stopped half way through the seven, having already written
+    # one. Every entry is a node the pack's own `applies_to` vouches for AND which receives it by
+    # descent -- the two conditions that make an opt-in a translation of an existing judgment
+    # rather than a new one.
+    assert opted == ["american-farmhouse-vernacular", "charleston-georgian",
+                     "charleston-single-house", "craftsman", "craftsman-bungalow",
+                     "folk-victorian", "gothic-revival-american",
+                     "greek-revival-southern-plantation", "mid-atlantic-georgian",
+                     "new-england-georgian", "queen-anne-british", "tidewater-georgian"], opted

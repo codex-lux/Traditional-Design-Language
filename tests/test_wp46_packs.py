@@ -3533,7 +3533,7 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # here that can tell a flip from an adjudication, and it is why the floor exists.
     # 3 Sep 2026 (WP-8.11, the SECOND flip): 258/3123/217 -> 256/3056/215 on `facade-gable`.
     # `judged` is still 249 after both flips -- 102 arrivals stopped and not one case was read.
-    assert ci.RATCHET == {"role_gaps": 256, "inherited_packs": 3056, "unendorsed": 215}
+    assert ci.RATCHET == {"role_gaps": 255, "inherited_packs": 3022, "unendorsed": 214}
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
@@ -3608,7 +3608,7 @@ def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_s
     import subprocess
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
                           "--slots", "ranch-style"], capture_output=True, text=True, cwd=ROOT).stdout
-    assert "68 slot(s) dimensioned, 61 by a pack it never bound" in out
+    assert "66 slot(s) dimensioned, 59 by a pack it never bound" in out
     assert "opening-pointed" in out and "gothic-revival-british" in out
     # `gibbs-ionic` was the third name here until 2 Sep 2026, when WP-8.7 adjudicated it and
     # `ranch-style` DECLINED it -- a Gibbs Ionic order on a ranch house, refused on the node's own

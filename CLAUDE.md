@@ -224,7 +224,7 @@ WP-4.6 raised **OQ 47, OQ 48 and OQ 49**. **OQ 47 and OQ 49 are CLOSED** — `ex
 on 14 kits of which five FORBID the member; and a `slots` scope on bindings, which took the corpus
 to 132 of 132 by binding `egyptian-revival` to the two `facade-peristyle` rules that fit and
 excluding the six that do not. **Closing 49 opened OQ 51, which is larger than either**: the lineage
-cascade delivers proportion packs nobody bound, and `ranch-style` has 69 of its 78 dimensioned slots
+cascade delivers proportion packs nobody bound, and `ranch-style` had 69 of its 78 dimensioned slots
 governed by packs it never bound -- `opening-pointed`, a Gothic arch pack, governing 15 of them.
 **OQ 48 is CLOSED AT OWN-BINDING SCOPE, AND THAT QUALIFIER IS THE POINT**: rules carry a
 `quantity` naming what they measure, and the 139 corruptions found were renamed minimally -- at
@@ -553,8 +553,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **Inheritance transmits more than anyone bound, in three places.** `hybridizes_with` transmits a
   donor's whole kit (OQ 58 scoped it); a BINDING used to transmit a pack's whole rule set (OQ 49
   scoped it); and `descends_from` still transmits an ancestor's whole set of proportion packs, which
-  is **OQ 51** and is the one with 3,056 instances. Read it before trusting "132 of 132 bound".
-  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **215 unjudged** gaps, not the 233 published --
+  is **OQ 51** and is the one with 3,022 instances. Read it before trusting "132 of 132 bound".
+  OQ 51 is now RULED and HALF-BUILT (WP-8.2) -- a node may DECLINE a pack, and the live backlog is **214 unjudged** gaps, not the 233 published --
   so this trap is a work list rather than an unanswered question. It is still live until that list
   is worked; nothing about the mechanism has changed yet.
 - **`hybridizes_with` transmits a donor's whole kit**, not the one trait the edge was drawn
@@ -1734,11 +1734,40 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     And the meter had a scoping defect WP-8.10 shipped: `--stranding <pack>` printed "32 slot(s)
     over 36 node(s)" because the slot counter was scoped to the pack and the node counter was not.
     More nodes than slots is impossible for one pack, which is how it showed.
-    Reports: `docs/reports/wp-8.10-the-flip-that-was-sold-on-the-wrong-count.md` and
-    `docs/reports/wp-8.11-the-second-flip-and-the-fixture-that-would-have-gone-quiet.md`.
+    **THE THIRD FLIP IS IN (WP-8.12): `sash-light`, seven opt-ins, 70 slots over 34 nodes.**
+    Two-gate gap **70 against 84**, the largest yet — 40 vouched names but 33 of them BIND the
+    pack, so the vouched-and-gated population is what matters and it is no fixed fraction of
+    anything. Ratchets 256/3056/215 → **255/3022/214**, `FORBIDDEN_RATCHET` 723 → **721** (two
+    pairs, against 15 and 38 — the forbidden meter and the stranding meter are NOT proxies),
+    `STRANDING` before 7788 → **7718**, stranded 2857 → **2787**, `baked_vs_refused` 71 → **67**
+    (which is NOT the second delivery path closing: those four went because the live rule they
+    were measured against no longer reaches those nodes). `rehoused` **1980** for the third
+    package running and `dimensioned_after` **4931 for the FOURTH** — the end state has never
+    moved. **`judged` is 249 after three flips and 136 withheld arrivals.**
+    **THE REFILL IS NOT PROPORTIONAL AND MY OWN TWO POINTS SAID IT WAS**: 4 gaps from a 10-slot
+    flip, 13 from a 32-slot one, **10 from a 70-slot one**. WP-8.11 called it "roughly
+    proportional" on two points; the third falsified it one package later. What refills is how
+    many ROLES the pack was filling and what sits behind it in each chain, not how many slots it
+    dimensioned.
+    **AND THE REFILL IS CONCENTRATING ON THE GATED PACKS — ten of ten here, every one
+    `opening-proportion`, against three of thirteen last time.** It follows from the order: the
+    five gated packs flip LAST, so they are what is still delivering when everything else has been
+    withheld and they inherit each vacated role. **The order chosen to make the early flips safe
+    back-loads exactly the rows whose adjudication authorises a behaviour change.** Worth a ruling
+    before the gated packs come up; they are not more of the same.
+    **A DRIVEN FIXTURE SHOULD NAME A PACK SCHEDULED LAST, NOT ONE SCHEDULED NEXT** — WP-8.11 moved
+    `test_stranding.py`'s case to `sash-light`, the very next pack, guaranteeing another move one
+    package later. It is `opening-proportion` now (gated, therefore last, therefore stable).
+    **And a magic-number floor became a cross-check**: the ruling table's vacuity guard asserted
+    ">= 150 rows" and three flips have withdrawn 34, so it is now the pack headings' own counts
+    held against the parsed rows — two independent regexes that must agree, mutation-checked both
+    ways.
+    Reports: `docs/reports/wp-8.10-the-flip-that-was-sold-on-the-wrong-count.md`,
+    `docs/reports/wp-8.11-the-second-flip-and-the-fixture-that-would-have-gone-quiet.md` and
+    `docs/reports/wp-8.12-the-refill-that-was-not-proportional.md`.
     **The meter, corrected 28 Aug 2026 (WP-8.2) and read the correction before any older figure.**
-    `build/check_inheritance.py` pins three ceilings that may only go down -- **256 role_gaps**,
-    **3,056 inherited_packs**, **215 unendorsed** -- and one FLOOR that may only go up,
+    `build/check_inheritance.py` pins three ceilings that may only go down -- **255 role_gaps**,
+    **3,022 inherited_packs**, **214 unendorsed** -- and one FLOOR that may only go up,
     **judged 249** (endorsed + declined). **THE BACKLOG HAS BEEN READ END TO END THREE TIMES AND IT REFILLED EVERY TIME
     (WP-8.7, 2-3 Sep 2026)**: 367 adjudications one node at a time, **211 judged into the corpus**
     (208 declines, 3 endorsements) and **181 put to a ruling** in
@@ -1773,8 +1802,10 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
     `storey-graduation` 23, `facade-gable` 16, `trim-classical` 14, `timber-bay` 12,
     `sash-light` 11. (Re-measured 28 Aug 2026; the earlier list was the pre-WP-8.2 meter's.)
     **The accepted risk, stated because it is real:** wrong dimensions keep arriving while the
-    backlog is worked. `--slots ranch-style` shows 69 of 78 dimensioned slots governed by packs it
-    never bound. That is tolerable only because it is counted.
+    backlog is worked. `--slots ranch-style` showed 69 of 78 dimensioned slots governed by packs
+    it never bound when OQ 51 was raised; after three flips it reads **59 of 66**, and the fall is
+    the flips REMOVING deliveries rather than the node being any better bound. The illustration is
+    kept in the past tense because it is what raised the question. That is tolerable only because it is counted.
 
 ## Conventions
 

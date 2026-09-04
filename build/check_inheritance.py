@@ -74,7 +74,11 @@ ROLES = ("primary", "secondary", "facade", "opening", "interior", "massing", "ro
 # case, and `judged` is STILL 249. Two flips, 102 arrivals withheld, zero adjudications. The
 # `withheld` line `--strict` prints beside these three is the only thing that distinguishes this
 # from work, and it names both packs.
-RATCHET = {"role_gaps": 256, "inherited_packs": 3056, "unendorsed": 215}
+# 3 Sep 2026 (WP-8.12, THE THIRD FLIP): 256/3056/215 -> 255/3022/214 on `sash-light`. Three
+# flips now, 136 arrivals withheld, and `judged` has been 249 throughout. The pattern is stable
+# enough to state as a rule: a flip moves every ceiling here and never the floor, because it
+# removes deliveries rather than judging them.
+RATCHET = {"role_gaps": 255, "inherited_packs": 3022, "unendorsed": 214}
 
 # A FLOOR, and it is what keeps the ceilings honest once a node can DECLINE a pack. `unendorsed`
 # stopped being monotone the moment declining re-attributes a role to the next ancestor, which
@@ -94,7 +98,10 @@ RATCHET_FLOOR = {"judged": 249}   # 48 -> 63 -> 81 as WP-8.7 works the backlog
 # 761 -> 723 on 3 Sep 2026 (WP-8.11). Thirty-eight pairs went with `facade-gable`, after fifteen
 # with `trim-classical`: a pack rule cannot land on a forbidden slot it no longer reaches. Smaller
 # corpus, not better corpus -- the meter is measuring less, and that is the flip, not progress.
-FORBIDDEN_RATCHET = 723
+# 723 -> 721 on 3 Sep 2026 (WP-8.12). Only two pairs this time, against fifteen and thirty-eight
+# for the first two flips -- `sash-light` strands the most slots of the three and touches the
+# fewest forbidden ones, so this meter and the stranding meter are not proxies for each other.
+FORBIDDEN_RATCHET = 721
 COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_guard.py
 
 # A FIFTH MEASUREMENT, AND IT IS A COUNT RATHER THAN A CEILING. OQ 51 was re-ruled on 3 Sep 2026
@@ -129,8 +136,13 @@ COULD_NOT_EVALUATE = 3       # check_all.py's protocol; see tests/test_counts_gu
 # `dimensioned_after` is 4931 for the third package running -- the end state was always going to be
 # this corpus, whichever order the packs flip in, which is the clearest possible demonstration that
 # these are equalities describing a path rather than ceilings describing quality.
-STRANDING = {"stranded": 2857, "rehoused": 1980, "nodes_touched": 124,
-             "dimensioned_before": 7788, "dimensioned_after": 4931}
+# THE THIRD FLIP, and only the two that always move have moved: `dimensioned_before` 7788 ->
+# 7718 and `stranded` 2857 -> 2787. `rehoused` is 1980 for the third package running and
+# `dimensioned_after` is 4931 for the FOURTH -- the end state has never once moved, whichever
+# pack flips and in whatever order, which is the plainest possible demonstration that these
+# describe a path being walked rather than a corpus getting better.
+STRANDING = {"stranded": 2787, "rehoused": 1980, "nodes_touched": 124,
+             "dimensioned_before": 7718, "dimensioned_after": 4931}
 
 # THE FIRST FOUR DECLINES ARE THE ARGUMENT FOR THIS FLOOR, and the measurement is worth keeping.
 # `ranch-style`, `craftsman-bungalow`, `california-bungalow` and `minimal-traditional` all

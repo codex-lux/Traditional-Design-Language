@@ -327,5 +327,8 @@
       "decided": "2026-09-02",
       "note": "Arrives from english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots -- --impact reports 'Declining it changes no dimension on this node.' -- so no slot loses dimensioning and the meter is the only thing that moves."
     }
+  ],
+  "inherits_packs": [
+    "sash-light"
   ]
 }

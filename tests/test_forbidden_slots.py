@@ -235,7 +235,7 @@ def test_the_forbidden_meter_is_still_ratcheted_apart_from_the_backlog():
     # pairs went with `trim-classical` and thirty-eight with `facade-gable`: a pack rule cannot
     # land on a forbidden slot it no longer reaches. The corpus is fifty-three pairs SMALLER, not
     # fifty-three pairs better -- the same caution the ratchet dict itself now carries.
-    assert ci.FORBIDDEN_RATCHET == 723
+    assert ci.FORBIDDEN_RATCHET == 721
     assert ci.FORBIDDEN_RATCHET not in ci.RATCHET.values()
 
 

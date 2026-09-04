@@ -261,6 +261,7 @@
     }
   ],
   "inherits_packs": [
+    "sash-light",
     "trim-classical"
   ]
 }

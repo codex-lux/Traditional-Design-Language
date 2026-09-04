@@ -109,21 +109,6 @@ own words.
 | `tuscan-vernacular` | opening | `roman-classical` | Does a mezzadria farmhouse whose openings are cut by internal need through a half-metre rubble wall take its head datum, sill heights, secondary-door graduation and sidelight/Venetian-window dimensions from Palladio's opening system, or should those six slots be left with no dimensioning at all? |
 
 
-## `sash-light` — 11 node(s)
-
-| node | role | arrives from | what a ruling has to decide |
-|---|---|---|---|
-| `andalusian-spanish-revival` | opening | `richardsonian-romanesque` | Should window_type on this node keep coming from the Anglo-American glass-supply sequence, or does the corpus owe the Spanish branch a casement-and-reja window vocabulary before sash-light can be declined without stranding the slot? |
-| `appalachian-log-house` | opening | `german-pennsylvania-colonial` | Does this node's own `proportion_packs` note, which names sash-light and calls binding it actively wrong on the strength of log-module's `window_surround_wood` rule, amount to a decline of the pack on the three slots it actually governs here -- shutter, transom_sidelight and window_type -- or only o |
-| `dogtrot-vernacular` | opening | `german-pennsylvania-colonial` | Does a Southern log (or later frame) dogtrot take its window_type and shutter from the Anglo-American glass-trade sequence, on a record that describes only doors, chimneys, the loft and the passage and never once mentions a window? |
-| `log-vernacular-american` | opening | `german-pennsylvania-colonial` | Does a log pen whose record says it requires no glass nonetheless take its window type, light count and shutter dimensioning from the Anglo-American glass-trade sequence delivered by its direct Pennsylvania German ancestor -- and if not, is losing all dimensioning on `shutter` and `window_type` the |
-| `mission-revival` | opening | `richardsonian-romanesque` | Does Mission Revival carry shutters at all, and if not, should `shutter` be bound empty on this node rather than left to sash-light's leaf-width and panel-count rules arriving through richardsonian-romanesque? |
-| `modern-farmhouse-traditional` | opening | `minimal-traditional` | Does a pack whose whole mechanism is the historical glasshouse's pane limit still govern a style glazed with 2010s stock aluminium and vinyl units -- and if it does, should it keep governing `shutter` on a style that states it carries no shutters, given that declining strands both `shutter` and `win |
-| `new-jersey-dutch-gambrel` | opening | `dutch-colonial-american` | Does a Dutch-tradition Bergen sandstone house take its sash type, light pattern, shutters and transom from the Anglo-American glass-supply sequence, or does the Dutch/Flemish glazing tradition -- casements and leaded quarries before the sash arrives -- need its own authority for this node's early fl |
-| `pennsylvania-bank-house` | opening | `german-pennsylvania-colonial` | Are this variant's small irregular openings glazed as sash, in which case sash-light's stile, shutter and sidelight arithmetic governs them, or as the earlier Germanic casements, for which none of the three rules applies? |
-| `pueblo-revival` | opening | `richardsonian-romanesque` | Does a style built and glazed 1908-1950, whose openings are sized by wall mass and a timber lintel rather than by joinery, still take its light count from the glasshouse pane sequence like any other building of those decades -- or is window kind something this style deliberately leaves unfixed? |
-| `ranch-style` | opening | `minimal-traditional` | Does the node's own statement that large float glass gave it the picture window place the ranch inside sash-light's authority or name the technology that ended it -- and if the latter, what dimensions `shutter` and `window_type`, both of which lose all dimensioning on a decline? |
-| `spanish-colonial-revival` | opening | `richardsonian-romanesque` | Does a twentieth-century revival that specifies multi-light double-hung sash take its light count from the pack's glass-supply arithmetic, or is multi-light here an archaism chosen for style, which the pack expressly says light count never is? |
 
 
 ## `room-harmonic` — 9 node(s)
@@ -370,17 +355,26 @@ own words.
 
 ## Surfaced by this package's own declines, and NOT YET READ
 
-**53 pairs — 36 from the third adjudication pass, FOUR from the first opt-in flip and THIRTEEN
-from the second.**
+**63 pairs — 36 from the third adjudication pass, and FOUR, THIRTEEN and TEN from the first three
+opt-in flips.**
 These did not exist when the reading started. Declining a pack promotes the next one in the chain
 into the role it vacated, so working the backlog creates backlog — **and WP-8.10 showed a FLIP does
 exactly the same thing.** Withholding `trim-classical` from ten nodes promoted `trim-sawn` and
 `trim-craftsman` into the interior role on four of them; withholding `facade-gable` from
 twenty-nine promoted `chambers-doric`, `facade-classical` and `facade-medieval-english` on
-thirteen. **The rate is not falling: four from a ten-slot flip, thirteen from a thirty-two-slot
-one.** And three of the thirteen promote `facade-classical`, which is one of the five packs whose
-`applies_to` arms a LIVE BEHAVIOURAL GATE — so a flip can hand a reader a row where ruling is
-authorising a behaviour change, not merely restoring a dimension. Those are marked ⚡ below. The refill is a property of the CASCADE,
+thirteen. **THE REFILL IS NOT PROPORTIONAL TO THE FLIP, AND THREE POINTS SAY SO WHERE TWO SAID THE
+OPPOSITE.** Four gaps from a ten-slot flip, thirteen from a thirty-two-slot one, and then TEN from
+a SEVENTY-slot one. WP-8.11 read the first two as "roughly proportional"; the third falsifies it.
+What refills is a function of how many ROLES the withheld pack was filling and what sits behind it
+in each node's chain — not of how many slots it dimensioned. `sash-light` strands more than twice
+what `facade-gable` does and promotes fewer successors.
+
+**AND THE REFILL IS CONCENTRATING ON THE GATED PACKS.** Three of WP-8.11's thirteen promoted a
+live-gate pack; **ten of ten do here**, every one `opening-proportion`. That follows from the flip
+order rather than from chance: the ruling puts the five gated packs LAST, so they are what is still
+delivering once everything else has been withheld, and they inherit each role a flip vacates. The
+order chosen to make the early flips safe therefore back-loads exactly the rows whose adjudication
+carries a behavioural consequence. Marked ⚡ below. The refill is a property of the CASCADE,
 not of adjudication: any mechanism that stops a delivery hands the role to the next ancestor, so
 the flip does not escape the loop it was ruled in order to escape. Those four are marked
 `promoted by the WP-8.10 flip` below. Three full passes
@@ -413,6 +407,16 @@ to say the loop terminates but not cheaply.
 - `queen-anne-spindled` / `facade-medieval-english` — facade role, from `jacobean`, promoted by the WP-8.11 flip
 - `stick-style` / `chambers-doric` — secondary role, from `english-georgian`, promoted by the WP-8.11 flip
 - `stick-style` / `facade-medieval-english` — facade role, from `jacobean`, promoted by the WP-8.11 flip
+- `andalusian-spanish-revival` / `opening-proportion` — opening role, from `beaux-arts-french`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `appalachian-log-house` / `opening-proportion` — opening role, from `english-georgian`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `dogtrot-vernacular` / `opening-proportion` — opening role, from `english-georgian`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `log-vernacular-american` / `opening-proportion` — opening role, from `english-georgian`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `mission-revival` / `opening-proportion` — opening role, from `beaux-arts-french`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `modern-farmhouse-traditional` / `opening-proportion` — opening role, from `minimal-traditional`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `pennsylvania-bank-house` / `opening-proportion` — opening role, from `english-georgian`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `pueblo-revival` / `opening-proportion` — opening role, from `beaux-arts-french`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `ranch-style` / `opening-proportion` — opening role, from `minimal-traditional`, promoted by the WP-8.12 flip ⚡ LIVE GATE
+- `spanish-colonial-revival` / `opening-proportion` — opening role, from `beaux-arts-french`, promoted by the WP-8.12 flip ⚡ LIVE GATE
 - `american-farmhouse-vernacular` / `gibbs-doric` — secondary role, from `georgian-colonial-american`
 - `appalachian-log-house` / `vignola-ionic` — secondary role, from `roman-classical`
 - `arts-and-crafts-american` / `greek-doric` — primary role, from `greek-classical`
@@ -506,3 +510,25 @@ the reading.
 - `queen-anne-american` (secondary role, arrived from `gothic-revival-british`) — Should a masonry parapet and crow-step gable pack reach a balloon-framed American Queen Anne whose only stated gable treatment is a shingle-filled roof end, given that the node's stated 9:12-14:12 pitch puts its apex ratio below the pack's own 0.55-1.05 band?
 - `queen-anne-spindled` (facade role, arrived from `jacobean`) — Does a wooden cross-gable filled with cut shingles count as a roof end for facade-gable's purposes, making its height-to-width and gable-count rules applicable while its masonry members stay simply inert -- or is a masonry-derived gable pack the wrong authority for a shingled timber gable regardless
 - `stick-style` (facade role, arrived from `jacobean`) — Does facade-gable's material-neutral half -- the apex-height-over-width ratio, the gables-per-front count and the hierarchy rule that calls equal gable widths a builder's composition -- govern a Stick Style front whose own c05 requires gables of comparable weight, or does this pack reach the node on
+
+## Withdrawn by the third opt-in flip — NOT DECIDED (WP-8.12, 3 September 2026)
+
+**Eleven more, on the same terms as the two sections above.** `sash-light` declared
+`delivery: opt-in`, so these are no longer live unendorsed gaps. **Nobody ruled on one of them**,
+and they are kept verbatim because a flip is reversible.
+
+**Thirty-four nodes lost a slot and eleven had been tabled** — the same shape as the last flip and
+for the same reason: the tabling passes read the backlog as it stood, and a flip reaches further
+than any reading had got.
+
+- `andalusian-spanish-revival` (opening role, arrived from `richardsonian-romanesque`) — Should window_type on this node keep coming from the Anglo-American glass-supply sequence, or does the corpus owe the Spanish branch a casement-and-reja window vocabulary before sash-light can be declined without stranding the slot?
+- `appalachian-log-house` (opening role, arrived from `german-pennsylvania-colonial`) — Does this node's own `proportion_packs` note, which names sash-light and calls binding it actively wrong on the strength of log-module's `window_surround_wood` rule, amount to a decline of the pack on the three slots it actually governs here -- shutter, transom_sidelight and window_type -- or only o
+- `dogtrot-vernacular` (opening role, arrived from `german-pennsylvania-colonial`) — Does a Southern log (or later frame) dogtrot take its window_type and shutter from the Anglo-American glass-trade sequence, on a record that describes only doors, chimneys, the loft and the passage and never once mentions a window?
+- `log-vernacular-american` (opening role, arrived from `german-pennsylvania-colonial`) — Does a log pen whose record says it requires no glass nonetheless take its window type, light count and shutter dimensioning from the Anglo-American glass-trade sequence delivered by its direct Pennsylvania German ancestor -- and if not, is losing all dimensioning on `shutter` and `window_type` the
+- `mission-revival` (opening role, arrived from `richardsonian-romanesque`) — Does Mission Revival carry shutters at all, and if not, should `shutter` be bound empty on this node rather than left to sash-light's leaf-width and panel-count rules arriving through richardsonian-romanesque?
+- `modern-farmhouse-traditional` (opening role, arrived from `minimal-traditional`) — Does a pack whose whole mechanism is the historical glasshouse's pane limit still govern a style glazed with 2010s stock aluminium and vinyl units -- and if it does, should it keep governing `shutter` on a style that states it carries no shutters, given that declining strands both `shutter` and `win
+- `new-jersey-dutch-gambrel` (opening role, arrived from `dutch-colonial-american`) — Does a Dutch-tradition Bergen sandstone house take its sash type, light pattern, shutters and transom from the Anglo-American glass-supply sequence, or does the Dutch/Flemish glazing tradition -- casements and leaded quarries before the sash arrives -- need its own authority for this node's early fl
+- `pennsylvania-bank-house` (opening role, arrived from `german-pennsylvania-colonial`) — Are this variant's small irregular openings glazed as sash, in which case sash-light's stile, shutter and sidelight arithmetic governs them, or as the earlier Germanic casements, for which none of the three rules applies?
+- `pueblo-revival` (opening role, arrived from `richardsonian-romanesque`) — Does a style built and glazed 1908-1950, whose openings are sized by wall mass and a timber lintel rather than by joinery, still take its light count from the glasshouse pane sequence like any other building of those decades -- or is window kind something this style deliberately leaves unfixed?
+- `ranch-style` (opening role, arrived from `minimal-traditional`) — Does the node's own statement that large float glass gave it the picture window place the ranch inside sash-light's authority or name the technology that ended it -- and if the latter, what dimensions `shutter` and `window_type`, both of which lose all dimensioning on a decline?
+- `spanish-colonial-revival` (opening role, arrived from `richardsonian-romanesque`) — Does a twentieth-century revival that specifies multi-light double-hung sash take its light count from the pack's glass-supply arithmetic, or is multi-light here an archaism chosen for style, which the pack expressly says light count never is?

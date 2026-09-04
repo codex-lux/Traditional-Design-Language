@@ -157,11 +157,11 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     # can tell them apart.
     # 223 -> 217 -> 215 across the two flips (WP-8.10, WP-8.11) and 3158 -> 3123 -> 3056.
     # 102 arrivals stopped in total, no case was read, and `judged` has not moved once.
-    assert ci.RATCHET["unendorsed"] == 215
+    assert ci.RATCHET["unendorsed"] == 214
     assert ci.RATCHET_FLOOR["judged"] == 249, (
         "a flip must not move the floor: stranding is the ruling ACCEPTING unjudged cases, "
         "never adjudicating them")
-    assert ci.RATCHET["inherited_packs"] == 3056, (
+    assert ci.RATCHET["inherited_packs"] == 3022, (
         "208 declines removed 208 real deliveries and the first flip removed 35 more; 3366 was "
         "the figure before any")
 
@@ -226,7 +226,7 @@ def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
     # 776 -> 761 -> 723 (WP-8.10, WP-8.11): fifteen pairs left with `trim-classical` and
     # thirty-eight with `facade-gable`, because a pack rule cannot land on a forbidden slot it no
     # longer reaches. Smaller corpus, not better corpus.
-    assert ci.FORBIDDEN_RATCHET == 723
+    assert ci.FORBIDDEN_RATCHET == 721
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "
@@ -247,7 +247,7 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     out = subprocess.run([sys.executable, "build/check_inheritance.py", "--slots", "ranch-style"],
                          cwd=ROOT, capture_output=True, text=True)
     assert out.returncode == 0, out.stderr
-    assert "68 slot(s) dimensioned, 61 by a pack it never bound" in out.stdout
+    assert "66 slot(s) dimensioned, 59 by a pack it never bound" in out.stdout
     assert "DECLINED by this node" in out.stdout, (
         "the contradiction between a decline and an inherited slot-level ruling is no longer "
         "surfaced — it used to be a KeyError, and silence would be worse")
