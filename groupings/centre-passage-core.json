@@ -43,13 +43,17 @@
       "severity": "hard"
     },
     {
-      "statement": "Passage width 8 to 14 ft, and roughly one fifth to one quarter of the facade. Below 8 ft the stair cannot turn and the passage stops being a room.",
+      "statement": "The passage takes a BAY of the front, and its share of the facade follows -- observed at roughly one fifth to one quarter. Below 8 ft the stair cannot turn and the passage stops being a room, which is rule 2's floor and is a rule; this share is a CONSEQUENCE and is reported rather than required (oq/the-facade-is-a-result-not-an-input, ruled 4 Sep 2026). The observation is real and is why the band is kept as an advisory; it is not an input the passage may be sized from, which is what the hard test it replaces did.",
       "kind": "dimension",
-      "severity": "hard",
-      "test": "passage_width_ft / facade_width_ft between 0.18 and 0.27",
+      "severity": "preferred",
       "measures": {
         "quantity": "passage_width_to_facade_width",
-        "units": "ratio"
+        "units": "ratio",
+        "reported_by": "build/facade.py::facade_share",
+        "advisory_band": [
+          0.18,
+          0.27
+        ]
       }
     },
     {

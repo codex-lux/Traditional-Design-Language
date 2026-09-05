@@ -2098,9 +2098,43 @@ are a five-part house's and the container finally is one.
 
 ### WP-11.7 The facade as a result
 
-**Status: NOT STARTED. Blocked on Lucas's Q2 and Q5 from
-`docs/reports/wp-9.2-what-the-tradition-actually-does.md` §7.** Part VII item 5; findings G1, G2,
-G3, G5.
+**Status: COMPLETE (5 Sep 2026).** Part VII item 5; findings G1, G2, G3, G5. Report:
+`docs/reports/wp-11.7-the-facade-as-a-result.md`. (**This status line said "Blocked on Lucas's Q2
+and Q5" while both were RULED on 4 Sep**, in this same file, ninety lines below — the "until X
+lands" class one section over.)
+
+`build/facade.py` derives the rhythm the plan's own bays imply, compares the drawn front against
+it and REPORTS; it composes nothing, because the ruling's second half is that the sequence is how
+findings are EXPLAINED and not how they are resolved. Wired into `plan_check`'s **drawn** layer —
+everything it reads is a placement, which is WP-11.4's rule for choosing a layer.
+
+**MEASURED on `tidewater-georgian-careful`: serious 63 → 62 and minor 88 → 101.** The serious is
+the ruling's own first commitment landing — `centre-passage-core`'s facade-share test was HARD and
+convicted this house at a measured 0.136 against 0.18–0.27, and the share is a consequence to be
+reported rather than an input the passage may be sized from. The thirteen new minors are seven bays
+of the front carrying no opening and six rooms whose declared window count disagrees with the bays
+their front wall spans — `chamber2` spans two bays and declares none. `spec-builder-colonial` does
+not move: it names no parti, so it loses one `info` and gains one.
+
+**THE FINDING OF THE PACKAGE IS A COINCIDENCE.** `elevation._face_bays` composed the front from
+`facade-classical.json`'s formula and never read `footprint.bays` — two records built from
+different rules with nothing comparing them, OQ 85's shape, four hundred lines from OQ 85's own
+fix. **They agree on both shipped plans (7/7 and 5/5)**, so the elevation now takes the plan's
+count and the corpus output is byte-identical: a second rule removed, not a new answer. Only the
+faces spanning the WIDTH take it. Because they agree, the corpus cannot test the join and a
+mutation deleting it leaves every natural assertion green — the guard drives the plan to nine bays.
+
+**AND TWO ERRORS CANCELLED.** The first draft emitted a second door-off-the-centre-bay finding
+beside WP-11.3's, in zero-based numbering against the existing one-based, so one door would have
+carried two bay numbers; removing the facade-share test took a `serious` away at the same moment
+and 63 stayed 63. Found by asking why a serious finding had been added and the count had not moved.
+
+**Fifteen of the sixteen plan records name no parti** — every reference plan and
+`spec-builder-colonial` — so the layer is silent on 94% of this corpus with an `info` naming the
+reason. `oq/fifteen-of-sixteen-plans-name-no-parti`, the sibling of WP-11.4's massing entry, and
+it forbids deriving the parti from the massing in the same words.
+
+**Original package text, left as written:**
 
 For a centre-door diagram: the bay rhythm from the bay count and module, the door in the centre
 bay, one window per bay per storey aligned, the blind bay under each stack — derived BEFORE the

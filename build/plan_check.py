@@ -1326,6 +1326,61 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # roof's, not this layer's. If a placed hearth check is ever wanted -- a breast overlapping a
     # door, a fixture, or the room's own furniture run -- it belongs here and this one stays
     # where it is.
+    # ---- THE FACADE AS A RESULT (WP-11.7, oq/the-facade-is-a-result-not-an-input).
+    #
+    # It belongs in THIS layer and the reason is WP-11.4's rule -- ask what a check READS, not
+    # what it is about. Every one of these reads the PLACEMENT: `front_openings` walks the placed
+    # openings on the entrance front, `room_front_bays` reads each room's placed rectangle, and
+    # the passage's share is measured off its placed width. The derived RHYTHM is a statement
+    # about the record (`footprint.bays`), but nothing here judges it alone.
+    #
+    # AND EVERY FINDING IS A REPORT, NEVER AN INSTRUCTION. The ruling's own trap: "a derived
+    # facade is a facade the generator can be WRONG about with confidence ... the window that
+    # gets invented to complete a rhythm is this ruling's version of the invented measurement
+    # OQ 52 swept out of the elevation." So an empty bay is stated as empty; a declared window
+    # count is never overwritten with a derived one (WP-6.2's rule stands); and where the plan
+    # names no parti -- FIFTEEN of the sixteen records in this tree -- the whole block is one
+    # `info` naming the reason, which is not a pass.
+    try:
+        FA = _load("facade", f"{ROOT}/build/facade.py")
+        fac = {"rhythm": FA.rhythm(plan, C)}
+        if fac["rhythm"]["verdict"] != "derived":
+            F.add("info", "drawn",
+                  f'The front\'s bay rhythm could not be derived: {fac["rhythm"]["why"]} '
+                  f'(oq/the-facade-is-a-result-not-an-input). Not a pass -- this house\'s '
+                  f'facade is unjudged.', kind="facade-rhythm-unjudged")
+        else:
+            for lvl in sorted({(lv.get("index") or 0) for lv in plan.get("levels", [])}):
+                cmp_ = FA.compare(plan, lvl, C)
+                fac[f"level_{lvl}"] = {k: v for k, v in cmp_.items() if k != "findings"}
+                for f_ in cmp_["findings"]:
+                    # A bay with no opening is MINOR and the door off its centre bay is SERIOUS,
+                    # and the split is the ruling's: the rhythm is a consequence to be reported,
+                    # while the door standing somewhere other than the plan's own middle bay is
+                    # the organising move itself not landing.
+                    sev = "serious" if f_["kind"] == "front-door-off-the-centre-bay" else "minor"
+                    _add(sev, "drawn", f_["statement"], room=f_.get("room"), kind=f_["kind"])
+                rfb = FA.room_front_bays(plan, lvl, C)
+                fac[f"level_{lvl}"]["front_rooms"] = len(rfb["rooms"])
+                fac[f"level_{lvl}"]["window_count_disagreements"] = len(rfb["disagreements"])
+                for d in rfb["disagreements"]:
+                    _add("minor", "drawn",
+                         f'{d["room"]} spans {len(d["bays"])} bay(s) of the front and declares '
+                         f'{d["declares"]} window(s) there, where the rhythm the plan\'s own '
+                         f'bays imply wants {d["wants"]}. REPORTED, not corrected: the declared '
+                         f'count is the author\'s and is never overwritten (WP-6.2).',
+                         room=d["room"], kind="front-window-count-against-the-bays")
+            fac["share"] = FA.facade_share(plan, C)
+        out["facade"] = fac
+    except Exception as e:
+        # Stated, never swallowed -- `roof.py` wrapped its own hearth reconciliation in a bare
+        # `except: pass` and then asserted there was nothing to stand over (WP-11.4).
+        out["facade"] = {"verdict": "could-not-evaluate",
+                         "why": f"{type(e).__name__}: {e}"}
+        F.add("info", "drawn",
+              f"The facade layer could not be read ({type(e).__name__}: {e}). Not a pass.",
+              kind="facade-unreadable")
+
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out

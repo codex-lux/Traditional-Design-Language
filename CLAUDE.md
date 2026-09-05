@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,773 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,799 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -371,13 +371,13 @@ a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Repo
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
 **Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
-through 11.6 are complete, 11.7 through 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
+through 11.7 are complete, 11.8 through 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
 are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
 above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
 itself, two headings up.) Raised by Lucas against the workbench's own
 sheet, with the instruction to diagnose before building; the diagnosis is
 `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` and all five of the phase's questions were
-ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6}-*.md`. **Read WP-11.3's refusal
+ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6,7}-*.md`. **Read WP-11.3's refusal
 before proposing a score term for the axis**, WP-11.2's cost table before quoting any fatal count on
 the Tidewater plan, and **WP-11.6's item-4 section before quoting a downgrade count on either
 engine** — the number is a property of the number of massing elements the record states.
@@ -739,6 +739,62 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   containment guard passed under mutation for the wrong reason (the coverage floor refused the
   intruding rectangle). An EAST wing is the discriminator and there is a fixture for it now; the
   DEPTH bound is the fifth miss named at the head of this entry, and has none.
+- **THE FACADE IS A RESULT NOW, AND THE FINDING OF THE PACKAGE IS A COINCIDENCE (WP-11.7).**
+  `build/facade.py` derives the rhythm the plan's own `footprint.bays` imply, compares the drawn
+  front against it and REPORTS -- it composes nothing, because the ruling's second half is that the
+  commitment sequence is how findings are EXPLAINED and not how they are resolved (Glassie's own
+  rule sets are order-independent). It lives in `plan_check`'s **drawn** layer because everything
+  it reads is a placement, which is WP-11.4's rule for choosing a layer.
+  **MEASURED on `tidewater-georgian-careful`: serious 63 -> 62, minor 88 -> 101.** The serious is
+  the ruling's own first commitment landing: `centre-passage-core`'s facade-share test was HARD and
+  convicted this house at a measured **0.136** against 0.18-0.27, and under the ruling the share is
+  a CONSEQUENCE reported rather than an input the passage may be sized from. Its `test` is gone,
+  its severity is `preferred`, the band survives as `measures.advisory_band` -- and the 8 ft floor
+  is a DIFFERENT rule and stays hard. `passage-that-is-a-corridor`'s `correct_practice` no longer
+  opens *"Size the passage from the facade"*. The thirteen new minors are seven bays of the front
+  carrying no opening and six rooms whose declared window count disagrees with the bays their front
+  wall spans -- `chamber2` spans two bays and declares none.
+  **`elevation._face_bays` COMPOSED THE FRONT FROM A PACK FORMULA AND NEVER READ `footprint.bays`**
+  -- two records built from different rules with nothing comparing them, OQ 85's shape, four hundred
+  lines from OQ 85's own fix. **They AGREE on both shipped plans (7/7 and 5/5)**, so the elevation
+  takes the plan's count now and the corpus output is byte-identical: a second rule removed, not a
+  new answer. Only the faces spanning the WIDTH take it -- a gable end's span is the depth and
+  handing it the width's count is the OQ 48 error in a new place. **And because they agree, the
+  corpus cannot test the join**: a mutation deleting it leaves every natural assertion green, so
+  the guard DRIVES the plan to nine bays, which the formula would never pick (WP-8.11's rule).
+- **A BAND STATED IN A RECORD AND TRANSCRIBED INTO ITS READER, FOUND BY `check_rooms.py` AND NOT
+  BY `validate.py` (WP-11.7).** Adding `advisory_band`/`reported_by` to a grouping rule's
+  `measures` failed `check_rooms.py` -- the sub-schema is `additionalProperties: false` -- **while
+  `validate.py` passed**, which is worth knowing: the two do not check the same things about a
+  grouping. Chasing it found the code half: `facade_share` had the pair written into it as a
+  literal beside the rule that states it, one rule in two places, **committed inside the function
+  whose whole subject is one rule in two places**. The schema is widened and its field description
+  says a rule carrying `advisory_band` may NOT also carry a `test` on the same quantity, because
+  that is requiring and reporting one number at once.
+  **AND THE GUARD AGAINST IT FLAGGED THE FIX'S OWN COMMENT**, which quoted the figures to explain
+  the defect -- the note demonstrating the finding by committing it. Reworded rather than exempted,
+  which is the move this file already records for the citation guard. Its first version was also a
+  bad instrument, flagging any file containing both numbers anywhere and matching three unrelated
+  files' constants; it searches for the literal pair's SHAPE now.
+- **TWO ERRORS CANCELLED AND THE TOTAL DID NOT MOVE, WHICH IS HOW THEY WERE FOUND (WP-11.7).**
+  The first draft of `facade.compare` emitted `front-door-off-the-centre-bay` while `plan_check`
+  already emits `drawn-door-off-the-centre-bay` from WP-11.3's axis reading -- **the same rule
+  spelled twice, in the package whose own ruling is about not saying one thing in two
+  vocabularies** -- and the two DISAGREED about the number, because `axis.door_bay` returns a
+  ZERO-based index and the older finding adds one for the reader. A sheet carrying both would have
+  given one door two bay numbers. It was invisible in the totals: removing the facade-share hard
+  test took one `serious` away and the duplicate put one back, so 63 stayed 63. **Found by asking
+  why a serious finding had been added and the serious count had not moved**, then reading the
+  findings rather than the totals.
+- **FIFTEEN OF SIXTEEN PLAN RECORDS NAME NO PARTI, so the facade layer is silent on 94% of this
+  corpus (WP-11.7).** `facade.rhythm` derives for ONE record -- `tidewater-georgian-careful`, which
+  WP-11.2 authored. Every reference plan **and `spec-builder-colonial`** name none, so the whole
+  block is one `info` naming the reason, which is not a pass. **The refusal is correct and the
+  count is the deliverable**; `oq/fifteen-of-sixteen-plans-name-no-parti` is the sibling of
+  `oq/fourteen-of-sixteen-plans-name-no-massing` one field over, and it forbids deriving the parti
+  from the massing, the style or the room list in the same words the massing entry uses. **Do not
+  close either by lowering the finding's severity**: an `info` on fifteen records is already close
+  to invisible.
 - **A PARTI MAY STATE ITS OWN MASSING ELEMENTS NOW, AND THE CORPUS REFUSED THE FIRST DIAGRAM THAT
   DID, THREE TIMES (WP-11.6).** A parti room carries `block` and `hyphen` (parti schema),
   `compose.py` copies both onto the plan record exactly as it copies `stacks_over` -- **the
@@ -2130,8 +2186,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **139 entries, of which 55 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/three-hard-room-rules-forbid-a-detached-kitchen, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **141 entries, of which 55 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
