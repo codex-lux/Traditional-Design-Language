@@ -190,7 +190,16 @@ def test_provenance_validates_and_gates_method():
     # since OQ 55 and this schema forbade -- two of the fourteen reference plans had been
     # INVALID against the contract they were placed from for three phases, unnoticed because
     # nothing validates a placed plan except the API's own gate. It caught the bump a fifth time.
-    assert schema["version"] == "0.7.0"
+    # 0.8.0 (WP-11.6, 5 Sep 2026): `room.wet_stack_with`, and NOT an addition so much as a
+    # SPLIT -- `stacks_over`'s own description had read "room id on the level below, for
+    # plumbing and structure" since it was written, two duties in one field, and one shipped
+    # record used it for a room on its OWN level. Three readers dropped that claim with a bare
+    # `continue` and no note. `stacks_over` is structural and cross-level now; `wet_stack_with`
+    # is the servicing half and takes any level including the claimant's own. Additive to the
+    # schema and so a minor. IT CAUGHT THE BUMP A SIXTH TIME, and this time it caught it AFTER
+    # the package had shipped -- the bump went in, every checker was run, and this assertion
+    # was the only thing in the corpus that noticed, in the full suite, forty-five minutes in.
+    assert schema["version"] == "0.8.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",
