@@ -32,5 +32,31 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Gaines Farmhouse",
+      "location": "Crawford, Texas",
+      "year": 1895,
+      "precedent": "gaines-farmhouse",
+      "standing": "canonical",
+      "why": "Derived, not authored: `modern-farmhouse-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "15 Central Park West",
+      "location": "New York, New York",
+      "year": 2008,
+      "precedent": "15-central-park-west",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Seaside",
+      "location": "Walton County, Florida",
+      "year": 1981,
+      "precedent": "seaside",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-urbanist-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

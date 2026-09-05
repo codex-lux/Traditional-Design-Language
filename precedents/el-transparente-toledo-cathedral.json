@@ -16,7 +16,8 @@
     "note": "THE SOURCE AND THE NODE DISAGREE ABOUT THE START. The Spanish article says the work was 'construido entre 1721 y 1732 por el arquitecto Narciso Tomé, ayudado por sus hijos', and that Tomé was appointed deputy architect of the cathedral in 1721; the node's own exemplar note gives 1729-1732. Both are recorded and neither is changed."
   },
   "nodes": [
-    "churrigueresque"
+    "churrigueresque",
+    "spanish-classical"
   ],
   "refs": [
     {

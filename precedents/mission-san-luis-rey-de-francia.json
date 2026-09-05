@@ -22,7 +22,8 @@
     "note": "The survey dates the present church 1811-1815 with the crossing dome added by 1829 and sacristy additions in 1832; the mission itself was founded 1798, which is the year the style node's exemplar carries. Foundation and completion, not founding, are what `built` records here."
   },
   "nodes": [
-    "california-mission-colonial"
+    "california-mission-colonial",
+    "american-colonial"
   ],
   "refs": [
     {

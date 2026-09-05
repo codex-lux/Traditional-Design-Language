@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**140 questions, of which 56 are open.** A question is OPEN while
+**141 questions, of which 57 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 56
+## Open — 57
 
 Awaiting a ruling. This is the list to read first.
 
@@ -64,6 +64,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |
 | **oq/a-declared-measurement-and-a-window-record-state-one-width-twice** | OPEN | [the plan says how wide its windows are in two places that nothing holds together](open-questions/oq-a-declared-measurement-and-a-window-record-state-one-width-twice.md) |
+| **oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity** | OPEN | [the duplicate guard is dropping 51 identities, and some of the drops are right](open-questions/oq-a-district-number-on-a-contributing-property-is-not-that-buildings-identity.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
@@ -165,7 +166,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **95** | CLOSED 27 AUG 2026 | [the placement generator is blind to the other level, and no score term can see past that](open-questions/095-placement-generator-blind-other-level-score-term-see.md) |
 | **97** | CLOSED 27 AUG 2026 | [the search has no span term, so whether a placement clears its own structural capacity is luck](open-questions/097-search-span-term-whether-placement-clears-own-structural.md) |
 | **99** | CLOSED | [an open-question id is issued from the working tree, and this register predicted its own collision](open-questions/099-how-an-open-question-id-is-issued.md) |
-| **oq/a-family-node-has-no-exemplar** | RULED 5 Sep 2026, EXECUTION GATED ON TRANCHE 3 | [32 higher-rank nodes name no building, 72 asset records wait on them, and every one is `confidence: high`](open-questions/oq-a-family-node-has-no-exemplar.md) |
+| **oq/a-family-node-has-no-exemplar** | CLOSED 5 Sep 2026 | [32 higher-rank nodes name no building, 72 asset records wait on them, and every one is `confidence: high`](open-questions/oq-a-family-node-has-no-exemplar.md) |
 | **oq/a-grouping-rule-and-a-room-record-can-disagree** | CLOSED 2 Sep 2026 | [six instances, one of them on fourteen partis, and nothing checks the class](open-questions/oq-a-grouping-rule-and-a-room-record-can-disagree.md) |
 | **oq/a-pack-can-be-the-only-writer-a-node-has** | CLOSED | [flipping a pack can remove the only account of a slot a node can reach](open-questions/oq-a-pack-can-be-the-only-writer-a-node-has.md) |
 | **oq/a-share-alike-photograph-has-no-home-in-the-asset-schema** | RULED 31 Aug 2026, and the ruling is a refusal | [the English records can have a licence or an image, not both](open-questions/oq-a-share-alike-photograph-has-no-home-in-the-asset-schema.md) |

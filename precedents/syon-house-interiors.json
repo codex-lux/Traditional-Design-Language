@@ -16,7 +16,8 @@
     "note": "THE REGISTER'S DATE FOR THE ADAM WORK IS BROKEN AND IS LEFT BROKEN: the list entry prints 'Remodelled inside and out by Robert Adam 1767-5', which cannot be read as a range. The node's own exemplar says 'Remodelled 1762-69'; the Wikipedia infobox for the same building prints 'Rebuilt 1762-69'. All three are recorded and none is chosen."
   },
   "nodes": [
-    "adam-style"
+    "adam-style",
+    "english-classical"
   ],
   "refs": [
     {

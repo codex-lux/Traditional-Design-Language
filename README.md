@@ -157,8 +157,8 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
   from this environment. **73 are sourced**, and none of them needed the network: they carry a
   `generated_from` block naming a proportion pack and an assembly, and `build/render_profile.py`
   draws them from the corpus's own geometry. Of the rest, **858 can never be harvested from any
-  archive** — they are `role: incorrect`, and no archive indexes wrongness. 786 name a real
-  building to look for, across 305 distinct queries; 180 of those are in the United States and so
+  archive** — they are `role: incorrect`, and no archive indexes wrongness. 858 name a real
+  building to look for, across 312 distinct queries; 183 of those are in the United States and so
   within HABS's charter.
 - **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
 - **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug, first adjudication pass 2 Sep): 222 role gaps, 180 of them never judged, 250 judged. Ruled adjudicate-first — but the backlog **refills as it is worked**, because declining a pack re-attributes the role to the next ancestor: one log node needs 26 declines over 9 rounds to reach fixpoint, so 245 is what is visible rather than what is required.

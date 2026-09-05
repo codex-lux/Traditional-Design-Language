@@ -13,7 +13,8 @@
   },
   "nodes": [
     "french-manoir",
-    "norman-vernacular"
+    "norman-vernacular",
+    "french-vernacular"
   ],
   "refs": [
     {

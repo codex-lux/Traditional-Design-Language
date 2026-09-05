@@ -59,6 +59,14 @@ def computed():
     # was corrected everywhere it was claimed. That is WP-8.14's shape: the figure nobody derives
     # is the one that goes wrong. All four are derived here now.
     _ex = [len(n.get("exemplars") or []) for n in buildable]
+    # WP-11.6. BUILDABLE AND TOTAL ARE DIFFERENT NUMBERS NOW and three sentences say "exemplars"
+    # meaning the first. Ruling B gave the 27 families 121 DERIVED type specimens, so `exemplars`
+    # is 921 and the corpus a reader is told about -- "800 exemplars, 4 to 9 a node, 131 of 132
+    # buildable nodes carrying five or more" -- is the 800. Pointing those claims at the total
+    # would have let `--fix` write 921 into a sentence whose other two figures are over buildable
+    # nodes, which is the third time this session that `--fix` would have corrected a number and
+    # falsified the prose around it.
+    v["exemplars_buildable"] = sum(_ex)
     v["exemplars_min"] = min(_ex) if _ex else 0
     v["exemplars_max"] = max(_ex) if _ex else 0
     v["exemplars_five_plus"] = sum(1 for c in _ex if c >= 5)
@@ -357,11 +365,16 @@ CLAIMS = [
     ("CLAUDE.md",              "exemplars",                r"\d+ of (\d+) exemplars carry a `precedent`"),
     # WP-11.5. The three figures published beside the exemplar total, in the two files that
     # publish them. Neither file was claimed before and both carried the Tranche 2 numbers.
-    ("CLAUDE.md",              "exemplars",                r"-- (\d+) exemplars now, \d+ to \d+ a"),
+    ("CLAUDE.md",              "exemplars_buildable",      r"-- (\d+) exemplars now, \d+ to \d+ a"),
     ("CLAUDE.md",              "exemplars_min",            r"-- \d+ exemplars now, (\d+) to \d+ a"),
     ("CLAUDE.md",              "exemplars_max",            r"-- \d+ exemplars now, \d+ to (\d+) a"),
     ("CLAUDE.md",              "exemplars_five_plus",      r"(\d+) of 132 buildable nodes carrying five or more"),
-    ("docs/precedents.md",     "exemplars",                r"\((\d+) exemplars, \d+ to \d+ a node\)"),
+    ("docs/precedents.md",     "exemplars_buildable",      r"\((\d+) exemplars, \d+ to \d+ a node\)"),
+    # And the same sentence in STATE-OF-THE-PROJECT.md, which carried an UNPOLICED copy of the
+    # figure -- the shape WP-8.14 is about, found again by adding the key its neighbours needed.
+    ("STATE-OF-THE-PROJECT.md", "exemplars_buildable",      r"took the corpus to (\d+) exemplars, \d+ to \d+ a node"),
+    ("STATE-OF-THE-PROJECT.md", "exemplars_min",            r"took the corpus to \d+ exemplars, (\d+) to \d+ a node"),
+    ("STATE-OF-THE-PROJECT.md", "exemplars_max",            r"took the corpus to \d+ exemplars, \d+ to (\d+) a node"),
     ("docs/precedents.md",     "exemplars_min",            r"\(\d+ exemplars, (\d+) to \d+ a node\)"),
     ("docs/precedents.md",     "exemplars_max",            r"\(\d+ exemplars, \d+ to (\d+) a node\)"),
     ("CLAUDE.md",              "precedents",               r"\*\*(\d+) precedent records\*\*"),

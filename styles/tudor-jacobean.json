@@ -31,5 +31,31 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Hardwick Hall",
+      "location": "Derbyshire, England",
+      "year": 1597,
+      "precedent": "hardwick-hall",
+      "standing": "canonical",
+      "why": "Derived, not authored: `elizabethan`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Hatfield House",
+      "location": "Hertfordshire, England",
+      "year": 1612,
+      "precedent": "hatfield-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `jacobean`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Hampton Court Palace, Base Court and Clock Court",
+      "location": "Richmond upon Thames, London, England",
+      "year": 1515,
+      "precedent": "hampton-court-palace-base-court-and-clock-court",
+      "standing": "canonical",
+      "why": "Derived, not authored: `tudor`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

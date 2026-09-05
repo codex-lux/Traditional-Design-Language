@@ -34,5 +34,21 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Manoir de Courboyer",
+      "location": "Perche en Noce, Orne, France",
+      "precedent": "manoir-de-courboyer",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-manoir`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Manoir de Coupesarte",
+      "location": "Mezidon Vallee d'Auge, Calvados, France",
+      "precedent": "manoir-de-coupesarte",
+      "standing": "canonical",
+      "why": "Derived, not authored: `norman-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

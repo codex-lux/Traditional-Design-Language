@@ -32,5 +32,71 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Egyptian Building, Medical College of Virginia",
+      "location": "Richmond, Virginia",
+      "year": 1845,
+      "precedent": "egyptian-building-medical-college-of-virginia",
+      "standing": "canonical",
+      "why": "Derived, not authored: `egyptian-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Lyndhurst",
+      "location": "Tarrytown, New York",
+      "year": 1838,
+      "precedent": "lyndhurst",
+      "standing": "canonical",
+      "why": "Derived, not authored: `gothic-revival-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Edward King House",
+      "location": "Newport, Rhode Island",
+      "year": 1847,
+      "precedent": "edward-king-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italianate-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Armour-Stiner (Octagon) House",
+      "location": "Irvington, New York",
+      "year": 1860,
+      "precedent": "armour-stiner-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `octagon-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Athenaeum of Philadelphia",
+      "location": "Philadelphia, Pennsylvania",
+      "year": 1847,
+      "precedent": "athenaeum-of-philadelphia",
+      "standing": "canonical",
+      "why": "Derived, not authored: `renaissance-revival-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Roseland Cottage",
+      "location": "Woodstock, Connecticut",
+      "year": 1846,
+      "precedent": "roseland-cottage",
+      "standing": "canonical",
+      "why": "Derived, not authored: `carpenter-gothic`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Brooklyn Heights Historic District brownstone rows (Willow, Hicks, and Remsen Streets)",
+      "location": "Brooklyn, New York",
+      "year": 1860,
+      "precedent": "brooklyn-heights-historic-district",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italianate-townhouse`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Kingscote",
+      "location": "Newport, Rhode Island",
+      "year": 1839,
+      "precedent": "kingscote",
+      "standing": "canonical",
+      "why": "Derived, not authored: `rural-gothic-villa`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

@@ -73,12 +73,16 @@ RATCHET = {
     "editorial_read": 69,
     "shared_only_nodes": 24,
     "untested_nodes": 3,
-    "exemplars_with_precedent": 794,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171,
-                                        # Tranche 2 505 -- North America complete; Tranche 3 794)
-    "nodes_with_a_precedent": 132,      # FLOOR -- may only RISE (3 at seeding, 27 after Tranche 1,
-                                        # 86 after Tranche 2). 132 is EVERY BUILDABLE NODE; the 32
-                                        # that remain are the families and traditions, and they are
-                                        # Ruling B's and Tranche 4's, not a gap in this one.
+    "exemplars_with_precedent": 915,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171,
+                                        # Tranche 2 505 -- North America complete; Tranche 3 794;
+                                        # WP-11.6 Ruling B 915, the 121 family type specimens)
+    "nodes_with_a_precedent": 159,      # FLOOR -- may only RISE (3 at seeding, 27 after Tranche 1,
+                                        # 86 after Tranche 2, 132 -- EVERY BUILDABLE NODE -- after
+                                        # Tranche 3). 159 is that plus the 27 families, which carry
+                                        # DERIVED type specimens under Ruling B. The 5 that remain
+                                        # are the traditions, and the ruling says they stay empty:
+                                        # this floor may never reach 164 and that is the answer,
+                                        # not a gap.
 }
 FLOORS = ("exemplars_with_precedent", "nodes_with_a_precedent")
 

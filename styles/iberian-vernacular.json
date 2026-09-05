@@ -34,5 +34,14 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Palacio de Viana",
+      "location": "Cordoba, Spain",
+      "precedent": "palacio-de-viana",
+      "standing": "canonical",
+      "why": "Derived, not authored: `andalusian-courtyard-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

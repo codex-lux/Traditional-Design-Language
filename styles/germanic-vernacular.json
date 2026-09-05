@@ -34,5 +34,15 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Rathaus",
+      "location": "Alsfeld, Germany",
+      "year": 1516,
+      "precedent": "rathaus-alsfeld",
+      "standing": "canonical",
+      "why": "Derived, not authored: `german-fachwerk`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

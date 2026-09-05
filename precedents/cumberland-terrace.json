@@ -13,7 +13,8 @@
     "note": "The list entry prints 'c1827'. The node's exemplar gives 1826, and Wikipedia says the terrace 'was completed in 1826'. Both are recorded; neither is resolved."
   },
   "nodes": [
-    "regency"
+    "regency",
+    "english-classical"
   ],
   "refs": [
     {

@@ -2842,6 +2842,32 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Gamble House",
+          "location": "Pasadena, California",
+          "year": 1908,
+          "precedent": "gamble-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `arts-and-crafts-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Frederick C. Robie House",
+          "location": "Chicago, Illinois",
+          "year": 1910,
+          "precedent": "frederick-c-robie-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `prairie-school`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Bungalow Heaven Landmark District",
+          "location": "Pasadena, California",
+          "year": 1900,
+          "precedent": "bungalow-heaven-landmark-district",
+          "standing": "canonical",
+          "why": "Derived, not authored: `craftsman-bungalow`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "arts-and-crafts-american",
@@ -2885,6 +2911,176 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Pieter Bronck House",
+          "location": "Coxsackie, Greene County, New York",
+          "year": 1663,
+          "precedent": "pieter-bronck-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `dutch-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Louis Bolduc House",
+          "location": "Ste. Geneviève, Missouri",
+          "year": 1792,
+          "precedent": "louis-bolduc-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Mount Vernon",
+          "location": "Fairfax County, Virginia",
+          "year": 1787,
+          "precedent": "mount-vernon",
+          "standing": "canonical",
+          "why": "Derived, not authored: `georgian-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Hans Herr House (1719 Museum)",
+          "location": "West Lampeter Township, Lancaster County, Pennsylvania",
+          "year": 1719,
+          "precedent": "hans-herr-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `german-pennsylvania-colonial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Fairbanks House",
+          "location": "Dedham, Massachusetts",
+          "year": 1637,
+          "precedent": "fairbanks-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-england-colonial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Mission San Xavier del Bac",
+          "location": "Tucson, Arizona",
+          "year": 1797,
+          "precedent": "mission-san-xavier-del-bac",
+          "standing": "canonical",
+          "why": "Derived, not authored: `spanish-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Mission San Luis Rey de Francia",
+          "location": "Oceanside, California",
+          "year": 1798,
+          "precedent": "mission-san-luis-rey-de-francia",
+          "standing": "canonical",
+          "why": "Derived, not authored: `california-mission-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Atwood-Higgins House",
+          "location": "Bound Brook Island, Wellfleet, Massachusetts",
+          "year": 1730,
+          "precedent": "atwood-higgins-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `cape-cod-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Miles Brewton House",
+          "location": "27 King Street, Charleston, South Carolina",
+          "year": 1769,
+          "precedent": "miles-brewton-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `charleston-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Lafitte's Blacksmith Shop",
+          "location": "941 Bourbon Street, New Orleans, Louisiana",
+          "year": 1772,
+          "precedent": "lafittes-blacksmith-shop",
+          "standing": "canonical",
+          "why": "Derived, not authored: `creole-cottage-vernacular`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Parson Capen House",
+          "location": "Topsfield, Massachusetts",
+          "year": 1683,
+          "precedent": "parson-capen-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `garrison-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Jean Hasbrouck House",
+          "location": "Historic Huguenot Street, New Paltz, New York",
+          "year": 1721,
+          "precedent": "jean-hasbrouck-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `hudson-valley-dutch`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Mount Pleasant",
+          "location": "Fairmount Park, Philadelphia, Pennsylvania",
+          "year": 1765,
+          "precedent": "mount-pleasant",
+          "standing": "canonical",
+          "why": "Derived, not authored: `mid-atlantic-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Larkin House",
+          "location": "464 Calle Principal, Monterey, California",
+          "year": 1835,
+          "precedent": "larkin-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `monterey-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Vassall-Craigie-Longfellow House",
+          "location": "105 Brattle Street, Cambridge, Massachusetts",
+          "year": 1759,
+          "precedent": "vassall-craigie-longfellow-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-england-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Steuben House (Zabriskie House)",
+          "location": "Historic New Bridge Landing, River Edge, New Jersey",
+          "year": 1752,
+          "precedent": "steuben-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-jersey-dutch-gambrel`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Taos Pueblo",
+          "location": "Taos, New Mexico",
+          "year": 1400,
+          "precedent": "taos-pueblo",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-mexico-adobe`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Heinrich Zeller House (Fort Zeller)",
+          "location": "Millcreek Township, Lebanon County, Pennsylvania",
+          "year": 1745,
+          "precedent": "heinrich-zeller-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `pennsylvania-bank-house`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Homeplace Plantation House (Keller Homeplace)",
+          "location": "Hahnville, St. Charles Parish, Louisiana",
+          "year": 1791,
+          "precedent": "homeplace-plantation-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `raised-creole-plantation`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Hoxie House",
+          "location": "Sandwich, Massachusetts",
+          "year": 1675,
+          "precedent": "hoxie-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `saltbox-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Westover",
+          "location": "Charles City County, Virginia",
+          "year": 1750,
+          "precedent": "westover",
+          "standing": "canonical",
+          "why": "Derived, not authored: `tidewater-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -3371,6 +3567,56 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "American Gothic House (Dibble House)",
+          "location": "300 American Gothic Street, Eldon, Iowa",
+          "year": 1882,
+          "precedent": "american-gothic-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `american-farmhouse-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Robert Brewton House",
+          "location": "71 Church Street, Charleston, South Carolina",
+          "year": 1730,
+          "precedent": "robert-brewton-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `charleston-single-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "C. A. Nothnagle Log House",
+          "location": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
+          "year": 1643,
+          "precedent": "c-a-nothnagle-log-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `log-vernacular-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Elvis Presley Birthplace",
+          "location": "306 Elvis Presley Drive, Tupelo, Mississippi",
+          "year": 1934,
+          "precedent": "elvis-presley-birthplace",
+          "standing": "canonical",
+          "why": "Derived, not authored: `shotgun-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "John Oliver Place",
+          "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+          "year": 1822,
+          "precedent": "john-oliver-place",
+          "standing": "canonical",
+          "why": "Derived, not authored: `appalachian-log-house`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Woodland (Sam Houston's home)",
+          "location": "Sam Houston State University campus, Huntsville, Walker County, Texas",
+          "year": 1847,
+          "precedent": "woodland-sam-houstons-home",
+          "standing": "canonical",
+          "why": "Derived, not authored: `dogtrot-vernacular`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -4167,6 +4413,24 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Parthenon",
+          "location": "Acropolis, Athens, Greece",
+          "year": -447,
+          "precedent": "parthenon",
+          "standing": "canonical",
+          "why": "Derived, not authored: `greek-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Pantheon",
+          "location": "Rome, Italy",
+          "year": 113,
+          "precedent": "pantheon-rome",
+          "standing": "canonical",
+          "why": "Derived, not authored: `roman-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -6263,6 +6527,16 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Red House",
+          "location": "Bexleyheath, London, England",
+          "year": 1860,
+          "precedent": "red-house-bexleyheath",
+          "standing": "canonical",
+          "why": "Derived, not authored: `arts-and-crafts-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "arts-and-crafts-british"
@@ -6353,6 +6627,32 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Strawberry Hill",
+          "location": "Twickenham, London, England",
+          "year": 1776,
+          "precedent": "strawberry-hill",
+          "standing": "canonical",
+          "why": "Derived, not authored: `gothic-revival-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Cragside",
+          "location": "Rothbury, Northumberland, England",
+          "year": 1884,
+          "precedent": "cragside",
+          "standing": "canonical",
+          "why": "Derived, not authored: `queen-anne-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Abbotsford House",
+          "location": "Melrose, Scottish Borders, Scotland",
+          "year": 1824,
+          "precedent": "abbotsford-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `scottish-baronial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "gothic-revival-british",
@@ -6396,6 +6696,24 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Arlington Row",
+          "location": "Bibury, Gloucestershire, England",
+          "year": 1380,
+          "precedent": "arlington-row",
+          "standing": "canonical",
+          "why": "Derived, not authored: `cotswold-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Anne Hathaway's Cottage",
+          "location": "Shottery, Warwickshire, England",
+          "year": 1463,
+          "precedent": "anne-hathaways-cottage",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-cottage-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -10065,6 +10383,24 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Casa de Montejo",
+          "location": "Merida, Yucatan, Mexico",
+          "year": 1549,
+          "precedent": "casa-de-montejo",
+          "standing": "canonical",
+          "why": "Derived, not authored: `mexican-colonial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Hacienda de Santa Maria Regla",
+          "location": "Huasca de Ocampo, Hidalgo, Mexico",
+          "year": 1774,
+          "precedent": "hacienda-de-santa-maria-regla",
+          "standing": "canonical",
+          "why": "Derived, not authored: `mexican-hacienda`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "mexican-colonial",
@@ -10597,6 +10933,32 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Gaines Farmhouse",
+          "location": "Crawford, Texas",
+          "year": 1895,
+          "precedent": "gaines-farmhouse",
+          "standing": "canonical",
+          "why": "Derived, not authored: `modern-farmhouse-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "15 Central Park West",
+          "location": "New York, New York",
+          "year": 2008,
+          "precedent": "15-central-park-west",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Seaside",
+          "location": "Walton County, Florida",
+          "year": 1981,
+          "precedent": "seaside",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-urbanist-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "modern-farmhouse-traditional",
@@ -10640,6 +11002,40 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Palais Garnier (Opera de Paris)",
+          "location": "Place de l'Opera, Paris, France",
+          "year": 1861,
+          "precedent": "palais-garnier",
+          "standing": "canonical",
+          "why": "Derived, not authored: `beaux-arts-french`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Chateau de Vaux-le-Vicomte",
+          "location": "Maincy, Seine-et-Marne, France",
+          "year": 1658,
+          "precedent": "vaux-le-vicomte",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-baroque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Petit Trianon",
+          "location": "Versailles, Yvelines, France",
+          "year": 1762,
+          "precedent": "petit-trianon",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-neoclassical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Chateau de Chambord",
+          "location": "Chambord, Loir-et-Cher, France",
+          "year": 1519,
+          "precedent": "chambord",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-renaissance-chateau`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -13992,6 +14388,64 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "First Harrison Gray Otis House",
+          "location": "141 Cambridge Street, Boston, Massachusetts",
+          "year": 1796,
+          "precedent": "first-harrison-gray-otis-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `federal-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Andalusia",
+          "location": "Bensalem Township, Bucks County, Pennsylvania",
+          "year": 1834,
+          "precedent": "andalusia",
+          "standing": "canonical",
+          "why": "Derived, not authored: `greek-revival-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Virginia State Capitol",
+          "location": "Richmond, Virginia",
+          "year": 1788,
+          "precedent": "virginia-state-capitol",
+          "standing": "canonical",
+          "why": "Derived, not authored: `jeffersonian-classicism`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Rose Hill Mansion",
+          "location": "Geneva (town of Fayette), Seneca County, New York",
+          "year": 1837,
+          "precedent": "rose-hill-mansion",
+          "standing": "canonical",
+          "why": "Derived, not authored: `greek-revival-northern`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Oak Alley",
+          "location": "Vacherie, St. James Parish, Louisiana",
+          "year": 1839,
+          "precedent": "oak-alley",
+          "standing": "canonical",
+          "why": "Derived, not authored: `greek-revival-southern-plantation`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Gardner-Pingree House",
+          "location": "128 Essex Street, Salem, Massachusetts",
+          "year": 1804,
+          "precedent": "gardner-pingree-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `new-england-federal`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Homewood",
+          "location": "3400 North Charles Street, Baltimore, Maryland",
+          "year": 1808,
+          "precedent": "homewood",
+          "standing": "canonical",
+          "why": "Derived, not authored: `southern-federal`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "federal-style",
@@ -14034,6 +14488,168 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Marble House",
+          "location": "Newport, Rhode Island",
+          "year": 1892,
+          "precedent": "marble-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `beaux-arts-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Biltmore House",
+          "location": "Asheville, North Carolina",
+          "year": 1895,
+          "precedent": "biltmore-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `chateauesque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "H. A. C. Taylor House",
+          "location": "Newport, Rhode Island",
+          "year": 1885,
+          "precedent": "h-a-c-taylor-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `colonial-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Oheka Castle",
+          "location": "West Hills (Huntington), New York",
+          "year": 1919,
+          "precedent": "oheka-castle",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-eclectic`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Villard Houses",
+          "location": "451 Madison Avenue, New York, New York",
+          "year": 1884,
+          "precedent": "villard-houses",
+          "standing": "canonical",
+          "why": "Derived, not authored: `italian-renaissance-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Vizcaya",
+          "location": "Miami, Florida",
+          "year": 1916,
+          "precedent": "vizcaya",
+          "standing": "canonical",
+          "why": "Derived, not authored: `mediterranean-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "California Building, World's Columbian Exposition",
+          "location": "Chicago, Illinois",
+          "year": 1893,
+          "precedent": "california-building-worlds-columbian-exposition",
+          "standing": "canonical",
+          "why": "Derived, not authored: `mission-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Whitehall (Henry M. Flagler House)",
+          "location": "Palm Beach, Florida",
+          "year": 1902,
+          "precedent": "whitehall-flagler-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `neoclassical-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "New Mexico Museum of Art (Museum of Fine Arts)",
+          "location": "Santa Fe, New Mexico",
+          "year": 1917,
+          "precedent": "new-mexico-museum-of-art",
+          "standing": "canonical",
+          "why": "Derived, not authored: `pueblo-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "California Quadrangle, Panama-California Exposition",
+          "location": "Balboa Park, San Diego, California",
+          "year": 1915,
+          "precedent": "california-quadrangle-balboa-park",
+          "standing": "canonical",
+          "why": "Derived, not authored: `spanish-colonial-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Spadena House (the Witch's House)",
+          "location": "Beverly Hills, California",
+          "year": 1921,
+          "precedent": "spadena-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `storybook-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Stan Hywet Hall",
+          "location": "Akron, Ohio",
+          "year": 1915,
+          "precedent": "stan-hywet-hall",
+          "standing": "canonical",
+          "why": "Derived, not authored: `tudor-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Casa del Herrero",
+          "location": "Montecito, California",
+          "year": 1925,
+          "precedent": "casa-del-herrero",
+          "standing": "canonical",
+          "why": "Derived, not authored: `andalusian-spanish-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Royal Barry Wills House",
+          "location": "59 Oakland Street, Melrose, Massachusetts",
+          "year": 1929,
+          "precedent": "royal-barry-wills-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `cape-cod-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Edsel and Eleanor Ford House",
+          "location": "Grosse Pointe Shores, Michigan",
+          "year": 1929,
+          "precedent": "edsel-and-eleanor-ford-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `cotswold-cottage-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "West End Collegiate Church and School",
+          "location": "West End Avenue at 77th Street, New York, New York",
+          "year": 1892,
+          "precedent": "west-end-collegiate-church-and-school",
+          "standing": "canonical",
+          "why": "Derived, not authored: `dutch-colonial-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Thornburg Village (Normandy Village)",
+          "location": "1781-1851 Spruce Street, Berkeley, California",
+          "year": 1927,
+          "precedent": "thornburg-village",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-normandy-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Whitemarsh Hall",
+          "location": "Wyndmoor, Springfield Township, Pennsylvania",
+          "year": 1921,
+          "precedent": "whitemarsh-hall",
+          "standing": "canonical",
+          "why": "Derived, not authored: `georgian-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Salisbury House",
+          "location": "Des Moines, Iowa",
+          "year": 1928,
+          "precedent": "salisbury-house-des-moines",
+          "standing": "canonical",
+          "why": "Derived, not authored: `jacobethan-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Larkin House",
+          "location": "Monterey, California",
+          "year": 1835,
+          "precedent": "larkin-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `monterey-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -15127,6 +15743,64 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Syon House interiors",
+          "location": "Isleworth, London, England",
+          "year": 1769,
+          "precedent": "syon-house-interiors",
+          "standing": "canonical",
+          "why": "Derived, not authored: `adam-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Castle Howard",
+          "location": "North Yorkshire, England",
+          "year": 1712,
+          "precedent": "castle-howard",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-baroque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Bedford Square",
+          "location": "Bloomsbury, London, England",
+          "year": 1783,
+          "precedent": "bedford-square",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-georgian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Chiswick House",
+          "location": "Chiswick, London, England",
+          "year": 1729,
+          "precedent": "chiswick-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-palladian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Cumberland Terrace",
+          "location": "Regent's Park, London, England",
+          "year": 1826,
+          "precedent": "cumberland-terrace",
+          "standing": "canonical",
+          "why": "Derived, not authored: `regency`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Basildon Park",
+          "location": "Berkshire, England",
+          "year": 1783,
+          "precedent": "basildon-park",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-georgian-country-house`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Charlotte Square, north side",
+          "location": "Edinburgh New Town, Scotland",
+          "year": 1791,
+          "precedent": "charlotte-square-north-side",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-georgian-townhouse`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -21645,6 +22319,22 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Manoir de Courboyer",
+          "location": "Perche en Noce, Orne, France",
+          "precedent": "manoir-de-courboyer",
+          "standing": "canonical",
+          "why": "Derived, not authored: `french-manoir`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Manoir de Coupesarte",
+          "location": "Mezidon Vallee d'Auge, Calvados, France",
+          "precedent": "manoir-de-coupesarte",
+          "standing": "canonical",
+          "why": "Derived, not authored: `norman-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "french-manoir",
@@ -23915,6 +24605,16 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Rathaus",
+          "location": "Alsfeld, Germany",
+          "year": 1516,
+          "precedent": "rathaus-alsfeld",
+          "standing": "canonical",
+          "why": "Derived, not authored: `german-fachwerk`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -27053,6 +27753,24 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Great Mosque of Cordoba",
+          "location": "Cordoba, Spain",
+          "year": 785,
+          "precedent": "great-mosque-of-cordoba",
+          "standing": "canonical",
+          "why": "Derived, not authored: `moorish-andalusian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Santa Maria la Blanca",
+          "location": "Toledo, Spain",
+          "year": 1180,
+          "precedent": "santa-maria-la-blanca-toledo",
+          "standing": "canonical",
+          "why": "Derived, not authored: `mudejar`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "moorish-andalusian",
@@ -27144,6 +27862,15 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Palacio de Viana",
+          "location": "Cordoba, Spain",
+          "precedent": "palacio-de-viana",
+          "standing": "canonical",
+          "why": "Derived, not authored: `andalusian-courtyard-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -31441,6 +32168,32 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Groot Constantia",
+          "location": "Constantia, Cape Town, South Africa",
+          "year": 1685,
+          "precedent": "groot-constantia",
+          "standing": "canonical",
+          "why": "Derived, not authored: `cape-dutch`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Huis Bartolotti, Herengracht 170-172",
+          "location": "Amsterdam, Netherlands",
+          "year": 1617,
+          "precedent": "huis-bartolotti",
+          "standing": "canonical",
+          "why": "Derived, not authored: `dutch-urban-gable-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Vleeshuis (Butchers' Hall)",
+          "location": "Antwerp, Belgium",
+          "year": 1504,
+          "precedent": "vleeshuis-antwerpen",
+          "standing": "canonical",
+          "why": "Derived, not authored: `flemish-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "cape-dutch",
@@ -31484,6 +32237,32 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Stokesay Castle",
+          "location": "Shropshire, England",
+          "year": 1291,
+          "precedent": "stokesay-castle",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-gothic`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Alfriston Clergy House",
+          "location": "Alfriston, East Sussex, England",
+          "year": 1350,
+          "precedent": "alfriston-clergy-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `english-medieval-timber-frame`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "The Jew's House",
+          "location": "Steep Hill, Lincoln, England",
+          "year": 1170,
+          "precedent": "the-jews-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `norman-romanesque-english`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -31928,6 +32707,16 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Villa Medicea di Cafaggiolo",
+          "location": "Barberino di Mugello, Florence, Italy",
+          "year": 1452,
+          "precedent": "villa-medicea-di-cafaggiolo",
+          "standing": "canonical",
+          "why": "Derived, not authored: `italian-villa-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -32988,6 +33777,32 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Levittown",
+          "location": "Nassau County, New York",
+          "year": 1947,
+          "precedent": "levittown",
+          "standing": "canonical",
+          "why": "Derived, not authored: `minimal-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "The Woodlands",
+          "location": "Montgomery County, Texas",
+          "year": 1974,
+          "precedent": "the-woodlands",
+          "standing": "canonical",
+          "why": "Derived, not authored: `neo-eclectic`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "O'Leary House",
+          "location": "San Diego, California",
+          "year": 1932,
+          "precedent": "oleary-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `ranch-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -39218,6 +40033,16 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Haus Bethlehem",
+          "location": "Schwyz, Switzerland",
+          "year": 1287,
+          "precedent": "haus-bethlehem",
+          "standing": "canonical",
+          "why": "Derived, not authored: `swiss-chalet`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "scandinavian-log-vernacular",
@@ -45144,6 +45969,32 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "San Carlo alle Quattro Fontane",
+          "location": "Via del Quirinale, Rome, Italy",
+          "year": 1638,
+          "precedent": "san-carlo-alle-quattro-fontane",
+          "standing": "canonical",
+          "why": "Derived, not authored: `italian-baroque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Ospedale degli Innocenti",
+          "location": "Piazza Santissima Annunziata, Florence, Italy",
+          "year": 1419,
+          "precedent": "ospedale-degli-innocenti",
+          "standing": "canonical",
+          "why": "Derived, not authored: `italian-renaissance`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Villa La Rotonda (Villa Almerico Capra)",
+          "location": "Vicenza, Veneto, Italy",
+          "year": 1567,
+          "precedent": "villa-la-rotonda",
+          "standing": "canonical",
+          "why": "Derived, not authored: `palladian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "italian-baroque",
@@ -46324,6 +47175,72 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "Egyptian Building, Medical College of Virginia",
+          "location": "Richmond, Virginia",
+          "year": 1845,
+          "precedent": "egyptian-building-medical-college-of-virginia",
+          "standing": "canonical",
+          "why": "Derived, not authored: `egyptian-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Lyndhurst",
+          "location": "Tarrytown, New York",
+          "year": 1838,
+          "precedent": "lyndhurst",
+          "standing": "canonical",
+          "why": "Derived, not authored: `gothic-revival-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Edward King House",
+          "location": "Newport, Rhode Island",
+          "year": 1847,
+          "precedent": "edward-king-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `italianate-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Armour-Stiner (Octagon) House",
+          "location": "Irvington, New York",
+          "year": 1860,
+          "precedent": "armour-stiner-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `octagon-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Athenaeum of Philadelphia",
+          "location": "Philadelphia, Pennsylvania",
+          "year": 1847,
+          "precedent": "athenaeum-of-philadelphia",
+          "standing": "canonical",
+          "why": "Derived, not authored: `renaissance-revival-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Roseland Cottage",
+          "location": "Woodstock, Connecticut",
+          "year": 1846,
+          "precedent": "roseland-cottage",
+          "standing": "canonical",
+          "why": "Derived, not authored: `carpenter-gothic`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Brooklyn Heights Historic District brownstone rows (Willow, Hicks, and Remsen Streets)",
+          "location": "Brooklyn, New York",
+          "year": 1860,
+          "precedent": "brooklyn-heights-historic-district",
+          "standing": "canonical",
+          "why": "Derived, not authored: `italianate-townhouse`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Kingscote",
+          "location": "Newport, Rhode Island",
+          "year": 1839,
+          "precedent": "kingscote",
+          "standing": "canonical",
+          "why": "Derived, not authored: `rural-gothic-villa`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [
@@ -49189,6 +50106,24 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "El Transparente, Toledo Cathedral",
+          "location": "Toledo, Spain",
+          "year": 1732,
+          "precedent": "el-transparente-toledo-cathedral",
+          "standing": "canonical",
+          "why": "Derived, not authored: `churrigueresque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Universidad de Salamanca, principal facade",
+          "location": "Salamanca, Spain",
+          "year": 1529,
+          "precedent": "universidad-de-salamanca-facade",
+          "standing": "canonical",
+          "why": "Derived, not authored: `spanish-plateresque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "churrigueresque",
@@ -51798,6 +52733,32 @@
       "tags": [
         "container"
       ],
+      "exemplars": [
+        {
+          "name": "Hardwick Hall",
+          "location": "Derbyshire, England",
+          "year": 1597,
+          "precedent": "hardwick-hall",
+          "standing": "canonical",
+          "why": "Derived, not authored: `elizabethan`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Hatfield House",
+          "location": "Hertfordshire, England",
+          "year": 1612,
+          "precedent": "hatfield-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `jacobean`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Hampton Court Palace, Base Court and Clock Court",
+          "location": "Richmond upon Thames, London, England",
+          "year": 1515,
+          "precedent": "hampton-court-palace-base-court-and-clock-court",
+          "standing": "canonical",
+          "why": "Derived, not authored: `tudor`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
+      ],
       "_cascade": [],
       "_children": [
         "elizabethan",
@@ -52998,6 +53959,64 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "exemplars": [
+        {
+          "name": "American Gothic House (Dibble House)",
+          "location": "Eldon, Iowa",
+          "year": 1882,
+          "precedent": "american-gothic-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `folk-victorian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Carson Mansion",
+          "location": "Eureka, California",
+          "year": 1886,
+          "precedent": "carson-mansion",
+          "standing": "canonical",
+          "why": "Derived, not authored: `queen-anne-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Trinity Church",
+          "location": "Boston, Massachusetts",
+          "year": 1877,
+          "precedent": "trinity-church-boston",
+          "standing": "canonical",
+          "why": "Derived, not authored: `richardsonian-romanesque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Eisenhower Executive Office Building (State, War and Navy Building)",
+          "location": "Washington, District of Columbia",
+          "year": 1888,
+          "precedent": "eisenhower-executive-office-building",
+          "standing": "canonical",
+          "why": "Derived, not authored: `second-empire`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Isaac Bell House",
+          "location": "Newport, Rhode Island",
+          "year": 1883,
+          "precedent": "isaac-bell-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `shingle-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "John N. A. Griswold House (Newport Art Museum)",
+          "location": "Newport, Rhode Island",
+          "year": 1864,
+          "precedent": "john-n-a-griswold-house",
+          "standing": "canonical",
+          "why": "Derived, not authored: `stick-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        },
+        {
+          "name": "Astral Apartments",
+          "location": "Greenpoint, Brooklyn, New York",
+          "year": 1886,
+          "precedent": "astral-apartments",
+          "standing": "canonical",
+          "why": "Derived, not authored: `queen-anne-patterned-masonry`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+        }
       ],
       "_cascade": [],
       "_children": [

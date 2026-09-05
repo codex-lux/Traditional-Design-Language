@@ -27,6 +27,7 @@
   ],
   "note": "No HABS survey was found: the loc.gov search '\"Hoxie House\" Sandwich HABS MA Water Street' returned unrelated items. No register reference was found either; the Wikipedia article cites MACRIS, which was not opened.",
   "nodes": [
-    "saltbox-colonial"
+    "saltbox-colonial",
+    "american-colonial"
   ]
 }

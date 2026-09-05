@@ -73,6 +73,7 @@
   },
   "note": "The extract returned only the data sheet and the addendum cover; the addendum's own descriptive pages, if any, were not reached and are not quoted.",
   "nodes": [
-    "new-england-colonial"
+    "new-england-colonial",
+    "american-colonial"
   ]
 }

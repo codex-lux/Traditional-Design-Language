@@ -33,5 +33,23 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Parthenon",
+      "location": "Acropolis, Athens, Greece",
+      "year": -447,
+      "precedent": "parthenon",
+      "standing": "canonical",
+      "why": "Derived, not authored: `greek-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Pantheon",
+      "location": "Rome, Italy",
+      "year": 113,
+      "precedent": "pantheon-rome",
+      "standing": "canonical",
+      "why": "Derived, not authored: `roman-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

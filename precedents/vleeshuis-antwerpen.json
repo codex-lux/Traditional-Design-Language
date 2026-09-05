@@ -17,7 +17,8 @@
     "note": "The register's summary line says 'gebouwd door het gilde van de Beenhouwers in 1501-1504'; the node's exemplar year is 1504, the completion. The register's own designer list carries BOTH Herman and Domien de Waghemakere while its summary names only Herman; the node's exemplar note names Herman. Recorded, not resolved."
   },
   "nodes": [
-    "flemish-vernacular"
+    "flemish-vernacular",
+    "low-countries-vernacular"
   ],
   "refs": [
     {

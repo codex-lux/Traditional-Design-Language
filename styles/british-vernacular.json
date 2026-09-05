@@ -33,5 +33,23 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Arlington Row",
+      "location": "Bibury, Gloucestershire, England",
+      "year": 1380,
+      "precedent": "arlington-row",
+      "standing": "canonical",
+      "why": "Derived, not authored: `cotswold-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Anne Hathaway's Cottage",
+      "location": "Shottery, Warwickshire, England",
+      "year": 1463,
+      "precedent": "anne-hathaways-cottage",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-cottage-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

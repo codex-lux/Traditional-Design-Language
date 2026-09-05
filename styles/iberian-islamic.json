@@ -33,5 +33,23 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Great Mosque of Cordoba",
+      "location": "Cordoba, Spain",
+      "year": 785,
+      "precedent": "great-mosque-of-cordoba",
+      "standing": "canonical",
+      "why": "Derived, not authored: `moorish-andalusian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Santa Maria la Blanca",
+      "location": "Toledo, Spain",
+      "year": 1180,
+      "precedent": "santa-maria-la-blanca-toledo",
+      "standing": "canonical",
+      "why": "Derived, not authored: `mudejar`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

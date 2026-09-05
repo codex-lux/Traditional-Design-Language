@@ -255,14 +255,22 @@ def test_the_district_exemption_is_driven_by_the_declaration_and_not_by_a_word_i
 
 
 def test_a_stated_refusal_and_an_unresearched_row_are_counted_apart():
-    """One number carried both until this field existed, and after Tranche 3 it would have read
-    about 191 whether that was 191 gaps or 188 gaps and 3 decisions."""
-    styles = CP.load_styles() if hasattr(CP, "load_styles") else None
-    with_p = refusals = gaps = 0
+    """One number carried both until this field existed. It read 188 before Tranche 3 and reads 6
+    after it, and either way it would have said nothing about how many of those were DECISIONS.
+
+    THE TOTAL IS CROSS-CHECKED AGAINST THE CHECKER'S OWN READER AND NOT WRITTEN DOWN. The first
+    version asserted `== 693`, the exemplar count on the day it was written, and Tranche 3 took it
+    to 800 -- WP-8.14's shape inside a test written the same week that entry was. The obvious
+    repair was `== total` counted in this same loop, and THAT CANNOT FAIL: every row increments
+    exactly one bucket, so the partition is true by construction and the assertion is a tautology
+    wearing a guard's clothes. It is held against `measure()` instead, which walks the corpus
+    independently -- two readers of one fact, which is the only form of this that can go red."""
+    with_p = refusals = gaps = total = 0
     reasons = collections.Counter()
     import glob
     for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         for e in json.load(open(f, encoding="utf-8")).get("exemplars") or []:
+            total += 1
             if e.get("precedent"):
                 with_p += 1
                 # the schema permits it and the checker refuses it: a row cannot both name a
@@ -275,23 +283,38 @@ def test_a_stated_refusal_and_an_unresearched_row_are_counted_apart():
                 reasons[r] += 1
             else:
                 gaps += 1
-    assert with_p + refusals + gaps == 693
+    m = CP.measure()
+    assert total == m["exemplars_total"], (total, m["exemplars_total"])
+    assert with_p == m["exemplars_with_precedent"], (with_p, m["exemplars_with_precedent"])
     assert refusals == 3 and reasons == {"archive": 1, "body-of-work": 1, "phase": 1}
-    # the ceiling is pinned TIGHT at the gap count, not at the 188 that predates the refusals --
-    # a ceiling slack by exactly the rows the field separates is a meter measuring nothing.
-    assert CP.RATCHET["exemplars_unresearched"] == gaps == 185
+    # the ceiling is pinned TIGHT at the gap count -- a ceiling slack by exactly the rows the field
+    # separates is a meter measuring nothing. The literal is deliberately NOT repeated here: the
+    # ratchet is the one place the number lives, and this holds the corpus to it.
+    assert CP.RATCHET["exemplars_unresearched"] == gaps
     assert CP.RATCHET["no_precedent_beside_a_precedent"] == 0
 
 
-def test_the_thirteen_records_that_are_not_one_building_declare_it():
-    """The corpus was doing this before the ruling and said so only in each record's `note`."""
+def test_a_record_that_is_not_one_building_declares_which_kind_it_is():
+    """The corpus was doing this before the ruling and said so only in each record's `note`.
+
+    THE COMPOSITION IS NOT PINNED AND THE VOCABULARY IS. The first version asserted
+    `{"district": 6, "group": 5, "type-model": 2}` -- Tranche 2's exact census -- and Tranche 3
+    made it 13/26/3 without anything being wrong. A tranche adding a district is the corpus
+    working; a tranche inventing a FOURTH kind, or declaring one the schema does not admit, is
+    not. That is what this holds."""
     import glob
+    schema = json.load(open(os.path.join(ROOT, "schema", "precedent.schema.json"), encoding="utf-8"))
+    admitted = set(schema["properties"]["record_kind"]["enum"])
+    assert admitted == {"building"} | set(CP.NOT_ONE_BUILDING), admitted
     declared = collections.Counter()
     for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
         k = json.load(open(f, encoding="utf-8")).get("record_kind")
         if k and k != "building":
+            assert k in CP.NOT_ONE_BUILDING, (f, k)
             declared[k] += 1
-    assert declared == {"district": 6, "group": 5, "type-model": 2}, declared
+    # every kind the ruling names is exercised by at least one record -- a value nothing uses is a
+    # vocabulary entry nobody has tested against a real building.
+    assert set(declared) == set(CP.NOT_ONE_BUILDING), declared
 
 
 # ---------------------------------------------------------------------------------------------
@@ -353,9 +376,9 @@ def test_the_historic_england_shape_is_the_registers_own_statement():
 def test_a_kind_with_no_shape_rule_is_named_and_counted_not_silent():
     """`ID_SHAPES.get()` misses silently, so an unshaped kind is an id nobody checks and nobody
     knows about. Naming them turned that into a number on the first run: 58, every one a
-    `state-register` from the American tranches. The ceiling may only fall, which happens by
-    adding a shape backed by the register's own statement of its format -- never by inventing one.
-    """
+    `state-register` from the American tranches, and Europe raised it to 216 across ten registers.
+    The ceiling may only fall, which happens by adding a shape backed by the register's own
+    statement of its format -- never by inventing one."""
     import glob
     assert set(CP.UNSHAPED_ID_KINDS).isdisjoint(CP.ID_SHAPES), "a kind cannot be both"
     n = 0
@@ -363,7 +386,10 @@ def test_a_kind_with_no_shape_rule_is_named_and_counted_not_silent():
         for r in json.load(open(f, encoding="utf-8")).get("refs") or []:
             if r.get("kind") in CP.UNSHAPED_ID_KINDS and r.get("id"):
                 n += 1
-    assert n == CP.RATCHET["ids_with_no_shape_rule"] == 58
+    # The literal is NOT repeated. It was `== 58` and Europe took it to 216, which is a deliberate
+    # ceiling raise recorded in the ratchet's own comment; a test carrying a second copy of the
+    # number turns every honest raise into a two-file edit and every dishonest one into neither.
+    assert n == CP.RATCHET["ids_with_no_shape_rule"]
     # every kind the schema admits is either shaped or named unshaped -- no third, silent category
     schema = json.load(open(os.path.join(ROOT, "schema", "precedent.schema.json"), encoding="utf-8"))
     kinds = set(schema["properties"]["refs"]["items"]["properties"]["kind"]["enum"])
@@ -371,3 +397,79 @@ def test_a_kind_with_no_shape_rule_is_named_and_counted_not_silent():
     idless = {"wikipedia", "wikidata", "institution", "monograph", "other"}
     assert kinds - set(CP.ID_SHAPES) - set(CP.UNSHAPED_ID_KINDS) == idless, \
         kinds - set(CP.ID_SHAPES) - set(CP.UNSHAPED_ID_KINDS)
+
+
+# ---------------------------------------------------------------------------------------------
+# WP-11.6, Ruling B (5 Sep 2026): a family carries type specimens DERIVED from its members' icons.
+
+def _fs():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "family_specimens_for_test", os.path.join(ROOT, "build", "family_specimens.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def test_a_familys_specimens_are_its_members_icons_one_apiece():
+    """The ruling is a DERIVATION, so the test is that the stored rows equal the derived ones and
+    that each row is really some member's icon. No count is written down here: `derive()` is the
+    one place the rule lives, and a test restating its output would be a second spelling of it."""
+    fs = _fs()
+    nodes = fs.load_nodes()
+    want = fs.derive(nodes)
+    assert not fs.drift(nodes), fs.drift(nodes)
+    families = {nid for nid, (_, d) in nodes.items() if d.get("rank") == "family"}
+    assert set(want) == families and families, families
+
+    icons = {}
+    for nid, (_, d) in nodes.items():
+        for e in d.get("exemplars") or []:
+            if e.get("standing") == "icon":
+                icons.setdefault(nid, []).append(e)
+
+    for fid, rows in want.items():
+        members = set(fs.members_of(nodes, fid))
+        seen_members, seen_buildings = set(), set()
+        for r in rows:
+            assert r["standing"] == "canonical", (fid, r["name"])
+            # the `why` names a member of THIS family and nothing else -- a report, not an authoring
+            named = [m for m in members if "`%s`" % m in r["why"]]
+            assert len(named) == 1, (fid, r["name"], named)
+            m = named[0]
+            assert m not in seen_members, (fid, m, "two specimens from one member")
+            seen_members.add(m)
+            # and the row really is that member's icon, name for name
+            assert any(e["name"] == r["name"] for e in icons.get(m, [])), (fid, m, r["name"])
+            key = r.get("precedent") or r["name"]
+            assert key not in seen_buildings, (fid, key, "one building twice in one family")
+            seen_buildings.add(key)
+
+
+def test_a_family_specimen_is_claimed_by_the_record_it_names():
+    """`check_precedents.py` holds an exemplar's `precedent` against the record's own `nodes[]` in
+    both directions, so a specimen the record does not claim is a dangling reference. Two buildings
+    legitimately stand for two families each -- Larkin House and the American Gothic House -- and
+    that is the case this would break if `nodes[]` were written as a replacement rather than a
+    union."""
+    fs = _fs()
+    gained = fs.nodes_gained()
+    assert gained, "no family specimen names a record -- the derivation is reading air"
+    multi = {p: sorted(f) for p, f in gained.items() if len(f) > 1}
+    assert multi, "a building standing for two families is expected here; none found"
+    for pid, fids in sorted(gained.items()):
+        rec = json.load(open(os.path.join(ROOT, "precedents", pid + ".json"), encoding="utf-8"))
+        listed = set(rec.get("nodes") or [])
+        assert set(fids) <= listed, (pid, sorted(set(fids) - listed))
+
+
+def test_the_five_traditions_stay_empty_because_the_ruling_says_so():
+    """"The 5 traditions stay empty." A tradition acquiring exemplars is not progress; it is the
+    ruling being quietly widened, and the node-coverage floor may therefore never reach 164."""
+    fs = _fs()
+    nodes = fs.load_nodes()
+    traditions = [nid for nid, (_, d) in nodes.items() if d.get("rank") == "tradition"]
+    assert len(traditions) == 5, traditions
+    for nid in traditions:
+        assert not (nodes[nid][1].get("exemplars") or []), nid
+    assert CP.RATCHET["family_specimens_drifted"] == 0

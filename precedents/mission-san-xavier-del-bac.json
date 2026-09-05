@@ -17,7 +17,8 @@
     "note": "The survey prints 'Date of Erection; 1797'; the Wikipedia infobox prints 'current structure dates to 1783–1797'; the style node gives 1797. The survey's 1797 is the completion date and the infobox's span the construction period, so they are not in disagreement."
   },
   "nodes": [
-    "spanish-colonial-american"
+    "spanish-colonial-american",
+    "american-colonial"
   ],
   "refs": [
     {

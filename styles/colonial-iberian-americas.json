@@ -34,5 +34,23 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Casa de Montejo",
+      "location": "Merida, Yucatan, Mexico",
+      "year": 1549,
+      "precedent": "casa-de-montejo",
+      "standing": "canonical",
+      "why": "Derived, not authored: `mexican-colonial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Hacienda de Santa Maria Regla",
+      "location": "Huasca de Ocampo, Hidalgo, Mexico",
+      "year": 1774,
+      "precedent": "hacienda-de-santa-maria-regla",
+      "standing": "canonical",
+      "why": "Derived, not authored: `mexican-hacienda`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

@@ -33,5 +33,63 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "American Gothic House (Dibble House)",
+      "location": "Eldon, Iowa",
+      "year": 1882,
+      "precedent": "american-gothic-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `folk-victorian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Carson Mansion",
+      "location": "Eureka, California",
+      "year": 1886,
+      "precedent": "carson-mansion",
+      "standing": "canonical",
+      "why": "Derived, not authored: `queen-anne-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Trinity Church",
+      "location": "Boston, Massachusetts",
+      "year": 1877,
+      "precedent": "trinity-church-boston",
+      "standing": "canonical",
+      "why": "Derived, not authored: `richardsonian-romanesque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Eisenhower Executive Office Building (State, War and Navy Building)",
+      "location": "Washington, District of Columbia",
+      "year": 1888,
+      "precedent": "eisenhower-executive-office-building",
+      "standing": "canonical",
+      "why": "Derived, not authored: `second-empire`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Isaac Bell House",
+      "location": "Newport, Rhode Island",
+      "year": 1883,
+      "precedent": "isaac-bell-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `shingle-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "John N. A. Griswold House (Newport Art Museum)",
+      "location": "Newport, Rhode Island",
+      "year": 1864,
+      "precedent": "john-n-a-griswold-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `stick-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Astral Apartments",
+      "location": "Greenpoint, Brooklyn, New York",
+      "year": 1886,
+      "precedent": "astral-apartments",
+      "standing": "canonical",
+      "why": "Derived, not authored: `queen-anne-patterned-masonry`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

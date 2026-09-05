@@ -16,7 +16,8 @@
     "note": "Historic England 1193127 opens '2. 1514 onwards'; the node's exemplar note says 'Begun 1515 for Cardinal Wolsey'. Both are recorded and neither is changed. The node's 'Great Hall 1532-35' and the entry's 'the rebuilding of the Great Hall from 1532' do not conflict."
   },
   "nodes": [
-    "tudor"
+    "tudor",
+    "tudor-jacobean"
   ],
   "refs": [
     {

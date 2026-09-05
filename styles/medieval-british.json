@@ -33,5 +33,31 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Stokesay Castle",
+      "location": "Shropshire, England",
+      "year": 1291,
+      "precedent": "stokesay-castle",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-gothic`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Alfriston Clergy House",
+      "location": "Alfriston, East Sussex, England",
+      "year": 1350,
+      "precedent": "alfriston-clergy-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-medieval-timber-frame`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "The Jew's House",
+      "location": "Steep Hill, Lincoln, England",
+      "year": 1170,
+      "precedent": "the-jews-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `norman-romanesque-english`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

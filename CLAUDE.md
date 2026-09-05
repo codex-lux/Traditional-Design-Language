@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,585 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,590 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -424,8 +424,8 @@ cannot be judged stops before its first round and says so. Nine tests could not 
 proved by mutation. The sweep re-measured: fatal
 135 -> 93, serious 961 -> 750, 131 of 273 refused (48.0%), still 0 worse. **A second pass then audited the audit** (report §VIII): three auditors over the whole session's diff found WP-9.4's own diff guard blind four ways (a list whose length changed, a rewrite inside an appended list, two rooms sharing an id, a dict added whole), `split-per-grouping` still re-deriving plan-wide under it, a revised plan whose DXF round trip failed the plan schema, the MCP tools passing every knob raw onto a threadpool token, and one compose submission able to hold the one-worker pool for four hours. All fixed with tests that bite; the deferred items and the reasons are listed in §VIII.
 
-**Phase 11 -- the precedent bench -- is OPEN; NORTH AMERICA IS DONE (WP-11.1 4 Sep, WP-11.2 and
-WP-11.3 5 Sep 2026).** Lucas asked where the
+**Phase 11 -- the precedent bench -- is OPEN; EVERY BUILDABLE NODE AND EVERY FAMILY NOW CARRIES A
+PRECEDENT, and Tranche 4 is what remains (WP-11.1 4 Sep; WP-11.2 through WP-11.6 5 Sep 2026).** Lucas asked where the
 research is thin, for the exemplars of each style researched into the most beautiful and iconic
 precedents with links, and for a reading of where deepening the bench would change what the machine
 does. **The corpus WAS templated on the surface** when WP-11.1 surveyed it: every buildable node carried
@@ -448,9 +448,9 @@ verbatim with every figure `as_printed`, and never a `license`; an exemplar name
 `precedent` and states a `standing` with a `why`. `build/check_precedents.py` holds the two
 directions to each other. **695 precedent records** after Tranche 3 (WP-11.2 did the 28 nodes the platform exercises, WP-11.3 the
 remaining 58 North American nodes, and WP-11.5's Tranche 3 the 46 European ones);
-**794 of 800 exemplars carry a `precedent`**, across 132 nodes -- EVERY BUILDABLE NODE IN THE CORPUS.
-The 32 without one are the families and traditions, which are Ruling B's and Tranche 4's rather than
-a gap. (The claim above is on ONE LINE deliberately: `check_counts.py` reads line by line, and
+**915 of 921 exemplars carry a `precedent`**, across 159 nodes -- every buildable node in the corpus
+and, since WP-11.6 executed Ruling B, all 27 families. The 5 without one are the TRADITIONS, and
+the ruling says they stay empty: this figure may never reach 164 and that is the answer, not a gap. (The claim above is on ONE LINE deliberately: `check_counts.py` reads line by line, and
 wrapping it across a newline unguarded both figures -- which its own "a pattern that no longer
 matches is a failure too" caught within the minute.)
 `tdl_precedents` is the 27th MCP tool.
@@ -535,6 +535,35 @@ rule.** Raising a ceiling is deliberate and this one is honest: a statement of f
 for exactly one European register, Historic England's own *"unique 7-figure reference number"*. The
 alternative was to invent shapes, which is how `NRHP_RE` went wrong. Report:
 `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XII.
+**RULING B IS EXECUTED AND THE DEFERRAL WAS RIGHT (WP-11.6, 5 Sep 2026).** 121 type specimens over
+all 27 families, ONE PER MEMBER NODE, derived from the members' own `standing: icon` rows and
+deduplicated by building; 121 family names added to 119 precedent records; **915 of 921 exemplars
+carry a `precedent` across 159 nodes**. 18 of 27 families had zero icons under them when the ruling
+was given and all 18 were European, so executing it before Tranche 3 would have served nine.
+**The derivation is a module and a CHECK, not a one-shot script**: `build/family_specimens.py`
+derives and `check_precedents.py` fails the build on `family_specimens_drifted`, because a derived
+record nothing can re-derive is a snapshot of a judgment that has since moved. The check went INSIDE
+an existing checker so `TOTAL_CHECKS` does not move. The `why` REPORTS -- it names the member and
+points at that node for the reason rather than copying its sentence.
+**THE SUITE CAME BACK WITH THREE FAILURES AND ALL THREE WERE A LITERAL IN A TEST DUPLICATING A
+NUMBER THE RATCHET ALREADY HELD** (`== 693` exemplars, an exact `record_kind` census, `== 58`
+unshaped ids); Tranche 3 moved all three with nothing being wrong. **The mutation harness then
+caught ITSELF**: its first run reported four mutations red against a baseline that was ALREADY red,
+because an earlier crash wrote a mutation and died before restoring it -- *a mutation that silently
+does not REVERT makes every later result meaningless, and it reads as success*, the twin of WP-9.6's
+one that does not apply. And the obvious repair was a tautology: `== total` counted in the same loop
+cannot fail, because every row increments exactly one bucket.
+**AND UNDERNEATH THE DISTRICT TEST, 51 ARCHIVAL IDENTITIES THE DUPLICATE GUARD IS DROPPING.**
+`identity_keys` skips an nrhp/nhl id on an undeclared record whose ref title or note matches
+`DISTRICT_RE`. Six drops are right (four Great Smoky Mountains cabins share NRHP 77000111, two
+Cleveland Heights houses share 09000210 -- the number names the listing); **27 are wrong** -- Marble
+House, The Elms, Rosecliff, the Boston Athenaeum, Cliveden, Taos Pueblo and twenty-one more, each
+losing its own listing number because its title names a district it contributes to. **A false
+SILENCE and never a false error, which is why nothing caught it.** Counted, ratcheted at 51 and
+printed every run; deleting the fallback is MEASURED and refused, because it convicts the six
+legitimate sharers.
+`oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity`. Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII.
 **THE BENCH ACQUIRED A LITERATURE AND IT IMMEDIATELY CONVICTED SEVENTEEN `measured` KIT FIGURES, AND
 NOTHING WAS APPLIED (WP-11.3).** 240 survey-against-kit readings over Tranche 2: **196 silent, 27 agree,
 17 CONTRADICT**, three of them by the node's OWN exemplar -- `southern-federal`'s `max_depth_ft 20`
@@ -593,10 +622,11 @@ uses them yet, and none of the three has an `ID_SHAPES` rule. Report: `docs/repo
    the network opens; its own status block in `PLAN-OF-ACTION.md` carries the verbatim denial. The
    network-free next step it named — giving the asset records their `provenance.building` names,
    without which every harvest query degrades to a style-name search — **is done**:
-   `build/name_asset_buildings.py` deals each node's records round its own `exemplars` and 786 of
-   1850 name a building, across 305 queries of which 180 are inside HABS's charter. A dry run now
-   assigns zero. What is left offline is **72 records on 18 exemplar-less higher-rank nodes**, and
-   that needs sources or a ruling rather than a pass. **The 322 in this sentence was stale for two
+   `build/name_asset_buildings.py` deals each node's records round its own `exemplars` and 858 of
+   1850 name a building, across 312 queries of which 183 are inside HABS's charter. A dry run now
+   assigns zero. **The 72 records on 18 exemplar-less higher-rank nodes are named too**, as of
+   WP-11.6: Ruling B gave the families type specimens, so those nodes have exemplars to deal from,
+   and nothing is left for this step offline. **The 322 in this sentence was stale for two
    days** and so were 845, 330 and 188 in four other files; `check_counts.py` computes all four
    now. Then Phase 5.
 
@@ -1814,8 +1844,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **140 entries, of which 56 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **141 entries, of which 57 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

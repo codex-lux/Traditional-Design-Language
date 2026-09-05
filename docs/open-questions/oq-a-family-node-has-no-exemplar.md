@@ -1,6 +1,17 @@
 # oq/a-family-node-has-no-exemplar — 32 higher-rank nodes name no building, 72 asset records wait on them, and every one is `confidence: high`
 
-*Status: RULED 5 Sep 2026, EXECUTION GATED ON TRANCHE 3 · Raised in: WP-11.1, the precedent bench (4 Sep 2026)*
+*Status: CLOSED 5 Sep 2026 · Raised in: WP-11.1, the precedent bench (4 Sep 2026)*
+
+**EXECUTED IN WP-11.6, after Tranche 3 as the gating measurement required.** 121 type specimens over
+all 27 families, one per member node, deduplicated by building; 121 family names added to 119
+precedent records; **915 of 921 exemplars now carry a `precedent`, across 159 nodes**. The gate was
+real and is worth recording: 18 of 27 families had zero `standing: icon` exemplars under them on the
+day the ruling was given and all 18 were European, so executing it then would have served nine and
+left eighteen empty. The 5 traditions stay empty by the ruling, so the node figure may never reach
+164 and that is the answer rather than a gap. The derivation lives in `build/family_specimens.py`
+and `check_precedents.py` fails the build when a family's stored rows drift from it, because a
+derived record nothing can re-derive is a snapshot of a judgment that has since moved. Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII.
 
 **RULED 5 SEP 2026 BY LUCAS: OPTION 1 -- A FAMILY CARRIES TYPE SPECIMENS, DERIVED FROM ITS MEMBERS'
 `standing: icon` EXEMPLARS**, so the list is a REPORT of the members rather than a second authoring.

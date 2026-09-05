@@ -12,7 +12,8 @@
     "note": "The Greek Ministry of Culture's monument page says 'Built between 447 and 438 BC'; the node's own exemplar note gives 447-432 BC, which is the date the sculptural programme was finished rather than the building. Both are recorded and neither is changed."
   },
   "nodes": [
-    "greek-classical"
+    "greek-classical",
+    "antique-classical"
   ],
   "refs": [
     {

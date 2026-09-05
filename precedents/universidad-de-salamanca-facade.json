@@ -15,7 +15,8 @@
     "note": "The Spanish article's first sentence is 'La fachada de la Universidad de Salamanca data de 1529'. The node's exemplar gives 'c. 1512-1529'; the article states only the one year and no start."
   },
   "nodes": [
-    "spanish-plateresque"
+    "spanish-plateresque",
+    "spanish-classical"
   ],
   "refs": [
     {

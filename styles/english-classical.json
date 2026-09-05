@@ -34,5 +34,63 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Syon House interiors",
+      "location": "Isleworth, London, England",
+      "year": 1769,
+      "precedent": "syon-house-interiors",
+      "standing": "canonical",
+      "why": "Derived, not authored: `adam-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Castle Howard",
+      "location": "North Yorkshire, England",
+      "year": 1712,
+      "precedent": "castle-howard",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-baroque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Bedford Square",
+      "location": "Bloomsbury, London, England",
+      "year": 1783,
+      "precedent": "bedford-square",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-georgian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Chiswick House",
+      "location": "Chiswick, London, England",
+      "year": 1729,
+      "precedent": "chiswick-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-palladian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Cumberland Terrace",
+      "location": "Regent's Park, London, England",
+      "year": 1826,
+      "precedent": "cumberland-terrace",
+      "standing": "canonical",
+      "why": "Derived, not authored: `regency`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Basildon Park",
+      "location": "Berkshire, England",
+      "year": 1783,
+      "precedent": "basildon-park",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-georgian-country-house`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Charlotte Square, north side",
+      "location": "Edinburgh New Town, Scotland",
+      "year": 1791,
+      "precedent": "charlotte-square-north-side",
+      "standing": "canonical",
+      "why": "Derived, not authored: `english-georgian-townhouse`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

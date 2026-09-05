@@ -13,7 +13,8 @@
     "note": "The HABS data form prints 1730 and the SC register 'built in 1730'; the Charleston Museum's collection record says 'sometime between 1721 and 1740'. Recorded as the survey and the register state it."
   },
   "nodes": [
-    "charleston-single-house"
+    "charleston-single-house",
+    "american-folk-vernacular"
   ],
   "refs": [
     {

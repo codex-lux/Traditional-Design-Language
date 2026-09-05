@@ -207,6 +207,34 @@ locations, never merged, because several American houses share a name; the corpu
 Mount Pleasant and a Mount Vernon as three buildings. Both counters are ratcheted at zero and were zero
 across 415 records on the guard's first live exercise, six candidates raised and all six cleared.
 
+## A family carries type specimens, derived (WP-11.6, Ruling B, ruled 5 Sep 2026)
+
+*"Families carry type specimens, DERIVED from members' `standing: icon` exemplars — a report of the
+members, not a second authoring. The 5 traditions stay empty."* Cardinality ruled the same day: **one
+per member node**, deduplicated by building. 121 rows over all 27 families.
+
+**A family's exemplars are not authored and must not be hand-edited.** `build/family_specimens.py`
+derives them — each member's first `standing: icon` row, in rank-then-id order, skipping a building
+an earlier member already claimed — and `--apply` writes them. `check_precedents.py` fails the build
+when a family's stored rows are not the derived ones (`family_specimens_drifted`, a hard 0), because
+a member that changes which building it calls its icon changes what its family stands for, and a
+derived record nothing re-derives is a snapshot of a judgment that has since moved.
+
+The `why` names the member and points at that node for the reason rather than copying its sentence.
+A copied sentence is a second spelling, and this repository has been caught by that in
+`openings.required_wall_ft`, in the citation grammar and in the riser divisor. Nothing new is
+asserted about any building in a family's rows.
+
+**A building may stand for two families and that is not a duplicate.** Larkin House is the icon of
+`monterey-colonial` and of `monterey-revival`; the American Gothic House of
+`american-farmhouse-vernacular` and of `folk-victorian`. A style and the revival that quotes it name
+one building, and both families' rows point at the one record.
+
+**The five traditions stay empty by the ruling**, so `nodes_with_a_precedent` may never reach 164.
+`tdl_precedents` walks the membership tree for a tradition and its note says the walk is the answer
+rather than that nobody has decided — but it still says it is a reading: what stands for a member
+does not automatically stand for everything above it.
+
 ## The meter
 
 `build/check_research.py` measures what the surface counts cannot. When WP-11.1 surveyed it every
@@ -247,7 +275,22 @@ exemplar with none says `precedent_record: null` rather than looking like one th
 
 ## Open
 
-`oq/a-surveyors-prose-may-source-an-envelope-figure` — may a survey quote source a `measured` kit
-parameter of the envelope class? Until it is ruled, the kit pointer convention exists and
-nothing uses it. `oq/a-family-node-has-no-exemplar` — 32 nodes, 72 asset records waiting on them.
-`oq/a-measured-parameter-with-no-source-is-not-metered` — 542, now metered, none yet sourced.
+**All four of this layer's founding questions were ruled on 5 Sep 2026 and three are executed**, so
+what stood here is in the sections above rather than in this list: A (a kit figure may cite a
+building), C part 2 (a new `measured` figure must carry a source), D (a record may be a district or
+a type model) and B (a family carries derived type specimens). **C part 1 is NOT ruled**: the 536
+existing unsourced `measured` figures are metered and none is re-kinded.
+
+What is open here now:
+
+`oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity` — `kit_source_agrees` compares a
+`unit` and cannot compare a QUANTITY, so two counts of different things agree if the numbers do.
+`oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure` — 489
+`measured` parameters already cite an internal source, so Ruling A can never reach the corpus's
+most-reasoned figures.
+`oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it` — 20 contradictions, three by a node's
+own exemplar, and nothing says what a contradiction obliges anyone to do.
+`oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity` — 51 archival ids
+the duplicate guard drops, of which 27 are an individual building's own listing number.
+**And a locator that does not resolve is not a locator**: `--live` exists and no tranche has run it,
+so nothing in this tree checks that one does.

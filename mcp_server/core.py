@@ -279,11 +279,19 @@ def precedents(query=None, style=None, precedent_id=None):
                "with_precedent": sum(1 for e in exs if e.get("precedent")), "total": total,
                "shown": len(shown)}
         if answered_by != [style]:
+            # WP-11.6, Ruling B (5 Sep 2026). The question IS ruled now, and the answer differs by
+            # rank, so the note must too. A FAMILY carries derived type specimens of its own and no
+            # longer reaches this branch at all; the five TRADITIONS carry none BY RULING, so the
+            # honest note for one says that rather than that nobody has decided. Leaving the old
+            # sentence would have been "until X lands is a lie the moment X lands" on a surface a
+            # user reads through an MCP tool.
             out["note"] = (f"'{style}' records no exemplars of its own; these are its members' "
                            f"({', '.join(answered_by) or 'none found'}), reached by walking the membership "
                            f"tree {len(walked) - 1} node(s) down, icons first, {len(shown)} of {total} shown. "
-                           f"A descendant's precedent stands for its parent only as a reading; the corpus "
-                           f"has not ruled that it may (`oq/a-family-node-has-no-exemplar`).")
+                           f"Ruling B (5 Sep 2026) gives a FAMILY type specimens derived from its "
+                           f"members' icons and leaves the five TRADITIONS empty, so a walk is the "
+                           f"answer here rather than a gap -- but it is still a reading: what stands "
+                           f"for a member does not automatically stand for everything above it.")
         return out
     q = (query or "").lower().strip()
     hits = [r for r in P.values() if not q or q in r.get("name", "").lower()

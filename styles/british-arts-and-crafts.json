@@ -32,5 +32,15 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Red House",
+      "location": "Bexleyheath, London, England",
+      "year": 1860,
+      "precedent": "red-house-bexleyheath",
+      "standing": "canonical",
+      "why": "Derived, not authored: `arts-and-crafts-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

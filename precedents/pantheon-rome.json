@@ -17,7 +17,8 @@
     "note": "The Ministry's record separates two buildings: 'La costruzione originaria fu eretta tra il 27 e il 25 a.C.' under Agrippa, and 'Le sue forme attuali risalgono ai primi anni del regno di Adriano (118-125)'. The node's exemplar note gives 'c. AD 113-125 under Hadrian'. Both are recorded and neither is changed."
   },
   "nodes": [
-    "roman-classical"
+    "roman-classical",
+    "antique-classical"
   ],
   "refs": [
     {

@@ -32,5 +32,55 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "American Gothic House (Dibble House)",
+      "location": "300 American Gothic Street, Eldon, Iowa",
+      "year": 1882,
+      "precedent": "american-gothic-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `american-farmhouse-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Robert Brewton House",
+      "location": "71 Church Street, Charleston, South Carolina",
+      "year": 1730,
+      "precedent": "robert-brewton-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `charleston-single-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "C. A. Nothnagle Log House",
+      "location": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
+      "year": 1643,
+      "precedent": "c-a-nothnagle-log-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `log-vernacular-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Elvis Presley Birthplace",
+      "location": "306 Elvis Presley Drive, Tupelo, Mississippi",
+      "year": 1934,
+      "precedent": "elvis-presley-birthplace",
+      "standing": "canonical",
+      "why": "Derived, not authored: `shotgun-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "John Oliver Place",
+      "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+      "year": 1822,
+      "precedent": "john-oliver-place",
+      "standing": "canonical",
+      "why": "Derived, not authored: `appalachian-log-house`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Woodland (Sam Houston's home)",
+      "location": "Sam Houston State University campus, Huntsville, Walker County, Texas",
+      "year": 1847,
+      "precedent": "woodland-sam-houstons-home",
+      "standing": "canonical",
+      "why": "Derived, not authored: `dogtrot-vernacular`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

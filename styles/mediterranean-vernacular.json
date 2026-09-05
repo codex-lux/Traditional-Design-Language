@@ -33,5 +33,15 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Villa Medicea di Cafaggiolo",
+      "location": "Barberino di Mugello, Florence, Italy",
+      "year": 1452,
+      "precedent": "villa-medicea-di-cafaggiolo",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italian-villa-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

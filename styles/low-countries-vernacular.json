@@ -34,5 +34,31 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Groot Constantia",
+      "location": "Constantia, Cape Town, South Africa",
+      "year": 1685,
+      "precedent": "groot-constantia",
+      "standing": "canonical",
+      "why": "Derived, not authored: `cape-dutch`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Huis Bartolotti, Herengracht 170-172",
+      "location": "Amsterdam, Netherlands",
+      "year": 1617,
+      "precedent": "huis-bartolotti",
+      "standing": "canonical",
+      "why": "Derived, not authored: `dutch-urban-gable-house`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Vleeshuis (Butchers' Hall)",
+      "location": "Antwerp, Belgium",
+      "year": 1504,
+      "precedent": "vleeshuis-antwerpen",
+      "standing": "canonical",
+      "why": "Derived, not authored: `flemish-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

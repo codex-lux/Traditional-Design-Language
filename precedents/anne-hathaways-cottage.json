@@ -13,7 +13,8 @@
     "note": "The node's exemplar gives the year 1463 and says 'The earliest part dates to 1463 as a single-storey three-room house; the upper part was built between 1610 and 1624.' The list entry says only 'C15 or earlier' and dates the wings c1600 and C17. The node's figures are finer than anything this record's references state and are left as the node has them."
   },
   "nodes": [
-    "english-cottage-vernacular"
+    "english-cottage-vernacular",
+    "british-vernacular"
   ],
   "refs": [
     {

@@ -16,7 +16,8 @@
     "note": "Historic England 1191431 dates the building only to the fourteenth century. The node's exemplar year of 1350 is finer than anything this record's references state, and is left as the node has it rather than adjusted to a source that does not carry it."
   },
   "nodes": [
-    "english-medieval-timber-frame"
+    "english-medieval-timber-frame",
+    "medieval-british"
   ],
   "refs": [
     {

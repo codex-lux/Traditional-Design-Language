@@ -21,7 +21,9 @@
   "nodes": [
     "american-farmhouse-vernacular",
     "carpenter-gothic",
-    "folk-victorian"
+    "folk-victorian",
+    "american-folk-vernacular",
+    "victorian"
   ],
   "refs": [
     {

@@ -16,7 +16,8 @@
     "note": "Three dates are in the sources and none is resolved. The Rijksmonumentenregister says 'Huis uit 1622'; Amsterdam Monumentenstad gives 'Bouwjaar: ca. 1618, 1735, 1757'; the Dutch Wikipedia article says 'circa 1617 gebouwd' while its own infobox prints 'Gereed 1622'. The style node's exemplar year is 1617."
   },
   "nodes": [
-    "dutch-urban-gable-house"
+    "dutch-urban-gable-house",
+    "low-countries-vernacular"
   ],
   "refs": [
     {

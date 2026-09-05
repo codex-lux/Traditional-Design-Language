@@ -32,5 +32,31 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Gamble House",
+      "location": "Pasadena, California",
+      "year": 1908,
+      "precedent": "gamble-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `arts-and-crafts-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Frederick C. Robie House",
+      "location": "Chicago, Illinois",
+      "year": 1910,
+      "precedent": "frederick-c-robie-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `prairie-school`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Bungalow Heaven Landmark District",
+      "location": "Pasadena, California",
+      "year": 1900,
+      "precedent": "bungalow-heaven-landmark-district",
+      "standing": "canonical",
+      "why": "Derived, not authored: `craftsman-bungalow`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

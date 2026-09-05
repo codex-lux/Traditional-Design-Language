@@ -33,5 +33,23 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "El Transparente, Toledo Cathedral",
+      "location": "Toledo, Spain",
+      "year": 1732,
+      "precedent": "el-transparente-toledo-cathedral",
+      "standing": "canonical",
+      "why": "Derived, not authored: `churrigueresque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Universidad de Salamanca, principal facade",
+      "location": "Salamanca, Spain",
+      "year": 1529,
+      "precedent": "universidad-de-salamanca-facade",
+      "standing": "canonical",
+      "why": "Derived, not authored: `spanish-plateresque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }

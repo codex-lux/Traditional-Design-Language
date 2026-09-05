@@ -12,7 +12,8 @@
     "note": "The node: 'land assembled 1978, construction begun 1981'; Wikipedia: 'In 1978, Davis inherited the parcel from his grandfather' and 'The final plan was complete around 1985'; DPZ's project page prints '1982 Broke Ground'. The node's 1981 and DPZ's 1982 disagree by a year and neither is changed."
   },
   "nodes": [
-    "new-urbanist-traditional"
+    "new-urbanist-traditional",
+    "contemporary-traditional"
   ],
   "refs": [
     {

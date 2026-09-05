@@ -13,7 +13,8 @@
     "note": "HISTORIC ENGLAND REFUSES TO DATE THIS BUILDING AND SAYS SO: 'Accounts suggest that construction of the new villa could have taken place either in 1722-24, or 1727-29 but not in between.' The node's own exemplar gives 1729 as the year and says 'Built 1727-29', which is one of the register's two alternatives; the other is five years earlier. Neither is chosen here. The listed-building entry separately prints the bare figure '17306.' before 'Lord Burlington's Palladian Villa', which is a legacy-data artefact and is not read as a date."
   },
   "nodes": [
-    "english-palladian"
+    "english-palladian",
+    "english-classical"
   ],
   "refs": [
     {

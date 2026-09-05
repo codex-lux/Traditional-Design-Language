@@ -13,7 +13,8 @@
     "note": "The HES record gives the house two build campaigns, 1816-18 and 1822-24; the node's exemplar prints 'Built 1817-24' with a year of 1824, and the Wikipedia infobox prints 'Renovated 1817-1825'. Three spans, all recorded, none resolved. The record names TWO architects for the early work, 'William Atkinson and Edward Blore', where the node names Atkinson alone."
   },
   "nodes": [
-    "scottish-baronial"
+    "scottish-baronial",
+    "british-picturesque"
   ],
   "refs": [
     {

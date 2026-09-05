@@ -18,7 +18,8 @@
     "note": "The HABS data page says 'The building was built in 1914' with the exposition opening 1 January 1915; the Wikipedia infobox prints 'Built 1911–1915'; the style node's exemplar carries 1915. All three recorded, none changed. The tower's height is given as 198 ft by Wikipedia and as 208 ft by the Friends of Balboa Park marker of 2016; neither figure is a survey figure and neither is adopted here."
   },
   "nodes": [
-    "spanish-colonial-revival"
+    "spanish-colonial-revival",
+    "eclectic-revivals"
   ],
   "refs": [
     {

@@ -179,7 +179,8 @@ RATCHET = {
     # on 5 Sep to Tranche 2 (WP-11.3, 415/505/155 -- North America, 86 of 164 nodes), and on 5 Sep
     # to Tranche 3 (WP-11.5), which finished Europe and with it EVERY BUILDABLE NODE: 132 of 132.
     "precedents": 695,                  # FLOOR -- may only RISE
-    "exemplars_with_precedent": 794,    # FLOOR -- may only RISE
+    "exemplars_with_precedent": 915,    # FLOOR -- may only RISE (794 before Ruling B; the 121
+                                        # family type specimens all name a record)
     "precedents_with_survey": 423,      # FLOOR -- may only RISE
     "dangling_precedent": 0,
     "back_reference_disagreements": 0,
@@ -217,6 +218,16 @@ RATCHET = {
     "ids_with_no_shape_rule": 216,
     "dangling_deprecation": 0,
     "records_with_no_node": 0,
+    # WP-11.6, a CEILING. Refs whose archival id `identity_keys` drops on the regex fallback --
+    # the duplicate guard is blind to each one. It falls by declaring `record_kind: building` on a
+    # record that IS one building (which the fallback then cannot exempt) or by the ruling above.
+    # It is a ceiling rather than 0 because some of the drops are correct and nothing yet tells
+    # the two apart.
+    "identity_dropped_by_regex": 51,
+    # WP-11.6, Ruling B. A family whose stored exemplars are not the ones its members' icons
+    # derive. Hard 0: the rows are a REPORT, and a report that disagrees with what it reports is
+    # worse than no report.
+    "family_specimens_drifted": 0,
     # 163 of 423 survey blocks are on a register with no shape rule -- the same debt, counted
     # where the survey lives rather than where the ref does.
     "survey_items_with_no_shape_rule": 163,
@@ -255,6 +266,14 @@ def _exemplars():
     import modcache
     n = modcache.load("name_asset_buildings", os.path.join(ROOT, "build", "name_asset_buildings.py"))
     return n.exemplars_by_node()
+
+
+def _family_specimens():
+    """WP-11.6, Ruling B. The derivation module, through modcache so this reader and the writer
+    cannot become two answers about what a family's specimens are."""
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import modcache
+    return modcache.load("family_specimens", os.path.join(ROOT, "build", "family_specimens.py"))
 
 
 def load_records():
@@ -395,6 +414,24 @@ def main():
                 rep.err(rw, "kind %r carries neither an id nor a url, so it locates nothing" % ref.get("kind"))
             if ref.get("kind") in UNSHAPED_ID_KINDS and ref.get("id"):
                 counts["ids_with_no_shape_rule"] += 1
+            # WP-11.6. THE REGEX FALLBACK IS DROPPING THE IDENTITIES OF INDIVIDUAL BUILDINGS, and
+            # until this counter existed it did so in silence. `identity_keys` skips an nrhp/nhl id
+            # on an UNDECLARED record whose ref title or note matches `DISTRICT_RE` -- written for
+            # a district a reader can see and the record does not declare. But a contributing
+            # property's ref routinely NAMES the district it contributes to, so Marble House, the
+            # Boston Athenaeum and twenty-five more lose their own individual listing number from
+            # the duplicate guard because their title mentions a district. It is a false SILENCE,
+            # never a false error, which is why nothing caught it.
+            # SOME OF THE DROPS ARE RIGHT: four Great Smoky Mountains cabins share 77000111 and two
+            # Cleveland Heights houses share 09000210 -- there the number really does name the
+            # listing and not the building, and without the exemption they would read as duplicates.
+            # So the fix is not to delete the fallback: it is that the exemption is a property of
+            # the REF (does this number name one building?) and the corpus has no field for that.
+            # `oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity`.
+            if (rec.get("record_kind") is None and ref.get("kind") in ("nrhp", "nhl")
+                    and ref.get("id") and DISTRICT_RE.search(
+                        "%s %s" % (ref.get("title") or "", ref.get("note") or ""))):
+                counts["identity_dropped_by_regex"] += 1
             shape = ID_SHAPES.get(ref.get("kind"))
             if shape and ref.get("id") and not shape.match(ref["id"]):
                 counts["malformed_ids"] += 1
@@ -613,6 +650,20 @@ def main():
                                    "resolve a locator that separates them, or merge them."
                                    % (nkey, nstate or "no state", ra, rb))
 
+    # WP-11.6, Ruling B (5 Sep 2026). A family's specimens are DERIVED from its members' icons, so
+    # a stored row that is not the derived one is a snapshot of a judgment that has since moved --
+    # the shape `oq/a-baked-pack-value-is-a-second-delivery-path` records one layer down. This is
+    # inside `check_precedents.py` deliberately: a new rule does not get its own checker, because
+    # `check_all.TOTAL_CHECKS` and the `N of M checks passed` illustration in CLAUDE.md both move
+    # with one and this rule is about exemplars and precedents, which is this file's subject.
+    for fid, want_n, have_n in _family_specimens().drift():
+        counts["family_specimens_drifted"] += 1
+        rep.err("style:%s" % fid, "carries %d exemplar(s) where Ruling B derives %d from its "
+                                  "members' `standing: icon` rows. Re-run "
+                                  "`python3 build/family_specimens.py --apply`; do not hand-edit a "
+                                  "family's exemplars, because they are a report of its members."
+                % (have_n, want_n))
+
     m = measure(records, EX)
     for k in ("dangling_precedent",):
         m[k] = max(m[k], counts[k])
@@ -623,7 +674,9 @@ def main():
               "no_precedent_beside_a_precedent", "exemplars_unresearched",
               "measured_cites_a_paragraph", "source_contradicts", "source_uncomparable",
               "source_agrees", "ids_with_no_shape_rule", "dangling_deprecation",
-              "survey_items_with_no_shape_rule", "records_with_no_node"):
+              "survey_items_with_no_shape_rule", "records_with_no_node",
+              # WP-11.6.
+              "identity_dropped_by_regex", "family_specimens_drifted"):
         m[k] = counts[k]
 
     live_state = None
@@ -642,6 +695,15 @@ def main():
         print("  %d archival id(s) carry a kind with NO SHAPE RULE (%s) -- carried, not checked. "
               "Not a pass: add a shape with the register's own statement of its format when a "
               "tranche meets it." % (counts["ids_with_no_shape_rule"], ", ".join(UNSHAPED_ID_KINDS)))
+    # WP-11.6. PRINTED EVERY RUN for the same reason: a guard that silently declines to check
+    # something reads exactly like a guard that checked it and found nothing.
+    if counts["identity_dropped_by_regex"]:
+        print("  %d archival id(s) DROPPED from the duplicate guard by the district regex, on "
+              "records that declare no `record_kind`. Some are right (a shared district number is "
+              "not either building's identity) and some are not (a contributing property's own "
+              "listing number, lost because its title names the district). Nothing tells them "
+              "apart yet -- that is the open question, not a pass."
+              % counts["identity_dropped_by_regex"])
     print("  of the %d exemplars with no `precedent`: %d are a STATED REFUSAL (%s) and %d are "
           "NOT YET RESEARCHED. A refusal is a decision and a gap is work; they are not the same "
           "number." % (counts["stated_refusals"] + counts["exemplars_unresearched"],

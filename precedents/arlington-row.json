@@ -13,7 +13,8 @@
     "note": "THE ENTRY AND THE NODE DISAGREE ABOUT TWO DATES AND NEITHER IS CHANGED HERE. The style node's exemplar gives the year 1380 and says the row was 'converted to weavers' cottages in the late seventeenth century'; the Historic England entry dates the wool store only to 'Late C14' and its conversion to 'late C17'. The Wikipedia article gives 1380 for the store and 'the late 17th century' for the conversion. 1380 is finer than anything the list entry states."
   },
   "nodes": [
-    "cotswold-vernacular"
+    "cotswold-vernacular",
+    "british-vernacular"
   ],
   "refs": [
     {

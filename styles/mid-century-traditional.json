@@ -32,5 +32,31 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Levittown",
+      "location": "Nassau County, New York",
+      "year": 1947,
+      "precedent": "levittown",
+      "standing": "canonical",
+      "why": "Derived, not authored: `minimal-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "The Woodlands",
+      "location": "Montgomery County, Texas",
+      "year": 1974,
+      "precedent": "the-woodlands",
+      "standing": "canonical",
+      "why": "Derived, not authored: `neo-eclectic`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "O'Leary House",
+      "location": "San Diego, California",
+      "year": 1932,
+      "precedent": "oleary-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `ranch-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
   ]
 }
