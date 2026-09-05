@@ -1235,6 +1235,75 @@ def is_block_tag(v):
     return isinstance(v, str) and bool(v.strip())
 
 
+def flank_sizes(prep, bay, level=0):
+    """Every flanking element's side, hyphen gap, width and depth -- the ONE spelling, read twice.
+
+    `blocks_for` lays these out; `derive_footprint` asks how much roofed ground they take beside
+    the main block, because the lot cap is on the BUILT EXTENT (WP-11.6 layer 4). It has to be one
+    function: a second transcription of the sizing rule would let the cap and the placement
+    disagree about how wide the house is, which is the very defect the cap exists to catch,
+    arriving one layer up.
+
+    THE SIZES DO NOT DEPEND ON THE MAIN BLOCK, and that is what makes the cap computable before
+    the main block's bay count is chosen rather than after it. A dependency's width comes from its
+    own rooms' declared areas over a single-pile depth and its gap from the hyphen room's own
+    width; neither reads `fp["W"]`. Only the x positions and the y centring do, and those stay in
+    `blocks_for`.
+
+    Returns an ordered list of `{id, side, gap, W, H, hyph, body}` -- empty on every plan in this
+    corpus, all sixteen of which are one rectangle."""
+    rooms = (prep or {}).get(level) or []
+    by_id, order = {}, []
+    for r in rooms:
+        if not is_block_tag(r.get("block")):
+            continue
+        by_id.setdefault(r["block"], []).append(r)
+        if r["block"] not in order: order.append(r["block"])
+    out = []
+    for bid in order:
+        rs = by_id[bid]
+        need = sum(r["_area"] for r in rs)
+        # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
+        walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
+        side = "E" if ("E" in walls and "W" not in walls) else "W"
+        # A hyphen room tagged into this element states the gap; otherwise the grouping's own
+        # band midpoint stands in and says so. This is the whole reason the hyphen is a ROOM:
+        # `hyphen_length_ft` is a machine-tested rule in both hyphen groupings and it had never
+        # been evaluated on any plan, because the only hyphen this composer produced was a local
+        # variable inside two f-strings.
+        hyph = [r for r in rs if C["rooms"].get(r["type"], {}).get("function_class") == "circulation"
+                and r.get("hyphen")]
+        gap = float(hyph[0].get("width_ft") or HYPHEN_DEFAULT_FT) if hyph else HYPHEN_DEFAULT_FT
+        body = [r for r in rs if r not in hyph]
+        need_body = sum(r["_area"] for r in body) or need
+        # A dependency is sized against a SINGLE-PILE depth, not the main block's own pile.
+        # Using the main block's produced a 10 x 50 ft splinter off a 70 ft house: the target
+        # depth for a double-pile main block is 36 ft, and dividing a small service programme by
+        # it leaves one bay of width and all the area in depth. The massing catalogue states the
+        # relation in its own prose -- five-part-palladian is "2-2.5 main / 1-1.5 wings" -- and a
+        # wing one room deep is what that describes.
+        dep_depth = PILE["single-pile"]
+        bays = max(1, round((need_body / dep_depth) / bay))
+        W = round(bays * bay, 2)
+        H = round(need_body / W, 2) if W else 0.0
+        out.append({"id": bid, "side": side, "gap": gap, "W": W, "H": H,
+                    "hyph": hyph, "body": body})
+    return out
+
+
+def flanking_extent_ft(prep, bay, level=0):
+    """The roofed ground the flanking elements take beside the main block, in feet.
+
+    THE HYPHEN IS COUNTED, and that is the ruling and not an implementation choice:
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2, ruled 4 Sep
+    2026 -- *"the hyphen is roofed ground; a building whose covered area overruns its lot has
+    overrun it"*. So the sum is `gap + width` per element and never width alone.
+
+    0.0 on every plan in this corpus, which is what keeps the lot cap byte-identical for the
+    sixteen one-rectangle records by construction rather than by a branch."""
+    return round(sum(e["gap"] + e["W"] for e in flank_sizes(prep, bay, level)), 2)
+
+
 def blocks_for(plan, fp, prep, level=0):
     """The massing elements this level's rooms are laid into, main block first.
 
@@ -1264,39 +1333,14 @@ def blocks_for(plan, fp, prep, level=0):
         return [main]
 
     bay = fp["bay"]
-    by_id, order = {}, []
-    for r in tagged:
-        by_id.setdefault(r["block"], []).append(r)
-        if r["block"] not in order: order.append(r["block"])
-
     out = [main]
     west_edge, east_edge = 0.0, fp["W"]
-    for bid in order:
-        rs = by_id[bid]
-        need = sum(r["_area"] for r in rs)
-        # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
-        walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
-        side = "E" if ("E" in walls and "W" not in walls) else "W"
-        # A hyphen room tagged into this element states the gap; otherwise the grouping's own
-        # band midpoint stands in and says so. This is the whole reason the hyphen is a ROOM:
-        # `hyphen_length_ft` is a machine-tested rule in both hyphen groupings and it had never
-        # been evaluated on any plan, because the only hyphen this composer produced was a local
-        # variable inside two f-strings.
-        hyph = [r for r in rs if C["rooms"].get(r["type"], {}).get("function_class") == "circulation"
-                and r.get("hyphen")]
-        gap = float(hyph[0].get("width_ft") or HYPHEN_DEFAULT_FT) if hyph else HYPHEN_DEFAULT_FT
-        body = [r for r in rs if r not in hyph]
-        need_body = sum(r["_area"] for r in body) or need
-        # A dependency is sized against a SINGLE-PILE depth, not the main block's own pile.
-        # Using the main block's produced a 10 x 50 ft splinter off a 70 ft house: the target
-        # depth for a double-pile main block is 36 ft, and dividing a small service programme by
-        # it leaves one bay of width and all the area in depth. The massing catalogue states the
-        # relation in its own prose -- five-part-palladian is "2-2.5 main / 1-1.5 wings" -- and a
-        # wing one room deep is what that describes.
-        dep_depth = PILE["single-pile"]
-        bays = max(1, round((need_body / dep_depth) / bay))
-        W = round(bays * bay, 2)
-        H = round(need_body / W, 2) if W else 0.0
+    # The sizing moved to `flank_sizes` at WP-11.6 layer 4 so the lot cap could read it without a
+    # second transcription. What is left here is what actually needs the main block: where each
+    # element sits along x, and the y centring on the main block's axis.
+    for el in flank_sizes(prep, bay, level):
+        bid, side, gap, W, H = el["id"], el["side"], el["gap"], el["W"], el["H"]
+        hyph = el["hyph"]
         if side == "W":
             # `west_edge`, not a hardcoded 0.0. The east branch three lines down reads
             # `east_edge` correctly, and the asymmetry was the tell: a SECOND west element put
@@ -1318,7 +1362,7 @@ def blocks_for(plan, fp, prep, level=0):
                         "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
                     "y": round((fp["H"] - H) / 2.0, 2),   # centred on the main block's axis
-                    "W": W, "H": H, "rooms": [r["id"] for r in body],
+                    "W": W, "H": H, "rooms": [r["id"] for r in el["body"]],
                     "attached_to": "main", "side": side})
     return out
 
@@ -1421,12 +1465,40 @@ def derive_footprint(plan, parti=None, prep=None):
     # which the growth loop below is already allowed to exceed by up to 3 bays rather than
     # leave a room too deep -- the lot is a physical fact, not a diagram convention, so it
     # bounds that growth loop too (see growth_ceiling below), not just the starting guess.
+    # WP-11.6 LAYER 4: THE CAP IS ON THE BUILT EXTENT, HYPHEN INCLUDED. Ruled 4 Sep 2026,
+    # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2 -- "the hyphen
+    # is roofed ground; a building whose covered area overruns its lot has overrun it". Until this
+    # the cap was on the MAIN BLOCK alone, so the flanking elements were free: measured on the
+    # Tidewater plan with its service rooms tagged into a west dependency, an 80 ft lot got a
+    # 104 ft built extent -- 24 ft over -- and the record said `lot_capped: false`, which is the
+    # placer asserting the lot did not constrain a house that overruns it.
+    #
+    # The flank is computable HERE, before the main block's bay count is chosen, because a
+    # dependency is sized from its own rooms and its gap from its own hyphen; see `flank_sizes`,
+    # which is the one spelling both this and `blocks_for` read.
+    if prep is None:
+        _, prep = prep_rooms(plan)
+    flank = flanking_extent_ft(prep, bay)
     lot_usable = lot_usable_width_ft(plan)
     lot_maxbay = None
     if lot_usable is not None:
-        lot_maxbay = max(1, int(lot_usable // bay))
-        maxbay = min(maxbay, lot_maxbay)
+        for_main = lot_usable - flank
+        # `int(x // bay)` where the old line said `max(1, int(lot_usable // bay))`: with no flank
+        # the two agree wherever the answer is 2 or more, and both take the refusal below where it
+        # is less, so the sixteen one-rectangle plans are untouched. Where they differ is a lot the
+        # flank has already eaten, and there 0 is honest where 1 is a lie about a house that has
+        # no room for even one bay.
+        lot_maxbay = int(for_main // bay) if for_main > 0 else 0
+        maxbay = min(maxbay, max(1, lot_maxbay))
         if lot_maxbay < 2:
+            if flank:
+                return {"error": f"lot too narrow for the built extent: {lot_usable:.0f} ft usable "
+                                  f"width after side setbacks, of which the flanking element(s) and "
+                                  f"their hyphen(s) take {flank:.0f} ft, leaves {for_main:.0f} ft "
+                                  f"for the main block -- not this diagram's minimum 2 bays "
+                                  f"({2*bay:.0f} ft) at its {bay:.0f} ft bay module. The cap is on "
+                                  f"the built extent, hyphen included, and no bay count for the "
+                                  f"main block makes this house fit this lot."}
             return {"error": f"lot too narrow: {lot_usable:.0f} ft usable width after side setbacks "
                               f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
                               f"{bay:.0f} ft bay module."}
@@ -1435,8 +1507,7 @@ def derive_footprint(plan, parti=None, prep=None):
     # returning None for prep; that could not survive the (levels, prep) signature the CP
     # engine needs, so it is an explicit check here instead. PILE stays at module scope --
     # main's side redeclared it locally and the two copies were identical.
-    if prep is None:
-        _, prep = prep_rooms(plan)
+    # `prep` is resolved above the lot block now (the flank needs it); this is the check alone.
     if 0 not in prep or not prep[0]:
         return {"error": "no ground level"}
     a0 = sum(r["_area"] for r in prep[0])
@@ -1480,7 +1551,15 @@ def derive_footprint(plan, parti=None, prep=None):
         if mb["max"] is not None:
             start = min(start, max(mb["max"], from_area))
     if odd_wanted and start % 2 == 0:
-        start += 1
+        # THE BUMP MAY NOT CROSS THE LOT (WP-11.6 layer 4). It used to, and that is one of the two
+        # ways the cap was bypassed: on a lot holding six bays this line made a seven-bay house,
+        # 3 ft over, on a ONE-RECTANGLE plan -- so the bypass was never about massing elements at
+        # all. And `bay_count_forced_even` twenty lines below says "today the only way here is a
+        # lot too narrow to hold the odd count", which was unreachable for exactly this reason:
+        # the bump made the count odd whatever the lot said, so the lot could never force an even
+        # one. A refusal that cannot fire, with a comment naming the case it cannot fire in.
+        if lot_maxbay is None or start + 1 <= lot_maxbay:
+            start += 1
     grown, bays = [], max(2, start)
     growth_ceiling = catalog_maxbay + 3
     if lot_maxbay is not None: growth_ceiling = min(growth_ceiling, lot_maxbay)
@@ -1535,8 +1614,10 @@ def derive_footprint(plan, parti=None, prep=None):
             "wants_centre_bay": odd_wanted, "centre_bay_why": odd_why,
             "bay_count_forced_even": forced_even,
             "massing_bays": mb["stated"], "massing_bays_readable": mb["readable"],
+            "massing_min_bays": mb["min"] if mb["readable"] else None,
             "slack": (W * H) - max(a0, au),
             "grown": grown, "lot_usable": lot_usable, "lot_maxbay": lot_maxbay,
+            "flank": flank, "built_extent": round(W + flank, 2),
             "catalog_maxbay": catalog_maxbay, "growth_ceiling": growth_ceiling,
             "target_depth": round(depth_for(W), 2), "range_depth": target_depth,
             "void_ranges": void_ranges, "void_sf": round(void_sf), "need": need}
@@ -1553,6 +1634,56 @@ def derive_footprint(plan, parti=None, prep=None):
 DEMERIT_NOTE = ("The score is a DEMERIT TOTAL: lower is better, no ceiling, and the best "
                 "placement is the smallest number. It is not the candidate score compose.py "
                 "publishes, which is out of 100 and runs the other way. ")
+
+def _lot_block(fp):
+    """What the lot did to this placement, measured on the BUILT EXTENT (WP-11.6 layer 4).
+
+    Written once because both engines must say the same thing -- `_over_band_block`'s own reason,
+    one function up.
+
+    THE EXTENT IS THE ROOFED GROUND, HYPHEN INCLUDED, which is the ruling of 4 Sep 2026 on
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2 and not an
+    implementation choice. Until this the record carried `lot_capped` alone, which is a claim
+    about the MAIN BLOCK'S BAY COUNT, and it was published as `false` -- "the lot did not
+    constrain this house" -- over a built extent 24 ft wider than the lot it names. A boolean
+    about one rectangle cannot answer a question about a building.
+
+    THREE STATES, NEVER TWO: a plan that states no lot width gets COULD NOT EVALUATE and is not
+    told it fits."""
+    usable = fp.get("lot_usable")
+    flank = fp.get("flank") or 0.0
+    extent = fp.get("built_extent")
+    if extent is None: extent = fp.get("W")
+    made_of = (f" ({fp.get('W'):.1f} ft of main block and {flank:.1f} ft of flanking element(s) "
+               f"and hyphen(s))") if flank else ""
+    out = {"usable_width_ft": usable, "built_extent_ft": extent, "flanking_ft": flank,
+           "main_block_ft": fp.get("W")}
+    if usable is None:
+        out["over_ft"] = None
+        out["note"] = ("COULD NOT EVALUATE: this plan states no lot width, so the built extent is "
+                       "reported, nothing is capped, and nothing is claimed to fit.")
+        return out
+    over = round(extent - usable, 2)
+    out["over_ft"] = max(0.0, over)
+    if over <= 0:
+        out["note"] = (f"The built extent is {extent:.1f} ft{made_of} within {usable:.1f} ft of "
+                       f"usable lot width.")
+        return out
+    # THE RESIDUE IS NAMED RATHER THAN LEFT AS A NUMBER. The cap bounds the growth loop and the
+    # centre-bay parity bump; it does NOT overrule the massing's own stated minimum bay count,
+    # because nobody has ruled that a lot outranks a diagram's floor and silently shrinking below
+    # it would compromise the diagram to save the site -- decision #11's ordering in reverse.
+    mmin, bays, lmb = fp.get("massing_min_bays"), fp.get("bays"), fp.get("lot_maxbay")
+    why = ""
+    if mmin and bays is not None and bays <= mmin and lmb is not None and lmb < mmin:
+        why = (f" The main block is at its massing's own stated minimum of {mmin} bays and the lot "
+               f"holds {lmb}: the cap bounds the growth loop and the parity bump and does not "
+               f"overrule the diagram's floor. Whether it should is "
+               f"oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count.")
+    out["note"] = (f"OVER THE LOT BY {over:.1f} ft: a built extent of {extent:.1f} ft{made_of} on "
+                   f"{usable:.1f} ft of usable lot width.{why}")
+    return out
+
 
 def _over_band_block(ob):
     """The report block, written once because both engines must say the same thing."""
@@ -1725,10 +1856,13 @@ def multi_element_disclosure(plan):
     """What a multi-element placement does NOT yet judge, stated on the record (OQ 40).
 
     The block machinery places a dependency beside the house and both renderers draw it there.
-    FIVE layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
-    building (six until WP-11.6, which taught `openings`, `structure` and `vertical_score`;
-    their entries below are kept for the record and marked), and each is wrong in its own direction on a dependency room -- measured, not
-    supposed, by an adversarial audit of the change that introduced blocks:
+    TWO layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
+    building (six until WP-11.6, which taught `openings`, `structure`, `vertical_score` and the
+    lot cap; their entries below are kept for the record and marked), and each is wrong in its own
+    direction on a dependency room -- measured, not supposed, by an adversarial audit of the change
+    that introduced blocks. **This count is written out in words and the list below it is the
+    record; the WORD said FIVE for two commits while the list held three**, which is why the
+    machine-readable answer is `not_element_aware` and never this sentence:
 
       openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
                  so on the reference fixture a dependency at x -41..-14 touched no boundary at
@@ -1747,8 +1881,13 @@ def multi_element_disclosure(plan):
                  against a 0.75 ft tolerance). What was real is the other sign: a `stacks_over`
                  claim naming a room in another element was charged 40 points for a failure no
                  placement could avoid. Unjudged now, with its reason.
-      lot        `derive_footprint` caps the MAIN block at `lot_usable_width_ft`; nothing caps
-                 the built extent, so a capped house can still be wider than its lot.
+      lot        TAUGHT AT WP-11.6, and the bypass turned out not to be about elements at all.
+                 The cap is on the BUILT EXTENT now, hyphen included (the ruling's item 2), and
+                 `flank_sizes` is the one spelling this and `blocks_for` both read. But the probe
+                 that measured 24 ft over an 80 ft lot found TWO bypasses and the second is on
+                 every plan: the centre-bay parity bump ignored the cap, so a lot holding six bays
+                 got a seven-bay ONE-RECTANGLE house. `geometry_report.lot` reports the extent,
+                 the flank and the overrun in three states.
       critic     `plan_check`'s drawn layer measures `touches` against the main block, so a
                  dependency room with windows is convicted of reaching no exterior wall.
       export_ifc `export_ifc` sizes the floor slab `W + 2*t_ext` centred on the main block, so a
@@ -1803,7 +1942,17 @@ def multi_element_disclosure(plan):
         #
         # The wet-stack test needed no change and that was measured too: an upper bath over a
         # kitchen that has moved into a detached dependency really does sit over no wet room.
-        "not_element_aware": ["lot_cap", "plan_check.drawn", "export_ifc"],
+        # TWO, down from six (WP-11.6 layers 1-4). The lot cap is on the built extent now, and
+        # the finding that came with it is that ITS BYPASS WAS NEVER ABOUT ELEMENTS: the
+        # centre-bay parity bump crossed the cap on a one-rectangle plan (a lot holding six bays,
+        # a seven-bay house, 3 ft over), and `bay_count_forced_even` -- the refusal whose own
+        # comment says "today the only way here is a lot too narrow to hold the odd count" --
+        # could not fire, because the bump made the count odd whatever the lot said.
+        #
+        # A residue is DISCLOSED rather than capped: the massing's own stated minimum bay count
+        # still outranks the lot, so a five-bay diagram on a lot holding four is 9 ft over and
+        # `geometry_report.lot.note` says exactly that and names the question.
+        "not_element_aware": ["plan_check.drawn", "export_ifc"],
         "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
                  "element and each of the layers named reads footprint.width_ft/depth_ft as the "
                  "whole building. Openings on a dependency wall, spans across the gap, upper-wall "
@@ -2076,6 +2225,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
         "bays_grown": fp["grown"],
         "lot_capped": (fp["lot_maxbay"] is not None and fp["lot_maxbay"] < fp["catalog_maxbay"]),
+        "lot": _lot_block(fp),
         "relaxations": {"count": len(rel),
                         "max_off_grid_ft": round(max(r["off_ft"] for r in rel), 2) if rel else 0,
                         # P7: counted AND locatable. Each mark carries the axis it cuts across,
@@ -2199,6 +2349,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "bays_grown": fpd.get("grown"),
         "lot_capped": (fpd.get("lot_maxbay") is not None
                        and fpd["lot_maxbay"] < fpd.get("catalog_maxbay", 10 ** 9)),
+        "lot": _lot_block(fpd),
         "relaxations": {
             "count": len(rel),
             "max_off_grid_ft": round(max(r["off_ft"] for r in rel), 2) if rel else 0,

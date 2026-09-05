@@ -1859,11 +1859,11 @@ term is worse in the middle of its range than at either end, and a rule is the e
 
 ### WP-11.6 The container the programme describes
 
-**Status: IN PROGRESS (4–5 Sep 2026) — layers 1, 2 and 3 of 6 taught, in the ruled order,
+**Status: IN PROGRESS (4–5 Sep 2026) — layers 1 through 4 of 6 taught, in the ruled order,
 measuring after each as the ruling requires.** `openings` reads the room's own element, `structure`
-runs once per element, a cross-element stacking claim is unjudged rather than charged, and
-`geometry_report.multi_element` names **three** layers, down from six. The falling count is the
-ruling's own check.
+runs once per element, a cross-element stacking claim is unjudged rather than charged, the lot cap
+is on the built extent with the hyphen counted, and `geometry_report.multi_element` names **two**
+layers, down from six. The falling count is the ruling's own check.
 
 **THE INSTRUMENT FIRST, AND TWO OF ITS PROBES WERE WRONG.** The six defects are measured directly
 rather than inferred from the disclosure list, so a name leaving that list is evidence. Baseline on
@@ -1875,7 +1875,7 @@ west dependency, which is `test_geometry.py`'s own fixture):
 | openings | dependency openings refused | **9 of 14** |
 | structure | dependency partition inside the main wall set / the dependency's own envelope walls | **1 / 0 of 2** |
 | vertical_score | upper edges credited to a dependency-only wall line | **0 — NOT REPRODUCED on this fixture** |
-| lot_cap | built extent over the lot, uncapped | **24 ft over an 80 ft lot, `lot_capped: null`** |
+| lot_cap | built extent over the lot, uncapped | **24 ft over an 80 ft lot, `lot_capped: null`** — corrected at layer 4 to `false` |
 | plan_check.drawn | dependency rooms convicted of reaching no exterior wall | **2** |
 | export_ifc | dependency rooms off the slab | **3** |
 
@@ -1926,11 +1926,27 @@ another element was **charged 40 points** for a failure no placement could avoid
 with its reason; `vertical_score` **114 → 74** on a driven fixture. The wet-stack test needed no
 change and that was measured too.
 
-**Still to do: layers 4 through 6** — the lot cap, `plan_check.drawn`, `export_ifc` — then the parti
-and plan re-authoring and CP-SAT's per-element solve. (This line named five items for three layers
-for as long as it took to re-read it: it still listed `structure` and `vertical_score`, taught in the
-two commits above it. A to-do list that survives the work it describes is the *"until X lands"*
-class, one file over.)
+**LAYER 4: the lot cap, and its bypass was never about massing elements.** The cap is on the
+BUILT EXTENT with the hyphen counted (ruling 2), through `flank_sizes` — the sizing `blocks_for`
+already did, lifted out so the cap reads one spelling. On the fixture at an 80 ft lot: main block
+**63 → 45 ft**, built extent **104 → 86 ft**, `lot_capped` **false → true**. **The baseline in the
+table above was itself wrong** — `lot_capped: null` was read off `footprint.lot_capped`, which does
+not exist; the true reading is `false`, which is worse, because `null` looks like a record declining
+to judge and `false` is the placer asserting the lot did not constrain a house 24 ft wider than its
+lot. **Third probe of six to be wrong, and the second to read a key that is not there.** And chasing it found a second bypass
+**on every plan in this corpus, with no dependency involved**: the centre-bay parity bump crossed
+the cap (a lot holding six bays, a seven-bay house, 3 ft over), which also made
+`bay_count_forced_even` — whose own comment names a lot too narrow for the odd count as the only
+way to reach it — **unreachable**. Clamped; it fires for the first time. The massing's own stated
+minimum still outranks the lot and that residue is **disclosed, not capped**:
+`geometry_report.lot` answers in three states and names
+`oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count`. Six mutations, six caught.
+
+**Still to do: layers 5 and 6** — `plan_check.drawn` and `export_ifc` — then the parti and plan
+re-authoring and CP-SAT's per-element solve. (This line named five items for three layers for as
+long as it took to re-read it: it still listed `structure` and `vertical_score`, taught in the two
+commits above it. A to-do list that survives the work it describes is the *"until X lands"* class,
+one file over.)
 
 **Original package text, left as written:**
 

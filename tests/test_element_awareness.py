@@ -55,14 +55,14 @@ def dep_rooms(p):
 
 
 class TestTheDisclosureFalls:
-    def test_it_names_three_layers_and_the_three_taught_are_not_among_them(self, placed):
-        """The ruling's own check. `openings`, `structure` and `vertical_score` were taught at
-        WP-11.6 and left the list; the three that remain are named because they still read the
-        main block as the whole building."""
+    def test_it_names_two_layers_and_the_four_taught_are_not_among_them(self, placed):
+        """The ruling's own check. `openings`, `structure`, `vertical_score` and the lot cap were
+        taught at WP-11.6 and left the list; the two that remain are named because they still
+        read the main block as the whole building."""
         me = placed["geometry_report"]["multi_element"]
         assert me["elements"] == 2
-        assert me["not_element_aware"] == ["lot_cap", "plan_check.drawn", "export_ifc"]
-        for taught in ("openings", "structure", "vertical_score"):
+        assert me["not_element_aware"] == ["plan_check.drawn", "export_ifc"]
+        for taught in ("openings", "structure", "vertical_score", "lot_cap"):
             assert taught not in me["not_element_aware"], taught
 
     def test_a_one_rectangle_plan_discloses_NOTHING(self):
@@ -334,3 +334,153 @@ class TestVerticalScoreAcrossElements:
         f = _fixture()
         assert "blocks" not in (f.get("footprint") or {})
         assert GEO.element_of(f, f["levels"][0]["rooms"])
+
+
+def _lot(lot, dep=True):
+    """The fixture at a stated lot width. `dep=False` is the SAME plan with no tag at all --
+    one rectangle, which is what every plan in this corpus is, and which is where layer 4's
+    second finding lives."""
+    p = _fixture() if dep else json.load(open(os.path.join(
+        ROOT, "plans", "tidewater-georgian-careful.json")))
+    p.setdefault("site", {}).update({"lot_width_ft": lot, "setback_side_ft": 0})
+    return p
+
+
+class TestTheLotCapIsOnTheBuiltExtent:
+    """Layer 4. Ruling 2: "the hyphen is roofed ground; a building whose covered area overruns its
+    lot has overrun it". The cap was on the MAIN BLOCK, so the flanking elements were free."""
+
+    def test_the_flank_counts_the_hyphen_and_not_the_dependency_alone(self):
+        """The ruling is about WHAT is measured, so the test is about what is measured. 41 ft is
+        a 27 ft dependency plus the 14 ft hyphen gap, and a version that counted the dependency
+        alone would read 27."""
+        p = _fixture()
+        _, prep = GEO.prep_rooms(p)
+        bay = GEO.derive_footprint(p, None, prep)["bay"]
+        els = GEO.flank_sizes(prep, bay)
+        assert len(els) == 1 and els[0]["W"] == 27.0
+        assert els[0]["gap"] == GEO.HYPHEN_DEFAULT_FT == 14.0
+        assert GEO.flanking_extent_ft(prep, bay) == 41.0, (
+            "the flank must be gap + width; 27.0 means the hyphen was left out, which is the "
+            "one thing the ruling says explicitly")
+
+    def test_flank_sizes_IS_THE_SPELLING_BLOCKS_FOR_READS(self, placed):
+        """One function, two readers. A second transcription would let the cap and the placement
+        disagree about how wide the house is -- the defect the cap exists to catch, one layer up."""
+        _, prep = GEO.prep_rooms(placed)
+        bay = placed["footprint"]["bay_module_ft"]
+        sized = {e["id"]: e["W"] for e in GEO.flank_sizes(prep, bay)}
+        drawn = {b["id"]: b["width_ft"] for b in placed["footprint"]["blocks"]
+                 if b.get("role") == "dependency"}
+        assert sized and sized == drawn, (sized, drawn)
+
+    def test_the_cap_now_BITES_on_the_built_extent(self):
+        """The headline. 104 ft of building on an 80 ft lot, and the main block was never
+        touched because 63 ft of it fits inside 80."""
+        GEO._SOLVE_CACHE.clear()
+        p = _lot(80)
+        GEO.solve(p, engine="heuristic")
+        assert p["footprint"]["width_ft"] == 45, "the main block was not capped"
+        L = p["geometry_report"]["lot"]
+        assert L["built_extent_ft"] == 86.0 and L["flanking_ft"] == 41.0
+        assert p["geometry_report"]["lot_capped"] is True
+
+    def test_the_record_answers_in_THREE_states_and_never_two(self):
+        """A plan with no lot is not told it fits. `lot_capped` alone was a boolean about the
+        main block's bay count and it read `false` over a 104 ft extent on an 80 ft lot."""
+        GEO._SOLVE_CACHE.clear()
+        none = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        none.pop("site", None)
+        (none.get("context") or {}).pop("lot_width_ft", None)
+        GEO.solve(none, engine="heuristic")
+        L0 = none["geometry_report"]["lot"]
+        assert L0["usable_width_ft"] is None and L0["over_ft"] is None
+        assert "COULD NOT EVALUATE" in L0["note"]
+        assert L0["built_extent_ft"], "the extent is a FACT and is reported with or without a lot"
+
+        GEO._SOLVE_CACHE.clear()
+        fits = _lot(140)
+        GEO.solve(fits, engine="heuristic")
+        assert fits["geometry_report"]["lot"]["over_ft"] == 0.0
+
+        GEO._SOLVE_CACHE.clear()
+        over = _lot(80)
+        GEO.solve(over, engine="heuristic")
+        assert over["geometry_report"]["lot"]["over_ft"] == 6.0
+
+    def test_THE_PARITY_BUMP_MAY_NOT_CROSS_THE_LOT_and_this_is_ONE_RECTANGLE(self):
+        """LAYER 4'S SECOND FINDING, AND IT IS NOT ABOUT MASSING ELEMENTS AT ALL. On a lot
+        holding six bays the centre-bay bump built seven -- 63 ft on 60 ft, on a plan with no
+        dependency, every plan in this corpus's own shape. Delete the clamp and this reads 7."""
+        GEO._SOLVE_CACHE.clear()
+        p = _lot(60, dep=False)
+        fp = GEO.derive_footprint(p)
+        assert fp["lot_maxbay"] == 6
+        assert fp["bays"] == 6 and fp["W"] == 54, (fp["bays"], fp["W"])
+        assert fp["W"] <= 60
+
+    def test_and_bay_count_forced_even_FIRES_FOR_THE_FIRST_TIME(self):
+        """The field's own comment says "today the only way here is a lot too narrow to hold the
+        odd count", and that path was unreachable: the bump made the count odd whatever the lot
+        said, so the refusal could not fire in the one case it names."""
+        GEO._SOLVE_CACHE.clear()
+        fp = GEO.derive_footprint(_lot(60, dep=False))
+        assert fp["wants_centre_bay"] is True
+        assert fp["bay_count_forced_even"] is True
+
+    def test_the_residue_is_the_massings_own_floor_and_the_note_NAMES_it(self):
+        """What the cap deliberately does NOT do. `start = max(mb["min"], from_area)` ignores the
+        cap, so a five-bay diagram on a lot holding four builds five. Disclosed rather than
+        ruled: nobody has said a lot outranks a diagram's floor."""
+        GEO._SOLVE_CACHE.clear()
+        p = _lot(36, dep=False)
+        GEO.solve(p, engine="heuristic")
+        L = p["geometry_report"]["lot"]
+        assert L["over_ft"] == 9 and p["footprint"]["width_ft"] == 45
+        assert "minimum of 5 bays" in L["note"] and "lot holds 4" in L["note"]
+        assert "oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count" in L["note"], (
+            "a residue with no question named is a number nobody will come back to")
+
+    def test_A_LOT_THE_FLANK_HAS_EATEN_REFUSES_AND_SAYS_WHY(self):
+        """`{"error": "lot too narrow: 50 ft cannot hold two bays"}` would be absurd about 50 ft
+        and an 18 ft pair of bays. The refusal names the flank that actually ate the lot."""
+        p = _lot(50)
+        fp = GEO.derive_footprint(p)
+        assert "error" in fp, fp.get("W")
+        assert "flanking element" in fp["error"] and "41 ft" in fp["error"], fp["error"]
+
+    def test_a_one_rectangle_plan_is_UNTOUCHED_by_all_of_it(self):
+        """The regression discipline. Both shipped plans place identically -- and one of them,
+        `spec-builder-colonial`, is lot-capped as shipped, so the cap itself is exercised."""
+        for name, score, width, capped in (
+                ("tidewater-georgian-careful", 685.3, 63, False),
+                ("spec-builder-colonial", 592.3, 50.0, True)):
+            GEO._SOLVE_CACHE.clear()
+            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            GEO.solve(q, engine="heuristic")
+            g = q["geometry_report"]
+            assert round(g["score"], 1) == score, (name, g["score"])
+            assert q["footprint"]["width_ft"] == width, (name, q["footprint"]["width_ft"])
+            assert g["lot_capped"] is capped, name
+            assert g["lot"]["flanking_ft"] == 0.0 and g["lot"]["over_ft"] == 0.0, name
+
+    def test_THE_FLANK_IS_THE_PLACEMENTS_OWN_ARITHMETIC_on_a_three_element_house(self):
+        """The strongest form of the guard, and the reason `flank_sizes` is one function: the cap
+        computes the flank BEFORE the placement and the placement lays it out AFTER, so the two
+        can be held against each other on the placement's own output. A dependency each side --
+        three elements, 118 ft of building -- and `built_extent - main == flank` exactly."""
+        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        for r in p["levels"][0]["rooms"]:
+            if r["type"] in ("kitchen", "pantry"):
+                r["block"] = "west-dependency"; r["exterior_walls"] = ["N", "S", "W"]
+            elif r["type"] == "breakfast-room":
+                r["block"] = "east-dependency"; r["exterior_walls"] = ["N", "S", "E"]
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        bl = p["footprint"]["blocks"]
+        assert len(bl) == 3, [b["id"] for b in bl]
+        lo = min(b["x_ft"] for b in bl)
+        hi = max(b["x_ft"] + b["width_ft"] for b in bl)
+        L = p["geometry_report"]["lot"]
+        assert round(hi - lo, 2) == L["built_extent_ft"] == 118.0, (hi - lo, L)
+        assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 55.0, L

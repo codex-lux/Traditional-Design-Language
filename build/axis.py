@@ -53,8 +53,10 @@ def axis_runs_x(front):
 def footprint_centre(plan):
     """The centre of the MAIN BLOCK, and that qualifier matters on a multi-element house: a
     dependency's rooms sit outside `footprint.width_ft`, and a centre line taken over the built
-    extent would move with the wing. `geometry_report.multi_element` discloses the six layers
-    that read the main block as the whole building; this one reads it ON PURPOSE."""
+    extent would move with the wing. `geometry_report.multi_element` names the layers that read
+    the main block as the whole building AND SHOULD NOT (six at WP-10.1, two after WP-11.6's
+    layers 1-4); this one reads it ON PURPOSE and is not in that list. The count is deliberately
+    not repeated here -- it fell twice while this sentence said six."""
     fp = plan.get("footprint") or {}
     w, d = fp.get("width_ft"), fp.get("depth_ft")
     if w is None or d is None:

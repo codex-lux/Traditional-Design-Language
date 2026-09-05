@@ -189,6 +189,14 @@ exists; what is missing is only that nothing knows a dependency's width. `compos
 the sentence *"At {bays} bays this diagram is at the width it grows to; further area wants a
 dependency, not more room"* and nothing acts on it.
 
+> **Half of this landed at WP-11.6 layer 4 (5 Sep 2026), and the half that landed is the
+> arithmetic.** `geometry.flank_sizes` knows a dependency's width and its hyphen's gap, so
+> "nothing knows a dependency's width" is no longer true; `derive_footprint` subtracts them from
+> the usable lot width before capping the main block, and `geometry_report.lot` reports the built
+> extent and any overrun. What did NOT land is this item's actual subject — a BRIEF that refuses,
+> in the `$defs.unplaced` shape, before a placement is attempted. The placer caps and discloses;
+> the composer still says its sentence and nothing acts on it.
+
 ### The constraint that decides this package's scope, found while costing it
 
 **Stripping the six service rooms DELETES THE GARAGE.** `attach_garage` anchors on a mudroom, or on

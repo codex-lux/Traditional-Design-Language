@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,720 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,730 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -529,16 +529,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   paired end stacks). WP-11.4 measured that movement on the PLACED key and did not run either
   suite. **Both are the same root cause as the layer-map miss**: a package that commits before its
   build finishes learns what it broke from the next package's build.
-- **`openings` READS THE ROOM'S OWN MASSING ELEMENT NOW, AND THE DISCLOSURE IS AT FIVE (WP-11.6,
-  layer 1 of 6).** `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` is RULED
+- **`openings` READS THE ROOM'S OWN MASSING ELEMENT NOW, AND THE DISCLOSURE FELL FROM SIX TO FIVE
+  (WP-11.6, layer 1 of 6; it is at TWO after layer 4 -- read `not_element_aware` in the record,
+  never a count written in a sentence, including this one).** `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` is RULED
   (4 Sep: an element has its own envelope and its own roof; the lot cap is on the BUILT EXTENT
   hyphen included; the hyphen is a THIRD ELEMENT carrying one room; the drawn layer measures
   `touches` against the room's OWN element) and **the ruling's operative half is the ORDER**:
   openings first, then structure, vertical_score, the lot cap, plan_check.drawn, export_ifc,
   measuring after each -- because an element-aware `openings` makes a dependency's windows real
   and therefore turns `structure`'s missing envelope into a DRAWN collision rather than a silent
-  absence. **The check is a FALLING COUNT in `geometry_report.multi_element`**, six names to five
-  to none; do not remove a name until the layer it names reads the element.
+  absence. **The check is a FALLING COUNT in `geometry_report.multi_element`**, six names down to
+  none; do not remove a name until the layer it names reads the element.
   **THE OLD READING DID NOT LOSE THE DEPENDENCY'S WALLS, IT ASSERTED ONE FORTY-ONE FEET AWAY** --
   `x <= tol` is satisfied by any x at or west of 0.6, so a room at x = -41 tested as sitting on
   the main block's WEST face, which is the mechanism behind the entry's "a window drawn fourteen
@@ -575,6 +576,37 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **And the join is the room's own `block` tag, NOT `footprint.blocks`**: `blocks_record` writes
   that list inside `write_record`, AFTER the search loop the map is used in, so a first version
   built an empty map exactly where the charge is decided.
+- **THE LOT CAP IS ON THE BUILT EXTENT, AND ITS BYPASS WAS NEVER ABOUT MASSING ELEMENTS AT ALL
+  (WP-11.6, layer 4 of 6; disclosure at TWO).** Ruling 2: *"the hyphen is roofed ground; a building
+  whose covered area overruns its lot has overrun it"*, so the flank is `gap + width` per element
+  and never width alone. `flank_sizes` is the sizing `blocks_for` already did, LIFTED OUT so the
+  cap reads one spelling -- a dependency's width comes from its own rooms over a single-pile depth
+  and never from `fp["W"]`, which is what makes the flank computable BEFORE the main block's bay
+  count is chosen. Measured at an 80 ft lot: main block **63 -> 45 ft**, built extent
+  **104 -> 86 ft**, `lot_capped` **false -> true**.
+  **THE BASELINE WAS ITSELF WRONG -- THE THIRD PROBE OF SIX TO BE WRONG, AND THE SECOND TO READ A
+  KEY THAT IS NOT THERE** (the structure probe read `bearing_lines_x`, which the section does not
+  carry). The table published `lot_capped: null`; there is no such value, the probe had read
+  `footprint.lot_capped`, and the record carries it at `geometry_report.lot_capped` as **`false`**.
+  **That is worse than the `null` it was reported as**: `null` reads as a record declining to
+  judge, `false` is the placer ASSERTING the lot did not constrain a house 24 ft wider than its
+  lot. A false positive reported as an unjudged state -- the OQ 52 family in the instrument
+  instead of in the code.
+  **AND CHASING IT FOUND A SECOND BYPASS ON EVERY PLAN IN THIS CORPUS, WITH NO DEPENDENCY
+  INVOLVED**: the centre-bay parity bump (`if odd_wanted and start % 2 == 0: start += 1`) never
+  consulted the cap, so a lot holding six bays got a SEVEN-bay one-rectangle house, 3 ft over.
+  **It had also made a named refusal unreachable** -- `bay_count_forced_even`'s own comment says
+  *"today the only way here is a lot too narrow to hold the odd count"*, and the bump forced the
+  count odd before the lot was consulted while both loops step by two, so `bays % 2 == 0` could
+  never happen. Clamped to `lot_maxbay`; it fires for the first time (60 ft lot, six bays, 54 ft).
+  **The massing's own stated minimum bay count STILL outranks the lot and that residue is
+  DISCLOSED rather than capped**: `start = max(mb["min"], from_area)` does not consult `maxbay`, so
+  a five-bay diagram on a lot holding four is 9 ft over -- shrinking below a diagram's own floor is
+  decision #11's ordering run backwards and nobody has ruled it.
+  `geometry_report.lot` answers in THREE states (no lot -> COULD NOT EVALUATE, never a fit) and its
+  note names the floor, the lot's count and
+  `oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count`. A lot the flank has already eaten
+  refuses NAMING THE FLANK, because *"50 ft cannot hold two bays (18 ft)"* is absurd on its face.
 - **TEACHING ONE LAYER MADE ANOTHER LAYER'S FINDING DISAPPEAR WITHOUT FIXING IT (WP-11.6).**
   `plan_check`'s landlocked test short-circuits at `if seated: continue` -- it runs ONLY on a room
   whose windows are all unplaced. Seating the dependency's windows at layer 1 took "reaches no
@@ -1915,8 +1947,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **137 entries, of which 53 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **138 entries, of which 54 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

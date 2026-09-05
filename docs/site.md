@@ -33,6 +33,47 @@ Tested directly against PLAN-OF-ACTION.md's own example: a 40 ft lot with 5 ft s
 
 The fix needed more care than a simple cap on the starting bay count, because `solve()`'s own growth loop already has a deliberate escape hatch: it is allowed to grow up to 3 bays *past* the parti's catalogue maximum rather than leave a room too deep (`"grow the footprint before compromising a room — the stated infeasibility ordering"`, the existing comment). A first attempt at this fix capped only the *starting* bay count and left that growth loop's ceiling untouched, which meant a lot-capped starting point of 3 bays could still grow back out to 6 under exactly the same escape hatch — silently erasing the cap it had just applied. The actual fix distinguishes `catalog_maxbay` (the parti's own stated maximum, which the growth loop may still exceed by up to 3, unchanged from before this package) from the lot's cap (a physical fact, not a diagram convention, which bounds that growth loop too — `growth_ceiling = min(catalog_maxbay + 3, lot_maxbay)`). A lot too narrow for even the diagram's minimum 2 bays returns an honest `{"error": "lot too narrow: …"}` rather than a silently oversized or malformed placement. `plan["footprint"]["lot_usable_width_ft"]` and `geometry_report["lot_capped"]` record what happened when a lot was involved at all; a plan with no lot data behaves exactly as it did before this package (`tests/test_site.py`'s `test_unchanged_when_plan_has_no_site_data`, which also re-pins `test_geometry.py`'s own 11-relaxation count on the shipped Tidewater plan to prove nothing regressed for the no-lot case).
 
+## WP-11.6 (5 Sep 2026): the cap is on the BUILT EXTENT, and two things were still crossing it
+
+**This section supersedes the paragraph above wherever they disagree**, and the paragraph is kept
+because its reasoning is why: WP-2.4's argument that the lot "is a physical fact, not a diagram
+convention" is the argument this change finishes.
+
+`oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2, ruled 4 September
+2026: **the lot cap is on the built extent, hyphen included** — *"the hyphen is roofed ground; a
+building whose covered area overruns its lot has overrun it"*. `derive_footprint` subtracts
+`flanking_extent_ft(prep, bay)` from the usable width before deriving `lot_maxbay`, and that
+function sums `gap + width` per flanking element from `flank_sizes`, which is the sizing
+`blocks_for` already did, lifted out so the cap and the placement read one spelling. Measured on the
+Tidewater plan with its service rooms tagged into a west dependency: an 80 ft lot got a **104 ft**
+built extent (`lot_capped: false`) and now gets **86 ft** (`lot_capped: true`).
+
+**Two other things were crossing the cap, and only one of them involved massing elements at all.**
+
+1. **The centre-bay parity bump.** WP-11.2 added `if odd_wanted and start % 2 == 0: start += 1`,
+   which never consulted `maxbay`. On a **one-rectangle** plan — every plan in this corpus — a lot
+   holding six bays built seven, 63 ft on 60 ft. It also made a named refusal unreachable:
+   `bay_count_forced_even`'s own comment says *"today the only way here is a lot too narrow to hold
+   the odd count"*, and the bump forced the count odd before the lot was consulted while both the
+   growth and shrink loops step by two, so `bays % 2 == 0` could never occur. The bump is clamped
+   to `lot_maxbay` and the refusal fires for the first time.
+2. **The massing's own stated minimum bay count**, which is NOT capped and is disclosed instead.
+   `start = max(mb["min"], from_area)` does not consult `maxbay`, so `four-over-four`'s stated five
+   bays are built on a lot holding four — 45 ft on 36 ft. Shrinking a main block below the count its
+   own massing states is decision #11's ordering run backwards, and nobody has ruled that a lot
+   outranks a diagram's floor. `oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count`.
+
+**`geometry_report.lot` is the record, on both engines, in three states.** It carries
+`usable_width_ft`, `main_block_ft`, `flanking_ft`, `built_extent_ft`, `over_ft` and a `note`. A plan
+that states no lot width gets `over_ft: null` and COULD NOT EVALUATE — the extent is a fact and is
+still reported, and nothing is claimed to fit. Where the residue is the massing's floor, the note
+names the floor, the count the lot holds and the question above.
+
+**`lot_capped` is kept and is still a boolean about the bay count**, now derived from a
+flank-aware `lot_maxbay`. It should not be read as "this house fits its lot": it was published as
+`false` over a built extent 24 ft wider than the lot it names, which is what raised all of this. Read
+`geometry_report.lot.over_ft`.
+
 ## The renderer: showing the lot
 
 `build/render_plan.py`'s `render()` draws, for each level, when the plan states both `lot_width_ft` and `lot_depth_ft` (from `site`, falling back to `context`):
