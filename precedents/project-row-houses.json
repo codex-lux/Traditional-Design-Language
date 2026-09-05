@@ -1,6 +1,7 @@
 {
   "id": "project-row-houses",
   "name": "Project Row Houses",
+  "record_kind": "group",
   "location": {
     "text": "Third Ward, Houston, Texas",
     "country": "United States",

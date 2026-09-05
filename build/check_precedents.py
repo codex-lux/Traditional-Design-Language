@@ -77,6 +77,16 @@ UNIQUE_ID_KINDS = ("habs", "haer", "nrhp", "nhl", "loc-item")
 # covers every contributing building in it -- Bungalow Heaven is one record and one listing over a
 # whole neighbourhood -- so treating a district number as an identity would merge a district into a
 # house. Only an INDIVIDUAL listing names one building.
+#
+# `record_kind` IS AUTHORITATIVE AND THE REGEX IS THE FALLBACK, and the order is the point (WP-11.4,
+# ruled 5 Sep 2026). This exemption WAS the ruling encoded before the ruling existed: the corpus
+# already held thirteen records that are not one building and said so only in each record's `note`,
+# so the guard had to infer the class from a regex over a title. The field says it instead. The
+# regex stays for a record that predates the field or forgets it -- a district a reader can see and
+# the record does not declare must not silently become an identity -- and a record declaring
+# `building` is NEVER exempted by the regex, because a real house called "District House" would
+# otherwise lose its identity to a word in its name.
+NOT_ONE_BUILDING = ("district", "type-model", "group")
 DISTRICT_RE = re.compile(r"district|thematic|multiple[ -]property|multiple[ -]resource", re.I)
 _NAME_ELIDE = re.compile(r"[\u2019']")
 _NAME_NOISE = re.compile(r"\(.*?\)|[^a-z0-9 ]")
@@ -110,8 +120,12 @@ def identity_keys(rec):
     for r in rec.get("refs") or []:
         kind, rid = r.get("kind"), r.get("id")
         if kind in UNIQUE_ID_KINDS and rid:
-            if kind in ("nrhp", "nhl") and DISTRICT_RE.search("%s %s" % (r.get("title") or "", r.get("note") or "")):
-                continue
+            declared = rec.get("record_kind")
+            if declared in NOT_ONE_BUILDING:
+                continue                      # declared: its listing covers more than one building
+            if declared is None and kind in ("nrhp", "nhl") and DISTRICT_RE.search(
+                    "%s %s" % (r.get("title") or "", r.get("note") or "")):
+                continue                      # undeclared: inferred from the listing's own words
             out.add((kind, rid))
     sv = rec.get("survey") or {}
     if sv.get("survey_no"):
@@ -150,6 +164,14 @@ RATCHET = {
     # buildings would be the corruption, not the fix.
     "duplicate_archival_id": 0,
     "same_name_records": 0,
+    # WP-11.4, Ruling D. A stated refusal and an unresearched row are counted apart now.
+    "no_precedent_beside_a_precedent": 0,
+    "exemplars_unresearched": 185,      # a CEILING -- may only fall, as tranches resolve them.
+                                        # Pinned TIGHT at the measured value: 693 exemplars, 505
+                                        # resolved, 3 stated refusals, 185 gaps. Pinning it at 188
+                                        # -- the count before the refusals were stated -- would have
+                                        # left the ceiling slack by exactly the three rows the field
+                                        # was built to separate, which is the meter measuring nothing.
 }
 FLOORS = ("precedents", "exemplars_with_precedent", "precedents_with_survey")
 
@@ -249,6 +271,9 @@ def main():
     records = load_records()
     EX = _exemplars()
     counts = collections.Counter()
+    # A separate dict, NOT a key of `counts`: `counts` is a Counter, so `counts["refusal_reasons"]`
+    # is the integer 0 and `+= 1` on a reason would be a TypeError at the first refusal.
+    refusal_reasons = collections.Counter()
 
     by_id = {}
     for path, rec in records.items():
@@ -355,6 +380,30 @@ def main():
                 rep.warn("style:%s" % nid, "exemplar %r has a standing and no `why`; a judgment with no "
                                            "reason is a number nobody said anything about" % e.get("name"))
 
+    # WP-11.4, Ruling D. A STATED REFUSAL IS NOT AN UNRESEARCHED ROW, and until this field existed
+    # one number carried both -- after Tranche 3 it would have read ~191 whether that was 191 gaps
+    # or 188 gaps and 3 decisions. `no_precedent` says which, in a closed vocabulary, and the two
+    # are metered apart below. A `why` is prose and no counter can read it.
+    for nid, exs in sorted(EX.items()):
+        for e in exs:
+            reason = e.get("no_precedent")
+            if e.get("precedent"):
+                if reason:
+                    counts["no_precedent_beside_a_precedent"] += 1
+                    rep.err("style:%s" % nid, "exemplar %r carries BOTH precedent=%r and no_precedent=%r; "
+                            "the field says why there is no record, so beside a record it is a "
+                            "contradiction" % (e.get("name"), e["precedent"], reason))
+                continue
+            if reason and reason != "not-yet-researched":
+                counts["stated_refusals"] += 1
+                refusal_reasons[reason] += 1
+                if not e.get("why"):
+                    rep.warn("style:%s" % nid, "exemplar %r refuses a precedent (%s) and says no `why`; "
+                             "a refusal without its reason reads to the next author as a gap"
+                             % (e.get("name"), reason))
+            else:
+                counts["exemplars_unresearched"] += 1
+
     # Kit figures citing a survey.
     for kit, sid, pk, src in kit_pointers():
         where = "kit:%s.%s%s" % (kit, sid, ("." + pk) if pk else "")
@@ -432,6 +481,17 @@ def main():
           % (m["precedents"], m["precedents_with_survey"], m["refs_total"], m["survey_quotes"],
              m["exemplars_with_precedent"], m["exemplars_total"], m["nodes_with_a_precedent"],
              m["exemplars_with_standing"], m["kit_pointers"]))
+    # WP-11.4, Ruling D. PRINTED ON EVERY RUN, not only when a ratchet breaks: the whole point of
+    # the field is that a stated refusal and an unresearched row stop being one number, and a
+    # distinction nobody can see is a distinction nobody will keep.
+    print("  of the %d exemplars with no `precedent`: %d are a STATED REFUSAL (%s) and %d are "
+          "NOT YET RESEARCHED. A refusal is a decision and a gap is work; they are not the same "
+          "number." % (counts["stated_refusals"] + counts["exemplars_unresearched"],
+                       counts["stated_refusals"],
+                       ", ".join("%s %d" % kv for kv in sorted(refusal_reasons.items()))
+                       or "none",
+                       counts["exemplars_unresearched"]))
+
     if not a.live:
         print("  %d survey quote(s) NOT VERIFIED against their source: the data pages live on "
               "tile.loc.gov and were read by an extraction tier this container cannot re-run "

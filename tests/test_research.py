@@ -202,3 +202,76 @@ def test_a_precedent_record_never_carries_a_license():
     for p in sorted(os.listdir(os.path.join(ROOT, "precedents"))):
         text = open(os.path.join(ROOT, "precedents", p), encoding="utf-8").read()
         assert '"license"' not in text, p
+
+
+# ---------------------------------------------------------------------------------------------
+# WP-11.4, Ruling D (5 Sep 2026): a precedent may be a district, a type model or a group, and a
+# stated refusal is a field rather than prose. Both halves are mutation-checked in the package and
+# pinned here, because the whole value of the ruling is a DISTINCTION and a distinction nothing
+# guards is one somebody will collapse.
+
+def test_the_district_exemption_is_driven_by_the_declaration_and_not_by_a_word_in_a_title():
+    """`record_kind` is authoritative; DISTRICT_RE is the fallback for a record that predates it.
+
+    The order matters in BOTH directions and each was mutation-checked by exit code:
+      * two records declaring `district` may share one National Register number -- one listing
+        legitimately covers many contributing buildings;
+      * two records declaring `building` may NOT, even when a ref title carries the word
+        'District', because a real house called "District House" would otherwise lose its
+        identity to a word in its name.
+    """
+    assert CP.NOT_ONE_BUILDING == ("district", "type-model", "group")
+
+    def ident(record_kind, title):
+        rec = {"record_kind": record_kind} if record_kind else {}
+        rec["refs"] = [{"kind": "nrhp", "id": "66000999", "title": title}]
+        return CP.identity_keys(rec)
+
+    # declared not-one-building -> exempt, whatever the title says
+    for kind in CP.NOT_ONE_BUILDING:
+        assert ident(kind, "ZZ mutation") == set(), kind
+    # declared a building -> an identity, even with the fallback's own trigger word in the title
+    assert ident("building", "ZZ mutation Historic District") == {("nrhp", "66000999")}
+    # undeclared -> the fallback still reads the listing's own words
+    assert ident(None, "Somewhere Historic District") == set()
+    assert ident(None, "Plain House") == {("nrhp", "66000999")}
+
+
+def test_a_stated_refusal_and_an_unresearched_row_are_counted_apart():
+    """One number carried both until this field existed, and after Tranche 3 it would have read
+    about 191 whether that was 191 gaps or 188 gaps and 3 decisions."""
+    styles = CP.load_styles() if hasattr(CP, "load_styles") else None
+    with_p = refusals = gaps = 0
+    reasons = collections.Counter()
+    import glob
+    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+        for e in json.load(open(f, encoding="utf-8")).get("exemplars") or []:
+            if e.get("precedent"):
+                with_p += 1
+                # the schema permits it and the checker refuses it: a row cannot both name a
+                # record and say why it has none.
+                assert not e.get("no_precedent"), (f, e["name"])
+                continue
+            r = e.get("no_precedent")
+            if r and r != "not-yet-researched":
+                refusals += 1
+                reasons[r] += 1
+            else:
+                gaps += 1
+    assert with_p + refusals + gaps == 693
+    assert refusals == 3 and reasons == {"archive": 1, "body-of-work": 1, "phase": 1}
+    # the ceiling is pinned TIGHT at the gap count, not at the 188 that predates the refusals --
+    # a ceiling slack by exactly the rows the field separates is a meter measuring nothing.
+    assert CP.RATCHET["exemplars_unresearched"] == gaps == 185
+    assert CP.RATCHET["no_precedent_beside_a_precedent"] == 0
+
+
+def test_the_thirteen_records_that_are_not_one_building_declare_it():
+    """The corpus was doing this before the ruling and said so only in each record's `note`."""
+    import glob
+    declared = collections.Counter()
+    for f in glob.glob(os.path.join(ROOT, "precedents", "*.json")):
+        k = json.load(open(f, encoding="utf-8")).get("record_kind")
+        if k and k != "building":
+            declared[k] += 1
+    assert declared == {"district": 6, "group": 5, "type-model": 2}, declared

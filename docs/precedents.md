@@ -72,6 +72,34 @@ and found 57 defects to Tranche 1's 8.
    reference rules test an id's SHAPE and that a URL is present, never that it answers; one record
    stored a percent-encoded URL that had been dead since it was written.
 
+## What a record may BE (WP-11.4, ruled 5 Sep 2026)
+
+A precedent record is normally one building, and `record_kind` says when it is not: `building`
+(the default when the key is absent), **`district`** — a listed area covering many buildings,
+**`type-model`** — a builder's or developer's repeated model where the type IS the record and no
+single address is it, or **`group`** — a named, documented set. Thirteen records already were one
+of these before the ruling and said so only in each record's `note`: six districts, the two
+Levittown models, four groups and one magazine house. For `minimal-traditional` and `ranch-style`
+— post-war tract types outside HABS's charter entirely — a district or model listing is the ONLY
+archival record that exists, so this is not a loosening but the practice written down.
+
+**The field is authoritative and `DISTRICT_RE` is the fallback**, and the order runs both ways: a
+record declaring `district` may share a National Register number with another (one listing covers
+many contributing buildings), and a record declaring `building` may NOT — even when a ref title
+carries the word "District", because a real house called "District House" would otherwise lose its
+identity to a word in its name. Both directions are mutation-checked and pinned in
+`tests/test_research.py`. The declaration does not license a vaguer record: a district still needs
+its own listing reference and a type model still needs a source for the model.
+
+**A refusal is a field, not prose.** An exemplar that carries no `precedent` because of a DECISION
+says so in `no_precedent`, a closed vocabulary: `archive` (a drawings collection, not a building),
+`body-of-work` (an architect's output rather than one work), `phase` (the building has a record and
+this row names a phase that record is not about), `not-yet-researched` (an honest gap, and the
+meaning when the key is absent). It exists because one number carried both: without it the count of
+unresolved exemplars would read about 191 after Tranche 3 whether that were 191 gaps or 188 gaps and
+three decisions. A row carrying `precedent` may not carry it, and the checker prints the split on
+every run — 3 stated refusals against 185 gaps today.
+
 **One building, one record** is the fourth rule and it is checked: two records sharing an archival
 `refs[].id` of kind `habs`, `haer`, `nrhp`, `nhl` or `loc-item` are a hard error, because those ids name
 one building and are evidence rather than judgment — except on a **district** listing, which legitimately

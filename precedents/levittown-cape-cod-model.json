@@ -1,6 +1,7 @@
 {
   "id": "levittown-cape-cod-model",
   "name": "Levittown Cape Cod model",
+  "record_kind": "type-model",
   "location": {
     "text": "Levittown, New York",
     "country": "United States",

@@ -1,6 +1,7 @@
 {
   "id": "south-end-historic-district-boston",
   "name": "South End Historic District bowfront rows",
+  "record_kind": "district",
   "location": {
     "text": "Boston, Massachusetts",
     "country": "United States",

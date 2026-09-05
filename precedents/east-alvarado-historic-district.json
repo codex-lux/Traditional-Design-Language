@@ -1,6 +1,7 @@
 {
   "id": "east-alvarado-historic-district",
   "name": "East Alvarado Historic District",
+  "record_kind": "district",
   "location": {
     "text": "Phoenix, Arizona",
     "country": "United States",

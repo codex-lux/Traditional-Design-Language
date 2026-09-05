@@ -444,12 +444,26 @@
             "description": "WP-11.1. The id of the building's own record in `precedents/`, which carries the archival references (HABS, NRHP, a list entry, the institution) and, where one exists, the survey's written data quoted verbatim. An exemplar without one is a name a reader can find and a checker cannot resolve. `build/check_precedents.py` holds this to the record's own `nodes` in both directions."
           },
           "standing": {
-            "enum": ["icon", "canonical", "regional", "documentary"],
+            "enum": [
+              "icon",
+              "canonical",
+              "regional",
+              "documentary"
+            ],
             "description": "WP-11.1. What this building is to THIS node, editorially: `icon` -- the building a fluent reader names first, the one the style is known by; `canonical` -- a type specimen, well documented, that the node's own figures can be held against; `regional` -- the local expression, right for the region and not the style's whole reach; `documentary` -- plain, surveyed, useful to measure and not to admire. A judgment, and `why` says whose."
           },
           "why": {
             "type": "string",
             "description": "One sentence for `standing`, in the project's voice, saying what makes it so and where the reason comes from."
+          },
+          "no_precedent": {
+            "enum": [
+              "archive",
+              "body-of-work",
+              "phase",
+              "not-yet-researched"
+            ],
+            "description": "WP-11.4, ruled 5 Sep 2026. Why this exemplar carries no `precedent`, when the reason is a DECISION rather than a gap. `archive` -- it names a drawings collection, not a building (Royal Barry Wills Associates' garrison designs, collection AR029 at Historic New England). `body-of-work` -- it names an architect's output rather than one work (Cliff May's early Monterey-mode houses). `phase` -- the building HAS a record and this row names a phase the record is not about (`dogtrot-vernacular`'s 'Gaineswood (original core)': the record is the finished 1842-1861 mansion whose survey is silent on the dogtrot substrate, so joining them would hand the reader the wrong card). `not-yet-researched` -- an honest gap, and the default meaning when the key is ABSENT. The field exists because nothing else separates a stated refusal from an unresearched row: one number carried both, and a `why` is prose no counter can read. A row carrying `precedent` may not carry this."
           }
         }
       }

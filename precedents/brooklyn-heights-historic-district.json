@@ -1,6 +1,7 @@
 {
   "id": "brooklyn-heights-historic-district",
   "name": "Brooklyn Heights Historic District brownstone rows (Willow, Hicks, and Remsen Streets)",
+  "record_kind": "district",
   "location": {
     "text": "Brooklyn, New York",
     "country": "United States",

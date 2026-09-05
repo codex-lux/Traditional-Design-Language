@@ -201,7 +201,8 @@
       "year": 1940,
       "note": "Wills's practice produced garrisons alongside Capes and saltboxes; the drawings are held in the Royal Barry Wills Associates collection at Historic New England. The type's design standards descend from this office. No precedent record is named because this exemplar is an ARCHIVE and not a building -- the drawings are collection AR029 at Historic New England -- and a precedent is one real building.",
       "standing": "documentary",
-      "why": "NO PRECEDENT RECORD: this exemplar names an ARCHIVE and not a building -- the drawings are collection AR029 at Historic New England -- and a precedent record is one real building, so there is nothing here to point at until a single Wills garrison is identified and surveyed."
+      "why": "NO PRECEDENT RECORD: this exemplar names an ARCHIVE and not a building -- the drawings are collection AR029 at Historic New England -- and a precedent record is one real building, so there is nothing here to point at until a single Wills garrison is identified and surveyed.",
+      "no_precedent": "archive"
     },
     {
       "name": "Stanley-Whitman House",

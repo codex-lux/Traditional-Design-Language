@@ -208,7 +208,8 @@
       "year": 1861,
       "note": "Nathan Bryan Whitfield's Greek Revival mansion grew outward from an existing dogtrot log house between 1843 and 1861 - the type as substrate, and a useful demonstration that a folk plan can survive under any amount of applied classicism. Built in campaigns 1843-1861.",
       "standing": "documentary",
-      "why": "NO PRECEDENT RECORD, deliberately: `precedents/gaineswood.json` is the finished Greek Revival mansion of 1842-1861, whose 1930s survey names porticoes and a porte cochere and states not one dimension, and this exemplar names the log dogtrot core it was built around -- a phase the survey is silent on, so linking the two would hand a reader the mansion's card as the dogtrot's evidence; the standing is documentary because the building is real and the substrate claim rests on it."
+      "why": "NO PRECEDENT RECORD, deliberately: `precedents/gaineswood.json` is the finished Greek Revival mansion of 1842-1861, whose 1930s survey names porticoes and a porte cochere and states not one dimension, and this exemplar names the log dogtrot core it was built around -- a phase the survey is silent on, so linking the two would hand a reader the mansion's card as the dogtrot's evidence; the standing is documentary because the building is real and the substrate claim rests on it.",
+      "no_precedent": "phase"
     },
     {
       "name": "Ephraim Bales Place",
