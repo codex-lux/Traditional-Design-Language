@@ -72,6 +72,24 @@ and found 57 defects to Tranche 1's 8.
    reference rules test an id's SHAPE and that a URL is present, never that it answers; one record
    stored a percent-encoded URL that had been dead since it was written.
 
+## A new `measured` figure must say where it came from (WP-11.4, ruled 5 Sep 2026)
+
+`build/check_kits.py` refuses a `kind: measured` parameter that carries no `source` and whose slot
+carries no `sources[]`, unless its `(node, slot, parameter)` triple is in
+`build/measured_unsourced_grandfathered.json` — the 542 that predate the gate. Removing a triple
+from that list is a one-way door: it means the parameter now cites something.
+
+**The gate is per-parameter because the ratchet that preceded it was a NET COUNT, and that hole is
+measured rather than argued.** `check_research.RATCHET["measured_unsourced"]` is a ceiling on a
+total, so a commit that sources one figure and adds an unsourced one leaves the total at 542 and
+passes. Run against exactly that mutation, `check_research --strict` returned **0** with an
+unsourced `measured` parameter sitting in the tree, and `check_kits.py` returned **1**. A counter
+that nets out is this repository's commonest blind guard; refusal by identity cannot net.
+
+**Part 1 of the ruling was not given and nothing is re-kinded.** The 542 keep their label and
+`check_research.py`'s ceilings keep counting them down. The gate stops 542 becoming 543; it does
+not pretend the 542 are sourced.
+
 ## What a record may BE (WP-11.4, ruled 5 Sep 2026)
 
 A precedent record is normally one building, and `record_kind` says when it is not: `building`

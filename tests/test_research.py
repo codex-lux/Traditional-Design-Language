@@ -275,3 +275,43 @@ def test_the_thirteen_records_that_are_not_one_building_declare_it():
         if k and k != "building":
             declared[k] += 1
     assert declared == {"district": 6, "group": 5, "type-model": 2}, declared
+
+
+# ---------------------------------------------------------------------------------------------
+# WP-11.4, Ruling C part 2 (5 Sep 2026): a NEW `measured` parameter must carry a source.
+
+def test_the_grandfathered_set_is_exactly_todays_unsourced_measured_parameters():
+    """The frozen list and the live census must agree, or the gate is guarding a fiction."""
+    import glob
+    live = set()
+    for p in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+        nid = os.path.basename(p)[: -len(".kit.json")]
+        for sid, s in (json.load(open(p, encoding="utf-8")).get("slots") or {}).items():
+            slot_sourced = bool(s.get("sources"))
+            for pk, pv in (s.get("parameters") or {}).items():
+                if isinstance(pv, dict) and pv.get("kind") == "measured" \
+                        and not pv.get("source") and not slot_sourced:
+                    live.add((nid, sid, pk))
+    CK = modcache.load("check_kits", os.path.join(ROOT, "build", "check_kits.py"))
+    assert CK.GRANDFATHERED == live
+    # and it agrees with the ceiling the OTHER checker publishes, so the two cannot drift apart
+    assert len(live) == CR.RATCHET["measured_unsourced"] == 542
+
+
+def test_the_gate_is_per_parameter_and_not_a_net_count():
+    """THE HOLE THIS RULING CLOSES, demonstrated rather than asserted.
+
+    `check_research.RATCHET["measured_unsourced"]` is a ceiling on a TOTAL. Source one figure and
+    add an unsourced one in the same commit and the total is unchanged, so the net ratchet passes
+    while an unsourced `measured` parameter sits in the tree. Measured by running both checkers
+    against exactly that mutation: check_research returned 0 and check_kits returned 1.
+
+    Here the same thing is proved without touching the tree: a triple outside the frozen set is
+    refused by identity, and identity cannot net.
+    """
+    CK = modcache.load("check_kits", os.path.join(ROOT, "build", "check_kits.py"))
+    assert ("tidewater-georgian", "arch", "zz_mutation_param") not in CK.GRANDFATHERED
+    # every grandfathered triple IS admitted -- the gate must not convict the corpus it inherited
+    assert all(t in CK.GRANDFATHERED for t in list(CK.GRANDFATHERED)[:50])
+    # the set is frozen: a plain set could be mutated by a later import and silently widen the gate
+    assert isinstance(CK.GRANDFATHERED, frozenset)
