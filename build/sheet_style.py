@@ -19,6 +19,12 @@ ten sheets `workbench/server/corpus.drawing()` produces. `LIGHT`, `LW`, `FACE`, 
 LOADED BY PATH, like every module in `build/`, so each script still runs standalone
 (`modcache.load` keeps it to one execution per process — see build/modcache.py and OQ 28).
 
+THE FACE ITSELF LIVES HERE TOO, SINCE WP-11.5 -- `font_face_rule()`, `face_status()` and
+`advance_widths()` read a subset committed under assets/generated/ and built by
+`build/gen_sheet_font.py`. The standard names one serif voice; until that package every sheet
+asked for it in a `font-family` stack and carried no font, so an exported SVG was set in
+whatever the reader's machine had and could not say so.
+
 WHAT MUST NOT HAPPEN HERE. A hex literal in a renderer. `workbench/server/tests/
 test_m3_drawings.py::test_retokenize_is_total_over_renderer_palettes` reads every `#RRGGBB`
 out of the renderer sources AND out of this file, and requires each to be either a key of
@@ -142,6 +148,81 @@ MONO = '"Courier Prime","Courier New",ui-monospace,monospace'
 TRACK = {
     "title": ".18em", "drawing": ".42em", "room": ".3em", "eyebrow": ".24em", "caps": ".22em",
 }
+
+# ---------------------------------------------------------------- the face, carried (WP-11.5)
+# THE STACK ABOVE IS A REQUEST AND NOTHING IN THIS SYSTEM HAD EVER ANSWERED IT. Every sheet
+# named EB Garamond and carried no font, so an exported SVG was set in Georgia -- or, on a
+# machine without that either, in whatever the browser reached for -- and the diagnosis that
+# opened Phase 11 read three typefaces on one plate for exactly that reason. The subset is
+# built by `build/gen_sheet_font.py` and committed under assets/generated/; this reads it and
+# nothing here needs fontTools, a network, or anything outside the standard library.
+#
+# ABSENCE IS A STATE AND NOT AN ERROR. A tree with no asset draws in the fallback stack and
+# the sheet's own margin says so -- `face_status()` is what the title block prints. Silence
+# would be the OQ 52 shape in the typography: a sheet asserting a face it does not carry.
+import json as _json
+import os as _os
+
+_ASSET_DIR = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+                           "assets", "generated")
+_FONT_B64 = _os.path.join(_ASSET_DIR, "eb-garamond-sheet.woff.b64")
+_FONT_META = _os.path.join(_ASSET_DIR, "eb-garamond-sheet.json")
+_FONT = None
+
+
+def font_asset():
+    """The embedded face and its provenance, or None. Cached: the payload is 20 KB of base64
+    and a drawing set renders ten sheets in one process."""
+    global _FONT
+    if _FONT is None:
+        if not (_os.path.exists(_FONT_B64) and _os.path.exists(_FONT_META)):
+            _FONT = False
+        else:
+            with open(_FONT_META, encoding="utf-8") as fh:
+                meta = _json.load(fh)
+            with open(_FONT_B64, encoding="utf-8") as fh:
+                meta["base64"] = fh.read().replace("\n", "")
+            _FONT = meta
+    return _FONT or None
+
+
+def face_status():
+    """What the sheet is actually set in, for the margin to print.
+
+    Two states and never a silence: EMBEDDED names the face and its version, FALLBACK says
+    plainly that the reader's own machine chose."""
+    a = font_asset()
+    if not a:
+        return ("FALLBACK", "NO FACE IS CARRIED — THIS SHEET IS SET IN WHATEVER SERIF THE "
+                            "READER'S MACHINE HAS")
+    return ("EMBEDDED", f'{a["family"].upper()} {a["version"].upper()}, {a["glyphs"]} GLYPHS '
+                        f'SUBSET AND CARRIED IN THIS FILE ({a["base64_bytes"] // 1024} KB)')
+
+
+def font_face_rule():
+    """The `@font-face` for the sheet's own <style>, or "" where no asset is committed.
+
+    The licence travels with the font, which is what the SIL OFL requires of anything that
+    redistributes it: the copyright and the licence URL are in the CSS as a comment, and the
+    full text is beside the asset as assets/generated/eb-garamond-OFL.txt."""
+    a = font_asset()
+    if not a:
+        return ""
+    return (f'/* {a["copyright"]} — SIL Open Font License 1.1, {a["license_url"]}; '
+            f'full text at {a["license_file"]} */'
+            f'@font-face{{font-family:"EB Garamond";font-style:normal;font-weight:400;'
+            f'src:url(data:font/woff;base64,{a["base64"]}) format("woff")}}')
+
+
+def advance_widths():
+    """{character: advance in em} for the face the sheet is drawn in, or None.
+
+    `workbench/app/src/sheet/label.js` measures the real glyphs in a canvas and always has.
+    `build/render_plan.py` had a five-branch estimate instead -- "uppercase or a digit -> 0.66
+    em" -- which is a guess about a face it did not carry, and in EB Garamond an `I` is 0.34
+    em against a `W`'s 0.916. One number for a three-to-one spread."""
+    a = font_asset()
+    return a["advance_widths_em"] if a else None
 
 # ---------------------------------------------------------------- the sheet as an object
 # "Nothing sits flush to the sheet edge: the drawing lives inside a ruled border, and the

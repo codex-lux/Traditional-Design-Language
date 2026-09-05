@@ -41,7 +41,28 @@ FILL = SS.DARK_FILL
 # occasionally a few percent wide is a label with a little air around it, where the old
 # fixed size was a label through a wall. The advances below are for the sans face the
 # sheet sets its names in; the dimension line is monospaced and measures exactly.
+# THE ADVANCE WIDTHS OF THE FACE THIS SHEET IS ACTUALLY SET IN (WP-11.5). The table below
+# is the estimate that stood while the sheet carried no font -- five branches, one number
+# for every capital -- and it is kept, because a tree with no committed asset still has to
+# fit a label. `sheet_style.advance_widths()` is the measured alternative, read off the
+# subset's own `hmtx`, and the difference is not decorative: EB Garamond's `I` is 0.34 em
+# where the estimate says 0.28, its `W` 0.916 where the estimate says 0.86, and its `.` 0.23
+# where the estimate says 0.28. `workbench/app/src/sheet/label.js` has measured the real
+# glyphs in a canvas since WP-5.2; this is the Python side finally doing the same thing.
+_WIDTHS = None
+
+
+def _widths():
+    global _WIDTHS
+    if _WIDTHS is None:
+        _WIDTHS = SS.advance_widths() or {}
+    return _WIDTHS
+
+
 def _adv(ch):
+    w = _widths().get(ch)
+    if w is not None:
+        return w
     if ch in "iljI.,:;'|!": return 0.28
     if ch in "ft()[]r ": return 0.36
     if ch in "mwMW": return 0.86
@@ -368,6 +389,10 @@ def _style_block(register):
     L, W_, T = SS.LIGHT, SS.LW, SS.TRACK
     return (
         f'<style>'
+        # WP-11.5. The face itself, subset and carried, before anything that asks for it.
+        # Empty where no asset is committed, and the margin schedule then says the sheet is
+        # set in whatever the reader's machine has.
+        f'{SS.font_face_rule()}'
         f'text{{font-family:{SS.FACE};fill:{L["ink2"]}}}'
         # the letter: one voice, roman capitals, spaced. "Emphasis is achieved by spacing and
         # size, as on a carved frieze."
@@ -532,6 +557,15 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                      f'CENTRED ON THEM; ROOM FIGURES ARE THE RECORD\'S CLEAR EXTENTS'))
     if wall.get("note"):
         schedule.append((L["salmon_deep"], wall["note"].upper()))
+
+    # THE FACE THE SHEET IS SET IN, ON THE SHEET (WP-11.5). Graphic Standard No. 1 names one
+    # serif voice and every plate had asked for it in a stack and carried nothing, so a
+    # reader could not tell a sheet set in EB Garamond from one set in Georgia -- which is
+    # half of the "three typefaces on one plate" that opened Phase 11. A carried face is
+    # named with its version; a fallback says plainly that the reader's own machine chose.
+    _face_state, _face_line = SS.face_status()
+    schedule.append((L["ink2"] if _face_state == "EMBEDDED" else L["salmon_deep"],
+                     f'FACE {_face_state} — {_face_line}'))
 
     # ------------------------------------------------------------- WP-2.4 site / lot geometry
     site = plan.get("site") or {}

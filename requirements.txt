@@ -28,3 +28,11 @@ jsonschema>=4.0
 
 # The behaviour suite; build/check_all.py shells out to it as its last check.
 pytest>=7.0
+
+# build/gen_sheet_font.py, and NOTHING ELSE (WP-11.5). The sheet's serif is subset and
+# committed under assets/generated/, so the renderers read base64 and a JSON sidecar and
+# need nothing at all -- `tests/test_sheet_font.py::test_nothing_at_render_time_imports_
+# fontTools` walks the five renderer sources to keep it that way. This is here so a
+# maintainer who wants to re-cut the face after an upstream release can, and it is the one
+# dependency in this file that no check, no test and no drawing requires.
+fontTools>=4.40

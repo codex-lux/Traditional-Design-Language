@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **49 checks, 1,612 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **49 checks, 1,628 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -512,6 +512,54 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   curve, because a primitive no symbol uses is an unreachable branch in two renderers.
   And `symbol_for` matches WHOLE WORDS where `_FIXTURE_ALIASES` matches substrings: bare substrings
   drew *"desk (any BEDroom occupied by anyone under twenty-five)"* as a bed.
+- **THE SHEET CARRIES ITS OWN FACE NOW, AND THE MARGIN SAYS WHICH (WP-11.5).** Graphic Standard
+  No. 1 names one serif voice and every plate this system had ever produced asked for it in a
+  `font-family` stack and carried no font -- which is half of the "three typefaces on one plate"
+  that opened Phase 11. `build/gen_sheet_font.py` subsets **EB Garamond 1.003 to printable ASCII
+  plus a named extras list: 127 glyphs, 15,016 bytes WOFF, 20,024 base64**, committed under
+  `assets/generated/` with the SIL OFL beside it; `sheet_style.font_face_rule()` puts it in each
+  sheet's own `<style>`. The Tidewater plate goes **43,141 -> 63,555 bytes, +47%**, per sheet,
+  because an exported SVG has to stand alone. `face_status()` is what the margin prints and it has
+  TWO states and never a silence -- `FACE EMBEDDED — EB GARAMOND VERSION 1.003 …` or `FALLBACK`
+  with the reason. **WOFF and not WOFF2** (Brotli is absent here) **and not the TTF** (26,280
+  bytes against 15,016), and **it reaches no desktop drawing program**: Inkscape resolves type
+  through fontconfig and loads no `@font-face` in any format, so an embedded face reaches every
+  browser and nothing else. `fontTools` is in `requirements.txt` for the GENERATOR alone and a
+  test walks the five renderer sources to keep it out of render time.
+- **`recalcTimestamp=False`, AND IT IS THE WHOLE OF WHY A GENERATED FONT CAN BE VERIFIED
+  (WP-11.5).** fontTools writes `head.modified` as the time of the save by default, so two builds
+  of one font from one source differ in four bytes and every hash of the output differs with them
+  -- measured twice before the line existed, and `gen_sheet_font.py --check` would have been a
+  command that always says FAIL. **A generated artefact nobody can rebuild identically is an
+  artefact nobody can verify.** The same `--check` had a second defect of the family: it printed
+  the docstring and returned 0 when given no source, which is a check reporting success by doing
+  nothing.
+- **THE DIVERGENCE MARK IS IN NEITHER FACE THE SHEET NAMES (WP-11.5).** `∗` is U+2217 ASTERISK
+  OPERATOR -- not the typographic asterisk U+002A -- and it is the mark a working sheet puts on
+  every room drawn at a size the record does not declare, defined in the sheet's own margin.
+  Measured: it is in **neither EB Garamond (2,091 cmap entries) nor Courier Prime (383)**, the
+  first family of each of the sheet's two stacks, and every OTHER character the shipped sheets
+  draw is supplied by its own class's first family. It renders today only because Chromium falls
+  past both stacks into a system font -- so the plate carries a third face for one glyph, which
+  is Phase 11's own complaint at one character. **NOT CHANGED**: the symbol is the standard's and
+  swapping a glyph a standard chose is the same class of edit as reconciling two records by
+  picking the number that makes a checker green.
+  `oq/the-divergence-mark-is-in-neither-face-the-sheet-names`.
+- **THE PYTHON FITTER MEASURES THE FACE IT DRAWS IN, FOR THE FIRST TIME (WP-11.5).**
+  `render_plan._adv` was a five-branch estimate -- `uppercase or digit -> 0.66` -- which is one
+  number for a three-to-one spread: EB Garamond's `I` is 0.34 em and its `W` is 0.916, and its
+  `.` is 0.23 where the estimate said 0.28. `workbench/app/src/sheet/label.js` has measured the
+  real glyphs in a canvas since WP-5.2. The widths come off the subset's own `hmtx` into the
+  sidecar; **34 room labels across 10 of the 16 plans change size** on them. The estimate is KEPT
+  for a tree with no committed asset, and a test says which one is running.
+- **A GUARD OVER "WHAT THE SHEETS DRAW TODAY" CANNOT SEE A NARROWED SUBSET, AND SAYING SO IS THE
+  FIX (WP-11.5).** `test_every_character_the_sheet_sets_in_the_serif_is_in_the_subset` is the
+  obvious guard and it is blind in one direction: every character the two shipped plans set in the
+  serif is a capital, a digit or ASCII punctuation, because room names and plate titles are
+  upper-cased before they are drawn. A regeneration cut to those 42 glyphs saves 8 KB a sheet
+  (11,984 base64 against 20,024), leaves that test GREEN, and breaks the first mixed-case name
+  anybody writes. The guard that bites is over the PROMISE -- the subset must cover printable
+  ASCII -- not over today's traffic; both are kept and the mutation was run both ways.
 - **A PARAMETER'S PRECONDITION CAN BE THE FIRST SIX WORDS OF ITS OWN SLOT'S PROSE, AND NOTHING
   READS PROSE (WP-11.4).** `porch_type.portico_bays` resolves to 1 on `tidewater-georgian` and
   `PLAN-OF-ACTION.md` asked for "columns and their answering pilasters where `portico_bays = 1`".
@@ -1801,8 +1849,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **136 entries, of which 55 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **137 entries, of which 56 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
