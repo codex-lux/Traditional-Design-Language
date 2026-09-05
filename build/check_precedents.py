@@ -40,6 +40,7 @@ carrying a `precedent`, records carrying a survey) and ceilings pinned at zero. 
 """
 import argparse
 import collections
+import itertools
 import glob
 import json
 import os
@@ -69,6 +70,11 @@ KIT_POINTER_RE = re.compile(r"^precedents/([a-z0-9][a-z0-9-]*)#(?:survey\.([a-z_
 # Pleasant and a Mount Vernon, three different houses), so a name match is reported with both
 # locations for a reader to judge and is never resolved by merging two real buildings.
 UNIQUE_ID_KINDS = ("habs", "haer", "nrhp", "nhl", "loc-item")
+# A NATIONAL REGISTER DISTRICT LISTING IS NOT AN IDENTITY. One district reference legitimately
+# covers every contributing building in it -- Bungalow Heaven is one record and one listing over a
+# whole neighbourhood -- so treating a district number as an identity would merge a district into a
+# house. Only an INDIVIDUAL listing names one building.
+DISTRICT_RE = re.compile(r"district|thematic|multiple[ -]property|multiple[ -]resource", re.I)
 _NAME_ELIDE = re.compile(r"[\u2019']")
 _NAME_NOISE = re.compile(r"\(.*?\)|[^a-z0-9 ]")
 
@@ -90,6 +96,34 @@ def normalised_name(name):
         if n.startswith(article):
             n = n[len(article):]
     return n
+
+
+def identity_keys(rec):
+    """Every archival identity a record carries. Read from `refs` AND from the survey block: a
+    record may carry its HABS number in `survey.survey_no` and its Library id in `survey.item`
+    without repeating either as a ref, and an identity the guard cannot see is an identity that
+    cannot catch a duplicate."""
+    out = set()
+    for r in rec.get("refs") or []:
+        kind, rid = r.get("kind"), r.get("id")
+        if kind in UNIQUE_ID_KINDS and rid:
+            if kind in ("nrhp", "nhl") and DISTRICT_RE.search("%s %s" % (r.get("title") or "", r.get("note") or "")):
+                continue
+            out.add((kind, rid))
+    sv = rec.get("survey") or {}
+    if sv.get("survey_no"):
+        out.add(("habs", sv["survey_no"]))
+    if sv.get("item"):
+        out.add(("loc-item", sv["item"]))
+    return out
+
+
+def name_keys(rec):
+    """The record's own name and every `aka`, each paired with its state -- because two houses of
+    one name in two states are two houses, and the state is what says so."""
+    loc = rec.get("location") or {}
+    where = normalised_name(loc.get("state") or loc.get("country"))
+    return {(normalised_name(n), where) for n in [rec.get("name")] + list(rec.get("aka") or []) if n}
 
 # Measured 4 Sep 2026 on the seeded pilot (Gunston Hall, Westover, Drayton Hall) and thereafter
 # may only improve. The floors are the point: a may-only-fall ceiling on dangling references is
@@ -345,30 +379,37 @@ def main():
         counts["kit_pointers"] += 1
 
     # One building, one record.
-    by_archival = collections.defaultdict(list)
-    by_norm = collections.defaultdict(list)
+    by_archival = collections.defaultdict(set)
+    by_name = collections.defaultdict(set)
+    keys_of, superseded = {}, {}
     for rec in records.values():
         rid = rec.get("id")
-        by_norm[normalised_name(rec.get("name"))].append(rid)
-        for ref in rec.get("refs") or []:
-            if ref.get("kind") in UNIQUE_ID_KINDS and ref.get("id"):
-                by_archival[(ref["kind"], ref["id"])].append(rid)
+        keys_of[rid] = identity_keys(rec)
+        superseded[rid] = rec.get("deprecated_in_favour_of")
+        for k in keys_of[rid]:
+            by_archival[k].add(rid)
+        for nk in name_keys(rec):
+            by_name[nk].add(rid)
     for (kind, aid), ids in sorted(by_archival.items()):
-        uniq = sorted(set(ids))
+        uniq = sorted(ids)
         if len(uniq) > 1:
             counts["duplicate_archival_id"] += 1
             rep.err("precedents", "%s %s is carried by %s. An archival id names ONE building, so "
                                   "these are one record written twice -- merge them, keeping the id "
                                   "the exemplars already point at." % (kind, aid, ", ".join(uniq)))
-    for norm, ids in sorted(by_norm.items()):
-        uniq = sorted(set(ids))
-        if len(uniq) > 1:
+    for (norm, where), ids in sorted(by_name.items()):
+        for a, b in itertools.combinations(sorted(ids), 2):
+            if superseded.get(a) == b or superseded.get(b) == a:
+                continue        # a recorded supersession, which is the id rule working
+            ka, kb = keys_of[a], keys_of[b]
+            shared = {k for k, _ in ka} & {k for k, _ in kb}
+            if any({i for k, i in ka if k == d} != {i for k, i in kb if k == d} for d in shared):
+                continue        # PROVABLY different: the same kind of id, different numbers
             counts["same_name_records"] += 1
-            where = ["%s (%s)" % (i, (by_id.get(i, {}).get("location") or {}).get("text", "no location"))
-                     for i in uniq]
-            rep.warn("precedents", "the name %r is carried by %s. Two houses may share a name -- read "
-                                   "the locations and merge only if they are one building."
-                                   % (norm, "; ".join(where)))
+            rep.warn("precedents", "%r in %r is carried by %s and %s, and nothing on either record "
+                                   "proves them different buildings. Two houses may share a name -- "
+                                   "resolve a locator that separates them, or merge them."
+                                   % (norm, where or "no state", a, b))
 
     m = measure(records, EX)
     for k in ("dangling_precedent",):
