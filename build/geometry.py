@@ -388,6 +388,128 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
     return True
 
 
+def hyphen_anchors(plan, blocks, level=0):
+    """`{element_id: {face: [room_ids]}}` -- for each element, the rooms of that element which
+    an AUTHORED DOOR joins to a room in the element beyond that face (WP-11.6).
+
+    A DOOR BETWEEN TWO ELEMENTS CANNOT BE PLACED UNLESS THE TWO ROOMS SHARE A WALL, and nothing
+    made them. Measured on a re-authored `centre-passage-double-pile`: 5 of 5 cross-element doors
+    unplaced, every one with the same reason -- *"the placement leaves these two rooms no shared
+    wall"* -- while `hyphen -> kitchen`, whose rooms abut inside one element with 15.82 ft of
+    shared run, placed. One cause, and it is the seventh defect
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` records under item 3.
+
+    THE SEARCH CANNOT FIND IT, AND THAT WAS SWEPT RATHER THAN ASSUMED. `adjacency_score` already
+    charges every non-touching door pair, so the placement pays for this at every candidate. At
+    the shipped 250 the butler's pantry never reaches the block's shared face on either seed; at
+    1,000 it does on both, at 2,000 it does on one. **Four packages have now measured a placement
+    rule whose verdict is a property of the candidate pool** --
+    `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford` -- and this is the sharpest,
+    because here the pool decides whether the house is drawn connected at all.
+
+    So the strip is STATED rather than searched for, which is `courtyard_slice`'s own move and
+    its own reason: *"the search is good at slicing a range and has no way to know which of its
+    edges matters."*
+
+    `{}` on a one-element plan, and on any plan whose elements are joined by no authored door."""
+    if len(blocks or []) < 2:
+        return {}
+    rect = {b["id"]: (b["x"], b["y"], b["x"] + b["W"], b["y"] + b["H"]) for b in blocks}
+    of = {rid: b["id"] for b in blocks for rid in b["rooms"]}
+    rooms = {}
+    for lv in plan.get("levels", []):
+        if (lv.get("index") or 0) != level:
+            continue
+        for r in lv.get("rooms", []):
+            rooms[r["id"]] = r
+
+    def face_toward(a, b, tol=0.6):
+        """Which face of element `a` element `b` lies beyond, or None where it lies beyond none
+        -- the diagonal case, which the ruling refuses rather than models."""
+        ax0, ay0, ax1, ay1 = rect[a]
+        bx0, by0, bx1, by1 = rect[b]
+        if min(by1, ay1) - max(by0, ay0) > tol:
+            if bx0 >= ax1 - tol: return "E"
+            if bx1 <= ax0 + tol: return "W"
+        if min(bx1, ax1) - max(bx0, ax0) > tol:
+            if by0 >= ay1 - tol: return "N"
+            if by1 <= ay0 + tol: return "S"
+        return None
+
+    # ONLY WHERE THE CROSSING GOES THROUGH THE LINK. A door between two elements with open ground
+    # between them cannot be placed however the rooms are laid -- a detached dependency IS
+    # detached, and drawing that door would be the lie -- so pulling a room to the face for it
+    # buys nothing and moves the placement for no gain. Measured: scoping this to a hyphen
+    # element restores the package's own fixture byte-identically (it has no hyphen room) while
+    # keeping every gain on the fixture that has one.
+    role = {b["id"]: b.get("role") for b in blocks}
+    out = {}
+    for rid, r in rooms.items():
+        ea = of.get(rid)
+        if ea is None:
+            continue
+        for d in (r.get("doors") or []):
+            to = d.get("to") if isinstance(d, dict) else d
+            if not to or to == "exterior":
+                continue
+            eb = of.get(to)
+            if eb is None or eb == ea:
+                continue
+            if role.get(ea) != "hyphen" and role.get(eb) != "hyphen":
+                continue
+            f = face_toward(ea, eb)
+            if f is None:
+                continue
+            lst = out.setdefault(ea, {}).setdefault(f, [])
+            if rid not in lst:
+                lst.append(rid)
+    return out
+
+
+def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax):
+    """Lay `anchor_ids` as a strip against `face` of this element, then slice the rest.
+
+    The same statement `courtyard_slice` makes about a corredor, at one element's scale: a room
+    that must touch a particular edge is placed against it rather than left to a guillotine that
+    does not know the edge matters. Returns False and places nothing when the strip cannot be cut
+    -- an anchor list that is the whole element, or a strip that would leave the remainder below a
+    module -- so the caller falls back to the ordinary slice and the refusal is a fall-back rather
+    than a malformed plan."""
+    want = set(anchor_ids)
+    along = h if face in ("E", "W") else w
+    across = w if face in ("E", "W") else h
+    # ONLY WHAT FITS, SMALLEST FIRST, AND THE REST IS REFUSED RATHER THAN CRUSHED IN. A first
+    # version took every anchor: on the re-authored `centre-passage-double-pile` that is the
+    # CENTRE PASSAGE and a butler's pantry, and stating a strip for both put the passage 5.85 ft
+    # OUTSIDE the main block and took the composed house from 11 fatal findings to 14. A centre
+    # passage is in the centre -- swept over 250, 1,000 and 2,000 candidates on two seeds, it
+    # abuts the shared face at none of them, correctly -- so a rule that asks it to sit on the
+    # flank is a rule the diagram cannot keep, and the honest answer is to lay the rooms that fit
+    # and leave the door that cannot be drawn saying so.
+    cap = across * 0.6
+    keep, acc = [], 0.0
+    for r in sorted((r for r in rooms if r["id"] in want), key=lambda r: r["_area"]):
+        if (acc + r["_area"]) / max(along, 1.0) > cap:
+            continue
+        keep.append(r); acc += r["_area"]
+    kept = {r["id"] for r in keep}
+    rest = [r for r in rooms if r["id"] not in kept]
+    if not keep or not rest:
+        return False
+    strip = max(module * 0.55, min(cap, acc / max(along, 1.0)))
+    if across - strip < module * 0.55:
+        return False
+    if face == "E":   sx, sy, sw, sh = x + w - strip, y, strip, h; rx, ry, rw, rh = x, y, w - strip, h
+    elif face == "W": sx, sy, sw, sh = x, y, strip, h;             rx, ry, rw, rh = x + strip, y, w - strip, h
+    elif face == "N": sx, sy, sw, sh = x, y + h - strip, w, strip; rx, ry, rw, rh = x, y, w, h - strip
+    else:             sx, sy, sw, sh = x, y, w, strip;             rx, ry, rw, rh = x, y + strip, w, h - strip
+    slice_rect(copy.deepcopy(keep), round(sx, 2), round(sy, 2), round(sw, 2), round(sh, 2),
+               module, tol, rng, out, relax)
+    slice_rect(copy.deepcopy(rest), round(rx, 2), round(ry, 2), round(rw, 2), round(rh, 2),
+               module, tol, rng, out, relax)
+    return True
+
+
 def _clamp_cut(v, extent, module):
     """The corrected clamp, MEASURED AND NOT CALLED. Read this before calling it (WP-9.4).
 
@@ -2123,6 +2245,9 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     # wing's walls and not against the main block's. One element -> every room maps to 0,0,W,H,
     # which is exactly what the function did before it took this argument.
     gbounds = {rid: (b["x"], b["y"], b["W"], b["H"]) for b in gblocks for rid in b["rooms"]}
+    # Computed once per solve rather than once per candidate: it walks the door graph and the
+    # element rectangles, neither of which a candidate moves.
+    _anchors = hyphen_anchors(plan, gblocks, 0)
     best = None
     # DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). Two incumbents: the best
     # candidate overall, and the best that breaks NO claim its own author wrote. The strict one
@@ -2147,7 +2272,20 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
             # own order, so this is the same single call with the same rng draws it always was.
             for _b in gblocks:
                 _rs = [r for r in prep[0] if r["id"] in set(_b["rooms"])]
-                if _rs:
+                if not _rs:
+                    continue
+                # WP-11.6: where an AUTHORED door crosses into the element beyond a face, the
+                # rooms it joins are laid against that face as a strip rather than left to the
+                # guillotine. `hyphen_anchors` says why, with the pool sweep that refused the
+                # search. One element -> `_anchors` is `{}` and this is the same single call
+                # with the same rng draws it always was.
+                _laid = False
+                for _f, _ids in sorted((_anchors.get(_b["id"]) or {}).items()):
+                    _laid = flank_slice(_rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids,
+                                        bay, tol, rng, gr, grelax)
+                    if _laid:
+                        break
+                if not _laid:
                     slice_rect(copy.deepcopy(_rs), _b["x"], _b["y"], _b["W"], _b["H"],
                                bay, tol, rng, gr, grelax)
         sg = (level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H, bounds=gbounds) + adjacency_score(gr, prep[0], levels[0]["rooms"])

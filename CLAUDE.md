@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,740 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,750 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -655,6 +655,49 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   **AN EMPTY LIST IS NOT THE QUESTION CLOSED**: two of the ruling's four items are unbuilt (the
   per-element roof, and the abutment between adjacent elements), and
   `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` stays open on them.
+- **A PARTI MAY STATE ITS OWN MASSING ELEMENTS NOW, AND THE CORPUS REFUSED THE FIRST DIAGRAM THAT
+  DID, THREE TIMES (WP-11.6).** A parti room carries `block` and `hyphen` (parti schema),
+  `compose.py` copies both onto the plan record exactly as it copies `stacks_over` -- **the
+  composer wrote no `block` on any room until this**, so the only route into the multi-element
+  machinery was a caller-supplied record. Re-authoring `centre-passage-double-pile` with its
+  service in a dependency was then refused by `check_partis.py` in all THREE arrangements, each
+  time by a HARD room rule: all six service rooms out -> *"Butler's Pantry does not reach a dining
+  room through a direct door"*; butler's pantry kept in the main block with a `gallery-corridor`
+  hyphen -> *"Hyphen does not reach a stair hall through a direct door"*; the same with a
+  `breezeway` -> *"Butler's Pantry does not reach a kitchen through a direct door"*. **The three
+  are jointly unsatisfiable once the elements are real**: the butler's pantry must directly door
+  BOTH the dining room and the kitchen, a door between two elements cannot be placed unless the
+  rooms abut (measured 5 of 5 unplaced, one reason), and any boundary between dining and kitchen
+  cuts one of the two. **`five-part-palladian` appears to do this correctly and only appears to** --
+  it satisfies every rule because NOTHING READS ITS COMPOSITION, and the rules were never tested
+  against a diagram whose elements exist. `oq/three-hard-room-rules-forbid-a-detached-kitchen`.
+  **The change is worth making and that is measured**: on `family-georgian`, fatal findings
+  **17 -> 10**, serious 76 -> 72, cross-element doors unplaced **0 of 1**, the whole service block
+  and the stair no longer unreachable -- **while `compose.score_candidate` rates the better house
+  SEVEN POINTS WORSE**, 73.5 -> 66.5, which is its own question. The parti is reverted until ruled.
+- **THE FLANK IS STATED RATHER THAN SEARCHED FOR, WHICH IS `courtyard_slice`'S OWN MOVE (WP-11.6).**
+  `geometry.hyphen_anchors` reads the door graph for a crossing THROUGH A LINK and
+  `geometry.flank_slice` lays those rooms against the element's shared face as a strip, then slices
+  the rest -- *"the search is good at slicing a range and has no way to know which of its edges
+  matters."* **The search really cannot find it and that was SWEPT**: `adjacency_score` already
+  charges every non-touching door pair, so the placement pays at every candidate, and at the
+  shipped **250** the butler's pantry never reaches the shared face on either seed, at **1,000** it
+  does on both, at **2,000** on one. **Four packages have now measured a placement rule whose
+  verdict is a property of the pool** (`oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford`),
+  and this is the sharpest, because here the pool decides whether the house is drawn CONNECTED.
+  **SCOPED TO THE LINK, and the scoping is what keeps the fixture honest**: a first version
+  anchored on any cross-element door, and four of them on this package's own fixture cross OPEN
+  GROUND with no hyphen room, where no laying of rooms can place a door -- a detached dependency is
+  detached. Unscoped it moved the placement for nothing and turned FIVE of the package's own
+  published measurements red; scoped, that fixture is byte-identical and the fixture that has a
+  link keeps every gain (`butlers -> hyphen` places, `butlers -> kitchen` correctly does not).
+  **The centre passage is not available as a house-side anchor**: stating a strip for it put the
+  passage **5.85 ft outside the main block** and took the composed house from 11 fatal findings to
+  14, so `flank_slice` takes the anchors that FIT, smallest first, and refuses the rest.
+  **And the garage joins the element its anchor is in** -- `attach_garage` doors its mudroom onto
+  the kitchen, which may now be in a wing. **That branch is unreachable from the corpus and a
+  mutation deleting it left the whole suite green** until a driven test existed (WP-8.11's rule);
+  six of six caught on the re-run.
 - **A MULTI-EDIT SCRIPT THAT ASSERTS BETWEEN ITS EDITS WRITES NEITHER, AND THE COMMIT SAYS IT WROTE
   BOTH (WP-11.6, found at layer 6).** Two replacements went into one `PLAN-OF-ACTION.md` script,
   the SECOND assertion failed, and the script died before `write_text` -- so the first did not land
@@ -2001,8 +2044,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **138 entries, of which 54 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **139 entries, of which 55 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/three-hard-room-rules-forbid-a-detached-kitchen, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

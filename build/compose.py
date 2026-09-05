@@ -684,6 +684,14 @@ def instantiate(parti_id, brief):
                               for wall in lit]
         if r.get("fixtures"): rec["fixtures"] = r["fixtures"]
         if r.get("stacks_over"): rec["stacks_over"] = r["stacks_over"]
+        # WP-11.6: the diagram's own massing composition reaches the plan record. Copied rather
+        # than derived, exactly as `stacks_over` above is: a parti that states two elements is
+        # making an authored claim about the building, and the placer's `blocks_for` is the one
+        # reader. **The composer wrote no `block` on any room until this**, so the only route into
+        # the multi-element machinery was a caller-supplied record -- which is precisely the reader
+        # `geometry_report.multi_element` was written for because they cannot know.
+        if r.get("block"): rec["block"] = r["block"]
+        if r.get("hyphen"): rec["hyphen"] = True
         doors = [{"to": d} for d in (r.get("doors") or [])]
         if doors: rec["doors"] = doors
         levels[lv].append(rec)
@@ -808,6 +816,12 @@ def attach_garage(plan, brief, log):
         anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
                   "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
                   "doors": doors,
+                  # WP-11.6: the mudroom joins the element its ANCHOR is in. Once a diagram can
+                  # state a service dependency, the kitchen this room doors onto may be in one --
+                  # and a door between two elements cannot be placed, measured 5 of 5. Landing
+                  # the mudroom in the main block while its kitchen is in a wing is a door across
+                  # open ground, which is the one thing the hyphen exists to prevent.
+                  **({"block": kitchen["block"]} if kitchen.get("block") else {}),
                   "note": "Added with the garage. Without it the kitchen becomes the mudroom, "
                           "which is the failure rooms/garage.json names. Sits on the service "
                           "sequence the back hall's own record describes: garage, mudroom, "
@@ -828,6 +842,8 @@ def attach_garage(plan, brief, log):
     garage = {"id": "garage", "type": "garage", "name": f"{int(bays)}-Car Garage",
               "width_ft": width, "length_ft": round(l, 1), "ceiling_ft": 9.0,
               "exterior_walls": ["N", "E", "S"],
+              # ...and the garage joins the mudroom it doors onto, for the same reason.
+              **({"block": anchor["block"]} if anchor.get("block") else {}),
               # A window in the side wall, not a glazed vehicle door: rooms/garage.json is
               # explicit that "glazed garage doors are a contemporary convention with no
               # traditional precedent; where light is wanted, a window in the side wall costs

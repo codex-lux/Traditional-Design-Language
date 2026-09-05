@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**138 questions, of which 54 are open.** A question is OPEN while
+**139 questions, of which 55 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 54
+## Open — 55
 
 Awaiting a ruling. This is the list to read first.
 
@@ -85,6 +85,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it** | OPEN | [the tradition cuts a long passage across its length, and the only move we have is to widen it](open-questions/oq-the-passage-is-divided-and-the-corpus-has-no-word-for-it.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
 | **oq/thirty-five-measurements-the-elevation-states-as-literals** | OPEN | [the critic convicts every classical plan of the same faults, and the numbers are the generator's](open-questions/oq-thirty-five-measurements-the-elevation-states-as-literals.md) |
+| **oq/three-hard-room-rules-forbid-a-detached-kitchen** | OPEN | [the room records assume one rectangle](open-questions/oq-three-hard-room-rules-forbid-a-detached-kitchen.md) |
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 
 ## Settled — 84

@@ -1860,7 +1860,10 @@ term is worse in the middle of its range than at either end, and a rule is the e
 ### WP-11.6 The container the programme describes
 
 **Status: ALL SIX LAYERS TAUGHT (4–5 Sep 2026), in the ruled order, measuring after each as the
-ruling requires. The entry stays OPEN on its other two items.** `openings` reads the room's own
+ruling requires, AND THE PLACER'S HALF OF THE RE-AUTHORING WITH THEM. The parti re-authoring is
+REFUSED BY THE CORPUS (three hard room rules, jointly unsatisfiable once the elements are real —
+`oq/three-hard-room-rules-forbid-a-detached-kitchen`) and CP-SAT's per-element solve is not
+started. The entry stays OPEN on its other two items.** `openings` reads the room's own
 element, `structure` runs once per element, a cross-element stacking claim is unjudged rather than
 charged, the lot cap is on the built extent with the hyphen counted, the critic measures `touches`
 against the room's own element, `export_ifc` writes a slab per element, and
@@ -1986,9 +1989,39 @@ unjudged, as dishonest in their own direction as a fake pass. What it keeps are 
 outlive the six layers: `engine="cp"` still refuses a multi-element plan outright, and the roof is
 still the main block's alone.
 
-**Still to do: the parti and plan re-authoring, and CP-SAT's per-element solve** — then, outside
-this package, the two unbuilt items of the ruling itself. (An earlier version of this line named
-five items for three layers for as long as it took to re-read it: it still listed `structure` and
+**ITEM 2, THE PARTI: AUTHORED THREE WAYS AND REFUSED THREE TIMES, EACH BY A HARD ROOM RULE.**
+All six service rooms in the dependency, as the package text asks → *"Butler's Pantry does not
+reach a dining room through a direct door"*. Butler's pantry back in the main block with a
+`gallery-corridor` hyphen → *"Hyphen does not reach a stair hall through a direct door"*. The same
+with a `breezeway` → *"Butler's Pantry does not reach a kitchen through a direct door"*. **The
+three are jointly unsatisfiable once the elements are real**: the butler's pantry must directly
+door both the dining room and the kitchen, and any element boundary between them cuts one.
+`partis/five-part-palladian.json` appears to do this correctly and only appears to — it satisfies
+every rule because **nothing reads its composition**, no parti carrying a `block` until now.
+`oq/three-hard-room-rules-forbid-a-detached-kitchen`. **The change is worth making and that is
+measured**: on `family-georgian`, fatal findings **17 → 10**, serious 76 → 72, cross-element doors
+unplaced **0 of 1**, the service block and the stair no longer unreachable — while the composer's
+own candidate score falls 73.5 → 66.5, rating the better house worse. The parti is REVERTED until
+this is ruled.
+
+**AND THE PLACER'S HALF SHIPPED, because it is the prerequisite for any answer.** A parti room may
+carry `block` and `hyphen`; `compose.py` copies both onto the plan record as it already copies
+`stacks_over`; `geometry.hyphen_anchors` reads the door graph for crossings **through a link** and
+`geometry.flank_slice` lays those rooms against the shared face as a **stated strip** —
+`courtyard_slice`'s own move and its own reason. **The search cannot find it**: at the shipped 250
+candidates the butler's pantry never reaches the face on either seed, at 1,000 it does on both, at
+2,000 on one — the fourth package to measure a placement rule whose verdict is a property of the
+pool. **Scoped to the LINK**, because four cross-element doors on this package's own fixture cross
+open ground where no laying of rooms can place a door; scoping restores that fixture
+byte-identically. Six mutations, six caught — the sixth only after a driven test, because the
+garage's element inheritance is unreachable from a corpus in which no parti carries a `block`.
+
+**Still to do: item 3 (re-author `tidewater-georgian-careful`) and item 4 (CP-SAT per element) —
+and item 3 is BLOCKED ON item 4 rather than sequenced after it**, because `engine="cp"` refuses a
+multi-element plan outright, so tagging the reference plan's rooms would take the shipped sheet off
+the proving engine and onto the search. The prover has to learn elements first. Then, outside this
+package, the two unbuilt items of the ruling itself. (An earlier version of this line named five
+items for three layers for as long as it took to re-read it: it still listed `structure` and
 `vertical_score`, taught in the two commits above it. A to-do list that survives the work it
 describes is the *"until X lands"* class, one file over.)
 

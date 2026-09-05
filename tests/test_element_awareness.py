@@ -669,3 +669,201 @@ class TestTheIfcSlabIsPerElement:
                     r["block"] = "an-element-nobody-placed"
         _, _, boxes = _boxes(q)
         assert {b["element"] for b in boxes} == {"main"}, boxes
+
+
+def _hyphen_fixture(with_hyphen=True):
+    """The package's own fixture plus a HYPHEN ROOM, which is the thing a cross-element door
+    needs to exist at all.
+
+    A DRIVEN FIXTURE, because the corpus does not exercise this (WP-8.11's rule). The
+    re-authoring of `centre-passage-double-pile` that would have exercised it was measured and
+    withdrawn -- three of the corpus's own hard room rules refuse it, in three different
+    arrangements -- so the placer's half ships with a fixture that drives it rather than with a
+    parti that happens to."""
+    p = _fixture()
+    g = p["levels"][0]["rooms"]
+    if with_hyphen:
+        g.append({"id": "hyphen", "type": "gallery-corridor", "name": "Hyphen",
+                  "block": "west-dependency", "hyphen": True,
+                  "width_ft": 8.0, "length_ft": 20.0, "ceiling_ft": 11.0,
+                  "exterior_walls": ["N", "S"],
+                  "doors": [{"to": "butlers", "width_ft": 3.0},
+                            {"to": "kitchen", "width_ft": 3.0}]})
+        for r in g:
+            if r["id"] in ("butlers", "kitchen"):
+                r.setdefault("doors", []).append({"to": "hyphen", "width_ft": 3.0})
+    return p
+
+
+def _cross_doors(p):
+    els = {r["id"]: (r.get("block") or "main") for lv in p["levels"] for r in lv["rooms"]}
+    out = {}
+    for lv in p["levels"]:
+        for r in lv["rooms"]:
+            for d in (r.get("doors") or []):
+                to = d.get("to")
+                if not to or to == "exterior" or els.get(r["id"]) == els.get(to):
+                    continue
+                k = tuple(sorted((r["id"], to)))
+                out[k] = out.get(k, False) or bool(d.get("unplaced"))
+    return out
+
+
+class TestTheFlankIsStatedRatherThanSearchedFor:
+    """WP-11.6, the placer half of items 2-4. A door between two elements cannot be placed unless
+    the two rooms share a wall, and nothing made them -- the seventh defect
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` records under item 3."""
+
+    def test_hyphen_anchors_reads_the_door_graph_THROUGH_THE_LINK(self):
+        p = _hyphen_fixture()
+        _, prep = GEO.prep_rooms(p)
+        fp = GEO.derive_footprint(p, None, prep)
+        a = GEO.hyphen_anchors(p, GEO.blocks_for(p, fp, prep, 0), 0)
+        assert set(a) == {"main", "west-dependency", "west-dependency-hyphen"}, a
+        # Each element's own room that doors THROUGH THE LINK, on the face the link is beyond.
+        assert a["main"] == {"W": ["butlers"]}, a["main"]
+        assert a["west-dependency"] == {"E": ["kitchen"]}, a["west-dependency"]
+        assert set(a["west-dependency-hyphen"]) == {"E", "W"}, a["west-dependency-hyphen"]
+        # AND `butlers -> kitchen` PUT NOTHING HERE. That pair crosses open ground with no link
+        # between them, and no laying of rooms can place it, so it is not an anchor: `butlers` is
+        # on the list because it doors to the HYPHEN, and `backhall` and `cellarstair`, which
+        # door only to the kitchen, are on no list at all.
+        assert "backhall" not in a["main"]["W"] and "cellarstair" not in a["main"]["W"], a["main"]
+
+    def test_the_anchor_is_laid_ON_the_shared_face(self, placed=None):
+        """The measurement. Before, `butlers` sat wherever the guillotine left it; the strip puts
+        it at x0 = 0.00, which IS the main block's west face."""
+        p = _hyphen_fixture()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        g = {r["id"]: r["geometry"] for lv in p["levels"] for r in lv["rooms"] if r.get("geometry")}
+        assert g["butlers"]["x_ft"] == pytest.approx(0.0, abs=0.05), g["butlers"]
+
+    def test_AND_THE_DOOR_THROUGH_THE_HYPHEN_PLACES(self):
+        """The point of all of it. `butlers -> hyphen` is the one door that crosses a gap with a
+        link in it, and it is the one that places."""
+        p = _hyphen_fixture()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        cross = _cross_doors(p)
+        assert cross[("butlers", "hyphen")] is False, cross
+
+    def test_a_door_across_OPEN_GROUND_still_does_not_place_and_should_not(self):
+        """The control, and it is what keeps this a fix rather than a loosening. `butlers` and
+        `kitchen` are doored to each other across 14 ft of yard with no link: a detached
+        dependency IS detached, and drawing that door would be the lie."""
+        p = _hyphen_fixture()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        cross = _cross_doors(p)
+        assert cross[("butlers", "kitchen")] is True, cross
+        assert cross[("backhall", "kitchen")] is True, cross
+
+    def test_without_a_hyphen_room_EVERY_cross_element_door_is_refused(self):
+        """The before. Four of four, on the fixture the whole package has used."""
+        p = _hyphen_fixture(with_hyphen=False)
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        cross = _cross_doors(p)
+        assert cross and all(cross.values()), cross
+
+    def test_flank_slice_REFUSES_rather_than_crushing_what_will_not_fit(self):
+        """A first version took every anchor. On the re-authored parti that is the CENTRE
+        PASSAGE and a butler's pantry, and stating a strip for both put the passage 5.85 ft
+        OUTSIDE the main block and took the composed house from 11 fatal findings to 14. It takes
+        the anchors that fit, smallest first, and refuses the rest."""
+        rng = __import__("random").Random(7)
+        rooms = [{"id": "big", "_area": 900.0, "type": "centre-passage",
+                  "width_ft": 30, "length_ft": 30},
+                 {"id": "small", "_area": 60.0, "type": "butlers-pantry",
+                  "width_ft": 6, "length_ft": 10},
+                 {"id": "rest", "_area": 400.0, "type": "drawing-room",
+                  "width_ft": 20, "length_ft": 20}]
+        out, relax = {}, []
+        assert GEO.flank_slice(rooms, 0, 0, 40.0, 34.0, "E", ["big", "small"],
+                               9.0, 2.5, rng, out, relax) is True
+        # the small anchor is on the face; the big one was refused into the remainder
+        assert out["small"][0] + out["small"][2] == pytest.approx(40.0, abs=0.05), out
+        assert out["big"][0] + out["big"][2] < 40.0 - 0.05, out
+
+    def test_face_toward_REFUSES_A_DIAGONAL_NEIGHBOUR(self):
+        """The ruling refuses the diagonal case rather than modelling it, and it is refused here
+        in the same one condition `faces_across_a_gap` uses: a block past the corner is yard."""
+        plan = {"levels": [{"index": 0, "rooms": [
+            {"id": "a", "block": "A", "doors": [{"to": "b"}]},
+            {"id": "b", "block": "B", "doors": [{"to": "a"}]}]}]}
+        beside = [{"id": "A", "role": "main", "x": 0, "y": 0, "W": 10, "H": 10, "rooms": ["a"]},
+                  {"id": "B", "role": "hyphen", "x": 20, "y": 2, "W": 10, "H": 6, "rooms": ["b"]}]
+        assert GEO.hyphen_anchors(plan, beside, 0)["A"] == {"E": ["a"]}
+        diagonal = [{"id": "A", "role": "main", "x": 0, "y": 0, "W": 10, "H": 10, "rooms": ["a"]},
+                    {"id": "B", "role": "hyphen", "x": 20, "y": 20, "W": 10, "H": 6, "rooms": ["b"]}]
+        assert GEO.hyphen_anchors(plan, diagonal, 0) == {}, "a block past the corner is yard"
+        # AND A NEIGHBOUR THAT IS NOT A LINK IS NOT AN ANCHOR, however squarely it sits beyond
+        # the face: a door across open ground cannot be placed by moving a room to the edge.
+        no_link = [{"id": "A", "role": "main", "x": 0, "y": 0, "W": 10, "H": 10, "rooms": ["a"]},
+                   {"id": "B", "role": "dependency", "x": 20, "y": 2, "W": 10, "H": 6,
+                    "rooms": ["b"]}]
+        assert GEO.hyphen_anchors(plan, no_link, 0) == {}, no_link
+
+    def test_a_one_rectangle_plan_gets_NO_ANCHORS_and_places_identically(self):
+        """The regression. `hyphen_anchors` is `{}` below two elements, so the ordinary slice runs
+        with the same rng draws it always did."""
+        for name, score, w in (("tidewater-georgian-careful", 685.3, 63),
+                               ("spec-builder-colonial", 592.3, 50.0)):
+            GEO._SOLVE_CACHE.clear()
+            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            _, prep = GEO.prep_rooms(q)
+            fp = GEO.derive_footprint(q, None, prep)
+            assert GEO.hyphen_anchors(q, GEO.blocks_for(q, fp, prep, 0), 0) == {}, name
+            GEO.solve(q, engine="heuristic")
+            assert round(q["geometry_report"]["score"], 1) == score, (name, q["geometry_report"]["score"])
+            assert q["footprint"]["width_ft"] == w, name
+
+
+CMP = modcache.load("compose", os.path.join(ROOT, "build", "compose.py"))
+
+
+class TestTheGarageJoinsTheElementItsAnchorIsIn:
+    """WP-11.6. `attach_garage` doors its mudroom onto the kitchen and, where there is one, the
+    back hall. Once a diagram can state a service dependency, that kitchen may be in one -- and a
+    door between two elements cannot be placed, measured 5 of 5. A mudroom in the main block
+    doored to a kitchen in a wing is a door across open ground.
+
+    DRIVEN, and it has to be: no parti in this corpus carries a `block` today, so this branch is
+    unreachable from the data and a mutation deleting it left the whole suite green until this
+    class existed. That is WP-8.11's rule -- a fixture that waits for the corpus to exercise a
+    branch is measuring the corpus."""
+
+    def _plan_with_a_tagged_kitchen(self):
+        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        for lv in p["levels"]:
+            for r in lv["rooms"]:
+                if r["type"] in ("kitchen", "back-hall"):
+                    r["block"] = "west-dependency"
+        for lv in p["levels"]:
+            lv["rooms"] = [r for r in lv["rooms"] if r["type"] not in ("garage", "mudroom")]
+        return p
+
+    def test_the_mudroom_and_the_garage_take_the_kitchens_block(self):
+        p = self._plan_with_a_tagged_kitchen()
+        log = []
+        CMP.attach_garage(p, {"context": {"garage_bays": 2}}, log)
+        ground = next(lv for lv in p["levels"] if (lv.get("index") or 0) == 0)
+        by = {r["id"]: r for r in ground["rooms"]}
+        assert "garage" in by, log
+        assert by["garage"].get("block") == "west-dependency", (by["garage"], log)
+        assert by["garage-mudroom"].get("block") == "west-dependency", (by["garage-mudroom"], log)
+
+    def test_and_an_UNTAGGED_kitchen_leaves_them_untagged(self):
+        """The control, and the byte-identity guard for every plan in this corpus: no block on
+        the anchor, no block on the garage."""
+        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        for lv in p["levels"]:
+            lv["rooms"] = [r for r in lv["rooms"] if r["type"] not in ("garage", "mudroom")]
+        log = []
+        CMP.attach_garage(p, {"context": {"garage_bays": 2}}, log)
+        ground = next(lv for lv in p["levels"] if (lv.get("index") or 0) == 0)
+        by = {r["id"]: r for r in ground["rooms"]}
+        assert "garage" in by, log
+        assert "block" not in by["garage"], by["garage"]
+        assert "block" not in by["garage-mudroom"], by["garage-mudroom"]
