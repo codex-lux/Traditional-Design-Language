@@ -1,0 +1,88 @@
+{
+  "id": "steuben-house",
+  "name": "Steuben House (Zabriskie House)",
+  "aka": [
+    "Zabriskie-Steuben House",
+    "Ackerman-Zabriskie-Steuben House",
+    "Von Steuben House"
+  ],
+  "location": {
+    "text": "Historic New Bridge Landing, River Edge, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "1729; altered in 1757 (the survey's own words)",
+    "circa": true,
+    "altered": "The New Jersey nomination for the Steuben Estate Complex says the earliest unit 'may be the east mid-portion which has a gable roof and was extended to the south and then along the rear with a shed roof. The last portion to be added, but still before the Revolution, was the northwest corner area and the whole covered with a gambrel roof.' So the gambrel is an ENLARGEMENT and not the original roof -- which is what the node's own exemplar note says, at a different date.",
+    "note": "THREE PAIRS OF DATES, AND THEY DO NOT AGREE. The HABS data page: 'Date of Erection: 1729; altered in 1757'. The National Register nomination for the Steuben Estate Complex: 'originally built around 1720 and expanded to its present size by 1752', with David Ackerman's dwelling of 'around 1700 which is believed to be still part of the Steuben House'. Both style nodes and the local museum literature: built 1752 by Jan Zabriskie, enlarged c. 1765. None is edited to agree with another; the exemplar's 1752 is kept as authored."
+  },
+  "nodes": [
+    "dutch-colonial-american",
+    "new-jersey-dutch-gambrel"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NJ-47",
+      "title": "Zabriskie-Steuben House, New Bridge Road, River Edge, Bergen County, NJ",
+      "url": "http://www.loc.gov/resource/hhh.nj0267.photos.110349p",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's photo caption line reads 'Zabriskie-Steuben House, New Bridge Road, River Edge, Bergen County, NJ. Survey number: HABS NJ-47 - Building/structure dates: 1729 Initial Construction'. The number is printed in the data page's own running head as 'HABS-NJ-47 Page 1'. The 1978 nomination's survey box lists 'Historic American Buildings Survey NJ-47; NJ-16; and NJ-733'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nj0267",
+      "url": "http://www.loc.gov/resource/hhh.nj0267.photos.110349p",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id is the path segment of the Library resource URL returned by search and of the data PDF actually fetched."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/322a2744-9218-4928-94ee-de9e81887ecb",
+      "title": "National Register of Historic Places Inventory - Nomination Form: STEUBEN ESTATE COMPLEX, Bergen County, New Jersey (prepared by Claire K. Tholl, Bergen County Historical Society, 20 January 1978, with revisions by T. Karschner, OHP Trenton)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Describes the house verbatim as 'a large sandstone structure, 35'-19\" by 67'-00\", with front- to-back split-level plan having all/2 story facade and 2 story rear elevation. Most of the stone work is of a neatly cut blocks with interspersed coursed rubble and fieldstone on rear and north sides.' The width figure is printed with an impossible inch value (19\") and is NOT taken as a measurement here. The nomination's survey box records 'NRHP 12-18-1970' for the Von Steuben House; no eight-digit reference number was read, so no `nrhp` ref is recorded."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Steuben_House",
+      "title": "Steuben House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "nj0267",
+    "survey_no": "NJ-47",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0200/nj0267/data/nj0267data.pdf",
+    "prepared": "Historic American Buildings Survey, District of New Jersey; Seymour Williams, A.I.A., District Officer, 133 Central Avenue, Rahway, New Jersey (the OCR prints 'Railway'). The PDF also carries a later cover reading 'ADDENDUM TO: HABS NJ-47 ZABRISKIE-STEUBEN HOUSE NJ,2-RIVED, 1-'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The Steuben House New Bridge Road ^iver Edge, Bergen County, Hew <Ters< Owner: State of Hew Jersey Date of Erection: 1729; altered in 1757 Architect; Builder: John Zabriskie Present Condition: Fair Number of Stories: Two Materials of Construction: Foundation - sandstone Exterior walls « sandstone, brick gables Interior walls - plaster on masonry Roof - gambrel, wood shingles",
+        "page": "HABS-NJ-47 Page 1 (the marker is printed on the cover block immediately before this text)"
+      },
+      {
+        "field": "plan",
+        "text": "original hoiise was about half as long and s as deep as the present structure The was pitch. When the house was enlarged riginal ridge became the galus plate of of of the\" enlarged house. The first and evels are half a story higher than the a possible reason for this is that it ior doors an excellent height above the oa&ing hay, grain, and the like from a",
+        "page": "HABS-NJ-47, on the page whose foot the extract marks 'HABS-NJ-47 Page 2'. The OCR of this block is badly broken -- it is a two-column paragraph read across the columns -- and it is quoted as printed rather than repaired."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: Two",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Two things on this record bear directly on `new-jersey-dutch-gambrel`. First, the survey confirms the node's central claim of material and roof in one line -- 'Exterior walls - sandstone, brick gables ... Roof - gambrel, wood shingles' -- and the brick gables are the feature the New Jersey nomination calls 'a rare feature of Dutch architecture'. Second, the broken plan paragraph records the enlargement's mechanism: the original ridge became the gable plate of the enlarged house's gambrel. That is the gambrel arriving as a way of getting a storey out of an existing low wall, which is exactly what the node's prose says it is for."
+}

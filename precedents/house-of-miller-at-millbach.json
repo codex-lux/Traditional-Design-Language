@@ -1,0 +1,98 @@
+{
+  "id": "house-of-miller-at-millbach",
+  "name": "House of Miller at Millbach",
+  "aka": [
+    "Miller House & Mill",
+    "Mueller House",
+    "Illig's Mill",
+    "House of the Miller"
+  ],
+  "location": {
+    "text": "Millbach, Millcreek Township, Lebanon County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1752 (house); 1784 (mill)",
+    "circa": false,
+    "altered": "'The interiors of two rooms were removed in 1926 and are installed in Philadelphia Museum of Art' (survey), where they are catalogued as the Mueller House kitchen and a second room. The sash was later changed from six-over-six to Victorian four-over-four.",
+    "note": "A datestone over the south entrance carries the year and the builders' names. Wikipedia and the mill gazetteer disagree about the mill: 1784 (Wikipedia, and the survey's addendum head) against 1778 (MillPictures.com). Both recorded."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-151",
+      "title": "Miller House & Mill, Newmanstown-Klienfeltersville Road, Millbach, Lebanon County, PA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0538/data/pa0538data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own head. Wikipedia's external-links section gives '8 photos, 3 data pages, supplemental material'. The Library call number, read off a Wikimedia Commons file page, is HABS PA,38-MILB,1-."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0538",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0538/data/pa0538data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id was read off a Wikimedia Commons file page which states the photograph is 'available from the United States Library of Congress's Prints and Photographs division under the digital ID hhh.pa0538'; the data PDF at that path was then fetched and its header confirms HABS No. PA-151. The loc.gov landing page itself was not opened."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/House_of_Miller_at_Millbach",
+      "title": "House of Miller at Millbach - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'a 2+1/2-story, sandstone and limestone residence with a gambrel roof, which was designed in a Germanic style'. Added to the National Register in 1973; no reference number is printed, so none is recorded."
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/PA-02-LE1",
+      "title": "House of the Miller, Mueller House | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Millbach Rd., 0.3 miles south of PA 419. House of the Miller, stone on the house is inscribed 1752 and ... can be seen in the Philadelphia Museum of Art (PH123)'. Only the search snippet was read; the entry itself is behind the egress block."
+    },
+    {
+      "kind": "institution",
+      "url": "https://philamuseum.libguides.com/period-rooms",
+      "title": "Period Rooms at the Philadelphia Museum of Art -- PMA LibGuides",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Rooms 3 and 4: American XVIII Century: Rooms from the Mueller House, Millbach, Pennsylvania-German.' The kitchen is object 41686 in the museum's own catalogue."
+    }
+  ],
+  "survey": {
+    "item": "pa0538",
+    "survey_no": "PA-151",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0538/data/pa0538data.pdf",
+    "prepared": "An addendum to the entry in the HABS Catalog Supplement (1959); the sheet's own sources are Brumbaugh's 'Colonial Architecture of the Pennsylvania Germans' (1930/1933), Dickson's 'A Hundred Pennsylvania Buildings' (1954) and Joseph Downs, 'The House of the Miller at Millbach' (Philadelphia: Pennsylvania Museum of Art, 1929), which 'includes measured drawings'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Brief Statement This is one of the finest and best known examples of. Significance: of Pennsylvania-German architecture.",
+        "page": "HABS No. PA-151, cover 'Brief Statement of Significance'; the OCR has doubled the field label into the sentence"
+      },
+      {
+        "field": "other",
+        "text": "PART I. HISTORICAL INFORMATION A. Physical History: A datestone over the south entrance says: ;, Jerg Muler/Maria. Catr. U/ 1752 )! which Is_a Rhineland dialect form of Georg Muller and Maria Caterina Muller /J)owns_/",
+        "page": "HABS No. PA-151, Part I.A; the /J)owns_/ is the sheet's own bracketed attribution to Downs"
+      },
+      {
+        "field": "roof",
+        "text": "The large gambrel roof XG the most outstanding feature of the house, hi the base of each of the slopes there is a ticu or \"boll-east. Two pent caves cress the gable eno.s ana connect these hichs. fhe roof is covered with wooe shingles.",
+        "page": "HABS No. PA-151, description of the exterior; the OCR of this paragraph is the worst in the file and is quoted exactly as returned"
+      },
+      {
+        "field": "condition",
+        "text": "The interiors of two rooms were removed in 1926 and are installed in Philadelphia Museum of Art, Benjamin Franlclin Parkway, Philadelphia, Penna.",
+        "page": "HABS No. PA-151, Part I.A"
+      }
+    ]
+  },
+  "note": "The house a fluent reader of this tradition names first, on the federal survey's own judgment: 'one of the finest and best known examples ... of Pennsylvania-German architecture'. It carries the tradition's most legible datestone, in dialect, and its kitchen is a period room in the Philadelphia Museum of Art. TWO THINGS ABOUT THE ROOF, read through bad OCR and worth stating carefully: the roof is a GAMBREL, where the node's prose says 'a steep, forty-five to fifty degree roof'; and the pent roof -- 'Two pent caves cress the gable eno.s', pent eaves crossing the GABLE ENDS -- runs on the ends and not, as the node's prose has it, 'across the facade at the second-floor line'. No dimension is legible in the extracted spans; Downs 1929 carries measured drawings and was not reachable."
+}

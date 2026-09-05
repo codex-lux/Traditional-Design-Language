@@ -16,7 +16,8 @@
     "note": "The survey: 'Date of erection: ca. 1913', 'Architect: Unknown'."
   },
   "nodes": [
-    "craftsman"
+    "craftsman",
+    "california-bungalow"
   ],
   "refs": [
     {
@@ -111,5 +112,5 @@
       "note": "One standing; the survey records the remnants of a second, exterior, that 'no longer exists'."
     }
   ],
-  "note": "A HABS-documented plain example, chosen because its data page is a full Part II description of a Craftsman house at the larger ('bungaloid') scale the craftsman node itself describes, and because the survey's language -- 'moderate eave overhang', 'moderately pitched' -- gives a kit words but not inches: it states no dimension for the eave the node's own hard constraint c01 bands at 24-36 in. Seeded 4 Sep 2026."
+  "note": "A HABS-documented plain example, chosen because its data page is a full Part II description of a Craftsman house at the larger ('bungaloid') scale the craftsman node itself describes, and because the survey's language -- 'moderate eave overhang', 'moderately pitched' -- gives a kit words but not inches: it states no dimension for the eave the node's own hard constraint c01 bands at 24-36 in. Seeded 4 Sep 2026. WP-11.3, Tranche 2 (5 Sep 2026): california-bungalow gained an exemplar naming this building, spelled exactly as this record spells it, and linked to it: Fresno is the Central Valley the node's own long description names as the type's inland reach, and the survey's 'moderate eave overhang' is silent on that node's own 8-12 ft porch and 3:12-5:12 pitch too."
 }

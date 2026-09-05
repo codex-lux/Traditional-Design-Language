@@ -17,7 +17,8 @@
   },
   "nodes": [
     "craftsman-bungalow",
-    "craftsman"
+    "craftsman",
+    "arts-and-crafts-american"
   ],
   "refs": [
     {
@@ -46,5 +47,5 @@
       "note": "The registration form. Its own words: 'This style consisted of building simple houses of natural materials -- logs, field-stones, and wood shingles -- in harmony with the natural setting.'"
     }
   ],
-  "note": "No HABS survey was found (query: 'Craftsman Farms OR Stickley Morris Plains Parsippany HABS NJ survey log house' on loc.gov returned unrelated New Jersey surveys), so there is no survey block. Also named, without a precedent key, by arts-and-crafts-american. Seeded 4 Sep 2026."
+  "note": "No HABS survey was found (query: 'Craftsman Farms OR Stickley Morris Plains Parsippany HABS NJ survey log house' on loc.gov returned unrelated New Jersey surveys), so there is no survey block. WP-11.3, Tranche 2 (5 Sep 2026): arts-and-crafts-american names this building at 'Parsippany-Troy Hills, New Jersey' and now carries the precedent key; the sentence that stood here said it named it WITHOUT one. Seeded 4 Sep 2026."
 }

@@ -15,7 +15,8 @@
     "note": "The survey: 'Date of erection: 1910', 'Architect: Unknown'."
   },
   "nodes": [
-    "craftsman-bungalow"
+    "craftsman-bungalow",
+    "california-bungalow"
   ],
   "refs": [
     {
@@ -157,5 +158,5 @@
       "note": "Square feet; the schema's unit enum has no area unit, so none is given."
     }
   ],
-  "note": "A plain 1910 Los Angeles bungalow, added as a HABS-measured specimen the corpus can put a figure to: 31 x 52 ft, one storey, no chimney, 1,088 sq ft -- inside the node's own 24-28 ft width band only if the 31 ft is read as over the walls, and the survey does not say. The house is not on a register that was found; HABS recorded it. Seeded 4 Sep 2026."
+  "note": "A plain 1910 Los Angeles bungalow, added as a HABS-measured specimen the corpus can put a figure to: 31 x 52 ft, one storey, no chimney, 1,088 sq ft -- inside the node's own 24-28 ft width band only if the 31 ft is read as over the walls, and the survey does not say. The house is not on a register that was found; HABS recorded it. Seeded 4 Sep 2026. WP-11.3, Tranche 2 (5 Sep 2026): california-bungalow gained an exemplar naming this building, spelled exactly as this record spells it, and linked to it: a Los Angeles bungalow of 1910 is the Californian type in its own hearth, and the survey's 31 x 52 ft is the only measured envelope that node has."
 }

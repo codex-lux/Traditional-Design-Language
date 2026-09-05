@@ -17,7 +17,8 @@
     "altered": "The site's own collection notes record a 1930s remodel of the adobe (contractors C.T. McGrew & Sons, architect Kenneth Wing, landscape designer Ralph D. Cornell) and an 1872 photograph in which the south wing still had its flat roof."
   },
   "nodes": [
-    "monterey-colonial"
+    "monterey-colonial",
+    "monterey-revival"
   ],
   "refs": [
     {
@@ -61,5 +62,5 @@
       "note": "'Massachusetts-born John Temple constructed the present two-story Monterey-style adobe here on-site in 1844 as headquarters for his large-scale cattle operation.'"
     }
   ],
-  "note": "Added 4 Sep 2026 as the Los Angeles-basin example, for a node whose geography lists 'Los Angeles and Santa Barbara' and whose exemplars were all north of Salinas. The owner's pages are the source for the building's form ('two-story Monterey-style adobe', flat-roofed wings). No HABS record was found: the search '\"Los Cerritos\" ranch house Long Beach HABS loc.gov pictures item' over loc.gov returned only a HAER record of the Henry Ford Bridge over Cerritos Channel. Nothing here states a dimension."
+  "note": "Added 4 Sep 2026 as the Los Angeles-basin example, for a node whose geography lists 'Los Angeles and Santa Barbara' and whose exemplars were all north of Salinas. The owner's pages are the source for the building's form ('two-story Monterey-style adobe', flat-roofed wings). No HABS record was found: the search '\"Los Cerritos\" ranch house Long Beach HABS loc.gov pictures item' over loc.gov returned only a HAER record of the Henry Ford Bridge over Cerritos Channel. Nothing here states a dimension. CROSS-LINKED 5 Sep 2026: monterey-revival now names this building too, at the same location string. It matters more to the revival node than to the colonial one, because the revival's hearth is 'Monterey and Los Angeles' and this is the southern original the Los Angeles designers had actually seen."
 }

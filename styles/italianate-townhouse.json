@@ -200,19 +200,46 @@
       "name": "Irad Hawley House (Salmagundi Club), 47 Fifth Avenue",
       "location": "New York, New York",
       "year": 1853,
-      "note": "The last surviving single-family Italianate brownstone mansion on lower Fifth Avenue, in continuous use by the Salmagundi Club since 1917."
+      "note": "The last surviving single-family Italianate brownstone mansion on lower Fifth Avenue, in continuous use by the Salmagundi Club since 1917.",
+      "precedent": "irad-hawley-house",
+      "standing": "canonical",
+      "why": "The last surviving single-family Italianate brownstone mansion on lower Fifth Avenue and continuously occupied since 1917, so the fabric is documented -- but at a reported forty feet wide it is the type's grandest instance, not its module; the width figure is a blog's and is not treated as measured."
     },
     {
       "name": "Theodore Roosevelt Birthplace, 28 East 20th Street",
       "location": "New York, New York",
       "year": 1848,
-      "note": "Original brownstone of 1848 demolished 1916 and reconstructed 1919-23 by Theodate Pope Riddle from photographs and the surviving adjoining twin; a documented reconstruction rather than an original fabric example, and cited here for the interior sequence."
+      "note": "Original brownstone of 1848 demolished 1916 and reconstructed 1919-23 by Theodate Pope Riddle from photographs and the surviving adjoining twin; a documented reconstruction rather than an original fabric example, and cited here for the interior sequence.",
+      "precedent": "theodore-roosevelt-birthplace",
+      "standing": "documentary",
+      "why": "A reconstruction rather than original fabric, and that is what it documents: the New York Landmarks Conservancy, which this record cites, says 'The original house was demolished in 1916, but was rebuilt in 1923 by the Woman's Roosevelt Memorial Association' to Theodate Pope Riddle's design, with rooms 'restored to reflect their appearance between 1865 and 1872'."
     },
     {
       "name": "Brooklyn Heights Historic District brownstone rows (Willow, Hicks, and Remsen Streets)",
       "location": "Brooklyn, New York",
       "year": 1860,
-      "note": "Speculative Italianate rows of roughly 1850-1870; New York City's first designated historic district, 1965. Cited as a block-scale exemplar because the type's achievement is collective rather than individual."
+      "note": "Speculative Italianate rows of roughly 1850-1870; New York City's first designated historic district, 1965. Cited as a block-scale exemplar because the type's achievement is collective rather than individual.",
+      "precedent": "brooklyn-heights-historic-district",
+      "standing": "icon",
+      "why": "The block, not the house, is what this node claims is the achievement, and the Landmarks Preservation Commission made these streets New York City's first historic district in 1965 on exactly that ground."
+    },
+    {
+      "name": "Gibson House, 137 Beacon Street",
+      "location": "Boston, Massachusetts",
+      "year": 1860,
+      "note": "One of the first houses built in the Back Bay and occupied by three generations of one family from 1859 to 1954, with four floors of period rooms including the original kitchen. A National Historic Landmark in 2001 on the ground that it is the only Back Bay Victorian row house keeping the original relation between shell and interior plan.",
+      "precedent": "gibson-house",
+      "standing": "canonical",
+      "why": "The surviving section this node asserts and nothing else here documents -- basement kitchen, raised parlour floor, bedrooms above, service rooms intact -- and the landmark case rests on exactly that integrity."
+    },
+    {
+      "name": "South End Historic District bowfront rows",
+      "location": "Boston, Massachusetts",
+      "year": null,
+      "note": "Over 300 acres of bow-fronted, mansard-roofed Italianate rows of about 1850-1873, and the largest intact Victorian row-house district in the country. The City's own landmark page states the mechanism: 'Restrictions on building size and materials meant residential structures in long uniform rows, resulting in remarkable visual unity.' No single year is given because a district has none.",
+      "precedent": "south-end-historic-district-boston",
+      "standing": "regional",
+      "why": "Boston's bowfront answer to the New York brownstone, and the one place where a city government states this node's own thesis -- coherence as a byproduct of constraint rather than of taste -- about its own buildings."
     }
   ],
   "sources": [

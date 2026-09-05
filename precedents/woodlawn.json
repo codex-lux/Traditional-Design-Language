@@ -1,0 +1,132 @@
+{
+  "id": "woodlawn",
+  "name": "Woodlawn",
+  "aka": [
+    "Woodlawn Plantation",
+    "Woodlawn Mansion"
+  ],
+  "location": {
+    "text": "9000 Richmond Highway, Fairfax County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1800-1805",
+    "circa": false,
+    "altered": "The survey's own line: 'Wings altered and enlarged during the early 20th century.' The Virginia DHR names the architect of that work -- 'In the early 20th century Elizabeth Sharpe engaged architect Edward W. Donn, Jr. to rebuild the wings and hyphens.'",
+    "note": "Three dates and none is edited. The HABS Architectural Data Form prints 'DATE OF CONSTRUCTION (INCLUDE SOURCE) 1800-1805'; the DHR says 'The five-part mansion at Woodlawn Plantation was completed in 1806'; the node's exemplar gives 1806 and 'Built 1800-06'. THE WINGS A VISITOR SEES ARE LARGELY OF THE TWENTIETH CENTURY, which matters to anyone measuring a five-part parti off a photograph of this house."
+  },
+  "nodes": [
+    "southern-federal"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-337",
+      "title": "Woodlawn, 9000 Richmond Highway, Mount Vernon, Fairfax County, VA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0439/data/va0439data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed cleanly four times in the PDF's own text, on the addendum cover and on the Architectural Data Form: 'Addendum to Woodlawn HABS No. VA-337'. The 1930s call number is 'HABS VA,30-____,3-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0439",
+      "url": "https://www.loc.gov/pictures/item/va0439",
+      "title": "Woodlawn, 9000 Richmond Highway, Mount Vernon, Fairfax County, VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary: 'Data Page(s): 5. HABS VA,30-____,3- Notable Georgian/Federal 5-part house, designed by'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000792",
+      "url": "https://www.dhr.virginia.gov/historic-registers/029-0056",
+      "title": "NRHP Reference Number 70000792 (with a 2011 boundary increase at 11000836); VLR listed 12/02/1969, NRHP listed 02/26/1970, NHL listed 08/05/1998 (as the DHR page prints them)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the Virginia Department of Historic Resources' own register page, which lists both reference numbers. The NHL nomination text is separately reachable at npgallery.nps.gov/NRHP/GetAsset/NHLS/70000792_text, which the same search returned."
+    },
+    {
+      "kind": "state-register",
+      "id": "029-0056",
+      "url": "https://www.dhr.virginia.gov/historic-registers/029-0056",
+      "title": "Woodlawn Plantation - DHR (Virginia Department of Historic Resources)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'Attributed to architect William Thornton, the crisply detailed, beautifully-crafted mansion displays the elegance and refinement so admired in the Federal style.' It also records that Woodlawn was acquired by a group of Quakers in 1846 and was part of the Underground Railroad."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Woodlawn_(Fairfax_County,_Virginia)",
+      "title": "Woodlawn (Fairfax County, Virginia) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Notes the present address is given as Alexandria, Virginia. The node's exemplar and this record both print the county form the Library uses."
+    }
+  ],
+  "survey": {
+    "item": "va0439",
+    "survey_no": "VA-337",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0439/data/va0439data.pdf",
+    "prepared": "'COMPILER, AFFILIATION Druscilla J. Null, HABS DATE 8/17/83'; the form is NPS Form 10-920 (June 1983), Architectural Data Form, prepared at the Washington Office for the Virginia District",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "5-part plan with: central block - 56' x 45'; 2 stories; jerkinhead roof; cross gable in central bay. -Hyphens - 1% stories. Wings - lh stories; gable ended",
+        "page": "HABS No. VA-337, Architectural Data Form (NPS Form 10-920, June 1983), the 'SHAPE AND DIMENSIONS OF STRUCTURE' block, printed immediately above the form's 'EXTERIOR FEATURES OF NOTE' heading. No page number is legible in the extract; the form's own footer numbering was not reached."
+      },
+      {
+        "field": "general_description",
+        "text": "HISTORIC NAME OF STRUCTURE (INCLUDE SOURCE FOR NAME) Woodlawn HABS NO. VA-337 SECONDARY OR COMMON NAMES OF STRUCTURE COMPLETE ADDRESS (DESCRIBE LOCATION FOR RURAL SITES) 9000 Richmond Highway DATE OF CONSTRUCTION (INCLUDE SOURCE) 1800-1805 ARCHITECT(S) (INCLUDESOURCE) William Thornton SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) Notable Georgian/Federal 5-part house, designed by William Thornton, architect of the United States Capitol.",
+        "page": "HABS No. VA-337, Architectural Data Form, head of sheet; no page number legible."
+      },
+      {
+        "field": "porches",
+        "text": "Central block: modillion cornice; 1-story porch with stucco over brick columns, deck roof with balustrade on east front; arched entranceway; round arched central window on 2nd story oval light in cross gable. Hyphensi round-=arched entrances and floor-length windows, gabled dormarg Wines: gabled dormers: oval lights in gable ends.",
+        "page": "HABS No. VA-337, Architectural Data Form, 'EXTERIOR FEATURES OF NOTE'; no page number legible."
+      },
+      {
+        "field": "plan",
+        "text": "Center block: central hall plan; notable stair and trim",
+        "page": "HABS No. VA-337, Architectural Data Form, 'INTERIOR FEATURES OF NOTE (DESCRIBE FLOOR PLANS, IF NOT SKETCHED)'; no page number legible."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "56'",
+      "value": 56,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OF THE CENTRAL BLOCK ONLY, not of the five-part composition. The form does not say which figure is the front, so the FIRST printed is taken as the width, per the schema's rule."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "45'",
+      "value": 45,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Of the central block. The front is unstated; this is the second figure printed."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2 stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "hyphen_storey_count",
+      "as_printed": "-Hyphens - 1% stories",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "'1%' is OCR for 1-1/2; the wings read 'lh stories' for the same figure. A reading, marked as one."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. THE FIGURE THAT MATTERS TO THIS NODE IS THE 45 FEET. southern-federal's kit binds depth_and_pile.max_depth_ft at 20 ft as a MEASURED parameter, and the node's own diagnostic tells lead with a 'One-room-deep main block with a through-passage, where a Northern Federal house of the same status would be double-pile'. Woodlawn's central block is 56 by 45 -- unambiguously double-pile, and this is the node's own exemplar. Recorded, not resolved: the kit is not edited here. Second thing worth carrying: the surveyor calls it 'Notable Georgian/Federal' and writes the style line as 'Federal/Georgian', so the corpus's own hard line between the two nodes is one the 1983 compiler declined to draw."
+}

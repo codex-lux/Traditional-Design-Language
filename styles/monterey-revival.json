@@ -200,19 +200,54 @@
       "name": "Larkin House",
       "location": "Monterey, California",
       "year": 1835,
-      "note": "The original from which the revival takes its name and its balcony; National Historic Landmark. Cited here as the referent, not as an example of the revival."
+      "note": "The original from which the revival takes its name and its balcony; National Historic Landmark. Cited here as the referent, not as an example of the revival.",
+      "precedent": "larkin-house",
+      "standing": "icon",
+      "why": "The house the type is named after and a National Historic Landmark, cited here as the referent rather than as an example of the revival -- which is what this exemplar's own note already says."
     },
     {
       "name": "Casa Amesti",
       "location": "516 Polk Street, Monterey, California",
       "year": 1834,
-      "note": "Adobe with a full-width second-storey balcony; interiors remodelled by Frances Elkins in the 1920s, which is itself part of how the type re-entered fashionable circulation."
+      "note": "Adobe with a full-width second-storey balcony; interiors remodelled by Frances Elkins in the 1920s, which is itself part of how the type re-entered fashionable circulation.",
+      "precedent": "casa-amesti",
+      "standing": "canonical",
+      "why": "Surveyed as HABS CA-143 with the full-width upper balcony the revival copied, and the one Monterey adobe whose 1920s remodelling by Frances Elkins is itself part of how the type came back into fashion."
     },
     {
       "name": "Cliff May's early Monterey-mode houses",
       "location": "San Diego and Los Angeles, California",
       "year": 1932,
-      "note": "May's pre-Ranch work in the early 1930s; individually documented examples are best cited through the Cliff May papers rather than by single address."
+      "note": "May's pre-Ranch work in the early 1930s; individually documented examples are best cited through the Cliff May papers rather than by single address.",
+      "standing": "documentary",
+      "why": "NO PRECEDENT RECORD: this exemplar names a group of houses and not a building, and a precedent is one building's own record -- the San Diego History Center's study of May's first houses names the O'Leary House at 4725 Norma Drive and Cliff May House #1 at 4338 Adams Avenue, but describes the first as a one-storey seven-room hacienda, so none was linked here without a reading that says which of them is Monterey-mode."
+    },
+    {
+      "name": "Cooper-Molera Adobe",
+      "location": "Polk and Munras, Monterey, California",
+      "year": null,
+      "note": "One of the Monterey adobes the revival copied, cited as a referent and not as an example of the revival. The HABS record found for it is photographs only and nothing in the sources states a dimension, so it carries no year here.",
+      "precedent": "cooper-molera-adobe",
+      "standing": "regional",
+      "why": "The National Trust holds it and is the source for the site's extent; it is the Monterey town adobe as a whole property -- house, outbuildings and walled garden -- which is a fact about that town rather than about the revival's reach."
+    },
+    {
+      "name": "Los Cerritos Ranch House",
+      "location": "4600 Virginia Road, Long Beach, California",
+      "year": 1844,
+      "note": "A two-storey Monterey-style adobe of 1844 in the Los Angeles basin, cited as a referent and not as an example of the revival. It matters more to this node than to the colonial one, because the designers who revived the type in the 1920s and 1930s worked in Los Angeles and this is the southern original they could actually have seen.",
+      "precedent": "los-cerritos-ranch-house",
+      "standing": "regional",
+      "why": "The southern instance of the type, in the node's own second hearth -- the owner's pages are the source for its form, so it stands for the region rather than as a measured specimen."
+    },
+    {
+      "name": "Hirigoyen House",
+      "location": "400 West Brookdale Place, Fullerton, California",
+      "year": 1930,
+      "note": "An ordinary two-storey Monterey Revival house of 1930 on a suburban Orange County lot, a City of Fullerton Local Landmark. The only building on this node that is an example of the revival itself rather than one of the adobes it copied; Fullerton Heritage's own page cites it as the local case and dates the style '1915 to 1940'.",
+      "precedent": "hirigoyen-house",
+      "standing": "documentary",
+      "why": "Plain, dated and locally landmarked, with the preservation body that designated it naming it 'A good example of the Monterey Revival style in Fullerton' -- useful to measure and not to admire, and the whole of the evidence rests on that one organisation's pages."
     }
   ],
   "sources": [

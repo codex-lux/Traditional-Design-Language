@@ -7,7 +7,10 @@
   "location": {
     "text": "464 Calle Principal, Monterey, California",
     "country": "United States",
-    "state": "California"
+    "state": "California",
+    "aliases": [
+      "Monterey, California"
+    ]
   },
   "dates": {
     "built": "1834-1837",
@@ -16,7 +19,8 @@
     "note": "The survey says 'built between 1834 and 1837'; the style node's exemplar says 1835 and its prose 'built the first of them at Monterey in 1835'. The node's year sits inside the survey's span."
   },
   "nodes": [
-    "monterey-colonial"
+    "monterey-colonial",
+    "monterey-revival"
   ],
   "refs": [
     {
@@ -145,5 +149,5 @@
       "note": "The lower bound of the band the survey states, per sash."
     }
   ],
-  "note": "Seeded 4 Sep 2026. Worth carrying: the survey says the balconies 'are supported by 6\" square irregularly spaced wood columns', on the house the style node calls the type's 'clearest statement' -- while the node's prose says the defining balcony is cantilevered 'with no posts reaching the ground' and that a balcony on posts 'belongs to the Hispanic tradition or to the twentieth-century revival'. The survey also gives twenty-to-twenty-four-light sash against the node's 'double-hung six-over-six sash', and a 24 in adobe wall, which sits at the bottom of the node's 24-30 in band."
+  "note": "Seeded 4 Sep 2026. Worth carrying: the survey says the balconies 'are supported by 6\" square irregularly spaced wood columns', on the house the style node calls the type's 'clearest statement' -- while the node's prose says the defining balcony is cantilevered 'with no posts reaching the ground' and that a balcony on posts 'belongs to the Hispanic tradition or to the twentieth-century revival'. The survey also gives twenty-to-twenty-four-light sash against the node's 'double-hung six-over-six sash', and a 24 in adobe wall, which sits at the bottom of the node's 24-30 in band. CROSS-LINKED 5 Sep 2026: monterey-revival also names this building, at the shorter location string 'Monterey, California', which is carried in `location.aliases` rather than either exemplar being renamed. The revival node cites it as the referent the style is named after and not as an example of the revival, which is what its own exemplar note says."
 }

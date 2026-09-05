@@ -1,0 +1,49 @@
+{
+  "id": "cottage-lawn",
+  "name": "Cottage Lawn",
+  "aka": [
+    "Niles Higinbotham House",
+    "Cottage Lawn Museum"
+  ],
+  "location": {
+    "text": "Oneida, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1849",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1849' and 'Architect Davis, Alexander Jackson'."
+  },
+  "nodes": [
+    "rural-gothic-villa"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "80002650",
+      "url": "https://en.wikipedia.org/wiki/Cottage_Lawn",
+      "title": "NRHP reference No. 80002650; added November 6, 1980; 435 Main St., Oneida, New York (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cottage_Lawn",
+      "title": "Cottage Lawn - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its whole description, which is the only fabric account this record carries: 'It is a two-story L-shaped house, with basement and attic. It is constructed of brick and coated in stucco. It features six quatrefoil columns that support Tudor arches spanning the verandah.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/707c9c37-97da-43fe-922b-2edc6d1de187",
+      "title": "William J. Rotch Gothic Cottage -- National Historic Landmark Nomination",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Not about this house, and cited because it places it: the nomination names 'Cottage Lawn in Oneida, New York' as one of three other Davis Gothic Revival cottages listed on the National Register."
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY: a loc.gov pictures search for 'Cottage Lawn Oneida New York' failed to fetch twice and no HABS item for the house surfaced in any other query; recorded as unresolved rather than as absent. Note that the quatrefoil column is the detail the Kingscote survey independently records on its own east porch -- two Gothic villas by two different architects, ten years and 250 miles apart, using the same section. No rights line is recorded: no Library item page was opened for this building."
+}

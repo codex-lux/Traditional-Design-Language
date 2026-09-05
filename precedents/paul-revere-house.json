@@ -64,6 +64,7 @@
   },
   "note": "Both extract queries returned only the cover sheets of the 1941 record and its addenda; no descriptive data was reached, so nothing about the fabric is quoted here.",
   "nodes": [
-    "new-england-colonial"
+    "new-england-colonial",
+    "garrison-colonial"
   ]
 }

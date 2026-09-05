@@ -1,0 +1,44 @@
+{
+  "id": "life-magazine-eight-houses-wills-house",
+  "name": "Life magazine 'Eight Houses for Modern Living' Wills house",
+  "location": {
+    "text": "Edina, Minnesota",
+    "country": "United States",
+    "state": "Minnesota"
+  },
+  "dates": {
+    "built": "1938",
+    "circa": true,
+    "note": "1938 is the COMPETITION's date, not a construction date, and the difference matters. The issue is cited as 'Life, 26 September 1938: 46, 57'. Neither Historic New England's finding aid nor Wikipedia states when the house was finished; Wikipedia says only that 'the home was built in Edina, Minnesota'. The node's exemplar year of 1938 is carried unchanged and is here said to be the publication's year."
+  },
+  "nodes": [
+    "cape-cod-revival"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/explore/collections-access/gusn/324136",
+      "title": "Royal Barry Wills Associates architectural collection, 1925-2013 | Historic New England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The finding aid's historical note reads: 'In 1938 Life magazine and Architectural Forum invited eight well-known American architects to participate in a competition to design homes for specific families in four income categories. In the category for people with incomes of $5,000 to $6,000, Royal Barry Wills was pitted against Frank Lloyd Wright. The Blackbourn family of Edina, Minnesota, a suburb of Minneapolis, selected Wills's traditional house over Wright's modern design.' The holding institution's own account, and the source of the family's name."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Royal_Barry_Wills",
+      "title": "Royal Barry Wills - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In the category for people with $5,000 to $6,000 incomes, the modern design was by Frank Lloyd Wright and the traditional one by Royal Barry Wills. The family chose the Wills house over the Wright design, and the home was built in Edina, Minnesota.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.researchgate.net/figure/Life-Presents-In-Collaboration-with-the-Architecture-Forum-Eight-Houses-for-Modern_fig5_260142445",
+      "title": "\"Life Presents, In Collaboration with the Architecture Forum, Eight Houses for Modern Living,\" Life, 26 September 1938: 46, 57.",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A figure caption in a scholarly article, carrying the full periodical citation with issue date and page numbers. The magazine itself was not read; this is the citation, not the article."
+    }
+  ],
+  "note": "The one exemplar in this cluster that could not be located to a street. Three searches ('1938 Life magazine \"Eight Houses for Modern Living\" Blackbourn house Edina Minnesota Royal Barry Wills Frank Lloyd Wright' and two narrower ones) returned the competition, the family's name and the town, and no address; the Edina house is not, on anything reachable here, a listed or inventoried building. A record with no address is still worth having because what this building is FOR in the corpus is the documented preference itself. A caution travels with it: a post in a Frank Lloyd Wright enthusiasts' group, returned by the same search, says the Blackbourns preferred Wright's design -- what became Still Bend -- and that the BANK preferred to fund the Wills design. That is a third account on a surface this project will not cite as a reference, and it is recorded here as unresolved rather than used to change anything. The Wills design was chosen and built; who inside the household preferred what is not settled by anything read."
+}

@@ -17,7 +17,8 @@
   },
   "nodes": [
     "craftsman-bungalow",
-    "craftsman"
+    "craftsman",
+    "california-bungalow"
   ],
   "refs": [
     {
@@ -46,5 +47,5 @@
       "via": "tavily-search"
     }
   ],
-  "note": "The exemplar names a DISTRICT rather than a building, and this record is the district's: it carries the register numbers a district has and no survey block, because no member of it was found in the Historic American Buildings Survey (query: 'Pasadena bungalow Historic American Buildings Survey HABS CA data pages Craftsman 1910', restricted to loc.gov, returned Fresno and Los Angeles houses and nothing in Pasadena). The exemplar's name keeps the city's 1989 'Landmark District' designation; the 2008 National Register listing is 'Bungalow Heaven Historic District', recorded under aka. Also named, without a precedent key, by california-bungalow. Seeded 4 Sep 2026."
+  "note": "The exemplar names a DISTRICT rather than a building, and this record is the district's: it carries the register numbers a district has and no survey block, because no member of it was found in the Historic American Buildings Survey (query: 'Pasadena bungalow Historic American Buildings Survey HABS CA data pages Craftsman 1910', restricted to loc.gov, returned Fresno and Los Angeles houses and nothing in Pasadena). The exemplar's name keeps the city's 1989 'Landmark District' designation; the 2008 National Register listing is 'Bungalow Heaven Historic District', recorded under aka. WP-11.3, Tranche 2 (5 Sep 2026): california-bungalow names this district at 'Pasadena, California' and now carries the precedent key; the sentence that stood here said it named it WITHOUT one. Seeded 4 Sep 2026."
 }

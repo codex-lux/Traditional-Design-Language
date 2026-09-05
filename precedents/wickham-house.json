@@ -1,0 +1,94 @@
+{
+  "id": "wickham-house",
+  "name": "Wickham House",
+  "aka": [
+    "Wickham-Valentine House",
+    "Valentine Museum"
+  ],
+  "location": {
+    "text": "1015 East Clay Street, Richmond, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1812",
+    "circa": false,
+    "altered": "The survey: 'Since it was first built, successive owners have made changes in the house. Between 1853-58, it was com-pletely redecorated in' -- the extract breaks off there and the redecoration's manner is not recorded here.",
+    "note": "The survey prints 'Date of Erection: 1812'; the Valentine, which owns it, says 'The Wickham House was built between 1812 and 1815'. Both kept."
+  },
+  "nodes": [
+    "southern-federal"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-310",
+      "title": "Wickham-Valentine House (Valentine Museum), 1015 East Clay Street, Richmond (Independent City), Virginia",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0500/va0586/data/va0586data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed three times in the PDF's own text: on the addendum cover ('Addendum to Valentine Museum (Wickham House) ... HABS No. VA-310') and in the running head, OCR'd as 'HABS Wo, VA-310 Page 2'. The 1930s call number is 'HABS, VA,44-RICH,5-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0586",
+      "url": "https://www.loc.gov/pictures/item/va0586",
+      "title": "Wickham-Valentine House, 1015 East Clay Street, Richmond, Richmond (Independent City), VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'The design of the mansion, which was built in 1812 for John Wickham, was executed by Alexander Parris, a New England architect who also planned the nearby' -- which is the Library's catalogue disagreeing with the Library's own survey sheet about the architect."
+    },
+    {
+      "kind": "institution",
+      "url": "https://thevalentine.org/explore/richmond-stories/featured-stories/exploring-history-in-the-wickham-house",
+      "title": "Exploring History in the Wickham House (The Valentine, Richmond)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner. Its words: 'The Wickham House was built between 1812 and 1815. New England architect Alexander Parris designed the large house'."
+    },
+    {
+      "kind": "other",
+      "url": "https://venturerichmond.com/listing/the-wickham-house/718",
+      "title": "The Wickham House (Venture Richmond)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words: 'New England architect Alexander Parris designed the Wickhams' home to accommodate their large family and the enslaved individuals who lived and labored there.'"
+    }
+  ],
+  "survey": {
+    "item": "va0586",
+    "survey_no": "VA-310",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0500/va0586/data/va0586data.pdf",
+    "prepared": "Historic American Buildings Survey; the addendum cover reads 'National Park Service, Department of the Interior, Washington, DC 20013-7127'. No author or date is legible on the 1930s sheets in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Richmond, Virginia . ff?C-^ Owner: Valentine Museum Date of Erection: 1812 Architect: Robert Mills Builder: John Wickham (owner) Present Condition: Excellent Number of Stories: Three and basement Materials of Construction: Brick Other Existing Records: None known",
+        "page": "HABS No. VA-310, Page 1; the running head for the following page, 'HABS Wo, VA-310 Page 2', is printed later in the same extract span."
+      },
+      {
+        "field": "finishes",
+        "text": "ARCHITECTURE. The style and decoration of the house are Late Georgian, It is charac-terized by clear wall spaces instead of panel-HABS Wo, VA-310 Page 2 ling; delicately carved ornament instead of excessive applied ornament; simplicity and dignity rather than grandeur.",
+        "page": "HABS No. VA-310, Page 2 -- the running head falls INSIDE the word 'panelling', splitting it across the page break, and is left where it fell."
+      },
+      {
+        "field": "plan",
+        "text": "de-veloped in France in the 18th Century, introduced into England by Robert Adam, and later into America by Thomas Jefferson. It consists of a symmetrical pattern with a central salon in the form of an oval placed on axis at the rear, opening on agarden,",
+        "page": "HABS No. VA-310, Page 2; the surveyor is quoting 'An archi-tect of today' whom he does not name."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: Three and basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three storeys over a basement. No plan dimension is stated anywhere in either extract span."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. TWO DISAGREEMENTS ARE ON THIS RECORD AND NEITHER IS RESOLVED. The architect: the HABS sheet says 'Architect: Robert Mills'; the Library's own catalogue line for the same item, the Valentine which owns the house, and Venture Richmond all say Alexander Parris. Both are recorded, neither is changed, and nothing in this corpus should be built on either until a third surface is read. The style word: the surveyor calls it 'Late Georgian' and describes exactly what this node calls Federal -- 'clear wall spaces instead of panelling; delicately carved ornament instead of excessive applied ornament'. That is the second record in this cluster where a surveyor declines the Georgian/Federal boundary the corpus draws. Worth carrying for the node's own prose, which says the Southern Federal house 'spreads' and is one room deep: this one is a THREE-STOREY town house over a basement with an oval salon on the axis at the rear, which is the urban half of the variant the node's description does not describe."
+}

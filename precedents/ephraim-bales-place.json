@@ -1,0 +1,76 @@
+{
+  "id": "ephraim-bales-place",
+  "name": "Ephraim Bales Place",
+  "location": {
+    "text": "Roaring Fork, Great Smoky Mountains National Park, Sevier County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "c. 1880",
+    "circa": true,
+    "note": "The survey's history says Alfred Reagan 'erected most of the existing buildings about ltt&O' -- OCR for about 1880 -- and that Ephraim Bales bought the property in 1887 and sold it to the park commission in 1930. The Carol M. Highsmith Archive caption at loc.gov calls it 'circa-1930', which is the year of the sale and not of the building; recorded here as the survey states it."
+  },
+  "nodes": [
+    "appalachian-log-house",
+    "dogtrot-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-117",
+      "title": "Ephraim Bales Place, Roaring Fork Trail, Gatlinburg, Sevier County, TN",
+      "url": "http://www.loc.gov/pictures/collection/hh/item/tn0115",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The loc.gov item page prints 'Call Number: HABS TENN,78-GAT.V,1- Survey number: HABS TN-117'; the npshistory.com park index lists 'Ephraim Bales Place HABS No. TN-117'. Eight sheets of measured drawings exist; unprocessed field notes FN-10."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0115",
+      "url": "http://www.loc.gov/pictures/collection/hh/item/tn0115",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "77000111",
+      "url": "https://en.wikipedia.org/wiki/Cades_Cove",
+      "title": "Cades Cove Historic District, NRHP reference No. 77000111 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Recorded for the park context only: Roaring Fork is NOT in the Cades Cove district, and no individual listing for this house was resolved. A district reference is not an identity."
+    }
+  ],
+  "survey": {
+    "item": "tn0115",
+    "survey_no": "TN-117",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0100/tn0115/data/tn0115data.pdf",
+    "prepared": "Signed 'Charles 5. Grossman' (Charles S. Grossman, National Park Service), with an undated addendum transmitting photographs",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "The grouping of two cabins occur frequently. They are usually grouped in one of two ways- with the chimney separating the two buildings or with an entry between the two buikfiings as the Ephraim Bales House. The entry is called a \"dog trot\" by the natives",
+        "page": "HABS No. TN-117; no page marker legible in the extract span"
+      },
+      {
+        "field": "general_description",
+        "text": "The second cabin is usually the result of over crowding in the original cabin. Some times the second cabin is a new structure but more frequently it Is an old building moved from some other location, ^«-6/«rrv' The latter is what occured at the Bphraim Bales Place.",
+        "page": "HABS No. TN-117; no page marker legible in the extract span"
+      },
+      {
+        "field": "chimneys",
+        "text": "Originally the roof of the kitchen was framed in the opposite direction to what it is at present. Proof of this is found in notches cut in the plates to receive rafters and in the fireplace opening cut in the east wall of the kitchen. The fireplace and chimney are always located at the gable end of the structure. I have found no exception to this in the log structures of this region.",
+        "page": "HABS No. TN-117; the surveyor's signature follows"
+      },
+      {
+        "field": "significance",
+        "text": "On'October fourteentli 157& Daniel W. Reagan made an entry of four thousand acres of land on the Roaring Fork near Gatlinburg. He sold aportion of this entry to Alfred Reagan who erected most of the existing buildings about ltt&O. Alfred Reagan sold the property to Marcus R., and Mary McFalls.",
+        "page": "HABS No. TN-117; the marker '#73 -6ATV' precedes the span"
+      }
+    ]
+  },
+  "note": "The one building in this cluster where the SURVEY names the type: 'The entry is called a \"dog trot\" by the natives.' It is quoted here rather than paraphrased because the corpus's dogtrot node is otherwise resting on modern secondary literature. The sheet also states a rule the Henry Whitehead survey's own chimney contradicts -- 'The fireplace and chimney are always located at the gable end of the structure. I have found no exception' -- and both are recorded. No dimension is legible anywhere in the extracted spans; the figures for this house are on the eight sheets of measured drawings, which this container cannot read."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "william-k-vanderbilt-house",
+  "name": "William K. Vanderbilt House ('Petit Chateau')",
+  "aka": [
+    "Petit Chateau",
+    "660 Fifth Avenue"
+  ],
+  "location": {
+    "text": "660 Fifth Avenue, New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1878-1882",
+    "circa": false,
+    "altered": "DEMOLISHED. The house no longer exists and nothing about it can be re-measured; every figure below comes from description, not from survey.",
+    "note": "THE DEMOLITION YEAR IS NOT AGREED. The Wikipedia infobox says 'Demolished 1927'; a City Beautiful account and a Gilded Age mansions page both say 1926, the latter adding that 'The corner original mansion was demolished circa 1926 and the newer mansion of William K. Vanderbilt, Jr. was demolished shortly after.' The style node's exemplar says 1926. Both are recorded and neither is corrected."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_K._Vanderbilt_House",
+      "title": "William K. Vanderbilt House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox gives Architectural style 'Chateauesque (Renaissance Revival architecture)', Construction started 1878, Completed 1882, Demolished 1927. The lead: 'The William K. Vanderbilt House, also known as the Petit Chateau, was a Chateauesque mansion at 660 Fifth Avenue in Midtown Manhattan, New York City, on the northwest corner of Fifth Avenue and 52nd Street.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_K._Vanderbilt_House",
+      "title": "William K. Vanderbilt House - Wikipedia (room dimensions)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE ONLY ROOM DIMENSIONS FOUND FOR ANY BUILDING ON THIS NODE, quoted verbatim from the article's description of the principal floor: 'The first of the principal rooms upon entering the grand hall from the east was the 18-by-14-foot (5.5 m x 4.3 m) library, with 16th century French Renaissance panelling covering the walls. On the opposite side was the 33-by-18-foot (10.1 m x 5.5 m) parlor. ... Next to the parlor was the Louis Quinze-style 33-by-38-foot (10 m x 12 m) salon' and 'Beyond the salon was the 20-by-27-foot (6.1 m x 8.2 m) breakfast room and an adjoining butler's pantry. At the western end of the grand hall one entered the banquet hall. At 50 by 35 feet (15 m x 11 m) and two stories high, it was the largest room in the house.' These are an encyclopedia's figures for a demolished building, NOT a survey's, and they are deliberately carried in this note rather than in `measurements`, which indexes survey quotes only."
+    },
+    {
+      "kind": "other",
+      "url": "https://citybeautifulblog.com/alva-vanderbilts-petit-chateau",
+      "title": "Alva Vanderbilt's \"Petit Chateau\"",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Completed 1882 - Demolished in 1926 - Architect Richard Morris Hunt - 660 5th Ave at W 52nd Street.' The 1926 date against Wikipedia's 1927."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. THERE IS NO SURVEY AND THERE NEVER CAN BE: the Historic American Buildings Survey began in 1933 and this house came down in 1926 or 1927, so the founding building of the American style is permanently outside the archive that would let a checker resolve it. That is not a gap in the research, it is a fact about the node, and chateauesque's own exemplar note already says the demolition 'is itself the clearest statement of the style's economics'. The room dimensions in the second ref are the only interior figures found anywhere on this node and they are an encyclopedia's, which is why they sit in a ref note and not in `measurements`."
+}

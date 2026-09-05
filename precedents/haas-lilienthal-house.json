@@ -1,0 +1,164 @@
+{
+  "id": "haas-lilienthal-house",
+  "name": "Haas-Lilienthal House",
+  "aka": [
+    "Haas–Lilienthal House"
+  ],
+  "location": {
+    "text": "San Francisco, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1886",
+    "circa": false,
+    "altered": "The survey: 'Gardner Daily designed a two-story annex in 1929 which provided additional bedrooms and baths on the second floor and a garage on the first floor'; the original shingling of the tower and adjacent gable roofs has in part 'been replaced with 20th century asphalt'.",
+    "note": "The Library's item summary gives 'ca. 1886 Initial Construction'; the survey's historical context and Wikipedia both say 1886 flat. Recorded as 1886."
+  },
+  "nodes": [
+    "queen-anne-american",
+    "queen-anne-spindled"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-1160",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0600/ca0652/data/ca0652data.pdf",
+      "title": "Haas-Lilienthal House, 2007 Franklin Street, San Francisco, San Francisco County, CA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running head ('Haas-Lilienthal House HABS No. CA-1160 {Page 3)'). One running head in the same document prints the older form 'CAL-ll60 Page 5'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0652",
+      "url": "http://www.loc.gov/resource/hhh.ca0652data",
+      "title": "Haas-Lilienthal House, 2007 Franklin Street, San Francisco, San ... Photos from Survey HABS CA-1160",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73000438",
+      "url": "https://en.wikipedia.org/wiki/Haas%E2%80%93Lilienthal_House",
+      "title": "NRHP reference No. 73000438; added to NRHP July 2, 1973; San Francisco Designated Landmark No. 69, designated January 4, 1975 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox's own style words are 'Queen Anne - Eastlake', which is this cluster's two nodes stated in one line by the register."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Haas%E2%80%93Lilienthal_House",
+      "title": "Haas–Lilienthal House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/places/haas-lilienthal-house",
+      "title": "Haas-Lilienthal House | National Trust for Historic Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its page calls the house 'an exuberant 1886 Queen Anne-style Victorian' and 'the city's only intact private home of the period that is open regularly as a museum' -- an owner-adjacent claim, recorded as one."
+    }
+  ],
+  "survey": {
+    "item": "ca0652",
+    "survey_no": "CA-1160",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0600/ca0652/data/ca0652data.pdf",
+    "prepared": "Prepared by: Susan Stein, Historian, National Trust for Historic Preservation, 1977; Edited by: Susan McCown, Historian, Historic American Buildings [Survey], as the sheet reads. The sheet's bibliography cites an earlier 'Historic American Buildings Survey. Report dated May, 1964.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The Haas-Lilienthal house is essentially a two»story house, with high basement and large attic story At the southeast corner is a lofty rounded tower with pointed, conical roof; this tower has an additional story (room) above the attic, reached by an interior stair.",
+        "page": "HABS No. CA-1160, ARCHITECTURAL INFORMATION / EXTERIOR; no page marker falls inside this span, the nearest legible below it being 'Haas-Lilienthal House HABS No. CA-1160 {Page 3)'."
+      },
+      {
+        "field": "walls",
+        "text": "The house was built of native wood, painted, (it is. now a formal dark gray color.) The foundations are of brick, as atfe the chimneys - whether exposed in their natural material or sheathed in wood. The first story (main floor) is covered with horizontal wood siding about eight inches wide; the second story is covered with shingling, but with strong horizontal divisions about four inches apart. The third story is covered with scale-like shingles, which extend up into the multiple gables of the roof.",
+        "page": "HABS No. CA-1160; the running head 'CAL-ll60 Page 5' falls a few lines below this span."
+      },
+      {
+        "field": "finishes",
+        "text": "Elaborate wood trim is used to distinguish between floors: dentils, two kinds of rosettes (one with a fluted edge and one with a smooth edge), swags, broken pediments, and articulated molding.",
+        "page": "HABS No. CA-1160; the nearest marker below this span is 'Haas-Lilienthal House HABS No. CA-1160 {Page 3)'."
+      },
+      {
+        "field": "porches",
+        "text": "3. Entrance, balcony: A stair consisting of two runs of eight and ten risers each leads from the Franklin Street sidewalk to the main entry. A black wrought iron fence with granite base and pillars encloses the property. There is a recessed balcony at the attic.",
+        "page": "HABS No. CA-1160, Part II.3; the marker 'Haas-Lilienthal House HABS No. CA-1160 {Page 3)' is printed immediately after this span."
+      },
+      {
+        "field": "chimneys",
+        "text": "4. Chimneys: The remaining original brick chimney is located at the center of the house, midway between the south and east walls, and serves the first and second floors.",
+        "page": "Haas-Lilienthal House HABS No. CA-1160 {Page 3) -- the marker is printed immediately before this span."
+      },
+      {
+        "field": "openings",
+        "text": "1/1 sash types. Windows on the second and attic floors have moldings. Some windows on all three floors have rosettes above the top sash. The two windows at first floor level at either side of the tower have broken pediments and small consoles.",
+        "page": "HABS No. CA-1160, Part II.5 (Openings); the span begins mid-sentence and the nearest legible marker below is 'Haas-Lilienthal House HABS No. CA-1160 (Page 4)'."
+      },
+      {
+        "field": "roof",
+        "text": "6. Roof: a. Covering, shape: The roof, covered with asphalt shingle, consists of four gables which intersect a long rectangle. b. Cornice, eaves: The area beneath the gables at attic level is accentuated by a repeating design on all four gables. The triangular area at the apex contains carved wood rosettes supported by wood brackets. The gable itself is suported by vertical louvered brackets about the same size as the attic windows. c. Towers: A round tower with a conical roof is located at the southeast corner of the house.",
+        "page": "HABS No. CA-1160, Part II.6; the nearest legible marker below is 'Haas-Lilienthal House HABS No. CA-1160 (Page 4)'."
+      },
+      {
+        "field": "dependencies",
+        "text": "Gardner Daily designed a two-story annex in 1929 which provided additional bedrooms and baths on the second floor and a garage on the first floor. B. Historical Context: The residence was constructed for William Haas in 1886, a member of the wholesale firm of Haas Brothers Incoraporated.",
+        "page": "HABS No. CA-1160; the nearest legible marker below is 'Haas-Lilienthal House HABS No. CA-1160 (Page 2)'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "essentially a two»story house",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys over a high basement, with a large attic storey and a tower room above that. The surveyor's own hedge 'essentially' is on the record and is not resolved here."
+    },
+    {
+      "name": "first_storey_siding_exposure_in",
+      "as_printed": "about eight inches wide",
+      "value": 8,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "second_storey_shingle_band_in",
+      "as_printed": "about four inches apart",
+      "value": 4,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "The spacing of the 'strong horizontal divisions' in the second-storey shingling, not a shingle exposure."
+    },
+    {
+      "name": "roof_gable_count",
+      "as_printed": "four gables which intersect a long rectangle",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 6
+    },
+    {
+      "name": "entrance_stair_riser_count",
+      "as_printed": "two runs of eight and ten risers each",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The sum of the two runs the survey names; the survey does not print a total, so 18 is a reading of the two figures it does print."
+    },
+    {
+      "name": "original_chimney_stack_count",
+      "as_printed": "The remaining original brick chimney",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "One original stack surviving. The survey goes on to describe a later brick chimney added elsewhere in the house, so this is not the house's chimney count today."
+    }
+  ],
+  "note": "The three-storey wall in this survey is the node's own texture rule written down by a surveyor a century before the rule: horizontal siding about eight inches wide at the first storey, shingling in four-inch horizontal divisions at the second, scale-like shingles at the third. That is a THREE-texture wall, where `queen-anne-american`'s hard rule asks only for two changing at a horizontal line. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

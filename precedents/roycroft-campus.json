@@ -1,0 +1,57 @@
+{
+  "id": "roycroft-campus",
+  "name": "Roycroft Campus",
+  "aka": [
+    "Roycroft",
+    "The Roycroft Campus"
+  ],
+  "location": {
+    "text": "East Aurora, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1895-1915",
+    "circa": true,
+    "note": "THREE DATES, NONE EDITED. The Wikipedia infobox's 'Built' field says 1895. The Roycroft Campus Corporation's own visitor page says the campus was 'Founded by Elbert Hubbard in 1897'. The style node's exemplar gives 1897 and says the campus was built out c. 1897-1915. The range carried here spans the infobox's start and the node's end and is marked circa for that reason."
+  },
+  "nodes": [
+    "arts-and-crafts-american"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Roycroft",
+      "title": "Roycroft - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States 'Fourteen original Roycroft buildings are located in the area of South Grove and Main Street in East Aurora. Known as the \"Roycroft Campus\", this rare survival of an art colony was awarded National Historic Landmark status in 1986.'"
+    },
+    {
+      "kind": "nhl",
+      "id": "74001236",
+      "url": "https://en.wikipedia.org/wiki/Roycroft",
+      "title": "NRHP reference No. 74001236; Added to NRHP November 8, 1974; Designated NHL February 26, 1986 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THIS IS A LANDMARK DISTRICT AND NOT A SINGLE BUILDING. The Roycroft Campus Corporation calls it 'a National Historic Landmark district (NHL)' covering 'nine of the original 14 structures including the Inn, the Chapel, the Print Shop, the Furniture Shop, and the Copper Shop'. The number is read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.roycroftcampuscorporation.com",
+      "title": "Home - The Roycroft Campus Corporation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The site's owner. Its own claim, recorded as one: the campus 'is the best preserved and most complete complex of buildings remaining in the United States of the \"guilds\" that evolved as centers of craftsmanship and philosophy during the late 19th century.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.roycroftcampuscorporation.com/visit-the-roycroft-campus/visitor-information",
+      "title": "Visitor Information - The Roycroft Campus Corporation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the founding year as 1897 and the address as 31 South Grove Street; calls the campus 'often considered the birthplace of the American Arts & Crafts Movement' -- an owner's claim, recorded as one."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey was found and the exemplar names a CAMPUS rather than a building, so this record carries the district's own locators, no survey block and no measurement. Two things are worth knowing before anything is built on it. Its register number is a DISTRICT number, so `check_precedents.py`'s one-building-one-record guard must not read it as an identity -- the ref's note says so. And the count of what survives is contested between two of its own pages: Wikipedia says 'Fourteen original Roycroft buildings are located in the area', the Campus Corporation says the landmark district 'contains nine of the original 14 structures'. Nine of fourteen and fourteen located are not the same statement and both are recorded."
+}

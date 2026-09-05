@@ -1,0 +1,72 @@
+{
+  "id": "kuntz-shotgun-house",
+  "name": "Kuntz Shotgun House",
+  "location": {
+    "text": "1401 East Washington Street, Louisville, Jefferson County, Kentucky",
+    "country": "United States",
+    "state": "Kentucky"
+  },
+  "dates": {
+    "built": "1889-1891",
+    "circa": false,
+    "note": "As the survey's own DATE OF CONSTRUCTION field prints it. The field asks for a source and none is given."
+  },
+  "nodes": [
+    "shotgun-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "KY-119",
+      "title": "Kuntz Shotgun House, 1401 East Washington Street, Louisville, Jefferson County, KY",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0015/data/ky0015data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own cover ('Kuntz Shotgun House lUOO. E. Washington Street ... HABS No. KY-119') and again in the addendum head. The Library's call number, read off a Wikimedia Commons file page the same day, is HABS KY,56-LOUVI,13-. The address is printed twice and differently on the sheet -- 'lUOO' on the cover and 'ikOl' in the data form, OCR for 1400 and 1401 -- and the title uses 1401, which is what the drawings and the Commons file both carry."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ky0015",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0015/data/ky0015data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the loc.gov landing page was not opened. Recorded as `manual` for that reason. A Wikimedia Commons file page read by search the same day states 'available from the United States Library of Congress's Prints and Photographs division under the digital ID hhh.ky0015', which agrees."
+    }
+  ],
+  "survey": {
+    "item": "ky0015",
+    "survey_no": "KY-119",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0015/data/ky0015data.pdf",
+    "prepared": "Compiled by Susan McCown, historian, Historic American Buildings Survey, 24 August 1981, from David Arbogast's HABS historical and descriptive architectural data of 1974",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "This is a typical \"shotgun\" house, having three rooms \"back-to-\"back perpendicular to the street, with a fourth over the rear third room, forming a \"camelback\" configuration. Accord-ing to legend, it is called a \"shotgun\" house because when all doors on the first floor are open one can shoot a bullet through the house without striking anything.",
+        "page": "HABS No. KY-119, ARCHITECTURAL DATA FORM, 'SIGNIFICANCE'; no page marker legible in the extract span"
+      },
+      {
+        "field": "walls",
+        "text": "STYLE (IF APPROPRIATE) MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Brick SHAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) EXTERIOR FEATURES OF NOTE Lintels with cut designs are over the front windows. Front doorway has",
+        "page": "HABS No. KY-119, ARCHITECTURAL DATA FORM; the span runs from the STYLE field to the end of the extractor's chunk"
+      },
+      {
+        "field": "other",
+        "text": "ikOl E. Washington Street DATE OF CONSTRUCTION CONCLUDE SOURCE) 1889-1891",
+        "page": "HABS No. KY-119, ARCHITECTURAL DATA FORM, address and date fields; 'ikOl' is OCR for 1401 and 'CONCLUDE SOURCE)' for '(INCLUDE SOURCE)'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "room_count",
+      "as_printed": "three rooms",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three on the ground floor, and the sheet says a fourth sits over the rear one -- so the plan is three deep and the house is a camelback."
+    }
+  ],
+  "note": "The only measured HABS record of a shotgun house found in this cluster, and worth reading for what it does NOT say: the form's 'SHAPE AND DIMENSIONS OF STRUCTURE' field is BLANK, which is why the quote above runs straight from the field heading into EXTERIOR FEATURES. The corpus's shotgun kit states a room width band of 11 to 14 ft and a total depth of 40 to 70 ft, and the one federal survey of a shotgun this cluster could reach declines to state either. The figures are on the reduced copies of measured drawings the item carries, which this container cannot read."
+}

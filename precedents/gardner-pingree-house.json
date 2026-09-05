@@ -16,7 +16,8 @@
     "note": "The Wikipedia infobox prints 'Built 1804', architect Samuel McIntire. HABS records the house under the name Gardner-White-Pingree Place."
   },
   "nodes": [
-    "federal-style"
+    "federal-style",
+    "new-england-federal"
   ],
   "refs": [
     {
@@ -31,11 +32,11 @@
     {
       "kind": "loc-item",
       "id": "ma0693",
-      "url": "https://www.loc.gov/resource/hhh.ma0693.photos/%3Fsp%3D1%26st%3Dgrid",
+      "url": "https://www.loc.gov/resource/hhh.ma0693.photos?sp=1&st=grid",
       "title": "Gardner-White-Pingree Place, 128 Essex Street, Salem, Essex County, MA (House & Garden)",
-      "retrieved": "2026-09-04",
+      "retrieved": "2026-09-05",
       "via": "tavily-search",
-      "note": "A photo-gallery resource page for the item, which is what the search returned; the item landing page was not opened."
+      "note": "A photo-gallery resource page for the item; the item landing page was not opened. URL CORRECTED 5 Sep 2026 (WP-11.3 audit): the stored form was '.../hhh.ma0693.photos/%3Fsp%3D1%26st%3Dgrid' -- the query string percent-encoded behind a stray slash, which is dead ('Failed to fetch url'). A locator that does not resolve is not a locator, and nothing in this tree checks that one does."
     },
     {
       "kind": "nrhp",

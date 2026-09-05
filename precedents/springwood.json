@@ -17,7 +17,8 @@
     "note": "The NPS page: 'The original house was built about 1793 and later renovated into an Italianate style villa about 1850 ... The enlargement, completed in 1916'. The Wikipedia infobox prints 'Built 1800–1845' and 'Architectural style Federal, Italianate' for the whole site. Both kept; the exemplar year is the enlargement's completion."
   },
   "nodes": [
-    "colonial-revival"
+    "colonial-revival",
+    "dutch-colonial-revival"
   ],
   "refs": [
     {
@@ -69,6 +70,14 @@
       "retrieved": "2026-09-04",
       "via": "tavily-search",
       "note": "Owner. 'transforming it from an Italianate villa into a Colonial Revival–style mansion designed by Hoppin & Koen of New York City' and 'The stone and stucco house has a roughly U-shaped plan of two and three stories'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.archives.gov/publications/prologue/2008/winter/architect.html",
+      "title": "FDR: The President and the High School | National Archives (Prologue, Winter 2008)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Added 5 Sep 2026 by the Dutch-trunk pass, as the authority for this record's second node. 'Dutch influence and local geography seemingly drew Roosevelt's attention to architecture and building materials ... Buildings in the mid-Hudson Valley testify to Roosevelt's affinity for native fieldstone construction and colonial Dutch architecture ... In 1915 Roosevelt expanded and renovated the family mansion, Springwood. The fieldstone used for additions came from the two stone walls that lined the drive from the house to the Albany Post Road.' The National Park Service's Top Cottage page states the grouping directly: 'Like Eleanor Roosevelt's Val-Kill Cottage, the FDR Library and the addition to Springwood, Top Cottage was designed by FDR to emulate the Dutch colonial architecture found throughout the Hudson River Valley.'"
     }
   ],
   "survey": {
@@ -85,5 +94,5 @@
       }
     ]
   },
-  "note": "Written 4 Sep 2026. The 'data pages' are a one-sheet addendum cover for photographs; the description of the house on this record is the NPS's, not HABS's."
+  "note": "Written 4 Sep 2026. The 'data pages' are a one-sheet addendum cover for photographs; the description of the house on this record is the NPS's, not HABS's. Second node added 5 Sep 2026 (Tranche 2, the Dutch trunk in America): `dutch-colonial-revival` names the 1915-16 fieldstone enlargement, on the National Park Service's own statement that it, Val-Kill, the FDR Library and Top Cottage were all 'designed by FDR to emulate the Dutch colonial architecture found throughout the Hudson River Valley'. THE HOUSE AS A WHOLE IS NOT A DUTCH COLONIAL REVIVAL BUILDING and its exemplar there says so: it is a Colonial Revival mansion with a columned portico, and it enters that node for the material and the intention of one campaign, not for its silhouette. Recorded this way rather than by creating a second record, because one building gets one record."
 }

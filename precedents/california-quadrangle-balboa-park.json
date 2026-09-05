@@ -1,0 +1,96 @@
+{
+  "id": "california-quadrangle-balboa-park",
+  "name": "California Quadrangle, Panama-California Exposition",
+  "aka": [
+    "California Building",
+    "California Tower",
+    "Balboa Park, California Tower",
+    "Museum of Us"
+  ],
+  "location": {
+    "text": "Balboa Park, San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1911-1915",
+    "circa": false,
+    "note": "The HABS data page says 'The building was built in 1914' with the exposition opening 1 January 1915; the Wikipedia infobox prints 'Built 1911–1915'; the style node's exemplar carries 1915. All three recorded, none changed. The tower's height is given as 198 ft by Wikipedia and as 208 ft by the Friends of Balboa Park marker of 2016; neither figure is a survey figure and neither is adopted here."
+  },
+  "nodes": [
+    "spanish-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-1963-A",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0589/data/ca0589data.pdf",
+      "title": "BALBOA PARK CALIFORNIA TOWER HABS No. CA-I963-A (the data page's own heading; the search result's title field read '■hMl', which is OCR of the sheet's stamp)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data PDF surfaced directly as a search result and its running header prints 'BALBOA PARK, CALIFORNIA TOWER HABS No. CA-1963-A (Page 2)'. The survey covers the California Tower of the California Building, which stands on the north side of the Quadrangle; there is no separate HABS record of the Quadrangle as a whole in what was searched."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0589",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0589/data/ca0589data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id was read off the tile.loc.gov path of the data PDF returned by the search, which was then fetched by extract the same day. The item landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "74000548",
+      "url": "https://en.wikipedia.org/wiki/California_Quadrangle",
+      "title": "NRHP reference No. 74000548; added to the National Register 17 May 1974; part of Balboa Park (ID77000331); designated NHLDCP 22 December 1977; location 1350 El Prado, San Diego (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/California_Quadrangle",
+      "title": "California Quadrangle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=127568",
+      "title": "California Quadrangle Historical Marker",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The marker, erected 2016 by Friends of Balboa Park, reads in part 'The California Tower is 208 feet tall and houses a carillon rather than bells' and 'The California Quadrangle is regarded as the Spanish Colonial Revival masterpiece of Exposition architect Bertram Grosvenor Goodhue.'"
+    }
+  ],
+  "survey": {
+    "item": "ca0589",
+    "survey_no": "CA-1963-A",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0589/data/ca0589data.pdf",
+    "prepared": "Samuel W. Hamill, FAIA 1976 (as the sheet reads).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "2. Date of erection: The building was built in 1914. The official opening of the exhibition was on January 1, 1915. 3. Architect: Bertram Grosvenor Goodhue was the architect for the building with Carlton Monroe Winslow, Sr. as the project architect.",
+        "page": "No page marker precedes this span; the marker 'BALBOA PARK, CALIFORNIA TOWER HABS No. CA-1963-A (Page 2)' is printed further down the same span of the extract."
+      },
+      {
+        "field": "structural_system",
+        "text": "The basic structural material is of natural stone from Mexico and concrete.",
+        "page": "Precedes the marker 'BALBOA PARK, CALIFORNIA TOWER HABS No. CA-1963-A (Page 2)'."
+      },
+      {
+        "field": "finishes",
+        "text": "The use of multi-colored ceramic tile in the building was designed by Mr. Goodhue and created in National City by Walter Nordhoff who faithfully followed historic precedent in the medium.",
+        "page": "Precedes the marker 'BALBOA PARK, CALIFORNIA TOWER HABS No. CA-1963-A (Page 2)'."
+      },
+      {
+        "field": "condition",
+        "text": "5. Alterations and additions: The California Tower was one of the few buildings, built for the 1915 Exposition, constructed of permanent materials.",
+        "page": "Follows the marker 'BALBOA PARK, CALIFORNIA TOWER HABS No. CA-1963-A (Page 2)'."
+      }
+    ]
+  },
+  "note": "Seeded 5 Sep 2026 for the Spanish and Mediterranean cluster. The survey states NO dimension of any kind and no storey count, so this record carries no measurements; what it does state — stone and concrete structure, tile by Nordhoff, permanent materials — is the founding building's construction and not its proportions. `precedents/new-mexico-building-panama-california-exposition.json` is a DIFFERENT building on the same exposition ground and is not this one."
+}

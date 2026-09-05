@@ -1,0 +1,41 @@
+{
+  "id": "marston-house",
+  "name": "Marston House",
+  "aka": [
+    "George W. Marston House",
+    "The Marston House Museum & Gardens"
+  ],
+  "location": {
+    "text": "San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1904-1905",
+    "circa": false,
+    "note": "TWO DATES AND THEY ARE ABOUT DIFFERENT ACTS. The National Register listing summary read here says 'Built 1904' and a children's encyclopedia summary of the same listing gives 'Built 1904; Architect Irving John Gill'. The National Trust says the house 'was constructed in 1905' and credits 'William Sterling Hebbard and Irving Gill'. A third page puts it plainly: 'designed by Irving Gill in 1904 and constructed by Gill and his partner, William Sterling Hebbard, in 1905'. Neither figure is edited."
+  },
+  "nodes": [
+    "arts-and-crafts-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74000552",
+      "url": "https://noehill.com/sandiego/nat1974000552.asp",
+      "title": "National Register #74000552: Marston House in San Diego",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The page gives the address as 3525 7th Avenue and 'Built 1904', and says Marston (1850-1946) 'was identified with the history of modern San Diego.' A separate result the same day gives the listing date as December 16, 1974."
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/distinctive-destinations/the-marston-house-museum-and-gardens",
+      "title": "The Marston House Museum & Gardens | National Trust for Historic Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own claim, recorded as one: 'One of California's finest examples of the Arts and Crafts movement, the Marston House was constructed in 1905 for George W. Marston and his wife, Anna.' It gives the house as 8,500 square feet on five acres and says it 'became a house museum in 1987 after the Marston family gifted it to the City of San Diego', managed since 2009 by Save Our Heritage Organisation."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey was found. Included on arts-and-crafts-american rather than on california-bungalow deliberately: it is a large Arts and Crafts HOUSE by Hebbard and Gill, not a bungalow, and Gill's later work runs away from this node rather than toward it. The 8,500 sq ft figure is the National Trust's prose and is not recorded as a measurement -- a floor area stated by an owner's page, with no statement of what it includes, is not a figure a kit may read."
+}

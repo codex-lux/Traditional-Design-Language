@@ -1,0 +1,129 @@
+{
+  "id": "kenworthy-hall",
+  "name": "Kenworthy Hall (Carlisle-Martin House)",
+  "location": {
+    "text": "Marion, Perry County, Alabama",
+    "country": "United States",
+    "state": "Alabama"
+  },
+  "dates": {
+    "built": "1858-1860",
+    "circa": false,
+    "note": "The survey's narrative says 'Construction spanned from 1858 through 1860'; its Part I heading elsewhere prints a 'Ca.' date, and the two are not reconciled here."
+  },
+  "nodes": [
+    "italianate-villa"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "AL-765",
+      "title": "Addendum to Kenworthy Hall (Carlisle-Martin House), Marion, Perry County, Alabama",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0600/al0682/data/al0682data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('ADDENDUM TO KENWORTHY HALL (Carlisle-Martin House) HABS NO. AL-765 (page 53)'). The document is an ADDENDUM; the search result index title for the same PDF reads 'Old Carlisle Home HABS No._16', which is the earlier survey the addendum was filed against and is not this number."
+    },
+    {
+      "kind": "loc-item",
+      "id": "al0682",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0600/al0682/data/al0682data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the loc.gov landing page was not opened."
+    }
+  ],
+  "survey": {
+    "item": "al0682",
+    "survey_no": "AL-765",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0600/al0682/data/al0682data.pdf",
+    "prepared": "The data page names Amanda J. Holmes, HABS Historian, Summer 1997 as historian of the Kenworthy Hall documentation.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Overall dimensions: At the first floor, Kenworthy Hall measures across the front, east-west, 71-2 3/4\", north-south on the side of the parlor and smoking room, 63'-8 V2\", and north-south from the sitting room to the end of the pantry/kitchen, 70'-6 V2\". From the finished first floor to the slight peak of the flat roof the height of the building is 37'. 2. Foundations: The foundations are made of brick, topped by a beveled water table of brownstone which runs three quarters of the perimeter of the house",
+        "page": "ADDENDUM TO KENWORTHY HALL (Carlisle-Martin House) HABS NO. AL-765; no page marker legible in the extract span"
+      },
+      {
+        "field": "general_description",
+        "text": "PART II: ARCHITECTURAL INFORMATION A. General Statement: 1. Architectural character: Kenworthy Hall is a classic example of the asymmetrical Italianate villa style. The house is constructed of brick on a center-hall plan, two stories with a third floor attic space and stairs leading to a fourth-story tower room.",
+        "page": "HABS No. AL-765, Part II.A.1; no page marker legible in the extract span"
+      },
+      {
+        "field": "ceiling_heights",
+        "text": "generous eaves, 14' and 12' tall ceilings, potentially open sweeping interior spaces, large windows on all sides of the house, and placement on a hill, all contribute to Kenworthy Hall's seasonal versatility and comfort. The house was initially designed to be heated by fireplace with wood and coal, the fuel hauled in and the fires maintained by the servants. Each of the twelve principle rooms had its own fireplace, which were sealed with iron covers in summer or when the rooms were not in use for prolonged periods.",
+        "page": "ADDENDUM TO KENWORTHY HALL HABS NO. AL-765 (page 53) is the nearest running header to the second occurrence of this passage in the extract; the passage itself carries no page marker"
+      },
+      {
+        "field": "significance",
+        "text": "The relatively unusual Italianate Villa design—distinguished by its massive red brick facade, arched windows, and four-story tower- combined with its antebellum roots and the numerous ghost stories, have cultivated Kenworthy Hall's prominence in the public imagination for nearly 100 years.",
+        "page": "HABS No. AL-765, Part I historical narrative; no page marker legible in the extract span"
+      },
+      {
+        "field": "significance",
+        "text": "Since the Edward King House still survives in Newport, Rhode Island and was one of the models for Kenworthy Hall, a more comprehensive study comparing the two houses could lead to some interesting revelations about building a similar structure in the North versus",
+        "page": "ADDENDUM TO KENWORTHY HALL (Carlisle-Martin House) HABS NO. AL-765 (page 72); the span runs to the page break and is quoted to it"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "71-2 3/4\"",
+      "value": 71.23,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR drops the foot mark; read as 71'-2 3/4\". The survey names this 'across the front, east-west', so the front is stated and not inferred."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "63'-8 V2\"",
+      "value": 63.71,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR renders the fraction 1/2 as 'V2'; read as 63'-8 1/2\". This is the depth on the parlor and smoking-room side; the survey gives a SECOND north-south figure of 70'-6 1/2\" through the service wing, which is what an asymmetrical villa means in a number."
+    },
+    {
+      "name": "overall_height_ft",
+      "as_printed": "the height of the building is 37'",
+      "value": 37,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Finished first floor to the peak of the flat roof; the fourth-storey tower is above this and is not in the figure."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two stories with a third floor attic space and stairs leading to a fourth-story tower room",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "ceiling_height_upper_ft",
+      "as_printed": "14'",
+      "value": 14,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The survey prints \"14' and 12' tall ceilings\" together and does NOT say which storey carries which. Recorded as two figures, neither assigned."
+    },
+    {
+      "name": "ceiling_height_lower_ft",
+      "as_printed": "12' tall ceilings",
+      "value": 12,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "See the note on the 14 ft figure: the assignment to a storey is not in the survey."
+    },
+    {
+      "name": "principal_room_count",
+      "as_printed": "the twelve principle rooms",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Each with its own fireplace, per the same sentence. 'principle' is the survey's spelling."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. The best-measured Italianate villa this cluster found, and it is one the corpus did not name. Its value is threefold: the survey states the front dimension AS the front, so nothing has to be inferred; it gives two different depths, which is the asymmetrical L stated in numbers rather than in prose; and it states ceiling heights, which almost no survey does. It also links itself to the node's own first exemplar -- the surveyor writes that the Edward King House 'was one of the models for Kenworthy Hall' and proposes comparing them, which is this corpus's own method appearing inside its source."
+}

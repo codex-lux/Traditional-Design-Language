@@ -1,0 +1,37 @@
+{
+  "id": "1315-inglewood-drive",
+  "name": "1315 Inglewood Drive",
+  "location": {
+    "text": "Cleveland Heights, Ohio",
+    "country": "United States",
+    "state": "Ohio"
+  },
+  "dates": {
+    "built": "1941",
+    "circa": false,
+    "note": "The nomination states it twice, in two sections and two spellings of the style name: 'Ray Moulthrop's 1941 design for 1315 Inglewood Drive is very similar' and 'He designed the home at 1315 Inglewood Drive in the Garrison Colonial Revival style in 1941.'"
+  },
+  "nodes": [
+    "garrison-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.clevelandheights.gov/DocumentCenter/View/202/Inglewood-Historic-District-2009-PDF",
+      "title": "National Register of Historic Places, Inglewood Historic District Continuation Sheet, Cleveland Heights, Cuyahoga County, Ohio (2009 nomination)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Section 7 reads 'Ray Moulthrop's 1941 design for 1315 Inglewood Drive is very similar' -- similar, that is, to 1251 Oakridge Road, described in the preceding sentences. Section 8's architect biography reads: 'Ray Moulthrop was a New York born architect. His office in 1927 was located at 500 Superior Avenue and at 241 Euclid Avenue in 1939. He was a regular contributor to residential architecture in Cleveland Heights. ... He designed the home at 1315 Inglewood Drive in the Garrison Colonial Revival style in 1941.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "09000210",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Cuyahoga_County,_Ohio",
+      "title": "Inglewood Historic District, Cleveland Heights; NRHP reference No. 09000210, listed April 15, 2009 (as the Cuyahoga County listings table prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing shared with every contributing building in the neighbourhood, 1251 Oakridge Road included. It identifies a district, never this house."
+    }
+  ],
+  "note": "Carried as the second half of a documented pair: one describer, two houses, twelve years apart, so what differs between them is the buildings and not the describer. The nomination's own comparison -- 'very similar' -- is the only statement of their relation and it is not elaborated; no dimension of either house is stated anywhere in the extract, so neither record carries a measurement."
+}

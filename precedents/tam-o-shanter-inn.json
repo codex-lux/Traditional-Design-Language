@@ -1,0 +1,49 @@
+{
+  "id": "tam-o-shanter-inn",
+  "name": "Tam O'Shanter Inn",
+  "aka": [
+    "Montgomery's Country Inn",
+    "The Tam"
+  ],
+  "location": {
+    "text": "Los Angeles (Atwater Village), California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1922",
+    "circa": false,
+    "altered": "Enlarged into the adjoining office building, Harry Oliver being hired again 'to seamlessly blend it in'; the historic patio was reopened in 2018 after seventy years closed. Renamed from Montgomery's Country Inn to Tam O'Shanter Inn in 1925, after the Robert Burns poem.",
+    "note": "Every source read gives 26 June 1922 for the opening. The address is NOT agreed: the Los Angeles Conservancy gives '2890 Los Feliz Boulevard Los Angeles, CA 90039' and a local guide gives '2980 Los Feliz Blvd'. Both are recorded and neither is corrected."
+  },
+  "nodes": [
+    "storybook-style"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.laconservancy.org/learn/historic-places/tam-oshanter",
+      "title": "Tam O'Shanter - LA Conservancy",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Conservancy's own place record, whose fields read: Address '2890 Los Feliz Boulevard Los Angeles, CA 90039'; Architect 'Harry Oliver'; Year '1922'; Style 'Storybook'; Designation 'Eligible for Local Designation'. Its text: 'In 1922 Walter Van de Kamp and Lawrence Frank, the founders of Van de Kamps Holland-Dutch Bakeries and the Lawry's restaurant chain, commissioned architect and set designer Harry Oliver to build a storybook-style roadside restaurant. The restaurant opened as Montgomery's Country Inn. In 1925, the families renamed the restaurant Tam O'Shanter Inn after a beloved Robert Burns poem.' NOTE THAT THE CONSERVANCY NAMES TWO CLIENTS where the style node's exemplar names one; ELIGIBLE FOR local designation is not designated, and no monument number exists."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.discoverlosangeles.com/eat-drink/the-tam-oshanter-the-story-of-an-la-icon",
+      "title": "The Tam O'Shanter: The Story of an LA Icon | Discover Los Angeles",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'\"The Tam\" was designed in the Storybook architecture style by Harry Oliver, an Oscar-nominated art director (for the silent films 7th Heaven and Street Angel) who also designed the Spadena House, aka \"The Witch's House\" in Beverly Hills.' It also records the change the building has undergone that matters to this corpus: 'Today the Tam's exterior is more like a Scottish country inn than a fairytale cottage, while the wood-paneled Old World interior is filled with family tartans, kilts, coats of arms, family crests and medieval weapons.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Tam_O%27Shanter_Inn",
+      "title": "Tam O'Shanter Inn - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Tam O'Shanter Inn is one of Los Angeles' oldest restaurants. Established in 1922, it serves hearty pub fare with a touch of Scottish flair'."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. No survey and no designation; the Conservancy lists it as ELIGIBLE for local designation, which is a status and not a listing, and it is recorded as the status it is. The finding worth carrying against the node's prose is Discover Los Angeles's observation that the exterior now reads 'more like a Scottish country inn than a fairytale cottage' -- the building has been renamed, extended by its own architect and re-themed, so a reader taking a photograph of it today as evidence of 1922 Storybook practice is reading four decades of change. storybook-style's exemplar note calls it 'the style at its most confident'; the confident version is a 1925 renaming."
+}

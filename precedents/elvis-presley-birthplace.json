@@ -1,0 +1,45 @@
+{
+  "id": "elvis-presley-birthplace",
+  "name": "Elvis Presley Birthplace",
+  "location": {
+    "text": "306 Elvis Presley Drive, Tupelo, Mississippi",
+    "country": "United States",
+    "state": "Mississippi"
+  },
+  "dates": {
+    "built": "1934",
+    "circa": false,
+    "altered": "Bought with fifteen acres by the City of Tupelo in 1957 with the proceeds of a concert Presley gave that year; improved from 1971 by the East Heights Garden Club; restored and furnished with period pieces. It stands on its original site.",
+    "note": "Every source read agrees on 1934 and on the $180 Vernon Presley borrowed for materials, with his father Jessie and brother Vester helping to build it. The family lived there about three years before the house was repossessed for the unpaid loan."
+  },
+  "nodes": [
+    "shotgun-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Elvis_Presley_Birthplace",
+      "title": "Elvis Presley Birthplace - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its alt text for the present-day photograph is the only dimensional statement found anywhere: 'a whitewashed house, about 15 feet wide. Four bannistered steps in the foreground lead up to a roofed porch that holds a swing wide enough for two. The front of the house has a door and a single-paned window. The visible side of the house, about 30 feet long'. That is a caption writer's estimate from a photograph, not a measurement, and it is recorded as one."
+    },
+    {
+      "kind": "institution",
+      "url": "https://elvispresleybirthplace.com/the-innocence-of-elvis",
+      "title": "The Innocence of Elvis | Elvis Presley Birthplace",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own account: 'In 1934, Vernon Presley borrowed $180 for materials to build a small frame house in East Tupelo. Vernon's father Jessie and Vester, his brother, helped with building the little shotgun house. It was in this humble two-room home lit by a single light bulb in each room that Elvis Aron Presley was born on January 8, 1935.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://elvispresleybirthplace.com/visit",
+      "title": "Visit | Elvis Presley Birthplace",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The property stands in its original location and has been restored to its original condition, decorated with period furniture, and is open to the public for tour.'"
+    }
+  ],
+  "note": "No HABS survey and no National Register listing was resolved; a 1934 tenant house is exactly the class of building the federal survey did not reach, which is itself the point the node's own prose makes about what survives. The floor area is given as about 400 sf by one visitor account and 450 sf by another and neither is a measurement, so no figure is carried in this record. What IS firm and useful: two rooms, one light bulb each, a full-width roofed porch on thin posts, built for $180 of materials by three men of one family in 1934 -- the irreducible version of the type, precisely dated by a loan."
+}

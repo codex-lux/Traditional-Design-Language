@@ -1,0 +1,59 @@
+{
+  "id": "oheka-castle",
+  "name": "Oheka Castle",
+  "aka": [
+    "Otto Kahn Estate",
+    "OHEKA"
+  ],
+  "location": {
+    "text": "West Hills (Huntington), New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1914-1919",
+    "circa": false,
+    "altered": "Eastern Military Academy occupied it 1948-1979 and the building deteriorated badly; restored from 1984 under Gary Melius and now a hotel. The Town of Huntington says it comprised '127 rooms and over 109,000 square feet as originally configured'.",
+    "note": "The style node's french-eclectic exemplar gives 1919 and says 'begun 1914'; its french-normandy-revival exemplar gives 1919 and says '1914-19'. Wikipedia's infobox gives 'Built 1914-1919' and an inception of 1919. No disagreement."
+  },
+  "nodes": [
+    "french-eclectic",
+    "french-normandy-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "04000996",
+      "url": "https://en.wikipedia.org/wiki/Oheka_Castle",
+      "title": "NRHP reference No. 04000996, added September 15, 2004; architects 'Delano & Aldrich; Olmsted Brothers, et al.'; architectural style 'Late 19th and Early 20th Century American Movements, Chateauesque', as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox and confirmed against the Wikimedia Commons category page for the same building, which prints the same reference number from Wikidata. Worth carrying: the Register classifies the house as CHATEAUESQUE, which this corpus distinguishes from both nodes that name it."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.huntingtonny.gov/content/13747/99530/16521/default.aspx",
+      "title": "Oheka Castle - Town of Huntington, Long Island, New York",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own page: 'Built by Kahn between 1914 and 1919, it was and remains the second largest private home in the United States, comprising 127 rooms and over 109,000 square feet as originally configured.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.oheka.com/history.htm",
+      "title": "History of OHEKA CASTLE",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The present owner's timeline: architects Delano & Aldrich, landscape by the Olmsted Brothers, an original cost of $11 million, an estate of 443 acres, and the name an acronym of Otto HErmann KAhn. An owner's account, recorded as one."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Oheka_Castle",
+      "title": "Oheka Castle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records that Kahn required a fireproof building after Cedar Court burned in 1905, so Delano and Aldrich designed it in steel and concrete - the fact the french-eclectic node's own exemplar note rests on."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. Two of the cluster's nodes name this building and both print the location identically as 'West Hills (Huntington), New York', so one record serves both with no alias. The disagreement worth carrying is the Register's: it classifies Oheka as Chateauesque, and beaux-arts-american's own `distinguished_from` block separates Chateauesque from the French modes by exactly the feature Oheka has - an enormous steep roof. No HABS survey was found."
+}

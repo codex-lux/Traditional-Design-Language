@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,579 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,580 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -424,11 +424,15 @@ cannot be judged stops before its first round and says so. Nine tests could not 
 proved by mutation. The sweep re-measured: fatal
 135 -> 93, serious 961 -> 750, 131 of 273 refused (48.0%), still 0 worse. **A second pass then audited the audit** (report §VIII): three auditors over the whole session's diff found WP-9.4's own diff guard blind four ways (a list whose length changed, a rewrite inside an appended list, two rooms sharing an id, a dict added whole), `split-per-grouping` still re-deriving plan-wide under it, a revised plan whose DXF round trip failed the plan schema, the MCP tools passing every knob raw onto a threadpool token, and one compose submission able to hold the one-worker pool for four hours. All fixed with tests that bite; the deferred items and the reasons are listed in §VIII.
 
-**Phase 11 -- the precedent bench -- is OPEN (WP-11.1, 4 Sep 2026).** Lucas asked where the
+**Phase 11 -- the precedent bench -- is OPEN; NORTH AMERICA IS DONE (WP-11.1 4 Sep, WP-11.2 and
+WP-11.3 5 Sep 2026).** Lucas asked where the
 research is thin, for the exemplars of each style researched into the most beautiful and iconic
 precedents with links, and for a reading of where deepening the bench would change what the machine
-does. **The corpus is templated on the surface**: every buildable node carries 2-4 exemplars, 4-5
-sources, 5 constraints and 3 distinctions, so field counts separate nothing. What does separate
+does. **The corpus WAS templated on the surface** when WP-11.1 surveyed it: every buildable node carried
+2-4 exemplars, 4-5 sources, 5 constraints and 3 distinctions, so field counts separated nothing. **Two
+tranches have moved the exemplar half and not one of the other three** -- 693 exemplars now, 3 to 9 a
+node, 85 of 132 buildable nodes carrying five or more, against 4-5 sources, exactly 5 constraints on all
+132 and 3 distinctions on 128, all unmoved. What does separate
 thorough from skeletal was tracked nowhere and `build/check_research.py` now measures it on every
 run:
 **542 `measured` kit parameters cite no source** on the parameter or its slot, 272 of them on one of the 35 generator-read slots
@@ -442,8 +446,39 @@ record now (`schema/precedent.schema.json`, one file per building, shared by eve
 it), with archival refs that each record `retrieved` and `via`, the HABS written data quoted
 verbatim with every figure `as_printed`, and never a `license`; an exemplar names it through
 `precedent` and states a `standing` with a `why`. `build/check_precedents.py` holds the two
-directions to each other. **161 precedent records** after Tranche 1 (WP-11.2, the 28 nodes the platform exercises); 171 of 551 exemplars carry a `precedent`.
-`tdl_precedents` is the 27th MCP tool. **The route is measured**: `WebFetch` is egress-blocked for
+directions to each other. **415 precedent records** after Tranche 2 (WP-11.2 did the 28 nodes the platform exercises; WP-11.3 the
+remaining 58 North American nodes, which completes North America at 86 of 164 covered); 505 of 693 exemplars carry a `precedent`.
+`tdl_precedents` is the 27th MCP tool.
+**THE BENCH ACQUIRED A LITERATURE AND IT IMMEDIATELY CONVICTED SEVENTEEN `measured` KIT FIGURES, AND
+NOTHING WAS APPLIED (WP-11.3).** 240 survey-against-kit readings over Tranche 2: **196 silent, 27 agree,
+17 CONTRADICT**, three of them by the node's OWN exemplar -- `southern-federal`'s `max_depth_ft 20`
+against Woodlawn's *"central block - 56' x 45'"* (HABS VA-337), its `chimney.standoff_min_in 4` against
+Belle Grove's *"four inside chimneys"* (an interior stack has no standoff, so the parameter cannot be
+SATISFIED rather than merely being exceeded), and the Gamble House's *"Chimneys: Three"* against a
+singular rule whose own slot note cites that very building. **The dominant answer is SILENCE and it
+answers the operational question**: the HABS written data states materials, dates and condition and
+almost never a pitch, a ceiling height or a porch depth -- three surveyed Californian bungalows give
+three adjectives and zero figures, and not one California mission data sheet states an overall
+dimension. More of the same series will not, by itself, dimension the generator. And the commonest
+REASON for a silence is not the survey's: the four most frequent silent parameters are recorded
+*"binding open, empty"* -- the node bound the slot `open` and carries no parameters, so a figure has
+nothing to be held against, which is OQ 87 meeting the evidence layer. **Nothing was edited on any of
+the 17**, because `oq/a-surveyors-prose-may-source-an-envelope-figure` is a ruling nobody has given and
+a kit changed on a survey quote before it would be the laundering this project forbids.
+**`as_printed`-MUST-BE-A-SUBSTRING PROVES INTERNAL CONSISTENCY AND NOT FIDELITY (WP-11.3).** The
+`emlen-physick-estate` quote printed `60' x 52 1` where the data form prints `60' x 521`, and both
+`as_printed` values had been written from the SAME wrong reading, so the guard passed. A quote edited
+to fit its own figure is invisible to it; only re-extraction catches that. Restored, and the trailing
+`1` is read in the note as OCR of the foot mark.
+**A SEARCH-RESULT SUMMARY IS NOT A QUOTATION, AND THREE RECORDS PRINTED ONE AS RUNNING PROSE.** The
+tier concatenates discontinuous spans of a page into one snippet; `royal-barry-wills-house` and
+`mcintire-garrison-house` each manufactured a sentence their page does not contain (the tell is a
+capital letter after a comma, and a second search returning a DIFFERENT continuation is the proof), and
+`rundlet-may-house` carried a sentence that is on no page at all. **All three sit in a ref `note`, which
+no checker reads** -- the quotation discipline reaches `survey.quotes[]` and stops there. A fourth
+record stored a percent-encoded URL that is dead: **a locator that does not resolve is not a locator,
+and nothing in this tree checks that one does.**
+**The route is measured**: `WebFetch` is egress-blocked for
 loc.gov, Wikipedia, Wikidata, SAH Archipedia and Historic England; the Tavily tier searches
 everything and EXTRACTS `tile.loc.gov` data PDFs, Wikipedia and `npgallery.nps.gov`, and a HABS
 data page states overall dimensions, bays, storeys, walls, chimneys, roof and openings as text --
@@ -1676,8 +1711,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **136 entries, of which 55 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-family-node-has-no-exemplar, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-surveyors-prose-may-source-an-envelope-figure, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **137 entries, of which 56 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-family-node-has-no-exemplar, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-surveyors-prose-may-source-an-envelope-figure, oq/an-exemplar-that-is-not-one-whole-building, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

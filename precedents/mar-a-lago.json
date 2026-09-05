@@ -1,0 +1,145 @@
+{
+  "id": "mar-a-lago",
+  "name": "Mar-a-Lago",
+  "aka": [
+    "The Mar-a-Lago Club"
+  ],
+  "location": {
+    "text": "Palm Beach, Florida",
+    "country": "United States",
+    "state": "Florida",
+    "aliases": [
+      "1100 South Ocean Boulevard, Palm Beach, Palm Beach County, Florida"
+    ]
+  },
+  "dates": {
+    "built": "1924-1927",
+    "circa": false,
+    "note": "Wikipedia: 'Mar-a-Lago was built for the businesswoman and socialite Marjorie Merriweather Post between 1924 and 1927'. The club's own history page says it 'was opened officially in January of 1927 after four years of construction'. The survey says 'Mar-a-Lago, first opened in 1927'."
+  },
+  "nodes": [
+    "mediterranean-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "FL-195",
+      "url": "https://www.loc.gov/item/fl0181",
+      "title": "Mar-a-Lago, 1100 South Ocean Boulevard, Palm Beach — Library of Congress item; the page's own line reads 'National Register of Historic Places NRIS Number: 80000961'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data page's own header prints the older form 'HABS NO. FLA-195' and its running markers read 'MAR-A-LAGO HABS NO. FLA-195 (Page 13)'. FL-195 is the Library's normalised form; a separate search result gives the holding as '37 data pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "fl0181",
+      "url": "https://www.loc.gov/item/fl0181",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "80000961",
+      "url": "https://en.wikipedia.org/wiki/Mar-a-Lago",
+      "title": "U.S. National Register of Historic Places, designated 23 December 1980, reference no. 80000961 (as the Wikipedia infobox prints it); the Library of Congress item page prints the same number as its NRIS Number",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "80000961",
+      "url": "https://en.wikipedia.org/wiki/Mar-a-Lago",
+      "title": "U.S. National Historic Landmark, designated 23 December 1980 (as the Wikipedia infobox prints it, under the same reference number)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mar-a-Lago",
+      "title": "Mar-a-Lago - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox gives 'Size 62,500 sq ft (5,810 m2) on 17 acres of land' and the article '126 rooms'; architect 'Marion Sims Wyeth (exterior), Joseph Urban (interior)'. Those are not survey figures and are not carried as measurements."
+    }
+  ],
+  "survey": {
+    "item": "fl0181",
+    "survey_no": "FL-195",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0181/data/fl0181data.pdf",
+    "prepared": "Dr. Samuel Proctor, University of Florida, 1967 and Nancy K. Beinke, National Park Service, 1972 (as the sheet reads).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: Mar-a-Lago, first opened in 1927, is the most magnificent mansion on Florida's east coast still occupied \"by its original owner. Planned by architect Marion Wyeth and interior designer Joseph Urban, with sculpture by Franz Barwig of Vienna, Mar~a~Lago is an adaptation of the Hispano-Moresque style. It is two storied and crescent-shaped in plan, with upper and lower cloisters along the concave side of the crescent facing Lake Worth.",
+        "page": "The marker 'MAR-A-LAGO HABS NO. FLA-195 PART II. ARCHITECTURAL INFORMATION A. General Statement: (Page 12)' is printed immediately before this span."
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Walls are constructed of hollow sixteen- inch ceramic tile. The interior is covered with lath and plaster 1-1/2 to 2 inches thick. On the exterior is a white- brown cement stucco in a variety of textures. Carved Doria stone in dressed ashlar and bas-relief patterns is used for most of the exterior ornament,",
+        "page": "The marker 'MAR-A-LAGO (-M.85 HABS NO. FLA-195 (Page 13)' is printed at the end of this span."
+      },
+      {
+        "field": "plan",
+        "text": "The ocean facade of the house is rec- tangular, while on the west side a crescent-shaped arc lined with double cloisters faces Lake Worth. Sheltered in the crescent is a round patio paved with surf-polished stones dis- covered by Mrs. Post along the beaches of her Long Island hunting preserve at Great South Bay.",
+        "page": "Precedes the marker 'MAR-A-LAGO (- HABS NO. FLA-195 (Page 6)'."
+      },
+      {
+        "field": "finishes",
+        "text": "The roofing tiles, approximately 20,000 of them, and the 2,200 black and white marble floor blocks used in the entrance hall, living, and dining rooms came from a Cuban castle.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "roof",
+        "text": "3. Roof: A mission-tile shed roof covers half of the upper cloister providing covered access between rooms. Columns supporting the roof are chamfered and tapered.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "other",
+        "text": "d. Tower: The 75-foot tower rises from the roof of the house. It has a mission-tile roof with a tall decorative stucco chimney. In plan it is a rectangle truncated at each corner to form an irregular octagon.",
+        "page": "The marker 'HABe MAR-A-LAGO _ ' p ' HABS NO. FLA-195 (Page 19)' is printed immediately before this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "It is two storied and crescent-shaped in plan",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "hollow sixteen- inch ceramic tile",
+      "value": 16,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "The hyphen and space are OCR of a line break in 'sixteen-inch'. This is the structural wythe; the plaster below is additional."
+    },
+    {
+      "name": "interior_plaster_thickness_in",
+      "as_printed": "1-1/2 to 2 inches thick",
+      "value": 1.5,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "A band; the lower bound is recorded and the band is in `as_printed`."
+    },
+    {
+      "name": "roof_tile_count",
+      "as_printed": "approximately 20,000 of them",
+      "value": 20000,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "tower_height_ft",
+      "as_printed": "The 75-foot tower",
+      "value": 75,
+      "unit": "ft",
+      "from_quote": 5
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the node's measured case. It is the one building in this cluster whose survey states a wall section — sixteen-inch hollow ceramic tile carrying lath and plaster inside and cement stucco outside — and a tower height, and it names the style in the surveyor's own vocabulary: 'an adaptation of the Hispano-Moresque style'. NO OVERALL DIMENSION IS STATED in the spans read, which is the same silence the Everglades Club sheet declares outright. The 62,500 sq ft and 126 rooms that circulate for this house come from the encyclopaedia, not the survey, and are kept in a ref note."
+}

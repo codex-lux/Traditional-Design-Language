@@ -57,7 +57,10 @@ COULD_NOT_EVALUATE = 3
 
 HABS_RE = re.compile(r"^[A-Z]{2}-\d{1,4}(-[A-Z0-9]{1,3})?$")  # VA-141, VA-402-A, and the 1930s district form CA-38-1 (found by Tranche 1E)
 LOC_ITEM_RE = re.compile(r"^[a-z]{2}\d{4}$")               # va0433
-NRHP_RE = re.compile(r"^\d{8}$")                           # 66000701
+NRHP_RE = re.compile(r"^(?:\d{8}|10\d{7})$")                  # 66000701, and the 100-series the
+# Register moved to for listings since 2013 -- NPS's own Best Practices Review (April 2023) cites
+# "NR Ref. 100005974" and "NR Ref. 100008758" beside legacy 88000403 and 96000614. Widened by
+# Tranche 2, which found one: Richmond Heights Pioneer Historic District, listed 2019.
 ID_SHAPES = {"habs": HABS_RE, "haer": HABS_RE, "loc-item": LOC_ITEM_RE, "nrhp": NRHP_RE, "nhl": NRHP_RE}
 KIT_POINTER_RE = re.compile(r"^precedents/([a-z0-9][a-z0-9-]*)#(?:survey\.([a-z_]+)|measurements\[(\d+)\])$")
 
@@ -129,10 +132,11 @@ def name_keys(rec):
 # may only improve. The floors are the point: a may-only-fall ceiling on dangling references is
 # satisfied by deleting the references, and the floors are what stop that reading as progress.
 RATCHET = {
-    # Seeded 3 / 4 / 3 on 4 Sep 2026; re-pinned the same day to what Tranche 1 landed (WP-11.2).
-    "precedents": 161,                  # FLOOR -- may only RISE
-    "exemplars_with_precedent": 171,    # FLOOR -- may only RISE
-    "precedents_with_survey": 77,       # FLOOR -- may only RISE
+    # Seeded 3 / 4 / 3 on 4 Sep 2026; re-pinned the same day to Tranche 1 (WP-11.2, 161/171/77) and
+    # again on 5 Sep to Tranche 2 (WP-11.3), which finished North America: 86 of 164 nodes covered.
+    "precedents": 415,                  # FLOOR -- may only RISE
+    "exemplars_with_precedent": 505,    # FLOOR -- may only RISE
+    "precedents_with_survey": 155,      # FLOOR -- may only RISE
     "dangling_precedent": 0,
     "back_reference_disagreements": 0,
     "refs_without_locator": 0,
@@ -397,11 +401,11 @@ def main():
             rep.err("precedents", "%s %s is carried by %s. An archival id names ONE building, so "
                                   "these are one record written twice -- merge them, keeping the id "
                                   "the exemplars already point at." % (kind, aid, ", ".join(uniq)))
-    for (norm, where), ids in sorted(by_name.items()):
-        for a, b in itertools.combinations(sorted(ids), 2):
-            if superseded.get(a) == b or superseded.get(b) == a:
+    for (nkey, nstate), ids in sorted(by_name.items()):
+        for ra, rb in itertools.combinations(sorted(ids), 2):
+            if superseded.get(ra) == rb or superseded.get(rb) == ra:
                 continue        # a recorded supersession, which is the id rule working
-            ka, kb = keys_of[a], keys_of[b]
+            ka, kb = keys_of[ra], keys_of[rb]
             shared = {k for k, _ in ka} & {k for k, _ in kb}
             if any({i for k, i in ka if k == d} != {i for k, i in kb if k == d} for d in shared):
                 continue        # PROVABLY different: the same kind of id, different numbers
@@ -409,7 +413,7 @@ def main():
             rep.warn("precedents", "%r in %r is carried by %s and %s, and nothing on either record "
                                    "proves them different buildings. Two houses may share a name -- "
                                    "resolve a locator that separates them, or merge them."
-                                   % (norm, where or "no state", a, b))
+                                   % (nkey, nstate or "no state", ra, rb))
 
     m = measure(records, EX)
     for k in ("dangling_precedent",):

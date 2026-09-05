@@ -1,0 +1,49 @@
+{
+  "id": "thornburg-village",
+  "name": "Thornburg Village (Normandy Village)",
+  "aka": [
+    "Normandy Village"
+  ],
+  "location": {
+    "text": "1781-1851 Spruce Street, Berkeley, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1927",
+    "circa": false,
+    "altered": "Expanded once in 1928 and again in 1955, according to a walking-tour account read the same day; parking structures for residents are hidden from the street. Clio's entry says 'built in 1927 (with later additions)'.",
+    "note": "The style node's exemplar gives 1927 and every source read here agrees."
+  },
+  "nodes": [
+    "french-normandy-revival",
+    "storybook-style"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://theclio.com/entry/42414",
+      "title": "Thornburg Village - Clio",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the address as '1781-1851 Spruce Streeet' [sic] and says 'Thornburg Village is a City of Berkeley Landmark and was added to the National Register of Historic Places in 1983.' Entry by Rebecca Woodham, citing Sam Whiting, 'Towers, Turrets, and More: Normandy Village evokes rural France--in Berkeley', sfgate.com, October 10, 2004."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.atlasobscura.com/places/thornburg-village",
+      "title": "Thornburg Village - Berkeley, California - Atlas Obscura",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Says the buildings 'were designated a City of Berkeley Landmark in 1983' and are still occupied. It does NOT repeat the National Register claim."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.gpsmycity.com/attractions/thornburg-village-(normandy-village)-45048.html",
+      "title": "Thornburg Village (Normandy Village), Berkeley",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Locates the group at Spruce Street and Hearst Avenue, names Jack Wood Thornburg as its developer at twenty-five, describes the intended mix of 'French-Norman, Scandinavian and Mediterranean influences', and dates the Berkeley landmark designation to 1983 without mentioning a federal listing."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. UNRESOLVED, AND THE DISAGREEMENT IS RECORDED RATHER THAN SETTLED: one source says the village was added to the National Register in 1983 and two others say only that it became a City of Berkeley Landmark in that year. No National Register reference number was found on any surface, so no `nrhp` ref is written; the claim is quoted in the Clio ref's note where a later reader can test it. The style node names W. R. Yelland as architect and Jack Wood Thornburg as client; the sources read here agree, and the Berkeley designation - not a federal one - is the protection that can be cited today. WP-11.2 Tranche 2, Tudor/Jacobethan/storybook cluster: `storybook-style` now names this record too, rather than writing a second record for the same street. The two nodes are not in conflict about it -- storybook-style's own description says the idiom reached the Bay Area by the mid-1920s and the Los Angeles Times says the same, and french-normandy-revival's claim on the village is about its sources rather than its manner. Its name and location strings are unchanged and both exemplars print them identically."
+}

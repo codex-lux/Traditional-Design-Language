@@ -1,0 +1,71 @@
+{
+  "id": "hearst-castle",
+  "name": "Hearst Castle",
+  "aka": [
+    "La Cuesta Encantada",
+    "Casa Grande",
+    "Hearst San Simeon State Historical Monument"
+  ],
+  "location": {
+    "text": "San Simeon, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1919-1947",
+    "circa": false,
+    "note": "Wikipedia: 'the castle was built between 1919 and 1947'. California State Parks describes the collaboration as beginning in 1919 and continuing 'for nearly 30 years'. No single completion year is stated by either and none is invented here; the style node's exemplar carries no year for that reason."
+  },
+  "nodes": [
+    "spanish-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hearst_Castle",
+      "title": "Hearst Castle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000253",
+      "url": "https://en.wikipedia.org/wiki/Hearst_Castle",
+      "title": "U.S. National Register of Historic Places, designated 22 June 1972, reference no. 72000253 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "72000253",
+      "url": "https://en.wikipedia.org/wiki/Hearst_Castle",
+      "title": "U.S. National Historic Landmark, designated 11 May 1976 (as the Wikipedia infobox prints it, under the same reference number)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "640",
+      "url": "https://en.wikipedia.org/wiki/Hearst_Castle",
+      "title": "California Historical Landmark, designated 28 April 1958, reference no. 640",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.parks.ca.gov/hearstsansimeon",
+      "title": "Hearst San Simeon State Historical Monument",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "California State Parks' own words: 'a magnificent 115-room main house plus guesthouses, pools, and 8 acres of cultivated gardens. The main house itself, \"La Casa Grande,\" is a grand setting for some of Hearst's art collection.' The operating foundation's page gives a different tally — 'an estate of 165 rooms and 127 acres of gardens, terraces, pools, and walkways' — and the two counts are recorded side by side rather than reconciled."
+    },
+    {
+      "kind": "other",
+      "url": "https://hearstcastle.org/learn/history-and-art",
+      "title": "History & Art - Hearst Castle",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the style's most-photographed composition. No HABS survey was searched for or found; the building is state-owned and documented by its own institution rather than by the Survey. The two room counts (115 and 165) come from two official pages read the same day and are both carried in a ref note; neither is adopted as a figure."
+}

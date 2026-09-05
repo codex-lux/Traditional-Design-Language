@@ -1,0 +1,171 @@
+{
+  "id": "henry-whitehead-place",
+  "name": "Henry Whitehead Place",
+  "aka": [
+    "Henry Whitehead Cabin"
+  ],
+  "location": {
+    "text": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "Old cabin 1881; new cabin c. 1895-1898",
+    "circa": true,
+    "altered": "Repaired twice by the National Park Service, in 1937 (when Charles Grossman restored the porch of the newer cabin) and again in 1948; the NPS Cultural Landscapes Inventory adds a 1963 rehabilitation.",
+    "note": "The HABS narrative dates the old cabin 1881 and describes the new cabin as the later of the two without a year; the park's Cultural Landscapes Inventory for the Henry Whitehead Homestead gives the second stage as c. 1895-1898. Both are recorded; neither is edited to agree."
+  },
+  "nodes": [
+    "appalachian-log-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-161",
+      "title": "Henry Whitehead Place, Townsend, Blount County, TN",
+      "url": "http://www.loc.gov/pictures/collection/hh/item/tn0004",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The npshistory.com index of Great Smoky Mountains National Park documentation, read the same day, lists 'Henry Whitehead Place HABS No. TN-161' and a separate 'Henry Whitehead Place, Smokehouse HABS No. TN-162'. The HABS title locates the house at Townsend; the park and this corpus's other exemplars locate it in Cades Cove."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0004",
+      "url": "http://www.loc.gov/pictures/collection/hh/item/tn0004",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "77000111",
+      "url": "https://en.wikipedia.org/wiki/Cades_Cove",
+      "title": "Cades Cove Historic District, NRHP reference No. 77000111, added July 13, 1977 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing covering the whole cove, not an individual listing of this house."
+    },
+    {
+      "kind": "other",
+      "url": "https://npshistory.com/publications/grsm/henry-whitehead-homestead-cli.pdf",
+      "title": "Henry Whitehead Homestead, Cultural Landscapes Inventory, Great Smoky Mountains NP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States the two build stages ('The first stage, constructed of rough-hewn logs, was built in 1881. The second stage, constructed using sash sawn logs, was built c. 1895-1898') and the .62-acre component landscape."
+    }
+  ],
+  "survey": {
+    "item": "tn0004",
+    "survey_no": "TN-161",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0004/data/tn0004data.pdf",
+    "prepared": "The data pages cite Marion Dean Ross, 'The Henry Whitehead Place, Cades Cove, Great Smoky Mountains National Park - An Architectural Survey Report prepared August 1957', typescript in the Eastern Office, Division of Design and Construction, National Park Service, Philadelphia",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Architectural Description -Layout - Two approximately square cabins, the larger with a porch on front and back. Over-all dimensions -Old cabin 15'2\" x 14 ,9\" (int. dimensions), connecting porch 6'10-3/8\" x 20'7-1/2\" New cabin 17-1/4\" x 19' 9-1/2\" (int. dimensions) Porch on front of New Cabin 5' 1-1/2\" x 20\" 7-1/2\" Construction -Foundations: piles of local stones and earth",
+        "page": "HABS No. TN-161; the nearest marker in the extract span is 'Page 2' at the head of the chunk"
+      },
+      {
+        "field": "walls",
+        "text": "carefully dovetailed with a half-butterfly notch to allow drainage at each joint. The vertical joints in the notches are cut with a saw. The joints are generally tight without chinking. According to Mr. Grossman, the walls were built to their full height before the openings were cut.",
+        "page": "HABS No. TN-161; the running head 'HENRY WHITEHEAD PLACE (GREAT SMOKY MTS. NATL. PK HABS No. TN-161 Page 3' follows in the same span"
+      },
+      {
+        "field": "chimneys",
+        "text": "The chimney in the center of the southwest wall is built of hand-molded brick fired on the place. At the ground, the chimney measures 2T2n x 4'10\",",
+        "page": "HABS No. TN-161; the running head 'HENRY WHITEHEAD PLACE (GREAT SMOKY MTS. NATL. PK HABS No. TN-161 Page 3' immediately follows"
+      },
+      {
+        "field": "significance",
+        "text": "The old cabin of 1881 was built by David Shields for his sister when she returned to Cades Cove as a widow with one child. The widow was courted by Henry Whitehead, who, in his efforts to persuade her to marry him, promised to build her the finest cabin in Cades Cove according to Mr. Grossman of the National Park Service, who has studied the log cabins of this region considerably. Henry Ihitehead succeeded, and the new cabin is the \"ultimate\" in log construction. The logs were sash-sawn at the nearby Cable Mill. The cabin is about 16 by 18 feet, which is about the largest length of log which would be sawn at asash-saw mill.",
+        "page": "HABS No. TN-161; no page marker legible in this extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "old_pen_interior_width_ft",
+      "as_printed": "15'2\"",
+      "value": 15.17,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "INTERIOR dimensions, as the survey says twice. The kit's `pen_width_ft` band is not stated to be interior or exterior."
+    },
+    {
+      "name": "old_pen_interior_depth_ft",
+      "as_printed": "14 ,9\"",
+      "value": 14.75,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 14'-9\"; a reading, marked as one."
+    },
+    {
+      "name": "connecting_porch_width_ft",
+      "as_printed": "6'10-3/8\"",
+      "value": 6.86,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The open span between the two pens: this house is two pens joined by a roofed porch, and 6.86 ft is well under the 8 to 12 ft the dogtrot node's prose states for a breezeway."
+    },
+    {
+      "name": "connecting_porch_length_ft",
+      "as_printed": "20'7-1/2\"",
+      "value": 20.63,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "new_pen_interior_depth_ft",
+      "as_printed": "19' 9-1/2\"",
+      "value": 19.79,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "new_pen_interior_width_ft",
+      "as_printed": "17-1/4\"",
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "No value parsed. The OCR gives 17-1/4\" where a width in feet is wanted; 17'-4\" and 17'-0 1/4\" are both readable from it and the sheet's own narrative says 'about 16 by 18 feet'. A figure nobody can read is not a figure, so none is recorded."
+    },
+    {
+      "name": "new_pen_narrative_width_ft",
+      "as_printed": "about 16 by 18 feet",
+      "value": 16,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "The narrative's round figure for the new cabin, given as the reason for its size: the longest log a sash-saw mill would cut."
+    },
+    {
+      "name": "new_pen_narrative_depth_ft",
+      "as_printed": "about 16 by 18 feet",
+      "value": 18,
+      "unit": "ft",
+      "from_quote": 3
+    },
+    {
+      "name": "chimney_base_length_ft",
+      "as_printed": "4'10\"",
+      "value": 4.83,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "chimney_base_width_ft",
+      "as_printed": "2T2n",
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "No value parsed: '2T2n' is OCR for something like 2'-2\", but the corpus does not convict or acquit on a number nobody can read."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "The chimney in the center of the southwest wall",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "One stack, and the survey places it in the CENTRE of a wall rather than at a gable end -- which is what the Ephraim Bales sheet, by the same surveyor's office, says never happens in this region's log structures."
+    }
+  ],
+  "note": "The best-measured log house in this cluster, and the one the survey itself calls the 'ultimate' in log construction. Two pens joined by a roofed porch, the newer sash-sawn at the Cable Mill and sized by what that mill could cut -- the clearest statement in the corpus's own sources that the Appalachian pen is dimensioned by the log, not by the room."
+}

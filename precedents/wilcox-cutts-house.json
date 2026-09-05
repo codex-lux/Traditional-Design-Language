@@ -1,0 +1,57 @@
+{
+  "id": "wilcox-cutts-house",
+  "name": "Wilcox-Cutts House",
+  "aka": [
+    "Brookside",
+    "Brookside Farms"
+  ],
+  "location": {
+    "text": "Vermont Route 22A, Orwell, Addison County, Vermont",
+    "country": "United States",
+    "state": "Vermont"
+  },
+  "dates": {
+    "built": "1789; transformed 1843",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1789' and 'Built by Lamb, James'; its text says the oldest portions date to 1789 and the house 'is regarded as one of Vermont's finest examples of late Greek Revival architecture, the result of a major transformation in 1843'. The Rehlen House nomination, read the same day, dates James Lamb's design to 1843. Both dates kept."
+  },
+  "nodes": [
+    "greek-revival-northern"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74000202",
+      "url": "https://en.wikipedia.org/wiki/Wilcox-Cutts_House",
+      "title": "NRHP reference No. 74000202; added to NRHP December 2, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building. The Rehlen House nomination gives the same listing date independently ('placed on the National Register on December 2, 1974')."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wilcox-Cutts_House",
+      "title": "Wilcox-Cutts House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its description: 'It is an L-shaped 2+1/2-story wood-frame structure, with a gabled roof and clapboarded exterior. The main portion of the house has a Greek temple front, with five Ionic columns supporting a pedimented gable. Greek Revival detailing extends to single-story flanking wings, with the northern one acting as a connector to the rear ell, which is the original 18th-century farmhouse.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/af551e7e-1f1e-4a59-b71f-f2d892be5715",
+      "title": "National Register of Historic Places Inventory - Nomination Form (the Rehlen House / Ransom House, Castleton, Vermont), which describes itself as a copy of this house",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its words: 'The designer of this structure did, however, make a near-exact but reduced copy of the Wilcox-Cutts House in nearby Orwell, Vermont, designed by master-builder James Lamb of Shoreham, Vermont, in 1843'. Of the copy it says 'The fluted columns, seventeen in total, are of the Ionic order. In the projecting portico they are arranged in a groupof five rather than in the traditional, even-numbered grouping.' That is a description of the Castleton house, not of this one, and is recorded here only because it corroborates the odd five-column grouping Wikipedia reports at Orwell."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.innsite.com/inns/A000594.html",
+      "title": "Historic Brookside Farms Country Inn, Orwell, Vermont",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The house's later commercial occupant: 'On the National Register of Historic Places, the Wilcox-Cutts House better known as \"Brookside\", dates from 1789-1843.'"
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. NO HABS SURVEY FOUND, on ONE query and no more -- 'HABS \"Wilcox-Cutts House\" Orwell Vermont loc.gov item survey number Greek Revival Ionic' returned the Wikipedia article, a Wikipedia disambiguation page of thirty other Wilcox houses, and no Library of Congress item. One query is a weak negative and is stated as one; no `habs` reference is recorded rather than a guessed one, and there is no survey block. The fact worth carrying is the FIVE columns: an odd count across a temple front leaves a column on the axis where the door should be, and both sources read here report it -- the corroborating source describes the Castleton copy rather than this house, which is stated in that ref's note so a later reader does not promote it."
+}

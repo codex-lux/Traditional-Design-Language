@@ -1,0 +1,99 @@
+{
+  "id": "old-city-hall-boston",
+  "name": "Old City Hall, 45 School Street",
+  "location": {
+    "text": "Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "aka": [
+    "Boston City Hall (Old City Hall)"
+  ],
+  "dates": {
+    "built": "1862-1865",
+    "circa": false
+  },
+  "nodes": [
+    "second-empire"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-860",
+      "title": "Boston City Hall (Old City Hall), 41-45 School Street, Boston, Suffolk County, Massachusetts",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0445/data/ma0445data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the data page's own cover ('HABS No. MA-860')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0445",
+      "url": "https://www.loc.gov/pictures/item/ma0445",
+      "title": "Boston City Hall, 41-45 School Street, Boston, Suffolk ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line reads 'Old City Hall is significant as one of the first major structures in the country to be built in the French Second Empire style'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000687",
+      "url": "https://en.wikipedia.org/wiki/Old_City_Hall_(Boston)",
+      "title": "NRHP reference No. 70000687; added and designated NHL December 30, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    }
+  ],
+  "survey": {
+    "item": "ma0445",
+    "survey_no": "MA-860",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0445/data/ma0445data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "A. Description of Exterior Old City Hall appears as a three story plus mansard French Second Empire building with a central pavillion projecting from the School Street, or main elevation. The pavillion is three bays across and one bay deep, rises an additional story above the mansard level and is topped by a tall \"dome\" - actually a square convex mansard with dormers and an elaborate curbing. Rectangular in plan, the building is nine bays across the main elevation and six bays along its sides. Each elevation is of dressed granite. The fenestration pattern is regular with tall round headed windows on the principle floors and segmental arches on the third floor.",
+        "page": "HABS No. MA-860, Part II.A; the running head above the span OCRs as 'PART II - AECHITECTUPAL INFOPMATIOI' and carries no page number"
+      },
+      {
+        "field": "significance",
+        "text": "piling up of stories articulated by paired columns and pilasters, arcaded openings, and high mansard roofs. Boston City Hall is one of the first monumental examples of this style in America and was indeed of considerable influence in encouraging the French fashion in this country.",
+        "page": "HABS No. MA-860, statement of significance; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "three story plus mansard",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three storeys plus the mansard, which the surveyor counts separately -- the whole economic argument of the style in one phrase."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "nine bays across the main elevation",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "flank_bay_count",
+      "as_printed": "six bays along its sides",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "three bays across and one bay deep",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. The canonical American Second Empire public building, and the survey states the pavilion system as a bay count rather than as an adjective: nine bays with a three-bay centre one bay deep, rising one storey above the mansard. That is the second-empire node's 'pavilion system that the cottage styles had abandoned', in a number a checker could hold a facade against. The survey also says the third-floor windows are segmental where the principal floors are round-headed, which is storey diminution expressed in the window head and not in the height."
+}

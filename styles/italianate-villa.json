@@ -204,19 +204,55 @@
       "name": "Edward King House",
       "location": "Newport, Rhode Island",
       "year": 1847,
-      "note": "Richard Upjohn, 1845-47. Praised by Downing in The Architecture of Country Houses and thereby made the American model for the type."
+      "note": "Richard Upjohn, 1845-47. Praised by Downing in The Architecture of Country Houses and thereby made the American model for the type.",
+      "precedent": "edward-king-house",
+      "standing": "icon",
+      "why": "The house Downing published as the American model for the type, and the HABS survey of Kenworthy Hall independently calls it 'one of the models' for that house -- a nineteenth-century judgment and a twentieth-century surveyor's, agreeing."
     },
     {
       "name": "Morse-Libby House (Victoria Mansion)",
       "location": "Portland, Maine",
       "year": 1860,
-      "note": "Henry Austin, 1858-60. Brownstone villa with an asymmetrical tower and a complete surviving Gustave Herter interior."
+      "note": "Henry Austin, 1858-60. Brownstone villa with an asymmetrical tower and a complete surviving Gustave Herter interior.",
+      "precedent": "morse-libby-house",
+      "standing": "canonical",
+      "why": "Visit Portland calls it 'widely considered one of the finest examples of the Italian Villa style in America', and its interior survives entire, which is what makes it a specimen rather than a picture."
     },
     {
       "name": "Litchfield Villa",
       "location": "Prospect Park, Brooklyn, New York",
       "year": 1857,
-      "note": "Alexander Jackson Davis, 1854-57, for Edwin Clark Litchfield. Davis's most ambitious Italianate villa, with an octagonal and a square tower."
+      "note": "Alexander Jackson Davis, 1854-57, for Edwin Clark Litchfield. Davis's most ambitious Italianate villa, with an octagonal and a square tower.",
+      "precedent": "litchfield-villa",
+      "standing": "canonical",
+      "why": "A documented type specimen that contradicts the node's own compositional rule -- rotunda, octagons and a circular library rather than an L with a tower in the angle -- and is kept for exactly that reason; the plan description is Wikipedia's, the reading is this corpus's."
+    },
+    {
+      "name": "Blandwood",
+      "location": "Greensboro, North Carolina",
+      "year": 1846,
+      "note": "A. J. Davis wrapped a Tuscan villa round an existing frame farmhouse of about 1795 for Governor John Motley Morehead: a central three-storey tower, stucco walls, and a TRIPARTITE plan with flanking dependencies joined by vaulted arcades. Published by Downing in 1850.",
+      "precedent": "blandwood",
+      "standing": "canonical",
+      "why": "SAH Archipedia calls it 'believed to be the oldest extant example of the Italian Villa Style as promoted by ... Davis', and the hedge is the Society's own; it is a type specimen whose plan refuses this node's stated L-with-a-tower logic."
+    },
+    {
+      "name": "Locust Grove (Samuel F. B. Morse House)",
+      "location": "Poughkeepsie, New York",
+      "year": 1852,
+      "note": "A. J. Davis for Samuel F. B. Morse, 1851-52, and a remodelling rather than a build: the estate records a porte cochere, two wings and a four-storey tower added to an existing house, from Morse's own sketches of towers, windows and floor plans.",
+      "precedent": "locust-grove",
+      "standing": "regional",
+      "why": "The Hudson Valley case, and the only precedent in this node where the additive growth Downing praised is documented as growth rather than inferred from a silhouette."
+    },
+    {
+      "name": "Kenworthy Hall (Carlisle-Martin House)",
+      "location": "Marion, Perry County, Alabama",
+      "year": 1860,
+      "note": "Richard Upjohn, 1858-60, on the Edward King House's model, which the survey says outright. HABS AL-765 measures it: 71'-2 3/4\" across the front, 63'-8 1/2\" deep at the parlour and 70'-6 1/2\" through the service wing, 37 ft to the roof, 14 ft and 12 ft ceilings, twelve principal rooms each with a fireplace.",
+      "precedent": "kenworthy-hall",
+      "standing": "documentary",
+      "why": "The best-measured Italianate villa this cluster found and one the corpus had not named: its survey states the front AS the front, gives two different depths for one house, and states ceiling heights, which almost no survey does."
     }
   ],
   "sources": [

@@ -12,7 +12,8 @@
     "note": "The node says begun 1803 and gives 1808; the Wikipedia infobox prints 'Built 1803-1808'; the 1930s HABS form prints 'Date of erec.tlo.nt c. 1811' and its historical note 'built in 1811'. Recorded as the node and the infobox agree, with the survey's later date kept in its own quote."
   },
   "nodes": [
-    "federal-style"
+    "federal-style",
+    "southern-federal"
   ],
   "refs": [
     {

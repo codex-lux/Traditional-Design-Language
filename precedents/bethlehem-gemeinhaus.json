@@ -1,0 +1,67 @@
+{
+  "id": "bethlehem-gemeinhaus",
+  "name": "Bethlehem Gemeinhaus",
+  "aka": [
+    "Gemein Haus",
+    "1741 Gemeinhaus",
+    "Moravian Museum of Bethlehem"
+  ],
+  "location": {
+    "text": "62-66 West Church Street, Bethlehem, Northampton County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1741-1743",
+    "circa": false,
+    "altered": "The original wooden shingle roof was replaced with slate in the nineteenth century; a small one-storey clapboard addition survives on the north-west facade from a series of sheds that no longer exist.",
+    "note": "The loc.gov item page prints '1743 Initial Construction'; Historic Bethlehem says it was 'constructed in two stages, with the center and western portions of the building started in 1741 and the eastern section started in 1742 and completed in 1743'. Both recorded."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1142",
+      "title": "Gemein Haus, 62-66 West Church Street, Bethlehem, Northampton County, PA",
+      "url": "https://www.loc.gov/pictures/item/pa0644",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The loc.gov item page prints 'Survey number: HABS PA-1142; Building/structure dates: 1743 Initial Construction' and notes unprocessed field-note material FN-21. The data PDF at tile.loc.gov/.../pa/pa0600/pa0644/data/pa0644data.pdf was fetched the same day and carries ONLY a transmittal cover -- title block, 'PHOTOGRAPHS', and the Heritage Conservation and Recreation Service address. There is no written descriptive data, which is why this record has no `survey` block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0644",
+      "url": "https://www.loc.gov/pictures/item/pa0644",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicbethlehem.org/visit-us/museums-sites/moravian-museum-of-bethlehem",
+      "title": "Moravian Museum of Bethlehem -- National Historic Landmark | Historic Bethlehem Museums & Sites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. 'Built of white oak timbers in the German Colonial style, the Gemeinhaus was constructed in two stages ... The Gemeinhaus has a two-story attic and a partial cellar, with herringbone-patterned double doors on the south facade, wooden entrance porches and a steep roof with kicked eaves typical of this architectural style.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://worldheritageusa.org/sites/moravian-church-settlements-bethlehem",
+      "title": "Moravian Church Settlements - Bethlehem -- World Heritage USA (ICOMOS-USA)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The 1741 Gemeinhaus, or Community House ... is believed to be the largest 18th-century log structure in continuous use in the United States.' The settlement is a UNESCO World Heritage site as part of a transnational serial property with Herrnhut, Gracehill and Christiansfeld."
+    },
+    {
+      "kind": "state-register",
+      "id": "1975RE00003",
+      "url": "https://pahistoricpreservation.com/just-time-for-the-holidays-new-set-shutters-for-the-gemeinhaus",
+      "title": "The 1741 Gemeinhaus, PA-SHARE Resource #1975RE00003 -- Pennsylvania Historic Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Pennsylvania state inventory number as that article prints it."
+    }
+  ],
+  "note": "The largest surviving eighteenth-century log building in the tradition, and it is a LOG building -- white oak timbers -- where the node's canonical material is squared limestone. Carried for two things the node's prose asserts and this building shows at an institutional scale: the steep roof with kicked eaves, and the two-storey attic over a partial cellar, which is the liegender Stuhl loft used as usable volume rather than as a void. No survey block: the HABS item is photographs only, and its data PDF carries a transmittal cover with no descriptive text."
+}

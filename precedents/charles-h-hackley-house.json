@@ -1,0 +1,45 @@
+{
+  "id": "charles-h-hackley-house",
+  "name": "Charles H. Hackley House",
+  "location": {
+    "text": "Muskegon, Michigan",
+    "country": "United States",
+    "state": "Michigan"
+  },
+  "dates": {
+    "built": "1887",
+    "circa": false,
+    "note": "Wikipedia's infobox for this house gives 'Built 1887'; its article says Hackley bought the lots in 1887 and then built. The neighbouring Hume House, by the same architect on the same lots, carries a state marker reading 'Built in 1887-1889'. The 1887 date is this house's own infobox and is not extended to match its neighbour's."
+  },
+  "nodes": [
+    "queen-anne-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "70000282",
+      "url": "https://en.wikipedia.org/wiki/Charles_H._Hackley_House",
+      "title": "NRHP reference No. 70000282; added to NRHP July 8, 1970; architect David S. Hopkins; architectural style Queen Anne (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox also records the house as a contributing property of the Muskegon Historic District (ID 72000647), which is a DISTRICT listing and not this building's identity."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Charles_H._Hackley_House",
+      "title": "Charles H. Hackley House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'The Charles H. Hackley House is a house located at 484 West Webster Avenue in Muskegon, Michigan, USA. It was listed in the National Register of Historic Places in 1970, and is now part of the Hackley and Hume Historic Sites, and is open to the public.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hume_House",
+      "title": "Hume House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The neighbour, a SEPARATE building (NRHP reference No. 72000646) by the same architect on lots Hackley sold him, sharing a carriage house with this one. Recorded so a reader does not take the two for one house: 'The elaborate 14-color exterior paint scheme has been reconstructed from the original tones' is said of the HUME house, not of this one."
+    }
+  ],
+  "note": "The Midwestern lumber-town Queen Anne, by a Grand Rapids architect who sold plans by mail, standing beside its own partner's house on lots the two men divided -- the industrial supply chain `queen-anne-american`'s prose describes, in the person of the men who owned the mills. No HABS record was found for either house (same query as Hale House above). Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

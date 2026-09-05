@@ -47,6 +47,8 @@
   ],
   "note": "This building is also named by the garrison-colonial and garrison-revival nodes, which are not linked here; those links belong to whoever works those nodes. No HABS survey was found: two searches ('\"Whitman House\" Farmington Connecticut HABS CT High Street' on loc.gov, and an unrestricted '\"Stanley-Whitman House\" ... Historic American Buildings Survey HABS CONN') returned nothing on the Library's site.",
   "nodes": [
-    "saltbox-colonial"
+    "saltbox-colonial",
+    "garrison-colonial",
+    "garrison-revival"
   ]
 }

@@ -1,0 +1,58 @@
+{
+  "id": "robert-treat-paine-estate",
+  "name": "Robert Treat Paine Estate",
+  "aka": [
+    "Stonehurst",
+    "Robert Treat Paine Jr. House"
+  ],
+  "location": {
+    "text": "Waltham, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1866, 1883-1886",
+    "circa": false,
+    "note": "The Wikipedia infobox prints exactly 'Built | 1866, 1883-1886' with 'Architect | Henry Hobson Richardson; Frederick Law Olmsted': an existing 1866 house that Richardson and Olmsted enlarged in the 1880s. Wikidata and Wikimedia Commons, read the same day, give 'Inception 1866'. Which parts of the standing house are Richardson's was NOT established here."
+  },
+  "nodes": [
+    "richardsonian-romanesque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Robert_Treat_Paine_Estate",
+      "title": "Robert Treat Paine Estate - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "ITS INFOBOX AND ITS CATEGORIES DISAGREE ABOUT THE STYLE. The infobox reads 'Architectural style | Shingle Style'; the article's own category list includes 'Richardsonian Romanesque architecture in Massachusetts' and 'Henry Hobson Richardson buildings'. Both are recorded and neither is chosen."
+    },
+    {
+      "kind": "nrhp",
+      "id": "75000291",
+      "url": "https://en.wikipedia.org/wiki/Robert_Treat_Paine_Estate",
+      "title": "NRHP reference No. 75000291; Added to NRHP October 7, 1975; Designated NHL October 7, 1975 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox. A Wikidata item and a Wikimedia Commons category found by an independent search the same day both give the same number."
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q7350462",
+      "url": "https://www.wikidata.org/wiki/Q7350462",
+      "title": "Robert Treat Paine Estate (Wikidata)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States 'NRHP reference number 75000291' and describes the property as a 'country house set on 109 acres (44 ha) in Waltham, Massachusetts'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.city.waltham.ma.us/1755/Stonehurst-The-Robert-Treat-Paine-Estate",
+      "title": "Stonehurst, The Robert Treat Paine Estate | Waltham, MA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its own claim, recorded as one: the estate is 'an icon of American design surrounded by 109 acres of woodlands, meadows, and recreational trails. Architect Henry Hobson Richardson and landscape architect Frederick Law Olmsted created this National Historic Landmark'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2, and it is the record in this cluster a reader should distrust first. No HABS survey was found. Its own principal source contradicts itself about which style it is: the Wikipedia infobox says Shingle Style and the same page's categories file it under Richardsonian Romanesque. That is exactly the boundary richardsonian-romanesque's `distinguished_from` has to hold, and this building sits on it -- a Richardson house whose stone base and arch are the manner's domestic vocabulary and whose upper walls are shingled. It is carried as `documentary` for that reason and not as a type specimen. Nothing here should be read as settling the attribution."
+}

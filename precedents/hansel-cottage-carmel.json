@@ -1,0 +1,40 @@
+{
+  "id": "hansel-cottage-carmel",
+  "name": "Hansel cottage",
+  "aka": [
+    "the original Doll House"
+  ],
+  "location": {
+    "text": "Carmel-by-the-Sea, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1924",
+    "circa": false,
+    "altered": "Gretel followed in 1925 as its pair; Comstock went on to build the Obers house (1925), the Tuck Box (1926) and about twenty more in the town.",
+    "note": "Both sources read give 1924 for Hansel and 1925 for Gretel; one photograph caption read the same day dates the pair 'Hansel (the original dollhouse) & Gretel, Comstock. 1924', which is a caption for two buildings under one year and is not treated as a third date."
+  },
+  "nodes": [
+    "cotswold-cottage-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://carmelbythesea.city/fairytale-cottages-carmel-by-the-sea",
+      "title": "Fairytale cottages of Carmel-by-the-Sea: Origins and how to visit",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Hansel, the first fairytale cottage, was built as Mayotta's doll workshop. Its charming rooflines and irregular features made it an instant landmark. Gretel, constructed in 1925, complemented Hansel's design.' It records that Comstock arrived in 1924 to join his wife Mayotta, known for her handmade 'Otsy-Totsy' dolls, and that his designs took their cues from illustrations in European storybooks - 'twisted chimneys, rounded doors and whimsical proportions'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.carmelgardeninn.com/carmels-fairy-tale-cottages",
+      "title": "Carmel's Fairy-Tale Cottages - The Carmel Garden Inn",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carries a dated list of the Comstock cottages - 'Hansel (1924), the original Doll House', 'Hugh Comstock House (1925) aka Obers', 'Gretel (1925)', 'Tuck Box (1926)' and on to 1928 - and quotes Mayotta Brown Comstock's own proposal: 'Hugh, can't we build a little cottage to keep the dolls in? We could build it like a fairy house in the woods and the buyers will be able to see the dolls in a house all their own.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as the BOUNDARY case for cotswold-cottage-revival, and it is in the set precisely because it falls outside the style rather than inside it. The node's own description draws the line: 'two or three deviations read as age, six read as whimsy, and past that point the building becomes Storybook, which was a real and different Californian style.' Hansel is the first building of that different style, put up as a shop window for dolls, and having it named and located is what makes the node's line checkable instead of rhetorical. No register listing was found for the individual cottage."
+}

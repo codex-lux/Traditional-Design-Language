@@ -17,7 +17,8 @@
     "note": "The style node says begun 1827; the National Trust's page says 'originally dating from 1827'. The Library's item title gives the address as 508 Munras Street where the node says Polk and Munras; the node's string is kept because it is the join key."
   },
   "nodes": [
-    "monterey-colonial"
+    "monterey-colonial",
+    "monterey-revival"
   ],
   "refs": [
     {
@@ -64,5 +65,5 @@
       "note": "The DISTRICT's number, of which the adobe is a part; the building carries no individual listing that was found."
     }
   ],
-  "note": "Seeded 4 Sep 2026. The one HABS record found is photographs only; the National Trust is the source for the site's extent. Nothing here states a dimension."
+  "note": "Seeded 4 Sep 2026. The one HABS record found is photographs only; the National Trust is the source for the site's extent. Nothing here states a dimension. CROSS-LINKED 5 Sep 2026: monterey-revival now names this building too, at the same location string, as one of the Monterey adobes the twentieth-century revival copied rather than as an example of the revival."
 }

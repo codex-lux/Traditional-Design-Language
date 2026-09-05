@@ -1,0 +1,51 @@
+{
+  "id": "faubourg-marigny-and-bywater-shotgun-rows",
+  "name": "Faubourg Marigny and Bywater shotgun rows",
+  "location": {
+    "text": "New Orleans, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "chiefly 1880s-1890s",
+    "circa": true,
+    "note": "A district, not a building, so no single date. The Bywater nomination was signed by the Louisiana State Historic Preservation Officer on 17 December 1985 and the district listed 23 January 1986."
+  },
+  "nodes": [
+    "shotgun-house"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "86000113",
+      "url": "https://en.wikipedia.org/wiki/Bywater,_New_Orleans",
+      "title": "Bywater Historic District, NRHP reference No. 86000113; added January 23, 1986; 290 acres; architectural style 'Bungalow/craftsman, Italianate, Shotgun House' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing over 290 acres, deliberately: the node's own exemplar cites the rows as a district because 'the individually documented early examples largely did not survive'. The adjoining Faubourg Marigny district is listed separately and its reference number was not resolved here."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/6d63532a-1e5f-4bc6-b948-069dfef6fdbe",
+      "title": "National Register of Historic Places Inventory--Nomination Form, Bywater Historic District, New Orleans, LA (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The building-type census quoted in this record's note. Its own methodology paragraph says the staff rejected the earlier Koch and Wilson survey and made a new one in the summer of 1985 because Koch and Wilson 'broke the district down Into multitudinous style/period categories, some of which overlapped'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bywater,_New_Orleans",
+      "title": "Bywater, New Orleans - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://prcno.org/help-for-homeowners/historic-districts-neighborhoods/bywater",
+      "title": "Bywater -- Preservation Resource Center of New Orleans",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Carried for a CENSUS, which no single building can give. The Bywater nomination counts the district's own building stock by type, and the figures are the strongest quantitative statement about the shotgun this cluster found anywhere. Verbatim from the nomination: '2. Shotgun Houses 0249, or 61% of the building stock) The shotgun is the most conspicuous building type in the district.' -- the leading '0' is OCR and the count is 1249 against 61%; '3. Camel back Houses (j>7, or 3% of the building stock) The camel back is a single or double shotgun with a two-level portion over the rear rooms'; '5. Bungalows (82, or 4% of the building stock)'; and, on the single-versus-double split, 'Virtually all the shotgun houses in Central City, a poor area, are doubles, whereas in Bywater 47% of the shotgun houses are singles.' Sixty-one per cent of a 290-acre district is one house type. These figures are NOT recorded as `measurements` because the nomination is not a HABS survey and this schema's `measurements` index into `survey.quotes`; they are quoted here so a reader can find them."
+}

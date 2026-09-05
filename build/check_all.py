@@ -46,8 +46,9 @@ CHECKS = [
     # shape, `retrieved` and `via` on every URL, no `license` key at any depth, and kit figures
     # citing a survey quote that exists. Reads styles/ and precedents/ directly, not dist/.
     ("check_precedents.py", ["--strict"]),
-    # WP-11.1. How deep the research under each node goes -- measured, because the corpus is
-    # templated on the surface (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node)
+    # WP-11.1. How deep the research under each node goes -- measured, because the corpus was
+    # templated on the surface when it was surveyed (2-4 exemplars, 4-5 sources, 5 constraints on
+    # every buildable node; the exemplar clause has since moved and the other two have not)
     # and the things that DO discriminate were tracked nowhere: exemplars a checker can resolve,
     # nodes citing only works a sibling cites, `measured` figures with no source at all, split by
     # whether a generator reads the slot. Ratcheted.

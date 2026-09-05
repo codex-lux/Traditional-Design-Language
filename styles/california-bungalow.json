@@ -184,19 +184,55 @@
       "name": "Bowen Court",
       "location": "539 E. Villa Street, Pasadena, California",
       "year": 1910,
-      "note": "Arthur and Alfred Heineman, 1910-1912. Twenty-three bungalows in an L about a shared garden walk; one of the largest bungalow courts in Southern California."
+      "note": "Arthur and Alfred Heineman, 1910-1912. Twenty-three bungalows in an L about a shared garden walk; one of the largest bungalow courts in Southern California.",
+      "precedent": "bowen-court",
+      "standing": "canonical",
+      "why": "The type specimen for the bungalow COURT, which is the one plan type this node has that the national type does not: the Pasadena bungalow-courts nomination calls it 'the most well known extant bungalow court in Pasadena, and perhaps in the larger Los Angeles region as well' and 'one of the two oldest to survive', and Wikipedia 'one of the largest bungalow courts in southern California'. The node's own long description calls its twenty-three units about a shared walk the largest surviving example; no source the record carries says largest, so that superlative is this project's and not the register's."
     },
     {
       "name": "Bungalow Heaven Landmark District",
       "location": "Pasadena, California",
       "year": 1900,
-      "note": "More than 800 bungalows, c. 1900-1930, designated 1989 — the Californian type at street scale rather than at exhibition scale."
+      "note": "More than 800 bungalows, c. 1900-1930, designated 1989 — the Californian type at street scale rather than at exhibition scale.",
+      "precedent": "bungalow-heaven-landmark-district",
+      "standing": "regional",
+      "why": "The type at street scale rather than at exhibition scale -- the California Office of Historic Preservation counts '522 contributing and 164 non-contributing buildings' and calls it 'the largest intact grouping of working class housing constructed during the late nineteenth and early twentieth centuries reflecting the influences of the Arts and Crafts movement in Pasadena'; a landmark district in 1989 and on the National Register in 2008 -- and it is a district, so it can stand for a neighbourhood's practice and not for a building's rule. The note's 'more than 800' is the Wikipedia page this record cites and does not quote; the register's own count is the one above."
     },
     {
       "name": "Gamble House",
       "location": "Pasadena, California",
       "year": 1908,
-      "note": "Greene and Greene. Included as the type's apotheosis and its explicit outlier: a bungalow grammar executed at ten times the normal budget, with the sleeping porches, terraces, and boulder masonry of the modest type at full scale."
+      "note": "Greene and Greene. Included as the type's apotheosis and its explicit outlier: a bungalow grammar executed at ten times the normal budget, with the sleeping porches, terraces, and boulder masonry of the modest type at full scale.",
+      "precedent": "gamble-house",
+      "standing": "icon",
+      "why": "The building the type is known by and its explicit outlier, on the HABS survey's own significance line calling it 'California Bungalow style ... one of the finest examples of the American Craftsman Movement' -- the node's own exemplar note already says it is a bungalow grammar at ten times the budget."
+    },
+    {
+      "name": "Lanterman House",
+      "location": "La Cañada Flintridge, California",
+      "year": 1915,
+      "note": "Arthur L. Haley, 1915. A reinforced-concrete bungalow built as a U about a patio, ringed by a trellised terrace on concrete columns -- the node's outdoor rooms built as the whole plan rather than added to one face.",
+      "precedent": "lanterman-house",
+      "standing": "canonical",
+      "why": "A documented type specimen whose National Register nomination lists it for exactly this node's own climatic argument -- 'architecture meant to take advantage of the micro-climate for optimum air circulation and sun exposure in this inland valley area' -- so the reason it is on the register is the reason the node exists."
+    },
+    {
+      "name": "Major Harry E. Kunkel House",
+      "location": "1542 North McCadden Place, Los Angeles, California",
+      "year": 1910,
+      "note": "Architect unknown, 1910. A plain Los Angeles bungalow the Historic American Buildings Survey measured: 31 x 52 ft, one storey, no chimney. The ordinary article, in the hearth, with a figure attached.",
+      "precedent": "major-harry-e-kunkel-house",
+      "standing": "documentary",
+      "why": "Plain, surveyed and useful to measure rather than to admire: HABS recorded it (CA-2969) and no register was found that lists it, which is the definition of this standing and the judgment is the Survey's."
+    },
+    {
+      "name": "Ivan Carter McIndoo House",
+      "location": "310 North Fulton Street, Fresno, California",
+      "year": null,
+      "note": "Architect unknown, ca. 1913, moved from 410 North Van Ness Avenue about 1992. A Central Valley bungalow at the larger 'bungaloid' scale, with a full HABS Part II description of its walls, eaves and openings.",
+      "precedent": "ivan-carter-mcindoo-house",
+      "standing": "documentary",
+      "why": "A surveyed plain example in the Central Valley reach this node's own long description names, carried for its measurable Part II description rather than for its quality; the year is null because the survey itself says only 'ca. 1913'."
     }
   ],
   "sources": [

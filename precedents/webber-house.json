@@ -1,0 +1,37 @@
+{
+  "id": "webber-house",
+  "name": "Webber House",
+  "location": {
+    "text": "Brookline, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1935",
+    "circa": false,
+    "note": "One source, one date. Buildings of New England gives 1935 and names Max and Rebeccah Webber as the owners who built it and Harry Morton Ramsay as its architect; both style nodes that carry the house already said the same. Nothing corroborates it: no register listing and no municipal inventory record for the address was reached."
+  },
+  "nodes": [
+    "garrison-revival",
+    "cape-cod-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://buildingsofnewengland.com/2020/12/09/webber-house-1935",
+      "title": "Webber House // 1935 – Buildings of New England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The entry reads: 'This home was built in 1935 for Max and Rebeccah Webber in the Garrison Colonial Revival style. The home, designed by architect Harry Morton Ramsay, is characterized by a second-story shingled overhang with decorative pendants reminiscent of 17th century American homes. Adding some extra flair, an eyebrow dormer can be found at the roof, as well as a glazed projecting entry porch with a broad pediment and corner pilasters.' A signed enthusiast's blog, not an inventory form; recorded as a secondary source and the only one that resolves this building."
+    },
+    {
+      "kind": "other",
+      "url": "https://buildingsofnewengland.com/tag/25-alberta-road-brookline-ma",
+      "title": "25 Alberta Road Brookline MA – Buildings of New England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same site's address tag for the building, which is where the street address comes from. The address is deliberately NOT in either node's exemplar `location`, both of which print 'Brookline, Massachusetts' and may not be renamed; it is recorded here so a reader can find the house."
+    }
+  ],
+  "note": "No HABS survey and no National Register listing were found, which for a 1935 suburban house is the normal case rather than a gap. Two searches were run: '\"Webber House\" Brookline Massachusetts \"Harry Morton Ramsay\" 1935 garrison colonial overhang', which returned only this blog under four of its own URLs, and 'MACRIS Brookline \"25 Alberta Road\" inventory Webber house Massachusetts Cultural Resource Information System', which returned the MACRIS help pages and a Fisher Hill district form naming Ramsay on other streets. MACRIS itself is not reachable from this container. The house is shared by two nodes for opposite reasons: garrison-revival carries it for the overhang, cape-cod-revival only as a dated Boston-suburb control on the same year."
+}

@@ -1,0 +1,88 @@
+{
+  "id": "virginia-state-capitol",
+  "name": "Virginia State Capitol",
+  "location": {
+    "text": "Richmond, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1785-1788",
+    "circa": false,
+    "altered": "The Library's catalogue line records subsequent work in 1870, 1904 and 1964. The survey's own account of the 1904 campaign: 'Even the columns of the portico were reinforced, while the capitals and bases were enlarged to correspond to the increased diameter. Along with the change in diameter, the columns were given entasis, the pediment was lowered, and the modillions were enlarged.'",
+    "note": "The Library's catalogue prints '1785 Initial Construction'; the node's exemplar gives 1788 and 'Cornerstone 1785; occupied by the General Assembly 1788, finished later'. No disagreement of substance. THE COLUMNS A VISITOR SEES WERE REWORKED IN 1904 -- enlarged in diameter and given entasis they did not previously have -- which is decisive for anyone measuring an order off a photograph of this building."
+  },
+  "nodes": [
+    "jeffersonian-classicism"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-1254",
+      "title": "Virginia State Capitol, Bank and 10th Streets, Capitol Square, Richmond, Richmond (Independent City), VA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va1400/va1498/data/va1498data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed cleanly in the PDF's own running head on every page -- 'VIRGINIA STATE CAPITOL HABS No. VA-1254/PAGE 6', '/PAGE 81', '/PAGE 82', '/PAGE 84' (that one OCR'd 'VA-12S4'). The 1930s-style call number is 'HABS VA,44-RICH,9-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va1498",
+      "url": "https://www.loc.gov/item/va1498",
+      "title": "Virginia State Capitol, Bank and 10th Streets, Capitol Square, Richmond, Richmond (Independent City), VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary: 'Data Page(s): 88', 'View 167 images in sequence', 'Data Pages from Survey HABS VA-1254'. Eighty-eight data pages is the largest written record in this cluster by an order of magnitude."
+    }
+  ],
+  "survey": {
+    "item": "va1498",
+    "survey_no": "VA-1254",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va1400/va1498/data/va1498data.pdf",
+    "prepared": "'The documentation of the Virginia State Capitol was undertaken by the Historic American Buildings Survey (HABS) of the National Park Service and the Department of General Services (DGS) of the Commonwealth of Virginia ... Paul D. Dolinsky, HABS architect, served as project manager, and Frances P. Alexander, HABS historian, as supervisory historian. Sara Amy Leach, HABS historian, edited the final document. The recording was conducted at the Virginia State Capitol by architectural historian Kimberly Prothro'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Here the scheme retains the single portico of Jefferson's first studies and the ancient temple, but it is only two columns deep as opposed to the three found on the prototype. These changes are attributed to the advice given to Jefferson by Clerisseau, who suggested that more light could penetrate the building with a reduction of depth in the portico. Other differences between the Maison Carree and the Capitol, attributed to Jefferson, include the absence of pilasters on the side facades, substitution of the Ionic order for the Corinthian, added fenestration and recessed panels in the walls, and the use of brick as opposed to stone.",
+        "page": "HABS No. VA-1254; no page marker is legible in the extract span carrying this paragraph. The same extract prints 'VIRGINIA STATE CAPITOL HABS No. VA-1254/PAGE 6' at the head of the introduction and '/PAGE 81' through '/PAGE 84' on the figure sheets, so the span falls between them."
+      },
+      {
+        "field": "other",
+        "text": "that while the length of the building corresponds to the length of the foundations, the width is less than that of the foundations, but proportional to the width of the model. While the general increase, of approximately 10 percent, conformed to this change in dimensions, the columns and entablature, for reasons undocumented, were increased disproportionately by 14 percent.",
+        "page": "HABS No. VA-1254; no page marker is legible in the extract span. The paragraph concerns Samuel Dobie's execution of the building in Jefferson's absence -- 'Dobie assumed a certain authority in Jefferson's absence and, whether justified or not, made considerable changes to the building. As executed, the Capitol building diverged significantly from the plans and elevations supplied by Jefferson.'"
+      },
+      {
+        "field": "significance",
+        "text": "To stabilize and fireproof the building, it was equipped with structural steel and fireproofing materials. Even the columns of the portico were reinforced, while the capitals and bases were enlarged to correspond to the increased diameter. Along with the change in diameter, the columns were given entasis, the pediment was lowered, and the modillions were enlarged.",
+        "page": "HABS No. VA-1254; the 1904 addition and renovation section. No page marker legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_column_depth_count",
+      "as_printed": "only two columns deep as opposed to the three found on the prototype",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Columns deep, not wide. The Maison Carree's three-deep pronaos was reduced to two on Clerisseau's advice about daylight."
+    },
+    {
+      "name": "overall_enlargement_percent",
+      "as_printed": "approximately 10 percent",
+      "value": 10,
+      "from_quote": 1,
+      "note": "Per cent, over the model's dimensions. No `unit` is recorded because this schema's unit enum has no term for a percentage; the figure is carried for the ratio it implies against the next measurement."
+    },
+    {
+      "name": "column_and_entablature_enlargement_percent",
+      "as_printed": "increased disproportionately by 14 percent",
+      "value": 14,
+      "from_quote": 1,
+      "note": "Per cent, against the building's own 10. Same reason for the absent unit."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. THE FINDING HERE IS A PROPORTIONAL ONE AND IT CUTS AT THE NODE'S CENTRAL CLAIM. The node's description.long says Jefferson 'insisted on correct entasis and correct entablature depth because correctness was the point', and its diagnostic tells put 'Portico entablature of correct Roman depth (roughly a fifth of column height)' third. This survey says that on the building itself the columns and entablature were enlarged 14 per cent against the building's own 10 -- 'for reasons undocumented' -- by Samuel Dobie in Jefferson's absence; that the portico was cut from three columns deep to two on Clerisseau's advice about daylight; and that the columns were given ENTASIS in 1904, which is to say the entasis a modern eye reads as Jeffersonian correctness is eighty-nine years younger than the pediment above it. The order substitution the node's own exemplar note records -- Scamozzian Ionic for Corinthian -- is confirmed by the survey in the same sentence as the brick-for-stone substitution. THREE extract calls with different query values were run against this PDF and none reached a 'Description of Exterior' with overall dimensions, so no width, depth or column height is recorded; eighty-eight data pages exist and the two spans read here are narrative history."
+}

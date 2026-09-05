@@ -1,0 +1,46 @@
+{
+  "id": "court-of-honor-worlds-columbian-exposition",
+  "name": "Court of Honor, World's Columbian Exposition",
+  "location": {
+    "text": "Chicago, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1891-1893",
+    "circa": true,
+    "altered": "DEMOLISHED. The fair ran from May 1 to October 30, 1893 and the Court of Honor buildings were built of staff - plaster over a fibrous frame - and were designed to be taken down and the scraps sold, which is how part of the fair was financed. Nothing of the Court survives in place.",
+    "note": "The style nodes give 1893, the year of the fair. The construction ran from 1891; the Encyclopedia of Chicago dates the exposition itself 'May 1, 1893-October 30, 1893'. Recorded as a range with `circa` true because no source read here gives a start date for the Court of Honor buildings specifically."
+  },
+  "nodes": [
+    "beaux-arts-american",
+    "neoclassical-revival"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://www.encyclopedia.chicagohistory.org/pages/1386.html",
+      "title": "World's Columbian Exposition - Encyclopedia of Chicago (Chicago History Museum)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States that the buildings were 'decidedly neoclassical, lathered with plaster of Paris, and painted a chalky white, thus bestowing the moniker of \"White City\"', and that the White City's neoclassicism provoked a long-lived argument among architects."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.pbs.org/wgbh/americanexperience/features/chicago-worlds-columbian-exposition-1893",
+      "title": "World's Columbian Exposition of 1893 - American Experience (PBS)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes Burnham: 'The influence of the Exposition on architecture will be to inspire a reversion toward the pure ideal of the ancient.' Also records that Sullivan's Transportation Building stood off to one side of the neoclassical basin, which is the disagreement the node's prose is standing on."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.beyondthewhitecity.org/worlds-columbian-exposition",
+      "title": "World's Columbian Exposition - The City Beyond the White City",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Names the ten firms Burnham selected, five from Chicago and five from elsewhere: Hunt, Post, McKim Mead and White, Peabody and Stearns, Van Brunt and Howe, Burling and Whitehouse, Jenney and Mundie, Henry Ives Cobb, Solon Spencer Beman, and Adler and Sullivan, citing Higinbotham 1898:29. The style nodes name Burnham, Hunt, McKim, Post and Peabody; this is the full list."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. Both beaux-arts-american and neoclassical-revival name this exemplar with the identical location string 'Chicago, Illinois', so one record serves both. It is a demolished temporary work rather than a building, which is why it carries no register reference and can carry none; the refs locate the event and its authorship instead. No survey and no measurements: the Court of Honor was never measured because it was never meant to last."
+}

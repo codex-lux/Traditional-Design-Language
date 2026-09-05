@@ -1,0 +1,58 @@
+{
+  "id": "virginia-house",
+  "name": "Virginia House",
+  "aka": [
+    "The Virginia House"
+  ],
+  "location": {
+    "text": "Richmond, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1925-1928",
+    "circa": false,
+    "altered": "'A Renaissance-style loggia by William Lawrence Bottomley was added in 1945' (Virginia DHR). The nomination calls the loggia 'an independent appendage, a significant later addition that serves as an elegant classical counterpoint to the otherwise romantic asymmetry.'",
+    "note": "The Virginia Department of Historic Resources says the house was 'completed in 1928'; the Virginia Museum of History and Culture and Wikipedia both say the work finished 'a few months before the stock market crash of 1929'; Wikipedia adds that 'the structure was officially turned over to the Weddells on January 1, 1929'. Recorded as the nomination's period, 1925 to 1928, with the disagreement stated."
+  },
+  "nodes": [
+    "tudor-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "89001933",
+      "url": "https://www.dhr.virginia.gov/historic-registers/127-0255",
+      "title": "Virginia House -- DHR; VLR Listing Date 06/20/1989, NRHP Listing Date 06/13/1990, NRHP Reference Number 89001933",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the Virginia Department of Historic Resources' own register entry, which prints the reference number as a labelled field rather than in an encyclopedia infobox."
+    },
+    {
+      "kind": "state-register",
+      "id": "127-0255",
+      "url": "https://www.dhr.virginia.gov/historic-registers/127-0255",
+      "title": "Virginia House -- DHR file 127-0255",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state's own summary: 'The Tudor-style mansion is built largely of architectural elements from Warwick Priory, a late-medieval structure later modified with distinctive Flemish gables. The Weddells purchased the ruined priory in 1925 and had portions of it shipped to Richmond, where architect Henry Grant Morse incorporated them into his design for their Windsor Farms residence, completed in 1928.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.dhr.virginia.gov/VLR_to_transfer/PDFNoms/127-0255_Virginia_House_1990_Final_Nomination.pdf",
+      "title": "National Register of Historic Places Registration Form -- Virginia House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The nomination's own Summary Description, verbatim: 'The Virginia House is an expansive, asymmetrical, two-story stone and stucco dwelling situated on a nine-acre lot at 4301 Sulgrave Road in the city of Richmond. ... The Virginia House is a historical composite that embodies several centuries of predominatly English architectural heritage, spanning twelth-century Anglo-Norman to fifteenth-century Tudor to seventeenth- century Flemish to 1940's Classical Revival. The structure is distinguished by its steep Flemish gables, its aged sandstone bearing walls,and its'. The span ends there in the extract. A second extract of the 1989 version of the same form gives the composite's three parts: the central bays with the two Flemish gables from 'the Thomas Hawkins Priory i n Warwickshire', the eastern bay 'a reconstruction of the gate tower of Wormleight on Manor', and the west wing modelled on Sulgrave Manor."
+    },
+    {
+      "kind": "institution",
+      "url": "https://virginiahistory.org/learn/virginia-house",
+      "title": "Virginia House | Virginia Museum of History & Culture",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's page: 'Although Virginia House is a blend of three romantic English Tudor designs, the Weddells' design made it a thoroughly modern home, complete with seven full baths, central heat, a modern kitchen, and commodious closets.' Wikipedia says 'ten baths'; the owner says seven. Both are recorded; neither is corrected."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, and added to tudor-revival because Agecroft Hall alone made the shipped-house case look like an anomaly and it is not: this is the SAME move on the adjoining lot, four years later, by a different family, and the two properties share a boundary (Agecroft's 1978 nomination says 'the eastern boundary abuts the property l i n e of V i r g i n i a House'). It is also the sharper case for the corpus, because the nomination states plainly that the building is a COMPOSITE of three different English houses plus the architect's own infill -- so a reader looking for a proportional system in a Tudor Revival elevation will find, here, three systems and a joint. No HABS survey was found."
+}

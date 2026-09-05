@@ -8,7 +8,10 @@
   "location": {
     "text": "Gibbstown, Greenwich Township, Gloucester County, New Jersey",
     "country": "United States",
-    "state": "New Jersey"
+    "state": "New Jersey",
+    "aliases": [
+      "Gibbstown, New Jersey, USA"
+    ]
   },
   "dates": {
     "built": "some parts 1638-1643; the remainder completed by 1685",
@@ -17,7 +20,8 @@
     "note": "As the Wikipedia infobox states it. The node's own exemplar says the date 'is traditional, not dendrochronologically established, and later dates have been argued'; nothing read here settles it."
   },
   "nodes": [
-    "log-vernacular-american"
+    "log-vernacular-american",
+    "scandinavian-log-vernacular"
   ],
   "refs": [
     {
@@ -46,5 +50,5 @@
       "note": "'built sometime between 1638 and 1643 by Finnish settlers in the colony of New Sweden'; 'The fireplace was probably built of bricks brought to America as ship's ballast.' Location as the infobox prints it: Swedesboro-Paulsboro Road, Gibbstown."
     }
   ],
-  "note": "No HABS survey was found ('Nothnagle log house Gibbstown Gloucester County New Jersey HABS NJ survey' on loc.gov returned unrelated New Jersey surveys). The scandinavian-log-vernacular node names it at 'Gibbstown, New Jersey, USA' -- a different location string, so a different join key, and that node is not listed here. Seeded 4 Sep 2026."
+  "note": "No HABS survey was found ('Nothnagle log house Gibbstown Gloucester County New Jersey HABS NJ survey' on loc.gov returned unrelated New Jersey surveys). Two nodes name it and print the location differently -- `log-vernacular-american` in full, `scandinavian-log-vernacular` as 'Gibbstown, New Jersey, USA' -- so the second string is carried as a `location.aliases` entry rather than either exemplar being rewritten; the exemplar name and location are join keys `check_assets.py` reads. Seeded 4 Sep 2026; the second node linked 5 Sep 2026 (WP-11.3)."
 }

@@ -1,0 +1,57 @@
+{
+  "id": "salisbury-house-des-moines",
+  "name": "Salisbury House",
+  "aka": [
+    "Carl and Edith C. (Van Slyke) Weeks House",
+    "Salisbury House & Gardens"
+  ],
+  "location": {
+    "text": "Des Moines, Iowa",
+    "country": "United States",
+    "state": "Iowa"
+  },
+  "dates": {
+    "built": "1923-1928",
+    "circa": false,
+    "note": "Every source read gives the build as 1923 to 1928; the National Register infobox prints 'Built 1923' and Wikipedia's categories file it under 'Houses completed in 1928'. The style node's exemplar gives 1928. The commission is earlier still: a neighbouring National Register nomination, read the same day, says 'In 1922, Boyd and Moore received the commission to design Salisbury House for Carl Weeks'."
+  },
+  "nodes": [
+    "jacobethan-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "77000551",
+      "url": "https://en.wikipedia.org/wiki/Salisbury_House_(Des_Moines,_Iowa)",
+      "title": "Salisbury House; NRHP reference No. 77000551, added July 20, 1977; architectural style 'Tudor Revival, Jacobethan Revival' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. THE REGISTER'S OWN STYLE FIELD NAMES BOTH THIS NODE AND ITS PARENT, which is the clearest external corroboration in this cluster that the two are one family and not two styles. The infobox also gives the architects as 'Byron Bennett Boyd; William Whitney Rasmussen', where a neighbouring nomination read the same day names the Salisbury House architects as 'Byron (Ben) Boyd and Herbert Moore, both'of Des Moines'; both are recorded and neither is corrected."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/0dfeb504-8126-4e05-b4c9-3e1061f43907",
+      "title": "HCLASSIFI CATION - NPGallery (National Register nomination for the Rollins house, Des Moines)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DIFFERENT property's nomination, quoted here because it is the only federal document read that characterises this building: 'Along with Salisbury House (National Register, 20 July 1977) it is unique for this in Des Moines, ancl perhaps in Iowa generally.. ... In 1922, Boyd and Moore received the commission to design Salisbury House for Carl Weeks. Salisbury House was modelled heavily on the Kings House in Salisbury, a noted medieval dwelling which spanned four centuries of building, and Boyd was sent to England to study the proposed prototype.' It confirms the listing date printed in the infobox from a second, federal surface."
+    },
+    {
+      "kind": "institution",
+      "url": "https://salisburyhouse.org/2020/09/10/the-kings-house-centuries-of-inspiring-architecture",
+      "title": "The Kings House: Centuries of Inspiring Architecture | Salisbury House & Gardens",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own account of the model, and it is more careful than the style node's exemplar note: 'Though not an exact replica, the similarities between Salisbury House and the Kings House are striking.' It also dates the King's House fabric -- a 15th-century central frontage, a 16th-century north extension, a 1634 addition -- which is the sixty-year Elizabethan-Jacobean band this node is about, plus a century either side."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Salisbury_House_(Des_Moines,_Iowa)",
+      "title": "Salisbury House (Des Moines, Iowa) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'Salisbury House was modeled after the King's House in Salisbury, England, contains 42 rooms and measures just over 22,000 square feet.' The listing 'covered a 9.4-acre (3.8 ha) area with two contributing buildings, one other contributing structure and one contributing site.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. No HABS survey was found. The reason this record matters to the node beyond being its icon is the register's own style field, which reads 'Tudor Revival, Jacobethan Revival' -- an outside authority declining to separate the two on the building this node names first. jacobethan-revival is a `variant` in this corpus and its parent is tudor-revival; that is the same judgment, arrived at independently."
+}

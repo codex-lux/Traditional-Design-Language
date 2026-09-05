@@ -1,0 +1,110 @@
+{
+  "id": "john-j-glessner-house",
+  "name": "John J. Glessner House",
+  "aka": [
+    "Glessner House"
+  ],
+  "location": {
+    "text": "Chicago, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1885-1887",
+    "circa": false,
+    "note": "The survey's Part I: '2. Date of erection: Design initiated May, 1885; built June 1, 1886 to December 1, 1887.' The Library's item record and the survey's Part II both say 'Designed and built between May 1885 and December 1887'. The style node's exemplar gives 1887 and says designed 1885. Nothing is edited."
+  },
+  "nodes": [
+    "richardsonian-romanesque"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IL-1015",
+      "title": "John J. Glessner House, 1800 South Prairie Avenue, Chicago, Cook County, IL",
+      "url": "https://www.loc.gov/pictures/item/il0118",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's normalised number is IL-1015; the data page prints the older form in its own header, OCR'd variously as 'HABS No. ILL-1015', 'HABS No. JLL-1015', 'MES No, JLL-1015' and, on the project information statement, 'BABS No. IL-1015'. Shelf number HABS ILL, 16-CHIG, 17-. The Library's Illinois houses listing gives the item as 'Photo(s): 17 | Measured Drawing(s): 6 | Data Page(s): 27 | Photo Caption Page(s): 12'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "il0118",
+      "url": "https://www.loc.gov/pictures/item/il0118",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item record's significance line: 'Designed and built between May 1885 and December 1887, this house is considered the last of the fully personal works of the architect H.H. Richardson'."
+    }
+  ],
+  "survey": {
+    "item": "il0118",
+    "survey_no": "IL-1015",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0100/il0118/data/il0118data.pdf",
+    "prepared": "Not stated in the spans extracted here. The cover sheet gives 'Historic American Buildings Survey, National Park Service, Office of Archeology and Historic Preservation, 801 - 19th Street N.W., Washington, D.C.', and the drawings are credited to David T. Van Zanten, Osmund R. Overby and Janis J. Erins with photography by Perry E. Borchers and Cervin Robinson.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The house is considered to be the last of the fully personal works of the architect, H. H. Richardson. In the functional originality of its plan, its simple massing and its use of the inherent patterns of coursed masonry for ornamental effect, this house is one of Richardson's finest designs.",
+        "page": "HABS No. IL-1015, Part II.A; no page marker legible in this span."
+      },
+      {
+        "field": "foundations",
+        "text": "1. Foundations: Foundations of Joliet limestone blocks mixed with patches of bricks and mortar, terminated exactly at the ground line (that is, below the basement ceiling).",
+        "page": "HABS No. IL-1015, Part II.B.1; no page marker legible in this span."
+      },
+      {
+        "field": "walls",
+        "text": "2. Wall construction: Exterior walls of brick bonded into alternately six and eight inch thick sheets of Wellesley Granite with deeper slabs returned at openings to imply  a",
+        "page": "HABS No. IL-1015, Part II.B.2; the extract's chunk ends at 'to imply a' and the quote is cut there rather than joined to the continuation, which is quoted separately below."
+      },
+      {
+        "field": "walls",
+        "text": "wall entirely of stone. The walls toward the courtyard are of light  pink  brick with Joliet limestone lintels and sills. Interior walls are of frame construction faced with hollow brick to which the plaster was directly applied (in order to avoid troubles with rodents).",
+        "page": "HABS No. IL-1015, Part II.B.2, continued in a second extract chunk; no page marker legible in this span."
+      },
+      {
+        "field": "roof",
+        "text": "4.  Roof, shape, covering: Steeply pitched, gabled roofs. Roof surfaces are covered with terracotta, tar covered tiles, six inches wide with five inches of their length exposed. The roof of the bow of the entrance hall in the ell of the.house is covered with copper sheathing.",
+        "page": "HABS No. IL-1015, Part II.B.4; the marker 'MES No, JLL-1015 (Page 22)' follows immediately in the extract."
+      },
+      {
+        "field": "openings",
+        "text": "J.  Openings: The original east carriage door shows on  a 1945 photograph kept in the library of the house (photographer not identified): it consisted of two heavily paneled leaves with heavy iron straps and latches. The exterior front door of the house is in the same spirit; heavily paneled in  oak  with iron straps and  a large, square window behind an iron grill.",
+        "page": "HABS No. IL-1015, Part II.B; the field number OCRs as 'J.' where the outline would have a digit. No page marker legible in this span."
+      },
+      {
+        "field": "finishes",
+        "text": "The school room, entrance hall, library, and dining room have timber and plaster ceilings. The school room, entrance hall, library, parlor, dining room, and upper hall have oaken paneled walls. The southern tower staircase, corridors of the two principal floors of the south wing, and the north corridor of the two principal floors have only an oaken wainscotting, three feet high,",
+        "page": "HABS No. IL-1015, Part II.C; the marker 'HABS No. IU-1015 (Page 23)' follows in the same extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "granite_facing_thickness_in",
+      "as_printed": "six and eight inch thick sheets of Wellesley Granite",
+      "value": 6,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "The survey says the courses alternate six and eight inches. The value carries the lesser of the two; the pair is what the sentence actually states."
+    },
+    {
+      "name": "roof_tile_exposure_in",
+      "as_printed": "six inches wide with five inches of their length exposed",
+      "value": 5,
+      "unit": "in",
+      "from_quote": 4,
+      "note": "Six inches wide, five inches exposed to weather. The value carries the exposure."
+    },
+    {
+      "name": "wainscot_height_ft",
+      "as_printed": "three feet high",
+      "value": 3,
+      "unit": "ft",
+      "from_quote": 6
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. This survey carries NO over-all dimensions line: its Part II.B begins at foundations, so the corpus still has no measured envelope for the style's definitive house. Two things bear on richardsonian-romanesque's own kit. The roof is 'Steeply pitched, gabled roofs' -- the node's roof_pitch slot is bound `open` and gets no figure here either, only a word. And the wall is a VENEER: 'Exterior walls of brick bonded into alternately six and eight inch thick sheets of Wellesley Granite with deeper slabs returned at openings to imply a wall entirely of stone.' The node's own long description says the style 'insists on load-bearing masonry at exactly the moment American construction was abandoning it'; its own definitive domestic example is brick faced with six inches of granite, and the surveyor uses the word IMPLY."
+}

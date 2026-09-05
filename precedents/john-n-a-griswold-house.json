@@ -1,0 +1,167 @@
+{
+  "id": "john-n-a-griswold-house",
+  "name": "John N. A. Griswold House (Newport Art Museum)",
+  "aka": [
+    "John N. A. Griswold House",
+    "The Art Association of Newport",
+    "Griswold House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "October, 1863 to May, 1864",
+    "circa": false,
+    "altered": "The survey: '6. Alterations and additions: In 1920, the large rear gallery was added'. The house has been the Art Association of Newport's gallery since a deed of 11 November 1915.",
+    "note": "The survey gives the erection as October 1863 to May 1864 and names Cranston and Burdick as builder; Wikipedia's infobox says 'Built 1864'; the node's own exemplar says sources give the design and construction variously as 1862-64. None is edited to agree with another."
+  },
+  "nodes": [
+    "stick-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-322",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0055/data/ri0055data.pdf",
+      "title": "John N.A. Griswold House, The Art Association of Newport, HABS No. RI-322",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running head ('JOHN N.A. GRISWOLD HOUSE, THE ART ASSOCIATION OF NEWPORT HABS No. RI-322 page 4'). The sheet dates the report August 1970; the National Historic Landmark nomination's bibliography cites the same report as August 1969, and both are recorded rather than reconciled."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0055",
+      "url": "https://www.loc.gov/pictures/item/ri0055",
+      "title": "John N. A. Griswold House, 76 Bellevue Avenue, Newport, Newport County, RI",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Photo(s): 7 Measured Drawing(s): 4 … major style of domestic architecture. HABS RI-'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000023",
+      "url": "https://en.wikipedia.org/wiki/John_N._A._Griswold_House",
+      "title": "NRHP reference No. 71000023; added to NRHP November 5, 1971; designated a National Historic Landmark May 16, 2000 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox's own style word is 'American Stick Style'."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/71000023_text",
+      "title": "GRISWOLD, JOHN N.A., HOUSE -- National Historic Landmark nomination (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'Having identified the Griswold House as the first example of the developed Stick Style, Vincent Scully also discussed' the vernacular movement around Newport; and it quotes Scully on the Sturtevant House, Middletown, as 'the apogee of the movement'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/John_N._A._Griswold_House",
+      "title": "John N. A. Griswold House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ri0055",
+    "survey_no": "RI-322",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0055/data/ri0055data.pdf",
+    "prepared": "Prepared by Thomas M. Slade, University of Notre Dame, Project Historian, August, 1970, as the sheet reads.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "This early work by the architect, Richard Morris Hunt, is a key example of a major style of domestic architecture in America in the second half of the 19th century. This \"Stick Style\" house is characterized by open planning, irregular and picturesque massing, deep porches, and richly-articulated wall surfaces with elabor-ate patterns of half-timbering and bracketing. 2. Condition of fabric: The building is in excellent repair.",
+        "page": "HABS No. RI-322, Part II.A; the marker 'JOHN N.A. GRISWOLD HOUSE, THE ART ASSOCIATION OF NEWPORT HABS No. RI-322 page 4' is printed immediately before this span."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "100 feet by 60 feet; irregular in plan; two-and-one-half stories. 2. Foundations: Exterior foundation walls are of fieldstone. Interior foundation walls are of brick. 3. Wall construction: The exterior walls are frame with hori-zontal clapboarding between a pattern of applied half-tim-bering. There are numerous projecting bays and balconies carried on diagonal braces similar to the half-timber work. The exterior is painted a light gray. 4. Structural system: A frame structural system is employed throughout the building. 5. Chimneys: There are three brick chimneys with stone panel faces. The west chimney is composed of two stacks joined by a brick arch.",
+        "page": "HABS No. RI-322, Part II.B; the extract's span begins mid-line at the dimensions and carries no page marker of its own. A second extract span prints the head of the same sentence as '1. Over-all dimensions: About 100 feet by 60 feet'."
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows: Most windows are double hung with various shapes and mullion patterns. The design of the win-dows is carefully fitted into the articulating pattern of the half-timbering which serves as window framing. There is a large, one-and-one-half story studio win-dow composed of 9 x 12 inch panes of glass in the north wall of the northwest bedroom.",
+        "page": "JOHN N.A. GRISWOLD HOUSE, THE ART ASSOCIATION OF NEWPORT HABS No. RI-322 page 5 -- the marker is printed immediately before this span."
+      },
+      {
+        "field": "roof",
+        "text": "7. Roof: The steeply-pitched roofs with numerous gables and occasional hips are covered with gray and red patterned slate. Various kinds of bracketing, bracing, and turned ornamental drops decorate the deep open eaves. There are two small dormers with gable and hipped roofs.",
+        "page": "HABS No. RI-322, Part II.B.7; same extract span as the windows, whose nearest marker is 'HABS No. RI-322 page 5'."
+      },
+      {
+        "field": "porches",
+        "text": "8. Porches, stoops and bulkheads: A one-story porch extends around the west side and part of the south side of the house. The low-pitched porch roof with a curb gutter has bracketed eaves on square posts with chamfered corners and prominent knee braces. The open porte-cochere has asmall balcony on its north side which is reached from the stair landing. Two brownstone piers on granite footings support the structure.",
+        "page": "HABS No. RI-322, Part II.B.8; same span, nearest marker 'HABS No. RI-322 page 5'."
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior: 1. Floor plan: The large polygonal hall at the center of the house is five steps above the entrance vestibule.",
+        "page": "HABS No. RI-322, Part II.C.1; same span, nearest marker 'HABS No. RI-322 page 5'."
+      },
+      {
+        "field": "other",
+        "text": "2. Date of erection: October, 1863 to May, 1864. 3. Architect: Richard Morris Hunt 4. Builder or contractor: Cranston and Burdick 5. Original plans: None known.",
+        "page": "HABS No. RI-322, Part I; no page marker legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "100 feet by 60 feet",
+      "value": 100,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey does not say which figure is the front; the first printed is taken as the width, per the schema. The survey's own qualifier is 'About', and 'irregular in plan' -- this is a bounding figure, not a rectangle."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "100 feet by 60 feet",
+      "value": 60,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Same caveat."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two-and-one-half stories",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "three brick chimneys with stone panel faces",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Three chimneys; the west one is itself 'composed of two stacks joined by a brick arch', so a count of STACKS would be four."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "two small dormers with gable and hipped roofs",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "studio_window_pane_width_in",
+      "as_printed": "9 x 12 inch panes of glass",
+      "value": 9,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "studio_window_pane_height_in",
+      "as_printed": "9 x 12 inch panes of glass",
+      "value": 12,
+      "unit": "in",
+      "from_quote": 2
+    }
+  ],
+  "note": "The one building in this cluster whose survey uses the node's own style name: the 1970 surveyor writes 'This \"Stick Style\" house' in quotation marks fifteen years after Scully coined it. Two figures here bear on the kit: the roofs are 'steeply-pitched' with no pitch stated, and the wall is clapboard BETWEEN the applied half-timbering rather than under it. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

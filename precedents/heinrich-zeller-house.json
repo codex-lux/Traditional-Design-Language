@@ -1,0 +1,76 @@
+{
+  "id": "heinrich-zeller-house",
+  "name": "Heinrich Zeller House (Fort Zeller)",
+  "aka": [
+    "Fort Zeller",
+    "Zeller's Fort",
+    "Port Zeller"
+  ],
+  "location": {
+    "text": "Millcreek Township, Lebanon County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1745",
+    "circa": false,
+    "altered": "The stone walls are stuccoed; the roof was covered with handmade beaver-tail red clay tiles. Photographed for HABS in September 1940.",
+    "note": "The 1745 stone house replaced a log house of 1723 on the same site, according to Visit Lebanon Valley and LebTown; the cornerstone is hand-chiselled 'Henrich Zeler [sic], 1745, SWH'. The HABS cover prints '(1745'."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial",
+    "pennsylvania-bank-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-141",
+      "title": "Fort Zeller, Mill Creek (Millcreek Township), Newmanstown, Lebanon County, PA",
+      "url": "https://www.loc.gov/pictures/item/pa0539",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The loc.gov item page prints 'Survey number: HABS PA-141; Building/structure dates: 1745 Initial Construction'; the Library call number, read off a Wikimedia Commons file page the same day, is HABS PA,38-NEWM.V,1-1, photographed by Stanley P. Mixon. The data PDF at tile.loc.gov/.../pa/pa0500/pa0539/data/pa0539data.pdf was fetched twice with different queries and carries ONLY a 1930s transmittal cover -- 'Port Zeller, (1745; MBS No. PA-141', OCR for Fort Zeller and HABS -- naming the District of Philadelphia and Joseph P. Sims, District Officer. There is no written descriptive data, which is why this record has no `survey` block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0539",
+      "url": "https://www.loc.gov/pictures/item/pa0539",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "75001650",
+      "url": "https://en.wikipedia.org/wiki/Heinrich_Zeller_House",
+      "title": "NRHP reference No. 75001650; added May 12, 1975 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Heinrich_Zeller_House",
+      "title": "Heinrich Zeller House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The structure was built into a bank over an everflowing spring that flows naturally from the bedrock into a creek from an arched opening in the basement. The spring provided fresh drinking water and provided a naturally cool area for storage. The building has an Alsatian / Swiss appearance.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.phmc.state.pa.us/portal/communities/architecture/styles/pa-german.html",
+      "title": "Pennsylvania German Traditional 1700-1870 | PHMC Pennsylvania Architectural Field Guide",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state's own account of the bank house, and it names this building: 'In the vernacular tradition some early stone houses were built over a spring to provide running water and a cool area for food storage in the basement. Some houses were also built into a bank or hillside, partially underground for similar cold storage reasons, as well as cost and material efficiency. This bank style of construction is attributed to medieval Swiss tradition, so buildings opf this type are sometimes called \"Swiss style.\" Many banked houses were later expanded to become 2 or 3 stories with the ground floor then used only as a kitchen or for storage.' It then names Fort Zeller as the fortified-house example."
+    },
+    {
+      "kind": "other",
+      "url": "https://lebtown.com/2021/08/30/the-heinrich-zeller-house-fort-zeller-lebanon-countys-secluded-historical-treasure",
+      "title": "The Heinrich Zeller House (Fort Zeller): Lebanon County's secluded historical treasure -- LebTown",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A local newspaper, and the only source read that gives figures: 'limestone outer walls over 12 inches thick covered in stucco, heavy timbers, small 12- by 6-inch narrow windows with locking shutters ... The wood front door is in two sections, upper and lower, and is constructed of chamfered boards attached by wooden pegs and stands five-and-a-half feet tall.' Newspaper figures, not survey figures, and recorded as such."
+    }
+  ],
+  "note": "The type specimen the state names when it explains what a bank house IS. Its wall figure is the one that matters and it is the one the corpus should be careful with: LebTown reports 'over 12 inches thick', where the node's own prose says 'eighteen to thirty inches of squared limestone or sandstone'. That is a newspaper against a corpus band and settles nothing, but it is the only figure anyone has published for this building and it sits below the band. No survey block: the HABS record is a 1930s photographic transmittal with no written data, checked twice."
+}

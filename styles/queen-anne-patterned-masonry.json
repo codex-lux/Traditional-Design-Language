@@ -179,13 +179,46 @@
       "name": "James E. Hooper House",
       "location": "Baltimore, Maryland",
       "year": 1886,
-      "note": "Freestanding masonry Queen Anne in dark red brick with terra cotta, brownstone, and granite trim, a slate roof, and a projecting wooden oriel; now part of the Old Goucher College group."
+      "note": "Freestanding masonry Queen Anne in dark red brick with terra cotta, brownstone, and granite trim, a slate roof, and a projecting wooden oriel; now part of the Old Goucher College group.",
+      "precedent": "james-e-hooper-house",
+      "standing": "canonical",
+      "why": "Its National Register nomination describes exactly this node's subject -- 'a large-scale free-standing Queen Anne influenced brick structure ... a somber colored masonry exterior of red brick with dark stone decoration' -- and argues its significance from the rarity of the free-standing masonry Queen Anne in a rowhouse city."
     },
     {
       "name": "William C. Sharpless House",
       "location": "Germantown, Philadelphia, Pennsylvania",
       "year": 1886,
-      "note": "Wissahickon schist with clapboard and shingle above and terra cotta decorative details, with a brick stable with stone quoining on the property; a Philadelphia demonstration of masonry-plus-texture."
+      "note": "Wissahickon schist with clapboard and shingle above and terra cotta decorative details, with a brick stable with stone quoining on the property; a Philadelphia demonstration of masonry-plus-texture.",
+      "precedent": "william-c-sharpless-house",
+      "standing": "regional",
+      "why": "Wikipedia's description gives the Philadelphia version of the two-texture rule in materials -- 'a three-story, Wissahickon schist, clapboard, and shingle dwelling ... decorative quoining, gable, and hipped rooflines, and terra cotta decorative details' -- which is stone below and wood above rather than the brick-throughout wall this node's prose describes."
+    },
+    {
+      "name": "Astral Apartments",
+      "location": "Greenpoint, Brooklyn, New York",
+      "year": 1886,
+      "note": "Lamb & Rich, 1885-86, for Charles Pratt, as housing for the workers of his Astral Oil Works. A block-long six-storey wall of brick and terra cotta with a three-storey arched recess at its centre; the subtype's economic logic at its largest and its cheapest.",
+      "precedent": "astral-apartments",
+      "standing": "icon",
+      "why": "Wikipedia's survey of the style in the United States names it as THE example of the type -- 'The Astral Apartments that were built in Brooklyn in 1885-1886 (to house workers) are an example of red-brick and terracotta Queen Anne architecture in New York' -- and it is an individually designated landmark rather than a contributor to a district."
+    },
+    {
+      "name": "Henderson Place Historic District",
+      "location": "Yorkville, Manhattan, New York",
+      "year": 1882,
+      "note": "Lamb & Rich, 1880-82, for John C. Henderson, who built thirty-two attached houses for 'persons of moderate means' and of which twenty-four survive. Brick and rough stone, terra cotta plaques, tiny-paned sash and oriels, at two storeys on a cul-de-sac.",
+      "precedent": "henderson-place-historic-district",
+      "standing": "canonical",
+      "why": "The Historic Districts Council and Friends of the Upper East Side both describe the group as Queen Anne by Lamb & Rich in one campaign, which makes twenty-four houses a single documented design decision and the only attached, two-storey case this node holds."
+    },
+    {
+      "name": "Bemis-Ransom House",
+      "location": "Buffalo, New York",
+      "year": 1886,
+      "note": "Silsbee and Marling, c. 1886, with terra cotta by Henry Plasschaert: Dutch gables, a roundel window, and panels of ornament ordered rather than sawn. The Great Lakes city version, and the least well documented building in this node.",
+      "precedent": "bemis-ransom-house",
+      "standing": "regional",
+      "why": "Buffalo Architecture and History's own Queen Anne style guide uses this house as its illustration of 'Differing wall textures on masonry houses - terra-cotta panels'; no National Register or state reference number was found for it, which is recorded in its precedent rather than papered over."
     }
   ],
   "sources": [

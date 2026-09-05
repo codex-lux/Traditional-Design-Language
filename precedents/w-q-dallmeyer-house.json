@@ -1,0 +1,29 @@
+{
+  "id": "w-q-dallmeyer-house",
+  "name": "W. Q. Dallmeyer House",
+  "location": {
+    "text": "600 Capitol Avenue, Jefferson City, Missouri",
+    "country": "United States",
+    "state": "Missouri"
+  },
+  "dates": {
+    "built": "1875; remodelled circa 1910",
+    "circa": true,
+    "altered": "The nomination's inventory entry heads the house '600 Capitol Avenue, W. Q. Dallmeyer House (1875; 1910)'. The one-storey porch appears on the 1898 and 1923 Sanborn maps; the two-storey central portico appears by 1940, so the monumental portico may be later than the circa-1910 remodelling the text describes.",
+    "note": "The remodelling date is the nomination's own 'circa 1910'. The Sanborn evidence it cites puts the two-storey portico's first appearance somewhere between 1923 and 1940, which does not agree with circa 1910; both are the nomination's own statements and neither is edited."
+  },
+  "nodes": [
+    "neoclassical-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://mostateparks.com/sites/g/files/zuston361/files/media/pdf/2025/02/capitol-avenue-hd.pdf",
+      "title": "Capitol Avenue Historic District, Cole County, MO - National Register of Historic Places Registration Form (Missouri State Parks)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A DISTRICT nomination, so its reference number names a neighbourhood and not this house; no `nrhp` ref is recorded for that reason. The house is contributing item 30 in its inventory. The description read verbatim: 'This house dates to the mid-19th century, but was altered circa 1910 by the second generation of the Dallmeyer family to its current Neo-Classical appearance. The dominant feature of the house is its paired porches. The 1-story porch appears on both the 1898 and 1923 Sanborn Maps, while the 2-story central porch appears by 1940. The full facade porch beneath the portico features paired Doric columns, a smooth frieze and a denticulated cornice. The monumental 2-story portico over the entrance has two ornate Corinthian fluted columns on low buff brick bases, and fluted Corinthian pilasters on the facade. The portico is topped by a deeply recessed pediment, with foliage modillions at both the base and along the rake, and dentils below the base and along the rake. A plain frieze with denticulated cornice is just below the pediment. The second floor windows are 12/1 double hung sash with precast lintels with molded central drip caps and shoulders.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to neoclassical-revival, and chosen for one reason: it is the node's own claim with a citation under it. The node says the type was 'frequently applied to older houses, so that a Greek Revival or even a Federal box acquires a 1910 portico and a new identity'. Here is a mid-nineteenth-century house given exactly that, described member by member by a register nomination, with the two-storey portico standing over an older one-storey Doric porch that was already there. TWO COLUMNS, not four or six: the nomination says the monumental portico 'has two ornate Corinthian fluted columns on low buff brick bases', which is the cheap end of the type and worth having beside Whitehall's five-bay colossal Doric range. No HABS survey; the description above is the nomination's and is quoted in the ref rather than in a `survey` block, because a Register nomination is not the Historic American Buildings Survey and this schema's survey block means one thing only."
+}

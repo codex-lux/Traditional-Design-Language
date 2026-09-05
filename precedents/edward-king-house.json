@@ -1,0 +1,45 @@
+{
+  "id": "edward-king-house",
+  "name": "Edward King House",
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1845-1847",
+    "circa": false,
+    "note": "The Rhode Island Historical Preservation Commission nomination says the plans were prepared by Upjohn and 'the structure was built in l8h5-7' (OCR for 1845-7); Downing's 1850 account says 'constructed in 18145' (OCR for 1845). The style node says 1845-47. All agree within the OCR."
+  },
+  "nodes": [
+    "italianate-american",
+    "italianate-villa"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "url": "https://preservation.ri.gov/sites/g/files/xkgbur406/files/pdfs_zips_downloads/national_pdfs/newport/newp_spring-street_edward-king-house.pdf",
+      "title": "Edward King House - National Register nomination, Rhode Island Historical Preservation & Heritage Commission",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "No reference number was read off this document, so none is recorded. Its statement of significance reads: 'Designed by Richard Upjohn and erected in l85-b7, the Edward King House is an early, excellent, and little-altered example of a monumentally-scaled and asymmetrically-massed brick residence in the Italian Villa style.' The same PDF carries a plan with room dimensions typed on it -- LIBRARY 16 x 18, DRAWING R. 18 x 27, DINING R. 19 x 24, KITCHEN 10 x 23, PARLOR 19 x 24 -- which are NOT survey figures and are recorded here in prose only, unparsed."
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/RI-01-NE145",
+      "title": "Edward King House | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States that Upjohn 'employed the Italian Villa Style, executed in brick, with round arches, scalloped canopies over projecting balconies'."
+    },
+    {
+      "kind": "other",
+      "url": "https://digitalcommons.risd.edu/archives_1939riarchitectureexhibition/106",
+      "title": "\"Edward King House\" by Richard Upjohn and RISD Archives (1939 Rhode Island Architecture Exhibition)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The 1939 exhibition print's own verso, typed, reads: 'DATE: 1845-1847. / DESCRIPTION: EDWARD KING HOUSE, now People's Library, Spring [correction: King] Street, /Newport. 1845-1847. By Richard Upjohn, 1802-1878. An early example of the asymmetrical Italian villa type of house. (Rhode Island Architecture, Hitchcock.)' -- the street name is corrected on the card itself, which is why this record's location stays at the node's own city-level string."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The building is nonetheless the best-attested in the cluster, because another survey talks about it: the HABS addendum for Kenworthy Hall (AL-765) records that 'the Edward King House still survives in Newport, Rhode Island and was one of the models for Kenworthy Hall', which is how a house with no survey of its own reaches this corpus with a measured relative."
+}

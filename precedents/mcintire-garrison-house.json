@@ -1,0 +1,136 @@
+{
+  "id": "mcintire-garrison-house",
+  "name": "McIntire Garrison House",
+  "aka": [
+    "McIntire-Garrison House",
+    "Scotland Garrison",
+    "Maxwell Garrison"
+  ],
+  "location": {
+    "text": "Cider Hill Road, York, Maine",
+    "country": "United States",
+    "state": "Maine"
+  },
+  "dates": {
+    "built": "1660-1692",
+    "circa": true,
+    "note": "Four sources give four dates and none is edited to agree with another. The HABS data sheet prints 'Date of Erection 1660-1692' and the loc.gov item's own summary line repeats it as 'Building/structure dates: 1660-1692 Initial Construction'. The Maine Historic Preservation Commission's page is headed 'McIntire Garrison, c.1707'. SAH Archipedia's entry opens '1707'. The Wikipedia infobox says 'Built 1713' while the same article's first sentence says 'Built in 1712'. The survey's own history is the reason for the spread: it says the building 'aas standing in 1682' (OCR for 'was') and quotes a deed of 27 June 1707 describing land 'bounded l^y \"the orchard or garden of ad Ihraaaell where the Garrison now stands\"' ('l^y' is the sheet's OCR for 'by').",
+    "altered": "The survey's Present Condition records that the east wall has been shingled, the roof re-shingled and the chimney rebuilt, that windows have been enlarged and doors replaced since original construction, and that a kitchen extension at the west end was torn down about 1903."
+  },
+  "nodes": [
+    "garrison-colonial",
+    "garrison-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "ME-9",
+      "title": "McIntire-Garrison House, South Berwick Road (State Route 91), Scotland, York County, ME",
+      "url": "https://www.loc.gov/pictures/item/me0083",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data page's own header prints 'HABS MAIHE-9' -- OCR for HABS MAINE-9, the 1930s District of Maine form -- and 'HABS ME,16-BERN.V,1-' appears as the photograph call number on the Wikimedia Commons files. The normalised ME-9 is what a search resolves. A PICRYL mirror of the loc.gov item page prints 'Survey number: HABS ME-9' and 'Unprocessed Field note material exists for this structure: FN-7'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "me0083",
+      "url": "https://www.loc.gov/pictures/item/me0083",
+      "title": "McIntire-Garrison House, South Berwick Road (State Route 91), Scotland, York County, ME",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id was read from this search result and then confirmed by fetching the data PDF at the matching path, whose header names the same building."
+    },
+    {
+      "kind": "nrhp",
+      "id": "68000017",
+      "url": "https://en.wikipedia.org/wiki/McIntire_Garrison_House",
+      "title": "NRHP reference No. 68000017; added to the National Register and designated a National Historic Landmark November 24, 1968 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same number is printed on the Wikimedia Commons category page and on an NPGallery asset record returned by the same search ('National Historic Landmark System ID: 68000017'), so it was read on three surfaces; none of them was the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/McIntire_Garrison_House",
+      "title": "McIntire Garrison House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Calls it 'an extremely rare well-preserved example of a New England colonial log garrison house, built by settlers for defense against Native American attacks' and gives the location as 'Cider Hill Road (SR91), York, Maine'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.maine.gov/mhpc/did-you-know/mcintire-garrison-c1707-york-york-county",
+      "title": "McIntire Garrison, c.1707 - York, York County | Maine Historic Preservation Commission",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state preservation office's own page. It reads: 'the McIntire Garrison is a two-story side-gabled log building with an overhanging second story and a central brick chimney. The building has wood clapboard siding on the long sides and wood shingles on the ends.' It also prints 'Year Listed: 1978' beside 'National Historic Landmark Designated: 1968', which disagrees with the 1968 National Register date every other surface gives; recorded, not resolved, and no state file number is claimed."
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/ME-01-031-0086",
+      "title": "McIntire Garrison House | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A SEARCH SUMMARY, NOT A QUOTATION, same defect as royal-barry-wills-house refs[0] and corrected with it on 5 Sep 2026. The note printed 'McIntire Garrison House, originally known as the Maxwell Garrison, to be the oldest house in Maine.' -- a sentence that does not parse, because the summary had dropped an opening clause the page carries ('Many believe the McIntire Garrison House...'). Established: the summary line '1707. 270 Cider Hill Rd.' and that the entry's text contains the phrases 'originally known as the Maxwell Garrison' and 'the oldest house in Maine'; the sentence joining them has not been read here, and note that as printed it reports a BELIEF rather than a finding. The page itself is one of the hosts this container cannot open."
+    }
+  ],
+  "survey": {
+    "item": "me0083",
+    "survey_no": "ME-9",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0000/me0083/data/me0083data.pdf",
+    "prepared": "District of Maine, Josiah T. Tubby, District Officer, 537 Congress Street, Portland, Maine (as the cover reads; the OCR prints 'Josiah T, '.Cubby, District Cffioer')",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "condition",
+        "text": "(Scotland) y York, York County, Maine Owners John Mclntire Aiica Mclntire Date of Erection 1660-1692 d Ider Alexander Maxwell(Probable) Present Condition The east wall of the building has been shingled Front and rear walls and west end wall are clapboarded.- The roof has 'been re-shingled and the chimney rebuilt Vvindov/s have been enlarged since originally constructed. Doors have been replaced. Formerly 5 an extension at the",
+        "page": "HABS MAINE-9 data sheet, head of the form; no page marker was legible in the extract span, which ends where the extract's chunk ends"
+      },
+      {
+        "field": "general_description",
+        "text": "Be^c^l^tion A two story frame building v;ith gable roof and central chirmiey. The second story projects out beyond the lower all around approximately fourteen Inches. Foundation is.",
+        "page": "HABS MAINE-9 data sheet, 'Description'; no page marker legible. 'Be^c^l^tion' is OCR for 'Description' and 'chirmiey' for 'chimney'"
+      },
+      {
+        "field": "significance",
+        "text": "Later the garrison v^as referred to as \"Scotland Garrison\", and ouch later 3 the \"HcXntire Garrison\". The building; aas standing in 1682 but hov/ nuieh earlier .it yas built, it is difficult In 1711, the following survey ordered by Governor is recorded in the History of York, Maine. Under survey 5 twenty garrisons arc listed In and around Scotland Garrison is lioted as uahber f^artcen.",
+        "page": "HABS MAINE-9 data sheet, historical note; no page marker legible. The OCR has lost the sentence order in places and is quoted exactly as returned"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overhang_projection_in",
+      "as_printed": "approximately fourteen Inches",
+      "value": 14,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "The survey says the projection runs 'all around', not across the front only. This is the one figure in this cluster that states a garrison's overhang in inches."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "A two story frame building",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "central chirmiey",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "One central stack; 'chirmiey' is OCR for 'chimney'."
+    },
+    {
+      "name": "garrisons_listed_in_the_1711_york_survey",
+      "as_printed": "twenty garrisons",
+      "value": 20,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A count of buildings in a 1711 town survey the data sheet reproduces, not a dimension of this house; recorded because the quote states it."
+    }
+  ],
+  "note": "This record exists because of a disagreement, and the disagreement is the point. Two sources describe two different buildings on one site: HABS calls it 'A two story frame building', while Wikipedia calls it 'a New England colonial log garrison house' and the Maine Historic Preservation Commission 'a two-story side-gabled log building'. Neither is edited. What all of them agree on is the second storey projecting, and only HABS puts a number on it: approximately fourteen inches, all around. That figure is why the building is carried on both garrison-colonial and garrison-revival -- it is the measured original against which a revival overhang can be called shallow -- and it is also evidence against garrison-colonial's own prose, which says the genuine garrison houses 'generally did not have jetties'. The survey filed the house under the village name Scotland and the road as South Berwick Road; Wikipedia, SAH Archipedia and the state preservation office all give Cider Hill Road, which is the form both style nodes print."
+}

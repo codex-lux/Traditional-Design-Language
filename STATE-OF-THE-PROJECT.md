@@ -51,7 +51,7 @@ The system is a stack of nine layers. Reading it bottom-up, each layer is a prec
 
 **2. The grammar.** 57 proportion packs (`proportions/`) implemented as *functions, not tables*. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas; brick course, timber bay, sash light, storey graduation and log module are the non-classical equivalents, because most traditional buildings were proportioned from a material unit and not a column. Give a pack a module and a context and it emits a fully dimensioned assembly, member by member. Each pack states its own invariants as evaluable expressions and records conflicts with building today — 262 across the corpus: the 8-foot ceiling against a Corinthian entablature, the IGU that cannot take true divided lites — each with a severity and resolution prose. (Ranked honest/dishonest substitution sets are planned structure the corpus does not yet hold — the WP-5.2 audit established that, 25 Aug 2026.) This is the project's most commercially defensible material: the knowledge that lives only in senior architects' heads, written down as executable rules.
 
-**3. The vocabulary.** The style graph (`styles/`) — 164 taxa in four ranks (5 traditions, 27 families, 90 styles, 42 variants), spanning 700 BC to 2026, related by 476 typed lineage edges in a DAG rather than a tree. The single most important modelling decision in the whole project lives here: `descends_from` (actual transmission of practice) is a different edge from `references` (claimed ancestry), and only the former carries the kit-of-parts cascade. Greek Revival references Athens and descends from Federal carpentry; Colonial Revival references Georgian and descends from Beaux-Arts offices and the millwork catalog. A model that cannot express that gap will quietly produce wrong buildings. Each node also carries 624 massing affinities graded from `canonical` to `forbidden`, 660 enforceable constraints, 551 exemplars, and the binding of the node to its proportion packs.
+**3. The vocabulary.** The style graph (`styles/`) — 164 taxa in four ranks (5 traditions, 27 families, 90 styles, 42 variants), spanning 700 BC to 2026, related by 476 typed lineage edges in a DAG rather than a tree. The single most important modelling decision in the whole project lives here: `descends_from` (actual transmission of practice) is a different edge from `references` (claimed ancestry), and only the former carries the kit-of-parts cascade. Greek Revival references Athens and descends from Federal carpentry; Colonial Revival references Georgian and descends from Beaux-Arts offices and the millwork catalog. A model that cannot express that gap will quietly produce wrong buildings. Each node also carries 624 massing affinities graded from `canonical` to `forbidden`, 660 enforceable constraints, 693 exemplars, and the binding of the node to its proportion packs.
 
 **4. The bindings.** One kit file per family, style and variant (`kits/`, 159 files), materializing all 95 slots so that selecting a style resolves to a directory of specified, inherited, open or forbidden elements with a source column showing which ancestor each value came from. This is where a style becomes buildable rather than describable. The cascade walks `descends_from` and `regional_of` edges nearest-ancestor-first and — since WP-4.2 — splices each style-rank ancestor's own *family* into the chain alongside them; the `extends` operator lets a child add to a parent's binding rather than restate it.
 
@@ -127,15 +127,29 @@ Taken together: **Phases 0, 1, 2 and 3 are complete, and Phase 4 is complete thr
 
 ## Part III — What is begun but needs to be fleshed out
 
-**THE BENCH HAS A GRAMMAR AND NO LITERATURE (WP-11.1, 4 Sep 2026).** Asked where the research is thin,
+**THE BENCH HAS A GRAMMAR AND, IN NORTH AMERICA, A LITERATURE (WP-11.1 4 Sep; WP-11.2 and WP-11.3
+5 Sep 2026).** Asked where the research is thin,
 the survey found the corpus templated on the surface — every buildable node 2–4 exemplars, 4–5 sources,
-5 constraints — and unmetered underneath: **542 `measured` kit parameters cite no source** on the parameter
+5 constraints — and unmetered underneath (**the exemplar half of that has since moved and the other three
+have not**: two research tranches took the corpus to 693 exemplars, 3 to 9 a node, 85 of 132 buildable nodes
+carrying five or more, while sources are still 4–5, constraints still exactly 5 on all 132 and distinctions
+still 3 on 128): **542 `measured` kit parameters cite no source** on the parameter
 or its slot while the provenance census had pinned editorial-bare at 0 for a year; **an exemplar had no
 locator** (482, 410 buildings, zero URLs in `styles/`); 24 buildable nodes cite only what a sibling cites;
 no period building exists in `plans/`. `precedents/` is the building's own record now, one file per
 building with the archival refs and the HABS written data quoted verbatim; `check_precedents.py` and
 `check_research.py` guard it; `tdl_precedents` serves it. The research runs in tranches
-(`PLAN-OF-ACTION.md` Phase 11). Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md`.
+(`PLAN-OF-ACTION.md` Phase 11). **Two are done and North America is complete**: 415 records over 86 of
+164 nodes — all 85 buildable `north-american` nodes plus `scandinavian-log-vernacular` — with 155
+surveys and 723 verbatim quotes. **The 46 buildable nodes still without a precedent are all European**
+(`british-isles` 19, `classical-mediterranean` 11, `northern-european-vernacular` 9,
+`iberian-mediterranean` 7), and are Tranche 3. **What the literature then said about the kits is the
+finding, and it is mostly silence**: of 240 survey-against-kit readings, 196 are silent, 27 agree and
+**17 contradict** — three by the node's own exemplar — and **not one was applied**, because
+`oq/a-surveyors-prose-may-source-an-envelope-figure` is a ruling nobody has given. The HABS written data
+states materials, dates and condition and rarely a dimension, so more of the same series will not by
+itself dimension the generator. Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` (§VII.10 and §VII.11 are the tranche).
 
 **THE LARGEST OUTSTANDING ITEM, NOW RULED AND THEREFORE THE NEXT PACKAGE: the lineage cascade
 delivers proportion packs nobody bound (OQ 51).**
@@ -276,13 +290,13 @@ That order keeps faith with the project's own founding discipline — validator 
 | Back-end | `structure.py`, `roof.py`, `elevation.py` | walls, section, roof plan, front elevation | Functional |
 | Site | `site` on plan/brief schemas | lot, setbacks, bearing, slope | Functional |
 | Interface | `mcp_server/` | 27 tools | Functional |
-| Evidence | `precedents/` | **161 records** after Tranche 1 (WP-11.2), rising through the tranches | WP-11.1 — the building behind an exemplar, refs with `retrieved`/`via`, the survey quoted, never a `license`; `check_precedents.py` |
+| Evidence | `precedents/` | **415 records** after Tranche 2 (WP-11.2, WP-11.3; North America complete) | WP-11.1 — the building behind an exemplar, refs with `retrieved`/`via`, the survey quoted, never a `license`; `check_precedents.py` |
 | Evidence | `assets/manifest.json` | **1777 wanted, 73 sourced** | 73 drawn from the packs, over 142 style nodes; the harvest is still environment-blocked |
 | Back-end | `construction/` | 2 catalogs | Complete — WP-3.1's data side |
 | Governance | `docs/open-questions/` | **103 entries, 33 open** | **A DIRECTORY since 28 Aug 2026 (WP-8.1)** — one file per question, filename == id; `docs/open-questions.md` is a generated index. Four id-collision conversion tables are in its README: ids 32–41 → 54–63, two blocks of 64–66, 72–83 → 78–89, 78–85 → 91–98, plus the work-package renumber 5.7–5.10 → 5.11–5.14 (OQ 90). **FIVE collisions now, and the fifth is why the numbers are FROZEN AT 99** (OQ 99, ruled on main 28 Aug): every question raised since is NAMED `oq/<slug>` and lives in `docs/open-questions/oq-<slug>.md`, because a slug is derived from its subject and cannot be issued twice. The directory and the slug are complementary — one turns a duplicate id into a conflict git REFUSES, the other stops the id being derivable from the working tree. **OQ 90 is closed at its third option**: a work-package number is a LABEL, not an identifier — two packages may share a number, no two may share a report filename, and `check_ids.py` enforces that |
 | Provenance | `rule_append` | honoured, with the contributing ancestor recorded | **OQ 16 closed 25 Aug** — the code had shipped; only the label was open |
 | Governance | `docs/reports/` | **22 package reports** | One per completed WP |
 | Checks | `build/*.py` | **46 checkers** | All pass; incl. `check_counts`, `check_addresses`, `check_inheritance`, `check_ids`, `check_citations`, `check_division_guards`, and (WP-11.1) `check_precedents`, `check_research`. `check_all` runs **49** — the 46 in its loop plus three appended suites, and the runner's own `len(results)` is the number to read |
-| Checks | `tests/` | **1,579 tests, 66 files** | Plus the workbench server suite and 62 under `node --test`; one run, ~40 min; CI on GitHub Actions. These two rows are NOT policed by `check_counts.py`, which covers only counts derived from the corpus, so they go stale silently — `tests/test_counts_guard.py` pins the CLAUDE.md figures instead |
+| Checks | `tests/` | **1,580 tests, 66 files** | Plus the workbench server suite and 78 under `node --test`; one run, ~40 min; CI on GitHub Actions. These two rows are NOT policed by `check_counts.py`, which covers only counts derived from the corpus, so they go stale silently. **And `tests/test_counts_guard.py` does NOT pin them, though this row said so until 5 Sep 2026**: its regex is `\*\*(\d+) checks, [\d,]+ tests\*\*` and it captures the CHECK count and steps over the test count in the same literal, so the CHECK figure is guarded and the TEST figure is not. It had gone stale by one (1,579 against a collected 1,580), and the `node --test` figure here disagreed with CLAUDE.md's (62 against 78, and 78 is right); both re-measured and corrected. WP-8.14's rule, in the row that claimed to be exempt from it: when a layer publishes N figures and a checker derives N-1, name the one it does not |
 
 *The four numbers a new session should not trust without re-reading them: **132 of 132 bound** (counts a node's own array, not what it receives — OQ 51); **0 silent editorial parameters** (the notes say no source is recorded, which is not the same as sourced — OQ 18); **61.5% of hard constraints tested** (unchanged since 24 Aug and not re-verified here); and **1777 wanted, 73 sourced** (the 73 were DRAWN from the proportion packs, not fetched; the harvester still has never run against a reachable host).*

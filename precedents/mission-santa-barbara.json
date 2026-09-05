@@ -1,0 +1,84 @@
+{
+  "id": "mission-santa-barbara",
+  "name": "Mission Santa Barbara church",
+  "aka": [
+    "Mission Santa Barbara",
+    "Old Mission Santa Barbara",
+    "Santa Barbara Mission"
+  ],
+  "location": {
+    "text": "Santa Barbara, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "2201 Laguna Street, Santa Barbara, California"
+    ]
+  },
+  "dates": {
+    "built": "1815-1820",
+    "circa": false,
+    "altered": "The survey records that a severe earthquake in 1925 did considerable damage and that in the reconstruction of 1925-26 under Ross Montgomery of Los Angeles the church towers were rebuilt in reinforced concrete faced with stone, concrete bond beams were run round the church walls, the chapel roofs and the whole roof construction were rebuilt, and the Monastery's second-storey walls were replaced in concrete.",
+    "note": "ATTRIBUTION IN DISPUTE, BOTH RECORDED. The 1937 survey prints 'Architect: Padre Ripoll, Builder: Built by Indian labor under direction of Padre Ripoll.' The style node's exemplar note credits 'master mason José Antonio Ramírez'. Neither was changed. The survey's dates — cornerstone 1815, completed 1820 — agree with the node's 1815-20."
+  },
+  "nodes": [
+    "california-mission-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-21",
+      "url": "https://www.loc.gov/resource/hhh.ca0893.sheet?st=grid",
+      "title": "Mission Santa Barbara, 2201 Laguna Street, Santa Barbara — Drawings from Survey HABS CA-21; Call Number/Physical Location HABS CAL,42-SANBA,5-",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data page's own running header prints the older form 'HABS CAL. 21 Santa Barbara Mission'; CA-21 is the Library's normalised form and is what a search resolves."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0893",
+      "url": "https://www.loc.gov/resource/hhh.ca0893.sheet?st=grid",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ca0893",
+    "survey_no": "CA-21",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0800/ca0893/data/ca0893data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Owner: The Franciscan Order of Santa Barbara. gage of ereotion: Comer-stone of church laid in 1815, building completed in 1820. Architect: Padre Ripoll, Builder: Built by Indian labor under direction of Padre Ripoll.",
+        "page": "No page marker legible in the extract span; the running header 'HABS CAL. 21 Santa Barbara Mission' appears in a later span of the same document."
+      },
+      {
+        "field": "condition",
+        "text": "A severe earthquake in 1925 did considerable damage to the church and monastery.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "structural_system",
+        "text": "the church towers were rebuilt in reinforced concrete faced with stone inside and out. The church walls were topped off with reinforced concrete bond beams and the same was used in reroofing the chapels and in numerous other parts of the building.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "walls",
+        "text": "Materials of construction; Walls of church and the towers were built of yellow sandstone, the first story walls of the Monastery are of adobe brick and the piers and arches of the cloisters are of burned brick.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "roof",
+        "text": "The old roof framing was of pine timbers brought from the Santa Cruz Islands a few miles off the coast. The exterior walls of the church are lime painted in color on the stone while those of the monastery are plastered and painted. In general the floors including those of cloisters are of tile. Roofs are of large mission tile.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "other",
+        "text": "The Mission was the ten/th of the twenty one Missions founded in California. The present church of stone is the fourth constructed upon the site. The first two, built of adobe and thatch roofed were considered temporary; the third, also of adobe but with a tile roof was wrecked by an earthquake in 1813, June 1, 1937",
+        "page": "No page marker legible in the extract span; the trailing 'June 1, 1937' is the survey's own date, printed contiguously with the sentence in the extract and kept here rather than trimmed."
+      }
+    ]
+  },
+  "note": "Seeded 5 Sep 2026. THE SURVEY CONTRADICTS THE NODE ON ONE POINT AND CONFIRMS IT ON ANOTHER. It confirms the stone: 'Walls of church and the towers were built of yellow sandstone', which is the node's 'rough-hewn stone with crude joints'. It contradicts the attribution: the node credits master mason José Antonio Ramírez and the survey names Padre Ripoll as both architect and director of the work. It also states something the node does not — that the standing church is the FOURTH on the site, the first two adobe and thatched and the third adobe under tile, wrecked in 1813. No dimension of any kind is stated, so this record carries no measurements."
+}

@@ -64,6 +64,7 @@
   },
   "note": "One of the two extract queries failed to fetch and the other returned the cover sheet only; no descriptive data was reached.",
   "nodes": [
-    "new-england-colonial"
+    "new-england-colonial",
+    "garrison-colonial"
   ]
 }

@@ -1,0 +1,59 @@
+{
+  "id": "schifferstadt",
+  "name": "Schifferstadt",
+  "aka": [
+    "Scheifferstadt",
+    "Schifferstadt Architectural Museum"
+  ],
+  "location": {
+    "text": "Frederick, Maryland",
+    "country": "United States",
+    "state": "Maryland"
+  },
+  "dates": {
+    "built": "1758",
+    "circa": false,
+    "altered": "A two-storey brick kitchen wing was added later (SAH Archipedia calls it an alteration the building survives).",
+    "note": "The Department of the Interior's 2017 announcement says 'Constructed in 1758'. The builder's given name is stated variously in the sources read -- Preservation Maryland says 'German immigrant Elias Bruner', the node's own exemplar says Elias Bruner, and a local history group's post names Joseph Brunner -- and the Maryland Historical Trust inventory file F-3-47 was not read closely enough to settle it. Recorded as unsettled rather than resolved."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial",
+    "pennsylvania-bank-house"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "F-3-47",
+      "url": "https://apps.mht.maryland.gov/medusa/PDF/Frederick/F-3-47.pdf",
+      "title": "F-3-47 Scheifferstadt (Schifferstadt) -- Maryland Historical Trust inventory and National Register registration file",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state inventory number is printed in the file's own running head. The file carries the National Register registration form; from the search return: 'Acreage of Property: 1.51 ... The property is bounded to the northeast by Rosemont Avenue, to the northwest by U.S. Route 15, to the southeast by West 2nd Street, and to the southwest by Baker Park' and 'Walls: Stone Roof: Wood Other: Brick'. The PDF itself was not extracted, so no verbatim descriptive span is quoted."
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/MD-01-WM4",
+      "title": "SCHIFFERSTADT | SAH ARCHIPEDIA -- Lisa Pfueller Davidson and Catherine C. Lavoie, Buildings of Maryland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The scholarly reading, and the one that names the plan: 'Schifferstadt has a distinctive durchgangigen or center-hall arrangement of interior spaces, one of the principal German plan types used in the American colonies ... The symmetry of Schifferstadt departs from the typical off-center entrance, conforming instead to contemporary Georgian convention. The central wishbone chimney, Liegender Stuhl (leaning truss system), vaulted cellar, stone kitchen window sink, decorative hardware, Stroh Lehm (mud and straw) paling insulation, and five-plate jamb stove, however, are fully characteristic of German architecture.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://preservationmaryland.org/schifferstadt-national-historic-landmark",
+      "title": "Schifferstadt Architectural Museum recognized as National Historic Landmark -- Preservation Maryland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records the National Historic Landmark designation announced 11 January 2017 and quotes the Department of the Interior: 'Constructed in 1758, Schifferstadt is an outstanding example of a Georgian-period house influenced by German American cultural and construction traditions ... the house embodies how German immigrants chose to retain much of their cultural heritage within their houses while exhibiting their social and economic status on the exterior.' No NHL reference number is printed, so none is recorded."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Schifferstadt_(Frederick,_Maryland)",
+      "title": "Schifferstadt (Frederick, Maryland) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox is headed 'Scheifferstadt' and gives the location as '1110 Rosemont & 2nd St., W., Frederick, Maryland'."
+    }
+  ],
+  "note": "The most legible SECTION in the tradition -- wishbone chimney, liegender Stuhl truss, vaulted cellar, five-plate jamb stove -- and the least German ELEVATION. SAH Archipedia states the split precisely: the symmetry 'departs from the typical off-center entrance, conforming instead to contemporary Georgian convention', which is the corpus's own line that the tradition 'lost the elevation while keeping the section', quoted back from a scholarly source rather than asserted. Note also that SAH calls the plan durchgangigen, a CENTRE-HALL arrangement, which is not the Flurkuchenhaus the node's canonical plan describes. No HABS survey was found under Schifferstadt, Scheifferstadt or Bruner."
+}

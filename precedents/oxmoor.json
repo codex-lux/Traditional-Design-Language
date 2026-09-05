@@ -1,0 +1,28 @@
+{
+  "id": "oxmoor",
+  "name": "Oxmoor",
+  "location": {
+    "text": "Whitemarsh, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1926",
+    "circa": false,
+    "note": "The Wikipedia work list for the firm gives 1926 and no other source read here states a date."
+  },
+  "nodes": [
+    "french-normandy-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mellor,_Meigs_%26_Howe",
+      "title": "Mellor, Meigs & Howe - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its work list reads: '\"Oxmoor,\" Orville H. Bullitt residence and farm (1926), Skippack Pike, Whitemarsh, Pennsylvania.' Its account of the firm says the 'mature Neo-Norman style ... was repeated at Oxmoor (1926) and Pheasant Run Farm (1927-29)', and it cites James B. Garrison, 'Oxmoor,' Houses of Philadelphia, Chestnut Hill and the Wissahickon Valley, 1890-1930 (Acanthus Press, 2008), pp. 195-201. That monograph chapter is the fuller source and it was not opened here, so it is named rather than cited as a ref of its own - a ref with neither an id nor a url locates nothing."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to french-normandy-revival, and thin on purpose. It carries ONE reference and that is the honest state of it: the building is in private hands, has no register listing that was findable, and its literature is a chapter in a 2008 monograph this container cannot open. It earns its place because it is the standing example of the manner Laverock Farm defined and Laverock Farm was demolished, and because a style whose only two documented poles are a Berkeley apartment group and a Philadelphia development needs a third case that is a single country house."
+}

@@ -53,14 +53,39 @@ better and the floors are what stop that reading as progress.
 
 **What it does not do, and says so on every run:** verify a survey quote against its source. The
 data page is a PDF on `tile.loc.gov` that this container cannot open; `--live` probes that each URL
-still answers and returns COULD NOT EVALUATE when the proxy denies the host. The 10% adversarial
-re-extraction each tranche's report carries is the check the machine cannot make.
+still answers and returns COULD NOT EVALUATE when the proxy denies the host. The adversarial
+re-extraction each tranche's report carries is the check the machine cannot make. Tranche 1 ran one
+auditor over the whole tranche; Tranche 2 ran **one per cluster**, starting as each cluster landed,
+and found 57 defects to Tranche 1's 8.
+
+**Three limits of the guard, each found by exercising it (WP-11.3), and none of them closable here.**
+
+1. **`as_printed`-must-be-a-substring proves internal consistency and NOT fidelity.** A quote silently
+   edited to fit its own figure passes: `emlen-physick-estate` printed `60' x 52 1` where the data form
+   prints `60' x 521` and both measurements were written from that same wrong reading. Only a second
+   read of the source catches it.
+2. **A quotation in a ref `note` is prose, and prose is unchecked.** The verbatim discipline reaches
+   `survey.quotes[]` and stops there. Three records printed a search-result summary — which the tier
+   builds by concatenating discontinuous spans — as though it were running prose, manufacturing
+   sentences their pages do not contain. A capital letter after a comma is the tell.
+3. **A locator that does not resolve is not a locator, and nothing checks that one does.** The
+   reference rules test an id's SHAPE and that a URL is present, never that it answers; one record
+   stored a percent-encoded URL that had been dead since it was written.
+
+**One building, one record** is the fourth rule and it is checked: two records sharing an archival
+`refs[].id` of kind `habs`, `haer`, `nrhp`, `nhl` or `loc-item` are a hard error, because those ids name
+one building and are evidence rather than judgment — except on a **district** listing, which legitimately
+covers many buildings and is exempt by name. Two records sharing a normalised name are REPORTED with both
+locations, never merged, because several American houses share a name; the corpus holds a Mount Airy, a
+Mount Pleasant and a Mount Vernon as three buildings. Both counters are ratcheted at zero and were zero
+across 415 records on the guard's first live exercise, six candidates raised and all six cleared.
 
 ## The meter
 
-`build/check_research.py` measures what the surface counts cannot. Every buildable node carries
-2–4 exemplars, 4–5 sources, 5 constraints and 3 distinctions — a composite of those spreads 1.5×
-across all 132 — so the things that DO separate a researched node from a skeletal one are
+`build/check_research.py` measures what the surface counts cannot. When WP-11.1 surveyed it every
+buildable node carried 2–4 exemplars, 4–5 sources, 5 constraints and 3 distinctions — a composite of
+those spread 1.5× across all 132. The research tranches have moved the exemplar clause and nothing
+else (693 exemplars, 3 to 9 a node), so the things that DO separate a researched node from a skeletal one are
 computed on every run: exemplars carrying a `precedent`; nodes citing only works a sibling also
 cites; `measured` kit parameters with no source on the parameter or its slot, split by whether a
 generator reads the slot (the read set is derived from the generators' own string constants, an

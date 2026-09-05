@@ -208,25 +208,55 @@
       "name": "Pieter Bronck House",
       "location": "Coxsackie, Greene County, New York",
       "year": 1663,
-      "note": "Thick stone walls, steep straight gable, single open chambers on two floors — the type before the gambrel and before Anglicization."
+      "note": "Thick stone walls, steep straight gable, single open chambers on two floors — the type before the gambrel and before Anglicization.",
+      "precedent": "pieter-bronck-house",
+      "standing": "icon",
+      "why": "The oldest surviving building in upstate New York on the general claim of Wikipedia and the county historical society, and a National Historic Landmark since 1967; the type before the gambrel, which is what this node is."
     },
     {
       "name": "Jean Hasbrouck House",
       "location": "Historic Huguenot Street, New Paltz, New York",
       "year": 1721,
-      "note": "National Historic Landmark. Retains the only original 18th-century jambless fireplace on Huguenot Street; built by Huguenots in wholly Dutch technique."
+      "note": "National Historic Landmark. Retains the only original 18th-century jambless fireplace on Huguenot Street; built by Huguenots in wholly Dutch technique.",
+      "precedent": "jean-hasbrouck-house",
+      "standing": "icon",
+      "why": "The National Historic Landmark nomination calls it one of the 'impressive examples of Dutch Colonial stone architecture remaining in the United States', and it holds the only original eighteenth-century jambless fireplace on Huguenot Street."
     },
     {
       "name": "Abraham Hasbrouck House",
       "location": "Historic Huguenot Street, New Paltz, New York",
       "year": 1721,
-      "note": "Multi-phase stone house whose successive campaigns are legible in the masonry — a good demonstration of additive bent-by-bent growth."
+      "note": "Multi-phase stone house whose successive campaigns are legible in the masonry — a good demonstration of additive bent-by-bent growth.",
+      "precedent": "abraham-hasbrouck-house",
+      "standing": "canonical",
+      "why": "Ninety-five pages of measured Historic American Buildings Survey data (NY-4363) reading the house phase by phase -- by a long way the best-documented specimen in this cluster, and the one whose 22-inch tapering wall and 18 ft 9 1/2 in room can be held against the node's own bands."
     },
     {
       "name": "Dyckman Farmhouse",
       "location": "4881 Broadway, Manhattan, New York",
       "year": 1784,
-      "note": "Late example: fieldstone lower storey, frame above, gambrel roof with a sprung eave carried on posts as a porch — the moment the eave becomes a porch."
+      "note": "Late example: fieldstone lower storey, frame above, gambrel roof with a sprung eave carried on posts as a porch — the moment the eave becomes a porch.",
+      "precedent": "dyckman-farmhouse",
+      "standing": "regional",
+      "why": "The survey quotes an 1917 description that states the node's whole section in one sentence -- stone to the upper window sills, oak and clapboard above to the peak of a gambrel 'which, incidentally, has an exceptionally graceful curve' -- but it is a late Manhattan house at the edge of the valley, so regional rather than canonical."
+    },
+    {
+      "name": "Luykas Van Alen House",
+      "location": "2589 New York State Route 9H, Kinderhook, Columbia County, New York",
+      "year": 1737,
+      "note": "The valley's brick rural house, against this node's own claim that brick belongs to the towns; the survey records it as 'Brick; stone base' with a high steep roof, grown north from a first pair of rooms each with its own fireplace.",
+      "precedent": "luykas-van-alen-house",
+      "standing": "icon",
+      "why": "Its owner, the Columbia County Historical Society, calls it 'one of the best, and rarest remaining examples of a historically intact Dutch Colonial house in the Hudson Valley'; it is the house the general literature on this style illustrates."
+    },
+    {
+      "name": "Bevier-Elting House",
+      "location": "Historic Huguenot Street, New Paltz, New York",
+      "year": 1698,
+      "note": "Three building periods legible in the masonry and in two internal stone cross walls; its side walls are built of stone to the plate. The survey records the family's account of the original hearth as a hood over a smoke chamber, later walled up with breast and jambs -- a jambless fireplace being turned into an English one.",
+      "precedent": "bevier-elting-house",
+      "standing": "documentary",
+      "why": "Plain, surveyed and useful rather than admired: HABS NY-4-304 records the family's own account of the original hearth as 'only a hood at the ceiling opening to a large smoke chamber', later given legs, breast and jambs -- a jambless fireplace being Anglicised, described from the fabric."
     }
   ],
   "sources": [

@@ -1,0 +1,47 @@
+{
+  "id": "hale-house",
+  "name": "Hale House",
+  "location": {
+    "text": "Los Angeles, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1887",
+    "circa": false,
+    "altered": "Moved twice. Wikipedia: originally at 4501 North Pasadena Avenue (now Figueroa Street), moved to 4425 North Pasadena, then relocated in 1970 to the Heritage Square Museum in Montecito Heights, where it stands.",
+    "note": "Built for the developer George W. Morgan and named for James G. Hale, who acquired it later; Wikipedia's article says 1901 and an aggregator page repeats it. The 1887 date is the infobox's and the article's."
+  },
+  "nodes": [
+    "queen-anne-american",
+    "queen-anne-spindled"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "72000230",
+      "url": "https://en.wikipedia.org/wiki/Hale_House_(Los_Angeles,_California)",
+      "title": "NRHP reference No. 72000230; added to NRHP September 22, 1972; Los Angeles Historic-Cultural Monument No. 40, designated June 15, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox names the architect Joseph Cather Newsom, the younger of the two brothers who built the Carson Mansion."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hale_House_(Los_Angeles,_California)",
+      "title": "Hale House (Los Angeles, California) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'It has been described as \"the most photographed house in the entire city\", and \"the most elaborately decorated\"' and, on the style, 'has been described as Queen Anne, Eastlake, Carpenter Gothic, \"picturesque eclectic,\" and \"a capricious old gingerbread.\"'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=117173",
+      "title": "Hale House - The Historical Marker Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The marker's own words as the database transcribes them: 'A superb example of the Queen Anne - Eastlake Style.'"
+    }
+  ],
+  "note": "By Joseph Cather Newsom, one half of the firm that built the Carson Mansion, so this node holds the same office at both ends of California -- the lumber baron's mansion at Eureka and a speculative developer's house in Highland Park. Wikipedia records five different style words applied to it by five writers, which is worth carrying: the building most often photographed as a Queen Anne is one nobody can classify. No HABS record was found (query: 'loc.gov pictures HABS \"Hackley House\" Muskegon Michigan OR \"Hale House\" Highland Park Los Angeles survey number item'). Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

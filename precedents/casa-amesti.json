@@ -17,7 +17,8 @@
     "note": "The style node and Wikipedia both say 1834; the node's own exemplar note says the priority between this house and the Larkin House 'is not fully settled'. The survey's reading, that the two-storey balconied form is later than 1834, bears on exactly that question and is recorded rather than resolved."
   },
   "nodes": [
-    "monterey-colonial"
+    "monterey-colonial",
+    "monterey-revival"
   ],
   "refs": [
     {
@@ -130,5 +131,5 @@
       "note": "As drawn in the 1842 lithograph the survey describes, not as built today."
     }
   ],
-  "note": "Seeded 4 Sep 2026. No National Register number was retrieved: the Wikipedia article carries no NRHP infobox and the one search for it ('\"Casa Amesti\" Monterey National Historic Landmark National Register reference', nps.gov / wikipedia.org / ohp.parks.ca.gov / savingplaces.org) returned only the article and the county list, so none is asserted. The house is a contributing property of the Monterey Old Town district (NRHP 70000137) on the Larkin House infobox's pattern, but that was not verified for this address."
+  "note": "Seeded 4 Sep 2026. No National Register number was retrieved: the Wikipedia article carries no NRHP infobox and the one search for it ('\"Casa Amesti\" Monterey National Historic Landmark National Register reference', nps.gov / wikipedia.org / ohp.parks.ca.gov / savingplaces.org) returned only the article and the county list, so none is asserted. The house is a contributing property of the Monterey Old Town district (NRHP 70000137) on the Larkin House infobox's pattern, but that was not verified for this address. CROSS-LINKED 5 Sep 2026: monterey-revival also names this building, at the same location string, and reaches it through `precedent`."
 }

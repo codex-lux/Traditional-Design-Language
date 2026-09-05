@@ -1,0 +1,57 @@
+{
+  "id": "edsel-and-eleanor-ford-house",
+  "name": "Edsel and Eleanor Ford House",
+  "aka": [
+    "Gaukler Point",
+    "Ford House"
+  ],
+  "location": {
+    "text": "Grosse Pointe Shores, Michigan",
+    "country": "United States",
+    "state": "Michigan"
+  },
+  "dates": {
+    "built": "1926-1929",
+    "circa": true,
+    "altered": "A house museum on 87.5 acres at 1100 Lake Shore Drive; site plan and gardens by Jens Jensen.",
+    "note": "THE SOURCES DISAGREE ACROSS FOUR YEARS AND ALL ARE KEPT. The Wikipedia infobox says 'Built 1927' while its own text says the house 'became the new residence of the Edsel and Eleanor Ford family in 1928'; Historic Detroit says 'Built from 1926-1928'; a Grosse Pointe realtor's local-history page says 'In 1929, Albert Kahn completed the Ford Estate for Edsel and Eleanor Ford'. The range recorded spans them and `circa` is true."
+  },
+  "nodes": [
+    "cotswold-cottage-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "79001164",
+      "url": "https://en.wikipedia.org/wiki/Edsel_and_Eleanor_Ford_House",
+      "title": "NRHP reference No. 79001164, added July 24, 1979; designated NHL October 31, 2016; architectural style 'English Cotswold'; architects Albert Kahn and Jens Jensen, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The style field matters here: the federal listing itself names the Cotswold manner, which is rarely true of a twentieth-century revival."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Edsel_and_Eleanor_Ford_House",
+      "title": "Edsel and Eleanor Ford House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://historicdetroit.org/buildings/edsel-and-eleanor-ford-house",
+      "title": "Edsel and Eleanor Ford House (Ford House) - Historic Detroit",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Built from 1926-1928, this National Historic Landmark was designed to be a place of family, creativity, community, and connection.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.thehenryford.org/collections/explore/articles/cotswold-cottage-from-english-village-to-greenfield-village",
+      "title": "Cotswold Cottage: From English Village to Greenfield Village - The Henry Ford",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Cited here for one sentence about this house, written by the institution his father founded: 'Henry Ford's son Edsel and his wife Eleanor built their impressive but unpretentious home, Gaukler Pointe, in the Cotswold Revival style in the late 1920s.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to cotswold-cottage-revival, and the node's strongest available icon: the largest American house built in the idiom, by Albert Kahn, classified 'English Cotswold' by the National Register itself, and made a National Historic Landmark as recently as 2016. It also sits three miles from the Cotswold Cottage the node already carries as its control specimen, and the same institution links the two - which makes the Michigan pair the one place in the American record where the model and the copy can be looked at in one afternoon. No HABS survey was found."
+}

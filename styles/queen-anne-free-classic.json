@@ -185,19 +185,46 @@
       "name": "Fuller House",
       "location": "Minden, Louisiana",
       "year": 1905,
-      "note": "Queen Anne massing culminating in a turret, with an unusually early and complete free classic vocabulary: Palladian window, Tuscan columns on a wraparound gallery, and denticular moulding. Listed on the National Register in 1996."
+      "note": "Queen Anne massing culminating in a turret, with an unusually early and complete free classic vocabulary: Palladian window, Tuscan columns on a wraparound gallery, and denticular moulding. Listed on the National Register in 1996.",
+      "precedent": "fuller-house",
+      "standing": "canonical",
+      "why": "Wikipedia states the subtype's whole thesis about this one building -- 'While Queen Anne houses of its era would often have Eastlake detailing, this house is unusual for having ornament which is almost all Colonial Revival in style' -- and the National Register infobox prints both style words, 'Queen Anne, Colonial Revival', on one line."
     },
     {
       "name": "Rector House",
       "location": "Heber Springs, Arkansas",
       "year": 1916,
-      "note": "Built 1915-16 and documented as Free Classic Queen Anne; a late survival showing how long the subtype persisted in the interior South after the coasts had moved to Colonial Revival."
+      "note": "Built 1915-16 and documented as Free Classic Queen Anne; a late survival showing how long the subtype persisted in the interior South after the coasts had moved to Colonial Revival.",
+      "precedent": "rector-house",
+      "standing": "regional",
+      "why": "Wikipedia says it 'is considered a good example of the \"Free Classic\" form of Queen Anne architecture', and it is the only single-storey house in this node, which its parent's kit does not contemplate."
     },
     {
       "name": "William Watts Sherman House",
       "location": "Newport, Rhode Island",
       "year": 1876,
-      "note": "Cited only for its later alterations; the free-classic elements added in the 1880s to Richardson's original demonstrate the vocabulary shift happening on a single building."
+      "note": "Cited only for its later alterations; the free-classic elements added in the 1880s to Richardson's original demonstrate the vocabulary shift happening on a single building.",
+      "precedent": "william-watts-sherman-house",
+      "standing": "canonical",
+      "why": "Its HABS survey dates the change this node is about on one building -- 'Stanford White, after his return from Europe in 18T9, remodeled the interior and en- larged the house to the east' -- so the vocabulary shift has a surveyor's date rather than only a stylistic argument."
+    },
+    {
+      "name": "Gunderson House",
+      "location": "Vermillion, South Dakota",
+      "year": 1895,
+      "note": "Built by Harvey Gunderson, 1895. Two storeys on a Sioux Quartzite foundation, a steep cross-gabled roof, and a raised porch across the whole front on paired classical columns with a plain frieze; the subtype at its most restrained and most ordinary.",
+      "precedent": "gunderson-house",
+      "standing": "documentary",
+      "why": "Two surfaces call it Free Classic in so many words, and only the second is a preservation office: Wikipedia's description ('specifically, the Free Classic subtype') and the South Dakota state office's Brookman House draft nomination, whose comparative analysis reads 'a restrained example of the Free Classic subtype of Queen Anne architecture'."
+    },
+    {
+      "name": "Brooks House",
+      "location": "Middlesboro, Kentucky",
+      "year": 1889,
+      "note": "A coal-town house on Arthur Heights, built at the same moment as its next-door neighbour the Cary House, which the same state office classifies as Queen Anne Stick/Eastlake; the two subtypes on adjoining lots.",
+      "precedent": "brooks-house",
+      "standing": "documentary",
+      "why": "The Kentucky Heritage Council's National Register nomination for the neighbouring house classifies this one in its own comparative table as 'BLM 100 (Brooks House) - Queen Anne Free Classic', which is a state office naming the subtype against a controlled local sample of twenty-six houses."
     }
   ],
   "sources": [

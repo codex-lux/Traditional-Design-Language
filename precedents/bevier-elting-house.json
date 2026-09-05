@@ -1,0 +1,98 @@
+{
+  "id": "bevier-elting-house",
+  "name": "Bevier-Elting House",
+  "location": {
+    "text": "Historic Huguenot Street, New Paltz, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1698 (the datestone board on the house's own west wall, as the survey quotes it)",
+    "circa": true,
+    "note": "The survey quotes the house's own painted marker: 'Bevier House 1698 - 1735 Elting House 1735 - 1923.' The Library's item line dates the structure '1690s Initial Construction'. Historic Huguenot Street says 'Believed to have been built in 1694-1696 by Louis Bevier'; a photographic tour of the street says 1698. The survey also finds 'three periods of construction ... though the last addition must have been completed before 1750 to 1760'. Four statements, none reconciled."
+  },
+  "nodes": [
+    "hudson-valley-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-4-304",
+      "title": "HABS No. NY-4-304, \"Bevier-Elting House, Huguenot Street & Broadhead Avenue\", 10 photos, 16 measured drawings, 11 data pages, 1 photo caption page (as the Wikipedia Huguenot Street Historic District article lists it)",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0844/data/ny0844data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A Wikimedia file page quoting the Library's own line reads 'Survey number: HABS NY-4-304; Building/structure dates: 1690s Initial Construction' with call number 'HABS NY,56-NEWP,2-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0844",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0844/data/ny0844data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched, and matches the Library URL quoted on the Wikimedia Commons file page for this survey's sheet 9 ('https://www.loc.gov/pictures/item/ny0844.sheet.'). The landing page itself was not opened; recorded as `manual` for that reason."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.huguenotstreet.org/bevier-elting",
+      "title": "Bevier-Elting Family Association - Historic Huguenot Street",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. 'Believed to have been built in 1694-1696 by Louis Bevier, this stone house has large windows, a side porch, and a long well-sweep. The house is of the \"Netherlands Townhouse\" design, and some of the original beams are believed to have come from a Dutch Barn. It became the Elting homestead in 1760.' An owner's claim, recorded as one -- and note that its 1760 disagrees with the house's own painted marker at 1735."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Huguenot_Street_Historic_District",
+      "title": "Huguenot Street Historic District - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0844",
+    "survey_no": "NY-4-304",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0844/data/ny0844data.pdf",
+    "prepared": "Not read; the title page was not among the spans returned. The document's own sections are headed 'Historical Introduction' and 'Architectural Description' and it references measured section sheet #9.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The Bevier-Blting House is one of five original detached stone houses standing to date, erected \"by the early settlers of Hew Paltz who originally came from Old Hurley. On the west wall of the hpuse facing ^uguenot Street there is apainted hoard marker, reading: \"Bevier House 1698 - 1735 Elting House 1735 - 1923.\"",
+        "page": "HABS No. NY-4-304, under the heading 'Historical Introduction'; no page number legible in the extract span"
+      },
+      {
+        "field": "walls",
+        "text": "The side walls are \"built of stone to the plate, and in the gable are carried up to the line of the crsss tie and heads of gable frames. The \"building distinctly shows three periods of construction evidenced by two stone cross walls inside the building and vertical joints showing in the outside walls coincide with these There is also a variation in size of plates and timbers used, though the last addition must have been completed before 1750 to 1760 as the type of construction is very much alike and other than repairs, little change or remodeling has been done",
+        "page": "HABS No. NY-4-304, under 'Architectural Description'; no page number legible in the extract span"
+      },
+      {
+        "field": "chimneys",
+        "text": "This has a fire-place crane instead of the trammel \"bar. It is \"believed \"by members of the Elting family living, that the original fire-place had only a hood at the ceiling opening to a large smoke chamber, the front of which appears to rest on the large beam at the line of the attic floor as shown in the section. The legs may have been \"built in later and the \"breast and jambs walled up, plastered and fitted with the plain mantel facing and shelf shown.",
+        "page": "HABS No. NY-4-304; no page number legible in the extract span"
+      },
+      {
+        "field": "foundations",
+        "text": "In the east wall of the cellar, about three feet above the floor, large flat stones, or flags, 5\" to 6\" thick, were laid in the wall and left projecting about 5\". On this rests the botton ends of four pieces of oak, size 6\" by 6\".",
+        "page": "HABS No. NY-4-304; no page number legible in the extract span. The passage refers the reader to 'section sheet #9'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "cellar_corbel_projection_in",
+      "as_printed": "left projecting about 5\"",
+      "value": 5,
+      "unit": "in",
+      "from_quote": 3
+    },
+    {
+      "name": "cellar_post_size_in",
+      "as_printed": "size 6\" by 6\"",
+      "value": 6,
+      "unit": "in",
+      "from_quote": 3
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass. It earns its place for the FIREPLACE quote, which is the closest a survey in this cluster comes to describing a jambless hearth from the evidence rather than from the literature: the family's account is that the original fire had 'only a hood at the ceiling opening to a large smoke chamber' and that 'the legs may have been built in later and the breast and jambs walled up' -- i.e. an English chimney breast built INTO a jambless hearth, which is the Anglicisation `hudson-valley-dutch`'s prose describes happening to everything else. Also useful: 'The side walls are built of stone to the plate' states the wall/roof junction the node's plate-height claim depends on."
+}

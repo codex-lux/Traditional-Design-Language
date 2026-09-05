@@ -1,0 +1,129 @@
+{
+  "id": "frank-lloyd-wright-home-and-studio",
+  "name": "Frank Lloyd Wright Home and Studio",
+  "aka": [
+    "Frank Lloyd Wright Home & Studio",
+    "Frank Lloyd Wright Residence and Studio"
+  ],
+  "location": {
+    "text": "Oak Park, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1889-1898",
+    "circa": true,
+    "note": "The house of 1889 and the studio added at the end of the 1890s are one HABS item and are described together. Neither date was read verbatim off the data page in the spans extracted here; they are the conventional dates and are marked circa for that reason. The Library's item record states the significance without a date: 'This structure, consisting of a group of buildings, includes the first residence of Frank Lloyd Wright built for himself.'"
+  },
+  "nodes": [
+    "prairie-school"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IL-1099",
+      "title": "Frank Lloyd Wright Home & Studio, 428 Forest Avenue & 951 Chicago Avenue, Oak Park, Cook County, IL",
+      "url": "https://www.loc.gov/pictures/item/il0317",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's normalised number is IL-1099; the data page's own header prints the older form, OCR'd as 'HABS No. ILL-1099'. Shelf number HABS ILL,16-OAKPA,5-. The item record also states 'National Register of Historic Places NRIS Number: 72000456'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "il0317",
+      "url": "https://www.loc.gov/pictures/item/il0317",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000456",
+      "url": "https://www.loc.gov/pictures/item/il0317",
+      "title": "National Register of Historic Places NRIS Number: 72000456 (as the Library of Congress item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the HABS item record's own notes, not from the National Register's database."
+    }
+  ],
+  "survey": {
+    "item": "il0317",
+    "survey_no": "IL-1099",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0300/il0317/data/il0317data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B, Description of Exterior: 1. Over-all dimensions: The house and studio constitute two long rectangles in plan placed parallel and slightly separated from one another with a small linking unit between The house is two stories raised about four feet from the ground 0 The studio is",
+        "page": "HABS No. IL-1099, Part II.B.1; the nearest marker in the extract reads 'FRANK LLOYD WRIGHT RESIDENCE AMD STUDIO HABS No. ILL-1099 (Page 10)' and precedes it. The extract's chunk ends at 'The studio is'; the quote is cut there rather than completed from a second span."
+      },
+      {
+        "field": "storeys",
+        "text": "The studio is built about two feet above ground level, is two stories in height at the drafting room portion and one story elsewhere,,",
+        "page": "HABS No. IL-1099, Part II.B.1, continued; no page marker legible in this span."
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The foundations of both buildings project beyond the wall line visually establishing a base for the walls. The concrete is scored vertically at intervals of six feet, and in most cases has cracked at the scoring. The concrete is natural grey in color and years of weathering have eroded the cement enough to reveal the texture of its fine aggregate.",
+        "page": "HABS No. IL-1099, Part II.B.2; no page marker legible in this span."
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction, finish, color: Walls are of common brick and of wood frame clad in dark brown shingles The brick is used for basement walls of the house and for its front porch wall.",
+        "page": "HABS No. IL-1099, Part II.B.3; no page marker legible in this span."
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system, framing: Wood frame.",
+        "page": "HABS No. IL-1099, Part II.B.4; no page marker legible in this span."
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches, stoops, bulkheads: The bulkheads are of brick capped with limestone or concrete. There is a screened, flat-roofed front porch on the west side of the house. The studio entrance is sheltered by a cantilevered trellis.",
+        "page": "HABS No. IL-1099, Part II.B.5; no page marker legible in this span."
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: The chimneys are tall wide planes of brick capped with concrete.",
+        "page": "HABS No. IL-1099, Part II.B.6; no page marker legible in this span."
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering: The house roof is a steep gable covered with black composition shingles. Dormers projecting from this roof are flat and have built-up roofing. The studio has several levels of flat roofs. The octagons of the drafting room and of the library are roofed in pointed, eight-sided roofs, tarred black. A shingle-surfaced parapet almost completely conceals the octagonal roof of the drafting room. That of the studio is of shallow pitch and unobtrusive.",
+        "page": "HABS No. IL-1099, Part II.B.8.a; no page marker legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_first_floor_above_grade_ft",
+      "as_printed": "about four feet from the ground",
+      "value": 4,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "studio_first_floor_above_grade_ft",
+      "as_printed": "about two feet above ground level",
+      "value": 2,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two stories in height at the drafting room portion and one story elsewhere",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two at the drafting room, one elsewhere; the value carries the taller."
+    },
+    {
+      "name": "foundation_score_interval_ft",
+      "as_printed": "intervals of six feet",
+      "value": 6,
+      "unit": "ft",
+      "from_quote": 2
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. This is the building the Prairie style was worked out INSIDE, and the survey says plainly that it is not yet in the style: 'The house roof is a steep gable'. prairie-school's roof_pitch slot specifies hipped at 3:12 to 4:12 and its c03 asks for four continuous horizontal bands. Neither describes the 1889 house. The record is here as the node's origin rather than as a specimen of its rule, and the exemplar's `standing` says so."
+}

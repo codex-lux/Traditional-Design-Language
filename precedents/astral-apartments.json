@@ -1,0 +1,57 @@
+{
+  "id": "astral-apartments",
+  "name": "Astral Apartments",
+  "aka": [
+    "The Astral Apartments",
+    "The Astral"
+  ],
+  "location": {
+    "text": "Greenpoint, Brooklyn, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1885-1886",
+    "circa": false,
+    "note": "Wikipedia's text says 'built in 1885-1886' and its infobox prints 'Built 1885'; the Historic Districts Council gives '1885-86'. Architect Lamb & Rich in all three."
+  },
+  "nodes": [
+    "queen-anne-patterned-masonry"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "82001178",
+      "url": "https://en.wikipedia.org/wiki/Astral_Apartments",
+      "title": "NRHP reference No. 82001178; added to NRHP October 29, 1982; New York City Landmark No. 1194, designated June 28, 1983 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "An INDIVIDUAL listing of one building, not a district. Read from the infobox; a Wikimedia Commons file page read in the same search repeats the reference number from Wikidata."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Astral_Apartments",
+      "title": "Astral Apartments - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'It is a block-long brick and terra cotta building in the Queen Anne style. It features a central projecting section with a deep, three-story-high round arch recess. The roof features inward-looking decorative grotesques.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://hdc.org/buildings/astral-apartments",
+      "title": "Astral Apartments | Historic Districts Council -- STATUS Designated Individual Landmarks, ARCHITECT Lamb & Rich, DATE 1885-86, STYLE Queen Anne",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'The Astral Apartments is a massive, six-story apartment house faced with brick and terra cotta, occupying the entire blockfront on the east side of Franklin Street between India and Java Streets in the Greenpoint section of Brooklyn.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Queen_Anne_style_architecture_in_the_United_States",
+      "title": "Queen Anne style architecture in the United States - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The judgment this record's `standing` rests on: 'The Astral Apartments that were built in Brooklyn in 1885-1886 (to house workers) are an example of red-brick and terracotta Queen Anne architecture in New York.' The same paragraph names 'the new housing for the New York House and School of Industry at 120 West 16th Street (designed by Sidney V. Stratton, 1878)' as where the English Queen Anne arrived in New York -- a building this cluster did not research and which is listed as unresolved."
+    }
+  ],
+  "note": "Not a house, and that is the point for this node. `queen-anne-patterned-masonry`'s own prose says the subtype belongs where 'brick was the ordinary urban material and where a large body of skilled masons existed' and that 'every ornamental decision has to be made at the order stage'; a block-long philanthropic tenement for oil-refinery workers, six storeys of brick and terra cotta by the firm that also built the Henderson Place rowhouses, is that argument at its largest and cheapest. Nothing in the node's kit or its constraints contemplates a building of this size, which is worth knowing before a generator is asked to make one. No HABS record was found. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

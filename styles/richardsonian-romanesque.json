@@ -193,19 +193,55 @@
       "name": "Trinity Church",
       "location": "Boston, Massachusetts",
       "year": 1877,
-      "note": "H. H. Richardson, competition won 1872, dedicated 1877. The building that established the manner and made Richardson the most imitated architect in America."
+      "note": "H. H. Richardson, competition won 1872, dedicated 1877. The building that established the manner and made Richardson the most imitated architect in America.",
+      "precedent": "trinity-church-boston",
+      "standing": "icon",
+      "why": "The building the style is named from, on the Library of Congress's own significance line: 'The Trinity Church is considered by many to be Henry Hobson Richardson's greatest work.'"
     },
     {
       "name": "John J. Glessner House",
       "location": "Chicago, Illinois",
       "year": 1887,
-      "note": "H. H. Richardson, designed 1885, completed 1887. Granite street walls turned almost blank to the corner with the rooms opening to a private south courtyard; the definitive domestic statement of the style."
+      "note": "H. H. Richardson, designed 1885, completed 1887. Granite street walls turned almost blank to the corner with the rooms opening to a private south courtyard; the definitive domestic statement of the style.",
+      "precedent": "john-j-glessner-house",
+      "standing": "icon",
+      "why": "The building the style is known by domestically, on the Historic American Buildings Survey's own words -- 'the last of the fully personal works of the architect, H. H. Richardson' and 'one of Richardson's finest designs'."
     },
     {
       "name": "Allegheny County Courthouse and Jail",
       "location": "Pittsburgh, Pennsylvania",
       "year": 1888,
-      "note": "H. H. Richardson, 1884-88, completed after his death in 1886. Richardson himself considered it his best work."
+      "note": "H. H. Richardson, 1884-88, completed after his death in 1886. Richardson himself considered it his best work.",
+      "precedent": "allegheny-county-courthouse-and-jail",
+      "standing": "canonical",
+      "why": "A documented type specimen on the HABS data form's own significance field, 'A prime example of noted architect Richardson's work in what would cone to be known as the \"Richardsonian Romanesque Style.\"' with the OCR left as printed."
+    },
+    {
+      "name": "Ames Gate Lodge",
+      "location": "North Easton, Massachusetts",
+      "year": 1881,
+      "note": "H. H. Richardson with Frederick Law Olmsted, 1880-81. Walls of boulders gathered off the estate -- Vincent Scully's 'cyclopean rubble' -- trimmed in Longmeadow brownstone, straddling the drive so that arrival is a passage through the building's own arch.",
+      "precedent": "ames-gate-lodge",
+      "standing": "canonical",
+      "why": "A documented type specimen for the style's wall and its arch, contributing to the H. H. Richardson Historic District of North Easton (a National Historic Landmark district, 1987), and described in the terms this node's own prose uses -- the phrase 'cyclopean rubble' is Vincent Scully's judgment, quoted."
+    },
+    {
+      "name": "Thomas Crane Public Library",
+      "location": "Quincy, Massachusetts",
+      "year": 1882,
+      "note": "H. H. Richardson, the original building of 1881-82. The style's cheap public end: a town library paid for by the family of a Quincy stone contractor, in the town whose granite quarries supplied the trade the manner depends on.",
+      "precedent": "thomas-crane-public-library",
+      "standing": "canonical",
+      "why": "A documented type specimen on the National Park Service's own judgment, which Wikipedia reports as designating it a National Historic Landmark in 1987 'recognizing it as one of Richardson's finest library buildings'."
+    },
+    {
+      "name": "Robert Treat Paine Estate",
+      "location": "Waltham, Massachusetts",
+      "year": null,
+      "note": "H. H. Richardson with Frederick Law Olmsted, enlarging an 1866 house in 1883-86. Carried as the boundary case: its own principal source calls it Shingle Style in the infobox and files it under Richardsonian Romanesque in the categories, and the corpus records both rather than choosing.",
+      "precedent": "robert-treat-paine-estate",
+      "standing": "documentary",
+      "why": "Documented -- a National Historic Landmark since 1975, owned and interpreted by the City of Waltham -- and carried for what it settles about the style's edge rather than for what it exemplifies, because the sources disagree about which style it is; the year is null for the same reason the built date is a pair."
     }
   ],
   "sources": [

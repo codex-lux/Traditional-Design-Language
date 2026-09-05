@@ -1,0 +1,103 @@
+{
+  "id": "rosedown",
+  "name": "Rosedown",
+  "aka": [
+    "Rosedown Plantation",
+    "Rosedown Plantation State Historic Site"
+  ],
+  "location": {
+    "text": "St. Francisville, West Feliciana Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1835; wings 1844-45",
+    "circa": false,
+    "altered": "The 1958 surveyor found it 'Badly in need of repairs. (Plans are being made for its restoration)' and records the composition roof as replacing the original shingle. Wikipedia records the 2001 National Register listing and the 2005 National Historic Landmark District designation.",
+    "note": "The survey and the node agree on 1835 for the main house; the node's exemplar adds 'built November 1834 to May 1835' and dates the wings 1845, where the survey prints 'Wings: 1844-45'. Neither is changed."
+  },
+  "nodes": [
+    "greek-revival-southern-plantation"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1101",
+      "title": "Rosedown Plantation, St. Francisville, West Feliciana Parish, Louisiana",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0045/data/la0045data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data page's own header prints the number three times and the OCR varies each time: 'HABS No. LA. Q1' on the cover, 'HABS No. La. .HOI' under the district officer's address, and 'HABS No. La. 1101' with 'Page 2' and 'Page 3'. Read as LA-1101. The Library's 1930s call number on the photographs is 'HABS LA,63-SAIFR,1-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0045",
+      "url": "https://www.loc.gov/pictures/resource/hhh.la0045.photos.073570p",
+      "title": "13. Historic American Buildings Survey Richard Koch ... Rosedown Plantation, Saint Francisville, West Feliciana Parish, LA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A photo resource page, which is what the search returned; it prints 'Reproduction Number: HABS LA,63-SAIFR,1--13'. The item landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "01000765",
+      "url": "https://en.wikipedia.org/wiki/Rosedown_Plantation",
+      "title": "NRHP reference No. 01000765; added to NRHP August 7, 2001; designated NHLD April 5, 2005 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox summary returned by the search, not from the National Register's own database. The infobox's style line reads 'Federal, Greek Revival', which is the transitional reading the node's own exemplar note gives."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.lastateparks.com/historic-sites/rosedown-plantation-state-historic-site",
+      "title": "Rosedown Plantation State Historic Site (Louisiana State Parks)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Present owner."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rosedown_Plantation",
+      "title": "Rosedown Plantation - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'Commissioned in 1835 by owners Daniel and Martha Turnbull and built by enslaved people under their control, Rosedown is one of the most documented and intact plantation complexes in the Southern United States', and it gives the house as 8,000 square feet."
+    }
+  ],
+  "survey": {
+    "item": "la0045",
+    "survey_no": "LA-1101",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0045/data/la0045data.pdf",
+    "prepared": "Historic American Buildings Survey, District of Louisiana, Richard Koch District Officer, Queen and Crescent Building, New Orleans; the descriptive sheet signed 'Prepared by I&chard Koch, Architect June, 1958'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Owner: Mrs. Milton R. Underwood Date of Erection: 1835 - Wings: 1844-45 Builder: Daniel Turnbull Architect and ContractorI Wendell Wright - Main House T. S. Williams - Wings Present Condition: Badly in need of repairs. (Plans are being made for its restoration). Number of Stories: Two and Attic. Materials of Construction: Brick foundations, wood walls with clap-boards; original roof - shingle; at pre-sent - composition.",
+        "page": "HABS No. LA-1101, Page 1 -- the extract prints 'Page 1. HALZ £3' immediately above this block."
+      },
+      {
+        "field": "plan",
+        "text": "This plan might be called French or Early Louisiana in contrast to the American scheme of a hall through the center of the house.",
+        "page": "HABS No. LA-1101; no page marker is legible in the extract span carrying this sentence."
+      },
+      {
+        "field": "other",
+        "text": "\"Proposition for doing the Carpenter and Joined work of a certain frame house the whole to be Compleete after the most modern Stile the front to be Executed with full gretio dorric Collums and Cornice the inside to be finished throughout the two Stories Compleete one finish afoo^e the Second Story nor dormer windows the workman Ship and Stile not to be Surpassed in the State all the materials to be furnished on the ground or at the place whare the building »",
+        "page": "HABS No. LA-1101; the surveyor introduces it as 'an extract from one of the many papers relating to the building'. No page marker is legible in this span; the contract's continuation ('...For the Sum of Seven thousand five Hundred dollars') is printed under 'H&BS No, La, 1101 LA Page 3'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: Two and Attic.",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys and an attic. The building contract quoted at quote 2 says the same from the other side -- 'to be finished throughout the two Stories Compleete ... nor dormer windows'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. Two things here bear directly on the node's prose. FIRST, the surveyor states the plan is NOT a central through-passage -- 'This plan might be called French or Early Louisiana in contrast to the American scheme of a hall through the center of the house' -- where the node's description.long says of this whole variant that 'the plan is Southern rather than Greek: a central through-passage open at both ends'. SECOND, the builder's own 1834 contract asks for 'full gretio dorric Collums' (Grecian Doric columns) and explicitly for no dormer windows, which is the node's low-eaved Grecian body specified in a carpenter's spelling. The surveyor states no dimension of any kind, so no width, depth or gallery figure is recorded."
+}

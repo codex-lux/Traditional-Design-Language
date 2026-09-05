@@ -1,0 +1,46 @@
+{
+  "id": "pittock-mansion",
+  "name": "Pittock Mansion",
+  "location": {
+    "text": "Portland, Oregon",
+    "country": "United States",
+    "state": "Oregon"
+  },
+  "dates": {
+    "built": "1909-1914",
+    "circa": false,
+    "altered": "Damaged in the Columbus Day storm of 1962 and bought by the City of Portland in 1964; owned by the Bureau of Parks and Recreation and open for touring.",
+    "note": "Wikipedia's infobox gives 'Built 1914' with construction started 1909; the house museum's own page and the city's material give 1914 as the completion. No disagreement."
+  },
+  "nodes": [
+    "french-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74001709",
+      "url": "https://en.wikipedia.org/wiki/Pittock_Mansion",
+      "title": "NRHP reference No. 74001709, added November 21, 1974; architect Edward T. Foulkes, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://pittockmansion.org/visit/mansion",
+      "title": "Mansion - Pittock Mansion",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner-operator: 'Pittock Mansion is a 16,000 square foot French Renaissance style home. It was designed by architect Edward T. Foulkes who trained at the Massachusetts Institute of Technology and the French Ecole des Beaux-Arts.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Pittock_Mansion",
+      "title": "Pittock Mansion - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives 46 rooms, 16,000 square feet, 46 acres, Tenino sandstone, and the style as 'French Renaissance-style chateau ... Modeled after Beaux Arts and French Renaissance architecture'."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to french-eclectic, and chosen for geography: the node's `geography.hearth` is 'the Philadelphia Main Line and the Long Island North Shore' and every one of its existing exemplars sits inside it. This is the same French academic manner reaching the Pacific coast a decade before the suburban wave, by an architect who took it from MIT and the Ecole rather than from a sketchbook of Normandy. No HABS survey was found."
+}

@@ -1,0 +1,61 @@
+{
+  "id": "guyon-lake-tysen-house",
+  "name": "Guyon-Lake-Tysen House",
+  "aka": [
+    "Lake–Tysen House",
+    "Lake-Tysen House"
+  ],
+  "location": {
+    "text": "Historic Richmond Town, Staten Island, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": [
+      "Cobbs Avenue, New Dorp, Richmond County, New York"
+    ]
+  },
+  "dates": {
+    "built": "c. 1740",
+    "circa": true,
+    "altered": "MOVED, and the move matters for anything measured off it: 'It was moved to Historic Richmond Town in 1962 from its original location in Oakwood, on Tysen's Lane between Mill Road and Hylan Boulevard.' Restoration began on arrival, opened 1963, 'Full restoration was completed in the 1970s'. The kitchen extension to the west is a later addition, dated to the 1820s by one account of the museum's own material.",
+    "note": "Historic Richmond Town: built 'ca. 1740' by Joseph Guyon, 'a farmer of Huguenot descent'. The Historic Districts Council gives 'DATE: 1740'. The Library's own item for the survey titles it 'Lake-Tysen House, Cobbs Avenue, New Dorp, Richmond County, NY' -- a THIRD location string, being neither the original Oakwood site nor the present Richmond Town one; recorded as an alias and not reconciled."
+  },
+  "nodes": [
+    "new-jersey-dutch-gambrel"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-4373",
+      "url": "https://www.baltimorebuildings.org/pab/app/pj_display.cfm/1099009",
+      "title": "Lake-Tysen House (HABS NY-4373) -- Baltimore Architecture Project / American Architects and Buildings, 'Historic Registrations and Surveys. HABS (Historic American Building Survey): NY-4373'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Two surfaces, neither of them the Library's own page. The second is a mirror of the Library's item line at artlinq.getarchive.net: 'Lake-Tysen House, Cobbs Avenue, New Dorp, Richmond County, NY ... Survey number: HABS NY-4373'. THE LIBRARY ITEM ID WAS NOT RESOLVED from this container and no data page was fetched, which is why this record carries no `survey` block. A later pass that finds the item should add one."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicrichmondtown.org/historic-houses/2018/7/26/guyon-lake-tysen-house",
+      "title": "Guyon-Lake-Tysen House #33 - Historic Richmond Town",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. THE DESCRIPTION THIS RECORD EXISTS FOR: 'The house is one of few 18th-century gambrel-roof houses surviving on Staten Island today. This once-common form combines Dutch and Franco-Flemish features in a style that was later dubbed \"Dutch Colonial.\" It is exceptional for the survival of its interior wood paneling and detailing. It has two stories plus a cellar and attic, and a kitchen extension to the west. The main portion of the house has dormers and a wide front porch. The kitchen has a wide spring eave on the front, a small porch at the back door, and a small woodshed attached to the west end.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://hdc.org/buildings/historic-richmond-town-guyon-lake-tysen-house",
+      "title": "Historic Richmond Town - Guyon-Lake-Tysen House | Historic Districts Council",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Guyon-Lake-Tysen house, built about 1740 for a French Huguenot, is a fine example of a Dutch Colonial-style farmhouse with gambrel roof and spring eaves.' Designated an individual New York City landmark in 1969."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lake%E2%80%93Tysen_House",
+      "title": "Lake-Tysen House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The house was made with a wooden frame, using a method called the \"bent system.\" ... It has one and a half stories. There's also a cellar under the two main rooms and the front hallway. The cellar walls are made from rough stones. The walls on the first floor and in the front hallways were filled with mud and straw, then covered with a plaster coat.' NOTE THIS CONTRADICTS THE OWNER'S OWN PAGE, which says 'two stories plus a cellar and attic'; both are recorded."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass. Staten Island is in this node's own `geography.regions`, and this is the building that carries the node's two headline claims in one sentence of an owner's prose: a gambrel roof and a SPRING EAVE, named as such. It is also the cluster's clearest case of a FRAME house in the gambrel tradition -- 'the bent system', mud-and-straw nogging under plaster -- against the Bergen sandstone the node's prose builds its whole argument on, so it is a useful control on how much of the type is the stone and how much is the roof."
+}

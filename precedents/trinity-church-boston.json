@@ -1,0 +1,135 @@
+{
+  "id": "trinity-church-boston",
+  "name": "Trinity Church",
+  "aka": [
+    "Trinity Episcopal Church",
+    "Trinity Church, Boston"
+  ],
+  "location": {
+    "text": "Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1872-1877",
+    "circa": false,
+    "altered": "The survey: 'Richardson's successors, Shepley, Rutan, and Coolidge, completed Trinity Church in 1894-97.' It also records that 'The ciborium and pulpit were designed by Sheply, Rutan, and Collidge and were erected in 1916.'",
+    "note": "The survey's Part I states 'Date(s) of erection: 1872-1877' and then explains that the competition was won in 1872 but 'construction did not start until 1874'. The style node's exemplar gives 1877 with the same competition date. Nothing is edited."
+  },
+  "nodes": [
+    "richardsonian-romanesque"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-1215",
+      "title": "Trinity Episcopal Church, Copley Square, Boston, Suffolk County, MA",
+      "url": "http://www.loc.gov/pictures/item/ma1359",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item record prints 'Survey number: HABS MA-1215' and, as its significance line, 'The Trinity Church is considered by many to be Henry Hobson Richardson's greatest work.' The data page's own running header reads 'TRINITY EPISCOPAL CHURCH HABS NO. MA-1215'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma1359",
+      "url": "http://www.loc.gov/pictures/item/ma1359",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma1359",
+    "survey_no": "MA-1215",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma1300/ma1359/data/ma1359data.pdf",
+    "prepared": "Not stated in the spans extracted here. Part I names the builder as 'Norcross Brothers Construction' and the original owner as 'Phillips Brooks, Rector, (1839-1893)'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: Free rendering of the Eleventh Century French Romanesque, as found in the cities of Auvergne, in Central France. The Tower is an adaptation of the one on the Old Cathedral in Salamanca, Spain.",
+        "page": "HABS No. MA-1215, Part II.A.1; the nearest marker in the extract, 'TRINITY EPISCOPAL CHURCH HABS NO. MA-1215 (page 3)', falls later."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "house to the left rear. The parish house is joined to the church by a colonnaded cloister. The entire mass is dominated by the central tower of the church, 211 feet and 3 inches from the ground to the top of its finial.",
+        "page": "HABS No. MA-1215, Part II.B.1; no page marker legible in this span. The span begins mid-word because the extract's chunk begins there; the field's opening sentence ('1. Over-all dimensions: Trinity consists of a cruciform church, with a parish house to the left rear.') sits in a different chunk and is deliberately not joined to this one."
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The Trinity Church stands on made land. Forty-five hundred wooden piles support the foundations. Of these, over two thousand are in an area ninety feet'square, supporting the foundations of the great Lantern Tower, which weighs nineteen million pounds. The foundation of each of the four tower piers is a pyramid of solid granite—thirty-five feet square at the base, seventeen feet high, and seven feet square at the top.",
+        "page": "HABS No. MA-1215, Part II.B.2; same extract span as the dimensions."
+      },
+      {
+        "field": "walls",
+        "text": "3. Walls: The walls of the church are of yellowish gray Milford granite laid up in quarry-faced random ashlar and the profuse trim is in",
+        "page": "HABS No. MA-1215, Part II.B.3; the extract's chunk ends at 'the profuse trim is in' and the quote is cut there. A second chunk continues 'reddish-brown Longmeadow brownstone' and is quoted only through the structural-system field below."
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural System, framing: The primary building material is Dedham granite with decorative details of Longmeadow freestone.",
+        "page": "HABS No. MA-1215, Part II.B.4; no page marker legible in this span."
+      },
+      {
+        "field": "roof",
+        "text": "4. Roof: \n\na. The lower roofs are of plain slates, the roofs and louvre-boards of the tower of semi-glazed red tile, and the crockets of red terra-cotta. b. Dormers, cupolas, towers: The Trinity tower is square with corner turrets, only the roof being octagonal.",
+        "page": "HABS No. MA-1215; the marker 'TRINITY EPISCOPAL CHURCH HABS NO. MA-1215 (page 3)' follows immediately after this field in the extract."
+      },
+      {
+        "field": "ceiling_heights",
+        "text": "The main ceilings are about 63 feet high and the flat ceiling of the central tower is 103 feet.",
+        "page": "HABS No. MA-1215 (page 3), Part II.C.1"
+      },
+      {
+        "field": "openings",
+        "text": "2. Openings: a. Windows: The stained-glass windows in the apse of the Chancel are by Clayton and Bell of London, and represent seven events in the life of Our Lord. The beautiful three-lancet window over the west gallery was designed and made by John LaFarge of American opalescent glass in 1876-1877. The stained glass in the north transept windows are by the English artists William Morris and Sir Edward Burne Jones.",
+        "page": "HABS No. MA-1215 (page 3), Part II.C.2"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "tower_height_to_finial_ft",
+      "as_printed": "211 feet and 3 inches",
+      "value": 211.25,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "foundation_pile_count",
+      "as_printed": "Forty-five hundred wooden piles",
+      "value": 4500,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "tower_pier_foundation_base_ft",
+      "as_printed": "thirty-five feet square at the base",
+      "value": 35,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "tower_pier_foundation_height_ft",
+      "as_printed": "seventeen feet high",
+      "value": 17,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "nave_ceiling_height_ft",
+      "as_printed": "about 63 feet high",
+      "value": 63,
+      "unit": "ft",
+      "from_quote": 6
+    },
+    {
+      "name": "tower_ceiling_height_ft",
+      "as_printed": "103 feet",
+      "value": 103,
+      "unit": "ft",
+      "from_quote": 6
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. THE SURVEY CONTRADICTS ITSELF ABOUT THE STONE, one field apart, and both readings are recorded rather than reconciled: II.B.3 says the walls are 'yellowish gray Milford granite laid up in quarry-faced random ashlar', II.B.4 says 'The primary building material is Dedham granite'. Both are Massachusetts granites and a checker cannot decide between them from this page. What DOES bear on richardsonian-romanesque's own prose is the phrase 'quarry-faced random ashlar', which is the node's rock-faced ashlar in a surveyor's words, and the Longmeadow brownstone trim, which is the node's narrow band of concentrated ornament in a material."
+}

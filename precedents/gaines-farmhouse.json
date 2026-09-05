@@ -1,0 +1,48 @@
+{
+  "id": "gaines-farmhouse",
+  "name": "Gaines Farmhouse",
+  "aka": [
+    "the Fixer Upper farmhouse",
+    "the farmhouse at Magnolia Farm"
+  ],
+  "location": {
+    "text": "Crawford, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1895",
+    "circa": false,
+    "altered": "Bought in 2012 and renovated over about a year and a half; a two-bedroom house was opened out on the main floor to house a family of seven (Country Living)."
+  },
+  "nodes": [
+    "modern-farmhouse-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.countryliving.com/home-design/house-tours/g2546/chip-joanna-gaines-farmhouse-tour",
+      "title": "See Chip and Joanna Gaines's Farmhouse Up Close and Personal - Country Living",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Their 1,700-square-foot Victorian home sits on 40 beautiful acres in Crawford, Texas, a suburb of Waco ... When the couple purchased their 1895 farmhouse in 2012, they (of course!) chose a fixer upper to update with classic country charm. The whole project took about a year and a half, but the home was worth the wait: What started of as a two-bedroom property now accommodates the seven-person family with an open layout on the main floor.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://hookedonhouses.net/2014/12/22/chip-joannas-fixer-upper-farmhouse-at-christmas",
+      "title": "Chip and Joanna Gaines' \"Fixer Upper\" Farmhouse - Hooked on Houses",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'They live on Magnolia Farm in a farmhouse built in 1895 on the outskirts of Waco, Texas. We watched them fix it up on the first season.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.architecturaldigest.com/story/72-hours-in-joanna-gainess-waco",
+      "title": "72 Hours in Joanna Gaines's Waco - Architectural Digest",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Refers to 'Joanna Gaines's farmhouse in the tiny town of Crawford, Texas, 40-acre sprawl'."
+    }
+  ],
+  "note": "THE PHOTOGRAPH THE STYLE IS NAMED AFTER, AND IT IS AN 1895 HOUSE. That is the finding, and it is not a small one for a node whose whole argument is about five dimensions of new construction: the building that transmitted the idiom to a national audience is a nineteenth-century Texas farmhouse of 1,700 square feet, with the pitch, the eave and the porch a nineteenth-century farmhouse has, restored rather than designed. Everything the node lists as the market version's five failures -- flattened pitch, boxed eave, plate-set window head, five-foot entry shed, contrast standing in for depth -- is a deviation from THIS building, made by builders quoting a photograph of it. No dimension beyond the floor area was found; no survey, no listing, and no address is recorded here because it is a private house and the town is what the sources give."
+}

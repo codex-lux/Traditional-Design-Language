@@ -16,7 +16,8 @@
     "note": "The HABS Architectural Data Form prints '1795-96'; the Wikipedia infobox prints 'Built 1795'; the node's exemplar year is 1796. Recorded as the survey states it, the others noted rather than reconciled."
   },
   "nodes": [
-    "federal-style"
+    "federal-style",
+    "new-england-federal"
   ],
   "refs": [
     {

@@ -115,6 +115,7 @@
   ],
   "note": "The survey block points at the Cane River area survey (LA-1361) rather than the house's own item (LA-1294) because the house's own data PDF carries only drawing and photograph covers, and the written description lives in the area report.",
   "nodes": [
-    "creole-cottage-vernacular"
+    "creole-cottage-vernacular",
+    "french-colonial-american"
   ]
 }

@@ -1,0 +1,58 @@
+{
+  "id": "fixer-upper-renovations",
+  "name": "Fixer Upper renovations",
+  "location": {
+    "text": "Waco, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "note": "Not a construction date: the series ran from 23 May 2013 to 3 April 2018, five seasons and 79 episodes, produced by High Noon Entertainment for HGTV, filmed in and around Waco. The renovations themselves are dozens of separate houses of every date, and no single one of them is this exemplar."
+  },
+  "nodes": [
+    "modern-farmhouse-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fixer_Upper_(TV_series)",
+      "title": "Fixer Upper (TV series) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Five seasons, 79 episodes, 23 May 2013 to 3 April 2018, production location Waco, Texas, production company High Noon Entertainment."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/List_of_Fixer_Upper_episodes",
+      "title": "List of Fixer Upper episodes - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Season-by-season dates and episode titles; the last season carries an episode called 'All-American Farmhouse' (13 March 2018)."
+    },
+    {
+      "kind": "institution",
+      "url": "https://destinationwaco.org/film/waco-filmography",
+      "title": "Waco Filmography - Visit Waco, TX",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Fixer Upper. HGTV, five seasons, 2013 - 2018. The series starred Chip and Joanna Gaines, who worked with homebuyers to turn dilapidated houses into dream homes, featuring Joanna's \"modern farmhouse\" style. Filmed in the Waco area, this show became the highest-rated show in the network's history, with 3.4 million viewers per episode.' The city's own tourism body naming the style after the show."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Chip_Gaines",
+      "title": "Chip Gaines - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Fixer Upper became popular soon after its debut, and the series is largely credited with the rise in popularity of \"Farmhouse-chic\" interior design in the late 2010s. In 2018, Zillow reported that homes with architectural features mentioned on the show, such as wainscoting, shiplap, clawfoot bathtubs, and barn doors, sold at an average of 30 percent above expected value.' Also: by the time they filmed the pilot the pair had already renovated 100 houses."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.curbed.com/article/fixer-upper-modern-farmhouse-design.html",
+      "title": "What Is Modern Farmhouse Style? - Curbed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE ONE PIECE OF CRITICISM READ HERE, and it moves the style's transmission earlier and inward. It names Darryl Carter's Washington-area house on the cover of Metropolitan Home in 1997 -- 'white walls, old furniture, and a somewhat sparse feeling' -- and Thomas O'Brien's Long Island schoolhouse as early instances, and it dates the first Country Living publication of the look to Leanne Ford's house in the September 2013 issue, on the account of that magazine's then style director. It also makes the criticism this node makes: the houses were 'decking out house after house in one particular style -- often a perplexing choice for the homes' architecture -- so that they all looked the same.'"
+    }
+  ],
+  "note": "NOT A BUILDING, and this node's own exemplar note says so and says why. Kept as a precedent record because the transmission event is what the node's whole argument turns on and because a checker should be able to resolve it. THE FINDING WORTH CARRYING: the node says the style 'was transmitted by television and by image feeds' from 2013, and the only critical account read here places two of its markers in 1997 and 2013 in INTERIORS -- magazines and a decorator's own house -- before the show. So the exterior idiom this node describes may be downstream of an interior fashion by fifteen years, and the 2013 date is the date of its ARRIVAL IN PUBLIC rather than of its origin. Nothing here settles that; it is stated as a live question."
+}

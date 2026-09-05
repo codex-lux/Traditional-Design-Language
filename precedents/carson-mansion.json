@@ -1,0 +1,103 @@
+{
+  "id": "carson-mansion",
+  "name": "Carson Mansion",
+  "aka": [
+    "Carson House",
+    "Carson House (Ingomar Club)",
+    "Second Carson House"
+  ],
+  "location": {
+    "text": "Eureka, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1884-1886",
+    "circa": false,
+    "altered": "The survey: 'There have been minor modifications of the exterior (removal of un- steady exterior chimneys, removal of finials, etc)'; the iron roof cresting on the third floor 'either has been removed or replaced with wood balustrading'. A private club since 1950.",
+    "note": "Three dates are on the record and none is edited to agree with the others. The node's exemplar and Wikipedia give 1884-1886; the Library's item summary gives '1885- 1886 Initial Construction'; the survey's own historical section says the house was built 'by Newsom Brothers in l885' and 'built for William McKendrie Carson in 1885'."
+  },
+  "nodes": [
+    "queen-anne-american",
+    "queen-anne-spindled"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-1911",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0100/ca0174/data/ca0174data.pdf",
+      "title": "Addendum To Carson House (Ingomar Club) HABS No. CA-1911, 143' M Street, Eureka, Humbolt County, California",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is read from the data page's own header. The Library's item page prints the older reproduction number 'HABS CAL,12-EUR,6-' and the data page's header carries a fragment of the same ('12-EUfZ'). A separate source, americanbuildings.org, indexes a 'Carson House (HABS CA-115)'; that number was not confirmed against any Library page and is not recorded here."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0174",
+      "url": "https://www.loc.gov/pictures/item/ca0174",
+      "title": "Carson House, Eureka, Humboldt County, CA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Survey number: HABS CA-1911; Building/structure dates: 1885- 1886 Initial Construction.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Carson_Mansion",
+      "title": "Carson Mansion - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'Regarded as one of the premier examples of Queen Anne style architecture in the United States,: 33 the house is \"considered the most grand Victorian home in America.\"' and 'Construction started 1884 | Completed 1886 | Cost $80,000'."
+    }
+  ],
+  "survey": {
+    "item": "ca0174",
+    "survey_no": "CA-1911",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0100/ca0174/data/ca0174data.pdf",
+    "prepared": "Prepared by Joseph A. Baird, Jr., PHD, University of California, May 1964; approved by Charles S. Pope, AIA, Supervising Architect, Historic Structures, Western Office, Design and Construction, National Park Service, November 1964, as the sheet reads.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Addendum To Carson House (Ingomar Club) HABS No. CA-1911 143' M Street Eureka Humbolt County A//f $$ California P /i / 12-EUfZ REDUCED COPY OF MEASURED DRAWING Historic American Buildings Survey National Park Service Department of the Interior Washington, D.C. 20013-7127",
+        "page": "Cover sheet. Quoted because it is the header that confirms this PDF is HABS No. CA-1911; no page number is printed on it."
+      },
+      {
+        "field": "general_description",
+        "text": "Three stories in height, with a lofty off-center tower, the Carson mansion is a flamboyant Stick-Villa with highly personalized orna- mental details. The richly carved interior (especially the stair hall) remains as it was, in large measure.",
+        "page": "HABS No. CA-1911; no page marker was legible anywhere in the extracted spans of this document."
+      },
+      {
+        "field": "significance",
+        "text": "HISTORICAL INFORMATION Technically, the house under consideration is the \"second\" Carson House, built for William McKendrie Carson in 1885. The \"first\" Carson House was a less ambitious residence, across the street from the \"second\" great mansion.",
+        "page": "HABS No. CA-1911, Historical Information; no page marker legible."
+      },
+      {
+        "field": "structural_system",
+        "text": "Solidly built from the ground up, the house has separate foundations for each wall - inside and out. The framing and principal structural and decorative members are entirely of redwood. The principal entrance faces west and the general design of the house is oriented to this view. In type, the Carson House is a Stick-Villa, and reveals the superficial ornamental changes in the Villa of the l880's from such a Villa as the present Governor's Mansion in Sacramento of 1877.",
+        "page": "HABS No. CA-1911, EXTERIOR; no page marker legible."
+      },
+      {
+        "field": "condition",
+        "text": "There have been minor modifications of the exterior (removal of un- steady exterior chimneys, removal of finials, etc); but the general effect is virtually the same today as it was in the photograph publish- ed in Souvenir of Humboldt County in 1902, when the extremely stark flavor of the first years of the house had been softened by growing plants. The original iron balustrade^ remains on the second floor, encircling the area above the main porch and providing a balcony of great amplitude at this level. The iron cresting on the roofs of the third floor either has been removed or replaced with wood balustrading.",
+        "page": "HABS No. CA-1911; no page marker legible."
+      },
+      {
+        "field": "finishes",
+        "text": "3. Carson sent one of his own ships to South America to hring hack 97,000 feet of the light-colored Primavera wood. k Windows originally had wood shutters; they are generally draped at the present time. A few doors in this house are of wood and glass - notably those which give onto hall vistas.",
+        "page": "HABS No. CA-1911, NOTES (Architectural Information); no page marker legible. The 'k' is OCR for '4.'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Three stories in height",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Three storeys plus the tower, which the survey says is 'lofty' and does not dimension."
+    }
+  ],
+  "note": "The survey calls this house a 'Stick-Villa' twice and never calls it Queen Anne, which is worth carrying against the node's own exemplar note reading it as 'Queen Anne with Eastlake, Italianate, and Stick elements' -- the 1964 surveyor and the node disagree about the style of the building the node names first, and neither has been edited. Also worth carrying: the survey records that unsteady exterior chimneys were REMOVED, so a chimney count taken off a photograph of this house today is a count of what survived. The 97,000 feet of Primavera wood is a quantity of material rather than a building dimension and is left in the quote rather than parsed into `measurements`. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

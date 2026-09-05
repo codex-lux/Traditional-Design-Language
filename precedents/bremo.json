@@ -1,0 +1,86 @@
+{
+  "id": "bremo",
+  "name": "Bremo",
+  "aka": [
+    "Upper Bremo",
+    "Bremo (Residence)"
+  ],
+  "location": {
+    "text": "Fluvanna County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "c. 1819",
+    "circa": true,
+    "altered": "The Library's catalogue line records 'ca. 1819 Initial Construction' and '1843 Subsequent Work'; the survey's own history says 'Lower Bremo was built in 1843', which is a different house on the same estate, so the 1843 in the catalogue line should not be read as work on this one without a second source.",
+    "note": "The survey prints 'Erection: c.1819' and the Library's catalogue agrees. No disagreement found."
+  },
+  "nodes": [
+    "jeffersonian-classicism"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-302",
+      "title": "Bremo, State Route 656 vicinity, Bremo Bluff, Fluvanna County, VA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0451/data/va0451data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed twice in the PDF's own header, once damaged and once clean: 'Brerao - HABS Mo. VA-302 Fluvanna County Virginia' and, under the district officer's address, 'HABS No. VA-302 Page 1'. The 1930s call number on the photographs is 'HABS VA,33-FORKU.V,1-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0451",
+      "url": "http://www.loc.gov/pictures/item/va0451.photos.161777p",
+      "title": "Bremo, State Route 656 vicinity, Bremo Bluff, Fluvanna County, VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A photo resource page, which is what the search returned; it prints 'Reproduction Number: HABS VA,33-FORKU.V,1--18'. The item landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "69000241",
+      "url": "https://commons.wikimedia.org/wiki/File:Bremo_Plantation_(Fluvanna_County,_Virginia).jpg",
+      "title": "NRIS Number 69000241 (as the Wikimedia Commons file page's National Register banner prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "READ OFF A THIRD-PARTY IMAGE PAGE, which is the weakest surface on this record. A second search hit (picryl, a HABS image mirror) prints the same number beside 'Survey number: HABS VA-302'. The National Register's own database and the Virginia DHR page for Bremo were not opened; confirm before building anything on this number."
+    }
+  ],
+  "survey": {
+    "item": "va0451",
+    "survey_no": "VA-302",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0451/data/va0451data.pdf",
+    "prepared": "'PHOTOGRAPHS WRITTEN HISTORICAL AND DESCRIPTIVE DATA District of Virginia, Historic American Buildings Survey, Eugene Bradbury, Architect in Charge, Grace Securities Building, Richmond, Virginia'; the source cited for the history is 'Historic Virginia Homes end Churches'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Erection: c.1819 Architect; Thomas Jefferson Builder: General John Hartwell Cocke (owner) Present Condition: Excellent Number of Stories: Two j^aterials of Construction: Brick Other Existing...Records: None known",
+        "page": "HABS No. VA-302, Page 1 -- the header 'HABS No. VA-302 Page 1' is printed immediately above this block in the same extract span."
+      },
+      {
+        "field": "dependencies",
+        "text": "$ear each other in Fluvanna County are the three homesteads and estates known as Bremo, Lov/er Bremo, and Bremo Recess General John Hartwell Cocke (1780-1866), r-^^^ of Surry County, a gentleman of prominence and 10^0 fortune, removed, about 1803, to Fluvanna County,",
+        "page": "HABS No. VA-302, 'Additional Data'; no page number legible in this span."
+      },
+      {
+        "field": "other",
+        "text": "He built Bremo Recess, and lived in it while he was erecting the handsome mansion which he named Bremo, in honor of Bramo in Henrieo County, which was the home of the Cocke family at a very early date. Bremo House, with its great stone barns and other outbuildings, is one of the notable places on the James River,",
+        "page": "HABS No. VA-302, 'Additional Data'; no page number legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: Two",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. THE ATTRIBUTION ON THIS RECORD IS THE SURVEY'S AND IS NOT CORROBORATED HERE. The 1930s sheet says flatly 'Architect; Thomas Jefferson Builder: General John Hartwell Cocke (owner)'. No second source for the attribution was opened -- the Virginia DHR page for Bremo was not read -- so nothing in this corpus should harden the survey's line into a fact about who drew Bremo. What the record does establish cleanly is a two-storey brick house of about 1819 built by a member of Jefferson's own circle who lived on the estate while building it, which is why it is here. The survey states no dimension. Worth carrying for the node: the surveyor singles out 'its great stone barns and other outbuildings' as what makes the place notable, and the node's own prose is about a style whose dependencies are supposed to be buried."
+}

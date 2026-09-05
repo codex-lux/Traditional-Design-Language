@@ -1,0 +1,103 @@
+{
+  "id": "luykas-van-alen-house",
+  "name": "Luykas Van Alen House",
+  "aka": [
+    "Adam Van Alen House",
+    "Van Alen House"
+  ],
+  "location": {
+    "text": "2589 New York State Route 9H, Kinderhook, Columbia County, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1737",
+    "circa": true,
+    "altered": "The survey: 'The existing front doer replaces the original which, according to the present owner 3 had a transom above it of two rows of small glass panes. The present entrance porch and the east domers are a comparatively recent addition.' (The stray '3' is what the page prints and is restored here; this note had silently replaced it with a comma, while survey.quotes[1] carries the same sentence verbatim.) Wikipedia adds that the third room was added about 1750 and that some interior features, notably the staircase, 'have been brought in from similar period houses'.",
+    "note": "THE BUILDER IS DISPUTED AND THE DISPUTE IS ON THE FACE OF THE ARCHIVE. The HABS data page is headed 'THE ADAM VAN ALEN HOUSE' and says the house 'was built in 1737 by either Adam Van Alen (1703-1784) or his fathers Johannes'; the Library's own item line for the same survey carries 'National Register of Historic Places NRIS Number: 67000011', which is the Luykas Van Alen House's number, and the survey's owner, 'Mrs. W*V.A. Herriek', is the Herrick family Wikipedia names as the last Van Alen occupants of the Luykas house. The Columbia County Historical Society and the National Historic Landmark designation call it the Luykas Van Alen House, built circa 1737. Recorded as two names for what the archive joins as one building; neither source is edited."
+  },
+  "nodes": [
+    "dutch-colonial-american",
+    "hudson-valley-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "loc-item",
+      "id": "ny0514",
+      "url": "https://www.loc.gov/pictures/item/ny0514",
+      "title": "Adam Van Alen House, Kinderhook Creek Vicinity, Kinderhook, Columbia County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's item line reads 'Survey number: HABS NY-5-A-11; Building/structure dates: 1737 Initial Construction; National Register of Historic Places NRIS Number: 67000011.' Call number 'HABS NY,11-KINHO,1-'."
+    },
+    {
+      "kind": "habs",
+      "title": "HABS NY-5-A-11, \"Adam Van Alen House, Kinderhook Creek Vicinity, Kinderhook, Columbia County, NY\" (the Library's own survey number and title)",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0500/ny0514/data/ny0514data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO `id` IS RECORDED, DELIBERATELY. The number is the 1930s district form with two suffixes, NY-5-A-11, and `check_precedents.py`'s HABS shape admits at most one; reshaping it to fit the checker would make it unsearchable, so it is carried in the title instead. The data page's own header OCRs the number as \"HAB.S.'5ft-II'\" and its body prints \"H.C.F. # 5-A-ll VAJH ALEN HOUSE KINDERHOOK, N. Y.\""
+    },
+    {
+      "kind": "nrhp",
+      "id": "67000011",
+      "url": "https://en.wikipedia.org/wiki/Van_Alen_House",
+      "title": "Van Alen House - Wikipedia (infobox: NRHP reference No. 67000011; Added to NRHP December 24, 1967; Designated NHL December 24, 1967)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same number is printed on the Library's own item line for the HABS survey, which is the second surface."
+    },
+    {
+      "kind": "institution",
+      "url": "https://cchsny.org/visit/luykas-van-alen-house",
+      "title": "Luykas Van Alen House - Columbia County Historical Society",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its page: 'Built circa 1737 and designated a National Historic Landmark in 1967, the Luykas Van Alen house is recognized as one of the best, and rarest remaining examples of a historically intact Dutch Colonial house in the Hudson Valley.' An owner's claim, recorded as one."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Van_Alen_House",
+      "title": "Van Alen House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Describes it as 'a 1+1/2-story brick structure, with a steeply pitched gabled roof. It has three chimneys, one at each gable end, and one between two of the three rooms that make up the ground floor.'"
+    }
+  ],
+  "survey": {
+    "item": "ny0514",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0500/ny0514/data/ny0514data.pdf",
+    "prepared": "Historic American Buildings Survey, District No. 5. The district officer's name is not legible in the OCR ('Novm a-STUnqis -.wsTnicT orrictB'); the text is signed 'A. L. Delehanty, Author.' Its stated further reference is Eberlein, The Manors and Historic Homes of the Hudson Valley (1924), 220-221. NO `survey_no` IS RECORDED here for the reason given on the habs ref.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "THE ADAM VAN ALEN HOUSE Kinder-hook ? Columbia County-New York Owner; Mrs. W*V.A. Herriek* Hate of Erections 1737. Architect and Builder; No record, jfrgsent Condition * Good. iBSfegT 9L Stori.es; One and a half, Ltgyj-ftig Pf Construction: Brickj stone base, ££li£E Existing Becorglsg See text.",
+        "page": "HABS NY-5-A-11; no page number is printed on this short form. The extract's header line is a badly OCR'd rendering of THE ADAM VAN ALEN HOUSE / HABS 5-A-11 / KINDERHOOK / NEW YORK, carrying the survey number in the form 5ft-II."
+      },
+      {
+        "field": "general_description",
+        "text": "This house, situated on what was the original Albany Post Road, was built in 1737 by either Adam Van Alen (1703-1784) or his fathers Johannes. The south end of the present house, consisting of two rooms with a fire-place in each, was erected first, the north extension being added later. The existing front doer replaces the original which, according to the present owner 3 had a transom above it of two rows of small glass panes. The present entrance porch and the east domers are a comparatively recent addition.",
+        "page": "HABS NY-5-A-11; the extract prints 'H.C.F. # 5-A-ll VAJH ALEN HOUSE KINDERHOOK, N. Y.' immediately before this span and no page number"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Stori.es; One and a half",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "first_phase_room_count",
+      "as_printed": "two rooms with a fire-place in each",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass; the two nodes had no brick rural house among their exemplars and this is the one everybody reproduces. TWO POINTS OF FRICTION WORTH KEEPING. (1) `hudson-valley-dutch` says the towns build in brick and the country in stone; the survey records the most famous rural Hudson house of all as 'Brick; stone base'. (2) The survey's account of growth -- two rooms with a fireplace in each, the north extension added later -- is the additive bent-by-bent plan the node describes, and the entrance porch and dormers are recorded as modern, which is worth knowing before reading a photograph of this house as evidence about porches or dormers."
+}

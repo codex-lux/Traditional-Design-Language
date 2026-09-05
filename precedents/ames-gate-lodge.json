@@ -1,0 +1,48 @@
+{
+  "id": "ames-gate-lodge",
+  "name": "Ames Gate Lodge",
+  "aka": [
+    "Frederick Lothrop Ames Gate Lodge",
+    "F. L. Ames Gate Lodge"
+  ],
+  "location": {
+    "text": "North Easton, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1880-1881",
+    "circa": false,
+    "note": "Wikipedia's infobox and its text both give 1880-1881; the National Historic Landmark nomination read the same day heads its section '3. Frederick Lothrop Ames Gate Lodge (1880-1881)' and says planning began in 1879. Olmsted's landscape was implemented 1886-1887."
+  },
+  "nodes": [
+    "richardsonian-romanesque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ames_Gate_Lodge",
+      "title": "Ames Gate Lodge - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "87002598",
+      "url": "https://en.wikipedia.org/wiki/Ames_Gate_Lodge",
+      "title": "Part of the H. H. Richardson Historic District of North Easton (ID87002598); Designated NHLDCP December 23, 1987; Designated CP November 3, 1972 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THIS IS A DISTRICT LISTING AND NOT AN IDENTITY. 87002598 covers the whole H. H. Richardson Historic District of North Easton -- the Oliver Ames Library, Oakes Ames Memorial Hall, the Rockery, this lodge, the Gardener's Cottage and the railroad station are all named under it in the nomination's own UTM list. The lodge is a contributing property, not the listed resource."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/87002598_text",
+      "title": "National Register of Historic Places Inventory-Nomination Form (NHL text for the H. H. Richardson Historic District of North Easton)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's continuation sheet lists the district's six resources with UTM references and heads the lodge's own section '3. Frederick Lothrop Ames Gate Lodge (1880-1881)'. It also cites a period plan: 'Gate Lodge of the Estate of F. L. Ames, Esq.' from Monographs of American Architecture, vol. 3 (New York: American Architect & Building News, 1886), pl. 21 -- a measurable plan this container cannot open."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey was found: a loc.gov-restricted search for the lodge and for the Crane library together returned only collection-overview pages and unrelated Pennsylvania surveys, so this record carries locators and no survey block. What it does carry is the sharpest description of the style's wall in any source read for this cluster, and it is Wikipedia quoting Vincent Scully: 'The massive walls appear to be crude heaps of rounded boulders from the estate soil -- \"cyclopean rubble\" in Vincent Scully's memorable phrase—trimmed in Longmeadow brownstone.' Longmeadow brownstone again, as at Trinity. Also worth carrying, on the node's `roof_pitch` slot, which is bound `open`: Wikipedia quotes Frank Lloyd Wright on this building -- 'The presence of a building is in its roof, and what a roof the Ames Gate Lodge has!' -- and describes it as 'prominent, hipped, reddish-tiled ... with its eyelid dormers'. A hipped tiled roof with eyelid dormers, on the style the corpus gives no roof rule to at all."
+}

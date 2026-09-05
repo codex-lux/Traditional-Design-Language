@@ -1,0 +1,82 @@
+{
+  "id": "lefferts-historic-house",
+  "name": "Lefferts Historic House",
+  "aka": [
+    "Lefferts House",
+    "Lefferts Homestead"
+  ],
+  "location": {
+    "text": "Prospect Park, Brooklyn, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1777 (the survey's own figure: 'Rebuilt after fire of 1776, in 1777')",
+    "circa": true,
+    "note": "The survey states two: 'Date of Erection Original house--latter part of the l?th century. Rebuilt after fire of 1776, in 1777', and later 'Using the old foundation, timbers and unburaed portions of the original house, Pieter Lefferts and a few skilled carpenters built the present homestead in 1777.' Wikipedia and the Historic House Trust give 'circa 1783'. Both are on the record; neither is edited.",
+    "altered": "The survey: 'Wood dormers, porch and columns added and alterations made in the interior in 1855, hut no changes were made when moved in 1917'. Moved six blocks from 563 Flatbush Avenue into Prospect Park in 1918 (Wikipedia; the survey says 1917 and states the cost as $16,000). The 1850s rear wing was removed at the move."
+  },
+  "nodes": [
+    "dutch-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-511",
+      "title": "Lefferts House, Prospect Park (moved from 563 Flatbush Avenue), Brooklyn, Kings County, NY",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0245/data/ny0245data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A READING OF BAD OCR, MARKED AS ONE. The data page's header prints 'HABS No. ITZ-511' and its running head 'HT-511'; the same document cites its neighbours as 'H.A.B.S. survey No. NY4-28' (the Wyckoff house, whose number this record carries independently) and 'H.A.B.S. survey NY515' (the Schenck house), which is the form the district numbers take. Read as NY-511 on that pattern. The Library's own call number, from its item page, is 'HABS NY,24-BROK,2-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0245",
+      "url": "http://www.loc.gov/pictures/collection/hh/item/ny0245.photos.116846p",
+      "title": "14. Historic American Buildings Survey, E.P. MacFarland ... Lefferts House, Prospect Park (moved from 563 Flatbush Avenue), Brooklyn, Kings County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lefferts_Historic_House",
+      "title": "Lefferts Historic House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes Daniel Bluestone that the house's 'central hallway framed by arches' were 'distinctly late-eighteenth-century American' rather than Dutch."
+    },
+    {
+      "kind": "institution",
+      "url": "https://historichousetrust.org/houses/lefferts-historic-house-museum",
+      "title": "Lefferts Historic House Museum | Historic House Trust",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0245",
+    "survey_no": "NY-511",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0245/data/ny0245data.pdf",
+    "prepared": "Historic American Buildings Survey, District No. NY-5 (as the cover's OCR reads). Photographs by E. P. MacFarland per the Library's own caption line.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Owner Qg__Cuj3todian The City of New York, leased to the Fort Greene Chapter of the Daughters of the American Revolution, under the supervision of the Brooklyn Institute of Arts and Sciences, Department of Museums. Date of Erection Original house—latter part of the l?th century. Rebuilt after fire of 1776, in 1777. Builder Original house—Lefferts Pietersen van Hagewout, the elder. Present Condition Fair. Repair work heing done on house at present time. and one half. Materials of Construction Masonry foundation, wood floors, wood walls, shingle sides and roof. Wood dormers, porch",
+        "page": "HABS No. NY-511; no page number is printed on the cover block. The header OCRs as 'Lefferts House Prospect Park j Bro oklyn Kinrs County. Nev York HABS No. ITZ-511'."
+      },
+      {
+        "field": "significance",
+        "text": "The house is of Dutch type, derived and developed from the original Dutch style so prevalent on Long Island and in New Jersey.",
+        "page": "HABS No. NY-511; no page marker legible in the extract span"
+      },
+      {
+        "field": "significance",
+        "text": "The Lefferts Homestead as it stands today represents a type as developed in this locality in the 18th century. It was considered of historic importance and fine enough example of type by the City of Hew York to preserve and place in Prospect Park.",
+        "page": "HABS No. NY-511, on the page the extract marks 'Page 5'"
+      }
+    ]
+  },
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass to give `dutch-colonial-american` its Long Island frame-and-shingle gambrel beside the stone houses. THE MATERIALS LINE IS THE FINDING: 'Masonry foundation, wood floors, wood walls, shingle sides and roof' -- a wholly timber house of the same culture whose Hudson branch the node describes as twenty to thirty inches of stone. The node's own prose says the walls follow the geology, and this record is the Long Island end of that sentence. Note also that the survey records the DORMERS AND THE PORCH AS 1855 ADDITIONS, which matters before anyone reads a photograph of this house as evidence about either."
+}

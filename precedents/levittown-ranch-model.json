@@ -1,0 +1,72 @@
+{
+  "id": "levittown-ranch-model",
+  "name": "Levittown ranch model",
+  "aka": [
+    "The Rancher",
+    "the 1949 Levitt ranch"
+  ],
+  "location": {
+    "text": "Nassau County, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1949-1951",
+    "circa": false,
+    "note": "Offered for sale from 7 March 1949; altered in 1950 to add a carport and a built-in television; a partially finished attic added in 1951."
+  },
+  "nodes": [
+    "ranch-style"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Levittown,_New_York",
+      "title": "Levittown, New York - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The ranch homes were similar to the rental properties in that they were built on concrete slabs, included an expandable attic but no garage, and were heated with hot-water radiant heating pipes. Five models were offered that were effectively identical with differences in details such as exterior color and window placement ... This ranch model was altered in 1950 to include a carport and a built-in television. In 1951, a partially finished attic was added to the design.' Planned price $7,990."
+    },
+    {
+      "kind": "other",
+      "url": "https://kerimurrayarchitecture.com/levittown-ny",
+      "title": "FUN FACT: LEVITTOWN, NY | Keri Murray Architecture",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Rancher model: Larger, 32 by 25 feet, and more modern then the Cape Cod. The ranch homes built on concrete slabs, included an expandable attic but no garage, and were heated with hot-water radiant heating pipes.' The same page gives the Cape's figure as 750 square feet with no plan dimensions."
+    },
+    {
+      "kind": "other",
+      "url": "https://thehistoryoflevittown.weebly.com/ranches.html",
+      "title": "Ranches - Levittown",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The new ranch house was larger (32' X 25\") than the Cape Cods.' The inch mark on the second figure is the page's own typographical error."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.digitalhistory.uh.edu/disp_textbook.cfm?psid=3427&smtID=2",
+      "title": "Levittown - Digital History (University of Houston), Digital History ID 3427",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'On the morning of March 7, 1949 ... more than a thousand young couples crowded outside the sales office, waiting for a chance to buy a four-room, 25-by-32-foot house for $6,999--government financed, no money down.' The price disagrees with Wikipedia's planned $7,990; the plan dimensions agree with the two sources above."
+    },
+    {
+      "kind": "other",
+      "url": "http://instanthouse.blogspot.com/2011/08/levittown-ny.html",
+      "title": "Instant House: Levittown, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The plan, described by a reader of it: 'The front entrance to these homes is almost through the kitchen, with the living room being at the back for privacy. A large \"picture window\" overlooked the backyard, bringing the outside in. A double-sided fireplace separated the living room from the kitchen/eating area.' A weblog, not a survey; carried because it is the only account read here of where the rooms are, and it is consistent with the plan image it reproduces."
+    },
+    {
+      "kind": "other",
+      "url": "http://www.levittownbeyond.com",
+      "title": "Introduction @ LevittownBeyond.com",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The 1950 Rancher model. This style was introduced for sale in 1949, and was the style of the remaining 11,447 homes at built at Levittown, N.Y.' -- so about two thirds of Levittown is this model, not the Cape."
+    }
+  ],
+  "note": "THE ONE PLAN DIMENSION IN THIS NODE'S EXEMPLARS, AND IT CARRIES A CAUTION. 32 x 25 ft -- 800 sq ft -- is attributed to the Rancher by Keri Murray Architecture and by thehistoryoflevittown.weebly.com, and Digital History gives '25-by-32-foot' for the house sold from March 1949, which is the same model. EBSCO's research starter attributes 'A finished house measured 32 by 25 feet' to the 1947-48 period instead, i.e. to the Cape; and `precedents/levittown-cape-cod-model.json` already records this figure as a trap, saying the figure 'belongs to the RANCHER, not the Cape'. Recorded here with the disagreement named and neither source edited. There is no HABS survey, so no `survey` block and no `measurements` -- these figures come from secondary pages and are carried in ref notes where they cannot be mistaken for surveyed ones. NOTE THE SHAPE: 32 x 25 is a proportion of 1.28, and the node's own description of the ranch asks for a facade two and a half to four times its height and a body fifty to eighty feet long. The house the East Coast tract industry called a ranch in 1949 is not that building; it is the Cape's footprint turned sideways and given a picture window."
+}

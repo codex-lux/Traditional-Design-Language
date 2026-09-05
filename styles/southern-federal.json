@@ -215,25 +215,55 @@
       "name": "Homewood",
       "location": "3400 North Charles Street, Baltimore, Maryland",
       "year": 1808,
-      "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian plan with Adamesque detail throughout and the finest Federal joinery in Maryland."
+      "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian plan with Adamesque detail throughout and the finest Federal joinery in Maryland.",
+      "precedent": "homewood",
+      "standing": "icon",
+      "why": "The building this variant's interior is known by, on the National Historic Landmark designation of 11 November 1971 its record carries -- and its HABS data pages are extracts of Charles Carroll's own 1801 letters about the house to be built, which is as close to a client's brief as this corpus has."
     },
     {
       "name": "Woodlawn",
       "location": "9000 Richmond Highway, Fairfax County, Virginia",
       "year": 1806,
-      "note": "Built 1800-06 for Lawrence and Nelly Custis Lewis, attributed to William Thornton; five-part brick composition with a pedimented five-bay central block, and among the most copied early Virginia designs."
+      "note": "Built 1800-06 for Lawrence and Nelly Custis Lewis, attributed to William Thornton; five-part brick composition with a pedimented five-bay central block, and among the most copied early Virginia designs.",
+      "precedent": "woodlawn",
+      "standing": "canonical",
+      "why": "A documented type specimen for the five-part parti on the Virginia DHR's judgment that it \"displays the elegance and refinement so admired in the Federal style\" -- and its survey gives the one plan dimension in this node, 56' x 45' for the central block, which is double-pile and contradicts the node's own one-room-deep tell."
     },
     {
       "name": "Nathaniel Russell House",
       "location": "51 Meeting Street, Charleston, South Carolina",
       "year": 1808,
-      "note": "The Lowcountry high point of the Southern Federal interior: cantilevered free-flying stair, oval drawing room, full-height polygonal garden bay."
+      "note": "The Lowcountry high point of the Southern Federal interior: cantilevered free-flying stair, oval drawing room, full-height polygonal garden bay.",
+      "precedent": "nathaniel-russell-house",
+      "standing": "icon",
+      "why": "The Lowcountry high point on the South Carolina register's own words -- \"an excellent example of the Adam style of architecture\", \"an exercise in ellipses\" -- and the National Historic Landmark designation of 9 October 1960 its record carries."
     },
     {
       "name": "Levi Coffin House",
       "location": "113 U.S. 27, Fountain City, Wayne County, Indiana",
       "year": 1839,
-      "note": "Late, plain, and built by Carolina Quaker emigrants - a two-storey Flemish-bond brick I-house with Federal trim, showing the variant migrating northwest with its builders a decade after it had died on the seaboard."
+      "note": "Late, plain, and built by Carolina Quaker emigrants - a two-storey Flemish-bond brick I-house with Federal trim, showing the variant migrating northwest with its builders a decade after it had died on the seaboard.",
+      "precedent": "levi-coffin-house",
+      "standing": "documentary",
+      "why": "Plain, late, and built by Carolina emigrants a thousand miles from the hearth; carried on this corpus's judgment that a variant's migration is only demonstrable from an instance outside its region, and its HABS item holds ten measured drawings and no written data."
+    },
+    {
+      "name": "Wickham House",
+      "location": "1015 East Clay Street, Richmond, Virginia",
+      "year": 1812,
+      "note": "The urban half of the variant, which the node's description does not describe: three storeys over a basement, brick, with an oval salon on the axis at the rear. THE ARCHITECT IS DISPUTED IN THE LIBRARY'S OWN HOLDINGS -- the HABS sheet says Robert Mills, the Library's catalogue line for the same item and the museum that owns the house say Alexander Parris -- and the surveyor calls the style \"Late Georgian\" while describing exactly what this node calls Federal.",
+      "precedent": "wickham-house",
+      "standing": "canonical",
+      "why": "A type specimen for the town house of this variant, and it is worth more to the corpus as a disagreement than as an example: one item, two architects, and a style word the surveyor refuses to make Federal."
+    },
+    {
+      "name": "Belle Grove",
+      "location": "Middletown, Frederick County, Virginia",
+      "year": 1795,
+      "note": "Grey limestone in coursed ashlar, one storey above a high basement, seven bays with the four centre bays grouped, 9/9 sash, and FOUR INSIDE CHIMNEYS. Three of those contradict the node's own tells and the fourth -- the raised basement -- confirms one. The survey's own style word is neither Federal nor Georgian but \"Jeffersonian\", with Jefferson's advice \"sought by the builder\" and, in the surveyor's judgment, followed.",
+      "precedent": "belle-grove",
+      "standing": "regional",
+      "why": "The Shenandoah Valley expression, in the valley's own stone rather than the Piedmont's brick, and it is carried because the survey's own reading puts it between two of this corpus's nodes rather than inside either."
     }
   ],
   "sources": [

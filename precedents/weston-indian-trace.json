@@ -1,0 +1,52 @@
+{
+  "id": "weston-indian-trace",
+  "name": "Weston (Indian Trace)",
+  "location": {
+    "text": "Broward County, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "1984-",
+    "circa": false,
+    "note": "'The name Indian Trace was changed to Weston in the early 1980s, and in 1984, the first homes in the Arvida-developed section of Weston were completed in the Country Isles and Windmill Ranch sections' (Wikipedia and the City of Weston). The Indian Trace Development of Regional Impact was approved in 1978 for over 25,000 dwelling units, later reduced to 17,000. Incorporation: the state legislature approved the enabling bill on 5 May 1996 and residents voted the day after Labor Day 1996."
+  },
+  "nodes": [
+    "neo-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Weston,_Florida",
+      "title": "Weston, Florida - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In the 1950s, industrialist and philanthropist Arthur Vining Davis took control of the approximately 15,000 acres which Weston is now located on ... The large, remaining portion of the master-planned community was developed by Arvida/JMB Realty (known for developing Walt Disney World), and the community was originally named Indian Trace ... in 1984, the first homes in the Arvida-developed section of Weston were completed in the Country Isles and Windmill Ranch sections of the community.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.westonfl.org/about/city-history",
+      "title": "The History of the City of Weston",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The name of the Arvida development was changed from Indian Trace to Weston, and in 1984 the first homes were completed in Windmill Ranch and Country Isles, and Weston had its first residents. In November 1991, with over 5,000 residents in Weston ... it was time for residents to be elected to three of the five seats on the Board of Supervisors.' The city's own account of a development that became a city."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.yourobserver.com/news/2011/jul/13/tale-three-cities-weston-city-government-lite",
+      "title": "A Tale of Three Cities: Weston: City Government Lite | Your Observer",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Weston was an Arvida Corp. master-planned community known as Indian Trace and originally approved for 25,000 dwelling units, later reduced to 17,000. The developer created the Indian Trace Community Development District to govern the community.' Also: 'The first homes were built in 1984, and by 1991, there were more than 5,000 residents.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://westontogether.com/2026/07/27/built-by-design-the-story-behind-weston",
+      "title": "Built by Design: The Story Behind Weston - Weston Together",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The community was originally conceived as Indian Trace, and in 1978, the Indian Trace Development of Regional Impact was approved, permitting over 25,000 dwelling units (a number later reduced to 17,000 through amendments).'"
+    }
+  ],
+  "note": "The node's own control case: the planning is competent, the governance is unusually deliberate -- a community development district that became a city because its residents wanted their zoning back -- and the elevations still came off a builder's menu. Nothing read here documents a single house, an elevation package, a lot width or a setback; the entitlement is measured in dwelling units and the buildings in none. That absence is the honest state of the record for late-century production housing, and it is the reason this node's figures are editorial."
+}

@@ -1,0 +1,86 @@
+{
+  "id": "the-hermitage",
+  "name": "The Hermitage",
+  "aka": [
+    "Andrew Jackson House",
+    "Home of Andrew Jackson"
+  ],
+  "location": {
+    "text": "Nashville, Davidson County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1818-1819; enlarged 1831",
+    "circa": false,
+    "altered": "The survey: 'In 1831 the following additions were made: the po~tico on the north or rear elevation; the east and the west wings; a new roof and a new kitchen'. The Library's catalogue line for the item prints '1819 Initial Construction'.",
+    "note": "The survey's own form prints 'Date of Erection: 181S (begun)' and its history says 'It is believed that the brick build-ing was begun in 1818'; the Library's catalogue says 1819. Both kept. The extract reached no statement about the well-known later fire, so none is asserted here."
+  },
+  "nodes": [
+    "greek-revival-southern-plantation"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-52",
+      "title": "The Hermitage (Andrew Jackson House), U.S. Highway 70 North, Nashville vicinity, Davidson County, Tennessee",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0022/data/tn0022data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The addendum cover prints 'HABS No., TN-52' cleanly; the 1930s running head beneath it OCRs as 'HABS No. 19-52 Page 1' and 'Page 2'. Read as TN-52, which is also what the Library's catalogue line prints."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0022",
+      "url": "https://www.loc.gov/pictures/item/tn0022",
+      "title": "The Hermitage, U.S. Highway 70 North (4580 Rachel's Lane), Nashville, Davidson County, TN",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Survey number: HABS TN-52; Building/structure dates: 1819 Initial'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000722",
+      "url": "https://www.loc.gov/pictures/item/tn0305",
+      "title": "National Register of Historic Places NRIS Number: 66000722 (as the Library's catalogue line prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "READ OFF A SISTER ITEM, NOT THIS ONE. The number is printed on the Library's catalogue line for 'The Hermitage, East Cabin' (HABS TN-52-B), the same property's outbuilding record, which is what the search returned. The National Register's own database was not opened for this building and a second surface should confirm the number before anything is built on it."
+    }
+  ],
+  "survey": {
+    "item": "tn0022",
+    "survey_no": "TN-52",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0022/data/tn0022data.pdf",
+    "prepared": "Historic American Buildings Survey; the addendum cover reads 'National Architectural and Engineering Record, National Park Service, Department of the Interior, Washington, D.C. 20240'. No author or date is legible on the 1930s sheets in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "THE HERMITAGE HABS No. 19-52 Page 1 (Honae of Andrew Jacjson) Nashville, Davidson County, Tennessee Owner: State of Tennessee. Date of Erection: 181S (begun). Architec.t: No record. Builder: Joseph Rief (?). Present Condition: Good. Number .Qf. Stories: Two. Materials of Construction: Brick",
+        "page": "HABS No. TN-52, Page 1 -- the running head is inside the quoted span and OCRs as 'HABS No. 19-52 Page 1'."
+      },
+      {
+        "field": "other",
+        "text": "The Hermitage and five hundred acres of adjoining land were bou~t-:by the State in 1856. It is believed that the brick build-ing was begun in 1818. There is no record of the architect. In 1831 the following additions were made: the po~tico on the north or rear elevation; the east and the west wings; a new roof and a new kitchen; There seems to have been no architect for these additions, but reference is made to Joseph Rief, who made up estimates, and to Austin, a brick mason.",
+        "page": "HABS No. TN-52, Page 2 -- the running head 'HABS No. 19-52 Page 2' is printed immediately above this paragraph in the same extract span."
+      },
+      {
+        "field": "other",
+        "text": "The book, Andrew Jackson's Her:mitage, by Mary French Caldwell, gives illustrationf to show the development of the Herlhitage. From Harper 1s llapzine •~.drawing is reproduced of the •Brick Hermitage• of 1819 with a small building to one side. From Ayres' ~of Nashville 2 the Hermitage is shown after the remodelling of 1S31, with its two-story",
+        "page": "HABS No. TN-52; the span breaks off mid-sentence at 'its two-story' where the extract ends, and no page marker is legible in it."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number .Qf. Stories: Two.",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. A 1930s two-page entry: it states storeys and material and no dimension at all, and the one sentence that was about to describe the colonnade -- 'the Hermitage is shown after the remodelling of 1S31, with its two-story' -- is where the extract stops. Two different query values were run against the same PDF and returned overlapping spans; the sentence does not complete in either, and it is quoted broken rather than finished from memory. What the record does establish for the node is the SEQUENCE: a plain two-storey brick house of 1818-19, and the colonnade arriving in a separate campaign thirteen years later, which is the node's own account of a Grecian apparatus laid over a plan the region already had."
+}

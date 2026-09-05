@@ -1,0 +1,142 @@
+{
+  "id": "abraham-hasbrouck-house",
+  "name": "Abraham Hasbrouck House",
+  "location": {
+    "text": "Historic Huguenot Street, New Paltz, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1721-1741 (the Library's own item line: 'Building/structure dates: 1721-1741 Initial Construction')",
+    "circa": true,
+    "note": "Wikipedia's Huguenot Street article says the house 'was built in three phases in the 1720s and 30s. The center room was constructed in 1721 by Daniel Hasbrouck, the son of Abraham Hasbrouck. That date is based on recent dendrochronology'. The survey itself distinguishes SEVEN phases in its room-by-room description (Phase I through Phase VII), the later ones being restoration campaigns. The node's exemplar year of 1721 is the first phase and is kept."
+  },
+  "nodes": [
+    "hudson-valley-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-4363",
+      "title": "HABS No. NY-4363, \"Abraham Hasbrouck House, 94 Huguenot Street\", 13 photos, 19 measured drawings, 95 data pages, 1 photo caption page, supplemental material (as the Wikipedia Huguenot Street Historic District article lists it)",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0842/data/ny0842data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed in the data page's own running head on every page ('ABRAHAM HASBROUCK HOUSE HABS No. NY-4363 (Page 21)'). The Library's call number, from a Wikimedia file page quoting it, is 'HABS NY,56-NEWP,4-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0842",
+      "url": "https://www.loc.gov/pictures/item/ny0842",
+      "title": "Abraham Hasbrouck House, 94 Huguenot Street, New Paltz, Ulster County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's item line reads 'Survey number: HABS NY-4363; Building/structure dates: 1721-1741 Initial Construction; National Register of Historic Places NRIS Number: 66000578.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000578",
+      "url": "https://www.loc.gov/pictures/item/ny0842",
+      "title": "National Register of Historic Places NRIS Number: 66000578 (as the Library's own item line prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "This is the Huguenot Street Historic District's number as the Library attaches it to this item; it was not confirmed against the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Huguenot_Street_Historic_District",
+      "title": "Huguenot Street Historic District - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0842",
+    "survey_no": "NY-4363",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0842/data/ny0842data.pdf",
+    "prepared": "Not read. This is a modern 95-page HABS report with a running head and numbered pages, citing Zantkuyl, 'The Netherlands Town House: How and Why It Works'; the title page was not among the spans returned.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "walls",
+        "text": "All four exterior walls are constructed with random sized stones collected from glacial rubble in the vicinity of the site. Most of it appears to be sedimentary blue stone, with a few stones being partially dressed. The exterior walls of the house are supported by a stone basement approximately 24 inches thick constructed of collected",
+        "page": "ABRAHAM HASBROUCK HOUSE HABS No. NY-4363 (Page 36) -- the marker is printed immediately before this sentence"
+      },
+      {
+        "field": "walls",
+        "text": "Above ground, the walls are approximately 22 inches thick at their widest point, near the basement level, and taper to the approximately 20 inches thick at the roof line. The dimensions and construction methods of the walls did not vary significantly over the three building phases. The walls were built with exterior and interior faces bonded with clay and filled with small stones and clay.",
+        "page": "HABS No. NY-4363; the span continues the Page 36 passage above and carries no page marker of its own in the extract"
+      },
+      {
+        "field": "chimneys",
+        "text": "The top 2 Yi feet of the stone walls were visible above the floor as well as the huge brick chimney for the jambless fireplace tapering from eight feet by four feet in dimension at the floor level to 2 feet by 1 Yi feet where it exited the roof. The rafters and roofing and the gable studs and sheathing were all exposed.",
+        "page": "HABS No. NY-4363; no page marker legible in the extract span. 'Yi' is the OCR of a vulgar-fraction one-half throughout this document."
+      },
+      {
+        "field": "chimneys",
+        "text": "The stone firebox supported a brick chimney that tapered gracefully from approximately eight feet in width at the base to a little more than three feet about midway up the exterior stone wall on which it is a distinctive design element. The brick chimney completely bisected the stone wall and projected a few inches on the outside further emphasizing its shape. It was embedded in the exterior wall to bypass the opkamer.",
+        "page": "ABRAHAM HASBROUCK HOUSE HABS No. NY-4363 (Page 21) -- the marker is printed a few lines after this span"
+      },
+      {
+        "field": "plan",
+        "text": "There was one room, 18 feet 9Yi inches wide and 21 feet 1 O'll inches deep within. The dominant aspect of the room was created by three massive red pine beams running front-to-back, spaced out along the ceiling and measuring nine inches wide and sixteen inches high.",
+        "page": "HABS No. NY-4363; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "basement_wall_thickness_in",
+      "as_printed": "approximately 24 inches thick",
+      "value": 24,
+      "unit": "in",
+      "from_quote": 0
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "approximately 22 inches thick at their widest point",
+      "value": 22,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "wall_thickness_at_eave_in",
+      "as_printed": "approximately 20 inches thick at the roof line",
+      "value": 20,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_base_width_ft",
+      "as_printed": "eight feet by four feet in dimension at the floor level",
+      "value": 8,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The larger of the two figures in the phrase; the stack is 8 ft by 4 ft on plan at floor level and tapers to about 2 ft by 1 ft 6 in at the roof."
+    },
+    {
+      "name": "room_width_ft",
+      "as_printed": "18 feet 9Yi inches wide",
+      "value": 18.79,
+      "unit": "ft",
+      "from_quote": 4,
+      "note": "'Yi' is this document's OCR for one-half, so 18 ft 9 1/2 in. A reading of the OCR, marked as one."
+    },
+    {
+      "name": "room_depth_ft",
+      "as_printed": "21 feet 1 O'll inches deep",
+      "from_quote": 4,
+      "note": "NO VALUE IS RECORDED. The OCR of the inches is unreadable ('1 O'll'); it is somewhere in the 21 ft range and this record will not guess which."
+    },
+    {
+      "name": "ceiling_beam_depth_in",
+      "as_printed": "nine inches wide and sixteen inches high",
+      "value": 16,
+      "unit": "in",
+      "from_quote": 4,
+      "note": "The depth; the same phrase states the width as nine inches."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Ninety-five data pages, and by a long way the best-measured building in this cluster. Three things it settles for `hudson-valley-dutch`. (1) THE WALL THICKNESS SITS AT THE BOTTOM OF THE NODE'S OWN BAND: the node says 'twenty to thirty inches thick' and the survey measured 22 in at the widest and 20 in at the roof line, tapering. (2) THE ROOM IS INSIDE THE NODE'S BENT RHYTHM: the node says 'a bent-spacing rhythm of eighteen to twenty-two feet' and the surveyed room is 18 ft 9 1/2 in by about 21 ft. (3) The jambless fireplace is described as built, with its stack bisecting and projecting through the exterior stone wall -- a wall chimney, not a chimney breast into the room, which is the node's own account of what a jambless hearth is."
+}

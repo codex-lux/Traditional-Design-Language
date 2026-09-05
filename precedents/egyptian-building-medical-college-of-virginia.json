@@ -1,0 +1,58 @@
+{
+  "id": "egyptian-building-medical-college-of-virginia",
+  "name": "Egyptian Building, Medical College of Virginia",
+  "location": {
+    "text": "Richmond, Virginia",
+    "country": "United States",
+    "state": "Virginia",
+    "aliases": [
+      "1200 block of East Marshall Street, Richmond, Virginia"
+    ]
+  },
+  "dates": {
+    "built": "1845",
+    "circa": false,
+    "note": "The Wikipedia infobox and Venture Richmond both say 1845; an Exploring Virginia post says 'Completed in 1846'. The style node says 1845. The disagreement is recorded and not resolved."
+  },
+  "nodes": [
+    "egyptian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-1421",
+      "title": "Egyptian Building (Medical College of Virginia), 1200 block of East Marshall Street, Richmond Independent City, Virginia",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va2000/va2062/data/va2062data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the data page's own cover, twice ('EGYPTIAN BUILDING HABS VA-1421 (Medical College of Virginia) VA-1421'). THE DATA FILE IS A COVER SHEET ONLY: its whole content is that title block plus 'PHOTOGRAPHS PAPER COPIES OF COLOR TRANSPARENCIES'. There is no written historical and descriptive data to quote, which is why this record carries no `survey` block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va2062",
+      "url": "https://www.loc.gov/pictures/item/va2062",
+      "title": "Egyptian Building, 1200 block of East Marshall Street, Richmond ... Title: Medical College of Virginia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line reads 'Creator(s): Documentation compiled after 1933', which is consistent with a photographs-only item."
+    },
+    {
+      "kind": "nhl",
+      "id": "69000321",
+      "url": "https://en.wikipedia.org/wiki/Egyptian_Building",
+      "title": "NRHP reference No. 69000321; added April 16, 1969; designated NHL November 11, 1971; VLR No. 127-0087, designated November 5, 1968 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://homepages.bluffton.edu/~sullivanm/virginia/richmond/egyptblding/medicalcollege.html",
+      "title": "Medical College of Richmond (now Egyptian Building, Medical College of Virginia) by Thomas S. Stewart",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Describes 'The battered walls of the structure seem like the pylons of ancient Egyptian temples', 'the open lotus bud capitals', 'the reliefs depicting the solar disk with the cobra, and the cavetto cornice', and the cast-iron fence whose 'posts are mummies--or herms, as one source calls them (Brownell 270) and intermittent obelisks'. It also calls the building five-storeyed with 'relatively minimal windows'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. A HABS item exists for the finest surviving American Egyptian Revival building and it is photographs and colour transparencies with a one-page cover -- no dimensions, no bays, no description. The style node's exemplar note ('Battered walls, distyle in antis porticoes with palm capitals, flanking obelisks joined by a cast-iron fence with hermai') is corroborated in detail by the Bluffton College page, EXCEPT the capitals: that page and the Downtown Presbyterian survey both say LOTUS BUD where the node says PALM. Recorded here; the node is not edited."
+}

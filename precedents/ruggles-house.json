@@ -1,0 +1,113 @@
+{
+  "id": "ruggles-house",
+  "name": "Ruggles House",
+  "aka": [
+    "Judge Thomas Ruggles House"
+  ],
+  "location": {
+    "text": "146 Main Street, Columbia Falls, Maine",
+    "country": "United States",
+    "state": "Maine"
+  },
+  "dates": {
+    "built": "1818-19",
+    "circa": false,
+    "altered": "The 1937 data sheet's Present Condition records that the chimneys, which stood near the ends of the house, had been removed and the fireplaces boarded up. Anyone reading a photograph of this house for its chimney arrangement is reading a house that had lost them.",
+    "note": "Four readings and none edited. The HABS sheet prints 'Date of Erection 1818-19' and 'Builder .Aaron Sherman, Carpenter-Architect'. The Wikipedia infobox prints 'Built 1820' and 'Built by Aaron Sherman, Aleah Peterson', while the same article's first sentence says 'Built from 1818 to 1820'. The node's own exemplar says 1818-20 and spells the carver Alvah Peterson, as do the Ruggles House Society's own pages. Recorded as the survey states it."
+  },
+  "nodes": [
+    "new-england-federal"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "ME-26",
+      "title": "Judge Thomas Ruggles House, North side of principal road (former U.S. Route 1), 0.1 miles SW of Pleasant River Bridge, Columbia Falls, Washington County, Maine",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0158/data/me0158data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data page's own header prints 'HABS-ME-26 Page 2' and the addendum cover 'ADDENDUM TO HABS No. ME-26 JUDGE THOMAS RUGGLES HOUSE'; the 1937 sheet is headed '\"KUGGLES HOUSE\"' (OCR) and stamped 'Approved: April 22, 1937'. A Wikimedia Commons file for the house independently cites 'Library of Congress, Prints and Photograph Division HABS: ME,15-COLUF,1-16'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "me0158",
+      "url": "https://www.loc.gov/resource/hhh.me0158.photos?sp=1&st=gallery",
+      "title": "Judge Thomas Ruggles House, Southwest of Pleasant River Bridge, North side of former U.S. Route 1, Columbia Falls, Washington County, ME",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id was read from this search result and then confirmed by fetching the data PDF at the matching path, whose header names the same building and survey number."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000080",
+      "url": "https://en.wikipedia.org/wiki/Ruggles_House_(Maine)",
+      "title": "NRHP reference No. 70000080; added January 26, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "An NPGallery asset record returned by the same search prints the same number -- 'National Register Information System ID: 70000080 ... Sherman,Aaron. Areas Of Significance: COMMERCE ARCHITECTURE' -- so it was read on two surfaces, neither of them the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ruggles_House_(Maine)",
+      "title": "Ruggles House (Maine) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Describes 'a wood-frame structure, two stories in height, with a hip roof and clapboard siding. The main facade is five bays wide, with a central entrance sheltered by a hip-roof portico supported by round columns. The eave of the porch and main roof both have dentil molding.' The bay count is Wikipedia's; the survey does not state one."
+    },
+    {
+      "kind": "institution",
+      "url": "https://ruggleshouse.org",
+      "title": "Historic Ruggles House Museum | Ruggles House Society",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. 'Open to the public as a museum since 1951, the House is located in Columbia Falls, Maine, 146 Main Street'."
+    }
+  ],
+  "survey": {
+    "item": "me0158",
+    "survey_no": "ME-26",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0158/data/me0158data.pdf",
+    "prepared": "District of Maine, Josiah T. Tubby, District Officer, 537 Congress Street, Portland, Maine (as the cover reads, OCR-garbled); the sheet is stamped 'Approved: April 22, 1937'. Later photographs and colour transparencies were transmitted as an addendum by HABS, National Park Service",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Description A two story rectangular frame house with a low sloping hip roof. The house \"is set on a low granite foundation. There is a central front entrance and a Paladian window on the second floor. Unusual portico. The front entrance has double top lights and side lights around the original door. Over the windows in the front face of the house there are hand carved festoons. The cornice shows fine detail.",
+        "page": "HABS No. ME-26, 'Description'; no page marker was legible in this extract span. The nearest marker anywhere in the extract is 'HABS-ME-26 Page 2' on a different span"
+      },
+      {
+        "field": "finishes",
+        "text": "The interior of the house is particularly interesting because of its wonderful carvings. The carving in the parlor is said to have cost three thousand dollars and to have been done with a pen knife. The wainscot around the parlor is delicately panelled and the cap has interesting design. Mouldings and mantel are decorated with carved motifs and inlaid designs in natural v/ood The",
+        "page": "HABS No. ME-26, 'Description' continued; no page marker legible. The span ends where the extract's chunk ends"
+      },
+      {
+        "field": "significance",
+        "text": "The cornice in the parlor is rather heavy. Doors are finely panelled, door casings are decorated with fluting. The staircase shows good'design. The house is outstanding because of its craftsmanship rather than for its beauty of design.",
+        "page": "HABS No. ME-26, closing sentences of the 'Description'; no page marker legible"
+      },
+      {
+        "field": "condition",
+        "text": "Columbia Falls, Washington County, Maine {-Owners Ruggles Historical Society Date of Erection 1818-19 Builder .Aaron Sherman, Carpenter-Architect Present Condition Chimneys which were located near the ends of the h^use have been removed and fireplaces boarded up.",
+        "page": "HABS No. ME-26, head of the 1937 form; no page marker legible in this span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "A two story rectangular frame house",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "parlor_carving_cost_usd",
+      "as_printed": "three thousand dollars",
+      "value": 3000,
+      "from_quote": 1,
+      "note": "The surveyor reporting a local tradition -- 'is said to have cost' -- and not a measurement. Recorded because the quote states it and because the figure is the whole argument for this house's standing; no `unit` because the schema's vocabulary carries no currency."
+    }
+  ],
+  "note": "The 1937 surveyor's closing verdict is the most useful sentence in the file and the node should keep it: 'The house is outstanding because of its craftsmanship rather than for its beauty of design.' That is a judgment about a village Federal at the end of the carrying trade, and it is the surveyor's, not this project's. Note also that the survey states no dimension at all -- no width, no depth, no pitch -- so the only figures on this record are a storey count and a reported carving cost. The five-bay front the node's own exemplar implies comes from Wikipedia, not from HABS."
+}

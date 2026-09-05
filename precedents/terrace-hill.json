@@ -1,0 +1,61 @@
+{
+  "id": "terrace-hill",
+  "name": "Terrace Hill",
+  "location": {
+    "text": "Des Moines, Iowa",
+    "country": "United States",
+    "state": "Iowa",
+    "aliases": [
+      "2300 Grand Avenue, Des Moines, Iowa"
+    ]
+  },
+  "aka": [
+    "Benjamin F. Allen House",
+    "Hubbell Mansion",
+    "Iowa Governor's Mansion"
+  ],
+  "dates": {
+    "built": "1866-1869",
+    "circa": false
+  },
+  "nodes": [
+    "second-empire"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "72000480",
+      "url": "https://en.wikipedia.org/wiki/Terrace_Hill",
+      "title": "NRHP reference No. 72000480 (NRHP, added June 14, 1972) and 03001036 (NHL, designated July 31, 2003) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Two numbers are printed for this property, one for the 1972 National Register listing and one for the 2003 National Historic Landmark designation. The register number is carried here; the landmark number is carried on the nhl ref below. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "nhl",
+      "id": "03001036",
+      "url": "https://npgallery.nps.gov/GetAsset/481e8e6a-e3b1-40a8-8d1c-02b329339986",
+      "title": "TERRACE HILL - National Historic Landmark nomination (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's own words: 'The three-story brick and stone mansion that dominates the site was designed by prominent Chicago architect William W. Boyington. Built for millionaire banker and land buyer B.F. Alien and later occupied by Iowa insurance magnet and real estate tycoon Frederick M. Hubbell, the house became the residence for Iowa's governor in 1976.' It also states that the landmark nomination covers two contributing resources, the house and the carriage house and ice house complex. This is a National Register nomination and NOT a Historic American Buildings Survey, so nothing from it is recorded in a `survey` block."
+    },
+    {
+      "kind": "institution",
+      "url": "https://terracehill.iowa.gov/history/construction",
+      "title": "The Construction of Terrace Hill (1866-1869) | Terrace Hill",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. States that 'Terrace Hill is one of the three important residential Second Empire designs that Boyington created outside of Chicago during this period', the others being the General Dodge House in Council Bluffs (1869) and the Hegeler-Carus mansion in La Salle, Illinois (1874)."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Terrace_Hill",
+      "title": "Terrace Hill - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "States '18,000 square feet' and 'a prominent 90-foot (27 m) tower', and describes 'The building's steeply pitched mansard roof, open verandas, long and narrow and frequently paired windows, and bracketed eaves'. Encyclopaedia figures, recorded as prose and NOT parsed into measurements: nothing here is a survey."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The tower figure is the one a reader will want and the one to be careful with: 90 ft comes from an encyclopaedia infobox, not from a measured drawing, and this record deliberately leaves it in a reference note rather than in a `measurements` array where a checker could read it as surveyed. The National Historic Landmark nomination is the strongest document located, and it is a nomination, which argues significance rather than recording dimensions."
+}

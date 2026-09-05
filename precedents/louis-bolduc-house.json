@@ -1,0 +1,142 @@
+{
+  "id": "louis-bolduc-house",
+  "name": "Louis Bolduc House",
+  "aka": [
+    "Bolduc House"
+  ],
+  "location": {
+    "text": "Ste. Geneviève, Missouri",
+    "country": "United States",
+    "state": "Missouri"
+  },
+  "dates": {
+    "built": "c. 1792",
+    "circa": true,
+    "altered": "Restored in the 1950s 'to its original form'; the hipped roof was RECONSTRUCTED in the restoration of 1956-57 from evidence found under a double-pitched gable roof covered with corrugated iron. The kitchen at the north-west corner is attached but independent and appears original.",
+    "note": "The same HABS file states two dates and two builders. The 1930s Missouri district sheet says the house 'was built in the year 1740 in the old vil-lage and was brought to its pre-sent location in 1785. The builder, Peter Bold^c, a very prominent merchant'. The later addendum's PART I says 'Date of Erection: c. 1792' and names Louis Bolduc, adding that 'It has been suggested that the house was first built in the old town'. Wikipedia's infobox says 1788. All three are recorded; none is edited to agree, and the node's own exemplar carries 1792."
+  },
+  "nodes": [
+    "french-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MO-1105",
+      "title": "Bolduc House, 123 South Main Street, Ste. Genevieve, Ste. Genevieve County, Missouri",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/mo/mo0200/mo0250/data/mo0250data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own heads: the 1930s cover reads 'tfBolduc House 0te. Genevieve, Mo HABS No. Mo, (o' -- OCR for the district project number 1105 -- and the later addenda read 'LOUIS BOLDUC HOUSE HABS No. MO-1105'. The 1930s sheet also prints 'PROJECT NO, 1105'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "mo0250",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/mo/mo0200/mo0250/data/mo0250data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the loc.gov landing page was not opened. Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Louis_Bolduc_House",
+      "title": "Louis Bolduc House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1970 the house was designated a National Historic Landmark. It is a contributing property in the Ste. Genevieve Historic District, which has National Historic Landmark status.' No reference number is printed, so none is recorded. Built date given as 1788."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/collection/hh/highlights.html",
+      "title": "HABS/HAER Highlights -- Louis Bolduc House, Sainte Genevieve, Missouri (Library of Congress)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's own gloss: 'As described in the HABS written historical data pages, it is constructed of poteaux sur sole, vertical posts set on a sill, with the interstices filled with bouzillage, sticks covered with a mud and straw mixture. In addition to its construction, the large overhanging eaves and steep roof are distinct characteristics of the style.' It also gives the measured drawings as HABS, MO,97-SAIGEN,6-, delineated by Frank R. Leslie, July 1938, thirteen sheets."
+    }
+  ],
+  "survey": {
+    "item": "mo0250",
+    "survey_no": "MO-1105",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/mo/mo0200/mo0250/data/mo0250data.pdf",
+    "prepared": "Two campaigns in one file: the 1930s HABS District of Missouri No. 1 sheet under W. T. Trueblood, District Officer, St Louis; and a later addendum whose PART I/PART II text is the one quoted here. The file also carries the Piaget-van Ravenswaay Survey photographs, incorporated into HABS in 1985 by Laura Rupp and in 1986 by Deborah Fulton.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "2. Condition of fabric: good. B. Description of Exterior: 1. Over-all dimensions: One story on an elevated cellar with a high attic, 74'-8 1/2\" across the front by 48'-1 1/2\" deep.",
+        "page": "HABS No. MO-1105; the running head 'LOUIS BOLDUC HOUSE HABS No. MO-1105 (page d) 5' immediately follows"
+      },
+      {
+        "field": "walls",
+        "text": "2. Foundations: Random cut stone. 3. Walls: Vertical, hewn, white oak logs, mortised into a sill, infilled with bouzillage, plastered on both interior and exterior sides. 4. Structural system, framing: Vertical log structure on a sill carrying a plate, hewn logs closely spaced, floor beams mortised into the sill and the plate. The roof exhibits the king-post trusses with longitudinal braces and mortise and tenon joinery.",
+        "page": "HABS No. MO-1105, Part II.B.2-4; same span as the dimensions"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches: A typical French colonial gallery on four sides of the house, interrupted by an independent, but attached kitchen at the northwest corner of the house. Porch posts of red cedar. Secondary rafters extend over the gallery giving the characteristic double pitch to the roof.",
+        "page": "HABS No. MO-1105, Part II.B.5; no page marker legible in this extract span"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: Two chimneys serving massive fireplaces in the two principal rooms, and one in the kitchen attached at the northwest corner, all of stone. 7. Openings: Principal entrances near the center of both long sides of the house open into a passage, or deep narrow room.",
+        "page": "HABS No. MO-1105, Part II.B.6-7; same span"
+      },
+      {
+        "field": "roof",
+        "text": "double pitched gable roof, covered with corrugated iron, but with most of the original trussed roof structure in place. There was clear evidence for the reconstruction of the original hipped roof in the restoration of 1956-57. The restored roof is covered with wooden shakes. b. Cornice, eaves: No eave projection, open plate at eave line of the porch.",
+        "page": "HABS No. MO-1105, Part II.B.8; the span begins immediately after an illegible OCR mark and runs to the end of the paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior: 1. Floor plans: a. First floor: There are three rooms; a semi-central passage between two larger rooms, each end room with a chimney along the north wall. A kitchen with separate outside entrance and a fireplace is at the northwest corner of the house and appears original. b. Cellar: Unfinished, dirt floor. c. Attic: Simple open space, floored but otherwise unfinished.",
+        "page": "HABS No. MO-1105, Part II.C.1; same span as the roof quote"
+      },
+      {
+        "field": "significance",
+        "text": "This is one of the largest, best known examples of vertical log contruction in Ste. Genevieve, a National Historic Landmark Historic District. Restored in the 1950s to its original form, it preserves the character of Creole architecture.",
+        "page": "HABS No. MO-1105, 'Significance:'; no page marker legible in this extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "74'-8 1/2\"",
+      "value": 74.71,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey says which is which: 'across the front'."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "48'-1 1/2\"",
+      "value": 48.13,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "One story on an elevated cellar with a high attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Two chimneys serving massive fireplaces in the two principal rooms",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Two in the house proper; a third serves the attached kitchen, which the same sentence counts separately."
+    },
+    {
+      "name": "room_count",
+      "as_printed": "There are three rooms",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "A semi-central passage between two larger rooms, plus the attached kitchen with its own outside entrance -- the node's 'no corridor, no hall' claim needs the qualifier the survey supplies: there IS a passage, and it is a deep narrow room entered from both long sides."
+    }
+  ],
+  "note": "The best-documented French colonial house in this cluster and the one the Library of Congress itself picks out as the type specimen. Two things in it bear directly on the corpus's own account. First, the gallery: 'Secondary rafters extend over the gallery giving the characteristic double pitch to the roof' -- the node's kit states a body pitch of 40-50 degrees and a gallery pitch of 20-30 and this is the construction that produces the break. Second, the hipped roof the node's exemplar note calls a 'steep hipped roof' is a 1956-57 RECONSTRUCTION from evidence, not surviving fabric; the survey found a double-pitched gable roof under corrugated iron."
+}

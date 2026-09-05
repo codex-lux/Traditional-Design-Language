@@ -16,7 +16,8 @@
     "note": "Wikipedia: 'It was built in 1907 for Robert Roe Blacker and Nellie Canfield Blacker.'"
   },
   "nodes": [
-    "craftsman"
+    "craftsman",
+    "arts-and-crafts-american"
   ],
   "refs": [
     {
@@ -37,5 +38,5 @@
       "note": "Location as the infobox prints it: 1177 Hillcrest Ave, Pasadena. 'This house was a lavish project for the Greene brothers, costing in excess of US$100,000.00'."
     }
   ],
-  "note": "No HABS survey was found: the query 'Blacker House 1177 Hillcrest Avenue Pasadena HABS CA survey Greene' restricted to loc.gov returned nothing about the building. Seeded 4 Sep 2026."
+  "note": "No HABS survey was found: the query 'Blacker House 1177 Hillcrest Avenue Pasadena HABS CA survey Greene' restricted to loc.gov returned nothing about the building. Seeded 4 Sep 2026. WP-11.3, Tranche 2 (5 Sep 2026): arts-and-crafts-american gained an exemplar naming this building, spelled 'Robert R. Blacker House' at 'Pasadena, California' to match this record exactly, and linked to it."
 }

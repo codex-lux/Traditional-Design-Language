@@ -1,0 +1,125 @@
+{
+  "id": "nemours",
+  "name": "Nemours",
+  "aka": [
+    "A. I. du Pont Estate",
+    "Nemours Estate",
+    "Nemours Mansion and Gardens"
+  ],
+  "location": {
+    "text": "Wilmington, Delaware",
+    "country": "United States",
+    "state": "Delaware",
+    "aliases": []
+  },
+  "dates": {
+    "built": "1909-1910",
+    "circa": false,
+    "altered": "The northern half of the property became the Alfred I. du Pont Institute (hospital); the survey was made in 1994-95 for a Route 141 dualization project that abuts the estate's western edge.",
+    "note": "The style node's exemplar and the estate's own site give 1910; the survey narrative says the mansion and grounds were completed 'in ca. 1910' and Wikipedia says Nemours was created in 1909-10. The room count does not agree with itself across sources and is left as found: the HABS narrative says 'The seventy-seven-room house', the estate's own page says the Mansion 'features 77 rooms' while Wikipedia's article says '105 rooms on four floors occupy nearly 47,000 sq ft'. Neither figure is edited to match the other."
+  },
+  "nodes": [
+    "neoclassical-revival",
+    "french-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "DE-283",
+      "title": "A. I. Du Pont Estate, Junction of State Route 141 & Rockland Road, Wilmington vicinity, New Castle County, DE",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/de/de0300/de0387/data/de0387data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the data page's own cover ('HABS No. DE-283') and in the running header of every page ('A. I. DU PONT ESTATE (Nemours) HABS No. DE-283 (Page n)'). The Blue Ball Dairy Barn is a separate record, DE-283-A, and the Murphy farmhouse a third, DE-284; the Wikipedia external-links line gives the main item as '12 photos, 30 data pages, 2 photo caption pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "de0387",
+      "url": "https://loc.gov/pictures/item/de0387",
+      "title": "A. I. du Pont Estate, Junction of State Route 141 & Rockland Road ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id was read from this search result's own URL and is the path segment of the data PDF actually fetched. The landing page refuses extraction from this container."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Nemours_Estate",
+      "title": "Nemours Estate - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nemoursestate.org/estate.html",
+      "title": "The Estate - Nemours Estate",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its page says the 47,000-square-foot Mansion was 'Constructed in 1910 by notable architects Carrere and Hastings, the Mansion was completed in just 18 months and features 77 rooms' - an owner's account, recorded as one, and the room count it gives agrees with the survey and not with Wikipedia."
+    }
+  ],
+  "survey": {
+    "item": "de0387",
+    "survey_no": "DE-283",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/de/de0300/de0387/data/de0387data.pdf",
+    "prepared": "Historic American Buildings Survey, National Park Service, Northeast Region, U.S. Custom House, 200 Chestnut Street, Philadelphia, as the cover sheet reads; the project information names Kimberly N. Pruitt as graphic artist and Robert Tucher of Rob Tucher Photographic Documentation for the current photographs, and the drawings are dated August 1994.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The mansion is in the eighteenth-century French style, as interpreted by Carrere and Hastings (with assistance from Alfred I. du Pont--most notably the front porch with its six Corinthian columns). The building is faced with pink stucco over a base of Brandywine blue granite, with trim of Indiana limestone.",
+        "page": "HABS No. DE-283, physical description of the mansion. No page marker was legible inside this contiguous extract span; the running header printed elsewhere in the same document reads 'A. I. DU PONT ESTATE (Nemours) HABS No. DE-283 (Page 13)'."
+      },
+      {
+        "field": "storeys",
+        "text": "The seventy-seven-room house is essentially L-shaped, with a three-story main block and a rear two-story wing. The main block is noted by its hipped roof with dormers, large chimneys, and cornice-level balustrade; its central, integral porch; and the pair of two-story, mansard-roofed pavilions that flank it. A small, one-story wing containing a sun room lies to the rear of the main block at the southeast comer; the wing is classically ornamented, with Doric columns and pilasters supporting an entablature and a roof balustrade. The long, two-story wing off of the northeast corner is more simply styled, befitting its usage as servants' quarters, kitchens, and utility rooms.",
+        "page": "HABS No. DE-283, physical description of the mansion, continuing the passage quoted above; no page marker legible inside the span"
+      },
+      {
+        "field": "significance",
+        "text": "While not a preeminent example, nevertheless the Nemours estate is a fine representat",
+        "page": "HABS No. DE-283 (Page 2), Project Information; the page marker 'A. I. DU PONT ESTATE (Nemours) HABS No. DE-283 (Page 2)' is printed immediately before this sentence, and the sentence itself is cut where the extract's chunk ends"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_column_count",
+      "as_printed": "six Corinthian columns",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The survey records that the recessed front porch and its six columns were du Pont's own change to the architects' design, not Carrere and Hastings'."
+    },
+    {
+      "name": "room_count",
+      "as_printed": "seventy-seven-room",
+      "value": 77,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Wikipedia states 105 rooms for the same house. Both are recorded in dates.note and neither is edited."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "a three-story main block",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "wing_storey_count",
+      "as_printed": "a rear two-story wing",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "flanking_pavilion_count",
+      "as_printed": "the pair of two-story, mansard-roofed pavilions that flank it",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, the French modes and the Beaux-Arts. This building is named by two of the cluster's nodes - neoclassical-revival calls it 'Louis XVI classicism on an American plan' and french-eclectic 'in the Louis XVI manner' - and both print the location as 'Wilmington, Delaware', so one record serves both with no alias. The survey is the 1990s narrative format rather than the 1930s outline, so it carries a physical description of the whole estate and no 'Over-all dimensions' line at all; the mansion's own footprint is not stated anywhere in it. Worth carrying: the survey's own verdict on the house is 'While not a preeminent example, nevertheless the Nemours estate is a fine representat[ive]', which is a good deal cooler than either style node's prose about it."
+}

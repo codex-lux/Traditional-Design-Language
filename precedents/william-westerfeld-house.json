@@ -1,0 +1,59 @@
+{
+  "id": "william-westerfeld-house",
+  "name": "William Westerfeld House",
+  "aka": [
+    "Westerfeld House",
+    "the Russian Embassy"
+  ],
+  "location": {
+    "text": "San Francisco, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1889",
+    "circa": false,
+    "note": "Wikipedia, the National Register infobox and the Library's HABS item all give 1889; the architect is Henry Geilfuss and the client the confectioner William Westerfeld."
+  },
+  "nodes": [
+    "stick-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-2218",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1300/ca1394/data/ca1394data.pdf",
+      "title": "Westerfeld House, 1198 Fulton St., San Francisco, San Francisco County, California -- HABS No. CA-2218",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data PDF is PHOTOGRAPHS and PAPER COPIES OF COLOR TRANSPARENCIES only -- its whole extracted text is two cover sheets -- so there is no written historical and descriptive data to quote and this record carries no survey block. The second cover sheet reads 'ADDENDUM TO: HABS CA-2216', so an earlier record under that number exists and was not opened here."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca1394",
+      "url": "https://www.loc.gov/pictures/item/ca1394",
+      "title": "Westerfeld House, 1198 Fulton Street, San Francisco, San Francisco County, CA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'HABS CA-2218 National Register of Historic. Subjects: houses Stick Style'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "89000197",
+      "url": "https://en.wikipedia.org/wiki/William_Westerfeld_House",
+      "title": "NRHP reference No. 89000197; added to NRHP March 16, 1989; San Francisco Designated Landmark No. 135, designated December 6, 1981; architectural style 'Stick/Eastlake' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database; a Wikidata item read in the same search repeats the reference number and the 16 March 1989 date."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_Westerfeld_House",
+      "title": "William Westerfeld House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'Constructed for German-born confectioner William Westerfeld in 1889, the home is listed on the National Register of Historic Places and is San Francisco Landmark Number 135.'"
+    }
+  ],
+  "note": "The urban Stick Style, on a San Francisco lot across from Alamo Square, and the one entry in this node that is neither a resort cottage nor a rich man's experiment: `stick-style`'s own prose says the style 'never went mass-market' and that a partial application 'reads as trim', and this is the case where the vocabulary reached a speculative German-immigrant merchant's town house and stayed complete. The register calls it 'Stick/Eastlake' and the Library files it under the subject 'Stick Style', which is why it sits here rather than in the spindlework node -- an editorial call that the Eastlake half could equally support. A HABS record exists but carries no written data. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

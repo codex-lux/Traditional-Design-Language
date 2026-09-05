@@ -1,0 +1,126 @@
+{
+  "id": "downtown-presbyterian-church",
+  "name": "Downtown Presbyterian Church",
+  "location": {
+    "text": "Nashville, Tennessee",
+    "country": "United States",
+    "state": "Tennessee",
+    "aliases": [
+      "154 Fifth Avenue, North, Nashville, Tennessee"
+    ]
+  },
+  "aka": [
+    "First Presbyterian Church, Nashville"
+  ],
+  "dates": {
+    "built": "1849-1851",
+    "circa": false,
+    "altered": "The survey states that 'this building's present appearance dates from alterations undertaken in the 1880s'; the Nashville Downtown Partnership records the 1882 interior painting, the removal of the box pews and the 1887 stained glass. The style node's exemplar dates the design to 1848 where the survey's Part I says the cornerstone was laid 28 April 1849; both are recorded and neither is edited."
+  },
+  "nodes": [
+    "egyptian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-17",
+      "title": "First Presbyterian Church (now Downtown Presbyterian Church), 154 Fifth Avenue, North, Nashville, Davidson County, Tennessee",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0015/data/tn0015data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header ('HISTORIC AMERICAN BUILDINGS SURVEY HABS No. TN-17') and again in its running header at Page 9 and Page 11."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0015",
+      "url": "https://www.loc.gov/pictures/item/tn0015",
+      "title": "First Presbyterian Church, 154 Fifth Avenue, Nashville ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://nashvilledowntown.com/go/downtown-presbyterian-church",
+      "title": "Downtown Presbyterian Church | Downtown Nashville",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records the 1882 interior painting scheme, the winged globe as 'the symbol for the Egyptian sun god Amun-Ra', the replacement of the box pews and the 1887 stained glass."
+    }
+  ],
+  "survey": {
+    "item": "tn0015",
+    "survey_no": "TN-17",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0015/data/tn0015data.pdf",
+    "prepared": "Prepared by Anatole Senkevitch, Jr., Architectural Historian, Historic American Buildings Survey, Summer 1970; measured and drawn in the summer of 1971 at the HABS field office, Vanderbilt University.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of the Exterior: 1. Overall dimensions: Approximately 80'-3\" x 137-9\". 2. Foundations: Tennessee limestone. 3. Walls: The exterior is a brick veneer laid in stretcher bond. 4. Structural system: Load-bearing masonry walls. 5. Porches: Portico on north front set between two towers has two Egyptian columns supporting a sheet-metal entablature. Entablature has cavetto cornice with triglyph-like gouging and winged orb in center. 6. Chimneys: Seven brick chimneys.",
+        "page": "HABS No. TN-17, Part II.B; no page marker legible in the extract span"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings: a. Doors: Main entry doors have four recessed panels, square panels top and bottom with two rectangular vertical panels between. On either side are smaller double doors in the same pattern. The pylon-shaped surrounds support cavetto cornices ornamented by triglyph-like gouging. b. Windows: The stained-glass triple-hung sash are set in double windows with pylon-shaped surrounds and cavetto cornices.",
+        "page": "HABS No. TN-17, Part II.B.7; no page marker legible in the extract span"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering: Low-pitched gable roof. b. Cornice, eaves: Cavetto cornice on towers, parapet on sides. c. Towers: Brick towers on front corners rise two stories above main structure. The second story of the tower is square and has louvered openings in pylon-shaped surrounds. The third story is octagonal, with louvered openings with no surrounds",
+        "page": "HABS No. TN-17, Part II.B.8; no page marker legible in the extract span"
+      },
+      {
+        "field": "significance",
+        "text": "Significance: Designed by William Strickland in 1849, the First Presbyterian Church is the largest and best preserved example of an Egyptian Revival church building in America.",
+        "page": "HABS No. TN-17, cover sheet; no page marker printed on the cover"
+      },
+      {
+        "field": "general_description",
+        "text": "PART II. ARCHITECTURAL INFORMATION A. General Statement 1. Architectural character: A fine example of the Egyptian Revival style, this building's present appearance dates from alterations undertaken in the 1880s. 2. Condition of fabric: excellent.",
+        "page": "FIRST PRESBYTERIAN CHURCH (now Downtown Presbyterian Church) HABS No. TN-17 (Page 9)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "Approximately 80'-3\"",
+      "value": 80.25,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey gives the pair and does not say which is the front; the first figure printed is taken as the width, per the schema's rule. The portico is on the north front."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "137-9\"",
+      "value": 137.75,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR drops the foot mark; read as 137'-9\"."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Seven brick chimneys",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "two Egyptian columns",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Distyle in antis between two towers -- the same arrangement the corpus records for the Egyptian Building at Richmond."
+    },
+    {
+      "name": "tower_storeys_above_main",
+      "as_printed": "rise two stories above main structure",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. The richest survey in the egyptian-revival cluster, and the one that shows what the style does to a plan: 80 ft wide and 138 ft deep, a 1:1.7 rectangle entered on its short end through two columns between two towers. Worth carrying: the survey calls the walls 'a brick veneer laid in stretcher bond' over 'load-bearing masonry walls', which is the node's claim that this is a masonry style in a light-framing age, stated in a wall section. The towers are the anomaly -- Egyptian temples have no steeples, and the surveyor records square second storeys becoming octagonal thirds."
+}

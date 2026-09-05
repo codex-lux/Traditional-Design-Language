@@ -1,0 +1,106 @@
+{
+  "id": "rensselaer-russell-house",
+  "name": "Rensselaer Russell House",
+  "location": {
+    "text": "Waterloo, Black Hawk County, Iowa",
+    "country": "United States",
+    "state": "Iowa"
+  },
+  "dates": {
+    "built": "1861",
+    "circa": false,
+    "note": "The survey's own chronology places the house in the Waterloo of the first railroad (1861) and gives a construction ledger; the date is stated here as the record's own, not from a secondary work."
+  },
+  "nodes": [
+    "italianate-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IA-64",
+      "title": "Rensselaer Russell House, 520 West Third Street, Waterloo, Black Hawk County, Iowa",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ia/ia0100/ia0106/data/ia0106data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('RENSSELAER RUSSELL HOUSE HABS No. IA-64 (Page 12)')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ia0106",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ia/ia0100/ia0106/data/ia0106data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the loc.gov landing page was not opened, so this is recorded as manual."
+    }
+  ],
+  "survey": {
+    "item": "ia0106",
+    "survey_no": "IA-64",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ia/ia0100/ia0106/data/ia0106data.pdf",
+    "prepared": "Iowa State University Department of Architecture study, edited for the Historic American Buildings Survey (the data page names David Langholz as teaching assistant and Wesley Ivan Shank as editor, and Druscilla J. Null as HABS historian, in the same document).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "PART 2. Condition of the Fabric: Good. Exterior: 1. Overall dimensions: the building is irregular in shape, but could be contained within a rectangle approximately 50 ft x53 ft (1). 2. Number of stories: two, plus a cellar and a central cupola. 3. Layout shape: rectangular plan containing a high two-stcry block, a lower two-story block to the right (as one faces the front of the house), and two one-story wings, one at the rear center and one at the rear right. 4. Foundation: stone.",
+        "page": "HABS No. IA-64 (Page 12); the running header 'RENSSELAER RUSSELL HOUSE HABS No. IA-64 (Page 12)' precedes this span"
+      },
+      {
+        "field": "roof",
+        "text": "11. Roof shape: the roofs are hipped and shingled. A very wide frieze with paired brackets and wide overhangs surrounds the house, constituting its most striking decorative feature. This woodwork is also painted white.",
+        "page": "HABS No. IA-64 (Page 13)"
+      },
+      {
+        "field": "openings",
+        "text": "The cupola has twelve arched windows', three on each of its four sides. All sash and trim are painted white,",
+        "page": "HABS No. IA-64 (Page 13); the span follows the running header 'RENSSELAER RUSSELL HOUSE. HABS No. IA-64 (Page 13)'"
+      },
+      {
+        "field": "porches",
+        "text": "7. Porches: at right side of the front and turning the right corner of the front- This porch has six, wooden Corinthian columns. The front door is a small porch with two similar columns and matching pilasters , also of wood, eaves of both porches are trimmed by a wrought-iron cresting painted black. 8. Chimneys: red brick.",
+        "page": "HABS No. IA-64; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "50 ft",
+      "value": 50,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey prints 'approximately 50 ft x53 ft' and does not say which figure is the front; the first printed is taken as the width, per the schema's rule."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "x53 ft",
+      "value": 53,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR runs the multiplication sign into the figure."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two, plus a cellar and a central cupola",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "cupola_window_count",
+      "as_printed": "twelve arched windows",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "porch_column_count",
+      "as_printed": "six, wooden Corinthian columns",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. The plain, surveyed Italianate house the cluster was short of: a merchant's house in an Iowa railroad town, hipped and cupolaed, whose survey states the bracketed frieze as 'its most striking decorative feature' -- the italianate-american node's own claim that the bracket is the diagnostic element, met in a record rather than in a book. The house is IRREGULAR in plan and the survey says so before giving a bounding rectangle, which is worth carrying into any node that assumes a rectangle."
+}

@@ -1,0 +1,63 @@
+{
+  "id": "casa-del-herrero",
+  "name": "Casa del Herrero",
+  "aka": [
+    "Steedman Estate",
+    "Steedman House",
+    "House of the Blacksmith"
+  ],
+  "location": {
+    "text": "1387 East Valley Road, Montecito, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "Montecito, California",
+      "1387 E. Valley Rd., Montecito, California",
+      "1387 E. Valley Road, Santa Barbara, CA 93108"
+    ]
+  },
+  "dates": {
+    "built": "1925",
+    "circa": false,
+    "altered": "Octagonal library addition by Lutah Maria Riggs in the 1930s (Wikipedia).",
+    "note": "The Wikipedia infobox prints 'Built 1925' and the article says the residence was completed in 1925; the list of George Washington Smith's works in the same encyclopaedia prints 'Steedman House, \"Casa del Herrero\", 1922–25'. Both recorded, neither changed."
+  },
+  "nodes": [
+    "spanish-colonial-revival",
+    "andalusian-spanish-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Casa_del_Herrero",
+      "title": "Casa del Herrero - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "87000002",
+      "url": "https://en.wikipedia.org/wiki/Casa_del_Herrero",
+      "title": "NRHP reference No. 87000002; added to the National Register 29 January 1987; area 10.9 acres; location 1387 E. Valley Rd., Montecito, California (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "87000002",
+      "url": "https://en.wikipedia.org/wiki/Casa_del_Herrero",
+      "title": "Designated a National Historic Landmark 16 January 2009 (as the Wikipedia infobox prints it, under the same reference number as the National Register listing)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.casadelherrero.com/about",
+      "title": "Casa del Herrero — About",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owning foundation's own words: 'Designed by George Washington Smith, the Casa is one of the finest standing examples of Spanish Colonial Revival Architecture in America', and it credits the gardens to 'Ralph Stevens, Lockwood de Forest, and Francis T. Underhill.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. No HABS survey was found: the search 'Casa del Herrero Montecito HABS National Historic Landmark George Washington Smith loc.gov' returned the encyclopaedia article, the foundation's own pages and directory listings, and no Library of Congress item. A twentieth-century house in private ownership until 1993 is exactly the case HABS does not usually cover. Two nodes name this building at two different location strings and the second is carried in `location.aliases` rather than either exemplar being renamed."
+}

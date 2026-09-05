@@ -1,0 +1,28 @@
+{
+  "id": "cole-boston-house",
+  "name": "Cole-Boston House",
+  "location": {
+    "text": "Newbern, Dyer County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1904",
+    "circa": false,
+    "note": "The Tennessee Historical Commission's listing announcement gives 1904 and no other source read here states a date."
+  },
+  "nodes": [
+    "neoclassical-revival"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "url": "https://www.tn.gov/historicalcommission/federal-programs/national-register/recent-listings.html",
+      "title": "Recent National Register Listings - Tennessee Historical Commission",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state historic preservation office's own announcement, read verbatim: 'The Cole-Boston House (Archived) is located near Newbern, Dyer County, and was listed in the National Register of Historic Places on December 18, 2025, for its architectural significance. The house was constructed in 1904 during the period of growth brought on by the timber industry and the completion of the railroads. Available information suggests that the first owner of the house was Thomas H. Cole. The house is an excellent local example of the Neoclassical style. Popular from 1900-1920 and 1925 1950, the style commonly features a full-height porch with classical columns, symmetrical facade, and classical ornamentation. The Cole-Boston house retains many of these important features. Its full length, two-story porch is supported by large, fluted redwood columns capped by elaborately...' The page is a rolling list of recent listings and prints no reference number, so no `nrhp` ref is recorded; the entry may scroll off it, which is why the title and the wording are kept here."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as the second addition to neoclassical-revival: a plain house in a county seat, listed in December 2025, whose porch is redwood rather than marble. It exists in this set to keep the node from being represented entirely by three palaces and a world's fair, which is exactly the population the node's own prose says the style was NOT. UNRESOLVED: no National Register reference number was found for it - the Tennessee announcement does not print one and no other surface was reachable - so the record carries the state office's page and nothing more."
+}

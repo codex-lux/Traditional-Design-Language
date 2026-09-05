@@ -1,0 +1,62 @@
+{
+  "id": "lyndhurst",
+  "name": "Lyndhurst",
+  "aka": [
+    "Lyndhurst, Main House",
+    "Jay Gould estate",
+    "Knoll"
+  ],
+  "location": {
+    "text": "Tarrytown, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1838",
+    "circa": false,
+    "altered": "Nearly doubled for George Merritt in 1864-65, also by Davis, as the node's own exemplar notes state.",
+    "note": "The Wikipedia infobox prints 'Built 1838' and 'Architect Alexander Jackson Davis'. The HABS data pages carry no construction date: they are a photogrammetric image inventory."
+  },
+  "nodes": [
+    "gothic-revival-american",
+    "rural-gothic-villa"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-5538-A",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0869/data/ny0869data.pdf",
+      "title": "Lyndhurst, Main House, 635 South Broadway, Tarrytown, Westchester County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data page was extracted twice with different queries and BOTH passes returned only cover sheets and a photogrammetric image inventory ('LYNDHURST, MAIN HOUSE HABS NO. NY-5538-A Data (Page 2)' heading a list of stereopair plate numbers). There is no Part II architectural description in what could be read, so no survey block is recorded and this record carries no measurement. The survey number is printed in the cover header, OCR'd once as 'T^ABS No. HY-5538-4'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0869",
+      "url": "https://www.loc.gov/resource/hhh.ny0869.sheet",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "title": "HABS NY,60-TARY,1A- (sheet 1 of 16) - Lyndhurst, Main House, 635 South Broadway, Tarrytown, Westchester County, NY",
+      "note": "The item id is the path segment of the resource URL the search returned and of the data PDF actually fetched; the pictures landing page was not opened for this building."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000582",
+      "url": "https://en.wikipedia.org/wiki/Lyndhurst_(mansion)",
+      "title": "NRHP reference No. 66000582; added November 13, 1966; designated NHL November 13, 1966; NYSRHP No. 11950.000006 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lyndhurst_(mansion)",
+      "title": "Lyndhurst (estate) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The article's own words: 'a Gothic Revival country house that sits in its own 67-acre (27 ha) park beside the Hudson River'."
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Shared by two nodes at one location string. A separate HABS item, NY-5538-B, covers the greenhouse and another the stables and carriage house; neither was pursued. No rights line is recorded because the pictures item page was not opened -- the boilerplate from a neighbouring item is not evidence about this one."
+}

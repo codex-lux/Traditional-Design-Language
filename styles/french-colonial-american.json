@@ -211,25 +211,55 @@
       "name": "Louis Bolduc House",
       "location": "Ste. Geneviève, Missouri",
       "year": 1792,
-      "note": "Poteaux-sur-sol with bousillage infill, steep hipped roof on hand-hewn Norman trusses, galleries on all four sides — the best-preserved Illinois Country house."
+      "note": "Poteaux-sur-sol with bousillage infill, steep hipped roof on hand-hewn Norman trusses, galleries on all four sides — the best-preserved Illinois Country house.",
+      "precedent": "louis-bolduc-house",
+      "standing": "icon",
+      "why": "The Library of Congress picks this house out of the whole HABS collection to illustrate French colonial building in the upper Mississippi Valley, and its survey states the construction, the four-sided gallery and the double-pitched roof this node is built on."
     },
     {
       "name": "Cahokia Courthouse",
       "location": "Cahokia, Illinois",
       "year": 1740,
-      "note": "Built as a dwelling in poteaux-en-terre — vertical logs set directly in the ground — and converted to a courthouse in 1793; one of very few surviving poteaux-en-terre buildings."
+      "note": "Built as a dwelling in poteaux-en-terre — vertical logs set directly in the ground — and converted to a courthouse in 1793; one of very few surviving poteaux-en-terre buildings.",
+      "precedent": "cahokia-courthouse",
+      "standing": "documentary",
+      "why": "Useful and not to be admired: HABS recorded it re-erected 'in partial form' in Jackson Park, Chicago, and the building at Cahokia today stands on the original foundation with the returned fabric - so it documents the type's survival history rather than an intact example."
     },
     {
       "name": "Madame John's Legacy",
       "location": "632 Dumaine Street, New Orleans, Louisiana",
       "year": 1789,
-      "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on an earlier c. 1730 site; raised on a brick basement, six-bay gallery on colonnettes, double-pitched roof over Norman trusses."
+      "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on an earlier c. 1730 site; raised on a brick basement, six-bay gallery on colonnettes, double-pitched roof over Norman trusses.",
+      "precedent": "madame-johns-legacy",
+      "standing": "canonical",
+      "why": "The type specimen for the raised New Orleans house, already carried in this corpus with its HABS record (LA-39) for raised-creole-plantation; it is the one urban survivor whose galerie, colonnettes and double-pitched roof can be held against this node's own figures."
     },
     {
       "name": "Parlange Plantation House",
       "location": "Pointe Coupee Parish, Louisiana",
       "year": 1750,
-      "note": "Traditionally dated c. 1750; some recent fabric analysis argues for c. 1830–40. Either way it is the canonical raised Creole plantation house — brick ground storey, bousillage above, encircling gallery, octagonal pigeonniers."
+      "note": "Traditionally dated c. 1750; some recent fabric analysis argues for c. 1830–40. Either way it is the canonical raised Creole plantation house — brick ground storey, bousillage above, encircling gallery, octagonal pigeonniers.",
+      "precedent": "parlange-plantation-house",
+      "standing": "canonical",
+      "why": "The canonical raised Creole plantation house on the node's own account and already carried in this corpus with its HABS record (LA-34); the dating disagreement its record preserves is itself the reason to keep it as a specimen rather than an icon."
+    },
+    {
+      "name": "Badin-Roque House",
+      "location": "Natchez vicinity, Natchitoches Parish, Louisiana",
+      "year": null,
+      "note": "A one-storey house framed with cedar posts SET INTO THE GROUND and infilled with bousillage, 27 by 30 ft, with an unbroken steeply pitched roof cantilevered over the front. The Cane River HABS area survey states that only three other French Creole poteaux-en-terre buildings are known and that all three are in Ste. Genevieve, Missouri. The year is null because four sources give four dates.",
+      "precedent": "badin-roque-house",
+      "standing": "regional",
+      "why": "The Cane River expression, and the one building in this node that is actually poteaux-en-terre on a federal survey's own word - which is the technique this node's description names first and which the Cahokia exemplar has been claiming wrongly."
+    },
+    {
+      "name": "LaPointe-Krebs House",
+      "location": "Pascagoula, Mississippi",
+      "year": 1757,
+      "note": "The Gulf Coast outlier: a cypress and cedar frame filled with oyster-shell concrete, with a later west room in bousillage, one storey and an attic under a trussed gable roof of broken pitch, porches on three sides. SAH Archipedia calls it the oldest building in Mississippi and the sole above-ground survivor of the state's French period. The HABS sheet dates it 1721 with a question mark; other sources say c. 1757 and c. 1772.",
+      "precedent": "lapointe-krebs-house",
+      "standing": "regional",
+      "why": "The Mississippi Gulf Coast is one of this node's own named regions and had no exemplar; this is the only French colonial building left standing in it, on SAH Archipedia's judgment."
     }
   ],
   "sources": [

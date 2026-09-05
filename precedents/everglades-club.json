@@ -1,0 +1,104 @@
+{
+  "id": "everglades-club",
+  "name": "Everglades Club",
+  "location": {
+    "text": "Palm Beach, Florida",
+    "country": "United States",
+    "state": "Florida",
+    "aliases": [
+      "356 Worth Avenue, Palm Beach, Palm Beach County, Florida"
+    ]
+  },
+  "dates": {
+    "built": "1919",
+    "circa": false,
+    "altered": "The survey records that 'The bar and part of the Orange Garden areas were originally part of the lake' and were filled in, and that 'Subsequent additions have surrounded the original structure and given it a rambling effect'. The exterior description names 'The port cochere on the east, and the orange garden on the southwest' as major additions.",
+    "note": "The survey's Part I gives '1. Date of erection: 1919.' Construction began in July 1918 as the Touchstone Convalescent Club, a war hospital, and the club opened in February 1919; the style node's exemplar carries 1919 and its note '1918-19'. Both readings sit inside the same year band and neither was changed."
+  },
+  "nodes": [
+    "mediterranean-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "FL-226",
+      "url": "https://www.loc.gov/pictures/item/fl0177",
+      "title": "Everglades Club, Palm Beach, Palm Beach County, FL — Survey number: HABS FL-226; 'The design of the Everglades Club, by architect Addison Mizner in 1919'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data page's own header prints the older form 'HABS No, FLA-226' and its running markers read 'EVERGLADES CLUB HABS No. FLA-226 (Page 7)'. FL-226 is the Library's normalised form. Wikipedia's external-links line, read the same day, gives the holding as '20 photos, 1 color transparency, 13 data pages, 3 photo caption pages, supplemental material'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "fl0177",
+      "url": "https://www.loc.gov/pictures/item/fl0177",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Everglades_Club",
+      "title": "Everglades Club - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://preservationfoundationofpalmbeach.omeka.net/items/show/343",
+      "title": "Everglades Club (Palm Beach, FL) · Preservation Foundation of Palm Beach Architectural Archives",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Mizner drew inspiration from Italy, Spain and Northern Africa to establish an architectural style that complimented Florida's climate. The Everglades Club opened in February 1919 and was immediately embraced by Palm Beach society, launching Mizner's architectural career.' It also records 'In 1980, the Everglades Club was designated as a landmark.'"
+    }
+  ],
+  "survey": {
+    "item": "fl0177",
+    "survey_no": "FL-226",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0177/data/fl0177data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "HISTORIC AMERICAN BUILDINGS SURVEY HABS No, FLA-226 EVERGLADES CLUB Location: 356 Worth Ave., Palm Beach, Palm Beach Co., Florida. Present Owner: The Everglades Protective Syndicate",
+        "page": "The sheet's own first page; no page number is printed within this span."
+      },
+      {
+        "field": "general_description",
+        "text": "PART I. HISTORICAL INFORMATION A, Physical History: 1. Date of erection: 1919.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of the Exterior: 1. Over-all dimensions: Not recorded The asymetrical massing and the irregular plan of the structure expresses chiefly a three-story building, with a tower which offers an elevated fourth floor. Only the first story is described here.",
+        "page": "The marker 'EVERGLADES CLUB HABS No. FLA-226 (Page 7)' is printed at the end of this span."
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction, finish, color: The beige-colored stucco walls are flush with the sidewalk on Worth Avenue, with typically few openings. Decorative details and trim are of cast stone.",
+        "page": "Follows the marker 'EVERGLADES CLUB HABS No. FLA-226 (Page 7)'."
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plans: No plans are available to illustrate accurately the intricate layout of this irregular plan.",
+        "page": "Precedes the marker 'EVERGLADES CLUB HABS No. FLA-226 (Page 9)'."
+      },
+      {
+        "field": "general_description",
+        "text": "Mizner is said to have designed the Everglades Club after aSpanish fortress—focussing inward, like a fortress, but unlike a fortress, with its few small windows on its outer face, having larger openings on the outer walls, inviting light and air to stream through the structure.",
+        "page": "No page marker legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "a three-story building, with a tower which offers an elevated fourth floor",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The surveyor's own qualification 'expresses chiefly' is one clause earlier and is not part of this figure; the tower's fourth floor is stated separately and is not counted in the 3."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, and the most useful thing in it is a REFUSAL: 'Over-all dimensions: Not recorded'. A surveyor stood in front of Mizner's founding Palm Beach building and declined to state its size, and said in the same sheet that 'No plans are available to illustrate accurately the intricate layout of this irregular plan.' That is the honest state of the measured record for the building that started the Florida idiom, and it is quoted here rather than filled in from a secondary account. What the survey does state is the wall: beige stucco flush with the pavement, few openings on the street, cast stone trim — the fortress reading the node's own prose depends on."
+}

@@ -1,0 +1,57 @@
+{
+  "id": "fanthorp-inn",
+  "name": "Fanthorp Inn",
+  "aka": [
+    "Fanthorp Inn State Historic Site"
+  ],
+  "location": {
+    "text": "Anderson, Grimes County, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1834",
+    "circa": false,
+    "altered": "Enlarged about 1850 into an eighteen-room inn with a store and post office and clad in clapboard; acquired by the Texas Parks and Wildlife Department in 1977, restored to its 1850 appearance over ten years and opened to the public 4 October 1987; restored again 2025 (Preservation Texas award).",
+    "note": "The Handbook of Texas says the state acquired the site in 1977 for $100,000 from Edward Buffington and opened it 'in the mid-1980s'; Wikipedia gives the opening as 4 October 1987 and the vendor as 'a Fanthorp descendant'. Both recorded."
+  },
+  "nodes": [
+    "dogtrot-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74002072",
+      "url": "https://en.wikipedia.org/wiki/Fanthorp_Inn_State_Historic_Site",
+      "title": "Anderson Historic District, NRHP reference No. 74002072; Fanthorp Inn designated a contributing property March 15, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing; the inn is a contributing property within it and has no individual National Register reference. It is separately a Texas State Antiquities Landmark, TSAL No. 8200000297."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fanthorp_Inn_State_Historic_Site",
+      "title": "Fanthorp Inn State Historic Site - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The clapboard-covered log house was built in 1834 by an English immigrant, Henry Fanthorp, as a home for his third wife, Rachel Kennard.' Architectural style given as 'Log house, Dogtrot house'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.tshaonline.org/handbook/entries/fanthorp-inn-state-historic-site",
+      "title": "Fanthorp Inn State Historic Site -- Handbook of Texas Online (Texas State Historical Association), by Christopher Long",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The log structure, now clad with clapboard, is the only authentically restored stagecoach inn of the 1850s in the state.' The companion entry 'Fanthorp Inn' says Fanthorp 'soon enlarged the original two-room log building into a hotel'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://wheretexasbecametexas.org/about/fanthorp-inn",
+      "title": "Fanthorp Inn -- Where Texas Became Texas (Texas Historical Commission site)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own words: 'The 18-room inn had humble beginnings in 1834 as the simple dogtrot log cabin home of English immigrant Henry Fanthorp and his bride Rachel Kennard.'"
+    }
+  ],
+  "note": "The type absorbed rather than preserved: a two-room dogtrot log cabin of 1834 that became an eighteen-room stagecoach inn by 1850 with the logs clad in clapboard. It is carried because the corpus's dogtrot prose asserts that enclosing the passage is 'the single most common transformation in Southern vernacular architecture' and offers no worked example; this is one, at the commercial rather than the domestic end. No HABS survey was found."
+}

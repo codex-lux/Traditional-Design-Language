@@ -1,0 +1,60 @@
+{
+  "id": "the-woodlands",
+  "name": "The Woodlands",
+  "location": {
+    "text": "Montgomery County, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1974-",
+    "circa": false,
+    "note": "The Handbook of Texas says Mitchell Energy and Development 'In 1972 ... began to build, on 23,000 acres, a planned community called The Woodlands. The first homes were ready for purchase in 1974'; the community's own history dates the grand opening to 19 October 1974. The land figures disagree: 23,000 acres (Handbook of Texas) against an original 17,450 acres plus a later 10,000 for about 29,000 (Town Square Publications, quoting Roger Galatas), with a first 2,800-acre piece bought in 1964. None edited."
+  },
+  "nodes": [
+    "neo-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.tshaonline.org/handbook/entries/woodlands-tx",
+      "title": "The Woodlands, TX - Handbook of Texas, Texas State Historical Association (Mark Odintz)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1972 the Mitchell Energy and Development Corporation, as a response to the growth of nearby Houston, began to build, on 23,000 acres, a planned community called The Woodlands. The first homes were ready for purchase in 1974, and by 1980 the community had a population of 11,197, six schools, six parks, five churches, and a public library.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Woodlands,_Texas",
+      "title": "The Woodlands, Texas - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE MECHANISM THIS NODE IS ABOUT, IN ONE SENTENCE: 'The Woodlands was conceived after the oil industry investor George P. Mitchell attended a symposium by the Rouse Company subsidiary American City Corporation and developer of Columbia, Maryland, on how to develop new towns using the HUD Title VII program.' Also: 'Houses would range from moderately priced to expensive and large.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.thewoodlands.com/2020/11/19/history-of-the-woodlands",
+      "title": "History of The Woodlands | The Woodlands",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'On the morning of October 19, 1974, a flag was raised to symbolize the debut of The Woodlands ... The Village of Grogan's Mill was the first village and opened in 1974. At first opening, less than 40 families resided in Settler's Corner in the Village of Grogan's Mill.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.visitthewoodlands.com/about/history",
+      "title": "History of The Woodlands, Texas | Founded by George P Mitchell in 1974",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Dates the nine villages in sequence: Grogan's Mill (1974), Panther Creek (1976), Cochran's Crossing (1984), Indian Springs (1984), Alden Bridge (1994), College Park (1995), Sterling Ridge (1999), Carlton Woods (2000), Creekside Park (2007). Thirty-three years of build-out is the span this node's elevation packages can be read across."
+    },
+    {
+      "kind": "other",
+      "url": "https://townsquarepublications.com/woodlands-tx-history",
+      "title": "Woodlands TX History - George P. Mitchell - Town Square Publications",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes Roger Galatas: 'Mitchell was a community builder, not just a developer of lots and commercial property. He understood the need for and demanded quality of design to establish a \"community where people could live, work, play and learn\".' Gives the acquisition as about 17,450 acres plus a later 10,000-acre purchase."
+    }
+  ],
+  "note": "The largest and best-documented of this node's exemplars, and the one whose thirty-three-year build-out lets a reader see the elevation packages change decade by decade in one place. It is also the node's clearest case of the DECOUPLING it is about arriving from the top rather than from the bottom: the planning here is deliberate, federally-programmed and well regarded, and the houses inside it were still bought from production builders' elevation menus. No survey and no register listing; no house in it is documented individually in anything read here, which is the ordinary condition of this whole node and worth stating once."
+}

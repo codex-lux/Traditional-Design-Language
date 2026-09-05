@@ -1,0 +1,88 @@
+{
+  "id": "jonathan-corwin-house",
+  "name": "Jonathan Corwin House",
+  "aka": [
+    "The Witch House"
+  ],
+  "location": {
+    "text": "310 Essex Street, Salem, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "c. 1675",
+    "circa": true,
+    "altered": "The HABS addendum records that the house was moved about 35 feet in the 1940s when the adjacent street was widened and was restored to its seventeenth-century appearance at that time. What a visitor reads on the front is therefore partly a 1940s restoration.",
+    "note": "The Wikipedia infobox prints two dates -- '1642 (Traditional)' and 'c. 1675 (MACRIS)' -- and the loc.gov item page prints 'Building/structure dates: ca. 1675 Initial Construction'. Recorded as c. 1675 with the traditional date noted rather than resolved."
+  },
+  "nodes": [
+    "garrison-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-398",
+      "title": "Jonathan Corwin House, 310 Essex Street, Salem, Essex County, MA",
+      "url": "https://www.loc.gov/pictures/item/ma0683",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The loc.gov item page prints 'Other Title: The Witch House' and 'Survey number: HABS MA-398'. The data page's own header, read by extract the same day, prints both the 1930s form ('HABS\" No, MASS-'-398', OCR) and the modern form ('HABS MA-398')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0683",
+      "url": "https://www.loc.gov/pictures/item/ma0683",
+      "title": "Jonathan Corwin House, 310 Essex Street, Salem, Essex County, MA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A second search result, https://www.loc.gov/resource/hhh.ma0683.sheet?sp=2, prints 'Second Floor and First Floor Plans -- Jonathan Corwin House ... Drawings from Survey HABS MA-398', which ties the item id and the survey number together on the Library's own surface."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Witch_House",
+      "title": "The Witch House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox is headed 'Jonathan Corwin House' and lists the building as a contributing property of the Chestnut Street District (ID73000312). No individual National Register reference is printed there, so none is recorded here."
+    },
+    {
+      "kind": "other",
+      "url": "https://historyofmassachusetts.org/witch-house-salem",
+      "title": "History of the Witch House in Salem, Massachusetts - History of Massachusetts Blog",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Describes 'a two-and-a-half-story, wooden clapboard house with a center chimney and a gable roof', 'a two-story entry porch, a second-story overhang with pendant drops, diamond-paned casement windows, and a lean-to addition in the rear', and cites the MACRIS record SAL.1510. A secondary account by a named writer, recorded as one; MACRIS itself was not reachable from here."
+    }
+  ],
+  "survey": {
+    "item": "ma0683",
+    "survey_no": "MA-398",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0683/data/ma0683data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer, 76 Chestnut Street, Boston (as the 1930s cover reads); the unfinished 1930s material was transmitted to the Library by HABS, National Park Service, in 2013",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Addendum to: JONATHAN CORWIN HOUSE (The Witch House) HABS MA-398 Location: 310 Essex Street, Salem, Essex County, Massachusetts The house is located at latitude: 42.521582, longitude: -70.898878. The coordinate was obtained using Google Earth on 22 December 2013. The coordinate’s datum is WGS84. There are no restrictions on its release to the public. Project Information: This project was an early survey began by the Historic American Buildings Survey during the 1930s. The project was never completed. In 2013, HABS made the decision to transmit the unfinished materials from the 1930s to the Library of Congress due to the information potential of the documentation, and the fact that many of the unfinished drawings from this period document important historic properties, many of which are no",
+        "page": "HABS MA-398, addendum cover and Project Information; no page marker was legible in the extract span, and the span ends mid-sentence where the extract's chunk ends"
+      },
+      {
+        "field": "condition",
+        "text": "important historic properties, many of which are no longer extant. The name “Witch House” comes from Judge Corwin’s involvement in the Salem witchcraft trails of 1692. Judge Corwin served on the Court of Oyer and Terminer which sentenced nineteen people to death during the trials. The house was moved about 35 feet to its current location in the 1940s when the adjacent street was widened. At this time the house was restored to its 17th Century appearance. The house is now a museum. Due to the incomplete nature of the documentation and the lack of field measurements to verify the drawings, the drawings may not meet HABS standards and have been marked as such. Most of these drawings are still in pencil, that combined with the age of the drawings, presented challenges when digitizing them, so",
+        "page": "HABS MA-398, addendum Project Information, continuing the span above; no page marker legible"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "moved_distance_ft",
+      "as_printed": "about 35 feet",
+      "value": 35,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "How far the building was moved in the 1940s, not a dimension of it. Recorded because it is the only figure either quote states and because it bears on what any measurement of this house means."
+    }
+  ],
+  "note": "The survey has no Part II description to quote: HABS began this house in the 1930s, never finished it, and the 2013 addendum says in terms that the drawings 'may not meet HABS standards' for want of field measurements. Two extract calls with different queries returned the same addendum span both times, so no exterior or interior data was reached and none is claimed. The building's own architectural interest for garrison-colonial -- the framed overhang with pendant drops -- rests here on a secondary account and on the photographs, not on the survey."
+}

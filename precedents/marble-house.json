@@ -1,0 +1,54 @@
+{
+  "id": "marble-house",
+  "name": "Marble House",
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1888-1892",
+    "circa": false,
+    "altered": "A Chinese Tea House was added on the cliff in 1913-14 for Alva Belmont; the house has been a museum of the Preservation Society of Newport County since 1963.",
+    "note": "The style node's exemplar gives 1892, which is the completion date; Wikipedia's infobox gives 'Built 1888-92' and the National Trust's page 'built between 1888 and 1892'. No disagreement, so nothing is reconciled."
+  },
+  "nodes": [
+    "beaux-arts-american"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Marble_House",
+      "title": "Marble House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the address as 596 Bellevue Avenue, the architect as Richard Morris Hunt, the style as 'Beaux Arts', and the temple-front portico compared to the White House's."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000025",
+      "url": "https://en.wikipedia.org/wiki/Marble_House",
+      "title": "NRHP reference No. 71000025; added September 10, 1971; designated NHL February 17, 2006; contributing property of the Bellevue Avenue Historic District (ID72000023), as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/distinctive-destinations/marble-house",
+      "title": "Marble House - National Trust for Historic Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the address and the 1888-1892 dates."
+    },
+    {
+      "kind": "other",
+      "url": "https://sites.udel.edu/materialmatters/2024/08/12/designing-leisure-in-the-gilded-age",
+      "title": "Designing Leisure in the Gilded Age - Material Matters (University of Delaware)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "UNRESOLVED, AND RECORDED AS SUCH. This page's caption reads 'Bellevue Avenue, Newport, Newport County, RI Photos from Survey HABS RI-330. Library of Congress', which is the only claim found that Marble House carries a HABS number. It was not confirmed against a Library item record or a data page, and no `survey` block is written on the strength of it. A HABS record of photographs alone carries no written data in any case."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, the French modes and the Beaux-Arts. Searched for a HABS survey on loc.gov, in Wikimedia Commons and against the getarchive/PICRYL index that carries survey numbers for Newport; the queries returned The Elms (RI-344), the Redwood Library (RI-100) and the Mary T. Porter House (RI-314) but no confirmable number for Marble House, so this record carries locators and no measurements. That is a complete record under the schema, not a gap in it."
+}

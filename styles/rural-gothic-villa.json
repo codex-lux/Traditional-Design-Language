@@ -200,19 +200,46 @@
       "name": "Lyndhurst",
       "location": "Tarrytown, New York",
       "year": 1838,
-      "note": "Alexander Jackson Davis, 1838 for William Paulding, greatly enlarged 1864-65 for George Merritt. Tuckahoe marble; the type's defining American statement."
+      "note": "Alexander Jackson Davis, 1838 for William Paulding, greatly enlarged 1864-65 for George Merritt. Tuckahoe marble; the type's defining American statement.",
+      "precedent": "lyndhurst",
+      "standing": "icon",
+      "why": "Davis's own perfected statement of the type and a National Historic Landmark since 1966; the node's own prose calls it the type's defining American statement."
     },
     {
       "name": "Kingscote",
       "location": "Newport, Rhode Island",
       "year": 1839,
-      "note": "Richard Upjohn for George Noble Jones. The wooden cottage-villa; later dining room by Stanford White, 1880-81."
+      "note": "Richard Upjohn for George Noble Jones. The wooden cottage-villa; later dining room by Stanford White, 1880-81.",
+      "precedent": "kingscote",
+      "standing": "icon",
+      "why": "The wooden villa the type is known by, and its HABS survey calls it 'A key example of Gothic Revival domestic architecture in America'."
     },
     {
       "name": "William J. Rotch Gothic Cottage",
       "location": "New Bedford, Massachusetts",
       "year": 1846,
-      "note": "A. J. Davis. Published by Downing as Design XXIV, A Cottage-Villa in the Rural Gothic Style, and thereafter the most copied villa design in America."
+      "note": "A. J. Davis. Published by Downing as Design XXIV, A Cottage-Villa in the Rural Gothic Style, and thereafter the most copied villa design in America.",
+      "precedent": "william-j-rotch-gothic-cottage",
+      "standing": "canonical",
+      "why": "The National Historic Landmark nomination says Downing published it as 'A Cottage-Villa in the Rural Gothic Style', which makes it the type specimen the phrase itself was attached to."
+    },
+    {
+      "name": "Cottage Lawn",
+      "location": "Oneida, New York",
+      "year": 1849,
+      "note": "Alexander Jackson Davis. A two-storey L-shaped house with basement and attic, brick coated in stucco, with six quatrefoil columns carrying Tudor arches across the verandah -- the same column section the Kingscote survey independently records on its own east porch, two architects and 250 miles apart. Now the Madison County Historical Society's museum.",
+      "precedent": "cottage-lawn",
+      "standing": "canonical",
+      "why": "Named in the Rotch cottage's National Historic Landmark nomination as one of three other Davis Gothic Revival cottages on the National Register, and the one that shows the type built in masonry rather than in board and batten."
+    },
+    {
+      "name": "Oaklands",
+      "location": "Gardiner, Maine",
+      "year": 1835,
+      "note": "Richard Upjohn, 1835-36, for Robert Hallowell Gardiner: a large granite Gothic house of two storeys with a two-and-a-half-storey ell, 93'-1 1/2\" by 95'-2 3/4\" over all on HABS ME-113's measure, standing on bedrock with granite ashlar facing backed by brick and fieldstone. Upjohn's original signed drawings survive and the survey quotes his great-grandson's account of them.",
+      "precedent": "oaklands",
+      "standing": "canonical",
+      "why": "The earliest dated villa in this set and the only one whose overall dimensions a survey states, which is what a type specimen has to be able to do for a design language."
     }
   ],
   "sources": [

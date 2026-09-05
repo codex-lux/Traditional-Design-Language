@@ -16,7 +16,8 @@
     "note": "Wikipedia infobox 'Built 1914-23'; the HALS Rose Garden data page says 'built between 1914-1922'; the node's exemplar says 1916. All kept."
   },
   "nodes": [
-    "italian-renaissance-revival"
+    "italian-renaissance-revival",
+    "mediterranean-revival"
   ],
   "refs": [
     {
@@ -54,5 +55,5 @@
       "note": "The Marine Garden's HALS item; listed so a later pass knows the Library's Vizcaya records are landscape surveys."
     }
   ],
-  "note": "No HABS survey of the villa itself was found: 'Vizcaya \"Deering\" villa main house Miami HABS FL- loc.gov pictures item' returned only the HALS garden records. Also named, without a precedent key, by mediterranean-revival at 'Miami, Florida'. Seeded 4 Sep 2026."
+  "note": "No HABS survey of the villa itself was found: 'Vizcaya \"Deering\" villa main house Miami HABS FL- loc.gov pictures item' returned only the HALS garden records. Seeded 4 Sep 2026. CROSS-LINKED 5 Sep 2026 (Spanish and Mediterranean cluster): mediterranean-revival names this building at 'Miami, Florida', the same string italian-renaissance-revival uses, and now reaches it through `precedent`; the sentence that used to say it did so 'without a precedent key' has been retired rather than left standing."
 }

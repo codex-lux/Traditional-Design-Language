@@ -12,7 +12,8 @@
     "note": "Wikipedia infobox 'Built 1910-12'; the Pasadena bungalow-courts nomination says 'Designed by Arthur and Alfred Heineman in 1910'."
   },
   "nodes": [
-    "craftsman-bungalow"
+    "craftsman-bungalow",
+    "california-bungalow"
   ],
   "refs": [
     {
@@ -41,5 +42,5 @@
       "note": "The Pasadena bungalow-courts multiple-property nomination. Its own words: 'Bowen Court is the most well known extant bungalow court in Pasadena, and perhaps in the larger Los Angeles region as well'; 'it was one of the first courts to be built, and it is one of the two oldest to survive'; 'Bowen Court was constructed for $1,253 per unit while Gartz Court, built in the same year, cost $2,333 per unit.'"
     }
   ],
-  "note": "No HABS survey was found (query: '\"Bowen Court\" 539 East Villa Street Pasadena HABS CA- loc.gov pictures item' returned other Pasadena surveys). The name and location are spelled exactly as california-bungalow's exemplar already spells them, so that node can join this record without renaming. Seeded 4 Sep 2026."
+  "note": "No HABS survey was found (query: '\"Bowen Court\" 539 East Villa Street Pasadena HABS CA- loc.gov pictures item' returned other Pasadena surveys). The name and location are spelled exactly as california-bungalow's exemplar already spells them, so that node could join this record without renaming -- and WP-11.3, Tranche 2 (5 Sep 2026): it has. Seeded 4 Sep 2026."
 }

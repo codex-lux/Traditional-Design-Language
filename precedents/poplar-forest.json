@@ -1,0 +1,90 @@
+{
+  "id": "poplar-forest",
+  "name": "Poplar Forest",
+  "location": {
+    "text": "Forest, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1806-1809",
+    "circa": false,
+    "altered": "The survey: 'Interior trim all restoration work after fire of c. 1SUO' (c. 1840) and 'Previous to the fire it had a central cupola that lighted the salon belov but that was not rebuilt.' The Library's catalogue essay says the house 'was built from 1806-19'. The Monticello foundation records the sale out of the Cobbs-Hutter family in 1946 and the 1984 purchase by the Corporation for Jefferson's Poplar Forest.",
+    "note": "The 1930s entry prints 'Date: 1S06-9' -- 1806-9. The Library's catalogue line says 1806-19. The node's exemplar gives 1823 and 'Begun 1806'. All three kept. THE SKYLIT CUPOLA THE NODE'S PROSE DESCRIBES WAS NOT REBUILT AFTER THE FIRE, per this survey, which matters to anyone reading a modern photograph as evidence."
+  },
+  "nodes": [
+    "jeffersonian-classicism"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-303",
+      "title": "Poplar Forest, State Route 661, Forest, Bedford County, VA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0200/va0270/data/va0270data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed five times in the PDF's own text, four of them clean: 'Poplar Forest HABS No. VA-303 State Route 661 Forest vicinity Bedford County'. One 1930s head OCRs as 'HABS No. VA-503' and another as 'HABS No. TA-303'; the majority and the Library both give VA-303. The 1930s call number is not legible in the extract."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0270",
+      "url": "https://www.loc.gov/pictures/item/va0270",
+      "title": "Poplar Forest, State Route 661, Forest, Bedford County, VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search returned the item's own summary line from a sister resource page: 'Photo(s): 75 | Color Transparencies: 10 | Measured Drawing(s): 22 | Data Page(s): 6 | Photo Caption Page(s): 6', and the catalogue sentence 'Poplar Forest, one of Thomas Jefferson's most accomplished architectural essays, was built from 1806-19.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.monticello.org/site/research-and-collections/poplar-forest",
+      "title": "Poplar Forest | Thomas Jefferson's Monticello",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words: 'Working from Jefferson's designs, a combination of free white and enslaved African American craftsmen and laborers began building Poplar Forest in 1806' and 'Over the years, Jefferson's octagonal house experienced fire damage and remodeling, but the floor-plan, walls, chimneys, and columns survived.'"
+    }
+  ],
+  "survey": {
+    "item": "va0270",
+    "survey_no": "VA-303",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0200/va0270/data/va0270data.pdf",
+    "prepared": "'PHOTOGRAPHS WRITTEN HISTORICAL AND DESCRIPTIVE DATA District of Virginia, Historic American Buildings Survey, Eugene Bradbury, Architect in Charge, Grace Securities Building, Richmond, Virginia'; the reference given is 'Virginia Guide - p. 515'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Builder & Architect: Thomas Jefferson Present Condition: Good, restored after fire. Description: Brick laid in Flemish \"bond, one story above high \"basement, roof hipped; plan octagonal with two axial porticos. Interior trim all restoration work after fire of c. 1SUO.",
+        "page": "HABS No. VA-303, the 1930s District of Virginia entry; no page number is printed on that form. The same block was returned by two extract calls with different query values."
+      },
+      {
+        "field": "porches",
+        "text": "The building is low lying, and the porticos broad, giving an horizontal effect. The three bay porticos are of the Tuscan order. The plan of the house was roughly that of a central salon, lighted from above surrounded by polygonal outside rooms. The hi#x basement provided for extra accommodations and service.",
+        "page": "HABS No. VA-303, the same entry, immediately following the description; no page number printed."
+      },
+      {
+        "field": "dependencies",
+        "text": "Sot far from the house and concealed by artificial knolls are octagonal privies with original trim. The house was built by Jefferson as a country retreat away from the paths of travel, which made Monticello a mecca for his admirers.",
+        "page": "HABS No. VA-303, the same entry; no page number printed."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "one story above high \"basement",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The stray quotation mark is OCR of the word 'high' running into 'basement'."
+    },
+    {
+      "name": "portico_bay_count",
+      "as_printed": "The three bay porticos",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Of the PORTICOS, not of the house's elevation. Both porticos, per the description's 'two axial porticos'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. TWO FINDINGS AGAINST THE NODE, and both are in the surveyor's own words. FIRST, the order: 'The three bay porticos are of the Tuscan order.' The node's description.long makes correctness of order the whole argument -- 'a portico of correct Roman orders scaled by module from published plates', 'Jefferson insisted on correct entasis and correct entablature depth because correctness was the point' -- and its diagnostic tells lead with 'Portico entablature of correct Roman depth (roughly a fifth of column height)'. Tuscan is the plainest of the five and the cheapest to cut, which is a fact about a country retreat rather than a fact about a philosophy. SECOND, the concealed dependencies: the surveyor finds octagonal PRIVIES 'concealed by artificial knolls', which is the node's 'Dependencies running out sideways at or below grade rather than as visible flanking wings above ground' recorded at the smallest possible scale. And the roof: the survey says HIPPED, where the kit's roof_pitch binds only a pitch_max of 4:12 and says nothing about shape. No dimension is stated; the node's own prose gives Poplar Forest a twenty-foot cubic dining room and the survey does not."
+}

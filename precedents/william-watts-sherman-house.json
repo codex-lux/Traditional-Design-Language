@@ -16,7 +16,9 @@
     "note": "Wikipedia's text and the Library's item summary say 1875-1876; the Wikipedia infobox prints 'Built 1875'; the node's exemplar says 1874-76. Kept as the article states it."
   },
   "nodes": [
-    "shingle-style"
+    "shingle-style",
+    "queen-anne-american",
+    "queen-anne-free-classic"
   ],
   "refs": [
     {
@@ -50,6 +52,14 @@
       "title": "William Watts Sherman House - Wikipedia",
       "retrieved": "2026-09-04",
       "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://pahistoricpreservation.com/hail-the-queen",
+      "title": "Hail to the Queen! - Pennsylvania Historic Preservation (Pennsylvania State Historic Preservation Office)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Added 5 Sep 2026 when queen-anne-american and queen-anne-free-classic were linked to this record. Its own words: 'The first Queen Anne style building in America is considered to be the Watts Sherman house designed by Henry Hobson Richardson and built in 1874 in Newport, Rhode Island. Featuring heavily textured, shingled wall surfaces, prominent brick chimneys and intersecting gables, it was most faithful to the designs promoted by Shaw and other English architects. Due to its shingled walls, the Watts Sherman house is also seen as an early example of the Shingle style' -- a state preservation office saying in one paragraph why three nodes of this corpus all name the same building. Note that it dates the house 1874 where this record's survey and Wikipedia say 1875-1876."
     }
   ],
   "survey": {
@@ -207,5 +217,5 @@
       "note": "OCR for 3 1/4 x 4 1/2; a reading."
     }
   ],
-  "note": "The survey's own reading of the eave -- 'bracketed eaves along the lower edge of the roofs' -- is worth carrying against the shingle-style kit's canonical 'closed-tight-no-brackets' eave: this is the prototype, and the register calls it Queen Anne. Also named, without a precedent key, by queen-anne-free-classic and queen-anne-american at the same location string. Seeded 4 Sep 2026."
+  "note": "The survey's own reading of the eave -- 'bracketed eaves along the lower edge of the roofs' -- is worth carrying against the shingle-style kit's canonical 'closed-tight-no-brackets' eave: this is the prototype, and the register calls it Queen Anne. Named by queen-anne-free-classic and queen-anne-american at the same location string, and linked to both on 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster) -- three nodes on one building, which is what the graph's multiple parentage here is for. For the free-classic node the survey's alteration line is the whole point: 'Stanford White, after his return from Europe in 18T9, remodeled the interior and en- larged the house to the east', so the vocabulary shift this subtype is about happened on this one building and is dated by a surveyor. Seeded 4 Sep 2026."
 }

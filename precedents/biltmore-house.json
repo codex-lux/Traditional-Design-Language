@@ -1,0 +1,65 @@
+{
+  "id": "biltmore-house",
+  "name": "Biltmore House",
+  "aka": [
+    "Biltmore Mansion",
+    "Biltmore Estate"
+  ],
+  "location": {
+    "text": "Asheville, North Carolina",
+    "country": "United States",
+    "state": "North Carolina"
+  },
+  "dates": {
+    "built": "1889-1895",
+    "circa": false,
+    "note": "Commissioned 1888 by the owner's own account of Hunt ('in 1888, Vanderbilt commissioned 62-year-old Hunt'), 1889 by the encyclopedia and the North Carolina architects' dictionary; completed 1895, agreed. The style node's exemplar prints 1895 and says 'begun 1889'. Hunt died on 31 July 1895 and the work was finished by his son Richard Howland Hunt with Richard Sharp Smith."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "66000586",
+      "url": "https://en.wikipedia.org/wiki/Biltmore_Estate",
+      "title": "Biltmore Estate -- U.S. National Historic Landmark DISTRICT; NRHP reference No. 66000586, added October 15, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A DISTRICT listing over the whole estate, not an individual listing of the house, and it must not be read as an identity for the house. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://ncarchitects.lib.ncsu.edu/people/P000278",
+      "title": "Hunt, Richard Morris (1827-1895) -- North Carolina Architects & Builders: A Biographical Dictionary (NC State University Libraries)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The scholarly surface, and the one that corroborates the style node's exemplar note about the French models: 'The Biltmore chateau, built of steel and Indiana limestone with the latest modern conveniences and more than 250 rooms, was the largest house Hunt ever designed. He combined elements inspired from French chateaux-the grand stair, for example, modified from the external spiral stair at Blois; other aspects from Chambord and Chenonceau; and a front axial garden rising to a hilltop \"vista\" inspired at Hunt's suggestion by the Vaux le Vicomte chateau grounds near Paris.' NOTE 'BUILT OF STEEL AND INDIANA LIMESTONE', which is discussed in this record's own note."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.biltmore.com/our-story/biltmore-history/key-figures/richard-morris-hunt",
+      "title": "Richard Morris Hunt | Biltmore",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own page, which gives a different area and a different style name from the encyclopedia's: 'Hunt designed Biltmore House-a 175,000 square-foot French Renaissance style-chateau that would become known as America's Largest Home'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Biltmore_Estate",
+      "title": "Biltmore Estate - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'The main residence is the Biltmore House (or Biltmore Mansion), a Chateauesque-style mansion built for George Washington Vanderbilt II between 1889 and 1895. It is the largest privately owned house in the United States at 178,926 sq ft (16,622.8 m2) of floor space and 135,280 sq ft (12,568 m2) of living area.' The 178,926 sq ft figure is the one the style node's exemplar prints."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.ebsco.com/research-starters/architecture/biltmore-estate",
+      "title": "Biltmore Estate | Architecture | Research Starters | EBSCOhost",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The mansion features 250 rooms, including 43 bathrooms and 35 bedrooms' and, in a second span on the same page, '250 rooms, including 35 bedrooms, 43 bathrooms, and 65 fireplaces.' The same page gives the area two ways, 178,926 sq ft in one paragraph and 'about 175,000 square feet' in another, which is why no area is carried as a measurement on this record."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. No HABS survey was found for the house; the Library holds Hunt's own drawings and photographs of Biltmore as items in other collections, not as a Historic American Buildings Survey record. ONE FINDING GOES AGAINST THE NODE'S OWN PROSE and is worth stating: chateauesque's description.long says the style 'does not cheat ... the Chateauesque house is genuinely a masonry building: bearing walls of dressed limestone or granite', and the North Carolina architects' dictionary says Biltmore was 'built of steel and Indiana limestone'. A steel frame behind cut stone is not the load-bearing ashlar the node names as a necessary feature, and the largest and most famous American example is the one the claim is hardest to make about. No area is carried as a measurement because the three sources read give 178,926, 175,000 and 135,280 sq ft for three different things and the corpus should not pick one."
+}

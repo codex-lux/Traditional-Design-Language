@@ -1,0 +1,48 @@
+{
+  "id": "laverock-farm",
+  "name": "Laverock Farm (Arthur E. Newbold Jr. residence)",
+  "aka": [
+    "Laverock Hill"
+  ],
+  "location": {
+    "text": "Laverock, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1919-1925",
+    "circa": false,
+    "altered": "DEMOLISHED 1956. Nothing of the house survives; what is citable is the 1925 monograph Meigs published of it and the drawings in the Mellor, Meigs & Howe Collection at the Athenaeum of Philadelphia.",
+    "note": "The Wikipedia entry on the firm gives '(1919-25, demolished 1956)'. No other date was found."
+  },
+  "nodes": [
+    "french-normandy-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mellor,_Meigs_%26_Howe",
+      "title": "Mellor, Meigs & Howe - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its work list reads: '\"Laverock Farm,\" Arthur E. Newbold Jr. residence (1919-25, demolished 1956), Willow Grove Avenue, Laverock, Pennsylvania. 1925 Gold Medal for Excellence in Design, Architectural League of New York.' The same article describes the firm's 'mature Neo-Norman style, an \"amalgram of Howe's formalism and sensitivity to materials with some of the more theatrically picturesque elements of Arthur Meig's work,\"' and says it was repeated at Oxmoor (1926) and Pheasant Run Farm (1927-29). It cites James B. Garrison, 'Laverock Farm,' Houses of Philadelphia, Chestnut Hill and the Wissahickon Valley, 1890-1930 (Acanthus Press, 2008), pp. 202-07."
+    },
+    {
+      "kind": "monograph",
+      "url": "https://www.vialibri.net/years/books/730926578/1925-meigs-arthur-ingersoll-an-american-country-house-the-property",
+      "title": "Arthur Ingersoll Meigs, An American country house: The property of Arthur E. Newbold, Jr., esq., Laverock, Pa.; Mellor, Meigs & Howe, architects (1925)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The architect's own monograph of this one building, found in a rare-book index. It was not opened; the entry is recorded so the title can be found, which for a demolished house is the whole of what a locator can do."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.chestnuthilllocal.com/stories/laverock-hill-a-remarkable-inheritance-a-lost-partnership,12863",
+      "title": "Laverock Hill: A remarkable inheritance, a lost partnership - Chestnut Hill Local",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Calls it 'the gloriously romantic French Provincial house and farm created in the 1920s by Philadelphia architects Mellor Meigs & Howe' - French Provincial rather than Norman, which is the same slippage the node's own `distinguished_from` has to manage."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to french-normandy-revival. A demolished building with a monograph is a better precedent for this style than a standing one without: the whole American Norman manner was learned from published plates, and this is the plate. Its Gold Medal in 1925 is the profession's own verdict, which is what a `standing` of canonical is supposed to rest on. No survey and no register reference are possible for a house pulled down in 1956."
+}

@@ -1,0 +1,39 @@
+{
+  "id": "bemis-ransom-house",
+  "name": "Bemis-Ransom House",
+  "aka": [
+    "Bemis House"
+  ],
+  "location": {
+    "text": "Buffalo, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "c. 1886",
+    "circa": true,
+    "note": "Buffalo Architecture and History gives 'c. 1886' and the firm as Silsbee and Marling; an Explore Buffalo post read in the same search says 'built circa 1886'. No register document was reached for this building."
+  },
+  "nodes": [
+    "queen-anne-patterned-masonry"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://buffaloah.com/a/north/267/ext/index.html",
+      "title": "Bemis House -- 267 North Street, Buffalo, New York (Buffalo Architecture and History)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'The work of the firm of Silsbee and Marling, the house is a particularly early (c. 1886) manifestation of the Queen Anne style in Buffalo; its intricate detailing is most apparent onthe upper stories, featuring finials in the shape of mountain lions crowning the large frontal gable as well as the Dutch gables on the sides (the work ofnoted terra cotta artist Henry Plasschaert) as well as elegant terra cotta ornamentation above the roundel window facing North Street.' Its style line reads 'Queen Anne....... Flemish Renaissance'."
+    },
+    {
+      "kind": "other",
+      "url": "https://buffaloah.com/a/archsty/queen/index.html",
+      "title": "Queen Anne Style -- Buffalo Architecture and History (style guide)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The judgment this record's `standing` rests on: the guide's own feature table names this house as its illustration of 'Differing wall textures on masonry houses - terra-cotta panels' and of 'Decorative terra-cotta panels in gable'. The same page states the four-subtype scheme this cluster's nodes use and says the patterned-masonry type 'was most prevalent in larger cities such as Chicago, New York and Washington DC and some examples are found in Buffalo's more fashionable districts along streets like Delaware Avenue and Linwood Avenue'."
+    }
+  ],
+  "note": "The weakest-referenced record in this cluster, and the reason is recorded rather than hidden: NO National Register or state reference number was found for this house by the query used ('Ebenezer Maxwell OR \"Bemis House\" 267 North Street Buffalo Queen Anne terra cotta National Register'), and no HABS record either, so both locators here are pages of one local architectural reference. It is kept because that reference is the source that actually classifies the building for this node -- its own style guide uses this house as the illustration of terra-cotta panels on a masonry wall -- and because the node's `regions` name Great Lakes cities and had no entry in one. A reader building anything on this record should get a register document first. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

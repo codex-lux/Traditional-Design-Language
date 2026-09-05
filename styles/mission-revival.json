@@ -217,25 +217,46 @@
       "name": "California Building, World's Columbian Exposition",
       "location": "Chicago, Illinois",
       "year": 1893,
-      "note": "A. Page Brown. The founding building of the style; domed bell towers, scalloped parapets, tile roofs, stucco walls. Temporary, demolished."
+      "note": "A. Page Brown. The founding building of the style; domed bell towers, scalloped parapets, tile roofs, stucco walls. Temporary, demolished.",
+      "precedent": "california-building-worlds-columbian-exposition",
+      "standing": "icon",
+      "why": "The Pacific Coast Architecture Database calls A. Page Brown's building 'one of the earliest designs in what became known as the Mission Revival Style', and the state's own 1892 programme -- quoted there from The California Architect and Building News -- had specified 'the Mission and Moorish type' before a brick was laid."
     },
     {
       "name": "Mission Inn, Mission Wing",
       "location": "Riverside, California",
       "year": 1903,
-      "note": "Arthur Burnett Benton, 1902-03, with arcaded walls added 1908. The purest large Mission Revival composition before the hotel's later wings drift into other idioms."
+      "note": "Arthur Burnett Benton, 1902-03, with arcaded walls added 1908. The purest large Mission Revival composition before the hotel's later wings drift into other idioms.",
+      "precedent": "mission-inn-riverside",
+      "standing": "icon",
+      "why": "'Generally considered the largest Mission Revival Style building in the United States' in the encyclopaedia's own words, and a National Historic Landmark since 1977."
     },
     {
       "name": "Santa Fe Depot",
       "location": "San Diego, California",
       "year": 1915,
-      "note": "Bakewell & Brown. Built for the Panama-California Exposition year; the railroad case at full scale, twin domed towers and a long arcaded front."
+      "note": "Bakewell & Brown. Built for the Panama-California Exposition year; the railroad case at full scale, twin domed towers and a long arcaded front.",
+      "precedent": "santa-fe-depot-san-diego",
+      "standing": "canonical",
+      "why": "National Register-listed in 1972 with the architects and date settled -- Bakewell and Brown, 1915 -- and still in railway use, which makes it the type specimen for the depot case the railroads carried east."
     },
     {
       "name": "Powers House",
       "location": "1345 Alvarado Terrace, Los Angeles, California",
       "year": 1904,
-      "note": "Arthur L. Haley. A documented residential example of the type, in the SurveyLA Mediterranean and Indigenous Revival context."
+      "note": "Arthur L. Haley. A documented residential example of the type, in the SurveyLA Mediterranean and Indigenous Revival context.",
+      "precedent": "powers-house-alvarado-terrace",
+      "standing": "documentary",
+      "why": "The architect's own catalogue, kept by the Lanterman House, records it plainly: 'The Mission Revival-style home is stucco on frame construction' -- an ordinary builder's house of known date and authorship rather than a monument."
+    },
+    {
+      "name": "Southwest Museum",
+      "location": "234 Museum Drive, Los Angeles, California",
+      "year": 1914,
+      "note": "Sumner P. Hunt with Silas Burns, built 1912-14 above the Arroyo Seco for Charles Fletcher Lummis. Reinforced concrete under off-white stucco and a red tile roof, irregularly massed with a tall tower at the east corner and a squat one at the west. Its own National Register nomination calls the style Spanish Colonial Revival while the Los Angeles Conservancy and the National Trust both call it Mission Revival; the precedent record carries both.",
+      "precedent": "southwest-museum",
+      "standing": "canonical",
+      "why": "The one building on this node whose federal nomination describes its construction in a sentence a checker can read, which is what a type specimen is for -- though that same nomination files it under the neighbouring style, and the Mission Revival attribution here is the Los Angeles Conservancy's and the National Trust's."
     }
   ],
   "sources": [

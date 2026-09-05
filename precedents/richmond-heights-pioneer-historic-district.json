@@ -1,0 +1,53 @@
+{
+  "id": "richmond-heights-pioneer-historic-district",
+  "name": "Richmond Heights Pioneer Historic District",
+  "location": {
+    "text": "Miami-Dade County, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "1949-1950",
+    "circa": false,
+    "note": "'The Richmond Heights Pioneer Historic District ... is made up of the first 26 houses built in the Richmond Heights subdivision between 1949-1950' (Florida Department of State), and the same release says the 26 houses 'were each sold in December 1949'. The LISTING date disagrees: the Wikipedia list of Miami National Register properties gives March 25, 2019 with reference #100003405, the Florida Department of State announced the listing in 2019, and the state's own historical marker text says 'In 2018, The Richmond Heights Pioneer Historic District was listed on the National Register of Historic Places.' Neither is edited."
+  },
+  "nodes": [
+    "minimal-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "100003405",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Miami",
+      "title": "Richmond Heights Historic District, NRHP reference #100003405, listed March 25, 2019, 14520-14960 Monroe St. (as the Wikipedia list prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from a Wikipedia list, not from the National Register's own database, which was not opened for this district. A second surface should confirm the number before anything is built on it."
+    },
+    {
+      "kind": "institution",
+      "url": "https://dos.fl.gov/communications/press-releases/2019/secretary-lee-announces-the-designation-of-two-historic-districts-on-the-national-register-of-historic-places",
+      "title": "Secretary Lee Announces the Designation of Two Historic Districts on the National Register of Historic Places - Florida Department of State",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The only dimensioned statement found for these houses, and it is a state press release rather than a survey: 'Each property has a lot measuring 75x100 feet and the concrete block homes were built primarily with three bedrooms, though a few were constructed with two bedrooms. These single-family homes are relatively modest, concrete block residences with limited architectural detailing. The homes have plain stucco facades, with a few individual homes displaying additional decorative detailing in the stucco.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://markers.flheritage.com/home/details/1291",
+      "title": "RICHMOND HEIGHTS PIONEER HISTORIC DISTRICT - Florida Historical Marker Details (marker 1291, 2025)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1942, Captain Frank Crawford Martin, a former West Point student and pilot for Pan American Airlines, bought 3,000 acres of land next to the recently opened Naval Air Station Richmond ... The district is comprised of the first 26 homes purchased in the Richmond Heights development. These homes lie along Monroe Street, extending roughly from Carver Street at the north, to mid-block between Graham Drive and SW 152 Street to the south.' Gives the listing year as 2018."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.miamidade.gov/global/release.page?Mduid_release=rel1776968777767544",
+      "title": "Vice Chairman Kionne L. McGhee to Unveil Richmond Heights Historic Marker Honoring a Legacy of Vision and Resilience - Miami-Dade County",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'From its first 26 pioneering families in 1949 to a fully built community of 457 homes by 1951' -- so the district is the first twenty-six of a development that reached 457 houses in two years."
+    }
+  ],
+  "note": "Richmond Heights was built for African American veterans of the Second World War under segregation, and it is the only surveyed population in this node's exemplars whose houses are masonry rather than frame: concrete block with plain stucco, on 75 x 100 ft lots, mostly three bedrooms. That matters to the kit, because a minimal-traditional wall in Florida is not the two-and-a-quarter-inch-trimmed frame wall the node's description assumes. No HABS survey; the dimensioned sentence is a press release's and is carried in the ref note, not parsed as a measurement."
+}

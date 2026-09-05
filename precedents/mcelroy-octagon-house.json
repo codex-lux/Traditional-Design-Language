@@ -1,0 +1,122 @@
+{
+  "id": "mcelroy-octagon-house",
+  "name": "McElroy Octagon House",
+  "aka": [
+    "Octagon House, San Francisco",
+    "Colonial Dames Octagon House"
+  ],
+  "location": {
+    "text": "San Francisco, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1860-1861",
+    "circa": false,
+    "altered": "The Library's item record prints 'ca. 1906 Subsequent Work'; the survey describes the entrance portico as 'moved from its original corner location' and the item title itself reads '2645 Gough Street (moved)'.",
+    "note": "The item record prints '1860-1861 Initial Construction'; the Wikipedia infobox prints 'Built 1861'. The node's own exemplar says built 1860-61. All agree within a year."
+  },
+  "nodes": [
+    "octagon-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-1223",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0600/ca0685/data/ca0685data.pdf",
+      "title": "McElroy Octagon House, 2645 Gough Street (moved), San Francisco, San Francisco County, CA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's item record prints the survey number as 'HABS CA-1223'; the data page's own running header prints the older form, 'CAL-1223 Page 7'. The call number is 'HABS CAL,38-SANFRA,19-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0685",
+      "url": "https://www.loc.gov/pictures/item/ca0685/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000250",
+      "url": "https://www.loc.gov/pictures/item/ca0685/",
+      "title": "National Register of Historic Places NRIS Number 72000250 (as the Library's item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia infobox gives the same number, with 'Added to NRHP February 23, 1972' and 'SFDL No. 17', 'Designated SFDL February 3, 1969'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/McElroy_Octagon_House",
+      "title": "McElroy Octagon House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca0685",
+    "survey_no": "CA-1223",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0600/ca0685/data/ca0685data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "This house (approximately sixteen feet on a side and approximately twenty two feet to the top of the cornice) was constructed with plain concrete walls (gravel, lime and sand), with exterior redwood siding The upper and lower edges of the eight inch horizontal siding are beveled or champfered to provide a more grooved, or quasi-rusticated, appearance to the exterior. Wooden quoins at the corners of the octagon continue the masonry indications of the siding.",
+        "page": "HABS No. CA-1223; no page marker was legible in this extract span. The only marker legible anywhere in either extract reads 'CAL-1223 Page 7'."
+      },
+      {
+        "field": "cornice",
+        "text": "A high wooden cornice, with abbreviated frieze and dentil course, crowns the structure. The slightly inclined roof, an octagonal hipped type, leads to an octagonal cupola - which has a cornice and dentil course similar to that of the house proper, although reduced in scale.",
+        "page": "HABS No. CA-1223; no page marker was legible in this extract span. The only marker legible anywhere in either extract reads 'CAL-1223 Page 7'."
+      },
+      {
+        "field": "openings",
+        "text": "Both cornices have wooden brackets at the corners of the octagons, Windows are paired in each story and each face; they are all double-hung, with paneled moldings framing each window.",
+        "page": "HABS No. CA-1223; no page marker was legible in this extract span. The only marker legible anywhere in either extract reads 'CAL-1223 Page 7'."
+      },
+      {
+        "field": "porches",
+        "text": "A modified Classical Revival portico (moved from its original corner location) provides protection for the new entrance on the east face of the house; two squared and champfered Tuscan pillars of wood support the portico's roof at the east, and similar pilasters are attached to the house under the western edge of the roof.",
+        "page": "HABS No. CA-1223; no page marker was legible in this extract span. The only marker legible anywhere in either extract reads 'CAL-1223 Page 7'."
+      },
+      {
+        "field": "significance",
+        "text": "Fowler claimed various advantages for octagonal houses, and the vogue swept the nation in the l850 Ts.",
+        "page": "HABS No. CA-1223; the marker 'CAL-1223 Page 7' is printed a few words after this sentence in the extract"
+      },
+      {
+        "field": "significance",
+        "text": "feature of the Ibwler-inspired octagons was the use of simple concrete walls. A plan in a later edition (last chapter) of the hook was apparently the source for this building; it is labeled \"the best plan of all\".",
+        "page": "HABS No. CA-1223 (Page 7), printed as 'CAL-1223 Page 7' directly before this span. The sentence begins on the previous page, which is why this quote opens mid-clause rather than being stitched to the words before the header."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "octagon_face_width_ft",
+      "as_printed": "approximately sixteen feet on a side",
+      "value": 16,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "grade_to_cornice_ft",
+      "as_printed": "approximately twenty two feet to the top of the cornice",
+      "value": 22,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "siding_exposure_in",
+      "as_printed": "eight inch horizontal siding",
+      "value": 8,
+      "unit": "in",
+      "from_quote": 0
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ca0685/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. The best-dimensioned small octagon in the cluster: a face and a height in one sentence. Sixteen feet a side gives about 38.6 ft across the flats, and twenty-two feet to the cornice over two storeys, but both of those are MY arithmetic and neither is a figure the survey states, so they stay in this note. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

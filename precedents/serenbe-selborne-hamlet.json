@@ -1,0 +1,60 @@
+{
+  "id": "serenbe-selborne-hamlet",
+  "name": "Serenbe, Selborne hamlet",
+  "location": {
+    "text": "Chattahoochee Hills, Georgia",
+    "country": "United States",
+    "state": "Georgia"
+  },
+  "dates": {
+    "built": "2004-",
+    "circa": false,
+    "note": "Every source read here dates the first house to 2004 -- 'The first house at Serenbe was built in 2004' (Serenbe's own about page and the City of Chattahoochee Hills), 'Serenbe's first neighbourhood called Selborne ... broke ground in 2004' (Dezeen), 'In 2004, Serenbe broke ground with 40 lots' (Realtor.com). This node's exemplar says 'first houses sold 2005'; no source read here supports 2005 and the figure is left as the node prints it rather than edited."
+  },
+  "nodes": [
+    "modern-farmhouse-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.serenbe.com/about",
+      "title": "Serenbe | About",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The first house at Serenbe was built in 2004 ... The development plan for Serenbe calls for multiple hamlets based on English villages, all designed on sacred geometry principles with buildings clustered along serpentine-like omega forms fitted to the undulations of the land ... 70% of the total land will be placed into conservation while we build on the remaining 30% in dense walkable clusters.' The developer's own account, recorded as one."
+    },
+    {
+      "kind": "institution",
+      "url": "https://chatthillsga.us/history/serenbe.php",
+      "title": "Serenbe - Welcome to Chattahoochee Hills, GA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The village comprises three hamlets: The Selborne hamlet is devoted to the visual and culinary arts and currently contains the retail shops in Serenbe. The Grange hamlet has an agricultural theme, and the Madoa hamlet focuses on health and healing.' The city's page says three hamlets; the Congress for the New Urbanism says four. Both recorded."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.cnu.org/what-we-do/build-great-places/serenbe",
+      "title": "Serenbe | Congress for the New Urbanism",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'One thing that sets Serenbe apart from other developed communities is the wide variety of design styles represented through architecture.' Quotes Nygren to CityLab: 'we wanted a mix of architecture so that all the buildings don't look the same. That's the difference between a town and a development.' Names Selborne as the first built hamlet, whose 'central main street resembles an American downtown with Italian influence'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.realtor.com/news/trends/serenbe-masterplanned-community-atlanta",
+      "title": "Farm-to-Front-Porch Community Redefines Modern Neighborhood Living - Realtor.com",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Finally, in 2002, there was enough landowner consensus that county commissioners unanimously passed a zoning overlay allowing for development that would preserve an astonishing 70% of the existing land ... In 2004, Serenbe broke ground with 40 lots. Texas A&M architectural professor Dr. Phill Tabb, an expert in biophilic theory and the English village system, created the master plan.' Also, on what actually got built: 'The houses are a dizzying array of architectural styles ranging from farmhouses and English-style cottages and Victorian mansions to columned Southern estates with front porches to glass-walled, cutting-edge modernity.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.dezeen.com/2019/07/30/serenbe-steve-nygren-atlanta-geogia-neighbourhood",
+      "title": "Steve Nygren integrates European housing typologies in Serenbe - Dezeen",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Other parcels include Serenbe's first neighbourhood called Selborne, which broke ground in 2004. It features a varied architecture style'."
+    }
+  ],
+  "note": "WHAT THIS RECORD COULD NOT CONFIRM, AND IT IS THE WHOLE REASON THE EXEMPLAR IS ON THE NODE. The node's exemplar note calls Serenbe 'the same farmhouse idiom under a form-based code that enforces porch depth, setback, and garage relegation -- the control case showing what the style looks like when the five failing dimensions are regulated.' Nothing read here states a porch-depth rule, a garage rule, or any dimensional architectural standard. What was found is a 2002 county zoning OVERLAY about land conservation, a Chattahoochee Hills Unified Development Code whose published summary is about open space and minimum lot size, a comprehensive plan listing 'adopt a form based zoning code that will include ... architectural rules for houses' as a thing still NEEDED, and a master plan by Phill Tabb organised on English village geometry. Two sources describe the built result as a deliberate variety of styles, which is the opposite of a single regulated idiom. The exemplar's claim may still be true of Serenbe's private architectural guidelines, which were not located; until a document states a number, the control case is unproven and the node should not be read as having one."
+}

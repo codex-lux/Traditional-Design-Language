@@ -213,19 +213,55 @@
       "name": "Gamble House",
       "location": "Pasadena, California",
       "year": 1908,
-      "note": "Greene and Greene. The movement's high-craft limit case: every joint, hardware piece, rug, and light fitting designed under one commission."
+      "note": "Greene and Greene. The movement's high-craft limit case: every joint, hardware piece, rug, and light fitting designed under one commission.",
+      "precedent": "gamble-house",
+      "standing": "icon",
+      "why": "The building the movement is known by, and the one HABS chose to record: its survey's own significance line calls it 'one of the finest examples of the American Craftsman Movement'. SAH Archipedia, writing about the Riordan Mansion, says the Gamble House 'is considered the epitome of Arts and Crafts architecture in America' -- that sentence is on the riordan-mansion record, not on this one, which is where a reader must go to check it."
     },
     {
       "name": "Craftsman Farms (the Log House)",
       "location": "Parsippany-Troy Hills, New Jersey",
       "year": 1911,
-      "note": "Gustav Stickley's own house, built 1908-1911. The theorist of The Craftsman building for himself in chestnut logs and fieldstone."
+      "note": "Gustav Stickley's own house, built 1908-1911. The theorist of The Craftsman building for himself in chestnut logs and fieldstone.",
+      "precedent": "craftsman-farms",
+      "standing": "canonical",
+      "why": "The theorist's own house, and therefore the type specimen for the reproducible half of the movement rather than the high-craft half -- the judgment is the National Register's, which lists it, and the node's own reading of Stickley against Greene and Greene."
     },
     {
       "name": "Roycroft Campus",
       "location": "East Aurora, New York",
       "year": 1897,
-      "note": "Elbert Hubbard's craft colony, built out c. 1897-1915. The American attempt at a Morris-style guild settlement, and the commercial engine that sold the idea nationally."
+      "note": "Elbert Hubbard's craft colony, built out c. 1897-1915. The American attempt at a Morris-style guild settlement, and the commercial engine that sold the idea nationally.",
+      "precedent": "roycroft-campus",
+      "standing": "canonical",
+      "why": "The type specimen for the movement as a GUILD rather than as a house, on the Roycroft Campus Corporation's own claim that it 'is the best preserved and most complete complex of buildings remaining in the United States of the \"guilds\"' and on the National Historic Landmark district designation of 1986."
+    },
+    {
+      "name": "Robert R. Blacker House",
+      "location": "Pasadena, California",
+      "year": 1907,
+      "note": "Greene and Greene, 1907. The other Pasadena ultimate bungalow, larger than the Gamble House and a year earlier; carried because a movement should not be represented by one commission from one office.",
+      "precedent": "robert-r-blacker-house",
+      "standing": "canonical",
+      "why": "A documented Greene and Greene house of the same office and a year earlier than the Gamble House -- the record gives 1907 against 1908-1909 -- listed on the National Register, and therefore the control against which the Gamble House's singularity can be read; the judgment is this project's, and the record notes that no HABS survey of it was found."
+    },
+    {
+      "name": "Riordan Mansion",
+      "location": "Flagstaff, Arizona",
+      "year": 1904,
+      "note": "Charles Whittlesey, 1904. A duplex of two near-mirror houses for two brothers in a territorial logging town, in log slab, volcanic stone and hand-split shake -- the movement working in the materials its owners milled themselves, four years before the Gamble House.",
+      "precedent": "riordan-mansion",
+      "standing": "regional",
+      "why": "The Society of Architectural Historians' own entry calls it 'among the best examples of Craftsman architecture in Arizona' and notes that it 'predates by four years' the Gamble House, which makes it the movement's Southwestern expression rather than a specimen of its Pasadena hearth."
+    },
+    {
+      "name": "Marston House",
+      "location": "San Diego, California",
+      "year": 1905,
+      "note": "Hebbard and Gill, designed 1904 and built 1905. A large Arts and Crafts house rather than a bungalow, by the partnership Irving Gill would shortly leave in the opposite direction; the movement at its most Southern Californian and least Pasadena.",
+      "precedent": "marston-house",
+      "standing": "regional",
+      "why": "The National Trust for Historic Preservation calls it 'One of California's finest examples of the Arts and Crafts movement', and it is carried as the San Diego expression rather than a type specimen because its architects' later work runs away from this node."
     }
   ],
   "sources": [

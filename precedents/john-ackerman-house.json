@@ -1,0 +1,59 @@
+{
+  "id": "john-ackerman-house",
+  "name": "John Ackerman House",
+  "location": {
+    "text": "River Road, Teaneck, Bergen County, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "About 1800 (the survey's own words)",
+    "circa": true
+  },
+  "nodes": [
+    "new-jersey-dutch-gambrel"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NJ-298",
+      "title": "John Ackerman House, 1286 River Road, Teaneck, Bergen County, NJ",
+      "url": "https://www.loc.gov/resource/hhh.nj0288.sheet?sp=6&st=text",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's sheet line reads 'John Ackerman House, 1286 River Road, Teaneck, Bergen County, NJ Drawings from Survey HABS NJ-298', call number 'HABS NJ,2-TEA,4-'. The number is printed in the data page's own running head as 'HABS-^-298 Page 2'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nj0288",
+      "url": "https://www.loc.gov/resource/hhh.nj0288.sheet?sp=6&st=text",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "nj0288",
+    "survey_no": "NJ-298",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0200/nj0288/data/nj0288data.pdf",
+    "prepared": "Historic American Buildings Survey, District of New Jersey; Seymour Williams, A.I.A., District Officer, 133 Central Avenue, Rahway, New Jersey. Survey historian for Bergen County: Wallace Dunlop. The same district officer and historian as the Steuben House survey.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The John Ackerman House West Side of River Road Teaneck, Bergen County, New Jersey Owner: Mr- Joseph KInzley, III Date of Erection: About 1800 Architect: Builder: John Ackerman Present Condition: Excellent, fully modernized Number of Stories: Two Materials of Construction: Foundation - sandstone Exterior walls - sandstone, gable siding Interior walls - plaster over wood lath Inside brick chimneys Roof - gambrel, wood shingles",
+        "page": "HABS NJ-298 Page 1 (the extract prints 'Page 1' on this cover block and 'HABS-^-298 Page 2' further down)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: Two",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass as the node's PLAIN, SURVEYED, MEASURABLE case -- an ordinary Bergen sandstone gambrel with no fame attached to it, recorded on the same form and by the same district officer as the Steuben House, so the two can be read against each other without adjusting for the surveyor. Its materials line repeats the Steuben House's almost word for word (sandstone walls, gambrel roof, wood shingles) with one difference worth noticing: 'Inside brick chimneys' where the Steuben House has 'brick gables'. The inherited `chimney` slot forbids interior stacks flanking the ridge and makes gable-end stacks canonical; 'inside brick chimneys' is ambiguous between the two and is recorded rather than read either way."
+}

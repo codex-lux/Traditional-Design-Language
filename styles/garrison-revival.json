@@ -190,19 +190,54 @@
       "name": "Webber House",
       "location": "Brookline, Massachusetts",
       "year": 1935,
-      "note": "Harry Morton Ramsay. Second-storey shingled overhang with decorative pendants; a documented architect-designed example of the type at its origin."
+      "note": "Harry Morton Ramsay. Second-storey shingled overhang with decorative pendants; a documented architect-designed example of the type at its origin.",
+      "precedent": "webber-house",
+      "standing": "canonical",
+      "why": "The one named, dated, architect-attributed Garrison Colonial Revival house this search could resolve at all, filed by Buildings of New England under both the style and its architect -- a documented specimen rather than a famous one, and no building of this variant is famous."
     },
     {
       "name": "Royal Barry Wills Associates garrison designs",
       "location": "Boston, Massachusetts (office)",
       "year": 1940,
-      "note": "Wills's practice produced garrisons alongside Capes and saltboxes; the drawings are held in the Royal Barry Wills Associates collection at Historic New England. The type's design standards descend from this office."
+      "note": "Wills's practice produced garrisons alongside Capes and saltboxes; the drawings are held in the Royal Barry Wills Associates collection at Historic New England. The type's design standards descend from this office. No precedent record is named because this exemplar is an ARCHIVE and not a building -- the drawings are collection AR029 at Historic New England -- and a precedent is one real building.",
+      "standing": "documentary",
+      "why": "NO PRECEDENT RECORD: this exemplar names an ARCHIVE and not a building -- the drawings are collection AR029 at Historic New England -- and a precedent record is one real building, so there is nothing here to point at until a single Wills garrison is identified and surveyed."
     },
     {
       "name": "Stanley-Whitman House",
       "location": "Farmington, Connecticut",
       "year": 1720,
-      "note": "Not a revival building. Included as the genuine first-period jettied house with a framed overhang and carved drops that the revival imitates - the correct comparison for judging any Garrison Revival overhang."
+      "note": "Not a revival building. Included as the genuine first-period jettied house with a framed overhang and carved drops that the revival imitates - the correct comparison for judging any Garrison Revival overhang.",
+      "precedent": "stanley-whitman-house",
+      "standing": "documentary",
+      "why": "Not a revival building: it is the surviving First Period original the revival's overhang has to be judged against, which is the reason this node's own note already gives for carrying it. It is neither seventeenth-century nor measured here -- Wikipedia and the museum's own tercentenary (2020) date it c. 1720, and the precedent record found no HABS survey of it in two searches -- so the projection this node compares a revival overhang against comes from the exemplar's own note and not from any survey."
+    },
+    {
+      "name": "1251 Oakridge Road",
+      "location": "Cleveland Heights, Ohio",
+      "year": 1929,
+      "note": "Walker and Weeks. The earliest Garrison Colonial this search could date, and it is not the five-bay box this node describes: the National Register nomination gives it an L-shaped plan with the entry wing forward and a stone-clad first floor under clapboard above.",
+      "precedent": "1251-oakridge-road",
+      "standing": "documentary",
+      "why": "A National Register nomination describes it, dates it and names its architects, which is more than this variant's buildings usually get; the judgment that it is Garrison Colonial is the nomination's own and so is the description that contradicts the node."
+    },
+    {
+      "name": "1315 Inglewood Drive",
+      "location": "Cleveland Heights, Ohio",
+      "year": 1941,
+      "note": "Ray Moulthrop, and the same nomination calls it 'very similar' to 1251 Oakridge Road -- a documented pair twelve years apart, which is as close to a series as this variant offers anywhere reachable.",
+      "precedent": "1315-inglewood-drive",
+      "standing": "documentary",
+      "why": "Same nomination, same describing hand, second instance: what differs between the two houses is therefore the buildings and not the describer, which is the only reason to carry a second plain example at all."
+    },
+    {
+      "name": "McIntire Garrison House",
+      "location": "Cider Hill Road, York, Maine",
+      "year": null,
+      "note": "The fortified frontier dwelling the sales name was borrowed from, and the building that complicates the conflation this node's long description sets out to correct: HABS ME-9 records its second storey projecting approximately fourteen inches all round, so the garrison house and the jettied house are not as cleanly separate as either the folklore or its correction assumes.",
+      "precedent": "mcintire-garrison-house",
+      "standing": "documentary",
+      "why": "Here to be measured against, not admired: it supplies the one figure -- a real garrison's overhang, in inches -- that lets a revival overhang be called shallow or not without an opinion doing the work."
     }
   ],
   "sources": [

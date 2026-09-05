@@ -1,0 +1,49 @@
+{
+  "id": "south-end-historic-district-boston",
+  "name": "South End Historic District bowfront rows",
+  "location": {
+    "text": "Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "aka": [
+    "South End, Boston",
+    "South End Landmark District"
+  ],
+  "dates": {
+    "built": "c. 1850-1873",
+    "circa": true,
+    "note": "Wikipedia states 'The area's principal development took place 1850-1873'; the City of Boston says 'development began in 1850 by real estate speculators building fashionable, single-family rowhouses'."
+  },
+  "nodes": [
+    "italianate-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "73000324",
+      "url": "https://en.wikipedia.org/wiki/South_End,_Boston",
+      "title": "South End Historic District - NRHP reference No. 73000324 (original), added May 8, 1973, with boundary increases 14001095 (2014) and 100011759 (2025) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing and not an identity for any one building. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://architecturaltrust.org/wp-content/uploads/2013/06/Report_NR_South_End.pdf",
+      "title": "South End National Register Historic District Report",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The report's own words, as the search returned them: 'bow fronted, mansard roofed rowhouses in the Italianate style. The end houses are brought forward to enclose the square.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.boston.gov/historic-district/south-end-landmark-district",
+      "title": "South End Landmark District | Boston.gov",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The City's own statement of the mechanism this corpus cares about: 'Restrictions on building size and materials meant residential structures in long uniform rows, resulting in remarkable visual unity'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. Carried for one sentence, which is the italianate-townhouse node's central claim written by a city rather than by this corpus: restrictions on building size and materials produced long uniform rows and therefore visual unity. The node says coherence 'was a byproduct of constraint rather than of taste'; Boston's own landmark page says the same thing about the same buildings, independently. Wikipedia also records the district as 'the largest intact Victorian row-house district in the country, covering over 300 acres', which makes it the population the node's argument is actually about."
+}

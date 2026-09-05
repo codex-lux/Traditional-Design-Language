@@ -1,0 +1,147 @@
+{
+  "id": "jonathan-hager-house",
+  "name": "Jonathan Hager House",
+  "aka": [
+    "Hager House",
+    "Hager's Fancy"
+  ],
+  "location": {
+    "text": "110 Key Street, Hagerstown City Park, Washington County, Maryland",
+    "country": "United States",
+    "state": "Maryland"
+  },
+  "dates": {
+    "built": "c. 1740",
+    "circa": true,
+    "altered": "Sold with increased acreage to Jacob Rohrer in 1745 and held by the Rohrers and their descendants the Hammonds until 1944; acquired by the Washington County Historical Society, given to the City of Hagerstown in 1954 and opened as a museum in 1962. 'Restored; building largely original' (survey). The roof is now covered with Williamsburg-type tiles imitating the wooden shingles the house appears once to have had, and a concrete floor and flagstones were added to the cellar in restoration, raising it about eight inches.",
+    "note": "The survey says 'Date of Erection: Circa 1740' and reasons that Hager built it between June 1739 and 1745, probably about the time of his marriage in 1740. The city and the Washington County Historical Trust both say 1739. Hager bought the 200-acre tract 'Hager's Fancy' from Daniel Dulany on 5 June 1739, and an October 1739 survey of the property already refers to 'Hager's dwelling house'."
+  },
+  "nodes": [
+    "pennsylvania-bank-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MD-39",
+      "title": "Jonathan Hager House, Hagerstown, Washington County, Maryland",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0700/md0715/data/md0715data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own head, badly OCR'd as 'HA8S- Ho. -M&-39' and again as 'HABS 5^. i(A<S-Ti'. The reading MD-39 is supported by the Library's own filing (md0715) and by the header's 'District of Mar[yland]'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "md0715",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0700/md0715/data/md0715data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the loc.gov landing page was not opened. Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "state-register",
+      "id": "258",
+      "url": "https://apps.mht.maryland.gov/nr/NRDetail.aspx?NRID=258",
+      "title": "Jonathan Hager House -- Maryland's National Register Properties (Maryland Historical Trust), NRID 258",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Jonathan Hager House is a 2-story stone house with an attic that sits on a high foundation.' Only the search snippet was read."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hager_House_(Hagerstown,_Maryland)",
+      "title": "Hager House (Hagerstown, Maryland) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The basement contains two spring-fed pools of water, providing a secure water source.' Added to the National Register in 1974; no reference number is printed, so none is recorded."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.hagerstownmd.org/309/Jonathan-Hager-House-Museum",
+      "title": "Jonathan Hager House Museum | Hagerstown, MD -- Official Website",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner: 'Take a guided tour of the restored limestone homestead fortress built over a never-failing spring.' The city calls the house 3 1/2 storeys where the survey says two and a half above the cellar; both are recorded."
+    }
+  ],
+  "survey": {
+    "item": "md0715",
+    "survey_no": "MD-39",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0700/md0715/data/md0715data.pdf",
+    "prepared": "HABS District of Maryland; the district officer's name OCRs as 'John H 3earr.r.' and was not read with confidence. The sheet cites William Eddis, Letters from America (London, 1792), p. 133 and the Frederick County, Virginia, Clerk's Fees of James Wood, 1744.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "THE JONATHAN HAGSR HOUSE Hagerstown, Washington County, Maryland. Owner: The Washington County Historical Society, Hagerstown, Maryland. Date of Erection: Circa 1740. Architect: Unknown. Builder: Jonathan Hager, founder of Hagerstown, Maryland. Present Condition: Restored; building largely original. Number of Stories: Two and one-half above cellar, which is banked on one side.",
+        "page": "HABS No. MD-39, Page 1"
+      },
+      {
+        "field": "walls",
+        "text": "Materials of Construction: . Exterior walls - small fieldstones removed from the surrounding natural limestone out-cropping. Interior walls - mud-and-rye-straw plaster over 1 by 4 inch oak strips laid horizontally an approximate 2 inches apart.",
+        "page": "HABS No. MD-39, Page 1"
+      },
+      {
+        "field": "chimneys",
+        "text": "Chimney - brick, capped, and emerging in a near-central position in the roof-line. Originates in a limestone hearth and flue on the ground-floor level. Roof - now covered with Williamsburg-type tiles, in imitation of the wooden shingles which the house appears to have once had. Floors - ground floor, flagstone; remainder of floors largely early replacements in pine, oak and walnut random- width boards.",
+        "page": "HABS No. MD-39, Page 1"
+      },
+      {
+        "field": "plan",
+        "text": "The bottom floor consists of three rooms, in two of which are springs which join. In the south room there is an enormous fireplace. Neither of the other rooms has a fireplace, and it seems unlikely that they were used for anything but storage.",
+        "page": "HABS No. MD-39, Page 2 (the marker '-2-' follows the paragraph)"
+      },
+      {
+        "field": "foundations",
+        "text": "and was spared trips to the springhouse in bad or unseasonable weather. There was usually enough ventilation in the cellar construction, if it were not intentionally supplied, to eliminate excessive dampness or mildew. It is therefore not neces- sary to assume that the house was built over a spring with an eye - 3 - WAB5 • to withstanding a siege from Indians.",
+        "page": "HABS No. MD-39; the marker '- 3 -' is inside the quoted span"
+      },
+      {
+        "field": "significance",
+        "text": "Built over two springs, it survived the depredations of the French & Indian >/ar (1755-1763) and for this reason, as well as because of its sturdy construction, may likewise be regarded as a house-fort of the period.",
+        "page": "HABS No. MD-39, Page 3 (the marker 'HA85 5^. i(A<S-Ti Page 3' precedes the span)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two and one-half above cellar, which is banked on one side",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The single most useful sentence in this cluster for the bank-house node: a federal surveyor states the section AS a bank -- two and a half above a cellar banked on one side -- rather than describing a cellar and leaving the ground to be inferred."
+    },
+    {
+      "name": "lath_spacing_in",
+      "as_printed": "an approximate 2 inches apart",
+      "value": 2,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "lath_strip_depth_in",
+      "as_printed": "1 by 4 inch oak strips",
+      "value": 1,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Chimney - brick, capped, and emerging in a near-central position in the roof-line",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "ONE stack, near-central, originating in a limestone hearth on the ground floor -- the central-chimney service wall the node's prose describes, in a survey rather than in a secondary work."
+    },
+    {
+      "name": "lower_floor_room_count",
+      "as_printed": "three rooms",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Two of the three contain the springs; one has an enormous fireplace and served as the principal kitchen. The other two the surveyor thinks were storage only."
+    }
+  ],
+  "note": "The bank house stated by a federal surveyor in one line -- 'Two and one-half above cellar, which is banked on one side' -- and the only such statement this cluster found. It also contains an argument the corpus should read before it repeats the fortification story: the surveyor explicitly REFUSES the defensive reading of the spring and of the splayed openings ('It is therefore not neces-sary to assume that the house was built over a spring with an eye ... to withstanding a siege from Indians'), and grounds the spring in dairy, laundry and cold storage instead -- three sentences before allowing that the house 'may likewise be regarded as a house-fort'. The node's own prose reaches the same conclusion by the same route: it is a refrigerator obtained for the cost of moving earth."
+}

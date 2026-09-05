@@ -1,0 +1,90 @@
+{
+  "id": "longwood",
+  "name": "Longwood",
+  "aka": [
+    "Nutt's Folly",
+    "Ward House"
+  ],
+  "location": {
+    "text": "Natchez, Mississippi",
+    "country": "United States",
+    "state": "Mississippi"
+  },
+  "dates": {
+    "built": "ca. 1860",
+    "circa": true,
+    "note": "The survey's inventory line reads 'Date of Erection About I860 or Earlier' and the Library's item record prints 'ca. 1860 Initial Construction'. The Wikipedia infobox instead prints 'Built 1859-ca. 1864' and the node's own exemplar says designed 1859 and halted in 1861. All are recorded; none is resolved. The survey's own condition line dates the stoppage without dating it: 'Present Condition flair (Work stopped at outbreak of Civil War and has never been touched again.)'"
+  },
+  "nodes": [
+    "octagon-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MS-1",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ms/ms0100/ms0123/data/ms0123data.pdf",
+      "title": "Longwood, Natchez, Adams County, MS",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's item record prints the survey number as 'HABS MS-1' and the call number as 'HABS MISS,1-NATCH.V,3-'; the 1930s data page's own header prints the older form, OCR'd as 'H*A.B.S. No, Miss. 1'. Two data pages only: this is a district-officer inventory sheet, not a Part I/Part II report."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ms0123",
+      "url": "https://www.loc.gov/pictures/item/ms0123/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "69000079",
+      "url": "https://www.loc.gov/pictures/item/ms0123/",
+      "title": "National Register of Historic Places NRIS Number 69000079 (as the Library's item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia infobox gives the same number, with 'Added to NRHP December 16, 1969', 'Designated NHL December 16, 1969' and 'USMS No. 001-NAT-4016-NHL-ML'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Longwood_(Natchez,_Mississippi)",
+      "title": "Longwood (Natchez, Mississippi) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'Longwood is the largest octagonal house in the United States', and its style is given as 'Octagon Mode, Italian Villa'. Its address is printed as 140 Lower Woodville Road."
+    }
+  ],
+  "survey": {
+    "item": "ms0123",
+    "survey_no": "MS-1",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ms/ms0100/ms0123/data/ms0123data.pdf",
+    "prepared": "'Historic American Buildings Survsy A. Hays Town, District Officer 605 Standard -Life Building' (OCR), District of Mississippi.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Date of Erection About I860 or Earlier Architect Mr. Sloan of Philadelphia, Peon. Builder Dr. Haller Hutt Present Condition flair (Work stopped at outbreak of Civil War and has never been touched again.) Kumb_er_of Stories four Materials of Construction Foundation Bri ck Floors #ood floors, Basement floored with briok. Exterior Jails Briok Interior galls Briok- Never were plastered Bo of Tin roof",
+        "page": "HABS No. MS-1; the page marker printed nearest in the extract reads 'uwamov (NUT?»S K>LLY) WARD HOI^ iE-'-fc Katchoz, Adams County, Mississippi Page 1'"
+      },
+      {
+        "field": "other",
+        "text": "Additional Data -The ti&ok used in this building were made by slaves on the premises, the timber used in the colimns and the elaborate exterior or wood work was shipped to Philadelphia, Penn.to be hand carved for the most part, and returned to Mississippi in the finished form.",
+        "page": "HABS No. MS-1; the page marker printed nearest in the extract reads 'uwamov (NUT?»S K>LLY) WARD HOI^ iE-'-fc Katchoz, Adams County, Mississippi Page 1'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Kumb_er_of Stories four",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR of 'Number of Stories'. Four is the DESIGNED count; the survey's own condition line says work stopped at the outbreak of the Civil War, and only the basement storey was ever finished."
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ms0123/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Two data pages, and they are an inventory form: it states materials, storeys and an architect and states no dimension at all, so this record carries one measurement and it is a count. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

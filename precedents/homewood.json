@@ -16,7 +16,8 @@
     "note": "The node says begun 1801 and gives 1808; Wikipedia says construction began in 1801 and was mostly finished by 1808 while its infobox prints 'Built 1801'; the HABS data pages are extracts of Charles Carroll of Carrollton's letters of 30 January and 12 February 1801 about the house to be built."
   },
   "nodes": [
-    "federal-style"
+    "federal-style",
+    "southern-federal"
   ],
   "refs": [
     {

@@ -186,25 +186,55 @@
       "name": "Parson Capen House",
       "location": "Topsfield, Massachusetts",
       "year": 1683,
-      "note": "The canonical example: framed overhangs on the front and both gables, four carved drop pendants, central chimney, casement openings."
+      "note": "The canonical example: framed overhangs on the front and both gables, four carved drop pendants, central chimney, casement openings.",
+      "precedent": "parson-capen-house",
+      "standing": "icon",
+      "why": "The house every account of the New England jetty reaches for first, and the one its HABS data sheet calls 'perhaps the outstanding 17th century house remaining from point of view of excellence of the architecture and beauty of site' -- the 1930s surveyor's judgment, not this project's."
     },
     {
       "name": "Stanley-Whitman House",
       "location": "Farmington, Connecticut",
       "year": 1720,
-      "note": "Framed overhang projecting 18 in with four drop pendants, two of them original. Long dated to c. 1660 in older literature; documentary evidence now places construction between 1709 and 1720."
+      "note": "Framed overhang projecting 18 in with four drop pendants, two of them original. Long dated to c. 1660 in older literature; documentary evidence now places construction between 1709 and 1720.",
+      "precedent": "stanley-whitman-house",
+      "standing": "canonical",
+      "why": "The documented type specimen for the framed overhang and its drops, two of them original, and the source of this node's own 18 in projection; the redating from c. 1660 to 1709-1720 is the museum's own and the exemplar already carries it."
     },
     {
       "name": "Paul Revere House",
       "location": "North Square, Boston, Massachusetts",
       "year": 1680,
-      "note": "The urban case, where the jetty does the thing it did in England — gains upper-floor area over a narrow street."
+      "note": "The urban case, where the jetty does the thing it did in England — gains upper-floor area over a narrow street.",
+      "precedent": "paul-revere-house",
+      "standing": "regional",
+      "why": "The urban case -- the jetty doing in Boston's North Square what it did in an English street -- which is why this node's hearth is not only the country towns; the reading is Cummings's, cited in the node's sources."
     },
     {
       "name": "John Whipple House",
       "location": "Ipswich, Massachusetts",
       "year": 1677,
-      "note": "Second-phase block carries the overhang; Ipswich retains the densest surviving group of jettied First Period houses in America."
+      "note": "Second-phase block carries the overhang; Ipswich retains the densest surviving group of jettied First Period houses in America.",
+      "precedent": "john-whipple-house",
+      "standing": "regional",
+      "why": "Ipswich holds the densest surviving group of jettied First Period fabric in America, on this node's own Historic Ipswich source, and this is that group's best-known member."
+    },
+    {
+      "name": "Jonathan Corwin House",
+      "location": "310 Essex Street, Salem, Massachusetts",
+      "year": 1675,
+      "note": "Salem's Witch House: a second-storey overhang with pendant drops, a projecting two-storey entry porch, a central chimney. HABS began recording it in the 1930s and never finished; the addendum says the drawings 'may not meet HABS standards' for want of field measurements, and the house was moved about 35 ft and restored to a seventeenth-century appearance in the 1940s, so the front a visitor reads is partly a restoration.",
+      "precedent": "jonathan-corwin-house",
+      "standing": "icon",
+      "why": "The most-photographed jettied house in America and the one a general reader has already seen, which is the whole of what icon means here; its documentary standing is thinner than its fame and the unfinished survey says so itself."
+    },
+    {
+      "name": "McIntire Garrison House",
+      "location": "Cider Hill Road, York, Maine",
+      "year": null,
+      "note": "The genuine article the label was taken from -- a real frontier garrison, log-walled on every account except the survey's own, which calls it a frame building. HABS ME-9 records its second storey projecting 'all around approximately fourteen Inches', so the one surviving building that is both a garrison and jettied stands against this node's own claim that the two types generally stayed apart. No year is given because four sources give four: 1660-1692 (HABS), c. 1707 (Maine HPC and SAH Archipedia), 1712 and 1713 (Wikipedia, in one article).",
+      "precedent": "mcintire-garrison-house",
+      "standing": "documentary",
+      "why": "Plain, surveyed and there to be measured: HABS ME-9 states a garrison's overhang in inches, which almost no First Period record does, and the correction it forces is the one this node exists to make."
     }
   ],
   "sources": [

@@ -1,0 +1,52 @@
+{
+  "id": "morse-libby-house",
+  "name": "Morse-Libby House (Victoria Mansion)",
+  "location": {
+    "text": "Portland, Maine",
+    "country": "United States",
+    "state": "Maine",
+    "aliases": [
+      "109 Danforth Street, Portland, Maine"
+    ]
+  },
+  "aka": [
+    "Victoria Mansion",
+    "Morse-Libby Mansion"
+  ],
+  "dates": {
+    "built": "1858-1860",
+    "circa": false
+  },
+  "nodes": [
+    "italianate-american",
+    "italianate-villa"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "70000074",
+      "url": "https://en.wikipedia.org/wiki/Victoria_Mansion",
+      "title": "NRHP reference No. 70000074; added May 19, 1970; designated NHL December 30, 1970; contributing property of the Spring Street Historic District (ID70000043) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. A second surface should confirm it before anything is built on the number."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Victoria_Mansion",
+      "title": "Victoria Mansion - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Describes 'a four-story tower, overhanging eaves, verandas, and ornate windows' and names Giuseppe Guidicini for the frescoes and trompe-l'oeil."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.visitportland.com/listing/victoria-mansion",
+      "title": "Victoria Mansion | Maine House Museum | Visit Portland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States the house was built 1858-1860 as a summer home for Ruggles Sylvester Morse, 'designed by architect Henry Austin of New Haven, CT and is widely considered one of the finest examples of the Italian Villa style in America'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. Worth carrying for the corpus's own honesty about what its nodes claim: the house is a SUMMER house for a New Orleans hotelier, brownstone-faced, and its designer, Henry Austin, is the same architect the egyptian-revival node names for the Grove Street Cemetery gateway. One hand, two nodes, twelve years apart -- which is an argument that a style in this corpus is a set of bindings and not a person."
+}
