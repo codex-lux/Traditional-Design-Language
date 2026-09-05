@@ -1,6 +1,27 @@
 # oq/a-measured-parameter-with-no-source-is-not-metered — 542 kit figures claim to have been measured and nothing on the record says where
 
-*Status: OPEN · Raised in: WP-11.1, the precedent bench (4 Sep 2026)*
+*Status: HALF CLOSED 5 Sep 2026 — part 2 ruled, part 1 still open · Raised in: WP-11.1, the precedent bench (4 Sep 2026)*
+
+**PART 2 RULED 5 SEP 2026 BY LUCAS: YES -- REFUSE A NEW `measured` PARAMETER THAT CARRIES NO SOURCE.**
+Part 3 is answered by `oq/a-surveyors-prose-may-source-an-envelope-figure`, ruled the same day.
+**PART 1 IS NOT RULED AND NOTHING IS RE-KINDED**: the existing 542 keep their label and the meter
+stays the honest interim, exactly as this entry proposes.
+
+**THE GATE HALF-EXISTED AND ITS HOLE IS THIS REPOSITORY'S FAVOURITE SHAPE.**
+`check_research.RATCHET["measured_unsourced"]` is a CEILING at 542 and the comparison is
+`got[key] > pin`, so adding a new unsourced `measured` parameter already reddens the build at 543.
+Nobody had said so. But it is a **net count**: source one figure and add an unsourced one in the same
+commit and the total is still 542 and the build stays green -- a counter that nets out, which is the
+family this corpus keeps meeting. So the ruling is a real package and not a no-op, and the gate must
+be **per-parameter** rather than arithmetic: `check_kits.py` refuses a `measured` parameter with no
+source unless its `(node, slot, parameter)` triple is in a FROZEN grandfathered set built once from
+today's 542. Adding one is then refused by identity; removing one from the set is a one-way door.
+
+**And the message matters as much as the gate.** The current failure reads `measured_unsourced: 542
+-> 543`, which tells an author neither which parameter nor what to do. It must name the node, the
+slot and the parameter, and state the two legitimate remedies: cite a
+`precedents/<id>#measurements[<n>]`, or mark it `editorial` with a note saying what it rests on.
+
 
 **OPEN — the provenance census counted the other kind for a year.** `build/check_kits.py::provenance_census`
 prints `editorial with NEITHER a source NOR a note` on every run and pins it at 0 (`tests/test_provenance.py`).
