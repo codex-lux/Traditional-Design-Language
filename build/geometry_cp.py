@@ -99,6 +99,43 @@ def _door_overlap(d, v1, v2):
 SCALE = 10                # objective weights are WP-2.2's, x10 into integers
 COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the rest
 
+# WP-11.7. The downgrade ladder, LOWEST AUTHORITY FIRST. On INFEASIBLE the round loop takes the
+# first kind in this list that appears in the conflict core and downgrades exactly those pins,
+# so a round always gives up the least authoritative fact it can.
+#
+#   wall   the record's `exterior_walls`  — released first
+#   axis   the parti's own through-axis, read onto this plan
+#   shape  the room record's own `dimensions.proportion` band — released last
+#
+# THE ORDER PUTS THE WALL FIRST, AND THAT IS A RULING RATHER THAN AN INTUITION (5 Sep 2026).
+# The obvious ranking is the opposite one -- an `exterior_walls` entry is authored on THIS
+# record and a proportion band is the corpus's rule about a room TYPE -- and it was written that
+# way first. Then it was measured, and the two cannot both be hard:
+#
+#     shape band held, all 22 wall pins released  ->  OPTIMAL
+#     shape band held, wall pins held             ->  INFEASIBLE, at every footprint to 10 bays
+#
+# and the ladder, ranked the other way, gave up 14 or 15 of the 15 shape pins at EVERY coverage
+# floor from 0.97 down to 0.60 -- so coverage and packing are not the blocker and the band simply
+# never survived. Measured on the drawing, releasing the walls instead: serious findings 79 -> 58,
+# and NO room drawn outside its own band where the worst had been a 13 x 16 ft bedroom drawn
+# 45 x 7. The price is relaxations 11 -> 18 and diverged 14 -> 17.
+#
+# CLAUDE.md has carried the reason all along: "A plan's `exterior_walls` are aspirations, not
+# rectangle edges. Three Tidewater ground rooms each declare OPPOSITE walls, so each would have
+# to span the full depth of the house. They are weights, at the 14 points `exterior_score`
+# charges. Do not promote them to constraints; the corpus does not mean them that way." This
+# engine promoted them anyway, from the day it was written, and the shape band is what made the
+# contradiction visible rather than merely stated.
+#
+# A released wall pin is not discarded: it keeps the heuristic's own 14 points in the objective,
+# which is what that note says it was always worth.
+#
+# A kind NOT in this list never downgrades: sizes, doors, the entrance and capacity are what
+# infeasibility is FOR (the 25 Aug rulings). Adding a kind here is a decision about authority
+# and belongs in a report, not in a diff.
+_RANK = ("wall", "axis", "shape")
+
 
 def _cls(rtype):
     return C["rooms"].get(rtype, {}).get("function_class")
@@ -226,6 +263,67 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             m.Add(a <= int(max(1.20, fill * 1.22) * areaU)).OnlyEnforceIf(pr)
             m.Add(x + w <= Wi)
             m.Add(y + h <= Hi)
+            # THE SHORT AND LONG SIDES, BUILT UNCONDITIONALLY (WP-11.7). They used to live
+            # inside `if objective:` because only the soft aspect term read them -- and phase A
+            # runs with `objective=False`, which is the phase that draws this plan
+            # (`_finish_feasible` keeps "hard-only phase A" whenever the polish times out). A
+            # shape rule that exists only in the objective is a shape rule this plan never sees.
+            mxs = m.NewIntVar(0, max(Wi, Hi), f"mx{lvl}_{r['id']}")
+            mns = m.NewIntVar(0, max(Wi, Hi), f"mn{lvl}_{r['id']}")
+            m.AddMaxEquality(mxs, [w, h])
+            m.AddMinEquality(mns, [w, h])
+
+            # THE ROOM'S OWN PROPORTION BAND, HARD (WP-11.7), AND NOT AN INVENTED TOLERANCE.
+            # WP-11.7 was planned as per-room side bounds at an authored tolerance tau. It is
+            # this instead, because the corpus already states the rule and tau would have been
+            # a number nobody could source. Measured before choosing: all 23 dimensioned rooms
+            # on `plans/tidewater-georgian-careful.json` declare a shape INSIDE their own type's
+            # `dimensions.proportion` band, so binding the band constrains the drawing without
+            # contradicting one authored record.
+            #
+            # It is the band `plan_check`'s drawn layer already convicts a room for leaving, so
+            # the placer now proves what the critic tests -- `vertical_score`'s own rule that
+            # the search and the arbiter must not convict and acquit the same house. One
+            # spelling, `GEO.shape_band`, which the soft term below already reads.
+            #
+            # DOWNGRADABLE, and RANKED ABOVE A WALL PIN -- see `_RANK`, which carries the
+            # measurement that decided it. The two cannot both be hard on this plan, and a
+            # released wall pin keeps its 14 points in the objective, which is what CLAUDE.md
+            # has always said an `exterior_walls` entry is worth.
+            _ceil, _src = GEO.shape_band(r.get("type"))
+            _nm = r.get('name') or r['id']
+            if _ceil and (lvl, r["id"]) in downgraded:
+                # proven unable to co-hold with the rest: stated, and scored rather than
+                # forced, the same shape a downgraded wall pin takes six hundred lines down
+                reqs.notes.append(
+                    f"{_nm}'s own proportion band ({_ceil:g} to 1) could not co-hold with the "
+                    f"other declared facts — downgraded, so this room may be drawn a shape its "
+                    f"own record does not admit, and the drawn layer will say so")
+            elif _ceil:
+                _sh = reqs.lit(f"{_nm} is drawn no longer than {_ceil:g} to 1 — the "
+                               f"proportion band its own room record states ({_src})",
+                               kind="shape", key=(lvl, r["id"]))
+                # STATED ON max/min, AND THE OBVIOUS REWRITE IS SLOWER — MEASURED, BECAUSE IT
+                # LOOKS LIKE A FREE WIN AND IS NOT. `max(w,h) <= c * min(w,h)` is exactly
+                # `w <= c*h AND h <= c*w` for positive sides, and that form needs no
+                # AddMaxEquality/AddMinEquality pair, so it reads as strictly cheaper. Timed on
+                # the two shipped plans with all wall pins released and the heuristic hint:
+                #
+                #     max/min (this form)     spec-builder 29.6 s   tidewater 11.3 s
+                #     w <= c*h AND h <= c*w   spec-builder 48.2 s   tidewater 20.4 s
+                #
+                # CP-SAT's max/min propagators are stronger here than two reified linear
+                # constraints, by a factor of about 1.7. The pair is built unconditionally
+                # above and the soft aspect term shares it, so it costs nothing to reuse.
+                m.Add(10 * mxs <= int(round(_ceil * 10)) * mns).OnlyEnforceIf(_sh)
+            else:
+                # The FLOOR is deliberately not stated: every room record's proportion floor is
+                # 1.0 since the 3 Sep ruling, and `mxs >= mns` holds by construction, so a floor
+                # constraint would be a branch that can never bite.
+                reqs.notes.append(
+                    f"{_nm}: its room type states no proportion band, so its drawn SHAPE is "
+                    f"unconstrained here and unjudged by the drawn layer too — it may come "
+                    f"back any shape at all and nothing will say so")
             if objective:
                 # mirror level_score's own terms, term for term: area error
                 # (10 x |got-want|/want) and aspect sanity (6 per ratio point
@@ -236,10 +334,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 m.Add(diff == a - target)
                 m.AddAbsEquality(dev, diff)
                 penalties.append((dev, max(1, int(round(10 * SCALE / max(areaU, 1))))))
-                mx = m.NewIntVar(0, max(Wi, Hi), "")
-                mn = m.NewIntVar(0, max(Wi, Hi), "")
-                m.AddMaxEquality(mx, [w, h])
-                m.AddMinEquality(mn, [w, h])
+                mx, mn = mxs, mns      # built above, unconditionally (WP-11.7)
                 ov10 = m.NewIntVar(0, 10 * max(Wi, Hi), "")
                 # THE `26` HERE WAS 2.6 x 10 -- THE SAME UNIVERSAL CONSTANT `level_score`
                 # CARRIED, SPELLED A SECOND TIME (WP-9.4). Correcting the heuristic alone
@@ -341,8 +436,106 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                                        kind="wall", key=key)
                         m.Add(pins[wl]).OnlyEnforceIf(lit)
 
+        idx0 = {r["id"]: r for r in rs}
+
+        # ---- THE SPANNING PASSAGE, ON THE BLOCK'S OWN AXIS (WP-11.7)
+        #
+        # A circulation room declaring an OPPOSITE PAIR is the centre passage, and this file's
+        # own docstring has said since WP-2.3 that "its two pins ARE the spanning rule". They
+        # were -- until WP-11.7 ranked the shape band above the wall pins, at which point the
+        # first infeasible round releases all 22 of them and the spanning rule goes with them.
+        # Measured: the Tidewater passage came back 40 ft wide and 9 ft deep, running across
+        # the house instead of through it, and `plan_check`'s entrance-axis census read
+        # `passage_has_no_through_axis: 1` and compared nothing.
+        #
+        # So the rule is stated as itself rather than inferred from two pins that now rank
+        # below it: the room SPANS its declared pair, and its centreline is the block's.
+        # `kind="axis"`, ranked between wall and shape -- more authored than the corpus's rule
+        # about a room type, less authored than nothing (it is read off THIS record's own
+        # `exterior_walls`, and it is the diagram the parti is named for).
+        #
+        # It is one requirement, not two, so a conflict names the passage and its axis rather
+        # than an anonymous pair of inequalities -- the same reason the programme size is one
+        # literal per room.
+        # WHICH room, and it is NOT "every circulation room declaring an opposite pair".
+        # Written that way first, and measured: on the Tidewater record it selects TWO -- the
+        # Centre Passage and the Back Hall (a `back-hall` is circulation and declares N and S
+        # as a hyphen, not as a spine). Two rooms both pinned to the block's centre line cannot
+        # both hold, so the round loop released BOTH axis pins and the passage went back to
+        # running across the house. An axis rule that names two rooms names none.
+        #
+        # The one it means is the room the FRONT DOOR OPENS INTO -- which is exactly the
+        # relation `plan_check`'s own entrance-axis census walks, threshold room to circulation
+        # room, so the placer aims at the thing the critic measures. Where that picks out no
+        # room, or more than one, the axis is UNJUDGED and nothing is pinned: a spine the record
+        # does not single out is not one this engine may invent.
+        _entered = set()
+        for r in rs:
+            if _cls(r.get("type")) != "threshold":
+                continue
+            if not any(d.get("to") == "exterior" for d in (r.get("doors") or [])):
+                continue
+            for d in (r.get("doors") or []):
+                t = d.get("to")
+                if t and t != "exterior" and (lvl, t) in rooms \
+                        and _cls((idx0.get(t) or {}).get("type")) == "circulation":
+                    _entered.add(t)
+        _spines = [r for r in rs if r["id"] in _entered
+                   and ({"S", "N"} <= set(r.get("exterior_walls") or [])
+                        or {"W", "E"} <= set(r.get("exterior_walls") or []))]
+        if len(_spines) != 1:
+            if any(_cls(r.get("type")) == "circulation"
+                   and ({"S", "N"} <= set(r.get("exterior_walls") or [])
+                        or {"W", "E"} <= set(r.get("exterior_walls") or [])) for r in rs):
+                reqs.notes.append(
+                    f"level {lvl}: {len(_spines)} circulation room(s) reached from the front "
+                    f"door declare an opposite pair, so which one is the spine is UNJUDGED and "
+                    f"no axis is pinned — one room, or none")
+        for r in _spines:
+            walls = set(r.get("exterior_walls") or [])
+            v = rooms[(lvl, r["id"])]
+            if {"S", "N"} <= walls:
+                span, ctr, ext = (v["y"], v["h"], Hi), (v["x"], v["w"], Wi), "N-S"
+            elif {"W", "E"} <= walls:
+                span, ctr, ext = (v["x"], v["w"], Wi), (v["y"], v["h"], Hi), "E-W"
+            else:
+                continue
+            key = (lvl, r["id"])
+            if key in downgraded:
+                reqs.notes.append(
+                    f"{r.get('name') or r['id']}'s through-axis could not co-hold with the "
+                    f"other declared facts — downgraded, so it may be drawn across the house "
+                    f"rather than through it")
+                continue
+            _ax = reqs.lit(f"{r.get('name') or r['id']} runs {ext} through the house and sits "
+                           f"on its centre line — it declares both {ext.replace('-', ' and ')} "
+                           f"walls, which is the spanning rule",
+                           kind="axis", key=key)
+            m.Add(span[0] == 0).OnlyEnforceIf(_ax)
+            m.Add(span[0] + span[1] == span[2]).OnlyEnforceIf(_ax)
+            # SPANNING ONLY, AND THE CENTRING IS REFUSED WITH ITS MEASUREMENT.
+            #
+            # `PLAN-OF-ACTION.md` asks for "the spanning passage pinned on the block axis" and
+            # the plan file spells it `2x + w == W`. Built and measured: with the shape bands
+            # held and ALL 22 wall pins already released -- the most permissive model this
+            # engine can offer -- adding the centring makes it INFEASIBLE in 0.9 s.
+            #
+            # The arithmetic says why, and it is a fact about the record rather than the
+            # solver. The Centre Passage declares 12 x 34 ft; spanning the 40.08 ft depth puts
+            # it 10.2 ft wide, and centred on a 60 ft front that leaves two strips of 24.9 ft
+            # holding about 2,000 sf of programme in 1,992 sf of floor. That is an exact tiling
+            # of both strips, by rooms that must each also sit inside their own proportion
+            # band. There is no slack anywhere in it -- which is
+            # `oq/the-placement-carries-no-wall-bands` measured from the other side.
+            #
+            # So the axis pin states the half that HOLDS: the passage runs through the house.
+            # Its position along the front is left to the objective, where a centre-passage
+            # term has scored it since WP-2.2. Do not reinstate the equality without first
+            # re-running this measurement; a symmetric passage needs the footprint to gain the
+            # slack that question is about, not a harder constraint.
+
         # ---- doors: declared topology must be geometrically real
-        idx = {r["id"]: r for r in rs}
+        idx = idx0
         seen = set()
         for r in rs:
             v1 = rooms[(lvl, r["id"])]
@@ -759,7 +952,7 @@ def _hint_values(model, rooms, values):
         model.AddHint(v["h"], h)
 
 
-def _absorb(rects, W, H, caps=None, keepout=()):
+def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
     """Grow rooms into the void the coverage floor allows, edges moving outward
     only — a pinned boundary edge is already at its boundary, and a shared edge
     stops exactly at its neighbour, so nothing hard can break. `caps` bounds
@@ -776,9 +969,30 @@ def _absorb(rects, W, H, caps=None, keepout=()):
     post-pass, which is the same shape of defect as OQ 52 and just as invisible,
     because the record it writes looks exactly like a solved plan. The keep-out
     rectangles limit growth in all four directions exactly as a sibling room
-    does, so the proof survives into the drawing."""
+    does, so the proof survives into the drawing.
+
+    `ratios` is the same guarantee for SHAPE (WP-11.7), and it is the third time this pass has
+    been caught undoing a proof the solve had just made. CP now holds each room inside its own
+    `dimensions.proportion` band as a hard, downgradable pin; this pass then grew three of them
+    straight back out of it -- measured on `plans/tidewater-georgian-careful.json`, the library
+    to 1.69 against a ceiling of 1.6, the powder room to 2.66 against 2.2, and a closet to 4.21
+    against 4.0, all three with their pin still HELD. A cap here can leave residual void, and
+    honest empty floor beats a room the record does not admit; that is the same trade the area
+    cap above already makes and it is made the same way.
+
+    A room whose pin was DOWNGRADED is deliberately absent from `ratios`: the record says its
+    band could not hold, so this pass has nothing to preserve for it."""
     ids = list(rects)
     caps = caps or {}
+    ratios = ratios or {}
+
+    def _fits(rid, w, h):
+        """Would this rectangle still sit inside the band the solve proved for it?"""
+        c = ratios.get(rid)
+        if not c:
+            return True
+        lo, hi = min(w, h), max(w, h)
+        return hi <= c * lo + 0.01
     if keepout:
         rects = dict(rects)
         for i, ko in enumerate(keepout):
@@ -794,7 +1008,7 @@ def _absorb(rects, W, H, caps=None, keepout=()):
                     lim = min(lim, ox)
             if lim - (x + w) > 0.01:
                 nw = min(lim - x, max(w, cap / max(h, 0.01)))
-                if nw - w > 0.01:
+                if nw - w > 0.01 and _fits(rid, nw, h):
                     w = nw; moved = True
             lim = H
             for o, (ox, oy, ow, oh) in rects.items():
@@ -802,7 +1016,7 @@ def _absorb(rects, W, H, caps=None, keepout=()):
                     lim = min(lim, oy)
             if lim - (y + h) > 0.01:
                 nh = min(lim - y, max(h, cap / max(w, 0.01)))
-                if nh - h > 0.01:
+                if nh - h > 0.01 and _fits(rid, w, nh):
                     h = nh; moved = True
             lim = 0.0
             for o, (ox, oy, ow, oh) in rects.items():
@@ -810,7 +1024,7 @@ def _absorb(rects, W, H, caps=None, keepout=()):
                     lim = max(lim, ox + ow)
             if x - lim > 0.01:
                 nw = min(w + (x - lim), max(w, cap / max(h, 0.01)))
-                if nw - w > 0.01:
+                if nw - w > 0.01 and _fits(rid, nw, h):
                     x -= nw - w; w = nw; moved = True
             lim = 0.0
             for o, (ox, oy, ow, oh) in rects.items():
@@ -818,7 +1032,7 @@ def _absorb(rects, W, H, caps=None, keepout=()):
                     lim = max(lim, oy + oh)
             if y - lim > 0.01:
                 nh = min(h + (y - lim), max(h, cap / max(w, 0.01)))
-                if nh - h > 0.01:
+                if nh - h > 0.01 and _fits(rid, w, nh):
                     y -= nh - h; h = nh; moved = True
             rects[rid] = (round(x, 2), round(y, 2), round(w, 2), round(h, 2))
         if not moved:
@@ -1035,7 +1249,10 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
     started = time.monotonic()
 
     attempts = []
-    downgraded = set()      # (level, room_id, wall) pins PROVEN unable to co-hold
+    downgraded = set()      # pins PROVEN unable to co-hold: (level, room, wall) for a wall
+                            # pin, (level, room) for a WP-11.7 shape pin. Split by arity
+                            # wherever it is read, never by position.
+    rank_notes = []         # what each round gave up, and at which rank
     seed_core = None
 
     def _feasibility(fpd, tag, budget):
@@ -1075,7 +1292,12 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             s.parameters.num_search_workers = 1
             s.parameters.random_seed = seed
             st = s.Solve(model)
-            attempts.append((f"restore L{key[0]} {key[1]} {key[2]}",
+            # `key` is (level, room, wall) for a wall pin and (level, room) for a WP-11.7
+            # shape pin. This read `key[2]` unconditionally and would have raised IndexError
+            # on the first shape downgrade -- inside the reinstatement pass, where nothing in
+            # the traceback would have named the ladder.
+            attempts.append((f"restore L{key[0]} {key[1]}"
+                             + (f" {key[2]}" if len(key) > 2 else " (shape)"),
                              "R:" + s.StatusName(st)))
             if st in (cp_model.OPTIMAL, cp_model.FEASIBLE):
                 downgraded.discard(key)
@@ -1093,6 +1315,16 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
             rs = prep.get(lvl) or []
             fill = (fpd["W"] * fpd["H"]) / max(1.0, sum(r["_area"] for r in rs))
             caps = {r["id"]: max(1.20, fill * 1.22) * r["_area"] for r in rs}
+            # WP-11.7: the SHAPE half of the same guarantee. A room whose proportion pin the
+            # ladder released is left out -- the record says its band could not hold, and this
+            # pass has nothing to preserve for it.
+            ratios = {}
+            for r in rs:
+                if (lvl, r["id"]) in downgraded:
+                    continue
+                _c, _ = GEO.shape_band(r.get("type"))
+                if _c:
+                    ratios[r["id"]] = _c
             keepout = []
             if lvl == 1:
                 below = rects_by_level.get(0) or {}
@@ -1101,7 +1333,7 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                     if isinstance(v, dict) and not v.get("roofed") and gr["id"] in below:
                         keepout.append(below[gr["id"]])
             rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"],
-                                          caps=caps, keepout=keepout)
+                                          caps=caps, keepout=keepout, ratios=ratios)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
                                    fpd["bay"], fpd["tol"])
         sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax)
@@ -1178,8 +1410,17 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                                    "proven unable to co-hold — then downgraded, stated)",
                            "note": "the compositional terms are constraints and "
                                    "weighted objectives here, not search preferences",
+                           # WP-11.7: `downgraded` holds keys of more than one KIND now --
+                           # a wall pin is (level, room, wall) and a shape pin is (level,
+                           # room). This comprehension unpacked three names from every key
+                           # and would have raised on the first shape downgrade, in the
+                           # RESULT BUILDER, where the traceback names neither the ladder
+                           # nor the pin. Split by arity, and both reported.
                            "downgraded_wall_pins": sorted(
-                               f"L{l} {r} {w}" for l, r, w in downgraded),
+                               f"L{k[0]} {k[1]} {k[2]}" for k in downgraded if len(k) == 3),
+                           "downgraded_shape_pins": sorted(
+                               f"L{k[0]} {k[1]}" for k in downgraded if len(k) == 2),
+                           "downgrade_rounds": list(rank_notes),
                            "refinements": sorted(set(reqs_notes.notes))}}
 
     # Round loop at the natural footprint: wall pins are hard until PROVEN
@@ -1209,10 +1450,68 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         idx = set(solver.SufficientAssumptionsForInfeasibility())
         core = [(t, k, key) for lit, t, k, key in reqs.lits if lit.Index() in idx]
         seed_core = [t for t, _k, _key in core]
-        wall_keys = [key for _t, k, key in core if k == "wall" and key]
-        if not wall_keys:
+        # THE LADDER IS RANKED (WP-11.7), and it was a single kind until this package.
+        # It read `[key for _t, k, key in core if k == "wall" and key]` -- so a wall pin was
+        # the only downgradable fact, and every requirement added since would either have been
+        # un-downgradable (and taken the whole placement to INFEASIBLE) or would have had to be
+        # soft, which on this plan means invisible: `_finish_feasible` keeps the hard-only
+        # phase A placement whenever the polish times out, and the objective never runs.
+        #
+        # RANK IS AUTHORITY, LOWEST FIRST, AND THE ORDER IS THE POINT. An authored exterior
+        # wall is the author's own statement about the house; a shape pin is the corpus's rule
+        # about the room TYPE; an axis pin is inferred from the parti. So a round gives up the
+        # inferred fact before the authored one, and OQ 95's standing requirement -- that an
+        # authored wall can never lose to an inferred pin -- holds by construction rather than
+        # by everything else being soft.
+        #
+        # Sizes, doors, the entrance and capacity are still ABSENT from this ladder and still
+        # never downgrade: they are what infeasibility is for (the 25 Aug rulings, unchanged).
+        # A SOLVER CORE IS SUFFICIENT AND NOT MINIMAL, WHICH IS WHY THE SECOND CLAUSE EXISTS.
+        # Measured on `plans/tidewater-georgian-careful.json` the first time the shape pins ran:
+        # the core came back as three literals -- the Back Hall's declared N wall, its declared
+        # S wall, and its 7 x 16 ft programme -- and NO shape literal, although the shape pin was
+        # the new fact that had just made the model infeasible. (A room declaring an opposite
+        # pair must span the 40 ft depth; at 112 sf that is 2.8 ft wide, which is 14 to 1 against
+        # a band of 5.) Ranking on the kinds the core happens to NAME would therefore have given
+        # up two authored walls to save an inferred shape pin -- the exact inversion OQ 95
+        # forbids, arrived at by accident.
+        #
+        # So: prefer the lowest-ranked kind the core names; and where the core names no pin of
+        # that kind, fall back to the lowest-ranked LIVE pins belonging to the ROOMS the core
+        # names. The conflict always names rooms, and the room is the unit an author reads.
+        # A ROUND RELEASES THE WHOLE OF THE LOWEST-RANKED LIVE KIND, NOT THE PINS THE CORE
+        # HAPPENS TO NAME, and that is a measurement rather than a shortcut.
+        #
+        # The narrow version -- downgrade exactly the cored pins -- was written first and swept.
+        # On `plans/tidewater-georgian-careful.json` with the shape band live it needs EIGHT
+        # rounds, and the intermediate states (some walls released, the band still held) are the
+        # expensive ones: at a 6 s per-round cap round 2 comes back UNKNOWN, so the ladder never
+        # converges inside any budget the bench can spend. Releasing the rank whole reaches the
+        # same end state in ONE round, and with the heuristic hint that round is OPTIMAL in
+        # 12.9 s against 26.1 s unhinted.
+        #
+        # It over-releases, and the file already has the answer to that: `_reinstate` restores
+        # each downgraded pin ALONE at the footprint actually being drawn and keeps the ones
+        # that hold, marking the rest carried-not-proven. Its own docstring says why -- "a
+        # solver core is SUFFICIENT, not minimal" -- and that reasoning is the same one round
+        # larger here. What a round must never do is release a kind that outranks one still
+        # live, and it cannot: the loop takes the first kind in `_RANK` with a live pin.
+        _downgradable = None
+        for _kind in _RANK:
+            live = [key for _lit, _t, k, key in reqs.lits
+                    if k == _kind and key and key not in downgraded]
+            if live:
+                _named = sum(1 for _t, k, key in core if k == _kind and key)
+                _downgradable = (_kind, live, _named)
+                break
+        if not _downgradable:
             break
-        downgraded.update(wall_keys)
+        _kind, _keys, _named = _downgradable
+        rank_notes.append(
+            f"round {rnd}: released all {len(_keys)} live {_kind} pin(s) — the lowest-ranked "
+            f"kind still held; the conflict core named {_named} of them, and the rest are "
+            f"offered back one at a time by the reinstatement pass")
+        downgraded.update(_keys)
 
     # capacity may still be the blocker: grow a bay before blaming a requirement
     for bays in range(fpd0["bays"] + 1, fpd0["growth_ceiling"] + 1):
@@ -1245,7 +1544,9 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         "proven": True,
         "conflicts": conflicts,
         "minimized": minimized,
-        "downgraded_wall_pins": sorted(f"L{l} {r} {w}" for l, r, w in downgraded),
+        "downgraded_wall_pins": sorted(f"L{k[0]} {k[1]} {k[2]}" for k in downgraded
+                                       if len(k) == 3),
+        "downgraded_shape_pins": sorted(f"L{k[0]} {k[1]}" for k in downgraded if len(k) == 2),
         "note": note,
         "attempts": attempts}}
 

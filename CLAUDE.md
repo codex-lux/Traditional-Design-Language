@@ -456,6 +456,69 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **TWO AUTHORED FACTS COULD NOT BOTH BE HARD, AND CLAUDE.MD HAD SAID WHICH ONE WINS SINCE
+  WP-2.2 (WP-11.7).** CP held every room's declared `exterior_walls` as a pin. WP-11.7 added the
+  room record's own `dimensions.proportion` band as a second hard pin and the model went
+  INFEASIBLE at every footprint to ten bays. Measured: **band held + all 22 wall pins released →
+  OPTIMAL; band held + pins held → INFEASIBLE**, and the ladder gives up 14 or 15 of the 15 shape
+  pins at EVERY coverage floor from 0.97 down to 0.60 — **so coverage and packing are not the
+  blocker** and `oq/the-placement-carries-no-wall-bands` is not what is in the way. The first
+  conflict core says it in three literals: the Back Hall's declared N wall, its declared S wall,
+  and its 7 × 16 ft programme — a room declaring an opposite pair must span the 40 ft depth, and
+  at 112 sf that is 2.8 ft wide against a band of 5. **The entry six hundred lines below has
+  carried the answer all along** — *"exterior_walls are aspirations, not rectangle edges … they
+  are weights, at the 14 points `exterior_score` charges. Do not promote them to constraints"* —
+  and `geometry_cp.py` promoted them from the day it was written. **Ruled 5 Sep: the band
+  outranks the pins**, and a released pin keeps its 14 points in the objective, which is what
+  that entry always said it was worth. Measured on `auto`: **serious 79 → 56, stacks kept 0 → 3
+  of 5, no room outside its own band** (the worst had been a 13 × 16 ft bedroom drawn 45 × 7),
+  and the passage 22 × 19 → **9 × 40, spanning again**. **Not one plan in the corpus has a shape
+  pin downgraded** — the band is holdable everywhere it was tried; only the wall pins could not
+  co-hold with it. **RATCHET NONE OF THESE**: they are `auto` figures and `auto` is not
+  reproducible under a wall-clock budget — two runs of the unchanged baseline gave serious 79 and
+  75 on this plan. The heuristic is untouched by the package and its figures are the
+  deterministic ones.
+- **`_RANK` IS THE LADDER NOW, AND A ROUND RELEASES THE WHOLE OF A RANK (WP-11.7).** It read
+  `[key for _t, k, key in core if k == "wall" and key]` — one kind, hard-coded — so any
+  requirement added after it was either un-downgradable (taking the placement to INFEASIBLE) or
+  soft, which on this plan means INVISIBLE: `_finish_feasible` keeps the hard-only phase A
+  placement whenever the polish times out and the objective never runs. `_RANK = ("wall", "axis",
+  "shape")`, lowest authority first. **Whole-rank release is measured, not lazy**: downgrading
+  only the cored pins needs EIGHT rounds and the intermediate states are the expensive ones —
+  at a 6 s per-round cap round 2 returns UNKNOWN and the ladder never converges inside any
+  bench-sized budget. `_reinstate` already exists to win back an over-release ("a solver core is
+  SUFFICIENT, not minimal") and wins one of 22 back in budget. **`downgraded` now holds keys of
+  two ARITIES** — `(level, room, wall)` and `(level, room)` — and three readers unpacked three
+  names from every one; `_reinstate`'s own label would have raised IndexError inside the
+  reinstatement pass. Split by arity, never by position, and both kinds are on the record.
+- **`_absorb` UNDID A PROOF FOR THE THIRD TIME (WP-11.7).** CP proved every room inside its band;
+  the post-solve absorb pass grew three straight back out of it — **library 1.69 against a
+  ceiling of 1.6, powder room 2.66 against 2.2, a closet 4.21 against 4.0**, all with their pin
+  still HELD. That function's docstring already recorded the same defect twice (a 2.8 sf linen
+  press stretched to 8; OQ 55's upper room grown across a courtyard). It takes `ratios` beside
+  `caps` and `keepout` now, and a room whose pin was RELEASED is deliberately absent from it.
+  **Found by a test on its first run, not by reading.** Anything that runs AFTER a solve is
+  outside its proof and has to be held to it separately.
+- **THE OBVIOUS CP SPEED-UP IS 1.7x SLOWER, AND THE MEASUREMENT THAT SAID SO NEARLY DIDN'T RUN
+  (WP-11.7).** `max(w,h) <= c * min(w,h)` is exactly `w <= c*h AND h <= c*w`, needs no
+  `AddMaxEquality`/`AddMinEquality` pair, and reads as strictly cheaper. Measured: spec-builder
+  **29.6 → 48.2 s**, tidewater **11.3 → 20.4 s**. CP-SAT's max/min propagators beat two reified
+  linear constraints here. **The first attempt to measure it reported `exit code 144`, did not
+  land, and the timing run after it compared the max/min encoding against ITSELF** — 29.9 s
+  against 29.6 s, which is exactly what a null result looks like. A `grep` guarding the edit
+  printed nothing and the shell's `&&` swallowed it. **Read the exit code of the EDIT, not only
+  the output of the run after it** — the sibling of this file's own "an edit that reports success
+  and changes nothing".
+- **AN AXIS RULE THAT NAMES TWO ROOMS NAMES NONE (WP-11.7).** "Every circulation room declaring
+  an opposite pair" selects TWO on the Tidewater record — the Centre Passage and the Back Hall,
+  which is circulation and declares N and S as a HYPHEN. Two rooms pinned to one centre line
+  cannot both hold, so the ladder released both and the passage went back to running across the
+  house. It is the room the FRONT DOOR OPENS INTO now, which is the relation `plan_check`'s own
+  entrance-axis census walks; where that picks out no room or more than one, the axis is UNJUDGED
+  and nothing is pinned. **And the centring is REFUSED with its measurement**: `2x + w == W` is
+  INFEASIBLE in 0.9 s with every wall pin already released, because a 10.2 ft passage centred on
+  a 60 ft front leaves two strips holding 2,000 sf of programme in 1,992 sf of floor. A symmetric
+  passage needs the footprint to gain slack, not a harder constraint.
 - **`stacks_over` HAD SEVEN READERS AND FOUR DEFINITIONS OF "BELOW", AND EVERY ONE DECLINED IN
   SILENCE (WP-11.6).** Two engine terms and `geometry.bias` hard-wire level 0 as "below";
   `plan_check`'s drawn layer had `if level_of[rid] == level_of[so]: continue` with no note; its
@@ -1930,8 +1993,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **140 entries, of which 59 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-frozen-fixture-is-regenerated-by-solving, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **141 entries, of which 60 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-frozen-fixture-is-regenerated-by-solving, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
