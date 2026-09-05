@@ -1,6 +1,6 @@
 {
- "_comment": "WP-11.4, Ruling C part 2 (5 Sep 2026). THE UNSOURCED `measured` PARAMETERS AS THEY STOOD WHEN THE GATE WENT IN. `build/check_kits.py` refuses any `measured` parameter with no `source` on itself and no `sources[]` on its slot UNLESS its (node, slot, parameter) triple is in this list. Adding a new one is then refused BY IDENTITY, which the old net ratchet could not do -- sourcing one figure while adding another kept the total at 542 and the build green. REMOVING a triple from this list is a ONE-WAY DOOR: it means the parameter now carries a source, and it may never be added back. Part 1 of the ruling is NOT given: nothing here is re-kinded, and this is a record of a debt, not a licence.",
- "count": 542,
+ "_comment": "WP-11.4, Ruling C part 2 (5 Sep 2026). THE UNSOURCED `measured` PARAMETERS AS THEY STOOD WHEN THE GATE WENT IN. `build/check_kits.py` refuses any `measured` parameter with no `source` on itself and no `sources[]` on its slot UNLESS its (node, slot, parameter) triple is in this list. Adding a new one is then refused BY IDENTITY, which the old net ratchet could not do -- sourcing one figure while adding another kept the total at 542 and the build green. REMOVING a triple from this list is a ONE-WAY DOOR: it means the parameter now carries a source, and it may never be added back. Part 1 of the ruling is NOT given: nothing here is re-kinded, and this is a record of a debt, not a licence. 5 Sep 2026: 542 -> 536. Six triples walked through the one-way door when WP-11.4 Ruling A gave them a `precedents/<id>#measurements[<n>]` source that check_precedents.py compares with the figure. The door only opens outward: a triple removed here may never be added back.",
+ "count": 536,
  "measured_on": "2026-09-05",
  "entries": [
   [
@@ -82,16 +82,6 @@
    "antique-classical",
    "order",
    "module_derivation"
-  ],
-  [
-   "appalachian-log-house",
-   "depth_and_pile",
-   "pen_depth_ft"
-  ],
-  [
-   "appalachian-log-house",
-   "depth_and_pile",
-   "pen_width_ft"
   ],
   [
    "arts-and-crafts-american",
@@ -539,11 +529,6 @@
    "gambrel_upper_slope"
   ],
   [
-   "dutch-colonial-american",
-   "wall_thickness_masonry",
-   "thickness"
-  ],
-  [
    "dutch-colonial-revival",
    "dormer",
    "dormer_length_pct_roof"
@@ -702,11 +687,6 @@
    "french-normandy-revival",
    "roof_pitch",
    "tower_pitch_range"
-  ],
-  [
-   "garrison-colonial",
-   "belt_course",
-   "overhang_framed"
   ],
   [
    "garrison-colonial",
@@ -1302,11 +1282,6 @@
    "italianate-american",
    "height_proportion",
    "diminish_pct_per_storey"
-  ],
-  [
-   "italianate-american",
-   "height_proportion",
-   "first_floor_ceiling_ft"
   ],
   [
    "italianate-american",
@@ -2292,11 +2267,6 @@
    "shotgun-house",
    "ceiling_height_rule",
    "ceiling_height_preferred_ft"
-  ],
-  [
-   "shotgun-house",
-   "depth_and_pile",
-   "room_count"
   ],
   [
    "shotgun-house",

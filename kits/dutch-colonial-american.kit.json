@@ -221,7 +221,10 @@
             30
           ],
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "source": "precedents/abraham-hasbrouck-house#measurements[1]",
+          "confidence": "medium",
+          "note": "WP-11.4, Ruling A. HABS NY-4363 on the Abraham Hasbrouck House: 'Above ground, the walls are approximately 22 inches thick at their widest point'. Neither surveyed exemplar in the band is this node's OWN -- both belong to `hudson-valley-dutch`, a member of this node, so a member's building is evidencing the parent's band. The Dyckman Farmhouse (precedents/dyckman-farmhouse#measurements[0]) corroborates at 'twenty inches thick', exactly the band's floor. Nothing surveyed states the 30 in ceiling; the upper half of this band is still unsourced."
         }
       },
       "rule": "Load-bearing stone walls 20-30 in thick, laid in lime mortar with wide joints; a thin stone veneer over frame is a different building (c05, soft).",

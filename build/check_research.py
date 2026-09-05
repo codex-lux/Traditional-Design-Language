@@ -68,8 +68,8 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #   exemplars_with_precedent 171 A FLOOR: exemplars naming a `precedents/` record.
 #   nodes_with_a_precedent 27    A FLOOR.
 RATCHET = {
-    "measured_unsourced": 542,
-    "measured_unsourced_read": 272,
+    "measured_unsourced": 536,      # 542 at WP-11.1; six sourced by WP-11.4 Ruling A
+    "measured_unsourced_read": 270,  # 272 at WP-11.1; two of the six are on a read slot
     "editorial_read": 69,
     "shared_only_nodes": 24,
     "untested_nodes": 3,

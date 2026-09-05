@@ -72,6 +72,36 @@ and found 57 defects to Tranche 1's 8.
    reference rules test an id's SHAPE and that a URL is present, never that it answers; one record
    stored a percent-encoded URL that had been dead since it was written.
 
+## A kit figure may cite a building (WP-11.4, Ruling A, 5 Sep 2026)
+
+A `measured` kit parameter may carry `source: "precedents/<id>#measurements[<n>]"` at
+`confidence: medium`, and **`check_precedents.py::kit_source_agrees` holds its number against the
+measurement's** in three verdicts, never a bool: **agrees**, **contradicts** (a hard error — a
+source that disagrees with the figure it is cited for is worse than none, because it reads as
+provenance), and **could not compare** (a warning; a categorical parameter, an unparsed
+measurement, or a unit mismatch, and never read as agreement).
+
+**A number cites a number.** The `#survey.<field>` form still resolves and still supports a
+CATEGORICAL call, but a `kind: measured` parameter using it is refused: a quote cannot be held
+against a figure. This is what makes the ruling's own caution — *"a source pointer that resolves is
+not a source that agrees"* — mechanical rather than a reader's job. `measurements[]` carries a typed
+`value` and a `unit` from a closed enum matching the kit's own, which is the whole reason the
+comparison is possible.
+
+**Six figures cite a building today**, each adjudicated by hand and each carrying a `note` arguing
+the pairing: `dutch-colonial-american`'s wall thickness (22 in, corroborated by a second exemplar at
+20), `garrison-colonial`'s framed overhang (14 in), `italianate-american`'s first-floor ceiling
+(12 ft), `appalachian-log-house`'s pen width and depth (16 × 18 ft, with the survey stating the
+CAUSE — the longest log a sash-saw mill will cut), and `shotgun-house`'s room count (3).
+`source_agrees` is a **floor**: it is the one counter that reads worse when a citation is deleted,
+and the three ceilings beside it all read better.
+
+**What the ruling does not license.** A band is not a fact about one building. A survey sources a
+BAND only where the band is the fact restated or several surveyed exemplars agree; a figure sitting
+INSIDE a band it did not set is a non-violation, not a source, which is why
+`garrison-colonial.overhang_max` 24 in is deliberately uncited beside the 14 in that is. And the
+guard compares numbers, not meanings — `oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity`.
+
 ## A new `measured` figure must say where it came from (WP-11.4, ruled 5 Sep 2026)
 
 `build/check_kits.py` refuses a `kind: measured` parameter that carries no `source` and whose slot

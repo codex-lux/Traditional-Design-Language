@@ -166,6 +166,15 @@ RATCHET = {
     "same_name_records": 0,
     # WP-11.4, Ruling D. A stated refusal and an unresearched row are counted apart now.
     "no_precedent_beside_a_precedent": 0,
+    # WP-11.4, Ruling A. A `measured` figure citing a precedent must cite a MEASUREMENT, and the
+    # two numbers must agree. Both at 0 and both hard: a source that contradicts its own figure
+    # reads as provenance and is worse than none.
+    "measured_cites_a_paragraph": 0,
+    "source_contradicts": 0,
+    "source_uncomparable": 0,
+    # A FLOOR, and it is the half that stops the other three being satisfied by deleting sources.
+    # Every ceiling above reads better when a citation is removed; this one reads worse.
+    "source_agrees": 6,
     "exemplars_unresearched": 185,      # a CEILING -- may only fall, as tranches resolve them.
                                         # Pinned TIGHT at the measured value: 693 exemplars, 505
                                         # resolved, 3 stated refusals, 185 gaps. Pinning it at 188
@@ -173,7 +182,11 @@ RATCHET = {
                                         # left the ceiling slack by exactly the three rows the field
                                         # was built to separate, which is the meter measuring nothing.
 }
-FLOORS = ("precedents", "exemplars_with_precedent", "precedents_with_survey")
+FLOORS = ("precedents", "exemplars_with_precedent", "precedents_with_survey",
+          # WP-11.4 Ruling A. A FLOOR, and it is the half that stops the three ceilings
+          # beside it being satisfied by DELETING citations: every one of those reads
+          # better when a source is removed, and this one reads worse.
+          "source_agrees")
 
 
 class Report:
@@ -215,7 +228,9 @@ def _walk_keys(o, path=""):
 
 
 def kit_pointers():
-    """Every kit `source` that cites a precedent, as (kit, slot, parameter-or-None, source)."""
+    """Every kit `source` that cites a precedent, as (kit, slot, parameter-or-None, source,
+    parameter-object-or-None). The parameter object is carried so `kit_source_agrees` can hold its
+    number against the measurement's; a pointer that resolves is not a pointer that agrees."""
     out = []
     for p in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         kit = json.load(open(p, encoding="utf-8"))
@@ -223,11 +238,44 @@ def kit_pointers():
         for sid, s in (kit.get("slots") or {}).items():
             for src in s.get("sources") or []:
                 if isinstance(src, str) and src.startswith("precedents/"):
-                    out.append((base, sid, None, src))
+                    out.append((base, sid, None, src, None))
             for pk, pv in (s.get("parameters") or {}).items():
                 if isinstance(pv, dict) and isinstance(pv.get("source"), str) and pv["source"].startswith("precedents/"):
-                    out.append((base, sid, pk, pv["source"]))
+                    out.append((base, sid, pk, pv["source"], pv))
     return out
+
+
+def kit_source_agrees(param, meas):
+    """Hold a kit parameter's number against the measurement it cites. Three verdicts, never a
+    bool: ("agrees", why) / ("contradicts", why) / (None, why-it-could-not-be-compared).
+
+    WP-11.4, Ruling A. The ruling's own entry says *"a source pointer that resolves is not a source
+    that agrees ... that comparison is a reader's"*. It need not be. A `measurements[]` entry carries
+    a typed `value` and a `unit` from a closed enum that matches the kit's own units, so the two
+    numbers can be held together mechanically -- which is the whole reason a `measured` parameter
+    must cite a MEASUREMENT and not a free `survey.<field>`. A number cites a number.
+
+    Could-not-compare is a first-class answer and is never read as agreement: a categorical
+    parameter (`value: "gable-end-exterior"`), a measurement nobody parsed a `value` from, and a
+    unit mismatch are all genuinely unjudged. Unjudged is not passed.
+    """
+    mv, mu = meas.get("value"), meas.get("unit")
+    if mv is None:
+        return None, "the measurement carries no parsed `value` -- only `as_printed` %r" % meas.get("as_printed")
+    pu = param.get("unit")
+    if pu and mu and pu != mu:
+        return None, "the parameter is in %s and the measurement in %s; nothing here converts between them" % (pu, mu)
+    lo = hi = None
+    if isinstance(param.get("range"), list) and len(param["range"]) == 2:
+        lo, hi = param["range"]
+    elif isinstance(param.get("value"), (int, float)) and not isinstance(param.get("value"), bool):
+        lo = hi = param["value"]
+    else:
+        return None, "the parameter states no number to compare (value %r)" % (param.get("value"),)
+    if lo <= mv <= hi:
+        return "agrees", "%s %s is within the parameter's %s" % (mv, mu or "", [lo, hi])
+    return "contradicts", ("%s %s is outside the parameter's %s -- the cited building does not "
+                           "state what the parameter claims" % (mv, mu or "", [lo, hi]))
 
 
 def measure(records=None, exemplars=None):
@@ -405,7 +453,7 @@ def main():
                 counts["exemplars_unresearched"] += 1
 
     # Kit figures citing a survey.
-    for kit, sid, pk, src in kit_pointers():
+    for kit, sid, pk, src, param in kit_pointers():
         where = "kit:%s.%s%s" % (kit, sid, ("." + pk) if pk else "")
         mt = KIT_POINTER_RE.match(src)
         if not mt:
@@ -424,11 +472,36 @@ def main():
             if field not in fields:
                 counts["kit_pointers_unresolved"] += 1
                 rep.err(where, "source %r: the survey quotes no %r field (it has %s)" % (src, field, sorted(fields)))
+            # WP-11.4, Ruling A. A NUMBER CITES A NUMBER. The `#survey.<field>` form points at a
+            # quote and nothing can hold a figure against a paragraph, so it may support a
+            # CATEGORICAL call and never a `measured` one. This is the mechanical half of the
+            # ruling's own caution that a pointer which resolves is not a pointer that agrees.
+            elif param is not None and param.get("kind") == "measured":
+                counts["measured_cites_a_paragraph"] += 1
+                rep.err(where, "is `kind: measured` and cites %r, a survey FIELD. A quote cannot be "
+                               "held against a figure, so a measured parameter must cite a "
+                               "measurement -- `precedents/%s#measurements[<n>]` -- whose `value` "
+                               "and `unit` this checker compares with the parameter's. Cite the "
+                               "measurement, or the parameter is a categorical call and is not "
+                               "`measured`." % (src, pid))
         else:
             n = len(rec.get("measurements") or [])
             if not (0 <= int(idx) < n):
                 counts["kit_pointers_unresolved"] += 1
                 rep.err(where, "source %r: the record has %d measurement(s)" % (src, n))
+            elif param is not None:
+                verdict, why = kit_source_agrees(param, rec["measurements"][int(idx)])
+                if verdict == "contradicts":
+                    counts["source_contradicts"] += 1
+                    rep.err(where, "cites %r and DISAGREES with it: %s. A source that contradicts "
+                                   "the figure it is cited for is worse than no source, because it "
+                                   "reads as provenance." % (src, why))
+                elif verdict is None:
+                    counts["source_uncomparable"] += 1
+                    rep.warn(where, "cites %r and the two CANNOT BE COMPARED: %s. Not an "
+                                    "agreement -- unjudged is not passed." % (src, why))
+                else:
+                    counts["source_agrees"] += 1
         counts["kit_pointers"] += 1
 
     # One building, one record.
@@ -469,7 +542,11 @@ def main():
         m[k] = max(m[k], counts[k])
     for k in ("back_reference_disagreements", "refs_without_locator", "malformed_ids", "license_keys",
               "kit_pointers_unresolved", "kit_pointers", "as_printed_not_in_quote",
-              "duplicate_archival_id", "same_name_records"):
+              "duplicate_archival_id", "same_name_records",
+              # WP-11.4. Ruling D's two, then Ruling A's four.
+              "no_precedent_beside_a_precedent", "exemplars_unresearched",
+              "measured_cites_a_paragraph", "source_contradicts", "source_uncomparable",
+              "source_agrees"):
         m[k] = counts[k]
 
     live_state = None

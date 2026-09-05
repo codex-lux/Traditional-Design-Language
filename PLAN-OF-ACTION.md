@@ -1602,7 +1602,25 @@ consistency and NOT fidelity, since a quote edited to fit its own figure passes 
 `oq/an-exemplar-that-is-not-one-whole-building`.
 
 **Rulings asked for.** `oq/a-surveyors-prose-may-source-an-envelope-figure`; `oq/a-family-node-has-no-exemplar`;
-`oq/a-measured-parameter-with-no-source-is-not-metered` (its parts 1 and 2). Deliberately not done: no
+`oq/a-measured-parameter-with-no-source-is-not-metered` (its parts 1 and 2).
+
+**WP-11.4 Status: COMPLETE (5 Sep 2026) — ALL FOUR RULED AND THREE EXECUTED.** Lucas ruled every
+open Phase 11 question the same day. **A** — yes, a survey measurement may source a `measured`
+envelope figure at `confidence: medium`; built, and the ruling's own trap closed MECHANICALLY by
+requiring the `#measurements[<n>]` form so `kit_source_agrees` can compare the two numbers
+(agrees / contradicts / could-not-compare, never a bool). **Six figures cite a building**, the
+checker's own count off zero for the first time, and `source_agrees` is a FLOOR so they cannot
+quietly vanish. **C part 2** — yes, refuse a new unsourced `measured` parameter; built as a
+per-parameter gate against a frozen 542-triple set, because the ratchet that preceded it was a NET
+count and passed a commit that sourced one figure while adding another (measured: `check_research`
+returned 0 with an unsourced parameter in the tree). **Part 1 NOT ruled and nothing re-kinded.**
+**D** — ratify districts and type models as records (`record_kind`) and make a refusal a field
+(`no_precedent`); built, with the district exemption now driven by the declaration rather than by a
+regex over a title. **B** — families carry type specimens derived from members' icons; RULED and
+DEFERRED, because 18 of the 27 families have zero `standing: icon` exemplars today and all 18 are
+European: it must follow Tranche 3 or it lands half-executed.
+Ratchets: `measured_unsourced` 542 -> 536, `measured_unsourced_read` 272 -> 270.
+New question: `oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity`. Deliberately not done: no
 sheet transcribed, no band changed, no parti edited, no licence written, no harvest workflow, nothing
 sourced from a secondary work for OQ 7–11 or OQ 18, and `elevation.py`'s five packs left as
 `oq/the-elevation-reads-five-packs-whatever-the-style-binds`.

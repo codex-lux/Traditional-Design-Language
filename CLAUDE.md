@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,580 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **49 checks, 1,585 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -435,7 +435,7 @@ node, 85 of 132 buildable nodes carrying five or more, against 4-5 sources, exac
 132 and 3 distinctions on 128, all unmoved. What does separate
 thorough from skeletal was tracked nowhere and `build/check_research.py` now measures it on every
 run:
-**542 `measured` kit parameters cite no source** on the parameter or its slot, 272 of them on one of the 35 generator-read slots
+**536 `measured` kit parameters cite no source** on the parameter or its slot, 270 of them on one of the 35 generator-read slots
 (an UPPER BOUND, from the generators' own string constants -- `height_proportion`, `chimney`,
 `ceiling_height_rule`, `window_proportion` lead), while the census in `check_kits.py` had counted
 editorial-bare (0) for a year and never this;
@@ -449,6 +449,42 @@ verbatim with every figure `as_printed`, and never a `license`; an exemplar name
 directions to each other. **415 precedent records** after Tranche 2 (WP-11.2 did the 28 nodes the platform exercises; WP-11.3 the
 remaining 58 North American nodes, which completes North America at 86 of 164 covered); 505 of 693 exemplars carry a `precedent`.
 `tdl_precedents` is the 27th MCP tool.
+**ALL FOUR PHASE 11 QUESTIONS WERE RULED ON 5 SEP 2026 AND THREE ARE EXECUTED (WP-11.4).**
+**A kit figure may cite a building**, and the ruling's own trap -- *"a source pointer that resolves
+is not a source that agrees"* -- is closed MECHANICALLY rather than left to a reader: a
+`kind: measured` parameter must cite `precedents/<id>#measurements[<n>]`, never a `#survey.<field>`,
+because a measurement carries a typed `value` and a `unit` from a closed enum matching the kit's own
+and `check_precedents.py::kit_source_agrees` compares the two numbers -- **agrees / contradicts /
+could-not-compare, never a bool**. A NUMBER CITES A NUMBER. **Six figures cite a building today** and
+`source_agrees` is a FLOOR, because it is the only counter of the four that reads WORSE when a
+citation is deleted. **But the guard compares NUMBERS and cannot compare MEANINGS** -- there was no
+semantically matching pair on `tidewater-georgian` to write the test with, so it cites
+`fireplaces_per_stack` [2,4] to a chimney-stack count of 4 and says so in its own docstring. That is
+OQ 48's `quantity` problem one layer up:
+`oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity`.
+**AND THE RULING'S PUBLISHED YIELD WAS WRONG BY AN ORDER OF MAGNITUDE.** Its entry said the
+yes-reading "makes 272 read-slot figures sourceable"; classified by hand over 155 surveys and 240
+readings it is **of the order of a dozen**, and six survived contact -- two candidates dissolved on
+inspection (`georgian-colonial-american.water_table.projection_in` is `derived`, not `measured`;
+`italianate-villa` has no ceiling parameter, its PARENT authors it). Re-derive, do not re-read.
+**A NEW `measured` PARAMETER MUST CARRY A SOURCE, AND THE GATE HAD TO BE PER-PARAMETER BECAUSE THE
+RATCHET NETS.** `check_research.RATCHET["measured_unsourced"]` is a ceiling on a TOTAL, so it
+reddens for a naive 543 -- but source one grandfathered figure and add an unsourced one in the same
+commit and it stays at 542 and stays green. MEASURED: `check_research --strict` returned 0 with an
+unsourced `measured` parameter sitting in the tree while `check_kits.py` returned 1. A counter that
+nets out, guarding the very rule the ruling is about. `build/measured_unsourced_grandfathered.json`
+holds 536 `(node, slot, parameter)` triples and refusal is BY IDENTITY, which cannot net; removing
+one is a one-way door. **Part 1 is NOT ruled: nothing is re-kinded.**
+**A PRECEDENT MAY BE A DISTRICT OR A TYPE MODEL, AND THE CORPUS HAD ANSWERED THAT THIRTEEN TIMES
+BEFORE ANYONE ASKED.** `record_kind` (building | district | type-model | group) and `no_precedent`
+(archive | body-of-work | phase | not-yet-researched). The duplicate-id rule's `DISTRICT_RE`
+exemption WAS this ruling encoded before it existed; the field is authoritative now and the regex is
+the fallback, **and the order runs both ways** -- a record declaring `building` is NOT let off by the
+word "District" in a ref title, or a real house of that name would lose its identity to a word.
+A stated refusal and an unresearched row are counted apart and PRINTED every run: **3 against 185**,
+where one number carried both before. **Ruling B is deferred to after Tranche 3**, measured: 18 of
+27 families have zero `standing: icon` exemplars and all 18 are European, so executing it now would
+serve 9 and leave 18 empty.
 **THE BENCH ACQUIRED A LITERATURE AND IT IMMEDIATELY CONVICTED SEVENTEEN `measured` KIT FIGURES, AND
 NOTHING WAS APPLIED (WP-11.3).** 240 survey-against-kit readings over Tranche 2: **196 silent, 27 agree,
 17 CONTRADICT**, three of them by the node's OWN exemplar -- `southern-federal`'s `max_depth_ft 20`
@@ -1711,8 +1747,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **137 entries, of which 53 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **138 entries, of which 54 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

@@ -121,7 +121,11 @@ def test_the_ratchets_are_read_from_the_checkers_and_hold():
             assert got[k] <= pin, (k, got[k], pin)
     p = CP.measure()
     for k, pin in CP.RATCHET.items():
-        if k in CP.FLOORS:
+        # `measure()` is pure and computes only the corpus-derived figures; the counters that come
+        # out of the report WALK (duplicates, kit-source verdicts, the refusal split) are patched
+        # into `m` by main() and are absent here. Skipping them is right and their live values are
+        # asserted by the --strict run itself, which check_all.py makes on every build.
+        if k in CP.FLOORS and k in p:
             assert p[k] >= pin, (k, p[k], pin)
 
 
@@ -135,24 +139,37 @@ def test_a_sourced_measured_parameter_is_not_counted_as_unsourced():
 
 def test_the_unsourced_count_falls_when_a_figure_gains_a_source(tmp_path):
     """Mutation, proved rather than assumed: give one unsourced measured parameter a source and
-    the corpus-wide figure must read one lower. Done on a copy of the kit and read back, because
-    a mutation that silently does not apply looks exactly like a guard that works (WP-9.6)."""
+    the corpus-wide figure must read one lower. Done on the real kit and read back, because a
+    mutation that silently does not apply looks exactly like a guard that works (WP-9.6).
+
+    AND THE PAIR IT USES IS THE POINT, because it is not a citation any reader would accept.
+    `fireplaces_per_stack` [2, 4] is pointed at Westover's `chimney_stack_count` of 4: two
+    different quantities that happen to share a number and a unit. `kit_source_agrees` passes it,
+    because it compares NUMBERS and cannot compare MEANINGS -- there is no semantically matching
+    pair on this node to use instead, which is how the limit was found. That is OQ 48's `quantity`
+    problem arriving in the source layer, and it is
+    `oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity`. The guard closes
+    "does the figure agree"; it does not close "is this the same thing".
+    """
     kp = os.path.join(ROOT, "kits", "tidewater-georgian.kit.json")
     raw = open(kp, encoding="utf-8").read()
     before = CR.measure()["totals"]["measured_unsourced"]
     k = json.loads(raw)
-    pv = k["slots"]["roof_pitch"]["parameters"]["pitch_typical"]
+    pv = k["slots"]["hearth_position"]["parameters"]["fireplaces_per_stack"]
     assert pv["kind"] == "measured" and "source" not in pv
-    pv["source"] = "precedents/westover#survey.general_description"
+    # WP-11.4, Ruling A moved this: a `kind: measured` parameter may no longer cite a survey
+    # FIELD, because a quote cannot be held against a figure. It must cite a MEASUREMENT, whose
+    # `value` and `unit` check_precedents.py compares with the parameter's.
+    pv["source"] = "precedents/westover#measurements[2]"   # chimney_stack_count 4, inside [2, 4]
     try:
         open(kp, "w", encoding="utf-8").write(json.dumps(k, indent=2, ensure_ascii=False) + "\n")
         after = CR.measure()["totals"]["measured_unsourced"]
-        assert json.load(open(kp))["slots"]["roof_pitch"]["parameters"]["pitch_typical"]["source"]  # it landed
+        assert json.load(open(kp))["slots"]["hearth_position"]["parameters"]["fireplaces_per_stack"]["source"]  # it landed
         assert after == before - 1, (before, after)
         # and the pointer resolves in the precedent checker (the field exists on that record)
         proc = subprocess.run([sys.executable, os.path.join(ROOT, "build", "check_precedents.py"), "--strict"],
                               cwd=ROOT, capture_output=True, text=True)
-        assert "1 kit figure(s) cite a survey" in proc.stdout, proc.stdout[-600:]
+        assert "7 kit figure(s) cite a survey" in proc.stdout, proc.stdout[-600:]
         assert proc.returncode == 0, proc.stdout[-600:]
     finally:
         open(kp, "w", encoding="utf-8").write(raw)
@@ -295,7 +312,7 @@ def test_the_grandfathered_set_is_exactly_todays_unsourced_measured_parameters()
     CK = modcache.load("check_kits", os.path.join(ROOT, "build", "check_kits.py"))
     assert CK.GRANDFATHERED == live
     # and it agrees with the ceiling the OTHER checker publishes, so the two cannot drift apart
-    assert len(live) == CR.RATCHET["measured_unsourced"] == 542
+    assert len(live) == CR.RATCHET["measured_unsourced"] == 536
 
 
 def test_the_gate_is_per_parameter_and_not_a_net_count():

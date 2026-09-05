@@ -337,6 +337,11 @@ CLAIMS = [
     ("mcp_server/README.md",   "mcp_tools",      r"^(\d+) tools that let an AI consult"),
     ("CLAUDE.md",              "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
     ("CLAUDE.md",              "measured_unsourced_read", r"cite no source\*\* on the parameter or its slot, (\d+) of them on one of the"),
+    # WP-11.4. STATE carried its OWN copy of this figure and nothing policed it, so the moment
+    # Ruling A sourced six parameters CLAUDE.md fell to 536 and STATE stayed at 542 with the build
+    # green. The same number guarded in one file and unguarded in its neighbour is WP-8.14's shape
+    # exactly -- "name the surface the checker does not read" -- and the remedy is the same: read it.
+    ("STATE-OF-THE-PROJECT.md", "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
     ("CLAUDE.md",              "read_slots",              r"of them on one of the (\d+) generator-read slots"),
     ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works a sibling also cites"),
     ("CLAUDE.md",              "exemplars_with_precedent", r"(\d+) of \d+ exemplars carry a `precedent`"),
