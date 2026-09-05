@@ -1,0 +1,75 @@
+{
+  "id": "tempietto-san-pietro-in-montorio",
+  "name": "Tempietto, San Pietro in Montorio",
+  "aka": [
+    "Tempietto del Bramante"
+  ],
+  "location": {
+    "text": "Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "1502-1509",
+    "circa": true,
+    "altered": "Roma Capitale's record says the hemispherical dome with its lantern was 'in parte modificata da interventi Seicenteschi'.",
+    "note": "Roma Capitale gives 'presumibilmente tra il 1502 e il 1509'; the node's exemplar note gives 'c. 1502'. Both are recorded."
+  },
+  "nodes": [
+    "italian-renaissance"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://turismoroma.it/it/luoghi/tempietto-del-bramante",
+      "title": "Tempietto del Bramante | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Roma Capitale's own monument record. It notes that the Tempietto is today part of the Reale Accademia di Spagna, which is the body that holds it."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription."
+    }
+  ],
+  "survey": {
+    "item": "tempietto-del-bramante",
+    "data_url": "https://turismoroma.it/it/luoghi/tempietto-del-bramante",
+    "prepared": "Roma Capitale, Turismo Roma, monument record 'Tempietto del Bramante'; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Sul colle Gianicolo, all’interno del complesso di San Pietro in Montorio, si trova questo piccolo gioiello architettonico, oggi parte della Reale Accademia di Spagna.",
+        "page": "Turismo Roma, 'Tempietto del Bramante', opening line"
+      },
+      {
+        "field": "bays",
+        "text": "Bramante utilizzò la forma classica di tholos o tempio circolare periptero, progettando un edificio circolare con cupola, cinto all'esterno da 16 colonne in granito, numero riconosciuto come perfetto da Vitruvio, concependolo, anche, come un martyrium sul luogo ove, secondo la tradizione, sarebbe stato crocifisso San Pietro.",
+        "page": "Turismo Roma, 'Tempietto del Bramante', design paragraph"
+      },
+      {
+        "field": "roof",
+        "text": "La struttura presenta all’esterno un colonnato, poggiante su una breve gradinata anch'essa circolare, coronato da una balaustra dalla quale sorge la cupola emisferica con lanternino, in parte modificata da interventi Seicenteschi. La cupola è sicuramente l’elemento architettonico più complesso e straordinario dell’edificio; Bramante la progetta alla maniera degli antichi romani, in conglomerato cementizio e posta su di un tamburo ornato da lesene, che va a formare un ordine sovrapposto a quello delle colonne.",
+        "page": "Turismo Roma, 'Tempietto del Bramante', dome paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "peristyle_column_count",
+      "as_printed": "cinto all'esterno da 16 colonne in granito",
+      "value": 16,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The register gives the REASON as well as the number -- 'numero riconosciuto come perfetto da Vitruvio' -- which is the rarest thing a source can supply to this corpus and the kind of statement `check_moves.py` would want as a basis."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The register describes a superimposed order that the node's own prose does not: the drum's pilasters 'formano un ordine sovrapposto a quello delle colonne', so the Tempietto stacks two orders on a very small building. No dimension of any kind is stated in the register text and none is carried; the register does not name the order of the sixteen columns either, and the node calls it Tuscan on an authority nothing read here supplies."
+}

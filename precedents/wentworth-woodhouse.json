@@ -1,0 +1,130 @@
+{
+  "id": "wentworth-woodhouse",
+  "name": "Wentworth Woodhouse",
+  "location": {
+    "text": "Wentworth, South Yorkshire, England",
+    "country": "United Kingdom",
+    "state": "South Yorkshire"
+  },
+  "dates": {
+    "built": "west front c.1725-1735 (Baroque); east front begun 1734 (Palladian)",
+    "circa": true,
+    "altered": "Service wings heightened by John Carr for the 4th Earl Fitzwilliam; imperial staircase by John Carr in Adam style; Clifford's Lodgings rebuilt by Carr c1762; overmantels in the Marble Saloon by John Gibson (1821).",
+    "note": "The listed-building entry gives no single build range: it says the east front was 'commenced by Ralph Tunnicliffe (d.1736); scheme revised and completed by Henry Flitcroft'. The register of parks and gardens entry for the same site says 'the west front being erected 1725-34 ... and the east front, to designs by Henry Flitcroft, in the period 1734 to c 1760'. Both are recorded; neither is resolved, and the two-campaign structure is why no single year is given."
+  },
+  "nodes": [
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1132769",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1132769",
+      "title": "Wentworth Woodhouse, Wentworth - 1132769 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result's Overview block prints 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1132769 ; Date first listed: 29-Apr-1952 ; List Entry Name: Wentworth Woodhouse'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001163",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001163",
+      "title": "Wentworth Woodhouse, Wentworth - 1001163 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry. Read in a tavily-search result and not extracted, so nothing is quoted from it; it independently dates the two campaigns (west front 1725-34, east front 1734 to c 1760) and states that the east front 'has the longest front, stretching for more than 180m, of any English country house'. That last is a superlative the register makes and this record does not repeat as its own."
+    }
+  ],
+  "survey": {
+    "item": "1132769",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1132769",
+    "prepared": "Historic England's National Heritage List entry; Date first listed 29-Apr-1952 on the Overview block as a search result printed it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Remodelled for Thomas Watson Wentworth perhaps by William Etty (Allan). East front commenced by Ralph Tunnicliffe (d.1736); scheme revised and completed by Henry Flitcroft who continued on interiors for Charles Wentworth, 2nd Marquis of Rockingham. John Carr worked for the 2nd Marquis prior to heightening the service wings for William Wentworth Fitzwilliam, the 4th Earl.",
+        "page": "Official list entry 1132769, Details, attribution paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "C17: some walling of tooled sandstone and brick in English bond. West front: brick in Flemish bond, ashlar sandstone central feature and dressings; lead and copper roofs. East front: ashlar, rear walls brick; slate roofs.",
+        "page": "Official list entry 1132769, Details, materials paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Both elevations symmetrical, their axes offset. Baroque style west facade conceals irregular plan adapted from C17 house. Symmetry of Palladian east front carried through to some of the internal planning with principal suite of rooms arranged 'en enfilade'.",
+        "page": "Official list entry 1132769, Details, plan paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "East front: 2 and 3 storeys. 49 bays, fully articulated. Balustraded throughout. 19-bay central block has rusticated ground floor. Central 9-bay part taller and breaking forward with steps flanking vast hexastyle portico. Corinthian columns rise from piano nobile; frieze bears motto 'MEA GLORIA FIDES'; arms in tympanum; statues to apex and balustrade.",
+        "page": "Official list entry 1132769, Details, east front"
+      },
+      {
+        "field": "openings",
+        "text": "West front: 2-storey central part, single-storey wings, half-basement throughout. 4:9:4 bays, central part recessed, central feature breaking forward. Rusticated quoins. Sashes with glazing bars. Central 3-bay feature with 4 giant Corinthian pilasters rising from rusticated basement.",
+        "page": "Official list entry 1132769, Details, west front"
+      },
+      {
+        "field": "finishes",
+        "text": "Marble Saloon: scagiola columns, balcony, pilasters above; ceiling in Jonesian style. Niches with mid C18 statuary; panels by James Stuart; overmantels by John Gibson (1821).",
+        "page": "Official list entry 1132769, Details, Interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "east_front_bay_count",
+      "as_printed": "49 bays, fully articulated",
+      "value": 49,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "east_front_central_block_bay_count",
+      "as_printed": "19-bay central block",
+      "value": 19,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "east_front_centre_bay_count",
+      "as_printed": "Central 9-bay part taller and breaking forward",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "east_portico_column_count",
+      "as_printed": "vast hexastyle portico",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "A READING: hexastyle is six columns. The entry states the word and not the number."
+    },
+    {
+      "name": "west_front_storey_count",
+      "as_printed": "West front: 2-storey central part, single-storey wings, half-basement throughout",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "west_front_centre_feature_bay_count",
+      "as_printed": "Central 3-bay feature with 4 giant Corinthian pilasters",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "west_front_pilaster_count",
+      "as_printed": "Central 3-bay feature with 4 giant Corinthian pilasters",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. ONE BUILDING WITH THIS CORPUS'S TWO NODES ON ITS TWO SIDES, AND THE REGISTER SAYS SO: 'Baroque style west facade conceals irregular plan adapted from C17 house. Symmetry of Palladian east front carried through to some of the internal planning.' The 49-bay east front is the largest bay count of any record in this cluster by a factor of four, and its 19-bay central block with a 9-bay taller centre is exactly the hierarchical rhythm `english-baroque`'s `bay_rhythm` field describes -- on the Palladian side of the house. Recorded on `english-palladian` because the east front is the Palladian one and it is the front the building is known by. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

@@ -1,0 +1,85 @@
+{
+  "id": "6-ellerdale-road",
+  "name": "6 Ellerdale Road",
+  "aka": [
+    "Institute of St Marcellina",
+    "Hampstead Towers"
+  ],
+  "location": {
+    "text": "Hampstead, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (London Borough of Camden)"
+  },
+  "dates": {
+    "built": "1874-76",
+    "altered": "Northward extension at rear added 1885-86 by Shaw; minor additions 1892-93; later alterations. In use as a convent when the entry was written.",
+    "note": "The list entry and the Wikipedia article agree on 1874-76."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1078274",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1078274",
+      "title": "Institute of St Marcellina, Non Civil Parish - 1078274 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text's own header reads 'CAMDEN TQ2685NW ELLERDALE ROAD 798-1/26/367 (North side) 11/08/50 No.6 Institute of St Marcellina (Formerly Listed as: ELLERDALE ROAD No.6 Hampstead Towers Hotel) GV I', which carries the date first listed (11 August 1950), the grade and both former names. The entry's Sources block cites Saint, A, Richard Norman Shaw, (1976), 176-184."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/6_Ellerdale_Road",
+      "title": "6 Ellerdale Road - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "It gives Built 1874-1876, Architect Richard Norman Shaw, official name 'Institute of St Marcellina', Designated 11 August 1950 and Reference no. 1078274, and records that Shaw built the house for himself."
+    }
+  ],
+  "survey": {
+    "item": "1078274",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1078274",
+    "prepared": "Date first listed: 11 August 1950, as the entry's own Details header prints it ('11/08/50'); the Wikipedia infobox gives the same date.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Detached house, now in use as a convent. 1874-76 by R Norman Shaw for himself; northward extension at rear added 1885-86 by Shaw; minor additions 1892-93; later alterations. Red bricks (narrow bricks for main fronts, normal bricks at back) with rubbed brick hoods and aprons and enriched brick chimneys; some tile-hanging, wooden bargeboards, plaster ornament and render. Tiled roofs. White-painted timber windows of various types, most with leaded lights. STYLE: free Queen-Anne style. EXTERIOR: irregular south-facing front of three and four",
+        "page": "Official list entry, Details section, opening paragraph and MATERIALS and STYLE headings (List Entry Number 1078274). The extracted span ends here mid-sentence; the word completing it sits in a second span and is not joined to this one."
+      },
+      {
+        "field": "openings",
+        "text": "Left-hand portion has boldly canted bay window rising through three storeys and crowned by a Chinese-style balcony (formerly timber, now iron) under a small dormer gable with tile-hanging and bargeboards. Right-hand portion has tiers of three 'Ipswich oriels' with plaster ornament between under a similar dormer gable. Tall, narrow windows in centre of various types, irregularly set. On the extreme right, single-storey entrance porch with rubbed brick surround to front (position of original entrance) and overhanging carved timber hood in style of Wren to return (current position of entrance). Tall, square stack right of centre on roof, with brick carving.",
+        "page": "Official list entry, Details section, south front paragraph; the second extract's span opens 'storeys.' and continues into this text."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "front_storey_count",
+      "as_printed": "irregular south-facing front of three and four",
+      "from_quote": 0,
+      "note": "The extract's span stops mid-sentence and the word completing it ('storeys') was read only in a second span, which is not joined here. The following span's 'bay window rising through three storeys' corroborates the reading. Two figures either way; no single value is parsed."
+    },
+    {
+      "name": "bay_window_storey_count",
+      "as_printed": "canted bay window rising through three storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "oriel_tier_count",
+      "as_printed": "tiers of three 'Ipswich oriels'",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The Ipswich oriel is the motif Shaw took from Sparrowe's House at Ipswich and made a signature of this style; the register names it in quotation marks, which is the register treating it as a term of art."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1078274",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `queen-anne-british`: the architect's own London house, and the one entry in this cluster where the register names the style in the node's own words -- 'STYLE: free Queen-Anne style'. It also states a distinction the node's kit could use and does not have: 'narrow bricks for main fronts, normal bricks at back', a brick module that changes with the face it is on."
+}

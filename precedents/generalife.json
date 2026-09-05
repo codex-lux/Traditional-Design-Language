@@ -1,0 +1,90 @@
+{
+  "id": "generalife",
+  "name": "Generalife",
+  "aka": [
+    "Jannat al-Arifa"
+  ],
+  "location": {
+    "text": "Granada, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "14th century",
+    "circa": true,
+    "note": "The article's infobox prints 'Built 14th century' and nothing narrower; no year is claimed here."
+  },
+  "nodes": [
+    "moorish-andalusian"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "314",
+      "url": "https://en.wikipedia.org/wiki/Generalife",
+      "title": "Alhambra, Generalife and Albayzín, Granada; UNESCO reference no. 314, designated 1984 (8th session), extended 1994 (18th session)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read in the article's own World Heritage infobox. The governing body is printed as 'Ministry of Culture'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Generalife",
+      "title": "Generalife - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-generalife",
+    "data_url": "https://en.wikipedia.org/wiki/Generalife",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "The core of the palace complex is centered on the Patio de la Acequia (\"Courtyard of the Water Canal\"), the largest structure. The courtyard is about four times as long as it is wide, measuring 12.8 by 48.7 metres (42 by 160 ft). It is entered via a smaller courtyard, the Patio de Polo, on its south side, which in turn is accessed through another minor courtyard, known as the Dismounting Courtyard.",
+        "page": "English Wikipedia, section on the palace and the Patio de la Acequia"
+      },
+      {
+        "field": "porches",
+        "text": "The Patio de la Acequia is framed by pavilion-like structures at its north and south ends. To the south, the Pabellón Sur (\"South Pavilion\") is a two-floor structure with a portico fronting its courtyard side and is less well-preserved than the north pavilion.",
+        "page": "English Wikipedia, same section"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "court_width_ft",
+      "as_printed": "12.8 by 48.7 metres (42 by 160 ft)",
+      "value": 42,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The article's own foot conversion; the first figure of the printed pair is the width, and here the article says so in words -- 'about four times as long as it is wide'."
+    },
+    {
+      "name": "court_length_ft",
+      "as_printed": "12.8 by 48.7 metres (42 by 160 ft)",
+      "value": 160,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "court_length_to_width",
+      "as_printed": "about four times as long as it is wide",
+      "value": 4,
+      "unit": "ratio",
+      "from_quote": 0,
+      "note": "The article states the proportion in words, so this is a quotation and not a division of the two figures beside it. 48.7/12.8 is 3.80, which is what 'about four times' is approximating."
+    },
+    {
+      "name": "pavilion_storey_count",
+      "as_printed": "a two-floor structure",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. It is the one record in this cluster where a source states a COURT PROPORTION in words as well as in figures, which is the quantity the node's kit binds."
+}

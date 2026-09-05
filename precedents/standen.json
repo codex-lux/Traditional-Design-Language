@@ -1,0 +1,119 @@
+{
+  "id": "standen",
+  "name": "Standen",
+  "location": {
+    "text": "East Grinstead, West Sussex, England",
+    "country": "United Kingdom",
+    "state": "West Sussex"
+  },
+  "dates": {
+    "built": "1892-4",
+    "note": "The list entry gives '1892-4' and says the house was completed in 1894 although additions to the interior fittings continued for some years. The node's exemplar carries 1894 and its own note says 'Built 1892-94'; the Wikipedia infobox says '1892 - 1894'. All agree."
+  },
+  "nodes": [
+    "arts-and-crafts-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1249027",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1249027",
+      "title": "Standen, East Grinstead - 1249027 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Overview block carries Grade 'I', List Entry Number '1249027', Date first listed '28-Jan-1948' and Statutory Address 'STANDEN, WEST HOATHLY ROAD'; the Details text prints '28-JAN-48' under the reference '658/3/12'. This is a modern re-written entry with MATERIALS, PLAN, EXTERIOR, INTERIOR and SUMMARY OF IMPORTANCE headings rather than a legacy paragraph, and it is the richest survey block in this cluster."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Standen",
+      "title": "Standen - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox gives Location East Grinstead, Built 1892-1894, Architect Philip Webb, Architectural style 'Wealden vernacular', Owner the National Trust, official name 'Standen', Designated 28 January 1948 and Reference no. 1249027."
+    }
+  ],
+  "survey": {
+    "item": "1249027",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1249027",
+    "prepared": "Date first listed: 28-Jan-1948, as the Overview block prints it; the Details text prints '28-JAN-48'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Country house of 1892-4 by Philip Webb. MATERIALS: Sussex and Ardingly sandstones (some quarried on site) and some Portland stone, Horsham and Keymer bricks, clay tiles, oak, rough-casting. PLAN: Rectangular east-west family block with equally large, angular, servants' wing off its north-east end. EXTERIOR: Webb's Standen draws heavily on the Wealden vernacular tradition. It comprises a family block which articulates about a viewing tower (which houses the water tanks) behind which is the servants' wing.",
+        "page": "Official list entry, Details section, MATERIALS, PLAN and EXTERIOR headings (List Entry Number 1249027)."
+      },
+      {
+        "field": "general_description",
+        "text": "The south, garden front of the family block is of two storeys and an attic. The ground floor with central porch is mainly of stone, while the first floor is largely tile hung. Ground and first floors are lit by sash windows, the former with segmental arches and typical of Webb. At the west end is a large single-storey glass-roofed conservatory with five brick arches to the front, the left hand one giving access to the garden door which is set into a deeply recessed, tiled, porch with a seat. The attic has five weather-boarded gables in a row, and as on other elevations tall brick chimneys rise above the roof line.",
+        "page": "Official list entry, Details section, EXTERIOR heading, south (garden) front."
+      },
+      {
+        "field": "dependencies",
+        "text": "The angled servants' and service wing runs north and then turns east, where it wraps around the kitchen courtyard. It is of two storeys, and where it faces onto the main entrance courtyard to its west it has two large gables fronted in weatherboarding.",
+        "page": "Official list entry, Details section, EXTERIOR heading, servants' wing."
+      },
+      {
+        "field": "plan",
+        "text": "INTERIOR: The principal family rooms on the ground floor comprise the central drawing room communicating with the conservatory to its west and the dining room to its east. Behind the drawing room is the main porch, entrance hall and stair, communicating with the billiard room (with recess for spectators) to the west and Mr Beale's study (later business room) to the east. There are twelve first-floor bedrooms in the family block, and originally just one bathroom and two lavatories.",
+        "page": "Official list entry, Details section, INTERIOR heading."
+      },
+      {
+        "field": "significance",
+        "text": "SUMMARY OF IMPORTANCE: Standen is the last major work by Philip Webb, a leading late C19 architect and associate of William Morris (with whom he founded the Society for the Protection of Ancient Buildings) who worked in the vernacular style. Built for a successful solicitor in the early 1890s, it employs local materials in its carefully detailed exterior while equal concern was shown towards the Arts and Crafts interior. It is the only one of Webb's relatively few commissions to survive standing and unaltered and with its contemporary grounds and landscape setting similarly unchanged.",
+        "page": "Official list entry, Details section, SUMMARY OF IMPORTANCE heading."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "garden front of the family block is of two storeys and an attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two storeys and an attic on the garden front; the servants' wing is separately stated at two storeys, so the whole house reads at one height for once."
+    },
+    {
+      "name": "attic_gable_count",
+      "as_printed": "five weather-boarded gables in a row",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The garden front's attic. Five gables in a row over a two-storey wall is the closest thing this cluster has to a stated bay rhythm on an Arts and Crafts house."
+    },
+    {
+      "name": "conservatory_arch_count",
+      "as_printed": "five brick arches to the front",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "service_wing_gable_count",
+      "as_printed": "two large gables fronted in weatherboarding",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "first_floor_bedroom_count",
+      "as_printed": "twelve first-floor bedrooms in the family block",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "bathroom_count",
+      "as_printed": "originally just one bathroom and two lavatories",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "As first built. Twelve bedrooms to one bathroom is a programme fact the corpus's room bands have no way to express, and it is the sharpest thing in this cluster's evidence about how a house of this class was actually served."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1249027",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. The most useful record in the cluster for a plan generator: the entry names the ground-floor room sequence in adjacency order (conservatory - drawing room - dining room across the south, porch, hall and stair behind the drawing room, billiard room west and study east), states the wing's relationship to the kitchen courtyard, and counts the first-floor bedrooms. Two extracts with different queries were needed; the second returned the INTERIOR and SUMMARY OF IMPORTANCE headings the first did not."
+}

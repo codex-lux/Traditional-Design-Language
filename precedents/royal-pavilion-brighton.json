@@ -1,0 +1,110 @@
+{
+  "id": "royal-pavilion-brighton",
+  "name": "Royal Pavilion",
+  "location": {
+    "text": "Brighton, England",
+    "country": "England",
+    "state": "Brighton and Hove"
+  },
+  "dates": {
+    "built": "1814-1823 (Nash's remodelling)",
+    "circa": false,
+    "altered": "Periodic restorations from the mid C19 to the late C20; an extensive programme of exterior restoration had just been completed at the time the entry was written, which it dates May 1992.",
+    "note": "The entry states 'The final phase began in February of 1811 under the architect James Wyatt' and 'Between 1814 and 1823, Nash gave the building the appearance which it has today', and separately says the decoration 'was completed by the summer of 1823'. The node's exemplar gives 1823 and 'Remodelled by Nash 1815-23'. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "regency"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1380680",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1380680",
+      "title": "The Royal Pavilion, Non Civil Parish - 1380680 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the Overview block prints 'Date first listed: 13-Oct-1952' and the statutory addresses THE ROYAL PAVILION, OLD STEINE and THE ROYAL PAVILION, PAVILION BUILDINGS. Listing NGR TQ3127304188."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000205",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000205",
+      "title": "The Royal Pavilion, Brighton, Non Civil Parish - 1000205 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, Grade II, first listed 25-Mar-1987."
+    }
+  ],
+  "survey": {
+    "item": "1380680",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1380680",
+    "prepared": "Date first listed: 13-Oct-1952, as the Overview block prints it. The entry's own text dates itself: 'At the time of writing (May 1992)'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The final phase began in February of 1811 under the architect James Wyatt. Between 1814 and 1823, Nash gave the building the appearance which it has today. Periodic restorations from the mid C19 to the late C20.",
+        "page": "Official list entry 1380680, Details, history paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "MATERIALS: stucco, scored to imitate ashlar; Bath stone and Portland stone dressings, recently renewed; the tent roofs and onion domes were originally surfaced with a patent mastic and painted to resemble Bath stone; the mastic failed in 1827 and was replaced by copper sheathing; various other roofs of slate.",
+        "page": "Official list entry 1380680, Details, MATERIALS paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "EXTERIOR: East Front: composed of 5 distinct parts, symmetrically arranged around the 7-bay colonnade of the rotunda",
+        "page": "Official list entry 1380680, Details, EXTERIOR paragraph; the extract cut this sentence mid-clause and it is quoted only as far as it was read"
+      },
+      {
+        "field": "chimneys",
+        "text": "There are stacks with gathered flues symmetrically disposed across the roof; each flue is topped by a minaret-like chimney pot.",
+        "page": "Official list entry 1380680, Details"
+      },
+      {
+        "field": "general_description",
+        "text": "In 1817, Holland's angled bays were replaced by the box-like pavilions containing the Music and Banqueting Rooms. During the following summer Nash erected the great onion dome which dominates the east elevation and is flanked, to the west, by a pair of crenellated, oval towers. In 1819 the Bath stone window tracery and leaf columns were added",
+        "page": "Official list entry 1380680, Details, history paragraph"
+      },
+      {
+        "field": "porches",
+        "text": "range, with end pavilions similar to those already described, but flush with the intermediate range wall; 5-bay stone verandah projects from this wall and spans basement area.",
+        "page": "Official list entry 1380680, Details; the extract began this span mid-sentence and it is quoted only from where it was read"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "east_front_part_count",
+      "as_printed": "composed of 5 distinct parts",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "rotunda_colonnade_bay_count",
+      "as_printed": "the 7-bay colonnade of the rotunda",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "verandah_bay_count",
+      "as_printed": "5-bay stone verandah projects from this wall and spans basement area",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "oval_tower_count",
+      "as_printed": "flanked, to the west, by a pair of crenellated, oval towers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1380680",
+  "note": "Tranche 3, 5 Sep 2026. The entry runs to several thousand words and two extracts returned different spans of it; what came back is quoted and no span was joined to another. The node's exemplar calls the building 'structurally a cast-iron frame'; nothing in the spans read here says so, which is a silence and not a contradiction -- the entry's INTERIOR paragraphs, which were not returned, are where such a statement would sit."
+}

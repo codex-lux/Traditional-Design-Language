@@ -1,0 +1,97 @@
+{
+  "id": "manoir-de-bellou",
+  "name": "Manoir de Bellou",
+  "location": {
+    "text": "Livarot-Pays-d'Auge, Calvados, France",
+    "country": "France",
+    "state": "Calvados, Normandie"
+  },
+  "dates": {
+    "built": "Manoir des 15e et 16e siècles",
+    "circa": true,
+    "altered": "The notice dates the écurie north-west of the logis to 1720 and records a charreterie en pan de bois extending it.",
+    "note": "The notice contradicts itself in one document: its century field says « 16e siècle » with a secondary campaign « 1er quart 18e siècle » and the year 1720, while its own Description historique opens « Manoir des 15e et 16e siècles ». The node's own exemplar says « 16th century ». Recorded, not resolved."
+  },
+  "nodes": [
+    "norman-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00111077",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00111077",
+      "title": "Manoir - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice is titled simply « Manoir »; its Localisation « Normandie ; Calvados (14) ; Bellou ; Manoir de Bellou » and Lieu-dit « Manoir de Bellou » are what identify it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_de_Bellou",
+      "title": "Manoir de Bellou — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints « Fondation XVIe siècle » and « Classé MH (1923, 2004) », matching the notice's two protection arrêtés."
+    },
+    {
+      "kind": "institution",
+      "url": "https://lemanoirdebellou.wordpress.com",
+      "title": "Le Manoir de Bellou",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owners' own site, read in a search result. It describes « Un grand corps de logis flanqué en avant de deux pavillons carrés et sur l'arrière de deux tours rondes » and a « pigeonnier à entre-colombages tuilés du XVIème siècle »; that is the proprietor's description and is not quoted as survey."
+    }
+  ],
+  "survey": {
+    "item": "PA00111077",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00111077",
+    "prepared": "Date de rédaction de la notice 1992",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "dependencies",
+        "text": "Manoir des 15e et 16e siècles. Parmi les communs, le pressoir, vraisemblablement du 15e siècle, est une construction à longs poteaux de sept travées, à deux niveaux. A l'étage, une lisse relie les poteaux entre eux et sert d'appui à des baies. Le pressoir contient un tour, un moteur électrique et deux presses. Au nord-ouest du logis se trouve une ancienne écurie construite en 1720, prolongée par une charreterie en pan de bois. L'édifice possède deux lucarnes dont les pièces de bois ont reçu un décor sculpté de style Renaissance.",
+        "page": "Notice Mérimée PA00111077, section « Historique de l'édifice », champ Description historique"
+      },
+      {
+        "field": "other",
+        "text": "Précision sur la protection Le manoir : classement par arrêté du 5 février 1923 - Le bâtiment du pressoir, en totalité, avec ses mécanismes, ainsi que la cave attenante (cad. B 192) : classement par arrêté du 2 novembre 2004",
+        "page": "Notice Mérimée PA00111077, section « Statut juridique, intérêt, protection et label »"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 16e siècle Siècle de campagne secondaire de construction 1er quart 18e siècle Année(s) de(s) campagne(s) de construction 1720",
+        "page": "Notice Mérimée PA00111077, section « Historique de l'édifice », liste des champs"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "pressoir_bay_count",
+      "as_printed": "de sept travées",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Bays of the PRESSOIR, a detached common building, not of the logis. The notice describes the press house in more detail than the manor house itself."
+    },
+    {
+      "name": "pressoir_level_count",
+      "as_printed": "à deux niveaux",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "L'édifice possède deux lucarnes",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "« L'édifice » in this sentence follows a paragraph about the écurie and the charreterie, so which building carries the two carved lucarnes is not certain from the notice alone. The figure is recorded with that doubt rather than assigned to the logis."
+    }
+  ],
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00111077",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. This is the most useful record in the cluster for the DISPERSED FARMSTEAD clause: the notice's description is almost entirely about the detached working buildings -- pressoir, écurie, charreterie -- and dimensions the pressoir in bays and levels while saying nothing dimensional about the logis. That is what a Norman farm ensemble looks like in a register."
+}

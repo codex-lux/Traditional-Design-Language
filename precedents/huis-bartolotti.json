@@ -1,0 +1,78 @@
+{
+  "id": "huis-bartolotti",
+  "name": "Huis Bartolotti, Herengracht 170-172",
+  "aka": [
+    "Het Bonte Huis"
+  ],
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "ca. 1618",
+    "circa": true,
+    "altered": "Remodelled 1735 and 1757 (Amsterdam Monumentenstad); restored 1967-71, when the top of the front gable and the corner chimneys were reconstructed (1968/69), again 1995/97, and the interior in 2015.",
+    "note": "Three dates are in the sources and none is resolved. The Rijksmonumentenregister says 'Huis uit 1622'; Amsterdam Monumentenstad gives 'Bouwjaar: ca. 1618, 1735, 1757'; the Dutch Wikipedia article says 'circa 1617 gebouwd' while its own infobox prints 'Gereed 1622'. The style node's exemplar year is 1617."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "1761",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/1761",
+      "title": "Herengracht 170, 1016 BP te Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "rijksmonument",
+      "id": "1762",
+      "url": "https://www.amsterdam-monumentenstad.nl/database/grachtenboek_objecten.php?id=1805",
+      "title": "Amsterdam Monumentenstad, register tab for Herengracht 170-172",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The double house carries two register numbers at one address. The Monumentenstad register tab prints both, 1761 and 1762, each 'Inschrijvingsdatum: 26-05-1970', with near-identical descriptions."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.amsterdam-monumentenstad.nl/database/grachtenboek_objecten.php?id=1805",
+      "title": "Amsterdam Monumentenstad, database van de Amsterdamse grachtengordel -- Herengracht 170-172",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The identification block prints 'Huisnaam: Huis Bartolotti / Gebouwtype: Woonhuis (dubbel huis) / Geveltype: Trapgevel / Bouwstijl: Amsterdamse Renaissance / Bouwjaar: ca. 1618, 1735, 1757 / Architect: Hendrick de Keyser (?), Pieter de Keyser (?)'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://nl.wikipedia.org/wiki/Huis_Bartolotti",
+      "title": "Huis Bartolotti - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.hendrickdekeyser.nl/de-huizen/het-aepgen",
+      "title": "Vereniging Hendrick de Keyser Monumenten",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owning body. This URL is the association's page for a different house it owns (Het Aepgen); it is carried here only as evidence that Vereniging Hendrick de Keyser is the owner, which the Monumentenstad entry states ('Eigendom: Vereniging Hendrick de Keyser 1924 (170), 1971 (172)'). No page of the association's own site for Herengracht 170 was read."
+    }
+  ],
+  "survey": {
+    "item": "1761",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/1761",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed; Amsterdam Monumentenstad's register tab prints 'Inschrijvingsdatum: 26-05-1970' for both 1761 and 1762.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Huis uit 1622, waarschijnlijk door Hendrik de Keyser, met pilastergevel. Zeer fraaie Louis XIV stucgang.",
+        "page": "Rijksmonumentenregister, monument 1761, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. THE REGISTER DISAGREES WITH EVERY OTHER SOURCE ABOUT WHAT KIND OF GABLE THIS IS, and the disagreement is left standing rather than resolved: the Rijksmonumentenregister's description says 'met pilastergevel', while Amsterdam Monumentenstad records 'Geveltype: Trapgevel' and the node's own exemplar note calls it 'the fullest surviving Amsterdam Renaissance stepped gable'. Both can be read as true of one wall -- the gable is a stepped top carried on a facade articulated with pilasters -- but the register's one-line description names only the pilasters, so a reader taking the register as the authority would not learn that this is a stepped gable at all."
+}

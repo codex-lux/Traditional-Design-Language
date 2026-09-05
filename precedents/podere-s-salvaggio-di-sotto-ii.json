@@ -1,0 +1,45 @@
+{
+  "id": "podere-s-salvaggio-di-sotto-ii",
+  "name": "Podere S. Salvaggio di Sotto II",
+  "location": {
+    "text": "Montepulciano, Siena, Tuscany, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "ante XVIII - post XVIII",
+    "circa": true,
+    "note": "The catalogue's own date field, printed exactly as 'ante XVIII - post XVIII': before and after the eighteenth century. It is a statement that the record does not date the building, and it is carried as such rather than converted into a year."
+  },
+  "nodes": [
+    "tuscan-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "vincolo",
+      "id": "0900384008A",
+      "url": "http://www.catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900384008A",
+      "title": "Podere S Salvaggio di Sotto II MONTEPULCIANO, ante XVIII - post XVIII",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "ICCD Catalogo generale dei Beni Culturali, scheda Architettura. A cataloguing record rather than a decree of vincolo; `vincolo` is the nearest kind this enum carries and the distinction is stated here rather than left to be inferred. The page prints 'OGGETTO casale rurale', 'AMBITO CULTURALE Maestranze Locali', 'INDIRIZZO Via delle Colombelle, 1, MONTEPULCIANO (SI)', 'CONDIZIONE GIURIDICA proprieta privata', 'DATA DI COMPILAZIONE 1994' and 'DOCUMENTAZIONE GRAFICA estratto di mappa catastale (1)'. The compiling and protecting body for both fields is the 'Soprintendenza Archeologia, belle arti e paesaggio per le province di Siena, Grosseto e Arezzo'."
+    }
+  ],
+  "survey": {
+    "item": "0900384008A",
+    "data_url": "http://www.catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900384008A",
+    "prepared": "Soprintendenza Archeologia, belle arti e paesaggio per le province di Siena, Grosseto e Arezzo; the record prints 'DATA DI COMPILAZIONE 1994' and no date of update.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "structural_system",
+        "text": "La struttura è in muratura di pietra e laterizio",
+        "page": "Scheda 0900384008A, the description field printed under the record's title; the record page is not paginated and this sentence is the whole of the description it carries."
+      }
+    ]
+  },
+  "rights_evidence": "Condizioni d'uso: Beni Culturali Standard (BCS)",
+  "rights_evidence_url": "http://www.catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900384008A",
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Added by this pass as the plain case the brief asks for: a catalogued ordinary farmhouse with no claim to distinction, in a Val d'Orcia municipality, whose record is nine words long. IT IS CARRIED PRECISELY BECAUSE IT IS THIN. The Italian national catalogue holds thousands of rural buildings and its architecture schede state construction and little else -- this one states stone-and-brick masonry and stops -- so what a reader learns from it is the shape of the evidence available for the ordinary Tuscan farm, which is the opposite of the envelope-and-bay data a Historic England Details section gives for Cronkhill."
+}

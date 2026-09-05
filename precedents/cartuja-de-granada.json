@@ -1,0 +1,65 @@
+{
+  "id": "cartuja-de-granada",
+  "name": "Sacristy of the Cartuja",
+  "aka": [
+    "Real Monasterio de Nuestra Señora de la Asunción de la Cartuja",
+    "Cartuja de Granada"
+  ],
+  "location": {
+    "text": "Granada, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "1732-1747",
+    "circa": false,
+    "altered": "The monastery was founded in 1516 and built through the 16th, 17th and 18th centuries; the community was expelled at the exclaustration of 1835.",
+    "note": "The node's exemplar dates the sacristy 1732-1747 to Luis de Arevalo and Luis Cabello. The article's infobox says the sacristy is 'de autor desconocido' and gives no date for it; its construction field covers 'Siglos XVI, XVII y XVIII' for the whole monastery. Both are recorded and neither is resolved."
+  },
+  "nodes": [
+    "churrigueresque"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0000582",
+      "url": "https://es.wikipedia.org/wiki/Monasterio_de_la_Cartuja_(Granada)",
+      "title": "Cartuja de Granada - Wikipedia, la enciclopedia libre; BIC RI-51-0000582",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE PAGE CONTRADICTS ITSELF ABOUT THE DATE AND BOTH READINGS ARE CARRIED. Its infobox prints 'Identificador RI-51-0000582' and 'Declaración 6 de abril de 1931'; its text says the monastery 'fue declarado monumento histórico-artístico perteneciente al Tesoro Artístico Nacional mediante decreto de 3 de junio de 1931'. Two dates two months apart on one page; neither is changed."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Monasterio_de_la_Cartuja_(Granada)",
+      "title": "Cartuja de Granada - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-monasterio-de-la-cartuja-granada",
+    "data_url": "https://es.wikipedia.org/wiki/Monasterio_de_la_Cartuja_(Granada)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "De exuberante decoración, sus espacios más célebres son la iglesia, la sacristía, de autor desconocido, y el sagrario que es obra del maestro Francisco Hurtado Izquierdo y cuenta con una impresionante cúpula pintada por Antonio Palomino.",
+        "page": "Spanish Wikipedia, section 'Descripción'"
+      },
+      {
+        "field": "significance",
+        "text": "Aunque mezcla diversos estilos, representa una de las cumbres de la arquitectura barroca española.",
+        "page": "Spanish Wikipedia, opening paragraph"
+      },
+      {
+        "field": "other",
+        "text": "Portada, es del siglo XVI y de estilo plateresco.",
+        "page": "Spanish Wikipedia, section 'Descripción', in the list of the building's parts"
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. NO MEASUREMENT IS RECORDED and the sacristy the node names is attributed to nobody by its own source. The third quote is kept because it is a fact against the tidy story: the doorway of the most extreme Churrigueresque interior in Spain is a sixteenth-century PLATERESQUE portada, so one building in this cluster carries two of these seven nodes in one elevation."
+}

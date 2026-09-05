@@ -168,6 +168,15 @@ identity to a word in its name. Both directions are mutation-checked and pinned 
 `tests/test_research.py`. The declaration does not license a vaguer record: a district still needs
 its own listing reference and a type model still needs a source for the model.
 
+**A REGIONAL POPULATION IS A `type-model` RECORD, NOT A REFUSAL** (ruled 5 Sep 2026, the day the
+refusal field was added and the day Europe raised it). An exemplar row naming *"the Leopoldine
+farmhouses of the Val di Chiana"* — several hundred surviving under one land-reclamation programme —
+or *"the farmhouses of the Simmental"* names a type, not a building, and the type carries its own
+record with the programme's or the region's own sources. It is **not** `no_precedent`: the closed
+refusal vocabulary has no word for a population and does not need one. Two such rows were marked
+`body-of-work` and withdrawn, because that value means an architect's output and these have no
+architect. The Levittown ranch model is the working precedent for the shape.
+
 **A refusal is a field, not prose.** An exemplar that carries no `precedent` because of a DECISION
 says so in `no_precedent`, a closed vocabulary: `archive` (a drawings collection, not a building),
 `body-of-work` (an architect's output rather than one work), `phase` (the building has a record and

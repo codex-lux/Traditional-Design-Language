@@ -1,0 +1,82 @@
+{
+  "id": "house-of-the-faun",
+  "name": "House of the Faun",
+  "aka": [
+    "Casa del Fauno"
+  ],
+  "location": {
+    "text": "Pompeii, Italy",
+    "country": "Italy",
+    "state": "Campania"
+  },
+  "dates": {
+    "built": "2nd century BC",
+    "circa": true,
+    "note": "The park's record says the original layout dates 'nel suo impianto originario al II secolo a.C.' and gives the excavation dates as 1829-1833; 1900; 1960-1962."
+  },
+  "nodes": [
+    "roman-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://pompeiisites.org/sito_archeologico/casa-del-fauno",
+      "title": "Casa del Fauno - Pompeii Sites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Parco Archeologico di Pompei's own building record."
+    },
+    {
+      "kind": "institution",
+      "url": "https://pompeiisites.org/en/houses",
+      "title": "Open buildings - Pompeii Sites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The park's list of buildings open to visitors, which places this house in REGIO VI beside the House of the Vettii."
+    }
+  ],
+  "survey": {
+    "item": "casa-del-fauno",
+    "data_url": "https://pompeiisites.org/sito_archeologico/casa-del-fauno",
+    "prepared": "Parco Archeologico di Pompei, institutional portal, building record 'Casa del Fauno'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "È una delle case più grandi di Pompei, estesa per un intero isolato di 3000 mq circa, e si data nel suo impianto originario al II secolo a.C. Ricchezza e livello sociale del proprietario si percepiscono già dalla via: il marciapiede reca l’iscrizione di benvenuto (_HAVE_) in latino; il maestoso portone è inquadrato da pilastri con capitelli decorati, il pavimento dell’ingresso è un intarsio di triangoli policromi in marmi gialli, verdi, rossi e rosa (_opus sectile_).",
+        "page": "Casa del Fauno record, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "La casa ha due atri e due peristili intorno ai quali si dispongono altri vani: alcuni di rappresentanza, decorati in modo eccezionale, altri riservati alluso della famiglia, altri di servizio. Al centro dell’impluvio dell’atrio principale è una copia della famosa statua del satiro danzante, o Fauno, che ha dato nome alla dimora e che è allusiva al nome della stirpe del proprietario: i Satrii.",
+        "page": "Casa del Fauno record, second paragraph. The extract prints 'alluso' where the page means 'all'uso'; carried as read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "footprint_area_sqm",
+      "as_printed": "un intero isolato di 3000 mq circa",
+      "value": 3000,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "3,000 SQUARE METRES, approximately, and the unit enum has no area unit at all -- `count` is carried because the schema admits nothing better and the name says what the number is. About 32,300 sq ft. The register says 'circa'."
+    },
+    {
+      "name": "atrium_count",
+      "as_printed": "due atri",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "peristyle_count",
+      "as_printed": "due peristili",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche as the plain, large, well-documented domus the node lacked: the Vettii house has had its tablinum removed and the Faun keeps the canonical sequence, doubled. The area figure is carried under `unit: count` because the measurement enum admits ft, in, count, ratio, deg and rise_in_12 and no unit of area; that is a gap in the vocabulary, stated here rather than fudged into feet."
+}

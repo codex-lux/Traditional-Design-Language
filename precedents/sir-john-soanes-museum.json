@@ -1,0 +1,121 @@
+{
+  "id": "sir-john-soanes-museum",
+  "name": "Sir John Soane's Museum, 12-14 Lincoln's Inn Fields",
+  "aka": [
+    "Sir John Soane Museum and attached railings"
+  ],
+  "location": {
+    "text": "London, England",
+    "country": "England",
+    "state": "Camden, Greater London"
+  },
+  "dates": {
+    "built": "No.12 built c1792-94; No.13, c1812-13; No.14, c1824",
+    "circa": true,
+    "altered": "The first floor of No.13 was formerly an open loggia, glazed in 1834, as the entry states.",
+    "note": "The node's exemplar gives 1824 and 'Built and rebuilt by Soane for himself 1792-1824', which is the same span the entry gives house by house."
+  },
+  "nodes": [
+    "regency"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1379327",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1379327",
+      "title": "Sir John Soane Museum and Attached Railings, Non Civil Parish - 1379327 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the entry's own header prints the listing date 24/10/51 and the statutory address SIR JOHN SOANE MUSEUM, 12, 13 AND 14, LINCOLN'S INN FIELDS, LONDON, WC2A 3BP. Listing NGR TQ3072081472."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000819",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000819",
+      "title": "Lincoln's Inn Fields, Non Civil Parish - 1000819 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry for the square, which names 'the Soane Museum (Nos.12-14, listed grade I)' among the buildings on the north side."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Sir_John_Soane's_Museum",
+      "title": "Sir John Soane's Museum - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1379327",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1379327",
+    "prepared": "The entry's own Details header prints the listing date 24/10/51. The Overview block was not returned by either extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "TQ3081SE 798-1/106/1054 CAMDEN LINCOLN'S INN FIELDS (North side) Nos.12, 13 AND 14 Sir John Soane Museum and attached railings 24/10/51 GV I Three terraced houses, formerly the home, studio and private museum of Sir John Soane, now a museum. Progressively rebuilt by Soane to form a symmetrical facade. No.12 built c1792-94 for himself; No.13, c1812-13; No.14, c1824 was built and sold off by Soane but the back half was retained and incorporated into the principal residence at No.13.",
+        "page": "Official list entry 1379327, Details, entry header and opening sentences"
+      },
+      {
+        "field": "materials",
+        "text": "Grey brick, No.13 with stone facing. Nos 12 and 14 with slated mansard roofs and dormers.",
+        "page": "Official list entry 1379327, Details"
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: four storeys and basements (No.12 & 14 with attics). Three windows each.",
+        "page": "Official list entry 1379327, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Nos 12 and 14: arched ground floor openings. Doorways with patterned radial fanlights and panelled doors. Wrought-iron balconies at first floor level. Gauged brick flat arches to recessed windows with original glazing bars (No.14 with C19 blind boxes to second floor). Stone second floor sill strings. Brick modillion and stone cornices at third floor level. Stone cornices and blocking course above third floor.",
+        "page": "Official list entry 1379327, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "No.13: projecting stone front of three bays with the middle bay continuing the projection on the second floor. Round arched entrance, ground and first floor windows. Gothic brackets between windows of ground and first floor. First floor with blind balustrade below windows and enriched panels above, surmounted by Classical Coade stone figures on the outer bays. First floor was formerly an open loggia, glazed in 1834.",
+        "page": "Official list entry 1379327, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "finishes",
+        "text": "Second floor with outer bays recessed and articulated with pilaster strips and friezes. Projecting middle bay with acroteria. Recessed third floor with stone pilasters carrying a stone balustrade with acroteria finials.",
+        "page": "Official list entry 1379327, Details, EXTERIOR paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "Three terraced houses, formerly the home, studio and private museum of Sir John Soane",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "four storeys and basements (No.12 & 14 with attics)",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "Three windows each",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three bays to each of the three houses, which is what the standard London plot delivered and what Soane worked inside."
+    },
+    {
+      "name": "projecting_front_bay_count",
+      "as_printed": "No.13: projecting stone front of three bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1379327",
+  "note": "Tranche 3, 5 Sep 2026. Two extracts were needed: the first returned the opening and materials, the second the EXTERIOR paragraph. The record is one building by the corpus's rule -- one archival entry, one address, one man's house -- although the entry itself calls it three terraced houses, which the quotes carry."
+}

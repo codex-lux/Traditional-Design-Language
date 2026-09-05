@@ -1,0 +1,94 @@
+{
+  "id": "chipping-campden-market-hall",
+  "name": "Chipping Campden Market Hall",
+  "aka": [
+    "Market Hall"
+  ],
+  "location": {
+    "text": "Chipping Campden, Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "1627",
+    "circa": false,
+    "note": "The entry's Details section opens '2. 1627. Built for Sir Baptist Hicks for dairy produce and poultry.' The node's exemplar gives the same year and says it was built 'for the sale of cheese, butter and poultry'; the entry says 'dairy produce and poultry'."
+  },
+  "nodes": [
+    "cotswold-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1078442",
+      "title": "Market Hall, Chipping Campden - 1078442 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1078442",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read twice with different queries; the first extract returned the Details prose and the second the Official list entry block, which prints 'Grade: I', 'List Entry Number: 1078442', 'Date first listed: 25-Aug-1960', 'Date of most recent amendment: 08-Jun-1983' and 'Statutory Address 1: MARKET HALL, HIGH STREET' as field values. The Legacy block prints 'Legacy System number: 126180' and 'Legacy System: LBS'. The entry's own name for the building is 'Market Hall'; the style node calls it 'Chipping Campden Market Hall', which is the name this record carries because the exemplar is the join key."
+    }
+  ],
+  "survey": {
+    "item": "1078442",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1078442",
+    "prepared": "Date first listed: 25-Aug-1960; Date of most recent amendment: 08-Jun-1983, as the Official list entry block prints them.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "2. 1627. Built for Sir Baptist Hicks for dairy produce and poultry. Classical double arcaded loggie.",
+        "page": "Official list entry, Details, opening of the numbered paragraph 2 (legacy list format)"
+      },
+      {
+        "field": "materials",
+        "text": "Built of ashlar with Cotswold stone valley roof.",
+        "page": "Official list entry, Details, materials sentence in paragraph 2"
+      },
+      {
+        "field": "bays",
+        "text": "2 x 5 arches. 2 x 3 gables with blocked 2 light mullion windows in rebated surrounds with cornices.",
+        "page": "Official list entry, Details, sentence following the materials sentence"
+      },
+      {
+        "field": "other",
+        "text": "Pyramidal finials at apices, corners and between gables. Arcades rest on square piers with panelled caps. Ogee panel between 2 east gables displaying Hick's arms (see also Almhouses in Church Street). Inner colonnade of chamfered piers on high plinths, supporting valley plate. Waggon ceiling houses (plaster removed). Pitched paving.",
+        "page": "Official list entry, Details, paragraph 2 continued"
+      },
+      {
+        "field": "foundations",
+        "text": "On south side the corners and piers have low off-set buttresses, to north a low wall. Owned by the National Trust - (A.M.).",
+        "page": "Official list entry, Details, close of paragraph 2, followed by 'Listing NGR: SP1513839169'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "arch_count",
+      "as_printed": "2 x 5 arches",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Read as two arcades of five, so ten arches on the building. The entry's own form is '2 x 5' and it does not state a total; the multiplication is this record's reading."
+    },
+    {
+      "name": "gable_count",
+      "as_printed": "2 x 3 gables",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Read as three gables to each of two sides. Same caution as the arches: the total is a reading of the entry's '2 x 3'."
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "2 light mullion windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Lights per window in the gables, and the windows are blocked. A two-light mullioned opening is the smallest unit of the node's own window grammar; the node's kit bands light_count at 2 to 5."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1078442",
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. The one exemplar in this cluster that is NOT a house, kept because the node's own prose makes the civic building part of the tradition ('the money went into churches, market halls, clothiers' houses and rows of weavers' cottages') and because a market hall states the district's structural vocabulary in the open, with nothing to hide behind: ashlar piers, a stone valley roof, and mullioned lights in the gables above."
+}

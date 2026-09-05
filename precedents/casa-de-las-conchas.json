@@ -1,0 +1,95 @@
+{
+  "id": "casa-de-las-conchas",
+  "name": "Casa de las Conchas",
+  "aka": [
+    "Casa de las Conchas (Salamanca)"
+  ],
+  "location": {
+    "text": "Salamanca, Spain",
+    "country": "Spain",
+    "state": "Castile and Leon"
+  },
+  "dates": {
+    "built": "1493-1517",
+    "circa": false,
+    "note": "'Su construcción se inicia en 1493 y concluyó en 1517.' The article's own category lines read 'Arquitectura de 1517' and 'Bienes protegidos de España declarados en 1929'."
+  },
+  "nodes": [
+    "spanish-plateresque"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_las_Conchas",
+      "title": "Casa de las Conchas (Salamanca) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CODE IS RECORDED because none was printed in the extract; the infobox prints only 'Catalogación bien de interés cultural'. The year comes from the article's own category line, 'Bienes protegidos de España declarados en 1929'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_las_Conchas",
+      "title": "Casa de las Conchas (Salamanca) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-casa-de-las-conchas",
+    "data_url": "https://es.wikipedia.org/wiki/Casa_de_las_Conchas",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "En el interior existe un patio con fusión de elementos medievales, mudéjares y renacentistas. Tiene unas dimensiones aproximadas de 18,80 x 16,80 m. En la planta baja destacan los arcos mixtilíneos tan propios de Salamanca. En la parte superior los arcos, en parte mixtilíneos, se apoyan sobre columnas de mármol blanco de Carrara que culminan en capiteles laureados.",
+        "page": "Spanish Wikipedia, section on the interior; a footnote marker rendered by the extractor as a stray '(' after '16,80 m.' has been dropped and no word is changed"
+      },
+      {
+        "field": "cornice",
+        "text": "Los antepechos de los balcones aparecen decorados con motivos de panales y cestería de clara influencia mudéjar. Finalmente, el tejado está rematado por una crestería formada por flores de lis acompañadas de gárgolas. Tanto en la planta superior como inferior se repiten los blasones de ambas familias. En el centro un pozo que, en su tiempo, garantizaba el suministro de agua potable.",
+        "page": "Spanish Wikipedia, section on the interior, continuing from the above"
+      },
+      {
+        "field": "general_description",
+        "text": "La Casa de las Conchas de Salamanca es un antiguo palacio urbano de estilo gótico y elementos platerescos. Su construcción se inicia en 1493 y concluyó en 1517. En el interior destacan el patio con arcos mixtilíneos, la escalera y el artesonado.",
+        "page": "Spanish Wikipedia, opening paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "court_width_ft",
+      "as_printed": "18,80 x 16,80 m",
+      "value": 61.7,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Read as 18.80 m; the article prints comma decimal separators. It does not say which dimension faces the entrance, so the FIRST figure printed is the width, per the schema's rule. Converted at 3.28084 ft/m."
+    },
+    {
+      "name": "court_depth_ft",
+      "as_printed": "18,80 x 16,80 m",
+      "value": 55.1,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Second of the printed pair, read as 16.80 m."
+    },
+    {
+      "name": "court_length_to_width",
+      "as_printed": "18,80 x 16,80 m",
+      "value": 1.12,
+      "unit": "ratio",
+      "from_quote": 0,
+      "note": "18.80 divided by 16.80, computed here. A DERIVATION and not a quotation: the court is very nearly square, which is worth recording because this is the only plateresque courtyard dimensioned in the cluster."
+    },
+    {
+      "name": "court_storey_count",
+      "as_printed": "Tanto en la planta superior como inferior",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. IT IS THE ONLY BUILDING IN THIS NODE WITH A DIMENSION OF ANY KIND, and the dimension is of the patio rather than of the portada the node is about. That mismatch is the cluster's recurring result and is stated rather than papered over."
+}

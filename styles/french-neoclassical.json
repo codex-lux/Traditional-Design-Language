@@ -209,25 +209,55 @@
       "name": "Petit Trianon",
       "location": "Versailles, Yvelines, France",
       "year": 1762,
-      "note": "Ange-Jacques Gabriel, 1762-1768. A 23 m cube with four differently articulated faces responding to four different ground conditions; the reference object for the style's economy of means."
+      "note": "Ange-Jacques Gabriel, 1762-1768. A 23 m cube with four differently articulated faces responding to four different ground conditions; the reference object for the style's economy of means.",
+      "precedent": "petit-trianon",
+      "standing": "icon",
+      "why": "The reference object of this node's own prose and of its proportional system, and the Château de Versailles's own page corroborates the cubic form, the roof hidden behind a balustrade and the four Corinthian columns while stating no dimension at all, so the corpus's '23 m square' is uncorroborated rather than confirmed."
     },
     {
       "name": "Pantheon (church of Sainte-Genevieve)",
       "location": "Place du Pantheon, Paris, France",
       "year": 1758,
-      "note": "Jacques-Germain Soufflot, foundations 1758, completed 1790 by Rondelet. Corinthian portico on a Greek-cross plan with slender piers and hidden iron cramps - Gothic structural ambition in a Roman vocabulary."
+      "note": "Jacques-Germain Soufflot, foundations 1758, completed 1790 by Rondelet. Corinthian portico on a Greek-cross plan with slender piers and hidden iron cramps - Gothic structural ambition in a Roman vocabulary.",
+      "precedent": "pantheon-paris",
+      "standing": "icon",
+      "why": "The pivotal object of the node's own argument about Gothic structure in a Roman vocabulary, on the corpus's reading; the Mérimée notice records the building's changes of use and neither the iron cramps nor the piers that argument rests on."
     },
     {
       "name": "Place de la Concorde, twin palaces",
       "location": "Paris, France",
       "year": 1755,
-      "note": "Ange-Jacques Gabriel, 1755-1775. Two identical colonnaded fronts framing the Rue Royale; the buildings are designed as the walls of an urban room."
+      "note": "Ange-Jacques Gabriel, 1755-1775. Two identical colonnaded fronts framing the Rue Royale; the buildings are designed as the walls of an urban room.",
+      "precedent": "place-de-la-concorde-palaces",
+      "standing": "canonical",
+      "why": "The corpus's own demonstration that the square rather than the building is the composition, and the register quietly agrees by listing the place separately from each of the five buildings that bound it."
     },
     {
       "name": "Hotel de Salm (Palais de la Legion d'Honneur)",
       "location": "64 rue de Lille, Paris, France",
       "year": 1782,
-      "note": "Pierre Rousseau, 1782-1787. The garden-front rotunda and the low balustraded silhouette that Jefferson admired in person and drew on at Monticello."
+      "note": "Pierre Rousseau, 1782-1787. The garden-front rotunda and the low balustraded silhouette that Jefferson admired in person and drew on at Monticello.",
+      "precedent": "hotel-de-salm",
+      "standing": "canonical",
+      "why": "Carried by this corpus for the garden-front rotunda Jefferson admired, and the Mérimée notice adds the fact the corpus omits - that the Communards burnt it in May 1871 and Anastase Mortier rebuilt it to Rousseau's design between 1871 and 1874."
+    },
+    {
+      "name": "Ecole Militaire",
+      "location": "Paris, France",
+      "year": 1751,
+      "note": "Ange-Jacques Gabriel's military academy on the Champ de Mars, the same architect's public-building manner beside the two Place de la Concorde fronts. The Merimee notice gives campaign years 1751, 1788, 1820 and 1856 and names Gabriel, Boullee and Brongniart.",
+      "precedent": "ecole-militaire",
+      "standing": "canonical",
+      "why": "A type specimen for the new class of eighteenth-century public building the node's own prose argues from, by the same hand as an exemplar the node already carried; the register enumerates railings and courts and states no order, no bay count and no dimension."
+    },
+    {
+      "name": "Saline Royale d'Arc-et-Senans",
+      "location": "Arc-et-Senans, Doubs, France",
+      "year": 1775,
+      "note": "Claude-Nicolas Ledoux's royal saltworks, a semicircular enclosure of workshops about a director's house. The Merimee notice contradicts itself - 'Construite entre 1775 et 1779' against campaign years '1775 ; 1782' - and dates the UNESCO inscription to 1983 where UNESCO and fr.wikipedia give 1982.",
+      "precedent": "saline-royale-arc-et-senans",
+      "standing": "canonical",
+      "why": "The industrial case this node's own prose demands and never names - it argues from 'theatres, hospitals, mints, customs barriers, exchanges' while carrying only a retreat, a church and two urban palaces - and it is Ledoux, whom the node's prose never mentions."
     }
   ],
   "sources": [

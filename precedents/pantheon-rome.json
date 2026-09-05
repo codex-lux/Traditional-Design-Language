@@ -1,0 +1,95 @@
+{
+  "id": "pantheon-rome",
+  "name": "Pantheon",
+  "aka": [
+    "Basilica di Santa Maria ad Martyres",
+    "Pantheum"
+  ],
+  "location": {
+    "text": "Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "118-125",
+    "circa": true,
+    "altered": "Consecrated as the church of Santa Maria ad Martyres in 609, which the Ministry's own record gives as the reason the building survives intact.",
+    "note": "The Ministry's record separates two buildings: 'La costruzione originaria fu eretta tra il 27 e il 25 a.C.' under Agrippa, and 'Le sue forme attuali risalgono ai primi anni del regno di Adriano (118-125)'. The node's exemplar note gives 'c. AD 113-125 under Hadrian'. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "roman-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://cultura.gov.it/luogo/pantheon",
+      "title": "Pantheon e Basilica di Santa Maria ad Martyres - Ministero della cultura",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Italian Ministry of Culture's own place record. It prints its own publication dates: 'Pubblicato il 2020-04-14 17:51:05 / Ultimo aggiornamento 2026-09-01 09:26:49', and names a responsible officer."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Pantheon is a monument inside this property, not a separate inscription; the property was 'first inscribed on the World Heritage List in 1980 and extended in 1990'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.turismoroma.it/en/places/pantheon",
+      "title": "The Pantheon | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Roma Capitale's own monument page, carried for the one figure the Ministry's record does not give: 'In the center opens an oculus of 8.92 meters in diameter'. Read in a search result rather than an extract, so it is NOT carried as a measurement below. It also states 'sunken panels, or coffer, in five rings of 28'."
+    }
+  ],
+  "survey": {
+    "item": "pantheon",
+    "data_url": "https://cultura.gov.it/luogo/pantheon",
+    "prepared": "Ministero della cultura, place record 'Pantheon e Basilica di Santa Maria ad Martyres'; the page prints 'Pubblicato il 2020-04-14' and 'Ultimo aggiornamento 2026-09-01'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Tra gli edifici dell'antichità classica, il Pantheon è certamente quello che meglio si è conservato, in virtù della sua trasformazione in chiesa (Santa Maria ad Martyres) nel 609. La costruzione originaria fu eretta tra il 27 e il 25 a.C. per volere di Marco Vipsanio Agrippa in onore di Augusto e poi dedicata alle principali divinità della famiglia Giulio Claudia. Le sue forme attuali risalgono ai primi anni del regno di Adriano (118-125). Un enorme muro cilindrico (la Rotonda) di oltre 6 metri di spessore sorregge la monumentale cupola, la più grande volta realizzata in muratura, del diametro di 43,30 metri e pari altezza.",
+        "page": "Ministero della cultura, luogo/pantheon, 'Descrizione' section, Italian text"
+      },
+      {
+        "field": "walls",
+        "text": "A huge cylindrical wall (the rotonda), more than 6 meters thick, supports the monumental vault, the largest unreinforced dome ever built, with a diameter  of  43.30 meters which is equal to its height.",
+        "page": "Ministero della cultura, luogo/pantheon, 'Descrizione' section, the page's own English version. The double spaces around 'of' are as the page prints them."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "dome_interior_diameter_ft",
+      "as_printed": "a diameter  of  43.30 meters",
+      "value": 142.06,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "43.30 m converted; the unit vocabulary has no metre. The node's own proportional_system states 43.3 m and this is the register agreeing with it to the centimetre."
+    },
+    {
+      "name": "dome_interior_height_ft",
+      "as_printed": "43.30 meters which is equal to its height",
+      "value": 142.06,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The register states the identity rather than a second figure: diameter equals height, which is the node's 'the section is a sphere resting on a cylinder'."
+    },
+    {
+      "name": "rotunda_wall_thickness_in",
+      "as_printed": "more than 6 meters thick",
+      "value": 236.2,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "A LOWER BOUND, not a measurement: the register says 'more than'. 6 m converted to inches; the true thickness is greater by an unstated amount."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The oculus diameter, which the node's own proportional_system quotes as 8.9 m, is stated on Roma Capitale's page and not on the Ministry's, so it is carried as a ref note and not as a measurement: a figure read in a search snippet is not a quotation."
+}

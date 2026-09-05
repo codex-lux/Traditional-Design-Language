@@ -1,0 +1,129 @@
+{
+  "id": "higher-uppacott",
+  "name": "Higher Uppacott",
+  "location": {
+    "text": "Widecombe in the Moor, Devon, England",
+    "country": "England",
+    "state": "Devon"
+  },
+  "dates": {
+    "built": "Late medieval",
+    "circa": true,
+    "altered": "The entry records a 'wing on north-east probably added in C17, and former outbuilding to south-west of that probably added in C18 or early C19', a C20 cap to the hall stack, C19 wood casements in the outer windows and a C20 thatched porch on re-used timbers.",
+    "note": "The list entry says only 'Late medieval'. A Devon Historic Environment Record entry read the same day says the house was 'Originally built as a longhouse in the early 14th century' and that the Dartmoor National Park Authority bought the longhouse in 1979 and the rest of the property in 2002. The finer date is not the list entry's and is not asserted here."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1241837",
+      "title": "Higher Uppacott Uppacott, Widecombe in the Moor - 1241837 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1241837",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A search result the same day printed its Official list entry field values as 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1241837 ; Date first listed: 23-Aug-1955 ; List Entry Name: Higher Uppacott Uppacott.' The extract returned the Details prose in two blocks whose order is reversed relative to the page."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.heritagegateway.org.uk/gateway/Results_Single.aspx?uid=MDV22100&resourceID=104",
+      "title": "Heritage Gateway - Results (Devon Historic Environment Record MDV22100)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The county historic environment record, read as a search result. It says the house is 'one of the oldest surviving longhouses on Dartmoor', that it was 'Originally built as a longhouse in the early 14th century', and that 'The house and outbuildings have granite walls (the wing is rendered at the front); the house (including the wing) has a thatched roof and the converted stable a slate roof.' Recorded as a locator and a second opinion on the date; not extracted."
+    }
+  ],
+  "survey": {
+    "item": "1241837",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1241837",
+    "prepared": "Date first listed: 23-Aug-1955. NOT READ IN AN EXTRACT: the extract returned the Details prose and not the Official list entry block, so this is the field value a Tavily search result printed for this entry on the same day.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "GV I Longhouse, now divided into 2 houses. Late medieval; wing on north-east probably added in C17, and former outbuilding to south-west of that probably added in C18 or early C19.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Granite rubble; south-east face of wing covered with roughcast. Main range is thatched, with half-hip at either end; former outbuilding is slated.",
+        "page": "Official list entry, Details, materials sentence following the opening paragraph"
+      },
+      {
+        "field": "chimneys",
+        "text": "In centre of ridge in main range is a granite ashlar chimneystack with stone weatherings (heating former hall); cap seems to be C20. On gable-end of wing is another granite ashlar stack with weatherings, this time with its original tapered cap",
+        "page": "Official list entry, Details, chimneys sentences; the span is cut where the extract's block ends and is not joined to what follows"
+      },
+      {
+        "field": "plan",
+        "text": "3-room and through-passage plan, with shippon (no longer used for cattle) to right of passage; hall and inner room to left.",
+        "page": "Official list entry, Details, plan sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "2 storeys, the shippon formerly lofted. House-part is 3 windows wide in ground storey (this side of house has no upper-storey windows).",
+        "page": "Official list entry, Details, storeys and fenestration; this span sits in the first block returned by the extract, which is later in the page than the second"
+      },
+      {
+        "field": "openings",
+        "text": "The middle window (lighting former hall) is of granite, containing 2 lights with flat-splay mullions; straight hood-mould above. The outer windows have plain granite lintels and contain C19 wood casements with 2 or 3 panes per light.",
+        "page": "Official list entry, Details, description of the windows"
+      },
+      {
+        "field": "other",
+        "text": "Old plank door to through-passage, with applied ribs; C20 thatched porch on 2 wooden posts, which are probably re-used timbers from the house. In the shippon are 2 ventilation slits. The gable-wall to right has 3 more slits in the ground storey and one above",
+        "page": "Official list entry, Details, description continued; the span is cut where the extract's block ends"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: the shippon has a well-made central drain lined with large granite blocks; against each of the long walls is a feeding-trough defined by thin stones with holes on top for tethering-posts. The loft floor has been removed, but the plain, heavy cross-beams remain.",
+        "page": "Official list entry, Details, interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys, the shippon formerly lofted",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "CONTRADICTS the node's 'one and a half storeys', and differently from Milton Abbas: here the upper storey is unlit on the entrance side -- '(this side of house has no upper-storey windows)' -- so the building reads as low from the road while being two storeys in section."
+    },
+    {
+      "name": "room_count",
+      "as_printed": "3-room and through-passage plan",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Shippon, hall and inner room, with the passage between shippon and hall. One of the three rooms is a cattle byre under the same thatch, which is what makes this a longhouse rather than a cottage."
+    },
+    {
+      "name": "ground_floor_window_count",
+      "as_printed": "House-part is 3 windows wide in ground storey",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The house-part only; the shippon is lit by ventilation slits."
+    },
+    {
+      "name": "window_light_count_hall",
+      "as_printed": "containing 2 lights with flat-splay mullions",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "The hall window -- the best window in the house -- is two lights. Inside the node's own kit band, at its floor."
+    },
+    {
+      "name": "shippon_ventilation_slit_count",
+      "as_printed": "In the shippon are 2 ventilation slits",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "Plus three more in the gable wall and one above, by the same sentence. No total is parsed."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. Added by this tranche as the DOCUMENTARY case: a west-country small house whose plan is stated room by room, whose upper storey is deliberately unlit on the road side, and whose shippon still has its drain and feeding troughs. The entry states no dimension. It is granite rubble rather than cob, which is inside the node's own reach ('rubble in the west') and is worth holding against the node's cob-specific constraint about a plinth: a granite longhouse needs no boots."
+}

@@ -1,0 +1,65 @@
+{
+  "id": "morgenster",
+  "name": "Morgenster",
+  "location": {
+    "text": "Somerset West, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1786",
+    "circa": false,
+    "altered": "The register says the front gable was 'recently well rebuilt'.",
+    "note": "1786 is the date ON the front gable as the register description reports it, which dates the gable and not necessarily the house."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/083/0006",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
+      "title": "Morgenster, Lourens Road, Somerset West District -- List of heritage sites of the Helderberg area",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    }
+  ],
+  "survey": {
+    "item": "9/2/083/0006",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The house is H-shaped with 6 really perfect gables; the front gable (recently well rebuilt) is dated 1786 and shows the holbol style at its most beautiful, with convex edge mouldings continued onto the gable face and ending as fully developed scrolls, the nucleus of this farm consisted of the third of the 4 parts into which Vergelegen was divided after the recall of Willem Adriaan van der Stel; it was bought by Jacques Malan.",
+        "page": "SAHRA identifier 9/2/083/0006, description column of the Helderberg heritage-site table. A register description is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Architectural style: Cape Gabled.  Type of site: Farmstead  Current use: Farm. Originally part of the farm Vergelegen that was granted to Governor Willem Adriaan van der Stel in 1700, this portion was",
+        "page": "SAHRA identifier 9/2/083/0006, description column of the Helderberg heritage-site table; the table's own text breaks off mid-sentence at 'this portion was' and the quotation stops where the source stops."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "gable_count",
+      "as_printed": "H-shaped with 6 really perfect gables",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Six gables on an H-plan house. This is the one countable architectural figure the whole Cape cluster's register descriptions produced, and it is worth what it says: the node's prose treats the CENTRE gable of the front as the type's carrier, and the register is counting six, which on an H-plan means the front centre plus the gable ends of the four wing arms and one more the description does not locate."
+    },
+    {
+      "name": "front_gable_date",
+      "as_printed": "the front gable (recently well rebuilt) is dated 1786",
+      "from_quote": 0,
+      "note": "A YEAR, not a dimension, and therefore carried with NO `value` and NO `unit`: the vocabulary has neither, and writing 1786 as a `count` would let a numeric check agree with a count of something. Recorded because the node's own prose makes the dated gable a defining habit -- 'a shaped, moulded, whitewashed screen with a date on it'."
+    }
+  ],
+  "note": "Tranche 3, Cape cluster, 5 September 2026. Added by this tranche. This is the richest architectural description in the South African register rows read for this cluster, and it is the only one that describes a MOULDING PROFILE: 'the holbol style at its most beautiful, with convex edge mouldings continued onto the gable face and ending as fully developed scrolls'. Holbol -- hollow-and-round, concavo-convex -- is the profile the node names on Boschendal, and this is the register's own account of what it consists of."
+}

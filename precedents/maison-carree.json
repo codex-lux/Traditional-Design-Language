@@ -1,0 +1,78 @@
+{
+  "id": "maison-carree",
+  "name": "Maison Carree",
+  "aka": [
+    "Maison Carrée",
+    "The Maison Carrée of Nîmes"
+  ],
+  "location": {
+    "text": "Nimes, France",
+    "country": "France",
+    "state": "Gard, Occitanie"
+  },
+  "dates": {
+    "built": "1st century CE",
+    "circa": true,
+    "note": "UNESCO's brief synthesis says only 'erected in the 1st century CE'; the node's own exemplar note gives 'Dedicated c. AD 4-7 to Gaius and Lucius Caesar', which the inscription text supports as a dedication without dating the fabric. Both are recorded."
+  },
+  "nodes": [
+    "roman-classical"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "1569",
+      "url": "https://whc.unesco.org/en/list/1569",
+      "title": "The Maison Carrée of Nîmes - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inscribed 2023 at the 45th session under criterion (iv). One of only two records in this cluster whose World Heritage inscription is of the single building rather than of a city or a site."
+    },
+    {
+      "kind": "unesco",
+      "url": "https://whc.unesco.org/en/decisions/8430",
+      "title": "Decision 45 COM 8B.49 The Maison Carree of Nimes",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Committee decision that made the inscription: 'Inscribes The Maison Carree of Nimes, France'. No id is written on this ref because the decision carries a decision number and not a list reference."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Maison_carr%C3%A9e",
+      "title": "Maison carrée - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the inscription metadata its infobox prints -- 'Official name The Maison Carree of Nimes', 'Criteria iv', 'Designated 2023 (45th session)', 'Reference no. 1569' -- which corroborates the list number in the URL above from a second surface, and for one figure no register text here gives: 'Height 17.1m'."
+    }
+  ],
+  "survey": {
+    "item": "1569",
+    "data_url": "https://whc.unesco.org/en/list/1569",
+    "prepared": "UNESCO World Heritage Centre, list entry 1569, Statement of Outstanding Universal Value adopted with the 2023 inscription",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Located in the Occitanie region, The Maison Carrée of Nîmes is a pseudoperipteral hexastyle Corinthian-style temple erected in the 1st century CE in the forum of the Roman colony of Nemausus. It was dedicated to the prematurely deceased presumptive heirs of Augustus – Gaius and Lucius Caesar – who were accorded the title Princes of Youth (principes juventutis), through which the dynastic line of Augustus was sanctified and the edifice turned into a temple of imperial cult.",
+        "page": "List entry 1569, Outstanding Universal Value, Brief synthesis, opening paragraph"
+      },
+      {
+        "field": "significance",
+        "text": "Criterion (iv): The Maison Carrée is an early and one of the best-preserved examples of a Roman temple dedicated to the imperial cult in the Roman provinces that testifies to the period of Rome’s transition from republic to empire, reflecting the political system and the imperial ideology that underlay the process of consolidation of the territory conquered by Ancient Rome in the hands of Augustus.",
+        "page": "List entry 1569, Outstanding Universal Value, Criterion (iv)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_column_count",
+      "as_printed": "pseudoperipteral hexastyle Corinthian-style temple",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A READING of the word 'hexastyle', which the register uses and does not gloss: six columns across the front. The pseudoperipteral form the same phrase states is the node's own diagnostic tell -- engaged half-columns down the flanks and free-standing ones only in the porch."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The name is carried exactly as the node's exemplar prints it, without accents, because build/check_assets.py joins on it; the accented forms are in `aka`. This record is the reason the node's Jefferson claim can be checked at all -- the Virginia State Capitol already has a record in this corpus and names this temple as its model."
+}

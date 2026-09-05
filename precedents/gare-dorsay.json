@@ -1,0 +1,88 @@
+{
+  "id": "gare-dorsay",
+  "name": "Gare d'Orsay (now Musee d'Orsay)",
+  "aka": [
+    "Gare d'Orsay",
+    "Musée d'Orsay",
+    "Ancienne gare d'Orsay, actuellement musée d'Orsay"
+  ],
+  "location": {
+    "text": "Quai Anatole-France, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1898-1900",
+    "circa": false,
+    "altered": "The notice records the hotel closing in 1973, the decision to convert the building into a museum in 1977 and the museum's opening on 1 December 1986.",
+    "note": "The Mérimée notice says 'construits à partir de 1898' and 'inaugurés le 14 juillet 1900', which is the node's own 1898-1900 exactly - the one date in this cluster where the register and the corpus agree without qualification."
+  },
+  "nodes": [
+    "beaux-arts-french"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088689",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088689",
+      "title": "Ancienne gare d'Orsay, actuellement musée d'Orsay",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 1978/03/15 : classé MH' and the precision 'L'ancienne gare : classement par arrêté du 15 mars 1978'. The reference was read from the fr.wikipedia list of monuments historiques of the 7th arrondissement, which prints 'Gare d'Orsay (actuel musée d'Orsay), 7-9 quai Anatole-France · rue de Lille ... « PA00088689 » ... Classé, 1978'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Mus%C3%A9e_d%27Orsay",
+      "title": "Musée d'Orsay — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the infobox, which prints 'Architecte Victor Laloux' and 'Classé MH (1978)'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088689",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088689",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Gare et hôtel construits à partir de 1898 par l'architecte Victor Laloux, et inaugurés le 14 juillet 1900 pour l'Exposition universelle. L'édifice se compose d'un hall de 32 mètres de haut sur 40 de large et 138 de long. Les structures métalliques intérieures sont recouvertes à l'extérieur par une façade de pierre. De 1900 à 1939, la gare accueille les trains desservant le sud-ouest. En 1939, la gare ne dessert plus que la banlieue. Durant la Seconde guerre mondiale, elle sert à l'expédition de colis pour les prisonniers, puis de lieu d'accueil pour leur retour à la Libération. En 1973, fermeture de l'hôtel. En 1977, la transformation en musée pour les arts de la seconde moitié du 19e siècle est décidée. Inauguration du musée le 1er décembre 1986.",
+        "page": "Notice Mérimée PA00088689, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Laloux Victor (architecte)",
+        "page": "Notice Mérimée PA00088689, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "hall_height_ft",
+      "as_printed": "32 mètres de haut",
+      "value": 104.99,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "THE FIGURE THE NODE HAS PUT ON THE WRONG AXIS. The node's exemplar note calls this 'a 32 m clear-span iron train shed'; the register says 32 m is the HEIGHT and 40 m the WIDTH. Converted here from the metric figure the notice prints, at 1 m = 3.28084 ft; the conversion is this record's reading and `as_printed` carries what was actually read. The schema's `unit` enum runs ft/in/count/ratio/deg/rise_in_12 and has no metre."
+    },
+    {
+      "name": "hall_width_ft",
+      "as_printed": "40 de large",
+      "value": 131.23,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The span of the hall, which is the figure the node's 'clear-span' sentence wanted and is 40 m, not 32. Converted here from the metric figure the notice prints, at 1 m = 3.28084 ft; the conversion is this record's reading and `as_printed` carries what was actually read. The schema's `unit` enum runs ft/in/count/ratio/deg/rise_in_12 and has no metre."
+    },
+    {
+      "name": "hall_length_ft",
+      "as_printed": "138 de long",
+      "value": 452.76,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Converted here from the metric figure the notice prints, at 1 m = 3.28084 ft; the conversion is this record's reading and `as_printed` carries what was actually read. The schema's `unit` enum runs ft/in/count/ratio/deg/rise_in_12 and has no metre."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE RICHEST MEASUREMENT YIELD IN THE CLUSTER AND IT CONTRADICTS THE NODE. The Mérimée notice states three dimensions of the great hall - 32 m high, 40 m wide, 138 m long - and the node's exemplar note reads 'a 32 m clear-span iron train shed'. 32 m is the height in the register's own sentence; the span is 40 m. NOTHING IN styles/beaux-arts-french.json HAS BEEN CHANGED; the contradiction is reported and left for a ruling. The notice also states the construction plainly - 'Les structures métalliques intérieures sont recouvertes à l'extérieur par une façade de pierre' - which is this node's whole settlement with industrial structure, in the register's words. No rights line was read, so no `rights_evidence`."
+}

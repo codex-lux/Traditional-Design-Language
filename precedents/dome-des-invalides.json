@@ -1,0 +1,84 @@
+{
+  "id": "dome-des-invalides",
+  "name": "Eglise du Dome, Hotel des Invalides",
+  "aka": [
+    "Église du Dôme",
+    "Dôme des Invalides",
+    "Hôtel des Invalides"
+  ],
+  "location": {
+    "text": "Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "17e-18e siècle (as the Mérimée notice states the campaigns)",
+    "circa": true,
+    "note": "The Mérimée notice gives centuries only - '17e siècle ; 18e siècle' - and names 'BRUANT Libéral (architecte) ; HARDOUIN-MANSART Jules (architecte)'. fr.wikipedia's infobox prints 'Construction 1670-1679' for the Hôtel and 'Hauteur 107 m au sommet du dôme'; a Google Arts & Culture page for the Dôme church prints 'Date Created: Between 1677 and 1706'. The 1670s belong to Bruant's hospital and the 1677-1706 span to Hardouin-Mansart's Dôme church; nothing here resolves the two into one date and nothing is changed."
+  },
+  "nodes": [
+    "french-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088714",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088714",
+      "title": "Hôtel des Invalides - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 1862 : classé MH ; 1906/05/23 : classé MH ; 1914/04/18 : classé MH ; 1935/04/12 : classé MH' and its 'Précision sur la protection' names the Dôme explicitly among the classed parts."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/H%C3%B4tel_des_Invalides",
+      "title": "Hôtel des Invalides — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the height and the dates; its infobox prints 'Hauteur 107 m au sommet du dôme', 'Construction 1670-1679' and 'Patrimonialité Classé MH (1862, 1906, 1914, 1935)', and its reference 1 gives 'Notice no PA00088714', which is where the Mérimée number above was read."
+    }
+  ],
+  "survey": {
+    "item": "PA00088714",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088714",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Hôtel des Invalides : classement par liste de 1862 et journal officiel du 18 avril 1914 - Eglise Saint-Louis ; Dôme, cour du Dôme, sa grille et ses pavillons sur la place Vauban ; façade nord de l'hôtel, y compris les deux pavillons des extrémités, la grille, les deux corps de garde et le fossé entourant l'avant-cour ; façades intérieures qui encadrent la cour d'honneur",
+        "page": "Notice Mérimée PA00088714, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. The span quoted stops where the notice opens its parenthesis on interior rooms and works of art; nothing is joined across the break. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice BRUANT Libéral (architecte) ; HARDOUIN-MANSART Jules (architecte)",
+        "page": "Notice Mérimée PA00088714, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Les galeries entourant la cour d'honneur (rez-de-chaussée et premier étage) , les escaliers monumentaux situés aux angles de cette cour, toutes les façades, toitures, cours et jardins non mentionnés dans le décret du 23 mai 1906 : classement par décret du 12 avril1935",
+        "page": "Notice Mérimée PA00088714, same 'Précision sur la protection' field, later in the same paragraph. The run-together '12 avril1935' is the notice's own spacing and is left as read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "cour_dhonneur_gallery_storey_count",
+      "as_printed": "rez-de-chaussée et premier étage",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The two storeys of arcaded gallery round the cour d'honneur, as the 1935 decree describes them. It is a figure about the HOSPITAL, not about the Dôme church the exemplar is named for."
+    },
+    {
+      "name": "end_pavilion_count",
+      "as_printed": "les deux pavillons des extrémités",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The two end pavilions of the north front. Carried because this node's own defining characteristics name 'end pavilions' as the unit of French Baroque massing, and this is the register naming them on the building itself."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE EXEMPLAR IS THE DÔME CHURCH AND THE LISTING IS THE WHOLE HÔTEL. The Mérimée notice is a protection instrument and its most descriptive passage is an enumeration of what is classed - which is why the two measurements here are both taken from that enumeration rather than from any architectural account. The notice states no material, no dimension and no storey height, and says nothing about the dome that gives the building its name. The 107 m height is on fr.wikipedia only and is therefore not carried as a measurement. No rights line was read, so no `rights_evidence`."
+}

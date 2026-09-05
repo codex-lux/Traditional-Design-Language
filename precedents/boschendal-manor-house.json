@@ -1,0 +1,51 @@
+{
+  "id": "boschendal-manor-house",
+  "name": "Boschendal Manor House",
+  "location": {
+    "text": "Franschhoek, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1812",
+    "circa": false,
+    "note": "The SAHRA description gives the grant to Jean le Long in 1685 and the manor house to his descendant Paul de Villiers in 1812, which is exactly what the node's exemplar note already says."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/069/0041",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Paarl",
+      "title": "Boschendal, Groot Drakenstein, Paarl District -- List of heritage sites in Paarl",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    },
+    {
+      "kind": "other",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_South_Africa",
+      "title": "List of heritage sites in South Africa - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Boschendal appears in this page's list of NATIONAL heritage sites, above the provincial lists. The SAHRA row read for this record is the PROVINCIAL listing 9/2/069/0041; the two statuses were not reconciled here and no national declaration document was read."
+    }
+  ],
+  "survey": {
+    "item": "9/2/069/0041",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Paarl",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "This farm was originally granted to the Huguenot Jean le Long in 1685, Afterwards the property became the home of Jacques de Villiers and his wife Marguerite Gardiol. Their grandson, Paul, built the historic manor house in 1812. Type of site: Farm Complex.",
+        "page": "SAHRA identifier 9/2/069/0041, description column of the Paarl heritage-site table. A register description is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Cape cluster, 5 September 2026. The register row confirms the two dates the node's exemplar note carries -- the 1685 Huguenot grant and the 1812 manor -- and says nothing whatever about the holbol gables the node names, the plan, the thatch or the walls. The comma splice after '1685' is the table's own and is quoted as printed."
+}

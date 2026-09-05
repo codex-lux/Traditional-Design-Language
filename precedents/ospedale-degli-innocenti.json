@@ -1,0 +1,80 @@
+{
+  "id": "ospedale-degli-innocenti",
+  "name": "Ospedale degli Innocenti",
+  "aka": [
+    "Spedale degli Innocenti",
+    "Museo degli Innocenti"
+  ],
+  "location": {
+    "text": "Piazza Santissima Annunziata, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1419-1427",
+    "circa": false,
+    "note": "The Institute's own museum page dates Brunelleschi's site direction: 'Brunelleschi directed the Ospedale's construction site from 1419 to 1427'. The node's exemplar note gives 'begun 1419, completed 1445', which is the whole complex rather than Brunelleschi's own campaign. Both are recorded."
+  },
+  "nodes": [
+    "italian-renaissance"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.museodeglinnocenti.it/museo/percorsi-espositivi/architettura",
+      "title": "Architecture - Museo degli Innocenti",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Istituto degli Innocenti still owns and occupies the building; the Museo degli Innocenti is its own museum, opened 2016."
+    },
+    {
+      "kind": "unesco",
+      "id": "174",
+      "url": "https://whc.unesco.org/en/list/174",
+      "title": "Historic Centre of Florence - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription. The Wikipedia list article read the same day prints the reference as '174bis' and the inscription as '1982 (6th Session)' with a 2015 extension; the list URL itself carries 174."
+    }
+  ],
+  "survey": {
+    "item": "museo-degli-innocenti-architettura",
+    "data_url": "https://www.museodeglinnocenti.it/museo/percorsi-espositivi/architettura",
+    "prepared": "Istituto degli Innocenti, Museo degli Innocenti, 'Architecture' section of the exhibition itinerary; the page's own English version",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Engaged in that same period in the construction of the dome of Santa Maria del Fiore, Brunelleschi developed a peculiar language for the building, using materials such as pietra serena and plaster to design a space marked by columns, capitals, arches and vaults, which in the recovery of classical elements anticipates a distinctive feature of Florentine Renaissance architecture. Specially conceived for the reception and care of abandoned children, it was defined by architect Giovanni Michelucci as \"a palace for children. \"",
+        "page": "Museo degli Innocenti, 'Architecture' page, opening paragraph. The stray space before the closing quotation mark is as the page prints it."
+      },
+      {
+        "field": "plan",
+        "text": "Brunelleschi directed the Ospedale's construction site from 1419 to 1427, building the External Loggia 1, the Church of Santa Maria degli Innocenti 2 and the children's dormitory (today's Salone Brunelleschi) 3. He designs, finally, the Cortile degli Uomini 6.",
+        "page": "Museo degli Innocenti, 'Architecture' page, the numbered itinerary paragraph; the digits are the page's own plan keys"
+      },
+      {
+        "field": "other",
+        "text": "Glazed earthenware; diameter about 100 cm each",
+        "page": "Museo degli Innocenti, 'Architecture' page, catalogue line for Andrea della Robbia, 'Putti in fasce, 1487'"
+      },
+      {
+        "field": "other",
+        "text": "The pietra serena oculi between the arches of Brunelleschi's Loggiato on the façade have housed since 1487 the",
+        "page": "Museo degli Innocenti, 'Architecture' page, della Robbia paragraph. The extract's chunk ends mid-sentence and the span is carried only as far as it was read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "spandrel_roundel_diameter_ft",
+      "as_printed": "diameter about 100 cm each",
+      "value": 3.28,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The della Robbia tondi set in the pietra serena oculi between the loggia's arches, so the figure sizes the SPANDREL and not the bay. 100 cm converted; the register says 'about'."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE NODE'S OWN CLAIM ABOUT THIS BUILDING IS NOT CHECKABLE FROM ANY REGISTER TEXT READ HERE: the exemplar note says 'an arcade of nine bays in which the column height, arch span and bay depth are all the same dimension', and the Institute's own architecture page states no bay count and no dimension whatever. The one figure the page gives is the diameter of a della Robbia roundel."
+}

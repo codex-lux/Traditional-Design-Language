@@ -1,0 +1,72 @@
+{
+  "id": "palace-of-westminster",
+  "name": "Palace of Westminster",
+  "aka": [
+    "Houses of Parliament and The Palace of Westminster",
+    "New Palace of Westminster"
+  ],
+  "location": {
+    "text": "London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (City of Westminster)"
+  },
+  "dates": {
+    "built": "1835-60",
+    "altered": "The offices against the side of Westminster Hall of 1888 are by J L Pearson; the House of Commons and Lobby were rebuilt after World War II bombing.",
+    "note": "The list entry says the second phase 'was built from 1835-60'. The node's exemplar carries the year 1870 and its own note says 'Built 1840-70'. The two disagree by five years at each end and neither is changed here."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1226284",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1226284",
+      "title": "Houses of Parliament and The Palace of Westminster - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Overview block carries Heritage Category 'Listed Building', Grade 'I', List Entry Number '1226284', Date first listed '05-Feb-1970' and Statutory Address 'Parliament Square, Westminster, London, SW1A 0AA'. This same list entry is already carried by `precedents/westminster-hall-roof.json` for `english-gothic`: one listing covers both the medieval hall and Barry and Pugin's new palace, and the two records are not duplicates but two subjects inside one designation."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Palace_of_Westminster",
+      "title": "Palace of Westminster - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox names the architects as Charles Barry and Augustus Pugin, records the World Heritage inscription 'Palace of Westminster, Westminster Abbey, and St Margaret's Church' with reference number 426 designated 1987, and repeats the Grade I designation of 5 February 1970 under reference 1226284. The World Heritage number is not carried as a ref here because `westminster-hall-roof` already carries it for the same site."
+    }
+  ],
+  "survey": {
+    "item": "1226284",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1226284",
+    "prepared": "Date first listed: 05-Feb-1970, as the entry's own Overview block prints it. No amendment date was returned in any extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The official seat of the British Government, the Houses of Parliament and the Palace of Westminster, London, were created in two main phases, starting with Westminster Hall between 1097 and 1099. Other buildings in this entry include St Stephen's Chapel and the Elizabeth Tower, home of the famous bell, 'Big Ben'.",
+        "page": "Overview block above the official list entry (List Entry Number 1226284)."
+      },
+      {
+        "field": "other",
+        "text": "The second phase consists of the Houses of Parliament (the New Palace of Westminster) which was built from 1835-60, by Sir Charles Barry with detailing, interior decoration and furnishings by Augustus Welby Northmore Pugin. The offices against the side of Westminster Hall, of 1888 are by J L Pearson, where the House of Commons and Lobby were rebuilt after World War II bombing.",
+        "page": "Official list entry, Details section, phasing paragraph."
+      },
+      {
+        "field": "plan",
+        "text": "The building has slate roofs and galvanised cast iron plate roofs to Barry's work which also has an internal fireproof construction of iron joists and brick jack-arches. It has a cruciform and axial spine plan, with principal elevations facing the river. The massing by Barry combines symmetry on the river front terrace with the asymmetry of the major vertical accents which include the Elizabeth Tower (Big Ben) and the central fleche and turrets above the roof line.",
+        "page": "Official list entry, Details section, materials and massing paragraph."
+      },
+      {
+        "field": "general_description",
+        "text": "Pugin's contribution included the perpendicular Gothic detailing of the rhythmic buttresses and bay windows, the close panelling with open and blind tracery and the wealth of sculpture, carved crockets, pinnacles and finials. Pugin's interiors in the Houses of Parliament are the best preserved and most complete example of the quality and ideals of his secular decoration including all details and furnishings, and are combined with a complete programme of mid C19 and early C20 wall paintings. The loose items of furniture are not covered by listing.",
+        "page": "Official list entry, Details section, Pugin paragraph."
+      }
+    ]
+  },
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1226284",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. No `measurements` are recorded: three extracts with different queries returned no dimension, storey count or bay count for this building, only the massing sentence. The entry's own words are the corroboration for the node's central claim about this building -- 'symmetry on the river front terrace with the asymmetry of the major vertical accents' is the register describing exactly the contradiction the node's prose calls out, a symmetrical classical composition wearing Perpendicular detail."
+}

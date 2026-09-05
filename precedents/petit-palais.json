@@ -1,0 +1,75 @@
+{
+  "id": "petit-palais",
+  "name": "Petit Palais",
+  "aka": [
+    "Petit Palais, actuellement musée des Beaux-Arts de la Ville de Paris",
+    "Musée des Beaux-Arts de la Ville de Paris"
+  ],
+  "location": {
+    "text": "Avenue Winston-Churchill, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1900 (the campaign year the Mérimée notice prints)",
+    "circa": false,
+    "note": "The node's exemplar says 1897-1900; the notice prints 'Année(s) de(s) campagne(s) de construction 1900' and 'Construit pour exposition universelle de 1900'. As at the Grand Palais the register records the completion, not the start."
+  },
+  "nodes": [
+    "beaux-arts-french"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088878",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088878",
+      "title": "Petit Palais, actuellement musée des Beaux-Arts de la Ville de Paris",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Nature de la protection de l'édifice inscrit MH' and 'Date et niveau de protection de l'édifice 1975/01/15 : inscrit MH' - INSCRIT, the lower of the two French grades, where its twin across the avenue is CLASSÉ. The reference was read from the fr.wikipedia list of monuments historiques of the 8th arrondissement, which prints 'Petit Palais | Avenue Winston-Churchill | « PA00088878 » | Inscrit | 1975'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Petit_Palais",
+      "title": "Petit Palais — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the protection and the world-heritage status; its infobox prints 'Inscrit MH (1975)' and 'Patrimoine mondial (1991, au titre de Paris, rives de la Seine)', and names 'Charles Girault, François Hennebique' as architects."
+    }
+  ],
+  "survey": {
+    "item": "PA00088878",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088878",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Sculpteurs : Injalbert, Lemaire, Desvergnes, Clovers, Ferrary, Lefeuvre, Carlus, Hercule. Construit pour exposition universelle de 1900.",
+        "page": "Notice Mérimée PA00088878, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Girault Charles (architecte) ; Hennebique (architecte) ; Injalbert (sculpteur) ; Lemaire (sculpteur) ; Desvergnes (sculpteur) ; Clovers (sculpteur) ; Ferrary (sculpteur) ; Lefeuvre (sculpteur) ; Carlus (sculpteur)",
+        "page": "Notice Mérimée PA00088878, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "finishes",
+        "text": "Technique du décor porté de l'édifice sculpture ; peinture",
+        "page": "Notice Mérimée PA00088878, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "named_sculptor_count",
+      "as_printed": "Injalbert (sculpteur) ; Lemaire (sculpteur) ; Desvergnes (sculpteur) ; Clovers (sculpteur) ; Ferrary (sculpteur) ; Lefeuvre (sculpteur) ; Carlus (sculpteur)",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Seven sculptors named in the author field, against two architects. The 'Description historique' field lists EIGHT names, adding 'Hercule' - which is a subject, not a sculptor, and the discrepancy is left as the register prints it. Carried because this node's defining characteristics make concentrated sculpture a defining trait and this is the register counting the hands."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE REGISTER GRADES THE TWO 1900 PALACES DIFFERENTLY AND THE CORPUS TREATS THEM ALIKE: the Grand Palais is 'classé' (2000) and the Petit Palais only 'inscrit' (1975), the lower grade. That is a fact about French heritage administration rather than about architecture, and it is recorded because a reader comparing the two records will otherwise wonder. The notice states no material, no dimension and no plan; the trapezoidal site and the semicircular garden court the node values are entirely unsourced here. Hennebique appears in the author field, which is the register's own record of reinforced concrete inside a stone envelope. No rights line was read, so no `rights_evidence`."
+}

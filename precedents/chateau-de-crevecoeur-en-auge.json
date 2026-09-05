@@ -1,0 +1,71 @@
+{
+  "id": "chateau-de-crevecoeur-en-auge",
+  "name": "Chateau de Crevecoeur-en-Auge",
+  "aka": [
+    "Château de Crèvecœur",
+    "Ancien manoir de Crèvecœur-en-Auge"
+  ],
+  "location": {
+    "text": "Crevecoeur-en-Auge, Calvados, France",
+    "country": "France",
+    "state": "Calvados, Normandie"
+  },
+  "dates": {
+    "built": "XIe et XIIe siècles (fortification); XVe siècle (ferme, colombier, grange)",
+    "circa": true,
+    "altered": "The French Wikipedia article says the site was « restauré profondément en 1972 » and that the entrance poterne was moved here and re-erected in 1973 from the manoir de Beuvillers near Lisieux, so one building on the site is not native to it.",
+    "note": "The Mérimée notice PA00111263 records only the protection and prints no construction century. The dates above are the Wikipedia article's and the owning foundation's, and are recorded as theirs."
+  },
+  "nodes": [
+    "norman-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00111263",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00111263",
+      "title": "Ancien manoir - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Titled « Ancien manoir »; located « Normandie ; Calvados (14) ; Crèvecoeur-en-Auge ». Inscrit MH partiellement, not classé."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_de_Cr%C3%A8vec%C5%93ur-en-Auge",
+      "title": "Château de Crèvecœur-en-Auge — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Names the basse-cour buildings -- « communs du XVIe siècle, un colombier carré de 1 500 boulins, une chapelle castrale des XIIe – XIIIe siècle » -- and gives the owner as the Fondation Musée Schlumberger."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.chateaudecrevecoeur.com",
+      "title": "Le château de Crèvecoeur (site of the Fondation Musée Schlumberger)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The operator's own site, read in a search result, so nothing from it is quoted as survey. AN EARLIER VERSION OF THIS NOTE ATTRIBUTED A SENTENCE TO IT THAT IS NOT ON IT -- it said the site describes the basse-cour as holding « une ferme, un colombier et une grange, lesquels forment un très bel ensemble architectural, représentatif des constructions régionales à pan de bois ». Re-read 5 Sep 2026: that sentence is printed word for word by jardinez.com, and Ouest-France prints a variant of it (« formant un très bel ensemble architectural ») quoting the château's own director; no page on chateaudecrevecoeur.com read here carries it. What the operator's own texts say -- its description page and its 2021 and 2026 brochures -- is « La basse-cour se compose d'une ferme, d'un colombier et d'une grange des XVème et XVIème siècles auxquels s'ajoute la chapelle du XIIème siècle », and that description page dates the ferme and the colombier to the 15th century and the grange to the 16th, against this record's own `dates.built`. A sentence a search returns beside a URL is not that URL's sentence, which is why a ref whose `via` is tavily-search may not carry a quotation."
+    }
+  ],
+  "survey": {
+    "item": "PA00111263",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00111263",
+    "prepared": "Date de rédaction de la notice 1992 ; Date de dernière modification de la notice 24 juillet 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Nature de la protection de l'édifice inscrit MH partiellement Date et niveau de protection de l'édifice 1928/12/26 : inscrit MH ; 1954/04/23 : inscrit MH Précision sur la protection Façades et toitures : inscription par arrêté du 26 décembre 1928 ; Chapelle : inscription par arrêté du 23 avril 1954",
+        "page": "Notice Mérimée PA00111263, section « Statut juridique, intérêt, protection et label »"
+      },
+      {
+        "field": "other",
+        "text": "Titre courant Ancien manoir Producteur Monuments historiques Dénomination de l'édifice manoir",
+        "page": "Notice Mérimée PA00111263, section « Désignation de l'édifice »"
+      }
+    ]
+  },
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00111263",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. New exemplar. Carried for the BASSE-COUR rather than for the castle: the ferme, the square colombier and the grange are the 15th-century timber-framed working ensemble this node describes, standing where the node says such buildings stand -- loose in an enclosure, nothing attached to anything. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. The Mérimée notice carries no Description historique, so the survey block is protection and designation only; the description of the timber buildings sits in the refs' notes, where it is unchecked prose."
+}

@@ -1,0 +1,74 @@
+{
+  "id": "armenhoef-best",
+  "name": "Hall house at Best",
+  "aka": [
+    "De Armenhoef",
+    "De Aarlese Hoeve",
+    "Armenhoef (Best)"
+  ],
+  "location": {
+    "text": "North Brabant, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Brabant"
+  },
+  "dates": {
+    "built": "1263",
+    "circa": false,
+    "altered": "The dwelling end, probably seventeenth-century in origin, is described by the register as heavily altered and modernised. Protected only as a municipal monument until 2013 and entered in the national register that year, after a restoration the state helped pay for.",
+    "note": "THE REGISTER SAYS 1263 AND THE NODE SAYS 1262. The Rijksmonumentenregister's own description reads 'de datering door middel van dendrochronologisch onderzoek is vastgesteld op 1263'; the Dutch Wikipedia infobox prints 'Start bouw 1263'; the Wikipedia list of national monuments in Best prints 1263. The node's exemplar year is 1262. One year, four sources on one side, and nothing is edited."
+  },
+  "nodes": [
+    "north-german-hall-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "532056",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/532056",
+      "title": "Oirschotseweg 117, 5684 NH te Best | Rijksdienst voor het Cultureel Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://nl.wikipedia.org/wiki/Armenhoef_(Best)",
+      "title": "Armenhoef (Best) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'De boerderij is vanwege de stal, waarvan het houtskelet gedeeltelijk uit 1263 dateert, mogelijk de oudste boerderij van West-Europa waarvan nog bovengrondse delen bestaan.' The article also records that listing it broke a standing policy: 'Hierbij werd afgeweken van het beleid om geen gebouwen die dateren uit de periode van voor 1940 nieuw op te nemen in het register van rijksmonumenten.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.bouwwereld.nl/bouwtechniek/oudste-boerderij-van-nederland-wordt-rijksmonument",
+      "title": "Oudste boerderij wordt rijksmonument -- Bouwwereld",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'De oudste bekende en nog in gebruik zijnde boerderij van West-Europa \"De Armenhoef\" in Best is aangemerkt als rijksmonument.'"
+    }
+  ],
+  "survey": {
+    "item": "532056",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/532056",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed, register description, section 'Inleiding'. THE REST OF THE DESCRIPTION COULD NOT BE READ: the page truncates at 'Het bedrijfsgedeelte van de boerderij heeft een zadeldak...' behind a 'Lees meer' control, and a second extract with a different query returned the same truncation. What follows that sentence is not recorded here because it was not read.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "structural_system",
+        "text": "BOERDERIJ waarvan het stalgedeelte vijf ankerbalkgebinten bevat, waarvan de datering door middel van dendrochronologisch onderzoek is vastgesteld op 1263. Deze datering is de tot nu toe oudste die is vastgesteld van een bovengrondse boerderij in Nederland, mogelijk in West-Europa. Tevens zijn er archeologische waarden. De boerderij heeft in vroeger tijd de functie gehad van armenhoef. Het woonhuis, vermoedelijk oorspronkelijk 17e eeuws, is sterk gewijzigd en gemoderniseerd. De verschijningsvorm van het bedrijfsgedeelte, met wolfeind en overstek, kwam in de geschiedenis in Noord-Brabant veelvuldig voor, maar hiervan zijn slechts enkele bewaard gebleven.",
+        "page": "Rijksmonumentenregister, monument 532056, section 'Omschrijving', subsection 'Inleiding'. A register entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "het stalgedeelte vijf ankerbalkgebinten bevat",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "FIVE ANCHOR-BEAM TRUSSES in the byre part. This is the corpus's first register-sourced bay count for a hall house, and the node's own prose makes the bay the unit of the type -- 'The building is set out on bays -- Fach -- of about two and a half metres ... and the house is a whole number of them.' Note what it counts: five trusses in the SURVIVING BYRE, not the whole house, whose dwelling end the register says has been heavily altered."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. The node's oldest exemplar, and the only one in the cluster whose date rests on a national register's own statement of a dendrochronological result. Two things the register says that the node's exemplar note does not: the dwelling end is heavily modernised, so what is 1263 is the STABLE; and the surviving business end has a half-hip and an overhang ('met wolfeind en overstek') that used to be common in North Brabant and now barely survives."
+}

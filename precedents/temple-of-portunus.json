@@ -1,0 +1,95 @@
+{
+  "id": "temple-of-portunus",
+  "name": "Temple of Portunus",
+  "aka": [
+    "Tempio di Portuno",
+    "Temple of Fortuna Virilis",
+    "Santa Maria Egiziaca"
+  ],
+  "location": {
+    "text": "Forum Boarium, Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "2nd century BC, renovated 1st century BC",
+    "circa": true,
+    "note": "Roma Capitale's record says 'It dates back to the 4th or 3rd century BC, even if its present appearance probably dates back to the second half of the 2nd century, with renovations in the 1st century BC' -- two dates for two things, and both are carried."
+  },
+  "nodes": [
+    "roman-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.turismoroma.it/en/places/temple-portunus",
+      "title": "The Temple of Portunus | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Roma Capitale's own monument record."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed historic centre; not a separate inscription."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Temple_of_Portunus",
+      "title": "Temple of Portunus - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for its statement of the pseudoperipteral definition and of the corner volutes projecting at 45 degrees, 'a common Roman detail'. Read in a search result; nothing from it is carried as a measurement."
+    }
+  ],
+  "survey": {
+    "item": "temple-portunus",
+    "data_url": "https://www.turismoroma.it/en/places/temple-portunus",
+    "prepared": "Roma Capitale, Turismo Roma, monument record 'The Temple of Portunus'; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "It stands in the Foro Boario, the area intended for the cattle market, near the ancient Portus Tiberinus, the first commercial port on the Tiber. It is one of the best preserved buildings of Ancient Rome and, together with the nearby Temple of Hercules Victor - the first marble building in the city - represents a precious testimony of the architecture of the time. It dates back to the 4th or 3rd century BC, even if its present appearance probably dates back to the second half of the 2nd century, with renovations in the 1st century BC.",
+        "page": "Turismo Roma, 'The Temple of Portunus', body paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "The temple stands on a high podium with steps covered with travertine slabs and four Ionic columns on the front facade. Its sides bear two travertine columns and five semi-columns in Aniene tuff on the walls of the cell.",
+        "page": "Turismo Roma, 'The Temple of Portunus', description paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_column_count",
+      "as_printed": "four Ionic columns on the front facade",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Tetrastyle. The node's own typical_ratios list Vitruvian intercolumniations and canonical order heights and never a column count for a temple front; four here against six at the Maison Carree is the range the node does not state."
+    },
+    {
+      "name": "flank_free_column_count",
+      "as_printed": "two travertine columns",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Per side: the free-standing columns of the porch's returns."
+    },
+    {
+      "name": "flank_engaged_column_count",
+      "as_printed": "five semi-columns in Aniene tuff on the walls of the cell",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "This is the node's own diagnostic tell measured: 'engaged half-columns pretending to continue around the flanks'. Five engaged against two free-standing on each flank."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche because the node's four buildings were a dome, a provincial temple, an amphitheatre and a house, and it carried no Republican temple in Rome itself -- the building from which the pseudoperipteral flank, its central diagnostic tell, is usually taught. It is also the cheapest instance in the cluster to MEASURE: the register states the free and engaged columns separately, which is the distinction the tell rests on."
+}

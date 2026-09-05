@@ -1,0 +1,69 @@
+{
+  "id": "hacienda-de-santa-maria-regla",
+  "name": "Hacienda de Santa Maria Regla",
+  "aka": [
+    "Hacienda de Santa María Regla"
+  ],
+  "location": {
+    "text": "Huasca de Ocampo, Hidalgo, Mexico",
+    "country": "Mexico",
+    "state": "Hidalgo"
+  },
+  "dates": {
+    "built": "18th century",
+    "circa": true,
+    "altered": "Now a hotel of 51 rooms with a garden taking up to 600 people, event rooms and an artificial dam.",
+    "note": "The article's infobox prints 'Construcción siglo XVIII' and nothing narrower; the node's exemplar gives 'c. 1762-1774'. Both are recorded and the article does not support the narrower pair."
+  },
+  "nodes": [
+    "mexican-hacienda"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_de_Santa_Mar%C3%ADa_Regla",
+      "title": "Hacienda de Santa María Regla - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The page's own footer prints its revision date: 'Esta página se editó por última vez el 6 sep 2025 a las 08:16.' It is the ONLY page in this cluster that printed one, which is why every other survey block in these seven nodes says the revision date was not returned."
+    },
+    {
+      "kind": "institution",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_de_Santa_Mar%C3%ADa_Regla",
+      "title": "www.haciendaderegla.com.mx, the hotel's own address as the article's infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO RESOLVABLE URL OF THE HOTEL'S OWN IS RECORDED: the infobox printed the bare hostname and the site was not read here."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-hacienda-de-santa-maria-regla",
+    "data_url": "https://es.wikipedia.org/wiki/Hacienda_de_Santa_Mar%C3%ADa_Regla",
+    "prepared": "'Esta página se editó por última vez el 6 sep 2025 a las 08:16', as the page's own footer prints it. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "La Hacienda de Santa María Regla es un conjunto hacendario del siglo XVIII, asociado históricamente al conde de ReglaPedro Romero de Terreros. Se localiza en Santa María Regla, a 4 km al noreste de Huasca de Ocampo (estado de Hidalgo), México.",
+        "page": "Spanish Wikipedia, opening paragraph. The run-together 'ReglaPedro' is the extractor's rendering of a wikilink boundary and is left as it stands."
+      },
+      {
+        "field": "condition",
+        "text": "La hacienda conserva gran parte de sus patios. La hacienda fue transformada en un hotel rústico de estilo colonial con 51 habitaciones, y cuenta con: capilla, jardín con capacidad hasta para 600 personas, presa artificial, salones de eventos y ofrece sus espacios para todo tipo eventos.",
+        "page": "Spanish Wikipedia, descriptive section"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "hotel_room_count",
+      "as_printed": "un hotel rústico de estilo colonial con 51 habitaciones",
+      "value": 51,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "NOT A HISTORICAL FIGURE. It counts hotel bedrooms in the converted casco, not rooms of the working estate, and is recorded only because it is the sole count the article gives -- which is itself the state of the evidence for this node."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. NOT ONE DIMENSION OF THE CASCO WAS FOUND. The node's own exemplar note calls this 'the industrial hacienda at its largest' and describes courts of patio arches built for silver amalgamation; the article says the hacienda keeps much of its patios and then counts hotel bedrooms. The gap between what the corpus asserts about this building and what any source read here states is the widest in the cluster."
+}

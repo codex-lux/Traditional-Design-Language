@@ -1,0 +1,109 @@
+{
+  "id": "marble-hill-house",
+  "name": "Marble Hill House",
+  "location": {
+    "text": "Twickenham, London, England",
+    "country": "England",
+    "state": "London Borough of Richmond upon Thames"
+  },
+  "dates": {
+    "built": "1724-29",
+    "circa": false,
+    "note": "The listed-building entry prints 'Built 1724-29 to the designs of Lord Herbert and Roger Morris'. The registered park entry 1000400 prints that the house 'was begun in June 1724 when the Earl of Ilay instructed Roger Morris' and that Morris received his final payment in June 1729. Wikipedia's infobox gives the architect as Roger Morris alone. All are recorded; the attribution is not resolved here."
+  },
+  "nodes": [
+    "english-georgian-country-house",
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1285673",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1285673",
+      "title": "Marble Hill House, Non Civil Parish - 1285673 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; statutory address MARBLE HILL HOUSE, MARBLE HILL PARK. Listing NGR TQ1729673627."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000400",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000400",
+      "title": "Marble Hill, Non Civil Parish - 1000400 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, whose PRINCIPAL BUILDING paragraph describes the same house independently."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Marble_Hill_House",
+      "title": "Marble Hill House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1285673",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1285673",
+    "prepared": "Neither extract returned the Overview block, so the 'Date first listed' is not recorded here; the Details text quoted below is what was read.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Built 1724-29 to the designs of Lord Herbert and Roger Morris for Henrietta Howard, mistress of George II. An unusually instructive exemplar of the architectural ideas of the English Palladian School. The setting of the house was the work of the poet Alexander Pope and Charles Bridgeman, the royal landscape gardener.",
+        "page": "Official list entry 1285673, Details, opening sentences"
+      },
+      {
+        "field": "general_description",
+        "text": "Rectangular on plan, with the main elevations facing north and south; stucco faced with stone dressings; 3 main storeys (the lowest treated as an architectural basement); modillion cornice with lead-covered blocking course pyramidal roof covered with blue- black pantiles and with a lead-covered ball finial at the apex.",
+        "page": "Official list entry 1285673, Details"
+      },
+      {
+        "field": "bays",
+        "text": "The north and south fronts of 5-bays with the centre 3 bays projecting and pedimented; projecting plain string course and sill band at principal floor",
+        "page": "Official list entry 1285673, Details; the extract cut this sentence mid-clause and it is quoted only as far as it was read"
+      },
+      {
+        "field": "plan",
+        "text": "Fine interiors including the Great Room (a cube of 24 ft) and a mahogany staircase. The building had been altered externally and internally but was restored to its original design by the GLC in 1965-66.",
+        "page": "Official list entry 1285673, Details, paragraph 2. Appended by the english-palladian cluster to a record another cluster authored: the span was read verbatim in two separate tavily-extract calls of this entry on 5 Sep 2026 and carries the only interior dimension in feet any Historic England entry in either cluster states."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 main storeys (the lowest treated as an architectural basement)",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Three main storeys of which the lowest reads as a basement, so two above the rusticated ground."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "The north and south fronts of 5-bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "centre_projection_bay_count",
+      "as_printed": "the centre 3 bays projecting and pedimented",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "great_room_cube_ft",
+      "as_printed": "the Great Room (a cube of 24 ft)",
+      "value": 24,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "A cube: width, length and height all 24 ft, so it is simultaneously a room dimension and a ceiling height. Appended by the english-palladian cluster; it is not a storey height and must not be compared with one."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1285673",
+  "note": "Tranche 3, 5 Sep 2026. Chosen as the small, plain end of the type rather than the grand one: a five-bay rectangle with a three-bay pedimented centre, which is the formula the node's own prose states, at the smallest size at which it works. The entry prints 'blue- black pantiles' with a stray space after the hyphen, carried verbatim."
+}

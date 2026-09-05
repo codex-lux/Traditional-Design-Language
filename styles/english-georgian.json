@@ -217,25 +217,64 @@
       "name": "Bedford Square",
       "location": "Bloomsbury, London, England",
       "year": 1783,
-      "note": "Built 1775-83 by Thomas Leverton and others for the Bedford estate. The most complete surviving Georgian square in London, with palace-fronted terraces, Coade stone doorcases and the whole grammar of the leasehold building system visible in one place."
+      "note": "Built 1775-83 by Thomas Leverton and others for the Bedford estate. The most complete surviving Georgian square in London, with palace-fronted terraces, Coade stone doorcases and the whole grammar of the leasehold building system visible in one place.",
+      "precedent": "bedford-square",
+      "standing": "icon",
+      "why": "Historic England's own list entry for the east side says the houses 'form an important and complete example of C18 town planning', and the grammar this node is about -- one design imposed on a whole side, Coade stone doorcases, plain brick between -- is what that entry then describes bay by bay."
     },
     {
       "name": "Queen Square",
       "location": "Bath, England",
       "year": 1736,
-      "note": "Built 1728-36 by John Wood the Elder. The north side is composed as a single Palladian palace front of seven bays plus wings, which established that a terrace of separate houses could be treated as one building."
+      "note": "Built 1728-36 by John Wood the Elder. The north side is composed as a single Palladian palace front of seven bays plus wings, which established that a terrace of separate houses could be treated as one building.",
+      "precedent": "queen-square-bath",
+      "standing": "canonical",
+      "why": "Historic England's entry for the north side calls Queen Square 'of exceptional importance as the first large-scale instance of town planning to arrive at Bath', and states the palace front as an arithmetic the node can be held to: a twenty-three-window front of three-bay houses with a five-bay house to centre."
     },
     {
       "name": "Fairfax House",
       "location": "Castlegate, York, England",
       "year": 1762,
-      "note": "Remodelled 1755-62 by John Carr for Viscount Fairfax. A complete Georgian town house with its plasterwork by Giuseppe Cortese and its plan, stair and joinery intact — the provincial pattern-book classicism of the middle of the century at its best."
+      "note": "Remodelled 1755-62 by John Carr for Viscount Fairfax. A complete Georgian town house with its plasterwork by Giuseppe Cortese and its plan, stair and joinery intact — the provincial pattern-book classicism of the middle of the century at its best.",
+      "precedent": "fairfax-house",
+      "standing": "canonical",
+      "why": "Grade I on Historic England's list since 1954, and its entry states the whole elevation numerically -- five bays with three breaking forward under a closed pediment, twelve-pane sashes at ground, squat six-pane sashes in the attic -- which is what makes a provincial pattern-book house checkable rather than only admirable."
     },
     {
       "name": "Merrion Square",
       "location": "Dublin, Ireland",
       "year": 1780,
-      "note": "Laid out from 1762 and built over four decades. Dublin Georgian, with its granite steps, iron area railings, elaborate radiating fanlights and famously coloured doors, is the largest surviving body of the style anywhere."
+      "note": "Laid out from 1762 and built over four decades. Dublin Georgian, with its granite steps, iron area railings, elaborate radiating fanlights and famously coloured doors, is the largest surviving body of the style anywhere.",
+      "precedent": "merrion-square",
+      "standing": "regional",
+      "why": "The National Inventory of Architectural Heritage records the Dublin section house by house -- four storeys over a basement, three bays, Flemish-bond brick on a granite plinth -- and rates No. 63 of national importance; the node's claim that this is 'the largest surviving body of the style anywhere' is the node's own and is not the inventory's."
+    },
+    {
+      "name": "Royal Crescent",
+      "location": "Bath, England",
+      "year": 1775,
+      "note": "Built 1767-75 by John Wood the Younger. Thirty houses read as one concave semi-elliptical composition behind a giant Ionic order, in finely cut limestone ashlar over a plain ground-floor plinth, with mansard attics behind a continuous balustraded parapet.",
+      "precedent": "royal-crescent-bath",
+      "standing": "icon",
+      "why": "Historic England lists all thirty houses in one Grade I entry and dimensions them in it -- 'A crescent some 500ft (152m.) long and nearly 50ft (15m.) tall, fronted with a procession of 114 engaged giant Ionic columns, each some 20ft (6m.) tall' -- so the building a fluent reader names first for this style is also the one the register measures."
+    },
+    {
+      "name": "Mompesson House",
+      "location": "The Close, Salisbury, England",
+      "year": 1704,
+      "note": "Built for Sir Thomas Mompesson, the date taken from the east lead rainwater heads. A seven-bay ashlar front in the Cathedral Close with a bolection doorcase under a broken curved pediment, a bracketed cornice and a hipped tile roof with three dormers; now National Trust.",
+      "precedent": "mompesson-house",
+      "standing": "documentary",
+      "why": "Carried for measurement rather than for fame: its Historic England entry states two storeys and an attic, three dormers, seven windows above and six below, and the pane width of every sash on the front -- more of one elevation stated numerically than any other entry in this cluster."
+    },
+    {
+      "name": "Kedleston Hall",
+      "location": "Kedleston, Derbyshire, England",
+      "year": 1765,
+      "note": "Built 1758-65 by Matthew Brettingham, James Paine and Robert Adam for Sir Nathaniel Curzon. Rusticated basement, piano nobile and attic; a main block joined by quadrant colonnades to pavilions, and a south front whose centre derives from the Arch of Constantine.",
+      "precedent": "kedleston-hall",
+      "standing": "icon",
+      "why": "Historic England's entry describes an eleven-bay centre block with a hexastyle giant Corinthian portico and quadrant colonnades 'following Palladio's Villa Mocenigo' -- the grandest thing the British Georgian made out of a pattern-book grammar. It sits on this node and deliberately not on english-georgian-country-house, whose own prose says of that type 'It is not a prodigy house'."
     }
   ],
   "sources": [

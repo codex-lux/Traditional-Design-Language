@@ -214,25 +214,63 @@
       "name": "The Priest's House",
       "location": "Muchelney, Somerset, England",
       "year": 1308,
-      "note": "First recorded in 1308. Local lias stone roughly cut and squared with Ham stone dressings, thatched roof half-hipped to the east with a stepped coped gable west, and wattle-and-daub partitions inside — the small late-medieval house in near-complete survival."
+      "note": "First recorded in 1308. Local lias stone roughly cut and squared with Ham stone dressings, thatched roof half-hipped to the east with a stepped coped gable west, and wattle-and-daub partitions inside — the small late-medieval house in near-complete survival.",
+      "precedent": "the-priests-house-muchelney",
+      "standing": "canonical",
+      "why": "Historic England lists it Grade I and its entry describes the whole building bay by bay -- lias stone with Ham stone dressings, a thatched roof 'with stepped coped gable to west, half hipped to east', a cross-passage plan and a small two-light window 'cut into thatch' -- which is the most complete description any source in this cluster gives of a small pre-Reformation house."
     },
     {
       "name": "Anne Hathaway's Cottage",
       "location": "Shottery, Warwickshire, England",
       "year": 1463,
-      "note": "The earliest part dates to 1463 as a single-storey three-room house; the upper part was built between 1610 and 1624. Timber frame with daub panels under long-straw thatch, and a textbook demonstration of the Great Rebuilding raising an open house into two storeys."
+      "note": "The earliest part dates to 1463 as a single-storey three-room house; the upper part was built between 1610 and 1624. Timber frame with daub panels under long-straw thatch, and a textbook demonstration of the Great Rebuilding raising an open house into two storeys.",
+      "precedent": "anne-hathaways-cottage",
+      "standing": "icon",
+      "why": "Historic England lists it Grade I and its entry names, in one sentence, the two things the node derives from thatch and from the Great Rebuilding: '4 dormer windows, one an eyebrow dormer', and a smoke hood over the hall fireplace under a stack carrying the datestone 1697; the judgment that it is the building the phrase 'English cottage' summons is this project's."
     },
     {
       "name": "Selworthy Green",
       "location": "Selworthy, Somerset, England",
       "year": 1828,
-      "note": "Rebuilt in 1828 by Sir Thomas Dyke Acland to house the aged of the Holnicote estate, in ochre-tinted limewashed cob under thatch. Composed for the picturesque eye in the manner of Blaise Hamlet, but built with entirely authentic local technique — the honest borderline case between vernacular and revival."
+      "note": "Rebuilt in 1828 by Sir Thomas Dyke Acland to house the aged of the Holnicote estate, in ochre-tinted limewashed cob under thatch. Composed for the picturesque eye in the manner of Blaise Hamlet, but built with entirely authentic local technique — the honest borderline case between vernacular and revival.",
+      "precedent": "selworthy-green",
+      "standing": "regional",
+      "why": "Three Historic England entries on the Green describe roughcast over rubble and possibly cob under thatch, with catslides, ogee heads and semicircular bays -- authentic local technique arranged for the picturesque eye -- and they also date the buildings C17, early C19 and mid C19 rather than to the 1828 rebuilding, which is why it is carried as the regional case and not as a type specimen."
     },
     {
       "name": "Blaise Hamlet",
       "location": "Henbury, Bristol, England",
       "year": 1811,
-      "note": "Nine cottages designed by John Nash around a green for John Scandrett Harford's estate pensioners. The moment the vernacular becomes a style, and the origin of every cottage orne and storybook cottage since."
+      "note": "Nine cottages designed by John Nash around a green for John Scandrett Harford's estate pensioners. The moment the vernacular becomes a style, and the origin of every cottage orne and storybook cottage since.",
+      "precedent": "blaise-hamlet",
+      "standing": "icon",
+      "why": "Historic England lists the cottages Grade I and its entry for Circular Cottage quotes Pevsner calling the group '...the nec plus ultra of picturesque layout and design'; that judgment is Pevsner's, carried in the statutory record, and it is why the hamlet is the node's dividing line between a cottage that is low because cob is expensive and one that is low because low looks charming."
+    },
+    {
+      "name": "Hardy's Cottage",
+      "location": "Higher Bockhampton, Dorset, England",
+      "year": 1800,
+      "note": "'Left section c1800, right section c1840', built by Thomas Hardy's great-grandfather. One storey and attic, hipped thatched roof, four ground-floor casements and three windows barely breaking the thatch. Historic England's own summary of it is 'Good unspoiled example of Dorset cottage'. Note that the cob is faced in brick with flint banding at the lower walls and is bare plastered cob only above.",
+      "precedent": "hardys-cottage",
+      "standing": "canonical",
+      "why": "Historic England lists it Grade II and calls it in its own words a 'Good unspoiled example of Dorset cottage'; it is the plainest and least composed building in this node's set, which is exactly what a type specimen for a labourer-class cottage has to be."
+    },
+    {
+      "name": "Milton Abbas Model Village",
+      "location": "Milton Abbas, Dorset, England",
+      "year": 1780,
+      "note": "About thirty-six near-identical cob-and-thatch cottages of c1780 along one street, each originally two tenements entered through a shared central vestibule. THE CASE THAT FALSIFIES THIS NODE'S STOREY COUNT: Historic England and the Royal Commission both describe the standard cottage as TWO storeys, not one and a half.",
+      "precedent": "milton-abbas-model-village",
+      "standing": "documentary",
+      "why": "The Royal Commission's Inventory of the Historical Monuments in Dorset describes the STANDARD cottage rather than one address -- 'two-storied ... cob walls, thatched roofs, rectangular plans' with a stated window pattern and a stated entry sequence -- which makes it the one place in this node's set where a repeated plan, and not a single surviving house, is what was surveyed."
+    },
+    {
+      "name": "Higher Uppacott",
+      "location": "Widecombe in the Moor, Devon, England",
+      "note": "A late-medieval Dartmoor longhouse of granite rubble under thatch with half-hips at both ends, three rooms and a through passage, the shippon still carrying its drain and its stone feeding troughs. The upper storey is unlit on the entrance side, so the house reads low from the road while being two storeys in section.",
+      "precedent": "higher-uppacott",
+      "standing": "documentary",
+      "why": "Historic England lists it Grade I and its entry sets out the plan room by room and the shippon fitting by fitting -- 'a well-made central drain lined with large granite blocks', feeding troughs 'with holes on top for tethering-posts' -- which is the closest thing in this node's set to a measured record of how a west-country small house was actually used."
     }
   ],
   "sources": [

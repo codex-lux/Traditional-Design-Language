@@ -1,0 +1,103 @@
+{
+  "id": "alcazar-of-seville-palacio-del-rey-don-pedro",
+  "name": "Alcazar of Seville, Palacio del Rey Don Pedro",
+  "aka": [
+    "Real Alcázar de Sevilla",
+    "Mudéjar Palace of Peter I"
+  ],
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "1364-1366",
+    "circa": false,
+    "altered": "The upper storey of the Patio de las Doncellas added by Charles V to a design by Luis de Vega; 'Construction of the addition began in 1540 and ended in 1572'.",
+    "note": "The node's exemplar gives 1364-1366 for Pedro I's palace; the English article says the courtyard 'was part of the Mudéjar palace built by Pedro I in the 1360s'. The Almohad Patio del Yeso within the same Alcázar 'was built at the end of the 12th century, by Ali al-Ghumari from the Almohad period' and is two centuries older than the palace this record is named for."
+  },
+  "nodes": [
+    "mudejar"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0001067",
+      "url": "https://es.wikipedia.org/wiki/Real_Alc%C3%A1zar_de_Sevilla",
+      "title": "Real Alcázar de Sevilla - Wikipedia, la enciclopedia libre; BIC RI-51-0001067",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The article's authority-control block prints 'BIC: RI-51-0001067', 'IAPH: 01410910109', 'Patrimonio Cultural de Andalucía: i19378' and 'Patrimonio de la Humanidad: 383-002'. No declaration date was printed."
+    },
+    {
+      "kind": "unesco",
+      "id": "383-002",
+      "url": "https://es.wikipedia.org/wiki/Real_Alc%C3%A1zar_de_Sevilla",
+      "title": "Cathedral, Alcázar and Archivo de Indias in Seville, component 383-002, as the Spanish article's authority block prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Alc%C3%A1zar_of_Seville",
+      "title": "Alcázar of Seville - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Real_Alc%C3%A1zar_de_Sevilla",
+      "title": "Real Alcázar de Sevilla - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-alcazar-of-seville",
+    "data_url": "https://en.wikipedia.org/wiki/Alc%C3%A1zar_of_Seville",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "From the Sala de Justicia one enters the Patio del Yeso, which was built at the end of the 12th century, by Ali al-Ghumari from the Almohad period, almost square in plan, with a pool in the center and arcaded arches on each side of the courtyard, on which there is rich decoration.",
+        "page": "English Wikipedia, section on the Patio del Yeso"
+      },
+      {
+        "field": "general_description",
+        "text": "On the south side there are caliphal columns that support arches with decoration (sebka) of plaster. This decoration covers a porch. In the porch there is an entrance consisting of two horseshoe arches with a column in the center. On the lintel of this entrance there are two windows. On the opposite wall there is a walled exit with three horseshoe arches in the Córdoban caliphal style.",
+        "page": "English Wikipedia, section on the Patio del Yeso"
+      },
+      {
+        "field": "plan",
+        "text": "The courtyard was part of the Mudéjar palace built by Pedro I in the 1360s. The ground level of the building still dates to this period and contains Arabic inscriptions that refer to Pedro I as \"Sultan Don Bidru\". The upper story of the courtyard was an addition made by Charles V.",
+        "page": "English Wikipedia, section 'Patio de las Doncellas'"
+      },
+      {
+        "field": "plan",
+        "text": "Halls faces the square courtyard, its area was occupied by a Almohad sunken garden at a level of 1.5 meters beneath the halls, it had two walkways, and had a channel to irrigate the garden.",
+        "page": "English Wikipedia, section on the Almohad palace beneath the Patio de la Montería; THE SPAN BEGINS MID-SENTENCE where the extract's chunk begins, and no words are supplied before 'Halls'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "sunken_garden_depth_ft",
+      "as_printed": "a level of 1.5 meters beneath the halls",
+      "value": 4.9,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "The Almohad sunken garden below the surrounding halls, converted at 3.28084 ft/m. It is the one figure any extract of this building returned."
+    },
+    {
+      "name": "court_arch_count",
+      "as_printed": "three horseshoe arches",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Of the walled exit on one side of the Patio del Yeso only, not of the courtyard as a whole."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The building is a palimpsest and this record says so rather than flattening it: the exemplar names Pedro I's palace of 1364-1366, the quoted Patio del Yeso is Almohad and two centuries earlier, and the upper storey of the Patio de las Doncellas is Charles V's and two centuries later. Three of the four quotes carry their own date."
+}

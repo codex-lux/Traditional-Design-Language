@@ -1,0 +1,121 @@
+{
+  "id": "easton-neston",
+  "name": "Easton Neston",
+  "location": {
+    "text": "Northamptonshire, England",
+    "country": "United Kingdom",
+    "state": "Northamptonshire"
+  },
+  "dates": {
+    "built": "c.1685-1695, exterior modified c.1700-02",
+    "circa": true,
+    "altered": "Double-height hall sub-divided horizontally c.1900. The parks and gardens entry records that of the two single-storey red-brick service pavilions of the 1680s only the north one survives, the south pavilion having been demolished 1780 x 1806.",
+    "note": "The listed-building entry says 'Built c.1685-95 ... probably to a design made by office of Sir Christopher Wren and executed under direction of Nicolas Hawksmoor who modified the exterior c.1700-02', and that the interior was 'still unfinished at death of Lord Lempster in 1711'. The node's own exemplar gives 1702 as the year and calls it 'Hawksmoor's only complete country house, c.1695-1702'; the register attributes the design to the Wren office and Hawksmoor only to the exterior modification. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1189225",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1189225",
+      "title": "Easton Neston House, and Attached Wing, Easton Neston - 1189225 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A tavily-search result for this entry printed 'Grade: I ; List Entry Number: 1189225 ; Date first listed: 01-Dec-1951 ; List Entry Name: Easton Neston'; neither extract returned that Overview block, so the date is carried from the search result and said to be."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001032",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001032",
+      "title": "Easton Neston, Easton Neston - 1001032 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, Grade II, first listed 25-Jun-1984 on the search result's Overview block. Its PRINCIPAL BUILDING paragraph, read in a search result and not extracted, calls the house 'a main, nine-bay, Helmdon ashlar house of the very end of the C17 and early C18', which agrees with the listed-building entry's '9-window range' and 'Limestone ashlar (Helmdon stone)'."
+    }
+  ],
+  "survey": {
+    "item": "1189225",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1189225",
+    "prepared": "Historic England's National Heritage List entry; Date first listed 01-Dec-1951 on the Overview block as a search result printed it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. Built c.1685-95 for Sir William Fermor created Baron Lempster 1692, probably to a design made by office of Sir Christopher Wren and executed under direction of Nicolas Hawksmoor who modified the exterior c.1700-02. Interior still unfinished at death of Lord Lempster in 1711.",
+        "page": "Official list entry 1189225, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Limestone ashlar (Helmdon stone), lead roofs, stone internal stacks.",
+        "page": "Official list entry 1189225, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Double-pile plan with central cross passage. English Baroque style. 2 storeys and basement; 9-window range.",
+        "page": "Official list entry 1189225, Details, opening paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Otherwise 40-pane sash windows to ground and first floors with moulded eared stone surrounds. Giant order of composite pilasters and columns, the latter flanking central bay, pilasters defining the others. Channelled rustication to basement which has segmental-headed, keyblocked windows.",
+        "page": "Official list entry 1189225, Details, entrance front"
+      },
+      {
+        "field": "cornice",
+        "text": "End bays break forward slightly, 5-bay centre breaks forward slightly further with pronounced break-forward to central bay. Full entablature with plain frieze except to central bay which bears Fermor motto HORA E SEMPRE. Segmental-arched pediment above framing family coat of arms. Balustraded parapet, with piers above pilasters bearing urns except for pair of lions facing inwards above inner pilasters either end.",
+        "page": "Official list entry 1189225, Details, entrance front"
+      },
+      {
+        "field": "bays",
+        "text": "North side elevation of seven bays has central ground floor window similar to ground and first floor windows of main fronts. Very large round-arched window above, lighting staircase.",
+        "page": "Official list entry 1189225, Details, north side elevation"
+      },
+      {
+        "field": "stairways",
+        "text": "Interior: double-height hall sub-divided horizontally c.1900 retains chimneypiece by William Kent and stone Corinthian columns. Stone cantilever staircase rises in two long flights with intermediate landings and has fine wrought-iron balustrade with inter-linked Ls for Lempster.",
+        "page": "Official list entry 1189225, Details, Interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys and basement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Two storeys over a basement; the entry counts the basement separately."
+    },
+    {
+      "name": "front_bay_count",
+      "as_printed": "9-window range",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "side_bay_count",
+      "as_printed": "North side elevation of seven bays",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "sash_pane_count",
+      "as_printed": "40-pane sash windows",
+      "value": 40,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "centre_break_bay_count",
+      "as_printed": "5-bay centre breaks forward",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE MOST MEASURABLE RECORD IN THE BAROQUE HALF, AND IT IS THE LEAST FAMOUS BUILDING IN IT. The entry states the plan type in words the corpus already uses -- 'Double-pile plan with central cross passage' -- and then a whole envelope: two storeys and basement, nine-window range on the main fronts, seven bays on the side, a giant composite order, channelled rustication to the basement and a balustraded parapet. Castle Howard, three hundred times better known, has none of it. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was returned by any extract of THIS entry, so no `rights_evidence` is recorded rather than one borrowed from a sibling entry; Historic England does print one in the footer of the official-list-entry view, read verbatim on 5 Sep 2026 on entry 1253989 and recorded there."
+}

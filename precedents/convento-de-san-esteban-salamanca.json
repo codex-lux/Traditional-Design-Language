@@ -1,0 +1,65 @@
+{
+  "id": "convento-de-san-esteban-salamanca",
+  "name": "Convento de San Esteban",
+  "aka": [
+    "Convento de San Esteban (Salamanca)"
+  ],
+  "location": {
+    "text": "Salamanca, Spain",
+    "country": "Spain",
+    "state": "Castile and Leon"
+  },
+  "dates": {
+    "built": "1524-1610",
+    "circa": false,
+    "note": "The article's infobox prints 'Fundación 1256', 'Construcción 1524 - 1610' and 'Arquitecto Juan de Álava'; the node's exemplar says 'Facade begun 1524 by Juan de Alava, completed 1610'. THE ARTICLE'S OWN FACADE SECTION DISAGREES WITH ITS OWN INFOBOX: 'Fue diseñada por Rodrigo Gil de Hontañón'. Both attributions are recorded and neither is resolved here."
+  },
+  "nodes": [
+    "spanish-plateresque"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "url": "https://es.wikipedia.org/wiki/Convento_de_San_Esteban_(Salamanca)",
+      "title": "Convento de San Esteban (Salamanca) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CODE IS RECORDED because none was printed in the extract; the infobox prints only 'Categoría Monumento' under 'Bien de interés cultural'. The article's own category line reads 'Bienes protegidos de España declarados en 1890'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Convento_de_San_Esteban_(Salamanca)",
+      "title": "Convento de San Esteban (Salamanca) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-convento-de-san-esteban-salamanca",
+    "data_url": "https://es.wikipedia.org/wiki/Convento_de_San_Esteban_(Salamanca)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "La fachada está compuesta por la portada de la iglesia y el pórtico de acceso, siendo considerada una de las grandes obras maestras del estilo plateresco. Fue diseñada por Rodrigo Gil de Hontañón y se concibió como un gigantesco retablo decorado con una ingente cantidad de simbología.",
+        "page": "Spanish Wikipedia, section 'Arte y arquitectura', subsection 'Fachada'"
+      },
+      {
+        "field": "significance",
+        "text": "El convento fue hogar para importantes dominicos como Francisco de Vitoria. Muchos de ellos profesores de la universidad, esto dio un gran prestigio al convento en cuanto a su papel en la enseñanza y la defensa de aspectos teológicos, algo que se muestra en las numerosas concesiones papales que aumentaban las cátedras de la casa de estudio.",
+        "page": "Spanish Wikipedia, historical section preceding 'Arte y arquitectura'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portada_is_a_retablo",
+      "as_printed": "se concibió como un gigantesco retablo",
+      "from_quote": 0,
+      "note": "NOT A NUMBER AND KEPT ANYWAY. This node's thesis is that the proportional system of a plateresque front is retablo proportion and not classical proportion; here a source states the identity in as many words, of a facade at cathedral scale. It has no value and no unit because it is not a quantity, and it is the strongest corroboration of the node's own reading that this cluster found."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. NO DIMENSION IS RECORDED: no extract of this article returned a height, a width or a register count for the facade the node names it for. The record is carried for the retablo identification and for a contradiction inside its own source."
+}

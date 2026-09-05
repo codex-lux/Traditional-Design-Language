@@ -1,0 +1,114 @@
+{
+  "id": "bedford-square",
+  "name": "Bedford Square",
+  "location": {
+    "text": "Bloomsbury, London, England",
+    "country": "England",
+    "state": "Camden, Greater London"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "1775-1786",
+    "circa": false,
+    "note": "The listed-building entry for the east side (Nos 1-10) prints '1775-1786'. The registered park-and-garden entry for the square, 1000245, prints 'Bedford Square was built between 1776 and 1780'. The node's own exemplars give 1783 and 1775-83. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "english-georgian",
+    "english-georgian-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1272304",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1272304",
+      "title": "Numbers 1-10 and Attached Railings, Non Civil Parish - 1272304 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The entry covers the east side of the square and is the source of this record's survey block."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000245",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000245",
+      "title": "Bedford Square, Non Civil Parish - 1000245 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry for the square itself, which describes the square as a whole rather than any one terrace."
+    }
+  ],
+  "survey": {
+    "item": "1272304",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1272304",
+    "prepared": "The entry's own Details header prints the listing date 24/10/51. Neither extract returned the Overview block, so the 'Date first listed' as that block renders it is not recorded here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Terrace of 10 houses forming the east side of a square. 1775-1786. All built by W Scott, No.6 with R Grews; Nos 1, 6 & 10 known to have been designed by Thomas Leverton, the remainder either by Thomas Leverton or Robert Palmer; for the Bedford Estate. Nos 2-10 form a symmetrical terrace.",
+        "page": "Official list entry 1272304, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Yellow stock brick with evidence on most of the houses of tuck pointing. Plain stucco band at 1st floor level. The centre house, No.6, is stuccoed. Slate mansard roofs with dormers and tall slab chimney-stacks.",
+        "page": "Official list entry 1272304, Details, opening paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: 3 storeys, attics and basements. 3 windows each except No.6 with 5 windows.",
+        "page": "Official list entry 1272304, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Recessed, round-headed entrances with Coade stone vermiculated intermittent voussoirs and bands; mask keystones. Enriched impost bands and cornice-heads to doors. Side lights to panelled doors, some 2-leaf. Fanlights, mostly radial patterned. Gauged brick flat arches to recessed sashes, most with glazing bars. Nos 1 & 5-9 have cast-iron balconies to 1st floor windows. Cornice and parapet, Nos 2 & 10 with balustraded parapets.",
+        "page": "Official list entry 1272304, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "significance",
+        "text": "HISTORICAL NOTE: the houses in Bedford Square form an important and complete example of C18 town planning. Built as a speculation, it is not clear who designed all the houses.",
+        "page": "Official list entry 1272304, Details, HISTORICAL NOTE"
+      },
+      {
+        "field": "other",
+        "text": "CAMDEN TQ2981NE BEDFORD SQUARE 798-1/99/75 (East side) 24/10/51 Nos.1-10 (Consecutive) and attached railings (Formerly Listed as: BEDFORD SQUARE Nos.1-54 (Consecutive)) GV I",
+        "page": "Official list entry 1272304, Details, entry header"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "Terrace of 10 houses forming the east side of a square",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Ten houses on the east side only. The entry's own header records that the square was formerly listed as Nos.1-54 consecutive, so the square as a whole is larger."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys, attics and basements",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three main storeys; the entry names the attic and the basement separately, so a section through one of these houses crosses five floors."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 windows each except No.6 with 5 windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "'Windows' is the list entry's word for a bay. Three to each house except the stuccoed centre house No.6, which has five."
+    },
+    {
+      "name": "centre_house_bay_count",
+      "as_printed": "No.6 with 5 windows",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1272304",
+  "note": "Tranche 3, the Georgian house and the Regency, 5 Sep 2026. A group record: Bedford Square is four terraces round a garden and Historic England lists each side separately, so the survey block is the entry for the east side and the record says so rather than pretending one entry covers the square. The entry was extracted twice with different queries; the second pass returned the entry header and the opening paragraph, which the first did not. Quotes are the entry's own text with its line-wrapping whitespace collapsed to single spaces and nothing else changed. The rights line is the sentence Historic England prints at the foot of every list entry alike; no licence is read out of it."
+}

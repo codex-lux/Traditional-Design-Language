@@ -1,0 +1,89 @@
+{
+  "id": "pantheon-paris",
+  "name": "Pantheon (church of Sainte-Genevieve)",
+  "aka": [
+    "Panthéon",
+    "Ancienne église Sainte-Geneviève, devenue Le Panthéon",
+    "Église Sainte-Geneviève"
+  ],
+  "location": {
+    "text": "Place du Pantheon, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1755-1780 (the span of the campaign years the Mérimée notice prints)",
+    "circa": true,
+    "altered": "The Mérimée notice records that the church 'a été transfomée en monument commémoratif pendant la Révolution', was returned to worship under the Restoration and became a commemorative building again during the nineteenth century; it names Quatremère de Quincy, who walled up the windows.",
+    "note": "THE REGISTER'S CAMPAIGN YEARS DO NOT MATCH THE NODE'S DATES. The node's exemplar says 'foundations 1758, completed 1790 by Rondelet'; the Mérimée notice prints 'Année(s) de(s) campagne(s) de construction 1755 ; 1764 ; 1780' and dates the principal campaign '2e moitié 18e siècle'. fr.wikipedia's infobox prints 'Construction 1757-1790 (projet : 1744)' and 'Hauteur 84 m'. Three sources, three sets of years; none is changed here."
+  },
+  "nodes": [
+    "french-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088420",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088420",
+      "title": "Ancienne église Sainte-Geneviève, devenue Le Panthéon",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 1920/04/12 : classé MH ; 2008/02/13 : classé MH'. The reference was read from the fr.wikipedia list of monuments historiques of the 5th arrondissement, which prints 'Panthéon | place du Panthéon | « PA00088420 » | Classé | 1920 2008'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Panth%C3%A9on_(Paris)",
+      "title": "Panthéon (Paris) — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read for the infobox, which prints 'Style Néo-classicisme', 'Architecte Jacques-Germain Soufflot / Jean Rondelet', 'Construction 1757-1790 (projet : 1744)' and 'Hauteur 84 m'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088420",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088420",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "L'église Saint-Geneviève, édifiée par Soufflot dans la seconde moitié du 18e siècle, a été transfomée en monument commémoratif pendant la Révolution. Elle est rendue au culte sous la Restauration, mais redevient édifice commémoratif dans le courant du 19e siècle.",
+        "page": "Notice Mérimée PA00088420, section 'Historique de l'édifice', field 'Description historique'. The notice's own spellings 'Saint-Geneviève' and 'transfomée' are left as read. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1755 ; 1764 ; 1780",
+        "page": "Notice Mérimée PA00088420, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Soufflot Jacques-Germain (architecte) ; Rondelet (maître de l'oeuvre) ; Quatremère de Quincy Antoine-Chrysostome (architecte)",
+        "page": "Notice Mérimée PA00088420, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "L'ensemble immobilier dénommé le Panthéon, place du Panthéon, comprenant l'édifice, le sol de son enclos et ses grilles (cad. BK 1) : classement par arrêté du 12 avril 1920, modifié par arrêté du 13 février 2008",
+        "page": "Notice Mérimée PA00088420, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_campaign_count",
+      "as_printed": "1755 ; 1764 ; 1780",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "first_campaign_year",
+      "as_printed": "1755",
+      "value": 1755,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A year, not a dimension, and three years earlier than the 1758 the node's exemplar gives for the foundations. `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The pivotal building of this node's own argument - 'Soufflot's Sainte-Genevieve is the pivotal object because it takes the structural ambition of Gothic ... and executes it in a wholly classical vocabulary, using iron cramps hidden inside the piers' - and the register says nothing about any of it: no material, no order, no pier dimension, no iron. It records the building's changes of USE, which is what a protection notice is for. The 84 m height is on fr.wikipedia only and is therefore not carried as a measurement. No rights line was read, so no `rights_evidence`."
+}

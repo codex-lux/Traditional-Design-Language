@@ -1,0 +1,74 @@
+{
+  "id": "red-house-bexleyheath",
+  "name": "Red House",
+  "location": {
+    "text": "Bexleyheath, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (London Borough of Bexley)"
+  },
+  "dates": {
+    "built": "1859",
+    "note": "The list entry gives the single year 1859. The node's exemplar note says 'Built 1859-60'; the Wikipedia article says the house was co-designed in 1859 and construction was completed in 1860. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "arts-and-crafts-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1064203",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1064203",
+      "title": "Red House, Non Civil Parish - 1064203 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text's own header reads 'RED HOUSE LANE 1. 5005 Bexleyheath Red House TQ 4875 8/6 25.5.50 GV', carrying the date first listed (25 May 1950). No Overview 'Date first listed' or 'Grade' line was returned by either extract; the Wikipedia categories give Grade I."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Red_House,_Bexleyheath",
+      "title": "Red House, Bexleyheath - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox gives Architectural style 'Arts and Crafts', Location 'Red House Lane, Bexleyheath, London, England', Completed 1859, Client William Morris, Owner the National Trust and Architects William Morris and Philip Webb, with Edward Burne-Jones as other designer; its categories include 'Grade I listed houses in London'."
+    }
+  ],
+  "survey": {
+    "item": "1064203",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1064203",
+    "prepared": "Date first listed: 25 May 1950, as the entry's own Details header prints it ('TQ 4875 8/6 25.5.50').",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1859. By Philip Webb (his first commission) for William Morris, who lived here until 1864. Moderately sized L-shaped building, of 2 storeys. Picturesque design in the simplified Gothic style of Street and Butterfield's domestic work. Red brick, with hipped tiled roof. Gabled, 2 storeyed, porch to north front. Oriel to west lighting main room on first floor. Staircase tower in angle, with pointed roof and finials.",
+        "page": "Official list entry, Details section, paragraph 2 (List Entry Number 1064203)."
+      },
+      {
+        "field": "openings",
+        "text": "Sliding sash windows, singly and in pairs, with cambered heads beneath relieving arches. Casements with leaded lights of circular form to upper floor. Interior almost unaltered. Important fixed cupboards, settle and other furnishings with some painted decoration by Burne-Jones and others.",
+        "page": "Official list entry, Details section, paragraph 2, continued to the end of the entry."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "L-shaped building, of 2 storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys, stated without qualification -- unusual in this cluster, where four register entries decline to give one figure."
+    },
+    {
+      "name": "porch_storey_count",
+      "as_printed": "Gabled, 2 storeyed, porch to north front",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1064203",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. The register's reading contradicts the node's on the point the node cares most about. The node's prose says Red House had 'no style label available to describe it' and that it is where the English tradition 'stops copying periods and starts studying construction'; Historic England calls it a 'Picturesque design in the simplified Gothic style of Street and Butterfield's domestic work' -- that is, a label, and the same label the corpus's own `gothic-revival-british` node carries. The entry also records sliding sashes on the ground floor and leaded casements above, which is the mixed fenestration the node's own note describes as 'sash and casement windows of different shapes placed where the rooms wanted them'."
+}

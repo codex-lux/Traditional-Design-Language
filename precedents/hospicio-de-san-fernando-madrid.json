@@ -1,0 +1,60 @@
+{
+  "id": "hospicio-de-san-fernando-madrid",
+  "name": "Hospicio de San Fernando, portada (now Museo de Historia de Madrid)",
+  "aka": [
+    "Real Hospicio de San Fernando",
+    "Museo de Historia de Madrid",
+    "Museo Municipal de Madrid"
+  ],
+  "location": {
+    "text": "Madrid, Spain",
+    "country": "Spain",
+    "state": "Community of Madrid"
+  },
+  "dates": {
+    "built": "1722-1726",
+    "circa": false,
+    "altered": "Only the chapel of the original foundation survives; the rest was rebuilt in the 18th century. A municipal museum since 10 June 1929.",
+    "note": "The node's exemplar gives 1722-1726 for Pedro de Ribera's portada. The article's infobox instead prints 'Construcción 1673 (originalmente Real Hospicio de San Fernando)', which is the foundation of the institution and not the doorway; its text says the building was 'construido en el siglo XVIII por el arquitecto Pedro de Ribera'. Both are recorded and neither is resolved."
+  },
+  "nodes": [
+    "churrigueresque"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "url": "https://es.wikipedia.org/wiki/Museo_de_Historia_de_Madrid",
+      "title": "Museo de Historia de Madrid - Wikipedia, la enciclopedia libre; the infobox prints 'Edificio BIC (1919)'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CODE IS RECORDED because none was printed; the infobox gives only the year of protection, 1919, and the heading 'Monumento arquitectónico-artístico'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Museo_de_Historia_de_Madrid",
+      "title": "Museo de Historia de Madrid - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-museo-de-historia-de-madrid",
+    "data_url": "https://es.wikipedia.org/wiki/Museo_de_Historia_de_Madrid",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER, and an article about a museum rather than about a doorway.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Ocupa el edificio del Real Hospicio de San Fernando, construido en el siglo XVIII por el arquitecto Pedro de Ribera en estilo barroco. La portada principal es considerada como una de las obras más representativas del barroco civil español.",
+        "page": "Spanish Wikipedia, opening section"
+      },
+      {
+        "field": "condition",
+        "text": "En 1673 se fundó el Real Hospicio del Ave María y San Fernando. Del primitivo edificio solamente se conserva la capilla, ya que fue reformado en el siglo XVIII.",
+        "page": "Spanish Wikipedia, section 'Historia'"
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. NO MEASUREMENT IS RECORDED. Neither extract returned a dimension for the portada, and the node's own claim about this building -- 'ornament exploding out of an otherwise plain brick institutional block' -- is nowhere stated by the source, which describes the doorway and says nothing whatever about the wall around it. The absence is the finding."
+}

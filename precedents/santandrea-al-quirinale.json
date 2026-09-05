@@ -1,0 +1,73 @@
+{
+  "id": "santandrea-al-quirinale",
+  "name": "Sant'Andrea al Quirinale",
+  "aka": [
+    "Chiesa di Sant'Andrea al Quirinale"
+  ],
+  "location": {
+    "text": "Via del Quirinale, Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "from 1658",
+    "circa": false,
+    "note": "Roma Capitale's German version of the same record says the church 'wurde ab 1658 ... erbaut'; the node's exemplar note gives 1658-1670. The English page read here dates nothing."
+  },
+  "nodes": [
+    "italian-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.turismoroma.it/en/places/church-santandrea-al-quirinale",
+      "title": "The church of Sant'Andrea al Quirinale | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Roma Capitale's own monument record, English version."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription."
+    }
+  ],
+  "survey": {
+    "item": "church-santandrea-al-quirinale",
+    "data_url": "https://www.turismoroma.it/en/places/church-santandrea-al-quirinale",
+    "prepared": "Roma Capitale, Turismo Roma, monument record 'The church of Sant'Andrea al Quirinale'; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Commissioned by Cardinal Camillo Pamphilj, with the approval of Pope Alexander VII Chigi, the church of Sant’Andrea al Quirinale was designed by Gian Lorenzo Bernini, who considered it his best work for the perfect balance between architecture, sculpture and painting.",
+        "page": "Turismo Roma, Sant'Andrea al Quirinale, opening paragraph"
+      },
+      {
+        "field": "porches",
+        "text": "Preceded by a semicircular staircase and an elegant curvilinear prothyrum supported by two columns, the simple single-order facade is framed by pilasters and crowned by a tympanum, adorned with the great coat of arms of Cardinal Pamphilj, who financed its construction, accompanied by a festoon of garlands of roses symbolizing martyrdom.",
+        "page": "Turismo Roma, Sant'Andrea al Quirinale, facade paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Adorned with precious polychrome marble, stucco decoration and gilding, the building has an oval plan with the major axis perpendicular to the entrance. The radial chapels are set back so as not to interrupt the continuous rhythm of the oval and the impression of great spatial breathing. The beautiful dome with lantern, decorated with large stucco figures lying on the window frames, generates a multiplicity of light sources which, depending on the hours of the day, determine suggestive lighting effects.",
+        "page": "Turismo Roma, Sant'Andrea al Quirinale, interior paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "prothyrum_column_count",
+      "as_printed": "an elegant curvilinear prothyrum supported by two columns",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The register states the node's own reading of this building exactly and independently: 'an oval plan with the major axis perpendicular to the entrance', which is the transverse oval the node calls 'the compression of the approach ... the whole design'. It also states something the node's Baroque tells do not admit -- 'the simple SINGLE-ORDER facade' -- against a tell list built around the giant order with a small order tucked beneath it."
+}

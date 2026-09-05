@@ -1,0 +1,123 @@
+{
+  "id": "knightshayes-court",
+  "name": "Knightshayes Court",
+  "location": {
+    "text": "Bolham, Tiverton, Devon, England",
+    "country": "United Kingdom",
+    "state": "Devon"
+  },
+  "dates": {
+    "built": "1869-1874",
+    "altered": "Internal decoration mostly to the designs of J D Crace, who replaced Burges in 1875; smoking room of 1902 to the designs of Ernest George; the great hall redecorated in 1914, when the timber hooded chimney-piece was reduced and the screens passage probably removed.",
+    "note": "The list entry gives '1869-1874' and, in a second sentence, a smoking room 'added by George & Yates in 1901' beside the 1902 attribution in its own opening paragraph -- two dates for one room, in one entry, and neither is changed here. The Wikipedia article says the foundation stone was laid in 1869 and the building was complete by 1874."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1384684",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1384684",
+      "title": "Knightshayes Court, Tiverton - 1384684 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Overview block carries Grade 'I', List Entry Number '1384684' and Date first listed '12-May-1975'; the Details text prints the same date in the entry's own form, '12/05/75', under the reference '848-1/2/10'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000487",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000487",
+      "title": "Knightshayes Court, Tiverton - 1000487 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park and garden entry, which describes the principal building independently: red Hensley stone with Ham stone dressings under a slate roof, two storeys with attics lit by bold gabled dormers, gabled wings with two-storey canted bay windows at the south-west and south-east corners of the garden facade, and a projected massive tower on the north facade that was not executed. Its storey reading agrees with the listed-building entry's garden elevation and not with its 'Single storey hall, otherwise 2 and 3 storeys'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Knightshayes_Court",
+      "title": "Knightshayes Court - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "It quotes Pevsner calling the house 'an eloquent expression of High Victorian ideals in a country house of moderate size', and records that Burges was dismissed in 1874 over cost and style and replaced by J D Crace."
+    }
+  ],
+  "survey": {
+    "item": "1384684",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1384684",
+    "prepared": "Date first listed: 12-May-1975, as the Overview block prints it; the Details text prints '12/05/75'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Country House. 1869-1874 for Sir John Heathcoat-Amory, the grandson of John Heathcoat, the Tiverton factory owner, to the designs of William Burges. Designs for internal decoration partly Burges, but mostly to the designs of JD Crace, who replaced Burges in 1875. First class carved decoration by Thomas Nicholls. Smoking room of 1902 to the designs of Ernest George. MATERIALS: snecked red Hensley stone with Ham Hill dressings; red tiled roof; stacks with embattled stone shafts; some cast-iron rainwater goods. STYLE: early French Gothic.",
+        "page": "Official list entry, Details section, opening paragraph and MATERIALS and STYLE headings (List Entry Number 1384684)."
+      },
+      {
+        "field": "plan",
+        "text": "PLAN: on a west east axis. The garden (south) elevation has a vista down to Tiverton town and the Heathcoat factory in the distance.",
+        "page": "Official list entry, Details section, PLAN heading; the first extract's span ends at 'Overall U-plan, double-depth, with hall in the'."
+      },
+      {
+        "field": "plan",
+        "text": "Overall U-plan, double-depth, with hall in the centre, north side with a hall bay and north porch. Principal stair rises from hall at the west end. Reception rooms along south side, overlooking formal garden; single storey billiard room projects to north towards east of main range.",
+        "page": "Official list entry, Details section, PLAN heading; returned as a continuous span by the second extract, which overlaps the first at 'distance. Overall U-plan'."
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: front elevation: Single storey hall, otherwise 2 and 3 storeys. Gothic details include coped gables with crocketed finals; corbelled cornice to battlemented stair turret and variety of window forms including lancets and plate tracery. Irregular 2:1:4:3 window front plus single storey smoking room at right end.",
+        "page": "Official list entry, Details section, EXTERIOR heading, entrance (north) front."
+      },
+      {
+        "field": "bays",
+        "text": "The garden elevation is more regular than the north side but not quite symmetrical. 1:5:1 window front plus service wing to right and conservatory to left. End wings broken forward and gabled to the front. There is a moulded string course at first-floor level and deeply projecting cornice with elaborate gargoyles to the roll moulded parapet at second-floor level.",
+        "page": "Official list entry, Details section, garden elevation paragraph."
+      },
+      {
+        "field": "dormers",
+        "text": "Gabled half dormers at second-floor level with windows set in recessed arches. Diapered tympana. 2-light transomed mullion windows except extreme left which is 3 light. Massive stone gargoyles and fleurons throughout.",
+        "page": "Official list entry, Details section, garden elevation paragraph, continued."
+      },
+      {
+        "field": "finishes",
+        "text": "INTERIOR: well-described in Pevsner, including various alterations and an account of the restorations. The great hall is the most spectacular room with a 4-bay arch braced roof springing from first quality carved corbels.",
+        "page": "Official list entry, Details section, INTERIOR heading."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Single storey hall, otherwise 2 and 3 storeys",
+      "from_quote": 3,
+      "note": "Three figures in one clause and no single value is parsed. The registered park and garden entry for the same house reads it as 'two storeys with attics', so the corpus holds two readings of one building from one register."
+    },
+    {
+      "name": "garden_front_window_bay_count",
+      "as_printed": "1:5:1 window front",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The entry prints the rhythm and not a total; seven bays is a reading of it, marked as one."
+    },
+    {
+      "name": "entrance_front_window_bay_count",
+      "as_printed": "Irregular 2:1:4:3 window front",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The same reading applied to the north front, whose rhythm the entry itself calls irregular; ten bays is a reading, marked as one."
+    },
+    {
+      "name": "great_hall_bay_count",
+      "as_printed": "a 4-bay arch braced roof",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1384684",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `gothic-revival-british`. The entry is unusually explicit about the plan -- 'Overall U-plan, double-depth, with hall in the centre' with reception rooms along the south and service to the right -- which is the sort of statement the corpus's parti layer can be held against, and it is the only one in this cluster that names a pile. It is also the cleanest instance in the cluster of two Historic England entries reading one building's storeys differently."
+}

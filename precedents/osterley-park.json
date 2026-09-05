@@ -1,0 +1,104 @@
+{
+  "id": "osterley-park",
+  "name": "Osterley Park",
+  "aka": [
+    "Osterley House",
+    "Osterley Park House"
+  ],
+  "location": {
+    "text": "Isleworth, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "c.1577 for Sir Thomas Gresham",
+    "circa": true,
+    "altered": "Remodelled by Robert Adam; the listed-building entry says 'remodelled by Robert Adam 1761-5. Interior - a few room retain early Georgian features, rest redecorated 1765-77.'",
+    "note": "THREE DATINGS OF THE ADAM CAMPAIGN AND NONE IS CHOSEN. The listed-building entry (1080308) says the remodelling is 1761-5 with the interiors redecorated 1765-77. The Wikipedia infobox says 'Rebuilt 1761-1765'. The node's own exemplar says 'Remodelled 1761-80'. All are recorded."
+  },
+  "nodes": [
+    "adam-style"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1080308",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1080308",
+      "title": "Osterley House, Non Civil Parish - 1080308 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, listed under the name 'Osterley House' where this corpus's exemplar says 'Osterley Park'. A search result's Overview block prints 'Grade: I. List Entry Number: 1080308. Date first listed: 21-May-1973'; the Wikipedia infobox prints 'Official name Osterley House, Designated 21 May 1973, Reference no. 1080308'. Its whole architectural description, read in the extract, is: 'Circa 1577 for Sir Thomas Gresham, remodelled by Robert Adam 1761-5. Interior - a few room retain early Georgian features, rest redecorated 1765-77.' Nothing is quoted from it in the survey block below, which is scoped to entry 1000287."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000287",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000287",
+      "title": "Osterley Park, Non Civil Parish - 1000287 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Register of Parks and Gardens entry, Grade II*. It is the entry that describes the building, which is why the survey block below is scoped to it and not to the listed-building entry."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Osterley_Park",
+      "title": "Osterley Park - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried as the second surface for both list entry numbers and the designation date, and because it names the listed building 'Osterley House' where this node's exemplar says 'Osterley Park'."
+    }
+  ],
+  "survey": {
+    "item": "1000287",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1000287",
+    "prepared": "Historic England's Register of Parks and Gardens of Special Historic Interest. Neither extract returned this entry's Overview block, so no 'Date first listed' is claimed for it. The text is dated internally by its own parenthetical readings of the year 2000.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "PRINCIPAL BUILDING Situated in the centre of the site, Osterley Park House (listed grade I) consists of red-brick wings of three storeys around a raised courtyard with a taller brick tower with stone quoins and ogee cap projecting at each outer corner.",
+        "page": "Register of Parks and Gardens list entry 1000287, PRINCIPAL BUILDING paragraph"
+      },
+      {
+        "field": "porches",
+        "text": "The courtyard is entered through a grand Ionic portico on the east side. The portico stands at the head of a flight of steps and provides an entrance to the state rooms on the first floor, this being on a level with the courtyard.",
+        "page": "Register of Parks and Gardens list entry 1000287, PRINCIPAL BUILDING paragraph"
+      },
+      {
+        "field": "stairways",
+        "text": "On the west side of the house a curved double staircase leads down from a pedimented door in the first-floor gallery to the garden. The mansion overlooks the east lawn with views to the Middle Lake.",
+        "page": "Register of Parks and Gardens list entry 1000287, PRINCIPAL BUILDING paragraph"
+      },
+      {
+        "field": "dependencies",
+        "text": "To the north of the mansion is the red-brick stable block (listed grade I). Built around a three-sided courtyard, the two-storey building has attics and turrets in the two internal angles.",
+        "page": "Register of Parks and Gardens list entry 1000287, DESCRIPTION, stable block"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "red-brick wings of three storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "corner_tower_count",
+      "as_printed": "a taller brick tower with stone quoins and ogee cap projecting at each outer corner",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A READING: 'each outer corner' of a courtyard block is four. The entry states the arrangement and not the number."
+    },
+    {
+      "name": "stable_block_storey_count",
+      "as_printed": "the two-storey building has attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE PIANO NOBILE IS STATED AS A CONSEQUENCE OF THE COURTYARD, WHICH IS THE ONE PLANNING FACT IN THIS RECORD A GENERATOR COULD USE: the portico 'provides an entrance to the state rooms on the first floor, this being on a level with the courtyard' -- the principal floor is at courtyard level because Adam raised the courtyard, not because he raised the house. The Etruscan Dressing Room this node's exemplar names is in neither Historic England entry. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

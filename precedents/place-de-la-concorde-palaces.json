@@ -1,0 +1,90 @@
+{
+  "id": "place-de-la-concorde-palaces",
+  "name": "Place de la Concorde, twin palaces",
+  "record_kind": "group",
+  "aka": [
+    "Place de la Concorde",
+    "Hôtel de la Marine",
+    "Hôtel de Crillon",
+    "Hôtel de Coislin",
+    "les deux palais de Gabriel"
+  ],
+  "location": {
+    "text": "Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1757-1772 (the campaign years the Mérimée notice prints for the square)",
+    "circa": true,
+    "altered": "The notice adds campaign years 1836 and 1840 and names Hittorff beside Gabriel - the obelisk, the fountains and the rostral columns are the nineteenth-century layer.",
+    "note": "The node's exemplar says 'Ange-Jacques Gabriel, 1755-1775'. The Mérimée notice for the square prints 'Année(s) de(s) campagne(s) de construction 1757 ; 1772 ; 1836 ; 1840'. Neither is changed."
+  },
+  "nodes": [
+    "french-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088880",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088880",
+      "title": "Place de la Concorde - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The listing of the SQUARE, classed 23 August 1937. Read from the fr.wikipedia list of monuments historiques of the 8th arrondissement, which prints 'Place de la Concorde | Place de la Concorde | « PA00088880 » | Classé | 1937', and then extracted."
+    },
+    {
+      "kind": "merimee",
+      "id": "PA00088825",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088825",
+      "title": "Hôtel Crillon",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "One of Gabriel's two fronts, listed separately. Read from the same fr.wikipedia list, which prints 'Hôtel Crillon | 10 place de la Concorde 2 rue Boissy-d'Anglas | « PA00088825 » | Classé | 1900'. Not extracted."
+    },
+    {
+      "kind": "merimee",
+      "id": "PA00088824",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088824",
+      "title": "Hôtel de Coislin",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the same list: 'Hôtel de Coislin | 4 place de la Concorde 1 rue Royale | « PA00088824 » | Classé | 1923'. Not extracted."
+    }
+  ],
+  "survey": {
+    "item": "PA00088880",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088880",
+    "prepared": "The notice prints 'Date de dernière modification de la notice 16 avril 2026' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "La place de la Concorde telle qu'elle est délimitée par le Ministère de la Marine, les Hôtels Coislin, du Plessis-Bellière, Cartier et Crillon, les Champs-Elysées, la Seine et le jardin des Tuileries, avec son sol, ses fontaines, ses statues, ses petits pavillons appelés autrefois guérites, ses balustrades, ses colonnes rostrales et ses lampadaires : classement par arrêté du 23 août 1937",
+        "page": "Notice Mérimée PA00088880, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Gabriel Jacques-Ange ; ou ; Gabriel Ange-Jacques (architecte) ; Hittorff Jacques Ignace (architecte)",
+        "page": "Notice Mérimée PA00088880, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1757 ; 1772 ; 1836 ; 1840",
+        "page": "Notice Mérimée PA00088880, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bounding_building_count",
+      "as_printed": "le Ministère de la Marine, les Hôtels Coislin, du Plessis-Bellière, Cartier et Crillon",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The five buildings the arrêté names as the square's northern edge. It is the register's own enumeration and it is why this record is a `group`: what the node calls 'twin palaces' is, in the listing, a square bounded by five separately protected buildings."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. `record_kind: group`, AND THE REASON IS A FINDING RATHER THAN A CONVENIENCE. The corpus's exemplar is 'Place de la Concorde, twin palaces' - Gabriel's two colonnaded fronts framing the Rue Royale. In the Base Mérimée that object does not exist as one thing: PA00088880 lists the SQUARE and its own text EXCLUDES the buildings, defining the place as bounded by the Ministère de la Marine and the Hôtels Coislin, du Plessis-Bellière, Cartier and Crillon; each of those is separately listed under its own PA number and its own date (Crillon 1900, Coislin 1923). Three references are therefore carried and the record is declared a group. Only PA00088880 was extracted; the two hôtel notices are locators read from a Wikipedia list table and are not quoted. No rights line was read, so no `rights_evidence`."
+}

@@ -1,0 +1,82 @@
+{
+  "id": "val-di-noto-late-baroque-towns",
+  "name": "Late Baroque Towns of the Val di Noto",
+  "record_kind": "district",
+  "aka": [
+    "Late Baroque Towns of the Val di Noto (South-Eastern Sicily)"
+  ],
+  "location": {
+    "text": "South-eastern Sicily, Italy",
+    "country": "Italy",
+    "state": "Sicily"
+  },
+  "dates": {
+    "built": "rebuilt after 1693",
+    "circa": false,
+    "note": "The inscription dates the rebuilding by the event: 'the catastrophic earthquake of 1693, which ravaged towns across south-eastern Sicily'."
+  },
+  "nodes": [
+    "italian-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "1024",
+      "url": "https://whc.unesco.org/en/list/1024",
+      "title": "Late Baroque Towns of the Val di Noto (South-Eastern Sicily) - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia article read the same day prints the reference as '1024rev' and cites the ICOMOS advisory body evaluation as 'Noto (Italy) - No 1024rev, ICOMOS, January 2002'; the list URL itself carries 1024."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.visitsicily.info/en/the-baroque-cities-of-val-di-noto",
+      "title": "The Baroque Cities of the Val di Noto | Visit Sicily official page",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Regione Siciliana's official destination site. Read in a search result."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Val_di_Noto",
+      "title": "Val di Noto - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the inscription metadata and the list of the eight component towns."
+    }
+  ],
+  "survey": {
+    "item": "1024",
+    "data_url": "https://whc.unesco.org/en/list/1024",
+    "prepared": "UNESCO World Heritage Centre, list entry 1024, Statement of Outstanding Universal Value and criteria texts",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The Late Baroque Towns of the Val di Noto is comprised of components of eight towns located in south-eastern Sicily (Caltagirone, Militello Val di Catania, Catania, Modica, Noto, Palazzolo Acreide, Ragusa andScicli). These historic centres and urban environments reflect the great, post-seismic rebuilding achievement of the decades following the catastrophic earthquake of 1693, which ravaged towns across south-eastern Sicily.",
+        "page": "List entry 1024, Outstanding Universal Value, Brief synthesis. 'andScicli' is the entry's own running-together."
+      },
+      {
+        "field": "significance",
+        "text": "Criterion (iv): The exceptional quality of the late Baroque art and architecture in the Val di Noto lies in its geographical and chronological homogeneity, and is the result of the 1693 earthquake in this region.",
+        "page": "List entry 1024, Outstanding Universal Value, Criterion (iv)"
+      },
+      {
+        "field": "plan",
+        "text": "The eight components of the property continue to demonstrate with remarkable homogeneity the late Baroque art and architectural style of south-eastern Sicily in individual buildings and town planning. In particular, the almost completely preserved town plans, which have seen only few alterations, express a variety of reactions to the destruction caused by the earthquake.",
+        "page": "List entry 1024, Authenticity"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "component_town_count",
+      "as_printed": "components of eight towns located in south-eastern Sicily",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. `record_kind: district`, added as an exemplar because the node's geography names Sicily and the Mezzogiorno and it carried nothing south of Rome. It is deliberately NOT one building: what the register documents is a rebuilding programme across eight town plans, which is the node's own claim that the Baroque's most durable export was designing the space between buildings, appearing in an inscription rather than in a facade."
+}

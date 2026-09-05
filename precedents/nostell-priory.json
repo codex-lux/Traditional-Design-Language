@@ -1,0 +1,143 @@
+{
+  "id": "nostell-priory",
+  "name": "Nostell Priory",
+  "location": {
+    "text": "West Yorkshire, England",
+    "country": "England",
+    "state": "Wakefield, West Yorkshire"
+  },
+  "dates": {
+    "built": "1736-1750",
+    "circa": false,
+    "altered": "completed by Robert Adam, with some alterations, 1765-1776, and with the addition of a north wing 1779-80, as the entry states.",
+    "note": "The node's exemplar gives 1750 and 'Begun 1733 to designs by Colonel James Moyser and executed by James Paine, with later interiors by Robert Adam from 1766'. The list entry prints '1736-1750' and 'completed by Robert Adam ... 1765-1776'. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "english-georgian-country-house"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1262071",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1262071",
+      "title": "Nostell Priory, Huntwick with Foulby and Nostell - 1262071 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the search listing for the same page prints 'Date first listed: 06-Jun-1952'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001224",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001224",
+      "title": "Nostell Priory, Huntwick with Foulby and Nostell - 1001224 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, Grade II*."
+    }
+  ],
+  "survey": {
+    "item": "1262071",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1262071",
+    "prepared": "Date first listed: 06-Jun-1952, as the search listing for this page renders the Overview block. The extract returned the Details only.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. 1736-1750, for Sir Rowland Winn, 4th baronet, by James Paine, probably from initial designs of Col. James Moyser (based on Palladio's Villa Mocenigo); completed by Robert Adam, with some alterations, 1765-1776, and with the addition of a north wing 1779-80, for Sir Rowland Winn, 5th baronet.",
+        "page": "Official list entry 1262071, Details, opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Sandstone ashlar, stone slate roof.",
+        "page": "Official list entry 1262071, Details"
+      },
+      {
+        "field": "plan",
+        "text": "Conceived as a rectangular central block joined by quadrant wings to 4 square pavilions, of which only the southern pair were built (and one of these subsequently demolished). The main block is of double-pile circulatory plan.",
+        "page": "Official list entry 1262071, Details"
+      },
+      {
+        "field": "bays",
+        "text": "The east front, of 2 storeys raised over a rustic basement, and l3 bays, is symmetrical; it has a 5-bay centre of attached giant Ionic columns, with a plain entablature and a dentilled pediment containing a large carved coat of arms (of the Winn family)",
+        "page": "Official list entry 1262071, Details"
+      },
+      {
+        "field": "openings",
+        "text": "on the piano nobile level, a central doorway with architrave and pediment on consoles, and 12-pane sashed windows which have similar architraves with pediments alternately segmental, the windows linked by sill-bands; and at 1st floor, square 9 pane windows with architraves, that in the centre eared.",
+        "page": "Official list entry 1262071, Details"
+      },
+      {
+        "field": "roof",
+        "text": "Dentilled cornice and hipped 2-span roof with 6 chimneys rising within the valley (3 each side of the centre).",
+        "page": "Official list entry 1262071, Details"
+      },
+      {
+        "field": "dependencies",
+        "text": "The Kitchen pavilion, to the south west, is square in plan, 3 x 3 bays, of 2 storeys over a basement, with attic, and symmetrical in each facade: except for the east side (attached to the quadrant passage),each has a central coved niche with pedimented architrave, 15-pane sashes at ground floor and 9-pane sashes above, all with raised surrounds; and a pyramidal roof with a pedimented dormer in the centre of each side, and a large square apex chimney.",
+        "page": "Official list entry 1262071, Details, Kitchen pavilion paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "The west front has giant Ionic pilasters to a 5-bay pedimented centre breaking forwards slightly, a small doorway in the centre of the rustic, and windows matching those in the front.",
+        "page": "Official list entry 1262071, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "of 2 storeys raised over a rustic basement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "l3 bays",
+      "value": 13,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The entry's typography prints a lowercase letter l for the numeral 1. Read as 13, which is what a 5-bay centre with four bays each side gives; a reading, marked as one."
+    },
+    {
+      "name": "centre_bay_count",
+      "as_printed": "a 5-bay centre of attached giant Ionic columns",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "window_pane_count_piano_nobile",
+      "as_printed": "12-pane sashed windows",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "window_pane_count_first_floor",
+      "as_printed": "square 9 pane windows with architraves",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The upper windows are square and hold nine panes where the piano nobile holds twelve: the storey graduation stated as glazing rather than as a height."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "6 chimneys rising within the valley (3 each side of the centre)",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "square in plan, 3 x 3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1262071",
+  "note": "Tranche 3, 5 Sep 2026. The entry is unusually explicit about the storey graduation: twelve-pane sashes on the piano nobile against square nine-pane sashes at first floor, on the same elevation, which is the ladder the node's proportional system states as a ratio."
+}

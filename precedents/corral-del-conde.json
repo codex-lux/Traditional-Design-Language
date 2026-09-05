@@ -1,0 +1,66 @@
+{
+  "id": "corral-del-conde",
+  "name": "Corral del Conde",
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "16th century",
+    "circa": true,
+    "altered": "Its present disposition is 18th-century, and it appears in that configuration on Olavide's plan of Seville of 1771.",
+    "note": "The node's exemplar gives '16th century'. The Spanish article gives no century for the fabric at all: it says the origin is Muslim, with a Mudejar restructuring, and that 'su disposición actual responde a la arquitectura popular del siglo XVIII'. Both are recorded and neither is resolved."
+  },
+  "nodes": [
+    "andalusian-courtyard-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0004389-00000",
+      "url": "https://es.wikipedia.org/wiki/Corral_del_Conde",
+      "title": "Corral del Conde - Wikipedia, la enciclopedia libre; BIC RI-51-0004389-00000",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The article's authority-control block prints 'BIC: RI-51-0004389-00000', 'IAPH: 01410910050' and 'Patrimonio Cultural de Andalucía: i19271'. The article's text dates the declaration: 'Fue declarado monumento histórico-artístico, de carácter nacional, el 16 de noviembre de 1979, mediante un real decreto publicado el 18 de enero de 1980 en el Boletín Oficial del Estado'. THE DECREE ITSELF WAS NOT READ; the BOE was not reached from this container."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Corral_del_Conde",
+      "title": "Corral del Conde - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-corral-del-conde",
+    "data_url": "https://es.wikipedia.org/wiki/Corral_del_Conde",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Situado en la calle de Santiago, se trata de un edificio muy expresivo de la arquitectura popular sevillana, probablemente el más interesante y completo de todos los que existían, desaparecidos actualmente en gran parte. Consta de una construcción en forma de L que bordea toda la linde del solar y otra construcción menor en el centro que comparte el patio con los lavaderos y antiguos retretes. Todo en el edificio mira hacia su interior donde históricamente se desarrollaba una gran vida social.",
+        "page": "Spanish Wikipedia, section 'Descripción'"
+      },
+      {
+        "field": "significance",
+        "text": "Su origen es musulmán, con reestructuración mudéjar, aunque su disposición actual responde a la arquitectura popular del siglo XVIII, que respetó las morfologías tradicionales.",
+        "page": "Spanish Wikipedia, section 'Historia'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "shared_sanitary_block_count",
+      "as_printed": "otra construcción menor en el centro que comparte el patio con los lavaderos y antiguos retretes",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A reading: the article names ONE smaller building in the middle of the court sharing it with the washing places and the former privies. It is the communal sanitary arrangement the node's own text calls 'a communal well, sink and privy', and this is the only source in the cluster that states it of a real building."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. NO DIMENSION IS RECORDED. The corral de vecinos is the poorest end of the type and the least surveyed: neither extract returned a court size, a number of dwellings or a storey count, and the article gives no century for the fabric. That silence is the finding, not a gap to be filled from a guidebook."
+}

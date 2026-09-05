@@ -1,0 +1,71 @@
+{
+  "id": "patios-of-the-barrio-de-san-basilio",
+  "name": "Patios of the Barrio de San Basilio (Alcazar Viejo)",
+  "aka": [
+    "Alcázar Viejo",
+    "Barrio de San Basilio, Córdoba"
+  ],
+  "record_kind": "district",
+  "location": {
+    "text": "Cordoba, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "16th-19th century",
+    "circa": true,
+    "note": "The node's exemplar gives '16th-19th century houses'. No date for the houses was printed in any extract; the only dated thing found is the walled precinct they sit in -- the Spanish article on the walls of Cordoba says the Alcázar Viejo is one of three enclosures added 'En la última mitad del siglo XIV'."
+  },
+  "nodes": [
+    "andalusian-courtyard-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "00846",
+      "url": "https://ich.unesco.org/en/RL/fiesta-of-the-patios-in-cordova-00846",
+      "title": "Fiesta of the patios in Cordova - UNESCO Intangible Cultural Heritage",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "AN INTANGIBLE-HERITAGE INSCRIPTION, NOT A BUILDING LISTING: 'Inscribed in 2012 (7.COM) on the Representative List of the Intangible Cultural Heritage of Humanity'. It protects the festival and the practice of making and watering the patios, and it describes the houses; it does not designate any address."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Alc%C3%A1zar_Viejo",
+      "title": "Murallas de Córdoba - Wikipedia, la enciclopedia libre (the title 'Alcázar Viejo' redirects here)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Carried because it is the only source read here that says what the Alcázar Viejo IS: one of five walled enclosures of Cordoba, and one of three added in the second half of the 14th century, 'estos tres últimos en el actual barrio de San Basilio'."
+    }
+  ],
+  "survey": {
+    "item": "00846",
+    "data_url": "https://ich.unesco.org/en/RL/fiesta-of-the-patios-in-cordova-00846",
+    "prepared": "UNESCO Intangible Cultural Heritage, Representative List entry, inscribed 2012 (7.COM). The page prints no author line; its media credit reads '© Cordova City Council, 2012'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "For twelve days at the beginning of May, the city of Cordova celebrates the Fiesta of the Patios. The patio houses are communal, family or multi-family dwellings or sets of individual houses with a shared patio, located in the city’s historical quarter. This characteristic cultural space boasts an abundant array of plants, and during the fiesta inhabitants freely welcome all visitors to admire their beauty and the skill involved in their creation.",
+        "page": "UNESCO ICH, Representative List entry 00846, description; the apostrophe in 'city’s' is the page's own curly one"
+      },
+      {
+        "field": "significance",
+        "text": "It requires the selfless cooperation of many people from all age groups, social strata and backgrounds, promoting and encouraging teamwork and contributing to local harmony and conviviality.",
+        "page": "UNESCO ICH, Representative List entry 00846, description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "festival_duration_days",
+      "as_printed": "For twelve days at the beginning of May",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Not a building dimension. It is recorded because it is the only figure the inscription states and because the node's argument is that these courts are watered and shown collectively rather than owned privately."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. `record_kind: district` -- the exemplar names a QUARTER of Cordoba and no single address, and the only heritage instrument covering it protects a festival rather than a building. THIS IS THE CLUSTER'S CLEAREST CASE OF THE EVIDENCE NOT MATCHING THE CLAIM: the node's whole argument is that the patio is a poor person's shared room, and the only body that has written the type down did so as intangible heritage, so there is no plan, no dimension and no listing for any one of these houses."
+}

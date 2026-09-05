@@ -1,0 +1,89 @@
+{
+  "id": "pallant-house",
+  "name": "Pallant House",
+  "aka": [
+    "Dodo House",
+    "9 North Pallant"
+  ],
+  "location": {
+    "text": "Chichester, England",
+    "country": "England",
+    "state": "West Sussex"
+  },
+  "dates": {
+    "built": "1712",
+    "circa": false,
+    "note": "The entry's OCR prints the date as '17l2', with a lowercase letter l for the numeral 1; read as 1712, which the Overview block's search listing and two other sources also give."
+  },
+  "nodes": [
+    "english-georgian-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1354302",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1354302",
+      "title": "Pallant House, Chichester - 1354302 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the search listing for this page prints 'Date first listed: 05-Jul-1950' and 'Statutory Address: PALLANT HOUSE, 9, NORTH PALLANT', and the entry's own header prints 5.7.50."
+    }
+  ],
+  "survey": {
+    "item": "1354302",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1354302",
+    "prepared": "Date first listed: 05-Jul-1950, as the search listing for this page renders the Overview block; the entry's own Details header prints 5.7.50.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "NORTH PALLANT 1. 972 (East Side) No 9 Pallant House (sometimes called Dodo House) SU 8604 NW 4/156 5.7.50. I GV 2. 17l2. Built for Henry Peckham, Chichester wine-merchant.",
+        "page": "Official list entry 1354302, Details, entry header and opening sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "2 storeys, 7 windows Red brick with brick quoins and carved and rubbed brick voussoirs. Stringcourse above ground floor. Cornice with modillions above 1st floor. Panelled parapet",
+        "page": "Official list entry 1354302, Details"
+      },
+      {
+        "field": "openings",
+        "text": "Doorway up 9 steps with Corinthian pilasters, entablature and curved pediment; 6 panel moulded door; rectangular fanlight. Tall sash windows with flush boxes in flat arches; glazing bars intact; narrow windows flanking doorway and central window on 1st floor.",
+        "page": "Official list entry 1354302, Details"
+      },
+      {
+        "field": "finishes",
+        "text": "Good staircase and panelling; large round- headed window to staircase on east front.",
+        "page": "Official list entry 1354302, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys, 7 windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "7 windows Red brick with brick quoins",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "'Windows' is the list entry's word for a bay. Seven bays on a town house is wide; this is a merchant's free-standing house on a corner plot, not a terrace unit."
+    },
+    {
+      "name": "entrance_step_count",
+      "as_printed": "Doorway up 9 steps",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Nine risers from the street to the door: the town-house entrance raised above the pavement, stated in risers rather than in feet."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1354302",
+  "note": "Tranche 3, 5 Sep 2026. A documentary example rather than a celebrated one: an early, dated, provincial brick town house whose entry states the flush window box, which the 1709 Act was about to make illegal in London and which a Chichester house of 1712 still carries. The entry's OCR prints '17l2' and 'round- headed' with a stray space; both are carried verbatim."
+}

@@ -1,0 +1,51 @@
+{
+  "id": "joostenberg",
+  "name": "Joostenberg",
+  "location": {
+    "text": "Muldersvlei, Paarl District, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1756",
+    "circa": false,
+    "note": "1756 is the date the front gable bears, as the register description reports it. The register makes no separate claim about the date of the house behind it."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/069/0135",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Paarl",
+      "title": "Joostenberg, Muldersvlei, Paarl District -- List of heritage sites in Paarl",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    }
+  ],
+  "survey": {
+    "item": "9/2/069/0135",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Paarl",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The road from Stellenbosch to Malmesbury crosses the national road from Cape Town to Paarl by an overhead bridge about 40 kilometres from Cape Town. Not far away, in the northern angle of these two roads, amongst some trees, stands the old Cape Dutch house Type of site: Farm Complex. A particularly fine Old Cape farmhouse. The front gable bears the date 1756. It is, as far as is known, the oldest Old Cape gable still in existence and probably the only remaining gable of its type.",
+        "page": "SAHRA identifier 9/2/069/0135, description column of the Paarl heritage-site table. A register description is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "front_gable_date",
+      "as_printed": "The front gable bears the date 1756",
+      "from_quote": 0,
+      "note": "A YEAR, not a dimension, and carried with NO `value` and NO `unit` for the same reason as Morgenster's. It is here because the register attaches a superlative to it -- the oldest surviving Old Cape gable -- and a dated fabric element is the only hard chronology this cluster's sources supply."
+    }
+  ],
+  "note": "Tranche 3, Cape cluster, 5 September 2026. Added by this tranche as the earliest DATED gable the register knows of: 'It is, as far as is known, the oldest Old Cape gable still in existence and probably the only remaining gable of its type.' The superlative is the register's own and is quoted rather than restated, with its own two hedges ('as far as is known', 'probably') intact -- which is the difference between a standing this corpus may assert and one it may only report."
+}

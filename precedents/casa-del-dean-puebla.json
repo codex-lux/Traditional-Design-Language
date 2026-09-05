@@ -1,0 +1,83 @@
+{
+  "id": "casa-del-dean-puebla",
+  "name": "Casa del Dean",
+  "aka": [
+    "Casa del Deán (Puebla)",
+    "Museo Casa del Deán"
+  ],
+  "location": {
+    "text": "Puebla, Mexico",
+    "country": "Mexico",
+    "state": "Puebla"
+  },
+  "dates": {
+    "built": "1580",
+    "circa": false,
+    "altered": "Most of the house was demolished after it was sold in 1953 to build a cinema; the murals were saved between 1953 and 1954 and the restoration was directed by Hermilo Jimenez, 'aunque hay duda de que se hayan seguido criterios estrictos'. A museum since 1955.",
+    "note": "The infobox prints 'Construcción Finales del siglo XVI' and 'Inauguración 1580'; the article says the date 1580 can still be read on the upper part of the facade. The node's exemplar gives 'c. 1580', which agrees."
+  },
+  "nodes": [
+    "mexican-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Casa_del_De%C3%A1n_(Puebla)",
+      "title": "Casa del Deán (Puebla) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A WARNING FOR THE NEXT READER: the title 'Casa del Deán' without the parenthetical resolves to a DIFFERENT BUILDING -- the thirteenth-century deanery beside the cathedral of Zaragoza in Spain, plateresque-mudejar and nothing to do with New Spain. That page was extracted first in this session and discarded. Its heritage identifier, SIPCA 1-INM-ZAR-017-297-370, belongs to the Zaragoza house and appears nowhere in this record."
+    },
+    {
+      "kind": "other",
+      "url": "https://es.wikipedia.org/wiki/Casa_del_De%C3%A1n_(Puebla)",
+      "title": "'Monumento histórico', as the Spanish Wikipedia infobox heads the record; category 'Monumentos históricos y arqueológicos del Centro Histórico de Puebla'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CATALOGUE NUMBER WAS PRINTED and none is invented. The article's authority block carries only Wikidata Q19949779, VIAF and NKC identifiers."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-casa-del-dean-puebla",
+    "data_url": "https://es.wikipedia.org/wiki/Casa_del_De%C3%A1n_(Puebla)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Actualmente sólo se conserva su fachada manierista, zaguán, sala de entrada, patio, escalinata, dos habitaciones en la planta baja, y dos en la planta alta.",
+        "page": "Spanish Wikipedia, opening section"
+      },
+      {
+        "field": "general_description",
+        "text": "En la parte superior de la fachada se puede ver aún una fecha: 1580, lo que hace a esta casa una de las más antiguas que aún se conservan en la ciudad.",
+        "page": "Spanish Wikipedia, section 'Fachada de la Casa del Deán'"
+      },
+      {
+        "field": "condition",
+        "text": "Aunque desde 1923 se sabía de la existencia de murales únicos del siglo XVI en esta casa, esto no fue motivo para evitar que la propiedad se vendiera en 1953 para construir un cine.",
+        "page": "Spanish Wikipedia, section 'Fachada de la Casa del Deán'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "surviving_room_count",
+      "as_printed": "dos habitaciones en la planta baja, y dos en la planta alta",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four rooms survive of the whole house, two on each level, beside the facade, zaguan, entrance hall, patio and stair. A reading of two plus two, which the article does not add up."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "dos habitaciones en la planta baja, y dos en la planta alta",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Planta baja and planta alta -- ground and one above, so two levels. Unambiguous here in a way the Casa de los Pinelo's 'segunda planta' is not."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. TWO THINGS WORTH CARRYING. The style is called MANIERISTA by its own source where the node's exemplar note calls it 'a Renaissance portada'. And the building is a fragment: everything but the front, the passage, one patio, the stair and four rooms was pulled down in 1953 to build a cinema, so it is a poor specimen to measure and an excellent one to read."
+}

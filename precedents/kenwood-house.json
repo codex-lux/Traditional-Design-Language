@@ -1,0 +1,141 @@
+{
+  "id": "kenwood-house",
+  "name": "Kenwood House",
+  "aka": [
+    "Kenwood House (Iveagh Bequest)"
+  ],
+  "location": {
+    "text": "Hampstead, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "c.1616, remodelled c.1764-1779 by Robert and James Adam",
+    "circa": true,
+    "altered": "George Saunders added the projecting north wings and west veranda in about 1795, and the service wing and kitchens; the house was restored in 1955-9.",
+    "note": "The list entry says 'Work of circa 1764-79 by Robert and James Adam'; the Wikipedia infobox says 'Rebuilt 1764-1779'. They agree. The entry records that the Adam work included 'the remodelling of the south front with the addition of a second floor', so the storey count below is Adam's and not the seventeenth-century house's."
+  },
+  "nodes": [
+    "adam-style"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1379242",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1379242",
+      "title": "Kenwood House (Iveagh Bequest) , Non Civil Parish - 1379242 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result's Overview block prints 'Grade: I ; List Entry Number: 1379242 ; Date first listed: 10-Jun-1954 ; List Entry Name: Kenwood House (Iveagh Bequest)'; the Wikipedia infobox prints 'Official name Kenwood House (Iveagh Bequest), Designated 10 June 1954, Reference no. 1379242'. The entry itself records 'This list entry was subject to a Minor Enhancement on 29/06/2020', which is why it is the fullest description in this cluster."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000142",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000142",
+      "title": "Kenwood, Non Civil Parish - 1000142 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, Grade II, first listed 01-Oct-1987. Read in a tavily-search result and not extracted, so nothing is quoted from it; it independently calls the house 'The three-storey stuccoed Palladian house', agreeing with the listed-building entry's 'central block of three storeys'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kenwood_House",
+      "title": "Kenwood House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried as the second surface for the list entry number, the designation date and the 1764-1779 remodelling."
+    }
+  ],
+  "survey": {
+    "item": "1379242",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1379242",
+    "prepared": "Historic England's National Heritage List entry; Date first listed 10-Jun-1954, and the entry states 'This list entry was subject to a Minor Enhancement on 29/06/2020'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Detached villa. The original house, forming the core of the present house, was built in about 1616, and renovated in about 1749 with the addition of the orangery with boudoir to the west. Work of circa 1764-79 by Robert and James Adam included the remodelling of the south front with the addition of a second floor, and the addition of the library with anteroom to the east, and the north entrance portico.",
+        "page": "Official list entry 1379242, Details, opening paragraph"
+      },
+      {
+        "field": "porches",
+        "text": "EXTERIOR: the north front has an Ionic tetrastyle portico having an enriched frieze and medallion in the tympanum, flanked by three- window bays. Central doorway architraved with console-bracketed entablature with fluted frieze. First floor sill band with guilloche decoration. Recessed sashes. Stone entablature with dentil cornice and fluted frieze; blocking course.",
+        "page": "Official list entry 1379242, Details, EXTERIOR, north front; 'three- window' is the register's own line wrap, left as printed"
+      },
+      {
+        "field": "openings",
+        "text": "West facade: six windows with veranda of copper-tented roof supported on cast-iron Ionic openwork pillars with palmette design.",
+        "page": "Official list entry 1379242, Details, EXTERIOR, west facade"
+      },
+      {
+        "field": "storeys",
+        "text": "South front: central block of three storeys, seven windows wide, linked on either side by single storey units to the five-bay single-storey orangery on the left and similar library to the right.",
+        "page": "Official list entry 1379242, Details, EXTERIOR, south front"
+      },
+      {
+        "field": "materials",
+        "text": "Stucco central block with slated hipped roof and slab chimney-stacks. Three central window bays slightly projecting. Ground floor with a shallow, round-arched niche at either angle.",
+        "page": "Official list entry 1379242, Details, EXTERIOR, south front"
+      },
+      {
+        "field": "other",
+        "text": "Pilasters of Adam's own invention rise through the first and second floors, paired at the angles to carry an entablature and over the projecting bays, a pediment with enriched tympanum. Recessed sashes; above the first-floor sashes enriched stucco rectangular panels. Bands at first- and second-floor levels.",
+        "page": "Official list entry 1379242, Details, EXTERIOR, south front"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "central block of three storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "south_front_window_count",
+      "as_printed": "seven windows wide",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "west_facade_window_count",
+      "as_printed": "West facade: six windows",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "orangery_bay_count",
+      "as_printed": "the five-bay single-storey orangery",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "north_portico_column_count",
+      "as_printed": "Ionic tetrastyle portico",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A READING: tetrastyle is four columns. The entry states the word and not the number."
+    },
+    {
+      "name": "north_front_flanking_bay_count",
+      "as_printed": "flanked by three- window bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "projecting_centre_bay_count",
+      "as_printed": "Three central window bays slightly projecting",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE ONE ENTRY IN THIS CLUSTER THAT HAS BEEN REWRITTEN IN THE MODERN FORMAT ('Minor Enhancement on 29/06/2020') AND IT IS BY FAR THE MOST DESCRIPTIVE -- headed EXTERIOR, front by front, with counts on every one. Set that beside Castle Howard's two sentences and Chiswick's four: the difference between a rich list entry and an empty one in this cluster tracks the date the entry was WRITTEN and not the importance of the building. It also gives this node a sentence about its own subject that no other source here does: 'Pilasters of Adam's own invention rise through the first and second floors', which is a register calling the order non-canonical without using the word attenuation. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

@@ -1,0 +1,58 @@
+{
+  "id": "castle-howard",
+  "name": "Castle Howard",
+  "location": {
+    "text": "North Yorkshire, England",
+    "country": "United Kingdom",
+    "state": "North Yorkshire"
+  },
+  "dates": {
+    "built": "1700-1714 (main pile, East Wing and East Court)",
+    "circa": false,
+    "altered": "West wing added by Sir Thomas Robinson; interior of the West Wing c1800 by C H Tatham, and the Chapel refitted 1870-5 by R J Johnson with window designs by E Burne-Jones executed by William Morris.",
+    "note": "TWO HISTORIC ENGLAND ENTRIES DATE THE WEST WING DIFFERENTLY AND NEITHER IS RESOLVED HERE. The listed-building entry (1316030) says 'West wing 1753-1759 by Sir Thomas Robinson'; the register of parks and gardens entry (1001059) says the west wing 'is the work of Sir Thomas Robinson executed in the years following 1756'. The node's own exemplar gives 1712 as the year and says the main block was substantially complete by 1712 and the dome 1706; the list entry says the main pile was 'begun 1700, completed 1714' and states no date for the dome."
+  },
+  "nodes": [
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1316030",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1316030",
+      "title": "Castle Howard and East Court, Henderskelfe - 1316030 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A tavily-search result for this entry printed its Overview block as 'Grade: I ; List Entry Number: 1316030 ; Date first listed: 25-Jan-1954 ; List Entry Name: Castle Howard and East Court'; neither of the three extracts of the entry returned that block, so the date is carried from the search result and said to be."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001059",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001059",
+      "title": "Castle Howard, Henderskelfe - 1001059 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Register of Parks and Gardens entry, Grade I, first listed 10-May-1984 on the search result's Overview block. Its PRINCIPAL BUILDING paragraph is the only architectural description of the house either entry carries, and it disagrees with the listed-building entry about the west wing's dates."
+    }
+  ],
+  "survey": {
+    "item": "1316030",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1316030",
+    "prepared": "Historic England's National Heritage List entry, generated from a legacy data system (the entry says so under 'Legacy'). Its own Sources block cites Howard, G, Castle Howard Guidebook, (1972) and Milne, J L, English Country Houses Baroque 1685-1715, (1970).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house and outbuildings to east, originally the kitchen court, now estate offices and accommodation. Main pile, East Wing and East Court begun 1700, completed 1714, by Sir John Vanbrugh with Nicholas Hawksmoor, for Charles, 3rd Earl of Carlisle. West wing 1753-1759 by Sir Thomas Robinson for Henry, 4th Earl of Carlisle. Interior of West Wing c1800 by C H Tatham for Frederick, 5th Earl of Carlisle. Alterations to interior of West Wing, including refitting of the Chapel 1870-5 by R J Johnson for Admiral Edward Howard, Lord Lanerton, with window designs by E Burne-Jones executed by William Morris and frescoes by pupils of Kempe.",
+        "page": "Official list entry 1316030, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Limestone ashlar and rubble, lead and Westmorland slate roofs. Baroque, except for Palladian west wing. For description see Howard G, Castle Howard Guidebook,",
+        "page": "Official list entry 1316030, Details, closing sentence of the opening paragraph -- the paragraph ends there, referring the reader to the guidebook"
+      }
+    ]
+  },
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE LIST ENTRY FOR ENGLAND'S BEST-KNOWN BAROQUE HOUSE CONTAINS NO ARCHITECTURAL DESCRIPTION: after the materials sentence it says 'For description see Howard G, Castle Howard Guidebook,' and stops. Three extracts with three different queries returned the same two paragraphs, so this is the entry and not a truncation. No storeys, no bays, no dome, no dimensions -- which is why this record carries no `measurements` at all while Easton Neston, a far less famous house, carries five. A national heritage list entry is a survey block only where the register chose to write one. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was returned by any extract of THIS entry, so no `rights_evidence` is recorded rather than one borrowed from a sibling entry; Historic England does print one in the footer of the official-list-entry view, read verbatim on 5 Sep 2026 on entry 1253989 and recorded there."
+}

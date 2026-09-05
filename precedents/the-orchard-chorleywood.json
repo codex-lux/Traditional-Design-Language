@@ -1,0 +1,103 @@
+{
+  "id": "the-orchard-chorleywood",
+  "name": "The Orchard",
+  "location": {
+    "text": "Chorleywood, Hertfordshire, England",
+    "country": "United Kingdom",
+    "state": "Hertfordshire"
+  },
+  "dates": {
+    "built": "1899-1900",
+    "altered": "Altered 1913, when a flat-topped rectangular bay was added to the ground floor of the right cross wing.",
+    "note": "The list entry gives '1899-1900 by C.F.A. Voysey for himself, altered 1913'."
+  },
+  "nodes": [
+    "arts-and-crafts-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1348234",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1348234",
+      "title": "The Orchard, Chorleywood - 1348234 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A search result for this number printed the Overview lines Grade 'I', List Entry Number '1348234' and Date first listed '16-Jul-1975'. The Details text's own header reads 'TQ 09 NW CHORLEYWOOD SHIRE LANE (Southeast side) Chorleywood 5/107 The Orchard 16.7.75 GV I' and the entry ends 'Listing NGR: TQ0193795707', citing Brandon-Jones and Simpson on Voysey."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.voyseysociety.org/voysey/buildings/theorchard.html",
+      "title": "The Orchard, Chorleywood, Hertfordshire - Buildings",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Voysey Society's page for the house, which links the Historic England listed-building entry and gives the building its Black Book entry number 195. Read as a search result and not extracted."
+    }
+  ],
+  "survey": {
+    "item": "1348234",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1348234",
+    "prepared": "Date first listed: 16-Jul-1975, as the Overview line prints it; the Details text prints '16.7.75'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "House. 1899-1900 by C.F.A. Voysey for himself, altered 1913. Roughcast brick, stone and tile dressings. Green slate roof. Arts and Crafts Style. A simple rectangle on plan with the roof hipped over 2 gabled cross wings at ends. 2 storeys and attics. Slate paving up to entrance at right end of central range between cross wings. Round arch to recessed porch.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1348234)."
+      },
+      {
+        "field": "openings",
+        "text": "Mullioned windows with stone surrounds, leaded lights. To left of entrance 3 lights with 4 lights above on first floor. Continuous tile dripmould over ground floor.",
+        "page": "Official list entry, Details section, entrance front; the extracted span continues 'Deep'."
+      },
+      {
+        "field": "chimneys",
+        "text": "Large roughcast axial stack with a tile coped triangulated cap and terracotta pots to left of centre. Similar stacks on outer slopes of cross wings.",
+        "page": "Official list entry, Details section, entrance front, second span."
+      },
+      {
+        "field": "openings",
+        "text": "Each cross wing has a 4 light window on each floor. Continuous tile drip mould over ground floor and over first floor in wings, triple ventilation slits in gables with moulded trim.",
+        "page": "Official list entry, Details section, garden front."
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: slate paved hall with tiled fireplace and staircase enclosed by simple vertical slats, elsewhere tiled and cast iron chimneypieces, low picture rails, wrought iron hinges and knobs to doors.",
+        "page": "Official list entry, Details section, interior, above the bibliography."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys and attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "cross_wing_count",
+      "as_printed": "2 gabled cross wings at ends",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A simple rectangle in plan with the roof hipped over two gabled cross wings -- the plainest statement of an Arts and Crafts massing rule anywhere in this cluster's evidence."
+    },
+    {
+      "name": "cross_wing_window_light_count",
+      "as_printed": "a 4 light window on each floor",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "entrance_front_window_light_count",
+      "as_printed": "3 lights with 4 lights above on first floor",
+      "from_quote": 1,
+      "note": "Two figures for the two floors of one bay; no single value is parsed. The upper window is wider than the lower, which is the reverse of the classical rule and is worth having on record."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1348234",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `arts-and-crafts-british`: Voysey's own house, and the only entry in the cluster whose Details text names the style as the corpus does -- 'Arts and Crafts Style'. Its low picture rails are the register recording the thing the node's prose describes as design aimed at the body rather than the eye. `id` carries the place name because the corpus already holds `the-orchard-james-l-breese-house`, a different building of the same name in New York."
+}

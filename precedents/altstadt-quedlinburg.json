@@ -1,0 +1,65 @@
+{
+  "id": "altstadt-quedlinburg",
+  "name": "Altstadt Quedlinburg",
+  "record_kind": "district",
+  "aka": [
+    "Collegiate Church, Castle, and Old Town of Quedlinburg"
+  ],
+  "location": {
+    "text": "Quedlinburg, Germany",
+    "country": "Germany",
+    "state": "Sachsen-Anhalt, Landkreis Harz"
+  },
+  "dates": {
+    "built": "medieval, with the surviving half-timbered stock largely 14th-19th century",
+    "circa": true,
+    "note": "Inscribed on the World Heritage List in 1994 at the eighteenth session. The English Wikipedia infobox gives the criteria as 'Cultural: iv'; a secondary site read the same day says 'under criteria (iii) and (iv)'. Recorded, not resolved."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "535",
+      "url": "https://en.wikipedia.org/wiki/Quedlinburg_Abbey",
+      "title": "Collegiate Church, Castle, and Old Town of Quedlinburg -- World Heritage reference 535",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the English Wikipedia infobox, which prints 'Official name Collegiate Church, Castle, and Old Town of Quedlinburg', 'Reference 535', 'Inscription 1994 (18th Session)', 'Area 90 ha (220 acres)', 'Buffer zone 270 ha (670 acres)'. whc.unesco.org itself was not reached from this container."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.quedlinburg-info.de/en/museums-details/fachwerkmuseum-im-ständerbau.html",
+      "title": "Fachwerkmuseum im Ständerbau (half-timbered museum) - Quedlinburg - world heritage",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own tourist office, and the source of this record's house count."
+    }
+  ],
+  "survey": {
+    "item": "535",
+    "data_url": "https://www.quedlinburg-info.de/en/museums-details/fachwerkmuseum-im-ständerbau.html",
+    "prepared": "The town of Quedlinburg's own tourist-office page, read in a search result rather than an extract. It is not a survey and not a register; it is quoted because it is the source of the only stock figure this record carries, and the figure is one four sources disagree about.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "In a still largely enclosed, medieval-looking town complex at the foot of the historic castle hill, more than 2000 half-timbered houses have been preserved despite considerable losses in the past decades. Quedlinburg is thus regarded as the largest are monument in Germany.",
+        "page": "quedlinburg-info.de, English page for the Fachwerkmuseum im Ständerbau. Not paginated. 'the largest are monument' is the page's own typographical error for 'area monument' and is quoted as printed."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "half_timbered_house_count",
+      "as_printed": "more than 2000 half-timbered houses have been preserved",
+      "value": 2000,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A LOWER BOUND ('more than'), and FOUR SOURCES READ ON ONE DAY GIVE FOUR NUMBERS: this page's 'more than 2000'; World Heritage Explorer's 'around 2,100 timber houses'; culturalheritageonline's '1,300 Fachwerk buildings'; and everything-everywhere's 'around 800 houses in the town that are considered as important monuments'. The last is a count of MONUMENTS and not of half-timbered houses, which is probably the whole of that discrepancy, and the 1,300 against 2,100 is not explained by anything read. The figure is carried with its spread stated because a single number here would be a false precision."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. A DISTRICT record and declared as one. Added because the node had four buildings and no account of the population they come from, and because the disagreement about the size of that population -- 800, 1,300, 2,000-plus, 2,100 -- is itself the finding: nobody reading four sources in one afternoon can say within a factor of two how many half-timbered houses stand in the best-preserved half-timbered town in Germany."
+}

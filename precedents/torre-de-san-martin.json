@@ -1,0 +1,105 @@
+{
+  "id": "torre-de-san-martin",
+  "name": "Torre de San Martin",
+  "aka": [
+    "Torre de San Martín, Teruel",
+    "Tower of the Church of San Martín"
+  ],
+  "location": {
+    "text": "Teruel, Spain",
+    "country": "Spain",
+    "state": "Aragon"
+  },
+  "dates": {
+    "built": "1315-1316",
+    "circa": false,
+    "altered": "Restored in 1549 by Pierres Vedel, who reinforced one of the buttresses with ashlar; the lower section restored again in 1550 against damp erosion.",
+    "note": "The Aragon register heads the work 'Reforma. Siglo XVI' and dates it 1549; the English article says 'In 1550 its lower section was restored due to the erosion caused by humidity'. Both are recorded and neither is resolved."
+  },
+  "nodes": [
+    "mudejar"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "378-003",
+      "url": "https://en.wikipedia.org/wiki/Mud%C3%A9jar_architecture_of_Aragon",
+      "title": "Mudejar Architecture of Aragon, component 378-003: 'Tower and church of San Martín (Teruel)'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The component list is the English Wikipedia navigation box's for reference 378ter, inscribed 1986 and extended 2001."
+    },
+    {
+      "kind": "institution",
+      "url": "https://patrimonioculturaldearagon.es/patrimonio/torre-de-san-martin",
+      "title": "Torre de San Martín - Patrimonio Cultural de Aragón",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Torre_de_San_Mart%C3%ADn",
+      "title": "Torre de San Martín - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.heraldo.es/noticias/aragon/teruel/2024/03/01/edificio-mas-alto-teruel-aragon-1714957.html",
+      "title": "¿Cuáles son los edificios más altos de Teruel y por qué miden lo mismo? - Heraldo",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried ONLY to record a figure this record deliberately does not take as a measurement. Two Aragonese press pages read the same day give the tower's height as about 40 metres (this one: 'También unos 40 metros es lo que mide la Torre mudéjar de San Martín'; idealista/news: 'Los 40 metros de alto'), and a third source read the same day gives 30. The register states no height, so none is parsed."
+    }
+  ],
+  "survey": {
+    "item": "torre-de-san-martin",
+    "data_url": "https://patrimonioculturaldearagon.es/patrimonio/torre-de-san-martin",
+    "prepared": "Patrimonio Cultural de Aragón, the Government of Aragon's own heritage register. No author line and no revision date were printed in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Es ejemplo de la tipología de torre alminar almohade. Siguiendo esta estructura posee dos torres concéntricas, separadas casi un metro, entre las que se desarrollan pasillos y escaleras, que llevan a un campanario, cubiertos por bóveda de ladrillo. De planta cuadrada, da paso a una calle bajo su bóveda de cañón apuntado.",
+        "page": "Patrimonio Cultural de Aragón, monument record, opening descriptive paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "La torre interior está  formada por tres estancias superpuestas, cubiertas por bóveda de crucería y de muros de ladrillo hasta la segunda estancia y en delante de tapial de yeso.",
+        "page": "Patrimonio Cultural de Aragón, monument record, second descriptive paragraph; the double space after 'está' is the page's own"
+      },
+      {
+        "field": "condition",
+        "text": "En 1549 fue reformada por Quinto Pierres Vedel, que reforzó uno de los estribos con piedra sillar.",
+        "page": "Patrimonio Cultural de Aragón, monument record, under the heading 'Reforma. Siglo XVI'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "stair_cavity_width_ft",
+      "as_printed": "separadas casi un metro",
+      "value": 3.3,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The gap between the two concentric shafts, in which the stair runs -- 'almost a metre', converted at 3.28084 ft/m. The word is 'casi', so this is an upper bound the register itself hedges."
+    },
+    {
+      "name": "tower_shaft_count",
+      "as_printed": "dos torres concéntricas",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The Almohad minaret type: a tower inside a tower with the stair between them, which is the structural fact this exemplar is in the node for."
+    },
+    {
+      "name": "inner_tower_room_count",
+      "as_printed": "tres estancias superpuestas",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The survey is a REGIONAL register entry and it states no height, no plan dimension and no brick course; the only figure it gives is the width of the stair cavity. That is the shape of the evidence for Aragonese Mudejar from here."
+}

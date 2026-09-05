@@ -1,0 +1,90 @@
+{
+  "id": "chateau-de-blois-francois-i-wing",
+  "name": "Chateau de Blois, Francois I wing",
+  "aka": [
+    "Château de Blois",
+    "Château royal de Blois",
+    "aile François Ier"
+  ],
+  "location": {
+    "text": "Blois, Loir-et-Cher, France",
+    "country": "France",
+    "state": "Loir-et-Cher, Centre-Val de Loire"
+  },
+  "dates": {
+    "built": "1515-1524",
+    "circa": false,
+    "altered": "The Inventaire notice lists construction campaigns running to 1845 and 1868 and names Félix Duban, Anatole de Baudot, Jules Grenouillot and Jules de La Morandière among the authors: the wing a visitor sees is a nineteenth-century restoration of a sixteenth-century fabric.",
+    "note": "The node's exemplar dates the François I wing 1515-1524, and the Inventaire notice's campaign list '1498 ; 1508 ; 1515 ; 1524 ; 1635 ; 1638 ; 1845 ; 1868' contains both those years - the one figure in this cluster where the register corroborates the corpus exactly. The protection notice PA00098337 gives only '16e siècle ; 17e siècle' for the whole castle."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00098337",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00098337",
+      "title": "Château de Blois - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Monuments historiques protection notice: it prints 'Date et niveau de protection de l'édifice 1840 : classé MH' and 'Le château et ses anciennes dépendances : classement par liste de 1840', and names only 'Pontbriant François de (maître de l'oeuvre)'."
+    },
+    {
+      "kind": "merimee",
+      "id": "IA00141119",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/IA00141119",
+      "title": "Château - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Inventaire général notice for the same castle, and the richer of the two; it is the survey block below. Its 'Commentaire concernant la datation' reads 'daté par source ; daté par travaux historiques', which is the register saying how it knows."
+    }
+  ],
+  "survey": {
+    "item": "IA00141119",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/IA00141119",
+    "prepared": "The notice prints 'Rédacteur de la notice Cosperec Annie' and is signed '© Inventaire général'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Siècle de campagne principale de construction Haut Moyen Age ; 1ère moitié 13e siècle ; 15e siècle ; 1er quart 16e siècle ; 3e quart 16e siècle ; 2e quart 17e siècle ; 3e quart 18e siècle ; 2e moitié 19e siècle",
+        "page": "Notice Mérimée IA00141119, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1498 ; 1508 ; 1515 ; 1524 ; 1635 ; 1638 ; 1845 ; 1868",
+        "page": "Notice Mérimée IA00141119, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Sourdeau Jacques (maître maçon) ; Guischart Simonet (maître maçon) ; Biart Colin (maître maçon) ; Mansart François (architecte) ; Guillain Simon (sculpteur) ; Anguier Michel (sculpteur) ; Buyster Philippe de (sculpteur) ; Duban Félix (architecte) ; Baudot Anatole de (architecte) ; Grenouillot Jules (architecte) ; La Morandière Jules de (architecte)",
+        "page": "Notice Mérimée IA00141119, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "dependencies",
+        "text": "Partie constituante non étudiée chapelle ; cour ; jardin ; fontaine ; orangerie",
+        "page": "Notice Mérimée IA00141119, section 'Localisation au moment de la protection ou de l'étude'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "francois_i_campaign_start_year",
+      "as_printed": "1515",
+      "value": 1515,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A year, not a dimension. Carried because it is the register's own corroboration of the node's date for this wing; `count` is the nearest unit the closed enum offers. The notice lists eight campaign years and does not say which belongs to which wing - reading 1515 and 1524 as the François I wing is this record's inference from the node, not the register's statement."
+    },
+    {
+      "name": "construction_campaign_count",
+      "as_printed": "1498 ; 1508 ; 1515 ; 1524 ; 1635 ; 1638 ; 1845 ; 1868",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE EXEMPLAR NAMES A WING AND THE REGISTER LISTS A CASTLE. Neither Mérimée notice describes the François I wing separately; both describe the whole royal château, whose four ranges span the thirteenth to the seventeenth century and were restored in the nineteenth. The record is therefore about the castle and says so, rather than pretending a notice about the whole is a notice about the part. No rights line was read, so no `rights_evidence`."
+}

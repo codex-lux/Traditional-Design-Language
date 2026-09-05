@@ -1,0 +1,72 @@
+{
+  "id": "langgestrekte-hoeve-tremelo",
+  "name": "Langgestrekte hoeve, E. Van Der Veldestraat 37",
+  "location": {
+    "text": "Tremelo, Belgium",
+    "country": "Belgium",
+    "state": "Vlaams-Brabant, Vlaanderen"
+  },
+  "dates": {
+    "built": "einde van de 19de eeuw",
+    "circa": true,
+    "note": "The register's own dating field says 'tweede helft 19de eeuw' while its description says 'uit het einde van de 19de eeuw'. Both are the register's and neither is chosen."
+  },
+  "nodes": [
+    "flemish-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "308890",
+      "url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/308890",
+      "title": "Langgestrekte hoeve | Inventaris Onroerend Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inventaris Onroerend Erfgoed object id. The page prints its own permanent identifier, https://id.erfgoed.net/erfgoedobjecten/308890, and states 'is aangeduid als vastgesteld bouwkundig erfgoed ... geldig sinds 10-09-2024'. Vastgesteld -- inventoried and legally noted -- is a WEAKER status than beschermd monument, and this farm has the weaker one. Site area: 1 781 m2. Authors Joachim Piens and Joline Berbers, 2024; text provided by the Gemeente Tremelo."
+    }
+  ],
+  "survey": {
+    "item": "308890",
+    "data_url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/308890",
+    "prepared": "Agentschap Onroerend Erfgoed (the Flemish heritage agency), Inventaris Onroerend Erfgoed. This is the register's OWN descriptive text, read in an extract from the register's own site. The Flemish inventory is the richest heritage description this whole tranche found: it states bays, storeys, roof form, materials and gable type as a matter of course, in the way a HABS Part II does. The pages carry their own citation line -- 'Je kan deze pagina citeren als: INVENTARIS ONROEREND ERFGOED 2026' -- and name the printed inventory volume each text came from. This entry is a 2024 re-inventory of Tremelo, authored by Joachim Piens and Joline Berbers and supplied by the municipality.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Langgestrekte hoeve in traditionele stijl van anderhalve bouwlaag uit het einde van de 19de eeuw. Het is een grote hoeve met een woongedeelte van vier traveeën, een stal en schuur. Het bakstenen gebouw staat loodrecht op de weg, op een plaats die op de Ferrariskaart nog grotendeels als heide ingekleurd staat maar in de loop van de 19de eeuw verkaveld wordt. Het is een sober gebouw met getoogde ontlastingsbogen, uitgewerkte muurankers en een stalen linteel boven de schuurpoort.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 308890, section 'Beschrijving'. A register description is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Provincie Vlaams-Brabant Gemeente Tremelo Deelgemeente Tremelo Straat E. Van Der Veldestraat Locatie E. Van Der Veldestraat 37 (Tremelo)Nauwkeurigheid zone Tot op 15m Oppervlakte zone 1 781m² Bewaringstoestand Bewaard Erfgoedwaarde Aanwezig",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 308890, identification block above the description. Not paginated. The block is rendered by the extract as one run with no separators between the field labels and their values, and it is quoted exactly as it came back -- including 'Locatie E. Van Der Veldestraat 37 (Tremelo)Nauwkeurigheid zone', where two fields run together with no space."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "dwelling_bay_count",
+      "as_printed": "een woongedeelte van vier traveeën",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four bays of dwelling, then a stable, then a barn, all in one range under one roof -- which is the node's langgevelhoeve stated by the register in the register's own words."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "van anderhalve bouwlaag",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "One and a half storeys, the same fraction the Alken vierkantshoeve's dwelling carries. Two Flemish farms in two provinces, both at anderhalve bouwlaag, is the closest thing this cluster produced to a repeated figure."
+    },
+    {
+      "name": "site_area_sf",
+      "as_printed": "Oppervlakte zone 1 781m²",
+      "from_quote": 1,
+      "note": "From the register page's IDENTIFICATION BLOCK (quote 1), not from its description: 'Oppervlakte zone 1 781m²', about 19,170 sf. NO `value` AND NO `unit` are carried: the vocabulary has no area measure. IT IS THE AREA OF THE DESIGNATED ZONE AND NOT OF THE BUILDING, and the page's own 'Nauwkeurigheid zone: Tot op 15m' says the zone is accurate only to 15 m, so it is not a footprint and must not be read as one."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. Added by this tranche as the plainest possible specimen of the langgevelhoeve -- the long-facade farm the node's rural section is built on -- and it is late, 19th-century, sober, and inventoried rather than protected. That is the point of a `documentary` exemplar: the icons are civic halls and beguinages, and the type the node actually describes is a brick range with a dwelling, a stable and a barn under one roof, which nobody photographs.\n\nTHE LAST MEASUREMENT IN THIS RECORD IS DELIBERATELY NOT CITABLE and says so on its own face; see its note."
+}

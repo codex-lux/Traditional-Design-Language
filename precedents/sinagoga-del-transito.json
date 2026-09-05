@@ -1,0 +1,107 @@
+{
+  "id": "sinagoga-del-transito",
+  "name": "Sinagoga del Transito",
+  "aka": [
+    "Synagogue of El Tránsito",
+    "Sinagoga de Samuel ha-Leví",
+    "Museo Sefardí"
+  ],
+  "location": {
+    "text": "Toledo, Spain",
+    "country": "Spain",
+    "state": "Castile-La Mancha"
+  },
+  "dates": {
+    "built": "14th century",
+    "circa": true,
+    "altered": "Converted to a Catholic church after the expulsion of 1492 and given to the Order of Calatrava, with an altar built in front of the hejal and a plateresque sacristy door added in the 15th century; used as barracks in the Napoleonic wars; a Sephardic museum since 1910.",
+    "note": "The Spanish article dates it 'un edificio del siglo XIV' built under the patronage of Samuel ha-Leví in the reign of Pedro I; no single year was printed in either extract."
+  },
+  "nodes": [
+    "mudejar"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Sinagoga_del_Tr%C3%A1nsito",
+      "title": "Sinagoga del Tránsito - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Synagogue_of_El_Transito",
+      "title": "Synagogue of El Tránsito - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "CARRIED BECAUSE IT DISAGREES. The English article prints 'The prayer hall is rectangular and measures 23 × 9.5 meters (roughly 75.5 feet × 29.5 feet), has a 12-meter-high ceiling (close to 40 feet)'; the Spanish article prints '23 metros de longitud, 9,5 ancho y 17 m de altura'. The two agree on the plan and differ by five metres on the height. Both are recorded below and neither is changed."
+    },
+    {
+      "kind": "bic",
+      "url": "https://en.wikipedia.org/wiki/Synagogue_of_El_Transito",
+      "title": "The English article states the building 'has been added to the list of monuments of Spanish Cultural Heritage (Spanish: Bien de Interés Cultural)'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CODE IS RECORDED because neither extract printed one."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-sinagoga-del-transito",
+    "data_url": "https://es.wikipedia.org/wiki/Sinagoga_del_Tr%C3%A1nsito",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Las dimensiones de este templo son 23 metros de longitud, 9,5 ancho y 17 m de altura. El edificio tiene una planta salón, rectangular, como en muchos edificios cristianos de la época.",
+        "page": "Spanish Wikipedia, section 'Análisis de la gran obra'"
+      },
+      {
+        "field": "storeys",
+        "text": "El alzado se divide en dos plantas, la primera es la zona donde se situaría la zona del rito y en la zona superior todavía se aprecia la ubicación de las vigas que sostenían el lugar dónde se ponían las mujeres, que ocultas de los hombres por celosías asistían a la liturgia.",
+        "page": "Spanish Wikipedia, section 'Análisis de la gran obra'"
+      },
+      {
+        "field": "general_description",
+        "text": "Es una sinagoga construida en estilo mudéjar en la que destaca una armadura de par y nudillo, la Gran Sala de oración ornamentada con arquillos que permiten la entrada de luz exterior y frisos policromados en yeso decorados con motivos vegetales, geométricos y epigráficos, además de motivos heráldicos de la corona de Castilla",
+        "page": "Spanish Wikipedia, opening paragraph; the sentence ends without a full stop in the source and is quoted as it stands"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "room_length_ft",
+      "as_printed": "23 metros de longitud",
+      "value": 75.5,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The English article's own conversion of the same figure is 'roughly 75.5 feet', which agrees."
+    },
+    {
+      "name": "room_width_ft",
+      "as_printed": "9,5 ancho",
+      "value": 31.2,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Read as 9.5 m; the article prints a comma decimal separator. The English article converts the same figure as 'roughly 29.5 feet', which is 9.0 m and does not follow from 9.5 m; the metres agree and the two foot conversions do not. The value here is 9.5 m at 3.28084 ft/m."
+    },
+    {
+      "name": "ceiling_height_ft",
+      "as_printed": "17 m de altura",
+      "value": 55.8,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "THE TWO ARTICLES DISAGREE: the English article says 'has a 12-meter-high ceiling (close to 40 feet)'. 17 m is recorded because it is the figure in the quoted span; the other is recorded in the refs. Neither is resolved and this figure must not be cited by a kit until it is."
+    },
+    {
+      "name": "room_length_to_width",
+      "as_printed": "23 metros de longitud, 9,5 ancho",
+      "value": 2.42,
+      "unit": "ratio",
+      "from_quote": 0,
+      "note": "23 divided by 9.5, computed here from two figures printed in one sentence. It is a DERIVATION and not a quotation, and is recorded because the room proportion is what this corpus reads; a checker comparing it with a kit band must know that no source states it in these words."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. It is the one building in this cluster where two sources state the same room in figures, and they disagree about its height by five metres -- which is the argument for carrying both articles as refs rather than choosing the fuller one."
+}

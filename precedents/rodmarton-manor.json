@@ -1,0 +1,118 @@
+{
+  "id": "rodmarton-manor",
+  "name": "Rodmarton Manor",
+  "location": {
+    "text": "Rodmarton, Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "1909-1926",
+    "circa": false,
+    "altered": "The registered park and garden entry adds that 'The last phase of the Manor, its chapel, was completed in 1929 under the supervision of Norman Jewson.'",
+    "note": "The listed-building entry gives '1909-1926'; the registered park and garden entry for the same place gives first designs 'dated 1909', work 'well advanced by 1912', the house 'occupied in 1915', work 'largely complete by 1926' and the chapel finished 1929. Both are Historic England and they do not state the same end date; both are recorded."
+  },
+  "nodes": [
+    "arts-and-crafts-british",
+    "cotswold-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1341402",
+      "title": "Rodmarton Manor, Rodmarton - 1341402 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1341402",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The listed building, Grade I. The Official list entry block was not returned by the extract; the Details prose opens 'GV I'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000779",
+      "title": "Rodmarton Manor, Rodmarton - 1000779 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000779",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park and garden. Its description of the house, as a search result rendered it, states the plan in one sentence -- 'In plan it is a long thin strip running round three sides of an octagon' -- which the listed-building entry does not say. NOT read as continuous prose in an extract, so it is recorded here and not quoted in `survey.quotes`."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grade_I_listed_buildings_in_England_completed_in_the_20th_century",
+      "title": "Grade I listed buildings in England completed in the 20th century - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Table row values as a search result returned them: 'Rodmarton Manor | Rodmarton, Gloucestershire | Country house | Ernest Barnsley | 1909-1929 | 4 June 1952 | ... | 1341402'. Field values, not prose. Note that this row gives the build range as 1909-1929, a third reading beside the two Historic England entries."
+    }
+  ],
+  "survey": {
+    "item": "1341402",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1341402",
+    "prepared": "No Official list entry block was returned by the extract and no date first listed was read on the page. A Wikipedia table of Grade I listed buildings prints '4 June 1952' against this reference number; that is a field value from a search result, not the entry's own statement, and is recorded in the refs rather than asserted here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "GV I Large country house. 1909-1926, for the Hon Claud Biddulph, by Ernest Barnsley and supervised briefly after his death by Sidney Barnsley. All materials locally obtained, both externally and internally, and hand worked by local craftsmen.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Mainly coursed and dressed stone on offset plinth with flush quoins, stone slate roof with coped gables, large grouped flues to scattered stacks, mainly either diagonally-set squares or round and polygonal with decorative fillets.",
+        "page": "Official list entry, Details, materials sentence following the opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Built partly round a large circular grassed courtyard to the north, with a main block with canted side wings of different lengths and a smaller courtyard service range to the north-east, the latter now converted to flats.",
+        "page": "Official list entry, Details, plan sentence following the materials sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "Mostly 2 storeys and attic, courtyard range of single storey and attic.",
+        "page": "Official list entry, Details, storeys sentence; this span opens the second block returned by the extract, which repeats its first words from the end of the first block"
+      },
+      {
+        "field": "openings",
+        "text": "North front has large central projecting gabled porch bay with depressed Tudor- arch moulded doorway and stone monogram enclosed in raised section of string course, long 3-light stone mullion and transom above with 2 transoms.",
+        "page": "Official list entry, Details, description of the north front; 'Tudor- arch' carries a line-break space as extracted"
+      },
+      {
+        "field": "openings",
+        "text": "Fenestration generally stone mullions at attic level and mullion and transoms below, all ovolo-moulded with leaded iron casements. Two gables flanking on each side, with polygonal bays masking angles as building returns towards north; string course along most of north front above first floor in twisted design, straight offset string course along main block above ground floor.",
+        "page": "Official list entry, Details, north front continued"
+      },
+      {
+        "field": "significance",
+        "text": "Interior is largely intact and contains all original fittings as well as many pieces of furniture by the Barnsley brothers, Ernest Gimson, Peter Waals and others. The house features in many books on the Arts and Crafts movement, as well as articles in Country Life - Vols LXIX (1931), and LXIV,(1978 - two articles by Clive Aslet).",
+        "page": "Official list entry, Details, close of the description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Mostly 2 storeys and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "'Mostly' is the entry's own hedge and the service range is one storey and an attic; the attic is lit by mullioned windows and is not counted as a storey."
+    },
+    {
+      "name": "window_light_count_porch",
+      "as_printed": "long 3-light stone mullion and transom",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Over the porch of the north front. Inside the node's own kit band of 2 to 5 lights, on a building of 1909 -- which is the point of including it."
+    },
+    {
+      "name": "flanking_gable_count",
+      "as_printed": "Two gables flanking on each side",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Per side. The entry does not state a total for the north front and none is parsed."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. Added by this tranche, and it is the node's own argument made testable. The node says Gimson and the Barnsleys 'were not reviving a dead style; they were apprenticing themselves to masons who were still building this way'. If that is true, a house begun in 1909 should be describable in the same words a surveyor uses for one of 1616 -- and it is: coursed and dressed stone, stone slate roof, coped gables, ovolo-moulded stone mullions with leaded casements, mullions at the attic and mullion-and-transom below. The one thing the entry adds that no earlier house here shows is scale and a courtyard plan."
+}

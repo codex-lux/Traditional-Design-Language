@@ -1,0 +1,85 @@
+{
+  "id": "trippenhuis",
+  "name": "Trippenhuis, Kloveniersburgwal 29",
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "1660-1662",
+    "circa": false,
+    "altered": "The right-hand house was remodelled in 1730 for Elisabeth van Loon; the left retains much original detail (English Wikipedia).",
+    "note": "The register says 'gebouwd 1660-1662 door Justus Vingboons'; I amsterdam says 'Het werd in 1660 gebouwd'; English Wikipedia gives 'Completed 1662' and 'built in 1660-1662'."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "2975",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2975",
+      "title": "Kloveniersburgwal 29, 1011 JV te Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Trippenhuis",
+      "title": "Trippenhuis - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints 'Location Amsterdam, Kloveniersburgwal 29', 'Completed 1662', 'Architect Justus Vingboons'. The article says it is a double house, 'two large homes built behind one single seven-window-wide facade', and 'the largest facade from the time period in Amsterdam'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.iamsterdam.com/uit/agenda/attracties-en-bezienswaardigheden/attracties/het-smalste-huis",
+      "title": "Het smalste huis | I amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose in an extract: 'Het Trippenhuis is met ruim 22 meter het breedste woonhuis van Amsterdam.' Twenty-two metres is about 72 ft. The figure is NOT carried as a measurement because it is not in this record's survey block, which is the register entry."
+    }
+  ],
+  "survey": {
+    "item": "2975",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2975",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's own 'Inschrijving register' field came back blank in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Trippenhuis, gebouwd 1660-1662 door Justus Vingboons. Zeven vensters brede, rijk gebeeldhouwde zandstenen pilastergevel onder fronton aan de voorzijde en tienassige gevel onder fronton aan de achterzijde; twee gebeeldhouwde schoorstenen op het dak. Vele interieurelementen uit de bouwtijd.",
+        "page": "Rijksmonumentenregister, monument 2975, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "Zeven vensters brede",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Of the FRONT. The register counts windows, not structural bays; on this facade they are the same thing, but the word it uses is 'vensters'."
+    },
+    {
+      "name": "rear_bay_count",
+      "as_printed": "tienassige gevel",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Ten axes on the REAR wall against seven windows on the front. The house is not symmetrical front to back, which is the point of quoting both."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "twee gebeeldhouwde schoorstenen op het dak",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two carved stacks on the roof."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. Added as the END of the tradition the node describes rather than a specimen of it: 'When Jacob van Campen and Vingboons finally imposed a real pilaster order on the whole facade in the 1640s, the gable did not survive it' (description.long). The register describes exactly that -- a seven-window-wide carved sandstone pilaster front under a pediment, and no gable at all. It is also the widest house in the city against Oude Hoogstraat 22's 2.02 m, so the two together bracket the frontage economy at both ends."
+}

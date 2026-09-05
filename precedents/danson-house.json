@@ -1,0 +1,124 @@
+{
+  "id": "danson-house",
+  "name": "Danson House",
+  "aka": [
+    "Danson Park Mansion",
+    "Danson Hill"
+  ],
+  "location": {
+    "text": "Bexleyheath, London, England",
+    "country": "England",
+    "state": "London Borough of Bexley"
+  },
+  "dates": {
+    "built": "about 1765",
+    "circa": true,
+    "note": "The listed-building entry prints 'built by Sir Robert Taylor about 1765'. The registered park entry 1000211 prints 'built from c 1762 for John Boyd by Sir Robert Taylor' and 'completed by 1770'. The node's exemplar gives 1766 and 'Built 1762-66'. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "english-georgian-country-house"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1064225",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1064225",
+      "title": "Danson Park Mansion, Non Civil Parish - 1064225 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. Listed under the statutory name DANSON PARK MANSION, DANSON PARK; the entry's own header prints the listing date 1.10.53."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000211",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000211",
+      "title": "Danson Park, Non Civil Parish - 1000211 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, which describes the mansion as 'three storeys, a piano-nobile, and a half storey above a rusticated stone basement'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Danson_House",
+      "title": "Danson House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Official name given in the infobox as 'Danson Park Mansion'; 'Built 1768'."
+    }
+  ],
+  "survey": {
+    "item": "1064225",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1064225",
+    "prepared": "The entry's own Details header prints the listing date 1.10.53. The record carries the note 'The contents of this record have been generated from a legacy data system.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "DANSON PARK 1. 5005 Welling TQ 47 NE 2/9 Danson Park Mansion 1.10.53. I 2. This mansion was built by Sir Robert Taylor about 1765 for Alderman, later Sir, John Boyd and originally called Banson Hill. Wings were added later, which have since been demolished. The Park was laid out by 'Capability' Brown in 1761.",
+        "page": "Official list entry 1064225, Details, entry header and opening sentences"
+      },
+      {
+        "field": "materials",
+        "text": "The house is of Portland stone; the ground floor being rusticated. It has 3 storeys; the principal apartments being on the first floor. Heavy modillion eaves cornice. Slate roof.",
+        "page": "Official list entry 1064225, Details"
+      },
+      {
+        "field": "openings",
+        "text": "Windows in moulded architrave surrounds, with glazing bars intact; those on the first floor having projecting cornices over and panels of balustrading below.",
+        "page": "Official list entry 1064225, Details"
+      },
+      {
+        "field": "plan",
+        "text": "All 4 fronts are exposed, but the north and south fronts are slightly wider than the east and west fronts. The east, west and south fronts have a canted bay of 3 windows on all floors in the centre. The north front has a square central projection, with a pediment over containing a round window in the typanum.",
+        "page": "Official list entry 1064225, Details"
+      },
+      {
+        "field": "porches",
+        "text": "Nineteen wide steps, with a balustrade on each side, lead up to the front door, on the piano nobile. This has engaged Corinthian columns, a modillion cornice and a vase over it between volutes and a medallion and swags between the architrave and the moulded surround of the door.",
+        "page": "Official list entry 1064225, Details"
+      },
+      {
+        "field": "stairways",
+        "text": "The interior has a fine central oval staircase, with a gallery of 8 Ionic columns on the second floor and an oval dome above, and some fine rooms.",
+        "page": "Official list entry 1064225, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "It has 3 storeys; the principal apartments being on the first floor",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The registered-park entry describes the same house as 'three storeys, a piano-nobile, and a half storey above a rusticated stone basement', which is a different count of the same fabric; both are recorded and neither is resolved."
+    },
+    {
+      "name": "canted_bay_window_count",
+      "as_printed": "a canted bay of 3 windows on all floors in the centre",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "On the east, west and south fronts. The north front has a square projection instead."
+    },
+    {
+      "name": "entrance_step_count",
+      "as_printed": "Nineteen wide steps",
+      "value": 19,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The flight from grade to the front door on the piano nobile: a direct statement of how far the principal floor is raised, in risers rather than in feet."
+    },
+    {
+      "name": "stair_gallery_column_count",
+      "as_printed": "a gallery of 8 Ionic columns on the second floor",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1064225",
+  "note": "Tranche 3, 5 Sep 2026. The entry is a legacy record and its OCR prints 'Banson Hill' for Danson Hill and 'typanum' for tympanum; both are carried verbatim in the quotes. The house is compact and four-fronted, which is the point of it for this node: the entry says in one sentence that all four elevations are exposed and that only two of them are wider."
+}

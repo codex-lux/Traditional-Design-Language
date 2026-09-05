@@ -1,0 +1,71 @@
+{
+  "id": "bibliotheque-sainte-genevieve",
+  "name": "Bibliotheque Sainte-Genevieve",
+  "aka": [
+    "Bibliothèque Sainte-Geneviève"
+  ],
+  "location": {
+    "text": "Place du Pantheon, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1844-1851 (the campaign years the Mérimée notice prints)",
+    "circa": false,
+    "note": "The notice prints 'Année(s) de(s) campagne(s) de construction 1844 ; 1851' and dates the principal campaign '2e quart 19e siècle'. It names 'LABROUSTE Henri (architecte)' and no one else."
+  },
+  "nodes": [
+    "beaux-arts-french"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088394",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088394",
+      "title": "Bibliothèque Sainte-Geneviève - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 1992/09/03 : classé MH' and records that an earlier 'Inscription 17 01 1926 (arrêté)' was annulled. The reference was read from the fr.wikipedia list of monuments historiques of the 5th arrondissement, which prints 'Bibliothèque Sainte-Geneviève | 10 place du Panthéon | « PA00088394 » | Classé | 1992'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088394",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088394",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1844 ; 1851",
+        "page": "Notice Mérimée PA00088394, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice LABROUSTE Henri (architecte)",
+        "page": "Notice Mérimée PA00088394, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Bibliothèque Sainte-Geneviève, avec ses aménagements et décors d'origine (cad. 05 : 04 BM 5) : classement par arrêté du 3 septembre 1992",
+        "page": "Notice Mérimée PA00088394, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "finishes",
+        "text": "Technique du décor porté de l'édifice Peinture",
+        "page": "Notice Mérimée PA00088394, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_span_years",
+      "as_printed": "1844 ; 1851",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension; the register prints two campaign years and this is the span between them, which is a reading. `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, ADDED BY THIS TRANCHE. The node's own prose names this building as the proof of its central claim - 'the compositional discipline underneath is real and independent of the dress, which is why the same method produced buildings as different as Garnier's Opera and Labrouste's iron-vaulted Bibliotheque Sainte-Genevieve' - and the node carried no exemplar for it. THE REGISTER SAYS NOTHING ABOUT THE IRON. It states the architect, two campaign years, one decor technique and the protection, and no material, no dimension, no vault and no bay count. The building the corpus cites for iron inside masonry has, from the register, no recorded structure at all. No rights line was read, so no `rights_evidence`."
+}

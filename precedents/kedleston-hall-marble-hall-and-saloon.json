@@ -1,0 +1,137 @@
+{
+  "id": "kedleston-hall-marble-hall-and-saloon",
+  "name": "Kedleston Hall, Marble Hall and Saloon",
+  "aka": [
+    "Kedleston Hall"
+  ],
+  "location": {
+    "text": "Derbyshire, England",
+    "country": "United Kingdom",
+    "state": "Derbyshire"
+  },
+  "dates": {
+    "built": "1758-1765",
+    "circa": false,
+    "altered": "Interiors complete by the 1780s; the Marble Hall's alabaster columns were fluted in 1775, which the entry records was 'against the advice of Robert Adam'.",
+    "note": "The list entry says '1758-65 by Matthew Brettingham, James Paine and Robert Adam' and records the date 1765 inscribed on the south front's attic. The node's own exemplar gives 1765 as the year and says Adam 'took over from Matthew Brettingham and James Paine in 1760 and completed the south front and principal interiors 1759-65'; the register names all three architects together and does not date the handover. Both are recorded."
+  },
+  "nodes": [
+    "adam-style"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1311507",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
+      "title": "Kedleston Hall, Kedleston - 1311507 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details header prints '25.9.51'. The list entry number was found through the Gazetteer of British Place Names ('Historic England Grade I Listed 1311507') and confirmed by extracting the entry itself."
+    }
+  ],
+  "survey": {
+    "item": "1311507",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
+    "prepared": "Historic England's National Heritage List entry; the Details header prints 'SK 34 SW PARISH OF KEDLESTON KEDLESTON PARK 3/41 Kedleston Hall 25.9.51 GV I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Large country house, set in large landscape park. 1758-65 by Matthew Brettingham, James Paine and Robert Adam. Interiors complete by the 1780s.",
+        "page": "Official list entry 1311507, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Red brick faced in ashlar and render. Hipped Welsh slate roofs. Various brick stacks largely hidden within the roof wells.",
+        "page": "Official list entry 1311507, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Main rectangular block with quadrant colonnades and rectangular pavilions following Palladio's Villa Mocenigo. Rusticated basement, piano nobile and attic storeys.",
+        "page": "Official list entry 1311507, Details, opening paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "Principal north front: Centre block of eleven bays. Hexastyle, giant Corinthian portico over a basement of five round arches. Three statues on the pediment. Double staircase.",
+        "page": "Official list entry 1311507, Details, north front"
+      },
+      {
+        "field": "openings",
+        "text": "South front of 3-3-3 bays. The centre piece derived from the Arch of Constantine. Four detached Corinthian columns standing close to the antae and pilasters against the wall. Each column carrying its own piece of entablature with statues above, in front of an attic with the date 1765 inscribed. Shallow lead dome above. Double staircase with sharply curved flights.",
+        "page": "Official list entry 1311507, Details, south front"
+      },
+      {
+        "field": "bays",
+        "text": "The east and west elevations of 2-3-2 bays are treated more simply, with the central feature of a Venetian window. That on the west side was at an early date blocked.",
+        "page": "Official list entry 1311507, Details, east and west elevations"
+      },
+      {
+        "field": "ceiling_heights",
+        "text": "Interior: The main entrance is into the magnificent Marble Hall, about 67ft by 37ft, and 40ft high (taking in the attic storey). Two rows of giant Corinthian columns of pink Nottinghamshire alabaster. They were fluted in 1775, against the advice of Robert Adam. Frieze and coved ceiling with delicate stucco decoration by Joseph Rose to a design by George Richardson. Hoptonwood stone floor with inlay, designed by Adam.",
+        "page": "Official list entry 1311507, Details, Interior, Marble Hall"
+      },
+      {
+        "field": "plan",
+        "text": "Beyond, in the relationship of 'atrium' and 'Vestibulum', is the saloon, a full-height domed rotunda. Apsed niches in the corners filling the square outer walls. Coffered dome and central skylight. Pedimented doorcases with pilasters of blue scagliola. Frieze of anthemion and palmette.",
+        "page": "Official list entry 1311507, Details, Interior, Saloon"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "north_front_bay_count",
+      "as_printed": "Centre block of eleven bays",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "north_portico_column_count",
+      "as_printed": "Hexastyle, giant Corinthian portico",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "A READING: hexastyle is six columns. The entry states the word and not the number."
+    },
+    {
+      "name": "basement_arch_count",
+      "as_printed": "a basement of five round arches",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "south_front_column_count",
+      "as_printed": "Four detached Corinthian columns",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "marble_hall_length_ft",
+      "as_printed": "about 67ft by 37ft",
+      "value": 67,
+      "unit": "ft",
+      "from_quote": 6,
+      "note": "The entry hedges with 'about' and does not say which figure is the front-to-back dimension; 67 is the first figure printed."
+    },
+    {
+      "name": "marble_hall_width_ft",
+      "as_printed": "about 67ft by 37ft",
+      "value": 37,
+      "unit": "ft",
+      "from_quote": 6,
+      "note": "The second figure printed. See the note on marble_hall_length_ft."
+    },
+    {
+      "name": "marble_hall_height_ft",
+      "as_printed": "40ft high (taking in the attic storey)",
+      "value": 40,
+      "unit": "ft",
+      "from_quote": 6,
+      "note": "A CEILING HEIGHT STATED BY THE REGISTER, and the register also says what it includes: the hall rises through the attic storey, so this is not a single-storey ceiling height and may not be read as one."
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE ONLY RECORD IN THIS CLUSTER THAT STATES A ROOM IN THREE DIMENSIONS: 67 by 37 by 40 ft for the Marble Hall, with the register saying the 40 takes in the attic storey. Named 'Kedleston Hall, Marble Hall and Saloon' because the exemplar is; `aka` carries the building's own name. The record covers the whole house because the list entry does, and the two rooms the exemplar names are the last two quotes. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

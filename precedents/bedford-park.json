@@ -1,0 +1,71 @@
+{
+  "id": "bedford-park",
+  "name": "Bedford Park",
+  "record_kind": "district",
+  "location": {
+    "text": "Chiswick, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (London Boroughs of Hounslow and Ealing)"
+  },
+  "dates": {
+    "built": "begun 1875",
+    "note": "The Hounslow appraisal says 'Bedford Park, begun 1875'. The node's exemplar carries the year 1880 and its own note says 'Developed from 1875'. The suburb was built in phases to 1914 and no single completion date is stated by any source read here."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.hounslow.gov.uk/downloads/file/13323/bedford-park-conservation-area-appraisal",
+      "title": "Bedford Park Conservation Area Appraisal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The designating authority's own appraisal, and the nearest thing this district has to a register entry. It records the date of designation as 16 April 1970 with no extension or alteration, an Article 4(2) Direction of 24 July 2001, and that the west side of Woodstock Road and westward, including The Avenue, lie in the London Borough of Ealing rather than Hounslow. It also records that all the surviving buildings of the first phase are listed, the majority at grade II."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1079594",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1079594",
+      "title": "The Tabard, Non Civil Parish - 1079594 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "One building inside the estate, and the only Bedford Park list entry read here in full. Grade II*, first listed 11 July 1951, amended 27 October 2022; the Details text dates it '1880 by Richard Norman Shaw, as part of Jonathan Carr's development of Bedford Park' and its HISTORY section says the buildings 'were designed as the social centre-piece of Bedford Park and proved highly influential for subsequent suburban developments'. Carried as a locator for the district because the suburb itself has no single National Heritage List entry."
+    },
+    {
+      "kind": "institution",
+      "url": "https://historicengland.org.uk/images-books/publications/dlsg-suburban-country-houses/heag104-domestic3-suburban-and-country-houses-lsg",
+      "title": "Domestic 3: Suburban and Country Houses - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Historic England's own listing selection guide, which names the houses at Bedford Park (1876-81) as good examples of the Domestic Revival style and 'a fore-runner of the garden suburb set out in wide tree-lined streets', and says Shaw's designs for Carr's estate include smaller semi-detached houses in the Queen Anne style."
+    }
+  ],
+  "survey": {
+    "item": "Bedford Park Conservation Area, London Borough of Hounslow",
+    "data_url": "https://www.hounslow.gov.uk/downloads/file/13323/bedford-park-conservation-area-appraisal",
+    "prepared": "The London Borough of Hounslow's conservation area appraisal. It states the date of designation as 16 April 1970 and carries no author and no date of issue in any span extracted here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Bedford Park, begun 1875, is probably the best-known and best-preserved later Victorian suburb in outer London. Trees and green spaces (both communal and private) are found in many earlier suburbs: the novelty of Bedford Park is their combination with ‘artistically designed’ houses of moderate size, inspired not by classical or Gothic (e.g Woodlands Estate) but by the red brick and tiled idiom derived chiefly from the home counties vernacular of the 17 th & 18 th centuries.",
+        "page": "Bedford Park Conservation Area Appraisal, 'Special Architectural and/or Historic Interest' section. The document is not paginated in the extract; the spacing of '17 th & 18 th' is the source's own."
+      },
+      {
+        "field": "general_description",
+        "text": "Bedford Park can be seen as the embodiment of the newly-fashionable Queen Anne Revival that had arisen in the 1860s. This was a somewhat inaccurate term describing a combination of 17 th and 18 th century English and Flemish domestic architecture, which also incorporated eclectic motifs drawn from other sources. It include rubbed-brick arches and dressings over and around openings, terracotta embellishments, open-bed and broken pediments, monumental chimney, shaped and Dutch gables, tile-hung gabled walls, white painted balustrades, balconies and bay- windows.",
+        "page": "Bedford Park Conservation Area Appraisal, character section; 'It include' and 'bay- windows' are the source's own."
+      },
+      {
+        "field": "significance",
+        "text": "Bedford Park was the first example where the relaxed, informal mood of a market town or village was adopted for a complete speculatively built suburb of",
+        "page": "Bedford Park Conservation Area Appraisal, 'Special Architectural and/or Historic Interest' section; the extracted span ends here mid-sentence."
+      }
+    ]
+  },
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1079594",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. `record_kind: district`, and the survey block is NOT a national heritage list entry: a suburb has no single entry, so the designating authority's own conservation area appraisal serves instead, and `survey.item` names the conservation area rather than a register number because there is no register number to name. That is a weaker instrument than the list entries the rest of this cluster uses and is marked as one. The `rights_evidence` recorded is Historic England's, read on the Tabard entry; the Hounslow appraisal carries no rights statement in any extracted span, so none is claimed for it. The estate's own listing history is worth carrying: 356 houses were listed at grade II in 1967 and the two boroughs designated their halves as conservation areas in 1969 (Ealing) and 1970 (Hounslow) -- read as search results, not extracted, and so recorded here as prose rather than as a quotation."
+}

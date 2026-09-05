@@ -1,0 +1,63 @@
+{
+  "id": "villa-barbaro",
+  "name": "Villa Barbaro",
+  "aka": [
+    "Villa di Maser",
+    "Villa Barbaro at Maser"
+  ],
+  "location": {
+    "text": "Maser, Treviso, Veneto, Italy",
+    "country": "Italy",
+    "state": "Veneto"
+  },
+  "dates": {
+    "built": "c. 1554-1560",
+    "circa": true,
+    "note": "Neither institutional source read here dates the villa. The node's own exemplar note says the dating is disputed, 'commonly given as c. 1554-1560, with some scholarship pushing completion to 1570', and that is left standing because nothing read here bears on it."
+  },
+  "nodes": [
+    "palladian"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.villadimaser.it",
+      "title": "Villa di Maser - Homepage",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The villa's own site. Its menu names separate pages for L'architettura, Le scuderie, Gli affreschi, Le serre, Il ninfeo and Il tempietto; none of those URLs was returned by a tool result in this session, so none was opened and none is cited."
+    },
+    {
+      "kind": "unesco",
+      "id": "712",
+      "url": "https://whc.unesco.org/en/list/712",
+      "title": "City of Vicenza and the Palladian Villas of the Veneto - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A component of the serial property; the Wikipedia list article read the same day gives the component id '712-018 Villa Barbaro, Maser, Treviso'. The villa's own homepage carries the line 'La Villa di Maser è Patrimonio dell'Umanità UNESCO'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.grandigiardini.it/lang_EN/314-visit-Villa-di-Maser-event-tickets",
+      "title": "Villa di Maser - Grandi Giardini Italiani",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried only because it is where the villa's own contact details and website were read: 'Via Barbaro, 4 31010 Maser (TV) Tel. +39 0423 923004. E-mail visite@villadimaser.it www.villadimaser.it'."
+    }
+  ],
+  "survey": {
+    "item": "villadimaser-homepage",
+    "data_url": "https://www.villadimaser.it",
+    "prepared": "Villa di Maser, official site homepage; the page carries no author, no date and no descriptive section beyond the sentence below",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Villa di Maser è un’opera sapiente, armonica ed equilibrata che unisce storia, arte e vita quotidiana superando le epoche in un costante incontro e scambio tra bellezza, natura e comunità.",
+        "page": "villadimaser.it homepage, the standfirst above the events list"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE THINNEST SURVEY IN THIS CLUSTER AND IT IS RECORDED AS SUCH. The building's own institution publishes an 'L'architettura' page whose URL no tool result in this session returned, so the survey here is one sentence of the homepage's standfirst and states nothing about the fabric. The node's claims for this building -- the Ionic temple front over a working farm, the barchesse ending in sundial pavilions, the Veronese frescoes -- are corroborated by NOTHING read here. A second pass with the architecture page's URL would be the cheapest improvement available to this record."
+}

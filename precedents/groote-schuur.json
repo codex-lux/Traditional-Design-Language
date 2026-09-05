@@ -1,0 +1,59 @@
+{
+  "id": "groote-schuur",
+  "name": "Groote Schuur",
+  "location": {
+    "text": "Rondebosch, Cape Town, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1893-1897",
+    "circa": true,
+    "altered": "Rebuilt after the fire of 1896.",
+    "note": "The sources do not agree and none is resolved. The node's exemplar year is 1893, the year Rhodes bought the estate; the English Wikipedia infobox says 'Built 18th century' and names Baker as the '19th century refurbishment' architect; the same article says Rhodes leased in 1891 and bought in 1893, and that 'Little of the original house remained after a fire in 1896'. The building standing today is therefore Baker's, on an eighteenth-century site, and the record dates it as a range rather than picking one year."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/111/0072/001",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Wynberg,_Cape_Town",
+      "title": "Groote Schuur, Rondebosch, Cape Town -- List of heritage sites in Wynberg, Cape Town",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Provincial Heritage Site. The register row carries no description at all beyond 'Type of site: House. Current use: House.' The estate as a whole is listed separately at 9/2/111/0072."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Groote_Schuur",
+      "title": "Groote Schuur - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://artefacts.co.za/main/Buildings/bldgframes_mob.php?bldgid=3042",
+      "title": "Groote Schuur details -- Artefacts.co.za",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The South African building database's entry: 'The house was razed by fire in 1896 and rebuilt by Herbert BAKER on the instruction of Rhodes.'"
+    }
+  ],
+  "survey": {
+    "item": "en.wikipedia.org/wiki/Groote_Schuur",
+    "data_url": "https://en.wikipedia.org/wiki/Groote_Schuur",
+    "prepared": "The English Wikipedia article, read as continuous prose in an extract. IT IS NOT A SURVEY AND NOT A REGISTER, and it is used here because the SAHRA row for this building carries no description at all. Nothing in this block should be read as having the authority of a survey; it is quoted rather than paraphrased so that a later reader can see exactly what was relied on.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "roof",
+        "text": "Little of the original house remained after a fire in 1896. The traditional thatched roof was replaced by sturdier Welsh slates. Rhodes gave no strict instructions as to what he wanted from Baker. Rhodes abhorred any mechanically made items (such as hinges for windows) in the house and set out to remove them and have them replaced with brass and bronze items that would be cast. Baker replaced the front of the house, added a long stoep in the back and constructed a new wing.",
+        "page": "English Wikipedia, 'Groote Schuur', body text. Not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Cape cluster, 5 September 2026. THIS RECORD CONTRADICTS THE NODE'S OWN PROSE AT ITS SHARPEST POINT. The node makes thatch structural to the type -- 'Roofs are steeply pitched reed thatch cut from the vleis ... And beneath the thatch, by law and by hard experience, sits the brandsolder' -- and Groote Schuur, which the node names as 'the origin point of the Cape Dutch Revival, and therefore the hinge between the living tradition and its later national use', is the building where the thatch was taken off and Welsh slate put on. The revival's founding building declines the type's own roof. The record states that and does not resolve it.\n\nTHERE IS NO MEASUREMENT BLOCK. Nothing read for this building states a dimension, a storey count or a pitch, and an empty block is the honest form of that. An earlier draft carried the article's count of four Flemish tapestries as a measurement; it was removed, because a tapestry count is not a fact about the building and because the sentence it sat in was outside the span actually quoted -- which the corpus's own as_printed-must-be-a-substring rule caught."
+}

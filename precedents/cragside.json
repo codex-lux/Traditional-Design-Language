@@ -1,0 +1,131 @@
+{
+  "id": "cragside",
+  "name": "Cragside",
+  "location": {
+    "text": "Rothbury, Northumberland, England",
+    "country": "United Kingdom",
+    "state": "Northumberland"
+  },
+  "dates": {
+    "built": "1864",
+    "altered": "Greatly enlarged 1870-2, 1872-7 and 1883-5 by Norman Shaw; Billiard Room extension 1895 by Frederick Waller.",
+    "note": "The list entry dates the first house 1864 and gives three Shaw campaigns, 1870-2, 1872-7 and 1883-5. The node's exemplar carries the year 1884 and its own note says 'Enlarged 1869-84'. The entry's 1864 start and its 1885 end both fall outside that span at one end or the other; neither is changed here."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1042076",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1042076",
+      "title": "Cragside, Rothbury - 1042076 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text's own header reads 'CARTINGTON CRAGSIDE NU 0702 24/11 Cragside 21/10/53 GV I', carrying the date first listed (21 October 1953) and the grade; the entry ends 'Listing NGR: NU0737502173'. Do not confuse it with entry 1041937, Cragside Park House, a separate grade II building in Rothbury."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001046",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001046",
+      "title": "Cragside, Rothbury - 1001046 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park and garden entry for the same estate: Heritage Category 'Park and Garden', Grade 'I', List Entry Number '1001046', Date first listed '01-Jan-1985'."
+    }
+  ],
+  "survey": {
+    "item": "1042076",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1042076",
+    "prepared": "Date first listed: 21 October 1953, as the entry's own Details header prints it ('24/11 Cragside 21/10/53'). No Overview 'Date first listed' line was returned by any of the three extracts.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Country House. 1864, greatly enlarged 1870-2, 1872-7 and 1883-5 by Norman Shaw, and Billiard Room extension 1895 by Frederick Waller, for Sir William George Armstrong, 1st Lord Armstrong. Snecked stone with rock-faced-and- margined quoins and ashlar dressings; some timber framing with pebbledashed infill; red clay tile roofs except for leaded part-glazed roof to Drawing Room and Welsh slates on Billiard Room.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1042076). The hyphenation of 'rock-faced-and- margined' is the entry's own line break, kept verbatim."
+      },
+      {
+        "field": "plan",
+        "text": "Dramatic site cut into steep valleyside; irregular ranges around small court closed by rock face on east. Central Tower in west range; Gilnockie Tower at east end of south range forms a link with Drawing Room and Billiard Room at higher level to south-east. Eclectic style with mixed Gothic, Tudor and Renaissance motifs.",
+        "page": "Official list entry, Details section, site and plan paragraph; returned only by the third extract."
+      },
+      {
+        "field": "bays",
+        "text": "South (Entrance) front: irregular facade in 3 parts. 3-storey 3-bay left section has 2 timber-framed gables and an attic dormer; central moulded entrance arch with inner half-glazed panelled double doors, and large mullioned- and-transomed window over. Central part 2 storeys and blind jettied top floor, 2 bays, has a larger moulded archway through to the courtyard. Right bay is 5-storey Gilnockie Tower, with gabled top floor set back behind stepped parapet; and hexagonal wooden cupola with swept lead dome and weathervane.",
+        "page": "Official list entry, Details section, south (entrance) front paragraph."
+      },
+      {
+        "field": "general_description",
+        "text": "Irregular west front in several planes. 4-bay right section is 1864 house, heightened 1872-7 by Shaw; 3 storeys except for 6-storey central Tower rising behind 2nd bay. Twin-gabled left bay; timber-framed top floor to right bays. Tower has stepped crenellated parapet below timber-framed top floor with jettied gable. 2-bay left section of 1870-7: Semi-octagonal bay window on left supports balcony to recessed timber-framed 2nd floor.",
+        "page": "Official list entry, Details section, west front paragraph."
+      },
+      {
+        "field": "openings",
+        "text": "North front 1 + 4 bays. Main 3-storey part has 1874 gateway on left: large moulded archway to courtyard flanked by stepped clasping buttresses. 3rd bay has full-height canted bay window, with multi-shafted chimney to right. To left is 1½-storey bay with timber-framed gable set back behind parapet.",
+        "page": "Official list entry, Details section, north front paragraph."
+      },
+      {
+        "field": "finishes",
+        "text": "Stone Entrance Hall with panelled bays on either side and moulded arches, one leading to passage with De Morgan majolica tiles. Library with elaborate panelled and coffered ceiling, frieze with painted floral panels, high panelled dado and large chimney piece of onyx, copper and pictorial tiles; Morris glass (life of St. George) in top lights of windows. Dining Room has deeply-coffered moulded ceiling and high embattled dado with carved frieze; inglenook fireplace under semicircular arch, the fireplace, arch and frieze above all carved.",
+        "page": "Official list entry, Details section, interior paragraph."
+      },
+      {
+        "field": "significance",
+        "text": "Cragside was the home of the 1st Lord Armstrong (1810-1900), industrialist and inventor. The house was the scene of many technological innovations; it was the first in the world to be lit by electricity derived from water power.",
+        "page": "Official list entry, Details section, closing paragraph, above 'Listing NGR: NU0737502173'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "entrance_front_left_section_storey_count",
+      "as_printed": "3-storey 3-bay left section",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "entrance_front_left_section_bay_count",
+      "as_printed": "3-bay left section",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "Right bay is 5-storey Gilnockie Tower",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The south front's tower. The west front's central Tower is separately stated at six storeys, so the house carries two towers of different heights and no single figure describes it."
+    },
+    {
+      "name": "west_front_tower_storey_count",
+      "as_printed": "6-storey central Tower",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "west_front_bay_count",
+      "as_printed": "4-bay right section is 1864 house",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The 1864 house, before Shaw; the rest of the west front is a further two bays of 1870-7."
+    },
+    {
+      "name": "north_front_bay_count",
+      "as_printed": "North front 1 + 4 bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The entry prints '1 + 4' rather than a total; five is a reading of it, marked as one."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1042076",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. The most useful evidence here is negative: the entry describes four fronts and gives a different storey count on each -- 3, 2 and 5 on the south, 3 and 6 on the west, 3 and 1½ on the north -- which is what 'Old English' massing means in practice and is why no `height_proportion` figure can be taken from this building. The entry also calls the style 'Eclectic ... with mixed Gothic, Tudor and Renaissance motifs' rather than Queen Anne, which is the register disagreeing with the node's own classification of its exemplar."
+}

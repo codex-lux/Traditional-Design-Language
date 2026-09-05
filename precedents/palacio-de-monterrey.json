@@ -1,0 +1,56 @@
+{
+  "id": "palacio-de-monterrey",
+  "name": "Palacio de Monterrey",
+  "location": {
+    "text": "Salamanca, Spain",
+    "country": "Spain",
+    "state": "Castile and Leon"
+  },
+  "dates": {
+    "built": "1539",
+    "circa": false,
+    "altered": "Never finished: the article says the complete project was much larger than what stands. Opened to visitors from May 2018.",
+    "note": "'Pedro de Ibarra y Pedro de Miguel y Aguirre empezaron la construcción el 18 de enero de 1539', to plans sketched by Rodrigo Gil de Hontañón and fray Martín de Santiago as the infobox names them. No completion date is stated because the building has none."
+  },
+  "nodes": [
+    "spanish-plateresque"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0000332",
+      "url": "https://es.wikipedia.org/wiki/Palacio_de_Monterrey",
+      "title": "Palacio de Monterrey - Wikipedia, la enciclopedia libre; BIC RI-51-0000332, 6 May 1929",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox prints 'Catalogación Bien de interés cultural 6 de mayo de 1929 RI-51-0000332' and the text confirms it: 'Fue declarado Monumento Histórico Nacional, equivalente al actual término BIC con categoría de Monumento, el 6 de mayo de 1929'. This is the best-attested register reference in this cluster: a code and a date, printed twice on one page."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Palacio_de_Monterrey",
+      "title": "Palacio de Monterrey - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-palacio-de-monterrey",
+    "data_url": "https://es.wikipedia.org/wiki/Palacio_de_Monterrey",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Desde entonces se convertiría en una de las obras más representativas del renacimiento español, si bien es un edificio inacabado pues su proyecto completo era mucho mayor. Su imagen (con torres y decoración suntuosa) simboliza la gran nobleza del Siglo de Oro español.",
+        "page": "Spanish Wikipedia, opening section"
+      },
+      {
+        "field": "other",
+        "text": "Fue declarado Monumento Histórico Nacional, equivalente al actual término BIC con categoría de Monumento, el 6 de mayo de 1929.",
+        "page": "Spanish Wikipedia, opening section"
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. NO MEASUREMENT IS RECORDED: neither extract of this article returned a dimension, a bay count or a storey count, and the crestería and corner towers the palace is known for are described only as 'torres y decoración suntuosa'. It is here for the register reference, which is the firmest in the cluster, and because it is the plateresque PALACE beside three institutional fronts."
+}

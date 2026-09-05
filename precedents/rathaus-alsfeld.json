@@ -1,0 +1,110 @@
+{
+  "id": "rathaus-alsfeld",
+  "name": "Rathaus",
+  "aka": [
+    "Rathaus Alsfeld",
+    "Alsfelder Rathaus"
+  ],
+  "location": {
+    "text": "Alsfeld, Germany",
+    "country": "Germany",
+    "state": "Hessen, Vogelsbergkreis"
+  },
+  "dates": {
+    "built": "1512 bis 1516",
+    "circa": false,
+    "altered": "The spirelets crowning the oriels were taken down in 1760; those standing are reconstructions, the front pair of 1910/11 and the rear pair of 1967/68. The pointed ground-floor arches were opened up in the restoration of 1883 and the facade repaired in 1887/88 (KuLaDig). The building was rededicated on 4 April 1912.",
+    "note": "1512-1516 in every source read; the node's exemplar year of 1516 is the completion."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "denkmalliste",
+      "id": "13138",
+      "url": "https://de.wikipedia.org/wiki/Liste_der_Kulturdenkm%C3%A4ler_in_Alsfeld",
+      "title": "Liste der Kulturdenkmäler in Alsfeld – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Landesamt fuer Denkmalpflege Hessen number as the Wikipedia table prints it, in the row 'Rathaus | Alsfeld, Markt 1 | Flur: 1, Flurstück: 4 | Bedeutender Fachwerkbau aus dem 16. Jahrhundert | 13138'. The last field is the Schutzbegruendung -- the whole of the register's stated reason. The official database is DenkXweb (Landesamt fuer Denkmalpflege Hessen); its entry page for this building was not reached from this container."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Rathaus_Alsfeld",
+      "title": "Rathaus Alsfeld – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.alsfeld.de/sehenswuerdigkeit/rathaus",
+      "title": "1 Rathaus - Stadt Alsfeld",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own page: 'Früher Rähmbau mit starken Hölzern, vorstehenden gekehlten Balkenköpfen und gekrümmten Eckstreben auf einem steinernen Spätgotischen Unterbau, Bauzeit von 1512 bis 1516. Das Erdgeschoss wurde einst als Markthalle genutzt.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.kuladig.de/Objektansicht/O-62567-20130321-2",
+      "title": "Rathaus Alsfeld | KuLaDig Objektansicht",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "KuLaDig, the cultural-landscape database. It carries the restoration chronology (1883, 1887/88, 1908 plans, rededication 4 April 1912) and cites the printed Denkmaltopographie: Zietz, Peer (Bearb.) / Landesamt fuer Denkmalpflege (Hrsg.) (2002), Kulturdenkmaeler in Hessen: Stadt Alsfeld."
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-rathaus-alsfeld",
+    "data_url": "https://de.wikipedia.org/wiki/Rathaus_Alsfeld",
+    "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Das historische Rathaus der hessischen Stadt Alsfeld steht frei und traufständig am Marktplatz der Stadt mit der Anschrift Am Markt 1. Das Erdgeschoss besteht aus drei steinernen Arkaden. Die beiden darauf aufgesetzten Vollgeschosse und die drei Dachgeschosse des steilen Satteldachs sind dagegen in Fachwerk als Rähmbau ausgeführt. Die beiden auskragenden Stockwerke ruhen auf Knaggen. Die marktseitige Fassade sowie die Rückseite des Gebäudes dominieren je zwei mittig angeordnete, sich über den ersten und zweiten Stock erstreckende Erker, die von Kragsteinen des steinernen Erdgeschosses getragen werden und mit spitz zulaufenden Turmhelmen gekrönt sind. Auch die Giebelseiten weisen Erker auf.",
+        "page": "German Wikipedia, 'Rathaus Alsfeld', section 'Baubeschreibung'. Not paginated. The extract renders three internal wiki-link titles as stray quoted phrases after 'Marktplatz', 'Knaggen' and 'Kragsteinen'; those markers have been dropped and no word was changed."
+      },
+      {
+        "field": "plan",
+        "text": "Im Innern ist im zweiten Stock die ursprüngliche Raumteilung noch erhalten: Ein größerer Raum mit Mittelstütze, ursprünglich „Tanzboden“, ist heute ein Sitzungssaal. Und ein kleinerer Raum, die „Kleine Stube“, ursprünglich Gerichtssaal, wird heute vom Standesamt als Trausaal genutzt.",
+        "page": "German Wikipedia, 'Rathaus Alsfeld', section 'Baubeschreibung'. Not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "ground_arcade_count",
+      "as_printed": "Das Erdgeschoss besteht aus drei steinernen Arkaden",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three stone arcades carrying the timber above. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    },
+    {
+      "name": "full_storey_count",
+      "as_printed": "Die beiden darauf aufgesetzten Vollgeschosse",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two full timber storeys above the stone ground floor. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    },
+    {
+      "name": "attic_storey_count",
+      "as_printed": "die drei Dachgeschosse des steilen Satteldachs",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "THREE attic storeys inside the steep gable roof, against two storeys of wall. The roof holds more floors than the wall does, which is the fact a roof-pitch band alone will never tell a generator. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    },
+    {
+      "name": "jettied_storey_count",
+      "as_printed": "Die beiden auskragenden Stockwerke ruhen auf Knaggen",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Both timber storeys jetty, and both are carried on Knaggen -- the bracket the node's own kit rule (c03) makes conditional on a projection over 400 mm. No projection is stated here. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. Note the record's `name` is the bare 'Rathaus', because that is the exemplar string on the node and an exemplar name may not be renamed. `location.state` carries the Kreis as well as the Land so that this record and the Michelstadt one, which is also called 'Rathaus' and is also in Hessen, are separable by the checker's own name-and-place key."
+}

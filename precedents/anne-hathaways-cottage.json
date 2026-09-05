@@ -1,0 +1,127 @@
+{
+  "id": "anne-hathaways-cottage",
+  "name": "Anne Hathaway's Cottage",
+  "location": {
+    "text": "Shottery, Warwickshire, England",
+    "country": "England",
+    "state": "Warwickshire"
+  },
+  "dates": {
+    "built": "C15 or earlier",
+    "circa": true,
+    "altered": "The entry records 'C16 alterations; c1600 wing to left end and C17 wing to right end; left wing damaged by fire in 1969', and a datestone 'IH/ 1697' on the stack to the rear of the ridge with a matching 'IH EH 1697' inscription on the hall's bacon-cupboard grille.",
+    "note": "The node's exemplar gives the year 1463 and says 'The earliest part dates to 1463 as a single-storey three-room house; the upper part was built between 1610 and 1624.' The list entry says only 'C15 or earlier' and dates the wings c1600 and C17. The node's figures are finer than anything this record's references state and are left as the node has them."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1298551",
+      "title": "Anne Hathaway's Cottage, Stratford-upon-Avon - 1298551 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1298551",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read twice with different queries; the first extract returned the exterior description and the second the interior and the historical note. Neither returned the Official list entry block. A search result the same day printed its field values as 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1298551 ; Date first listed: 25-Oct-1951 ; List Entry Name: Anne Hathaway's Cottage.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001184",
+      "title": "Anne Hathaway's Cottage, Stratford-upon-Avon - 1001184",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001184",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A separate Historic England entry for the garden, on the Register of Parks and Gardens. Its opening locates the site: 'Anne Hathaway's Cottage is situated in the village of Shottery c 1.5km west-south-west of Stratford-upon-Avon.' Recorded as a locator, not extracted."
+    }
+  ],
+  "survey": {
+    "item": "1298551",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1298551",
+    "prepared": "Date first listed: 25-Oct-1951. NOT READ IN AN EXTRACT: two extracts of the page returned the Details prose and not the Official list entry block, so this is the field value a Tavily search result printed for this entry on the same day.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Farmhouse, now museum. C15 or earlier with C16 alterations; c1600 wing to left end and C17 wing to right end; left wing damaged by fire in 1969.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Timber-frame with brick and plaster infill on limestone plinth; thatch roof, higher to left wing, with brick stacks.",
+        "page": "Official list entry, Details, materials sentence following the opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "PLAN: 2-unit plan with through-passage, probably originally hall and 2-storey wing, with 2-window range to left end and narrower range to right end.",
+        "page": "Official list entry, Details, headed paragraph PLAN"
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: single storey and attic. Coursed rubble plinth, higher to left end and to height of ground floor to right end.",
+        "page": "Official list entry, Details, opening of the headed paragraph EXTERIOR"
+      },
+      {
+        "field": "dormers",
+        "text": "Entrance to through-passage and one to left wing, both with plank doors. Varied fenestration, mostly restored 2-light leaded casements; one canted oriel with hipped tile roof to left wing; 4 dormer windows, one an eyebrow dormer.",
+        "page": "Official list entry, Details, EXTERIOR continued"
+      },
+      {
+        "field": "chimneys",
+        "text": "Stack to rear of ridge has datestone: IH/ 1697, and stack to right, to rear of ridge, both with tapering caps; left end stack.",
+        "page": "Official list entry, Details, EXTERIOR continued; this span opens the block returned by the second extract, which repeats its first words from the end of the first extract's block"
+      },
+      {
+        "field": "finishes",
+        "text": "Hall has brick and rubble fireplace with chamfered bressumer, 2 tinder holes to back and side recess, a bacon cupboard, has grille with splat balusters and inscription: IH EH 1697; some re-set C17 panelling; fixed settle between fireplace and door.",
+        "page": "Official list entry, Details, headed paragraph INTERIOR"
+      },
+      {
+        "field": "structural_system",
+        "text": "1st floor has exposed trusses and wind braces; wide floorboards except to left wing, which has tie beam cut for doorway; exposed cruck trusses over hall, one with spurs and trenched principals, collar and yoke; smoke hood to hall fireplace of brick with some exposed wattle panels.",
+        "page": "Official list entry, Details, INTERIOR continued"
+      },
+      {
+        "field": "significance",
+        "text": "HISTORICAL NOTE: the birthplace of Anne Hathaway, 1556-1623, who married William Shakespeare in 1582, and the home of the Hathaway family from the C15 to 1892, when it was sold to the Trustees and Guardians of Shakespeare's Birthplace.",
+        "page": "Official list entry, Details, headed paragraph HISTORICAL NOTE"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "EXTERIOR: single storey and attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "AGREES with the node's own short description, 'one and a half storeys'. The entry counts one storey and does not count the attic; the attic is lit and inhabited -- the same paragraph gives it four dormers -- and the corpus's own phrase for this is one and a half."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "4 dormer windows, one an eyebrow dormer",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "THE EYEBROW DORMER IS NAMED BY THE SURVEYOR, not inferred. The node's prose derives it from thatch: 'which insists on being a continuous surface -- hence the swept eyebrow dormer'. This is the only reading in this cluster that names one."
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "mostly restored 2-light leaded casements",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The commonest window on the building. 'restored' is the entry's own qualifier."
+    },
+    {
+      "name": "plan_unit_count",
+      "as_printed": "2-unit plan with through-passage",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "CONTRADICTS the node's exemplar note, which calls the earliest part 'a single-storey three-room house'. The entry says two units and a through-passage, 'probably originally hall and 2-storey wing'. Neither is changed."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. The entry states no dimension. It is the strongest evidence in this cluster for two of the node's own derivations at once -- the eyebrow dormer as a consequence of continuous thatch, and the Great Rebuilding inserting a stack into an open house: the smoke hood over the hall fireplace and the 1697 datestone on the stack behind the ridge are the physical record of exactly that, a century later than the node's stated 1570-1640 window."
+}

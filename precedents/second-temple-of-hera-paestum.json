@@ -1,0 +1,91 @@
+{
+  "id": "second-temple-of-hera-paestum",
+  "name": "Second Temple of Hera (Temple of Neptune)",
+  "aka": [
+    "Tempio di Nettuno",
+    "Temple of Poseidon",
+    "Hera II"
+  ],
+  "location": {
+    "text": "Paestum, Campania, Italy",
+    "country": "Italy",
+    "state": "Campania"
+  },
+  "dates": {
+    "built": "c. 460 BC",
+    "circa": true,
+    "note": "The Ministry's park page says the building was completed 'intorno al 460 a.C.'; the English Wikipedia article read the same day gives 'around 460-450 BC'. Both are recorded."
+  },
+  "nodes": [
+    "greek-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://parchipaestumvelia.cultura.gov.it/scopri-i-parchi/area-archeologica-di-paestum",
+      "title": "Area Archeologica di Paestum - Parchi Archeologici di Paestum & Velia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Italian Ministry of Culture's own archaeological park (Parchi archeologici di Paestum e Velia, pa-paeve@cultura.gov.it). Its per-temple description is the survey text below."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Second_Temple_of_Hera_(Paestum)",
+      "title": "Second Temple of Hera (Paestum)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as a full extract. It carries the figures the Ministry's page does not: the peristyle columns 'are 8.88 metres high (29 feet)' and 'This gives a ratio of height to lower diameter of 4.25:1, unusually low for the period', and the external columns have 24 flutes rather than the usual 20. None of these is carried in `measurements`, because the measurements below index the Ministry's survey and a figure from a second document is not a figure that survey states."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://it.wikipedia.org/wiki/Tempio_di_Nettuno_(Paestum)",
+      "title": "Tempio di Nettuno (Paestum) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the stylobate figures no state source read here prints: 'le misure dello stilobate sono di 24,30 m e 59,90 m'. Read in a search result, so not carried as a measurement."
+    }
+  ],
+  "survey": {
+    "item": "area-archeologica-di-paestum",
+    "data_url": "https://parchipaestumvelia.cultura.gov.it/scopri-i-parchi/area-archeologica-di-paestum",
+    "prepared": "Parchi archeologici di Paestum e Velia, Ministero della cultura; the site page prints no author or date line in the extract",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "bays",
+        "text": "La costruzione del tempio di Nettuno fu completata intorno al 460 a.C. Il tempio, possente e un tempo ricco di colori, presenta una pianta con peristasi di 6 x 14 colonne doriche. Architrave e fregio di triglifi e metope non scolpite, ma forse dipinte, componevano la trabeazione.",
+        "page": "Area archeologica di Paestum, 'Il Tempio di Nettuno' section, opening sentences"
+      },
+      {
+        "field": "plan",
+        "text": "L’interno della struttura si articola in modo canonico: dal pronao si accedeva attraverso una grande porta alla cella, originariamente chiusa da muri in opera quadrata e divisa internamente in tre navate da due file di colonne doriche su due piani; l’opistodomo, collocato alle spalle della cella ma non comunicante con essa, era accessibile solo dall’esterno.",
+        "page": "Area archeologica di Paestum, 'Il Tempio di Nettuno' section, interior sentence"
+      },
+      {
+        "field": "significance",
+        "text": "Non sappiamo con certezza a quale divinità fosse dedicato il tempio. L’identifi­cazione con il dio Nettuno deriva da un’erronea associazione degli eruditi del Settecento tra la struttura sacra e il nome alla città greca.",
+        "page": "Area archeologica di Paestum, 'Il Tempio di Nettuno' section, dedication paragraph. The extract carries a soft hyphen inside 'identificazione' and it is kept as read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "peristyle_columns_front",
+      "as_printed": "peristasi di 6 x 14 colonne doriche",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The register prints the pair; the front count is the first figure."
+    },
+    {
+      "name": "peristyle_columns_flank",
+      "as_printed": "6 x 14 colonne doriche",
+      "value": 14,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "14 on the flank against a hexastyle front breaks the node's stated rule n_flank = 2 x n_front + 1, which asks for 13. The Italian Wikipedia article read the same day calls 6 x 14 a Sicilian-Greek deviation from the mainland norm."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche: the node's geography names Magna Graecia and it carried no building there, and this is the temple its own prose points at when it says 'the squat Paestum columns at roughly four diameters'. The park's own text states counts and no dimension; the height-to-diameter ratio the node's prose depends on is stated only in the Wikipedia article and is deliberately not promoted to a measurement here. A UNESCO reference was NOT written: the Wikipedia article states only that the temple 'was listed as a UNESCO World Heritage Site in 1998' and no inscription number was read from a UNESCO page in this session, so none is recorded rather than one being supplied from memory."
+}

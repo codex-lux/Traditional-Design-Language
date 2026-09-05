@@ -181,25 +181,55 @@
       "name": "Pantheon",
       "location": "Rome, Italy",
       "year": 113,
-      "note": "c. AD 113-125 under Hadrian, reusing Agrippa's inscription. Unreinforced concrete dome of 43.3 m, still the largest ever built."
+      "note": "c. AD 113-125 under Hadrian, reusing Agrippa's inscription. Unreinforced concrete dome of 43.3 m, still the largest ever built.",
+      "precedent": "pantheon-rome",
+      "standing": "icon",
+      "why": "The Italian Ministry of Culture's own record calls it 'certainly the best preserved' of the buildings of classical antiquity and states the identity of diameter and height, 43.30 m, that this node's proportional_system quotes as its one worked example."
     },
     {
       "name": "Maison Carree",
       "location": "Nimes, France",
       "year": 4,
-      "note": "Dedicated c. AD 4-7 to Gaius and Lucius Caesar. Corinthian hexastyle pseudoperipteral on a 2.85 m podium; the most completely preserved Roman temple and Jefferson's direct model."
+      "note": "Dedicated c. AD 4-7 to Gaius and Lucius Caesar. Corinthian hexastyle pseudoperipteral on a 2.85 m podium; the most completely preserved Roman temple and Jefferson's direct model.",
+      "precedent": "maison-carree",
+      "standing": "canonical",
+      "why": "UNESCO inscribed it in 2023 in its own right, calling it 'an early and one of the best-preserved examples of a Roman temple dedicated to the imperial cult in the Roman provinces', which is the register's judgment and not this corpus's."
     },
     {
       "name": "Colosseum (Flavian Amphitheatre)",
       "location": "Rome, Italy",
       "year": 70,
-      "note": "AD 70-80. The canonical superimposed arch order: Tuscan, Ionic, Corinthian, with a Corinthian pilaster attic."
+      "note": "AD 70-80. The canonical superimposed arch order: Tuscan, Ionic, Corinthian, with a Corinthian pilaster attic.",
+      "precedent": "colosseum",
+      "standing": "icon",
+      "why": "The Parco archeologico del Colosseo's own page calls it 'the largest amphitheatre in the world' and 'a spectacle in itself', and the node names it for the superimposed arch order that the same page, notably, never mentions."
     },
     {
       "name": "House of the Vettii",
       "location": "Pompeii, Italy",
       "year": 62,
-      "note": "Final form after the earthquake of AD 62, buried AD 79. The best-preserved atrium-and-peristyle domus."
+      "note": "Final form after the earthquake of AD 62, buried AD 79. The best-preserved atrium-and-peristyle domus.",
+      "precedent": "house-of-the-vettii",
+      "standing": "documentary",
+      "why": "The Parco Archeologico di Pompei's own record calls it 'tra le più ricche e famose di Pompei' and states, against the node's reading of it as the canonical atrium-and-peristyle domus, that the Augustan remodelling deleted the tablinum to enlarge the garden."
+    },
+    {
+      "name": "Temple of Portunus",
+      "location": "Forum Boarium, Rome, Italy",
+      "year": -100,
+      "note": "Roma Capitale's record dates the fabric to the second half of the 2nd century BC with 1st-century BC renovations, over a 4th- or 3rd-century BC foundation. Ionic tetrastyle pseudoperipteral on a high podium: four free columns across the front, then two free and five engaged on each flank.",
+      "precedent": "temple-of-portunus",
+      "standing": "canonical",
+      "why": "Roma Capitale's monument record calls it 'one of the best preserved buildings of Ancient Rome' and counts its free and engaged flank columns separately, which is the one place in this cluster where the node's central diagnostic tell -- engaged half-columns pretending to continue round the flanks -- is stated as a number by a register."
+    },
+    {
+      "name": "House of the Faun",
+      "location": "Pompeii, Italy",
+      "year": -150,
+      "note": "2nd century BC in its original layout on the park's dating; excavated 1829-1833, 1900 and 1960-1962. A whole insula of about 3,000 sq m with two atria and two peristyles -- the canonical domus sequence, doubled.",
+      "precedent": "house-of-the-faun",
+      "standing": "documentary",
+      "why": "The Parco Archeologico di Pompei's own record calls it 'una delle case più grandi di Pompei' and states its area and its two atria and two peristyles, which makes it the plain measurable domus this node lacked once its only house turned out to have had its tablinum removed."
     }
   ],
   "sources": [

@@ -1,0 +1,121 @@
+{
+  "id": "alhambra-comares-and-lions-palaces",
+  "name": "Alhambra, Palacio de Comares and Palacio de los Leones",
+  "aka": [
+    "Alhambra",
+    "Comares Palace",
+    "Palace of the Lions"
+  ],
+  "location": {
+    "text": "Granada, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "1333-1391",
+    "circa": false,
+    "altered": "The Palace of Charles V driven into the south side of the Comares palace from 1527; extensive 19th- and 20th-century restoration under the Patronato.",
+    "note": "The node's exemplar gives 1333-1391 under Yusuf I and Muhammad V and dates the row 1391. The Generalife infobox on the same site prints '14th century' for the neighbouring estate."
+  },
+  "nodes": [
+    "moorish-andalusian"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "314",
+      "url": "https://en.wikipedia.org/wiki/Generalife",
+      "title": "Alhambra, Generalife and Albayzín, Granada; UNESCO reference no. 314, inscribed 1984, extended 1994",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The reference number, the official name and both session dates were read in the Generalife article's World Heritage infobox, which names the same property. The inscription covers three things -- the Alhambra, the Generalife and the Albayzin quarter -- so the number is not an identity for this palace."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Alhambra",
+      "title": "Alhambra - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-alhambra",
+    "data_url": "https://en.wikipedia.org/wiki/Alhambra",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": ", a courtyard measuring 23 to 23.5 metres wide and 36.6 metres long, with its long axis aligned roughly north-to-south. At the middle, aligned with the main axis of the court, is a wide reflective pool. The pool measures 34 metres long and 7,10 metres wide.",
+        "page": "English Wikipedia, section on the Court of the Myrtles. THE SPAN BEGINS WITH A COMMA: the subject of the sentence is a wikilink the extractor dropped, so the words before the comma were not returned and are not invented here. The pool's width is printed with a comma decimal separator, '7,10 metres', and is left as it stands."
+      },
+      {
+        "field": "plan",
+        "text": "It is accessed by passing through the Sala de la Barca, a wide rectangular hall behind the northern portico of the court. The Hall of the Ambassadors is a square chamber measuring 11.3 metres per side and rising to a height of 18.2 metres.",
+        "page": "English Wikipedia, section on the Salón de los Embajadores in the Comares Tower"
+      },
+      {
+        "field": "finishes",
+        "text": "The ceiling is made of 8017 interlinked pieces of wood that form an abstract",
+        "page": "English Wikipedia, same section; THE SPAN ENDS MID-SENTENCE where the extract's returned chunk ends, and no continuation is supplied"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "court_width_ft",
+      "as_printed": "23 to 23.5 metres wide",
+      "from_quote": 0,
+      "note": "A band, not a figure: the article prints two numbers for the width of the Court of the Myrtles and chooses neither, so no value is parsed. 23 m is 75.5 ft and 23.5 m is 77.1 ft."
+    },
+    {
+      "name": "court_length_ft",
+      "as_printed": "36.6 metres long",
+      "value": 120.1,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Converted at 3.28084 ft/m. Against the printed width band this makes the court between 1.56 and 1.59 times as long as it is wide."
+    },
+    {
+      "name": "court_pool_length_ft",
+      "as_printed": "The pool measures 34 metres long",
+      "value": 111.5,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The node's own description calls this 'a slab of water thirty-four metres long', which is this figure."
+    },
+    {
+      "name": "court_pool_width_ft",
+      "as_printed": "7,10 metres wide",
+      "value": 23.3,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Read as 7.10 m; the source prints a comma decimal separator."
+    },
+    {
+      "name": "hall_width_ft",
+      "as_printed": "11.3 metres per side",
+      "value": 37.1,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The Hall of the Ambassadors is square, so this is both its width and its depth."
+    },
+    {
+      "name": "ceiling_height_ft",
+      "as_printed": "a height of 18.2 metres",
+      "value": 59.7,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Floor to the crown of the domed ceiling of the Hall of the Ambassadors -- the largest room in the Alhambra and not a domestic ceiling height."
+    },
+    {
+      "name": "ceiling_piece_count",
+      "as_printed": "8017 interlinked pieces of wood",
+      "value": 8017,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. Two of the three quotes are truncated by the extractor rather than by choice and each says where and why; the first begins after a dropped wikilink and the third ends mid-sentence. No word has been added to either."
+}

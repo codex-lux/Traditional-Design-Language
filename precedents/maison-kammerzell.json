@@ -1,0 +1,61 @@
+{
+  "id": "maison-kammerzell",
+  "name": "Maison Kammerzell",
+  "aka": [
+    "s'Kammerzellhüs",
+    "Kammerzellhüs"
+  ],
+  "location": {
+    "text": "Strasbourg, France",
+    "country": "France",
+    "state": "Bas-Rhin, Collectivité européenne d'Alsace"
+  },
+  "dates": {
+    "built": "1427, 1467 et 1589",
+    "circa": false,
+    "note": "The French Wikipedia infobox prints the three campaigns as one field, 'Construction 1427, 1467 et 1589', and the record keeps them as the source writes them rather than choosing one."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Maison_Kammerzell",
+      "title": "Maison Kammerzell — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "merimee",
+      "url": "https://fr.wikipedia.org/wiki/Maison_Kammerzell",
+      "title": "Monument historique listing reported by the French Wikipedia article",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO PA/IA REFERENCE IS CARRIED because none was read, and Base Mérimée itself was not reached. The article's body says 'L'édifice fait l'objet d'une inscription au titre des monuments historiques depuis le 13 juin 1929' while its own infobox prints 'Classée MH (1929)'. INSCRIT and CLASSE are two different French protections and the article states both; neither is chosen here."
+    },
+    {
+      "kind": "institution",
+      "url": "https://fr.wikipedia.org/wiki/Maison_Kammerzell",
+      "title": "Fondation de l'Œuvre Notre-Dame, named as owner by the French Wikipedia article",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox prints 'Propriétaire Fondation de l'Œuvre Notre-Dame'; the body says Philippe-François Kammerzell, the last private owner, sold it to that foundation in 1879. No page of the foundation's own site was read."
+    }
+  ],
+  "survey": {
+    "item": "fr-wikipedia-maison-kammerzell",
+    "data_url": "https://fr.wikipedia.org/wiki/Maison_Kammerzell",
+    "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "La maison Kammerzell – aussi appelée s'Kammerzellhüs en dialecte strasbourgeois – est un monument historique de la ville de Strasbourg, archétype de la maison alsacienne à colombage du XVI e siècle, située au n° 16 de la place de la Cathédrale.",
+        "page": "French Wikipedia, 'Maison Kammerzell', opening paragraph. Not paginated. The extract renders a pronunciation gloss and an audio marker between the name and the dash; both have been dropped and no word was changed."
+      }
+    ]
+  },
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. Added by this tranche because the node's `geography.regions` names Alsace and the corpus held no Alsatian building: the maison a colombage is the same trade on the other side of a border the node's own regional dialect paragraph crosses. THE ARTICLE CALLS IT AN ARCHETYPE AND THAT WORD IS THE SOURCE'S, quoted rather than restated. No dimension was found for it anywhere read."
+}

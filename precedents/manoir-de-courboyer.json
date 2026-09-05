@@ -1,0 +1,127 @@
+{
+  "id": "manoir-de-courboyer",
+  "name": "Manoir de Courboyer",
+  "location": {
+    "text": "Perche en Noce, Orne, France",
+    "country": "France",
+    "state": "Orne, Normandie"
+  },
+  "dates": {
+    "built": "1496",
+    "circa": false,
+    "note": "The Inventaire notice gives « 4e quart 15e siècle ; 19e siècle » with the campaign year 1496 and « datation par dendrochronologie »; the Monuments historiques notice PA00110876 gives « 15e siècle ; 16e siècle ». Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "french-manoir"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "IA61002196",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/IA61002196",
+      "title": "manoir de Courboyer - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Inventaire général notice. It is the richer of the two POP records for this building -- it prints materials, plan typology, interior elevation, roof typology and stair structure as separate fields -- and it is the one quoted in `survey` below."
+    },
+    {
+      "kind": "merimee",
+      "id": "PA00110876",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00110876",
+      "title": "Manoir de Courboyer - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Monuments historiques notice, read in a separate extract the same day. Its Description historique closes: « Cette demeure constitue le type le plus complet et le plus classique des manoirs du Perche. » Its protection line reads « façades et toitures ainsi que les quatre cheminées intérieures du manoir (cad. B 135) : classement par arrêté du 10 avril 1981 », and its own opening sentence is « Corps de logis rectangulaire à trois étages », which is not what the Inventaire notice says -- see the storey measurement below."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_de_Courboyer",
+      "title": "Manoir de Courboyer — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "IA61002196",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/IA61002196",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Matériaux du gros-œuvre calcaire ; moellon ; enduit ; calcaire ; pierre de taille Matériaux de la couverture tuile plate",
+        "page": "Notice Mérimée IA61002196, section « Description de l'édifice », champs Matériaux"
+      },
+      {
+        "field": "plan",
+        "text": "Typologie de plan plan rectangulaire régulier",
+        "page": "Notice Mérimée IA61002196, section « Description de l'édifice »"
+      },
+      {
+        "field": "storeys",
+        "text": "Description de l'élévation intérieure rez-de-chaussée surélevé ; étage de soubassement ; 2 étages carrés",
+        "page": "Notice Mérimée IA61002196, section « Description de l'édifice »"
+      },
+      {
+        "field": "roof",
+        "text": "Typologie du couvrement charpente en bois apparente Partie d'élévation extérieure élévation à travées Typologie de la couverture toit à longs pans pignon découvert ; appentis ; toit conique ; toit polygonal",
+        "page": "Notice Mérimée IA61002196, section « Description de l'édifice »"
+      },
+      {
+        "field": "stairways",
+        "text": "Emplacement, forme et structure de l'escalier escalier demi-hors-oeuvre : escalier en vis, en maçonnerie ; escalier hors-oeuvre : escalier en vis, en maçonnerie",
+        "page": "Notice Mérimée IA61002196, section « Description de l'édifice »"
+      },
+      {
+        "field": "general_description",
+        "text": "Érigé en pierre calcaire sur cinq niveaux, le logis manorial comprend un rez-de-chaussée surélevé et deux étages qui abritaient initialement chacun trois pièces à feu, respectivement deux dans le corps de btiment principal et une troisième dans la tour postérieure. En son centre, un escalier en vis logé dans une tour hors-œuvre monumentale, dessert chaque niveau tout en contribuant à rationaliser la distribution intérieure.",
+        "page": "Notice Mérimée IA61002196, Commentaire descriptif de l'édifice"
+      },
+      {
+        "field": "other",
+        "text": "entièrement couvert en tuile plate. Les trois latrines en bretèche, implantées à chaque niveau habitable du manoir, sont reléguées en façade postérieure pour ne pas rompre l'équilibre de cette élévation magistrale.",
+        "page": "Notice Mérimée IA61002196, Commentaire descriptif de l'édifice, span following the passage quoted above; the extract begins this span mid-sentence and the quote begins where the extract does"
+      },
+      {
+        "field": "other",
+        "text": "les bois les plus anciens ont été coupés autour de 1450 et les plus récents aux alentours de 1500. A partir de ces éléments de datation, il est possible de retracer l'évolution du chantier de couvrement des différentes parties du manoir qui s'étale sur près d'une décennie, entre 1488 et 1495.",
+        "page": "Notice Mérimée IA61002196, Commentaire historique; the extract opens this span with « 15 ans : », which is the tail of a preceding sentence and is not quoted"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "level_count",
+      "as_printed": "sur cinq niveaux",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "The two official notices for this one building disagree. The Inventaire (quoted) says five levels and resolves them as « un rez-de-chaussée surélevé et deux étages » over an « étage de soubassement »; the Monuments historiques notice PA00110876 opens « Corps de logis rectangulaire à trois étages », and the Parc naturel régional du Perche's own visit text says « trois niveaux ». Recorded, not resolved."
+    },
+    {
+      "name": "squared_storey_count",
+      "as_printed": "2 étages carrés",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "« Étage carré » is the Inventaire's term for a full storey over the ground floor, which is why this figure is 2 where the level count is 5: the raised ground floor and the basement storey are counted separately in the same field."
+    },
+    {
+      "name": "heated_room_count_per_storey",
+      "as_printed": "chacun trois pièces à feu",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Two in the main range and a third in the rear tower, per the same sentence. This is the initial arrangement the notice reconstructs, not a survey of the building as it now stands."
+    },
+    {
+      "name": "latrine_count",
+      "as_printed": "Les trois latrines en bretèche",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "One at each habitable level, all on the rear elevation."
+    }
+  ],
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. Two POP notices exist for this building -- an Inventaire général study (IA) and a Monuments historiques protection record (PA) -- and they are not the same document. The IA is quoted as the survey because it prints the descriptive fields; the PA is carried as a ref and its disagreement about the storey count is recorded on the measurement rather than reconciled."
+}

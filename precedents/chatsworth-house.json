@@ -1,0 +1,131 @@
+{
+  "id": "chatsworth-house",
+  "name": "Chatsworth House",
+  "location": {
+    "text": "Derbyshire, England",
+    "country": "United Kingdom",
+    "state": "Derbyshire"
+  },
+  "dates": {
+    "built": "1687-1707 (Talman's and Archer's fronts)",
+    "circa": false,
+    "altered": "Alterations and additions 1756-60 by James Paine, mostly replaced by alterations and additions including the north wing 1820-42 by Jeffry Wyatville; the east front refaced by Wyatville in 1823, who removed a row of attic windows; the south-front balustrade added in 1693 and urns in 1701."
+  },
+  "nodes": [
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1373871",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1373871",
+      "title": "Chatsworth House, Chatsworth - 1373871 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details header prints '29.9.51'; a search result's Overview block prints 'Date first listed: 29-Sept-1951', and the Wikipedia infobox for Chatsworth House prints 'Designated 29 September 1951, Reference no. 1373871'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000355",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000355",
+      "title": "Chatsworth House - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, Grade I. Read in a tavily-search result only; not extracted and nothing is quoted from it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Chatsworth_House",
+      "title": "Chatsworth House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried only as the second surface confirming the list entry number and designation date."
+    }
+  ],
+  "survey": {
+    "item": "1373871",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1373871",
+    "prepared": "Historic England's National Heritage List entry; the Details header prints 'PARISH OF CHATSWORTH CHATSWORTH PARK SK 2570/2670 6/82 29.9.51'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "PARISH OF CHATSWORTH CHATSWORTH PARK SK 2570/2670 6/82 29.9.51 Chatsworth House GV I Country house. South wing 1687-9 by William Talman. East front 1689-91 by Talman, west front 1700-03, north front 1705-7 by Thomas Archer. Alterations and additions 1756-60 by James Paine, mostly replaced by alterations and additions including the north wing 1820-42 by Jeffrey Wyatt, later Sir Jeffrey Wyatville. Baroque and Neo-classical styles. For the First, Fourth and Sixth Dukes of Devonshire.",
+        "page": "Official list entry 1373871, Details, opening paragraph"
+      },
+      {
+        "field": "roof",
+        "text": "Sandstone ashlar (mostly local) with other stones and marbles used for decoration. Roofs hidden behind parapets.",
+        "page": "Official list entry 1373871, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Basically preserving the plan of the previous Elizabethan house, of four ranges around a courtyard, and with a long north east wing with a return range to south and wall enclosing a long entrance courtyard. Three floors, the ground floor treated as a basement due to the fall of the land. North wing of one storey over a basement.",
+        "page": "Official list entry 1373871, Details, plan and storeys"
+      },
+      {
+        "field": "bays",
+        "text": "South front of twelve bays, 3-6-3 with a rusticated basement and two upper floors of equal height. Advanced end pavilions have giant fluted Ionic pilasters. Full entablature with carving to the frieze of the pavilions and bold inscription CAVENDO TUTUS across the centre. Balustrade added in 1693 and urns in 1701.",
+        "page": "Official list entry 1373871, Details, south front"
+      },
+      {
+        "field": "openings",
+        "text": "East front of 1-8-1 bays, continues the rusticated basement, entablature, balustrade and urns. Segment headed sashes to ground floor and glazing bar sashes in keyed moulded architraves, to the two upper floors. The end bays are set back and are flanked by paired giant pilasters. The front was altered by Wyatville in 1823, who removed a row of attic windows and refaced the whole front. West front (originally the entrance front) of 3-3-3 bays. The centre three advanced and pedimented, on four fluted Ionic attached columns. The outer bays have giant fluted Ionic pilasters.",
+        "page": "Official list entry 1373871, Details, east and west fronts"
+      },
+      {
+        "field": "finishes",
+        "text": "The Painted Hall of two storey height. Ceilings and walls painted by Laguerre, assisted by Ricard, in 1694. Stone carvings by Samuel Watson.",
+        "page": "Official list entry 1373871, Details, Interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Three floors, the ground floor treated as a basement due to the fall of the land",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "south_front_bay_count",
+      "as_printed": "South front of twelve bays",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "east_front_bay_count",
+      "as_printed": "East front of 1-8-1 bays",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "A READING: the entry prints the rhythm 1-8-1 and not a total. Ten is the sum, and the sum is mine."
+    },
+    {
+      "name": "west_front_bay_count",
+      "as_printed": "West front (originally the entrance front) of 3-3-3 bays",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "A READING, as above: the entry prints 3-3-3 and not a total."
+    },
+    {
+      "name": "west_front_column_count",
+      "as_printed": "four fluted Ionic attached columns",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "painted_hall_storey_height",
+      "as_printed": "The Painted Hall of two storey height",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE ENTRY STATES THIS NODE'S OWN HARD CONSTRAINT c02 AS A FACT ABOUT THE BUILDING: 'Roofs hidden behind parapets.' That is the one place in this cluster where a register sentence and a corpus rule say the same thing in the same words, and it is why this record was added. It also gives three fronts' bay rhythms as the register writes them (3-6-3, 1-8-1, 3-3-3), which is the hierarchical A-B-B-A rhythm the node's `bay_rhythm` describes, stated by a third party. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was returned by any extract of THIS entry, so no `rights_evidence` is recorded rather than one borrowed from a sibling entry; Historic England does print one in the footer of the official-list-entry view, read verbatim on 5 Sep 2026 on entry 1253989 and recorded there."
+}

@@ -1,0 +1,52 @@
+{
+  "id": "il-redentore",
+  "name": "Il Redentore",
+  "aka": [
+    "Chiesa del Santissimo Redentore",
+    "Tempio del Santissimo Redentore"
+  ],
+  "location": {
+    "text": "Giudecca, Venice, Italy",
+    "country": "Italy",
+    "state": "Veneto"
+  },
+  "dates": {
+    "built": "from 1577",
+    "circa": false,
+    "altered": "Finished after Palladio's death in 1580 by Antonio da Ponte, who the register says 'rispettò fedelmente il progetto palladiano'.",
+    "note": "Chorus dates the foundation to 1577 as a votive act during the plague of 1575-77; the node's exemplar note adds a consecration in 1592, which nothing read here states."
+  },
+  "nodes": [
+    "palladian"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://chorusvenezia.org/visita/chiesa-del-santissimo-redentore",
+      "title": "Chiesa del Santissimo Redentore - Chorus, Associazione per le Chiese del Patriarcato di Venezia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Chorus is the association of the Patriarchate of Venice that manages and opens these churches; this is its own record."
+    }
+  ],
+  "survey": {
+    "item": "chiesa-del-santissimo-redentore",
+    "data_url": "https://chorusvenezia.org/visita/chiesa-del-santissimo-redentore",
+    "prepared": "Chorus, Associazione per le Chiese del Patriarcato di Venezia, church record; sections 'Cenni Storici' and 'Descrizione'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "La chiesa del SS. Redentore è tempio tra i più celebri e venerati di Venezia e centro di una delle feste popolari più sentite (la terza domenica di luglio).  \n Venne eretta su iniziativa del Senato della Repubblica nel 1577 a onorare un voto fatto durante la terribile pestilenza del 1575-77. L’opera, commissionata ad Andrea Palladio, rappresenta uno dei massimi capolavori architettonici del Rinascimento e venne terminata dopo la morte del celebre architetto (1580) da Antonio da Ponte, che rispettò fedelmente il progetto palladiano.",
+        "page": "Chorus, Chiesa del Santissimo Redentore, 'Cenni Storici'. The line break and leading space are the page's own."
+      },
+      {
+        "field": "general_description",
+        "text": "La facciata, che a distanza emana il fascino di un bassorilievo, ha il tipico impianto palladiano con i timpani spezzati dalle semicolonne e l’elemento orizzontale che la contiene e la geometrizza. L’interno, intonacato di bianco, ha la grandiosa semplicità del tempio classico. La pianta, impropriamente detta a croce latina, si sviluppa piuttosto genialmente in una serie di spazi funzionalmente destinati ad usi diversi (l’aula, il presbiterio, il coro) e concatenati tra loro come se predisposti allo svolgersi della cerimonia processionale.",
+        "page": "Chorus, Chiesa del Santissimo Redentore, 'Descrizione'"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE REGISTER AND THE NODE DESCRIBE THE SAME FRONT DIFFERENTLY. The node's diagnostic tell calls it 'interlocking pediments ... a tall narrow temple front for the nave overlapping a wider low one for the aisles'; Chorus calls it 'i timpani spezzati dalle semicolonne' -- pediments BROKEN BY the half-columns -- and adds a horizontal element 'che la contiene e la geometrizza'. Neither is a dimension and neither is corrected. The node's own proportional_system carries two exact ratios for this facade (total height 4/5 of total width; the central portion's width 5/6 of its own height) and NOTHING read here states either."
+}

@@ -1,0 +1,77 @@
+{
+  "id": "mosque-of-cristo-de-la-luz",
+  "name": "Mosque of Cristo de la Luz",
+  "aka": [
+    "Mezquita del Cristo de la Luz",
+    "Bab al-Mardum mosque",
+    "Ermita de la Santa Cruz"
+  ],
+  "location": {
+    "text": "Toledo, Spain",
+    "country": "Spain",
+    "state": "Castile-La Mancha"
+  },
+  "dates": {
+    "built": "999",
+    "circa": true,
+    "altered": "Granted to the Knights of the Order of St John by Alfonso VIII in 1186 and converted to a chapel, with a semi-circular apse added on the east side.",
+    "note": "No foundation date was printed in the extracted spans; the c. 999 conventionally read from the building's own foundation inscription is NOT sourced here and is recorded as circa for that reason."
+  },
+  "nodes": [
+    "moorish-andalusian"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mosque_of_Cristo_de_la_Luz",
+      "title": "Mosque of Cristo de la Luz - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-mosque-of-cristo-de-la-luz",
+    "data_url": "https://en.wikipedia.org/wiki/Mosque_of_Cristo_de_la_Luz",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "The building is a small, square structure measuring approximately 8 by 8 meters (26 by 26 ft), with a later semi-circular apse added to the east side. Constructed primarily of brick and stone, the mosque features a distinctive interior layout.",
+        "page": "English Wikipedia, section 'Architecture'"
+      },
+      {
+        "field": "materials",
+        "text": "| Length | 8 m (26 ft) |\n| Width | 8 m (26 ft) |\n| Dome | One |\n| Inscriptions | One |\n| Materials | Brick; stone |",
+        "page": "English Wikipedia, infobox rows under 'Specifications', as the extractor renders them in a markdown table. THIS IS A TABLE AND NOT PROSE and is quoted as one, pipes included."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approximately 8 by 8 meters (26 by 26 ft)",
+      "value": 26,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The building is square, so width and depth are the same figure. The article's own foot conversion is taken."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "approximately 8 by 8 meters (26 by 26 ft)",
+      "value": 26,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "dome_count",
+      "as_printed": "| Dome | One |",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The infobox says one dome; the building is in fact roofed by nine vaults over a nine-bay plan, which the extracted spans do not state, so nothing beyond the infobox's word is recorded."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche as the DOCUMENTARY case: a whole Caliphal building of 8 by 8 metres whose dimensions are stated in one sentence, against three palace records whose figures are of single rooms. The second quote is an infobox table and is labelled as one rather than rewritten into a sentence."
+}

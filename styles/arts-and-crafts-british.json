@@ -201,25 +201,64 @@
       "name": "Red House",
       "location": "Bexleyheath, London, England",
       "year": 1860,
-      "note": "Built 1859-60 by Philip Webb for William Morris. Unrendered red brick, steep red tile roof, windows placed by plan rather than by elevation — the movement's founding building and the first English house of its century with no style label."
+      "note": "Built 1859-60 by Philip Webb for William Morris. Unrendered red brick, steep red tile roof, windows placed by plan rather than by elevation — the movement's founding building and the first English house of its century with no style label.",
+      "precedent": "red-house-bexleyheath",
+      "standing": "icon",
+      "why": "The movement's founding house, and its entry 1064203 is also the sharpest check on this node's prose: Historic England reads it as a 'Picturesque design in the simplified Gothic style of Street and Butterfield's domestic work', which is a style label the node says was not available to describe it."
     },
     {
       "name": "Standen",
       "location": "East Grinstead, West Sussex, England",
       "year": 1894,
-      "note": "Built 1892-94 by Philip Webb for the solicitor James Beale, with Morris and Co. interiors. Local sandstone, brick, tile-hanging and weatherboarding used in distinct masses, and a plan wrapped around the sun and the view."
+      "note": "Built 1892-94 by Philip Webb for the solicitor James Beale, with Morris and Co. interiors. Local sandstone, brick, tile-hanging and weatherboarding used in distinct masses, and a plan wrapped around the sun and the view.",
+      "precedent": "standen",
+      "standing": "canonical",
+      "why": "The richest survey block in this cluster -- Historic England 1249027 names the ground-floor room sequence, the sandstones quarried on site, two storeys and an attic under five weather-boarded gables, and twelve first-floor bedrooms to one bathroom -- and calls it the only one of Webb's commissions to survive standing and unaltered."
     },
     {
       "name": "Broadleys",
       "location": "Windermere, Cumbria, England",
       "year": 1899,
-      "note": "Built 1898-99 by C. F. A. Voysey for Arthur Currer Briggs. Roughcast walls with battered buttresses, low sweeping eaves, and three great bow windows facing the lake — Voysey's manner at its most complete."
+      "note": "Built 1898-99 by C. F. A. Voysey for Arthur Currer Briggs. Roughcast walls with battered buttresses, low sweeping eaves, and three great bow windows facing the lake — Voysey's manner at its most complete.",
+      "precedent": "broadleys",
+      "standing": "icon",
+      "why": "Voysey's manner at its most complete, and the one exemplar note in this cluster the register confirms word for word: entry 1224995 states three bowed bay windows of two storeys on a west facade that 'looks west over Lake Windermere'."
     },
     {
       "name": "Blackwell",
       "location": "Bowness-on-Windermere, Cumbria, England",
       "year": 1900,
-      "note": "Built 1898-1900 by M. H. Baillie Scott for Sir Edward Holt. A double-height hall with inglenook and minstrels' gallery, and one of the most intact Arts and Crafts interiors anywhere."
+      "note": "Built 1898-1900 by M. H. Baillie Scott for Sir Edward Holt. A double-height hall with inglenook and minstrels' gallery, and one of the most intact Arts and Crafts interiors anywhere.",
+      "precedent": "blackwell",
+      "standing": "icon",
+      "why": "Historic England's entry 1124680 says the house 'is considered to be to be Baillie Scott's finest surviving work in England' -- the doubled words are the entry's -- and records a principal reception room with a massive inglenook in one corner, lit by its own small canted fire window and fitted with fixed bench seating."
+    },
+    {
+      "name": "The Orchard",
+      "location": "Chorleywood, Hertfordshire, England",
+      "year": 1900,
+      "note": "Built 1899-1900 by C. F. A. Voysey for himself, altered 1913. Roughcast over brick with a green slate roof, a simple rectangle on plan with the roof hipped over two gabled cross wings, mullioned windows with leaded lights, and low picture rails throughout.",
+      "precedent": "the-orchard-chorleywood",
+      "standing": "canonical",
+      "why": "Voysey's own house, and the only entry in this cluster whose Details text names the style as the corpus does ('Arts and Crafts Style'); Historic England 1348234 states the whole massing rule in one sentence -- 'A simple rectangle on plan with the roof hipped over 2 gabled cross wings at ends' -- which is what a massing record for this node would have to say."
+    },
+    {
+      "name": "Munstead Wood",
+      "location": "Godalming, Surrey, England",
+      "year": 1897,
+      "note": "Built 1896-97 by Edwin Lutyens for Gertrude Jekyll, in coursed Bargate stone with some half-timbering and tiled roofs swept out to the eaves. A half-H plan forming a U-shaped entrance court, with a six-bay gallery across the centre of the first floor. The garden came first.",
+      "precedent": "munstead-wood",
+      "standing": "canonical",
+      "why": "Historic England 1261159 states the plan as a shape -- 'Half-H shaped plan with projecting hipped wing to left of centre to form U-shaped smaller entrance court' -- and counts an elevation of 'Four wood-framed leaded casement windows to first floor, five windows below', which is this node's claim about window bands rather than grids, stated as counts a checker could use."
+    },
+    {
+      "name": "Rodmarton Manor",
+      "location": "Rodmarton, Gloucestershire, England",
+      "year": 1926,
+      "note": "Built 1909-26 for Claud Biddulph by Ernest Barnsley, finished by Sidney Barnsley and Norman Jewson. Local stone worked by local craftsmen, mostly two storeys and attic round a great circular grassed courtyard, with a chapel in the north-west wing. The largest and slowest Cotswold Arts and Crafts house.",
+      "precedent": "rodmarton-manor",
+      "standing": "canonical",
+      "why": "Historic England 1341402 records that 'All materials locally obtained, both externally and internally, and hand worked by local craftsmen', which is this node's claim that regional material became a decision, stated by the designating authority rather than by this project; the seventeen-year build is the price of it."
     }
   ],
   "sources": [

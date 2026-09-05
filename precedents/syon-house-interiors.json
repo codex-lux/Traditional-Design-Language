@@ -1,0 +1,82 @@
+{
+  "id": "syon-house-interiors",
+  "name": "Syon House interiors",
+  "aka": [
+    "Syon House"
+  ],
+  "location": {
+    "text": "Isleworth, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "1547-1552 (Protector Somerset's house, substantially the present shape)",
+    "circa": false,
+    "altered": "Remodelled inside and out by Robert Adam; the Percy Lion erected on the river front in 1874; slight war damage, the 2nd floor of the North West tower rebuilt and two statues on columns in the anteroom destroyed.",
+    "note": "THE REGISTER'S DATE FOR THE ADAM WORK IS BROKEN AND IS LEFT BROKEN: the list entry prints 'Remodelled inside and out by Robert Adam 1767-5', which cannot be read as a range. The node's own exemplar says 'Remodelled 1762-69'; the Wikipedia infobox for the same building prints 'Rebuilt 1762-69'. All three are recorded and none is chosen."
+  },
+  "nodes": [
+    "adam-style"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1080318",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1080318",
+      "title": "Syon House, Non Civil Parish - 1080318 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result's Overview block prints 'Grade: I. List Entry Number: 1080318. Date first listed: 15-Jun-1951. List Entry Name: Syon House'; the Wikipedia infobox for the same building prints 'Designated 15 Jun 1951, Reference no. 1080318'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Syon_House",
+      "title": "Syon House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried because it dates the Adam remodelling 1762-69 where the list entry prints the unreadable '1767-5', and as the second surface for the list entry number."
+    }
+  ],
+  "survey": {
+    "item": "1080318",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1080318",
+    "prepared": "Historic England's National Heritage List entry, generated from a legacy data system; Date first listed 15-Jun-1951 on the Overview block as a search result printed it. Its own cited sources are the RCHM inventory and Country Life V and XLVI.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Built on remains of a Brigittine Abbey nunnery (1430-70). Part of C15 undercroft remains. Protector Somerset reconstructed the house in 1547-52, substantially in its present shape.",
+        "page": "Official list entry 1080318, Details, paragraph 2"
+      },
+      {
+        "field": "plan",
+        "text": "The house, 3-storeys with crenellated top and gable turrets, is built on a hollow square. East front ground floor loggia mid C17.",
+        "page": "Official list entry 1080318, Details, paragraph 2"
+      },
+      {
+        "field": "condition",
+        "text": "Remodelled inside and out by Robert Adam 1767-5. In 1874 the Percy Lion, transferred from Old Northumberland House at Charing Cross was erected on the river front. Slight war damage, 2nd floor of North West tower rebuilt; 2 statues on columns in anteroom destroyed.",
+        "page": "Official list entry 1080318, Details, paragraph 2"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "The house, 3-storeys with crenellated top and gable turrets",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "anteroom_statue_loss_count",
+      "as_printed": "2 statues on columns in anteroom destroyed",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A LOSS, not a count of what stands. Recorded because the Ante-Room is the room this node's own exemplar note names as 'the fullest demonstration of Adam's spatial doctrine', and the register says part of it is gone. It does not say how many statues there were."
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE RECORD IS NAMED 'Syon House interiors' BECAUSE THE EXEMPLAR IS, AND THE JOIN KEYS MAY NOT BE RENAMED; the building is Syon House and `aka` says so. THE ENTRY DESCRIBES A JACOBETHAN SHELL AND NOT AN ADAM INTERIOR. Two extracts with different queries returned the same paragraph, and in it the twelve verd-antique columns of the Ante-Room, the apsed Long Gallery, the Great Hall and the Dining Room -- everything this node exists for -- appear only as '2 statues on columns in anteroom destroyed'. For the flagship interior scheme of British neoclassicism the National Heritage List states three storeys, a hollow square and a broken date. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

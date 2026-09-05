@@ -1,0 +1,125 @@
+{
+  "id": "mompesson-house",
+  "name": "Mompesson House",
+  "location": {
+    "text": "The Close, Salisbury, England",
+    "country": "England",
+    "state": "Wiltshire"
+  },
+  "dates": {
+    "built": "1704",
+    "circa": false,
+    "note": "The entry dates the house from the rainwater heads: '1704 date on east lead rain water heads'. Its service wing is described as later."
+  },
+  "nodes": [
+    "english-georgian",
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1355808",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1355808",
+      "title": "Mompesson House, Salisbury - 1355808 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, listed 28.2.52 per the entry's own Details header. Statutory address 53, THE CLOSE, the entry covering Mompesson House and No 53 together."
+    }
+  ],
+  "survey": {
+    "item": "1355808",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1355808",
+    "prepared": "The entry's own Details header prints the listing date 28.2.52. The Overview block was not returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "THE CLOSE 1. 1594 Mompesson House & No 53 SU 1429 NW 3/19 28.2.52 I GV 2. (Mompesson House now owned by National Trust, former service wing to right now separate property No 53). Built for Sir Thomas Mompesson 1704 date on east lead rain water heads.",
+        "page": "Official list entry 1355808, Details, entry header and opening sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "2 storey and attic. Ashlar stone on projecting plinth. Raised lst floor string. Moulded and bracketed cornice, broken forward over 1st floor central window. Hipped old tile roof. 3 dormers with moulded wood cornice and small paned sashes.",
+        "page": "Official list entry 1355808, Details"
+      },
+      {
+        "field": "openings",
+        "text": "7 windows on 1st floor the central window with raised architrave surround, moulded cill on raised apron and supporting side scrolls with carved enrichment. 6 windows on ground floor and central 8 panel door, egg-and-tongue enrichment round panels, in moulded and enriched wood frame, with bold stone bolection surround, moulded cornice and broken curved pediment, with central cartouche and carved supporting swags, all supported on carved scroll brackets.",
+        "page": "Official list entry 1355808, Details"
+      },
+      {
+        "field": "openings",
+        "text": "The windows flanking central bay are 2 panes wide, remainder 3 panes.",
+        "page": "Official list entry 1355808, Details"
+      },
+      {
+        "field": "dependencies",
+        "text": "Later service wing to right hand 2 storey, brick with moulded stone cornice, and brick parapet with recessed panels over windows and moulded stone coping. 5 windows on 1st floor, 4 windows on ground floor and 8-panel door to right hand in wood Doric doorcase, pilasters triglyph frieze and modillioned cornice and pediment.",
+        "page": "Official list entry 1355808, Details"
+      },
+      {
+        "field": "finishes",
+        "text": "Exceptionally fine interior of contemporary panelling, staircase and enriched plaster ceilings.",
+        "page": "Official list entry 1355808, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storey and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "3 dormers with moulded wood cornice and small paned sashes",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "7 windows on 1st floor",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The entry counts seven windows on the first floor and six on the ground floor, the seventh ground-floor opening being the central door, so the elevation is seven bays."
+    },
+    {
+      "name": "ground_floor_window_count",
+      "as_printed": "6 windows on ground floor and central 8 panel door",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "window_pane_width_flanking_centre",
+      "as_printed": "The windows flanking central bay are 2 panes wide",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Panes across the sash, not the total light count."
+    },
+    {
+      "name": "window_pane_width_typical",
+      "as_printed": "remainder 3 panes",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "service_wing_bay_count",
+      "as_printed": "5 windows on 1st floor, 4 windows on ground floor",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The later service wing, now the separate property No 53. Carried because the node's prose makes the subordinate service range part of the type."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1355808",
+  "note": "Tranche 3, 5 Sep 2026. A plain, well-documented town house chosen for measurement rather than for celebrity: the entry states storeys, dormers, both window counts and the pane width of every sash on the front, which is unusually complete for a legacy list entry. The entry prints 'lst floor' with a lowercase L for the numeral 1, which is carried verbatim."
+}

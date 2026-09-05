@@ -1,0 +1,147 @@
+{
+  "id": "cumberland-terrace",
+  "name": "Cumberland Terrace",
+  "location": {
+    "text": "Regent's Park, London, England",
+    "country": "England",
+    "state": "Camden, Greater London"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "c1827",
+    "circa": true,
+    "note": "The list entry prints 'c1827'. The node's exemplar gives 1826, and Wikipedia says the terrace 'was completed in 1826'. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "regency"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1067386",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1067386",
+      "title": "Numbers 1-59 and Attached Railings, Non Civil Parish - 1067386 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the entry's own header prints the listing date 14/05/74 and the address CUMBERLAND TERRACE 798-1/82/290 (West side)."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cumberland_Terrace",
+      "title": "Cumberland Terrace - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Attributes the building to William Mountford Nurse with James Thomson as resident architect and J. G. Bubb as sculptor of the pediment. The list entry says the reverse -- 'Built by JG Bubb; arches built by WM Nurse'. The disagreement is recorded and not resolved."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000246",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000246",
+      "title": "Regent's Park, Non Civil Parish - 1000246 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry for the setting, Grade I, first listed 01-Oct-1987."
+    }
+  ],
+  "survey": {
+    "item": "1067386",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1067386",
+    "prepared": "The entry's own Details header prints the listing date 14/05/74. The Overview block was not returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "CAMDEN TQ2883SE CUMBERLAND TERRACE 798-1/82/290 (West side) 14/05/74 Nos.1-59 (Consecutive) and attached railings GV I Monumental palace-style terrace of 59 houses. c1827. By John Nash and J Thomson. For the Commissioners of Woods, Forests & Land Revenues. Built by JG Bubb; arches built by WM Nurse.",
+        "page": "Official list entry 1067386, Details, entry header and opening sentence"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "Stucco. Houses in 3 blocks linked by \"triumphal\" arches leading into 2 courtyards with pairs of houses and drives leading to former mews. Terrace approximately 240m long.",
+        "page": "Official list entry 1067386, Details"
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: central block (Nos 20-49): 4 storeys and basements. Central projecting Ionic decastyle pedimented portico of Giant Order, flanked by slightly less projecting similar single bays with paired columns and attic storeys.",
+        "page": "Official list entry 1067386, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "Outer blocks (Nos 1-17 & 52-57): 11 bays each similar to those flanking central portico and terminating in similar bays at each end. End houses of blocks with stucco pilastered porticoes on returns.",
+        "page": "Official list entry 1067386, Details"
+      },
+      {
+        "field": "other",
+        "text": "Pairs of houses in courtyards behind Arches (Nos 18 & 19 and Nos 50 & 51): stucco with slated roofs and central chimneys. 2 storeys and basements. 5 windows.",
+        "page": "Official list entry 1067386, Details"
+      },
+      {
+        "field": "other",
+        "text": "Nos 58 & 59: pair of houses set back from terrace at north end. Stucco with rusticated ground floor and projecting pilasters at angles. 3 storeys and basement. 3 windows in all.",
+        "page": "Official list entry 1067386, Details"
+      },
+      {
+        "field": "porches",
+        "text": "\"Triumphal\" Arches: linking the central and outer blocks. Single, central, architraved archway flanked by paired Ionic columns carrying an entablature and blocking course. Linked to the blocks by rusticated stucco screen walls.",
+        "page": "Official list entry 1067386, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "Monumental palace-style terrace of 59 houses",
+      "value": 59,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "terrace_length_ft",
+      "as_printed": "Terrace approximately 240m long",
+      "value": 787.4,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The entry prints 240 m and no imperial figure. 787.4 ft is that number converted at 3.28084 ft to the metre and rounded to a tenth; the conversion is arithmetic, and 'approximately' is the entry's own word. Fifty-nine houses in 240 m is about 4.1 m of frontage apiece, which is well below the node's own stated town-house frontage -- the terrace is three blocks and two courtyards, not a continuous row."
+    },
+    {
+      "name": "storey_count_central_block",
+      "as_printed": "central block (Nos 20-49): 4 storeys and basements",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "Central projecting Ionic decastyle pedimented portico of Giant Order",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "'Decastyle' means ten columns across the front. The entry does not print the numeral, so 10 is a reading of a term of art and is marked as one."
+    },
+    {
+      "name": "outer_block_bay_count",
+      "as_printed": "Outer blocks (Nos 1-17 & 52-57): 11 bays each",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "courtyard_house_storey_count",
+      "as_printed": "2 storeys and basements. 5 windows.",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The pairs of houses hidden in the courtyards behind the arches: two storeys where the front block is four, which is the scenographic method the node's prose describes."
+    },
+    {
+      "name": "end_pair_storey_count",
+      "as_printed": "3 storeys and basement. 3 windows in all",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1067386",
+  "note": "Tranche 3, 5 Sep 2026. A group record: one list entry covers all fifty-nine houses, and the entry itself distinguishes the palace-fronted blocks from the two-storey pairs hidden in the courtyards, which is the whole point of the building for this node."
+}

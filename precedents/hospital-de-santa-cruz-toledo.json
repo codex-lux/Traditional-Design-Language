@@ -1,0 +1,82 @@
+{
+  "id": "hospital-de-santa-cruz-toledo",
+  "name": "Hospital de Santa Cruz",
+  "aka": [
+    "Museo de Santa Cruz"
+  ],
+  "location": {
+    "text": "Toledo, Spain",
+    "country": "Spain",
+    "state": "Castile-La Mancha"
+  },
+  "dates": {
+    "built": "1504-1515",
+    "circa": false,
+    "altered": "The article distinguishes two building campaigns: one before 1514 comprising the vaulting and probably the second patio, and one between 1515 and 1535 comprising the facade, the main patio and the central and right doors of the zaguan.",
+    "note": "The node's exemplar dates the building 1504-1515 to Enrique Egas. The Spanish article's own periodisation runs to 1535 for the facade this node is interested in, and attributes the plateresque portada not to Egas but to Alonso de Covarrubias. Both are recorded; neither is changed."
+  },
+  "nodes": [
+    "spanish-plateresque"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "url": "https://es.wikipedia.org/wiki/Hospital_de_Santa_Cruz_(Toledo)",
+      "title": "Hospital de Santa Cruz (Toledo) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CODE IS RECORDED because none was printed in the extract. What the page does carry is its own category line, 'Bienes protegidos de España declarados en 1902', and an authority-control entry for 'CPCCLM', the Castilla-La Mancha heritage catalogue. The year of protection is therefore 1902 by the article's own classification and by nothing stronger."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Hospital_de_Santa_Cruz_(Toledo)",
+      "title": "Hospital de Santa Cruz (Toledo) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-hospital-de-santa-cruz-toledo",
+    "data_url": "https://es.wikipedia.org/wiki/Hospital_de_Santa_Cruz_(Toledo)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Fue fundado por el cardenal Mendoza a finales del siglo XV, para centralizar la asistencia a niños huérfanos y desamparados de la ciudad. Cuenta con una notable portada plateresca, obra de Alonso de Covarrubias. Se pueden observar, dos fases constructivas separadas por la fecha de inicio de la hospital, una anterior a 1514, con la construcción de la crucería y probablemente el segundo patio; y otra comprendida entre los años 1515 y 1535, con el levantamiento de la fachada, el patio principal, la puerta central y derecha del zaguán.",
+        "page": "Spanish Wikipedia, opening section"
+      },
+      {
+        "field": "general_description",
+        "text": "Sobre el entablamento se dispone el segundo cuerpo de la portada, una hornacina central reproduce el abrazo de san Joaquín y santa Ana, y sobre las hornacinas laterales se emplazan figuras de patriarcas. A la altura de este cuerpo se abren dos ventanas con marco plateresco. Por encima de la línea general del alero sobresale un último cuerpo con cinco columnas abalaustradas y cuatro huecos adintelados que remata un frontón adornado por las monumentales armas de los Mendoza, soportadas por dos ángeles.",
+        "page": "Spanish Wikipedia, section on the facade"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portada_register_count",
+      "as_printed": "un último cuerpo con cinco columnas abalaustradas",
+      "from_quote": 1,
+      "note": "THE COUNT IS NOT PARSED AND THE REASON IS THE INTERESTING PART. The passage names a 'segundo cuerpo' and then 'un último cuerpo' above the eaves line, so at least three registers, but it never states how many the portada has in total. The node's own claim -- three or four registers of retablo -- is corroborated in kind and not in number."
+    },
+    {
+      "name": "portada_column_count",
+      "as_printed": "cinco columnas abalaustradas",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Of the topmost register only, standing above the general eaves line, with four lintelled openings between them."
+    },
+    {
+      "name": "portada_window_count",
+      "as_printed": "dos ventanas con marco plateresco",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "THIS IS THE NODE'S OWN ARGUMENT MEASURED: two windows at the height of the second register of the portada, against a plain wall. The article says nothing about the fenestration of the rest of the front."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The article attributes the plateresque portada to ALONSO DE COVARRUBIAS where the node's exemplar note names Enrique Egas for the building; both are recorded here and the node's text is not edited by this research pass."
+}

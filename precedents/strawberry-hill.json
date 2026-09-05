@@ -1,0 +1,91 @@
+{
+  "id": "strawberry-hill",
+  "name": "Strawberry Hill",
+  "aka": [
+    "Strawberry Hill (St Mary's Training College)",
+    "Strawberry Hill House"
+  ],
+  "location": {
+    "text": "Twickenham, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (London Borough of Richmond upon Thames)"
+  },
+  "dates": {
+    "built": "1749-76",
+    "circa": false,
+    "altered": "C19 additions by Lady Waldegrave extending southward on the south facade, which now encase the base of the circular tower of 1759; turret behind of 1777.",
+    "note": "The list entry opens '1749-76'. The node's exemplar carries the single year 1776 and its own note gives 'in phases between 1749 and 1776'. The Wikipedia table of Grade I listed buildings in Richmond upon Thames prints '1749–76'. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1261987",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1261987",
+      "title": "Strawberry Hill (St Mary's Training College), Non Civil Parish - 1261987 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text opens with the entry's own header block -- 'TQ 1572 17/10 WALDEGRAVE ROAD Strawberry Hill (St Mary's Training College) 2.9.52 I' -- which carries the date first listed (2 September 1952) and the grade (I). Two extracts with different queries returned different spans; the second returned the interiors paragraph the first did not."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grade_I_listed_buildings_in_the_London_Borough_of_Richmond_upon_Thames",
+      "title": "Grade I listed buildings in the London Borough of Richmond upon Thames - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its table row for Strawberry Hill carries the building type 'Country house', the date '1749–76', the designation date '2 September 1952' and the reference 1261987, which is the second surface corroborating the list entry number."
+    }
+  ],
+  "survey": {
+    "item": "1261987",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1261987",
+    "prepared": "Date first listed: 2 September 1952. Neither extract returned the Overview block's 'Date first listed' line; the entry's own Details text prints the date as '2.9.52' and the Wikipedia list of Grade I listed buildings in Richmond upon Thames prints '2 September 1952' beside this number.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1749-76. Built by Horace Walpole, with William Robinson and later James Essex as executive architects, with some interiors designed by Richard Bently, John Chute, Thomas Pitt, and Robert Adam. The chief facades are to the south and east. Stuccoed, of two to three storeys. Extending southward to the left on the south facade are C19 additions by Lady Waldegrave, which now encase the base of the circular tower (1759), containing kitchens and Round Room Tudor windows. Turret behind, (1777) with steep conical roof covered by fishscale slates.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1261987). A list entry is not paginated."
+      },
+      {
+        "field": "bays",
+        "text": "To the right, a five bay range, two storeys high, with painted two-light windows and buttresses between (Great Cloister to ground floor, Gallery above). Single bay to right, set back, and to right of this a triple angled bow window, two storeys high, with trefoil-headed ogee windows on each facet. (contains Little Parlour and Blue Bed Chamber). Single bay to corner, with similar return to east, of three storeys, with ogeed two-light windows to ground, and first floors and quatrefoils above. To the right, along the east facade, a three-facetted bow with ogee heads to first floor, above which a rectangular oriel with five painted lights, under stepped gable. To the right, a single bay contains the Great Parlour, and above, the library.",
+        "page": "Official list entry, Details section, south and east facade paragraph."
+      },
+      {
+        "field": "finishes",
+        "text": "Inside, many notable interiors, including: Staircase, (Bentley); Library, with Gothic arches for bookcases; fireplace inspired by that of Edmund Crouchback in Westminster Abbey, and elaborate ceiling (1754, Chute), Holbein Chamber, triple-arched screen, tracered ceiling, elaborate niched fireplace, (Bentley); Gallery, fan-vaulted with elaborate canopied (Pitt); Round Drawing Room, and Beauclerc Room (Adam); Tribune, elaborate domed and traceried ceiling (1763 mostly Chute); Great Bedchamber (1772).",
+        "page": "Official list entry, Details section, interiors paragraph; returned only by the second extract."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "of two to three storeys",
+      "from_quote": 0,
+      "note": "The entry states a range across the composition rather than one figure, which is what a picturesque elevation is; no value is parsed."
+    },
+    {
+      "name": "cloister_range_bay_count",
+      "as_printed": "a five bay range, two storeys high",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The Great Cloister below and the Gallery above; the only regular bay rhythm the entry states anywhere on the house."
+    },
+    {
+      "name": "oriel_light_count",
+      "as_printed": "a rectangular oriel with five painted lights",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1261987",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. A Historic England list entry serving as the survey block under WP-11.5: its Details section states materials, storeys, bay counts and window lights in the same way a HABS Part II does, and there is no HABS for England. The entry's statutory name is the college's rather than the house's, which is why `aka` carries both. The stated wall finish -- 'Stuccoed' -- is worth reading beside the node's own prose about Gothick being 'Georgian architecture in fancy dress': the entry describes battlemented and ogee-windowed elevations over a rendered Georgian carcass."
+}

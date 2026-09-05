@@ -1,0 +1,62 @@
+{
+  "id": "manoir-dango",
+  "name": "Manoir d'Ango",
+  "location": {
+    "text": "Varengeville-sur-Mer, Seine-Maritime, France",
+    "country": "France",
+    "state": "Seine-Maritime, Normandie"
+  },
+  "dates": {
+    "built": "entre 1530 et 1545",
+    "circa": false,
+    "note": "The Mérimée notice says the manor was built « entre 1530 et 1545 » and dates the campaign 1532; the node's own exemplar says « Built 1532-1544 ». Both are recorded and neither is changed. The dovecote in the courtyard is separately dated 1532 by the same notice."
+  },
+  "nodes": [
+    "french-manoir"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00101079",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00101079",
+      "title": "Manoir d'Ango - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_d%27Ango",
+      "title": "Manoir d'Ango — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read in a search result only and therefore not quoted anywhere in this record. It carries figures for the colombier -- a height and a boulin count -- which are deliberately NOT transcribed here, because a search-result summary concatenates discontinuous spans and this record quotes only what was read as continuous prose."
+    }
+  ],
+  "survey": {
+    "item": "PA00101079",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00101079",
+    "prepared": "Date de dernière modification de la notice 4 mars 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Ce manoir a été construit par l'armateur Jean Ango, vicomte de Dieppe, entre 1530 et 1545. Il se présente comme un château fort vu de l'extérieur, mais comme un chef-d'oeuvre de la Renaissance à l'intérieur de la cour, avec sa loggia au décor de pilastres, médaillons et frises d'arabesques. Dans la cour, se trouve un pigeonnier construit en 1532, avec des alternances de briques et de silex taillés dessinant des motifs géométriques.",
+        "page": "Notice Mérimée PA00101079, section « Historique de l'édifice », champ Description historique"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 2e quart 16e siècle Année(s) de(s) campagne(s) de construction 1532",
+        "page": "Notice Mérimée PA00101079, section « Historique de l'édifice », liste des champs"
+      },
+      {
+        "field": "other",
+        "text": "Nature de la protection de l'édifice classé MH Date et niveau de protection de l'édifice 1862 : classé MH Précision sur la protection Le manoir d'Ango : classement par liste de 1862",
+        "page": "Notice Mérimée PA00101079, section « Statut juridique, intérêt, protection et label »"
+      }
+    ]
+  },
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00101079",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. The notice states the polychrome dovecote and the courtyard loggia and prints no dimension, so this record carries no measurements."
+}

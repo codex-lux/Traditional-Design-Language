@@ -1,0 +1,63 @@
+{
+  "id": "rathaus-wernigerode",
+  "name": "Rathaus Wernigerode",
+  "location": {
+    "text": "Wernigerode, Germany",
+    "country": "Germany",
+    "state": "Sachsen-Anhalt, Landkreis Harz"
+  },
+  "dates": {
+    "built": "1494-1498",
+    "circa": false,
+    "altered": "Begun about 1420 as the counts' Spelhus and given to the town in 1427; the surviving market-facing timber building of 1494-1498; rebuilt into the present town hall 1539-1544 by Simon Hilleborch, incorporating the Schierstedt house of 1455/56 to the west as the Waaghaus.",
+    "note": "Four dates, all from the German Wikipedia article, all recorded: c. 1420, 1427, 1494-1498, 1539-1544."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Rathaus_Wernigerode",
+      "title": "Rathaus Wernigerode – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-rathaus-wernigerode",
+    "data_url": "https://de.wikipedia.org/wiki/Rathaus_Wernigerode",
+    "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "In den Jahren 1494 bis 1498 wurde der markante zum Marktplatz ausgerichtete heute noch erhaltene Fachwerkbau mit zwei schlanken den Eingang flankierenden Erkern errichtet. Die auf freistehenden Ständern ruhenden Erker überragen die Traufe des Hauses jeweils mit einem verschieferten Geschoss, verfügen über kleine Giebelchen und laufen in sehr schlanke Spitzdächer turmartig aus.",
+        "page": "German Wikipedia, 'Rathaus Wernigerode'. Not paginated."
+      },
+      {
+        "field": "structural_system",
+        "text": "Das Fachwerk des oberen Geschosses kragt etwa 50 Zentimeter über das massive Untergeschoss vor. Es ist aus mächtigen Balken gefügt. Im Gegensatz zur Betonung der Vertikalen durch die Türme besteht eine horizontale Gliederung durch eine dichte Reihe geschwungener Andreaskreuze. Sie werden nach oben von einem starken Brustriegel begrenzt. Bemerkenswert sind auch die Figuren an den Knaggen des Gebäudes. Die Knaggen des Erdgeschosses zeigen Heilige, die unterhalb des Daches Spielleute, Narren, Trinker und Moriskentänzer mit der Maikönigin.",
+        "page": "German Wikipedia, 'Rathaus Wernigerode'. Not paginated. Wiki-link title markers after 'Andreaskreuze' and 'Brustriegel' have been dropped and no word was changed."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "jetty_projection_mm",
+      "as_printed": "kragt etwa 50 Zentimeter über das massive Untergeschoss vor",
+      "from_quote": 1,
+      "note": "About 50 CENTIMETRES -- 500 mm, about 19.7 in. NO `value` AND NO `unit` ARE CARRIED, deliberately: the measurement unit enum has no millimetre, and german-fachwerk's `height_proportion.jetty_projection` is stated in mm, so any unit this record could legally use would compare the wrong quantity. THE FIGURE IS THE POINT ALL THE SAME: the kit's band is 200-400 mm and this building projects about 500, outside it -- while the same paragraph reports carved Knaggen at the beam ends, which is exactly the remedy the node's own hard constraint c03 requires beyond 400 mm. The source both breaks the band and satisfies the rule. 'etwa' means the source itself calls the figure approximate. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    },
+    {
+      "name": "oriel_count",
+      "as_printed": "mit zwei schlanken den Eingang flankierenden Erkern",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two oriels flanking the entrance, standing on free posts and rising above the eaves. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. Added by this tranche, and added FOR THE JETTY: it is the only building in six nodes for which any source states a projection in a number, and the number falls outside the band the node's kit carries while meeting the condition the node's own hard rule attaches to exceeding it. The Andreaskreuz -- the St Andrew's cross the node names as a Franconian signature -- appears here in the Harz, in a dense row, which the record states and does not resolve against the node's regional map."
+}

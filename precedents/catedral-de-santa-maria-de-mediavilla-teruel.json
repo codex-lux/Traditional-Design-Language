@@ -1,0 +1,85 @@
+{
+  "id": "catedral-de-santa-maria-de-mediavilla-teruel",
+  "name": "Catedral de Santa Maria de Mediavilla",
+  "aka": [
+    "Catedral de Teruel",
+    "Teruel Cathedral"
+  ],
+  "location": {
+    "text": "Teruel, Spain",
+    "country": "Spain",
+    "state": "Aragon"
+  },
+  "dates": {
+    "built": "1171-1587",
+    "circa": false,
+    "altered": "The Mudejar tower built in 1257; the cimborio and the crossing rebuilt in the 16th century; a neoclassical false ceiling of the 18th century covered the painted roof and preserved it.",
+    "note": "The Spanish article's infobox prints 'Fundación 1171' and 'Construcción 1171-1587'. Its text dates the painted roof by dendrochronology: 'Los análisis realizados en la última restauración indican la de 1265, como la fecha aproximada en la que se cortó la madera utilizada para su construcción', while the same article elsewhere calls the roof 'de finales del siglo XIII' and a Teruel tourism page calls it 'del siglo XIV'. All three are recorded; none is resolved."
+  },
+  "nodes": [
+    "mudejar"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "378-001",
+      "url": "https://es.wikipedia.org/wiki/Catedral_de_Teruel",
+      "title": "Arquitectura mudéjar de Aragón, component 378.001, inscribed 1986 and extended 2001, as the Spanish article's infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox reads 'Patrimonio de la Humanidad (parte de «Arquitectura mudéjar de Aragón», n.º ref. 378.001) (1986; amp. 2001)'. The English navigation box for the same property prints the component as '378-001: Tower, roof and dome of the Cathedral of Saint Mary of Mediavilla (Teruel)' -- so it is the TOWER, ROOF AND DOME that are inscribed, not the whole cathedral."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Catedral_de_Teruel",
+      "title": "Catedral de Teruel - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-catedral-de-teruel",
+    "data_url": "https://es.wikipedia.org/wiki/Catedral_de_Teruel",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "roof",
+        "text": "Mide 32 metros de longitud y data de finales del siglo XIII. Los análisis realizados en la última restauración indican la de 1265, como la fecha aproximada en la que se cortó la madera utilizada para su construcción.",
+        "page": "Spanish Wikipedia, section on the techumbre (the painted par y nudillo roof over the nave)"
+      },
+      {
+        "field": "plan",
+        "text": "Hacia el año 1200 se iniciaría la primera etapa constructiva de la fábrica de la iglesia de tres naves \"Nave (arquitectura)\") con las dimensiones en planta del templo actual. Esta etapa concluyó con la edificación en 1257 de la torre mudéjar. Los primitivos muros románicos eran tres metros más bajos en altura que los que hoy podemos observar.",
+        "page": "Spanish Wikipedia, section 'La fábrica primitiva de la catedral'. The stray '\"Nave (arquitectura)\")' is a wikilink title the extractor left inline and is quoted as it stands rather than silently removed."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "roof_length_ft",
+      "as_printed": "Mide 32 metros de longitud",
+      "value": 105.0,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The length of the painted par y nudillo roof over the nave -- the single largest surviving armadura in the tradition -- converted at 3.28084 ft/m."
+    },
+    {
+      "name": "nave_count",
+      "as_printed": "la iglesia de tres naves",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "wall_raise_ft",
+      "as_printed": "tres metros más bajos en altura",
+      "value": 9.8,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "How much LOWER the primitive Romanesque walls stood than the present ones, converted at 3.28084 ft/m. It is a difference and not a height; the article states no wall height."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. The node's own text makes the armadura de par y nudillo the ceiling of the tradition and the corpus carried no building whose roof was dimensioned; this one is 32 metres long and dated by dendrochronology, and its own article gives three different dates for it."
+}

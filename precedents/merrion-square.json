@@ -1,0 +1,113 @@
+{
+  "id": "merrion-square",
+  "name": "Merrion Square",
+  "location": {
+    "text": "Dublin, Ireland",
+    "country": "Ireland",
+    "state": "Dublin 2"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "c. 1780 (No. 29, the house surveyed here)",
+    "circa": true,
+    "note": "The NIAH survey data for No. 29 prints a date range of '1770 - 1790' and its description prints 'built c. 1780'. The node's exemplars say the square was laid out from 1762 and built over four decades. Both are recorded; neither is resolved, and no date is claimed for the square as a whole."
+  },
+  "nodes": [
+    "english-georgian",
+    "english-georgian-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "niah",
+      "id": "50100376",
+      "url": "https://www.buildingsofireland.ie/buildings-search/building/50100376/29-merrion-square-dublin-2-dublin",
+      "title": "29 Merrion Square, Dublin 2, DUBLIN - Buildings of Ireland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "National Inventory of Architectural Heritage, rating Regional. This entry is the source of the survey block below."
+    },
+    {
+      "kind": "niah",
+      "id": "50100425",
+      "url": "https://www.buildingsofireland.ie/buildings-search/building/50100425/royal-society-of-antiquaries-of-ireland-63-merrion-square-south-dublin-2-dublin",
+      "title": "Royal Society of Antiquaries of Ireland, 63 Merrion Square, Dublin 2, DUBLIN - Buildings of Ireland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Rating National. The NIAH's Dublin South City introduction singles this house out; its own Appraisal was read but is not quoted here, because a record's survey block quotes one document and this is a second."
+    },
+    {
+      "kind": "niah",
+      "id": "50100433",
+      "url": "https://www.buildingsofireland.ie/buildings-search/building/50100433/55-merrion-square-dublin-2-co-dublin",
+      "title": "55 Merrion Square, Dublin 2, DUBLIN - Buildings of Ireland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Rating Regional, date 1775 - 1795, a two-bay house of the pair with No. 56. Read as a second sample of the square's terrace section."
+    }
+  ],
+  "survey": {
+    "item": "50100376",
+    "data_url": "https://www.buildingsofireland.ie/buildings-search/building/50100376/29-merrion-square-dublin-2-dublin",
+    "prepared": "The record's own Survey Data block prints 'Date Recorded 18/08/2016' and 'Date Updated --/--/--'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Attached three-bay four-storey former house over basement, built c. 1780, with two-storey flat-roof return to rear having flat-roof timber-frame storey above. Now in use as offices.",
+        "page": "NIAH Reg. No. 50100376, Description, opening sentence"
+      },
+      {
+        "field": "roof",
+        "text": "Pitched slate roof to front part, behind refaced brick parapet with granite coping, rear part has hipped lean-to roof to west and hipped roof to east. Shouldered rendered chimneystacks with clay pots.",
+        "page": "NIAH Reg. No. 50100376, Description"
+      },
+      {
+        "field": "walls",
+        "text": "Flemish bond red brick walls, refaced above first floor window head level to front elevation and above top floor window head level to rear, on granite plinth course to front, with painted rendered walls to basement.",
+        "page": "NIAH Reg. No. 50100376, Description"
+      },
+      {
+        "field": "openings",
+        "text": "Square-headed window openings, diminishing in height to upper floors, with patent reveals, painted granite sills and timber sliding sash windows",
+        "page": "NIAH Reg. No. 50100376, Description; the extract cut this sentence mid-clause and it is quoted only as far as it was read"
+      },
+      {
+        "field": "finishes",
+        "text": "ground floor rooms have timber picture rails, marble chimneypieces to east wall, panelled shutters and window backs to windows, and scrolled plasterwork cornice; ground floor rear room has six-panel door. Yards and three-bay two-storey building to rear with pitched roof.",
+        "page": "NIAH Reg. No. 50100376, Description, interior and rear"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "Attached three-bay four-storey former house",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "four-storey former house over basement",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four storeys above a basement, which the same phrase names separately."
+    },
+    {
+      "name": "window_height_diminishes_upward",
+      "as_printed": "Square-headed window openings, diminishing in height to upper floors",
+      "from_quote": 3,
+      "note": "No figure: the NIAH states the direction and not the amount. Carried because it bears directly on the townhouse kit's storey ladder, and because it is stated for a house whose principal floor the node's own prose calls the tallest."
+    },
+    {
+      "name": "mews_bay_count",
+      "as_printed": "three-bay two-storey building to rear",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. A group record. There is no single archival record of Merrion Square: the NIAH surveys the houses one at a time, so the survey block is No. 29 and two further houses are carried as references. No rights line was returned by either extract of the NIAH page, so none is recorded rather than one copied from another site."
+}

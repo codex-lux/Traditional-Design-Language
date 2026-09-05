@@ -1,0 +1,67 @@
+{
+  "id": "ferme-de-la-foret-courtes",
+  "name": "Ferme de la Foret",
+  "aka": [
+    "Ferme de la Forêt (ensemble)",
+    "Ferme-musée de la Forêt"
+  ],
+  "location": {
+    "text": "Courtes, Ain, France",
+    "country": "France",
+    "state": "Ain, Auvergne-Rhône-Alpes"
+  },
+  "dates": {
+    "built": "2e moitié 17e siècle ; 1ère moitié 18e siècle",
+    "circa": true,
+    "note": "THE SOURCES DISAGREE BY A CENTURY AND NONE IS CHANGED. The Mérimée notice's own century field says « 2e moitié 17e siècle ; 1ère moitié 18e siècle »; the node's exemplar says « 17th century »; the Ain department's heritage site and several tourism pages say « fin du 16e siècle » and add that a dendrochronological study dated the felling of the great chimney beam to 1581. The register and the local literature are a hundred years apart on this building."
+  },
+  "nodes": [
+    "french-provincial-farmhouse"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00116387",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00116387",
+      "title": "Ferme de la Forêt (ensemble)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Classé MH, not inscrit. The department's own page (patrimoines.ain.fr) says the farm « a été inscrite au titre des monuments historiques en 1930 »; the register says « classement par arrêté du 11 octobre 1930 ». The register is the opposable document and the discrepancy is recorded rather than reconciled."
+    },
+    {
+      "kind": "other",
+      "url": "https://patrimoines.ain.fr/n/ferme-de-la-foret-a-courtes/n:1237",
+      "title": "Ferme de la Forêt à Courtes - Patrimoine(s) de l'Ain",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Ain department's heritage page. It describes « La cheminée sarrasine, visible intégralement, est surmontée d'une mitre carrée à pyramide. L'ensemble est en pans de bois et torchis » and « sa galerie extérieure formant balcon au 1er étage ». Read in a search result, so it is not quoted as survey."
+    }
+  ],
+  "survey": {
+    "item": "PA00116387",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00116387",
+    "prepared": "Date de rédaction de la notice 1992 ; Date de dernière modification de la notice 4 mars 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Nature de la protection de l'édifice classé MH Date et niveau de protection de l'édifice 1930/10/11 : classé MH Précision sur la protection Ferme de la Forêt (ensemble) , y compris sa cheminée sarrazine : classement par arrêté du 11 octobre 1930",
+        "page": "Notice Mérimée PA00116387, section « Statut juridique, intérêt, protection et label »"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 2e moitié 17e siècle ; 1ère moitié 18e siècle",
+        "page": "Notice Mérimée PA00116387, section « Historique de l'édifice »"
+      },
+      {
+        "field": "other",
+        "text": "Localisation Auvergne-Rhône-Alpes ; Ain (01) ; Courtes ; Forêt (la)",
+        "page": "Notice Mérimée PA00116387, section « Localisation au moment de la protection ou de l'étude »"
+      }
+    ]
+  },
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00116387",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. The register's own protection wording is worth reading against this node's kit: the cheminée sarrasine is named IN the classification -- « y compris sa cheminée sarrazine » (the register's spelling) -- which is the strongest evidence found in this cluster that the freestanding Bressan chimney is treated as a defining element of the type and not as a fitting."
+}

@@ -1,0 +1,66 @@
+{
+  "id": "ayuntamiento-de-sevilla",
+  "name": "Ayuntamiento de Sevilla",
+  "aka": [
+    "Casa consistorial de Sevilla"
+  ],
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "1527-1564",
+    "circa": false,
+    "altered": "Enlarged in the 19th century by Demetrio, whose neoclassical front faces the Plaza Nueva; the plateresque work faces the Plaza de San Francisco.",
+    "note": "The node's exemplar gives 1527-1564 to Diego de Riano. The Spanish article says only 'Se comenzó a edificar en el siglo XVI por Diego de Riaño'; the 19th-century architect's surname was truncated in the extract span and is not completed here."
+  },
+  "nodes": [
+    "spanish-plateresque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Ayuntamiento_de_Sevilla",
+      "title": "Ayuntamiento de Sevilla - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "This article is about the COUNCIL as an institution and carries a short section on the building; it names 'Casa consistorial de Sevilla' as the main article for the fabric, which was not extracted in this session."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-ayuntamiento-de-sevilla",
+    "data_url": "https://es.wikipedia.org/wiki/Ayuntamiento_de_Sevilla",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER, and an article about a council rather than about a building.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El edificio histórico que ocupa el Ayuntamiento constituye una de las muestras más notables de la arquitectura renacentista, con decoración menuda que popularmente se denomina plateresca.",
+        "page": "Spanish Wikipedia, section 'Edificio'"
+      },
+      {
+        "field": "plan",
+        "text": "Se comenzó a edificar en el siglo XVI por Diego de Riaño, el maestro ejecutó el sector meridional del Ayuntamiento, un pequeño edificio con solo la Sala Capitular, el apeadero, la escalera antigua y la sala de Fieles Ejecutores, además del arquillo de comunicación con el monasterio franciscano y dos plantas recubiertas de relieves platerescos con representaciones de personajes históricos y míticos, heráldicas y emblemas alusivos a los fundadores de la ciudad, como Hércules y Julio César.",
+        "page": "Spanish Wikipedia, section 'Edificio'"
+      },
+      {
+        "field": "other",
+        "text": "Fachada plateresca del siglo XVI a la plaza de San Francisco",
+        "page": "Spanish Wikipedia, infobox image caption. A CAPTION AND NOT PROSE, quoted because it is the only place either extract says WHICH front is the plateresque one."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "dos plantas recubiertas de relieves platerescos",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two storeys COVERED IN RELIEF, which is the one place in this cluster where a source describes plateresque ornament as clothing a whole elevation rather than as a bounded portada against a bare wall. That is the node's own claim running the other way and is reported as such."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The weakest record in this node: the only article extracted is about the city council, it names a separate article for the building that was not read, and no BIC code, no dimension and no register count were returned. Its one quotation nonetheless cuts against the node's central claim and is kept for that reason."
+}

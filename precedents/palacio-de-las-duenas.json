@@ -1,0 +1,94 @@
+{
+  "id": "palacio-de-las-duenas",
+  "name": "Palacio de las Duenas",
+  "aka": [
+    "Palacio de las Dueñas"
+  ],
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "15th century",
+    "circa": true,
+    "altered": "Reworked between the end of the 15th century and the beginning of the 16th in a gothic-mudejar and Renaissance manner.",
+    "note": "The Spanish article says 'Fue construido en el siglo XV y reformado entre finales de este siglo y principios del XVI'. No single year is stated and none is claimed."
+  },
+  "nodes": [
+    "andalusian-courtyard-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0000890",
+      "url": "https://es.wikipedia.org/wiki/Palacio_de_las_Due%C3%B1as",
+      "title": "Palacio de las Dueñas (Sevilla) - Wikipedia, la enciclopedia libre; BIC RI-51-0000890",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The code is in the article's authority-control block; the text gives the year of declaration and not the day: 'fue declarado bien de interés cultural en 1931'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Palacio_de_las_Due%C3%B1as",
+      "title": "Palacio de las Dueñas (Sevilla) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-palacio-de-las-duenas",
+    "data_url": "https://es.wikipedia.org/wiki/Palacio_de_las_Due%C3%B1as",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El palacio ocupa una superficie de 9000 metros cuadrados, de los cuales unas dos terceras partes están construidas. Cuenta con varios salones, una capilla y una gran colección de obras de arte.",
+        "page": "Spanish Wikipedia, descriptive section"
+      },
+      {
+        "field": "plan",
+        "text": "Hay cuatro jardines, situados al norte, sur, este y noroeste, y dos patios, el principal y el Patio del Aceite. Uno de estos espacios es el jardín de los Limoneros.",
+        "page": "Spanish Wikipedia, descriptive section, the sentences following the above"
+      },
+      {
+        "field": "significance",
+        "text": "Fue construido en el siglo XV y reformado entre finales de este siglo y principios del XVI en estilo gótico-mudéjar y renacentista.",
+        "page": "Spanish Wikipedia, opening paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "site_area_sf",
+      "as_printed": "una superficie de 9000 metros cuadrados",
+      "from_quote": 0,
+      "note": "AN AREA, AND THE SCHEMA'S UNIT ENUM CANNOT EXPRESS ONE, so no `value` and no `unit` are recorded. 9,000 m2 is about 96,875 sf."
+    },
+    {
+      "name": "built_fraction_of_site",
+      "as_printed": "unas dos terceras partes están construidas",
+      "value": 0.667,
+      "unit": "ratio",
+      "from_quote": 0,
+      "note": "Two thirds of the site is built on, which makes the void about a third. It is the only building-to-void ratio any source in this cluster states, and the node's argument is that the void is the subject; recorded as 0.667 for two thirds, which is a reading of the words."
+    },
+    {
+      "name": "court_count",
+      "as_printed": "dos patios, el principal y el Patio del Aceite",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "garden_count",
+      "as_printed": "cuatro jardines, situados al norte, sur, este y noroeste",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. It carries the one figure in the cluster that speaks to the node's central claim -- that the court is the subject and the building is its edge -- because it states the built fraction of the site rather than only the plan of the house."
+}

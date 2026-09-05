@@ -1,0 +1,117 @@
+{
+  "id": "broadleys",
+  "name": "Broadleys",
+  "aka": [
+    "Broad Leys"
+  ],
+  "location": {
+    "text": "Windermere, Cumbria, England",
+    "country": "United Kingdom",
+    "state": "Cumbria; the register places the entry in the parish of Cartmel Fell"
+  },
+  "dates": {
+    "built": "1898-1900",
+    "note": "The list entry gives '1898-1900'. The node's exemplar carries 1899 and its own note says 'Built 1898-99'; the Voysey Society's page for the house gives the date as 1898 and reproduces Pevsner's Cumbria as '1898-1899'. Three end dates, and none is changed here."
+  },
+  "nodes": [
+    "arts-and-crafts-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1224995",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1224995",
+      "title": "Broadleys, Cartmel Fell - 1224995 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A search result for this number printed the Overview lines Grade 'I', List Entry Number '1224995' and Date first listed '25-Mar-1970'. The entry's Details text carries no header block in either extract. The register places the house in the parish of Cartmel Fell while the node's exemplar locates it at Windermere; the entry itself says the west range 'looks west over Lake Windermere', which reconciles the two."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.voyseysociety.org/voysey/buildings/broadleys.html",
+      "title": "Voysey Society : Voysey buildings : Broad Leys",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Voysey Society's page for the house. It records that Voysey called the house Broad Leys in his drawings and office records and that its current owner does the same, while Pevsner and Historic England call it Broadleys; it gives the date as 1898, the listing as Grade I for the main house, and the client as Arthur Currer Briggs. It also reproduces Pevsner's Cumbria (with Matthew Hyde, 2010), which names the client 'Henry Currer-Briggs of Yorkshire, colliery owner' -- so one page carries two first names for one client, and Historic England's entry gives only the initial, 'A. Currer Briggs'. Nothing is resolved here."
+    }
+  ],
+  "survey": {
+    "item": "1224995",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1224995",
+    "prepared": "Date first listed: 25-Mar-1970, as the Overview line returned by search prints it. Neither extract of the entry returned an Overview block or the entry's own header, so this date rests on one surface.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House, now headquarters of Windermere Motor Boat Racing Club. 1898-1900. By C.F.A. Voysey for A. Currer Briggs. Roughcast with stone dressings, hipped slate roof. L-plan, west range looks west over Lake Windermere, with north service range. One storey with attic. Dripcourse over ground floor and wide eaves with gutters on slender curved brackets.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1224995)."
+      },
+      {
+        "field": "bays",
+        "text": "East, entrance facade of 3 bays; 2nd bay projects under hipped roof, 3rd bay projects under gable with gabled porch to left hand end, the right hand end cut by roof of service wing. 1st bay has slate plaque, with lettering designed by Voysey, recording building of the house. 2nd bay has continuous wooden mullioned glazing to 3 sides, of 6:8:1-lights, leaded glazing with rectangular quarries, to light stair.",
+        "page": "Official list entry, Details section, east (entrance) facade."
+      },
+      {
+        "field": "openings",
+        "text": "West facade of 3 bays has 3 bowed bay windows of 2 storeys rising through eaves, flat-topped with cornices; that to central bay lights hall, of 6 lights with 2 transoms, the end upper lights smaller to fit over eaves, round window to right in stone surround. Outer bay windows are similar, 6-light windows to both floors. Large lateral stack to right hand end; raking angle buttress to left hand angle.",
+        "page": "Official list entry, Details section, west (lake) facade."
+      },
+      {
+        "field": "porches",
+        "text": "Entrance has porch on 2 wooden Tuscan columns and trellis sides; studded door with decorative strap hinges. Large cross-axial stack. Adjoining 4-bay south facade of service range has 4:1:4-light stone mullioned windows.",
+        "page": "Official list entry, Details section, entrance and service range."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "One storey with attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The entry's reading of the main range, and it is a reading rather than an arithmetic fact: the same entry describes the west bay windows as 'of 2 storeys rising through eaves' and gives 'windows to both floors'. One storey with attic, and two floors of windows, in one entry about one wall."
+    },
+    {
+      "name": "entrance_facade_bay_count",
+      "as_printed": "entrance facade of 3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "west_facade_bay_count",
+      "as_printed": "West facade of 3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "bow_window_count",
+      "as_printed": "3 bowed bay windows of 2 storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The node's own exemplar note says 'three great bow windows facing the lake'; the register corroborates the count and the face exactly, which is the only exemplar note in this cluster the evidence confirms word for word."
+    },
+    {
+      "name": "hall_window_light_count",
+      "as_printed": "of 6 lights with 2 transoms",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The central bow, which lights the hall."
+    },
+    {
+      "name": "service_range_bay_count",
+      "as_printed": "4-bay south facade of service range",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1224995",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Three named window rhythms -- 6:8:1 on the stair, 6-light bows on both floors of the lake front, 4:1:4 on the service range -- and a house the register reads as one storey with an attic while describing two floors of windows on the same wall. That contradiction is not an error to correct: it is what a Voysey elevation does, a wall of one apparent height under a great sweeping roof with the first floor inside the eaves, and it is exactly the reading a `height_proportion` rule would have to make."
+}

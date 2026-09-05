@@ -1,0 +1,160 @@
+{
+  "id": "cronkhill",
+  "name": "Cronkhill",
+  "location": {
+    "text": "Atcham, Shropshire, England",
+    "country": "United Kingdom",
+    "state": "Shropshire"
+  },
+  "dates": {
+    "built": "1802",
+    "circa": false,
+    "altered": "The list entry records that the house incorporates a smaller C17 and C18 house, that the service wing to the south is C17 with a C18 wing at the rear and a circa 1802 refacing to the east, and that 'Earlier photographs of the house show painted imitation oeils-de-boeuf windows to the top storey of the tower, now painted over'. The English Wikipedia article says that in 2016 the National Trust undertook a major restoration of the house.",
+    "note": "Historic England's entry gives 1802 flatly. The National Trust's own page says 'designed by the renowned Regency architect John Nash between 1802 and 1805'. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "italian-villa-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1176915",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1176915",
+      "title": "Cronkhill, Atcham - 1176915 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The official list entry. Its own footer, read in an extract on 2026-09-05, prints 'This copy shows the entry on 05-Sept-2026 at 18:09:19.' and 'End of official list entry'. It also prints 'Listing NGR: SJ5357708283', a Legacy note reading 'The contents of this record have been generated from a legacy data system.' and a Sources list: 'Summerson, J, The Life and Work of John Nash, (1980), 42 / Davis, T, The Architecture of John Nash, (1960), 23, 36-7 / Pevsner, N, The Buildings of England: Shropshire, (1958), 116'."
+    },
+    {
+      "kind": "other",
+      "id": "101176915",
+      "url": "https://britishlistedbuildings.co.uk/101176915-cronkhill-atcham",
+      "title": "Cronkhill, Atcham, Shropshire",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "British Listed Buildings' rendering of the same Historic England entry, carried because it prints the entry's header fields that the Historic England page itself did not return to an extract: 'Entry Name: Cronkhill', 'Listing Date: 29 January 1952', 'Grade: I', 'Source: Historic England', 'Source ID: 1176915', 'English Heritage Legacy ID: 259269', 'Civil Parish: Atcham'. Its Description text and Historic England's were identical in both spans this pass extracted, which is how the two were checked against each other; no byte comparison of the whole entry was made."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cronkhill",
+      "title": "Cronkhill - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose in an extract on 2026-09-05: 'Cronkhill, Atcham, Shropshire, designed by John Nash, is \"the earliest Italianate villa in England\".' The article footnotes that sentence to Newman and Pevsner, The Buildings of England: Shropshire, pp. 240-1; the phrase is therefore theirs at one remove and no facsimile of it has been read here. The same article states the plan the list entry states differently: 'The body of the house is a rectangular two-storey block, with a circular, three-storey, tower to the north and a square, three-storey, tower to the west.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nationaltrust.org.uk/visit/shropshire-staffordshire/attingham-park-estate-cronkhill",
+      "title": "Attingham Estate Cronkhill | Shropshire | National Trust",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owning body's own page. Read through a search result and not an extract, so nothing from it is quoted as running prose."
+    }
+  ],
+  "survey": {
+    "item": "1176915",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1176915",
+    "prepared": "Historic England names no author and the entry says 'The contents of this record have been generated from a legacy data system.' British Listed Buildings' rendering of the same entry prints 'Listing Date: 29 January 1952' and 'Grade: I'; a Historic England search result read the same day printed 'Date first listed: 29-Jan-1952'. No date of most recent amendment was found on either surface.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "House. 1802, by John Nash, incorporating smaller C17 and C18 house.",
+        "page": "Official list entry 1176915, Details, opening sentence."
+      },
+      {
+        "field": "materials",
+        "text": "Stuccoed brick lined as ashlar with grey sandstone dressings; hipped slate roofs.",
+        "page": "Official list entry 1176915, Details, materials sentence."
+      },
+      {
+        "field": "plan",
+        "text": "Italianate style; rectangular plan with circular tower to north- east and square tower to south-west.",
+        "page": "Official list entry 1176915, Details, plan sentence; the extract prints 'north- east' broken by a hyphen and a space, transcribed here as it stands."
+      },
+      {
+        "field": "storeys",
+        "text": "2 storeys with 3-storey towers.",
+        "page": "Official list entry 1176915, Details."
+      },
+      {
+        "field": "cornice",
+        "text": "Plinth, deep eaves with paired brackets; integral brick stacks to towers.",
+        "page": "Official list entry 1176915, Details."
+      },
+      {
+        "field": "openings",
+        "text": "Glazing bar sashes, round-arched to first floor. Central block of 2 bays with one bay returning to left; first-floor arched window and 3 ground- floor 15-pane sashes to front; round-arched loggia of 6 x 4 bays on 2 steps with chamfered square piers, moulded dentil cornice, and balustraded parapet.",
+        "page": "Official list entry 1176915, Details; 'ground- floor' is broken by a hyphen and a space in the extract and is transcribed as it stands."
+      },
+      {
+        "field": "dependencies",
+        "text": "Timber framed, extended in red brick to west and refaced and eaves raised to east; slate roofs. T-plan. 2 storeys and 2 storeys and gable-lit attic. Central brick ridge stack and external brick end stack to wing. Framing: square panels, 5 from sole- plate to wall-plate; short straight corner braces. East front: 5 bays; round-arched glazing bar sashes.",
+        "page": "Official list entry 1176915, Details, the service wing to the south; a second extract of the entry with a different query returned this span, which the first extract had cut."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys with 3-storey towers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Of the main block. The same sentence gives the towers three."
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "3-storey towers",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "tower_count",
+      "as_printed": "circular tower to north- east and square tower to south-west",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Two towers are named and no third; the count is a reading of the sentence, not a stated total."
+    },
+    {
+      "name": "central_block_bay_count",
+      "as_printed": "Central block of 2 bays",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "loggia_bay_count",
+      "as_printed": "round-arched loggia of 6 x 4 bays",
+      "from_quote": 5,
+      "note": "Two figures, and the entry does not say which face is which, so nothing is parsed. The loggia links the two towers on the garden fronts."
+    },
+    {
+      "name": "sash_pane_count",
+      "as_printed": "15-pane sashes",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Panes per sash on the three ground-floor windows of the front, not a count of windows."
+    },
+    {
+      "name": "service_wing_bay_count",
+      "as_printed": "East front: 5 bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 6
+    },
+    {
+      "name": "frame_panel_count_per_storey",
+      "as_printed": "square panels, 5 from sole- plate to wall-plate",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "The C17 timber-framed service wing, not the 1802 house."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Added by this pass, and it is the one record in the cluster that is not in Italy. It is here because this node's own period block names the British Italianate villa as a revival phase with `revival_node: null` -- no other node in the corpus owns Cronkhill, and the node's own long description argues from it: 'When Nash built Cronkhill in Shropshire in 1802 with a round tower and a bracketed eave, he was not quoting Palladio; he was quoting a painting of a Roman Campagna farm.' It is also, by a wide margin, the best-described building in the cluster: a Historic England Details section states materials, plan, storeys, eaves, bracket arrangement, bay counts and pane counts, where the Italian records state none of these."
+}

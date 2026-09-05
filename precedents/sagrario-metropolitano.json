@@ -1,0 +1,82 @@
+{
+  "id": "sagrario-metropolitano",
+  "name": "Sagrario Metropolitano",
+  "aka": [
+    "Sagrario Metropolitano de la Ciudad de México"
+  ],
+  "location": {
+    "text": "Mexico City, Mexico",
+    "country": "Mexico",
+    "state": "Mexico City"
+  },
+  "dates": {
+    "built": "1749-1760",
+    "circa": false,
+    "note": "THE SOURCE AND THE NODE DISAGREE ABOUT THE END. The Spanish article says 'Fue construido siguiendo el diseño de Lorenzo Rodríguez entre 1749 y 1760'; the node's own exemplar gives 1749-1768 and dates the row 1768. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "churrigueresque"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "412-001",
+      "url": "https://es.wikipedia.org/wiki/Sagrario_Metropolitano",
+      "title": "Historic Centre of Mexico City and Xochimilco, component 412-001, as the Catedral Metropolitana article's infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The identifier is the CATHEDRAL's; the Sagrario is a separate building attached to it through the chapel of San Isidro, and the article treats it as a section of the cathedral rather than giving it a page. The infobox prints 'Identificación 412-001' with criteria ii, iii, iv, v."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Sagrario_Metropolitano",
+      "title": "Catedral Metropolitana de la Ciudad de México - Wikipedia, la enciclopedia libre (the title 'Sagrario Metropolitano' redirects here)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE SAGRARIO HAS NO ARTICLE OF ITS OWN in either language read here: 'Sagrario Metropolitano de la Ciudad de México' returns a page-does-not-exist notice and the English 'Metropolitan Tabernacle, Mexico City' returns 404. Everything below is from the cathedral's article."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-catedral-metropolitana-de-la-ciudad-de-mexico",
+    "data_url": "https://es.wikipedia.org/wiki/Sagrario_Metropolitano",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El Sagrario Metropolitano de Ciudad de México se sitúa al este de la catedral. Fue construido siguiendo el diseño de Lorenzo Rodríguez entre 1749 y 1760, durante el apogeo del barroco. Tenía la función de albergar los archivos y vestimentas del arzobispo, además, es el lugar para la reserva y comunión de la Eucaristía.",
+        "page": "Spanish Wikipedia (Catedral Metropolitana), section on the Sagrario; a footnote marker rendered by the extractor as a stray '(' after '1760' has been dropped and no word is changed"
+      },
+      {
+        "field": "materials",
+        "text": "El actual sagrario está construido en piedra tezontle roja y piedra chiluca blanca que forma una cruz griega. Está conectado a la catedral a través de la capilla de san Isidro.",
+        "page": "Spanish Wikipedia (Catedral Metropolitana), section on the Sagrario"
+      },
+      {
+        "field": "materials",
+        "text": "| Superficie | 7752 m² |\n| Orientación | Norte-sur |\n| Materiales | Cantera, tezontle y chiluca |\n| Cúpula | Cúpula de tambor octagonal |\n| Torres | Dos torres (64 y 67 m de altura) |\n| Campanas | Treinta y cinco campanas |\n| Longitud | 128 metros |\n| Anchura | 59 metros |\n| Altura | 67 metros |",
+        "page": "Spanish Wikipedia, infobox rows for the CATHEDRAL, not for the Sagrario, as the extractor renders them in a markdown table. THIS IS A TABLE AND NOT PROSE and every figure in it is of the larger building next door."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "cathedral_length_ft",
+      "as_printed": "| Longitud | 128 metros |",
+      "value": 419.9,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OF THE CATHEDRAL AND NOT OF THE SAGRARIO. Recorded with that warning in its own name and note because the two buildings touch and a reader taking the infobox for this record's subject would be out by a factor of several."
+    },
+    {
+      "name": "cathedral_width_ft",
+      "as_printed": "| Anchura | 59 metros |",
+      "value": 193.6,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "Of the cathedral. Same warning."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE CANONICAL ESTIPITE PORTADA OF NEW SPAIN HAS NO ARTICLE OF ITS OWN in either language reachable here, and not one dimension of it was found. The material claim the node makes -- 'chiluca limestone against tezontle' -- IS corroborated verbatim: 'piedra tezontle roja y piedra chiluca blanca'. The plan is stated as a Greek cross, which the node does not say."
+}

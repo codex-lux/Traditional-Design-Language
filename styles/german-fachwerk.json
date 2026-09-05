@@ -200,25 +200,64 @@
       "name": "Fachwerkmuseum im Standerbau, Wordgasse 3",
       "location": "Quedlinburg, Germany",
       "year": 1346,
-      "note": "Dendro-dated to the mid-14th century; among the oldest surviving half-timbered houses in Germany and a rare surviving Standerbau (through-post) frame."
+      "note": "Dendro-dated to the mid-14th century; among the oldest surviving half-timbered houses in Germany and a rare surviving Standerbau (through-post) frame.",
+      "precedent": "fachwerkmuseum-standerbau-quedlinburg",
+      "standing": "canonical",
+      "why": "The German Wikipedia article calls it, among Quedlinburg's free-standing houses, 'eines der ältesten und zur Verdeutlichung des Ständerbauprinzips das markanteste' -- the most telling demonstration of the through-post principle -- and it is the one building in this cluster for which any source states a floor area and a post height, so the node's Ständerbau paragraph can be held against numbers."
     },
     {
       "name": "Rathaus",
       "location": "Alsfeld, Germany",
       "year": 1516,
-      "note": "Built 1512-1516; the canonical late-Gothic Hessian jettied frame on a stone arcaded base."
+      "note": "Built 1512-1516; the canonical late-Gothic Hessian jettied frame on a stone arcaded base.",
+      "precedent": "rathaus-alsfeld",
+      "standing": "icon",
+      "why": "The Hessian monument register's whole stated reason for listing it is 'Bedeutender Fachwerkbau aus dem 16. Jahrhundert', and the town's own page calls it one of the most important half-timbered town halls in Germany; the standing rests on those two and not on this corpus's taste."
     },
     {
       "name": "Rathaus",
       "location": "Michelstadt, Germany",
       "year": 1484,
-      "note": "Odenwald; jettied frame carried on oak posts over an open market floor."
+      "note": "Odenwald; jettied frame carried on oak posts over an open market floor.",
+      "precedent": "rathaus-michelstadt",
+      "standing": "canonical",
+      "why": "The German Wikipedia article ranks it 'zu den wichtigsten spätmittelalterlichen Fachwerkbauten Deutschlands' and its date, 1484, is cut into the fabric itself on one of the northern posts, so both the standing and the chronology come from the source rather than from this corpus."
     },
     {
       "name": "Knochenhaueramtshaus",
       "location": "Hildesheim, Germany",
       "year": 1529,
-      "note": "Butchers' guild house; destroyed by bombing in 1945 and reconstructed 1986-1989 to the original frame drawings. Cited with that caveat."
+      "note": "Butchers' guild house; destroyed by bombing in 1945 and reconstructed 1986-1989 to the original frame drawings. Cited with that caveat.",
+      "precedent": "knochenhaueramtshaus",
+      "standing": "documentary",
+      "why": "Cited as a drawing executed in the 1980s rather than as sixteenth-century fabric: the German monument register listed the 1986-89 reconstruction in 2017 in its own right, and the celebrated judgment behind the building's fame -- 'das schönste Fachwerkhaus der Welt' -- is reported by the article as the Hildesheimers' own, resting on a remark of Viollet-le-Duc."
+    },
+    {
+      "name": "Rathaus Wernigerode",
+      "location": "Wernigerode, Germany",
+      "year": 1498,
+      "note": "Begun about 1420 as the counts' Spelhus, given to the town in 1427, the surviving market front built 1494-1498 and converted into the present town hall 1539-1544. Two slender oriels on free posts flank the entrance and rise past the eaves; the upper timber storey oversails the masonry base by about 50 cm, and the Knaggen carrying it are carved with saints below and with musicians, fools, drinkers and morris dancers under the roof.",
+      "precedent": "rathaus-wernigerode",
+      "standing": "canonical",
+      "why": "Carried for a number nobody else supplies: it is the only building across this whole cluster for which any source states a jetty projection, and the German Wikipedia article's 'etwa 50 Zentimeter' sits outside the node's own 200-400 mm band while meeting the bracket condition the node's hard rule attaches to exceeding it."
+    },
+    {
+      "name": "Maison Kammerzell",
+      "location": "Strasbourg, France",
+      "year": 1589,
+      "note": "Place de la Cathédrale 16. Built in three campaigns the French Wikipedia infobox prints together as '1427, 1467 et 1589'; owned since 1879 by the Fondation de l'Œuvre Notre-Dame. Protected as a monument historique since 13 June 1929, though the article's body says 'inscription' and its own infobox says 'Classée'.",
+      "precedent": "maison-kammerzell",
+      "standing": "icon",
+      "why": "The French Wikipedia article calls it the 'archétype de la maison alsacienne à colombage du XVIe siècle', which is the source's word and not this corpus's, and it is the node's only building in Alsace -- a region its own `geography` claims and its exemplars did not reach."
+    },
+    {
+      "name": "Altstadt Quedlinburg",
+      "location": "Quedlinburg, Germany",
+      "year": null,
+      "note": "The World Heritage inscription of 1994 (reference 535), 90 ha with a 270 ha buffer. How many half-timbered houses stand inside it is disputed by every source read: 'more than 2000' (the town's own tourist office), 'around 2,100', '1,300', and 'around 800 houses ... considered as important monuments'.",
+      "precedent": "altstadt-quedlinburg",
+      "standing": "documentary",
+      "why": "A district rather than a building, carried so the node's four specimens have a stated population behind them, and carried with its disagreement showing: no source read here can say within a factor of two how large that population is."
     }
   ],
   "sources": [

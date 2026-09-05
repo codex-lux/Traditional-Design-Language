@@ -1,0 +1,78 @@
+{
+  "id": "vaux-le-vicomte",
+  "name": "Chateau de Vaux-le-Vicomte",
+  "aka": [
+    "Château de Vaux-le-Vicomte"
+  ],
+  "location": {
+    "text": "Maincy, Seine-et-Marne, France",
+    "country": "France",
+    "state": "Seine-et-Marne, Île-de-France"
+  },
+  "dates": {
+    "built": "milieu du 17e siècle (as the Mérimée notice states it), campaign year 1652",
+    "circa": true,
+    "altered": "The notice records that at the end of the nineteenth century the industrialist Alfred Sommier had the house renovated by Hippolyte Destailleur and the gardens reworked by Achille Duchêne.",
+    "note": "FOUR SOURCES, FOUR START DATES, NOTHING RESOLVED. The Mérimée notice prints 'Année(s) de(s) campagne(s) de construction 1652' and dates the house 'au milieu du 17e siècle'. The node's exemplar says 'Built 1658-1661'. en.wikipedia's infobox prints 'Construction started 1656' and 'Completed 1661' while its text says 'Built between 1658 and 1661'. The estate's own site says 'In 1653, Nicolas Fouquet commissioned the architect Louis Le Vau'. The 1661 end is the one thing three of them agree on."
+  },
+  "nodes": [
+    "french-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00087074",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00087074",
+      "title": "Château de Vaux-le-Vicomte (également sur commune de Moisenay)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Référence de la notice PA00087074' and locates the work at 'Île-de-France ; Seine-et-Marne (77) ; Maincy' with 'Oeuvre sur plusieurs communes : Moisenay'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://vaux-le-vicomte.com/en/the-estate",
+      "title": "The estate - Château de Vaux-le-Vicomte",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own site, read for its date: 'In 1653, Nicolas Fouquet commissioned the architect Louis Le Vau', which agrees with neither the register nor the corpus."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Vaux-le-Vicomte",
+      "title": "Vaux-le-Vicomte - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the infobox, which prints 'Construction started 1656', 'Completed 1661' and 'Architectural style Baroque'."
+    }
+  ],
+  "survey": {
+    "item": "PA00087074",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00087074",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Château construit par Louis Le Vau pour Nicolas Fouquet, surintendant des Finances de Louis XIV, au milieu du 17e siècle. Il est décoré par le peintre Charles Le Brun, secondé par les sculpteurs Michel Anguier et François Girardon ; les jardins sont réalisés par Le Nôtre. A la fin du 19e siècle, le château est acheté aux Choiseul-Praslin par l'industriel Alfred Sommier, qui fait rénover le logis par Hippolyte Destailleur et réaménager les jardins par Achille Duchêne.",
+        "page": "Notice Mérimée PA00087074, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1652",
+        "page": "Notice Mérimée PA00087074, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "campaign_year",
+      "as_printed": "1652",
+      "value": 1652,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A year, not a dimension, and the earliest of the four the sources give. `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE BUILDING THE NODE'S OWN PROSE STANDS IN FRONT OF, AND THE REGISTER SAYS NOTHING ABOUT ITS ARCHITECTURE. The protection notice names patron, architect, decorator, sculptors and gardener and states no material, no storey count, no roof form and no dimension - so the oval domed salon, the corner pavilions and the enfilade that the corpus describes are entirely unsourced from here. No Inventaire notice for Vaux-le-Vicomte was found by the queries run. No rights line was read, so no `rights_evidence`."
+}

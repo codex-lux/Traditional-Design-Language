@@ -198,25 +198,55 @@
       "name": "Palais Garnier (Opera de Paris)",
       "location": "Place de l'Opera, Paris, France",
       "year": 1861,
-      "note": "Charles Garnier, competition won 1861, built 1861-1875, inaugurated 5 January 1875. The canonical demonstration of marche: the grand escalier and its foyers occupy more of the building than the auditorium."
+      "note": "Charles Garnier, competition won 1861, built 1861-1875, inaugurated 5 January 1875. The canonical demonstration of marche: the grand escalier and its foyers occupy more of the building than the auditorium.",
+      "precedent": "palais-garnier",
+      "standing": "icon",
+      "why": "The canonical demonstration of marche on this corpus's own reading, and the Mérimée notice supports only who ordered the building, who won the competition - in 1860, not the corpus's 1861 - and that it opened in 1875."
     },
     {
       "name": "Grand Palais",
       "location": "Avenue Winston-Churchill, Paris, France",
       "year": 1897,
-      "note": "Henri Deglane, Albert Louvet, Albert Thomas and Charles Girault, 1897-1900, for the Exposition Universelle. A Classical stone envelope wrapped around a 240 m iron, steel and glass barrel vault."
+      "note": "Henri Deglane, Albert Louvet, Albert Thomas and Charles Girault, 1897-1900, for the Exposition Universelle. A Classical stone envelope wrapped around a 240 m iron, steel and glass barrel vault.",
+      "precedent": "grand-palais",
+      "standing": "icon",
+      "why": "The clearest statement of the Beaux-Arts settlement with iron, and here the register agrees in its own words: 'Parements des façades en pierre de taille ; charpente de la nef en métal et en verre ; béton armé'."
     },
     {
       "name": "Petit Palais",
       "location": "Avenue Winston-Churchill, Paris, France",
       "year": 1897,
-      "note": "Charles Girault, 1897-1900. A trapezoidal site resolved into a symmetrical parti about a semicircular garden court - the method solving a hard site in the open."
+      "note": "Charles Girault, 1897-1900. A trapezoidal site resolved into a symmetrical parti about a semicircular garden court - the method solving a hard site in the open.",
+      "precedent": "petit-palais",
+      "standing": "canonical",
+      "why": "The corpus's own type specimen for the method solving a hard site, and the register supports none of it - it states no plan, no dimension and no material, and grades the building only 'inscrit' where its twin across the avenue is 'classé'."
     },
     {
       "name": "Gare d'Orsay (now Musee d'Orsay)",
       "location": "Quai Anatole-France, Paris, France",
       "year": 1898,
-      "note": "Victor Laloux, 1898-1900. An academic stone hotel-and-station front concealing a 32 m clear-span iron train shed; the clearest single statement of the Beaux-Arts settlement with industrial structure."
+      "note": "Victor Laloux, 1898-1900. An academic stone hotel-and-station front concealing a 32 m clear-span iron train shed; the clearest single statement of the Beaux-Arts settlement with industrial structure.",
+      "precedent": "gare-dorsay",
+      "standing": "canonical",
+      "why": "A type specimen whose figures the register actually states - a hall 32 m high, 40 m wide and 138 m long behind a stone façade - which is also how this record found that the node has put the 32 m on the wrong axis."
+    },
+    {
+      "name": "Bibliotheque Sainte-Genevieve",
+      "location": "Place du Pantheon, Paris, France",
+      "year": 1844,
+      "note": "Henri Labrouste, campaign years 1844 and 1851 in the Merimee notice. The iron-vaulted reading room over a masonry shell that the node's own prose names as the counter-case to Garnier. THE REGISTER RECORDS NO IRON: it states the architect, the two years, one decor technique and the 1992 classement, and no material and no structure.",
+      "precedent": "bibliotheque-sainte-genevieve",
+      "standing": "canonical",
+      "why": "The node's own prose already cites this building as the proof that the method is independent of the dress, and it carried no exemplar for it until this tranche; the standing is the corpus's, because the register supports nothing beyond the architect and the dates."
+    },
+    {
+      "name": "La Sorbonne (Nenot rebuilding)",
+      "location": "Paris, France",
+      "year": 1881,
+      "note": "Henri-Paul Nenot's rebuilding of the university round Lemercier's seventeenth-century chapel; Merimee campaign years 1821, 1824, 1881 and 1901. The 1975 arrete classes five ceremonial circulation spaces individually - grand vestibule, escalier d'honneur, grand amphitheatre, salle des Autorites, grand salon du rectorat - while merely inscribing the whole envelope.",
+      "precedent": "la-sorbonne",
+      "standing": "canonical",
+      "why": "The academic type, added by this tranche because the node otherwise carried only a theatre, two exhibition halls and a station; and the register's own protection structure is the evidence, protecting the sequence a visitor moves through above the building that contains it."
     }
   ],
   "sources": [

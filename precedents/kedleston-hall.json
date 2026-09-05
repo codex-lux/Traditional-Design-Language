@@ -1,0 +1,145 @@
+{
+  "id": "kedleston-hall",
+  "name": "Kedleston Hall",
+  "location": {
+    "text": "Kedleston, Derbyshire, England",
+    "country": "England",
+    "state": "Derbyshire"
+  },
+  "dates": {
+    "built": "1758-65",
+    "circa": false,
+    "altered": "The entry adds 'Interiors complete by the 1780s.'",
+    "note": "The listed-building entry prints '1758-65 by Matthew Brettingham, James Paine and Robert Adam'. The registered park-and-garden entry 1000451 tells the same sequence differently: Brettingham engaged 1758, superseded by Paine before the end of 1759, Adam taking over by April 1760, 'Work was completed in 1765'. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "english-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1311507",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
+      "title": "Kedleston Hall, Kedleston - 1311507 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Wikipedia infobox gives the same number and 'Designated 25 September 1951', which the entry's own header prints as 25.9.51."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000451",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000451",
+      "title": "Kedleston Hall, Kedleston - 1000451 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, Grade I, first listed 04-Aug-1984, which carries the account of the succession of architects."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kedleston_Hall",
+      "title": "Kedleston Hall - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1311507",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
+    "prepared": "The entry's own Details header prints the listing date 25.9.51.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SK 34 SW PARISH OF KEDLESTON KEDLESTON PARK 3/41 Kedleston Hall 25.9.51 GV I Large country house, set in large landscape park. 1758-65 by Matthew Brettingham, James Paine and Robert Adam. Interiors complete by the 1780s.",
+        "page": "Official list entry 1311507, Details, entry header and opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Red brick faced in ashlar and render. Hipped Welsh slate roofs. Various brick stacks largely hidden within the roof wells.",
+        "page": "Official list entry 1311507, Details"
+      },
+      {
+        "field": "plan",
+        "text": "Main rectangular block with quadrant colonnades and rectangular pavilions following Palladio's Villa Mocenigo. Rusticated basement, piano nobile and attic storeys.",
+        "page": "Official list entry 1311507, Details"
+      },
+      {
+        "field": "bays",
+        "text": "Principal north front: Centre block of eleven bays. Hexastyle, giant Corinthian portico over a basement of five round arches. Three statues on the pediment. Double staircase.",
+        "page": "Official list entry 1311507, Details"
+      },
+      {
+        "field": "openings",
+        "text": "Three bays on either side of the portico with square sash windows to the basement, glazing bar sashes in pedimented aedicules above and rectangular attic windows with moulded surrounds.",
+        "page": "Official list entry 1311507, Details"
+      },
+      {
+        "field": "dependencies",
+        "text": "Linked to identical pavilions, lower than the main block but still with basement, piano nobile and attic storeys. The upper storeys are cement rendered. Five bays, with four attached Ionic columns supporting a pediment.",
+        "page": "Official list entry 1311507, Details"
+      },
+      {
+        "field": "general_description",
+        "text": "South front of 3-3-3 bays. The centre piece derived from the Arch of Constantine. Four detached Corinthian columns standing close to the antae and pilasters against the wall.",
+        "page": "Official list entry 1311507, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "Centre block of eleven bays",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The north front's centre block only; the quadrant colonnades and pavilions are additional."
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "Hexastyle, giant Corinthian portico",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "'Hexastyle' means six columns across the front. The entry does not print the numeral, so 6 is a reading of a term of art and is marked as one."
+    },
+    {
+      "name": "basement_arch_count",
+      "as_printed": "a basement of five round arches",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "centre_flanking_bay_count",
+      "as_printed": "Three bays on either side of the portico",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "Five bays, with four attached Ionic columns supporting a pediment",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "pavilion_column_count",
+      "as_printed": "four attached Ionic columns supporting a pediment",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "south_front_column_count",
+      "as_printed": "Four detached Corinthian columns standing close to the antae",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
+  "note": "Tranche 3, 5 Sep 2026. Placed on english-georgian, the style node, and deliberately NOT on english-georgian-country-house, whose own prose says of that type 'It is not a prodigy house' and gives it five or seven bays; Kedleston's centre block is eleven bays with quadrants and pavilions and would contradict the node it was added to."
+}

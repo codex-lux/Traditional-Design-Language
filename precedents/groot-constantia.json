@@ -1,0 +1,69 @@
+{
+  "id": "groot-constantia",
+  "name": "Groot Constantia",
+  "location": {
+    "text": "Constantia, Cape Town, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1685",
+    "circa": false,
+    "altered": "Remodelled for Hendrik Cloete from about 1778; the Cloete wine cellar pediment by Anton Anreith is dated 1791. Severely damaged by fire in 1925 and restored under the architect F. K. Kendall. The homestead, Jonkershuis complex and wine cellar were restored 1993-94 by Revel Fox & Partners, and the Cloete cellar pediment gable in 1994.",
+    "note": "The estate's own chronology dates the grant to Simon van der Stel to 31 July 1685, which the SAHRA description repeats; the English Wikipedia infobox says only 'Built 17th century'. The node's exemplar year is 1685, which is the GRANT and not the standing house: the manor as it reads today is the Cloete remodelling of the 1790s and the post-1925 restoration."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/111/0015",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Wynberg,_Cape_Town",
+      "title": "Groot Constantia, Constantia, Wynberg District -- List of heritage sites in Wynberg, Cape Town",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    },
+    {
+      "kind": "state-register",
+      "id": "9/2/111/0015/6",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Wynberg,_Cape_Town",
+      "title": "Main house, Groot Constantia, Constantia, Wynberg District",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The listing is subdivided: /1 Jonkershuis complex, /2 Bertram wine cellar, /3 Old wine cellar, /6 Main house. The werf is listed as an ensemble, which is what the node's account of the werf would predict."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Groot_Constantia",
+      "title": "Groot Constantia - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints 'Location Constantia, Cape Town, South Africa.', 'Built 17th century', 'Architectural style Cape Dutch'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://grootconstantia.co.za/groot-constantia-rich-history",
+      "title": "Groot Constantia's rich history",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The estate's own chronology, read in a search result. It records the 1984 declaration -- 'The Minister of National Education declared The Groot Constantia State Estate, including the Groot Constantia and Hoop op Constantia homesteads and all the outbuildings thereon a National Monument' -- and attributes the manor-house gables to Thibault and Anreith: 'The slender gables of the Manor House were added, as well as the figure of “Abundance” in the niche of the main gable. ... As with the wine cellar, Thibault and Anreith are regarded as the architect and sculptor responsible for the work on the Manor House.'"
+    }
+  ],
+  "survey": {
+    "item": "9/2/111/0015",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Wynberg,_Cape_Town",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The road to Constantia swings to the right in Wynberg to enter Constantia, one of the most picturesque valleys in South Africa. Here we find some of the best examples of Cape Dutch architecture, and the best known of them is Groot Constantia. On 31 July 1685, the High Commissioner, Hendrik Adriaan van Reede, granted a farm of 762 hectares, which was to become known as Constantia, to Simon van der Stel.",
+        "page": "SAHRA identifier 9/2/111/0015, description column of the Wynberg heritage-site table. A register description is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Cape cluster, 5 September 2026. THE REGISTER DESCRIPTION IS HISTORY AND NOT FABRIC. Unlike a HABS Part II or a Historic England Details section, the SAHRA site descriptions transcribed in these tables narrate ownership: for Groot Constantia they state a grant date and a hectarage and NOT one storey count, wall thickness, roof pitch or room dimension. The whole Cape cluster is like this, which is the operational finding: South Africa's register can source a date and a plan letter and cannot dimension a generator."
+}

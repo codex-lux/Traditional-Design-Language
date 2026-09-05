@@ -1,0 +1,142 @@
+{
+  "id": "royal-crescent-bath",
+  "name": "Royal Crescent",
+  "location": {
+    "text": "Bath, England",
+    "country": "England",
+    "state": "Bath and North East Somerset"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "1767-1775",
+    "circa": false,
+    "altered": "The entry adds 'with C20 alterations'."
+  },
+  "nodes": [
+    "english-georgian",
+    "english-georgian-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1394736",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1394736",
+      "title": "Nos. 1-30, ROYAL CRESCENT, Non Civil Parish - 1394736 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. One entry covers all thirty houses, which is why this record can quote the crescent as a whole rather than one range of it."
+    }
+  ],
+  "survey": {
+    "item": "1394736",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1394736",
+    "prepared": "The entry's own Details header prints the listing date 12/06/50. The Overview block was not returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "ROYAL CRESCENT 656-1/29/1427 Nos.1-30 (Consec) Formerly Listed as: ROYAL CRESCENT Nos 1-7 (consec). No.8. Nos 9-30 (consec) 12/06/50 GV I Thirty houses, concave semi-elliptical crescent. 1767-1775 with C20 alterations. By John Wood the Younger.",
+        "page": "Official list entry 1394736, Details, entry header and opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "MATERIALS: Even and finely cut limestone ashlar; double pitched slate mansard roofs (originally stone-tiled) with moulded stacks to coped party walls.",
+        "page": "Official list entry 1394736, Details, MATERIALS paragraph"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "EXTERIOR: A crescent some 500ft (152m.) long and nearly 50ft (15m.) tall, fronted with a procession of 114 engaged giant Ionic columns, each some 20ft (6m.) tall; columns are placed singly between bays apart from the centremost bay, which is flanked with pairs; further pairs to the corners of the end houses.",
+        "page": "Official list entry 1394736, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "All houses comprise three storeys with attics and basements, and mostly with three-window fronts: Nos 14-17, to centre, have four-window fronts.",
+        "page": "Official list entry 1394736, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "cornice",
+        "text": "Continuous returned balustraded parapet, modillion cornice and frieze supported by giant order of 114 Roman Ionic engaged columns that rise from the plain ground floor plinth with platband.",
+        "page": "Official list entry 1394736, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Unadorned rectangular door and window openings; mainly six/six-pane sash windows, many restored in recent years but some still retain Victorian plate glass intrusions; some with balconettes and blind boxes. Dormer windows to attics, generally three per front.",
+        "page": "Official list entry 1394736, Details, EXTERIOR paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "Thirty houses, concave semi-elliptical crescent",
+      "value": 30,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "facade_length_ft",
+      "as_printed": "some 500ft (152m.) long",
+      "value": 500,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The entry's own approximation, printed in both units. It is the length of the whole crescent of thirty houses, not of one house."
+    },
+    {
+      "name": "facade_height_ft",
+      "as_printed": "nearly 50ft (15m.) tall",
+      "value": 50,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The entry says 'nearly 50ft', so 50 is an upper bound the entry states rather than a measured height. Over three storeys with attics and basements."
+    },
+    {
+      "name": "column_count",
+      "as_printed": "a procession of 114 engaged giant Ionic columns",
+      "value": 114,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "column_height_ft",
+      "as_printed": "each some 20ft (6m.) tall",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The giant order runs through the first and second floors above a plain ground-floor plinth, so this is not a storey height."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "All houses comprise three storeys with attics and basements",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Three main storeys, with the attic and basement named separately."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "mostly with three-window fronts",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "centre_house_bay_count",
+      "as_printed": "Nos 14-17, to centre, have four-window fronts",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "dormer_count_per_house",
+      "as_printed": "Dormer windows to attics, generally three per front",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "'Generally' is the entry's word; it is a typical figure and not a count of every front."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1394736",
+  "note": "Tranche 3, 5 Sep 2026. A group record shared by two nodes at one location string. This entry is the richest in the cluster for dimensions: it states the crescent's length, its height, the number of columns and the height of a column, in feet and metres alike. The height and length are the entry's own approximations ('some', 'nearly') and are carried as such."
+}

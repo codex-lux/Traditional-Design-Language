@@ -1,0 +1,104 @@
+{
+  "id": "hacienda-de-san-miguel-regla",
+  "name": "Hacienda de San Miguel Regla",
+  "location": {
+    "text": "Huasca de Ocampo, Hidalgo, Mexico",
+    "country": "Mexico",
+    "state": "Hidalgo"
+  },
+  "dates": {
+    "built": "18th century",
+    "circa": true,
+    "altered": "Part of the casco survives and works as a hotel of 145 rooms; two lakes inside the estate were made by flooding part of the old fabric.",
+    "note": "'esta construcción del siglo XVIII que fuera una hacienda de beneficio perteneciente del conde de Regla, Pedro Romero de Terreros'. No year is stated."
+  },
+  "nodes": [
+    "mexican-hacienda"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_de_San_Miguel_Regla",
+      "title": "Hacienda de San Miguel Regla - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_de_San_Miguel_Regla",
+      "title": "Instituto Nacional para el Federalismo y el Desarrollo Municipal, 'Enciclopedia de los Municipios y Delegaciones de México: Huasca de Ocampo' (2013), Secretaría de Gobernación -- one of the four sources the article cites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NOT READ HERE and no URL was printed in the extract; the article records it as archived from the original on 14 December 2019 and consulted on 7 December 2019. It is named because it is the federal source for this building."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-hacienda-de-san-miguel-regla",
+    "data_url": "https://es.wikipedia.org/wiki/Hacienda_de_San_Miguel_Regla",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "La hacienda de San Miguel Regla; esta construcción del siglo XVIII que fuera una hacienda de beneficio perteneciente del conde de Regla, Pedro Romero de Terreros; se conserva parte del casco, donde funciona un hotel, los arcos que formaban parte de los patios y los hornos donde era extraída la plata.",
+        "page": "Spanish Wikipedia, opening paragraph"
+      },
+      {
+        "field": "dependencies",
+        "text": "De la hacienda se conserva el casco principal, una capilla, las arcadas que formaban parte de los patios y los hornos usados para la extracción de la plata. El hotel que cuenta con 145 habitaciones, cuenta con salas de conferencias, tiendas y salones para banquetescon capacidad para 500 personas. En su interior tiene dos lagos, que se crearon al inundar parte de la vieja construcción.",
+        "page": "Spanish Wikipedia, section 'Arquitectura'. The run-together 'banquetescon' is the page's own and is left as it stands."
+      },
+      {
+        "field": "roof",
+        "text": "Construida en la inmediación de la hacienda, se trata de un templo de una sola nave con orientación sur, cubierta con techo de dos aguas a base de teja, oculto en el interior por un cielo razo de lienzo. La puerta principal es de forma rectangular enmarcada por dos columnas y un establecimiento cuyo friso es de grandes proporciones, la fachada culmina en un frontón culmina en un frontón triangular sin ornamentación en el tímpano.",
+        "page": "Spanish Wikipedia, subsection 'Capilla de San Miguel de Arcángel'. The doubled 'culmina en un frontón culmina en un frontón' is the page's own and is left as it stands."
+      },
+      {
+        "field": "other",
+        "text": "A la derecha de la entrada se alza una torre cuadrangular de dos cuerpos, en el primero se alojan cinco campanas y en el segundo existen cinco pequeños vanos con cerramiento de medio punto, sobre este cuerpo se yergue una cúpula cónica alargada que da magnífica impresión al templo.",
+        "page": "Spanish Wikipedia, subsection 'Capilla de San Miguel de Arcángel'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "chapel_nave_count",
+      "as_printed": "un templo de una sola nave",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "chapel_roof_form_count",
+      "as_printed": "cubierta con techo de dos aguas a base de teja",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A COUNT OF ROOF SLOPES AND NOT A PITCH. 'Dos aguas' means a double-pitched roof covered in clay tile, which corroborates the node's claim that clay tile is used where it rains; NO ANGLE IS STATED, and this node's kit binds no roof pitch, so nothing is offered as one."
+    },
+    {
+      "name": "chapel_tower_storey_count",
+      "as_printed": "una torre cuadrangular de dos cuerpos",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "chapel_bell_count",
+      "as_printed": "en el primero se alojan cinco campanas",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "hotel_room_count",
+      "as_printed": "El hotel que cuenta con 145 habitaciones",
+      "value": 145,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "NOT A HISTORICAL FIGURE -- hotel bedrooms in the converted casco."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. It is the only record in this node whose CHAPEL is described member by member, which matters because the node's own text says the ornament budget goes almost entirely to the gate and the chapel: here the chapel is a single-nave tiled double-pitch box with a two-stage tower and the casa grande gets no description at all, which is that claim standing up."
+}

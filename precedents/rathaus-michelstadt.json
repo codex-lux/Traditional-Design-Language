@@ -1,0 +1,69 @@
+{
+  "id": "rathaus-michelstadt",
+  "name": "Rathaus",
+  "aka": [
+    "Altes Rathaus",
+    "Altes Rathaus (Michelstadt)",
+    "Historisches Rathaus Michelstadt"
+  ],
+  "location": {
+    "text": "Michelstadt, Germany",
+    "country": "Germany",
+    "state": "Hessen, Odenwald"
+  },
+  "dates": {
+    "built": "1484",
+    "circa": false,
+    "altered": "The room division was altered in 1903 among other years; a clock was added later. The originally open ground-floor hall has since been partly enclosed.",
+    "note": "1484 is the date cut into one of the northern posts, which the German Wikipedia article states directly -- 'An einem der nördlichen Pfosten befindet sich die originale Datierung 1484' -- so this is a date on the fabric and not a documentary attribution. It agrees with the node's exemplar year."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Altes_Rathaus_(Michelstadt)",
+      "title": "Altes Rathaus (Michelstadt) – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The article states that the building 'ist ein Kulturdenkmal aufgrund des Hessischen Denkmalschutzgesetzes' and gives no list number. None was found and none is invented."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.michelstadt.de/sehenswertes-altstadt/historisches-rathaus-id_59",
+      "title": "Stadt Michelstadt: Historisches Rathaus",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own page, which records the range of uses the hall has had -- council chamber, Catholic church, military hospital, schoolroom, polling station, registry office."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.deutsche-fachwerkstrasse.de/Regionalstrecken_Staedte/Vom-Rhein-zum-Main-und-Odenwald/Michelstadt.html",
+      "title": "Michelstadt - Deutsche Fachwerkstraße",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Deutsche Fachwerkstrasse association. It states that the 1484 date is cut in archaic Arabic numerals into supporting posts on the north side AND on the front, which is one more post than the Wikipedia article mentions; the two are recorded and not reconciled."
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-altes-rathaus-michelstadt",
+    "data_url": "https://de.wikipedia.org/wiki/Altes_Rathaus_(Michelstadt)",
+    "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Das Alte Rathaus von 1484 ist ein allseits freistehendes spätmittelalterliches Fachwerkhaus. Die ursprünglich gänzlich offene Erdgeschosshalle mit mächtigen Eichenpfosten ist durch doppelte Kopfstreben mit dem Rähmkranz verbunden. An einem der nördlichen Pfosten befindet sich die originale Datierung 1484.",
+        "page": "German Wikipedia, 'Altes Rathaus (Michelstadt)', section 'Architektur und Geschichte'. Not paginated. The extract renders a wiki-link title as a stray quoted marker after 'Rähmkranz'; it has been dropped and no word was changed."
+      },
+      {
+        "field": "plan",
+        "text": "Das Fachwerkobergeschoss, auf der Westseite von hohen, spitzen Erkertürmchen flankiert, enthält einen großen Ratssaal mit einer polygonalen Mittelstütze. Die Raumaufteilung wurde unter anderem im Jahr 1903 verändert.",
+        "page": "German Wikipedia, 'Altes Rathaus (Michelstadt)', section 'Architektur und Geschichte'. Not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. The record's `name` is the bare 'Rathaus' to match the exemplar string, and `location.state` carries the region so it is separable from the Alsfeld record of the same name. WHAT THIS BUILDING SUPPLIES THE NODE IS THE POST AND NOT THE PANEL: an entirely open ground-floor hall on heavy oak posts, tied to the plate by doubled head braces, with the whole timber upper storey standing on it -- which is the load path the node says the pattern is a diagram of, exposed with no infill at all on the storey where it matters most."
+}

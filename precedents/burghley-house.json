@@ -32,7 +32,7 @@
       "title": "Burghley House, St. Martin's Without - 1000359",
       "retrieved": "2026-09-05",
       "via": "tavily-search",
-      "note": "The Register of Parks and Gardens entry for the setting, 'Date first listed: 16-Jan-1985'. Its summary line prints 'Burghley House was built by William Cecil, Building began in 1555'."
+      "note": "The Register of Parks and Gardens entry for the setting, 'Date first listed: 16-Jan-1985'. Its historical development section opens 'Burghley House was built by William Cecil, Lord High Treasurer to Elizabeth I, who was created Baron Burghley in 1571. Building began in 1555 and continued for a long period, into the 1580s.' and it describes the house separately as 'one of the largest Elizabethan mansions in the country, erected by William Cecil Lord Burghley between 1555 and 1587'. AN EARLIER VERSION OF THIS NOTE PRINTED 'Burghley House was built by William Cecil, Building began in 1555' AS THOUGH IT WERE ONE PRINTED SENTENCE: that is a search-result summary, which joins discontinuous spans, and twenty words are elided at the comma. The tell is the capital letter after a comma. Corrected by re-extracting the page, 5 Sep 2026; the note is prose and no checker reads it."
     },
     {
       "kind": "wikipedia",

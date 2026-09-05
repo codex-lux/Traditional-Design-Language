@@ -1,0 +1,64 @@
+{
+  "id": "casa-de-montejo",
+  "name": "Casa de Montejo",
+  "aka": [
+    "Casa de los Montejo",
+    "Casa Montejo"
+  ],
+  "location": {
+    "text": "Merida, Yucatan, Mexico",
+    "country": "Mexico",
+    "state": "Yucatan"
+  },
+  "dates": {
+    "built": "1542-1549",
+    "circa": false,
+    "altered": "'modificada durante los siglos XIX y XX'; Manuel de Arrigunaga y Gutierrez altered the facade to modernise it after 1914; adapted as bank offices by Banamex from 1981 and turned into a house museum in December 2010 under INAH supervision.",
+    "note": "The infobox's construction field, '1542 - 1549, modificada durante los siglos XIX y XX', agrees with the node's exemplar exactly. THE FACADE WAS ALTERED IN THE 20TH CENTURY, which matters for a record whose whole interest is the portada."
+  },
+  "nodes": [
+    "mexican-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_Montejo",
+      "title": "Casa de los Montejo: INAH monumento histórico, Código I-0013101353, as the Spanish Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE CODE IS CARRIED IN THIS TITLE AND NOT IN AN `id` FIELD, DELIBERATELY. `check_precedents.py` shapes an id per kind and names the kinds it does not shape; there is no `inah` kind and no shape rule for a Mexican catalogue number, so putting the code in `id` on a kind the checker treats as id-less would make it an identifier nobody validates and nobody knows about. It is the Catálogo Nacional de Monumentos Históricos Inmuebles number as the infobox prints it, and it was not read on an INAH page."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_Montejo",
+      "title": "Casa de los Montejo - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-casa-de-montejo",
+    "data_url": "https://es.wikipedia.org/wiki/Casa_de_Montejo",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "condition",
+        "text": "Hacia fines de 1839 la compró Simón Peón y Peón, quien al fallecer en 1869 la legó a su viuda, quien a su vez la transfirió a su hijo, José María Peón Losa. Después, en 1914, la heredó María Eduviges Peón y Peón, casada con Manuel de Arrigunaga y Gutiérrez, quien modificó la fachada del edificio para modernizarla.",
+        "page": "Spanish Wikipedia, section on the building's ownership"
+      },
+      {
+        "field": "other",
+        "text": "| Estilo | Plateresco |",
+        "page": "Spanish Wikipedia, infobox row, as the extractor renders it in a markdown table. THIS IS A TABLE ROW AND NOT PROSE."
+      },
+      {
+        "field": "other",
+        "text": "| Construcción | 1542 - 1549, modificada durante los siglos XIX y XX |",
+        "page": "Spanish Wikipedia, infobox row. A TABLE ROW AND NOT PROSE."
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. NO DIMENSION IS RECORDED: neither extract returned one for the facade this node names it for, and the source's most useful sentence is a warning -- the front was modernised by an owner after 1914, so a photograph of it is not straightforwardly a photograph of 1549."
+}

@@ -1,0 +1,87 @@
+{
+  "id": "temple-of-athena-nike",
+  "name": "Temple of Athena Nike",
+  "location": {
+    "text": "Acropolis, Athens, Greece",
+    "country": "Greece",
+    "state": "Attica"
+  },
+  "dates": {
+    "built": "426-421 BC",
+    "circa": false,
+    "note": "The Ministry's record gives 426-421 BC for the Classical temple; UNESCO's criterion (i) text gives 427-424 and names Mnesikles as well as Kallikrates. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "greek-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=982",
+      "title": "Ministry of Culture and Sports | Temple of Athena Nike",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Hellenic Ministry of Culture, Odysseus portal, monument record obj_id=982."
+    },
+    {
+      "kind": "unesco",
+      "id": "404",
+      "url": "https://whc.unesco.org/en/list/404",
+      "title": "Acropolis, Athens - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Named in the criterion (i) text as 'the Temple of Athena Nike by Mnesikles and Kallikrates (427-424)'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.ysma.gr/en/monuments/temple-of-athena-nike",
+      "title": "Temple of Athena Nike - YSMA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Acropolis Restoration Service, the body that dismantled and rebuilt this temple twice in the twentieth century. Read as a search result only."
+    }
+  ],
+  "survey": {
+    "item": "982",
+    "data_url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=982",
+    "prepared": "Hellenic Ministry of Culture and Sports, Odysseus portal, monument record obj_id=982; no author line legible in the extract",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The temple of Athena Nike stands at the southeast edge of the sacred rock atop a bastion, which in Mycenaean times protected the entrance to the Acropolis. The Classical temple, designed by architect Kallikrates and built in 426-421 BC, succeeded earlier temples also dedicated to Athena Nike.",
+        "page": "Odysseus record 982, DESCRIPTION section, opening paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "The current temple was erected atop a new bastion created for this purpose by covering the Mycenaean bastion with neatly built isodomic walls of tufa, which made it larger and more regular in shape. The temple is a small Ionic amphiprostyle structure with four monolithic columns on either short side. The side walls of the cella end in antae, which flank a pair of pillars.",
+        "page": "Odysseus record 982, DESCRIPTION section, second paragraph"
+      },
+      {
+        "field": "other",
+        "text": "A marble parapet was built in 409 BC along the edge of the bastion for safety reasons. It consists of relief slabs, one metre high, with representations of winged Victories leading bulls to be sacrificed or sacrificing them or decorating trophies before the seated Athena.",
+        "page": "Odysseus record 982, DESCRIPTION section, parapet paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_column_count",
+      "as_printed": "four monolithic columns on either short side",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Amphiprostyle: four at each end and none on the flanks, so the building has eight columns in all."
+    },
+    {
+      "name": "parapet_slab_height_ft",
+      "as_printed": "relief slabs, one metre high",
+      "value": 3.28,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "1 m converted to feet; the unit vocabulary has no metre."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche. The Ministry's record places the temple at the 'southeast edge' of the rock; the Wikipedia article read the same day places it at the southwest corner, which is where the Propylaea is. The register's wording is quoted as it stands and the disagreement is recorded rather than resolved."
+}

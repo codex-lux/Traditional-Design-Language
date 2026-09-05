@@ -1,0 +1,134 @@
+{
+  "id": "sezincote",
+  "name": "Sezincote",
+  "location": {
+    "text": "Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "1800-1805",
+    "circa": false,
+    "note": "The list entry prints '1800-1805; by Samuel Pepys Cockerell, Thomas Daniell and Humphry Repton for Sir Charles Cockerell'. Wikipedia's infobox prints 'Completed 1805' and names Cockerell alone as architect. Both are recorded; the attribution is not resolved here."
+  },
+  "nodes": [
+    "regency"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1341231",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1341231",
+      "title": "Sezincote House, Sezincote - 1341231 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the search listing for this page prints 'Date first listed: 25-Aug-1960' and 'Statutory Address: SEZINCOTE HOUSE, GL56 9AW', and the entry's own header prints 25.08.60."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000433",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000433",
+      "title": "Sezincote - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, Grade I, first listed 28-Feb-1986. The garden is Repton's and is part of what the exemplar is for."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Sezincote_House",
+      "title": "Sezincote House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q7459452",
+      "url": "https://www.wikidata.org/wiki/Q7459452",
+      "title": "Sezincote House - Wikidata",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1341231",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1341231",
+    "prepared": "Date first listed: 25-Aug-1960, as the search listing for this page renders the Overview block; the entry's own Details header prints 25.08.60.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SP 13 SE, 4/108 SEZINCOTE, SEZINCOTE PARK, Sezincote House 25.08.60 GV I Country house. 1800-1805; by Samuel Pepys Cockerell, Thomas Daniell and Humphry Repton for Sir Charles Cockerell.",
+        "page": "Official list entry 1341231, Details, entry header and opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Orange ashlar limestone, slate roof with copper dome. Mixture of Mogul and Hindu elements of architecture.",
+        "page": "Official list entry 1341231, Details"
+      },
+      {
+        "field": "plan",
+        "text": "Inverted T-shaped plan with canted 2-storey bay window/subsidiary entrance left and orangery (q.v.) attached to rear of main body curving away left.",
+        "page": "Official list entry 1341231, Details"
+      },
+      {
+        "field": "storeys",
+        "text": "Main body 2 storeys. Symmetrical facade with central 4-centred arch to full height of facade, engaged square columns with sunken panelled decoration to either side.",
+        "page": "Official list entry 1341231, Details"
+      },
+      {
+        "field": "openings",
+        "text": "3:1:3:1:3-windowed; 12-pane sashes to first floor with moulded reveals and curved hoods with engaged pineapple-shaped finials and foliate decoration with pendant engaged pineapple finials below sills. Reeded quarter columns with inset and cusped shell-like hoods flank windows to either side of central arch. Ground-floor windows; plate-glass sashes.",
+        "page": "Official list entry 1341231, Details"
+      },
+      {
+        "field": "roof",
+        "text": "Roof of main body: central dome with finial set back in centre of low rectangular tower. Single stacks with moulded caps at each corner of tower linked by cast-iron railings.",
+        "page": "Official list entry 1341231, Details"
+      },
+      {
+        "field": "cornice",
+        "text": "Parapet at eaves decorated with arcading in reversed relief with chaja (projecting cornice with deep brackets below). Small octagonal and square windows and lozenge decorations in relief between brackets. 4 open-sided minarets at corners of main body with copper domes and finials.",
+        "page": "Official list entry 1341231, Details"
+      },
+      {
+        "field": "structural_system",
+        "text": "INTERIOR: C18 classical style interior. Decorated cast-iron girders support staircase representing an early example of this type of construction in a domestic context.",
+        "page": "Official list entry 1341231, Details, INTERIOR paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Main body 2 storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "bay_rhythm",
+      "as_printed": "3:1:3:1:3-windowed",
+      "from_quote": 4,
+      "note": "No total is printed. The five figures sum to 11, which is a reading and is not carried as a value."
+    },
+    {
+      "name": "window_pane_count_first_floor",
+      "as_printed": "12-pane sashes to first floor",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Twelve-pane sashes on the principal floor and plate glass at ground level, the latter a later replacement the entry states without dating."
+    },
+    {
+      "name": "minaret_count",
+      "as_printed": "4 open-sided minarets at corners of main body with copper domes and finials",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1341231",
+  "note": "Tranche 3, 5 Sep 2026. Carried for the node's own claim that Regency is where British classicism 'stops being a system and becomes a menu': the entry describes a Mogul and Hindu exterior, a C18 classical interior, twelve-pane Georgian sashes and cast-iron girders in one paragraph sequence. The entry prints 'chaja' where the exemplar literature more often prints chajja; the register's spelling is carried."
+}

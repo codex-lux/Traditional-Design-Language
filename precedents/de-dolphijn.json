@@ -1,0 +1,71 @@
+{
+  "id": "de-dolphijn",
+  "name": "De Dolphijn, Singel 140-142",
+  "aka": [
+    "De Dolfijn"
+  ],
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "ca. 1600",
+    "circa": true,
+    "altered": "Divided into two; in 1863 the top of the right-hand house was replaced by a straight cornice and that house enlarged (ONH). Restored 1966-1967.",
+    "note": "Amsterdam Monumentenstad and ONH give 'ca. 1600'; the Rijksmonumentenregister says 'plm 1605'. Not resolved."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "5303",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/5303",
+      "title": "Singel 140 HV, 1015 AG te Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "rijksmonument",
+      "id": "5304",
+      "url": "https://www.amsterdam-monumentenstad.nl/database/grachtenboek_objecten.php?id=656",
+      "title": "Amsterdam Monumentenstad, register tab for Singel 140-142",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The split double house carries two numbers. The Monumentenstad register tab prints 5303 for Singel 140 and 5304 for Singel 142, both 'Inschrijvingsdatum: 29-09-1970'; 5304 reads 'Linkerhelft van een gesplitst dubbel huis (plm 1605, door Hendrik de Keyser) met gevel met zandstenen versiering en maskers, onder incomplete top met grote trappen; empire deurpartij.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.amsterdam-monumentenstad.nl/database/grachtenboek_objecten.php?id=656",
+      "title": "Amsterdam Monumentenstad, database van de Amsterdamse grachtengordel -- Singel 140-142",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The identification block prints 'Huisnaam: De Dolphijn / Gebouwtype: Woonhuis (dubbel huis) / Geveltype: Trapgevel / Bouwstijl: Amsterdamse Renaissance / Bouwjaar: ca. 1600, ca. 1650, 1864, 1966-1967 / Architect: Hendrick de Keyser'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://onh.nl/verhaal/singel-140-142-de-dolphijn",
+      "title": "Singel 140-142, De Dolphijn - ONH.nl",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Oneindig Noord-Holland, the provincial heritage platform. Its account is that the executed front is a SIMPLIFICATION of De Keyser's own design published in Architectura Moderna, the classicist elements -- pilasters and cornices -- having been struck out."
+    }
+  ],
+  "survey": {
+    "item": "5303",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/5303",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed; Amsterdam Monumentenstad's register tab prints 'Inschrijvingsdatum: 29-09-1970'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Rechterhelft van een gesplitst dubbel huis (plm 1605, door Hendrik de Keyser) met zandstenen versiering en maskers in de gevel, onder gereconstrueerde top.",
+        "page": "Rijksmonumentenregister, monument 5303, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. THE REGISTER TEXT HAS BEEN REWRITTEN SINCE THE COPY AMSTERDAM MONUMENTENSTAD REPRINTS, and both readings were taken on the same day. The live register says '... onder gereconstrueerde top'; Monumentenstad's register tab prints the older wording '... waarvan de bekroning onder rechte lijst uit XIXa dateert; empire deuromlijsting en snijraam.' Neither is edited to agree with the other. It matters: the older text says the crowning is a nineteenth-century straight cornice, the newer that the top is reconstructed, and a reader dating the gable from one would date it wrongly from the other."
+}

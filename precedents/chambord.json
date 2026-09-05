@@ -1,0 +1,114 @@
+{
+  "id": "chambord",
+  "name": "Chateau de Chambord",
+  "aka": [
+    "Château de Chambord",
+    "Domaine national de Chambord"
+  ],
+  "location": {
+    "text": "Chambord, Loir-et-Cher, France",
+    "country": "France",
+    "state": "Loir-et-Cher, Centre-Val de Loire"
+  },
+  "dates": {
+    "built": "1519-1547",
+    "circa": false,
+    "note": "The node's exemplar gives 1519 and 'substantially complete 1547'; en.wikipedia's infobox prints 'Construction started 1519' and 'Completed 1547'. The Mérimée inventory notice IA00012822 dates the fabric instead by campaign - 'Année(s) de(s) campagne(s) de construction' is not printed on it, and its protection line reads '1840 : classé MH'. None is resolved here."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00098405",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00098405",
+      "title": "Domaine de Chambord - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Monuments historiques protection notice. It prints 'Référence de la notice PA00098405' and 'Date et niveau de protection de l'édifice 2017/05/02 : classé MH', that date being the domaine national decree n°2017-720 rather than the original listing."
+    },
+    {
+      "kind": "merimee",
+      "id": "IA00012822",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/IA00012822",
+      "title": "Château - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Inventaire général notice for the same building, and the one that carries a description: its 'Description de l'édifice' block records the walling as 'calcaire ; moellon', the roof covering as 'ardoise', the plan as 'plan symétrique' and the interior elevation as '2 étages carrés ; étage de comble', with 'Date de l'enquête ou du récolement 1986' and a protection line reading '1840 : classé MH'. It is not the survey block below only because a record may carry one survey and the steward's own page states room dimensions, which no register does."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.chambord.org/fr/histoire/architecture/",
+      "title": "Architecture | Château de Chambord",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Domaine national de Chambord's own architectural account, and the survey source below."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_de_Chambord",
+      "title": "Château de Chambord — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read for the overall figures, which are contested: this page states 'environ 156 mètres de façade, 56 mètres de hauteur, donjon de 44 mètres, 426 pièces, 77 escaliers, 282 cheminées et 800 chapiteaux sculptés', while the English article states '440 rooms, 282 fireplaces, and 84 staircases'. Only the fireplace count agrees. Neither is carried as a measurement, because neither is the survey source."
+    }
+  ],
+  "survey": {
+    "item": "chambord-org-architecture",
+    "data_url": "https://www.chambord.org/fr/histoire/architecture/",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "La composition interne du donjon est d’une ordonnance inédite en France et constitue un trait d’italianisme indéniable. Il s’agit d’un plan centré en croix grecque: les quatre faces du bâtiment s’ouvrent sur de grandes salles de 9 m de large et 18 m de long formant une croix grecque. Au centre se déploie le monumental escalier à doubles-révolutions. Enfin, la salle en croix détermine dans les angles des cantons d’habitations constitués de logis standardisés.",
+        "page": "Domaine national de Chambord, 'Architecture', the paragraph on the internal composition of the donjon. The page is not paginated and prints no section number."
+      },
+      {
+        "field": "general_description",
+        "text": "L’ornementation des parties hautes du donjon et du château, hérissées de cheminées et de tourelles d’escalier, évoquent le style des châteaux forts.",
+        "page": "Domaine national de Chambord, 'Architecture'; the sentence stands immediately after the paragraph quoted above in the extract."
+      },
+      {
+        "field": "stairways",
+        "text": "Le château présente un escalier aussi remarquable par son ordonnance que par sa position dans l’édifice. Il est construit en plein centre du donjon, à la croisée de quatre vastes salles. Il se compose de deux rampes jumelles hélicoïdales s’enroulant l’une au-dessus de l’autre autour d’un noyau creux et ajouré. Cet escalier dit «à double révolution » dessert les étages principaux de l’édifice, jusqu’aux terrasses sommitales où il est surmonté par la plus haute tour du château, la tour-lanterne.",
+        "page": "Domaine national de Chambord, 'Architecture', section headed 'L’escalier \"magique\" du château de Chambord'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "cross_hall_width_ft",
+      "as_printed": "9 m de large",
+      "value": 29.53,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The width of each of the four arms of the Greek-cross hall through the donjon, not of the building. Converted here from the metric figure the source prints, at 1 m = 3.28084 ft; the conversion is this record's reading and `as_printed` carries what was actually read. The schema's `unit` enum runs ft/in/count/ratio/deg/rise_in_12 and has no metre, which is the whole reason a reading is needed at all."
+    },
+    {
+      "name": "cross_hall_length_ft",
+      "as_printed": "18 m de long",
+      "value": 59.06,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The length of each arm of the same cross hall. Converted here from the metric figure the source prints, at 1 m = 3.28084 ft; the conversion is this record's reading and `as_printed` carries what was actually read. The schema's `unit` enum runs ft/in/count/ratio/deg/rise_in_12 and has no metre, which is the whole reason a reading is needed at all."
+    },
+    {
+      "name": "cross_hall_arm_count",
+      "as_printed": "les quatre faces du bâtiment s’ouvrent sur de grandes salles",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "stair_flight_count",
+      "as_printed": "deux rampes jumelles hélicoïdales",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The two interwound flights of the double-revolution stair; the page does not call them storeys."
+    }
+  ],
+  "note": "Tranche 3, the French château, Baroque, Neoclassical and Beaux-Arts cluster, 5 Sep 2026. THE SURVEY BLOCK HERE IS NOT A REGISTER ENTRY AND THAT IS A DELIBERATE CHOICE, STATED SO AN AUDITOR CAN SEE IT RATHER THAN INFER IT. Both Mérimée notices were read and are carried in `refs`; the Inventaire notice IA00012822 gives materials, roof covering, plan type and storeys but no dimension, and the schema allows one survey per record. The steward's own architectural page is the only source read here that states a ROOM dimension, which is exactly what wp-9.2-what-the-tradition-actually-does.md §7 Q10 says the envelope sources never give. No rights line was read on either source, so no `rights_evidence` is recorded."
+}

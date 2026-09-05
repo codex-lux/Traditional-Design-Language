@@ -1,0 +1,92 @@
+{
+  "id": "saline-royale-arc-et-senans",
+  "name": "Saline Royale d'Arc-et-Senans",
+  "aka": [
+    "Saline royale d'Arc-et-Senans",
+    "Ancienne saline royale, actuellement Fondation Claude-Nicolas Ledoux",
+    "saline royale de Chaux"
+  ],
+  "location": {
+    "text": "Arc-et-Senans, Doubs, France",
+    "country": "France",
+    "state": "Doubs, Bourgogne-Franche-Comté"
+  },
+  "dates": {
+    "built": "1775-1779",
+    "circa": false,
+    "note": "THE NOTICE CONTRADICTS ITSELF AND BOTH HALVES ARE RECORDED. Its 'Description historique' says 'Construite entre 1775 et 1779', while its own 'Année(s) de(s) campagne(s) de construction' field two lines away prints '1775 ; 1782'. UNESCO's page says construction 'begun in 1775 during the reign of Louis XVI'. Nothing is changed."
+  },
+  "nodes": [
+    "french-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00101440",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00101440",
+      "title": "Ancienne saline royale, actuellement Fondation Claude-Nicolas Ledoux",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Nature de la protection de l'édifice classé MH partiellement' and 'Date et niveau de protection de l'édifice 1926/11/30 : classé MH ; 1940/02/20 : classé MH'. The reference was read from fr.wikipedia, whose reference 14 reads '« Ancienne saline royale, actuellement Fondation Claude-Nicolas Ledoux », notice no PA00101440, sur la plateforme ouverte du patrimoine, base Mérimée'."
+    },
+    {
+      "kind": "unesco",
+      "url": "https://whc.unesco.org/en/list/203",
+      "title": "From the Great Saltworks of Salins-les-Bains to the Royal Saltworks of Arc-et-Senans, the Production of Open-pan Salt - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "CARRIED BECAUSE IT DISAGREES WITH THE MÉRIMÉE NOTICE ABOUT THE INSCRIPTION YEAR. The Mérimée notice says the saltworks earned 'en 1983 une inscription sur la liste du patrimoine mondial de l'Unesco'; fr.wikipedia's categories say 'Patrimoine mondial inscrit en 1982' and two independent pages read the same day give 1982. The UNESCO page itself, at this URL, does not print the year in the span extracted. Both years are recorded and neither is resolved."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Saline_royale_d%27Arc-et-Senans",
+      "title": "Saline royale d'Arc-et-Senans — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Where the Mérimée number was read; its categories print 'Monument historique classé en 1926', 'Monument historique classé en 1940' and 'Patrimoine mondial inscrit en 1982'."
+    }
+  ],
+  "survey": {
+    "item": "PA00101440",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00101440",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Construite entre 1775 et 1779 par larchitecte Claude-Nicolas Ledoux, la saline se distingue par la qualité de son architecture qui lui a valu dès 1926 un classement au titre des MH et en 1983 une inscription sur la liste du patrimoine mondial de lUnesco. La rigueur de son plan et le volume des bâtiments forment un enclos en demi-cercle où s'amalgament tous les usages d'une industrie jadis détentrice des attributs de l'autorité souveraine : lieux de travail (tonnellerie, maréchalerie) , lieux de vie et au centre du dispositif maison directorial sont restés figés. une chapelle est adjointe au logie patronal, elle est flanquée de deux vastes ateliers d'écvaporation, les \"bernes\".",
+        "page": "Notice Mérimée PA00101440, section 'Historique de l'édifice', field 'Description historique'. The notice's own dropped apostrophes ('larchitecte', 'lUnesco') and its misspellings ('logie', 'écvaporation') are left exactly as read. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1775 ; 1782",
+        "page": "Notice Mérimée PA00101440, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Ledoux Claude Nicolas (architecte) ; Polti (architecte)",
+        "page": "Notice Mérimée PA00101440, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "evaporation_hall_count",
+      "as_printed": "deux vastes ateliers d'écvaporation",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The two great evaporation sheds - the 'bernes' - flanking the director's house. The register's spelling 'écvaporation' is left as printed."
+    },
+    {
+      "name": "construction_span_years",
+      "as_printed": "entre 1775 et 1779",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension, and in contradiction with the same notice's own campaign years 1775 ; 1782 four lines below. `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. Added by this tranche because the node's own prose rests an argument on the type it cannot otherwise cite: 'eighteenth-century France was building a new class of public buildings - theatres, hospitals, mints, customs barriers, exchanges - for which no traditional type existed'. Four of the node's five exemplars were a royal retreat, a church and two urban palaces; the Saline royale is the industrial case, and it is Ledoux, whom the node's prose never names. THE NOTICE CONTRADICTS ITSELF ON THE BUILD DATES AND CONTRADICTS UNESCO ON THE INSCRIPTION YEAR; both are recorded above and neither is resolved. It states no dimension and no material beyond 'l'omniprésence du calcaire', in a sentence the extract cut mid-way and which is therefore not quoted. No rights line was read, so no `rights_evidence`."
+}

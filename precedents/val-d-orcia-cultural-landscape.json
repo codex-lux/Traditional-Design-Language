@@ -1,0 +1,68 @@
+{
+  "id": "val-d-orcia-cultural-landscape",
+  "name": "Podere and fattoria complexes of the Val d'Orcia",
+  "record_kind": "district",
+  "aka": [
+    "Val d'Orcia",
+    "Valdorcia"
+  ],
+  "location": {
+    "text": "Val d'Orcia, Siena province, Tuscany, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "14th-15th centuries onward",
+    "circa": true,
+    "note": "The inscription dates the landscape's making to the 14th and 15th centuries, when the valley was integrated into the Sienese city-state. Individual farmhouses are not dated by it, and the node's own exemplar entry carries a null year for exactly that reason."
+  },
+  "nodes": [
+    "tuscan-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "1026",
+      "url": "https://whc.unesco.org/en/list/1026",
+      "title": "Val d'Orcia - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The English Wikipedia infobox prints the reference as '1026rev' with 'Criteria Cultural: (iv), (vi)', 'Inscription 2004 (28th Session)', 'Area 61,188 ha' and 'Buffer zone 5,660 ha'; the World Heritage Centre page itself prints the two areas in its integrity statement. The bare number 1026 is carried here and the 'rev' suffix is recorded but not made part of the id."
+    },
+    {
+      "kind": "institution",
+      "url": "https://unesco.cultura.gov.it/en/projects/val-dorcia",
+      "title": "Val d'Orcia - Unesco Beni Culturali",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Italian Ministry of Culture's UNESCO office page for the property. Read through a search result and not an extract, so nothing from it is quoted here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Val_d%27Orcia",
+      "title": "Val d'Orcia - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1026",
+    "data_url": "https://whc.unesco.org/en/list/1026",
+    "prepared": "UNESCO World Heritage Centre, the property's own list entry; inscribed 2004 at the 28th session. The page names no author and prints no date of last revision in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The landscape of Val d’Orcia is part of the agricultural hinterland of Siena, redrawn and developed when it was integrated in the territory of the city-state in the 14th and 15th centuries to reflect an idealized model of good governance and to create an aesthetically pleasing picture. The landscape’s distinctive aesthetics, flat chalk plains out of which rise almost conical hills with fortified settlements on top, inspired many artists. Their images have come to exemplify the beauty of well-managed Renaissance agricultural landscapes. The inscription covers: an agrarian and pastoral landscape reflecting innovative land-management systems; towns and villages; farmhouses; and the Roman Via Francigena and its associated abbeys, inns, shrines, bridges, etc.",
+        "page": "World Heritage List entry 1026, the property's brief description; the page is not paginated."
+      },
+      {
+        "field": "condition",
+        "text": "The 61,188 hectare property, along with the 5,660 hectare buffer zone, encompasses all the elements necessary to understand the Renaissance cultural landscape that is the basis for Outstanding Universal Value. The intactness of the property is evidenced in the size, extent, layout, and character of the planned Renaissance agricultural landscape with its largely intact settlements (towns, villages, farm complexes) and evidence of the Roman Via Francigena (and associated abbeys, inns, shrines, and bridges).",
+        "page": "World Heritage List entry 1026, Statement of Outstanding Universal Value, Integrity."
+      }
+    ]
+  },
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. `record_kind` is `district`: the exemplar names a settlement pattern of dispersed single-family poderi over a whole valley, and the only archival record that exists for it is the World Heritage inscription of the landscape. NO MEASUREMENT IS RECORDED and that is the finding rather than a gap: the inscription's own list of what it covers names 'farmhouses' in one word between towns and a Roman road, and states no dimension, no storey count, no material and no plan for any of them. The two areas it does state are in hectares, for which this schema's unit enum has no term, so they are carried in the quote and parsed nowhere."
+}

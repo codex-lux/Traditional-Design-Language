@@ -1,0 +1,89 @@
+{
+  "id": "temple-of-hephaestus-athens",
+  "name": "Temple of Hephaestus (Hephaisteion)",
+  "aka": [
+    "Hephaisteion",
+    "Theseion"
+  ],
+  "location": {
+    "text": "Agora, Athens, Greece",
+    "country": "Greece",
+    "state": "Attica"
+  },
+  "dates": {
+    "built": "c. 460-420 BC",
+    "circa": true,
+    "note": "The Ministry's record says 'The temple was probably erected between 460 and 420 BC by a yet unknown architect'; the node's exemplar note gives c. 449-415 BC. Both are recorded; neither is changed, and the Ministry declines the attribution the literature usually offers."
+  },
+  "nodes": [
+    "greek-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=6621",
+      "title": "Ministry of Culture and Sports | Temple of Hephaistos",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Hellenic Ministry of Culture, Odysseus portal, monument record obj_id=6621."
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q756824",
+      "url": "https://www.wikidata.org/wiki/Q756824",
+      "title": "Temple of Hephaestus - Wikidata",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Temple_of_Hephaestus",
+      "title": "Temple of Hephaestus",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for one figure the register text does not give: 'The dimensions of the temple are 13.71 m north to south and 31.78 m east to west'. Read from a search result rather than an extract, so it is not carried as a measurement."
+    }
+  ],
+  "survey": {
+    "item": "6621",
+    "data_url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=6621",
+    "prepared": "Hellenic Ministry of Culture and Sports, Odysseus portal, monument record obj_id=6621; no author line legible in the extract",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "condition",
+        "text": "On top of Agoraios Kolonos hill, which is delimiting the Ancient Agora of Athens to the west, stands the temple of Hephaestus, broadly known as ?Thisio?. It is one of the best preserved ancient temples, partly because it was transformed into a Christian church.",
+        "page": "Odysseus record 6621, DESCRIPTION section, opening paragraph. The portal's Greek quotation marks come through the extract as question marks; the text is carried as it was read."
+      },
+      {
+        "field": "bays",
+        "text": "The temple was probably erected between 460 and 420 BC by a yet unknown architect, to whom, however, are attributed other temples of similar structure in the Attica region.   The temple disposed of a pronaos (anteroom) and an opisthodomos (back section), both distyle (two-columned) in antis. On the exterior it was surrounded by a Doric colonnade having six columns on the narrow sides and thirteen columns on the longer sides.",
+        "page": "Odysseus record 6621, DESCRIPTION section, second paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "The entire building, from the crepis (stone base) to the roof, was made of marble produced in the quarries of Pendeli mountain (in Attica), while the architectural sculptures that adorned the temple were of marble produced in the quarries on the island of Paros.",
+        "page": "Odysseus record 6621, DESCRIPTION section, second paragraph, continuing"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "peristyle_columns_front",
+      "as_printed": "six columns on the narrow sides",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "peristyle_columns_flank",
+      "as_printed": "thirteen columns on the longer sides",
+      "value": 13,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "6 x 13 is exactly the node's stated norm n_flank = 2 x n_front + 1."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The register text is the Ministry's own and states counts, materials and plan and no dimension; the temple's 13.71 x 31.78 m is carried only as a ref note, because a figure read in a search snippet is not a quotation."
+}

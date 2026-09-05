@@ -1,0 +1,71 @@
+{
+  "id": "ferme-des-planons",
+  "name": "Ferme des Planons",
+  "location": {
+    "text": "Saint-Cyr-sur-Menthon, Ain, France",
+    "country": "France",
+    "state": "Ain, Auvergne-Rhône-Alpes"
+  },
+  "dates": {
+    "built": "14e siècle ; 1er quart 15e siècle ; 17e siècle",
+    "circa": true,
+    "note": "The Mérimée notice gives those three centuries with the campaign year 1603; the French Wikipedia article says « La maison d'habitation a été construite en 1490 » and dates a first extension to 1603 and a second to the early 1700s. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "french-provincial-farmhouse"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00116544",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00116544",
+      "title": "Ferme des Planons - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The bare pop.culture.gouv.fr host returned the application shell and an « Oops » for this reference on two attempts; the www. host returned the notice. The working URL is recorded."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ferme_des_Planons",
+      "title": "Ferme des Planons — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose in an extract. Its Description reads: « Les cinq corps de btiment sont ordonnés autour d'une cour carrée fermée desservie par un « passou ». […] toits en tuiles-canal reposant sur une charpente en chêne ; ossature à pans de bois de chêne, fondée sur un soubassement en briques appelées « carrons », et remplissage en torchis de terre et paille bti sur un clayonnage d'aulne pour la maison d'habitation ; maçonnerie de pisé sur un soubassement de pierres murueuses ou en briques pour les écuries ou étables. » The elision marks a cut this note makes; the two halves are not run together as one sentence."
+    },
+    {
+      "kind": "institution",
+      "url": "http://patrimoines.ain.fr/n/decouvrir-le-domaine-des-saveurs-les-planons/n:566",
+      "title": "Découvrir - Patrimoine(s) de l'Ain",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The department's own museum page. It says « Cour spacieuse, vastes dépendances, galeries rythmées par des arcades et cheminée sarrasine la singularisent. »"
+    }
+  ],
+  "survey": {
+    "item": "PA00116544",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00116544",
+    "prepared": "Date de dernière modification de la notice 4 mars 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Nature de la protection de l'édifice classé MH Date et niveau de protection de l'édifice 1938/06/25 : classé MH Précision sur la protection Ferme des Planons, avec sa cheminée sarrazine : classement par arrêté du 25 juin 1938",
+        "page": "Notice Mérimée PA00116544, section « Statut juridique, intérêt, protection et label »"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 14e siècle ; 1er quart 15e siècle ; 17e siècle Année(s) de(s) campagne(s) de construction 1603",
+        "page": "Notice Mérimée PA00116544, section « Historique de l'édifice »"
+      },
+      {
+        "field": "other",
+        "text": "Localisation Auvergne-Rhône-Alpes ; Ain (01) ; Saint-Cyr-sur-Menthon ; Mulatière (la)",
+        "page": "Notice Mérimée PA00116544, section « Localisation au moment de la protection ou de l'étude »"
+      }
+    ]
+  },
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00116544",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. New exemplar. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. The five ranges round a closed square court, the oak frame on a brick soubassement and the pisé stables are stated on the Wikipedia article and NOT in the register notice, so they sit in that ref's note and produce no measurement: this record's survey is the protection record and prints no figure."
+}

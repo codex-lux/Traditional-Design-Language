@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**138 questions, of which 54 are open.** A question is OPEN while
+**139 questions, of which 55 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 54
+## Open — 55
 
 Awaiting a ruling. This is the list to read first.
 
@@ -79,6 +79,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed** | OPEN | [two accepted moves can leave the record breaking the first one's rule](open-questions/oq-a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed.md) |
 | **oq/a-slug-in-a-code-span-is-not-checked** | OPEN | [the citation guard validates 16% of the namespace it guards, by TWO mechanisms, and the second one is bigger than the one this entry is named for](open-questions/oq-a-slug-in-a-code-span-is-not-checked.md) |
 | **oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity** | OPEN | [the guard compares numbers and cannot compare meanings](open-questions/oq-a-source-that-agrees-numerically-may-be-the-wrong-quantity.md) |
+| **oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it** | OPEN | [17 `measured` figures a survey disproves, three by the node's own exemplar](open-questions/oq-a-survey-contradicts-a-kit-figure-and-nothing-decides-it.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/the-adjudication-cases-the-records-do-not-decide** | OPEN | [181 gaps where the node's own words settle nothing, grouped by the pack that settles them all at once](open-questions/oq-the-adjudication-cases-the-records-do-not-decide.md) |
 | **oq/the-elevation-reads-five-packs-whatever-the-style-binds** | OPEN | [every elevation is dimensioned from `opening-proportion`, `sash-light`, `facade-classical`, `brick-course` and `gibbs-ionic`, never from the style's bindings](open-questions/oq-the-elevation-reads-five-packs-whatever-the-style-binds.md) |

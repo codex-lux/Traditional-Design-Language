@@ -1,0 +1,94 @@
+{
+  "id": "culzean-castle",
+  "name": "Culzean Castle",
+  "location": {
+    "text": "Maybole, South Ayrshire, Scotland",
+    "country": "United Kingdom",
+    "state": "South Ayrshire"
+  },
+  "dates": {
+    "built": "1777-1812",
+    "circa": false,
+    "altered": "Wardrop & Reid (Charles Reid), 1875-9. The Armoury is a 19th-century reconfiguration of the hall and buffet of Adam's original scheme, and the portico is 19th century; the Round Drawing Room (Saloon) is 18th century, completed 1820.",
+    "note": "The designation record says 'Robert Adam, 1777-1812; Wardrop & Reid (Charles Reid), 1875-9, incorporating earlier structures'. Adam died in 1792, so the 1777-1812 range covers the completion of his scheme after his death and is not a range he worked through; the record does not say so and this reading is not written into the field."
+  },
+  "nodes": [
+    "adam-style"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB7595",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7595",
+      "title": "CULZEAN CASTLE ESTATE, CULZEAN CASTLE (LB7595)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. The reference is copied from the designation record's own title as the portal prints it. No id format for this register has been read here, so `check_precedents.py` carries it unchecked; that is the register's shape as printed and not a shape this record asserts."
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "LB7609",
+      "url": "https://en.wikipedia.org/wiki/List_of_Category_A_listed_buildings_in_South_Ayrshire",
+      "title": "List of Category A listed buildings in South Ayrshire - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried only to show that the estate's structures are separately designated: this is the bathing complex. The list's own citation for it runs the designation title and the reference together with no space, 'CULZEAN CASTLE ESTATE, BATHING COMPLEX, INCLUDING BATH HOUSE, ROUND HOUSE AND PLUNGE POOLLB7609', which is how the page renders a Historic Environment Scotland citation and not how the register writes the name; an earlier reading of this record inserted the space and said it was as printed. Re-extracted 5 Sep 2026. The table row for the same building prints only 'Culzean Castle, Bath House' and the bare number 7609. Nothing is quoted from it."
+    }
+  ],
+  "survey": {
+    "item": "LB7595",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7595",
+    "prepared": "Historic Environment Scotland's listed building designation record. NEITHER EXTRACT RETURNED A DATE-DESIGNATED FIELD and none is claimed here; the page's own footer prints only 'Printed: 24/08/2026 17:17', which is a print stamp on a cached copy and not a designation date.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Robert Adam, 1777-1812; Wardrop & Reid (Charles Reid), 1875-9, incorporating earlier structures. 2-4 storey, irregular-plan castellated classical country house with prominent drum tower to N and articulated with engaged round towers to S.",
+        "page": "Designation record LB7595, Description, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Polished ashlar construction. Clifftop setting, with estuary to N. Entrances to E and S and garden front to S. Battered base courses, machicolated string courses, crenellated and machicolated parapets.",
+        "page": "Designation record LB7595, Description, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "MAIN BLOCK: suites of adjoining rooms arranged around a central oval staircase, lit by cupola, with circular room in drum tower to N on each floor and turnpike service stairs in corner towers.",
+        "page": "Designation record LB7595, Description, MAIN BLOCK"
+      },
+      {
+        "field": "stairways",
+        "text": "STAIRWELL: (1787) oval plan with ambulatory around arcade carried on square piers with Doric capitals. Centre arches blocked on N closing off N approach flight. Iron balustrade of urn and lyre pattern. Flagstone floor.",
+        "page": "Designation record LB7595, Description, GROUND FLOOR, STAIRWELL"
+      },
+      {
+        "field": "finishes",
+        "text": "FIRST FLOOR: oval stair landing with Corinthian columns supporting staircase. Distyle Corinthian screen to N.",
+        "page": "Designation record LB7595, Description, FIRST FLOOR"
+      },
+      {
+        "field": "significance",
+        "text": "Part of an A-group at Culzean Castle Estate comprising: Culzean Castle; Castle Walls etc; Fountain Court etc; Ruined Arch and Viaduct; Stable Block etc; Camellia House; Cat Gates; Home Farm; Powder House; Ardlochan Lodge; Dolphin House; Hoolity Ha'; Swan Pond Complex; Swan Pond Ice House; Walled Garden; Bathing Complex; Water Works; Shore Boat House; Battery and Mast House; Main Drive Walls and Piers; Gas Works.",
+        "page": "Designation record LB7595, Statement of Special Interest, opening sentence"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2-4 storey, irregular-plan castellated classical country house",
+      "from_quote": 0,
+      "note": "NO SINGLE VALUE IS PARSED. The record states a range across an irregular plan on a cliff, which is a statement about the massing and not a storey count; taking either end would be inventing a building."
+    },
+    {
+      "name": "stairwell_screen_column_count",
+      "as_printed": "Distyle Corinthian screen to N",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "A READING: distyle is two columns."
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. Added as the Scottish half of this node's own stated hearth ('London and Edinburgh, from the Adam brothers' office in the Adelphi'), and it is `regional` rather than `icon` because it is Adam's CASTELLATED manner, which the node's kit -- attenuated columns, 5-15 mm ornament relief, cornice profiles reduced by a third -- does not describe at all. The Historic Environment Scotland record's own account of the architect, read in the same extract, says his 'castellated mansions set in Romantic landscapes, such as Culzean and Seton, helped define the picturesque movement'; that sentence sits in the portal's About block rather than in the designation Description and is not quoted above. Historic Environment Scotland's designation record is served in headed blocks; every run of whitespace in these quotes is the extractor's line break collapsed to one space and nothing else was changed. No rights line was read verbatim, so no `rights_evidence` is recorded."
+}

@@ -1,0 +1,72 @@
+{
+  "id": "chiswick-house",
+  "name": "Chiswick House",
+  "location": {
+    "text": "Chiswick, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "1722-1724 or 1727-1729",
+    "circa": false,
+    "altered": "Burlington linked the new villa to the old house by a short gallery, the Link Building, c 1733. The listed-building entry records that the Wyatt wings 'have been demolished 1952' and that the house was 'Recently restored by Ministry of Works'.",
+    "note": "HISTORIC ENGLAND REFUSES TO DATE THIS BUILDING AND SAYS SO: 'Accounts suggest that construction of the new villa could have taken place either in 1722-24, or 1727-29 but not in between.' The node's own exemplar gives 1729 as the year and says 'Built 1727-29', which is one of the register's two alternatives; the other is five years earlier. Neither is chosen here. The listed-building entry separately prints the bare figure '17306.' before 'Lord Burlington's Palladian Villa', which is a legacy-data artefact and is not read as a date."
+  },
+  "nodes": [
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1079607",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1079607",
+      "title": "Chiswick House, Non Civil Parish - 1079607 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, first listed 21-May-1973 on the search result's Overview block. Its whole architectural description, read in the extract, is: '17306. Lord Burlington's Palladian Villa. Wyatt wings have been demolished 1952.' followed by a list of Country Life references and of people who died in the house. Nothing is quoted from it in the survey block below, which is scoped to entry 1000111."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000111",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000111",
+      "title": "Chiswick House, Non Civil Parish - 1000111 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Register of Parks and Gardens entry, Grade I, first listed 01-Oct-1987 on the search result's Overview block. It is the entry that describes the building, which is why the survey block below is scoped to it and not to the listed-building entry."
+    }
+  ],
+  "survey": {
+    "item": "1000111",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1000111",
+    "prepared": "Historic England's Register of Parks and Gardens of Special Historic Interest; the entry's Overview block prints 'Date first listed: 01-Oct-1987' as a search result returned it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Chiswick House (listed grade I), a two-storey Palladian villa, is situated to the south of the site and faces south-east onto a formal rectangular forecourt.",
+        "page": "Register of Parks and Gardens list entry 1000111, PRINCIPAL BUILDING paragraph"
+      },
+      {
+        "field": "other",
+        "text": "From 1719, Lord Burlington, using Colen Campbell as his architect, was working on the existing C17 house at Chiswick. Accounts suggest that construction of the new villa could have taken place either in 1722-24, or 1727-29 but not in between. The old house continued to be used and it is probable that the new villa was intended as a private gallery, library, or club. Eventually, c 1733, Burlington linked the two houses by a short gallery, the Link Building.",
+        "page": "Register of Parks and Gardens list entry 1000111, PRINCIPAL BUILDING paragraph"
+      },
+      {
+        "field": "significance",
+        "text": "An early C18 villa and garden, largely the design of the third Earl of Burlington who from 1723 incorporated ideas and designs by William Kent. Developments were made from the late C18 onwards, first by the fifth Duke of Devonshire who employed Samuel Lapidge and later by the sixth Duke who employed Lewis Kennedy. Since 1929 the grounds have been used as a public park.",
+        "page": "Register of Parks and Gardens list entry 1000111, summary paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "a two-storey Palladian villa",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE MANIFESTO BUILDING OF ENGLISH PALLADIANISM HAS A LISTED-BUILDING ENTRY WITH NO ARCHITECTURE IN IT. Two extracts of 1079607 with different queries returned the same four sentences, none of them describing the villa; the octagonal domed saloon, the hexastyle Corinthian portico and the plan of Palladian ratios that this node's own exemplar note names are in neither Historic England entry. The one measurable statement about the building anywhere in the register is 'a two-storey Palladian villa', and it is in the PARKS entry. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

@@ -1,0 +1,116 @@
+{
+  "id": "charlotte-square",
+  "name": "Charlotte Square",
+  "location": {
+    "text": "Edinburgh New Town, Scotland",
+    "country": "Scotland",
+    "state": "City of Edinburgh"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "1793-1805 (the north side)",
+    "circa": false,
+    "note": "The Historic Environment Scotland record for the north block, LB28502, prints 'Robert Adam, 1793-1805'. The node's exemplar says the square was designed by Robert Adam in 1791 and built 1792-1820, which is the square as a whole. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "english-georgian-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB28502",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28502",
+      "title": "1-11 (INCLUSIVE NOS) CHARLOTTE SQUARE WITH RAILINGS, LAMP STANDARDS AND BOUNDARY WALLS (LB28502)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The north side, which is the palace front the node's exemplar names. The page prints 'Printed: 05/09/2026' in its own footer, so the URL resolved on the day it was read; it is percent-encoded because that is the form the register itself serves."
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "LB28503",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28503",
+      "title": "12-17 (INCLUSIVE NOS) CHARLOTTE SQUARE WITH 10-18 (EVEN NOS) RANDOLPH LANE, RAILINGS, LAMP STANDARDS AND BOUNDARY WALLS (LB28503)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "LB28507",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28507",
+      "title": "40-46 (INCLUSIVE NOS) CHARLOTTE SQUARE AND 143 GEORGE STREET WITH RAILINGS AND LAMP STANDARDS (LB28507)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Charlotte_Square",
+      "title": "Charlotte Square - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the square as a Category A listed building of the New Town and states that Nos 5, 6 and 7 on the north side passed to the National Trust for Scotland."
+    }
+  ],
+  "survey": {
+    "item": "LB28502",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28502",
+    "prepared": "Two extracts with different queries returned the Description and the Bibliography but never the designation date or category block, so neither is recorded here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Robert Adam, 1793-1805. Symmetrical 3-storey basement and attic 27-bay neo-classical palace block consisting of 11 houses, 9 entered from front and 2 from ends.",
+        "page": "Historic Environment Scotland listed building record LB28502, Description, opening sentences"
+      },
+      {
+        "field": "materials",
+        "text": "Polished cream sandstone ashlar. Rock-faced basement; V-jointed rustication at ground floor with impost course where appropriate; cill course to 1st and 2nd floors (excepting pavilions); cornice and blocking course.",
+        "page": "Historic Environment Scotland listed building record LB28502, Description"
+      },
+      {
+        "field": "openings",
+        "text": "Timber sash and case 12-pane windows; some plate glass to rear.",
+        "page": "Historic Environment Scotland listed building record LB28502, Description"
+      },
+      {
+        "field": "roof",
+        "text": "Grey slates, ashlar coped skews; corniced ashlar stacks.",
+        "page": "Historic Environment Scotland listed building record LB28502, Description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Symmetrical 3-storey basement and attic 27-bay neo-classical palace block",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three main storeys with the basement and attic named separately, which is the same section the London and Bath entries in this cluster describe."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "27-bay neo-classical palace block",
+      "value": 27,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The north side read as one composition."
+    },
+    {
+      "name": "house_count",
+      "as_printed": "consisting of 11 houses, 9 entered from front and 2 from ends",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Eleven houses in twenty-seven bays: not every house is three bays, and two are entered from the ends, so the palace front is not a simple multiple of a standard house."
+    },
+    {
+      "name": "window_pane_count",
+      "as_printed": "Timber sash and case 12-pane windows",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. A group record: Historic Environment Scotland lists the square in several records and this one covers the north side, Adam's palace block, which is what the node's exemplar describes. No rights statement was returned by either extract of the register page, so none is recorded rather than a line copied from another register."
+}

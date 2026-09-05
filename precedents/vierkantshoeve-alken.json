@@ -1,0 +1,78 @@
+{
+  "id": "vierkantshoeve-alken",
+  "name": "Vierkantshoeve, Vliegstraat 8",
+  "location": {
+    "text": "Alken, Belgium",
+    "country": "Belgium",
+    "state": "Limburg, Vlaanderen"
+  },
+  "dates": {
+    "built": "1741",
+    "circa": false,
+    "altered": "Partly rebuilt in masonry in 1914, with year-anchors 1914 on the western stables.",
+    "note": "The register says the core goes back to 1741, and a gable stone reads ANNO/1741/MT. The farm is already drawn as a closed farm on the Ferraris map of 1771-77 and in the Atlas van de Buurtwegen of 1844."
+  },
+  "nodes": [
+    "flemish-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "31726",
+      "url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/31726",
+      "title": "Vierkantshoeve | Inventaris Onroerend Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inventaris Onroerend Erfgoed object id. The page records the legal position: 'is aangeduid als beschermd monument Vierkantshoeve -- Deze bescherming is geldig sinds 09-06-2004', and 'vastgesteld bouwkundig erfgoed' since 01-02-2018. Its typology list is itself evidence -- bakhuizen, boerenwoningen, MESTVAALTEN, schuren, stallen, vierkantshoeven -- the dungheap is a heritage type in the Flemish thesaurus."
+    }
+  ],
+  "survey": {
+    "item": "31726",
+    "data_url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/31726",
+    "prepared": "Agentschap Onroerend Erfgoed (the Flemish heritage agency), Inventaris Onroerend Erfgoed. This is the register's OWN descriptive text, read in an extract from the register's own site. The Flemish inventory is the richest heritage description this whole tranche found: it states bays, storeys, roof form, materials and gable type as a matter of course, in the way a HABS Part II does. The pages carry their own citation line -- 'Je kan deze pagina citeren als: INVENTARIS ONROEREND ERFGOED 2026' -- and name the printed inventory volume each text came from. This text comes from PAUWELS D. & SCHLUSMANS F. et al. 1999, Inventaris van het cultuurbezit in Belgie, Architectuur, Provincie Limburg, Arrondissement Tongeren, Kanton Borgloon, Bouwen door de eeuwen heen in Vlaanderen 14n4; author Frieda Schlusmans.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Gesloten hoeve, als dusdanig reeds afgebeeld op de Ferrariskaart (1771-77) en in de Atlas van de Buurtwegen (1844), in kern opklimmend tot 1741, gedeeltelijk versteend in 1914. Gebouwen onder zadeldaken (Vlaamse pannen), rondom een rechthoekig erf met mestvaalt in de hoek tussen de dwarsschuur en het oostelijk stalgedeelte.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 31726, section 'Beschrijving'. A register description is not paginated."
+      },
+      {
+        "field": "plan",
+        "text": "Woonhuis ten noorden van het erf, vijf traveeën en anderhalve bouwlaag (nok loodrecht op de straat); bakstenen gebouw op gecementeerde plint; verhoogde begane grond. Getoogde muuropeningen. Gecementeerde zijgevel aan straatzijde met onderkelderde opkamer, voorzien van een getralied, houten bolkozijn, resterend van de oudere kern; gevelsteen met opschrift: ANNO/1741/MT.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 31726, section 'Beschrijving'."
+      },
+      {
+        "field": "structural_system",
+        "text": "Inrijpoort met flankerende stallen in de oostvleugel aan straatzijde; witgekalkt stijl- en regelwerk met lemen vullingen; verhoogde, bakstenen stoel. Inrijpoort, een deur in het vertrek links van de poort, en twee staldeuren, waarboven zolderluiken. Bakstenen stallen ten westen, met jaarankers 1914. Dwarsschuur achteraan het erf, voorzien van een schuurpoort; stijl- en regelwerk met lemen vullingen.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 31726, section 'Beschrijving'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "farmhouse_bay_count",
+      "as_printed": "vijf traveeën en anderhalve bouwlaag",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Five bays to the dwelling range."
+    },
+    {
+      "name": "farmhouse_storey_count",
+      "as_printed": "anderhalve bouwlaag",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "ONE AND A HALF storeys -- the register's own fraction, and a shape this corpus has no vocabulary for: a full ground storey with usable space in the roof, which is neither one storey nor two."
+    },
+    {
+      "name": "range_count",
+      "as_printed": "rondom een rechthoekig erf",
+      "from_quote": 0,
+      "note": "Not parsed. The register says the buildings stand ROUND a rectangular yard and then names four parts -- dwelling to the north, gate range with stables in the east wing, brick stables to the west, cross-barn at the back -- which is four sides, but the count is this record's reading of a list and not a figure the register states, so no value is carried."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. Added by this tranche, and it CONTRADICTS THE NODE'S PROSE ON A DETAIL THE PROSE MAKES MUCH OF. The node writes of the Flemish farm courtyard: 'a single arched gate that frames the only view out, and a dungheap in the middle that was, until living memory, the most valuable thing on the property.' The register puts the dungheap in the CORNER -- 'rondom een rechthoekig erf met mestvaalt in de hoek tussen de dwarsschuur en het oostelijk stalgedeelte' -- between the cross-barn and the eastern stable range. One farm is not the type, and the node may be right about the general case; but this is the corpus's only sourced Flemish farmyard and it says corner, not middle.\n\nIt also settles something the node only asserts: the closed farm here is a TIMBER building progressively turned to masonry. The gate range and the cross-barn are still whitewashed stijl- en regelwerk with clay infill, and the register dates the masonry conversion to 1914."
+}

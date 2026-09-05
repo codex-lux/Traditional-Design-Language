@@ -1,0 +1,65 @@
+{
+  "id": "knochenhaueramtshaus",
+  "name": "Knochenhaueramtshaus",
+  "location": {
+    "text": "Hildesheim, Germany",
+    "country": "Germany",
+    "state": "Niedersachsen"
+  },
+  "dates": {
+    "built": "1529",
+    "circa": false,
+    "altered": "Restored 1853-1854 under the city architect Carl Schuette; destroyed in 1945; rebuilt 1986-1989 together with the Baeckeramtshaus at Markt 8. Both reconstructions were entered in the monument register in 2017.",
+    "note": "The 1529 date was documented by an inscription over the ground-floor entrance in Gothic minuscules, which the German Wikipedia article prints: 'Anno ∙ Dnj ∙ Dusent ∙ vyffhundert ∙ twitich ∙ vde ∙ neghen.' The node's exemplar year agrees."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Knochenhaueramtshaus",
+      "title": "Knochenhaueramtshaus (Hildesheim) – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "denkmalliste",
+      "url": "https://de.wikipedia.org/wiki/Knochenhaueramtshaus",
+      "title": "Niedersaechsisches Denkmalverzeichnis, as reported by the German Wikipedia article",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO NUMBER IS CARRIED because none was read. The article states that both rebuilt houses 'im Jahr 2017 ... ins Denkmalverzeichnis eingetragen wurden' -- the RECONSTRUCTIONS were listed, in their own right, as evidence of West German reconstruction practice. That is a listing of a 1986-89 building and not of a 1529 one, and it is the reason this record's `dates.altered` is as long as it is."
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-knochenhaueramtshaus",
+    "data_url": "https://de.wikipedia.org/wiki/Knochenhaueramtshaus",
+    "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Das in der Konstruktion noch spätgotische Fachwerkgebäude mit seiner repräsentativen, 26 Meter hochaufragenden Schmuckfassade galt den Hildesheimern – unter Berufung auf eine Bemerkung von Eugène Viollet-le-Duc – als „das schönste Fachwerkhaus der Welt“.",
+        "page": "German Wikipedia, 'Knochenhaueramtshaus (Hildesheim)', section on the first restoration. Not paginated. Footnote markers rendered by the extract as stray parentheses have been dropped and no word was changed."
+      },
+      {
+        "field": "plan",
+        "text": "In der ursprünglichen Nutzung wurden neben dem Verkaufsraum die Kellergewölbe als Lagerraum verwendet. Im ersten Stock wurden Sitzungen der Gilde abgehalten, und in den weiteren Obergeschossen waren Vorratsräume sowie Wohnungen untergebracht.",
+        "page": "German Wikipedia, 'Knochenhaueramtshaus (Hildesheim)', section on the early building history. Not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "facade_height_ft",
+      "as_printed": "26 Meter hochaufragenden Schmuckfassade",
+      "value": 85.3,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "26 metres, converted at 3.28084 ft/m. THE ONLY HEIGHT THE WHOLE GERMANIC CLUSTER PRODUCED, and it is the height of a decorated facade rather than of a wall or a storey -- a jettied guild house whose front runs up through several storeys into the gable. It is a figure about the FRONT, and reading it as an eaves height would be wrong. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey; the building it describes is the 1986-89 reconstruction of the 1529 house."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. The node's own exemplar note already carries the caveat that this is a reconstruction, and the record sharpens it: the German monument register listed the REBUILT houses in 2017, and it listed them as evidence of West German reconstruction practice rather than as sixteenth-century fabric. Any figure taken from this building is a figure about a drawing that was executed in the 1980s."
+}

@@ -1,0 +1,106 @@
+{
+  "id": "haus-nideroest",
+  "name": "Haus Nideroest",
+  "aka": [
+    "Haus «Nideröst»",
+    "Haus Niederöst"
+  ],
+  "location": {
+    "text": "Schwyz, Switzerland",
+    "country": "Switzerland",
+    "state": "Kanton Schwyz"
+  },
+  "dates": {
+    "built": "1176",
+    "circa": false,
+    "altered": "The house was moved once already in the seventeenth century, which the building archaeology reads off three generations of dowel holes. Dismantled in 2001 at Hinterdorfstrasse 31 to make way for a new building, documented archaeologically, and reconstructed as a museum piece at Schornen am Morgarten (Sattel SZ).",
+    "note": "THE NODE SAYS 2002 AND THE SOURCES SAY 2001. Two independent Swiss sources give 2001 -- the Stiftung Ferien im Baudenkmal ('Das 2001 an der Hinterdorfstrasse 31 abgebaute Haus Nideröst') and Lignum ('musste das Haus Niederöst ... 2001 einem Neubau Platz machen'). The node's exemplar note also says it was 'discovered during demolition', which none of these sources supports: the Swiss Heritage Society records that it was taken down 'trotz scharfer Kritik der Fachwelt und der Bevölkerung' -- despite sharp criticism from the field and the public -- which is a different story."
+  },
+  "nodes": [
+    "swiss-chalet"
+  ],
+  "refs": [
+    {
+      "kind": "monograph",
+      "url": "https://morgarten.ch/wp-content/uploads/2023/03/Das_Haus_Nideroest-Prof_Desc.pdf",
+      "title": "Das Haus «Nideröst» in Schwyz -- Prof. Descoeudres",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A scholarly building-archaeology account, published as a PDF by the Morgarten foundation that now holds the reconstructed house. THE ONLY ACADEMIC SOURCE THIS WHOLE TRANCHE REACHED, and the only one anywhere in six nodes that states a plan dimension for a dwelling."
+    },
+    {
+      "kind": "institution",
+      "url": "https://ferien-im-baudenkmal.ch/ferien-in-der-mittelalterlichen-innerschweiz",
+      "title": "Ferien in der mittelalterlichen Innerschweiz - Stiftung Ferien im Baudenkmal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Das 2001 an der Hinterdorfstrasse 31 abgebaute Haus Nideröst, das mit einem Kernbau von 1176 als ältestes Holzhaus Europas gilt, wird zurzeit in der Schornen am Morgarten museal rekonstruiert.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.heimatschutz.ch/rote-liste/1/steinen-sz-holzhaus-lauigasse",
+      "title": "Steinen SZ: Holzhaus Lauigasse -- Rote Liste, Schweizer Heimatschutz",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Swiss Heritage Society's Red List. It records the demolition -- 'Bereits um die Jahrtausendwende wurde das älteste Holzhaus Europas, das «Haus Nideröst» in Schwyz (Baujahr 1176) trotz scharfer Kritik der Fachwelt und der Bevölkerung abgebaut und durch einen Investorenbau ersetzt' -- and states that the canton has never made a systematic inventory of these houses."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.lignum.ch/auf_einen_klick/news/lignum_journal_holz_news_schweiz/news_detail/das-aelteste-holzhaus-europas-ist-neu-zu-entdecken",
+      "title": "Das älteste Holzhaus Europas ist neu zu entdecken -- Lignum",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Swiss timber industry association: 'In Schwyz musste das Haus Niederöst – sein Kernbau wird auf 1176 datiert – 2001 einem Neubau Platz machen.'"
+    }
+  ],
+  "survey": {
+    "item": "morgarten-descoeudres-nideroest",
+    "data_url": "https://morgarten.ch/wp-content/uploads/2023/03/Das_Haus_Nideroest-Prof_Desc.pdf",
+    "prepared": "Prof. Descoeudres, 'Das Haus «Nideröst» in Schwyz', published as a PDF by morgarten.ch. A SCHOLARLY BUILDING-ARCHAEOLOGY ACCOUNT, not a heritage register: the canton of Schwyz has no inventory of these houses to quote. Footnote numbers run into the text in the extract and are quoted where they fall.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Baugeschichte Der Hausbau von 1176. Die wesentlichen Teile des beim Haus «Nideröst» festgestellten Kernbaus sind im Jahre 1176 an einem unbekannten Standort, wohl nicht allzu weit vom angetroffenen entfernt, errichtet worden, wobei keine Aussagen darüber möglich sind, ob der Blockbau teilweise oder vollständig auf einem Steinsockel stand. Es handelte sich um einen zweigeschossigen, im Grundriss quadratischen Holzaufbau von rund 6,90 m Seitenlänge.",
+        "page": "Descoeudres, 'Das Haus «Nideröst» in Schwyz', section 'Baugeschichte'. The PDF's page numbers were not legible in the extract."
+      },
+      {
+        "field": "significance",
+        "text": "Diese Wohnbaugruppe zeigt hinsichtlich ihrer Konstruktionsweise, ihrer zweigeschossigen Bauform mit Tätschdach sowie in ihrer Raumstruktur eine weitgehende Übereinstimmung. Bisher sind über zwanzig Vertreter dieses Bautypus bekannt oder zu vermuten,41 davon sind sieben Häuser baugeschichtlich analysiert und mit grösseren Probenserien dendrochronologisch datiert worden.",
+        "page": "Descoeudres, 'Das Haus «Nideröst» in Schwyz'. The PDF's page numbers were not legible in the extract. The stray '41' is the source's own footnote marker, quoted where it falls."
+      },
+      {
+        "field": "general_description",
+        "text": "Es wurde bereits früher darauf hingewiesen, dass es sich bei diesen Bauten nicht um Bauernhäuser handelte.48 Dies gilt noch viel mehr für das im 12. Jahrhundert entstandene Haus «Nideröst», welches in seiner differenzierten Raumstruktur eine Wohnqualität aufwies, wie sie nur wenige zeitgenössi-sche Bauten",
+        "page": "Descoeudres, 'Das Haus «Nideröst» in Schwyz'. The sentence is cut off by the extract's own span boundary and is quoted only as far as it was read. The stray '48' is the source's footnote marker."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "plan_side_length_ft",
+      "as_printed": "im Grundriss quadratischen Holzaufbau von rund 6,90 m Seitenlänge",
+      "value": 22.64,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "6.90 m converted at 3.28084 ft/m; the source says 'rund', about. THE SINGLE MOST USEFUL FIGURE IN THIS TRANCHE FOR THIS NODE. The node's prose argues the plan is governed by the length of a log: 'no wall can be longer than a log, which fixes the building's plan dimensions at roughly six to nine metres'. A square block building of about 6.90 m a side, dated 1176 by dendrochronology and measured by building archaeologists during dismantling, sits inside that band at its lower end and is the only sourced instance of it the corpus has."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "zweigeschossigen, im Grundriss quadratischen Holzaufbau",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "dated_houses_in_group",
+      "as_printed": "sieben Häuser baugeschichtlich analysiert und mit grösseren Probenserien dendrochronologisch datiert",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Seven of the group are analysed and dendro-dated; over twenty are known or suspected. That is the size of the evidence base for the oldest timber houses in Europe."
+    }
+  ],
+  "note": "Tranche 3, Alpine cluster, 5 September 2026. THIS RECORD CORRECTS TWO CLAIMS IN THE NODE'S OWN EXEMPLAR NOTE and adds a third the node does not make. The demolition was 2001, not 2002, on two independent Swiss sources; it was not 'discovered during demolition' but taken down over the objections of the field; and it is not now merely 'evidence rather than a visitable building' -- it has been reconstructed at Schornen am Morgarten.\n\nThe third thing is the one that matters to the model: Descoeudres says these are NOT farmhouses. 'Es wurde bereits früher darauf hingewiesen, dass es sich bei diesen Bauten nicht um Bauernhäuser handelte.' The node is an account of the alpine farmhouse and its two oldest exemplars are, on their own literature's reading, houses of a quite different social order."
+}

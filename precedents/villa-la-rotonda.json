@@ -1,0 +1,70 @@
+{
+  "id": "villa-la-rotonda",
+  "name": "Villa La Rotonda (Villa Almerico Capra)",
+  "aka": [
+    "Villa Almerico Capra",
+    "La Rotonda",
+    "Villa Capra"
+  ],
+  "location": {
+    "text": "Vicenza, Veneto, Italy",
+    "country": "Italy",
+    "state": "Veneto"
+  },
+  "dates": {
+    "built": "designed 1566",
+    "circa": false,
+    "altered": "Completed by Vincenzo Scamozzi after Palladio's death for the brothers Capra, who acquired the villa in 1591.",
+    "note": "The Vicenza tourist consortium's page says 'Palladio designs it in 1566 for the canon Paolo Almerico'; the node's exemplar note says 'Commissioned 1565-66, begun 1567, completed under Vincenzo Scamozzi by 1605'; the Inexhibit case study read the same day gives completion as 1603. Three completion dates and none is preferred."
+  },
+  "nodes": [
+    "palladian"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
+      "title": "What to see in Vicenza - opening times of museums and monuments in Vicenza area - Consorzio Turistico Vicenzae",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Vicenza tourist consortium, the body that issues the Vicenza GOLD Card for the Palladian monuments. The page was extracted TWICE with different queries and returned two entirely different spans -- the Rotonda and Chiericati on the first pass, the Basilica on the second -- which is the tile.loc.gov behaviour repeating on a European source."
+    },
+    {
+      "kind": "unesco",
+      "id": "712",
+      "url": "https://whc.unesco.org/en/list/712",
+      "title": "City of Vicenza and the Palladian Villas of the Veneto - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A component of the serial property. The Wikipedia list article read the same day gives this villa the component id '712-004 Villa Almerico Capra, «La Rotonda»' and the property reference as '712bis'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.villalarotonda.it",
+      "title": "Villa La Rotonda official site",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The address and this URL are printed on the consortium's own page: 'Via della Rotonda, 45 - Tel. 0444 321793, 333 6409237 info@villalarotonda.it www.villalarotonda.it'. The site itself was not read."
+    }
+  ],
+  "survey": {
+    "item": "vicenzae-what-to-see-rotonda",
+    "data_url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
+    "prepared": "Consorzio Turistico Vicenzae, 'What to see in Vicenza', the Villa Rotonda entry; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The original of Palladio’s most famous villa stands in the suburbs of Vicenza, on the state road n.247 “Riviera Berica”, which runs south towards Noventa Vicentina. Palladio designs it in 1566 for the canon Paolo Almerico, who after leaving his brilliant career at the papal court, comes back to his birthplace and prefers the quiet countryside to the family palace.",
+        "page": "Vicenzae, 'What to see in Vicenza', Villa Rotonda entry, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "From this point of view it is important that the Villa Rotonda has been inserted into the volume of the Four Books of Architecture which is dedicated to the palaces, more a suburban residence than a country house and farm. Its basement is dedicated to the service rooms, and the piano nobile is arranged around a majestic circular hall which takes up the whole height, hence the name “Rotonda” (round), with access corridors and corner rooms on two levels (on the upper floor, the author’s intention was to turn them into a sort of covered passageway).",
+        "page": "Vicenzae, 'What to see in Vicenza', Villa Rotonda entry, plan paragraph"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE REGISTER CORRECTS THE NODE'S USE OF THIS BUILDING. The node's whole account of Palladianism is agricultural -- 'the villa is a farm dressed as an antiquity' -- and the consortium points out that Palladio himself put the Rotonda in the book of the Quattro Libri devoted to PALACES, calling it 'more a suburban residence than a country house and farm'. The node's icon is the one villa in its list that is not a farm. No dimension is stated and none is carried."
+}

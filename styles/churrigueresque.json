@@ -192,25 +192,55 @@
       "name": "Hospicio de San Fernando, portada (now Museo de Historia de Madrid)",
       "location": "Madrid, Spain",
       "year": 1726,
-      "note": "1722-1726, Pedro de Ribera; the Madrid strain, ornament exploding out of an otherwise plain brick institutional block."
+      "note": "1722-1726, Pedro de Ribera; the Madrid strain, ornament exploding out of an otherwise plain brick institutional block.",
+      "precedent": "hospicio-de-san-fernando-madrid",
+      "standing": "canonical",
+      "why": "Its own source calls the doorway 'una de las obras más representativas del barroco civil español' -- civil rather than ecclesiastical, which is what makes it the Madrid strain this node names it for."
     },
     {
       "name": "El Transparente, Toledo Cathedral",
       "location": "Toledo, Spain",
       "year": 1732,
-      "note": "1729-1732, Narciso Tome; sculpture, architecture and a cut roof-light fused into one object."
+      "note": "1729-1732, Narciso Tome; sculpture, architecture and a cut roof-light fused into one object.",
+      "precedent": "el-transparente-toledo-cathedral",
+      "standing": "icon",
+      "why": "The Spanish article files it under 'Esculturas de España del siglo XVIII' rather than under architecture at all, which is this node's claim about the dissolving boundary recorded by a cataloguer instead of argued by a critic."
     },
     {
       "name": "Sacristy of the Cartuja",
       "location": "Granada, Spain",
       "year": 1747,
-      "note": "1732-1747, Luis de Arevalo and Luis Cabello; the most extreme surviving interior of the style anywhere."
+      "note": "1732-1747, Luis de Arevalo and Luis Cabello; the most extreme surviving interior of the style anywhere.",
+      "precedent": "cartuja-de-granada",
+      "standing": "icon",
+      "why": "The article calls the monastery 'una de las cumbres de la arquitectura barroca española' and names the sacristy among its most celebrated spaces while recording that its author is unknown, so the standing rests on the building and not on an attribution."
     },
     {
       "name": "Sagrario Metropolitano",
       "location": "Mexico City, Mexico",
       "year": 1768,
-      "note": "1749-1768, Lorenzo Rodriguez; the canonical estipite portada, chiluca limestone against tezontle, and the direct source for Goodhue in 1915."
+      "note": "1749-1768, Lorenzo Rodriguez; the canonical estipite portada, chiluca limestone against tezontle, and the direct source for Goodhue in 1915.",
+      "precedent": "sagrario-metropolitano",
+      "standing": "icon",
+      "why": "The node's own material claim is corroborated verbatim by the source -- 'piedra tezontle roja y piedra chiluca blanca' -- on the building it calls the canonical estipite portada; note the record also finds that this building has no article of its own in either language reachable from here."
+    },
+    {
+      "name": "Templo de Santa Prisca",
+      "location": "Taxco de Alarcon, Guerrero, Mexico",
+      "year": null,
+      "note": "Latin-cross plan with one nave, a dome and two churrigueresque twin towers, 47 m high, in cantera; silver money from the Taxco mines. Declared a monument on 20 November 2001.",
+      "precedent": "templo-de-santa-prisca-taxco",
+      "standing": "icon",
+      "why": "Added by Tranche 3 because the node's own text names it as one of the three buildings the style culminates in and the corpus held no record of it; its source states the bounded-ornament reading directly, saying the tower bases are left plain to frame the portada."
+    },
+    {
+      "name": "Santuario de Ocotlan",
+      "location": "Tlaxcala, Mexico",
+      "year": null,
+      "note": "Facade of about 1760-1790 between twin towers 33 m high; cut brick rendered in lime mortar and limewashed white, with forty columns and twenty-four finials across the two towers.",
+      "precedent": "santuario-de-ocotlan",
+      "standing": "icon",
+      "why": "Added by Tranche 3 for the same reason as Santa Prisca, and because its own source contradicts this node's material claim: Ocotlan's facade is rendered and limewashed brick, not tezontle and chiluca."
     }
   ],
   "sources": [

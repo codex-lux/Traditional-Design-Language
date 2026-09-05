@@ -179,7 +179,7 @@
       "note": "Built 1590-97 by Robert Smythson for Elizabeth Talbot, Countess of Shrewsbury. Storey heights increase upward, the parapet carries her initials in cut stone, and the glazing ratio has never been exceeded in a house of its date.",
       "precedent": "hardwick-hall",
       "standing": "icon",
-      "why": "The building the style is known by, on this node's own description.long, which names it first among the prodigy houses; Historic England's entry supplies the reason in its own words, calling the plan 'exceptional for its date, having the hall placed symmetrically and at a right angle to the facade'."
+      "why": "The building the style is known by, and one of the four prodigy houses this node's own description.long names -- 'Longleat, Wollaton, Hardwick, Burghley', in that order, so it is named third and not first; Historic England's entry supplies the reason in its own words, calling the plan 'exceptional for its date, having the hall placed symmetrically and at a right angle to the facade'."
     },
     {
       "name": "Longleat House",
@@ -188,7 +188,7 @@
       "note": "Rebuilt 1568-80 for Sir John Thynne with Robert Smythson among the masons. The first fully symmetrical, outward-facing English country house elevation, with superimposed orders as flat pilaster strips.",
       "precedent": "longleat-house",
       "standing": "canonical",
-      "why": "The type specimen for the outward-facing symmetrical elevation, and the one that tests the node hardest: the list entry describes Doric, Ionic and Corinthian orders running across three fronts, which is what this node's own c02 forbids."
+      "why": "The type specimen for the outward-facing symmetrical elevation, and the one that tests the node hardest: the list entry puts Doric, Ionic and Corinthian orders on the entrance front 'flanking the projecting bays and linked by continuous entablatures', which is orders running across a whole elevation instead of being confined to a frontispiece, and that is what this node's own c02 forbids. The entry says nothing about orders on the other fronts: it records only that the 'East front has three projecting bays' and that the 'West front has similar rhythm of bays as the east'."
     },
     {
       "name": "Wollaton Hall",
@@ -197,7 +197,7 @@
       "note": "Built 1580-88 by Robert Smythson for Sir Francis Willoughby on coal money. A compact block with corner towers and a raised clerestoried prospect room over the hall — the most theatrical English house of its century.",
       "precedent": "wollaton-hall",
       "standing": "icon",
-      "why": "This node's own description.long calls it 'the most theatrical English house of its century'; what Historic England's entry independently supports is the form behind that judgment -- 'Square plan with symmetrical fronts, with projecting towers to corners' and a 'Central 2 storey hall topped by prospect room'."
+      "why": "The judgment is this corpus's own and sits in this exemplar's own note -- 'the most theatrical English house of its century' -- and description.long does not say it, so nothing outside the corpus is being cited for it; what Historic England's entry independently supports is the form behind that judgment -- 'Square plan with symmetrical fronts, with projecting towers to corners' and a 'Central 2 storey hall topped by prospect room'."
     },
     {
       "name": "Montacute House",

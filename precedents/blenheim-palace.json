@@ -1,0 +1,131 @@
+{
+  "id": "blenheim-palace",
+  "name": "Blenheim Palace",
+  "location": {
+    "text": "Woodstock, Oxfordshire, England",
+    "country": "United Kingdom",
+    "state": "Oxfordshire"
+  },
+  "dates": {
+    "built": "1706-1729",
+    "circa": false,
+    "altered": "Great Court in front of the palace remodelled by Achille Duchene in 1910; garlands and statues in niches by Sir William Chambers, 1766-75.",
+    "note": "The listed-building entry says '1706-29'. Historic England's World Heritage Site entry for the same building says 'the design and building of the Palace between 1705 and 1722', and UNESCO's own inscription text repeats 1705-1722. The node's own exemplar gives 1722 as the year and says 'Built 1705-22'. All three are recorded and none is resolved."
+  },
+  "nodes": [
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1052912",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1052912",
+      "title": "Blenheim Palace, Blenheim - 1052912 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Overview block, read in a tavily-search result the same day, prints 'List Entry Number: 1052912 ; Date first listed: 27-Aug-1957'; the Details section's own header, read in the extract, prints '27/08/57'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000091",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000091",
+      "title": "Blenheim Palace - 1000091 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Historic England's World Heritage Site record for the same property, carried because it dates the design and building 1705-1722 where the listed-building entry says 1706-29. Read in a tavily-search result, not extracted."
+    },
+    {
+      "kind": "unesco",
+      "id": "425",
+      "url": "https://whc.unesco.org/en/list/425/",
+      "title": "Blenheim Palace - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The inscription number was taken from the UNESCO World Heritage Centre URL returned by the search (whc.unesco.org/en/list/425/documents, titled 'Blenheim Palace - Documents - UNESCO World Heritage Centre'); the year of inscription, 1987, is printed by both that result and the UNESCO UK network page. No id format for this register has been read here, so the id is carried unchecked."
+    }
+  ],
+  "survey": {
+    "item": "1052912",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1052912",
+    "prepared": "Date first listed 27-Aug-1957; the Details section's own header prints 'SP41NW, SP4416 2/1, 8/1 Blenheim Place 27/08/57 GV I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. 1706-29, by Sir John Vanbrugh and Nicholas Hawksmoor for the Duke and Duchess of Marlborough; carvings by Grinling Gibbons and interiors by Laguerre, Thornhill et. al.",
+        "page": "Official list entry 1052912, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Limestone ashlar, with rusticated corner towers and details; lead roofs; stone stacks.",
+        "page": "Official list entry 1052912, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "House has 4 corner towers, and Great Court to north flanked by Stable Court to east and Kitchen Court to west. Baroque style.",
+        "page": "Official list entry 1052912, Details, opening paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "Two storeys. Sashes to all windows. North front has central 9-bay facade, articulated by giant order of Corinthian pilasters; 3-bay pedimented portico; carving of the Marlborough Arms in tympanum, figures of Britannia and chained slaves on pediment and centurions on parapet by Grinling Gibbons;",
+        "page": "Official list entry 1052912, Details, north front"
+      },
+      {
+        "field": "openings",
+        "text": "South front has tall 9-bay facade to centre, articulated by giant order of Corinthian pilasters progressing to columns in central portico: entablature of portico surmounted by bust of Louis XIV, taken from the city gates of Tournai after its sack in 1709.",
+        "page": "Official list entry 1052912, Details, south front"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: Great Hall, with 3-tier arcades and Corinthian columns and cornices carved by Grinling Gibbons, has ceiling painted by Sir James Thornhill in 1716",
+        "page": "Official list entry 1052912, Details, Interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "north_front_bay_count",
+      "as_printed": "central 9-bay facade",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "portico_bay_count",
+      "as_printed": "3-bay pedimented portico",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "south_front_bay_count",
+      "as_printed": "tall 9-bay facade to centre",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "corner_tower_count",
+      "as_printed": "House has 4 corner towers",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "great_hall_arcade_tier_count",
+      "as_printed": "3-tier arcades",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. The entry states the giant order on both principal fronts and the storey count of the block it rises through, which is the one quantity this node's kit reasons about (giant order height 2 to 2.5 storeys): two storeys, nine bays, giant Corinthian pilasters on north and south alike. It states no dimension in feet anywhere. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was returned by any extract of THIS entry, so no `rights_evidence` is recorded rather than one borrowed from a sibling entry; Historic England does print one in the footer of the official-list-entry view, read verbatim on 5 Sep 2026 on entry 1253989 and recorded there."
+}

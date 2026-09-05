@@ -1581,6 +1581,20 @@ a survey block for every US building with a HABS data page, then a 10% adversari
 **WP-11.3** Tranche 2 — the rest of North America. **WP-11.4** Tranche 3 — British and European ancestors,
 links and standing only. **Tranche 4** — families and traditions, gated on `oq/a-family-node-has-no-exemplar`.
 
+**THE ORDER AFTER TRANCHE 3 IS RULED (5 Sep 2026): FINISH PHASE 11.** Put to Lucas against the two
+alternatives the 3 Sep project review names — building the register (ruled 1 Sep, nothing built) and
+the dependency (`oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, unruled) —
+both of which unblock the generator the review says has not arrived. **Ruled: Ruling B, then Tranche
+4.** So the bench is completed before the generator is resumed: every node carrying precedents, the
+72 asset records named, and `tdl_precedents` no longer answering with *"a reading"*. The register and
+the dependency keep their place in the review's ranking and are the work after Phase 11 closes.
+
+**And Tranche 3's own scope note, ruled the same day**: an exemplar row naming a REGIONAL POPULATION
+(*"the Leopoldine farmhouses of the Val di Chiana"*, *"the farmhouses of the Simmental"*) takes a
+`record_kind: type-model` RECORD and is NOT a `no_precedent` refusal — the closed refusal vocabulary
+has no word for a population and does not need one, because the type can carry its own record with
+the programme's or the region's own sources.
+
 **WP-11.3 Status: COMPLETE (5 Sep 2026). NORTH AMERICA IS DONE — 86 of 164 nodes carry precedents,
 which is all 85 buildable nodes of the `north-american` tradition plus `scandinavian-log-vernacular`.
 The 46 buildable nodes still without one sit under the four European trunks — `british-isles` 19,

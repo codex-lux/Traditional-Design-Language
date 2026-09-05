@@ -1,0 +1,138 @@
+{
+  "id": "hagley-hall",
+  "name": "Hagley Hall",
+  "location": {
+    "text": "Worcestershire, England",
+    "country": "England",
+    "state": "Worcestershire"
+  },
+  "dates": {
+    "built": "1754-60",
+    "circa": false,
+    "altered": "restored c1927 after fire of 1925; the entry adds that the main roofs were visible behind the parapet before the 1925 fire."
+  },
+  "nodes": [
+    "english-georgian-country-house"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1296865",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1296865",
+      "title": "Hagley Hall, Hagley - 1296865 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The search listing for this page renders the Overview as 'Date first listed: 23-Apr-1952' and begins a 'Date of most recent amendment' that its snippet truncates at '17'; the amendment date is therefore not recorded here."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000352",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000352",
+      "title": "Hagley Hall - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry, which prints 'Hagley Hall (listed grade I) was rebuilt from 1754'."
+    }
+  ],
+  "survey": {
+    "item": "1296865",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1296865",
+    "prepared": "Date first listed: 23-Apr-1952, as the search listing for this page renders the Overview block. The amendment date the same snippet begins to print was truncated and is not recorded.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house in landscaped park. 1754-60 by Sanderson Miller; restored c1927 after fire of 1925.",
+        "page": "Official list entry 1296865, Details, opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Sandstone ashlar with slate and plain tiled roofs and massive sandstone chimney stacks.",
+        "page": "Official list entry 1296865, Details"
+      },
+      {
+        "field": "plan",
+        "text": "Compact and symmetrical rectangular plan with square projecting corner pavilions.",
+        "page": "Official list entry 1296865, Details"
+      },
+      {
+        "field": "storeys",
+        "text": "Two main storeys on rusticated basement with pavilions rising an additional storey higher and having shallow pyramidal roofs; band between basement and ground floor, ground floor sill string and moulded eaves cornice with balustraded parapet (main roofs visible behind parapet pre-1925 fire).",
+        "page": "Official list entry 1296865, Details"
+      },
+      {
+        "field": "bays",
+        "text": "Palladian style. Main fronts to south-west and north-east of 11 bays articulated as 1:3:3:3:1 with pavilions forming outer bays; central three bays break forward slightly and have a simple pediment. Side elevations of 1:3:1 bays.",
+        "page": "Official list entry 1296865, Details"
+      },
+      {
+        "field": "openings",
+        "text": "Ground floor windows have moulded architraves and cornices and are all 12-pane sashes with panels of blind balustrading beneath the sill string (except in side elevations); the pavilion windows have pediments on consoles and shouldered architraves. The first floor windows are all square 6-pane sashes with moulded architraves; the architraves of the pavilion windows are eared.",
+        "page": "Official list entry 1296865, Details"
+      },
+      {
+        "field": "openings",
+        "text": "Basement has 6-light windows with rusticated voussoirs; the pavilion windows break forward with the projecting rising to ground floor sill string level. The windows at the centre of the side elevations are round-headed with stepped voussoirs.",
+        "page": "Official list entry 1296865, Details"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two main storeys on rusticated basement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The corner pavilions rise one storey higher, which the same sentence states."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "Main fronts to south-west and north-east of 11 bays articulated as 1:3:3:3:1",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "centre_projection_bay_count",
+      "as_printed": "central three bays break forward slightly and have a simple pediment",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "side_elevation_bay_count",
+      "as_printed": "Side elevations of 1:3:1 bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The entry prints the rhythm 1:3:1 and not a total; 5 is the sum, a reading, marked as one."
+    },
+    {
+      "name": "window_pane_count_ground",
+      "as_printed": "all 12-pane sashes",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "window_pane_count_first_floor",
+      "as_printed": "The first floor windows are all square 6-pane sashes",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Twelve panes below and six above, the upper windows square: the same statement of storey graduation as at Nostell, in the same terms."
+    },
+    {
+      "name": "window_light_count_basement",
+      "as_printed": "Basement has 6-light windows with rusticated voussoirs",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1296865",
+  "note": "Tranche 3, 5 Sep 2026. The entry names the corner pavilions as the outer bays of an eleven-bay front, so the pavilion is composed into the elevation rather than added to it; the node's own prose describes a five- or seven-bay block with a projecting centre, and Hagley's eleven bays with corner towers are the wide end of that family."
+}

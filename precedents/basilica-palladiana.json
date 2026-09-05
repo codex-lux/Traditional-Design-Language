@@ -1,0 +1,99 @@
+{
+  "id": "basilica-palladiana",
+  "name": "Basilica Palladiana",
+  "aka": [
+    "Palazzo della Ragione, Vicenza"
+  ],
+  "location": {
+    "text": "Piazza dei Signori, Vicenza, Italy",
+    "country": "Italy",
+    "state": "Veneto"
+  },
+  "dates": {
+    "built": "loggias from 1546",
+    "circa": false,
+    "altered": "The register describes the core as 'the ancient Palazzo della Ragione of the Late Gothic period', around which a double order of loggias was decided on at the end of the 15th century; that first attempt collapsed two years after its inauguration and about forty years passed before Palladio's design was adopted.",
+    "note": "The consortium's page says the loggias were 'built by Andrea Palladio starting from 1546'."
+  },
+  "nodes": [
+    "palladian"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
+      "title": "What to see in Vicenza - opening times of museums and monuments in Vicenza area - Consorzio Turistico Vicenzae",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "This span came back only on the SECOND extract of the page, with a query naming the Basilica; the first, which asked about the Rotonda, did not contain it."
+    },
+    {
+      "kind": "unesco",
+      "id": "712",
+      "url": "https://whc.unesco.org/en/list/712",
+      "title": "City of Vicenza and the Palladian Villas of the Veneto - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inside the inscribed city of Vicenza."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.comune.vicenza.it",
+      "title": "Citta di Vicenza",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Comune di Vicenza states on its own home page that it is 'Soggetto Referente del sito \"Città di Vicenza e le Ville di Palladio nel Veneto\"' -- the body responsible for the World Heritage property. Read in a search result."
+    }
+  ],
+  "survey": {
+    "item": "vicenzae-what-to-see-basilica",
+    "data_url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
+    "prepared": "Consorzio Turistico Vicenzae, 'What to see in Vicenza', the Basilica entry",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The most significant building is the Basilica, the core of which is the ancient Palazzo della Ragione of the Late Gothic period, with its loggias built byAndrea Palladio starting from 1546. At the ground floor we find some goldsmiths’ shops, which keep the historical vocation for trade of the town alive, as well as some venues for exhibitions.",
+        "page": "Vicenzae, 'What to see in Vicenza', Basilica entry. 'byAndrea' is the page's own missing space."
+      },
+      {
+        "field": "significance",
+        "text": "At the end of the 15th century it was decided to surround the original Gothic building with a double order of loggias, to embellish its image. This first initiative went wrong in the worst of ways, with a collapse after only two years after the inauguration, and some more forty years were needed for the Town Council to make up for the embarrassment. On the list of architectural counsellors were Sansovino (1538), Serlio (1539), Sanmicheli (1541) and Giulio Romano (1542).",
+        "page": "Vicenzae, 'What to see in Vicenza', Basilica entry, history paragraph"
+      },
+      {
+        "field": "roof",
+        "text": "A marble staircase of the late fifteenth century leads up to the upper loggia, from which we reach the hall with the characteristic copper roof, shaped like an inverted hull of a vessel. The picture of the Basilica is completed with the Torre di Piazza bell tower, also called Torre Bissara because it was erected on a defence structure of the powerful Bissara family. It is 82 metres high, with a square base of seven metres and a considerable inclination.",
+        "page": "Vicenzae, 'What to see in Vicenza', Basilica entry, upper hall and tower paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "loggia_order_count",
+      "as_printed": "a double order of loggias",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two superimposed orders of loggias, which is the frame the serliana bay was invented to fill."
+    },
+    {
+      "name": "bell_tower_height_ft",
+      "as_printed": "It is 82 metres high",
+      "value": 269.03,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "THE TORRE BISSARA, NOT THE BASILICA. It is a medieval tower that predates Palladio's loggias and stands beside them; the register describes it in the Basilica's own entry and the figure is carried under a name that says which building it measures. 82 m converted."
+    },
+    {
+      "name": "bell_tower_base_width_ft",
+      "as_printed": "a square base of seven metres",
+      "value": 22.97,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "Again the tower, not the Basilica."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche because the node's own diagnostic tells name the serliana as 'a compositional event' and the node carried no building where the serliana IS the composition. THE REGISTER NEVER USES THE WORD: it says 'a double order of loggias' and stops, so the two dimensions this record carries are both of the bell tower standing next to the building. That is stated in each measurement's own note rather than left for a reader to notice."
+}

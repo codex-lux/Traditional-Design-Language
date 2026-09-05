@@ -1,0 +1,91 @@
+{
+  "id": "villa-medicea-di-careggi",
+  "name": "Villa Medicea di Careggi",
+  "aka": [
+    "Villa di Careggi",
+    "Villa Medici at Careggi"
+  ],
+  "location": {
+    "text": "Careggi, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1417 acquired; remodelled by Michelozzo from the 1450s",
+    "circa": true,
+    "note": "ICOMOS says only that the villa 'was acquired by the Medici in 1417' and was 'rearranged by Michelozzo'. The node's own exemplar entry gives 1457 and says the remodelling is 'conventionally dated to the 1450s'; the English Wikipedia article gives 'Construction started c. 1325' for the earlier fabric. No single build date is asserted here."
+  },
+  "nodes": [
+    "italian-villa-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "175",
+      "url": "https://whc.unesco.org/en/list/175",
+      "title": "Medici Villas and Gardens in Tuscany - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The serial inscription of 2013, criteria (ii)(iv)(vi), which covers twelve villas and two gardens; this building is one component of it. The Italian Ministry of Culture's UNESCO office page for the same property prints 'Ref 175', 'Date of Inscription 2013', 'Property 125.4 ha' and 'Buffer zone 3,539.08 ha'."
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q368346",
+      "url": "https://commons.wikimedia.org/wiki/Villa_di_Careggi",
+      "title": "Villa di Careggi - Wikimedia Commons",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Commons category page carries the Wikidata infobox, which prints 'Wikidata Q368346', 'World Heritage Site ID: 175-003', 'Area 3.6 ha (World Heritage Site)' and '55.71 ha (UNESCO World Heritage Site buffer zone)'. Those two areas are the same pair the ICOMOS evaluation's boundary table prints against '3. V. Careggi'. This is the only component id of the serial property confirmed here; the others are NOT inferred from their position in that table."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Villa_Medici_at_Careggi",
+      "title": "Villa Medici at Careggi - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints 'Owner Regione Toscana', 'Architect Michelozzo' and 'Construction started c. 1325'."
+    }
+  ],
+  "survey": {
+    "item": "175",
+    "data_url": "https://whc.unesco.org/document/152903",
+    "prepared": "ICOMOS evaluation of nomination No 175, 'Medici Villas and Gardens (Italy)', prepared for the World Heritage Committee; the report prints 'Date of ICOMOS approval of this report 6 March 2013'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Part 3: The Villa di Careggi (Florence) was acquired by the Medici in 1417, north of Florence.",
+        "page": "ICOMOS evaluation No 175, section 2 'The property - Description', Part 3; the span read continues 'Like the previous' and was cut there by the extractor."
+      },
+      {
+        "field": "cornice",
+        "text": "Like the previous villas, it was rearranged by Michelozzo and its general structure and its architectural motifs still closely reflected the late medieval spirit, notably through the stylistic use of a crenelated overhanging parapet. For the first time, a relationship between the villa and its surrounding countryside was deliberately sought by the removal of walls in order to open up perspectives. It has one of the first examples of a loggia decorated with arabesques.",
+        "page": "ICOMOS evaluation No 175, Part 3; read in a second extract of the same document with a different query, which returned this span and not the one above."
+      },
+      {
+        "field": "porches",
+        "text": "Two porticoes show a Renaissance style: the western one opens onto a lawn overlooking the surrounding landscape. The internal courtyard has two galleries. The villa has fine interior decoration dating back to several periods of occupation by the Medici. There is a garden in front of the main facade and a large landscaped park surrounding the villa on all sides. Today, it lies at the edge of a hospital complex, of which it was a part until 2000.",
+        "page": "ICOMOS evaluation No 175, Part 3, the span that closes it; the extract prints the c-cedilla of 'facade' as an accented character, transcribed here without it."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_count",
+      "as_printed": "Two porticoes show a Renaissance style",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "courtyard_gallery_count",
+      "as_printed": "The internal courtyard has two galleries",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Two galleries -- superimposed loggias round the courtyard; the evaluation does not say on which storeys."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. The three quotes are three separate extract spans of one document and are deliberately NOT joined: the first ends where the extractor cut it, and the second begins with the words that follow. Careggi is the villa where the evaluation records the loggia being opened deliberately onto the countryside, which is the feature this node's own kit binds a loggia rule for."
+}

@@ -1,0 +1,138 @@
+{
+  "id": "podere-primo-di-brolio",
+  "name": "Podere Primo di Brolio",
+  "location": {
+    "text": "Castiglion Fiorentino, Arezzo, Tuscany, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1783-1784",
+    "circa": true,
+    "altered": "The dissertation records demolitions in 2013 and an external stair added later than the original build, and shows a brick volume it calls 'non coerente con l'edificio originario'.",
+    "note": "The survey states plainly that the exact build year is not known -- 'Non si e riusciti a risalire all'anno esatto di costruzione dell'edificio' -- and dates the building it measured from two drawings: a plan and section of 1779 in the Archivio Storico di Firenze, then 'il progetto del 1783 e poi l'ampliamento del 1784', after which it says the house stayed 'pressoche invariato' until the 1980s. Two accented characters are transcribed here without their accents."
+  },
+  "nodes": [
+    "tuscan-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "id": "webthesis-23999",
+      "url": "https://webthesis.biblio.polito.it/23999/1/tesi.pdf",
+      "title": "Lorenza Vieri, Le \"Leopoldine in Valdichiana\": studio per la conoscenza e il restauro di un patrimonio in stato di emergenza (Politecnico di Torino, Corso di Laurea Architettura per il restauro e Valorizzazione del Patrimonio, A.A. 2021/2022, sessione di laurea settembre 2022; relatore Cesare Tocci)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Part Two of the dissertation is a measured survey of this one house: its own table of plates lists 'TAVOLA 3.a Rilievo geometrico - costruttivo Pianta P0 e Ammezzato', '3.b Pianta P1 e Colombaia', '3.c Pianta copertura', '3.d Sezioni AA' e BB'', '3.e Prospetti aa e cc', '3.f Prospetti bb e dd' and '3.g Analisi delle murature'. It is a student dissertation and not a state record, and it is the survey block of this record for one reason stated plainly: it is the only source found in this pass that measures a Tuscan farmhouse at all."
+    }
+  ],
+  "survey": {
+    "item": "webthesis-23999",
+    "data_url": "https://webthesis.biblio.polito.it/23999/1/tesi.pdf",
+    "prepared": "Lorenza Vieri, Politecnico di Torino, Corso di Laurea Architettura per il restauro e Valorizzazione del Patrimonio, A.A. 2021/2022, sessione di laurea settembre 2022; relatore Cesare Tocci. Section 4.3.2 RILIEVO GEOMETRICO describes the survey method: eidotipi, a traced baseline, measurements taken in plan and in section, and drawing up in AutoCAD.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Il podere Primo di Brolio è una casa colonica che evidenzia l’impronta della bonifica e le specifiche direttive date dallo Scrittoio per quanto riguarda la realizzazione degli edifici. A pianta quadrata, ha una superficie coperta di circa 322mq e una scoperta di 3836mq, utile ad ospitare famiglie molto numerose anche di 16 persone, come era norma per gestire e lavorare i terreni assegnatigli, si sviluppa su due livelli più ammezzato e torre colombaia per una superficie totale di 723mq.",
+        "page": "§4.3.3 DESCRIZIONE DELL'EDIFICIO, first paragraph; the section begins at page 52 of the dissertation's own contents list. Line breaks in the extract have been normalised to single spaces and nothing else was changed."
+      },
+      {
+        "field": "other",
+        "text": "Si trova nel territorio comunale di Castiglion Fiorentino, cioè nella parte centrale dell’ambito di bonifica alla destra idrografica del canale Maestro dal quale dista ca. 1km.",
+        "page": "§4.3.1 INQUADRAMENTO TERRITORIALE E STORICO, page 47 in the contents list."
+      },
+      {
+        "field": "stairways",
+        "text": "Le scale collegano il piano terra al piano primo attraverso due rampe larghe 1,30m, passando per l’ammezzato [ambiente n. 0.16], ed infine alla colombaia attraverso ulteriori due rampe della stessa dimensione.",
+        "page": "§4.3.3 DESCRIZIONE DELL'EDIFICIO, the stair paragraph; no printed page number was legible beside this span."
+      },
+      {
+        "field": "walls",
+        "text": "Risulta posizionato nel prospetto aa, a sinistra del portico al piano terra e quota baricentro-terra di 240cm, mentre lo spessore del muro è 51cm.",
+        "page": "§4.3.5 ANALISI DELLE MURATURE, the sample the survey labels 'CAMPIONE 01 - categoria VI'; the extract prints the footnote marker 113 immediately before this sentence."
+      },
+      {
+        "field": "materials",
+        "text": "Tipologia degli elementi: mattoni pieni in laterizio di dimensioni 30x15x5,5cm e blocchi squadrati in pietra serena di grandi dimensioni 90x20x15cm.",
+        "page": "§4.3.5 ANALISI DELLE MURATURE, CAMPIONE 01, the sentence after the one above."
+      },
+      {
+        "field": "walls",
+        "text": "risulta posizionato nella porzione destra del prospetto dd (tra gli ambienti 0.10 e 0.11) a livello del piano terra e quota baricentro-terra di 150cm. Lo spessore del muro è di 51cm.",
+        "page": "§4.3.5 ANALISI DELLE MURATURE, the sample the survey labels 'CAMPIONE 04 - categoria II'; the sentence begins lower-case in the source, after the sample heading."
+      },
+      {
+        "field": "roof",
+        "text": "Un’orditura terziaria corrispondente ai travetti 107 , di dimensione minuta [8x8cm], disposti sopra le travi secondarie ed infine il rivestimento formato da pianelle, ovvero mattoni di laterizio [15x30cm] disposti sui travetti e lasciati a vista mentre per il manto di copertura troviamo coppi e tegole.",
+        "page": "§4.3.4 TECNICHE COSTRUTTIVE, the roof paragraph; '107' is a footnote marker printed inline and is transcribed as it stands."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "block_plan_ratio",
+      "as_printed": "A pianta quadrata",
+      "value": 1.0,
+      "unit": "ratio",
+      "from_quote": 0,
+      "note": "A READING of 'pianta quadrata' (square plan), not two measured sides. The survey states a covered area and no width or depth, so the ratio is what the word asserts and the sides are unknown."
+    },
+    {
+      "name": "covered_footprint_area",
+      "as_printed": "una superficie coperta di circa 322mq",
+      "from_quote": 0,
+      "note": "322 square metres, stated as approximate. Nothing is parsed because this schema's unit enum carries no area unit. The same sentence gives 3836 sq m of uncovered ground and 723 sq m of total floor area over all levels."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "si sviluppa su due livelli più ammezzato e torre colombaia",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two levels, plus a mezzanine and a dovecote tower which the same sentence counts separately."
+    },
+    {
+      "name": "household_size",
+      "as_printed": "famiglie molto numerose anche di 16 persone",
+      "value": 16,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The size of household the house was built to hold, stated as the norm for working the podere; not a count of rooms or beds."
+    },
+    {
+      "name": "stair_run_width_ft",
+      "as_printed": "due rampe larghe 1,30m",
+      "value": 4.27,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "1.30 m converted at 3.2808 ft/m. The survey states the same width for the two flights up to the dovecote and for the later external stair."
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "lo spessore del muro è 51cm",
+      "value": 20.1,
+      "unit": "in",
+      "from_quote": 3,
+      "note": "51 cm converted at 0.3937 in/cm, measured at the aa elevation beside the ground-floor portico. A second sample on the dd elevation gives the same 51 cm, which is why this figure is carried rather than treated as one reading."
+    },
+    {
+      "name": "brick_length_in",
+      "as_printed": "mattoni pieni in laterizio di dimensioni 30x15x5,5cm",
+      "value": 11.8,
+      "unit": "in",
+      "from_quote": 4,
+      "note": "The first of the three figures printed: the brick is 30 x 15 x 5.5 cm, so 11.8 in long, 5.9 in wide and 2.2 in deep."
+    },
+    {
+      "name": "roof_joist_size_in",
+      "as_printed": "di dimensione minuta [8x8cm]",
+      "value": 3.1,
+      "unit": "in",
+      "from_quote": 6,
+      "note": "The tertiary members (travetti) carrying the tile bed, 8 x 8 cm square in section."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Added by this pass. THIS IS THE ONLY MEASURED BUILDING IN THE CLUSTER and it is why it is here: the Medici villas are described by ICOMOS and catalogued by the Ministry and neither states a dimension, while a 2022 restoration dissertation measured this ordinary Leopoldina in plan, section, elevation and masonry sample. The survey block is a dissertation and says so in `prepared`; nobody should read it as a state record. Its figures are in metric and every conversion to feet or inches is stated in the measurement's own note."
+}

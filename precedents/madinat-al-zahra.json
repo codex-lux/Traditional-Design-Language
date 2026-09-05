@@ -1,0 +1,106 @@
+{
+  "id": "madinat-al-zahra",
+  "name": "Madinat al-Zahra",
+  "aka": [
+    "Medina Azahara"
+  ],
+  "location": {
+    "text": "near Cordoba, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "936",
+    "circa": true,
+    "altered": "Sacked and burned in the civil war that ended the Caliphate in 1009-1010; excavated from 1911 and about a tenth of the site partly reconstructed.",
+    "note": "The node's exemplar gives 936 for the beginning and 'destroyed c. 1010'. UNESCO's own description says the city was 'built in the mid-10th century CE' and 'was laid to waste during the civil war that put an end to the Caliphate in 1009-10'."
+  },
+  "record_kind": "district",
+  "nodes": [
+    "moorish-andalusian"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "1560",
+      "url": "https://en.wikipedia.org/wiki/Madinat_al-Zahra",
+      "title": "Caliphate City of Medina Azahara, UNESCO reference no. 1560, as the English Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox prints 'Official name Caliphate City of Medina Azahara', 'Designated 2018 (42nd session)' and 'Reference no. 1560'. The UNESCO list page itself was not extracted for this record; the number is the infobox's."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Madinat_al-Zahra",
+      "title": "Madinat al-Zahra - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "bic",
+      "url": "https://en.wikipedia.org/wiki/Madinat_al-Zahra",
+      "title": "Spanish Cultural Heritage: 'Official name Delimitacion de Madinat al-Zahra', 'Type Non-movable', 'Criteria Archaeological site', as the English Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO CODE IS RECORDED because none was printed in the extract. A Bien de Interes Cultural reference typed from memory would be exactly the laundered citation this layer exists to prevent."
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-madinat-al-zahra",
+    "data_url": "https://en.wikipedia.org/wiki/Madinat_al-Zahra",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the passages quoted are the article's report of Felix Arnold's survey of the excavated palace, which was not read here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Each hall opens onto a sixth chamber to the south, perpendicular to the others, which is about 30 meters long (from east to west) and 6.9 meters wide, with a smaller square chamber located at either end. This south hall opens onto the courtyard to the south through five broad archways.",
+        "page": "English Wikipedia, section 'Architecture and layout', subsection 'Upper Basilical Hall (Dar al-Jund)'"
+      },
+      {
+        "field": "general_description",
+        "text": "Although it may have been initially intended to have a perfectly square layout, which would have measured 133 by 133 meters, the western side of the garden was extended on top of the Lower Garden, giving it a final width of 153.5 meters instead. The final width corresponds to the base of an equilateral triangle whose summit could be placed at the center of the Salón Rico's façade, similar to the proportions found inside the caliph's reception hall.",
+        "page": "English Wikipedia, section 'Architecture and layout', on the Upper Garden"
+      },
+      {
+        "field": "general_description",
+        "text": "It stood at the very edge of the terrace, 15 meters above the ground of the next level below.",
+        "page": "English Wikipedia, section 'Architecture and layout', subsection 'Dar al-Mulk'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "range_depth_ft",
+      "as_printed": "6.9 meters wide",
+      "value": 22.6,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The clear width of the transverse south hall of the Dar al-Jund, converted at 3.28084 ft/m. It is a ROOM DEPTH in this corpus's sense -- the dimension across a single-pile range -- and is offered as one reading of the node's own claim that the ranges are one room deep. The conversion is a reading."
+    },
+    {
+      "name": "hall_length_ft",
+      "as_printed": "about 30 meters long (from east to west)",
+      "value": 98.4,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "garden_width_ft",
+      "as_printed": "a final width of 153.5 meters",
+      "value": 503.6,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The Upper Garden as built; the same sentence records that a square 133 by 133 m layout may have been intended, which is a different figure for a different thing and is not parsed here."
+    },
+    {
+      "name": "terrace_drop_ft",
+      "as_printed": "15 meters above the ground of the next level below",
+      "value": 49.2,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The height of one terrace over the next at the Dar al-Mulk. The palace city is terraced, which the node's own exemplar note calls 'the terraced palace-and-court diagram'; this is the only figure for that drop in the extract."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. `record_kind: district` because this is an excavated CITY of 112 hectares of which about ten have been dug, not one building; the UNESCO inscription names the whole site. The measurements are of named buildings inside it and each says which."
+}

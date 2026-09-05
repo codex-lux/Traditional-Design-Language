@@ -1,0 +1,49 @@
+{
+  "id": "openluchtmuseum-bokrijk",
+  "name": "Openluchtmuseum Bokrijk",
+  "record_kind": "group",
+  "aka": [
+    "Bokrijk Open-Air Museum",
+    "Provinciaal Domein Bokrijk"
+  ],
+  "location": {
+    "text": "Genk, Belgium",
+    "country": "Belgium",
+    "state": "Limburg, Vlaanderen"
+  },
+  "dates": {
+    "built": "opened 1958; the relocated buildings 16th to 20th century",
+    "circa": true,
+    "note": "The English Wikipedia article says 'The oldest building dates back to 1507' and that the collection covers everyday life 'from the 17th century to 1950'. The node's exemplar note says 16th to 19th century."
+  },
+  "nodes": [
+    "flemish-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bokrijk",
+      "title": "Bokrijk - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'There are 148 authentic buildings that form the heart of the heritage collection.' The article also records the fact that matters most for a corpus that wants to measure these buildings: 'Due to changes in Belgian heritage law, buildings can now only be preserved in situ. Therefore, no more buildings can be moved to Bokrijk.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://retold.eu/museums/bokrijk-be",
+      "title": "Bokrijk (BE) | RETOLD",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A European open-air-museum network page: 'Established in 1958, the Bokrijk museum spans over 550 hectares and features more than 140 authentic historical buildings, including farmhouses, mills, workshops, and churches, which have been relocated from various parts of Flanders and reconstructed in the park.' Address: Domein Bokrijk, Bokrijklaan 1, 3600 Genk."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.livetheworld.com/activities/belgium/bokrijk-open-air-museum-openluchtmuseum",
+      "title": "Visit Bokrijk Open Air Museum (Openluchtmuseum) in Genk | Live the World",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A fourth and a fifth count, both lower: 'Its 120-building collection led to the museum being protected as a monument since 1996.' Lonely Planet says 'over 100 old buildings originally reassembled here in 1958' and visitacity 'some 100 historic homes and buildings'. No Flemish register entry for the museum was resolved."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. A GROUP record and declared as one: a relocated collection, not a building, and every figure about it should be read that way. FIVE SOURCES GIVE FIVE COUNTS -- 148, 'more than 140', 120, 'over 100', 'some 100' -- and no register entry for the museum was found, so no survey block is written and no measurement is carried. What this record is FOR is the node's own claim that Bokrijk holds vakwerk and langgevel types from Flanders and Limburg: that is corroborated in kind by the register entries this cluster wrote for a real vierkantshoeve and a real langgestrekte hoeve still standing on their own ground, which is the better evidence and is why those were added as exemplars beside this one."
+}
