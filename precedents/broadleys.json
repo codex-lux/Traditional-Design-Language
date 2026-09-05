@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "1224995",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1224995",
     "prepared": "Date first listed: 25-Mar-1970, as the Overview line returned by search prints it. Neither extract of the entry returned an Overview block or the entry's own header, so this date rests on one surface.",
     "retrieved": "2026-09-05",

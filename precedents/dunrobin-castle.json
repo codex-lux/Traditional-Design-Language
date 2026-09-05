@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "LB7044",
+    "register": "historic-scotland",
     "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7044",
     "prepared": "Category A. No designation date was returned inside either extracted span and none is claimed.",
     "retrieved": "2026-09-05",

@@ -64,6 +64,7 @@
   ],
   "survey": {
     "item": "ca0589",
+    "register": "loc-item",
     "survey_no": "CA-1963-A",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0589/data/ca0589data.pdf",
     "prepared": "Samuel W. Hamill, FAIA 1976 (as the sheet reads).",

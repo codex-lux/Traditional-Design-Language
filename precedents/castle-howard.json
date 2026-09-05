@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "1316030",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1316030",
     "prepared": "Historic England's National Heritage List entry, generated from a legacy data system (the entry says so under 'Legacy'). Its own Sources block cites Howard, G, Castle Howard Guidebook, (1972) and Milne, J L, English Country Houses Baroque 1685-1715, (1970).",
     "retrieved": "2026-09-05",

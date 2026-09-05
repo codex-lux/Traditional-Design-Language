@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-museo-de-historia-de-madrid",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Museo_de_Historia_de_Madrid",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER, and an article about a museum rather than about a doorway.",
     "retrieved": "2026-09-05",

@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "ky0319",
+    "register": "loc-item",
     "survey_no": "KY-231",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0300/ky0319/data/ky0319data.pdf",
     "prepared": "Historic American Buildings Survey, National Park Service, Southeast Region, Atlanta -- 'Russell Neighborhood - Jay's Cafeteria Project'; no compiler or date legible in the extracted spans",

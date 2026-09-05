@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "az0292",
+    "register": "loc-item",
     "survey_no": "AZ-161",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0200/az0292/data/az0292data.pdf",
     "prepared": "No author line in the extract spans; the report has a table of contents (I. Introduction ... V. Painted Desert Inn, 1940-1947) and quotes a December 1974 NPS Western Region evaluation by Robert M. Cox, Gordon S. Chappell, Roger E. Kelly and Thomas D. Mulhern, Jr.",

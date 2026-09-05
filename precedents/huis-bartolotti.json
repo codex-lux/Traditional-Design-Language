@@ -62,6 +62,7 @@
   ],
   "survey": {
     "item": "1761",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/1761",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed; Amsterdam Monumentenstad's register tab prints 'Inschrijvingsdatum: 26-05-1970' for both 1761 and 1762.",
     "retrieved": "2026-09-05",

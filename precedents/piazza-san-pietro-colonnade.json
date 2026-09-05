@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "colonnato-statue-santi",
+    "register": "other",
     "data_url": "https://www.vatican.va/content/vatican/it/ra/colonnato-statue-santi.html",
     "prepared": "La Santa Sede (vatican.va), record 'Colonnato'; the page prints a fielded card (Materiali, Autore, Datazione, Dimensioni, Collocazione) and a 'Testo del frate'",
     "retrieved": "2026-09-05",

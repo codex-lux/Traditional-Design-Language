@@ -46,6 +46,7 @@
   ],
   "survey": {
     "item": "1052912",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1052912",
     "prepared": "Date first listed 27-Aug-1957; the Details section's own header prints 'SP41NW, SP4416 2/1, 8/1 Blenheim Place 27/08/57 GV I'.",
     "retrieved": "2026-09-05",

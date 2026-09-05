@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "1379327",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1379327",
     "prepared": "The entry's own Details header prints the listing date 24/10/51. The Overview block was not returned by either extract.",
     "retrieved": "2026-09-05",

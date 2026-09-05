@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "LB7595",
+    "register": "historic-scotland",
     "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7595",
     "prepared": "Historic Environment Scotland's listed building designation record. NEITHER EXTRACT RETURNED A DATE-DESIGNATED FIELD and none is claimed here; the page's own footer prints only 'Printed: 24/08/2026 17:17', which is a print stamp on a cached copy and not a designation date.",
     "retrieved": "2026-09-05",

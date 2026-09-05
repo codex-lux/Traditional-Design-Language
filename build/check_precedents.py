@@ -76,6 +76,12 @@ ID_SHAPES = {"habs": HABS_RE, "haer": HABS_RE, "loc-item": LOC_ITEM_RE, "nrhp": 
 # inventing one is how the NRHP rule went wrong. `check_precedents.py` reports the count on every
 # run so the gap is a number rather than a silence; add a shape WITH ITS EVIDENCE when a tranche
 # meets the register and can read the register's own statement of it.
+# A UNESCO inscription names a PROPERTY, which may be serial: inscription 175, "Medici Villas and
+# Gardens in Tuscany", covers a dozen villas, and 855-011 is one component of a Flemish beguinage
+# listing. Sharing one is therefore evidence of nothing, exactly as a National Register district is
+# -- so it may never be an identity. `institution`, `wikipedia` and `other` are not registers at all
+# and issue no unique number.
+SERIAL_REGISTERS = ("unesco", "institution", "wikipedia", "other")
 UNSHAPED_ID_KINDS = ("cadw", "historic-scotland", "state-register", "niah", "merimee", "bic",
                      "rijksmonument", "denkmalliste", "vincolo", "unesco")
 KIT_POINTER_RE = re.compile(r"^precedents/([a-z0-9][a-z0-9-]*)#(?:survey\.([a-z_]+)|measurements\[(\d+)\])$")
@@ -147,7 +153,14 @@ def identity_keys(rec):
     if sv.get("survey_no"):
         out.add(("habs", sv["survey_no"]))
     if sv.get("item"):
-        out.add(("loc-item", sv["item"]))
+        # WP-11.5. THE REGISTER, NOT `loc-item`. This line hardcoded `loc-item` and was written when
+        # every survey was HABS. The moment Europe arrived it read a Historic England List Entry
+        # Number as a Library of Congress item id, and -- because a UNESCO inscription covers a
+        # SERIAL property -- it read five Medici villas sharing inscription 175 as one building
+        # written five times. An identity belongs to the namespace that issued it.
+        reg = sv.get("register", "loc-item")
+        if reg not in SERIAL_REGISTERS:
+            out.add((reg, sv["item"]))
     return out
 
 
@@ -162,11 +175,12 @@ def name_keys(rec):
 # may only improve. The floors are the point: a may-only-fall ceiling on dangling references is
 # satisfied by deleting the references, and the floors are what stop that reading as progress.
 RATCHET = {
-    # Seeded 3 / 4 / 3 on 4 Sep 2026; re-pinned the same day to Tranche 1 (WP-11.2, 161/171/77) and
-    # again on 5 Sep to Tranche 2 (WP-11.3), which finished North America: 86 of 164 nodes covered.
-    "precedents": 415,                  # FLOOR -- may only RISE
-    "exemplars_with_precedent": 505,    # FLOOR -- may only RISE
-    "precedents_with_survey": 155,      # FLOOR -- may only RISE
+    # Seeded 3 / 4 / 3 on 4 Sep 2026; re-pinned the same day to Tranche 1 (WP-11.2, 161/171/77),
+    # on 5 Sep to Tranche 2 (WP-11.3, 415/505/155 -- North America, 86 of 164 nodes), and on 5 Sep
+    # to Tranche 3 (WP-11.5), which finished Europe and with it EVERY BUILDABLE NODE: 132 of 132.
+    "precedents": 695,                  # FLOOR -- may only RISE
+    "exemplars_with_precedent": 794,    # FLOOR -- may only RISE
+    "precedents_with_survey": 423,      # FLOOR -- may only RISE
     "dangling_precedent": 0,
     "back_reference_disagreements": 0,
     "refs_without_locator": 0,
@@ -195,13 +209,25 @@ RATCHET = {
     # every one a `state-register` from the American tranches -- were being carried unchecked and
     # nobody knew, because ID_SHAPES.get() misses silently. It may only fall, which happens by
     # adding a shape backed by the register's own statement of its format.
-    "ids_with_no_shape_rule": 58,
-    "exemplars_unresearched": 185,      # a CEILING -- may only fall, as tranches resolve them.
-                                        # Pinned TIGHT at the measured value: 693 exemplars, 505
-                                        # resolved, 3 stated refusals, 185 gaps. Pinning it at 188
-                                        # -- the count before the refusals were stated -- would have
-                                        # left the ceiling slack by exactly the three rows the field
-                                        # was built to separate, which is the meter measuring nothing.
+    # WP-11.5 Tranche 3: 58 -> 216. RAISING A CEILING IS A DELIBERATE ACT and this one is
+    # honest rather than a slip: Europe carries ids from ten registers whose format this project
+    # has read no statement of, and the alternative was to invent shapes, which is exactly how
+    # NRHP_RE went wrong. It falls by reading a register's own statement of its format, one at a
+    # time, never by guessing.
+    "ids_with_no_shape_rule": 216,
+    "dangling_deprecation": 0,
+    "records_with_no_node": 0,
+    # 163 of 423 survey blocks are on a register with no shape rule -- the same debt, counted
+    # where the survey lives rather than where the ref does.
+    "survey_items_with_no_shape_rule": 163,
+    "exemplars_unresearched": 3,        # a CEILING -- may only fall, as tranches resolve them.
+                                        # Pinned TIGHT at the measured value: 800 exemplars, 794
+                                        # resolved, 3 stated refusals, 3 gaps -- it was 693/505/3/185
+                                        # when the field was built. Pinning it at 6 -- the two added
+                                        # together, which is the count before the refusals are told
+                                        # apart -- would leave the ceiling slack by exactly the three
+                                        # rows the field exists to separate, which is the meter
+                                        # measuring nothing.
 }
 FLOORS = ("precedents", "exemplars_with_precedent", "precedents_with_survey",
           # WP-11.4 Ruling A. A FLOOR, and it is the half that stops the three ceilings
@@ -380,13 +406,23 @@ def main():
 
         sv = rec.get("survey")
         if sv:
-            if not LOC_ITEM_RE.match(sv.get("item", "")):
-                counts["malformed_ids"] += 1
-                rep.err(where + ".survey", "item %r is not a Library item id (xx0000)" % sv.get("item"))
+            # WP-11.5. `item` IS SHAPE-CHECKED AGAINST ITS OWN REGISTER. This tested every survey
+            # item against the Library's `xx0000` form, which refused all 268 European survey blocks
+            # the moment the schema said a list entry may BE the survey -- a description widened
+            # without the code that reads it. A register with no shape rule is counted, never passed.
+            reg = sv.get("register", "loc-item")
+            shape = ID_SHAPES.get(reg)
+            if shape is not None:
+                if not shape.match(str(sv.get("item", ""))):
+                    counts["malformed_ids"] += 1
+                    rep.err(where + ".survey", "item %r is not the shape a %r id has (%s)"
+                            % (sv.get("item"), reg, shape.pattern))
+            elif sv.get("item"):
+                counts["survey_items_with_no_shape_rule"] += 1
             if sv.get("survey_no") and not HABS_RE.match(sv["survey_no"]):
                 counts["malformed_ids"] += 1
                 rep.err(where + ".survey", "survey_no %r is not a HABS number (XX-nnn)" % sv.get("survey_no"))
-            if not str(sv.get("data_url", "")).startswith("https://tile.loc.gov/"):
+            if reg == "loc-item" and not str(sv.get("data_url", "")).startswith("https://tile.loc.gov/"):
                 rep.warn(where + ".survey", "data_url is not on tile.loc.gov, the one host that serves "
                                             "the written data as text; say where it came from in `note`")
             counts["survey_quotes"] += len(sv.get("quotes") or [])
@@ -411,6 +447,10 @@ def main():
         elif rec.get("measurements"):
             rep.err(where, "carries measurements with no survey to index into")
 
+        if not (rec.get("nodes") or []) and not rec.get("deprecated_in_favour_of"):
+            counts["records_with_no_node"] += 1
+            rep.err(where, "lists no nodes. A record nothing cites is a building nobody claims; the "
+                           "only record allowed none is one carrying `deprecated_in_favour_of`.")
         for nid in rec.get("nodes") or []:
             if nid not in styles:
                 rep.err(where, "nodes[] names %r, which is not a style node" % nid)
@@ -540,12 +580,25 @@ def main():
         for nk in name_keys(rec):
             by_name[nk].add(rid)
     for (kind, aid), ids in sorted(by_archival.items()):
-        uniq = sorted(ids)
+        # WP-11.5. A RECORD SUPERSEDED BY ANOTHER IS NOT A SECOND BUILDING. The NAME loop below has
+        # honoured `deprecated_in_favour_of` since it was written; this one did not, so `superseded`
+        # was computed and read in only one of the two places that needed it -- and a merge carried
+        # out exactly as the corpus prescribes (deprecate the id, never delete or reuse it) still
+        # convicted itself of being a duplicate. `dangling_deprecation` catches a pointer to a
+        # record that does not exist, so the escape cannot be used to hide a real duplicate.
+        uniq = sorted(i for i in ids if not superseded.get(i))
         if len(uniq) > 1:
             counts["duplicate_archival_id"] += 1
             rep.err("precedents", "%s %s is carried by %s. An archival id names ONE building, so "
                                   "these are one record written twice -- merge them, keeping the id "
                                   "the exemplars already point at." % (kind, aid, ", ".join(uniq)))
+    known_ids = set(keys_of)          # `records` is keyed by PATH, not by id -- the first version
+                                      # of this check tested `target not in records` and convicted
+                                      # both real merges. `keys_of` is keyed by the record id.
+    for rid, target in sorted(superseded.items()):
+        if target and target not in known_ids:
+            counts["dangling_deprecation"] += 1
+            rep.err("precedent:%s" % rid, "deprecated_in_favour_of %r, which does not exist" % target)
     for (nkey, nstate), ids in sorted(by_name.items()):
         for ra, rb in itertools.combinations(sorted(ids), 2):
             if superseded.get(ra) == rb or superseded.get(rb) == ra:
@@ -569,7 +622,8 @@ def main():
               # WP-11.4. Ruling D's two, then Ruling A's four.
               "no_precedent_beside_a_precedent", "exemplars_unresearched",
               "measured_cites_a_paragraph", "source_contradicts", "source_uncomparable",
-              "source_agrees", "ids_with_no_shape_rule"):
+              "source_agrees", "ids_with_no_shape_rule", "dangling_deprecation",
+              "survey_items_with_no_shape_rule", "records_with_no_node"):
         m[k] = counts[k]
 
     live_state = None

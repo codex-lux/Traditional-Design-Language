@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "palazzo-farnese",
+    "register": "other",
     "data_url": "https://it.diplomatie.gouv.fr/it/node/6/palazzo-farnese",
     "prepared": "Ambassade de France en Italie, 'Palazzo Farnese' history page and chronology; no author line is printed",
     "retrieved": "2026-09-05",

@@ -30,6 +30,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-templo-de-santa-prisca-de-taxco",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Templo_de_Santa_Prisca_de_Taxco",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

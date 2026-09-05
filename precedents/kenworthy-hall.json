@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "al0682",
+    "register": "loc-item",
     "survey_no": "AL-765",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0600/al0682/data/al0682data.pdf",
     "prepared": "The data page names Amanda J. Holmes, HABS Historian, Summer 1997 as historian of the Kenworthy Hall documentation.",

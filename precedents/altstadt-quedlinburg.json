@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "535",
+    "register": "unesco",
     "data_url": "https://www.quedlinburg-info.de/en/museums-details/fachwerkmuseum-im-ständerbau.html",
     "prepared": "The town of Quedlinburg's own tourist-office page, read in a search result rather than an extract. It is not a survey and not a register; it is quoted because it is the source of the only stock figure this record carries, and the figure is one four sources disagree about.",
     "retrieved": "2026-09-05",

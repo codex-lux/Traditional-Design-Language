@@ -4,8 +4,8 @@
 WP-11.1 (4 Sep 2026). The corpus WAS TEMPLATED on the surface: all 132 buildable nodes carried 2-4
 exemplars (90 exactly 4), 4 or 5 sources, exactly 5 constraints and 3 `distinguished_from`, and a
 composite of those spread only 1.5x across the whole set. The exemplar clause is a record of what
-was found and not a description of today -- WP-11.2 and WP-11.3 took it to 693 exemplars, 3 to 9 a
-node -- and the other three clauses are unmoved, which is why the finding stands. Field counts cannot separate a
+was found and not a description of today -- three research tranches took it to 800 exemplars, 4 to
+9 a node -- and the other three clauses are unmoved, which is why the finding stands. Field counts cannot separate a
 thoroughly researched node from a skeletal one, and no checker in this tree ever tried. Four
 measures DO separate them, and this file computes every one on every run:
 
@@ -73,9 +73,12 @@ RATCHET = {
     "editorial_read": 69,
     "shared_only_nodes": 24,
     "untested_nodes": 3,
-    "exemplars_with_precedent": 505,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171,
-                                        # Tranche 2 505 -- WP-11.3, North America complete)
-    "nodes_with_a_precedent": 86,       # FLOOR -- may only RISE (3 at seeding, 27 after Tranche 1)
+    "exemplars_with_precedent": 794,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171,
+                                        # Tranche 2 505 -- North America complete; Tranche 3 794)
+    "nodes_with_a_precedent": 132,      # FLOOR -- may only RISE (3 at seeding, 27 after Tranche 1,
+                                        # 86 after Tranche 2). 132 is EVERY BUILDABLE NODE; the 32
+                                        # that remain are the families and traditions, and they are
+                                        # Ruling B's and Tranche 4's, not a gap in this one.
 }
 FLOORS = ("exemplars_with_precedent", "nodes_with_a_precedent")
 

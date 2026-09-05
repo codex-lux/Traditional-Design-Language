@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "LB51460",
+    "register": "historic-scotland",
     "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB51460",
     "prepared": "Category A. 'Designated 12 March 2010' per the Wikipedia infobox; no designation date was returned inside the extracted spans of the HES record itself.",
     "retrieved": "2026-09-05",

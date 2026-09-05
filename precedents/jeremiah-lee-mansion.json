@@ -52,6 +52,7 @@
   ],
   "survey": {
     "item": "ma0153",
+    "register": "loc-item",
     "survey_no": "MA-859",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0100/ma0153/data/ma0153data.pdf",
     "prepared": "Architectural Data Form compiled by Druscilla J. Null, HABS, dated 7/19/84 (as the form reads)",

@@ -51,6 +51,7 @@
   ],
   "survey": {
     "item": "ca0174",
+    "register": "loc-item",
     "survey_no": "CA-1911",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0100/ca0174/data/ca0174data.pdf",
     "prepared": "Prepared by Joseph A. Baird, Jr., PHD, University of California, May 1964; approved by Charles S. Pope, AIA, Supervising Architect, Historic Structures, Western Office, Design and Construction, National Park Service, November 1964, as the sheet reads.",

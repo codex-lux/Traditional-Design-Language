@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "en-wikipedia-mosque-cathedral-of-cordoba",
+    "register": "wikipedia",
     "data_url": "https://en.wikipedia.org/wiki/Mosque%E2%80%93Cathedral_of_C%C3%B3rdoba",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER: Spain has no HABS and the Bien de Interes Cultural record for this building is an 1882 declaration with no descriptive text reachable from here, so the descriptive figures below are the English Wikipedia article's, read as continuous prose in an extract.",
     "retrieved": "2026-09-05",

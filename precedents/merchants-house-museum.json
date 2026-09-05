@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "ny0591",
+    "register": "loc-item",
     "survey_no": "NY-440",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0500/ny0591/data/ny0591data.pdf",
     "prepared": "District No. 4, New York City; 'TSatoefieid Worcester, District Officer' (Wakefield Worcester), 85 East 44th Street, New York; approved 'January S9, 1937'",

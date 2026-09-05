@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "la0075",
+    "register": "loc-item",
     "survey_no": "LA-1130",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0075/data/la0075data.pdf",
     "prepared": "Sibyl McCormac Groff, Project Supervisor, Historic American Buildings Survey, Summer 1978 (as the page reads; a HABS-City of Baton Rouge project at the LSU Department of Architecture)",

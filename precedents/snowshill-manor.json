@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "1340081",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1340081",
     "prepared": "The Details section's legacy header carries the date 4.7.60 (4 July 1960). No Official list entry block was returned by either extract of this page; a planning.data.gov.uk row for the same reference prints 'start-date: 1960-07-04' and 'entry-date: 1987-09-07', which corroborates the first date and is not the entry's own statement.",
     "retrieved": "2026-09-05",

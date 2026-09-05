@@ -62,6 +62,7 @@
   ],
   "survey": {
     "item": "va0982",
+    "register": "loc-item",
     "survey_no": "VA-307",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0900/va0982/data/va0982data.pdf",
     "prepared": "Prepared by: Melvin M. Rotsch, Architect, Stratford Project Supervisor, August 1969 (as the sheet reads)",

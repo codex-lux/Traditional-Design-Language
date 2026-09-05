@@ -64,6 +64,7 @@
   ],
   "survey": {
     "item": "ca0652",
+    "register": "loc-item",
     "survey_no": "CA-1160",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0600/ca0652/data/ca0652data.pdf",
     "prepared": "Prepared by: Susan Stein, Historian, National Trust for Historic Preservation, 1977; Edited by: Susan McCown, Historian, Historic American Buildings [Survey], as the sheet reads. The sheet's bibliography cites an earlier 'Historic American Buildings Survey. Report dated May, 1964.'",

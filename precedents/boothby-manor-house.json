@@ -41,6 +41,7 @@
   ],
   "survey": {
     "item": "1360056",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1360056",
     "prepared": "No listing date was returned in either extract of this entry; the Details section as extracted begins with the description itself.",
     "retrieved": "2026-09-05",

@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "ct0689",
+    "register": "loc-item",
     "survey_no": "CT-472",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0600/ct0689/data/ct0689data.pdf",
     "prepared": "Not legible in the extract spans; the Library's item record for the farm complex names Lisa Pfueller Davidson (HABS) and James W. Rosenthal, photographer, with the Hill-Stead Museum as sponsor",

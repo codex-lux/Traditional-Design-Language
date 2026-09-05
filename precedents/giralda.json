@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "en-wikipedia-giralda",
+    "register": "wikipedia",
     "data_url": "https://en.wikipedia.org/wiki/Giralda",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the article's own citation for the fifteenth-century plan of the cathedral is Ruiz and Jiménez Martín, 'A Fifteenth-Century Plan of the Cathedral of Seville', Architectural History 55 (2012), 57-77, which was not read here.",
     "retrieved": "2026-09-05",

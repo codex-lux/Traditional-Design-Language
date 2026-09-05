@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "pa0538",
+    "register": "loc-item",
     "survey_no": "PA-151",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0538/data/pa0538data.pdf",
     "prepared": "An addendum to the entry in the HABS Catalog Supplement (1959); the sheet's own sources are Brumbaugh's 'Colonial Architecture of the Pennsylvania Germans' (1930/1933), Dickson's 'A Hundred Pennsylvania Buildings' (1954) and Joseph Downs, 'The House of the Miller at Millbach' (Philadelphia: Pennsylvania Museum of Art, 1929), which 'includes measured drawings'",

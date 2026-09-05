@@ -52,6 +52,7 @@
   ],
   "survey": {
     "item": "ny0882",
+    "register": "loc-item",
     "survey_no": "NY-471",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0882/data/ny0882data.pdf",
     "prepared": "Historic American Buildings Survey, District of New York City, No. 4 New York; the cover reads 'Yjakafield Worcester,District Officer, Washington Depot, Connecticut' (OCR). Its stated reference is Reynolds, Dutch Houses in the Hudson Valley Before 1776.",

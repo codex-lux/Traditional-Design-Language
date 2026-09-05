@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "ma0693",
+    "register": "loc-item",
     "survey_no": "MA-271",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0693/data/ma0693data.pdf",
     "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer, 76 Chestnut Street, Boston (as the cover reads, OCR 'Chotiteau'); 1930s",

@@ -44,6 +44,7 @@
   ],
   "survey": {
     "item": "tn0115",
+    "register": "loc-item",
     "survey_no": "TN-117",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0100/tn0115/data/tn0115data.pdf",
     "prepared": "Signed 'Charles 5. Grossman' (Charles S. Grossman, National Park Service), with an undated addendum transmitting photographs",

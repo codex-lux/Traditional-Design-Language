@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "392",
+    "register": "unesco",
     "data_url": "https://whc.unesco.org/en/list/392",
     "prepared": "UNESCO World Heritage Centre, list entry 392; the criteria texts are the Committee's own, the brief synthesis the retrospective Statement of Outstanding Universal Value",
     "retrieved": "2026-09-05",

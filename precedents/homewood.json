@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "md0084",
+    "register": "loc-item",
     "survey_no": "MD-35",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0000/md0084/data/md0084data.pdf",
     "prepared": "Extracts of the Carroll letters 'submitted by John H. Soarff, District Officer of Maryland, through the courtesy of Mr, J, G. D, Paul' (as the OCR prints the name; the District Officer was John H. Scarff), 1930s; the addendum cover is later",

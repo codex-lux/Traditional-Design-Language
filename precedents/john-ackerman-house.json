@@ -33,6 +33,7 @@
   ],
   "survey": {
     "item": "nj0288",
+    "register": "loc-item",
     "survey_no": "NJ-298",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0200/nj0288/data/nj0288data.pdf",
     "prepared": "Historic American Buildings Survey, District of New Jersey; Seymour Williams, A.I.A., District Officer, 133 Central Avenue, Rahway, New Jersey. Survey historian for Bergen County: Wallace Dunlop. The same district officer and historian as the Steuben House survey.",

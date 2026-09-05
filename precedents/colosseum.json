@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "the-colosseum",
+    "register": "other",
     "data_url": "https://colosseo.it/en/area/the-colosseum",
     "prepared": "Parco archeologico del Colosseo, official site, monument page 'The Colosseum'; the page prints no author or revision line",
     "retrieved": "2026-09-05",

@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "en-wikipedia-madinat-al-zahra",
+    "register": "wikipedia",
     "data_url": "https://en.wikipedia.org/wiki/Madinat_al-Zahra",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the passages quoted are the article's report of Felix Arnold's survey of the excavated palace, which was not read here.",
     "retrieved": "2026-09-05",

@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "ia0106",
+    "register": "loc-item",
     "survey_no": "IA-64",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ia/ia0100/ia0106/data/ia0106data.pdf",
     "prepared": "Iowa State University Department of Architecture study, edited for the Historic American Buildings Survey (the data page names David Langholz as teaching assistant and Wesley Ivan Shank as editor, and Druscilla J. Null as HABS historian, in the same document).",

@@ -82,6 +82,7 @@
   ],
   "survey": {
     "item": "ny1240",
+    "register": "loc-item",
     "survey_no": "NY-4355",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny1200/ny1240/data/ny1240data.pdf",
     "retrieved": "2026-09-04",

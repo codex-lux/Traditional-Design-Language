@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "1124680",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1124680",
     "prepared": "Date first listed: 12-Nov-1969, as the Overview line returned by search prints it. The description itself is dated internally: it records the house as 'empty at the time of inspection ( May 1998 )'.",
     "retrieved": "2026-09-05",

@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "Bedford Park Conservation Area, London Borough of Hounslow",
+    "register": "other",
     "data_url": "https://www.hounslow.gov.uk/downloads/file/13323/bedford-park-conservation-area-appraisal",
     "prepared": "The London Borough of Hounslow's conservation area appraisal. It states the date of designation as 16 April 1970 and carries no author and no date of issue in any span extracted here.",
     "retrieved": "2026-09-05",

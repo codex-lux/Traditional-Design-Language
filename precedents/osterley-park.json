@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "1000287",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1000287",
     "prepared": "Historic England's Register of Parks and Gardens of Special Historic Interest. Neither extract returned this entry's Overview block, so no 'Date first listed' is claimed for it. The text is dated internally by its own parenthetical readings of the year 2000.",
     "retrieved": "2026-09-05",

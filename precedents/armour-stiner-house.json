@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "ny1158",
+    "register": "loc-item",
     "survey_no": "NY-5620",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny1100/ny1158/data/ny1158data.pdf",
     "prepared": "'These records are part of a documentation made during January-March, 1975 by the Westchester Architectural Archive of the Hudson River Museum and funded by the New York State Council on the Arts.' James M. Addiss led the survey team and made the measured drawings; John R. Zukowsky coordinated.",

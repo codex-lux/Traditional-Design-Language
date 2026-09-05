@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "md0715",
+    "register": "loc-item",
     "survey_no": "MD-39",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0700/md0715/data/md0715data.pdf",
     "prepared": "HABS District of Maryland; the district officer's name OCRs as 'John H 3earr.r.' and was not read with confidence. The sheet cites William Eddis, Letters from America (London, 1792), p. 133 and the Frederick County, Virginia, Clerk's Fees of James Wood, 1744.",

@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "1026",
+    "register": "unesco",
     "data_url": "https://whc.unesco.org/en/list/1026",
     "prepared": "UNESCO World Heritage Centre, the property's own list entry; inscribed 2004 at the 28th session. The page names no author and prints no date of last revision in the extract.",
     "retrieved": "2026-09-05",

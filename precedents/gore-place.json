@@ -64,6 +64,7 @@
   ],
   "survey": {
     "item": "ma0811",
+    "register": "loc-item",
     "survey_no": "MA-210",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0800/ma0811/data/ma0811data.pdf",
     "prepared": "Addendum, undated on the extracted span; it cites the National Historic Landmark website 'accessed 22 December 2013' and a coordinate 'obtained using Google Earth on 22 December 2013'",

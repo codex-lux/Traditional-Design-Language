@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "church-san-carlo-alle-quattro-fontane",
+    "register": "other",
     "data_url": "https://www.turismoroma.it/en/places/church-san-carlo-alle-quattro-fontane",
     "prepared": "Roma Capitale, Turismo Roma, monument record 'The Church of San Carlo alle Quattro Fontane'; no author or date line is printed",
     "retrieved": "2026-09-05",

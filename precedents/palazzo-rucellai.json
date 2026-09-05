@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "PalazzoRucellai",
+    "register": "other",
     "data_url": "https://brunelleschi.imss.fi.it/itinerari/luogo/PalazzoRucellai.html",
     "prepared": "Museo Galileo (Istituto e Museo di Storia della Scienza), itinerary record; 'Scheda a cura di Elena Fani', 'Data aggiornamento 16/apr/2009'",
     "retrieved": "2026-09-05",

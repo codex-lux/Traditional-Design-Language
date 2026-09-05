@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "de-wikipedia-dat-ole-huus",
+    "register": "wikipedia",
     "data_url": "https://de.wikipedia.org/wiki/Dat_ole_Huus",
     "prepared": "A Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER, and no figure taken from it has the standing of one. It is used because the German Land monument registers reachable from this container publish a one-line Schutzbegruendung and nothing describing the fabric.",
     "retrieved": "2026-09-05",

@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "storia-palazzo-strozzi",
+    "register": "other",
     "data_url": "https://www.palazzostrozzi.org/storia-palazzo-strozzi",
     "prepared": "Fondazione Palazzo Strozzi, 'Storia di Palazzo Strozzi'; no author line is printed",
     "retrieved": "2026-09-05",

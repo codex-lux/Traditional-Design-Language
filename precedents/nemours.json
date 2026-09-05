@@ -59,6 +59,7 @@
   ],
   "survey": {
     "item": "de0387",
+    "register": "loc-item",
     "survey_no": "DE-283",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/de/de0300/de0387/data/de0387data.pdf",
     "prepared": "Historic American Buildings Survey, National Park Service, Northeast Region, U.S. Custom House, 200 Chestnut Street, Philadelphia, as the cover sheet reads; the project information names Kimberly N. Pruitt as graphic artist and Robert Tucher of Rob Tucher Photographic Documentation for the current photographs, and the drawings are dated August 1994.",

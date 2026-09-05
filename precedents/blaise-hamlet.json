@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "1202262",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1202262",
     "prepared": "Date first listed: 08-Jan-1959. NOT READ IN AN EXTRACT: the extract returned the Details prose and the Sources and Legacy blocks and not the Official list entry block, so this is the field value a Tavily search result printed for this entry on the same day.",
     "retrieved": "2026-09-05",

@@ -40,6 +40,7 @@
   ],
   "survey": {
     "item": "ky0093",
+    "register": "loc-item",
     "survey_no": "KY-29",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0093/data/ky0093data.pdf",
     "prepared": "Historic American Buildings Survey, District No. 20, 'G. I. Grlivior' District Officer (OCR), 304 Martin Brown Building, Louisville, Kentucky",

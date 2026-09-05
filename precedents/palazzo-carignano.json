@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "palazzo-carignano",
+    "register": "other",
     "data_url": "https://residenzerealisabaude.com/palazzo-carignano",
     "prepared": "Residenze Reali Sabaude, official site, 'Palazzo Carignano'; no author or date line is printed",
     "retrieved": "2026-09-05",

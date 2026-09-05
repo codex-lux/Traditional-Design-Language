@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "museo-degli-innocenti-architettura",
+    "register": "other",
     "data_url": "https://www.museodeglinnocenti.it/museo/percorsi-espositivi/architettura",
     "prepared": "Istituto degli Innocenti, Museo degli Innocenti, 'Architecture' section of the exhibition itinerary; the page's own English version",
     "retrieved": "2026-09-05",

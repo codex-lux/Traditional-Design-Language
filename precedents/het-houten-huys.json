@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "371",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/371",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's own 'Inschrijving register' field came back blank in the extract; Amsterdam Monumentenstad's register tab prints 'Inschrijvingsdatum: 02-04-1970' and Rijksmonumenten.nl prints 'Publicatie: 19700402'.",
     "retrieved": "2026-09-05",

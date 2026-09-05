@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "IA61002196",
+    "register": "merimee",
     "data_url": "https://pop.culture.gouv.fr/notice/merimee/IA61002196",
     "retrieved": "2026-09-05",
     "via": "tavily-extract",

@@ -52,6 +52,7 @@
   ],
   "survey": {
     "item": "la0244",
+    "register": "loc-item",
     "survey_no": "LA-1194",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0200/la0244/data/la0244data.pdf",
     "prepared": "Not stated on the extracted covers (reduced copies of measured drawings and field records)",

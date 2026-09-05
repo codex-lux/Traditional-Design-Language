@@ -4,7 +4,10 @@
   "location": {
     "text": "Kedleston, Derbyshire, England",
     "country": "England",
-    "state": "Derbyshire"
+    "state": "Derbyshire",
+    "aliases": [
+      "Derbyshire, England"
+    ]
   },
   "dates": {
     "built": "1758-65",
@@ -13,6 +16,7 @@
     "note": "The listed-building entry prints '1758-65 by Matthew Brettingham, James Paine and Robert Adam'. The registered park-and-garden entry 1000451 tells the same sequence differently: Brettingham engaged 1758, superseded by Paine before the end of 1759, Adam taking over by April 1760, 'Work was completed in 1765'. Both are recorded; neither is resolved."
   },
   "nodes": [
+    "adam-style",
     "english-georgian"
   ],
   "refs": [
@@ -44,6 +48,7 @@
   ],
   "survey": {
     "item": "1311507",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
     "prepared": "The entry's own Details header prints the listing date 25.9.51.",
     "retrieved": "2026-09-05",
@@ -83,6 +88,31 @@
         "field": "general_description",
         "text": "South front of 3-3-3 bays. The centre piece derived from the Arch of Constantine. Four detached Corinthian columns standing close to the antae and pilasters against the wall.",
         "page": "Official list entry 1311507, Details"
+      },
+      {
+        "field": "general_description",
+        "text": "Large country house, set in large landscape park. 1758-65 by Matthew Brettingham, James Paine and Robert Adam. Interiors complete by the 1780s.",
+        "page": "Official list entry 1311507, Details, opening paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "South front of 3-3-3 bays. The centre piece derived from the Arch of Constantine. Four detached Corinthian columns standing close to the antae and pilasters against the wall. Each column carrying its own piece of entablature with statues above, in front of an attic with the date 1765 inscribed. Shallow lead dome above. Double staircase with sharply curved flights.",
+        "page": "Official list entry 1311507, Details, south front"
+      },
+      {
+        "field": "bays",
+        "text": "The east and west elevations of 2-3-2 bays are treated more simply, with the central feature of a Venetian window. That on the west side was at an early date blocked.",
+        "page": "Official list entry 1311507, Details, east and west elevations"
+      },
+      {
+        "field": "ceiling_heights",
+        "text": "Interior: The main entrance is into the magnificent Marble Hall, about 67ft by 37ft, and 40ft high (taking in the attic storey). Two rows of giant Corinthian columns of pink Nottinghamshire alabaster. They were fluted in 1775, against the advice of Robert Adam. Frieze and coved ceiling with delicate stucco decoration by Joseph Rose to a design by George Richardson. Hoptonwood stone floor with inlay, designed by Adam.",
+        "page": "Official list entry 1311507, Details, Interior, Marble Hall"
+      },
+      {
+        "field": "plan",
+        "text": "Beyond, in the relationship of 'atrium' and 'Vestibulum', is the saloon, a full-height domed rotunda. Apsed niches in the corners filling the square outer walls. Coffered dome and central skylight. Pedimented doorcases with pilasters of blue scagliola. Frieze of anthemion and palmette.",
+        "page": "Official list entry 1311507, Details, Interior, Saloon"
       }
     ]
   },
@@ -137,9 +167,40 @@
       "value": 4,
       "unit": "count",
       "from_quote": 6
+    },
+    {
+      "name": "south_front_column_count",
+      "as_printed": "Four detached Corinthian columns",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 8
+    },
+    {
+      "name": "marble_hall_length_ft",
+      "as_printed": "about 67ft by 37ft",
+      "value": 67,
+      "unit": "ft",
+      "from_quote": 10,
+      "note": "The entry hedges with 'about' and does not say which figure is the front-to-back dimension; 67 is the first figure printed."
+    },
+    {
+      "name": "marble_hall_width_ft",
+      "as_printed": "about 67ft by 37ft",
+      "value": 37,
+      "unit": "ft",
+      "from_quote": 10,
+      "note": "The second figure printed. See the note on marble_hall_length_ft."
+    },
+    {
+      "name": "marble_hall_height_ft",
+      "as_printed": "40ft high (taking in the attic storey)",
+      "value": 40,
+      "unit": "ft",
+      "from_quote": 10,
+      "note": "A CEILING HEIGHT STATED BY THE REGISTER, and the register also says what it includes: the hall rises through the attic storey, so this is not a single-storey ceiling height and may not be read as one."
     }
   ],
   "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
   "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
-  "note": "Tranche 3, 5 Sep 2026. Placed on english-georgian, the style node, and deliberately NOT on english-georgian-country-house, whose own prose says of that type 'It is not a prodigy house' and gives it five or seven bays; Kedleston's centre block is eleven bays with quadrants and pavilions and would contradict the node it was added to."
+  "note": "Tranche 3, 5 Sep 2026. Placed on english-georgian, the style node, and deliberately NOT on english-georgian-country-house, whose own prose says of that type 'It is not a prodigy house' and gives it five or seven bays; Kedleston's centre block is eleven bays with quadrants and pavilions and would contradict the node it was added to. MERGED 5 Sep 2026: `kedleston-hall-marble-hall-and-saloon` was written independently by a second cluster and is deprecated in favour of this record. Both records cite Historic England list entry 1311507, which is Kedleston Hall itself: two clusters (english-georgian and adam-style) each added the building, and the second wrote the INTERIOR of the same listing as a second record. One listing, one building, one record. Its evidence is folded in here: 0 ref(s), 5 quote(s), 4 measurement(s)."
 }

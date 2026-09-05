@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "ca0279",
+    "register": "loc-item",
     "survey_no": "CA-1981",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0200/ca0279/data/ca0279data.pdf",
     "retrieved": "2026-09-04",

@@ -28,6 +28,7 @@
   ],
   "survey": {
     "item": "9/2/083/0006",
+    "register": "state-register",
     "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
     "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
     "retrieved": "2026-09-05",

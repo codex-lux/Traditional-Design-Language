@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "ca1106",
+    "register": "loc-item",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca1100/ca1106/data/ca1106data.pdf",
     "prepared": "HABS No. CA-38-1 (as the header prints it). The quoted description is from the ADDENDUM, which cites the National Register nomination form prepared in 1970 by Allen W. Welts of the National Park Service; the original entry is the 1934 District No. 38 sheet, Irving F. Morrow, District Officer.",
     "retrieved": "2026-09-04",

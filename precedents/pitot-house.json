@@ -77,6 +77,7 @@
   ],
   "survey": {
     "item": "la0061",
+    "register": "loc-item",
     "survey_no": "LA-1116",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0061/data/la0061data.pdf",
     "prepared": "Prepared by Samuel Wilson, Jr., FAIA, New Orleans, Louisiana, Summer 1964 (as the page reads); with a later addendum reproducing Richard Koch's photo mount cards",

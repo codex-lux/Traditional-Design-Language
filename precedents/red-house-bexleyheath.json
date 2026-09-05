@@ -34,6 +34,7 @@
   ],
   "survey": {
     "item": "1064203",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1064203",
     "prepared": "Date first listed: 25 May 1950, as the entry's own Details header prints it ('TQ 4875 8/6 25.5.50').",
     "retrieved": "2026-09-05",

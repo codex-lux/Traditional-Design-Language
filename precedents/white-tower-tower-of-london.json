@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "1002061",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1002061",
     "prepared": "Scheduled Monument entry, 'Date first listed: 01-Jan-1900' as the Official list entry block prints it.",
     "retrieved": "2026-09-05",

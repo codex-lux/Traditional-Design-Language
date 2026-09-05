@@ -77,6 +77,7 @@
   ],
   "survey": {
     "item": "sc0095",
+    "register": "loc-item",
     "survey_no": "SC-257",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0000/sc0095/data/sc0095data.pdf",
     "retrieved": "2026-09-04",

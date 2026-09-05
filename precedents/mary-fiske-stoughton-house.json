@@ -74,6 +74,7 @@
   "rights_evidence_url": "https://www.loc.gov/resource/hhh.ma0255.photos?sp=9",
   "survey": {
     "item": "ma0255",
+    "register": "loc-item",
     "survey_no": "MA-1033",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0200/ma0255/data/ma0255data.pdf",
     "prepared": "PREPARED BY DANIEL REIFF AND SUSAN MAYCOCK, EDITED BY PETER DENIS MYERS AND BILL LEBOVICH, HABS (as the data page prints it); the bibliography 'only goes to 1969 when the data was prepared', in a Cambridge Historical Commission / HABS project of September 1967 to June 1969",

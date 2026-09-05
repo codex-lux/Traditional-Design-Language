@@ -64,6 +64,7 @@
   ],
   "survey": {
     "item": "ri0036",
+    "register": "loc-item",
     "survey_no": "RI-342",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0036/data/ri0036data.pdf",
     "retrieved": "2026-09-04",

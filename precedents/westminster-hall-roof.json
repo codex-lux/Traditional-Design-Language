@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "westminsterhall-architecture-the-hammer-beam-roof",
+    "register": "other",
     "data_url": "https://www.parliament.uk/about/living-heritage/building/palace/westminsterhall/architecture/the-hammer-beam-roof-",
     "prepared": "UK Parliament, Living Heritage: The building & its collections / The Palace of Westminster / Westminster Hall / Architecture / The hammer-beam roof. No author or date is printed on the page.",
     "retrieved": "2026-09-05",

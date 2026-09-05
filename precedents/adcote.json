@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "1055113",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1055113",
     "prepared": "Date first listed: 2 July 1971, as the Wikipedia list of Grade I listed buildings in Shropshire prints it beside List Entry Number 1055113. Neither extract of the entry itself returned a 'Date first listed' line or the entry's own header block, so this date rests on one surface only.",
     "retrieved": "2026-09-05",

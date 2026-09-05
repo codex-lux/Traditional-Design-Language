@@ -11,7 +11,10 @@
     "circa": false,
     "note": "The survey's cover and the South Carolina register give 1738-42; the Wikipedia infobox gives 1747-1752; the National Trust's page gives neither. Recorded as the survey states it, with the disagreement noted rather than resolved."
   },
-  "nodes": ["charleston-georgian", "georgian-colonial-american"],
+  "nodes": [
+    "charleston-georgian",
+    "georgian-colonial-american"
+  ],
   "refs": [
     {
       "kind": "habs",
@@ -65,6 +68,7 @@
   ],
   "survey": {
     "item": "sc0132",
+    "register": "loc-item",
     "survey_no": "SC-377",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0132/data/sc0132data.pdf",
     "prepared": "Prepared by Woodrow W. Wilkins, revised and edited by Druscilla J. Null, July 1984 (per wp-9.2-the-parti-is-not-the-type.md's reading of the same document)",
@@ -94,12 +98,51 @@
     ]
   },
   "measurements": [
-    { "name": "overall_width_ft", "as_printed": "70'-5\"", "value": 70.42, "unit": "ft", "from_quote": 0 },
-    { "name": "overall_depth_ft", "as_printed": "52'-2\"", "value": 52.17, "unit": "ft", "from_quote": 0 },
-    { "name": "bay_count", "as_printed": "7-bay front", "value": 7, "unit": "count", "from_quote": 0 },
-    { "name": "storey_count", "as_printed": "2 stories plus raised basement", "value": 2, "unit": "count", "from_quote": 0, "note": "Two storeys above a raised basement." },
-    { "name": "interior_door_width_in", "as_printed": "2,-9-l/4\"", "value": 33.25, "unit": "in", "from_quote": 3, "note": "OCR for 2'-9 1/4\"; a reading." },
-    { "name": "interior_door_height_in", "as_printed": "6'-ll 1/4\"", "value": 83.25, "unit": "in", "from_quote": 3, "note": "OCR for 6'-11 1/4\"; a reading." }
+    {
+      "name": "overall_width_ft",
+      "as_printed": "70'-5\"",
+      "value": 70.42,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "52'-2\"",
+      "value": 52.17,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "7-bay front",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2 stories plus raised basement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys above a raised basement."
+    },
+    {
+      "name": "interior_door_width_in",
+      "as_printed": "2,-9-l/4\"",
+      "value": 33.25,
+      "unit": "in",
+      "from_quote": 3,
+      "note": "OCR for 2'-9 1/4\"; a reading."
+    },
+    {
+      "name": "interior_door_height_in",
+      "as_printed": "6'-ll 1/4\"",
+      "value": 83.25,
+      "unit": "in",
+      "from_quote": 3,
+      "note": "OCR for 6'-11 1/4\"; a reading."
+    }
   ],
   "note": "Seeded 4 Sep 2026 from the WP-11.1 pilot. The overall dimensions are the ones wp-9.2-the-parti-is-not-the-type.md measured the centre-passage-double-pile parti against; this record is where that figure now lives with its quote."
 }

@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "tn0164",
+    "register": "loc-item",
     "survey_no": "TN-37",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0100/tn0164/data/tn0164data.pdf",
     "prepared": "'Prepared by Roy C. Pledger Supervisory Architect National Park Service July 1971'; the project section records the records as made 'during the summer of 1971 as part of a cooperative project of the National Park Service, the Tennessee Historical Commission, and the Historic Sites Federation of Tennessee'",

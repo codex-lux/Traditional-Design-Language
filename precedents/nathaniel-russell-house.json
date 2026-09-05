@@ -77,6 +77,7 @@
   ],
   "survey": {
     "item": "sc0171",
+    "register": "loc-item",
     "survey_no": "SC-145",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0171/data/sc0171data.pdf",
     "prepared": "1930s form 'Prepared at Washington Office', 'Prepared by Junior Architect James L. Burnett, Jr.', District of South Carolina; a later addendum cover carries the SC-145 number",

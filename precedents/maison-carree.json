@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "1569",
+    "register": "unesco",
     "data_url": "https://whc.unesco.org/en/list/1569",
     "prepared": "UNESCO World Heritage Centre, list entry 1569, Statement of Outstanding Universal Value adopted with the 2023 inscription",
     "retrieved": "2026-09-05",

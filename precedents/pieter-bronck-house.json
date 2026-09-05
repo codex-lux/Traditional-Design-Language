@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "ny0226",
+    "register": "loc-item",
     "survey_no": "NY-3114",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0226/data/ny0226data.pdf",
     "prepared": "Historic American Buildings Survey, District 3 of New York; the cover reads 'Prepared by Washington Office'. Its stated reference is Reynolds, Dutch Houses in the Hudson Valley before 1776 -- one of this node's own four sources.",

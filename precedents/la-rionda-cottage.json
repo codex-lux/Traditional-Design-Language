@@ -41,6 +41,7 @@
   ],
   "survey": {
     "item": "la0040",
+    "register": "loc-item",
     "survey_no": "LA-192",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0040/data/la0040data.pdf",
     "prepared": "Prepared by Georgia Bertha Drennan, New Orleans, Louisiana, June 1958 (as the page reads; the OCR prints '195&')",

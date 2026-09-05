@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "ny0361",
+    "register": "loc-item",
     "survey_no": "NY-4-4",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0300/ny0361/data/ny0361data.pdf",
     "prepared": "Historic American Buildings Survey, District No. 4, Southern New York State; the cover reads 'Wm. Dewey Foster, District Officer, 25 West 45th Street, New York City' (OCR 'Wm. Bewey Foster'). The descriptive passages are quoted by the surveyor from the 22d Annual Report (1917) of the American Scenic and Historic Preservation Society, pp. 475-82.",

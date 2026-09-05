@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "ma0170",
+    "register": "loc-item",
     "survey_no": "MA-214",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0100/ma0170/data/ma0170data.pdf",
     "prepared": "District of Massachusetts, Lewis M. Lawrence, District Officer (as the 1930s sheet reads); undated on the sheet",

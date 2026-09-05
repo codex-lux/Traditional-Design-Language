@@ -38,6 +38,7 @@
   ],
   "survey": {
     "item": "church-santandrea-al-quirinale",
+    "register": "other",
     "data_url": "https://www.turismoroma.it/en/places/church-santandrea-al-quirinale",
     "prepared": "Roma Capitale, Turismo Roma, monument record 'The church of Sant'Andrea al Quirinale'; no author or date line is printed",
     "retrieved": "2026-09-05",

@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "en.wikipedia.org/wiki/Groote_Schuur",
+    "register": "wikipedia",
     "data_url": "https://en.wikipedia.org/wiki/Groote_Schuur",
     "prepared": "The English Wikipedia article, read as continuous prose in an extract. IT IS NOT A SURVEY AND NOT A REGISTER, and it is used here because the SAHRA row for this building carries no description at all. Nothing in this block should be read as having the authority of a survey; it is quoted rather than paraphrased so that a later reader can see exactly what was relied on.",
     "retrieved": "2026-09-05",

@@ -38,6 +38,7 @@
   ],
   "survey": {
     "item": "1119859",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1119859",
     "prepared": "The Details section's legacy header prints '8/136 Hardy's Cottage 26.1.56' -- listed 26 January 1956 -- followed by the grade '- II'. No Official list entry block was returned by the extract.",
     "retrieved": "2026-09-05",

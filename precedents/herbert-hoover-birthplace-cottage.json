@@ -72,6 +72,7 @@
   ],
   "survey": {
     "item": "ia0042",
+    "register": "loc-item",
     "survey_no": "IA-21",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ia/ia0000/ia0042/data/ia0042data.pdf",
     "prepared": "COMPILER, AFFILIATION Druseilia J. Null, HABS DATE 9/2/83 (as the Architectural Data Form prints it; 'Druseilia' is OCR)",

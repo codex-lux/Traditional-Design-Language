@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-sinagoga-de-santa-maria-la-blanca",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Sinagoga_de_Santa_Mar%C3%ADa_la_Blanca",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the Castilla-La Mancha catalogue entry the article's authority block names was not reached from this container.",
     "retrieved": "2026-09-05",

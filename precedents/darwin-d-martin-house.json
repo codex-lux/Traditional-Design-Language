@@ -34,6 +34,7 @@
   ],
   "survey": {
     "item": "ny0203",
+    "register": "loc-item",
     "survey_no": "NY-5611",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0203/data/ny0203data.pdf",
     "retrieved": "2026-09-05",

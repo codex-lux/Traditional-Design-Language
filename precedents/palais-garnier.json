@@ -48,6 +48,7 @@
   ],
   "survey": {
     "item": "PA00089004",
+    "register": "merimee",
     "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00089004",
     "prepared": "The notice prints 'Date de création de la notice 8 juillet 1993' and 'Date de dernière modification de la notice 4 mars 2026'; its legal note is signed '© Monuments historiques, 1992'.",
     "retrieved": "2026-09-05",

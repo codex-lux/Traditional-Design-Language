@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "va1019",
+    "register": "loc-item",
     "survey_no": "VA-259",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va1000/va1019/data/va1019data.pdf",
     "prepared": "Two documents bound as one PDF: the 1930s entry 'Prepared at Headquarters Office for District of Virginia', and an addendum on NPS Form 10-920 (June 1983), the Architectural Data Form, 'Page 1 of 2'",

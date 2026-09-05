@@ -54,6 +54,7 @@
   ],
   "survey": {
     "item": "torre-de-san-martin",
+    "register": "other",
     "data_url": "https://patrimonioculturaldearagon.es/patrimonio/torre-de-san-martin",
     "prepared": "Patrimonio Cultural de Aragón, the Government of Aragon's own heritage register. No author line and no revision date were printed in the extract.",
     "retrieved": "2026-09-05",

@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "1176915",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1176915",
     "prepared": "Historic England names no author and the entry says 'The contents of this record have been generated from a legacy data system.' British Listed Buildings' rendering of the same entry prints 'Listing Date: 29 January 1952' and 'Grade: I'; a Historic England search result read the same day printed 'Date first listed: 29-Jan-1952'. No date of most recent amendment was found on either surface.",
     "retrieved": "2026-09-05",

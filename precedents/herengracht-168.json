@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "1760",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/1760",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed. The listing date is printed by the search tier as 'May 26, 1970'; the entry's own 'Inschrijving register' field came back blank in the extract.",
     "retrieved": "2026-09-05",

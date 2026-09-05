@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "nj0267",
+    "register": "loc-item",
     "survey_no": "NJ-47",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0200/nj0267/data/nj0267data.pdf",
     "prepared": "Historic American Buildings Survey, District of New Jersey; Seymour Williams, A.I.A., District Officer, 133 Central Avenue, Rahway, New Jersey (the OCR prints 'Railway'). The PDF also carries a later cover reading 'ADDENDUM TO: HABS NJ-47 ZABRISKIE-STEUBEN HOUSE NJ,2-RIVED, 1-'.",

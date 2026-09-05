@@ -41,6 +41,7 @@
   ],
   "survey": {
     "item": "PA00088420",
+    "register": "merimee",
     "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088420",
     "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
     "retrieved": "2026-09-05",

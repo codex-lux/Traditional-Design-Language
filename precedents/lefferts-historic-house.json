@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "ny0245",
+    "register": "loc-item",
     "survey_no": "NY-511",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0245/data/ny0245data.pdf",
     "prepared": "Historic American Buildings Survey, District No. NY-5 (as the cover's OCR reads). Photographs by E. P. MacFarland per the Library's own caption line.",

@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "tn0004",
+    "register": "loc-item",
     "survey_no": "TN-161",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0004/data/tn0004data.pdf",
     "prepared": "The data pages cite Marion Dean Ross, 'The Henry Whitehead Place, Cades Cove, Great Smoky Mountains National Park - An Architectural Survey Report prepared August 1957', typescript in the Eastern Office, Division of Design and Construction, National Park Service, Philadelphia",

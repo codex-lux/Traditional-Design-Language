@@ -31,6 +31,7 @@
   ],
   "survey": {
     "item": "chiesa-del-santissimo-redentore",
+    "register": "other",
     "data_url": "https://chorusvenezia.org/visita/chiesa-del-santissimo-redentore",
     "prepared": "Chorus, Associazione per le Chiese del Patriarcato di Venezia, church record; sections 'Cenni Storici' and 'Descrizione'",
     "retrieved": "2026-09-05",

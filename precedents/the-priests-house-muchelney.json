@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "1056574",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1056574",
     "prepared": "The Details section's legacy header prints '8/225 The Priest's house 17.4.59'; a search result the same day printed the Official list entry field value 'Date first listed: 17-Apr-1959'. No amendment date was returned.",
     "retrieved": "2026-09-05",

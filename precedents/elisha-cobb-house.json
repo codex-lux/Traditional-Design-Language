@@ -36,6 +36,7 @@
   ],
   "survey": {
     "item": "ma0027",
+    "register": "loc-item",
     "survey_no": "MA-705",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0000/ma0027/data/ma0027data.pdf",
     "prepared": "Not legible in the extracted spans; the building is 'number 14040 in Cape Cod National Seashore' (OCR 'lUO^O'), which dates the record after 1961",

@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "la0045",
+    "register": "loc-item",
     "survey_no": "LA-1101",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0045/data/la0045data.pdf",
     "prepared": "Historic American Buildings Survey, District of Louisiana, Richard Koch District Officer, Queen and Crescent Building, New Orleans; the descriptive sheet signed 'Prepared by I&chard Koch, Architect June, 1958'",

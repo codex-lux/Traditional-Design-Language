@@ -54,6 +54,7 @@
   ],
   "survey": {
     "item": "me0049",
+    "register": "loc-item",
     "survey_no": "ME-113",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0000/me0049/data/me0049data.pdf",
     "retrieved": "2026-09-05",

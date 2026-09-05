@@ -46,6 +46,7 @@
   ],
   "survey": {
     "item": "1058025",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1058025",
     "prepared": "The Details section's legacy header prints '26/116 Cottage (National Trust Estate No 68) 22.5.69' -- listed 22 May 1969. No Official list entry block was returned by the extract.",
     "retrieved": "2026-09-05",

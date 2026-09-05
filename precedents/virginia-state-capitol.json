@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "va1498",
+    "register": "loc-item",
     "survey_no": "VA-1254",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va1400/va1498/data/va1498data.pdf",
     "prepared": "'The documentation of the Virginia State Capitol was undertaken by the Historic American Buildings Survey (HABS) of the National Park Service and the Department of General Services (DGS) of the Commonwealth of Virginia ... Paul D. Dolinsky, HABS architect, served as project manager, and Frances P. Alexander, HABS historian, as supervisory historian. Sara Amy Leach, HABS historian, edited the final document. The recording was conducted at the Virginia State Capitol by architectural historian Kimberly Prothro'",

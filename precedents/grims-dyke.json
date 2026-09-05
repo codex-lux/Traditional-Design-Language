@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "1079676",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1079676",
     "prepared": "Date first listed: 5 September 1969, as the entry's own Details header prints it ('TQ 1492 6/1 5.9.69'); the Wikipedia infobox gives the same date.",
     "retrieved": "2026-09-05",

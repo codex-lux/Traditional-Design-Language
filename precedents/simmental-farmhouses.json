@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "de-wikipedia-liste-simmentaler-bauernhaeuser",
+    "register": "wikipedia",
     "data_url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
     "prepared": "The German Wikipedia list of Simmental farmhouses, read as continuous prose in an extract. AN ENCYCLOPEDIA LIST AND NOT A REGISTER, though its KGS column transcribes one.",
     "retrieved": "2026-09-05",

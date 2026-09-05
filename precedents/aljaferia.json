@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "palacio-de-la-aljaferia",
+    "register": "other",
     "data_url": "https://patrimonioculturaldearagon.es/patrimonio/palacio-de-la-aljaferia",
     "prepared": "Patrimonio Cultural de Aragón, the Government of Aragon's own heritage register. No author line and no revision date were printed in the extract; the page's own timeline block ends with a heading reading 'Declaración. Siglo XX - XXI'.",
     "retrieved": "2026-09-05",

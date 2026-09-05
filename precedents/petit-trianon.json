@@ -46,6 +46,7 @@
   ],
   "survey": {
     "item": "chateauversailles-petit-trianon",
+    "register": "other",
     "data_url": "https://www.chateauversailles.fr/decouvrir/domaine/domaine-trianon/petit-trianon",
     "retrieved": "2026-09-05",
     "via": "tavily-extract",

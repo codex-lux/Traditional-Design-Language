@@ -50,6 +50,7 @@
   ],
   "survey": {
     "item": "ny0844",
+    "register": "loc-item",
     "survey_no": "NY-4-304",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0844/data/ny0844data.pdf",
     "prepared": "Not read; the title page was not among the spans returned. The document's own sections are headed 'Historical Introduction' and 'Architectural Description' and it references measured section sheet #9.",

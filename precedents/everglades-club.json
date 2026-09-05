@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "fl0177",
+    "register": "loc-item",
     "survey_no": "FL-226",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0177/data/fl0177data.pdf",
     "retrieved": "2026-09-05",

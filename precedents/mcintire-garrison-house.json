@@ -76,6 +76,7 @@
   ],
   "survey": {
     "item": "me0083",
+    "register": "loc-item",
     "survey_no": "ME-9",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0000/me0083/data/me0083data.pdf",
     "prepared": "District of Maine, Josiah T. Tubby, District Officer, 537 Congress Street, Portland, Maine (as the cover reads; the OCR prints 'Josiah T, '.Cubby, District Cffioer')",

@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "villaemo-l-architettura",
+    "register": "other",
     "data_url": "https://villaemo.eu/en/l-architettura",
     "prepared": "Villa Emo, official site, 'The Architecture' page, English version; no author or date line is printed",
     "retrieved": "2026-09-05",

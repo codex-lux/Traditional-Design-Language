@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "tx0074",
+    "register": "loc-item",
     "survey_no": "TX-2103",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tx/tx0000/tx0074/data/tx0074data.pdf",
     "prepared": "The cover sheet reads 'PHOTOGRAPHS & HISTORICAL AND DESCRIPTIVE DATA / Historic American Buildings Survey / Heritage Conservation and Recreation Service / Department of the Interior / Washington, D.C. 20243'; the extract's first legible span begins '15, 1967', which is a fragment of a date and is not read as one here. No author's name was legible in either extract.",

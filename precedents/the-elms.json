@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "ri0049",
+    "register": "loc-item",
     "survey_no": "RI-344",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0049/data/ri0049data.pdf",
     "prepared": "Historic American Buildings Survey, National Park Service, Department of the Interior, Washington, D.C. 20240, as the cover sheet reads; the sources list cites Reed, Henry Hope, The Elms (Newport: The Preservation Society of Newport County, 1963) and names Horace Trumbauer's office records among sources not yet investigated.",

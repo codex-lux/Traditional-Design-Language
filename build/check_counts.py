@@ -53,6 +53,15 @@ def computed():
     for rank in ("tradition", "family", "style", "variant"):
         v["rank_%s" % rank] = sum(1 for n in nodes if n.get("rank") == rank)
     v["exemplars"] = sum(len(n.get("exemplars") or []) for n in nodes)
+    # WP-11.5. The exemplar TOTAL was policed and the three figures published beside it -- the
+    # per-node range and the five-or-more count -- were not, so "693 exemplars, 3 to 9 a node,
+    # 85 of 132 carrying five or more" rotted in CLAUDE.md and docs/precedents.md while the total
+    # was corrected everywhere it was claimed. That is WP-8.14's shape: the figure nobody derives
+    # is the one that goes wrong. All four are derived here now.
+    _ex = [len(n.get("exemplars") or []) for n in buildable]
+    v["exemplars_min"] = min(_ex) if _ex else 0
+    v["exemplars_max"] = max(_ex) if _ex else 0
+    v["exemplars_five_plus"] = sum(1 for c in _ex if c >= 5)
     v["precedents"] = len(sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))))
     # The tool count was pinned in four tests and hand-typed in fourteen prose places, none of
     # them claimed. gen_readme_counts.py:97 counts the decorators the same way for README only.
@@ -346,6 +355,15 @@ CLAIMS = [
     ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works a sibling also cites"),
     ("CLAUDE.md",              "exemplars_with_precedent", r"(\d+) of \d+ exemplars carry a `precedent`"),
     ("CLAUDE.md",              "exemplars",                r"\d+ of (\d+) exemplars carry a `precedent`"),
+    # WP-11.5. The three figures published beside the exemplar total, in the two files that
+    # publish them. Neither file was claimed before and both carried the Tranche 2 numbers.
+    ("CLAUDE.md",              "exemplars",                r"-- (\d+) exemplars now, \d+ to \d+ a"),
+    ("CLAUDE.md",              "exemplars_min",            r"-- \d+ exemplars now, (\d+) to \d+ a"),
+    ("CLAUDE.md",              "exemplars_max",            r"-- \d+ exemplars now, \d+ to (\d+) a"),
+    ("CLAUDE.md",              "exemplars_five_plus",      r"(\d+) of 132 buildable nodes carrying five or more"),
+    ("docs/precedents.md",     "exemplars",                r"\((\d+) exemplars, \d+ to \d+ a node\)"),
+    ("docs/precedents.md",     "exemplars_min",            r"\(\d+ exemplars, (\d+) to \d+ a node\)"),
+    ("docs/precedents.md",     "exemplars_max",            r"\(\d+ exemplars, \d+ to (\d+) a node\)"),
     ("CLAUDE.md",              "precedents",               r"\*\*(\d+) precedent records\*\*"),
     ("STATE-OF-THE-PROJECT.md", "precedents",              r"\| Evidence \| `precedents/` \| \*\*(\d+) records\*\*"),
 ]

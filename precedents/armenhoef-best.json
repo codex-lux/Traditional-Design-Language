@@ -48,6 +48,7 @@
   ],
   "survey": {
     "item": "532056",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/532056",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed, register description, section 'Inleiding'. THE REST OF THE DESCRIPTION COULD NOT BE READ: the page truncates at 'Het bedrijfsgedeelte van de boerderij heeft een zadeldak...' behind a 'Lees meer' control, and a second extract with a different query returned the same truncation. What follows that sentence is not recorded here because it was not read.",
     "retrieved": "2026-09-05",

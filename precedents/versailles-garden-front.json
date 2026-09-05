@@ -48,6 +48,7 @@
   ],
   "survey": {
     "item": "PA00087673",
+    "register": "merimee",
     "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00087673",
     "prepared": "The notice's search result prints 'Date de création de la notice 23 juin 1993'.",
     "retrieved": "2026-09-05",

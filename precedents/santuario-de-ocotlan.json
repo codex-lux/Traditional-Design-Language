@@ -30,6 +30,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-santuario-de-ocotlan",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Santuario_de_Ocotl%C3%A1n",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

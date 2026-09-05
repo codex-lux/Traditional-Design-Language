@@ -69,6 +69,7 @@
   ],
   "survey": {
     "item": "va0654",
+    "register": "loc-item",
     "survey_no": "VA-351",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0600/va0654/data/va0654data.pdf",
     "retrieved": "2026-09-04",

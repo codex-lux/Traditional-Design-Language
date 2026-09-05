@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "area-archeologica-di-paestum",
+    "register": "other",
     "data_url": "https://parchipaestumvelia.cultura.gov.it/scopri-i-parchi/area-archeologica-di-paestum",
     "prepared": "Parchi archeologici di Paestum e Velia, Ministero della cultura; the site page prints no author or date line in the extract",
     "retrieved": "2026-09-05",

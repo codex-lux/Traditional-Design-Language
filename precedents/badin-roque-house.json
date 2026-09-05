@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "la0502",
+    "register": "loc-item",
     "survey_no": "LA-1361",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0500/la0502/data/la0502data.pdf",
     "prepared": "The HABS Cane River National Heritage Area survey (photography 2004; the extracted footnotes cite sources accessed in 2005-2006)",

@@ -58,6 +58,7 @@
   ],
   "survey": {
     "item": "ny0379",
+    "register": "loc-item",
     "survey_no": "NY-5459",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0300/ny0379/data/ny0379data.pdf",
     "retrieved": "2026-09-05",

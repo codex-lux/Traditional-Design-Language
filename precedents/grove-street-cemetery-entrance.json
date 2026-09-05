@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "ct0065",
+    "register": "loc-item",
     "survey_no": "CT-275",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0000/ct0065/data/ct0065data.pdf",
     "retrieved": "2026-09-05",

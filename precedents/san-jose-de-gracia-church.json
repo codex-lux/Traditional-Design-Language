@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "nm0015",
+    "register": "loc-item",
     "survey_no": "NM-61",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0015/data/nm0015data.pdf",
     "prepared": "Prepared by Bainbridge Bunting, Assoc. Prof. of Architectural History, University of New Mexico, December 1961; approved by Charles S. Pope, Supervising Architect, Historic Structures, Western Office, National Park Service (as printed).",

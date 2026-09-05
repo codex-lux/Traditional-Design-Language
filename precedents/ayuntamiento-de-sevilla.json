@@ -30,6 +30,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-ayuntamiento-de-sevilla",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Ayuntamiento_de_Sevilla",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER, and an article about a council rather than about a building.",
     "retrieved": "2026-09-05",

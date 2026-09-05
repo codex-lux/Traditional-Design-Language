@@ -70,6 +70,7 @@
   ],
   "survey": {
     "item": "sc0256",
+    "register": "loc-item",
     "survey_no": "SC-370",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0200/sc0256/data/sc0256data.pdf",
     "prepared": "Architectural Data Form compiled by Melissa McDonald, HABS Historian (the date field is illegible in the extract)",

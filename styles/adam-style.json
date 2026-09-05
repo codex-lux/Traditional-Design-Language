@@ -229,11 +229,11 @@
       "why": "Historic England's park register states the one planning fact this node needs -- the Ionic portico gives on to state rooms at first-floor level because the courtyard itself is raised -- and the completeness of the interior scheme, which is why this corpus names it, is the National Trust's and this corpus's judgment rather than the register's."
     },
     {
-      "name": "Kedleston Hall, Marble Hall and Saloon",
+      "name": "Kedleston Hall",
       "location": "Derbyshire, England",
       "year": 1765,
       "note": "Adam took over from Matthew Brettingham and James Paine in 1760 and completed the south front and principal interiors 1759-65, including a triumphal-arch south elevation and a domed rotunda saloon.",
-      "precedent": "kedleston-hall-marble-hall-and-saloon",
+      "precedent": "kedleston-hall",
       "standing": "canonical",
       "why": "The only room in this cluster the register states in three dimensions -- the Marble Hall 'about 67ft by 37ft, and 40ft high (taking in the attic storey)' -- so it is the one Adam interior whose figures this node's kit can be held against."
     },

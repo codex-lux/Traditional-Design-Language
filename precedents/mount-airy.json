@@ -62,6 +62,7 @@
   ],
   "survey": {
     "item": "va0892",
+    "register": "loc-item",
     "survey_no": "VA-72",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0800/va0892/data/va0892data.pdf",
     "prepared": "Architectural Data Form compiled by Druscilla J. Null, HABS, dated 8/12/83 (as the form reads)",

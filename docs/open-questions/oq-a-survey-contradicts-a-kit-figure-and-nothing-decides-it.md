@@ -151,6 +151,37 @@ one, and the difference is not tracked.
    *HABS TN-161: "New cabin 17-1/4\" x 19' 9-1/2\" (int. dimensions)"*
    Reading: contradicts -- 19.79 ft is above the 18 ft ceiling, again interior. The companion width
    figure ('17-1/4\"') is unreadable OCR and no value was parsed for it.
+## Tranche 3 added three more (5 Sep 2026), and one of them is a band two exemplars break
+
+18. **`cotswold-vernacular`** — `window_lite_pattern.light_count`, range [2, 5], `measured`.
+    *Owlpen Manor, Historic England: 6 lights in the central gable's ground floor. Grevel's House,
+    a different building surveyed by a different hand: a two-storey Perpendicular bay 'containing 6
+    lights with tracery', beside '4- and 6-light mullion windows (with king mullions)'.*
+    **Two of the node's seven exemplars exceed the ceiling of 5, independently.** Three other
+    exemplars sit inside the band, so citing those while these two contradict would be
+    cherry-picking, and all five candidates on this parameter were refused for that reason.
+    A band its own buildings break twice is the clearest case in the list for the band being wrong.
+
+19. **`german-fachwerk`** — `height_proportion.jetty_projection`, range [200, 400] mm, `measured`.
+    *Rathaus Wernigerode: 'etwa 50 Zentimeter'.* 500 against a 400 ceiling — and it SATISFIES the
+    bracket condition the node's own constraint c03 attaches to exceeding it, so the kit half expects
+    this. **It cannot even be recorded as a measurement**, because the `measurements[].unit` enum has
+    no millimetre while the kit's parameter unit does; the record carries the figure with no parsed
+    `value`. A contradiction the mechanism cannot see, for a reason that is neither party's fault.
+
+20. **`english-georgian`** — `composition_parti.bay_count`, a SET of [3, 5, 7], `measured`.
+    *Royal Crescent, Bath: 'Nos 14-17, to centre, have four-window fronts.' Kedleston Hall: 'Centre
+    block of eleven bays.'* Four and eleven are not in the set, on two buildings the node now names.
+    This is not a band that is too narrow but an ENUMERATION that is incomplete, which is a fourth
+    kind of contradiction the three above do not cover — and `kit_source_agrees` cannot see it at
+    all, because it compares a `range` or a scalar and a `set` is neither
+    (`oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure`).
+
+**That the count went 17 -> 20 by researching one more continent is the thing to carry forward.**
+Nobody knows the true number; what is known is that it rises with every tranche, and that the four
+kinds now visible — a wrong band, a presupposition the exemplar does not meet, a band with no stated
+datum, and an incomplete enumeration — each want a different remedy.
+
 ## What is NOT here
 
 The 27 AGREEMENTS are not a mirror of this list: most agree in KIND and are silent on the NUMBER, and

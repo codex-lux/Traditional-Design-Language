@@ -42,6 +42,7 @@
   ],
   "survey": {
     "item": "PA00110782",
+    "register": "merimee",
     "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00110782",
     "prepared": "Date de rédaction de la notice 1992",
     "retrieved": "2026-09-05",

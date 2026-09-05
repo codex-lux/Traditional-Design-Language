@@ -31,6 +31,7 @@
   ],
   "survey": {
     "item": "1037186",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1037186",
     "prepared": "The Details section prints 'This list entry was subject to a Minor Amendment on 27/03/2013' above the legacy header, whose date reads 23.1.58.",
     "retrieved": "2026-09-05",

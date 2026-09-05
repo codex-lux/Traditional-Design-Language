@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "va0315",
+    "register": "loc-item",
     "survey_no": "VA-402",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0300/va0315/data/va0315data.pdf",
     "prepared": "Prepared at Headquarters Office for Virginia District, 1939 (as the header reads); reference given as Waterman and Barrows, Domestic and Colonial Architecture of Tidewater Virginia, p. 71",

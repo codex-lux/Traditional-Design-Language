@@ -12,9 +12,7 @@
     "circa": false,
     "note": "The Historic Environment Scotland record for the north block, LB28502, prints 'Robert Adam, 1793-1805'. The node's exemplar says the square was designed by Robert Adam in 1791 and built 1792-1820, which is the square as a whole. Both are recorded; neither is resolved."
   },
-  "nodes": [
-    "english-georgian-townhouse"
-  ],
+  "nodes": [],
   "refs": [
     {
       "kind": "historic-scotland",
@@ -52,6 +50,7 @@
   ],
   "survey": {
     "item": "LB28502",
+    "register": "historic-scotland",
     "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28502",
     "prepared": "Two extracts with different queries returned the Description and the Bibliography but never the designation date or category block, so neither is recorded here.",
     "retrieved": "2026-09-05",
@@ -112,5 +111,6 @@
       "from_quote": 2
     }
   ],
-  "note": "Tranche 3, 5 Sep 2026. A group record: Historic Environment Scotland lists the square in several records and this one covers the north side, Adam's palace block, which is what the node's exemplar describes. No rights statement was returned by either extract of the register page, so none is recorded rather than a line copied from another register."
+  "note": "Tranche 3, 5 Sep 2026. A group record: Historic Environment Scotland lists the square in several records and this one covers the north side, Adam's palace block, which is what the node's exemplar describes. No rights statement was returned by either extract of the register page, so none is recorded rather than a line copied from another register. DEPRECATED 5 Sep 2026 in favour of `charlotte-square-north-side`. Both records cite Historic Environment Scotland LB28502, which is 1-11 Charlotte Square -- Adam's north-side palace block. The superseded record's own note says it 'covers the north side, Adam's palace block', so the two describe one designation. The north-side id is kept because it names what LB28502 actually is; the other record's refs to LB28503 and LB28507 cover DIFFERENT sides of the square and are carried over labelled as such. The id is kept and never reused, as the corpus requires; its evidence lives in the surviving record.",
+  "deprecated_in_favour_of": "charlotte-square-north-side"
 }

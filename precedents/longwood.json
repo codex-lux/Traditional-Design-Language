@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "ms0123",
+    "register": "loc-item",
     "survey_no": "MS-1",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ms/ms0100/ms0123/data/ms0123data.pdf",
     "prepared": "'Historic American Buildings Survsy A. Hays Town, District Officer 605 Standard -Life Building' (OCR), District of Mississippi.",

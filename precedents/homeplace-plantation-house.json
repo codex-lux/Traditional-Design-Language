@@ -54,6 +54,7 @@
   ],
   "survey": {
     "item": "la0037",
+    "register": "loc-item",
     "survey_no": "LA-155",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0037/data/la0037data.pdf",
     "prepared": "District of Louisiana, Richard Koch, District Officer, 908 Queen & Crescent Bldg., New Orleans (as the header reads); undated on the extracted spans",

@@ -61,6 +61,7 @@
   ],
   "survey": {
     "item": "la0428",
+    "register": "loc-item",
     "survey_no": "LA-1303",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0400/la0428/data/la0428data.pdf",
     "prepared": "Not stated on the extracted cover (reduced copies of measured drawings)",

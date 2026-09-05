@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "912",
+    "register": "other",
     "data_url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=912",
     "prepared": "Hellenic Ministry of Culture and Sports, Odysseus portal, monument record obj_id=912; the page prints no author line in the extract",
     "retrieved": "2026-09-05",

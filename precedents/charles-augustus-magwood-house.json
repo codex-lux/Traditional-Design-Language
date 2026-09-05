@@ -38,6 +38,7 @@
   ],
   "survey": {
     "item": "sc1207",
+    "register": "loc-item",
     "survey_no": "SC-441",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc1200/sc1207/data/sc1207data.pdf",
     "prepared": "Historic American Buildings Survey, National Park Service (2015; the sheet's coordinates were 'obtained through Google Earth in September 2015'); the historian's name is not in the extract",

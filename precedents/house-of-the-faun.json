@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "casa-del-fauno",
+    "register": "other",
     "data_url": "https://pompeiisites.org/sito_archeologico/casa-del-fauno",
     "prepared": "Parco Archeologico di Pompei, institutional portal, building record 'Casa del Fauno'",
     "retrieved": "2026-09-05",

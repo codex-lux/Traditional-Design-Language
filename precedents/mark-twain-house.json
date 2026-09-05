@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "ct0332",
+    "register": "loc-item",
     "survey_no": "CT-359",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0300/ct0332/data/ct0332data.pdf",
     "retrieved": "2026-09-05",

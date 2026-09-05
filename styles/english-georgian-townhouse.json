@@ -198,11 +198,11 @@
       "why": "Historic England's entry for the east side describes the estate product this node is about and refuses to name its author: ten houses built by a brickmaker and a carpenter for the Bedford Estate, three windows and three storeys each except a stuccoed centre house of five, and 'Built as a speculation, it is not clear who designed all the houses.'"
     },
     {
-      "name": "Charlotte Square",
+      "name": "Charlotte Square, north side",
       "location": "Edinburgh New Town, Scotland",
       "year": 1791,
       "note": "Designed by Robert Adam in 1791 and built 1792-1820. The north side is a single palace-fronted composition in polished ashlar — the Georgian terrace at its most disciplined, and No. 7 survives as a furnished Georgian House museum.",
-      "precedent": "charlotte-square",
+      "precedent": "charlotte-square-north-side",
       "standing": "icon",
       "why": "Historic Environment Scotland's record for the north side states the palace front as an arithmetic: a symmetrical 3-storey basement and attic 27-bay block 'consisting of 11 houses, 9 entered from front and 2 from ends', so the composition is demonstrably not a multiple of one standard house."
     },

@@ -28,6 +28,7 @@
   ],
   "survey": {
     "item": "1152317",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1152317",
     "prepared": "Date first listed: 23-Jun-1952; Date of most recent amendment: 24-Mar-1988. THESE TWO DATES WERE NOT READ IN AN EXTRACT: two extracts of the page returned the Details prose and the curtilage boilerplate and not the Official list entry block, so they are the field values a Tavily search result printed for this entry on the same day, recorded as field values rather than as the page's own prose.",
     "retrieved": "2026-09-05",

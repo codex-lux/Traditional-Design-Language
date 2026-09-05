@@ -51,7 +51,7 @@ The system is a stack of nine layers. Reading it bottom-up, each layer is a prec
 
 **2. The grammar.** 57 proportion packs (`proportions/`) implemented as *functions, not tables*. Vignola's five orders are the spine; Palladio, Gibbs, Chambers and Benjamin are overlays carrying only their deltas; brick course, timber bay, sash light, storey graduation and log module are the non-classical equivalents, because most traditional buildings were proportioned from a material unit and not a column. Give a pack a module and a context and it emits a fully dimensioned assembly, member by member. Each pack states its own invariants as evaluable expressions and records conflicts with building today — 262 across the corpus: the 8-foot ceiling against a Corinthian entablature, the IGU that cannot take true divided lites — each with a severity and resolution prose. (Ranked honest/dishonest substitution sets are planned structure the corpus does not yet hold — the WP-5.2 audit established that, 25 Aug 2026.) This is the project's most commercially defensible material: the knowledge that lives only in senior architects' heads, written down as executable rules.
 
-**3. The vocabulary.** The style graph (`styles/`) — 164 taxa in four ranks (5 traditions, 27 families, 90 styles, 42 variants), spanning 700 BC to 2026, related by 476 typed lineage edges in a DAG rather than a tree. The single most important modelling decision in the whole project lives here: `descends_from` (actual transmission of practice) is a different edge from `references` (claimed ancestry), and only the former carries the kit-of-parts cascade. Greek Revival references Athens and descends from Federal carpentry; Colonial Revival references Georgian and descends from Beaux-Arts offices and the millwork catalog. A model that cannot express that gap will quietly produce wrong buildings. Each node also carries 624 massing affinities graded from `canonical` to `forbidden`, 660 enforceable constraints, 693 exemplars, and the binding of the node to its proportion packs.
+**3. The vocabulary.** The style graph (`styles/`) — 164 taxa in four ranks (5 traditions, 27 families, 90 styles, 42 variants), spanning 700 BC to 2026, related by 476 typed lineage edges in a DAG rather than a tree. The single most important modelling decision in the whole project lives here: `descends_from` (actual transmission of practice) is a different edge from `references` (claimed ancestry), and only the former carries the kit-of-parts cascade. Greek Revival references Athens and descends from Federal carpentry; Colonial Revival references Georgian and descends from Beaux-Arts offices and the millwork catalog. A model that cannot express that gap will quietly produce wrong buildings. Each node also carries 624 massing affinities graded from `canonical` to `forbidden`, 660 enforceable constraints, 800 exemplars, and the binding of the node to its proportion packs.
 
 **4. The bindings.** One kit file per family, style and variant (`kits/`, 159 files), materializing all 95 slots so that selecting a style resolves to a directory of specified, inherited, open or forbidden elements with a source column showing which ancestor each value came from. This is where a style becomes buildable rather than describable. The cascade walks `descends_from` and `regional_of` edges nearest-ancestor-first and — since WP-4.2 — splices each style-rank ancestor's own *family* into the chain alongside them; the `extends` operator lets a child add to a parent's binding rather than restate it.
 
@@ -127,29 +127,32 @@ Taken together: **Phases 0, 1, 2 and 3 are complete, and Phase 4 is complete thr
 
 ## Part III — What is begun but needs to be fleshed out
 
-**THE BENCH HAS A GRAMMAR AND, IN NORTH AMERICA, A LITERATURE (WP-11.1 4 Sep; WP-11.2 and WP-11.3
-5 Sep 2026).** Asked where the research is thin,
+**THE BENCH HAS A GRAMMAR AND A LITERATURE, AND EVERY BUILDABLE NODE NOW CARRIES ONE
+(WP-11.1 4 Sep; WP-11.2, WP-11.3, WP-11.4 and WP-11.5 5 Sep 2026).** Asked where the research is thin,
 the survey found the corpus templated on the surface — every buildable node 2–4 exemplars, 4–5 sources,
 5 constraints — and unmetered underneath (**the exemplar half of that has since moved and the other three
-have not**: two research tranches took the corpus to 693 exemplars, 3 to 9 a node, 85 of 132 buildable nodes
-carrying five or more, while sources are still 4–5, constraints still exactly 5 on all 132 and distinctions
+have not**: three research tranches took the corpus to 800 exemplars, 4 to 9 a node, while sources are
+still 4–5, constraints still exactly 5 on all 132 and distinctions
 still 3 on 128): **536 `measured` kit parameters cite no source** on the parameter
 or its slot while the provenance census had pinned editorial-bare at 0 for a year; **an exemplar had no
 locator** (482, 410 buildings, zero URLs in `styles/`); 24 buildable nodes cite only what a sibling cites;
 no period building exists in `plans/`. `precedents/` is the building's own record now, one file per
-building with the archival refs and the HABS written data quoted verbatim; `check_precedents.py` and
+building with the archival refs and the survey quoted verbatim; `check_precedents.py` and
 `check_research.py` guard it; `tdl_precedents` serves it. The research runs in tranches
-(`PLAN-OF-ACTION.md` Phase 11). **Two are done and North America is complete**: 415 records over 86 of
-164 nodes — all 85 buildable `north-american` nodes plus `scandinavian-log-vernacular` — with 155
-surveys and 723 verbatim quotes. **The 46 buildable nodes still without a precedent are all European**
-(`british-isles` 19, `classical-mediterranean` 11, `northern-european-vernacular` 9,
-`iberian-mediterranean` 7), and are Tranche 3. **What the literature then said about the kits is the
-finding, and it is mostly silence**: of 240 survey-against-kit readings, 196 are silent, 27 agree and
-**17 contradict** — three by the node's own exemplar — and **not one was applied**, because
-`oq/a-surveyors-prose-may-source-an-envelope-figure` is a ruling nobody has given. The HABS written data
-states materials, dates and condition and rarely a dimension, so more of the same series will not by
+(`PLAN-OF-ACTION.md` Phase 11). **Three are done and the buildable corpus is complete**: 695 records over
+**132 of 132 buildable nodes**, with 423 surveys and 1,701 verbatim quotes, and 794 of 800 exemplars
+resolved. The 32 nodes still without a precedent are the **families and traditions**, which is Ruling B's
+work and Tranche 4's, not a gap in this one. **What the literature then said about the kits is the
+finding, and it is mostly silence**: of 240 survey-against-kit readings in North America, 196 are silent,
+27 agree and **17 contradict** — three by the node's own exemplar — and Europe raised that to **20**,
+adding a fourth kind: not a wrong band, not an unmet presupposition, not a missing datum, but an
+incomplete ENUMERATION. **Six kit figures now cite a building** under Ruling A and every one agrees;
+Europe's own 18 candidates yielded **nothing**, because a parameter has ONE `source` field and 489
+`measured` parameters already cite an internal one, so the corpus's most-reasoned figures are exactly the
+ones a building may not corroborate. The archival written data states materials, dates and condition and
+rarely a dimension, so more of the same series will not by
 itself dimension the generator. Report:
-`docs/reports/wp-11.1-the-bench-without-a-literature.md` (§VII.10 and §VII.11 are the tranche).
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` (§VII.10, §VII.11 and §XII are the tranches).
 
 **THE LARGEST OUTSTANDING ITEM, NOW RULED AND THEREFORE THE NEXT PACKAGE: the lineage cascade
 delivers proportion packs nobody bound (OQ 51).**
@@ -290,7 +293,7 @@ That order keeps faith with the project's own founding discipline — validator 
 | Back-end | `structure.py`, `roof.py`, `elevation.py` | walls, section, roof plan, front elevation | Functional |
 | Site | `site` on plan/brief schemas | lot, setbacks, bearing, slope | Functional |
 | Interface | `mcp_server/` | 27 tools | Functional |
-| Evidence | `precedents/` | **415 records** after Tranche 2 (WP-11.2, WP-11.3; North America complete) | WP-11.1 — the building behind an exemplar, refs with `retrieved`/`via`, the survey quoted, never a `license`; `check_precedents.py` |
+| Evidence | `precedents/` | **695 records** after Tranche 3 (WP-11.2, WP-11.3, WP-11.5; all 132 buildable nodes covered) | WP-11.1 — the building behind an exemplar, refs with `retrieved`/`via`, the survey quoted, never a `license`; `check_precedents.py` |
 | Evidence | `assets/manifest.json` | **1777 wanted, 73 sourced** | 73 drawn from the packs, over 142 style nodes; the harvest is still environment-blocked |
 | Back-end | `construction/` | 2 catalogs | Complete — WP-3.1's data side |
 | Governance | `docs/open-questions/` | **103 entries, 33 open** | **A DIRECTORY since 28 Aug 2026 (WP-8.1)** — one file per question, filename == id; `docs/open-questions.md` is a generated index. Four id-collision conversion tables are in its README: ids 32–41 → 54–63, two blocks of 64–66, 72–83 → 78–89, 78–85 → 91–98, plus the work-package renumber 5.7–5.10 → 5.11–5.14 (OQ 90). **FIVE collisions now, and the fifth is why the numbers are FROZEN AT 99** (OQ 99, ruled on main 28 Aug): every question raised since is NAMED `oq/<slug>` and lives in `docs/open-questions/oq-<slug>.md`, because a slug is derived from its subject and cannot be issued twice. The directory and the slug are complementary — one turns a duplicate id into a conflict git REFUSES, the other stops the id being derivable from the working tree. **OQ 90 is closed at its third option**: a work-package number is a LABEL, not an identifier — two packages may share a number, no two may share a report filename, and `check_ids.py` enforces that |

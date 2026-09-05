@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "mo0250",
+    "register": "loc-item",
     "survey_no": "MO-1105",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/mo/mo0200/mo0250/data/mo0250data.pdf",
     "prepared": "Two campaigns in one file: the 1930s HABS District of Missouri No. 1 sheet under W. T. Trueblood, District Officer, St Louis; and a later addendum whose PART I/PART II text is the one quoted here. The file also carries the Piaget-van Ravenswaay Survey photographs, incorporated into HABS in 1985 by Laura Rupp and in 1986 by Deborah Fulton.",

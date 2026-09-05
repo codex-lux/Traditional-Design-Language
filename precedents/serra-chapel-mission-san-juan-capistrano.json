@@ -59,6 +59,7 @@
   ],
   "survey": {
     "item": "ca0449",
+    "register": "loc-item",
     "survey_no": "CA-331",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0400/ca0449/data/ca0449data.pdf",
     "prepared": "District of California #3, Historic American Buildings Survey, Henry F. Withey, District Officer, 407 So. Western Avenue, Los Angeles, California (as the header reads; no date legible in the extract).",

@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-corral-del-conde",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Corral_del_Conde",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

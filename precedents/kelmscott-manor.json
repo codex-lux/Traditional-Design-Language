@@ -36,6 +36,7 @@
   ],
   "survey": {
     "item": "1199373",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1199373",
     "prepared": "No Official list entry block was returned by either extract of this page. The Wikipedia infobox prints 'Designated | 12 September 1955' against reference 1199373; that is a field value from a search result and is recorded in the refs rather than asserted as the entry's own statement.",
     "retrieved": "2026-09-05",

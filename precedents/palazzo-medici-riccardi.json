@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "palazzo-medici-riccardi",
+    "register": "other",
     "data_url": "https://www.visittuscany.com/it/attrazioni/palazzo-medici-riccardi",
     "prepared": "Regione Toscana, Visit Tuscany, attraction record 'Palazzo Medici Riccardi'",
     "retrieved": "2026-09-05",

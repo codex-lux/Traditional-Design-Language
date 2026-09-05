@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-templo-y-exconvento-de-san-nicolas-de-tolentino-actopan",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Templo_y_exconvento_de_San_Nicol%C3%A1s_de_Tolentino_(Actopan)",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER, and the fullest one this cluster found: its table of contents runs to the dovecote, the latrines and the stables.",
     "retrieved": "2026-09-05",

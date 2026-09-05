@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "de-wikipedia-fachwerkmuseum-quedlinburg",
+    "register": "wikipedia",
     "data_url": "https://de.wikipedia.org/wiki/Fachwerkmuseum_(Quedlinburg)",
     "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
     "retrieved": "2026-09-05",

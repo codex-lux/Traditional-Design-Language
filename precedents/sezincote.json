@@ -51,6 +51,7 @@
   ],
   "survey": {
     "item": "1341231",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1341231",
     "prepared": "Date first listed: 25-Aug-1960, as the search listing for this page renders the Overview block; the entry's own Details header prints 25.08.60.",
     "retrieved": "2026-09-05",

@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "dc0071",
+    "register": "loc-item",
     "survey_no": "DC-49",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0000/dc0071/data/dc0071data.pdf",
     "retrieved": "2026-09-05",

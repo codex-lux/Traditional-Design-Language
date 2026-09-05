@@ -61,6 +61,7 @@
   ],
   "survey": {
     "item": "1357850",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1357850",
     "prepared": "The entry's own Details header prints the listing date 29.12.50. The record carries the note 'The contents of this record have been generated from a legacy data system.'",
     "retrieved": "2026-09-05",

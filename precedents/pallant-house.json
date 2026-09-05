@@ -31,6 +31,7 @@
   ],
   "survey": {
     "item": "1354302",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1354302",
     "prepared": "Date first listed: 05-Jul-1950, as the search listing for this page renders the Overview block; the entry's own Details header prints 5.7.50.",
     "retrieved": "2026-09-05",

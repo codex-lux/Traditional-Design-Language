@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "la0287",
+    "register": "loc-item",
     "survey_no": "LA-1212",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0200/la0287/data/la0287data.pdf",
     "prepared": "An addendum reproducing Richard Koch's 1930s photo mount cards (as the addendum text says); no descriptive data page was reached",

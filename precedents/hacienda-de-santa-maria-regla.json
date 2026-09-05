@@ -38,6 +38,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-hacienda-de-santa-maria-regla",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Hacienda_de_Santa_Mar%C3%ADa_Regla",
     "prepared": "'Esta página se editó por última vez el 6 sep 2025 a las 08:16', as the page's own footer prints it. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

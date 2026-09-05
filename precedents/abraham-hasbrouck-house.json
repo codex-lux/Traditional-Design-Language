@@ -52,6 +52,7 @@
   ],
   "survey": {
     "item": "ny0842",
+    "register": "loc-item",
     "survey_no": "NY-4363",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0842/data/ny0842data.pdf",
     "prepared": "Not read. This is a modern 95-page HABS report with a running head and numbered pages, citing Zantkuyl, 'The Netherlands Town House: How and Why It Works'; the title page was not among the spans returned.",

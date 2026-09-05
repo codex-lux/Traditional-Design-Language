@@ -38,6 +38,7 @@
   ],
   "survey": {
     "item": "ct0097",
+    "register": "loc-item",
     "survey_no": "CT-265",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0000/ct0097/data/ct0097data.pdf",
     "prepared": "The data page reproduces material from Ellen W. Kramer, 'The Domestic Architecture of Detlef Lienau, a Conservative Victorian' (PhD dissertation, New York University, 1958), pp. 183-196, and a printed advertisement of the house dated 1874 in the files of the Norwalk City Planning Commission.",

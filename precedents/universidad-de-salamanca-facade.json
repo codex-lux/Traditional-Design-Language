@@ -28,6 +28,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-fachada-de-la-universidad-de-salamanca",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Fachada_de_la_Universidad_de_Salamanca",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

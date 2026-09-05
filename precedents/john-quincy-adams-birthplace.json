@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "ma0553",
+    "register": "loc-item",
     "survey_no": "MA-597",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0500/ma0553/data/ma0553data.pdf",
     "prepared": "Historic American Buildings Survey Summer Team, 1979 (the companion form for MA-596 names Susan McCown, editor, HABS, 1983)",

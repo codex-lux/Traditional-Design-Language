@@ -38,6 +38,7 @@
   ],
   "survey": {
     "item": "il0118",
+    "register": "loc-item",
     "survey_no": "IL-1015",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0100/il0118/data/il0118data.pdf",
     "prepared": "Not stated in the spans extracted here. The cover sheet gives 'Historic American Buildings Survey, National Park Service, Office of Archeology and Historic Preservation, 801 - 19th Street N.W., Washington, D.C.', and the drawings are credited to David T. Van Zanten, Osmund R. Overby and Janis J. Erins with photography by Perry E. Borchers and Cervin Robinson.",

@@ -36,6 +36,7 @@
   ],
   "survey": {
     "item": "1259337",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1259337",
     "prepared": "The entry's own Details header prints the listing date 14/06/54. Two extracts with different queries returned the Details and the header but never the Overview block, so the 'Date first listed' as that block renders it is not recorded here.",
     "retrieved": "2026-09-05",

@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "fl0178",
+    "register": "loc-item",
     "survey_no": "FL-224",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0178/data/fl0178data.pdf",
     "prepared": "A Florida project of the summer of 1971 in cooperation with the Historical Society of Palm Beach County and the Florida Board of Archives and History, under James C. Massey, then Chief of HABS, with Professor Woodrow W. Wilkins, AIA (University of Miami) as Project Supervisor and Richard C. Crisson, Architect (University of Florida); the field office was in the Flagler Museum itself.",

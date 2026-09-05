@@ -15,9 +15,7 @@
     "altered": "Interiors complete by the 1780s; the Marble Hall's alabaster columns were fluted in 1775, which the entry records was 'against the advice of Robert Adam'.",
     "note": "The list entry says '1758-65 by Matthew Brettingham, James Paine and Robert Adam' and records the date 1765 inscribed on the south front's attic. The node's own exemplar gives 1765 as the year and says Adam 'took over from Matthew Brettingham and James Paine in 1760 and completed the south front and principal interiors 1759-65'; the register names all three architects together and does not date the handover. Both are recorded."
   },
-  "nodes": [
-    "adam-style"
-  ],
+  "nodes": [],
   "refs": [
     {
       "kind": "historic-england",
@@ -31,6 +29,7 @@
   ],
   "survey": {
     "item": "1311507",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1311507",
     "prepared": "Historic England's National Heritage List entry; the Details header prints 'SK 34 SW PARISH OF KEDLESTON KEDLESTON PARK 3/41 Kedleston Hall 25.9.51 GV I'.",
     "retrieved": "2026-09-05",
@@ -133,5 +132,6 @@
       "note": "A CEILING HEIGHT STATED BY THE REGISTER, and the register also says what it includes: the hall rises through the attic storey, so this is not a single-storey ceiling height and may not be read as one."
     }
   ],
-  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE ONLY RECORD IN THIS CLUSTER THAT STATES A ROOM IN THREE DIMENSIONS: 67 by 37 by 40 ft for the Marble Hall, with the register saying the 40 takes in the attic storey. Named 'Kedleston Hall, Marble Hall and Saloon' because the exemplar is; `aka` carries the building's own name. The record covers the whole house because the list entry does, and the two rooms the exemplar names are the last two quotes. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE ONLY RECORD IN THIS CLUSTER THAT STATES A ROOM IN THREE DIMENSIONS: 67 by 37 by 40 ft for the Marble Hall, with the register saying the 40 takes in the attic storey. Named 'Kedleston Hall, Marble Hall and Saloon' because the exemplar is; `aka` carries the building's own name. The record covers the whole house because the list entry does, and the two rooms the exemplar names are the last two quotes. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one. DEPRECATED 5 Sep 2026 in favour of `kedleston-hall`. Both records cite Historic England list entry 1311507, which is Kedleston Hall itself: two clusters (english-georgian and adam-style) each added the building, and the second wrote the INTERIOR of the same listing as a second record. One listing, one building, one record. The id is kept and never reused, as the corpus requires; its evidence lives in the surviving record.",
+  "deprecated_in_favour_of": "kedleston-hall"
 }

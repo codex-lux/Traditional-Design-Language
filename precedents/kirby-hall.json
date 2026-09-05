@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "1014421",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1014421",
     "prepared": "Date first listed: 25-Jan-1927, as the search result's own overview line printed it; the date was not returned inside the extracted spans.",
     "retrieved": "2026-09-05",

@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "nj0034",
+    "register": "loc-item",
     "survey_no": "NJ-746",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0000/nj0034/data/nj0034data.pdf",
     "prepared": "COMPILER, AFFILIATION Druscilla J. Null, HABS DATE 8/12/84, as the form prints it; the form's sources line cites 'Bassett, William B. Historic American Buildings Survey of New Jersey. 1977.'",

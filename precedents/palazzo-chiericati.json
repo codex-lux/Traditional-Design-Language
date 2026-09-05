@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "vicenzae-what-to-see-chiericati",
+    "register": "other",
     "data_url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
     "prepared": "Consorzio Turistico Vicenzae, 'What to see in Vicenza', the Palazzo Chiericati entry",
     "retrieved": "2026-09-05",

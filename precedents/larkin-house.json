@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "ca0394",
+    "register": "loc-item",
     "survey_no": "CA-128",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0300/ca0394/data/ca0394data.pdf",
     "prepared": "No author or date line legible in the extract; the owner line reads 'Mrs. Alice Larkin Touljnin - Deeded to State of California' and the sheet is headed 'Thomas O. Larkin House H.A.B.S.'",

@@ -28,6 +28,7 @@
   ],
   "survey": {
     "item": "webthesis-23999",
+    "register": "other",
     "data_url": "https://webthesis.biblio.polito.it/23999/1/tesi.pdf",
     "prepared": "Lorenza Vieri, Politecnico di Torino, Corso di Laurea Architettura per il restauro e Valorizzazione del Patrimonio, A.A. 2021/2022, sessione di laurea settembre 2022; relatore Cesare Tocci. Section 4.3.2 RILIEVO GEOMETRICO describes the survey method: eidotipi, a traced baseline, measurements taken in plan and in section, and drawing up in AutoCAD.",
     "retrieved": "2026-09-05",
@@ -35,8 +36,8 @@
     "quotes": [
       {
         "field": "plan",
-        "text": "Il podere Primo di Brolio è una casa colonica che evidenzia l’impronta della bonifica e le specifiche direttive date dallo Scrittoio per quanto riguarda la realizzazione degli edifici. A pianta quadrata, ha una superficie coperta di circa 322mq e una scoperta di 3836mq, utile ad ospitare famiglie molto numerose anche di 16 persone, come era norma per gestire e lavorare i terreni assegnatigli, si sviluppa su due livelli più ammezzato e torre colombaia per una superficie totale di 723mq.",
-        "page": "§4.3.3 DESCRIZIONE DELL'EDIFICIO, first paragraph; the section begins at page 52 of the dissertation's own contents list. Line breaks in the extract have been normalised to single spaces and nothing else was changed."
+        "text": "Il podere Primo di Brolio è una casa colonica che evidenzia l’impronta della bonifica e le specifiche direttive date dallo Scrittoio per quanto riguarda la realizzazione degli edifici. A pianta quadrata, ha una superficie coperta di circa 322mq e una scoperta di 3836mq, utile ad ospitare famiglie molto numerose anche di 16 persone, come era norma per gestire e lavorare i terreni assegnatigli, si sviluppa su due livelli più ammezzato e torre colombaria per una superficie totale di 723mq.",
+        "page": "§4.3.3 DESCRIZIONE DELL'EDIFICIO, first paragraph; the section begins at page 52 of the dissertation's own contents list. Line breaks in the extract have been normalised to single spaces and nothing else was changed. The dissertation prints 'torre colombaria' HERE and 'colombaia' everywhere else it uses the word, including in the stairways quote below; the audit of 5 September 2026 re-extracted this span and restored the 'colombaria' a first pass had silently normalised to the standard spelling."
       },
       {
         "field": "other",
@@ -87,11 +88,11 @@
     },
     {
       "name": "storey_count",
-      "as_printed": "si sviluppa su due livelli più ammezzato e torre colombaia",
+      "as_printed": "si sviluppa su due livelli più ammezzato e torre colombaria",
       "value": 2,
       "unit": "count",
       "from_quote": 0,
-      "note": "Two levels, plus a mezzanine and a dovecote tower which the same sentence counts separately."
+      "note": "Two levels, plus a mezzanine and a dovecote tower which the same sentence counts separately. 'colombaria' is the source's own spelling in this sentence and is not corrected."
     },
     {
       "name": "household_size",

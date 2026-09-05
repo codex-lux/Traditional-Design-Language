@@ -40,6 +40,7 @@
   ],
   "survey": {
     "item": "1388810",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1388810",
     "prepared": "The Details section's own legacy headers date the entry 08/10/53; the Official list entry block prints 'Date first listed: 08-Oct-1953' as a search result returned it.",
     "retrieved": "2026-09-05",

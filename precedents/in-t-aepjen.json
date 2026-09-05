@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "6500",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/6500",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's own 'Inschrijving register' field came back blank in the extract.",
     "retrieved": "2026-09-05",

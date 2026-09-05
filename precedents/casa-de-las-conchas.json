@@ -36,6 +36,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-casa-de-las-conchas",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Casa_de_las_Conchas",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

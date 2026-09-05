@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "ca0402",
+    "register": "loc-item",
     "survey_no": "CA-1892",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0400/ca0402/data/ca0402data.pdf",
     "prepared": "Historic American Buildings Survey, National Park Service, Western Office, Division of Design and Construction, 450 Golden Gate Avenue, San Francisco (as the cover reads); the report is a 'Photograph-Data Book Report'; no author or date legible in the extract, which cites a February 1964 periodical.",

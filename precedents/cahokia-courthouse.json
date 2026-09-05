@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "il0257",
+    "register": "loc-item",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0200/il0257/data/il0257data.pdf",
     "prepared": "Historic American Buildings Survey District No. 26, Earl H. Reed, Jr., Northern Illinois District Officer, Project No. 26-51, by Geo. W. Terp, Jr.; sources cited include a Chicago Historical Society scrapbook, 'Early Illinois Towns'",
     "retrieved": "2026-09-05",

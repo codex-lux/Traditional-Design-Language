@@ -71,6 +71,7 @@
   ],
   "survey": {
     "item": "me0104",
+    "register": "loc-item",
     "survey_no": "ME-102",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0104/data/me0104data.pdf",
     "prepared": "Prepared by Osmund R. Overby, Architect, National Park Service, August 1962 (as the sheet reads); an addendum was later transmitted by the Historic American Buildings Survey, National Park Service, Washington, DC 20013-7127",

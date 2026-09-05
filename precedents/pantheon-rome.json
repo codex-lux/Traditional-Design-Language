@@ -48,6 +48,7 @@
   ],
   "survey": {
     "item": "pantheon",
+    "register": "other",
     "data_url": "https://cultura.gov.it/luogo/pantheon",
     "prepared": "Ministero della cultura, place record 'Pantheon e Basilica di Santa Maria ad Martyres'; the page prints 'Pubblicato il 2020-04-14' and 'Ultimo aggiornamento 2026-09-01'",
     "retrieved": "2026-09-05",

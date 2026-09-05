@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "ma0645",
+    "register": "loc-item",
     "survey_no": "MA-460",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0645/data/ma0645data.pdf",
     "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer (as the cover reads)",

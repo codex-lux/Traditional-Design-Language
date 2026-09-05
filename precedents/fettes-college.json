@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "LB27975",
+    "register": "historic-scotland",
     "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB27975",
     "prepared": "Category A. No designation date was returned inside either extracted span and none is claimed. The record's own bibliography reads 'O & N Edinburgh v.III p.82; Building News Jan 22 1864.'",
     "retrieved": "2026-09-05",

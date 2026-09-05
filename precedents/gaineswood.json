@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "al0370",
+    "register": "loc-item",
     "survey_no": "AL-211",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0300/al0370/data/al0370data.pdf",
     "prepared": "Historic American Buildings Survey, District No. 16, E. Walter Burkhardt District Officer, Alabama Polytechnic Institute, Auburn, Alabama",

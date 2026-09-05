@@ -44,6 +44,7 @@
   ],
   "survey": {
     "item": "1285673",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1285673",
     "prepared": "Neither extract returned the Overview block, so the 'Date first listed' is not recorded here; the Details text quoted below is what was read.",
     "retrieved": "2026-09-05",

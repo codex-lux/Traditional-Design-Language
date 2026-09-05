@@ -39,6 +39,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-casa-del-dean-puebla",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Casa_del_De%C3%A1n_(Puebla)",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

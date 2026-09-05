@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-sinagoga-del-transito",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Sinagoga_del_Tr%C3%A1nsito",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

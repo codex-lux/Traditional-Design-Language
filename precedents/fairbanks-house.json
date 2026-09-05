@@ -52,6 +52,7 @@
   ],
   "survey": {
     "item": "ma0431",
+    "register": "loc-item",
     "survey_no": "MA-223",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0431/data/ma0431data.pdf",
     "prepared": "A 1930s District of Massachusetts data sheet (the extract shows the cover and the addendum cover only; no compiler or date legible)",

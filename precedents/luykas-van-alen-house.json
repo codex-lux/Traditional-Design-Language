@@ -66,6 +66,7 @@
   ],
   "survey": {
     "item": "ny0514",
+    "register": "loc-item",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0500/ny0514/data/ny0514data.pdf",
     "prepared": "Historic American Buildings Survey, District No. 5. The district officer's name is not legible in the OCR ('Novm a-STUnqis -.wsTnicT orrictB'); the text is signed 'A. L. Delehanty, Author.' Its stated further reference is Eberlein, The Manors and Historic Homes of the Hudson Valley (1924), 220-221. NO `survey_no` IS RECORDED here for the reason given on the habs ref.",
     "retrieved": "2026-09-05",

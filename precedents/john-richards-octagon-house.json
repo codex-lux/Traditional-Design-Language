@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "wi0083",
+    "register": "loc-item",
     "survey_no": "WI-135",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/wi/wi0000/wi0083/data/wi0083data.pdf",
     "prepared": "'His loric American Building Survey AlexanderC Guth District Officer ... North Frvnkfin Place, Milwaukee Wis.' (OCR), District of Wisconsin.",

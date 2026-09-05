@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "pa0536",
+    "register": "loc-item",
     "survey_no": "PA-371",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0536/data/pa0536data.pdf",
     "prepared": "Compiled by Susan McCown, HABS historian, 26 September 1984, on NPS Architectural Data Form 10-980 (June 1983)",

@@ -40,7 +40,7 @@
       "title": "Vergelegen - Wikipedia",
       "retrieved": "2026-09-05",
       "via": "tavily-search",
-      "note": "'Vergelegen (Dutch: \"remotely situated\") is a historic wine estate in Somerset West, Founded 1700 (restarted in 1992) Founder Willem Adriaan van der Stel'."
+      "note": "A SEARCH-RESULT SUMMARY AND NOT A QUOTATION, corrected at the Tranche 3 audit. The tier returned 'Vergelegen (Dutch: \"remotely situated\") is a historic wine estate in Somerset West, Founded 1700 (restarted in 1992) Founder Willem Adriaan van der Stel', and an earlier version of this note printed that string as running prose. It is not a sentence the page contains: the summariser cut the lead off after 'Somerset West,' and ran two INFOBOX FIELDS -- the 'Founded' and 'Founder' rows -- on after it with no separator, which is why a capital letter follows a comma. Re-extracted 2026-09-05: the lead and the infobox rows are separate spans on the page and each says what the summary says it does, but the joined sentence was manufactured by the tier."
     },
     {
       "kind": "institution",
@@ -53,6 +53,7 @@
   ],
   "survey": {
     "item": "9/2/083/0010/001",
+    "register": "state-register",
     "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
     "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
     "retrieved": "2026-09-05",

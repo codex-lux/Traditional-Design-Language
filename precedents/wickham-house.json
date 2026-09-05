@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "va0586",
+    "register": "loc-item",
     "survey_no": "VA-310",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0500/va0586/data/va0586data.pdf",
     "prepared": "Historic American Buildings Survey; the addendum cover reads 'National Park Service, Department of the Interior, Washington, DC 20013-7127'. No author or date is legible on the 1930s sheets in the extract.",

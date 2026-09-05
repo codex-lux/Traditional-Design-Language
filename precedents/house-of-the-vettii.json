@@ -29,6 +29,7 @@
   ],
   "survey": {
     "item": "casa-dei-vettii",
+    "register": "other",
     "data_url": "https://pompeiisites.org/sito_archeologico/casa-dei-vettii",
     "prepared": "Parco Archeologico di Pompei, institutional portal, building record 'Casa dei Vettii'; the record prints its own excavation date and no author",
     "retrieved": "2026-09-05",

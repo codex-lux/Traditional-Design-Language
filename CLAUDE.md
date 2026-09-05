@@ -429,9 +429,9 @@ WP-11.3 5 Sep 2026).** Lucas asked where the
 research is thin, for the exemplars of each style researched into the most beautiful and iconic
 precedents with links, and for a reading of where deepening the bench would change what the machine
 does. **The corpus WAS templated on the surface** when WP-11.1 surveyed it: every buildable node carried
-2-4 exemplars, 4-5 sources, 5 constraints and 3 distinctions, so field counts separated nothing. **Two
-tranches have moved the exemplar half and not one of the other three** -- 693 exemplars now, 3 to 9 a
-node, 85 of 132 buildable nodes carrying five or more, against 4-5 sources, exactly 5 constraints on all
+2-4 exemplars, 4-5 sources, 5 constraints and 3 distinctions, so field counts separated nothing. **Three
+tranches have moved the exemplar half and not one of the other three** -- 800 exemplars now, 4 to 9 a
+node, 131 of 132 buildable nodes carrying five or more, against 4-5 sources, exactly 5 constraints on all
 132 and 3 distinctions on 128, all unmoved. What does separate
 thorough from skeletal was tracked nowhere and `build/check_research.py` now measures it on every
 run:
@@ -446,8 +446,13 @@ record now (`schema/precedent.schema.json`, one file per building, shared by eve
 it), with archival refs that each record `retrieved` and `via`, the HABS written data quoted
 verbatim with every figure `as_printed`, and never a `license`; an exemplar names it through
 `precedent` and states a `standing` with a `why`. `build/check_precedents.py` holds the two
-directions to each other. **415 precedent records** after Tranche 2 (WP-11.2 did the 28 nodes the platform exercises; WP-11.3 the
-remaining 58 North American nodes, which completes North America at 86 of 164 covered); 505 of 693 exemplars carry a `precedent`.
+directions to each other. **695 precedent records** after Tranche 3 (WP-11.2 did the 28 nodes the platform exercises, WP-11.3 the
+remaining 58 North American nodes, and WP-11.5's Tranche 3 the 46 European ones);
+**794 of 800 exemplars carry a `precedent`**, across 132 nodes -- EVERY BUILDABLE NODE IN THE CORPUS.
+The 32 without one are the families and traditions, which are Ruling B's and Tranche 4's rather than
+a gap. (The claim above is on ONE LINE deliberately: `check_counts.py` reads line by line, and
+wrapping it across a newline unguarded both figures -- which its own "a pattern that no longer
+matches is a failure too" caught within the minute.)
 `tdl_precedents` is the 27th MCP tool.
 **ALL FOUR PHASE 11 QUESTIONS WERE RULED ON 5 SEP 2026 AND THREE ARE EXECUTED (WP-11.4).**
 **A kit figure may cite a building**, and the ruling's own trap -- *"a source pointer that resolves
@@ -485,6 +490,51 @@ A stated refusal and an unresearched row are counted apart and PRINTED every run
 where one number carried both before. **Ruling B is deferred to after Tranche 3**, measured: 18 of
 27 families have zero `standing: icon` exemplars and all 18 are European, so executing it now would
 serve 9 and leave 18 empty.
+**TRANCHE 3 FINISHED EUROPE AND WITH IT EVERY BUILDABLE NODE (WP-11.5, 5 Sep 2026).** 25 agents,
+0 errors, 4h27m: **415 -> 695 records, 155 -> 423 surveys, 723 -> 1,701 quotes, 794 of 800 exemplars
+resolved across 132 of 132 buildable nodes.** The 32 without a precedent are the families and
+traditions -- Ruling B's and Tranche 4's, not a gap. Six exemplars are unresolved and the split is
+legible now: 3 STATED REFUSALS against 3 not-yet-researched.
+**AND THE DEFECT WAS MINE, DIAGNOSED BY A RESEARCH AGENT BEFORE IT COULD FIRE.** WP-11.5 widened the
+`survey` block's DESCRIPTION to admit a national heritage list entry and did NOT widen the code that
+reads it: `check_precedents.py` shape-checked every `survey.item` against the Library's `xx0000`
+form and `identity_keys` attributed every one to `loc-item`. First global run: `malformed_ids
+0 -> 268`, and **five Medici villas sharing UNESCO inscription 175 read as one building written five
+times**, because a UNESCO inscription names a SERIAL property. The first research agent simulated the
+checker's own regexes over its 24 records, predicted "this will fire for EVERY European record ...
+from all twelve clusters", named the fix, and did NOT touch `build/` because eleven agents were
+writing. **`survey.register` is the fix** -- the block says which register issued its `item`, so it is
+shape-checked against THAT register's rule and attributed to THAT namespace; `unesco`, `institution`,
+`wikipedia` and `other` are declared SERIAL and may never be an identity. 271 errors -> 2.
+**THE TWO SURVIVORS WERE REAL, AND THEY ARE THE HOLE THE PARTITION CANNOT CLOSE.** The cluster
+partition is over the exemplars that already EXIST; agents also ADD buildings, and two clusters each
+added Kedleston Hall (HE 1311507) and Charlotte Square (HES LB28502). Merged as the corpus
+prescribes -- evidence folded in, the superseded id DEPRECATED and never deleted or reused -- which
+surfaced that **`superseded` was computed in the duplicate pass and read in only ONE of the two loops
+that needed it**, so a merge done exactly right still convicted itself.
+**RULING A YIELDED NOTHING FROM EUROPE, AND THE REASON IS STRUCTURAL RATHER THAN A RESEARCH
+FAILURE.** 18 `citable` candidates, 0 applied. **A parameter has ONE `source` field**, and **489
+`measured` parameters already cite an INTERNAL source** (a constraint id, the node's own
+`typical_ratios`) against 6 citing a precedent -- so Ruling A can only ever reach the 536 that cite
+nothing, and the corpus's most-reasoned figures are exactly the ones a building may not corroborate
+(`oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure`). Five more
+candidates point at a `set`-shaped parameter `kit_source_agrees` cannot compare at all -- and two of
+them, Royal Crescent at FOUR bays and Kedleston at ELEVEN, say the set is INCOMPLETE. Five more point
+at a band two of the node's own exemplars break at six lights apiece. **Contradictions 17 -> 20**, and
+a fourth kind appeared: not a wrong band, not an unmet presupposition, not a missing datum, but an
+incomplete ENUMERATION.
+**Records reconcile exactly at 280; surveys, quotes and measurements came in 1, 8 and 4 lower than
+claimed, no auditor deleted any, so the residue is the agents' own tallies. Git is the number.**
+The audits: 252 of 261 refs confirmed, 671 of 685 quotes verbatim, **0 `as_printed` failures**, 36
+unsupported `why` against Tranche 2's 82 on more records, **10 manufactured quotations** found by
+hunting the class by name, 24 fixed. One cluster's records **decline to quote anything read
+`via: tavily-search`** and say so in the ref note -- the discipline that class needs, and it came from
+an agent rather than the protocol.
+**`ids_with_no_shape_rule` 58 -> 216 and 163 of 423 survey blocks sit on a register with no shape
+rule.** Raising a ceiling is deliberate and this one is honest: a statement of format has been READ
+for exactly one European register, Historic England's own *"unique 7-figure reference number"*. The
+alternative was to invent shapes, which is how `NRHP_RE` went wrong. Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` §XII.
 **THE BENCH ACQUIRED A LITERATURE AND IT IMMEDIATELY CONVICTED SEVENTEEN `measured` KIT FIGURES, AND
 NOTHING WAS APPLIED (WP-11.3).** 240 survey-against-kit readings over Tranche 2: **196 silent, 27 agree,
 17 CONTRADICT**, three of them by the node's OWN exemplar -- `southern-federal`'s `max_depth_ft 20`
@@ -1764,8 +1814,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **139 entries, of which 55 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **140 entries, of which 56 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

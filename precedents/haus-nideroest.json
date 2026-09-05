@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "morgarten-descoeudres-nideroest",
+    "register": "other",
     "data_url": "https://morgarten.ch/wp-content/uploads/2023/03/Das_Haus_Nideroest-Prof_Desc.pdf",
     "prepared": "Prof. Descoeudres, 'Das Haus «Nideröst» in Schwyz', published as a PDF by morgarten.ch. A SCHOLARLY BUILDING-ARCHAEOLOGY ACCOUNT, not a heritage register: the canton of Schwyz has no inventory of these houses to quote. Footnote numbers run into the text in the extract and are quoted where they fall.",
     "retrieved": "2026-09-05",

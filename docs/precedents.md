@@ -101,6 +101,19 @@ richer. For such a record `item` is the List Entry Number, `data_url` the entry 
 number; the `page` marker names the section, since a list entry is not paginated. The quote-field
 enum gained `materials`.
 
+**And the block says WHICH REGISTER issued its `item`, because widening the description without
+widening the code refused 268 European surveys on the first global run.** `survey.register` is a
+closed enum — `loc-item` (the default, the Library of Congress item id an American HABS survey
+carries), `historic-england`, `historic-scotland`, `cadw`, `niah`, `merimee`, `bic`,
+`rijksmonument`, `denkmalliste`, `vincolo`, `unesco`, `state-register`, `institution`, `wikipedia`,
+`other` — and it does two jobs. It selects which id-shape rule the `item` is checked against, so a
+7-figure Historic England number is not held to the Library's `xx0000` form. And it decides whether
+the `item` may be an IDENTITY at all: `unesco`, `institution`, `wikipedia` and `other` are declared
+**SERIAL** in `SERIAL_REGISTERS` and are never one, because a UNESCO inscription names a serial
+PROPERTY exactly as a National Register district does — inscription 175 covers a dozen Medici
+villas, so five of them sharing it is evidence of nothing, and before the field existed it read as
+one building written five times.
+
 ## A kit figure may cite a building (WP-11.4, Ruling A, 5 Sep 2026)
 
 A `measured` kit parameter may carry `source: "precedents/<id>#measurements[<n>]"` at
@@ -199,7 +212,7 @@ across 415 records on the guard's first live exercise, six candidates raised and
 `build/check_research.py` measures what the surface counts cannot. When WP-11.1 surveyed it every
 buildable node carried 2–4 exemplars, 4–5 sources, 5 constraints and 3 distinctions — a composite of
 those spread 1.5× across all 132. The research tranches have moved the exemplar clause and nothing
-else (693 exemplars, 3 to 9 a node), so the things that DO separate a researched node from a skeletal one are
+else (800 exemplars, 4 to 9 a node), so the things that DO separate a researched node from a skeletal one are
 computed on every run: exemplars carrying a `precedent`; nodes citing only works a sibling also
 cites; `measured` kit parameters with no source on the parameter or its slot, split by whether a
 generator reads the slot (the read set is derived from the generators' own string constants, an

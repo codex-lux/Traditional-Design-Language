@@ -40,6 +40,7 @@
   ],
   "survey": {
     "item": "1261987",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1261987",
     "prepared": "Date first listed: 2 September 1952. Neither extract returned the Overview block's 'Date first listed' line; the entry's own Details text prints the date as '2.9.52' and the Wikipedia list of Grade I listed buildings in Richmond upon Thames prints '2 September 1952' beside this number.",
     "retrieved": "2026-09-05",

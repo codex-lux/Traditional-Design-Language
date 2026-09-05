@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "tn0015",
+    "register": "loc-item",
     "survey_no": "TN-17",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0015/data/tn0015data.pdf",
     "prepared": "Prepared by Anatole Senkevitch, Jr., Architectural Historian, Historic American Buildings Survey, Summer 1970; measured and drawn in the summer of 1971 at the HABS field office, Vanderbilt University.",

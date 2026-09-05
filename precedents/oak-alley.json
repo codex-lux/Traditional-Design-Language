@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "la0544",
+    "register": "loc-item",
     "survey_no": "LA-71",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0500/la0544/data/la0544data.pdf",
     "prepared": "A modern HABS cover essay on Richard Koch's 1930s district work, with Koch's photo mount cards scanned as pages 2-8; no author or date legible in the extract",

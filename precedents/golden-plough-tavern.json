@@ -59,6 +59,7 @@
   ],
   "survey": {
     "item": "pa1016",
+    "register": "loc-item",
     "survey_no": "PA-5169",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1000/pa1016/data/pa1016data.pdf",
     "prepared": "Compiled by Druscilla (the surname runs off the end of the extracted span), on NPS Architectural Data Form 10-920 (June 1983); the photographs are by Paul Galbreath, May and September 1962",

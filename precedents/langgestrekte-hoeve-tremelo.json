@@ -27,6 +27,7 @@
   ],
   "survey": {
     "item": "308890",
+    "register": "state-register",
     "data_url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/308890",
     "prepared": "Agentschap Onroerend Erfgoed (the Flemish heritage agency), Inventaris Onroerend Erfgoed. This is the register's OWN descriptive text, read in an extract from the register's own site. The Flemish inventory is the richest heritage description this whole tranche found: it states bays, storeys, roof form, materials and gable type as a matter of course, in the way a HABS Part II does. The pages carry their own citation line -- 'Je kan deze pagina citeren als: INVENTARIS ONROEREND ERFGOED 2026' -- and name the printed inventory volume each text came from. This entry is a 2024 re-inventory of Tremelo, authored by Joachim Piens and Joline Berbers and supplied by the municipality.",
     "retrieved": "2026-09-05",

@@ -36,6 +36,7 @@
   ],
   "survey": {
     "item": "1042076",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1042076",
     "prepared": "Date first listed: 21 October 1953, as the entry's own Details header prints it ('24/11 Cragside 21/10/53'). No Overview 'Date first listed' line was returned by any of the three extracts.",
     "retrieved": "2026-09-05",

@@ -43,6 +43,7 @@
   ],
   "survey": {
     "item": "2249",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2249",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's 'Inschrijving register' field came back blank in the extract; the Dutch Wikipedia infobox prints the listing date as 5 juni 1970.",
     "retrieved": "2026-09-05",

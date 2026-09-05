@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "ga0144",
+    "register": "loc-item",
     "survey_no": "GA-222",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ga/ga0100/ga0144/data/ga0144data.pdf",
     "prepared": "The form's 'Other Existing Records' line reads 'Records by P. Thornton Matyfie, District Officer HABS 1934.' (OCR).",

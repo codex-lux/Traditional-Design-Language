@@ -57,6 +57,7 @@
   ],
   "survey": {
     "item": "pa0213",
+    "register": "loc-item",
     "survey_no": "PA-1248",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0200/pa0213/data/pa0213data.pdf",
     "retrieved": "2026-09-04",

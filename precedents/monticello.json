@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "va0059",
+    "register": "loc-item",
     "survey_no": "VA-241",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0000/va0059/data/va0059data.pdf",
     "prepared": "'PHOTOGRAPHS WRITTEN HISTORIC AND DESCRIPTIVE DATA District of Virginia, Historic American Buildings Survey, Prepared at Headquarters Office for District of Virginia'; the addenda covers are National Park Service, Washington, D.C.",

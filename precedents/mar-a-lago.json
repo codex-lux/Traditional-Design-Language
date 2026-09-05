@@ -64,6 +64,7 @@
   ],
   "survey": {
     "item": "fl0181",
+    "register": "loc-item",
     "survey_no": "FL-195",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0181/data/fl0181data.pdf",
     "prepared": "Dr. Samuel Proctor, University of Florida, 1967 and Nancy K. Beinke, National Park Service, 1972 (as the sheet reads).",

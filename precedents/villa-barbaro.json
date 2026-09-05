@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "villadimaser-homepage",
+    "register": "other",
     "data_url": "https://www.villadimaser.it",
     "prepared": "Villa di Maser, official site homepage; the page carries no author, no date and no descriptive section beyond the sentence below",
     "retrieved": "2026-09-05",

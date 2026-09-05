@@ -46,6 +46,7 @@
   ],
   "survey": {
     "item": "1341402",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1341402",
     "prepared": "No Official list entry block was returned by the extract and no date first listed was read on the page. A Wikipedia table of Grade I listed buildings prints '4 June 1952' against this reference number; that is a field value from a search result, not the entry's own statement, and is recorded in the refs rather than asserted here.",
     "retrieved": "2026-09-05",

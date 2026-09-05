@@ -36,6 +36,7 @@
   ],
   "survey": {
     "item": "P4_______005",
+    "register": "institution",
     "data_url": "https://www.regione.toscana.it/documents/10180/24873486/Report_Minerva_VAS_leopoldine_scenario_definitivo.pdf/57f117a4-ac86-7f8b-cbb7-e1f1ac04dd06?version=1.0&t=1588166346627&download=true",
     "prepared": "Regione Toscana, Progetto di Paesaggio regionale 'Le Leopoldine della Val di Chiana', valutazione delle norme di tutela; the document prints 'Stato: Avvio' and no author or date of adoption. The file was served from regione.toscana.it with a timestamp parameter of 1588166346627 in its URL, which is not read here as a date of publication.",
     "retrieved": "2026-09-05",

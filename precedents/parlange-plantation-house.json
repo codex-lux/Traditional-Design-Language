@@ -61,6 +61,7 @@
   ],
   "survey": {
     "item": "la0022",
+    "register": "loc-item",
     "survey_no": "LA-34",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0022/data/la0022data.pdf",
     "prepared": "District of Louisiana, Richard Koch, District Officer (as the header reads); the reference line cites Saxon, Old Louisiana, and Spratling, Old Plantation Houses in Louisiana; undated on the extracted spans",

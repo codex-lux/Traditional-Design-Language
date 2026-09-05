@@ -31,6 +31,7 @@
   ],
   "survey": {
     "item": "en-wikipedia-mosque-of-cristo-de-la-luz",
+    "register": "wikipedia",
     "data_url": "https://en.wikipedia.org/wiki/Mosque_of_Cristo_de_la_Luz",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

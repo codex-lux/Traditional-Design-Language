@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "1193127",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1193127",
     "prepared": "Date first listed: 02-Sept-1952, as the Official list entry block prints it; that field was read from the tavily-search result for this entry on 2026-09-05. The Details section's own legacy header is OCR-damaged and is quoted below as it stands.",
     "retrieved": "2026-09-05",

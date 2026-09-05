@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "tn0061",
+    "register": "loc-item",
     "survey_no": "TN-151",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0061/data/tn0061data.pdf",
     "prepared": "Historic American Buildings Survey, National Park Service, Eastern Office, Division of Design and Construction, 120 South Third Street, Philadelphia; both sections signed 'Henry Judd, Architect, NPS' (OCR 'fienry Jif Ju^/Architect, NPS' and 'Henry^ Jud§< Architect, KPS')",

@@ -40,6 +40,7 @@
   ],
   "survey": {
     "item": "en-wikipedia-alhambra",
+    "register": "wikipedia",
     "data_url": "https://en.wikipedia.org/wiki/Alhambra",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

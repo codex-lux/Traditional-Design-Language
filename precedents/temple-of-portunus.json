@@ -48,6 +48,7 @@
   ],
   "survey": {
     "item": "temple-portunus",
+    "register": "other",
     "data_url": "https://www.turismoroma.it/en/places/temple-portunus",
     "prepared": "Roma Capitale, Turismo Roma, monument record 'The Temple of Portunus'; no author or date line is printed",
     "retrieved": "2026-09-05",

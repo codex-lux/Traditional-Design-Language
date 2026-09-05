@@ -40,6 +40,7 @@
   ],
   "survey": {
     "item": "1236810",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1236810",
     "prepared": "The Details section's own legacy header dates the entry 22/7/53. The Wikipedia infobox, as a search result returned it, prints 'Official name | Sutton Place including the service courtyard', 'Designated | 22 July 1953', 'Reference no. | 1236810'.",
     "retrieved": "2026-09-05",

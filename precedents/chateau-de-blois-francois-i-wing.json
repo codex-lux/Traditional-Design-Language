@@ -42,6 +42,7 @@
   ],
   "survey": {
     "item": "IA00141119",
+    "register": "merimee",
     "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/IA00141119",
     "prepared": "The notice prints 'Rédacteur de la notice Cosperec Annie' and is signed '© Inventaire général'.",
     "retrieved": "2026-09-05",

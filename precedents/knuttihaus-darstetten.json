@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "A 00862",
+    "register": "state-register",
     "data_url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
     "prepared": "The German Wikipedia list of Simmental farmhouses, whose table transcribes the KGS inventory number and gives a one-line description per house. AN ENCYCLOPEDIA LIST AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

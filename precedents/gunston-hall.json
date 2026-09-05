@@ -11,7 +11,9 @@
     "circa": false,
     "altered": "Restored 1949-1952 as a house museum; the survey records that the window sash, frames and sills, most doors, about half the flooring and much of the exterior wood trim are restored, and that the southeast chimney stack was rebuilt in 1950."
   },
-  "nodes": ["tidewater-georgian"],
+  "nodes": [
+    "tidewater-georgian"
+  ],
   "refs": [
     {
       "kind": "habs",
@@ -40,6 +42,7 @@
   ],
   "survey": {
     "item": "va0433",
+    "register": "loc-item",
     "survey_no": "VA-141",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0433/data/va0433data.pdf",
     "retrieved": "2026-09-04",
@@ -73,12 +76,49 @@
     ]
   },
   "measurements": [
-    { "name": "overall_width_ft", "as_printed": "60 feet 10 inches", "value": 60.83, "unit": "ft", "from_quote": 0 },
-    { "name": "overall_depth_ft", "as_printed": "h0 feet 11-1/2 inches", "value": 40.96, "unit": "ft", "from_quote": 0, "note": "The OCR prints 'h0'. Read as 40: the survey's own arithmetic elsewhere and `Plan Examples/HABS/WANTED.md` both carry 40'-11½\". A reading, marked as one." },
-    { "name": "grade_to_ridge_ft", "as_printed": "33'-1\"", "value": 33.08, "unit": "ft", "from_quote": 0 },
-    { "name": "foundation_thickness_in", "as_printed": "about two-and-a-half feet", "value": 30, "unit": "in", "from_quote": 1 },
-    { "name": "wall_thickness_in", "as_printed": "about two feet", "value": 24, "unit": "in", "from_quote": 2 },
-    { "name": "chimney_stack_count", "as_printed": "four tall chimney stacks on the house, tvo at each end", "value": 4, "unit": "count", "from_quote": 3 }
+    {
+      "name": "overall_width_ft",
+      "as_printed": "60 feet 10 inches",
+      "value": 60.83,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "h0 feet 11-1/2 inches",
+      "value": 40.96,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The OCR prints 'h0'. Read as 40: the survey's own arithmetic elsewhere and `Plan Examples/HABS/WANTED.md` both carry 40'-11½\". A reading, marked as one."
+    },
+    {
+      "name": "grade_to_ridge_ft",
+      "as_printed": "33'-1\"",
+      "value": 33.08,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "foundation_thickness_in",
+      "as_printed": "about two-and-a-half feet",
+      "value": 30,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "about two feet",
+      "value": 24,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four tall chimney stacks on the house, tvo at each end",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    }
   ],
   "note": "Seeded 4 Sep 2026 from the WP-11.1 pilot. The three exemplar names the tidewater-georgian node already carried were kept exactly; this record adds the locators. The rights line was not read (loc.gov/pictures refuses extraction from this container), so no `rights_evidence` is recorded rather than a boilerplate one copied from another item."
 }

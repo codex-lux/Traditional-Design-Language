@@ -46,6 +46,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-palacio-de-viana-cordoba",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Palacio_de_Viana_(C%C3%B3rdoba)",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

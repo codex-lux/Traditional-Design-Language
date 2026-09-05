@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "1196114",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1196114",
     "retrieved": "2026-09-05",
     "via": "tavily-extract",

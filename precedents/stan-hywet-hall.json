@@ -58,6 +58,7 @@
   ],
   "survey": {
     "item": "oh0106",
+    "register": "loc-item",
     "survey_no": "OH-50",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/oh/oh0100/oh0106/data/oh0106data.pdf",
     "retrieved": "2026-09-05",

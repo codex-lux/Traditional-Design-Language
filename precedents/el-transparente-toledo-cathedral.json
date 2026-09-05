@@ -30,6 +30,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-transparente-de-la-catedral-de-toledo",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Transparente_de_la_catedral_de_Toledo",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

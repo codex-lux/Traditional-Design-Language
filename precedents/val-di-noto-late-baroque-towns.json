@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "1024",
+    "register": "unesco",
     "data_url": "https://whc.unesco.org/en/list/1024",
     "prepared": "UNESCO World Heritage Centre, list entry 1024, Statement of Outstanding Universal Value and criteria texts",
     "retrieved": "2026-09-05",

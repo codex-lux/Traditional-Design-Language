@@ -45,6 +45,7 @@
   ],
   "survey": {
     "item": "1152135",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1152135",
     "prepared": "The Details section's legacy header prints 'Nos. 17 and 18 14-7-55' -- listed 14 July 1955. No Official list entry block was returned by the extract. The entry's own Sources block cites 'Inventory of Dorset, (1970)' and its text cites 'RCHM Monument 7 (Dorset. Vol.III)'.",
     "retrieved": "2026-09-05",

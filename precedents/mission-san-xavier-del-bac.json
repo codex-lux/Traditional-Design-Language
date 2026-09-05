@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "az0061",
+    "register": "loc-item",
     "survey_no": "AZ-13",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0000/az0061/data/az0061data.pdf",
     "prepared": "District of Arizona, Historic American Buildings Survey, Henry J. Withey, District Officer, Los Angeles, California (as the header reads; no date legible in the extract).",

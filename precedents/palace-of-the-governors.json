@@ -65,6 +65,7 @@
   ],
   "survey": {
     "item": "nm0109",
+    "register": "loc-item",
     "survey_no": "NM-2",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0100/nm0109/data/nm0109data.pdf",
     "prepared": "District No. 36, Utah, Colorado and New Mexico; A. Leicester Hyde, District Officer, Box 902, Santa Fe (as the header reads; no date legible in the extract). The same PDF carries a later addendum of photographs.",

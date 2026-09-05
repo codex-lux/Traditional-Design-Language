@@ -46,6 +46,7 @@
   ],
   "survey": {
     "item": "1041321",
+    "register": "historic-england",
     "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1041321",
     "prepared": "The Details section prints '(formerly listed as 28.7.50 Seaton Delaval Hall)'. Neither extract returned the Overview block's own 'Date first listed' field, so no such field is quoted; Wikidata gives 28 July 1950 for the same entry number. The entry's Sources block cites Country Life, Vol. 54, (1923).",
     "retrieved": "2026-09-05",

@@ -87,12 +87,12 @@
     },
     "nodes": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "items": {
         "type": "string",
         "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
       },
-      "description": "Every style node whose `exemplars` names this building. `build/check_precedents.py` holds the two directions to each other."
+      "description": "Every style node whose `exemplars` names this building. `build/check_precedents.py` holds the two directions to each other. WP-11.5: minItems is 0 in the SCHEMA and the rule lives in check_precedents.py instead, because it is CONDITIONAL -- a record carrying `deprecated_in_favour_of` has no nodes by definition, its nodes having moved to the record that superseded it, and a schema cannot say 'non-empty unless deprecated' without an if/then that reads worse than the checker line it replaces."
     },
     "refs": {
       "type": "array",
@@ -177,6 +177,26 @@
         "item": {
           "type": "string",
           "description": "The Library's item id, e.g. va0433 -- or, for a national heritage list entry, that register's own record number (Historic England's 7-figure List Entry Number, e.g. 1254925)."
+        },
+        "register": {
+          "enum": [
+            "loc-item",
+            "historic-england",
+            "historic-scotland",
+            "cadw",
+            "niah",
+            "merimee",
+            "bic",
+            "rijksmonument",
+            "denkmalliste",
+            "vincolo",
+            "unesco",
+            "state-register",
+            "institution",
+            "wikipedia",
+            "other"
+          ],
+          "description": "WP-11.5. WHICH REGISTER `item` BELONGS TO. Absent means `loc-item` -- the Library of Congress item id every HABS record carried before this field existed. It is required for anything else, and the reason is a defect this field exists to fix: the checker shape-checked `item` against the Library's `xx0000` form and, worse, `identity_keys` attributed EVERY survey item to `loc-item`, so a Historic England List Entry Number was read as a Library id and five Medici villas sharing UNESCO inscription 175 read as one building written five times. A survey block that says which register it is can be checked against that register's own shape and attributed to that register's own namespace."
         },
         "survey_no": {
           "type": "string",

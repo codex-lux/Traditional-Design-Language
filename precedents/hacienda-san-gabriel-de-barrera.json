@@ -37,6 +37,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-hacienda-san-gabriel-de-barrera",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Hacienda_San_Gabriel_de_Barrera",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; its two cited sources are Guanajuato state culture pages.",
     "retrieved": "2026-09-05",

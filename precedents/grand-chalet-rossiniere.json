@@ -49,6 +49,7 @@
   ],
   "survey": {
     "item": "fr-wikipedia-grand-chalet-de-rossiniere",
+    "register": "wikipedia",
     "data_url": "https://fr.wikipedia.org/wiki/Grand_Chalet_de_Rossini%C3%A8re",
     "prepared": "The French Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the article cites Denyse Raymond, 'Les maisons rurales du canton de Vaud, tome II' (Les maisons rurales de Suisse, 17), Basel 2002, pp. 249-250, and Juerg Zbinden, 'Le Grand Chalet de Rossiniere', Editions mo, 2004 -- neither of which was read here. Footnote markers rendered as stray parentheses have been dropped and no word was changed.",
     "retrieved": "2026-09-05",

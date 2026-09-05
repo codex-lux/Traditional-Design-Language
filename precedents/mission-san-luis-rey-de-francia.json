@@ -51,6 +51,7 @@
   ],
   "survey": {
     "item": "ca0578",
+    "register": "loc-item",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0578/data/ca0578data.pdf",
     "retrieved": "2026-09-05",
     "via": "tavily-extract",

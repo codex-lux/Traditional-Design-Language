@@ -70,6 +70,7 @@
   ],
   "survey": {
     "item": "sc0262",
+    "register": "loc-item",
     "survey_no": "SC-78",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0200/sc0262/data/sc0262data.pdf",
     "prepared": "'Prepared and Survey Headquarters for Samuel Lapham, Jr., Dist. Officer, 42 Broad Street, Charleston, South Carolina' (as the 1930s sheet reads)",

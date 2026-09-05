@@ -44,6 +44,7 @@
   ],
   "survey": {
     "item": "GDL00114",
+    "register": "historic-scotland",
     "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00114",
     "prepared": "Inventory of Gardens and Designed Landscapes record; the Wikipedia infobox gives 'Designated 1 July 1987'. The record itself returned no designation date inside either extracted span.",
     "retrieved": "2026-09-05",

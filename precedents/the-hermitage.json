@@ -50,6 +50,7 @@
   ],
   "survey": {
     "item": "tn0022",
+    "register": "loc-item",
     "survey_no": "TN-52",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0022/data/tn0022data.pdf",
     "prepared": "Historic American Buildings Survey; the addendum cover reads 'National Architectural and Engineering Record, National Park Service, Department of the Interior, Washington, D.C. 20240'. No author or date is legible on the 1930s sheets in the extract.",

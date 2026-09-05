@@ -34,6 +34,7 @@
   ],
   "survey": {
     "item": "pa0119",
+    "register": "loc-item",
     "survey_no": "PA-1047",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0100/pa0119/data/pa0119data.pdf",
     "prepared": "Prepared by James C. Massey, Architect National Park Service August 1960 (as printed)",

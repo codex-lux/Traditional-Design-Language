@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "es-wikipedia-palacio-de-monterrey",
+    "register": "wikipedia",
     "data_url": "https://es.wikipedia.org/wiki/Palacio_de_Monterrey",
     "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
     "retrieved": "2026-09-05",

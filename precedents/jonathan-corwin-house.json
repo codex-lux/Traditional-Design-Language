@@ -56,6 +56,7 @@
   ],
   "survey": {
     "item": "ma0683",
+    "register": "loc-item",
     "survey_no": "MA-398",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0683/data/ma0683data.pdf",
     "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer, 76 Chestnut Street, Boston (as the 1930s cover reads); the unfinished 1930s material was transmitted to the Library by HABS, National Park Service, in 2013",

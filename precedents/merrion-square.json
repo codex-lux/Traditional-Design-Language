@@ -47,6 +47,7 @@
   ],
   "survey": {
     "item": "50100376",
+    "register": "niah",
     "data_url": "https://www.buildingsofireland.ie/buildings-search/building/50100376/29-merrion-square-dublin-2-dublin",
     "prepared": "The record's own Survey Data block prints 'Date Recorded 18/08/2016' and 'Date Updated --/--/--'.",
     "retrieved": "2026-09-05",

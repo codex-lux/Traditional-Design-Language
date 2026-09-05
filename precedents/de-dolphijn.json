@@ -55,6 +55,7 @@
   ],
   "survey": {
     "item": "5303",
+    "register": "rijksmonument",
     "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/5303",
     "prepared": "Rijksdienst voor het Cultureel Erfgoed; Amsterdam Monumentenstad's register tab prints 'Inschrijvingsdatum: 29-09-1970'.",
     "retrieved": "2026-09-05",

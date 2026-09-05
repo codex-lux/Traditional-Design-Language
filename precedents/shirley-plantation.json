@@ -62,6 +62,7 @@
   ],
   "survey": {
     "item": "va0313",
+    "register": "loc-item",
     "survey_no": "VA-388",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0300/va0313/data/va0313data.pdf",
     "prepared": "'Prepared at Washington Office', Virginia District (1930s); later addenda are a photograph set and the Colonial Williamsburg Agricultural Buildings Project's reduced measured drawings",

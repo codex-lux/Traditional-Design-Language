@@ -71,6 +71,7 @@
   ],
   "survey": {
     "item": "ms0175",
+    "register": "loc-item",
     "survey_no": "MS-18",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ms/ms0100/ms0175/data/ms0175data.pdf",
     "prepared": "Not legible in the extracted spans (a Koch-era 'Physical Data' sheet; the present occupant at the time was the local American Legion post)",

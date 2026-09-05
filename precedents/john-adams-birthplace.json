@@ -64,6 +64,7 @@
   ],
   "survey": {
     "item": "ma0554",
+    "register": "loc-item",
     "survey_no": "MA-596",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0500/ma0554/data/ma0554data.pdf",
     "prepared": "Historic American Buildings Survey Summer Team, 1979; Susan McCown, editor, Historic American Buildings Survey, 1983 (as the form's compiler line reads)",

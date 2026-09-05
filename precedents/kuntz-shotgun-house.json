@@ -35,6 +35,7 @@
   ],
   "survey": {
     "item": "ky0015",
+    "register": "loc-item",
     "survey_no": "KY-119",
     "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0015/data/ky0015data.pdf",
     "prepared": "Compiled by Susan McCown, historian, Historic American Buildings Survey, 24 August 1981, from David Arbogast's HABS historical and descriptive architectural data of 1974",
