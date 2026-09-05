@@ -1632,7 +1632,20 @@ def derive_footprint(plan, parti=None, prep=None):
     # `prep` is resolved above the lot block now (the flank needs it); this is the check alone.
     if 0 not in prep or not prep[0]:
         return {"error": "no ground level"}
-    a0 = sum(r["_area"] for r in prep[0])
+    # THE MAIN BLOCK IS SIZED FROM THE MAIN BLOCK'S OWN PROGRAMME (WP-11.6 item 4). This read
+    # the WHOLE ground programme, dependencies included, while `flank_sizes` sizes each
+    # dependency from its own rooms and lays it BESIDE the main block -- so a wing's area was
+    # counted twice and the main block came out that much too large. The hill-climb absorbed it
+    # silently as empty floor (measured 2,405 sf of main block for 1,863 sf of main-block rooms
+    # on this package's own fixture, 29% over) and CP-SAT, which has a coverage floor, correctly
+    # reported the house INFEASIBLE at every bay count with every declared requirement dropped:
+    # "the rooms cannot tile any footprint this parti and lot allow". A search that tolerates an
+    # over-size and a prover that refuses it are the same defect read twice.
+    #
+    # `au` is deliberately the whole upper programme: `blocks_for` lays only level 0 into
+    # elements, so every upper room IS in the main block. With one element -- every plan in this
+    # corpus -- `a0` is the sum it always was.
+    a0 = sum(r["_area"] for r in prep[0] if not is_block_tag(r.get("block")))
     au = sum(r["_area"] for r in prep.get(1, []))
     m = C["massings"].get(plan.get("massing") or "", {})
     target_depth = PILE.get(m.get("depth_rooms"), 32.0)
@@ -2026,12 +2039,17 @@ def multi_element_disclosure(plan):
                  ifcopenshell is absent, which is here and in CI.
 
     All six are fixed now (WP-11.6, layers 1-6) and their entries above are kept as the record.
-    THE BLOCK ITSELF STAYS, and its `not_element_aware` list is empty rather than gone, for two
-    reasons that outlive the six: `engine="cp"` still REFUSES a multi-element plan outright, so
-    here the engine that PROVES is unavailable and the engine that SEARCHES carries the findings;
-    and the roof is still derived for the main block alone, with no stated ridge relation per
-    element (ruling 1's second half, unbuilt). The composer emits no `block` today, so the only
-    way to reach this state is a caller-supplied record -- exactly the reader who cannot know.
+    THE BLOCK ITSELF STAYS, and its `not_element_aware` list is empty rather than gone. It used
+    to give TWO reasons and now gives ONE, because item 4 removed the other: `engine="cp"` no
+    longer refuses a multi-element plan. `geometry_cp._boxes` gives each room its own element
+    box and the prover places the tagged fixture -- so the engine that PROVES is available here,
+    and this note may no longer say it is not.
+    What survives is that the ROOF is still derived for the main block alone, with no stated
+    ridge relation per element (ruling 1's second half, unbuilt), and that the abutment between
+    two ADJACENT elements is still nobody's rule: CP refuses a door across a gap and states why,
+    which is honest and is not the same thing as knowing when two elements ought to touch.
+    A `block` reaches a room only from a parti that states one, and no shipped parti does, so
+    the way into this state is still a caller-supplied record.
     """
     fp = plan.get("footprint") or {}
     if len(fp.get("blocks") or []) < 2:
@@ -2107,11 +2125,13 @@ def multi_element_disclosure(plan):
         "note": ("This placement has more than one massing element. Every layer below the placer "
                  "that used to read footprint.width_ft/depth_ft as the whole building now reads "
                  "the room's own element (WP-11.6): openings, structure, vertical_score, the lot "
-                 "cap, plan_check's drawn layer and export_ifc's slabs. TWO THINGS ARE STILL "
-                 "TRUE HERE and neither is a layer: `engine=\"cp\"` REFUSES a multi-element plan "
-                 "outright, so the engine that PROVES is unavailable and the engine that SEARCHES "
-                 "carries the findings; and the roof is still derived for the main block alone, "
-                 "with no stated ridge relation per element."),
+                 "cap, plan_check's drawn layer and export_ifc's slabs -- and `engine=\"cp\"` "
+                 "places each element in its own rectangle rather than refusing the plan, so the "
+                 "engine that PROVES is available here. TWO THINGS ARE STILL TRUE and neither is "
+                 "a layer: the roof is derived for the main block alone, with no stated ridge "
+                 "relation per element; and the abutment between two adjacent elements is "
+                 "nobody's rule -- a door across a gap is refused with its reason on both "
+                 "engines, which is not the same as knowing when two elements ought to touch."),
     }
     off = sorted({r["id"] for lv in plan.get("levels", [])
                   if (lv.get("index") or 0) != 0
@@ -2550,6 +2570,14 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
                  else "Every room was placed at or above the floor of its own catalogue band.")}
     plan["geometry_report"]["voids"] = voids_report(_rects, _prep, ring=None)
+    # ...AND SO MUST THE MULTI-ELEMENT DISCLOSURE (WP-11.6 item 4). It was attached in
+    # `write_record` only, which the heuristic uses and this path does not, so the very engine
+    # the refusal above sent every multi-element plan AWAY from was the only one that disclosed
+    # anything about them. Teaching CP to place them made that visible: the first proved
+    # dependency placement came back with `multi_element: null` on a record carrying two blocks.
+    _me = multi_element_disclosure(plan)
+    if _me:
+        plan["geometry_report"]["multi_element"] = _me
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
@@ -2645,36 +2673,26 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
             out["geometry_report"]["solver"] = {"engine": "heuristic", "reason": "requested"}
         return out
 
-    # CP-SAT CANNOT PLACE A SECOND MASSING ELEMENT, AND MUST SAY SO RATHER THAN PLACE IT WRONGLY
-    # (OQ 40, found by the adversarial audit of the change that made one placeable, 3 Sep 2026).
-    # geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi` -- one rectangle,
-    # one non-negative coordinate space -- and its tiling, `_absorb`, `_snap_fpd`, the hint and the
-    # objective all rest on that. Handed a plan with a dependency it did not fail; it placed the
-    # dependency's rooms INSIDE the main block (the garage at x = 50 of a 0-70 block) while
-    # `footprint.blocks` went on describing an element at x = 84-114. The record and the drawing
-    # then disagreed about where the house is, which is the one thing Phase 6 exists to prevent --
-    # and it silently flattered a published measurement, because rooms crammed into one rectangle
-    # are all reachable and the fatal count looked like a proof of the composition.
-    # Teaching CP about blocks is a package, not a patch. Until then this is a refusal, taken on
-    # the same path as a missing ortools: `auto` falls back to the hill-climb with the reason
-    # stated in `geometry_report.solver`, and the plate reads that rather than asserting a proof.
-    _blocked = any(is_block_tag(r.get("block"))
-                   for lv in plan.get("levels", []) for r in lv.get("rooms", []))
-    if _blocked:
-        if engine == "cp":
-            return {"error": "could not solve with CP-SAT: this plan has more than one massing "
-                             "element (a dependency), and the CP model places every room in a "
-                             "single rectangle. Use the hill-climb, which states the elements.",
-                    "unsolved": True}
-        out = solve_heuristic(plan, parti, candidates, seed)
-        if "error" not in out:
-            out["geometry_report"]["solver"] = {
-                "engine": "heuristic", "fallback": "engine",
-                "reason": "this plan has more than one massing element and the CP model places "
-                          "every room in a single rectangle; fell back to the hill-climb, which "
-                          "places each element in its own"}
-        return out
-
+    # CP-SAT PLACES PER ELEMENT NOW (WP-11.6 item 4), AND THIS IS WHERE ITS REFUSAL STOOD.
+    # Until 5 Sep 2026 a plan with a dependency was refused here and `auto` fell back to the
+    # hill-climb, because `geometry_cp._build` gave every room the bounds `NewIntVar(0, Wi)` and
+    # `x + w <= Wi` -- one rectangle, one non-negative coordinate space. Handed a dependency it
+    # did not fail: it placed the wing's rooms INSIDE the main block while `footprint.blocks`
+    # went on describing an element at x = 84-114, so the record and the drawing disagreed about
+    # where the house is. The refusal was the honest answer and it cost the engine that PROVES
+    # on exactly the plans that most need proving.
+    #
+    # `geometry_cp._boxes` gives each room its own element box, read from `blocks_for` -- this
+    # module's own function, so the two engines cannot come to disagree about where an element
+    # is. WITH ONE ELEMENT every room maps to (0, 0, Wi, Hi), which is what the model spelled
+    # inline, so the sixteen one-rectangle records take the same path unchanged.
+    #
+    # The hyphen's abutment needed no new constraint and that is the finding: the door rule was
+    # ALREADY a hard abutment (`a.x + a.w == b.x`), vacuous while every room shared one
+    # rectangle and real the moment the elements are. What it needed was the other half -- a
+    # door between elements that do NOT touch is not the model's fact, stated, because a
+    # detached dependency is detached and proving a buildable house impossible is the one thing
+    # a hard constraint here must never do.
     try:
         # probe the exact import the engine needs — a broken or partial
         # install where `import ortools` succeeds but the sat module is

@@ -142,13 +142,23 @@ ruled items are unbuilt:
    derives one roof for the main block. The gap item 1 named for itself is also still open: a
    per-element roof makes the massing's `roof_default` a fact about the MAIN element and the
    dependency's a choice, and the corpus has nowhere to say the second.
-2. **The abutment between adjacent elements** — item 3's seventh defect. `blocks_for` still centres
-   each element on the main block's axis and slices each with an independent `slice_rect` call, so
-   nothing makes the house-side room abut the hyphen or the hyphen abut the dependency's anchor.
+2. **The abutment between adjacent elements** — item 3's seventh defect, and item 4 changed what is
+   left of it rather than closing it. `blocks_for` still centres each element on the main block's
+   axis, and `flank_slice` states a strip against the shared face where an authored door crosses
+   through a link, but nothing decides *when* two elements ought to touch. On the CP engine the
+   abutment turned out to need no new constraint at all — the door rule is already
+   `a.x + a.w == b.x`, vacuous while every room shared one rectangle and hard the moment the
+   elements are real — and what it needed was the other half: a door between elements that do NOT
+   touch is stated as outside the model rather than made an infeasibility of the house, because a
+   detached dependency is detached.
 
-**And `geometry_report.multi_element` stays in the record with an empty list**, because two things
-it discloses are not layers and are still true: `engine="cp"` refuses a multi-element plan outright,
-so the engine that PROVES is unavailable there; and the roof is the main block's alone. Its note may
-no longer say COULD NOT EVALUATE — with nothing unjudged that would be a fake unjudged.
+**And `geometry_report.multi_element` stays in the record with an empty list.** It used to give two
+reasons that are not layers, and **item 4 removed one of them**: `engine="cp"` no longer refuses a
+multi-element plan — `geometry_cp._boxes` gives each room its own element box and the prover places
+per element, taking the Tidewater record's downgraded wall pins from 12 to 4 with no declared fact
+changed. What survives is that the roof is the main block's alone, and that the abutment above is
+nobody's rule. Its note may no longer say COULD NOT EVALUATE — with nothing unjudged that would be
+a fake unjudged — and it may no longer say the prover refuses a multi-element plan, for the same
+reason in the other direction.
 
 Report: `docs/reports/wp-11.6-the-container.md`.

@@ -1860,18 +1860,23 @@ term is worse in the middle of its range than at either end, and a rule is the e
 ### WP-11.6 The container the programme describes
 
 **Status: ALL SIX LAYERS TAUGHT (4–5 Sep 2026), in the ruled order, measuring after each as the
-ruling requires, AND THE PLACER'S HALF OF THE RE-AUTHORING WITH THEM. The parti re-authoring is
-REFUSED BY THE CORPUS (three hard room rules, jointly unsatisfiable once the elements are real —
-`oq/three-hard-room-rules-forbid-a-detached-kitchen`) and CP-SAT's per-element solve is not
-started. The entry stays OPEN on its other two items.** `openings` reads the room's own
+ruling requires, THE PLACER'S HALF OF THE RE-AUTHORING WITH THEM, AND **ITEM 4 — CP-SAT PLACES PER
+ELEMENT** (5 Sep). The parti re-authoring is REFUSED BY THE CORPUS (three hard room rules, jointly
+unsatisfiable once the elements are real — `oq/three-hard-room-rules-forbid-a-detached-kitchen`).
+The entry stays OPEN on the ruling's own two unbuilt items.** `openings` reads the room's own
 element, `structure` runs once per element, a cross-element stacking claim is unjudged rather than
 charged, the lot cap is on the built extent with the hyphen counted, the critic measures `touches`
 against the room's own element, `export_ifc` writes a slab per element, and
 `geometry_report.multi_element` names **no** layer, down from six. The falling count is the ruling's
 own check and it has fallen to zero. **What is NOT done, and this line says so rather than letting
 a reader infer it**: the per-element ROOF with its stated ridge relation (ruling 1's second half)
-and the abutment between adjacent elements (ruling 3's seventh defect) — plus this package's own
-remaining parts, the parti and plan re-authoring and CP-SAT's per-element solve.
+and the abutment between adjacent elements — plus this package's own remaining part, the parti and
+plan re-authoring, which the corpus refuses until
+`oq/three-hard-room-rules-forbid-a-detached-kitchen` is ruled. **Ruling 3's "seventh defect" turned out not to need a constraint**: `_build`'s
+door rule is ALREADY a hard abutment (`a.x + a.w == b.x`), vacuous while every room shared one
+rectangle and real the moment the elements are. What it needed was the other half — a door between
+elements that do NOT touch is not the model's fact — because a detached dependency is detached and
+proving a buildable house impossible is the one thing a hard constraint here must never do.
 
 **AND THIS LINE SAID "LAYERS 1 THROUGH 4" AND "TWO" THROUGH THE WHOLE OF LAYER 5, IN A PUSHED
 COMMIT WHOSE MESSAGE SAYS THE PLAN BOARD WAS UPDATED.** Two replacements went into one script, the
@@ -2016,14 +2021,50 @@ open ground where no laying of rooms can place a door; scoping restores that fix
 byte-identically. Six mutations, six caught — the sixth only after a driven test, because the
 garage's element inheritance is unreachable from a corpus in which no parti carries a `block`.
 
-**Still to do: item 3 (re-author `tidewater-georgian-careful`) and item 4 (CP-SAT per element) —
-and item 3 is BLOCKED ON item 4 rather than sequenced after it**, because `engine="cp"` refuses a
-multi-element plan outright, so tagging the reference plan's rooms would take the shipped sheet off
-the proving engine and onto the search. The prover has to learn elements first. Then, outside this
-package, the two unbuilt items of the ruling itself. (An earlier version of this line named five
-items for three layers for as long as it took to re-read it: it still listed `structure` and
-`vertical_score`, taught in the two commits above it. A to-do list that survives the work it
-describes is the *"until X lands"* class, one file over.)
+**ITEM 4 IS IN (5 Sep): CP-SAT PLACES PER ELEMENT, AND TWELVE DOWNGRADED WALL PINS BECOME FOUR.**
+`geometry_cp._boxes` gives each room its own element box, read from `geometry.blocks_for` — the one
+spelling both engines share. **With one element every room maps to `(0, 0, Wi, Hi)`**, the pair the
+model spelled inline at every site, so the sixteen one-rectangle records take the same path: the
+serialised model proto is **byte-identical on all sixteen, hard and objective**, which is a stronger
+regression guard than sixteen ninety-second solves and costs nothing — **and was published once
+before it was true**, on a harness whose `SerializeToString` threw `AttributeError` on both sides so
+that `diff` compared two identical tracebacks. Re-derived, the objective model had moved on seven of
+the sixteen, because `_EXT` widened four variable domains unconditionally: a domain is an input to
+presolve, not a comment. Measured on the Tidewater
+record at 90 s, seed 7: one rectangle **12** downgrades, the same record with the three service
+rooms tagged into a west dependency and **nothing else changed 4**, the package's fixture (tagged
+and walls re-declared) 5. Twelve to four with not one declared fact touched, which is the
+diagnosis's own sentence measured — a service room declaring N/S/W is declaring the exposures of a
+WING.
+
+**Two of the three things it found were not about CP at all.** `derive_footprint` sized the main
+block from the WHOLE ground programme while `flank_sizes` sized each dependency from the same rooms
+and laid it beside the block — the wing's area counted twice, 2,405 sf of block for 1,863 sf of
+rooms, 29% over. The hill-climb absorbed it as empty floor; the prover, which has a coverage floor,
+called the house INFEASIBLE at every bay count. **A search that tolerates an over-size and a prover
+that refuses it are the same defect read twice, and only one of the two says so** — and fixing it
+moved every measurement this package had published on its fixture (main block 63 × 38.17 → 45 × 41.4;
+layer-1 refusals 9 → 5 → **0**; the three-element built extent 118 → 100 ft with `flanking_ft`
+unmoved at 55). The identities held and the literals moved, which is the difference between a guard
+and a measurement. And the multi-element DISCLOSURE was attached in `write_record` only — the
+heuristic's writer — so the one engine every multi-element plan was sent away from was the only one
+that disclosed anything about them.
+
+**The twelfth site was the interval's END variable** (`m.NewIntervalVar(x, w, m.NewIntVar(0, Wi))`),
+which carries no constraint of its own, so nothing in the source reads as a bound on where a room
+may be. The model came back INFEASIBLE with every assumption cleared and NO CONFLICT TO NAME. Found
+by bisecting the model, not by re-reading it. Fifteen mutations, eleven caught, **four missed and
+all four now guarded** — the misses share one shape, that satisfiability is a weak instrument: a
+looser model is still satisfiable, so every mutation that merely widened a bound passed. Two lessons
+worth carrying: an assumption literal is invisible to a test that clears assumptions, and a suite
+that only ever builds the HARD model has not tested the objective at all.
+
+**Still to do: item 3** (re-author `tidewater-georgian-careful` with `block` on every room), which
+was blocked on item 4 and is now blocked on the parti —
+`oq/three-hard-room-rules-forbid-a-detached-kitchen`. Then, outside this package, the two unbuilt items of the ruling itself. (An earlier
+version of this line named five items for three layers for as long as it took to re-read it: it
+still listed `structure` and `vertical_score`, taught in the two commits above it. A to-do list that
+survives the work it describes is the *"until X lands"* class, one file over.)
 
 **Original package text, left as written:**
 

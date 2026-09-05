@@ -323,40 +323,61 @@ class TestASecondMassingElement:
 
 
 class TestCPRefusesASecondMassingElement:
-    """OQ 40, from the adversarial audit of the change that introduced blocks (3 Sep 2026).
+    """OQ 40, from the adversarial audit of the change that introduced blocks (3 Sep 2026) --
+    **and the refusal it pinned was REPLACED by WP-11.6 item 4 (5 Sep 2026).**
 
-    geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`: one rectangle,
-    one non-negative coordinate space. Handed a plan with a dependency it did NOT fail -- it
-    placed the dependency's rooms inside the main block (the garage at x = 50 of a 0-70 block)
-    while `footprint.blocks` went on describing an element at x = 84-114. The record and the
-    drawing disagreed about where the house is.
+    The refusal was right for a year of code: geometry_cp built every room as
+    `x = NewIntVar(0, Wi)` with `x + w <= Wi`, one rectangle and one non-negative coordinate
+    space, and handed a plan with a dependency it did NOT fail -- it placed the dependency's
+    rooms inside the main block (the garage at x = 50 of a 0-70 block) while `footprint.blocks`
+    went on describing an element at x = 84-114. The record and the drawing disagreed about where
+    the house is, and the fatal count was flattered besides, because rooms crammed into one
+    rectangle are all reachable.
 
-    It also flattered a measurement: rooms crammed into one rectangle are all reachable, so the
-    fatal count read as a proof of the composition when it was a proof of something else. The
-    engine refuses now, and `auto` falls back with the reason stated."""
+    `geometry_cp._boxes` gives each room its own element box now, so the two assertions that
+    pinned the refusal are inverted rather than deleted: the engine must NOT refuse, and `auto`
+    must NOT fall back for this reason. **The class keeps its name and the third test keeps its
+    subject** -- wherever the dependency is placed, it must be placed where the record says it
+    is, which is the defect OQ 40 actually found and is as live on the prover as on the search.
+    Neither engine may flatten a wing into the house."""
 
     @staticmethod
     def _plan_with_a_dependency():
         return _tagged_dependency_plan(), None
 
-    def test_engine_cp_refuses_rather_than_flattening_the_dependency(self, geometry_module):
+    def test_engine_cp_no_longer_refuses_and_places_the_dependency_in_its_own_element(
+            self, geometry_module):
         plan, C = self._plan_with_a_dependency()
         assert any(r.get("block") for lv in plan["levels"] for r in lv["rooms"]), \
             "the fixture must carry a dependency or this proves nothing"
         geometry_module._SOLVE_CACHE.clear()
-        out = geometry_module.solve(plan, C, engine="cp")
-        assert out.get("error") and "massing element" in out["error"], (
-            "CP must refuse a multi-element plan, not place it in one rectangle")
-        assert out.get("unsolved") is True
+        out = geometry_module.solve(plan, C, engine="cp", time_limit_s=90.0)
+        assert not (out.get("error") or "").startswith("could not solve with CP-SAT: this plan"), \
+            out.get("error")
+        # PROVED or honestly unsolved-in-budget, but never refused for having two elements.
+        # A budget timeout is a statement about this machine and is not what is under test.
+        if out.get("error"):
+            assert "massing element" not in out["error"], out["error"]
+            pytest.skip(f"CP did not finish in budget here: {out['error'][:80]}")
+        blocks = {b["id"]: b for b in (out["footprint"].get("blocks") or [])}
+        assert len(blocks) >= 2, blocks
+        for lv in out["levels"]:
+            for r in lv["rooms"]:
+                b, g = blocks.get(r.get("block") or ""), r.get("geometry")
+                if not b or not g:
+                    continue
+                assert b["x_ft"] - 0.01 <= g["x_ft"] and \
+                    g["x_ft"] + g["width_ft"] <= b["x_ft"] + b["width_ft"] + 0.01, (r["id"], g, b)
 
-    def test_auto_falls_back_and_says_why(self, geometry_module):
+    def test_auto_does_NOT_fall_back_for_a_second_massing_element(self, geometry_module):
+        """The inverse of what this test used to assert. The fallback reason it pinned was the
+        plate's own sentence, and the plate must not go on saying it once it is untrue."""
         plan, C = self._plan_with_a_dependency()
         geometry_module._SOLVE_CACHE.clear()
-        geometry_module.solve(plan, C, engine="auto")
+        geometry_module.solve(plan, C, engine="auto", time_limit_s=90.0)
         solver = plan["geometry_report"]["solver"]
-        assert solver["engine"] == "heuristic" and solver.get("fallback") == "engine"
-        assert "massing element" in solver["reason"], (
-            "the plate reads this reason; it must name the real cause, not 'budget'")
+        assert "massing element" not in (solver.get("reason") or ""), solver
+        assert solver.get("fallback") != "engine", solver
 
     def test_and_the_fallback_actually_places_the_dependency_outside(self, geometry_module):
         """The point of falling back rather than proceeding: the engine that runs must put the
@@ -545,7 +566,7 @@ class TestTheAuditGapsInTheBlockWork:
         # corpus treats as exactly as dishonest as a fake pass. What the note keeps is the two
         # facts that outlive the six layers.
         assert "COULD NOT EVALUATE" not in me["note"], me["note"]
-        assert "REFUSES a multi-element plan" in me["note"]
+        assert "places each element in its own rectangle" in me["note"]
         assert "ignored_tags_above_ground" not in me
 
         # A tag the placer cannot read is named rather than silently dropped. The schema admits

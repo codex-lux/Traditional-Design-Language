@@ -57,16 +57,26 @@ def dep_rooms(p):
 class TestTheDisclosureFalls:
     def test_it_names_NO_LAYER_and_the_disclosure_survives_anyway(self, placed):
         """The ruling's own check, at the end of its own fall: "must name five, then four, then
-        none". All six are taught. **The block does not vanish with the list**, and its two
-        surviving facts are why -- the prover refuses a multi-element plan, and the roof is still
-        the main block's alone."""
+        none". All six are taught. **The block does not vanish with the list**, and the facts
+        that keep it are why -- the roof is still the main block's alone, and the abutment
+        between two adjacent elements is nobody's rule.
+
+        **ONE OF THE TWO SURVIVING FACTS DIED AT ITEM 4 AND THE NOTE HAD TO STOP SAYING IT.**
+        It read `engine="cp"` REFUSES a multi-element plan, "so the engine that PROVES is
+        unavailable"; the prover places each element in its own rectangle now, and a note
+        claiming an engine is unavailable when it is available is the fake-unjudged direction,
+        which this corpus treats as exactly as dishonest as a fake pass. The negative assertion
+        below is what keeps that sentence from coming back."""
         me = placed["geometry_report"]["multi_element"]
         assert me["elements"] == 2
         assert me["not_element_aware"] == []
         assert "COULD NOT EVALUATE" not in me["note"], (
             "with nothing unjudged the note may not claim an unjudged state -- a fake unjudged "
             "is as dishonest in its own direction as a fake pass")
-        assert "REFUSES a multi-element plan" in me["note"]
+        assert "REFUSES a multi-element plan" not in me["note"], (
+            "the prover places per element since WP-11.6 item 4; saying it refuses would be a "
+            "false statement about the engine in the flattering direction")
+        assert "places each element in its own rectangle" in me["note"]
         assert "roof" in me["note"]
 
     def test_a_one_rectangle_plan_discloses_NOTHING(self):
@@ -123,19 +133,36 @@ class TestOpeningsReadsTheRoomsOwnElement:
         # correction of my own first draft, which claimed the old call returned nothing.
         assert OP._boundary_walls(rect, 63, 38.17) == {"W": (9.05, 23.72)}
 
-    def test_the_refusals_that_remain_are_HONEST(self, placed):
-        """9 of 14 dependency openings were refused before and 5 after, and the difference has
-        to be a real one. The kitchen's north edge is 23.72 against its element's 29.12: it does
-        not reach that face and the refusal is correct."""
+    def test_the_refusals_are_GONE_and_a_driven_one_still_comes_back(self, placed):
+        """**THE COUNT MOVED AGAIN AT ITEM 4 AND THIS TEST HAD TO CHANGE SHAPE.** It was 9 of 14
+        dependency openings refused before layer 1 and 5 after, and it pinned the kitchen's north
+        window as an honest refusal: the room's north edge stood 23.72 against its element's
+        29.12, so it really did not reach that face. Item 4 found `derive_footprint` sizing the
+        MAIN block from the whole building's programme, wing included -- 29% too large -- and
+        sizing it from its own rooms re-proportioned the wing. **The kitchen now spans its
+        element's full depth and all five remaining refusals are gone**, which leaves nothing for
+        the old assertion to be honest about.
+
+        A count of zero is exactly the reading this corpus distrusts, so the discrimination is
+        DRIVEN instead: pull four feet off the kitchen's north face and `_boundary_walls` must
+        stop naming N. Asserted on the arithmetic layer 1 changed rather than through `place()`,
+        which re-solves."""
         deps = dep_rooms(placed)
+        refused = [(r["id"], w["wall"]) for lv in placed["levels"] for r in lv["rooms"]
+                   if r["id"] in deps for w in (r.get("windows") or []) if w.get("unplaced")]
+        assert refused == [], refused
         kitchen = next(r for lv in placed["levels"] for r in lv["rooms"] if r["id"] == "kitchen")
-        by_wall = {w["wall"]: w for w in kitchen["windows"]}
-        assert not by_wall["S"].get("unplaced"), "the kitchen IS on its element's south face"
-        assert by_wall["N"].get("unplaced"), "and is NOT on its north face"
-        g = kitchen["geometry"]
-        el = next(b for b in placed["footprint"]["blocks"] if b["id"] != "main")
-        assert g["y_ft"] + g["depth_ft"] < el["y_ft"] + el["depth_ft"] - 1.0, (
-            "the refusal must rest on the geometry, not on a coincidence")
+        envs = OP.envelopes(placed)
+        el = envs["kitchen"]
+        assert set(OP._boundary_walls(OP._rect(kitchen), placed["footprint"]["width_ft"],
+                                      placed["footprint"]["depth_ft"], env=el)) >= {"N", "S"}
+        pulled = dict(kitchen, geometry=dict(kitchen["geometry"],
+                                             depth_ft=kitchen["geometry"]["depth_ft"] - 4.0))
+        walls = OP._boundary_walls(OP._rect(pulled), placed["footprint"]["width_ft"],
+                                   placed["footprint"]["depth_ft"], env=el)
+        assert "N" not in walls, (walls, "a room four feet off its element's face still reaches "
+                                         "it -- the test is not reading the element")
+        assert "S" in walls, walls
 
     def test_and_a_dependency_room_now_places_openings_AT_ALL(self, placed):
         """The headline. Before this, every opening on every dependency room was refused with
@@ -250,12 +277,19 @@ class TestTheCriticReadsTheRoomsOwnElement:
         assert convicted == set(), convicted
 
     def test_AND_THE_TWO_GENUINE_INTERIOR_ROOMS_ARE_STILL_CONVICTED(self, placed):
-        """The control, and without it this is a loosening rather than a fix. `chamber2` and
-        `stair` read `[]` against the main block AND against their own element -- they really are
-        in the middle of the house -- so they must keep the finding the dependency rooms lost."""
+        """The control, and without it this is a loosening rather than a fix. A room that reads
+        `[]` against the main block AND against its own element really is in the middle of the
+        house, and must keep the finding the dependency rooms lost.
+
+        **IT WAS TWO ROOMS AND IS ONE, AND THE REASON IS ITEM 4 RATHER THAN A WEAKER GUARD.**
+        Sizing the main block from its own rooms took it from 63 x 38.17 to 45 x 41.4, and
+        `chamber2` -- which had been drawn in the middle of an over-large block -- now reaches
+        its east wall. It is not landlocked any more because it is not landlocked, which is
+        what a smaller and honestly-sized block does. `stair` still is, on both readings."""
         c = PC.check(_forced(placed))
         still = {f["room"] for f in c["findings"] if f.get("kind") == "drawn-landlocked"}
-        assert {"chamber2", "stair"} <= still, still
+        assert "stair" in still, still
+        assert not (still & dep_rooms(placed)), still
 
     def test_the_finding_it_takes_instead_NAMES_the_element(self, placed):
         deps = dep_rooms(placed)
@@ -267,7 +301,12 @@ class TestTheCriticReadsTheRoomsOwnElement:
             assert f.get("element") == "west-dependency", f
             assert "west-dependency element" in f["statement"], f["statement"]
         by = {f["room"]: sorted(f["lit_walls"]) for f in rows}
-        assert by["kitchen"] == ["S", "W"] and by["breakfast"] == ["E", "S"], by
+        # ITEM 4 MOVED THE KITCHEN'S ANSWER FROM ["S", "W"] TO ["N", "S", "W"]: with the main
+        # block sized from its own rooms the wing is re-proportioned and the kitchen spans its
+        # element's full depth, so it reaches the north face as well. The breakfast room is
+        # unmoved. Both are still measured against the ELEMENT and both would be `[]` against
+        # the main block, which is the thing under test.
+        assert by["kitchen"] == ["N", "S", "W"] and by["breakfast"] == ["E", "S"], by
 
     def test_A_WALL_FACING_THE_GAP_IS_NAMED_exterior_to_the_weather_interior_to_the_view(
             self, placed):
@@ -549,7 +588,12 @@ class TestTheLotCapIsOnTheBuiltExtent:
         """The strongest form of the guard, and the reason `flank_sizes` is one function: the cap
         computes the flank BEFORE the placement and the placement lays it out AFTER, so the two
         can be held against each other on the placement's own output. A dependency each side --
-        three elements, 118 ft of building -- and `built_extent - main == flank` exactly."""
+        three elements, 100 ft of building -- and `built_extent - main == flank` exactly.
+
+        **THE TWO LITERALS MOVED AT ITEM 4 AND THE IDENTITY DID NOT**, which is the difference
+        between a measurement and a guard. The main block was 63 ft while `derive_footprint`
+        counted the wings' programme into it as well as beside it; sized from its own rooms it is
+        45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55."""
         p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
         for r in p["levels"][0]["rooms"]:
             if r["type"] in ("kitchen", "pantry"):
@@ -563,7 +607,7 @@ class TestTheLotCapIsOnTheBuiltExtent:
         lo = min(b["x_ft"] for b in bl)
         hi = max(b["x_ft"] + b["width_ft"] for b in bl)
         L = p["geometry_report"]["lot"]
-        assert round(hi - lo, 2) == L["built_extent_ft"] == 118.0, (hi - lo, L)
+        assert round(hi - lo, 2) == L["built_extent_ft"] == 100.0, (hi - lo, L)
         assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 55.0, L
 
 
@@ -867,3 +911,551 @@ class TestTheGarageJoinsTheElementItsAnchorIsIn:
         assert "garage" in by, log
         assert "block" not in by["garage"], by["garage"]
         assert "block" not in by["garage-mudroom"], by["garage-mudroom"]
+
+
+# ---------------------------------------------------------------------------------------------
+# WP-11.6 item 4 — CP-SAT places per element.
+#
+# The engine that PROVES used to REFUSE a plan with a dependency, in `geometry._solve_uncached`,
+# because `geometry_cp._build` gave every room `NewIntVar(0, Wi)` and `x + w <= Wi`: one
+# rectangle, one non-negative coordinate space. `auto` fell back to the hill-climb naming the
+# reason, so on exactly the plans whose composition most needs proving, the search carried the
+# findings. `_boxes` gives each room its own element box.
+#
+# **THE REGRESSION GUARD IS THE MODEL ITSELF, NOT A PLACEMENT.** A CP solve of the Tidewater
+# record takes ninety seconds on this machine, which is not a test; but the MODEL CP-SAT is
+# handed is deterministic and free to build, and if it is identical the placement is identical
+# whatever the solver does with its budget. `test_every_shipped_plan_maps_every_room_to_the_main
+# _box` is the by-construction half and the proto comparison in the report is the measured one.
+# ---------------------------------------------------------------------------------------------
+CP = modcache.load("geometry_cp", os.path.join(ROOT, "build", "geometry_cp.py"))
+
+
+def _cp_or_skip():
+    pytest.importorskip("ortools", reason="the CP-SAT engine (WP-2.3) needs ortools")
+    from ortools.sat.python import cp_model
+    return cp_model
+
+
+def _fixture_east():
+    """The same three service rooms, in an EAST dependency. It exists because a west wing is at
+    NEGATIVE x and therefore tests only the lower half of every bound — the main block's `Wi` is
+    looser than the wing's own east face there, so a mutation replacing one with the other cannot
+    be seen. Beyond the block, `Wi` is the tighter bound and the same mutation is fatal."""
+    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    n = 0
+    for r in p["levels"][0]["rooms"]:
+        if r["type"] in ("kitchen", "pantry", "breakfast-room"):
+            r["block"] = "east-dependency"
+            r["exterior_walls"] = ["N", "S", "E"]
+            n += 1
+    assert n >= 2, "the reference plan's service room types have been renamed"
+    return p
+
+
+def _prepped(p):
+    levels, prep = GEO.prep_rooms(p)
+    fpd = CP._snap_fpd(GEO.derive_footprint(p, None, prep))
+    assert "error" not in fpd, fpd
+    return levels, prep, fpd
+
+
+class TestTheModelIsUnchangedOnOneRectangle:
+    def test_every_shipped_plan_maps_every_room_to_the_main_box(self):
+        """The by-construction claim, stated as an assertion rather than as a comment.
+
+        Every expression in `_build` that used to spell `0` / `Wi` / `Hi` inline now reads the
+        room's own box. If that box IS `(0, 0, Wi, Hi)` for every room of every shipped record,
+        each of those expressions is arithmetically the one it replaced — which is why the
+        sixteen one-rectangle placements did not have to be re-measured one solve at a time."""
+        seen = 0
+        import glob
+        for f in sorted(glob.glob(os.path.join(ROOT, "plans", "**", "*.json"), recursive=True)):
+            p = json.load(open(f))
+            if "levels" not in p:
+                continue
+            levels, prep = GEO.prep_rooms(p)
+            fpd = GEO.derive_footprint(p, None, prep)
+            if "error" in fpd:
+                continue
+            fpd = CP._snap_fpd(fpd)
+            boxes, main = CP._boxes(p, prep, fpd)
+            assert main == (0, 0, int(round(fpd["W"] * CP.U)), int(round(fpd["H"] * CP.U)))
+            assert boxes, f
+            for key, b in boxes.items():
+                assert b == main, (os.path.basename(f), key, b, main)
+            seen += 1
+        assert seen >= 14, seen
+
+    def test_no_shipped_plan_gets_a_WIDENED_domain(self):
+        """**THE REGRESSION GUARD OF THIS PACKAGE, AND IT WAS EARNED BY AN INSTRUMENT THAT COULD
+        NOT FAIL.**
+
+        Item 4 widened four variable domains so a wing's negative coordinates fit — and the
+        first version widened them UNCONDITIONALLY, on the argument that a looser domain cannot
+        change an answer. **A domain is an input to presolve, not a comment**, and the objective
+        model moved on seven of the sixteen shipped records. It was published as byte-identical
+        first, because the instrument saying so — a serialise-and-hash of `_build`'s proto —
+        threw `AttributeError: no attribute 'SerializeToString'` on BOTH sides, so `diff`
+        compared two identical tracebacks and reported no difference. An instrument that cannot
+        fail is worse than a test that cannot fail, because its output is a number.
+
+        `_wide` returns its arguments unchanged below two elements. The check is that no
+        variable in the model carries the widened domain, computed here the way `_build`
+        computes it rather than quoted, so it cannot drift."""
+        cp_model = _cp_or_skip()
+        import glob
+        seen = 0
+        for f in sorted(glob.glob(os.path.join(ROOT, "plans", "**", "*.json"), recursive=True)):
+            plan = json.load(open(f))
+            if "levels" not in plan:
+                continue
+            levels, prep = GEO.prep_rooms(plan)
+            fpd = GEO.derive_footprint(plan, None, prep)
+            if "error" in fpd:
+                continue
+            fpd = CP._snap_fpd(fpd)
+            boxes, main = CP._boxes(plan, prep, fpd)
+            assert set(boxes.values()) == {main}, os.path.basename(f)
+            ext = max([abs(c) for b in boxes.values() for c in b] + [main[2], main[3]]) * 2 + 1
+            m, rooms, reqs = CP._build(plan, prep, fpd, GEO.entrance_walls(plan), objective=True)
+            proto = m.Proto()
+            assert len(proto.variables) > 100, (f, len(proto.variables))
+            widened = [i for i, v in enumerate(proto.variables) if list(v.domain) == [-ext, ext]]
+            assert not widened, (os.path.basename(f), len(widened),
+                                 "a one-rectangle plan carries a widened domain — the model "
+                                 "CP-SAT presolves is not the one it presolved before item 4")
+            seen += 1
+        assert seen >= 14, seen
+
+    def test_and_a_MULTI_element_plan_DOES_get_it(self):
+        """The control. Without it the test above passes if `_wide` never widens at all, which
+        would put the west wing's negative distances back in an infeasible domain."""
+        _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        ext = max([abs(c) for b in boxes.values() for c in b] + [main[2], main[3]]) * 2 + 1
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=True)
+        widened = [v for v in m.Proto().variables if list(v.domain) == [-ext, ext]]
+        assert widened, "no domain was widened on a plan with a wing"
+
+    def test_the_main_block_is_sized_from_its_own_rooms_and_that_moves_nothing_here(self):
+        """`derive_footprint` counted a dependency's programme into the main block AND laid the
+        dependency beside it, so the wing's area was counted twice. With one element the two
+        sums are the same sum, which is why no shipped record moved."""
+        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        levels, prep = GEO.prep_rooms(p)
+        assert not any(GEO.is_block_tag(r.get("block")) for r in prep[0])
+        a_all = sum(r["_area"] for r in prep[0])
+        a_main = sum(r["_area"] for r in prep[0] if not GEO.is_block_tag(r.get("block")))
+        assert a_all == a_main
+
+
+class TestCPSATPlacesPerElement:
+    def test_the_wing_gets_its_own_box_and_everyone_else_the_main_one(self):
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        wing = {rid for lv in p["levels"] for r in lv["rooms"] if r.get("block")
+                for rid in [r["id"]]}
+        assert len(wing) >= 2, wing
+        wing_boxes = {boxes[(0, rid)] for rid in wing}
+        assert len(wing_boxes) == 1, wing_boxes
+        wb = wing_boxes.pop()
+        assert wb != main, (wb, main)
+        assert wb[0] < 0, wb          # a west wing sits at negative x: the whole difficulty
+        for (lvl, rid), b in boxes.items():
+            if lvl == 0 and rid in wing:
+                continue
+            assert b == main, (lvl, rid, b)
+
+    def test_the_UPPER_level_is_the_main_block_whatever_a_room_says(self):
+        """`blocks_for` lays only level 0 into elements. Inventing a box for an upper room
+        would be a drawn claim nobody placed — the per-element roof is the ruling's own
+        unbuilt item."""
+        p = _fixture()
+        for r in p["levels"][1]["rooms"]:
+            r["block"] = "west-dependency"
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        for r in prep.get(1, []):
+            assert boxes[(1, r["id"])] == main, (r["id"], boxes[(1, r["id"])])
+
+    def test_the_main_block_is_sized_from_the_main_blocks_own_programme(self):
+        """The defect the prover surfaced and the search had absorbed in silence: the wing's
+        area was counted into the main block AND laid beside it."""
+        p = _fixture()
+        levels, prep = GEO.prep_rooms(p)
+        a_all = sum(r["_area"] for r in prep[0])
+        a_main = sum(r["_area"] for r in prep[0] if not GEO.is_block_tag(r.get("block")))
+        assert a_all - a_main > 300, (a_all, a_main)
+        fpd = GEO.derive_footprint(p, None, prep)
+        # the derived block holds the main-block programme, not the whole building's
+        assert fpd["need"] == max(a_main, sum(r["_area"] for r in prep.get(1, [])))
+        assert fpd["W"] * fpd["H"] < a_all, (fpd["W"], fpd["H"], a_all)
+
+    def test_the_hard_model_is_SATISFIABLE_with_a_dependency(self):
+        """The whole of item 4 in one assertion. Before it, this model was INFEASIBLE with
+        every assumption dropped and no conflict to name — the interval END variables still
+        carried `NewIntVar(0, Wi)`, which cannot hold a west wing's negative coordinate."""
+        cp_model = _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        # ASSUMPTIONS CLEARED, which is the model `_extract_conflicts` reaches when it says
+        # "the rooms cannot tile any footprint this parti and lot allow, EVEN WITH EVERY
+        # DECLARED REQUIREMENT DROPPED". That is the sentence the interval-end bug produced,
+        # and it is a statement about containment and no-overlap alone. The round loop's own
+        # first pass is legitimately INFEASIBLE here -- it downgrades wall pins and retries --
+        # so asserting on it would be asserting on the declared walls, not on this change.
+        m.ClearAssumptions()
+        s = cp_model.CpSolver()
+        s.parameters.max_time_in_seconds = 30.0
+        s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
+        st = s.Solve(m)
+        assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
+        # and every wing room is drawn INSIDE its wing, which is what the refusal was about:
+        # handed a dependency, the old engine placed its rooms inside the main block while
+        # `footprint.blocks` went on describing an element somewhere else
+        boxes, main = CP._boxes(p, prep, fpd)
+        wing = [r for r in prep[0] if r.get("block")]
+        assert wing
+        for r in wing:
+            bx0, by0, bx1, by1 = boxes[(0, r["id"])]
+            v = rooms[(0, r["id"])]
+            x, y = s.Value(v["x"]), s.Value(v["y"])
+            w, h = s.Value(v["w"]), s.Value(v["h"])
+            assert bx0 <= x and x + w <= bx1, (r["id"], x, w, bx0, bx1)
+            assert by0 <= y and y + h <= by1, (r["id"], y, h, by0, by1)
+
+    def test_a_door_across_open_ground_is_stated_and_is_NOT_an_infeasibility(self):
+        """A detached dependency is detached. The door rule is a HARD abutment
+        (`a.x + a.w == b.x`) — vacuous while every room shared one rectangle, real the moment
+        the elements are — so left alone it would prove a buildable house impossible. The
+        heuristic draws such a door `unplaced` with a reason; the prover says the same thing."""
+        _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        gap = [n for n in reqs.notes if "elements that do not touch" in n]
+        assert gap, sorted(reqs.notes)[:6]
+        # and no such door is a requirement of the model
+        assert not [t for _l, t, k, _key in reqs.lits
+                    if k == "door" and "Kitchen (Dependency)" in t and "Back Hall" in t]
+
+    def test_a_door_INSIDE_one_element_is_still_a_requirement(self):
+        """The control. If the clause above refused every door the model would be trivially
+        satisfiable and this class would prove nothing."""
+        _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        doors = [t for _l, t, k, _key in reqs.lits if k == "door"]
+        assert len(doors) >= 8, doors
+        gap = [n for n in reqs.notes if "elements that do not touch" in n]
+        assert len(gap) < len(doors), (len(gap), len(doors))
+
+    def test_A_DOOR_THROUGH_THE_LINK_IS_STILL_A_HARD_REQUIREMENT(self):
+        """**The claim that the hyphen's abutment needed no new constraint, measured rather than
+        asserted.** The plan text called it "the seventh defect", to be added; `_build`'s door
+        rule was already `a.x + a.w == b.x` with the two overlap bounds — a hard abutment,
+        vacuous while every room shared one rectangle.
+
+        On the hyphen fixture: the hyphen abuts BOTH the dependency and the main block, and the
+        dependency abuts the main block not at all. So the door the link exists to carry is kept
+        as a requirement, and the three doors that would have to cross open ground are stated as
+        outside the model. **Without both halves this test is worthless**: if `_abuts` said
+        everything touches, the model would prove a buildable house impossible; if it said
+        nothing touches, no cross-element door would be a requirement anywhere and the hyphen
+        would carry nothing."""
+        _cp_or_skip()
+        p = _hyphen_fixture()
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        by_el = {}
+        for (lvl, rid), b in boxes.items():
+            if lvl == 0:
+                by_el.setdefault(b, []).append(rid)
+        hyph = next(b for b, ids in by_el.items() if ids == ["hyphen"])
+        dep = next(b for b, ids in by_el.items() if "kitchen" in ids)
+        assert CP._abuts(hyph, dep) and CP._abuts(hyph, main), (hyph, dep, main)
+        assert not CP._abuts(dep, main), (dep, main, "a detached dependency touches the house")
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        kept = [t for _l, t, k, _key in reqs.lits
+                if k == "door" and "Hyphen" in t and "Kitchen (Dependency)" in t]
+        assert kept, [t for _l, t, k, _k in reqs.lits if k == "door" and "Hyphen" in t]
+        stated = [n for n in reqs.notes if "elements that do not touch" in n]
+        assert len(stated) == 3, stated
+        assert all("Kitchen (Dependency)" in n for n in stated), stated
+
+    def test_abuts_is_a_shared_FACE_and_a_corner_is_not_one(self):
+        assert CP._abuts((0, 0, 10, 10), (0, 0, 10, 10))          # the one-element case
+        assert CP._abuts((0, 0, 10, 10), (10, 0, 20, 10))         # east face
+        assert CP._abuts((0, 0, 10, 10), (-5, 2, 0, 8))           # west face, partial overlap
+        assert CP._abuts((0, 0, 10, 10), (0, 10, 10, 20))         # north face
+        assert not CP._abuts((0, 0, 10, 10), (14, 0, 20, 10))     # a gap
+        assert not CP._abuts((0, 0, 10, 10), (10, 10, 20, 20))    # a corner is not a face
+        assert not CP._abuts((0, 0, 10, 10), (10, 12, 20, 20))    # past the corner: yard
+
+    def test_absorb_takes_an_origin_and_a_wing_room_cannot_grow_across_the_gap(self):
+        """`_absorb`'s limits were `W`, `H` and a literal `0.0` — the main block and only the
+        main block. Run over a west wing's rooms it grew them east across the gap into the
+        house and west out through the wing's own wall."""
+        wing = {"a": (-41.0, 10.0, 10.0, 20.0)}
+        grown = CP._absorb(wing, 27.0, 20.0, x0=-41.0, y0=10.0)
+        x, y, w, h = grown["a"]
+        assert x >= -41.0 - 0.01, grown
+        assert x + w <= -14.0 + 0.01, grown
+        assert y >= 10.0 - 0.01 and y + h <= 30.0 + 0.01, grown
+        # the control: the same rectangle at the origin grows to the frame it is given
+        at_origin = CP._absorb({"a": (0.0, 0.0, 10.0, 20.0)}, 27.0, 20.0)
+        assert at_origin["a"][2] > 10.0, at_origin
+
+    def test_an_element_boundary_is_not_counted_as_an_interior_wall(self):
+        """`_count_relaxations` measured every edge against the main block's frame, so a wing's
+        own two flanks read as interior lines off the bay grid and every wall it has read as a
+        compromise. The bay grid starts at the element's own origin for the same reason."""
+        rects = {0: {"a": (-41.0, 10.0, 27.0, 20.0)}}
+        boxes_ft = {(0, "a"): (-41.0, 10.0, -14.0, 30.0)}
+        assert CP._count_relaxations(rects, 45.0, 41.0, 9.0, 2.5, boxes_ft=boxes_ft) == []
+        # ...and read in the main block's frame instead, the same wing reports compromises
+        blind = CP._count_relaxations(rects, 45.0, 41.0, 9.0, 2.5)
+        assert blind, "the frame makes no difference — the guard is not reading what it thinks"
+
+
+class TestTheDisclosureIsOnBOTHEngines:
+    def test_the_cp_record_writer_attaches_the_multi_element_block(self):
+        """It was attached in `write_record` only — which the heuristic uses and the CP path
+        does not — so the one engine every multi-element plan was sent away from was the only
+        one that disclosed anything about them."""
+        src = open(os.path.join(ROOT, "build", "geometry.py")).read()
+        calls = [ln for ln in src.splitlines()
+                 if "multi_element_disclosure(plan)" in ln and not ln.lstrip().startswith("def ")]
+        assert len(calls) == 2, (calls,
+            "both record writers must attach it; a guarantee that holds on one engine is not one")
+
+    def test_the_note_no_longer_says_the_prover_refuses_a_multi_element_plan(self):
+        """With the refusal gone, that sentence would be a false statement about the engine —
+        and a note claiming an engine is unavailable when it is available is the fake-unjudged
+        direction, which this corpus treats as exactly as dishonest as a fake pass."""
+        p = _fixture()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        me = (p.get("geometry_report") or {}).get("multi_element")
+        assert me and me["elements"] == 2, me
+        assert "REFUSES a multi-element plan" not in me["note"], me["note"]
+        assert "places each element in its own rectangle" in me["note"], me["note"]
+
+
+class TestTheFourGuardsTheFirstMutationPassMISSED:
+    """Four of fifteen mutations left the suite green on the first pass, and each is recorded
+    here with what it proved was unguarded rather than with a looser assertion.
+
+    They share one shape: the class above asserts that the tagged model is SATISFIABLE and that
+    the solution it returns sits inside the wing. Satisfiability is a weak instrument -- a
+    LOOSER model is still satisfiable, and a returned solution can happen to be contained -- so
+    a mutation that only widens a bound passes it. Each test below drives the specific bound.
+    """
+
+    def test_containment_reads_the_ELEMENT_and_an_EAST_wing_is_what_proves_it(self):
+        """M3: `x + w <= Wi` instead of `<= bx1`.
+
+        **THE WEST-WING FIXTURE CANNOT TELL THE TWO APART, AND THE FIRST VERSION OF THIS TEST
+        PASSED UNDER THE MUTATION FOR THE WRONG REASON.** A west wing sits at negative x, so the
+        main block's bound is far LOOSER than its own and no legal placement violates it; forcing
+        a wing room past its east face is refused all right, but by the coverage floor on the main
+        block's rooms, which the intruding rectangle would have to overlap. The right answer from
+        the wrong constraint is the shape this repository keeps meeting.
+
+        An EAST wing is the discriminator: it stands beyond `Wi`, so `x + w <= Wi` is not looser
+        there, it is UNSATISFIABLE — the whole model goes infeasible and the assertion below is
+        the containment rule itself. A fixture that only ever tests one side of a bound has tested
+        half of it."""
+        cp_model = _cp_or_skip()
+        p = _fixture_east()
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        east = [b for (lvl, rid), b in boxes.items() if b != main]
+        assert east and east[0][0] > main[2], (east, main, "the wing is not east of the block")
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        m.ClearAssumptions()
+        s = cp_model.CpSolver()
+        s.parameters.max_time_in_seconds = 30.0
+        s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
+        st = s.Solve(m)
+        assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
+            s.StatusName(st), "an east wing stands beyond the main block's width, so a "
+                              "containment bound of Wi cannot hold it")
+        for r in prep[0]:
+            if not r.get("block"):
+                continue
+            bx0, by0, bx1, by1 = boxes[(0, r["id"])]
+            v = rooms[(0, r["id"])]
+            assert bx0 <= s.Value(v["x"]) and s.Value(v["x"]) + s.Value(v["w"]) <= bx1
+
+    def test_the_DEPTH_bound_is_the_elements_too_and_the_corpus_cannot_reach_it(self, monkeypatch):
+        """The x bound above has an east wing to prove it. The **y** bound has nothing: a
+        dependency is centred on the main block's axis and is never deeper than it, so
+        `y + h <= Hi` is always looser than `y + h <= by1` and a mutation swapping them leaves
+        the suite green. Measured — M3b MISSED on the sweep that caught the other fourteen.
+
+        So it is DRIVEN, exactly as layer 6's garage-element branch had to be: `blocks_for` is
+        replaced with one returning a wing DEEPER than the main block, which is a state the
+        placer could reach the day a dependency takes two storeys or a single-pile depth wider
+        than the house. Under the main block's bound that wing's rooms cannot use their own
+        southern half at all, and the coverage floor they owe it goes unsatisfiable."""
+        cp_model = _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        real = GEO.blocks_for
+
+        def deeper(plan, fp, prp, level=0):
+            out = [dict(b) for b in real(plan, fp, prp, level)]
+            for b in out:
+                if b.get("role") != "main":
+                    # south of the block and deeper than it: y runs past H on both sides
+                    b["y"], b["H"] = -6.0, fp["H"] + 12.0
+            return out
+
+        monkeypatch.setattr(GEO, "blocks_for", deeper)
+        boxes, main = CP._boxes(p, prep, fpd)
+        wing = next(b for (lvl, rid), b in boxes.items() if b != main)
+        assert wing[1] < main[1] and wing[3] > main[3], (wing, main)
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        m.ClearAssumptions()
+        s = cp_model.CpSolver()
+        s.parameters.max_time_in_seconds = 30.0
+        s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
+        st = s.Solve(m)
+        assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
+            s.StatusName(st), "a wing deeper than the main block cannot be placed — the depth "
+                              "bound is the main block's")
+        for r in prep[0]:
+            if not r.get("block"):
+                continue
+            v = rooms[(0, r["id"])]
+            y, h = s.Value(v["y"]), s.Value(v["h"])
+            assert wing[1] <= y and y + h <= wing[3], (r["id"], y, h, wing)
+
+    def test_a_wing_rooms_declared_WEST_wall_is_its_ELEMENTS_west_face(self):
+        """M4: the wall pins read `v["x"] == 0` again — the main block's west face, forty-one
+        feet from the wing's. Assumed alone (the round loop's own idiom), the pin must put the
+        room at the WING's edge. This is the mechanism behind the twelve downgrades falling to
+        four: a service room's declared walls are the exposures of a wing."""
+        cp_model = _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        rid = "kitchen"
+        assert "W" in (next(r for r in prep[0] if r["id"] == rid).get("exterior_walls") or [])
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        m.ClearAssumptions()
+        # All three wing rooms take the SOFT branch here ("it protrudes", so it must reach at
+        # least one of its declared walls), and a soft literal carries no `key` — hence the
+        # selection by text. Soft is not weak: `AddBoolOr(touch)` is still a requirement, and
+        # under the main block's reading it is an UNSATISFIABLE one, because the kitchen's x
+        # runs -41..-14 and its y 10.66..30.73, so not one of the main block's four faces is
+        # reachable. The status alone is the guard; the containment check below says which face.
+        lits = [lit for lit, t, k, key in reqs.lits
+                if k.startswith("wall") and t.startswith("Kitchen (Dependency)")]
+        assert len(lits) == 1, [t for _l, t, k, _k in reqs.lits if k.startswith("wall")]
+        m.AddAssumptions(lits)
+        s = cp_model.CpSolver()
+        s.parameters.max_time_in_seconds = 25.0
+        s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
+        st = s.Solve(m)
+        assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
+            s.StatusName(st), "the kitchen cannot reach any of its own declared walls — the "
+                              "pins are on the main block, forty-one feet away")
+        v = rooms[(0, rid)]
+        x, y, w, h = (s.Value(v["x"]), s.Value(v["y"]), s.Value(v["w"]), s.Value(v["h"]))
+        bx0, by0, bx1, by1 = boxes[(0, rid)]
+        assert x == bx0 or y == by0 or y + h == by1, (x, y, h, boxes[(0, rid)])
+        assert (bx0, by0, by1) != (main[0], main[1], main[3]), (
+            "the wing's faces coincide with the main block's — the fixture cannot tell the two "
+            "readings apart")
+
+    def test_the_model_WITH_ITS_OBJECTIVE_builds_and_solves_on_a_wing(self):
+        """M11: the bay-snap block measured every edge from the MAIN block's origin. `ev` has
+        domain [0, span] and a west wing's edges are negative, so that is not a worse objective,
+        it is an INFEASIBLE model — and every test above built `objective=False`, so the entire
+        soft half of the model was unexercised on a multi-element plan."""
+        cp_model = _cp_or_skip()
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=True)
+        m.ClearAssumptions()
+        s = cp_model.CpSolver()
+        s.parameters.max_time_in_seconds = 30.0
+        s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
+        st = s.Solve(m)
+        assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), s.StatusName(st)
+
+    def test_a_wing_rooms_door_to_the_EXTERIOR_reaches_the_wings_envelope(self):
+        """M15: the exterior-door rule read the main block's four faces. A wing room satisfies
+        none of them, so the requirement becomes unsatisfiable — a door to the outside from a
+        detached kitchen proving the house impossible."""
+        cp_model = _cp_or_skip()
+        p = _fixture()
+        rid = None
+        for lv in p["levels"]:
+            for r in lv["rooms"]:
+                if r.get("block") and rid is None:
+                    rid = r["id"]
+                    r.setdefault("doors", []).append({"to": "exterior"})
+        assert rid
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        m, rooms, reqs = CP._build(p, prep, fpd, GEO.entrance_walls(p), objective=False)
+        m.ClearAssumptions()
+        lits = [lit for lit, t, k, key in reqs.lits
+                if k == "door" and "door to the exterior" in t and rid in t.lower().replace(" ", "")
+                or (k == "door" and "door to the exterior" in t)]
+        assert lits, [t for _l, t, k, _k in reqs.lits if k == "door"]
+        m.AddAssumptions(lits)
+        s = cp_model.CpSolver()
+        s.parameters.max_time_in_seconds = 25.0
+        s.parameters.num_search_workers = 1
+        s.parameters.random_seed = 7
+        st = s.Solve(m)
+        assert st in (cp_model.OPTIMAL, cp_model.FEASIBLE), (
+            s.StatusName(st), "a wing room's door to the outside cannot be satisfied — the rule "
+                              "is reading the main block's envelope")
+        v = rooms[(0, rid)]
+        bx0, by0, bx1, by1 = boxes[(0, rid)]
+        x, y, w, h = (s.Value(v["x"]), s.Value(v["y"]), s.Value(v["w"]), s.Value(v["h"]))
+        assert x == bx0 or x + w == bx1 or y == by0 or y + h == by1, (x, y, w, h, boxes[(0, rid)])
+
+    def test_the_element_fill_is_the_elements_own_slack(self):
+        """M14: `fill` sets each room's area CEILING and was the whole building's ratio, so a
+        wing room was licensed to grow by a share of the main block. Inline in `_build` it was
+        unreadable and a mutation putting the building's ratio back left the suite green."""
+        p = _fixture()
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        fills = CP._element_fills(boxes, prep[0], 0)
+        assert len(fills) == 2, fills
+        wing_box = next(b for b in fills if b != main)
+        building = (fpd["W"] * fpd["H"]) / sum(r["_area"] for r in prep[0])
+        assert abs(fills[wing_box] - building) > 0.1, (fills, building,
+            "the wing's slack and the building's coincide — the fixture cannot tell them apart")
+        # the wing is sized from its own rooms, so its slack is close to 1.0 and its rooms take
+        # the floor of the cap; the building's ratio would hand them a fifth as much again
+        assert 0.9 <= fills[wing_box] <= 1.1, fills[wing_box]
+
+    def test_a_ONE_element_plan_gets_ONE_fill_and_it_is_the_buildings(self):
+        """The control, and the byte-identity claim in its own right: with one element the
+        function returns exactly the number the line it replaced computed."""
+        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        levels, prep, fpd = _prepped(p)
+        boxes, main = CP._boxes(p, prep, fpd)
+        fills = CP._element_fills(boxes, prep[0], 0)
+        assert list(fills) == [main], fills
+        assert abs(fills[main]
+                   - (fpd["W"] * fpd["H"]) / sum(r["_area"] for r in prep[0])) < 1e-9

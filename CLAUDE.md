@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,750 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,773 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -370,13 +370,17 @@ FORBIDDEN and a lime-plaster face carrying no masonry word, so the frame-wall si
 a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Report:
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
-**Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4 Sep 2026): WP-11.1, 11.2
-and 11.3 are complete, 11.4 through 11.11 are planned.** Raised by Lucas against the workbench's own
+**Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
+through 11.6 are complete, 11.7 through 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
+are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
+above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
+itself, two headings up.) Raised by Lucas against the workbench's own
 sheet, with the instruction to diagnose before building; the diagnosis is
 `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` and all five of the phase's questions were
-ruled the same day. Reports: `docs/reports/wp-11.{1,2,3}-*.md`. **Read WP-11.3's refusal before
-proposing a score term for the axis**, and WP-11.2's cost table before quoting any fatal count on
-the Tidewater plan.
+ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6}-*.md`. **Read WP-11.3's refusal
+before proposing a score term for the axis**, WP-11.2's cost table before quoting any fatal count on
+the Tidewater plan, and **WP-11.6's item-4 section before quoting a downgrade count on either
+engine** — the number is a property of the number of massing elements the record states.
 
 **Phase 9 — the critique and the corrective revisions — is COMPLETE (2 Sep 2026): WP-9.1,
 WP-9.2, WP-9.3 (the surfaces) and WP-9.4 (the adversarial audit of the other three).**
@@ -648,13 +652,95 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   was a falling count -- "six today and must name five, then four, then none" -- and
   `not_element_aware` is `[]`. **The note may no longer say COULD NOT EVALUATE**, and that is the
   harder half: with nothing unjudged those words are a FAKE UNJUDGED, which this corpus treats as
-  exactly as dishonest as a fake pass. What the block keeps are the two facts that outlive the six
-  layers and are still true of a multi-element plan -- **`engine="cp"` refuses one outright**, so
-  the engine that PROVES is unavailable and the engine that SEARCHES carries the findings, and
-  **the roof is still derived for the main block alone** with no stated ridge relation per element.
+  exactly as dishonest as a fake pass. The block kept TWO facts that outlive the six layers and
+  **ITEM 4 KILLED ONE OF THEM IN THE SAME PACKAGE**: it said `engine="cp"` refuses a multi-element
+  plan, "so the engine that PROVES is unavailable" -- and the prover places per element now, so
+  that sentence became a false statement about the engine in the FLATTERING direction, the same
+  fake-unjudged shape one paragraph up. What survives is that **the roof is still derived for the
+  main block alone** with no stated ridge relation per element, and that the abutment between two
+  ADJACENT elements is nobody's rule (refusing a door across a gap and stating why is honest, and
+  is not the same as knowing when two elements ought to touch).
   **AN EMPTY LIST IS NOT THE QUESTION CLOSED**: two of the ruling's four items are unbuilt (the
   per-element roof, and the abutment between adjacent elements), and
   `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` stays open on them.
+- **CP-SAT PLACES PER ELEMENT, AND TWELVE DOWNGRADED WALL PINS BECOME FOUR (WP-11.6 item 4).**
+  `geometry_cp._boxes` gives each room its own element box, read from `geometry.blocks_for` -- the
+  ONE spelling both engines share, taken from the plan rather than passed by the caller because
+  seven `_build` call sites would each have had to pass one and a reader that forgot would model a
+  wing inside the house, which is the very defect the refusal existed to prevent arriving through
+  its fix. **With one element every room maps to `(0, 0, Wi, Hi)`**, the pair the model spelled
+  inline at every site, so the sixteen one-rectangle records take the same path -- and the guard is
+  the MODEL, not a placement: the serialised `_build` proto is **byte-identical on all sixteen,
+  hard and objective**, which is stronger than sixteen ninety-second solves and costs nothing.
+  **AND THAT SENTENCE WAS PUBLISHED ONCE BEFORE IT WAS TRUE, ON AN INSTRUMENT THAT COULD NOT
+  FAIL.** The harness called `m.Proto().SerializeToString()`, which this build of ortools does not
+  have (`CpModelProto` is the C++-backed helper here); it threw `AttributeError` on BOTH sides, so
+  `diff` compared two identical tracebacks and printed BYTE-IDENTICAL. Believed three times, and it
+  reached this file and the report. Re-derived with `str(m.Proto())` -- plus an assertion that a
+  model serialises to more than 5 KB, so an empty read cannot pass again -- **the objective model
+  had moved on seven of the sixteen**: `_EXT` widened four variable domains unconditionally, on the
+  argument that a looser domain cannot change an answer. **A DOMAIN IS AN INPUT TO PRESOLVE, NOT A
+  COMMENT.** `_wide` widens only above one element and
+  `test_no_shipped_plan_gets_a_WIDENED_domain` computes the bound the way `_build` does rather than
+  quoting it, with a multi-element control so it cannot pass by never widening.
+  Measured on the Tidewater record at 90 s, seed 7: one rectangle **12** downgrades, the same
+  record with the three service rooms tagged into a west dependency and NOTHING else changed
+  **4**, the package's fixture (tagged and walls re-declared) 5. **Twelve to four with not one
+  declared fact touched** -- the diagnosis's own sentence measured, because a service room
+  declaring N/S/W is declaring the exposures of a WING.
+  **THE HYPHEN'S ABUTMENT NEEDED NO NEW CONSTRAINT, WHICH THE PLAN TEXT HAD CALLED "THE SEVENTH
+  DEFECT"**: `_build`'s door rule is already a hard abutment (`a.x + a.w == b.x`), vacuous while
+  every room shared one rectangle and real the moment the elements are. What it needed was the
+  OTHER half -- a door between elements that do NOT touch is not the model's fact, stated in
+  `refinements`, because a detached dependency is detached and proving a buildable house
+  impossible is the one thing a hard constraint here must never do. `_abuts` is the test and a
+  shared CORNER is not one: no leaf fits in a point.
+- **A SEARCH THAT TOLERATES AN OVER-SIZE AND A PROVER THAT REFUSES IT ARE THE SAME DEFECT READ
+  TWICE, AND ONLY ONE OF THE TWO SAYS SO (WP-11.6 item 4).** `derive_footprint`'s
+  `a0 = sum(r["_area"] for r in prep[0])` counted a dependency's rooms into the MAIN block while
+  `flank_sizes` sized that dependency from the same rooms and laid it BESIDE the block -- the
+  wing's area counted twice, **2,405 sf of main block for 1,863 sf of main-block rooms, 29% over**.
+  The hill-climb absorbed it silently as empty floor. CP-SAT, which has a coverage floor, reported
+  the house INFEASIBLE at every bay count *"even with every declared requirement dropped"*. Sizing
+  it from its own rooms moved the main block 63 x 38.17 -> 45 x 41.4 **and every measurement
+  WP-11.6 had published on its own fixture with it**: layer 1's refusals 9 -> 5 became 9 -> 5 ->
+  **0**, layer 5's landlocked control fell from two rooms to one (`chamber2` reaches its east wall
+  in an honestly-sized block), the kitchen's lit walls went `["S","W"]` -> `["N","S","W"]`, and the
+  three-element built extent 118 -> 100 ft with `flanking_ft` unmoved at 55. **The identities held
+  and the literals moved**, which is the difference between a guard and a measurement.
+  And the multi-element DISCLOSURE was attached in `write_record` only -- the heuristic's writer --
+  so the one engine every multi-element plan was SENT AWAY FROM was the only one that disclosed
+  anything about them; the first proved dependency placement came back `multi_element: null` on a
+  record carrying two blocks. Also found: `_score` never passed `bounds` to `exterior_score` while
+  the hill-climb has since layer 4, so a wing room's declared walls were charged against the WING
+  on one engine and the main block on the other.
+- **AN UNREACHABLE BOUND LOOKS EXACTLY LIKE NO BOUND, AND A SATISFIABILITY TEST CANNOT SEE A
+  LOOSER MODEL (WP-11.6 item 4).** Every site in `_build` that read the footprint as the whole
+  building had to become the room's own element; all but one were found by reading, and the one
+  that was not is `m.NewIntervalVar(x, w, m.NewIntVar(0, Wi, ""))` -- **the interval's END
+  variable**, which
+  carries no constraint of its own, so nothing in the source reads as a bound on where a room may
+  be. A west wing's rooms end at x = -14 and that domain cannot hold a negative number, so the
+  model came back INFEASIBLE with every assumption cleared and NO CONFLICT TO NAME. Found by
+  bisecting the model, not by re-reading it.
+  **SEVENTEEN MUTATIONS. THE FIRST SWEEP OF FIFTEEN CAUGHT ELEVEN, THE FOUR MISSES SHARED ONE
+  SHAPE, AND RE-RUNNING THE CONTAINMENT MUTATION AGAINST ITS NEW GUARD EXPOSED A FIFTH** (the DEPTH
+  bound, unreachable from the corpus because a dependency is centred on the main block's axis and
+  never deeper than it, so it is DRIVEN by replacing `blocks_for` as layer 6's garage branch had to
+  be; seventeen of seventeen on the re-run). The shape of the four:
+  the tests asserted that the tagged model is SATISFIABLE and that the returned solution sits
+  inside the wing, and satisfiability is a weak instrument -- a LOOSER model is still satisfiable
+  and a returned solution can happen to be contained, so every mutation that merely WIDENED a
+  bound passed. Three lessons: an **assumption literal is invisible to a test that clears
+  assumptions** (the wall pins); a suite that only ever builds the HARD model **has not tested the
+  objective at all** (the bay grid, whose `ev` domain of `[0, span]` makes a negative edge
+  infeasible rather than merely worse); and **a west wing tests only the lower half of every
+  bound** -- `x + w <= Wi` is LOOSER than the wing's own east face at negative x, so the first
+  containment guard passed under mutation for the wrong reason (the coverage floor refused the
+  intruding rectangle). An EAST wing is the discriminator and there is a fixture for it now. The
+  DEPTH bound has no such fixture -- a dependency is centred on the main block's axis and never
+  deeper than it -- so it is driven by replacing `blocks_for`, as layer 6's garage branch had to
+  be. Seventeen of seventeen on the re-run.
 - **A PARTI MAY STATE ITS OWN MASSING ELEMENTS NOW, AND THE CORPUS REFUSED THE FIRST DIAGRAM THAT
   DID, THREE TIMES (WP-11.6).** A parti room carries `block` and `hyphen` (parti schema),
   `compose.py` copies both onto the plan record exactly as it copies `stacks_over` -- **the
@@ -981,10 +1067,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   house reporting `lot_capped: true` at 34 ft wider than its lot, a critic convicting a dependency
   room of reaching no exterior wall, and IfcSpaces floating clear of their slab.
   **`geometry_report.multi_element` DISCLOSES all six** and names any room above the ground level
-  whose `block` tag the placer does not read. `engine="cp"` REFUSES a multi-element plan outright
-  (one rectangle, `x = NewIntVar(0, Wi)`) and `auto` falls back saying why -- so on a plan with a
-  dependency the engine that PROVES is unavailable and the engine that SEARCHES carries the
-  findings. **The composer writes no `block` on any room**: C2/C3 were reverted when the audit found
+  whose `block` tag the placer does not read. `engine="cp"` REFUSED a multi-element plan outright
+  (one rectangle, `x = NewIntVar(0, Wi)`) and `auto` fell back saying why -- so on a plan with a
+  dependency the engine that PROVES was unavailable and the engine that SEARCHES carried the
+  findings. **That is no longer true: WP-11.6 item 4 gives each room its own element box and the
+  prover places per element** (see the CP-SAT entry above). The sentence is kept in the past tense
+  because it is what WP-10.1 measured, not because it still holds. **The composer writes no `block` on any room**: C2/C3 were reverted when the audit found
   five more defects below them, so the only route in is a caller-supplied record, which is exactly
   the reader who cannot know. `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`
   carries the four things that must be ruled before this is built. Report:
