@@ -62,13 +62,16 @@ class TestSolveSmoke:
         plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
         result = geometry_module.solve(plan, engine="heuristic")
         report = result["geometry_report"]
-        # 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
-        # STAYS 7. WP-9.4 measured a corrected clamp (geometry._clamp_cut) that would move it
-        # to 8, and REFUSED it: the same change takes the entry porch's clear depth 6.0 -> 5.0
-        # and re-fires `porch-nobody-can-sit-on`, which WP-7.4 had cleared. Read _clamp_cut's
-        # docstring before trying it again -- the arithmetic there is right and the shipped
-        # expression is wrong, and shipping the fix alone still makes the corpus worse.
-        assert report["relaxations"]["count"] == 7
+        # 9, moved from 7 by WP-11.6, and the cause is a RECORD edit rather than a code one: `plans/tidewater-georgian-careful.json` now declares the two stacking claims its own parti has always made (`landing.stacks_over = "stair"`, `upperpassage.stacks_over = "passage"`). `geometry.bias()` reads `stacks_over` to steer CANDIDATE GENERATION, not only the ranking, so two more claims change which layouts are produced -- the search keeps all three claims it can reach (1 of 3 -> 3 of 5) and pays 2 more relaxations and 5 more transfer beams for them. Serious findings 62 -> 55, fatal 3 -> 4; the fatal is `unreachable: chamber3` and it is NAMED rather than absorbed (see docs/reports/wp-11.6-*.md). Previously: 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
+        # STAYS 9 -- and it said "STAYS 7" over an assertion of 9 for the length of one
+        # WP-11.6 edit, which is this repository's own "until X lands" trap caught in the act
+        # of being written. WP-9.4 measured a corrected clamp (geometry._clamp_cut) that would
+        # move this number by one, and REFUSED it: the same change takes the entry porch's
+        # clear depth 6.0 -> 5.0 and re-fires `porch-nobody-can-sit-on`, which WP-7.4 had
+        # cleared. Read _clamp_cut's docstring before trying it again -- the arithmetic there
+        # is right and the shipped expression is wrong, and shipping the fix alone still makes
+        # the corpus worse. The refusal stands; only the baseline it is measured against moved.
+        assert report["relaxations"]["count"] == 9
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]

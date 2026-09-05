@@ -1477,7 +1477,13 @@ def placement_summary(out):
                      "record's declared facts cannot all hold and this placement is the labelled least-bad "
                      "relaxation (WP-2.3). Then read geometry_report.relaxations: each cut taken off the bay "
                      "line is a joist run that does not land on a bearing wall and a window bay that will not "
-                     "centre. geometry_report.solver names which engine placed this and why.")}
+                     "centre. geometry_report.solver names which engine placed this and why. "
+                     "geometry_report.stacking sorts every declared `stacks_over` claim into "
+                     "kept, broken and UNJUDGED-with-a-reason, and the three add up to the "
+                     "number of claims the record makes — a claim nobody could judge is not a "
+                     "claim that landed (WP-11.6). geometry_report.multi_level, when present, "
+                     "says the record declares a storey neither engine places, so every room on "
+                     "it has no geometry here at all.")}
 
 def copy_json(o): return json.loads(json.dumps(o))
 

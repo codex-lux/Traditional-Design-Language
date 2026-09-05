@@ -330,6 +330,13 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "
                          "way and say what moved and why.")
+        # WP-11.6 EARNED THIS PRUNING, AND IT IS WORTH THE FOUR LINES TO SAY SO. That package
+        # moved the placement of the Tidewater plan -- two authored `stacks_over` claims change
+        # what `geometry.bias()` generates, and the upper floor comes out differently. Measured
+        # both ways across it: the PRUNED hash above is UNCHANGED at 0d94e0cd..., and the RAW
+        # `build_roof` return goes 4335d9e1... -> d8107962... So the pin said "the roof did not
+        # change" about a commit that changed the placement, which is exactly the question it
+        # was rewritten to answer and the reason it must not be un-pruned.
 
     def test_the_default_roof_form_is_spelled_once(self):
         src = open(os.path.join(ROOT, "build", "roof.py"), encoding="utf-8").read()

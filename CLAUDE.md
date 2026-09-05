@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **49 checks, 1,628 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,644 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -201,8 +201,9 @@ a `len(CHECKS)` of 41, read "43 of 46 checks passed" after WP-9.7's
 grouping-rule checker met PR #19's move-registry check at the merge, against a `len(CHECKS)` of
 43, read "44 of 47 checks passed" after WP-8.9's stranding sweep against a `len(CHECKS)`
 of 44, read "45 of 48 checks passed" after WP-11.3's furniture grammar, and reads
-"46 of 49 checks passed" after WP-11.4's threshold grammar, against a
-`len(CHECKS)` of 46. **Two sessions each added a check and each published 44**, which is the fifth time
+"46 of 49 checks passed" after WP-11.4's threshold grammar, and reads
+"47 of 50 checks passed" after WP-11.6's stacking checker, against a
+`len(CHECKS)` of 47. **Two sessions each added a check and each published 44**, which is the fifth time
 this number has gone wrong at exactly a merge; the guard caught it here too.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
@@ -336,6 +337,14 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
+**Phase 11 — the drawn sheet — is COMPLETE through WP-11.6 (5 Sep 2026).** The A line (the
+drawing) is finished: WP-11.1 and WP-11.2 put the sheet in Graphic Standard No. 1 with the wall
+as a body, WP-11.3 the furniture, WP-11.4 the threshold and the stacks, WP-11.5 the embedded
+face. **WP-11.6 opens the B line — the placement — and is a record edit that moved the
+placement**: `plans/tidewater-georgian-careful.json` now declares the two `stacks_over` claims its
+own parti had always made, and the four findings that came out of reading the code first are in
+the traps list below. Report: `docs/reports/wp-11.6-the-claim-nobody-could-judge.md`.
+
 **Phase 8: WP-8.1 THROUGH 8.4 AND 8.6 COMPLETE (28 Aug 2026); WP-8.7 IS THE BACKLOG ITSELF AND IS
 IN PROGRESS (2 Sep)** — the register, the refusal half of OQ 51, the forbidden
 slot, and **WP-8.4, which read the fault corpus's exception preconditions for the first time**.
@@ -447,6 +456,78 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **`stacks_over` HAD SEVEN READERS AND FOUR DEFINITIONS OF "BELOW", AND EVERY ONE DECLINED IN
+  SILENCE (WP-11.6).** Two engine terms and `geometry.bias` hard-wire level 0 as "below";
+  `plan_check`'s drawn layer had `if level_of[rid] == level_of[so]: continue` with no note; its
+  REACHABILITY reader and its SERVICING reader had no level test at all; `check_partis` checked
+  the id and not the relation. The field's own schema description said why —
+  *"room id on the level below, **for plumbing and structure**"*, two duties in one field — and
+  there was an instance: `plans/tidewater-georgian-careful.json`'s ground-level powder room
+  declared `stacks_over` a ground-level cellar stair, which three readers dropped, so **the plan
+  carried four claims of which three were judged and no surface said which three**. Plan schema
+  **0.8.0** splits it: `stacks_over` STRUCTURAL (exactly one level below, strict positive
+  rectangle intersection), `wet_stack_with` SERVICING (any level including its own, and **the
+  target need not be wet** — a stack needs a chase and a stair shaft is one; do not "correct" that
+  record by re-pointing it at a bathroom). `build/stacking.py` is the one spelling and is a LEAF
+  because `geometry.py` loads `plan_check.py`; `geometry_report.stacking` asserts
+  `claims == kept + broken + unjudged` with a reason from a CLOSED set on every unjudged entry;
+  `build/check_stacking.py` is the 50th check. **It cannot check that a plan states what its
+  parti declares, because no plan record names a parti** — 0 of 16 — which is how WP-11.6's own
+  two missing claims had to be found by hand: `oq/a-plan-does-not-name-the-parti-it-was-built-from`.
+- **A RECORD EDIT MOVES THE PLACEMENT WITH NO ENGINE CHANGE, BECAUSE `bias` READS THE FIELD
+  (WP-11.6).** `geometry.py:168` pulls a room toward its `stacks_over` target while the level is
+  being SLICED, so authoring two claims changes which layouts are PRODUCED and not merely which is
+  ranked. Measured on `heuristic`: claims 3 → 5, kept 1 → 3, serious 62 → 55, fatal 3 → 4,
+  relaxations 7 → 9, transfer beams 9 → 14, and the upper floor stops being slivers (the landing
+  6.0 × 15.4 ft → 12.1 × 13.5). **On `auto` the same edit buys nothing and costs 6 serious**: CP
+  returns `OPTIMAL (hard-only) — kept hard-only phase A`, so its objective never runs and the soft
+  stacking term is dead — 5 of 5 broken, `primary → drawing` included, which the search keeps.
+  That is the measurement WP-11.7 rests on: **on this plan only a hard constraint moves the engine
+  that draws the sheet.** The one new fatal is `unreachable: chamber3` and is NAMED, not absorbed —
+  clearing it means authoring a door from a bedroom into a closet, which is a placement failure
+  written into the record.
+- **THE PLACER PLACES TWO LEVELS AND SAID NOTHING ABOUT THE THIRD (WP-11.6).**
+  `_finish` writes `best["ground"] if idx == 0 else (best["upper"] if idx == 1 else {})` and
+  `solve_heuristic` is written against `prep[0]`/`prep[1]`. `plans/reference/bad-03-narrow-lot-
+  townhome.json` declares three levels; its one level-2 room came back with **no geometry, no
+  finding and no note** — all eight findings naming it were DECLARED-layer findings, and the sheet
+  drew the house without its top floor in silence. Disclosed now on `multi_element`'s exact
+  precedent: `geometry_report.multi_level`, `plan_check.drawn`'s `rooms_unplaced` with a `serious`
+  finding, and `check_stacking.py`. **The discriminator already existed and is exact** —
+  `geometry.is_placed` tells a terrace outside the footprint (no rectangle, correct) from a level-2
+  great room (no rectangle, a defect), and collapsing them is how a missing storey reads as a
+  design decision. Placing a third level is NOT built:
+  `oq/the-placer-places-two-levels-and-says-nothing-about-the-third` names what must be ruled,
+  including what `index: -1` means — the schema documents a cellar and no record uses one, so the
+  placed window is not simply "the first N levels".
+- **A DISCLOSURE WIRED INTO ONE RECORD WRITER AND NOT THE OTHER IS NO DISCLOSURE (WP-11.6).**
+  `multi_element_disclosure` (OQ 40) was called by `write_record` and NOT by `_finish`, so every
+  CP-produced multi-element placement has shipped with no disclosure since the day OQ 40 was built.
+  Found while adding the second one beside it. There is one `_disclose(plan)` now, called by both
+  writers, so a third cannot be added to one and forgotten in the other.
+- **WHEN A RATCHET MOVES, RE-DERIVE WHICH LAYER MOVED IT — THE ANSWER CHANGES (WP-11.6).**
+  `test_furniture_drawn.py`'s pair went 86 → 88 at WP-11.3 with the placement BYTE-IDENTICAL (the
+  catalogue moved) and 88 → **86 / 70** at WP-11.6 with the catalogue byte-identical (the placement
+  moved). The two look identical in that file and have nothing in common; both notes are kept side
+  by side so the next reader cannot assume the last cause was the cause.
+  **And WP-11.4's roof pruning earned itself here**: across a commit that moved the placement, the
+  PRUNED hash is unchanged at `0d94e0cd...` while the RAW `build_roof` return goes
+  `4335d9e1... -> d8107962...`. The pin said "the roof did not change" about a change to the
+  placement, which is exactly what it was re-cut to answer. Do not un-prune it.
+- **`tests/fixtures/sheet_symbols/` IS REGENERATED BY SOLVING AND ITS OWN README SAYS WHY THAT
+  CANNOT WORK (WP-11.6, found in ordinary work).** The README: *"a fixture generated by solving
+  would pin the machine as much as the code."* `generate.py:40`: `geometry.solve(plan)` — no
+  engine argument, so `auto`, so CP-SAT under a wall-clock budget. Measured **on the pristine tree
+  with no code change at all**: regenerating gives `825 insertions, 804 deletions`, and
+  `spec-builder-colonial.json` moves as much as the Tidewater one. So "regenerate and read the
+  diff" hands the reader eight hundred lines of solver noise with the renderer's change buried in
+  it. **Do not regenerate it to "keep it current"** — it is contract INPUT, never re-solved by the
+  suites that read it. `oq/the-frozen-fixture-is-regenerated-by-solving`.
+- **DO NOT `git stash` WHILE A BACKGROUND SUITE IS IN FLIGHT (WP-11.6).** A stash run to measure
+  the pristine tree landed inside a running `pytest` and produced two failures — `assert 7 == 9`,
+  the new source against the old data — that were entirely an artefact of the tree changing under
+  the runner. It looks exactly like a real regression. The same three suites had passed minutes
+  earlier and passed again after.
 - **AN EDIT THAT REPORTS SUCCESS AND CHANGES NOTHING IS INVISIBLE FOR THREE LAYERS (WP-11.3).**
   A step that was to add `marks` to `schema/plan.schema.json` ran a `replace` whose target was
   not in the file, asserted nothing, re-parsed the unchanged JSON successfully and PRINTED ITS
@@ -1849,8 +1930,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **137 entries, of which 56 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **140 entries, of which 59 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-frozen-fixture-is-regenerated-by-solving, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

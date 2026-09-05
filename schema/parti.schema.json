@@ -152,7 +152,12 @@
       }
      },
      "stacks_over": {
-      "type": "string"
+      "type": "string",
+      "description": "STRUCTURAL alignment: the id of the room on the level one below that this room sits over. See the plan schema's own field for the split of duties made at plan 0.8.0."
+     },
+     "wet_stack_with": {
+      "type": "string",
+      "description": "SERVICING: the id of the room this room's wet stack shares a chase with, on any level including its own. No parti declares one today; the field exists so a parti CAN say it without reaching for `stacks_over`."
      },
      "note": {
       "type": "string"

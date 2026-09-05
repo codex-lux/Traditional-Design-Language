@@ -16,8 +16,11 @@ written until WP-6.1, and `vertical_score` had none for another three packages. 
 charge and refused it as inert (byte-identical output at 100x and 10,000x); WP-7.1 made the
 generator level-aware and moved bearing without moving stacking; WP-7.4 charges declared
 `stacks_over` in both engines and works — the refused charge keyed on landing-over-stair, a
-pair neither shipped plan declares, and was measured against a 250-candidate pool too thin to
-contain the alternative. Read `vertical_score`'s own comment before quoting any of that: two
+pair neither shipped plan declared UNTIL WP-11.6, which authored it (and the upper passage over
+the passage) onto `plans/tidewater-georgian-careful.json` from the parti that had always made
+both claims — 3 claims became 5 and the search keeps all three of the ones it can reach. The
+charge was also measured against a 250-candidate pool too thin to contain the alternative.
+Read `vertical_score`'s own comment before quoting any of that: two
 published refusals are superseded there, with the measurement that superseded them. This file
 says what it does, not what it was meant to.
 
@@ -44,6 +47,12 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
+# WP-11.6. A LEAF, and the reason it is one is the import graph: this file loads plan_check on
+# the line above, so plan_check may never load this file -- and those are exactly the two that
+# must agree about what a stack is. `build/storeys.py` answered the identical problem the same
+# way. Loaded HERE rather than beside its first use because `is_placed` (line ~72) delegates to
+# it, and a module-level name used that early must be bound that early.
+STK = _mod("stacking", f"{ROOT}/build/stacking.py")
 C = PC.load_corpus()
 
 DIRS = {"N": (0, 1), "S": (0, -1), "E": (1, 0), "W": (-1, 0),
@@ -70,8 +79,13 @@ def void_spec(rtype):
     return v if v.get("within_footprint") else None
 
 def is_placed(rtype):
-    """Everything that takes a rectangle in the block: every indoor room, plus reserved voids."""
-    return is_indoor(rtype) or void_spec(rtype) is not None
+    """Everything that takes a rectangle in the block: every indoor room, plus reserved voids.
+
+    WP-11.6 moved the rule itself into `build/stacking.py`, a leaf, because `plan_check`'s new
+    `rooms_unplaced` needs the identical answer and cannot load this file. `is_indoor` and
+    `void_spec` above are kept -- they have other callers here -- and this one function is the
+    place the two spellings are held together."""
+    return STK.takes_a_rectangle(rtype, C["rooms"])
 def band(rtype):
     d = C["rooms"].get(rtype, {}).get("dimensions", {})
     return (d.get("area_sf") or [40, 900])
@@ -876,6 +890,20 @@ def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
 # this one carries a name so the sweep that set it can be re-run against it.
 STACK_W = 40.0
 
+# Re-exported from the leaf under the names this file used before the move, so any caller that
+# already had `geometry.stacking_report` or `geometry.multi_level_disclosure` keeps working.
+STACK_UNJUDGED_REASONS = STK.STACK_UNJUDGED_REASONS
+PLACED_LEVEL_INDICES = STK.PLACED_LEVEL_INDICES
+
+
+def stacking_report(plan):
+    return STK.report(plan, weight=STACK_W)
+
+
+def multi_level_disclosure(plan):
+    return STK.multi_level_disclosure(plan, is_placed)
+
+
 # WP-7.4 (OQ 97). The span charge, and both halves of its form were chosen by sweep.
 #
 # OQ 97 asked whether span capacity should be a search term "and at what force", and answered
@@ -967,8 +995,10 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # (1) WP-6.3 built a stacking charge, swept it at 100x and 10,000x, got BYTE-IDENTICAL
     # output, and concluded "the search can only re-rank blind candidates and can never
     # produce a stacking one". The measurement was sound and the conclusion drawn from it was
-    # not. That charge keyed on landing-over-stair, a pair NEITHER shipped plan declares, so it
-    # was inert for a reason that had nothing to do with the search's reach. WP-7.1 falsified
+    # not. That charge keyed on landing-over-stair, a pair neither shipped plan declared at the
+    # time, so it was inert for a reason that had nothing to do with the search's reach.
+    # WP-11.6 authored the pair (the record's own parti had always declared it) and the charge
+    # is live on it: measured, the landing lands and so does the upper passage. WP-7.1 falsified
     # the stated reason directly: over 24 seeds the winning candidate satisfies 1 to 3 of
     # tidewater's 3 cross-level claims. The search reaches stacking placements.
     #
@@ -1623,8 +1653,7 @@ def write_record(plan, levels, ground, upper, fp, report):
     if fp.get("lot_usable") is not None:
         plan["footprint"]["lot_usable_width_ft"] = round(fp["lot_usable"], 1)
     plan["geometry_report"] = report
-    _me = multi_element_disclosure(plan)
-    if _me: report["multi_element"] = _me
+    _disclose(plan)      # multi_element (OQ 40), multi_level and the stacking tally, in ONE place
     return plan
 
 
@@ -1913,11 +1942,32 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
                  else "Every room was placed at or above the floor of its own catalogue band.")}
     plan["geometry_report"]["voids"] = voids_report(_rects, _prep, ring=None)
+    _disclose(plan)
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
         plan["geometry_report"]["infeasible"] = infeasible
     return plan
+
+
+def _disclose(plan):
+    """Attach every "what this placement does not judge" block, for BOTH record writers.
+
+    One call site per writer, one function, because the alternative is measured: OQ 40's
+    `multi_element` disclosure was wired into `write_record` and not into `_finish`, so a
+    CP-produced multi-element placement carried no disclosure from the day it was written
+    until WP-11.6 found it while adding the second one beside it.
+    """
+    rep = plan.setdefault("geometry_report", {})
+    rep["stacking"] = stacking_report(plan)
+    _ml = multi_level_disclosure(plan)
+    if _ml:
+        rep["multi_level"] = _ml
+    elif "multi_level" in rep:
+        del rep["multi_level"]
+    _me = multi_element_disclosure(plan)
+    if _me:
+        rep["multi_element"] = _me
 
 
 _SOLVE_CACHE = {}

@@ -146,7 +146,8 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-DRAWN_SHORT_CEILING = 88   # 86 until WP-11.3; see the note below, and it was NOT the placement
+DRAWN_SHORT_CEILING = 86   # 88 until WP-11.6. READ BOTH NOTES BELOW, IN ORDER: the first is
+# WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
 # `good-02-portico-library-house` and `good-05-lobby-gallery-mansion`, and they appear because
@@ -158,7 +159,20 @@ DRAWN_SHORT_CEILING = 88   # 86 until WP-11.3; see the note below, and it was NO
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 69
+DRAWN_LONG_CEILING = 70
+# WP-11.6 MOVED BOTH, IN OPPOSITE DIRECTIONS, AND THIS TIME IT WAS THE PLACEMENT -- which is
+# the whole reason the previous paragraph exists. 88/69 -> 86/70. The catalogue is byte-
+# identical across the package; `plans/tidewater-georgian-careful.json` gained the two
+# `stacks_over` claims its own parti has always declared, `geometry.bias()` reads that field to
+# steer CANDIDATE GENERATION rather than only the ranking, and the upper floor of that one plan
+# is laid out differently as a result. Two rooms stop failing across and one starts failing
+# along.
+#
+# **WHEN A RATCHET MOVES, RE-DERIVE WHICH LAYER MOVED IT.** WP-11.3 isolated its own 86 -> 88
+# by proving the placement byte-identical; this package isolated 88 -> 86/70 the other way, by
+# proving the catalogue untouched and diffing the placed rectangles. The two moves look
+# identical in this file and have nothing in common, and a reader who assumes the last cause
+# was the cause will be wrong half the time.
 
 
 def test_drawn_furniture_shortfalls_are_ratcheted():

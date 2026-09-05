@@ -83,6 +83,14 @@ CHECKS = [
     # earned that on its first run, on twelve massing values written in a vocabulary the kit
     # slot does not use.
     ("check_threshold.py", []),
+    # WP-11.6. Every `stacks_over` and `wet_stack_with` claim against what the field means --
+    # the target exists, and a STRUCTURAL stack names a room exactly one level below. Plan
+    # schema 0.8.0 split the two duties one field had carried since it was written, and the
+    # shipped Tidewater record's ground-level powder room naming a ground-level cellar stair
+    # was dropped by three readers with a bare `continue` and no note. This is the reader that
+    # would have caught it. It never solves anything: kept/broken belong to a placement and
+    # live in geometry_report.stacking, and a record error is the same on every engine.
+    ("check_stacking.py", []),
     # WP-9.1. The arrangement layer's own selftest: that every derivation still moves when
     # the house it measures changes (a check that cannot fail is worse than none), that no
     # name in NOT_DERIVABLE reaches the returned measurements, and that every route in the

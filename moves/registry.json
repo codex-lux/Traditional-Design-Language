@@ -20,7 +20,7 @@
     "may_not": [
       "add a room the parti has no place for",
       "fill a judgment slot",
-      "edit geometry, a placement key, exterior_walls or stacks_over",
+      "edit geometry, a placement key, exterior_walls, stacks_over or wet_stack_with",
       "act on a critic-suspect",
       "write a measurement the plan did not declare",
       "drop a must_have room or one a hard adjacency rule needs",

@@ -213,6 +213,10 @@ def _intended_move(plan, f):
             return None, "the room has one exterior wall and the piece wants an unbroken run of it; the corpus hands the arrangement to the architect (OQ 92)"
         if k == "stack-broken":
             return None, "both engines charge a broken stack and neither could keep it; no record edit states where an upper room lands (align-upper-walls was refused for want of a basis)"
+        if k == "stack-unjudged":
+            return None, "the record's own stacking claim cannot be evaluated -- it names no room, or a room on this room's own level, or one more than a level below. No placement changes that and no move may edit a claim its author wrote: `build/check_stacking.py` fails the build on it and the author fixes the record (WP-11.6)"
+        if k == "room-not-placed":
+            return None, "a room the placer never reached. Both engines place level 0 and level 1 only, so a room above them has no rectangle and nothing a move can edit would give it one -- oq/the-placer-places-two-levels-and-says-nothing-about-the-third"
         return None, "a drawn-against-declared size or a landing off its well is a placement outcome; the record already states the right size"
     if layer in ("adjacency", "circulation", "privacy", "grouping", "completeness", "servicing", "plan"):
         return None, "topology: which rooms touch which is the parti's and the author's; a door the grammar prescribes is added only to reach a stranded room (drawn layer)"
@@ -250,6 +254,14 @@ def _is_placement(plan, f):
         return engine != "cp-sat"
     if k in ("drawn-vs-declared", "landing-off-well", "stack-unplaced"):
         return True
+    if k == "stack-unjudged":
+        # NOT a placement finding, and the distinction is the whole reason WP-11.6 gave these
+        # their own kind: `stack-unplaced` is the placement failing to place a room, while this
+        # is the RECORD naming a room that is not one level below. No engine can answer it.
+        return False
+    if k == "room-not-placed":
+        # The placer's own two-level ceiling, which is neither engine's judgment of this record.
+        return False
     if k == "stack-broken":
         return engine != "cp-sat"
     if k == "stair-not-drawn":
