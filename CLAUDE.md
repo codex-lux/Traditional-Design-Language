@@ -737,10 +737,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   infeasible rather than merely worse); and **a west wing tests only the lower half of every
   bound** -- `x + w <= Wi` is LOOSER than the wing's own east face at negative x, so the first
   containment guard passed under mutation for the wrong reason (the coverage floor refused the
-  intruding rectangle). An EAST wing is the discriminator and there is a fixture for it now. The
-  DEPTH bound has no such fixture -- a dependency is centred on the main block's axis and never
-  deeper than it -- so it is driven by replacing `blocks_for`, as layer 6's garage branch had to
-  be. Seventeen of seventeen on the re-run.
+  intruding rectangle). An EAST wing is the discriminator and there is a fixture for it now; the
+  DEPTH bound is the fifth miss named at the head of this entry, and has none.
 - **A PARTI MAY STATE ITS OWN MASSING ELEMENTS NOW, AND THE CORPUS REFUSED THE FIRST DIAGRAM THAT
   DID, THREE TIMES (WP-11.6).** A parti room carries `block` and `hyphen` (parti schema),
   `compose.py` copies both onto the plan record exactly as it copies `stacks_over` -- **the
