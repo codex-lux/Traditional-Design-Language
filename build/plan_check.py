@@ -1345,10 +1345,16 @@ def drawn_layer(plan, rooms, level_of, C, F):
         FA = _load("facade", f"{ROOT}/build/facade.py")
         fac = {"rhythm": FA.rhythm(plan, C)}
         if fac["rhythm"]["verdict"] != "derived":
-            F.add("info", "drawn",
-                  f'The front\'s bay rhythm could not be derived: {fac["rhythm"]["why"]} '
-                  f'(oq/the-facade-is-a-result-not-an-input). Not a pass -- this house\'s '
-                  f'facade is unjudged.', kind="facade-rhythm-unjudged")
+            # `_add`, NEVER `F.add`. Every finding of this layer is a finding about a
+            # placement and must carry the engine that produced it -- WP-9.1 set it once and
+            # passed it through one wrapper "so no call site can omit it", and this call site
+            # omitted it. `test_evaluate_matches_cli` caught it: a drawn finding with no engine
+            # breaks the bench-versus-CLI parity that exists so a fatal appearing mid-drag does
+            # not read as the house changing.
+            _add("info", "drawn",
+                 f'The front\'s bay rhythm could not be derived: {fac["rhythm"]["why"]} '
+                 f'(oq/the-facade-is-a-result-not-an-input). Not a pass -- this house\'s '
+                 f'facade is unjudged.', kind="facade-rhythm-unjudged")
         else:
             for lvl in sorted({(lv.get("index") or 0) for lv in plan.get("levels", [])}):
                 cmp_ = FA.compare(plan, lvl, C)
@@ -1377,9 +1383,9 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # `except: pass` and then asserted there was nothing to stand over (WP-11.4).
         out["facade"] = {"verdict": "could-not-evaluate",
                          "why": f"{type(e).__name__}: {e}"}
-        F.add("info", "drawn",
-              f"The facade layer could not be read ({type(e).__name__}: {e}). Not a pass.",
-              kind="facade-unreadable")
+        _add("info", "drawn",
+             f"The facade layer could not be read ({type(e).__name__}: {e}). Not a pass.",
+             kind="facade-unreadable")
 
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
@@ -1908,7 +1914,22 @@ def check(plan, C=None, strict=False):
             hard = ir.get("severity") == "hard"
             test = ir.get("test")
             if not test:
-                if hard:
+                # A RULE THAT REPORTS IS NOT A RULE NOBODY EXECUTES, AND MUST NOT READ LIKE ONE.
+                # `measures.reported_by` exists for exactly this (WP-11.7, when
+                # `centre-passage-core`'s facade-share test became a report) and the schema's own
+                # description says so -- and the first version of that change wired the field
+                # nowhere, so the rule went SILENT in this layer: no evaluation, no unjudged note,
+                # nothing. `test_arrangement.py::test_a_hard_grouping_rule_with_a_test_is_
+                # evaluated_not_skipped` caught it, which is the guard doing its job on a rule
+                # that had stopped being a rule.
+                rep = (ir.get("measures") or {}).get("reported_by")
+                if rep:
+                    band = (ir.get("measures") or {}).get("advisory_band")
+                    F.add("info", "grouping",
+                          f"[{g['name']}] REPORTED, not required — {ir['statement']} "
+                          + (f"Observed band {band[0]}–{band[1]}, advisory. " if band else "")
+                          + f"Measured by {rep}.", rule=gid)
+                elif hard:
                     F.add("info", "grouping", f"[{g['name']}] check by hand: {ir['statement']}", rule=gid)
                 continue
             parsed = ARR.parse_rule_test(test) if ARR else None

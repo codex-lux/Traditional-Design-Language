@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,815 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,818 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -739,6 +739,24 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   containment guard passed under mutation for the wrong reason (the coverage floor refused the
   intruding rectangle). An EAST wing is the discriminator and there is a fixture for it now; the
   DEPTH bound is the fifth miss named at the head of this entry, and has none.
+- **A NEW FINDING IN THE DRAWN LAYER MUST GO THROUGH `_add`, AND A RULE THAT BECOMES A REPORT MUST
+  NOT GO SILENT (WP-11.7/11.8, found by a RED BUILD after a hook-driven commit).** Four failures,
+  all mine, all caught by guards that already existed. **`F.add` instead of `_add`**: WP-9.1 set
+  the engine once in `drawn_layer` and passed it through one wrapper *"so no call site can omit
+  it"*, and the facade block's two `info` findings omitted it -- `test_evaluate_matches_cli` fails
+  because the bench's drag path places with the SEARCH by name while everything else takes the
+  proof, so a drawn finding with no engine breaks the parity that stops a mid-drag fatal reading as
+  the house changing. There is a source guard now (the layer holds exactly ONE `F.add(`, the
+  wrapper's own definition) beside a behavioural one.
+  **AND A RULE THAT LOST ITS TEST WENT SILENT**: turning `centre-passage-core`'s facade-share test
+  into a report left it emitting nothing at all in the grouping layer -- no evaluation, no unjudged
+  note. `measures.reported_by` was added for exactly that and its schema description says *"it
+  exists so that a rule with no `test` cannot read as a rule nobody executes"*; **the field's
+  purpose was written and then not honoured.** `plan_check` emits `REPORTED, not required` naming
+  the reporter and the advisory band. The other two were an unsorted directory read in a new test
+  and the WP-11.6 finding digest moving by exactly the facade rows (+13 Tidewater, +1 spec
+  Colonial) -- re-pinned with the count, because **a digest that moved by MORE than the change
+  accounts for is the failure that pin exists to catch**.
 - **A PROOF OF FEASIBILITY IS NOT A PROOF OF COMPOSITION, AND THE DEMERIT SCORE ALONE LIES ABOUT
   WHICH HOUSE IS BETTER (WP-11.8).** CP-SAT's phase A proves the hard set; phase B carries every
   compositional term the corpus has, and when it times out `objective` is null and the drawn house

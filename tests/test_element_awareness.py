@@ -342,10 +342,27 @@ class TestTheCriticReadsTheRoomsOwnElement:
 
     def test_a_one_rectangle_plan_is_UNTOUCHED_finding_for_finding(self):
         """The regression discipline, at its strongest form: not a count but every finding's
-        kind, room and statement. Measured identical on both shipped plans before and after."""
+        kind, room and statement. Measured identical on both shipped plans before and after.
+
+        **RE-PINNED AT WP-11.7, AND THE TEST'S OWN MESSAGE SAYS TO SAY WHAT MOVED.** The facade
+        layer joined `plan_check`'s drawn layer, which is where it belongs (everything it reads is
+        a placement), so both digests move by exactly the facade rows and by nothing else --
+        counted before re-pinning:
+
+          `tidewater-georgian-careful`  4ec3f784caa5a095 -> de953067f3b99ad2, **13 new rows**:
+              seven bays of the front with no opening and six rooms whose declared window count
+              disagrees with the bays their front wall spans.
+          `spec-builder-colonial`       433325b5299ea477 -> 5c76fc98f526d55a, **1 new row**:
+              `facade-rhythm-unjudged`, because that record names no parti — one of the fifteen
+              of sixteen that do not (`oq/fifteen-of-sixteen-plans-name-no-parti`).
+
+        **The element claim this test was written for is untouched**, which is the thing to check
+        before accepting a new digest: `envelopes` still returns `{}` below two elements, so no
+        element-aware reading moved. A digest that moved by MORE than the rows a change accounts
+        for is the failure this pin exists to catch, and the count is how you tell."""
         import hashlib
-        for name, want in (("tidewater-georgian-careful", "4ec3f784caa5a095"),
-                           ("spec-builder-colonial", "433325b5299ea477")):
+        for name, want in (("tidewater-georgian-careful", "de953067f3b99ad2"),
+                           ("spec-builder-colonial", "5c76fc98f526d55a")):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")

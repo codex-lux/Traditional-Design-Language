@@ -324,6 +324,51 @@ class TestTheBandIsSpelledONCE:
         import glob
         import re
         pat = re.compile(r"\[\s*0\.18\s*,\s*0\.27\s*\]")
-        hits = [os.path.basename(f) for f in glob.glob(os.path.join(ROOT, "build", "*.py"))
+        hits = [os.path.basename(f) for f in sorted(glob.glob(os.path.join(ROOT, "build", "*.py")))
                 if pat.search(open(f).read())]
         assert hits == [], hits
+
+
+class TestEveryDrawnFindingCarriesItsEngine:
+    """The general form of a defect WP-11.7 introduced and `test_evaluate_matches_cli` caught.
+
+    WP-9.1 set the engine once in `drawn_layer` and passed it through one wrapper *"so no call
+    site can omit it"* — and the facade block's two `info` findings called `F.add` directly and
+    omitted it. Every finding of that layer is a finding about a PLACEMENT, and on the workbench
+    the drag path places with the search by name while everything else takes the proof: a fatal
+    that appears mid-drag and clears on the proof must not read as the house changing.
+
+    The parity test that caught it lives in `workbench/server/tests` and is SKIPPED where fastapi
+    is absent, which is a named unjudged state and not a pass. This one reads the source and runs
+    everywhere."""
+
+    def test_the_drawn_layer_uses_the_wrapper_and_not_F_add(self):
+        src = open(os.path.join(ROOT, "build", "plan_check.py")).read()
+        i = src.index("def drawn_layer(")
+        body = src[i:src.index("\ndef check(", i)]
+        # exactly one `F.add(` -- the wrapper's own definition line
+        assert body.count("F.add(") == 1, [
+            l.strip() for l in body.splitlines() if "F.add(" in l]
+        assert "F.add(severity, layer, statement, engine=engine, **kw)" in body
+
+    def test_and_every_finding_the_layer_emits_carries_an_engine(self, tidewater):
+        """The behavioural half: a source guard alone would pass if the wrapper stopped setting
+        the key. Measured on the plan that produces the most drawn findings in this corpus."""
+        c = PC.check(tidewater)
+        drawn = [f for f in c["findings"] if f.get("layer") == "drawn"]
+        assert len(drawn) > 20, len(drawn)
+        missing = [f.get("kind") for f in drawn if not f.get("engine")]
+        assert missing == [], missing
+
+    def test_a_REPORTED_grouping_rule_is_not_silent(self, tidewater):
+        """A rule that lost its `test` to become a report must not read like a rule nobody
+        executes. `measures.reported_by` exists for that and the first version of WP-11.7 wired
+        it nowhere, so `centre-passage-core`'s facade-share rule went silent in the grouping
+        layer — no evaluation, no unjudged note, nothing. Caught by `test_arrangement.py`."""
+        c = PC.check(tidewater)
+        rows = [f for f in c["findings"]
+                if f.get("layer") == "grouping" and "REPORTED, not required" in f["statement"]]
+        assert len(rows) == 1, [f["statement"][:70] for f in c["findings"]
+                                if f.get("layer") == "grouping"]
+        assert "build/facade.py::facade_share" in rows[0]["statement"]
+        assert "one fifth to one quarter" in rows[0]["statement"]
