@@ -518,7 +518,24 @@ and nothing in this tree checks that one does.**
 loc.gov, Wikipedia, Wikidata, SAH Archipedia and Historic England; the Tavily tier searches
 everything and EXTRACTS `tile.loc.gov` data PDFs, Wikipedia and `npgallery.nps.gov`, and a HABS
 data page states overall dimensions, bays, storeys, walls, chimneys, roof and openings as text --
-the envelope, not the rooms. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md`.
+the envelope, not the rooms.
+**AND THE TIER REACHES `historicengland.org.uk`, MEASURED 5 SEP 2026 BEFORE TRANCHE 3 RATHER THAN
+DURING IT.** A National Heritage List entry extracts, and **its `Details` section is shaped like a
+HABS Part II** -- `MATERIALS: constructed of red sandstone, faced with squared and coursed
+Grinshill stone, and under a clay tile-covered gabled roof.` / `PLAN: an elongated cruciform plan
+with short projecting wings` / `EXTERIOR: the two-storey, seven-bay building ... a moulded stone
+plinth and a moulded string course at ground- and first-floor level ... three, four-light mullion
+and transom windows` (list entry 1254925, the Old Market Hall, Shrewsbury). Storeys, bays,
+materials, roof covering, string-course positions and window lights, in the corpus's own
+`survey.quotes[].field` vocabulary and often RICHER than a HABS data page. **So a list entry is a
+survey-shaped quote block and Ruling A reaches Europe** -- which is the question Tranche 3 had to
+settle before it could produce evidence a kit figure may cite rather than links a reader may
+follow. **One extract returns one span here too**: the first call on another entry returned only
+the legal boilerplate and the `Details` came back on a second call with a materials query, exactly
+as `tile.loc.gov` behaves. The entry carries a stable numeric **List Entry Number**, a
+`Date first listed` and a `Date of most recent amendment`, so it is dated and citable; the
+`refs[].kind` enum ALREADY carries `historic-england`, `cadw` and `historic-scotland` and no record
+uses them yet, and none of the three has an `ID_SHAPES` rule. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md`.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
