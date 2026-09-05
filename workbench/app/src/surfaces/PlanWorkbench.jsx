@@ -341,6 +341,18 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
      that is the case worth saying out loud. */
   const solver = placement?.geometry_report?.solver;
   const proved = solver?.engine === 'cp-sat';
+  /* WP-11.8 (`oq/a-proof-of-feasibility-is-not-a-proof-of-composition`, ruled 4 Sep 2026): a
+     CP-SAT placement outranks a hill-climb placement on FEASIBILITY and on nothing else. Phase A
+     proves the hard set; phase B carries every compositional term the corpus has, and when it
+     times out `objective` is null and the drawn house is whatever the solver reached first — no
+     term for the front, the axis, the mirror pair or the stack was evaluated on it. This
+     paragraph said "proved, not searched" over exactly that placement, which is the bench half of
+     the diagnosis's J2. `alternative` carries the search's placement with BOTH its numbers: its
+     demerit score AND the count of declared facts it breaks, judged against the same downgrade
+     list, because a lower score alone reads as a better house and on `spec-builder-colonial` is
+     bought with sixteen broken facts. */
+  const objectiveRan = !(proved && (solver?.objective === null || solver?.objective === undefined));
+  const alternative = solver?.alternative;
   const fellBack = solver?.engine === 'heuristic' && solver?.reason
     && solver.reason !== 'requested';
   // OQ 54. The search may place a room below the floor of its own catalogue band, charging
@@ -742,9 +754,22 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
           <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
             margin: '16px 0 0', maxWidth: '76ch' }}>
             {proved
-              ? <>This placement was <strong>proved</strong>, not searched: CP-SAT held the record's
-                own declared facts as hard constraints and returned {solver.status
+              ? <>This placement was <strong>proved feasible</strong>, not searched: CP-SAT held
+                the record's own declared facts as hard constraints and returned {solver.status
                   ? solver.status.split('—')[0].trim().toLowerCase() : 'a solution'}.{' '}
+                {!objectiveRan
+                  ? <><strong>Its composition was not evaluated.</strong> The proof ran out of
+                    budget before the compositional objective, so no term for the front, the axis
+                    or the stack was scored on this drawing — it is the first feasible placement,
+                    not the best one.{alternative?.verdict === 'offered'
+                      ? <> The fast search places the same house at <strong>{alternative.score}</strong> demerits
+                        against this drawing's {alternative.drawn_score}, and breaks{' '}
+                        <strong>{alternative.hard_fact_violations}</strong> declared fact(s) this
+                        one holds ({alternative.drawn_hard_fact_violations}). A lower score is not
+                        on its own a better house: choosing the search is choosing a better
+                        composition over a proved feasibility, and that is the choice. </>
+                      : ' '}</>
+                  : ' '}
                 {gaveUp.length
                   ? <>Where a set of them could not all hold, the ones it had to give up are named
                     in <em>what this placement gave up</em> above — until WP-11.1 this sentence

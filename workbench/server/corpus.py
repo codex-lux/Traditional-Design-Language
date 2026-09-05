@@ -4,6 +4,8 @@ core.py is pure functions with no protocol dependency — the whole server leans
 Everything here is read-only over core._data(); nothing writes to the corpus, and nothing
 here may ever invoke build/build.py (it rewrites kits/).
 """
+import hashlib
+import json
 import os
 import sys
 
@@ -373,7 +375,38 @@ def _placed(plan, parti=None, candidates=250):
     if any("geometry" in r for lv in plan.get("levels", []) for r in lv["rooms"]):
         return plan
     geo = core._mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
-    return geo.solve(plan, parti, candidates, engine="auto")
+    # THE INPUT'S OWN FINGERPRINT, TAKEN BEFORE THE SOLVE (WP-11.8, finding J6). Two CP-SAT runs
+    # of one record agree to the foot -- OQ 44's "reproducible by default" holds and was
+    # re-measured for the diagnosis -- so when the bench's sheet and the CLI's disagree, the INPUT
+    # differed: a style, a parti, or an edit. The plate carried nothing that would let a reader
+    # tell which, and "the same house drawn twice, differently" is the one thing a reader cannot
+    # diagnose from the drawing. Digested here rather than after placement, because the point is
+    # to identify what was HANDED to the solver.
+    digest = hashlib.sha256(json.dumps(plan, sort_keys=True,
+                                       default=str).encode()).hexdigest()[:12]
+    out = geo.solve(plan, parti, candidates, engine="auto")
+    if "error" in out:
+        return out
+    sv = (out.get("geometry_report") or {}).setdefault("solver", {})
+    # WHICH placement this surface drew and WHY, which the ruling asks for by name
+    # (`oq/a-proof-of-feasibility-is-not-a-proof-of-composition`). `engine` already says what ran;
+    # this says who asked, with what, and on which record -- and where a proof's compositional
+    # objective did not run, `solver.alternative` beside it carries the search's placement and
+    # BOTH its numbers.
+    sv["drawn_by"] = {
+        "surface": "workbench/server/corpus.py::_placed",
+        "engine_requested": "auto",
+        "candidates": candidates,
+        "parti": (parti or {}).get("id") if isinstance(parti, dict) else parti,
+        "input_digest": digest,
+        "why": ("Every sheet in a drawing set takes this one placement (WP-6.4), on the proving "
+                "engine where it can be had. Where the proof's compositional objective did not "
+                "run, `solver.alternative` carries the search's placement beside it with its "
+                "demerit score AND the count of declared facts it breaks -- the second number is "
+                "not optional, because a lower score alone reads as a better house and is not "
+                "(oq/a-proof-of-feasibility-is-not-a-proof-of-composition)."),
+    }
+    return out
 
 
 def drawing(kind, plan, parti=None, face=None, candidates=250):

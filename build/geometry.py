@@ -2756,7 +2756,79 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
                 "reason": f"CP-SAT returned no solution in {time_limit_s:.0f}s "
                           f"({status}); fell back to the hill-climb"}
         return out
-    return _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
+    out = _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
+    _offer_the_alternative(out, plan, parti, candidates, seed)
+    return out
+
+
+def _offer_the_alternative(out, plan, parti, candidates, seed):
+    """Where the CP objective did not run, record the SEARCH's placement beside the proof.
+
+    WP-11.8, executing `oq/a-proof-of-feasibility-is-not-a-proof-of-composition` (ruled 4 Sep
+    2026): *"a CP-SAT placement outranks a hill-climb placement on FEASIBILITY and on nothing
+    else. Where the compositional objective did not run, the bench draws both and labels both,
+    and the plate says which it drew and why."*
+
+    Phase A proves the hard set; phase B carries every compositional term the corpus has. When B
+    times out, `objective` is null and the drawn house is whatever CP-SAT reached first — no term
+    for the front, the axis, the mirror pair or the stack was evaluated on it. The hill-climb runs
+    all of them on every candidate it looks at, so its placement is the composed one, and a reader
+    is entitled to see it.
+
+    **IT RECORDS TWO NUMBERS AND THE SECOND ONE IS WHY.** The ruling says to offer the search
+    "with its demerit score", and the demerit score ALONE would mislead in the search's favour --
+    measured, on `spec-builder-colonial`: the search scores **592.3** against the proof's
+    **789.3**, 197 points better, and it buys that by violating **SIXTEEN hard facts the proof
+    honours** (0 against 16, judged against the same downgrade list). `hard_fact_violations`'
+    own docstring says exactly this: *"when the hill-climb 'outscores' the constrained optimum,
+    this is the number that says what the cheaper score actually bought."* So both travel
+    together, and the plate may not print one without the other.
+
+    Costs a heuristic solve (~0.3 s measured) and ONLY on the branch where the objective is null;
+    a proof whose objective ran has nothing to be offered against it and this returns without
+    solving anything."""
+    if "error" in out:
+        return
+    sv = (out.get("geometry_report") or {}).get("solver") or {}
+    if sv.get("engine") != "cp-sat" or sv.get("objective") is not None:
+        return
+    alt = solve_heuristic(copy.deepcopy(plan), parti, candidates, seed)
+    if "error" in alt:
+        # stated, never swallowed: a reader told nothing is offered must know whether that is
+        # because there is nothing to offer or because the offer could not be computed
+        sv["alternative"] = {"verdict": "could-not-evaluate", "why": alt["error"]}
+        return
+    try:
+        GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+        pins = sv.get("downgraded_wall_pins") or []
+        # JUDGED AGAINST THE SAME FACTS. A heuristic record carries no downgrade list of its own,
+        # and charging it for pins CP-SAT PROVED impossible would rig the comparison in the
+        # proof's favour -- `hard_fact_violations` takes `extra_downgraded` for this reason and
+        # the honest comparison is the whole point of the ruling.
+        alt_v = GC.hard_fact_violations(alt, alt, extra_downgraded=pins)
+        drawn_v = GC.hard_fact_violations(out, out)
+    except Exception as e:
+        sv["alternative"] = {"verdict": "could-not-evaluate",
+                             "why": f"the two placements could not be compared "
+                                    f"({type(e).__name__}: {e})"}
+        return
+    sv["alternative"] = {
+        "verdict": "offered", "engine": "heuristic",
+        "score": alt["geometry_report"].get("score"),
+        "hard_fact_violations": alt_v,
+        "drawn_score": out["geometry_report"].get("score"),
+        "drawn_hard_fact_violations": drawn_v,
+        "why": ("The compositional objective did not run on the drawn placement, so no term for "
+                "the front, the axis or the stack was evaluated on it. The hill-climb runs all of "
+                "them. Its placement is offered here with BOTH numbers: a lower demerit score is "
+                "not on its own a better house, because the search trades away hard facts the "
+                "proof holds and this comparison is judged against the same downgrade list "
+                "(oq/a-proof-of-feasibility-is-not-a-proof-of-composition)."),
+        "geometry": {"footprint": alt.get("footprint"),
+                     "levels": [{"index": lv.get("index", 0),
+                                 "rooms": [{"id": r["id"], "geometry": r.get("geometry")}
+                                           for r in lv.get("rooms", [])]}
+                                for lv in alt.get("levels", [])]}}
 
 # ---------------------------------------------------------------- cli
 def main():

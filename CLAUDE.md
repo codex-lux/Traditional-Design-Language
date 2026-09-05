@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,799 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,815 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -371,13 +371,13 @@ a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Repo
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
 **Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
-through 11.7 are complete, 11.8 through 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
+through 11.8 are complete, 11.9 through 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
 are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
 above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
 itself, two headings up.) Raised by Lucas against the workbench's own
 sheet, with the instruction to diagnose before building; the diagnosis is
 `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` and all five of the phase's questions were
-ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6,7}-*.md`. **Read WP-11.3's refusal
+ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6,7,8}-*.md`. **Read WP-11.3's refusal
 before proposing a score term for the axis**, WP-11.2's cost table before quoting any fatal count on
 the Tidewater plan, and **WP-11.6's item-4 section before quoting a downgrade count on either
 engine** — the number is a property of the number of massing elements the record states.
@@ -739,6 +739,35 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   containment guard passed under mutation for the wrong reason (the coverage floor refused the
   intruding rectangle). An EAST wing is the discriminator and there is a fixture for it now; the
   DEPTH bound is the fifth miss named at the head of this entry, and has none.
+- **A PROOF OF FEASIBILITY IS NOT A PROOF OF COMPOSITION, AND THE DEMERIT SCORE ALONE LIES ABOUT
+  WHICH HOUSE IS BETTER (WP-11.8).** CP-SAT's phase A proves the hard set; phase B carries every
+  compositional term the corpus has, and when it times out `objective` is null and the drawn house
+  is whatever the solver reached FIRST -- no term for the front, the axis, the mirror pair or the
+  stack was evaluated on it. `geometry._offer_the_alternative` then runs the hill-climb (~0.3 s,
+  that branch only) and records `geometry_report.solver.alternative`.
+  **IT RECORDS TWO NUMBERS AND THE SECOND ONE IS THE POINT.** On `spec-builder-colonial` the search
+  scores **592.3** against the proof's **789.3** -- 197 points better -- and buys it by breaking
+  **SIXTEEN declared facts the proof holds** (0 against 16). The ruling says to offer the search
+  "with its demerit score" and that score ALONE reads as the better house; it is the cheaper one.
+  The comparison is judged against the PROOF'S downgrade list, because a heuristic record carries
+  none of its own and charging it for pins CP-SAT proved impossible would rig it the other way --
+  `hard_fact_violations` takes `extra_downgraded` for exactly this and its docstring already said
+  so. **No surface may print one number without the other**, and the plate line, the bench
+  paragraph and the record all carry both.
+  **THE BENCH SAID "PROVED, NOT SEARCHED" OVER EXACTLY THAT PLACEMENT** -- `PlanWorkbench.jsx`,
+  the diagnosis's J2 -- and says **proved feasible** now, with the composition's absence stated.
+  `corpus._placed` records `solver.drawn_by` including an `input_digest` taken BEFORE the solve,
+  which is J6: two CP runs of one record agree to the foot, so when two sheets of "the same house"
+  disagree the INPUT differed, and the plate carried nothing that would let a reader tell.
+- **WHICH PLAN DEMONSTRATES A BUDGET-DEPENDENT DEFECT IS ITSELF BUDGET-DEPENDENT (WP-11.8).**
+  `oq/a-proof-of-feasibility-is-not-a-proof-of-composition` was ruled on
+  `tidewater-georgian-careful`, and on this machine that plan no longer reaches CP at all: `auto`
+  spends its 25 s and falls back to the hill-climb (`fallback: budget`). The live case is
+  **`spec-builder-colonial`** -- the OTHER shipped reference plan, which the diagnosis never named
+  for this. **Quoting the Tidewater run as the live example would now be wrong**, and the register
+  entry is corrected rather than left to read as current. The same reason makes the test fixture
+  DRIVEN rather than the corpus: a fixture that IS a shipped plan would make these tests
+  statements about a 25-second budget.
 - **THE FACADE IS A RESULT NOW, AND THE FINDING OF THE PACKAGE IS A COINCIDENCE (WP-11.7).**
   `build/facade.py` derives the rhythm the plan's own `footprint.bays` imply, compares the drawn
   front against it and REPORTS -- it composes nothing, because the ruling's second half is that the

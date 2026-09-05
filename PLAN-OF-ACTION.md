@@ -2144,8 +2144,44 @@ takes, not a fraction of a facade decided elsewhere).
 
 ### WP-11.8 The bench chooses, and says which
 
-**Status: NOT STARTED. Blocked on one ruling (does WP-6.3's proof-outranks-search transfer from
-feasibility to composition?).** Part VII item 7; findings J2, J6.
+**Status: COMPLETE (5 Sep 2026).** Part VII item 7; findings J2, J6. Report:
+`docs/reports/wp-11.8-the-bench-chooses-and-says-which.md`. (**This line said "Blocked on one
+ruling" while that ruling had been taken on 4 Sep**, in this same file — the second WP status line
+in two packages to outlive its own blocker, which is the "until X lands" class and is now worth
+sweeping rather than correcting one at a time.)
+
+**THE CASE MOVED TO THE OTHER PLAN, AND WHICH PLAN SHOWS IT IS ITSELF BUDGET-DEPENDENT.** The
+ruling was taken on `tidewater-georgian-careful`; on this machine that plan no longer reaches CP at
+all (`auto` spends 25 s and falls back, `fallback: budget`). The live case is
+**`spec-builder-colonial`** — `cp-sat`, `OPTIMAL (hard-only)`, **`objective: null`**, five declared
+exterior walls set aside — the other shipped reference plan, which the diagnosis never named.
+
+**AND "with its demerit score" NEEDED A SECOND NUMBER.** The search scores **592.3** against the
+proof's **789.3**, 197 points better, and buys it by breaking **sixteen** declared facts the proof
+holds (0 against 16, judged against the SAME downgrade list, because a heuristic record carries
+none of its own and charging it for pins CP-SAT proved impossible would rig it the other way).
+`hard_fact_violations`' docstring already said so. Both numbers travel together and no surface may
+print one without the other — which is the ruling's own intent, since telling a reader they are
+choosing a better composition over a proved feasibility requires both halves of the trade.
+
+`geometry._offer_the_alternative` (CP branch, objective-null only, ~0.3 s, and `could-not-evaluate`
+WITH ITS REASON on either failure path rather than going quiet); `disclosures.alternative_offered`
+(the plate line, straight after `objective_not_run` because it is the second half of one
+disclosure; still ONE spelling); `corpus._placed`'s `solver.drawn_by` with an `input_digest` taken
+BEFORE the solve, which is finding J6; and `PlanWorkbench.jsx`, which said *"proved, not searched"*
+over exactly the placement the ruling says must not be preferred and says **proved feasible** now.
+
+Ten mutations, ten caught. **The fixture is DRIVEN and not the corpus** and the reason is measured:
+whether a real solve leaves `objective` null depends on this machine's budget, so a corpus fixture
+would make the tests statements about 25 seconds. The JSX is held by a source-reading test because
+vite compiles it in CI and there is no `node_modules` here — WP-5.7's own asymmetry.
+
+**Not done, and each is named in the ruling as unruled or is a UI package**: the budget is
+unchanged; a placement that set aside sixteen declared facts is still drawn rather than refused
+with the conflict named; and the bench offers the alternative in words and numbers rather than
+drawing it, though its geometry is on the record for a surface that wants it.
+
+**Original package text, left as written:**
 
 Interim, needing no ruling and buildable with WP-11.1: when the CP objective did not run, the bench
 draws the proof with the WP-11.1 banner AND offers the search's placement beside it with its

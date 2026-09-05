@@ -31,6 +31,31 @@ reach feasibility, both ends of the centre passage among them. `docs/reports/wp-
 established that a reader must be able to tell a proof from a search; this entry establishes the
 sharper thing, that a reader must be able to tell WHAT was proved.
 
+## BUILT BY WP-11.8 (5 Sep 2026), and the case moved to the other plan
+
+**The ruling was taken on `tidewater-georgian-careful` and on this machine that plan no longer
+reaches CP at all** — `auto` spends its 25 s and falls back to the hill-climb (`fallback: budget`).
+The case is live on **`spec-builder-colonial`** instead: `cp-sat`, `OPTIMAL (hard-only)`,
+**`objective: null`**, five declared exterior walls set aside. Which plan demonstrates a
+budget-dependent defect is itself budget-dependent, and quoting the Tidewater run as the live
+example would now be wrong.
+
+**AND THE RULING'S "with its demerit score" NEEDED A SECOND NUMBER.** Measured on that plan: the
+search scores **592.3** against the proof's **789.3** — 197 points better — and buys it by breaking
+**sixteen** declared facts the proof holds (0 against 16, judged against the same downgrade list,
+because a heuristic record carries none of its own). The score alone reads as "the search is the
+better house"; it is the cheaper one. `hard_fact_violations`' own docstring already said so. Both
+numbers travel together in `geometry_report.solver.alternative` and no surface may print one
+without the other — which is this ruling's own intent, since telling a reader that they are
+choosing a better composition over a proved feasibility requires both halves of the trade.
+
+Built: `geometry._offer_the_alternative` (the CP branch only, and only where the objective is
+null), `disclosures.alternative_offered` (the plate line, immediately after `objective_not_run`
+because it is the second half of one disclosure), `corpus._placed`'s `solver.drawn_by` with an
+`input_digest` taken BEFORE the solve — finding J6 — and `PlanWorkbench.jsx`, which said
+*"proved, not searched"* over exactly this placement and says **proved feasible** now.
+Report: `docs/reports/wp-11.8-the-bench-chooses-and-says-which.md`.
+
 ## The ruling's two halves
 
 **1. Draw both, label both, where the objective did not run.** `workbench/server/corpus.py::_placed`

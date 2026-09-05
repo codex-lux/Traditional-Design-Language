@@ -130,6 +130,37 @@ def objective_not_run(plan):
                     "TERM FOR THE FRONT, THE AXIS OR THE STACK WAS EVALUATED ON IT"}
 
 
+def alternative_offered(plan):
+    """The search's placement, offered beside a proof whose objective did not run.
+
+    WP-11.8, the second half of `oq/a-proof-of-feasibility-is-not-a-proof-of-composition`: *"the
+    bench draws both and labels both, and the plate says which it drew and why."* The line above
+    says the objective did not run; this one says what the reader is being offered instead, and it
+    exists as a SEPARATE line rather than a longer version of that one because a reader can face
+    the first without the second — the alternative is not always computable, and it says so.
+
+    **BOTH NUMBERS OR NEITHER.** The demerit score alone reads as "the search is 197 points
+    better" and that is the misleading half: on `spec-builder-colonial` the search buys those
+    points by violating sixteen hard facts the proof honours. `geometry._offer_the_alternative`
+    records the pair and this prints the pair. A future editor shortening this line to fit should
+    drop the line, not one of its numbers."""
+    s = (plan.get("geometry_report") or {}).get("solver") or {}
+    alt = s.get("alternative")
+    if not alt:
+        return None
+    if alt.get("verdict") != "offered":
+        return {"id": "alternative", "tone": COPPER,
+                "text": ("THE SEARCH'S PLACEMENT COULD NOT BE COMPUTED FOR COMPARISON — "
+                         + (alt.get("why") or "no reason recorded").upper())}
+    return {"id": "alternative", "tone": COPPER,
+            "detail": alt,
+            "text": (f"THE SEARCH PLACES THIS HOUSE AT {alt['score']} DEMERITS AGAINST THIS "
+                     f"DRAWING'S {alt['drawn_score']}, AND BREAKS "
+                     f"{alt['hard_fact_violations']} DECLARED FACT(S) THIS ONE HOLDS "
+                     f"({alt['drawn_hard_fact_violations']}) — A LOWER SCORE IS NOT ON ITS OWN "
+                     f"A BETTER HOUSE")}
+
+
 def windows_not_drawn(plan):
     """Declared window units the placement could not place, with the reasons grouped.
 
@@ -272,7 +303,10 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
                       "text": f"{len(undrawable)} DECLARED DOOR(S) WITHOUT A DRAWABLE OPENING — "
                               f"IN THE RECORD, NOT THE LINEWORK: {names.upper()}{more}"})
 
-    for fn in (walls_set_aside, objective_not_run, windows_not_drawn):
+    # `alternative_offered` comes straight after `objective_not_run` deliberately: it is the
+    # second half of one disclosure and a reader meeting the first without the second has
+    # been told the composition was not evaluated and not told what else is available.
+    for fn in (walls_set_aside, objective_not_run, alternative_offered, windows_not_drawn):
         line = fn(plan)
         if line:
             lines.append(line)
