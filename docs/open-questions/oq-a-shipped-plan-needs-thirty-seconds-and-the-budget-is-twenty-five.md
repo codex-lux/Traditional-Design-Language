@@ -1,6 +1,6 @@
 # oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five — the proof is there and the clock is not
 
-*Status: OPEN · Raised in: WP-11.7, the shape band and the ranked ladder (5 September 2026)*
+*Status: CLOSED 5 September 2026 (WP-11.8) — the budget is split, batch from interactive · Raised in: WP-11.7, the shape band and the ranked ladder (5 September 2026)*
 
 **OPEN — with the room proportion band held hard, `plans/spec-builder-colonial.json` solves to
 OPTIMAL in 29.6 s. `geometry.solve()`'s budget is 25 s. So a shipped reference plan that CP-SAT
@@ -59,3 +59,29 @@ comment above the constraint carries those numbers so the rewrite is not attempt
 
 Until it is ruled: **the fallback is stated, on the plate and in `geometry_report.solver`, and
 one of the two shipped reference plans is drawn by the search rather than the proof.**
+
+---
+
+## Ruled 5 September 2026 (WP-11.8): split it — a batch budget and an interactive one
+
+Option 3 of the four above. `build/geometry.py` states two:
+
+```python
+BUDGET_BATCH_S = 40.0          # the default `solve()` carries
+BUDGET_INTERACTIVE_S = 25.0    # passed BY NAME by the two routes a person waits on
+```
+
+`check_all.py`, `corpus.drawing()`, the CLI and the reference plans take the default, where a
+proof is worth waiting for. `workbench/server/evaluate.py` and `mcp_server/core.py`'s
+`place_plan` pass the interactive one by name — the route the infrastructure audit measured as
+the whole server's bound, behind a 400 ms debounce, where a longer worst case is a worse
+instrument.
+
+**Measured the moment it landed: `plans/spec-builder-colonial.json` is CP-solved again** —
+`FEASIBLE — kept polish from the heuristic hint`, in 40.7 s, with **0 rooms outside their own
+band**. Both shipped reference plans are drawn by the proof again.
+
+Neither of the two refused options is dead: a per-plan budget scaled by room count (option 4)
+remains the answer if a plan is ever slow for a reason other than size, and raising the
+interactive number (option 1) remains available if the audit's measurement of the evaluate route
+ever changes. What is settled is that ONE number may not serve both callers.

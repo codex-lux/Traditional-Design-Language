@@ -146,7 +146,7 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-DRAWN_SHORT_CEILING = 86   # 88 until WP-11.6. READ BOTH NOTES BELOW, IN ORDER: the first is
+DRAWN_SHORT_CEILING = 65   # 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN ORDER: the first is
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -159,7 +159,20 @@ DRAWN_SHORT_CEILING = 86   # 88 until WP-11.6. READ BOTH NOTES BELOW, IN ORDER: 
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 70
+DRAWN_LONG_CEILING = 65
+# WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
+# MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
+# record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it
+# stops choosing candidates that draw a room long, or squeeze one small, to score well; and a
+# squarer room takes its furniture across BOTH ways. Twenty-one shortfalls on the short axis and
+# five on the long one simply stop existing.
+#
+# The two halves of that key landed in one package and the short ceiling moved with each: 86 ->
+# 70 on the proportion ceiling alone, 70 -> 65 when the area floor joined it. Only the second
+# figure is pinned, because only the second is what the code does.
+#
+# Which is the point Lucas raised the whole of Phase 9 about: "the breakfast room is drawn
+# 7.0 x 27.0 and cannot take its table". The fix was never a furniture fix.
 # WP-11.6 MOVED BOTH, IN OPPOSITE DIRECTIONS, AND THIS TIME IT WAS THE PLACEMENT -- which is
 # the whole reason the previous paragraph exists. 88/69 -> 86/70. The catalogue is byte-
 # identical across the package; `plans/tidewater-georgian-careful.json` gained the two

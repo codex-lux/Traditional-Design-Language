@@ -179,8 +179,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,653 tests**
-(plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,660 tests**
+(plus the workbench app suite, **81** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -456,6 +456,108 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE SEARCH RANKS THE BAND ABOVE ITS OWN SCORE, BECAUSE IT CANNOT REFUSE TO PLACE (WP-11.8).**
+  `SHAPE_W = 6.0` charged a room drawn past its own proportion ceiling and a candidate won while
+  paying it — the flat-12 width charge in a second place. Measured: **77 of 219 placed rooms, 35%,
+  drawn outside their own band** on the search, worst a dining room at 5.0:1 against a ceiling of
+  1.8. **Rejection was never available and that was measured before it was written**: over 250
+  slicings of the Tidewater ground floor the distribution of out-of-band rooms runs 3 to 10 and
+  **ZERO conform**, so "hard" in an engine with no conflict set means the band is the FIRST KEY of
+  the acceptance and the score the second. Corpus-wide 77 → **30**, serious 745 → 681, minor
+  1031 → 992, and rooms under their own AREA floor 15 → **13**. **The span-charge prune had to be
+  tiered with it** — `if part >= best["_raw"]: continue` across violation tiers would skip a
+  candidate with fewer rooms out of band for scoring worse, and the first key would not be a key.
+- **AND THE KEY HAD TO COUNT THE BAND IN BOTH DIRECTIONS, WHICH A WP-7.4 GUARD FORCED (WP-11.8).**
+  Shipped as the proportion CEILING alone it took under-band rooms **15 → 21** and put
+  `spec-builder-colonial`'s dining room back at 87 sf against a 122 sf floor — undoing WP-7.4,
+  and caught by the assertion WP-7.4 had left behind saying in as many words *"the dining room is
+  under band again … something has undone that"*. **A ranking that honours one band by breaking
+  the other is not the room's own record winning; it is one term winning.** Counting both
+  (`band_violations` + `under_band`, the same reader the report uses) costs two rooms over their
+  ceiling and about 7% of the search's wall clock, and buys eight under their floor — better than
+  the BASELINE as well as the intermediate. The intermediate is kept in the code comment because
+  it is a correct measurement of a wrong key, and anyone deleting the area half reproduces it.
+- **AND THE SAME GEOMETRY HAS A STRUCTURAL PRICE NO CRITIC LAYER REPORTS (WP-11.8).**
+  Over-capacity clear spans **13 → 25 and the worst 40.0 → 60.0 ft**; relaxations 64 → 86. A
+  squarer room puts fewer cuts on the bay module, and **the only way this slicer creates a bearing
+  line is to cut on it** — which is WP-7.4's own mechanism running backwards (its span term pulled
+  cuts ONTO the grid and took relaxations 9 → 7). The 20 ft capacity and `bearing_lines`' 0.75 ft
+  tolerance are UNTOUCHED, which this file forbids moving. **`plan_check` has no span finding at
+  all**, so none of these twelve reaches a sheet or a critique — OQ 98 — and the cost is disclosed
+  in WP-11.8's report and nowhere else. Recorded as a real argument against the ranking rather
+  than netted off against what it buys.
+- **THE COST IS SIXTEEN FATALS AND THE MOVE REGISTRY IS WHAT SETTLED IT (WP-11.8).** fatal
+  113 → 136, and **every one of the twenty-three is `unreachable`** — adjacency (38) and fault (17)
+  fatals do not move. A squarer room shares less wall, so its declared doors lose their run. **A
+  door-seating count was built and ranked FIRST to protect the more serious fact, and measured
+  worse on every axis at once**: 68 out of band, 131 fatal, 780 serious — because it is a PROXY
+  for the drawn layer's rule (which seats openings through `openings.place`, reading walls and
+  obstructions) and not the rule. Optimising a proxy optimises the proxy; it was deleted rather
+  than reported, so nothing reads it as the drawn layer's own number. **What settled the trade is
+  what the corpus can DO with each defect**: all 81 `unreachable` fatals carry `adjacent_placed`
+  (re-derived after the key changed, not carried over), so `critique._intended_move` answers every
+  one with `add-the-grammar-door` and the revision loop runs by default, while
+  `drawn-proportion-above-band` returns None — no move exists. 49 defects nothing can fix, traded
+  for 23 the loop is built to clear.
+- **TWO BUDGETS, BECAUSE ONE NUMBER WAS SERVING TWO CALLERS (WP-11.8, ruled 5 Sep).**
+  `BUDGET_BATCH_S = 40.0` is `solve()`'s default — `check_all`, `corpus.drawing()`, the CLI, the
+  reference plans, where a proof is worth waiting for. `BUDGET_INTERACTIVE_S = 25.0` is passed BY
+  NAME by `workbench/server/evaluate.py` and `mcp_server/core.py`'s `place_plan`, the routes the
+  infrastructure audit measured as the whole server's bound with a person waiting behind a 400 ms
+  debounce. **`spec-builder-colonial` is CP-solved again at the batch budget**, FEASIBLE in
+  40.7 s with 0 rooms outside its band — it had been falling back to the search since WP-11.7 by
+  five seconds. Raising the batch number is cheap; raising the interactive one is not.
+- **THE FURNITURE RATCHET MOVED FOR THE THIRD TIME AND THIS ONE IS AN IMPROVEMENT (WP-11.8).**
+  86/70 → **65/65**. WP-11.3 moved that pair because the CATALOGUE was corrected, WP-11.6 because
+  the PLACEMENT moved, and WP-11.8 because the placement got BETTER — twenty-one short-axis and
+  five long-axis shortfalls stop existing. Which is Lucas's own opening complaint of Phase 9
+  (*"the breakfast room is drawn 7.0 x 27.0 and cannot take its table"*) answered from the placer
+  rather than from the furniture layer. **Three moves, three different causes, one number**:
+  re-derive which layer moved it every time.
+- **A FURNITURE RECTANGLE WAS JUDGED AT FULL PRECISION AND WRITTEN ROUNDED (WP-11.8).**
+  `_overlaps` and `_inside` tested the computed rectangle and the record wrote `round(v, 3)`, so
+  two hall chairs computed to abut a coat closet exactly were WRITTEN 33.574 against 33.573 — a
+  thousandth of a foot of overlap, in the record, on a sheet, latent since the pass was written
+  and exposed only by a placement that moved. `furniture.to_record()` rounds ONCE, BEFORE the
+  collision and containment tests, so what is judged is what is written; the chairs are a named
+  refusal now instead of a drawn collision. **That file's own WP-7.4 note two functions below is
+  the same defect one step earlier** (position and extent rounded to different precisions, with an
+  outside-the-room guard loosened enough to hide a real 0.04 ft error). Round at the boundary of
+  the record, not after it.
+- **FOUR GUARDS PINNED AN OUTCOME THE PLACER IS FREE TO CHANGE, AND EACH SAID SO IN ITS OWN
+  COMMENT WHILE DOING IT (WP-11.8).** A fixture test required `spec-builder-colonial`'s
+  primary bath to use two walls — the bath is drawn 20.00 × 12.44 now instead of 9 × 18 and one
+  wall holds all four fixtures honestly. A refusal test required some refusal to state a figure —
+  every refusal on the Tidewater plan is "no shared wall", which states none. A stacking test
+  required `landing-off-well` to fire — it hangs off the KEPT list by design, and the landing is
+  drawn clear. Two more required `spec-builder-colonial` to flag an over-capacity span, and it
+  has none now (21 wall lines, 13 bearing, 0 over) while the corpus has 25 — **and that pair is
+  the one to read twice, because the honest fix looks exactly like the forbidden one**: the
+  capacity and the tolerance did not move, the plan got better and the corpus got worse, and both
+  halves are pinned so a regression in either direction shows. **All of them failed on placements
+  that had got better.** Each is rewritten against
+  the BEHAVIOUR: a synthetic 9 × 14 ft bath no placement can outgrow, a COULD-NOT-EVALUATE skip
+  with a pair-wise guard so both plans cannot go quiet at once, and a landing moved onto its stair
+  by hand into the strip clear of the well. A fourth was retired outright — an assertion that the
+  worst under-band room is ≥20% short is a FLOOR on how bad the engine is, and it is 6% now; it is
+  a ceiling instead, failing on a regression and not on an improvement.
+- **A NUMBER READ OFF THE DELIVERABLE IS NOT A MEASUREMENT OF THE CHANGE (WP-11.8).** The new
+  sheet was rendered and looked at, which is this repository's own highest-yield technique — and
+  the Tidewater upper passage is drawn 26′-10″ × 20′-1″, **539 sf against a declared 360**. Read
+  beside the record that is damning, and the report very nearly went out saying the first key had
+  bought shape with area. **It was 587 sf before**, at 2.74 : 1; it is 539 sf now, at 1.34 : 1 —
+  the package REDUCED an overrun by 48 sf and halved the aspect. Corpus-wide the same way: rooms
+  drawn a tenth or more off their declared area **164 → 148 of 231**, the BEFORE re-derived on a
+  `git archive HEAD` checkout rather than remembered. Looking at the sheet finds a defect; only
+  running the old code on the same plan says whether the change caused it. **Both halves are
+  required, and this one was nearly published backwards.**
+- **AND THE ROOM THAT LOOKS WORST ON THAT SHEET IS CONFORMING (WP-11.8).** The Tidewater ground
+  passage is drawn 9.9 × 40.1, **4.05 : 1**, and `band_violations` counts it as inside its band —
+  `rooms/centre-passage.json` states a ceiling of 5.0, which is the corpus's own reading of what a
+  passage is. The key does what the corpus says, including where the corpus is permissive; do not
+  read a long circulation room as evidence the ranking is not working. `centre-passage` states its
+  band and is JUDGED; a type that states none (`ASPECT_FALLBACK`) is not counted at all, which is
+  *unjudged is not passed* and not a silent pass.
 - **TWO AUTHORED FACTS COULD NOT BOTH BE HARD, AND CLAUDE.MD HAD SAID WHICH ONE WINS SINCE
   WP-2.2 (WP-11.7).** CP held every room's declared `exterior_walls` as a pin. WP-11.7 added the
   room record's own `dimensions.proportion` band as a second hard pin and the model went
@@ -1993,8 +2095,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **141 entries, of which 60 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-frozen-fixture-is-regenerated-by-solving, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **141 entries, of which 58 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

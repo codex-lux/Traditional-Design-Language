@@ -1433,7 +1433,10 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     # against another one, and a record that cannot be re-derived is worth less than the seconds
     # it saves. (The ruling was made against the WP-2.3 solver that did not survive the 25 Aug
     # merge; it is about determinism, not about which engine, so it carries over unchanged.)
-    out = geo.solve(copy_json(plan), pt, candidates, engine=engine)
+    # WP-11.8: the INTERACTIVE budget by name -- this is served to a caller who is waiting,
+    # so it does not take the batch default `solve()` carries for check_all and the CLI.
+    out = geo.solve(copy_json(plan), pt, candidates, engine=engine,
+                    time_limit_s=geo.BUDGET_INTERACTIVE_S)
     if "error" in out: return out
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))

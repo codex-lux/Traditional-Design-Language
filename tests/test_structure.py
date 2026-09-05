@@ -460,14 +460,33 @@ class TestBuildSectionEndToEnd:
         flagged = [b for lv in section["levels"] for b in lv["spans_exceeding_capacity"]]
         assert all(not b["ok"] for b in flagged)
 
-    def test_spec_builder_plan_flags_a_span_over_capacity(self, structure_module):
+    def test_a_span_over_capacity_is_flagged_and_the_spec_colonial_no_longer_has_one(
+            self, structure_module):
         """The concrete case this file's own CLI run turned up: a 23+ ft clear span checked
         against the bay-module cap fails it, and build_section surfaces that as a finding
-        rather than silently reporting 0 problems."""
-        plan = load_plan("spec-builder-colonial")
-        section = structure_module.build_section(plan)
-        flagged = [s for lv in section["levels"] for s in lv["spans_exceeding_capacity"]]
-        assert flagged, "expected at least one over-capacity span on spec-builder-colonial.json"
+        rather than silently reporting 0 problems.
+
+        WP-11.8 MOVED THIS OFF `spec-builder-colonial` AND SAYS WHY. With each room's own band
+        ranked above the search's own score, that plan's placement produces 21 wall lines, 13 of
+        them bearing, and NO clear span over the 20 ft capacity -- so an assertion that it flags
+        one failed on a plan that had got better, which is the fourth guard in this package to
+        pin an outcome rather than a behaviour. **This is not the 20 ft capacity or
+        `bearing_lines`' 0.75 ft tolerance being loosened**, which CLAUDE.md forbids in as many
+        words; neither moved, and the mechanism still flags 25 spans across the corpus, 4 of them
+        on the other shipped reference plan. Both halves are pinned here: the mechanism fires,
+        and this plan is clean, so a regression in either direction shows."""
+        flagged_somewhere = 0
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            section = structure_module.build_section(load_plan(pid))
+            flagged = [s for lv in section["levels"] for s in lv["spans_exceeding_capacity"]]
+            if pid == "spec-builder-colonial":
+                assert not flagged, (
+                    "spec-builder-colonial flags an over-capacity span again; it has had none "
+                    f"since WP-11.8 and this is a placement regression, not a win: {flagged}")
+            flagged_somewhere += len(flagged)
+        assert flagged_somewhere >= 1, (
+            "neither shipped reference plan flags an over-capacity span, so the capacity check "
+            "is untested on anything this suite draws")
 
     def test_storeys_carry_a_grade_relative_floor_datum(self, structure_module):
         plan = load_plan("tidewater-georgian-careful")
@@ -503,8 +522,15 @@ class TestRenderSection:
         assert "RIDGE UNJUDGED" in text
 
     def test_render_bearing_diagram_writes_a_valid_svg_and_flags_over_capacity_spans(self, structure_module, render_section_module, tmp_path):
-        plan = load_plan("spec-builder-colonial")
+        # `tidewater-georgian-careful`, not `spec-builder-colonial`: WP-11.8's ranking left the
+        # spec Colonial with no over-capacity span at all, and this test is about the DIAGRAM
+        # marking one, not about which plan happens to have one. The sibling test above pins
+        # that the spec Colonial is clean.
+        plan = load_plan("tidewater-georgian-careful")
         section = structure_module.build_section(plan)
+        assert [s for lv in section["levels"] for s in lv["spans_exceeding_capacity"]], (
+            "this plan no longer has an over-capacity span, so the diagram has nothing to mark "
+            "and this test asserts nothing about the marking")
         out = tmp_path / "bearing.svg"
         render_section_module.render_bearing_diagram(section, str(out))
         text = out.read_text()

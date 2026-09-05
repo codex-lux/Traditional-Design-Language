@@ -189,22 +189,82 @@ def test_moving_the_powder_rooms_claim_changed_no_verdict():
         "a weighted verdict moved; the move was measured to change none")
 
 
-def test_the_two_new_claims_land_and_the_landing_check_finally_fires():
-    """The measurement the package was ruled on. `landing-off-well` runs only where a room's
-    `stacks_over` names the stair's own room; nothing in the corpus said so, so it had never
-    fired in the life of this checker."""
+def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
+    """The measurement the package was ruled on -- and WP-11.8 moved half of it, so read the
+    second paragraph before restoring anything.
+
+    WP-11.6 authored `landing.stacks_over = "stair"` and `upperpassage.stacks_over = "passage"`
+    and measured both KEPT on the search, 3 of 5 claims landing. WP-11.8 ranked each room's own
+    band above the search's own score, and the set of three changed rather than its size: the
+    upper passage still stacks, `primary` over `drawing` and `primarybath` over `butlers` now
+    land, and the LANDING is drawn clear of the stair. Stacking is a 40-point charge in the
+    SECOND key, so a candidate that conforms better to the bands outranks it -- and the broken
+    claim is reported as `stack-broken` rather than passed over, which is the guarantee WP-11.6
+    actually built. What is pinned here is the judging (5 claims, none unjudged, 3 kept) and the
+    claim the ranking did not cost; the landing is asserted BROKEN so the trade cannot reverse
+    unnoticed in either direction."""
     G._SOLVE_CACHE.clear()
     solved = G.solve(json.loads(json.dumps(TIDEWATER)), engine="heuristic")
     st = solved["geometry_report"]["stacking"]
     assert st["claims"] == 5 and len(st["unjudged"]) == 0
     kept = {e["room"] for e in st["kept"]}
-    assert {"landing", "upperpassage"} <= kept, (
-        f"the two claims WP-11.6 authored are not kept: {st}")
+    broken = {e["room"] for e in st["broken"]}
+    assert len(kept) == 3, st
+    assert "upperpassage" in kept, f"the claim WP-11.8 did not cost is gone too: {st}"
+    assert "landing" in broken, (
+        "the landing stacks over the stair again -- welcome, and re-derive which key did it "
+        f"before moving this line: {st}")
+    rep = PC.check(json.loads(json.dumps(solved)))
+    kinds = [f.get("kind") for f in rep["findings"]]
+    assert "stack-broken" in kinds, "a broken claim must be reported, not passed over"
+
+
+def test_the_landing_over_the_well_check_fires_on_a_landing_that_is_over_the_well():
+    """`landing-off-well` runs only where a room's `stacks_over` names the stair's own room --
+    nothing in the corpus said so until WP-11.6, so it had never fired in the life of the
+    checker. It hangs off the KEPT list by design (`plan_check.py` says why: a landing drawn
+    clear of the stair is already a `stack-broken`, and two findings for one defect is worse
+    than one).
+
+    So WHETHER IT FIRES ON A SHIPPED PLAN IS A PROPERTY OF THE PLACER, not of the rule, and
+    WP-11.8's ranking stopped it firing on the Tidewater plan by drawing the landing clear.
+    Pinning it there pinned an outcome the placer is free to change -- the same error this
+    session corrected in `test_openings.py`'s corner test the same day. The landing is moved
+    onto the stair here, by hand, so the rule is exercised whatever any engine does."""
+    G._SOLVE_CACHE.clear()
+    solved = G.solve(json.loads(json.dumps(TIDEWATER)), engine="heuristic")
+    stair = solved.get("stair") or {}
+    assert stair.get("room") and stair.get("well"), "no stair to sit a landing over"
+    ground = {r["id"]: r for lv in solved["levels"] if lv.get("index", 0) == 0
+              for r in lv["rooms"]}
+    sg = ground[stair["room"]]["geometry"]
+    for lv in solved["levels"]:
+        for r in lv["rooms"]:
+            if r["id"] != "landing":
+                continue
+            # squarely inside the stair hall and CLEAR OF THE WELL -- which is the case the
+            # check exists for, and the one a room-overlap test calls clean. The strip is
+            # computed rather than written down, because the well's own position is the
+            # placer's: `plan_check.py`'s comment says a landing "may sit squarely inside the
+            # stair hall and still miss the opening the flight arrives at", and that is what
+            # this rectangle is.
+            w = stair["well"]
+            strip = sg["x_ft"] + sg["width_ft"] - (w["x_ft"] + w["width_ft"])
+            assert strip > 1.0, (
+                f"the stair hall has no strip clear of its own well ({strip:.2f} ft), so this "
+                "fixture cannot state the case the check is for")
+            g = r["geometry"]
+            g["x_ft"] = w["x_ft"] + w["width_ft"] + 0.1
+            g["y_ft"] = sg["y_ft"]
+            g["width_ft"] = strip - 0.2
+            g["depth_ft"] = min(g["depth_ft"], sg["depth_ft"])
+    st = G.stacking_report(solved)
+    assert "landing" in {e["room"] for e in st["kept"]}, st
     rep = PC.check(json.loads(json.dumps(solved)))
     kinds = [f.get("kind") for f in rep["findings"]]
     assert "landing-off-well" in kinds, (
-        "the landing-over-the-well check did not run; it is armed by the record declaring the "
-        "claim and by nothing else")
+        "the landing-over-the-well check did not run on a landing placed over the stair; it "
+        "is armed by the record declaring the claim and by the claim being kept")
 
 
 # --- the placer's own ceiling ------------------------------------------------------------

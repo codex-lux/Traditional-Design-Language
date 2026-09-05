@@ -162,6 +162,8 @@ def pack_against_walls(rect, room_id, occupied, entries, noun="fixtures", placed
                 start = max(lo, W_["base"] + W_["cursor"])
                 while hi - start >= fw - 1e-6:
                     cand_rect = _seat_rect(cw, start, fw, fd)
+                    if cand_rect is not None:
+                        cand_rect = to_record(cand_rect)   # judge what will be written
                     if cand_rect is not None and _clear_of_placed(cand_rect):
                         seat, seat_rect, wall = start, cand_rect, cw
                         break
@@ -308,6 +310,25 @@ def door_swings(room, rect):
     return out
 
 
+def to_record(r):
+    """The rectangle the RECORD will carry, rounded once, here.
+
+    WP-11.8, found by a guard on the first placement that moved under it. `_overlaps` and
+    `_inside` judged the full-precision rectangle and the record then wrote `round(v, 3)`, so a
+    seat computed to abut exactly could be written 0.001 ft over its neighbour: on
+    `good-03-parlor-drawing-room-house` the foyer's two hall chairs ended at 33.574 against a
+    coat closet beginning at 33.573. A thousandth of a foot is nothing to look at and it is a
+    SECOND RECORD OF ONE FACT -- the thing this file's own WP-7.4 note two functions below is
+    about, where position and extent were rounded to different precisions and an
+    outside-the-room guard had to be loosened enough to hide a real 0.04 ft error.
+
+    So the rounding happens BEFORE the collision and containment tests rather than after them,
+    and what was judged is what is written. An item whose rounded rectangle no longer fits is
+    refused and says so, which is the direction that cannot lie.
+    """
+    return (round(r[0], 3), round(r[1], 3), round(r[2], 3), round(r[3], 3))
+
+
 def _overlaps(a, b):
     return (min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0]) > 1e-6
             and min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1]) > 1e-6)
@@ -341,6 +362,7 @@ def place_freestanding(rect, spec, blocked, step_index):
     off = sign * k * ((long_ if room_is_tall else short) + clear)
     r0 = ((cx - iw / 2.0, cy - ih / 2.0 + off, iw, ih) if room_is_tall
           else (cx - iw / 2.0 + off, cy - ih / 2.0, iw, ih))
+    r0 = to_record(r0)                                     # judge what will be written
     if not _inside(r0, rect):
         return None
     if any(_overlaps(r0, b) for b in blocked):

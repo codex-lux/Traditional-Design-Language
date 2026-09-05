@@ -187,3 +187,98 @@ def test_the_centring_equality_is_refused_with_its_measurement():
         "reinstating it: with the shape bands held and all 22 wall pins released it was "
         "INFEASIBLE in 0.9 s.")
     assert "SPANNING ONLY, AND THE CENTRING IS REFUSED" in src
+
+
+# --- WP-11.8: the SEARCH holds the band too, by ranking rather than by refusing --------------
+
+def test_the_band_is_the_first_key_of_the_searchs_acceptance():
+    """`SHAPE_W` charges 6 points per ratio point past a room's own ceiling and a candidate can
+    win while paying it -- the same shape as `level_score`'s flat-12 width charge, which
+    CLAUDE.md records as "the search will place a room below the floor of its own band and say
+    nothing". Ranking, not weighting, is what a search with no conflict set can do."""
+    src = (ROOT / "build" / "geometry.py").read_text()
+    assert "(viol, tot) < (best[\"_viol\"], best[\"_raw\"])" in src, (
+        "the candidate acceptance no longer ranks band conformance above the score")
+    # the span-charge prune must stay INSIDE a violation tier, or the first key is not a key
+    assert "under_band({0: gr, 1: ur} if ur else {0: gr}, prep)" in src, (
+        "the first key counts the proportion ceiling only; ranking one band by breaking the "
+        "other took under-band rooms 15 -> 21 and put spec-builder-colonial's dining room back "
+        "below its own floor")
+    assert 'if viol > best["_viol"]:' in src and \
+           'if viol == best["_viol"] and part >= best["_raw"]:' in src, (
+        "the early-out prunes across violation tiers, so a candidate with fewer rooms out of "
+        "band can be skipped for scoring worse -- which silently un-does the ranking")
+
+
+def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
+    """The deliverable, measured on the deterministic engine. 77 of 219 before, 30 after.
+
+    28 with the proportion CEILING alone as the key; 30 once the area FLOOR joined it, which a
+    WP-7.4 guard forced (`test_geometry.py`'s "the dining room is under band again"). Two more
+    rooms over their ceiling buys eight fewer under their floor, 21 -> 13, which is better than
+    the 15 this package started from. Both halves are the room's own record."""
+    import glob
+    C = PC.load_corpus()
+    out = tot = 0
+    for pf in sorted(glob.glob(str(ROOT / "plans" / "*.json"))) + \
+              sorted(glob.glob(str(ROOT / "plans" / "reference" / "*.json"))):
+        d = json.loads(pathlib.Path(pf).read_text())
+        if "levels" not in d:
+            continue
+        G._SOLVE_CACHE.clear()
+        res = G.solve(json.loads(json.dumps(d)), engine="heuristic")
+        for lv in res["levels"]:
+            for r in lv["rooms"]:
+                g = r.get("geometry")
+                band = ((C["rooms"].get(r["type"]) or {}).get("dimensions") or {}).get("proportion")
+                if not g or not band:
+                    continue
+                tot += 1
+                if max(g["width_ft"], g["depth_ft"]) > band[1] * max(
+                        min(g["width_ft"], g["depth_ft"]), 1e-9) + 0.02:
+                    out += 1
+    assert (out, tot) == (30, 219), (
+        f"the search draws {out} of {tot} rooms outside their own band against a pinned 28 of "
+        f"219. An improvement is welcome -- lower it here and say what moved. A RISE means the "
+        f"ranking stopped governing.")
+
+
+def test_the_residual_is_disclosed_on_the_record_by_both_engines():
+    """No pool of 250 has ever reached zero, so "held every band" and "held as many as it
+    could" look identical in a drawing unless the record says which."""
+    for engine in ("heuristic", "auto"):
+        G._SOLVE_CACHE.clear()
+        try:
+            res = G.solve(json.loads(json.dumps(TIDEWATER)), engine=engine)
+        except Exception:
+            continue
+        sb = res["geometry_report"].get("shape_band")
+        assert sb is not None and "rooms_outside_their_band" in sb, (
+            f"{engine}: the record does not say how many rooms are drawn outside their band")
+        assert isinstance(sb["rooms_outside_their_band"], int)
+        assert sb["note"], "a count with no note is a number nobody can read"
+
+
+def test_the_two_budgets_are_named_and_the_interactive_routes_pass_the_short_one():
+    """One number served two callers until WP-11.8: `check_all` and the CLI, where a proof is
+    worth waiting for, and `/api/plan/evaluate`, which the infrastructure audit measured as the
+    whole server's bound with a person waiting behind a 400 ms debounce."""
+    src = (ROOT / "build" / "geometry.py").read_text()
+    assert "BUDGET_BATCH_S = 40.0" in src and "BUDGET_INTERACTIVE_S = 25.0" in src
+    assert "time_limit_s=BUDGET_BATCH_S" in src, "solve() no longer defaults to the batch budget"
+    for f in ("workbench/server/evaluate.py", "mcp_server/core.py"):
+        s = (ROOT / f).read_text()
+        assert "BUDGET_INTERACTIVE_S" in s, (
+            f"{f} takes the batch default on a route a person is waiting on")
+
+
+def test_the_refused_first_key_is_not_quietly_reinstated():
+    """A door-seating count was built, ranked above the band to protect the more serious fact,
+    and measured WORSE on every axis at once (out of band 68 against 28, fatal 131 against 129,
+    serious 780 against 695) because it is a proxy for the drawn layer's rule and not the rule.
+    Deleted rather than reported, so nothing reads it as the drawn layer's own number."""
+    src = (ROOT / "build" / "geometry.py").read_text()
+    assert "undrawable_doors" not in src and "door_need_ft" not in src, (
+        "the refused proxy is back; re-run the three-way measurement in the comment above the "
+        "acceptance keys before trusting it")
+    assert "A THIRD KEY WAS BUILT AHEAD OF THIS ONE AND REFUSED" in src

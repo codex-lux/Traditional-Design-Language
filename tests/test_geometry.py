@@ -62,16 +62,19 @@ class TestSolveSmoke:
         plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
         result = geometry_module.solve(plan, engine="heuristic")
         report = result["geometry_report"]
-        # 9, moved from 7 by WP-11.6, and the cause is a RECORD edit rather than a code one: `plans/tidewater-georgian-careful.json` now declares the two stacking claims its own parti has always made (`landing.stacks_over = "stair"`, `upperpassage.stacks_over = "passage"`). `geometry.bias()` reads `stacks_over` to steer CANDIDATE GENERATION, not only the ranking, so two more claims change which layouts are produced -- the search keeps all three claims it can reach (1 of 3 -> 3 of 5) and pays 2 more relaxations and 5 more transfer beams for them. Serious findings 62 -> 55, fatal 3 -> 4; the fatal is `unreachable: chamber3` and it is NAMED rather than absorbed (see docs/reports/wp-11.6-*.md). Previously: 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
-        # STAYS 9 -- and it said "STAYS 7" over an assertion of 9 for the length of one
-        # WP-11.6 edit, which is this repository's own "until X lands" trap caught in the act
-        # of being written. WP-9.4 measured a corrected clamp (geometry._clamp_cut) that would
+        # 8, moved from 9 by WP-11.8, and the cause is the search's ACCEPTANCE rather than its generation: the proportion band a room's own record states is the first key of the candidate ranking now and the score is the second, so a candidate leaving fewer rooms outside their band beats one that scores better. Corpus-wide that took rooms drawn outside their own band 77 of 219 to 28, serious findings 745 -> 695 and minor 1031 -> 1006, at a cost of 16 more fatal ones -- every one `unreachable`, and every one carrying `adjacent_placed`, so the revision loop answers all of them with `add-the-grammar-door` while a room drawn too long has no move at all. Previously: 9, moved from 7 by WP-11.6, and the cause is a RECORD edit rather than a code one: `plans/tidewater-georgian-careful.json` now declares the two stacking claims its own parti has always made (`landing.stacks_over = "stair"`, `upperpassage.stacks_over = "passage"`). `geometry.bias()` reads `stacks_over` to steer CANDIDATE GENERATION, not only the ranking, so two more claims change which layouts are produced -- the search keeps all three claims it can reach (1 of 3 -> 3 of 5) and pays 2 more relaxations and 5 more transfer beams for them. Serious findings 62 -> 55, fatal 3 -> 4; the fatal is `unreachable: chamber3` and it is NAMED rather than absorbed (see docs/reports/wp-11.6-*.md). Previously: 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
+        # STAYS 8 -- and the number under it has now moved in two consecutive packages, which
+        # is why this line is re-read rather than left alone. It once said "STAYS 7" over an
+        # assertion of 9 for the length of one WP-11.6 edit, which is this repository's own
+        # "until X lands" trap caught in the act of being written; WP-11.8 moved the assertion
+        # again, and the sentence was corrected WITH it rather than after someone noticed.
+        # WP-9.4 measured a corrected clamp (geometry._clamp_cut) that would
         # move this number by one, and REFUSED it: the same change takes the entry porch's
         # clear depth 6.0 -> 5.0 and re-fires `porch-nobody-can-sit-on`, which WP-7.4 had
         # cleared. Read _clamp_cut's docstring before trying it again -- the arithmetic there
         # is right and the shipped expression is wrong, and shipping the fix alone still makes
         # the corpus worse. The refusal stands; only the baseline it is measured against moved.
-        assert report["relaxations"]["count"] == 9
+        assert report["relaxations"]["count"] == 8
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]
@@ -123,9 +126,21 @@ class TestUnderBandIsReported:
             assert r.get("short_by_pct") and r.get("declared_short_by_pct") is not None, r
         # WP-7.4: the dining room is no longer the one squeezed on this plan, so asserting on
         # it by name would pin an outcome the terms just changed. What still holds is that the
-        # room the hill-climb DOES squeeze is squeezed materially, not by a rounding.
+        # room the hill-climb DOES squeeze is named and measured.
+        #
+        # WP-11.8 RETIRED THE ">= 20%" HALF OF THAT, AND THE REASON IS THE POINT. It read
+        # "squeezed materially, not by a rounding" and was a floor on how BAD the engine is:
+        # once each room's own area floor joined the proportion ceiling in the first key of the
+        # candidate acceptance, this plan's worst shortfall fell 25% -> 6% and its under-band
+        # count 3 -> 1, so an assertion that the engine still squeezes a room by a fifth failed
+        # on a placement that had got better. The invariant this class is named for is that the
+        # trade is REPORTED; how large it is on any one plan is the placer's to change. The
+        # figure is pinned as a CEILING instead, which fails if the engine gets worse and not if
+        # it improves.
         worst = max(ub["rooms"], key=lambda r: r["short_by_pct"])
-        assert worst["short_by_pct"] >= 20, worst
+        assert worst["short_by_pct"] <= 25, (
+            f"the worst shortfall on this plan is {worst['short_by_pct']}%, against 6% measured "
+            f"at WP-11.8 and 25% before it: {worst}")
 
         # And the good news, pinned so it cannot regress unnoticed: the CP engine does NOT make
         # this trade on the same record. That is the concrete difference between scoring a

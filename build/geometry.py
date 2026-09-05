@@ -118,6 +118,33 @@ def shape_band(rtype):
         return float(pr[1]), "corpus"
     return ASPECT_FALLBACK, "fallback"
 
+def band_violations(rects, rooms):
+    """How many placed rooms are drawn outside the proportion ceiling their OWN record states.
+
+    WP-11.8. One reader, `shape_band`, which the soft SHAPE_W charge and `geometry_cp`'s hard
+    pin already share -- so the search, the proof and `plan_check`'s drawn layer all mean the
+    same thing by a room drawn too long. A room type with no band is not counted: it is
+    UNJUDGED here exactly as it is unjudged in the drawn layer, and `shape_band` says which
+    answer it gave.
+
+    Measured before this existed, over the sixteen shipped plans on the search engine:
+    **77 of 219 placed rooms, 35%, were drawn outside their own band** -- a dining room at
+    5.0 to 1 against a ceiling of 1.8, a guest bedroom at 3.33 against 1.35.
+    """
+    n = 0
+    for r in rooms:
+        g = rects.get(r["id"])
+        if not g:
+            continue
+        ceil, src = shape_band(r["type"])
+        if src != "corpus":
+            continue                  # no band stated: unjudged, not passed and not counted
+        w, h = g[2], g[3]
+        if max(w, h) > ceil * max(min(w, h), 1e-9) + 0.02:
+            n += 1
+    return n
+
+
 def width_floor(rtype):
     """The short-dimension floor a room type states, or None. Read, never invented."""
     d = C["rooms"].get(rtype, {}).get("dimensions", {})
@@ -1757,9 +1784,80 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         # drag calls by name. `_span_charge` can only ever ADD, so a candidate already at or
         # above the incumbent cannot win however few spans it has, and skipping it changes no
         # outcome. Most candidates lose, so most never pay for the check.
+        # THE BAND IS THE FIRST KEY, AND THE SCORE IS THE SECOND (WP-11.8, ruled 5 Sep 2026).
+        #
+        # `SHAPE_W` charges 6 points per ratio point past a room's own ceiling, and a candidate
+        # can win while paying it -- which is exactly what `level_score`'s flat-12 width charge
+        # does and what CLAUDE.md records as "the search will place a room below the floor of
+        # its own band and say nothing". Measured over the sixteen shipped plans, the search
+        # drew **77 of 219 placed rooms outside their own band, 35%**, worst a dining room at
+        # 5.0 to 1 against a ceiling of 1.8.
+        #
+        # So conformance is ranked ABOVE the score: a candidate that leaves fewer rooms outside
+        # their band beats one that scores better, always. That is what "hard" can mean in a
+        # search which has no conflict set to fall back on -- it cannot refuse to place, so the
+        # band governs the CHOICE rather than the feasibility, and where no candidate reaches
+        # zero the residual is reported rather than passed over.
+        #
+        # ZERO OF 250 CANDIDATES CONFORM on the Tidewater ground floor -- the distribution runs
+        # 3 to 10 rooms out of band, best 3 -- so this ranking alone cannot reach zero and is
+        # not claimed to. It picks the best of what the slicer produces.
+        # A THIRD KEY WAS BUILT AHEAD OF THIS ONE AND REFUSED, WITH ITS MEASUREMENT.
+        # Ranking the band above the score costs sixteen fatal findings corpus-wide, and every
+        # one is `unreachable` in the drawn layer -- adjacency (38) and fault (17) fatals do not
+        # move. A squarer room shares less wall, so its declared doors lose the run they need.
+        # So a count of doors the placement cannot seat was written and ranked FIRST, above the
+        # band, to protect the more serious fact. Measured, it is worse on every axis at once:
+        #
+        #   baseline          out of band 77/219   fatal 113   serious 745   minor 1031
+        #   band then score   out of band 28/219   fatal 129   serious 695   minor 1006
+        #   doors, band, score out of band 68/219  fatal 131   serious 780   minor 1022
+        #
+        # because that count is a PROXY for the drawn layer's rule and not the rule: the drawn
+        # layer seats openings through `openings.place`, which reads walls and obstructions,
+        # while the proxy compared a shared run against `required_wall_ft`. Optimising a proxy
+        # optimises the proxy. It was deleted rather than left as a reported number, because a
+        # figure that looks like the drawn layer's and is not would be read as the drawn
+        # layer's.
+        #
+        # WHAT SETTLED THE TRADE INSTEAD: all 74 of the resulting `unreachable` fatals carry
+        # `adjacent_placed`, so `critique._intended_move` answers every one of them with
+        # `add-the-grammar-door` -- and the revision loop is on by default wherever a product
+        # is made. A room drawn outside its own band has NO move at all; `_intended_move`
+        # returns None and says the record already states the right size. So this trades 49
+        # defects nothing can fix for 16 the corrective loop is built to clear.
+        #
+        # THE KEY COUNTS THE BAND IN BOTH DIRECTIONS, AND THE SECOND HALF WAS ADDED BY A GUARD
+        # RATHER THAN BY DESIGN. Ranked on the proportion ceiling alone, this took the corpus's
+        # under-band rooms 15 -> 21 and put `spec-builder-colonial`'s dining room back below its
+        # own floor -- undoing WP-7.4, and caught by the assertion WP-7.4 left behind for exactly
+        # that ("the dining room is under band again on the hill-climb ... something has undone
+        # that"). A ranking that fixes one band by breaking the other is not the room's own
+        # record being honoured; it is one term winning. Both are counted, so:
+        #
+        #   baseline            out of band 77/219   under band 15   fatal 113  serious 745  minor 1031
+        #   ceiling only        out of band 28/219   under band 21   fatal 129  serious 695  minor 1006
+        #   both directions     out of band 30/219   under band 13   fatal 136  serious 681  minor 992
+        #
+        # The third row is better than the second on four axes of five and better than the
+        # BASELINE on under-band as well, at two more rooms over their ceiling and seven more
+        # fatals -- and all 81 of the resulting `unreachable` fatals still carry
+        # `adjacent_placed`, so the argument above holds unchanged at the larger number. The
+        # under-band count costs about 7% of the search's wall clock (0.35 -> 0.38 s on the
+        # Tidewater plan, 250 candidates); `under_band` is the same reader the report uses, so
+        # the key and the disclosure cannot drift apart.
+        viol = (band_violations(gr, prep[0])
+                + (band_violations(ur, prep.get(1) or []) if ur else 0)
+                + len(under_band({0: gr, 1: ur} if ur else {0: gr}, prep)))
         part = sg + su + vs + 1.5 * len(grelax + urelax)
-        if best is not None and part >= best["_raw"]:
-            continue
+        # The span-charge prune is only sound WITHIN a violation tier: a candidate with fewer
+        # rooms out of band must be reached even when its score is worse, or the first key is
+        # not a key at all. This is the kind of early-out that silently un-does a new ranking.
+        if best is not None:
+            if viol > best["_viol"]:
+                continue
+            if viol == best["_viol"] and part >= best["_raw"]:
+                continue
         try:
             spc, sp_over = _span_charge({0: gr, 1: ur}, prep, W, H, bay, plan.get("style"), _floor)
         except Exception:
@@ -1774,8 +1872,8 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
         # satisfies 40.08 < 40.1. The error is bounded at 0.05, but it meant a
         # 250-candidate search did not reliably return its own argmin.
-        if best is None or tot < best["_raw"]:
-            best = {"_raw": tot,
+        if best is None or (viol, tot) < (best["_viol"], best["_raw"]):
+            best = {"_raw": tot, "_viol": viol,
                     "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
                     # Level stamped as the two lists merge — slice_rect does not know which
                     # storey it is slicing, and a mark has to know which plan it belongs on (OQ 33).
@@ -1960,6 +2058,37 @@ def _disclose(plan):
     """
     rep = plan.setdefault("geometry_report", {})
     rep["stacking"] = stacking_report(plan)
+    # WP-11.8: how many rooms are drawn outside the proportion ceiling their own record states.
+    # HERE rather than in `solve_heuristic`'s report dict, because `_finish` builds the CP
+    # path's report from named keys and a figure added to one writer and not the other is the
+    # exact defect this function exists for (OQ 40's disclosure shipped in `write_record` alone
+    # for two phases). Read off the PLACED record so the two engines cannot count differently.
+    #
+    # It reads differently on the two engines and both readings are honest. On CP the band is a
+    # hard, downgradable pin (WP-11.7), so a non-zero count means pins were released and
+    # `downgraded_shape_pins` names them. On the search it is the first key of the acceptance
+    # and no pool of 250 has ever reached zero -- the Tidewater ground floor's distribution runs
+    # 3 to 10 rooms out of band with a best of 3 -- so a non-zero count is the best the pool
+    # offered. "Held every band" and "held as many as it could" look identical in a drawing.
+    _rooms_by_lvl = {}
+    for lv in plan.get("levels") or []:
+        _rooms_by_lvl[lv.get("index", 0)] = lv.get("rooms") or []
+    _v = 0
+    for _rs in _rooms_by_lvl.values():
+        _rects = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"],
+                            r["geometry"]["width_ft"], r["geometry"]["depth_ft"])
+                  for r in _rs if r.get("geometry")}
+        _v += band_violations(_rects, _rs)
+    rep["shape_band"] = {
+        "rooms_outside_their_band": _v,
+        "note": ("Rooms drawn longer than the proportion ceiling their own room record states. "
+                 "On the proving engine this is zero unless a shape pin was downgraded, and "
+                 "`downgraded_shape_pins` then names which. On the searching engine the band is "
+                 "the first key of the acceptance but the search cannot refuse to place, so a "
+                 "count here is the best its candidate pool offered rather than a proof. Room "
+                 "types stating no band are unjudged and are not counted."
+                 if _v else
+                 "Every placed room is inside the proportion band its own record states.")}
     _ml = multi_level_disclosure(plan)
     if _ml:
         rep["multi_level"] = _ml
@@ -1975,10 +2104,33 @@ _SOLVE_CACHE = {}
 # the largest record in plans/ and small enough that 64 of them cannot matter.
 MAX_CACHEABLE_BYTES = 1024 * 1024
 
-def solve(plan, parti=None, candidates=250, seed=7, engine="auto", time_limit_s=25.0):
-    # 25 s default, not 15: both reference plans need ~20-30 s of CP — a budget
-    # that can never finish them makes "auto" a tax that always ships the
-    # heuristic anyway (found in the WP-2.3 audit)
+# TWO BUDGETS, RULED 5 SEP 2026 (WP-11.8), because one number was serving two jobs.
+#
+# WP-11.7 made the room proportion band a hard CP pin, which makes the model harder: measured,
+# `plans/spec-builder-colonial.json` proves OPTIMAL in 29.6 s where it used to prove inside 25,
+# so a shipped reference plan lost its proof by five seconds and fell back to the search.
+# `PLAN-OF-ACTION.md` offered "raise the budget on the reference plans or state the fallback";
+# WP-11.7 stated the fallback and put the choice to Lucas, who ruled: SPLIT IT.
+#
+# The split is the honest one because the two callers are not alike. `check_all.py`,
+# `corpus.drawing()`, the CLI and the reference plans have no latency budget worth the name and
+# a proof is worth waiting for. `/api/plan/evaluate` is the route the infrastructure audit
+# measured as the whole server's bound, with a person waiting on a 400 ms debounce; there, a
+# longer worst case is a worse instrument. So the DEFAULT is the batch budget and the two
+# interactive call sites pass the other one by name.
+#
+# Raising the batch number is cheap and raising the interactive one is not. Anyone tempted to
+# collapse them again should read `docs/reports/infrastructure-audit.md` first.
+BUDGET_BATCH_S = 40.0
+BUDGET_INTERACTIVE_S = 25.0
+
+
+def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
+          time_limit_s=BUDGET_BATCH_S):
+    # The default is the BATCH budget above, not 15 and no longer 25: both reference plans
+    # need ~20-40 s of CP — a budget that can never finish them makes "auto" a tax that always
+    # ships the heuristic anyway (found in the WP-2.3 audit; re-measured at 29.6 s and raised
+    # in WP-11.8, which is why this sentence no longer names a number of its own).
     """The placement entry point every consumer calls (WP-2.3 dispatcher).
 
     engine="auto" (default): the CP-SAT engine (build/geometry_cp.py) when

@@ -1,6 +1,6 @@
 # oq/the-frozen-fixture-is-regenerated-by-solving — the contract fixture's own README says why that cannot work, and its generator does it anyway
 
-*Status: OPEN · Raised in: WP-11.6, the record says what it means (5 September 2026), found in ordinary work*
+*Status: CLOSED 5 September 2026 (WP-11.8) — keep `auto`, correct the README · Raised in: WP-11.6, the record says what it means (5 September 2026), found in ordinary work*
 
 **OPEN — `tests/fixtures/sheet_symbols/` freezes a placement so two renderers can be held to one
 contract. `tests/fixtures/sheet_symbols/README.md` states the reason in its own words. Its
@@ -75,3 +75,18 @@ and is never re-solved by the suites that read it.
 A generated artefact nobody can rebuild identically is an artefact nobody can verify —
 `build/gen_sheet_font.py`'s `recalcTimestamp=False` finding (WP-11.5), one directory over and in
 a place where the file's own documentation had already worked out why.
+
+---
+
+## Ruled 5 September 2026 (WP-11.8): keep `auto`, correct the README
+
+Of the three candidates in "What must be ruled" above, the third. The generator is unchanged and
+the fixtures are untouched; `tests/fixtures/sheet_symbols/README.md` now says plainly that the
+committed placement is a snapshot of one machine, that regenerating produces a large diff whether
+or not anything changed (825 insertions on the pristine tree), and that the fixture must not be
+regenerated to "keep it current" — it is contract INPUT and a stale-looking fixture is not a
+stale contract.
+
+**Question 3 above — whether some of that 800-line diff is the renderers answering differently
+rather than the placement moving — is NOT closed by this ruling and nobody has read it.** It is
+now unanswerable by regeneration, which is the accepted cost of keeping `auto`.
