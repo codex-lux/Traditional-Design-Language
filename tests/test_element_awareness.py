@@ -55,16 +55,15 @@ def dep_rooms(p):
 
 
 class TestTheDisclosureFalls:
-    def test_it_names_four_layers_and_the_two_taught_are_not_among_them(self, placed):
-        """The ruling's own check. `openings` and `structure` were taught at WP-11.6 and left
-        the list; the four that remain are named because they still read the main block as the
-        whole building."""
+    def test_it_names_three_layers_and_the_three_taught_are_not_among_them(self, placed):
+        """The ruling's own check. `openings`, `structure` and `vertical_score` were taught at
+        WP-11.6 and left the list; the three that remain are named because they still read the
+        main block as the whole building."""
         me = placed["geometry_report"]["multi_element"]
         assert me["elements"] == 2
-        assert me["not_element_aware"] == ["vertical_score", "lot_cap",
-                                           "plan_check.drawn", "export_ifc"]
-        assert "openings" not in me["not_element_aware"]
-        assert "structure" not in me["not_element_aware"]
+        assert me["not_element_aware"] == ["lot_cap", "plan_check.drawn", "export_ifc"]
+        for taught in ("openings", "structure", "vertical_score"):
+            assert taught not in me["not_element_aware"], taught
 
     def test_a_one_rectangle_plan_discloses_NOTHING(self):
         """Every plan in this corpus is one rectangle. The disclosure exists for the record a
@@ -241,3 +240,97 @@ class TestTheCriticIsNOTTaughtAndItsSYMPTOMWENTAWAYANYWAY:
 
 
 PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
+
+
+def _cross_element_claim():
+    """A fixture that DRIVES the layer-3 defect: an upper bath declaring it stacks over a room
+    that has been tagged into the dependency. Nothing in the corpus does this, and a fixture
+    that waited for the corpus to do it would be measuring the corpus."""
+    p = _fixture()
+    next(r for r in p["levels"][1]["rooms"] if r["id"] == "primarybath")["stacks_over"] = "kitchen"
+    return p
+
+
+class TestVerticalScoreAcrossElements:
+    """Layer 3, and the entry's own description of it was HALF WRONG."""
+
+    def test_THE_SUPPORT_CREDIT_THE_ENTRY_NAMED_CANNOT_FIRE(self, placed):
+        """The entry says an upper wall within 0.75 ft of a dependency wall line scores as
+        continuing to a wall below. It cannot: `blocks_for` lays only level 0 into elements, so
+        every upper room is inside the main block and every dependency line outside it. Measured
+        rather than reasoned -- and pinned, so that if the placer ever lays an upper level into
+        an element this goes red and the claim becomes real."""
+        W = placed["footprint"]["width_ft"]
+        g = {r["id"]: r["geometry"] for r in placed["levels"][0]["rooms"] if r.get("geometry")}
+        u = {r["id"]: r["geometry"] for r in placed["levels"][1]["rooms"] if r.get("geometry")}
+        gx = {round(v, 2) for gm in g.values()
+              for v in (gm["x_ft"], gm["x_ft"] + gm["width_ft"])}
+        dep_only = [x for x in gx if x < -0.01 or x > W + 0.01]
+        assert dep_only, "the fixture has no dependency-only wall line at all"
+        ux = {round(v, 2) for gm in u.values()
+              for v in (gm["x_ft"], gm["x_ft"] + gm["width_ft"])}
+        assert not [x for x in ux if any(abs(x - d) <= 0.75 for d in dep_only)], (
+            "an upper edge is within tolerance of a dependency line -- the entry's support "
+            "credit is reachable after all and must be fixed rather than recorded as unreachable")
+
+    def test_a_cross_element_claim_is_UNJUDGED_and_not_charged(self):
+        """What WAS reachable, and it is the opposite sign: a claim naming a room in another
+        element was charged 40 points and told "is drawn clear of it", for a failure no
+        placement could avoid."""
+        p = _cross_element_claim()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        notes = p["geometry_report"]["vertical"]
+        hit = [n for n in notes if "Kitchen (Dependency)" in n]
+        assert hit, notes
+        assert "COULD NOT EVALUATE" in hit[0]
+        assert "drawn clear of it" not in hit[0], (
+            "an unjudged claim must not be phrased as a placement that went wrong")
+
+    def test_and_the_charge_it_used_to_pay_is_gone(self):
+        """40 points, measured: vertical_score 114 -> 74 on this fixture."""
+        p = _cross_element_claim()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        with_unjudged = p["geometry_report"]["vertical_score"]
+        # the same fixture with the claim naming a MAIN-block room is charged as before
+        q = _fixture()
+        next(r for r in q["levels"][1]["rooms"]
+             if r["id"] == "primarybath")["stacks_over"] = "butlers"
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(q, engine="heuristic")
+        assert q["geometry_report"]["vertical_score"] > with_unjudged, (
+            "the cross-element claim must cost less than a real break, or it is still charged")
+
+    def test_breaks_and_unjudged_are_TWO_LISTS_and_a_charge_reads_the_first(self):
+        """`declared_stack_breaks` returns both states and `stack_breaks_only` is what a charge
+        or a rejection may act on. A caller treating the full list as breaks would charge for an
+        unjudged claim -- which is the defect this layer removed, arriving through the other
+        door."""
+        p = _cross_element_claim()
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(p, engine="heuristic")
+        g = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"],
+                       r["geometry"]["width_ft"], r["geometry"]["depth_ft"])
+             for r in p["levels"][0]["rooms"] if r.get("geometry")}
+        u = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"],
+                       r["geometry"]["width_ft"], r["geometry"]["depth_ft"])
+             for r in p["levels"][1]["rooms"] if r.get("geometry")}
+        els = GEO.element_of(p, p["levels"][0]["rooms"])
+        assert els and any(v != "main" for v in els.values())
+        allc = GEO.declared_stack_breaks(g, u, p["levels"][1]["rooms"], els)
+        only = GEO.stack_breaks_only(g, u, p["levels"][1]["rooms"], els)
+        assert any(b.get("unjudged") for b in allc)
+        assert all(not b.get("unjudged") for b in only)
+        assert len(only) < len(allc)
+
+    def test_element_of_is_EMPTY_on_every_plan_in_this_corpus(self):
+        """The byte-identity guard, and the ordering trap it was written against: a first
+        version read `footprint.blocks`, which `blocks_record` writes AFTER the search loop this
+        map is used in, so it was empty exactly where the charge is decided."""
+        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        assert GEO.element_of(p, p["levels"][0]["rooms"]) == {}
+        # and non-empty on the fixture BEFORE any placement has written a blocks list
+        f = _fixture()
+        assert "blocks" not in (f.get("footprint") or {})
+        assert GEO.element_of(f, f["levels"][0]["rooms"])

@@ -959,7 +959,23 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog):
     return charge, over
 
 
-def declared_stack_breaks(g, u, upperrooms):
+def element_of(plan, groundrooms):
+    """`{ground_room_id: element_id}`, or `{}` on a one-element plan (WP-11.6, layer 3).
+
+    The join is the room's own `block` tag and NOT `footprint.blocks`, and the reason is an
+    ordering one that cost a first attempt: `blocks_record` writes that list inside
+    `write_record`, AFTER the search loop this runs in, so a map built from it is empty exactly
+    where the charge is decided. The tag is what `blocks_for` itself groups on
+    (`is_block_tag(r.get("block"))`), so reading it here is the same spelling one step earlier.
+
+    `{}` on a plan where no ground room carries a tag, which is every plan in this corpus."""
+    tagged = {r["id"]: r["block"] for r in (groundrooms or []) if is_block_tag(r.get("block"))}
+    if not tagged:
+        return {}
+    return {r["id"]: tagged.get(r["id"], "main") for r in groundrooms}
+
+
+def declared_stack_breaks(g, u, upperrooms, elements=None):
     """Every `stacks_over` claim the placement BREAKS, in ONE place (WP-11.5).
 
     Strict positive rectangle intersection -- plan_check's drawn layer's own rule, so the
@@ -982,11 +998,34 @@ def declared_stack_breaks(g, u, upperrooms):
         t = g.get(so)
         if not t:
             continue
+        # A CLAIM ACROSS TWO MASSING ELEMENTS IS UNJUDGED, NOT BROKEN (WP-11.6, layer 3 of 6).
+        # The placer lays only level 0 into elements, so every upper room is inside the main
+        # block and a dependency is entirely outside it -- 14 ft away at the closest on the
+        # reference fixture, the hyphen's own default gap. No placement this engine can produce
+        # puts an upper room over a dependency room, so charging STACK_W for the failure
+        # convicts the record of something the generator cannot do. Measured: an upper bath
+        # declaring `stacks_over` a kitchen tagged into a west dependency was charged 40 points
+        # and told "is drawn clear of it", which reads as a placement gone wrong rather than a
+        # claim nobody could keep. That is the OQ 52 family.
+        #
+        # It is returned as `unjudged` rather than dropped, so a caller counting breaks and a
+        # caller reporting them see the same three states the rest of this corpus uses.
+        if (elements or {}).get(so, "main") != "main":
+            out.append({"room": rid, "over": so, "name": ut[rid].get("name") or rid,
+                        "unjudged": f"in the {elements[so]} element"})
+            continue
         if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
                 or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
             out.append({"room": rid, "over": so,
                         "name": ut[rid].get("name") or rid})
     return out
+
+
+def stack_breaks_only(g, u, upperrooms, elements=None):
+    """The BROKEN claims alone -- what a charge and a rejection may act on. An unjudged claim is
+    neither, and a caller that treated the full list as breaks would charge for one."""
+    return [b for b in declared_stack_breaks(g, u, upperrooms, elements)
+            if not b.get("unjudged")]
 
 
 def declared_stack_census(g, u, upperrooms):
@@ -1065,7 +1104,15 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     #
     # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
     # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
-    for br in declared_stack_breaks(g, u, upperrooms):
+    _els = element_of(plan, groundrooms)
+    for br in declared_stack_breaks(g, u, upperrooms, _els):
+        if br.get("unjudged"):
+            notes.append(f"{br['name']} declares it stacks over "
+                         f"{gt.get(br['over'], {}).get('name') or br['over']}, which is "
+                         f"{br['unjudged']} — COULD NOT EVALUATE: this placer lays only the "
+                         f"ground level into elements, so no upper room can be placed over a "
+                         f"dependency and the claim can neither hold nor be broken here.")
+            continue
         s += STACK_W
         notes.append(f"{br['name']} declares it stacks over "
                      f"{gt.get(br['over'], {}).get('name') or br['over']} and is drawn clear "
@@ -1679,8 +1726,8 @@ def multi_element_disclosure(plan):
 
     The block machinery places a dependency beside the house and both renderers draw it there.
     FIVE layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
-    building (six until WP-11.6, which taught `openings` and then `structure`; their entries
-    below are kept for the record and marked), and each is wrong in its own direction on a dependency room -- measured, not
+    building (six until WP-11.6, which taught `openings`, `structure` and `vertical_score`;
+    their entries below are kept for the record and marked), and each is wrong in its own direction on a dependency room -- measured, not
     supposed, by an adversarial audit of the change that introduced blocks:
 
       openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
@@ -1694,8 +1741,12 @@ def multi_element_disclosure(plan):
                  W and the gap between the elements could be spanned; the dependency itself got
                  no envelope walls at all (measured 0 of 2). `build_section` runs the three
                  structure functions once per element now, at the element's own origin.
-      vertical   `vertical_score` counts a dependency wall as support for an upper wall above
-                 the main block, where there is no upper floor at all.
+      vertical   TAUGHT AT WP-11.6, and the entry's own description of it was half wrong. The
+                 support-credit it named is UNREACHABLE (the upper level is always inside the
+                 main block and dependency lines always outside it, 14 ft away at the closest
+                 against a 0.75 ft tolerance). What was real is the other sign: a `stacks_over`
+                 claim naming a room in another element was charged 40 points for a failure no
+                 placement could avoid. Unjudged now, with its reason.
       lot        `derive_footprint` caps the MAIN block at `lot_usable_width_ft`; nothing caps
                  the built extent, so a capped house can still be wider than its lot.
       critic     `plan_check`'s drawn layer measures `touches` against the main block, so a
@@ -1734,8 +1785,25 @@ def multi_element_disclosure(plan):
         # first time and immediately fails**: 27.0 ft and 20.07 ft against a 20 ft hand-framed
         # capacity. That is the shield lesson arriving as the ruling predicted -- teaching
         # openings made its windows real, teaching structure makes its spans real.
-        "not_element_aware": ["vertical_score", "lot_cap",
-                              "plan_check.drawn", "export_ifc"],
+        # THREE, down from six (WP-11.6 layers 1-3). `vertical_score` is taught, and ONE HALF OF
+        # WHAT THE ENTRY SAID ABOUT IT WAS NEVER REACHABLE, which is worth more than the fix.
+        #
+        # The entry's claim -- "an upper wall within 0.75 ft of a dependency wall line scores as
+        # continues to a wall below, where there is no upper floor at all" -- CANNOT FIRE with
+        # this placer. `blocks_for` lays only level 0 into elements, so every upper room is
+        # inside the main block and every dependency line is outside it; on the reference
+        # fixture the nearest dependency face is 14 ft away, which is the hyphen's own default
+        # gap against a 0.75 ft tolerance. Measured, not reasoned: 0 upper edges within
+        # tolerance of any of -41.0, -23.3, -14.0.
+        #
+        # What WAS reachable is the opposite sign: a `stacks_over` claim naming a room in
+        # another element was CHARGED 40 points and told "is drawn clear of it", when no
+        # placement this engine can produce could satisfy it. It is COULD NOT EVALUATE now, with
+        # its reason. Measured on the fixture: vertical_score 114 -> 74.
+        #
+        # The wet-stack test needed no change and that was measured too: an upper bath over a
+        # kitchen that has moved into a detached dependency really does sit over no wet room.
+        "not_element_aware": ["lot_cap", "plan_check.drawn", "export_ifc"],
         "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
                  "element and each of the layers named reads footprint.width_ft/depth_ft as the "
                  "whole building. Openings on a dependency wall, spans across the gap, upper-wall "
@@ -1924,7 +1992,8 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
-        _breaks = len(declared_stack_breaks(gr, ur, prep.get(1, []))) if (ur and STACK_HARD) else 0
+        _breaks = len(stack_breaks_only(gr, ur, prep.get(1, []),
+                                        element_of(plan, prep[0]))) if (ur and STACK_HARD) else 0
         # WP-7.4 (OQ 97): the structural check the corpus already runs, run here too. See
         # _span_charge -- this is structure.span_check itself and not a proxy.
         #

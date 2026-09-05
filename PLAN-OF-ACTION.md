@@ -1859,9 +1859,10 @@ term is worse in the middle of its range than at either end, and a rule is the e
 
 ### WP-11.6 The container the programme describes
 
-**Status: IN PROGRESS (4 Sep 2026) — layers 1 and 2 of 6 taught, in the ruled order, measuring
-after each as the ruling requires.** `openings` reads the room's own element, `structure` runs once
-per element, and `geometry_report.multi_element` names **four** layers, down from six. The falling count is the
+**Status: IN PROGRESS (4–5 Sep 2026) — layers 1, 2 and 3 of 6 taught, in the ruled order,
+measuring after each as the ruling requires.** `openings` reads the room's own element, `structure`
+runs once per element, a cross-element stacking claim is unjudged rather than charged, and
+`geometry_report.multi_element` names **three** layers, down from six. The falling count is the
 ruling's own check.
 
 **THE INSTRUMENT FIRST, AND TWO OF ITS PROBES WERE WRONG.** The six defects are measured directly
@@ -1916,8 +1917,20 @@ watching the finding would have reported layer 5 taught two layers early. Driven
 rooms. **Three probes in one package had to be corrected and all three would have read a clean
 zero.**
 
-**Still to do: layers 3 through 6** (`structure`, `vertical_score`, the lot cap, `plan_check.drawn`,
-`export_ifc`), then the parti and plan re-authoring and CP-SAT's per-element solve.
+**LAYER 3: `vertical_score`, and the entry's own description of it was HALF WRONG.** The support
+credit it named — an upper wall within 0.75 ft of a dependency line scoring as continuing to a wall
+below — **cannot fire**, because the placer lays only level 0 into elements and the nearest
+dependency face is 14 ft from the main block against a 0.75 ft tolerance. Measured and pinned
+rather than fixed. What was real is the opposite sign: a `stacks_over` claim naming a room in
+another element was **charged 40 points** for a failure no placement could avoid. Unjudged now,
+with its reason; `vertical_score` **114 → 74** on a driven fixture. The wet-stack test needed no
+change and that was measured too.
+
+**Still to do: layers 4 through 6** — the lot cap, `plan_check.drawn`, `export_ifc` — then the parti
+and plan re-authoring and CP-SAT's per-element solve. (This line named five items for three layers
+for as long as it took to re-read it: it still listed `structure` and `vertical_score`, taught in the
+two commits above it. A to-do list that survives the work it describes is the *"until X lands"*
+class, one file over.)
 
 **Original package text, left as written:**
 

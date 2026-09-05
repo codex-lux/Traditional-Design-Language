@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,715 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,720 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -558,6 +558,23 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   teaching structure makes its spans real. A one-element plan takes the same path with one element,
   so the sixteen one-rectangle records stay byte-identical by construction rather than by a branch,
   and neither grows an `element` key.
+- **`vertical_score` IS ELEMENT-AWARE, AND HALF OF WHAT THE ENTRY SAID ABOUT IT WAS NEVER
+  REACHABLE (WP-11.6, layer 3 of 6).** The entry's support credit -- an upper wall within 0.75 ft
+  of a dependency line scoring as "continues to a wall below" -- **CANNOT FIRE**: `blocks_for` lays
+  only level 0 into elements, so every upper room is inside the main block and every dependency
+  line outside it, 14 ft away at the closest (the hyphen's own default gap) against a 0.75 ft
+  tolerance. Measured, not reasoned, and PINNED so that if the placer ever lays an upper level into
+  an element the claim becomes real. **What WAS reachable is the opposite sign**: a `stacks_over`
+  claim naming a room in another element was CHARGED 40 points and told "is drawn clear of it",
+  for a failure no placement could avoid -- the OQ 52 family. COULD NOT EVALUATE now, with its
+  reason; `vertical_score` 114 -> 74 on the driven fixture. **The wet-stack test needed no change
+  and that was measured too**: an upper bath over a kitchen that has moved into a detached
+  dependency really does sit over no wet room. **The check lives in the ONE spelling** --
+  `declared_stack_breaks` returns both states and `stack_breaks_only` is what a charge or a
+  rejection may act on, so WP-11.5's hard rule and this charge cannot disagree about one claim.
+  **And the join is the room's own `block` tag, NOT `footprint.blocks`**: `blocks_record` writes
+  that list inside `write_record`, AFTER the search loop the map is used in, so a first version
+  built an empty map exactly where the charge is decided.
 - **TEACHING ONE LAYER MADE ANOTHER LAYER'S FINDING DISAPPEAR WITHOUT FIXING IT (WP-11.6).**
   `plan_check`'s landlocked test short-circuits at `if seated: continue` -- it runs ONLY on a room
   whose windows are all unplaced. Seating the dependency's windows at layer 1 took "reaches no
