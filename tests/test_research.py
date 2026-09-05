@@ -261,7 +261,7 @@ def test_a_stated_refusal_and_an_unresearched_row_are_counted_apart():
     with_p = refusals = gaps = 0
     reasons = collections.Counter()
     import glob
-    for f in glob.glob(os.path.join(ROOT, "styles", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))):
         for e in json.load(open(f, encoding="utf-8")).get("exemplars") or []:
             if e.get("precedent"):
                 with_p += 1
@@ -287,7 +287,7 @@ def test_the_thirteen_records_that_are_not_one_building_declare_it():
     """The corpus was doing this before the ruling and said so only in each record's `note`."""
     import glob
     declared = collections.Counter()
-    for f in glob.glob(os.path.join(ROOT, "precedents", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
         k = json.load(open(f, encoding="utf-8")).get("record_kind")
         if k and k != "building":
             declared[k] += 1
@@ -301,7 +301,7 @@ def test_the_grandfathered_set_is_exactly_todays_unsourced_measured_parameters()
     """The frozen list and the live census must agree, or the gate is guarding a fiction."""
     import glob
     live = set()
-    for p in glob.glob(os.path.join(ROOT, "kits", "*.kit.json")):
+    for p in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         nid = os.path.basename(p)[: -len(".kit.json")]
         for sid, s in (json.load(open(p, encoding="utf-8")).get("slots") or {}).items():
             slot_sourced = bool(s.get("sources"))
@@ -359,7 +359,7 @@ def test_a_kind_with_no_shape_rule_is_named_and_counted_not_silent():
     import glob
     assert set(CP.UNSHAPED_ID_KINDS).isdisjoint(CP.ID_SHAPES), "a kind cannot be both"
     n = 0
-    for f in glob.glob(os.path.join(ROOT, "precedents", "*.json")):
+    for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
         for r in json.load(open(f, encoding="utf-8")).get("refs") or []:
             if r.get("kind") in CP.UNSHAPED_ID_KINDS and r.get("id"):
                 n += 1
