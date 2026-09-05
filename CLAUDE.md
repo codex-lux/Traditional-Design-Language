@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,730 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,735 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -530,7 +530,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   suite. **Both are the same root cause as the layer-map miss**: a package that commits before its
   build finishes learns what it broke from the next package's build.
 - **`openings` READS THE ROOM'S OWN MASSING ELEMENT NOW, AND THE DISCLOSURE FELL FROM SIX TO FIVE
-  (WP-11.6, layer 1 of 6; it is at TWO after layer 4 -- read `not_element_aware` in the record,
+  (WP-11.6, layer 1 of 6; it is at ONE after layer 5 -- read `not_element_aware` in the record,
   never a count written in a sentence, including this one).** `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` is RULED
   (4 Sep: an element has its own envelope and its own roof; the lot cap is on the BUILT EXTENT
   hyphen included; the hyphen is a THIRD ELEMENT carrying one room; the drawn layer measures
@@ -607,25 +607,44 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   note names the floor, the lot's count and
   `oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count`. A lot the flank has already eaten
   refuses NAMING THE FLANK, because *"50 ft cannot hold two bays (18 ft)"* is absurd on its face.
-- **TEACHING ONE LAYER MADE ANOTHER LAYER'S FINDING DISAPPEAR WITHOUT FIXING IT (WP-11.6).**
-  `plan_check`'s landlocked test short-circuits at `if seated: continue` -- it runs ONLY on a room
-  whose windows are all unplaced. Seating the dependency's windows at layer 1 took "reaches no
-  exterior wall" findings from **2 to 0** while the `touches` arithmetic four lines below still
-  read `fp_w`/`fp_h` and was still wrong. **A meter watching the FINDING would have reported layer
-  5 taught, by accident, two layers early.** Drive the condition instead: strip the placement from
-  those windows and the layer convicts 2 rooms, one of them a kitchen on its own element's south
-  and west faces. `plan_check.drawn` stays in the disclosure and a test pins both halves. **When a
-  symptom vanishes after you changed something else, find out which.**
+- **THE CRITIC READS THE ROOM'S OWN ELEMENT NOW, AND IT IS THE LAYER WHOSE SYMPTOM HAD ALREADY
+  GONE (WP-11.6, layer 5 of 6; disclosure at ONE).** `plan_check`'s landlocked test short-circuits
+  at `if seated: continue` -- it runs ONLY on a room whose windows are all unplaced. Seating the
+  dependency's windows at layer 1 took "reaches no exterior wall" findings from **2 to 0** while
+  the `touches` arithmetic four lines below still read `fp_w`/`fp_h` and was still wrong. **A meter
+  watching the FINDING would have crossed this layer off four commits early.** Drive the condition
+  instead -- strip the placement from those windows and the test runs.
+  **THE CONTROL IS WHAT MAKES IT A FIX RATHER THAN A LOOSENING**: `kitchen` and `breakfast` read
+  `[]` against the main block and **`['S','W']`** and **`['S','E']`** against their own element,
+  while `chamber2` and `stair` read `[]` on BOTH -- two false convictions removed and two true ones
+  kept. A change that moved all four would have been a check switched off.
+  **RULING 4'S SECOND HALF IS REACHABLE HERE RATHER THAN UNREPRODUCED** (contrast layer 3):
+  `openings.faces_across_a_gap` returns `{face: neighbour_element}`, so the breakfast room's east
+  wall reads *"exterior to the weather and interior to the view: they look across the gap at the
+  main element"* while the kitchen's south and west faces, which look at open ground, take no such
+  note. **The diagonal case is REFUSED rather than modelled, in one condition** -- a face counts
+  only where the other element overlaps it on the perpendicular axis, because a block past the
+  corner is yard.
+  **The regression is pinned as a DIGEST over every finding's kind, room and statement**, not a
+  count: both shipped plans are identical before and after, which is what `envelopes` returning
+  `{}` below two elements buys. **When a symptom vanishes after you changed something else, find
+  out which.**
 - **TWO OF THE SIX PROBES READ ZERO ON THEIR FIRST RUN AND NEITHER ZERO WAS A DEFECT'S ABSENCE
   (WP-11.6).** The openings probe looked for a window drawn FAR FROM its room and found none,
   because the real defect is a window REFUSED outright ("the placement puts this room on no such
   boundary wall"); the structure probe read a `bearing_lines_x` key that does not exist. **A probe
   pointed at the wrong defect and a probe reading a missing key both report 0, and 0 reads as
   nothing-wrong** -- the same shape as the stacking meter's missing `vertical` key one package
-  earlier, twice in two packages. The lot probe reads 0 HONESTLY on the shipped 140 ft lot and
-  needed an 80 ft one to fire (24 ft over, `lot_capped: null`); `vertical_score`'s defect does not
-  reproduce on this fixture at all and is recorded as NOT REPRODUCED rather than as absent.
-  **Before believing a meter's zero, make it report non-zero once.**
+  earlier, twice in two packages. **A THIRD was wrong and was only caught at its own layer**: the
+  lot probe read 0 honestly on the shipped 140 ft lot and needed an 80 ft one to fire, and then
+  published `lot_capped: null` off `footprint.lot_capped`, which does not exist -- the record says
+  `false` at `geometry_report.lot_capped`, which is worse (see the lot-cap entry above). So of six
+  probes, three were wrong and two of those read a key that is not there.
+  `vertical_score`'s probe read 0 and was recorded as NOT REPRODUCED rather than as absent, and
+  that judgment SURVIVED layer 3 -- the support credit it looked for really cannot fire -- but the
+  layer had a defect of the opposite sign the probe was not pointed at.
+  **Before believing a meter's zero, make it report non-zero once** -- and before believing its
+  non-zero, check the key it read.
 - **DECLARED STACKING IS A RULE IN THE SEARCH NOW, AND ITS COST IS A PROPERTY OF THE POOL RATHER
   THAN OF THE RULE (WP-11.5).** `geometry.declared_stack_breaks` is the ONE reader of a
   `stacks_over` claim against a placement, on `plan_check`'s own strict-intersection rule; the

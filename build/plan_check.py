@@ -479,6 +479,33 @@ def drawn_layer(plan, rooms, level_of, C, F):
     fp_w = _fp.get("width_ft") or max((g["x_ft"] + g["width_ft"] for g in placed.values()), default=0.0)
     fp_h = _fp.get("depth_ft") or max((g["y_ft"] + g["depth_ft"] for g in placed.values()), default=0.0)
 
+    # WP-11.6 LAYER 5: THE ENVELOPE IS THE ROOM'S OWN MASSING ELEMENT, NOT THE MAIN BLOCK.
+    # Ruling 4 of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`. The four
+    # `touches` tests below read the main block's scalars until this, so a kitchen sitting on its
+    # own dependency's south and west faces was convicted of being "drawn in the middle of the
+    # house": the critic and the renderer wrong in OPPOSITE directions about the same wall.
+    # Measured on the reference fixture, with the dependency's windows forced unplaced so the test
+    # is reached at all -- main-block read `[]` for both dependency rooms, element read `['S','W']`
+    # and `['S','E']`, while the two genuine interior rooms (`chamber2`, `stair`) read `[]` on
+    # both. The control is what makes it a fix rather than a loosening.
+    #
+    # `envelopes` is `openings`' -- layer 1's own map, not a second spelling of the `block`-tag
+    # join -- and it returns `{}` below two elements, so all sixteen one-rectangle plans fall back
+    # to the main block by construction rather than by a branch.
+    _OP = _load("openings", f"{ROOT}/build/openings.py")
+    _envs = _OP.envelopes(plan)
+
+    def _envelope(rid):
+        return _envs.get(rid) or (0.0, 0.0, fp_w, fp_h)
+
+    # Which element a room is in, for the finding to NAME. The predicate is `geometry`'s own
+    # `is_block_tag` and not an inline truth test -- that function exists precisely because three
+    # places ask this question and two of them answering differently is how a plan comes to be
+    # refused by one layer for an element another layer does not build.
+    _GEOM = _load("geometry", f"{ROOT}/build/geometry.py")
+    _element_of = {r["id"]: r["block"] for lv in plan.get("levels", [])
+                   for r in lv.get("rooms", []) if _GEOM.is_block_tag(r.get("block"))}
+
     # --- reachability over the openings that were actually PLACED
     ok_edges = {rid: set() for rid in rooms}
     outside = set()
@@ -923,30 +950,48 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # "directly in the middle of the house". A room that touches a boundary but not the
         # one its record names could be lit tomorrow by moving the window. Both are serious;
         # only the first is a plan that cannot work.
+        env = _envelope(rid)
+        ex0, ey0, ex1, ey1 = env
         touches = []
-        if abs(g["y_ft"]) < 0.6: touches.append("S")
-        if abs(g["y_ft"] + g["depth_ft"] - fp_h) < 0.6: touches.append("N")
-        if abs(g["x_ft"]) < 0.6: touches.append("W")
-        if abs(g["x_ft"] + g["width_ft"] - fp_w) < 0.6: touches.append("E")
+        if abs(g["y_ft"] - ey0) < 0.6: touches.append("S")
+        if abs(g["y_ft"] + g["depth_ft"] - ey1) < 0.6: touches.append("N")
+        if abs(g["x_ft"] - ex0) < 0.6: touches.append("W")
+        if abs(g["x_ft"] + g["width_ft"] - ex1) < 0.6: touches.append("E")
         units = sum(int(w.get("count") or 1) for w in wins)
+        # Which of those walls take the weather and still look at the side of the house. Empty on
+        # a one-rectangle plan, so the sentence below is unchanged for every plan in this corpus.
+        across = _OP.faces_across_a_gap(plan, env) if _envs else {}
+        el = _element_of.get(rid)
+        where = f" of the {el} element" if el and el != "main" else ""
         if not touches:
             _add("serious", "drawn",
-                  f"{name} is drawn in the middle of the house: it reaches no exterior wall "
-                  f"on any side, so none of the {units} window(s) the record declares "
+                  f"{name} is drawn in the middle of the house{where}: it reaches no exterior "
+                  f"wall on any side, so none of the {units} window(s) the record declares "
                   f"could be placed. rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
                   room=rid, kind="drawn-landlocked", have=0, need=dl["sides_lit"],
+                  element=el,
                   fix="Place the room on the perimeter, or accept it as an interior room and "
                       "take the windows out of the record.")
         else:
             why = next((w["unplaced"].get("reason") for w in wins if w.get("unplaced")), "unplaced")
+            # RULING 4'S SECOND HALF, AND IT IS A SENTENCE RATHER THAN A SEVERITY. A wall facing
+            # the gap is a real exterior wall -- it takes the weather and it can hold a window --
+            # and it is also the wall that stares at the side of the house. Saying only "exterior"
+            # loses the half a reader needs to judge the window.
+            gap = [d for d in touches if d in across]
+            note = ("" if not gap else
+                    f" Its {'/'.join(gap)} wall(s) are exterior to the weather and interior to "
+                    f"the view: they look across the gap at the "
+                    f"{'/'.join(sorted({across[d] for d in gap}))} element.")
             _add("serious", "drawn",
                   f"{name} is drawn with no window: it stands on the "
-                  f"{'/'.join(touches)} wall(s) and the record declares its {units} "
+                  f"{'/'.join(touches)} wall(s){where} and the record declares its {units} "
                   f"unit(s) of glass on "
                   f"{'/'.join(sorted({w.get('wall') or '?' for w in wins}))} — {why}. "
-                  f"rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
+                  f"rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.{note}",
                   room=rid, kind="drawn-window-off-the-placed-wall",
                   lit_walls=sorted(touches), need=dl["sides_lit"],
+                  element=el, walls_across_a_gap=sorted(gap),
                   fix="Move the windows to the wall the placement actually gave the room.")
 
     # --- THE DOOR YOU COME IN BY, AND THE AXIS IT IS SUPPOSED TO BE ON (WP-9.1)

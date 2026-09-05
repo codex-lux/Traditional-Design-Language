@@ -1942,11 +1942,24 @@ minimum still outranks the lot and that residue is **disclosed, not capped**:
 `geometry_report.lot` answers in three states and names
 `oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count`. Six mutations, six caught.
 
-**Still to do: layers 5 and 6** — `plan_check.drawn` and `export_ifc` — then the parti and plan
-re-authoring and CP-SAT's per-element solve. (This line named five items for three layers for as
-long as it took to re-read it: it still listed `structure` and `vertical_score`, taught in the two
-commits above it. A to-do list that survives the work it describes is the *"until X lands"* class,
-one file over.)
+**LAYER 5: `plan_check`'s drawn layer — the layer whose symptom had already gone.** Teaching
+`openings` at layer 1 seated the dependency's windows and the landlocked test short-circuits at
+`if seated: continue`, so *"reaches no exterior wall"* fell **2 → 0** while the arithmetic four
+lines below was still wrong. Driven rather than watched: with the placement stripped from those
+windows, `kitchen` and `breakfast` read `[]` against the main block and **`['S','W']`** and
+**`['S','E']`** against their own element, while `chamber2` and `stair` read `[]` on both — **the
+control is what makes it a fix rather than a loosening.** The finding they take instead names the
+element, and ruling 4's second half is **reachable here rather than unreproduced**: the breakfast
+room's east wall *"is exterior to the weather and interior to the view: it looks across the gap at
+the main element"*, while the kitchen's south and west faces take no such note. The diagonal case
+is refused by requiring perpendicular overlap. Regression pinned as a digest over every finding's
+kind, room and statement — both shipped plans identical. Seven mutations, seven caught.
+
+**Still to do: layer 6** — `export_ifc`, a slab per element — then the parti and plan re-authoring
+and CP-SAT's per-element solve. (This line named five items for three layers for as long as it took
+to re-read it: it still listed `structure` and `vertical_score`, taught in the two commits above
+it. A to-do list that survives the work it describes is the *"until X lands"* class, one file
+over.)
 
 **Original package text, left as written:**
 

@@ -528,7 +528,7 @@ class TestTheAuditGapsInTheBlockWork:
         me = plan["geometry_report"].get("multi_element")
         assert me, "a two-element placement reports the five layers' numbers and discloses nothing"
         assert me["elements"] == 2
-        # TWO, DOWN FROM SIX AT WP-11.6, AND THE FALL IS THE RULING'S OWN CHECK.
+        # ONE, DOWN FROM SIX AT WP-11.6, AND THE FALL IS THE RULING'S OWN CHECK.
         # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` says the list
         # "must name five, then four, then none -- a falling count, in the record, is how this
         # ruling is checked rather than claimed". `openings` left it because
@@ -536,8 +536,9 @@ class TestTheAuditGapsInTheBlockWork:
         # against that: refused dependency openings 9 -> 5 on this fixture, and the five that
         # remain are honest. **Do not remove another name here until the layer it names reads
         # the element** -- editing this set is how the check would be faked.
-        assert set(me["not_element_aware"]) == {"plan_check.drawn", "export_ifc"}
-        for taught in ("openings", "structure", "vertical_score", "lot_cap"):
+        assert set(me["not_element_aware"]) == {"export_ifc"}
+        for taught in ("openings", "structure", "vertical_score", "lot_cap",
+                       "plan_check.drawn"):
             assert taught not in me["not_element_aware"], taught
         assert "COULD NOT EVALUATE" in me["note"], (
             "the disclosure must use the corpus's own words for an unjudged state, or a reader "

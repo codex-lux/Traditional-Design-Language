@@ -186,6 +186,40 @@ def envelopes(plan):
     return out
 
 
+def faces_across_a_gap(plan, env, tol=0.6):
+    """`{face: neighbour_element_id}` for the faces of one element that look across a gap at
+    ANOTHER element of the same building (WP-11.6, layer 5).
+
+    Ruling 4 of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`: *"where
+    a room's exterior wall faces the hyphen gap, the finding says so in its own words rather than
+    convicting a landlocked room: exterior to the weather, interior to the view"*. That wall is a
+    real exterior wall -- it takes the weather and it can hold a window -- and it is also the wall
+    that stares at the side of the house. A critic that says only "exterior" loses the second half.
+
+    A face counts when another element lies WHOLLY BEYOND it and OVERLAPS it on the perpendicular
+    axis. The overlap test is what keeps a diagonal neighbour out, and that is the ruling's own
+    position on the diagonal case -- refused rather than modelled -- arriving here as one
+    condition: a face that looks past the corner of another block is looking at the yard.
+
+    `{}` on a one-rectangle plan, where there is no other element to look at, and `{}` for an
+    element with open ground on every side."""
+    x0, y0, x1, y1 = env
+    out = {}
+    for b in ((plan.get("footprint") or {}).get("blocks") or []):
+        bx0, by0 = b["x_ft"], b["y_ft"]
+        bx1, by1 = bx0 + b["width_ft"], by0 + b["depth_ft"]
+        if (abs(bx0 - x0) < tol and abs(by0 - y0) < tol
+                and abs(bx1 - x1) < tol and abs(by1 - y1) < tol):
+            continue                      # this element itself
+        if min(by1, y1) - max(by0, y0) > tol:          # they share a band of latitude
+            if bx0 >= x1 - tol: out.setdefault("E", b["id"])
+            if bx1 <= x0 + tol: out.setdefault("W", b["id"])
+        if min(bx1, x1) - max(bx0, x0) > tol:          # ... of longitude
+            if by0 >= y1 - tol: out.setdefault("N", b["id"])
+            if by1 <= y0 + tol: out.setdefault("S", b["id"])
+    return out
+
+
 def _boundary_walls(rect, W, H, tol=0.6, env=None):
     """Which of a room's own walls lie on ITS ELEMENT's boundary, with their runs.
 

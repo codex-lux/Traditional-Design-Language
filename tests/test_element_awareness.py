@@ -55,14 +55,14 @@ def dep_rooms(p):
 
 
 class TestTheDisclosureFalls:
-    def test_it_names_two_layers_and_the_four_taught_are_not_among_them(self, placed):
-        """The ruling's own check. `openings`, `structure`, `vertical_score` and the lot cap were
-        taught at WP-11.6 and left the list; the two that remain are named because they still
-        read the main block as the whole building."""
+    def test_it_names_ONE_layer_and_the_five_taught_are_not_among_them(self, placed):
+        """The ruling's own check. Five layers were taught at WP-11.6 and left the list; the one
+        that remains is named because it still reads the main block as the whole building."""
         me = placed["geometry_report"]["multi_element"]
         assert me["elements"] == 2
-        assert me["not_element_aware"] == ["plan_check.drawn", "export_ifc"]
-        for taught in ("openings", "structure", "vertical_score", "lot_cap"):
+        assert me["not_element_aware"] == ["export_ifc"]
+        for taught in ("openings", "structure", "vertical_score", "lot_cap",
+                       "plan_check.drawn"):
             assert taught not in me["not_element_aware"], taught
 
     def test_a_one_rectangle_plan_discloses_NOTHING(self):
@@ -204,39 +204,116 @@ class TestStructureIsPerElement:
         assert round(max(s["span_ft"] for s in over), 2) == 53.94
 
 
-class TestTheCriticIsNOTTaughtAndItsSYMPTOMWENTAWAYANYWAY:
-    """THE FINDING OF THIS PACKAGE THAT A METER WOULD HAVE GOT WRONG.
+def _forced(placed):
+    """The fixture with the dependency's windows stripped of their placement.
 
-    `plan_check`'s landlocked test short-circuits at `if seated: continue` -- it runs only on a
-    room whose windows are ALL unplaced. Teaching `openings` seated the dependency's windows, so
+    THE CONDITION HAS TO BE DRIVEN AND THAT IS THIS PACKAGE'S SHARPEST FINDING. `plan_check`'s
+    landlocked test short-circuits at `if seated: continue` -- it runs ONLY on a room whose
+    windows are all unplaced. Teaching `openings` at layer 1 seated the dependency's windows, so
     the count of "reaches no exterior wall" findings fell 2 -> 0 **while the `touches` arithmetic
     four lines below still read `fp_w`/`fp_h` and was still wrong**. A meter watching the finding
-    would have reported layer 5 taught by accident. The probe drives the condition instead."""
+    would have crossed this layer off four commits early."""
+    deps = dep_rooms(placed)
+    forced = json.loads(json.dumps(placed))
+    for lv in forced["levels"]:
+        for r in lv["rooms"]:
+            if r["id"] in deps:
+                for w in (r.get("windows") or []):
+                    w["unplaced"] = {"reason": "forced to reach the touches test"}
+    return forced
 
-    def test_the_symptom_is_absent_as_shipped(self, placed):
+
+class TestTheCriticReadsTheRoomsOwnElement:
+    """Layer 5. Ruling 4: the drawn layer measures `touches` against the room's OWN element, and
+    where a wall of that element faces the gap the finding says so in its own words."""
+
+    def test_the_symptom_is_absent_as_shipped_and_that_is_NOT_the_evidence(self, placed):
+        """Kept from when this class recorded the opposite. The symptom was gone from layer 1
+        onward and the layer was still wrong; every other test here drives the condition."""
         c = PC.check(placed)
         assert not [f for f in c["findings"]
                     if "no exterior wall" in (f.get("statement") or "")
                     and f.get("room") in dep_rooms(placed)]
 
-    def test_and_the_layer_is_STILL_WRONG_when_the_test_is_reached(self, placed):
-        """Strip the placement from the dependency's windows and the test runs. It convicts a
-        kitchen that sits on its own element's south and west faces."""
+    def test_a_dependency_room_is_NO_LONGER_convicted_of_being_landlocked(self, placed):
+        """The headline, and it is a false conviction removed rather than a check loosened: the
+        kitchen sits on its own element's south and west faces and was told it was "drawn in the
+        middle of the house"."""
         deps = dep_rooms(placed)
-        forced = json.loads(json.dumps(placed))
-        for lv in forced["levels"]:
-            for r in lv["rooms"]:
-                if r["id"] in deps:
-                    for w in (r.get("windows") or []):
-                        w["unplaced"] = {"reason": "forced to reach the touches test"}
-        c = PC.check(forced)
+        c = PC.check(_forced(placed))
         convicted = {f["room"] for f in c["findings"]
-                     if "no exterior wall" in (f.get("statement") or "") and f.get("room") in deps}
-        assert convicted, (
-            "the drawn layer stopped convicting dependency rooms -- if `touches` was taught to "
-            "read the element, take `plan_check.drawn` out of the disclosure and delete this test")
-        assert "plan_check.drawn" in placed["geometry_report"]["multi_element"][
-            "not_element_aware"], "the disclosure must still name the layer this test convicts on"
+                     if f.get("kind") == "drawn-landlocked" and f.get("room") in deps}
+        assert convicted == set(), convicted
+
+    def test_AND_THE_TWO_GENUINE_INTERIOR_ROOMS_ARE_STILL_CONVICTED(self, placed):
+        """The control, and without it this is a loosening rather than a fix. `chamber2` and
+        `stair` read `[]` against the main block AND against their own element -- they really are
+        in the middle of the house -- so they must keep the finding the dependency rooms lost."""
+        c = PC.check(_forced(placed))
+        still = {f["room"] for f in c["findings"] if f.get("kind") == "drawn-landlocked"}
+        assert {"chamber2", "stair"} <= still, still
+
+    def test_the_finding_it_takes_instead_NAMES_the_element(self, placed):
+        deps = dep_rooms(placed)
+        c = PC.check(_forced(placed))
+        rows = [f for f in c["findings"]
+                if f.get("kind") == "drawn-window-off-the-placed-wall" and f.get("room") in deps]
+        assert {f["room"] for f in rows} >= {"kitchen", "breakfast"}, rows
+        for f in rows:
+            assert f.get("element") == "west-dependency", f
+            assert "west-dependency element" in f["statement"], f["statement"]
+        by = {f["room"]: sorted(f["lit_walls"]) for f in rows}
+        assert by["kitchen"] == ["S", "W"] and by["breakfast"] == ["E", "S"], by
+
+    def test_A_WALL_FACING_THE_GAP_IS_NAMED_exterior_to_the_weather_interior_to_the_view(
+            self, placed):
+        """Ruling 4's second half, and it is REACHABLE on this fixture rather than recorded as
+        unreproduced: the breakfast room's east wall is the dependency's east face, which looks
+        across the 14 ft hyphen gap at the main block. The kitchen's south and west faces look at
+        open ground and take no note, which is what makes this a discrimination."""
+        c = PC.check(_forced(placed))
+        rows = {f["room"]: f for f in c["findings"]
+                if f.get("kind") == "drawn-window-off-the-placed-wall"}
+        b = rows["breakfast"]
+        assert b["walls_across_a_gap"] == ["E"], b
+        assert "exterior to the weather and interior to the view" in b["statement"]
+        assert "look across the gap at the main element" in b["statement"]
+        assert rows["kitchen"]["walls_across_a_gap"] == [], rows["kitchen"]
+        assert "interior to the view" not in rows["kitchen"]["statement"]
+
+    def test_faces_across_a_gap_REFUSES_A_DIAGONAL_NEIGHBOUR(self):
+        """The ruling refuses the diagonal case rather than modelling it, and that refusal is one
+        condition here: a face looking PAST the corner of another block is looking at the yard,
+        so the perpendicular overlap is required. Away from any plan, because no placement this
+        engine produces is diagonal."""
+        el = (0.0, 0.0, 10.0, 10.0)
+        beside = {"footprint": {"blocks": [
+            {"id": "el", "x_ft": 0.0, "y_ft": 0.0, "width_ft": 10.0, "depth_ft": 10.0},
+            {"id": "east", "x_ft": 20.0, "y_ft": 2.0, "width_ft": 10.0, "depth_ft": 6.0}]}}
+        assert OP.faces_across_a_gap(beside, el) == {"E": "east"}
+        diagonal = {"footprint": {"blocks": [
+            {"id": "el", "x_ft": 0.0, "y_ft": 0.0, "width_ft": 10.0, "depth_ft": 10.0},
+            {"id": "ne", "x_ft": 20.0, "y_ft": 20.0, "width_ft": 10.0, "depth_ft": 6.0}]}}
+        assert OP.faces_across_a_gap(diagonal, el) == {}, (
+            "a block past the corner is yard, not a gap this element looks across")
+
+    def test_a_one_rectangle_plan_is_UNTOUCHED_finding_for_finding(self):
+        """The regression discipline, at its strongest form: not a count but every finding's
+        kind, room and statement. Measured identical on both shipped plans before and after."""
+        import hashlib
+        for name, want in (("tidewater-georgian-careful", "4ec3f784caa5a095"),
+                           ("spec-builder-colonial", "433325b5299ea477")):
+            GEO._SOLVE_CACHE.clear()
+            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            GEO.solve(q, engine="heuristic")
+            c = PC.check(q)
+            got = hashlib.sha256(json.dumps(
+                sorted((f.get("kind", ""), f.get("room", ""), f.get("statement", ""))
+                       for f in c["findings"]), sort_keys=True).encode()).hexdigest()[:16]
+            assert got == want, (
+                f"{name}: the drawn layer's findings moved on a ONE-RECTANGLE plan. "
+                f"`envelopes` returns {{}} below two elements, so nothing here may change; "
+                f"re-measure before re-pinning and say what moved.")
 
 
 PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))

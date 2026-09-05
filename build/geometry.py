@@ -1856,13 +1856,14 @@ def multi_element_disclosure(plan):
     """What a multi-element placement does NOT yet judge, stated on the record (OQ 40).
 
     The block machinery places a dependency beside the house and both renderers draw it there.
-    TWO layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
-    building (six until WP-11.6, which taught `openings`, `structure`, `vertical_score` and the
-    lot cap; their entries below are kept for the record and marked), and each is wrong in its own
-    direction on a dependency room -- measured, not supposed, by an adversarial audit of the change
-    that introduced blocks. **This count is written out in words and the list below it is the
-    record; the WORD said FIVE for two commits while the list held three**, which is why the
-    machine-readable answer is `not_element_aware` and never this sentence:
+    ONE layer below it still reads `footprint.width_ft/depth_ft` as though it were the whole
+    building (six until WP-11.6, which taught `openings`, `structure`, `vertical_score`, the lot
+    cap and `plan_check`'s drawn layer; their entries below are kept for the record and marked),
+    and each was wrong in its own direction on a dependency room -- measured, not supposed, by an
+    adversarial audit of the change that introduced blocks. **This count is written out in words
+    and the list below it is the record; the WORD said FIVE for two commits while the list held
+    three**, which is why the machine-readable answer is `not_element_aware` and never this
+    sentence:
 
       openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
                  so on the reference fixture a dependency at x -41..-14 touched no boundary at
@@ -1888,8 +1889,13 @@ def multi_element_disclosure(plan):
                  every plan: the centre-bay parity bump ignored the cap, so a lot holding six bays
                  got a seven-bay ONE-RECTANGLE house. `geometry_report.lot` reports the extent,
                  the flank and the overrun in three states.
-      critic     `plan_check`'s drawn layer measures `touches` against the main block, so a
-                 dependency room with windows is convicted of reaching no exterior wall.
+      critic     TAUGHT AT WP-11.6. The drawn layer's four `touches` tests read the room's own
+                 element (`openings.envelopes`, layer 1's map, not a second spelling), and where
+                 a wall of that element looks across the gap at another element the finding SAYS
+                 SO -- exterior to the weather, interior to the view, which is ruling 4's second
+                 half and a sentence rather than a severity. Measured on the fixture: two
+                 dependency rooms read `[]` against the main block and `['S','W']` / `['S','E']`
+                 against their own, while `chamber2` and `stair` read `[]` on both.
       export_ifc `export_ifc` sizes the floor slab `W + 2*t_ext` centred on the main block, so a
                  dependency's IfcSpaces float clear of the slab under them.
 
@@ -1952,7 +1958,13 @@ def multi_element_disclosure(plan):
         # A residue is DISCLOSED rather than capped: the massing's own stated minimum bay count
         # still outranks the lot, so a five-bay diagram on a lot holding four is 9 ft over and
         # `geometry_report.lot.note` says exactly that and names the question.
-        "not_element_aware": ["plan_check.drawn", "export_ifc"],
+        # ONE, down from six (WP-11.6 layers 1-5). `plan_check`'s drawn layer is taught, and
+        # the finding that came with it was recorded two layers earlier: teaching `openings` had
+        # made this layer's SYMPTOM vanish (landlocked findings 2 -> 0) without touching its
+        # arithmetic, so a meter watching the finding would have crossed this name off at layer 1.
+        # Driving the condition -- stripping the placement from the dependency's windows -- is
+        # what kept it honest, and it is what the guard does now.
+        "not_element_aware": ["export_ifc"],
         "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
                  "element and each of the layers named reads footprint.width_ft/depth_ft as the "
                  "whole building. Openings on a dependency wall, spans across the gap, upper-wall "
