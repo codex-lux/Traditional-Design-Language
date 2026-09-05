@@ -1,0 +1,102 @@
+{
+  "id": "chastleton-house",
+  "name": "Chastleton House",
+  "location": {
+    "text": "Oxfordshire, England",
+    "country": "England",
+    "state": "Chastleton, Oxfordshire"
+  },
+  "dates": {
+    "built": "1603 to 1618",
+    "circa": false,
+    "altered": "'minor later additions and alterations'; the register names nothing further.",
+    "note": "THE REGISTER DISAGREES WITH ITSELF ABOUT THIS BUILDING. The listing 1197988 prints '1603 to 1618 for Walter Jones, possibly by Robert Smythson'; Historic England's own Parks and Gardens entry 1001090 prints 'Chastleton House (1607-12, possibly Robert Smythson, listed grade I)'. The node's exemplar prints 'Built 1607-12'. Two entries of one register give two spans for one house; both are recorded and neither is corrected."
+  },
+  "nodes": [
+    "jacobean"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1197988",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1197988",
+      "title": "Chastleton House, Chastleton - 1197988 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The search result's own overview line printed 'List Entry Number: 1197988' and 'Date first listed: 15-Dec-1954'; the Details print the same date as '15.12.54'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001090",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001090",
+      "title": "Chastleton House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, and the source of the date disagreement recorded above: it describes the house as 'a square, stone House of three' storeys and dates it 1607-12."
+    }
+  ],
+  "survey": {
+    "item": "1197988",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1197988",
+    "prepared": "Date first listed: 15-Dec-1954, printed in the Details as '15.12.54'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. 1603 to 1618 for Walter Jones, possibly by Robert Smythson; minor later additions and alterations. Regularly coursed and dressed marl stone rubble with limestone ashlar dressings and alternating angle quoins; slate roofs. Basic square plan around small central courtyard. 3 storeys and attic over basement; moulded plinth, string courses and moulded coping to parapets and stepped gables.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "South front. Has 5 narrow gables receding from the centre to the massive projecting staircase towers on either side; the 2 projecting central bays pushed closely together giving a strong vertical emphasis, increased by the line of",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "openings",
+        "text": "stepped gables and pinnacles. Mullioned and transomed windows with leaded lights (some latticed), those on second floor of 5 gables with moulded entablatures. All ovolo-moulded, those to staircase projections and outer gables of 3 lights, of 3 lights on second floor of projecting inner gables, of 4-lights to second floor of centre gable and first floor of projecting inner gables, 5 lights to centre gable on ground floor and first floor and large windows of 4x3 lights to ground floor of projecting inner gables.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "bays",
+        "text": "North side. In 5 bays, centre gable forming rectangular projection with entasis. Mullioned and transomed windows throughout, all of 4 lights (those to second floor with dripstones) except one of 3 lights to each side of projection on ground floor with one of 2 lights and 5 lights to projection on first floor and second floor respectively. 4-light mullion windows to outer bays of basement and 2-light mullion windows flanking projection. Apexes of gables all decorated with ashlar stepping and finials, centre with scalloped shell above window and outer with decorative roundels as on front.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys and attic over basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "gable_count_south_front",
+      "as_printed": "Has 5 narrow gables receding from the centre to the massive projecting staircase towers on either side",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "STEPPED gables, not the scrolled Netherlandish kind: the same entry calls them 'stepped gables and pinnacles' and 'moulded coping to parapets and stepped gables'. jacobean.c01's rule about repeated SHAPED gables is therefore not what this front does, though the repetition and symmetry it asks for are both present."
+    },
+    {
+      "name": "bay_count_north_front",
+      "as_printed": "North side. In 5 bays, centre gable forming rectangular projection with entasis",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "window_light_count_north_front",
+      "as_printed": "Mullioned and transomed windows throughout, all of 4 lights",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The register states one light count for a whole elevation here and then lists its exceptions; this is the dominant figure, not a universal one."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1197988",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned the south front and the openings, the second the north side and the header. Line breaks collapsed to single spaces. THIS RECORD CARRIES THE CLEANEST DISAGREEMENT IN THE CLUSTER, and it is internal to Historic England rather than between the register and the node: two entries over one house give 1603-1618 and 1607-12. It also qualifies the node in a way the node's own prose invites -- Chastleton's gables are STEPPED and its walls are Cotswold marl stone rubble, so the two things jacobean names as its colour signature and its most recognisable move, red brick with pale dressings and the scrolled Netherlandish gable, are both absent from a house the node lists as an exemplar."
+}

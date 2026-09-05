@@ -176,25 +176,55 @@
       "name": "Hardwick Hall",
       "location": "Derbyshire, England",
       "year": 1597,
-      "note": "Built 1590-97 by Robert Smythson for Elizabeth Talbot, Countess of Shrewsbury. Storey heights increase upward, the parapet carries her initials in cut stone, and the glazing ratio has never been exceeded in a house of its date."
+      "note": "Built 1590-97 by Robert Smythson for Elizabeth Talbot, Countess of Shrewsbury. Storey heights increase upward, the parapet carries her initials in cut stone, and the glazing ratio has never been exceeded in a house of its date.",
+      "precedent": "hardwick-hall",
+      "standing": "icon",
+      "why": "The building the style is known by, on this node's own description.long, which names it first among the prodigy houses; Historic England's entry supplies the reason in its own words, calling the plan 'exceptional for its date, having the hall placed symmetrically and at a right angle to the facade'."
     },
     {
       "name": "Longleat House",
       "location": "Wiltshire, England",
       "year": 1580,
-      "note": "Rebuilt 1568-80 for Sir John Thynne with Robert Smythson among the masons. The first fully symmetrical, outward-facing English country house elevation, with superimposed orders as flat pilaster strips."
+      "note": "Rebuilt 1568-80 for Sir John Thynne with Robert Smythson among the masons. The first fully symmetrical, outward-facing English country house elevation, with superimposed orders as flat pilaster strips.",
+      "precedent": "longleat-house",
+      "standing": "canonical",
+      "why": "The type specimen for the outward-facing symmetrical elevation, and the one that tests the node hardest: the list entry describes Doric, Ionic and Corinthian orders running across three fronts, which is what this node's own c02 forbids."
     },
     {
       "name": "Wollaton Hall",
       "location": "Nottingham, England",
       "year": 1588,
-      "note": "Built 1580-88 by Robert Smythson for Sir Francis Willoughby on coal money. A compact block with corner towers and a raised clerestoried prospect room over the hall — the most theatrical English house of its century."
+      "note": "Built 1580-88 by Robert Smythson for Sir Francis Willoughby on coal money. A compact block with corner towers and a raised clerestoried prospect room over the hall — the most theatrical English house of its century.",
+      "precedent": "wollaton-hall",
+      "standing": "icon",
+      "why": "This node's own description.long calls it 'the most theatrical English house of its century'; what Historic England's entry independently supports is the form behind that judgment -- 'Square plan with symmetrical fronts, with projecting towers to corners' and a 'Central 2 storey hall topped by prospect room'."
     },
     {
       "name": "Montacute House",
       "location": "Somerset, England",
       "year": 1601,
-      "note": "Built 1598-1601 for Sir Edward Phelips in Ham Hill stone. E-plan, top-floor long gallery of 52 m, and a facade whose glazing and statuary niches show the style at its most disciplined."
+      "note": "Built 1598-1601 for Sir Edward Phelips in Ham Hill stone. E-plan, top-floor long gallery of 52 m, and a facade whose glazing and statuary niches show the style at its most disciplined.",
+      "precedent": "montacute-house",
+      "standing": "canonical",
+      "why": "The disciplined case, and the one whose list entry supports this node's roof rule where the others do not -- 'Welsh slate roofs behind open balustered parapets with obelisk finials' -- with a thirteen-bay front on both elevations."
+    },
+    {
+      "name": "Burghley House",
+      "location": "Stamford, Lincolnshire, England",
+      "year": 1587,
+      "note": "Built circa 1555 to circa 1587 for William Cecil, Lord Burghley, of Barnack stone. Named in this node's own description among the four prodigy houses and not previously carried as an exemplar. Three storeys round a rectangular courtyard, with a four-storey entrance tower on the 1577 west front and a clock tower dated 1585 over the courtyard's east side.",
+      "precedent": "burghley-house",
+      "standing": "icon",
+      "why": "Historic England's list entry calls it 'One of the largest of the Elizabethan mansions', and this node's own description.long already names it beside Longleat, Wollaton and Hardwick as one of the four prodigy houses."
+    },
+    {
+      "name": "Kirby Hall",
+      "location": "Gretton, Northamptonshire, England",
+      "year": 1570,
+      "note": "Begun 1570 and largely unroofed since the 1930s. Four wings of Weldon stone round a central courtyard whose facades carry giant pilasters through two principal storeys, with an open ground-floor loggia to the north wing and a long gallery over the west.",
+      "precedent": "kirby-hall",
+      "standing": "documentary",
+      "why": "Documentary because it is the one building in this node's set that is a ruin rather than a house: Historic England describes it in modern excavated detail -- 'largely unroofed and represented by stone walls standing in most parts to gable height' -- which makes the construction legible where a furnished house hides it."
     }
   ],
   "sources": [

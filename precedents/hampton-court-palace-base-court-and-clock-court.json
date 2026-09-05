@@ -1,0 +1,70 @@
+{
+  "id": "hampton-court-palace-base-court-and-clock-court",
+  "name": "Hampton Court Palace, Base Court and Clock Court",
+  "aka": [
+    "Hampton Court Palace"
+  ],
+  "location": {
+    "text": "Richmond upon Thames, London, England",
+    "country": "England",
+    "state": "London Borough of Richmond upon Thames"
+  },
+  "dates": {
+    "built": "1514 onwards",
+    "circa": false,
+    "altered": "Henry VIII's alterations 1529-40, including the rebuilding of the Great Hall from 1532, the remodelling of the Chapel 1535-6 and the building of Chapel Court; changes under Elizabeth I including the privy kitchen; William III's campaign from 1689 with Sir Christopher Wren, chiefly the Fountain Court.",
+    "note": "Historic England 1193127 opens '2. 1514 onwards'; the node's exemplar note says 'Begun 1515 for Cardinal Wolsey'. Both are recorded and neither is changed. The node's 'Great Hall 1532-35' and the entry's 'the rebuilding of the Great Hall from 1532' do not conflict."
+  },
+  "nodes": [
+    "tudor"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1193127",
+      "title": "Hampton Court Palace, Non Civil Parish - 1193127",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1193127",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result printed 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1193127 ; Date first listed: 02-Sept-1952 ; List Entry Name: Hampton Court Palace.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1002009",
+      "title": "Hampton Court Palace, Non Civil Parish - 1002009 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1002009",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The scheduled-monument entry, 'Date first listed: 01-Jan-1900'. Read from a search result only; it states no dimension either."
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q205666",
+      "title": "Hampton Court Palace - Wikidata",
+      "url": "https://www.wikidata.org/wiki/Q205666",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Statement values as a search result returned them: 'Grade I listed building - start time - 2 September 1952 - National Heritage List for England number - 1193127'. Used only to corroborate the list entry number found on Historic England's own page."
+    }
+  ],
+  "survey": {
+    "item": "1193127",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1193127",
+    "prepared": "Date first listed: 02-Sept-1952, as the Official list entry block prints it; that field was read from the tavily-search result for this entry on 2026-09-05. The Details section's own legacy header is OCR-damaged and is quoted below as it stands.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "2. 1514 onwards. Walls of brick, with freestone dressings. Roofs covered with lead, tiles and slates. Begun by Cardinal Wolsey, much of whose work survives particularly the ranges around the Base Court, the Clock Court and the Kitchen Court. King Henry VIII made extensive alterations between 1529-40, including the rebuilding of the Great Hall from 1532 the remodelling of the Chapel (1535-6) and building of Chapel Court. The extension of the kitchens and the addition of the projecting, turretted side wings to the west facade. Queen Elizabeth made some changes including the building of the privy kitchen but in 1689 William III began a major building campaign with Sir Christopher Wren as architect.",
+        "page": "Official list entry, Details, paragraph numbered 2 (the legacy list format)"
+      },
+      {
+        "field": "other",
+        "text": "IIIJIP+OR COURT BO+iD Hampton Court Palace 82/10 The grade shall be amended to read I",
+        "page": "Official list entry, Details, the legacy header line, quoted with its OCR damage exactly as the page prints it"
+      }
+    ]
+  },
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE FLAGSHIP TUDOR EXEMPLAR'S LIST ENTRY STATES NOT ONE DIMENSION, NOT ONE STOREY COUNT AND NOT ONE BAY COUNT, so this record carries no measurements at all -- and that is the finding, not a gap in the research. Two extracts with different queries returned the same paragraph. The entry does not mention the diaper brickwork, the terracotta roundels or the chimney shafts that the node's own description makes this style's signature; it is an administrative list entry for a royal palace, not a description of it. The exemplar names two courts within the palace and Historic England lists the palace as one entry -- `oq/an-exemplar-that-is-not-one-whole-building`."
+}

@@ -1,0 +1,99 @@
+{
+  "id": "the-glen",
+  "name": "The Glen",
+  "location": {
+    "text": "Innerleithen, Peeblesshire, Scotland",
+    "country": "Scotland",
+    "state": "Traquair, Scottish Borders"
+  },
+  "dates": {
+    "built": "1854-1855",
+    "circa": false,
+    "altered": "'additional tower (Bryce 1874); partial interior and garden terrace by RS Lorimer, 1905 (following fire).' The service wing was under renovation by Simpson and Brown when the record was written, dated 2002 in the text.",
+    "note": "The HES record prints 'David Bryce, 1854-1855'; the node's exemplar prints 'Built 1855-58' with a year of 1858. The register makes the house three years earlier and finished in one year. Both are recorded; neither is changed. The register's own history section adds that the estate was bought 'in 1852/3 by Sir Charles Tennant ... for #33,140' -- the OCR prints a hash for the pound sign."
+  },
+  "nodes": [
+    "scottish-baronial"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB19746",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB19746",
+      "title": "THE GLEN, HOUSE AND SERVICE WING (LB19746)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. The record's own statement of special interest reads: 'Listed as an outstanding example of a Bryce house and for its importance as the centrepiece of an intact later 19th century estate (other estate buildings are listed separately).' THE REGISTER PLACES IT IN TRAQUAIR, SCOTTISH BORDERS, where the node's exemplar locates it at Innerleithen, Peeblesshire; the exemplar's string is the join key and is not renamed. The house's record cross-refers to a 'Garden terrace (listed separately)', and a britishlistedbuildings.co.uk search result confirms a separate Category A listing named 'Garden Features And Terraces To Se Of House, The Glen, Traquair'; ITS OWN LB NUMBER WAS NOT READ, so no reference is carried for it rather than one with an id invented to fill the field."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Glen,_Scottish_Borders",
+      "title": "The Glen, Scottish Borders - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its citation names the listing as 'House and Service Wing (Category A Listed Building LB19746)' and gives the house's other name as Glen House. That is how the reference was found."
+    }
+  ],
+  "survey": {
+    "item": "LB19746",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB19746",
+    "prepared": "Category A. No designation date was returned inside either extracted span and none is claimed.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "David Bryce, 1854-1855 with additional tower (Bryce 1874); partial interior and garden terrace by RS Lorimer, 1905 (following fire). Substantial 2-3 storey with attic and basement Scottish Baronial mansion following Bryce plan type A (see NOTES) with Maybole entrance tower and partially concealed Winton tower to centre of house, later 6-storey Aberdeenshire style tower house added to S. 1?-storey, multi-bayed, rectangular-plan Scots Baronial service wing adjoining to NE.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "materials",
+        "text": "Coursed cream sandstone ashlar (from Deepskyehead Quarry), stone mullioned windows with chamfered arrises, later windows with moulded arrises; string courses and moulded eaves course. Crow-stepped gables with moulded kneeler putts, tourelles and ornate pedimented dormers with decorative finials.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "plan",
+        "text": "Bryce's house plans usually fall into one of three categories, plan types A, B or C. This conforms to plan type A (which he based on the designs of William Burn); it has 3 principal rooms arranged en-suite along a garden frontage. His towers also are specific stylistic devices; named after earlier buildings they were based on. Here he utilises a 'Maybole' entrance tower ? gabled with an oriel window and a 'Winton' tower ? square and balustraded. These can be seen on other buildings by him, but were most noticeable on the now demolished Craigends House, Houston (Renfrewshire) which was essentially a larger version of the Glen. William Burn and David Bryce commissioned Billings to produce his 'Baronial and Ecclesiastical Architecture of Scotland', from which the details from Maybole and Winton come.",
+        "page": "Listed building record, NOTES / Statement of Special Interest section. An HES designation record is not paginated."
+      },
+      {
+        "field": "dependencies",
+        "text": "SERVICE WING: 1?-storey, multi bayed, U-plan Baronial service wing on sloped site, formerly incorporating offices, game larder, kitchen, scullery, etc (currently undergoing renovation, Simpson and Brown, 2002) linked to house (and partially concealed) by balustraded walls.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Substantial 2-3 storey with attic and basement Scottish Baronial mansion",
+      "from_quote": 0,
+      "note": "The register states a RANGE for one house and no single value is parsed. That is the picturesque massing the node describes, recorded as the register itself declines to reduce it."
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "later 6-storey Aberdeenshire style tower house added to S",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Six storeys of tower over a house of two or three: the tower stands three or four storeys above the general roofline, against scottish-baronial's typical_ratios asking for 'not less than one full storey (3.0-4.5 m)'. The rule's floor is met several times over, so the record does not test the rule so much as show how far past it a Bryce composition goes. The tower is of 1874 and not of the original build."
+    },
+    {
+      "name": "principal_room_count",
+      "as_printed": "it has 3 principal rooms arranged en-suite along a garden frontage",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "THE MOST USEFUL FIGURE THIS CLUSTER FOUND FOR THE PLAN LAYER. It is a statement about Bryce's plan type A as a TYPE, made by the register about this house, not a measurement of this house alone -- so it is a fact about a repeated arrangement, which is what a parti is."
+    },
+    {
+      "name": "service_wing_storey_count",
+      "as_printed": "SERVICE WING: 1?-storey, multi bayed, U-plan Baronial service wing on sloped site",
+      "from_quote": 3,
+      "note": "The register's own text prints '1?-storey' where a fraction was lost in transcription -- almost certainly one-and-a-half. No value is parsed from a figure the source cannot state."
+    }
+  ],
+  "rights_evidence": "The legal part of the listing is the address/name of site which is known as the statutory address. Other than the name or address of a listed building, further details are provided for information purposes only. Historic Environment Scotland does not accept any liability for any loss or damage suffered as a consequence of inaccuracies in the information provided.",
+  "rights_evidence_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB19746",
+  "note": "Tranche 3, 5 Sep 2026. Extracted three times, because the NOTES section's sentence about Bryce plan type A was cut mid-clause by the first two passes and the third returned it whole. Line breaks collapsed to single spaces; the register's own '?' characters, which stand for glyphs lost in its transcription, are carried as printed. THE RECORD DOCUMENTS SOMETHING THE NODE ASSERTS AND CANNOT CITE: that Bryce's picturesque silhouettes sit over a repeatable rational plan. The register names the plan type, its source in William Burn, its three en-suite principal rooms along the garden front, and even the pattern book the towers were copied from -- Billings's 'Baronial and Ecclesiastical Architecture of Scotland', which Burn and Bryce themselves commissioned. The node's description says the style was 'industrialised'; this is the register saying how."
+}

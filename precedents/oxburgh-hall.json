@@ -1,0 +1,123 @@
+{
+  "id": "oxburgh-hall",
+  "name": "Oxburgh Hall",
+  "location": {
+    "text": "Oxborough, Norfolk, England",
+    "country": "England",
+    "state": "Norfolk"
+  },
+  "dates": {
+    "built": "Licence to crenellate 1482",
+    "circa": false,
+    "altered": "Extensive refurbishment during the late C18 and C19 with the involvement of J.C. Buckler and Augustus Welby Northmore Pugin; the single-storeyed south wing is of 1865, with an adjoining C18 section to the west and a mainly early-C19 tower to the east; C19 Gothic fenestration on the flanking facades.",
+    "note": "The entry fixes the house by its licence to crenellate of 1482 and states 'The main fabric of the north, the west and half the east wings is C15.' A Norfolk Heritage Explorer record, as a search result returned it, calls it a 'Magnificent moated hall of 1482 altered in 17th, 18th, & 19th centuries'."
+  },
+  "nodes": [
+    "tudor"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1342586",
+      "title": "Oxburgh Hall, Oxborough - 1342586",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1342586",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens 'This list entry was subject to a Minor Amendment on 14 January 2025 to update the name and address and reformat the text to current standards' and then the legacy header 'TF 7401 13/24 OXBOROUGH Oxburgh Hall 9.7.51 GV I'. A search result printed 'Date first listed: 09-Jul-1951'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001010",
+      "title": "Oxburgh Hall, Oxborough - 1001010",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001010",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered Park and Garden entry, Grade II. Read from a search result only."
+    }
+  ],
+  "survey": {
+    "item": "1342586",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1342586",
+    "prepared": "The Details section's own legacy header, 'TF 7401 13/24 OXBOROUGH Oxburgh Hall 9.7.51 GV I', below the amendment note of 14 January 2025.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Fortified Country House. Licence to crenellate 1482; extensive refurbishment during the late C18 and C19 with the involvement of J.C. Buckler and Augustus Welby Northmore Pugin. Brick with some stone dressings. Pantile roofs. Square moated site of four wings around a courtyard. The main fabric of the north, the west and half the east wings is C15. The single storeyed south wing is of 1865 with an adjoining C18 section to the west and a mainly early C19 tower to the east. Mainly two storeys with attics.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "North facade. Central three-storey C15 gatehouse with a four-centred vaulted archway flanked by polygonal turrets decorated with moulded brick arched corbel tables. Western turret houses winding stair with small quatrefoil windows.",
+        "page": "Official list entry, Details, north facade description"
+      },
+      {
+        "field": "openings",
+        "text": "Upper storeys of eastern turret have single light arched windows with rectangular hood moulds. Centre bay with a four-light stone first floor window with arched transoms and brick and stone relieving arches. Similar three-light second floor window just beneath a four-centred machicolation. Stepped crenellations. Early C18 three-bay bridge with crenellated parapet crosses the moat. Flanking facades with C19 Gothic fenestration, moulded brick arched corbel tables and crenellated parapets. Two crow-stepped attic gables with pairs of Cosseyware chimney shafts.",
+        "page": "Official list entry, Details, north facade description, continuing"
+      },
+      {
+        "field": "chimneys",
+        "text": "C19 Gothic including a stone-dressed two-storey canted bay with carving and two stone-dressed oriels. Arched corbel table. Two crow-stepped attic gables with single Cosseyware chimney shafts, gabled north wing and Two gabled dormers. Fabric of west facade almost entirely C15 with Fenestration and decoration similar to that of east facade.",
+        "page": "Official list entry, Details, east and west facade descriptions"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Mainly two storeys with attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "'Mainly' is the entry's own hedge; the south wing is separately stated as single-storeyed and the gatehouse as three storeys."
+    },
+    {
+      "name": "wing_count",
+      "as_printed": "Square moated site of four wings around a courtyard",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "gatehouse_storey_count",
+      "as_printed": "Central three-storey C15 gatehouse",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "gatehouse_first_floor_window_light_count",
+      "as_printed": "a four-light stone first floor window",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "gatehouse_second_floor_window_light_count",
+      "as_printed": "Similar three-light second floor window",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The gatehouse's openings diminish upward, four lights to three, which is the vertical grading the node's own kit calls for and states nowhere in figures."
+    },
+    {
+      "name": "bridge_bay_count",
+      "as_printed": "Early C18 three-bay bridge",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The bridge over the moat, and C18; not the house."
+    },
+    {
+      "name": "east_facade_dormer_count",
+      "as_printed": "Two gabled dormers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "On the east facade, whose southern half the entry dates C18 and C19."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR. The gatehouse is the node's own argument in one object: three storeys of brick with polygonal turrets, a machicolation that could not be fought from and stepped crenellations over a four-centred archway, across a bridge that has crossed the moat permanently since the C18. Extracted twice with different queries; the second returned the amendment note and the legacy header."
+}

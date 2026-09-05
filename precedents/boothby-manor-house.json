@@ -1,0 +1,113 @@
+{
+  "id": "boothby-manor-house",
+  "name": "Boothby Manor House (Boothby Pagnell Manor House)",
+  "aka": [
+    "Boothby Manor House",
+    "Boothby Pagnell Manor House"
+  ],
+  "location": {
+    "text": "Boothby Pagnell, Lincolnshire, England",
+    "country": "England",
+    "state": "Lincolnshire"
+  },
+  "dates": {
+    "built": "Late C12",
+    "circa": true,
+    "altered": "C16 alterations -- ceilings inserted into the open hall on chamfered girders with ogee stops, and the hall divided into two rooms by timber-frame partitions with heavy oak studs; a C17 rear wing; C19 minor alterations, including the clasped purlin roof and a staircase.",
+    "note": "The list entry says 'Late C12'; the scheduled-monument record for the same building is titled 'Norman manor house (12th century)'. The node's exemplar year is 1180 and its note says Historic England dates it late twelfth century, which the entry bears out. A separate secondary summary read in a search result says 'built about 1200'; that figure is recorded and not adopted."
+  },
+  "nodes": [
+    "norman-romanesque-english"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1360056",
+      "title": "Boothby Manor House, Boothby Pagnell - 1360056 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1360056",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, the listed-building entry. The entry closes 'Now scheduled Ancient Monument, No.13.' and cites 'Lincolnshire Museum's Information Sheet No.23.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1005055",
+      "title": "Norman manor house (12th century), Boothby Pagnell",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1005055",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The scheduled-monument entry for the same building, read from a search result only, which printed 'List Entry Number : 1005055 Heritage Category: Scheduling Location: Boothby Pagnell , South Kesteven, Lincolnshire'."
+    }
+  ],
+  "survey": {
+    "item": "1360056",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1360056",
+    "prepared": "No listing date was returned in either extract of this entry; the Details section as extracted begins with the description itself.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Incorrectly shown on OS map as Bothby Hall. Camera block of manor house. Late C12 with C16 alterations, C17 addition, C19 minor alterations. Coursed limestone rubble with ashlar quoins and dressings, Collyweston slate roof. T-plan, the rear wing probably a C17 addition.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "The camera block is all that remains of a complex of buildings forming the medieval manor house. The first floor hall and solar set above a vaulted 2 chambered undercroft. 2 storey with garret, 3 bay front having external stairs to first floor hall door, short pilaster, and chamfered eaves course.",
+        "page": "Official list entry, Details, opening paragraph, following the materials sentence"
+      },
+      {
+        "field": "openings",
+        "text": "Central chamfered doorway with corbelled lintel with to left a square opening. To right a second blocked doorway. These openings have relieving arches. To first floor is a semi-circular headed and chamfered doorway, with tall rectangular light above in chamfered surround.",
+        "page": "Official list entry, Details, front elevation description"
+      },
+      {
+        "field": "chimneys",
+        "text": "At the rear is the projecting added C17 wing now with C19 planked door and casements, and to the main range are 2 blocked C12 openings, a buttress and fine ashlar chimney breast terminating in a gabled square base to slender C12 circular stack with roll moulded top.",
+        "page": "Official list entry, Details, rear elevation description"
+      },
+      {
+        "field": "structural_system",
+        "text": "Interior. The undercroft consists of 2 chambers, one of 2 bays with quadripartite chamfered vaults, springing from splayed corbels. The other having a barrel vault. On the first floor a magnificent C12 rounded back fireplace with massive ashlar hood having joggled lintel supported on a pair of chamfered corbels, with above a rolled and filleted string.",
+        "page": "Official list entry, Details, interior description"
+      },
+      {
+        "field": "significance",
+        "text": "The house was probably built for the de Boothby family and later occupied by the Paynelle family. It is a rare survival of a Norman Manor House. A new house has built nearby in c.1630, and the Manor House has been uninhabited since early C20.",
+        "page": "Official list entry, Details, closing sentences"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storey with garret",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 bay front",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "undercroft_chamber_count",
+      "as_printed": "vaulted 2 chambered undercroft",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "undercroft_bay_count",
+      "as_printed": "one of 2 bays with quadripartite chamfered vaults",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The bay count of ONE of the two undercroft chambers; the other is barrel-vaulted and its bays are not counted."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE ENTRY STATES THE NODE'S CENTRAL SECURITY DIAGRAM IN ONE SENTENCE -- 'The first floor hall and solar set above a vaulted 2 chambered undercroft. 2 storey with garret, 3 bay front having external stairs to first floor hall door' -- including the external stair the node's long description calls a defensible approach. It states no dimension. The listed building is only the camera block; the rest of the manorial complex is gone, which the entry says and the node's exemplar note does not."
+}

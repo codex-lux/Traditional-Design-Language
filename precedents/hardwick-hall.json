@@ -1,0 +1,116 @@
+{
+  "id": "hardwick-hall",
+  "name": "Hardwick Hall",
+  "location": {
+    "text": "Derbyshire, England",
+    "country": "England",
+    "state": "Ault Hucknall, Derbyshire"
+  },
+  "dates": {
+    "built": "1590-1597",
+    "circa": false,
+    "altered": "The list entry records 'Alterations 1788' and a two-storey service range to the north of c1860 by S. Rollinson of Chesterfield.",
+    "note": "The list entry gives 1590-1597 and the node's own exemplar gives 1590-97 with a year of 1597; the two agree. The Derbyshire Historic Environment Record's summary line, read in search only, prints 'originally built c1590 and altered in 1788 and 1860' and 'started in 1591' -- a third start date, recorded and not resolved."
+  },
+  "nodes": [
+    "elizabethan"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1051617",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1051617",
+      "title": "Hardwick Hall, Ault Hucknall - 1051617 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The overview block prints 'Date first listed: 11-Jul-1951'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000450",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000450",
+      "title": "Hardwick Hall, Ault Hucknall - 1000450",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separate Grade I Register of Parks and Gardens entry for the same place, carried because it locates the setting and is a different designation; not read by extract."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hardwick_Hall",
+      "title": "Hardwick Hall - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox prints 'Reference no. 1051617' and 'Designated 11 Jul 1951', which is how the list entry number was first found; the number was then read on the register's own page."
+    }
+  ],
+  "survey": {
+    "item": "1051617",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1051617",
+    "prepared": "Date first listed: 11-Jul-1951 (the entry prints no amendment date)",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house now owned by the National Trust. 1590-1597, probably by Robert Smythson, for Bess of Hardwick, Alterations 1788. Service wing 1860 by S. Rollinson of Chesterfield. Sandstone ashlar, roofs hidden behind parapets. H-plan , with a double stepped extension at each end. Two storeys, with three storey towers, each over a basement storey. Moulded plinth, moulded string courses between each floor, and moulded eaves cornice. Openwork parapet and scrolled parapets enclosing the initials ES.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "West elevation of 1-1-2-6-2-1-1 symmetrical bays. The two bay parts are projecting towers. The centre six bays have to the ground floor a flat-roofed colonade on eight Tuscan Doric banded columns.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "openings",
+        "text": "Flanked on each side by three 3-light mullioned and transomed windows, with ovolo mouldings. Moulded sills on brackets. The two storeys above have the centre two bays advanced, with a chamfered corner to the upper storey. Two 4-light windows, flanked on each side by pairs of 3-light windows. Two transoms to the lower tier and three transoms to the upper tier. The chamfered angles of the advanced bay have single light windows with three transoms. The projecting tower bays have pairs of 3-light windows placed close together, with, from the basement, one, two, three and two transoms.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "plan",
+        "text": "Interior: The plan of Hardwick is exceptional for its date, having the hall placed symmetrically and at a right angle to the facade. The decoration is rich in contrast to the severity of the exterior to Flemish pattern books and to Serlio. The hall has a screen dividing off a lobby rather than the traditional passage.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys, with three storey towers, each over a basement storey",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Of the main ranges. The towers are three storeys and every part stands over a basement storey, so no single figure describes the building; 2 is the main block's."
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "three storey towers",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_rhythm_west_front",
+      "as_printed": "1-1-2-6-2-1-1 symmetrical bays",
+      "from_quote": 1,
+      "note": "The entry prints the rhythm and never a total. Summing it to 14 would be arithmetic of mine, not the register's, so no value is parsed."
+    },
+    {
+      "name": "colonnade_column_count",
+      "as_printed": "eight Tuscan Doric banded columns",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "three 3-light mullioned and transomed windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Lights per window on the ground-floor centre bays. The same elevation carries 4-light windows above, so this is not one figure for the house."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1051617",
+  "note": "Tranche 3, the Elizabethan and Jacobean prodigy house and the Scots tower, 5 Sep 2026. The list entry replaces the HABS survey block for a European record (WP-11.5). The page was extracted twice with different queries: the first returned the Details description, the second the Overview block with the list entry number and the date first listed. Hard line breaks inside the quoted spans have been collapsed to single spaces and nothing else was changed. THE ENTRY CONTRADICTS THE NODE ON ONE POINT WORTH READING: it calls the exterior severe -- 'The decoration is rich in contrast to the severity of the exterior' -- where elizabethan's own prose reads the same elevation as a glazing display."
+}

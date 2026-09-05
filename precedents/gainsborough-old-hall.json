@@ -1,0 +1,55 @@
+{
+  "id": "gainsborough-old-hall",
+  "name": "Gainsborough Old Hall",
+  "aka": [
+    "The Old Hall"
+  ],
+  "location": {
+    "text": "Gainsborough, Lincolnshire, England",
+    "country": "England",
+    "state": "Lincolnshire"
+  },
+  "dates": {
+    "built": "Late C15, between 1471 and 1484, for Sir Thomas Burgh",
+    "circa": false,
+    "altered": "East wing brick faced, and the west wing chimneys and south gable, circa 1600 for William Hickman; 'in process of restoration at time of survey'.",
+    "note": "Historic England 1359773 says 'between 1471 and 1484'. A Historic England Research Record, as a search result returned it, says 'probably built between 1464 and 1484 for Sir Thomas Burgh'. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "tudor"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1359773",
+      "title": "The Old Hall, Gainsborough - 1359773 - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1359773",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, 'Date first listed: 04-Apr-1964', list entry name 'The Old Hall', statutory address 'THE OLD HALL, COBDEN STREET'. The node's exemplar calls it Gainsborough Old Hall, which is this record's `name` because the exemplar is the join key."
+    },
+    {
+      "kind": "wikipedia",
+      "title": "Gainsborough Old Hall - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gainsborough_Old_Hall",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Built | 1471-1484', 'Architectural style | Tudor', 'Reference no. | 1359773', 'Designated | 4 April 1964'."
+    }
+  ],
+  "survey": {
+    "item": "1359773",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1359773",
+    "prepared": "Date first listed: 04-Apr-1964, as the Official list entry block prints it. The Details section opens with the legacy header 'COBDEN STREET 1. 5315 (North Side) The Old Hall SK 8189 1/2 4.4.64. SK 8189 4/2 GV'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "2. Late C15, between 1471 and 1484, for Sir Thomas Burgh. Half H plan with central great hall. East wing brick faced and West wing chimneys and South gable circa 1600 for William Hickman. By invitation of Sir Neville Hickman, John Wesley preached in the great hall, 1759, 1761 and 1764. A fine late mediaeval dwelling in process of restoration at time of survey. AM.",
+        "page": "Official list entry, Details, paragraph numbered 2; this is the whole of the Details prose"
+      }
+    ]
+  },
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR. THE ENTRY IS FIVE SENTENCES LONG AND STATES NO MATERIAL, NO STOREY COUNT, NO BAY COUNT AND NO DIMENSION, so this record carries no measurements. It is kept because the one thing it does state is the plan -- 'Half H plan with central great hall' -- which is the diagram `tudor` inherits from the medieval hall and which no other Tudor exemplar in this cluster has a register statement of. Extracted twice with different queries; the second returned the header block and confirmed there is no more prose to find."
+}

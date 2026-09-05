@@ -1,0 +1,107 @@
+{
+  "id": "great-chalfield-manor",
+  "name": "Great Chalfield Manor",
+  "location": {
+    "text": "Wiltshire, England",
+    "country": "England",
+    "state": "Wiltshire"
+  },
+  "dates": {
+    "built": "1465-1480",
+    "circa": false,
+    "altered": "Restored 1905-12 by Sir Harold Brakspear for Robert Fuller; the entry attributes the solar roof windbracing, the drawing-room stairs, much of the loggia and a 1916 timber-framed wing to that campaign.",
+    "note": "Historic England 1250902 spells the builder 'Thomas Tropnell'; the node's own exemplar note spells it 'Thomas Tropenell'. Both are recorded and neither is changed. The node gives c.1465-80 and the entry 1465-1480."
+  },
+  "nodes": [
+    "english-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1250902",
+      "title": "Great Chalfield Manor, Atworth - 1250902 - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1250902",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The overview block printed by the search result reads 'Grade: I ; List Entry Number: 1250902 ; Date first listed: 13-Nov-1962 ; List Entry Name: Great Chalfield Manor ; Statutory Address: GREAT CHALFIELD MANOR.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001232",
+      "title": "Great Chalfield Manor, Atworth - 1001232 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001232",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered Park and Garden entry. Its PRINCIPAL BUILDING paragraph, as the search result returned it, reads 'Great Chalfield Manor (listed grade I) is built of rubble stone and has a stone slate roof with ashlar quoins, dressings, and stacks. Its floor plan shows a central hall with four bays, flanked to the west by a family wing and to the east by a solar wing, each with an oriel window. The two-storey north front has five windows with an entrance porch to the west.' Not extracted; carried as a corroboration of the four-bay hall and five-window front the survey states, not as a quotation this record stands on."
+    }
+  ],
+  "survey": {
+    "item": "1250902",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1250902",
+    "prepared": "Date first listed: 13-Nov-1962, as the entry's overview block prints it; that field was read from the tavily-search result for this entry on 2026-09-05.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Manor house. 1465-1480 for Thomas Tropnell, restored 1905-12 by Sir Harold Brakspear for Robert Fuller. Rubble stone, stone slate roof with coped verges and fine carved finials, ashlar stacks.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "H- plan; 4-bay open hall with service and solar wings. Two-storey, 5- window north front.",
+        "page": "Official list entry, Details, opening paragraph, immediately following the materials sentence"
+      },
+      {
+        "field": "general_description",
+        "text": "Two-storey porch to right with Tudor-arched moulded doorway, tierceron star vault and inner ribbed door, diagonal buttress to left, Tudor-arched cross window over, griffin finial. To right is 2-storey wing with 1906 4-light mullioned casement to ground floor and canted oriel with arched lights and Tropnell arms over to first floor, carved finial. Hall to centre has two arched cross windows and large lateral stack to left, buttresses with offsets.",
+        "page": "Official list entry, Details, north front description"
+      },
+      {
+        "field": "roof",
+        "text": "Stone newel stairs from upper rooms to roof over hall; 4-bay collar truss roof with curved windbracing and no mouldings.",
+        "page": "Official list entry, Details, interior description"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: hall has 1900s screen and gallery, stone Tudor-arched fireplace, 4-bay ceiling with moulded beams and damaged bosses, three stone looking masks from wings into hall.",
+        "page": "Official list entry, Details, interior description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "hall_bay_count",
+      "as_printed": "4-bay open hall",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two-storey, 5- window north front",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "front_window_count",
+      "as_printed": "5- window north front",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The legacy list text prints '5- window' with the space after the hyphen; kept as printed."
+    },
+    {
+      "name": "hall_roof_bay_count",
+      "as_printed": "4-bay collar truss roof",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The roof over the hall, agreeing with the 4-bay hall the plan sentence states."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1250902",
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. The entry states this node's central diagram in one line -- H-plan, four-bay open hall, service and solar wings -- which is why the record is worth more than its measurements. Extracted twice with different queries; both returned Details spans and neither returned the header, so the listing date comes from the search result and says so."
+}

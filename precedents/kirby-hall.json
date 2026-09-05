@@ -1,0 +1,96 @@
+{
+  "id": "kirby-hall",
+  "name": "Kirby Hall",
+  "location": {
+    "text": "Gretton, Northamptonshire, England",
+    "country": "England",
+    "state": "Deene, Northamptonshire"
+  },
+  "dates": {
+    "built": "from 1570",
+    "circa": true,
+    "altered": "Largely unroofed. The entry records that 'The present form of the north front of the north wing dates largely from the early C17' and that the site partly incorporates the remains of an earlier manor.",
+    "note": "The scheduling entry does not print a completion date in the span read. English Heritage's own visitor page, read in search only, gives 'its foundation in 1570'. Recorded as printed and not sharpened."
+  },
+  "nodes": [
+    "elizabethan"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1014421",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1014421",
+      "title": "Kirby Hall: an Elizabethan country house and gardens, including the remains of the medieval village of Kirby, Deene - 1014421 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A SCHEDULED MONUMENT entry rather than a listing, which is why its description covers the village earthworks as well as the house. The search result's own line printed 'List Entry Number: 1014421' and 'Date first listed: 25-Jan-1927'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1150293",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1150293",
+      "title": "Kirby Hall - 1150293",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The building is ALSO listed, at Grade II, under a separate number, 'Date first listed: 12-Dec-1988'. Two designations over one building; both numbers are carried so neither is mistaken for the other."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.english-heritage.org.uk/visit/places/kirby-hall",
+      "title": "Kirby Hall | English Heritage",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The guardian body's own page. Its summary line reads 'from its foundation in 1570 to its ruin and eventual rescue after 1930'."
+    }
+  ],
+  "survey": {
+    "item": "1014421",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1014421",
+    "prepared": "Date first listed: 25-Jan-1927, as the search result's own overview line printed it; the date was not returned inside the extracted spans.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Kirby Hall is a rectangular building constructed of Weldon stone, built on a courtyard plan with a walled forecourt to the north; it partly incorporates the remains of the earlier manor. Excavations undertaken within the west wing in 2011 provided evidence that the site had been levelled down to the limestone bedrock to the north and the ground level raised to the south to create a platform on which to build the Hall.",
+        "page": "Official list entry, Details, description of the Hall. A scheduling entry is not paginated."
+      },
+      {
+        "field": "bays",
+        "text": "There are four wings ranged around the central courtyard, where each facade is composed of two principal storeys of mullioned and transomed windows; the facades are unified vertically, by the use of giant pilasters extending through both storeys, and horizontally by a tall plinth and by decorative friezes running at ground and first floor lintel level and along the parapet.",
+        "page": "Official list entry, Details, description of the Hall, continuation of the same span."
+      },
+      {
+        "field": "plan",
+        "text": "The remainder of the house is largely unroofed and represented by stone walls standing in most parts to gable height. The east and west wings, which have matching facades to the courtyard, represent the lodging ranges of the hall where visitors would have been accommodated. The first floor of the west wing was occupied by a long gallery approached from the state apartments to the south. The north wing has an open ground floor loggia to the courtyard, beneath which is a series of empty pedimented niches; two symmetrical staircases lead from the ends of the loggia to first floor level.",
+        "page": "Official list entry, Details, description of the Hall, continuation of the same span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "courtyard_wing_count",
+      "as_printed": "There are four wings ranged around the central courtyard",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "principal_storey_count",
+      "as_printed": "two principal storeys of mullioned and transomed windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "loggia_staircase_count",
+      "as_printed": "two symmetrical staircases lead from the ends of the loggia to first floor level",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1014421",
+  "note": "Tranche 3, 5 Sep 2026, and a NEW exemplar. It is here as the DOCUMENTARY case in a cluster otherwise made of complete houses: unroofed, excavated, and described by the register in modern prose rather than the 1950s legacy shorthand. IT ALSO CONTRADICTS THE NODE TWICE. The courtyard is not abandoned -- 'built on a courtyard plan', four wings round it -- against the node's first defining characteristic that the courtyard is abandoned or reduced to a forecourt (though this entry gives it a walled forecourt as well). And the giant pilasters extend 'through both storeys' across every facade of the court, which is neither the superimposed frontispiece elizabethan.c02 permits nor confined to an entrance."
+}

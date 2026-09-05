@@ -1,0 +1,100 @@
+{
+  "id": "sutton-place",
+  "name": "Sutton Place",
+  "aka": [
+    "Sutton Place Including the Service Court Yard"
+  ],
+  "location": {
+    "text": "Guildford, Surrey, England",
+    "country": "England",
+    "state": "Surrey"
+  },
+  "dates": {
+    "built": "c1525 for Sir Richard Weston",
+    "circa": true,
+    "altered": "The north gatehouse range demolished in 1786; restorations to the windows in 1875 and to the Long Gallery in 1878.",
+    "note": "Historic England 1236810 says 'c1525'; the node's exemplar note says 'Built 1521-33 for Sir Richard Weston' and its year is 1525. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "tudor"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1236810",
+      "title": "Sutton Place Including the Service Court Yard, Non Civil Parish - 1236810 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1236810",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'TQ 06SW BOROUGH OF WOKING SUTTON PARK 9/137 Sutton Place including 22/7/53 the Service Court Yard (Formerly listed Sutton Place GV inc. subsidiary buildings, statues etc) I'. THE ADMINISTRATIVE AREA IS WOKING, NOT GUILDFORD: this record's `location.text` is the node's exemplar string exactly, as the join requires, and the Wikipedia article places the house '3 miles (4.8 km) north-east of Guildford in Surrey' with an infobox location of Woking."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001554",
+      "title": "Sutton Place, Non Civil Parish - 1001554 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001554",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered Park and Garden entry. Its PRINCIPAL BUILDING paragraph, as a search result returned it, reads 'Sutton Place (1520s-30s, listed grade I) stands towards the centre of the site, on a plateau which is surrounded on three sides by the River Wey. The two-storey mansion is brick-built with stone and terracotta dressings, and is a fine example of Tudor domestic architecture.' Not extracted; its date range (1520s-30s) is a third statement beside the list entry's c1525 and the node's 1521-33."
+    }
+  ],
+  "survey": {
+    "item": "1236810",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1236810",
+    "prepared": "The Details section's own legacy header dates the entry 22/7/53. The Wikipedia infobox, as a search result returned it, prints 'Official name | Sutton Place including the service courtyard', 'Designated | 22 July 1953', 'Reference no. | 1236810'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Country house. c1525 for Sir Richard Weston, restorations to windows in 1875 and to Long Gallery in 1878. Red and brown diaper pattern brickwork with terracotta dressings; plain tiled roofs with crow stepped gables to north end of side wings, multiple stacks on return fronts and across the south front. Originally built as square house round a courtyard c140 foot by 130 foot, the north gatehouse range was demolished in 1786 to leave the south range with projecting end wings and service court to the west side. 2 storeys and attic with gable end windows on brick plinth, stringcourse over the ground floor and terracotta parapets and quoins. Terracotta mullioned and transome leaded windows with cusped lights; drip mouldings across the top of the ground floor windows.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "South Garden Front: Asymmetrical with gabled bay to left, (west) projecting gabled bay to left of centre, multiple stack to right; end bay to right breaking forward. Dentilled brick and terracotta panelled parapet band with amorini and crosses. To the left (west) are 3 C17 houses forming the north range of the service court. Red brick with plain tiled roofs and glazing bar sash windows.",
+        "page": "Official list entry, Details, south garden front description"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: Great Hall (centre of the south range) 2 storeys with wooden panelling some with rounded carving, and stone 4 centred arched fireplace. Staircase to the right behind Ionic arched screen with square newel C17 staircase. Panelled long Gallery to the east wing. Painted glass in the Great hall of various periods, some earlier than the house, depicting Royal coats of arms and the Weston family arms.",
+        "page": "Official list entry, Details, interior description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "c140 foot by 130 foot",
+      "value": 140,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "THE OVERALL DIMENSION OF THE HOUSE AS ORIGINALLY BUILT, round a courtyard, and not of the house as standing: the same sentence says the north gatehouse range was demolished in 1786. 'c' is the entry's own approximation. The first figure printed is taken as the width, the entry not saying which front is which."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "c140 foot by 130 foot",
+      "value": 130,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The second figure printed; see the note on overall_width_ft. As originally built, not as standing."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Corroborated by the separate registered-park entry 1001554, which calls it 'The two-storey mansion'."
+    },
+    {
+      "name": "great_hall_storey_height",
+      "as_printed": "Great Hall (centre of the south range) 2 storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The hall rises through two storeys; this is a height in storeys, not a count of floors within the hall."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE ONLY PLAN DIMENSION ANY TUDOR EXEMPLAR IN THIS CLUSTER YIELDED. Extracted twice with different queries; the second returned the Sources block and boilerplate. The entry states the whole of the node's own account of early Tudor display -- diaper brickwork, terracotta dressings, a courtyard entered through a gatehouse range -- and dates the demolition that opened the court."
+}

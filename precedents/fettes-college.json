@@ -1,0 +1,89 @@
+{
+  "id": "fettes-college",
+  "name": "Fettes College",
+  "location": {
+    "text": "Edinburgh, Scotland",
+    "country": "Scotland",
+    "state": "Carrington Road, Fettes Avenue and Crewe Road South, Edinburgh"
+  },
+  "dates": {
+    "built": "1864-70",
+    "circa": false,
+    "note": "The HES record prints 'David Bryce 1864-70'; the node's exemplar prints 'Built 1863-69' with a year of 1869; the school's own history page and the Wikipedia article both give an opening in 1870. The register's span is a year later at each end than the node's. All are recorded and none is changed."
+  },
+  "nodes": [
+    "scottish-baronial"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB27975",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB27975",
+      "title": "FETTES COLLEGE CARRINGTON ROAD FETTES AVENUE AND CREWE ROAD SOUTH (LB27975)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. The statutory address is the college site rather than the single building; the record's description is of the Bryce main block, which is what this precedent record is about."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fettes_College",
+      "title": "Fettes College",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carries the article in the categories 'Category A listed buildings in Edinburgh' and 'Scottish baronial architecture', and states 'The main building, called the Bryce Building, was designed by David Bryce.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.fettes.com/about-us/our-history",
+      "title": "About Us | Our School's History | Fettes College, Edinburgh",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The school's own history page: 'A charismatic young architect David Bryce was commissioned to design and construct the extraordinary building which opened as a purpose-built school in 1870, initially receiving 53 boys'."
+    }
+  ],
+  "survey": {
+    "item": "LB27975",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB27975",
+    "prepared": "Category A. No designation date was returned inside either extracted span and none is claimed. The record's own bibliography reads 'O & N Edinburgh v.III p.82; Building News Jan 22 1864.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "David Bryce 1864-70. Franco-Scottish gothic. 3-storey attic and basement main block, symmetrical main front with centre lead-roofed tower, advanced ends, cloister features between; 4-storey towers with tall roofs on end elevations.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "plan",
+        "text": "2-storey wing to back with flamboyant chapel at 1st floor, 2-storey and attic house with oriel feature. Richly detailed throughout.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3-storey attic and basement main block",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "end_tower_storey_count",
+      "as_printed": "4-storey towers with tall roofs on end elevations",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "rear_wing_storey_count",
+      "as_printed": "2-storey wing to back with flamboyant chapel at 1st floor",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "rights_evidence": "The legal part of the listing is the address/name of site which is known as the statutory address. Other than the name or address of a listed building, further details are provided for information purposes only. Historic Environment Scotland does not accept any liability for any loss or damage suffered as a consequence of inaccuracies in the information provided.",
+  "rights_evidence_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB27975",
+  "note": "Tranche 3, 5 Sep 2026. The record is SHORT -- HES's own preamble says 'Earlier records may be brief and some information will not have been recorded' -- and it was extracted twice with the same result, so nothing here is being withheld for want of a second pass. THE ONE SENTENCE THAT MATTERS MOST CONTRADICTS THE NODE'S HARD CONSTRAINT. HES classifies the building as 'Franco-Scottish gothic'; scottish-baronial.c03 forbids pointed arches, tracery and English bargeboards at hard severity, and the record then calls the chapel 'flamboyant', which is a Gothic tracery term. The node's exemplar note already reads Fettes as 'a Loire chateau crossed with the Scots tower house'; the register puts the emphasis further from Scotland than that. The main front is also 'symmetrical', against the node's declared picturesque-asymmetrical symmetry."
+}

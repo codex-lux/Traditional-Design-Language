@@ -1,0 +1,109 @@
+{
+  "id": "the-jews-house",
+  "name": "The Jew's House",
+  "aka": [
+    "Jews House",
+    "Jew's house"
+  ],
+  "location": {
+    "text": "Steep Hill, Lincoln, England",
+    "country": "England",
+    "state": "Lincolnshire"
+  },
+  "dates": {
+    "built": "c1170",
+    "circa": true,
+    "altered": "C18 and C19 alterations: two C18 brick gable stacks, an early-C19 wooden shopfront in an altered opening, a C19 half-glazed door with overlight, C18 glazing-bar sashes set into the C12 windows, and a segment-headed dormer with a C20 casement.",
+    "note": "The entry's 'c1170' and the node's exemplar year of 1170 agree."
+  },
+  "nodes": [
+    "norman-romanesque-english"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1388810",
+      "title": "Jews House, Non Civil Parish - 1388810 - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1388810",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section carries two legacy headers -- 'SK9771NE 1941-1/9/378 08/10/53 LINCOLN STEEP HILL (West Side) No 1' and 'SK9771NE 1941-1/9/378 08/10/53 LINCOLN THE STRAIT (West Side) No 15 Jew's house' -- and the note 'Includes: No.1 STEEP HILL.' A search result printed 'Grade: I ; List Entry Number: 1388810 ; Date first listed: 08-Oct-1953 ; List Entry Name: Jews House ; Statutory Address: 1, STEEP HILL.'"
+    },
+    {
+      "kind": "other",
+      "title": "Tree-Ring Analysis Of The Jew's House, 15 The Strait and 1 Steep Hill, Lincoln, Lincolnshire. Report Number: 7/1994",
+      "url": "https://historicengland.org.uk/research/results/reports/7-1994",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A Historic England research report on this building, found by search and NOT read. Carried as a locator for a later pass; it carries no List Entry Number, which is why this ref has no id."
+    }
+  ],
+  "survey": {
+    "item": "1388810",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1388810",
+    "prepared": "The Details section's own legacy headers date the entry 08/10/53; the Official list entry block prints 'Date first listed: 08-Oct-1953' as a search result returned it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House, originally with a first floor hall and shops below, now a restaurant and salon. c1170, with C18 and C19 alterations. Dressed stone and brick, with pantile roof and two C18 brick gable stacks.",
+        "page": "Official list entry, Details, opening paragraph following the legacy headers"
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: moulded sill band and enriched impost band to first floor. 2 storeys plus attics, 3 bays. Off-centre doorway, C12, with interlace ornament and stiff-leaf capitals to missing shafts. Above it, a shallow chimney breast to the hall.",
+        "page": "Official list entry, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Above, two altered C12 2-light windows with heavily moulded heads, that to left with the remains of shafts. Each now has a C18 glazing bar sash. In the centre, a similar sash. Above again, to right, a segment headed dormer with a C20 casement.",
+        "page": "Official list entry, Details, EXTERIOR paragraph, first-floor description"
+      },
+      {
+        "field": "finishes",
+        "text": "INTERIOR has in the rear wall a C12 chamfered doorway with imposts. In the north wall, a restored chamfered segment headed recess on each floor.",
+        "page": "Official list entry, Details, INTERIOR paragraph"
+      },
+      {
+        "field": "significance",
+        "text": "This building is an exceptionally important example of C12 domestic architecture: Lincolnshire has most of the surviving",
+        "page": "Official list entry, Details, closing paragraph; THE EXTRACT'S SPAN ENDS MID-SENTENCE at 'surviving' and the sentence is quoted only as far as it was read"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys plus attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "first_floor_window_count",
+      "as_printed": "two altered C12 2-light windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "2-light windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Lights per window on the surviving C12 openings."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1388810",
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. Extracted twice with different queries; the first returned only map boilerplate and the second the whole Details section, which is the behaviour WP-11.5 records for these entries. THE ENTRY CORROBORATES THE NODE'S SHARPEST CLAIM ABOUT THIS BUILDING -- that the ground-floor doorway carries the chimney of the hall above -- in the register's own words: 'Off-centre doorway, C12 ... Above it, a shallow chimney breast to the hall.' It states the plan type ('originally with a first floor hall and shops below') and no dimension."
+}

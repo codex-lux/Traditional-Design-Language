@@ -1,0 +1,89 @@
+{
+  "id": "speke-hall",
+  "name": "Speke Hall",
+  "location": {
+    "text": "Liverpool, England",
+    "country": "England",
+    "state": "Merseyside"
+  },
+  "dates": {
+    "built": "South range 1490-1506; east and west ranges c.1540-1560; north range 1598",
+    "circa": true,
+    "altered": "The entry records a billiard room with an elaborate timber overmantel and rich plaster ceiling and wallpaper in the corridor designed by W. Morris, none of it dated in the text.",
+    "note": "Historic England 1359837 begins the house at 1490-1506; the Wikipedia infobox, as a search result returned it, prints 'Built | 1530-1598'. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "english-medieval-timber-frame"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1359837",
+      "title": "Speke Hall, Non Civil Parish - 1359837",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1359837",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'SJ 48 SW 10/1173 SPEKE HALL ROAD, L24 Speke Hall 28.6.52 G.V. I'; a search result printed 'Date first listed: 28-Jun-1952'."
+    },
+    {
+      "kind": "wikipedia",
+      "title": "Speke Hall - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Speke_Hall",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Built | 1530-1598', 'Reference no. | 1359837', 'Designated | 28 June 1952'."
+    }
+  ],
+  "survey": {
+    "item": "1359837",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1359837",
+    "prepared": "The Details section's own legacy header: 'SJ 48 SW 10/1173 SPEKE HALL ROAD, L24 Speke Hall 28.6.52 G.V. I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House. South range of 1490-1506, east and west ranges of c.1540-1560, North range of 1598. For Norris Family. Timber frame on stone base with stone lateral stacks. Stone slate roof. 2 storeys with attic, courtyard plan. Coved cornice and gables, some bays project with gables. Windows of 5 and 6 lights with transom, leaded glazing.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Entrance to north range has stone 4-centred arch and paired studded doors. Flanking stone walls have parapets with round projections and connect this item with bridge over moat (q.v.). Inscription above records building of range.",
+        "page": "Official list entry, Details, entrance description"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior has great hall with 2 bay windows, fireplace with stone ornamental and panelling. Billiard room to west has panelling and elaborate timber overmantel and rich plaster ceiling. Wallpaper in corridor designed by W. Morris.",
+        "page": "Official list entry, Details, interior description"
+      },
+      {
+        "field": "significance",
+        "text": "One of the most important timber framed manor houses in the country, Speke Hall has connections with J. M. Whistler.",
+        "page": "Official list entry, Details, closing sentences"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys with attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "Windows of 5 and 6 lights with transom",
+      "from_quote": 0,
+      "note": "The entry states a pair of counts and no single value is parsed."
+    },
+    {
+      "name": "great_hall_bay_window_count",
+      "as_printed": "great hall with 2 bay windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR. Extracted twice with different queries; the second returned only boilerplate, which is recorded rather than retried indefinitely."
+}

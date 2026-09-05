@@ -1,0 +1,118 @@
+{
+  "id": "audley-end-house",
+  "name": "Audley End House",
+  "location": {
+    "text": "Saffron Walden, Essex, England",
+    "country": "England",
+    "state": "Saffron Walden, Uttlesford, Essex"
+  },
+  "dates": {
+    "built": "1605-1614",
+    "circa": false,
+    "altered": "'Reduced in size and refurbished later, particularly in 1721 by Sir John Vanburgh, in the 1770's for Sir John Griffin Griffin by Robert Adam, and in the C19 when the rooms were reorganised for the second, third and fourth Lord Braybrookes.' The Register of Parks and Gardens entry adds that Vanbrugh's 1721 work included 'demolition of the decaying outer' court.",
+    "note": "The register and the node agree on 1605-14."
+  },
+  "nodes": [
+    "jacobean"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1196114",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1196114",
+      "title": "Audley End House, Saffron Walden - 1196114 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. 'Listing NGR: TL5246738150'. The Overview block did not return a 'Date first listed' line in either extracted span and none is claimed here."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000312",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000312",
+      "title": "Audley End, Saffron Walden - 1000312 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Grade I Register of Parks and Gardens entry. Its summary describes the house independently: 'built to a U-shaped plan in three storeys with mullioned windows and parapets to hide the roof line'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.english-heritage.org.uk/visit/places/audley-end-house-and-gardens",
+      "title": "Audley End House and Gardens | English Heritage",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The guardian body's own page, which dates Thomas Howard's death to 400 years before its 2026 display and describes him as 'the man responsible for building Audley End in the early seventeenth century'."
+    }
+  ],
+  "survey": {
+    "item": "1196114",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1196114",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Part of a palatial country house. Built 1605-1614. By the Earl of Northampton, John Thorpe and Bernard Janssen, mason. For Thomas Howard. Earl of Suffolk. Reduced in size and refurbished later, particularly in 1721 by Sir John Vanburgh, in the 1770's for Sir John Griffin Griffin by Robert Adam, and in the C19 when the rooms were reorganised for the second, third and fourth Lord Braybrookes. Ashlar faced, copper roofs. U shaped plan. 3 storeys with principal first floor the tallest. All windows are of ovolo moulded, mullioned and transomed form, lights mainly now have plain glass. Parapets all round hide roofs and are pierced with strapwork decoration.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "porches",
+        "text": "W front elevation: central second floor 7 window range, 3x2 lights, in front, lower open hall block of 2 storeys height, central oriel bay window 6x4 lights, side 1x4 lights, on each side two 4x3-light windows. Two 2-storey porches as ground and first floor loggias with Ionic grouped corner shafts of black and white marble with profuse strapwork and grotesque decoration, ground floor round headed arched doorways, early C17 doors, panelled with war and peace motifs. Loggia upper floors have pair of openings to front.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "openings",
+        "text": "N and S ends of range have tower shaped blocks, turrets at the corners with blocked, keystoned, round headed apertures, swept copper capping and weather-vanes. Full height bay window. Windows - ground floor 7x2-lights, first floor 7x3-lights, second floor 7x2-lights, matching return windows 2 lights wide.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "dependencies",
+        "text": "Enclosed service courtyard abuts N side of house, single storey brick, slate roofs. Early C19 segment headed doorways, some doors early C19 with reeded flush panels, window also segment headed mainly casements with glazing bars. Also, second group of larger buildings in arc facing W, some 2-storeyed, all linked and contiguous with service court, hipped slated roofs, some provided with paired display Roman cement chimney stacks, whole irregular group now colourwashed.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys with principal first floor the tallest",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The clause after the figure is the interesting half and it CONTRADICTS the node: jacobean's typical_ratios say 'Storey heights roughly equal, or ground floor exceeding first by no more than 10 percent', and the register says the FIRST floor is the tallest here."
+    },
+    {
+      "name": "porch_count",
+      "as_printed": "Two 2-storey porches as ground and first floor loggias",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two porches on one front, each carrying a loggia above -- jacobean.c02's 'carries a room above it' satisfied twice over, and its assumption of a single central porch not met."
+    },
+    {
+      "name": "window_count_west_front_range",
+      "as_printed": "central second floor 7 window range, 3x2 lights",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "window_light_count_ground_floor",
+      "as_printed": "ground floor 7x2-lights",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Read as seven windows of two lights each; the register writes the count and the lights as one product and does not separate them."
+    },
+    {
+      "name": "window_light_count_first_floor",
+      "as_printed": "first floor 7x3-lights",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The first floor takes three lights where the floors above and below take two -- the fenestration recording the same storey hierarchy the general description states in words."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1196114",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned the description and the west front, the second only the page furniture, so no 'Date first listed' was read and the survey block carries no `prepared`. THE RECORD CONTRADICTS THE NODE'S STOREY RULE HEAD-ON -- '3 storeys with principal first floor the tallest' against 'Storey heights roughly equal, or ground floor exceeding first by no more than 10 percent' -- on the largest house the node names. It supports elizabethan-style roof concealment on a Jacobean building: 'Parapets all round hide roofs and are pierced with strapwork decoration.' The node's exemplar note says the house was 'originally of two great courts' and 'reduced in the eighteenth century to roughly a third of its size'; the register says only 'Reduced in size', and the Parks and Gardens entry names the demolition of the outer court in 1721 without a fraction. No fraction is sourced here."
+}

@@ -1,0 +1,113 @@
+{
+  "id": "moyses-hall",
+  "name": "Moyse's Hall",
+  "aka": [
+    "Moyses Hall"
+  ],
+  "location": {
+    "text": "Bury St Edmunds, Suffolk, England",
+    "country": "England",
+    "state": "Suffolk"
+  },
+  "dates": {
+    "built": "Late C12",
+    "circa": true,
+    "altered": "'considerably restored and altered in 1858'; a C16 brick arch links the two halves; C16 fireplaces in hall and solar; a C19 stone newel stair in an added lean-to; windows inserted when the building was used as a prison.",
+    "note": "The list entry says 'Late C12'; the Wikipedia infobox, as a search result returned it, prints 'Built | ca. 1180'. Both are recorded."
+  },
+  "nodes": [
+    "norman-romanesque-english"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1076931",
+      "title": "Moyses Hall, Bury St. Edmunds - 1076931 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1076931",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'BURY ST EDMUNDS TL8564SW CORNHILL 639-1/7/295 (North side) 07/08/52 Moyses Hall GV I' and the note 'Includes: No.41 CORNHILL.' A search result printed 'Grade: I ; List Entry Number: 1076931 ; Date first listed: 07-Aug-1952 ; List Entry Name: Moyses Hall.'"
+    },
+    {
+      "kind": "wikipedia",
+      "title": "Moyse's Hall - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Moyse%27s_Hall",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Built | ca. 1180', 'Architectural style | Norman architecture', 'Reference no. | 1076931', 'Designated | 7 August 1952'. The article's body notes that Edgar Samuel in 1973 concluded it is 'highly probable' the house was owned by a Jewish merchant family and argued against its being a synagogue; the attribution in this record's `name` and in the node is to no one."
+    }
+  ],
+  "survey": {
+    "item": "1076931",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1076931",
+    "prepared": "The Details section's own legacy header: 'BURY ST EDMUNDS TL8564SW CORNHILL 639-1/7/295 (North side) 07/08/52 Moyses Hall GV I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Merchant house, later used for a variety of purposes, including an inn, a Bridewell, a prison and a police station; now a museum. Late C12, considerably restored and altered in 1858. In flint and stone with 2 steep gables to the plaintiled roofs.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "EXTERIOR: 2 storeys, attic to part, cellar to part. A wide freestone buttress at each end of the main front and a similar central buttress between the 2 gabled halves of the building. A moulded stone string course runs across the whole front at 1st storey level.",
+        "page": "Official list entry, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "structural_system",
+        "text": "INTERIOR: stone groin-vaulted ground storey, the western part in 3 bays and the wider eastern part in 6 bays, supported on massive circular piers with simple square capitals. A C16 brick arch with a shallow pointed head now links the 2 halves of the building.",
+        "page": "Official list entry, Details, INTERIOR paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "The rear range on the north east was an open arcaded storage area known as The Passage. Along the west wall are wide C16 brick arches. The hall and solar are on the 1st storey, approached by a C19 stone newel stair in an added lean-to in white brick with a slate roof.",
+        "page": "Official list entry, Details, INTERIOR paragraph, following the ground-storey description"
+      },
+      {
+        "field": "openings",
+        "text": "The 2 C12 windows to the hall have nook-shafts with a roll moulding which is continued over the arch.",
+        "page": "Official list entry, Details, INTERIOR paragraph, first-storey description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys, attic to part, cellar to part",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "gable_count",
+      "as_printed": "2 steep gables to the plaintiled roofs",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "undercroft_bay_count_west",
+      "as_printed": "the western part in 3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "undercroft_bay_count_east",
+      "as_printed": "the wider eastern part in 6 bays",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The entry says this part is WIDER as well as having more bays, so the two counts are not a bay module read twice."
+    },
+    {
+      "name": "hall_window_count",
+      "as_printed": "The 2 C12 windows to the hall",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR, and added because `norman-romanesque-english`'s own long description names Bury St Edmunds among the four towns where twelfth-century stone houses survive and the node carried no exemplar there. The entry states the node's first-floor-hall diagram outright: 'The hall and solar are on the 1st storey', over a 'stone groin-vaulted ground storey'."
+}

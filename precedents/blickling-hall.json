@@ -1,0 +1,129 @@
+{
+  "id": "blickling-hall",
+  "name": "Blickling Hall",
+  "location": {
+    "text": "Norfolk, England",
+    "country": "England",
+    "state": "Blickling, Norfolk"
+  },
+  "dates": {
+    "built": "c.1619-27",
+    "circa": true,
+    "altered": "'Remodelling 1765-85 by Thomas and William Ivory of Norwich.' The north front was remodelled by William Ivory c.1779, the west facade rebuilt and dated 1769, and the original staircase extended and reconstructed in 1767 by Thomas Ivory in a new position.",
+    "note": "The register prints 'c.1619-27'; the node's exemplar prints 'Built 1616-27' with a year of 1627. The three-year difference in the start date is recorded and neither figure is changed. The entry adds an independent fixed point: 'rainwater heads dated 1620' on the east facade."
+  },
+  "nodes": [
+    "jacobean"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1051428",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1051428",
+      "title": "Blickling Hall, Blickling - 1051428 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Overview and Official list entry blocks both print 'List Entry Number: 1051428' and 'Date first listed: 19-Jan-1952'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1372691",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1372691",
+      "title": "Service Range to South West of Blickling Hall - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separately listed Grade I service range the house's own entry refers to as '(q.v.)' where the C19 arcaded screens meet it."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000154",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000154",
+      "title": "Blickling Hall, Blickling - 1000154 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, whose summary reads 'Blickling Hall (listed grade I) is an impressive moated red-brick country house with a seven-bay front and square corner turrets'."
+    }
+  ],
+  "survey": {
+    "item": "1051428",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1051428",
+    "prepared": "Date first listed: 19-Jan-1952 (the entry prints no amendment date)",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. Built c.1619-27 for Sir Henry Hobart, Lord Chief Justice, to the designs of the surveyor Robert Lyminge. Remodelling 1765-85 by Thomas and William Ivory of Norwich. Red brick with stone and stucco dressings; roofs plain tiled and pantiled with lead domes to corner turrets. 2½, 3 and 4 storeys, originally a double- courtyard plan, entered from the south and open to the north.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "South front of seven bays, the outer bays occupied by square corner turrets with ogee lead-covered domes. Bays 2, 4 and 6 are three storeys high with shaped gables to attics and canted 2-storey bay windows with pierced parapets. Strapwork pediments to upper windows. Windows generally ovolo-moulded mullion and transom with leaded glazing and iron casements.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "East facade has 9 bays between corner turrets; rainwater heads dated 1620. Projecting bay windows in bays 1, 3, 5, 7, 9, canted in bays 1, 3 and 5. Stone ovolo-moulded mullion and transom windows with leaded glazing; some iron lattice frames. Above the bays, shaped attic gables with 3-light windows. Continuous band above ground floor window heads decorated with triglyphs. Corner turrets have pedimented and embellished doorways with semi- circular-arched heads, those on the east front have blocked pilasters and entablatures with arms. Eaves parapet with stone coping; gable peaks have keyblocks and figure finials.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "bays",
+        "text": "West facade dated 1769, rebuilt by Thomas and William Ivory. 13 bays, 1 and 13 being the square corner turrets. Bays 4, 7, 10 have shaped gables to attic storey with eaves parapet, coping and finials as on east facade.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "chimneys",
+        "text": "each with 8 octagonal shafts with star tops and moulded bases. At south-east and south-west corners, C19 arcaded screens link to service ranges (q.v.).",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "stairways",
+        "text": "Interior: very fine and elaborate interiors, fully described in the National Trust guide book. Original staircase extended and reconstructed 1767 by Thomas Ivory in the new position: elaborately-carved newels with figure-finials on pedestals; square, tapering balusters with Ionic caps and arcading below",
+        "page": "Official list entry, Details, interior description; a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count_south_front",
+      "as_printed": "South front of seven bays",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "shaped_gable_count_south_front",
+      "as_printed": "Bays 2, 4 and 6 are three storeys high with shaped gables to attics",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The register names the three bays and never totals them; 3 is a count of the bays it names, marked as a reading. It is the figure jacobean.c01 asks for -- a symmetrical set of at least three on a seven-bay front."
+    },
+    {
+      "name": "bay_count_east_front",
+      "as_printed": "East facade has 9 bays between corner turrets",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "bay_count_west_front",
+      "as_printed": "13 bays, 1 and 13 being the square corner turrets",
+      "value": 13,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The west facade is dated 1769 and was rebuilt by the Ivorys, so this is not a Jacobean figure; it is carried because the shaped gables on bays 4, 7 and 10 are the Georgian rebuild reproducing the Jacobean rhythm."
+    },
+    {
+      "name": "chimney_shaft_count",
+      "as_printed": "each with 8 octagonal shafts with star tops and moulded bases",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Shafts per stack, not stacks on the house. The extract span begins mid-sentence and the subject of 'each' is not inside it, so what carries eight shafts is not established by this quote."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1051428",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice with different queries: the first returned the east and north facades, the second the Overview block, the south front and the interior. Line breaks collapsed to single spaces. THIS IS THE RECORD THAT CORROBORATES jacobean.c01: shaped gables on bays 2, 4 and 6 of a seven-bay front, and again on bays 4, 7 and 10 of the west, both symmetrical sets of three. The node's exemplar note claims a '37 m long gallery'; the register states no gallery dimension anywhere in either extracted span, and the figure is left where the node put it rather than being given a citation it does not have."
+}

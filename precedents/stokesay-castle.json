@@ -1,0 +1,98 @@
+{
+  "id": "stokesay-castle",
+  "name": "Stokesay Castle",
+  "location": {
+    "text": "Shropshire, England",
+    "country": "England",
+    "state": "Shropshire"
+  },
+  "dates": {
+    "built": "c1391-1400 (Historic England listed-building entry 1269939); 1260s-80s and early 1290s (Historic England scheduled-monument entry 1003011)",
+    "circa": true,
+    "altered": "Gatehouse added C17; entry 1003011 records tree-ring analysis dating the gatehouse timbers to 1639-41.",
+    "note": "THE TWO HISTORIC ENGLAND ENTRIES FOR THIS SITE DISAGREE ABOUT THE DATE OF THE STANDING FABRIC AND NEITHER IS CHANGED HERE. The listed-building entry 1269939 opens 'Manor house. c1391-1400'; the scheduled-monument entry 1003011 says the castle was 'built in the 1260s-80s and early 1290s by Laurence of Ludlow', ascribes the hall and solar a date circa 1260-80, and puts the south tower after 'a licence to crenellate, granted in 1291'. The node's exemplar year of 1291 is entry 1003011's licence date."
+  },
+  "nodes": [
+    "english-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1269939",
+      "title": "Stokesay Castle and Gatehouse Including Moat Retaining Walls, Craven Arms - 1269939 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1269939",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Official list entry block prints 'Date first listed: 12-Nov-1954' and 'Date of most recent amendment: 21-Jun-1996'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1003011",
+      "title": "Stokesay Castle, Craven Arms - 1003011 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1003011",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The scheduled-monument entry, read by extract the same day. Its Details section states, as continuous prose: 'Stokesay Castle is one of the finest fortified manor houses in the country, built in the 1260s-80s and early 1290s by Laurence of Ludlow, on the profits of his business as a wool merchant', and describes 'a four-bay, open-hearthed great hall with an extraordinary roof which is a hybrid mixture of raised crucks, aisled end trusses and an unusual example of collar-purlins without crown posts'. Carried here as a ref note and NOT as a survey quote, because a record's survey may name one data_url; nothing in this tree checks prose in a note."
+    }
+  ],
+  "survey": {
+    "item": "1269939",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1269939",
+    "prepared": "Date first listed: 12-Nov-1954; Date of most recent amendment: 21-Jun-1996, as the Official list entry block prints them.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Manor house. c1391-1400; gatehouse added C17. Great Hall: sandstone rubble and timber-frame; stone tile roof; spurred brick ridge stack and paired ashlar ridge stack. Gatehouse: timber-frame and plaster on rubble base; stone tile roof with central gable to east; spurred brick ridge stack; stepped rubble exterior stack with C18 brick chimney to south side.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "PLAN: courtyard plan with gatehouse and bridge to east, enclosed by moat with rubble perimeter walls.",
+        "page": "Official list entry, Details, PLAN sentence"
+      },
+      {
+        "field": "general_description",
+        "text": "EXTERIOR: Great Hall: with entrance and 3 mullion and transom 2-light windows under advanced gables; solar cross-wings with hipped roofs; jettied first floor with lattice-glazed mullion windows to north. Tower to south: polygonal; battlemented and embrasured parapet.",
+        "page": "Official list entry, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "2 storeys and attic; single-window range: 2-light lattice-glazed casement in altered opening, under stop-moulded bressumer; 3-light mullion casement to gable, over moulded bressumer.",
+        "page": "Official list entry, Details, EXTERIOR paragraph, the gatehouse sentence; this span is the opening of the extract's second chunk and describes the gatehouse, not the hall range"
+      },
+      {
+        "field": "finishes",
+        "text": "INTERIOR: in house C17 panelling with carved overmantel; stop-moulded ceiling beams; fireplaces; squints; staircase.",
+        "page": "Official list entry, Details, INTERIOR sentence"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "gatehouse_storey_count",
+      "as_printed": "2 storeys and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The gatehouse. The entry gives no storey count for the hall range."
+    },
+    {
+      "name": "hall_window_count",
+      "as_printed": "3 mullion and transom 2-light windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "hall_window_light_count",
+      "as_printed": "2-light windows",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Lights per window on the Great Hall, not a total."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. The Historic England list entry is the survey block under WP-11.5; there is no HABS number and `survey_no` is therefore absent. The entry was extracted twice with different queries: the first returned the Details section, the second the Official list entry header."
+}

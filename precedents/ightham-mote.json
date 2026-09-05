@@ -1,0 +1,116 @@
+{
+  "id": "ightham-mote",
+  "name": "Ightham Mote",
+  "location": {
+    "text": "Kent, England",
+    "country": "England",
+    "state": "Kent"
+  },
+  "dates": {
+    "built": "circa 1340-1360",
+    "circa": true,
+    "altered": "Early-C16 crenellated brick parapet to the tower; the original chapel converted into two rooms 1521-27; a Jacobean-revival two-tier fireplace of 1866; panelling and fireplace surround by R Norman Shaw, 1872; Gothick glazing bars added circa 1800; a half-timbered dog-kennel added 1891.",
+    "note": "'Present buildings date at least from circa 1340-1360, with much addition since' is the entry's own hedge and is kept."
+  },
+  "nodes": [
+    "english-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1362410",
+      "title": "Ightham Mote",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1362410",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The overview block printed by the search result reads 'Grade: I ; List Entry Number: 1362410 ; Date first listed: 01-Aug-1952 ; List Entry Name: Ightham Mote ; Statutory Address: IGHTHAM MOTE, MOTE ROAD.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1013120",
+      "title": "Ightham Mote Medieval moated site",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1013120",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The scheduled-monument entry for the moated site, 'Date first listed: 16-Jan-1991'. Read from a search result only."
+    }
+  ],
+  "survey": {
+    "item": "1362410",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1362410",
+    "prepared": "Date first listed: 01-Aug-1952, as the entry's overview block prints it; that field was read from the tavily-search result for this entry on 2026-09-05, because two extracts returned Details spans without the header.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "House. Present buildings date at least from circa 1340-1360, with much addition since. Moated, 4 ranges round courtyard with smaller yard behind to east. West front 2 ranges either side of west tower.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Coursed rubble stone to left and right, the upper parts galletted, the lower ungalletted. Plain tiled roofs with end stacks. Central tower random rubble stone with early C16 crenellated brick parapet.",
+        "page": "Official list entry, Details, opening paragraph, following the plan sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "Two storeys to sides, 3-storey tower. Three windows either side of centre almost symmetrical, save first floor to left with one larger 3-light window with dripmould centrally-placed.",
+        "page": "Official list entry, Details, west front description"
+      },
+      {
+        "field": "plan",
+        "text": "Interior: Built circa 1340-60. Possibly never had a screens passage for there is a lancet of contemporary date where the answering doorway to the main entrance should have been.",
+        "page": "Official list entry, Details, opening of the interior description"
+      },
+      {
+        "field": "roof",
+        "text": "Trussed rafter roof with collar purlin and crown-post resting in stone sphare arch which rests on a pair of carved corbels.",
+        "page": "Official list entry, Details, interior description of the hall roof"
+      },
+      {
+        "field": "plan",
+        "text": "Crypt. Circa 1340-60,2 bays with pair of quadripartite rib vaults.",
+        "page": "Official list entry, Details, interior description; the legacy text prints '1340-60,2 bays' with no space after the comma"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "range_count",
+      "as_printed": "4 ranges round courtyard",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys to sides, 3-storey tower",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "3-storey tower",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "front_window_count",
+      "as_printed": "Three windows either side of centre",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three EACH SIDE of the centre on the west front, not three in all."
+    },
+    {
+      "name": "crypt_bay_count",
+      "as_printed": "2 bays with pair of quadripartite rib vaults",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR, AND ADDED FOR A REASON THAT CUTS AGAINST THE NODE: the entry says the house 'Possibly never had a screens passage', which is the one plan feature `english-gothic`'s own long description calls 'the single most consequential diagram in British domestic architecture'. A counter-case is worth more to a checker than another agreement."
+}

@@ -178,25 +178,55 @@
       "name": "Alfriston Clergy House",
       "location": "Alfriston, East Sussex, England",
       "year": 1350,
-      "note": "A fourteenth-century Wealden hall house, thatched, with its open hall and chalk-and-sour-milk floor intact; the first building bought by the National Trust, in 1896."
+      "note": "A fourteenth-century Wealden hall house, thatched, with its open hall and chalk-and-sour-milk floor intact; the first building bought by the National Trust, in 1896.",
+      "precedent": "alfriston-clergy-house",
+      "standing": "icon",
+      "why": "Historic England 1191431 describes a 'C14 timber-framed and close-studded building of wealden type' whose interior 'retains its open hall with crown-post exposed', and quotes the tablet recording that the National Trust bought and repaired it in 1898; both statements are the register's."
     },
     {
       "name": "Paycocke's House",
       "location": "Coggeshall, Essex, England",
       "year": 1509,
-      "note": "A cloth merchant's house with elaborate close studding, a richly carved jetty bressumer and moulded ceiling beams — timber framing used as conspicuous display of wool wealth."
+      "note": "A cloth merchant's house with elaborate close studding, a richly carved jetty bressumer and moulded ceiling beams — timber framing used as conspicuous display of wool wealth.",
+      "precedent": "paycockes-house",
+      "standing": "canonical",
+      "why": "Historic England 1337597 gives the frame bay by bay -- a five-bay main range of c.1505 cut down from three storeys to two about 1600, with the sawn-off rear posts still readable inside -- which is the kind of statement a kit figure can be held against; the judgment is this project's."
     },
     {
       "name": "Little Moreton Hall",
       "location": "Congleton, Cheshire, England",
       "year": 1504,
-      "note": "North range 1504-08, west range 1546, south range with the Long Gallery c.1560-62. The West Midlands patterned-panel tradition at its most extravagant and least structurally disciplined; the gallery is visibly deforming the frame beneath it."
+      "note": "North range 1504-08, west range 1546, south range with the Long Gallery c.1560-62. The West Midlands patterned-panel tradition at its most extravagant and least structurally disciplined; the gallery is visibly deforming the frame beneath it.",
+      "precedent": "little-moreton-hall",
+      "standing": "icon",
+      "why": "Historic England 1161988 says the present appearance 'is the result of at least seven builds' and records the strengthening collar-beams and iron tie-rods added under the Long Gallery; that it is the building the West Midlands patterned tradition is known by is this project's judgment, resting on the register's account of the fabric."
     },
     {
       "name": "Lavenham Guildhall of Corpus Christi",
       "location": "Lavenham, Suffolk, England",
       "year": 1529,
-      "note": "East Anglian close studding at full strength, in a town where the wool trade collapsed early enough that nobody could afford to rebuild in brick."
+      "note": "East Anglian close studding at full strength, in a town where the wool trade collapsed early enough that nobody could afford to rebuild in brick.",
+      "precedent": "lavenham-guildhall-of-corpus-christi",
+      "standing": "regional",
+      "why": "Historic England 1037186 calls it 'one of the finest examples of half timbering in this part of the country', which is a regional claim in the register's own words; the standing follows those words rather than the stronger note on this exemplar."
+    },
+    {
+      "name": "Speke Hall",
+      "location": "Liverpool, England",
+      "year": 1490,
+      "note": "Historic England 1359837: 'South range of 1490-1506, east and west ranges of c.1540-1560, North range of 1598. For Norris Family. Timber frame on stone base with stone lateral stacks. Stone slate roof. 2 storeys with attic, courtyard plan.' The year here is the earlier end of the south range's dates as the entry prints them; the Wikipedia infobox instead gives 1530-1598.",
+      "precedent": "speke-hall",
+      "standing": "icon",
+      "why": "Historic England 1359837 calls it 'One of the most important timber framed manor houses in the country'; that judgment is the register's."
+    },
+    {
+      "name": "Leigh Court Barn",
+      "location": "Leigh, Worcestershire, England",
+      "year": 1325,
+      "note": "Historic England 1349245: a cruck-framed barn of ten bays, 'Probably C14', which radiocarbon dating 'although not conclusive, suggests' is C14 'with a date of c1325 likely'. 140 feet long, trusses nearly 33 feet high spanning 34 feet -- 'the largest cruck building in the country'. It is a barn and not a house, and it is here because the cruck frame is half of what this node claims as its structure and no dwelling among its exemplars is cruck-framed.",
+      "precedent": "leigh-court-barn",
+      "standing": "documentary",
+      "why": "Historic England 1349245 calls it 'the largest cruck building in the country' and states three linear dimensions where the rest of this cluster's entries state none, which is exactly why it is here to be measured; the superlative is the register's."
     }
   ],
   "sources": [

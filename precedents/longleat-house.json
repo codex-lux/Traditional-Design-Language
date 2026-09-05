@@ -1,0 +1,133 @@
+{
+  "id": "longleat-house",
+  "name": "Longleat House",
+  "location": {
+    "text": "Wiltshire, England",
+    "country": "England",
+    "state": "Horningsham, Wiltshire"
+  },
+  "dates": {
+    "built": "1568, facades of 1572",
+    "circa": false,
+    "altered": "North wing and internal alterations 1801-11 by Jeffry Wyatville for the 2nd Marquess of Bath; interior redecorated in the 1870s by J.D. Crace for the 4th Marquess. The entry adds that the rear north side including the central bay 'was completed by Wyatville, only the two flanking bays are C16'.",
+    "note": "The register's Details print '1568, facades of 1572'; the node's exemplar prints 'Rebuilt 1568-80' with a year of 1580; the Wikipedia infobox prints 'Built 1568-1580'. All three are recorded and none is resolved."
+  },
+  "nodes": [
+    "elizabethan"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1364361",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1364361",
+      "title": "Longleat House, Horningsham - 1364361 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The overview block prints 'Date first listed: 11-Sept-1968' and the Details print the same date as '11.9.68'. The entry also states 'This entry was subject to a Minor Amendment on 8th July 2016.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1200342",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1200342",
+      "title": "Stables at Longleat House, Horningsham - 1200342",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separately listed Grade I stables, carried because the house's own listing is one of a group ('GV') and a reader looking for the ancillary buildings needs the other number. Not read by extract."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Longleat",
+      "title": "Longleat - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox prints 'Reference no. 1364361' and 'Built 1568-1580'."
+    }
+  ],
+  "survey": {
+    "item": "1364361",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1364361",
+    "prepared": "Date first listed: 11-Sept-1968; the entry states 'This entry was subject to a Minor Amendment on 8th July 2016.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. 1568, facades of 1572 by Sir John Thynne with Robert Smythson and Alan Maynard, north wing and internal alterations 1801-11 by Jeffry Wyatville for 2nd Marquess of Bath, interior redecorated 1870s by J.D. Crace for 4th Marquess of Bath. Bath stone, Welsh slate hipped roof, lead flats, ashlar Tuscan column stacks. Large rectangular block with two courtyards, the east an amalgamation of two smaller courtyards by Wyatville. Three storey and basement, 2:1:2:5:2:1:2 bays to front; 2 windows to each of the four projecting bays. Central C18 Doric portico with",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "openings",
+        "text": "broken pediment with Thynne arms, double 8-panelled doors up ten stone steps with curved balustrade, basement has 3-light and 4-light recessed chamfered mullioned casements. Three storeys with Doric, Ionic and Corinthian orders flanking the projecting bays and linked by continuous entablatures, bays have 3-light mullioned and transomed casements with circular niches to sill zones, windows between are 4-light, with shaped aprons, balustraded parapet with scroll and strapwork decorations to bays, C17 and C18 statues.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "East front has three projecting bays with three 4-light mullioned and transomed casements between, raised terrace with balustraded parapet and steps to centre 7 bays. West front has similar rhythm of bays as the east.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "roof",
+        "text": "Roof retains gables of 1568 build, with four square 'banqueting houses' around the west courtyard, each with 2-light mullioned shuttered windows, domed fishcale stone roof with classical cupola, three octagonal stair turrets around the east courtyard have similar detail, probably by Smythson. Chimney stacks with unusual decorated friezes and domed cappings, single or grouped.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "plan",
+        "text": "Interior: Four-bay 2-storey hall with screen's passage, in original position to right of entrance; retains original C16 fittings and decoration, the remainder of the house refitted by Wyatville and Crace. Hall has hammer-beam roof, screen's passage with Ionic order and strapwork, by Andrew Gaunt c1578, carved",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Three storey and basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_rhythm_entrance_front",
+      "as_printed": "2:1:2:5:2:1:2 bays to front",
+      "from_quote": 0,
+      "note": "The rhythm as the register prints it; no total is stated and none is computed here."
+    },
+    {
+      "name": "projecting_bay_count",
+      "as_printed": "2 windows to each of the four projecting bays",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "entrance_step_count",
+      "as_printed": "double 8-panelled doors up ten stone steps",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "banqueting_house_count",
+      "as_printed": "four square 'banqueting houses' around the west courtyard",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "stair_turret_count",
+      "as_printed": "three octagonal stair turrets around the east courtyard",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "hall_bay_count",
+      "as_printed": "Four-bay 2-storey hall with screen's passage",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1364361",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned the entrance-front and roof description, the second the Overview block, the Legacy block ('Legacy System number: 313358, Legacy System: LBS') and the minor-amendment line. Line breaks collapsed to single spaces; nothing else changed. TWO THINGS HERE CONTRADICT THE NODE. The orders are not confined to a frontispiece -- 'Three storeys with Doric, Ionic and Corinthian orders flanking the projecting bays and linked by continuous entablatures', on the entrance, east and west fronts alike -- which is what elizabethan.c02 forbids as a hard constraint. And the roof is not concealed: 'Welsh slate hipped roof, lead flats' and 'Roof retains gables of 1568 build', against elizabethan.c04's low-or-concealed rule and the kit's roof_pitch binding."
+}

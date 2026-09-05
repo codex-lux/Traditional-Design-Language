@@ -1,0 +1,82 @@
+{
+  "id": "craigievar-castle",
+  "name": "Craigievar Castle",
+  "location": {
+    "text": "Alford, Aberdeenshire, Scotland",
+    "country": "Scotland",
+    "state": "Aberdeenshire"
+  },
+  "dates": {
+    "built": "completed 1626",
+    "circa": false,
+    "altered": "'It was re-roofed in 1824 by John Smith of Aberdeen. Some repairs and reharling were carried out in 1973 by the National Trust for Scotland.'",
+    "note": "The HES record says it 'was begun by the Mortimers and completed in 1626 by William Forbes'. The Wikipedia article gives Forbes purchasing the partially completed structure in 1610 and 'completing it in 1625 or 1626'; the National Trust for Scotland's own page gives 'Began in the Scottish Baronial style around 1576' and completion 'c1626'. Three start dates, all recorded, none resolved."
+  },
+  "nodes": [
+    "scottish-baronial"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "GDL00114",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00114",
+      "title": "CRAIGIEVAR CASTLE (GDL00114) - Historic Environment Scotland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "AN INVENTORY OF GARDENS AND DESIGNED LANDSCAPES RECORD, NOT THE LISTED BUILDING RECORD, and the distinction matters: this record describes the castle inside its Architectural Features section because the castle is what the designed landscape is a setting for. Its text states 'it is listed category A'. THE CASTLE'S OWN LB NUMBER WAS NOT RESOLVED -- four searches against the HES portal and Wikipedia returned the GDL number, the Aberdeenshire Category A list article and other castles' LB numbers, and never Craigievar's own. Rather than type a plausible one, the gap is stated."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Craigievar_Castle",
+      "title": "Craigievar Castle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its infobox prints 'Official name Craigievar Castle', 'Designated 1 July 1987', 'Reference no. GDL00114' for the Inventory entry only, and carries the article in the category 'Category A listed buildings in Aberdeenshire' without printing the LB number. It states 'the seven-storey castle was completed in 1626', where HES's own record says six storeys; see measurements."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nts.org.uk/visit/places/craigievar",
+      "title": "Craigievar Castle | National Trust for Scotland",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own page: 'Began in the Scottish Baronial style around 1576, this iconic tower house is among the best preserved and the most loved in Scotland; its exterior remains virtually unchanged since William Forbes completed it c1626.'"
+    }
+  ],
+  "survey": {
+    "item": "GDL00114",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00114",
+    "prepared": "Inventory of Gardens and Designed Landscapes record; the Wikipedia infobox gives 'Designated 1 July 1987'. The record itself returned no designation date inside either extracted span.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Craigievar Castle is a six-storey L-plan Tower House renowned for being one of the finest original examples of Scottish Baronial architecture; it is listed category A. It was begun by the Mortimers and completed in 1626 by William Forbes who is thought to have used John Bell as mason. It was re- roofed in 1824 by John Smith of Aberdeen. Some repairs and reharling were carried out in 1973 by the National Trust for Scotland.",
+        "page": "Inventory record, Landscape Components, Architectural Features section. An HES designation record is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "The designed landscape provides a setting for a category A building and therefore the Architectural value is outstanding.",
+        "page": "Inventory record, Architectural value section."
+      },
+      {
+        "field": "other",
+        "text": "The Castle tower lies in the lee of Craigievar Hill and it dominates the valley of the Leochel Burn. There are superb glimpses of it and the policies in which it stands from the A980.",
+        "page": "Inventory record, Location and Setting section."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Craigievar Castle is a six-storey L-plan Tower House",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "HES SAYS SIX AND WIKIPEDIA SAYS SEVEN -- 'the seven-storey castle was completed in 1626'. Neither is changed. A tower house's storey count depends on whether the vaulted ground floor and the caphouse are counted, which is exactly the kind of disagreement a corpus of envelope figures has to carry rather than settle."
+    }
+  ],
+  "rights_evidence": "The legal part of the listing is the address/name of site which is known as the statutory address. Other than the name or address of a listed building, further details are provided for information purposes only. Historic Environment Scotland does not accept any liability for any loss or damage suffered as a consequence of inaccuracies in the information provided.",
+  "rights_evidence_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00114",
+  "note": "Tranche 3, 5 Sep 2026, and a NEW exemplar, added with a caveat that belongs on the record rather than only in the exemplar's `why`. THIS BUILDING IS 1626 AND THE NODE'S PERIOD BEGINS IN 1817. It is here because scottish-baronial's own description.long names it as the type specimen of the vocabulary the revival copies -- 'Craigievar, completed in 1626, is the finished form' -- and because HES's own designation record calls it 'one of the finest original examples of Scottish Baronial architecture'. Its standing is CANONICAL and not icon: it is the specimen the node's corbelling, crow-step and turret rules can be held against, and it is not an example of the nineteenth-century style the node models. The record is thinner than the others in this cluster for a stated reason: the castle's own listed building number could not be resolved, so the survey rests on the Inventory record, which describes the building only as the object its landscape is a setting for."
+}

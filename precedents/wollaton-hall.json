@@ -1,0 +1,140 @@
+{
+  "id": "wollaton-hall",
+  "name": "Wollaton Hall",
+  "location": {
+    "text": "Nottingham, England",
+    "country": "England",
+    "state": "Wollaton Park, Nottingham"
+  },
+  "dates": {
+    "built": "1580-88",
+    "circa": false,
+    "altered": "Altered late C17 for Cassandra and Sir Thomas Willoughby (1st Lord Middleton) and in the early C19 by Sir Jeffry Wyatville for the 6th Lord Middleton, who introduced the casements and sashes now set within the C16 stone cross-mullions; western service extension of 1823; converted to a museum in 1925.",
+    "note": "The register and the node agree on 1580-88."
+  },
+  "nodes": [
+    "elizabethan"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1255269",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1255269",
+      "title": "Wollaton Hall, Non Civil Parish - 1255269 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Official list entry block prints 'List Entry Number: 1255269' and 'Date first listed: 11-Aug-1952'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000344",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000344",
+      "title": "WOLLATON HALL, City of Nottingham - 1000344",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Grade II Register of Parks and Gardens entry for the setting, 'Date first registered: 01-Jan-1986'. A different designation over the same place; carried so a reader does not mistake it for the building's own number."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wollaton_Hall",
+      "title": "Wollaton Hall - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox prints 'Reference no. 1255269' and 'Designated 11 August 1952'."
+    }
+  ],
+  "survey": {
+    "item": "1255269",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1255269",
+    "prepared": "Date first listed: 11-Aug-1952 (the entry prints no amendment date)",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house, now museum. 1580-88, by Robert Smythson for Sir Francis Willoughby. Altered late C17 for Cassandra and Sir Thomas Willoughby (1st Lord Middleton), early C19 by Sir Jeffry Wyatville for 6th Lord Middleton. Converted to a museum 1925. Ancaster limestone ashlar with lead roofs. Square plan with symmetrical fronts, with projecting towers to corners, western service extension of 1823. Central 2 storey hall topped by prospect room.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "walls",
+        "text": "EXTERIOR: each floor of main building has a classical order with paired pilasters and an entablature, pilasters separated at first and second floor levels by arched niches. Central tower serving Great Hall and Prospect Room of medieval revival character, with traceried windows and projecting corner bartizan turrets with ribbed stone roofs. On all sides, 2 storey ranges, with extruded corners north and south, single bay with paired angle pilasters topped by groups of 4 cylindrical ashlar classical chimney stacks. 3 storey square corner towers (forming banqueting rooms). Basement throughout is part contained within the base of the lowest Doric order.",
+        "page": "Official list entry, Details, EXTERIOR paragraph. A list entry is not paginated."
+      },
+      {
+        "field": "openings",
+        "text": "Windows are mainly early C19 casements and sashes, introduced by Wyatville, within C16 stone cross-mullions.",
+        "page": "Official list entry, Details, EXTERIOR paragraph, continuation of the same span."
+      },
+      {
+        "field": "bays",
+        "text": "EAST FRONT: 6 bays plus towers, regular fenestration with niches between upper windows, balustrade. Great Hall & Prospect Room; single windows that to Great Hall supplemented with copper secondary glazing.",
+        "page": "Official list entry, Details, EAST FRONT paragraph."
+      },
+      {
+        "field": "bays",
+        "text": "WEST FRONT; 7 bays plus towers, regular fenestration, less ornamentation, ashlar walls without classical orders. At lower ground level western service extension 1823, by Sir Jeffry Wyatville in Hollington sandstone; 9 bays, single-storey with pair of outer service yards, altered C20.",
+        "page": "Official list entry, Details, WEST FRONT paragraph."
+      },
+      {
+        "field": "finishes",
+        "text": "CENTRAL HALL; screen designed by Robert Smythson in-situ, with screen passage and gallery over. 2 round-arches with Doric full columns and half-columns, carved strapwork ornament, reclining figures in spandrels. Parapet, probably later with strapwork ornament. On the gallery a C17 organ which has been in-situ from at least 1809.",
+        "page": "Official list entry, Details, CENTRAL HALL paragraph."
+      },
+      {
+        "field": "roof",
+        "text": "Elaborate fake hammerbeam roof of 1580-88 (Smythson) complete with shields and tracery, re-painted c1804 by Wyatville and again c1950, oak-panelled ceiling of 1830.",
+        "page": "Official list entry, Details, CENTRAL HALL paragraph, continuation of the same span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "On all sides, 2 storey ranges",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "corner_tower_storey_count",
+      "as_printed": "3 storey square corner towers (forming banqueting rooms)",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_group_count",
+      "as_printed": "groups of 4 cylindrical ashlar classical chimney stacks",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Stacks per group, not stacks on the house; the entry never gives a total."
+    },
+    {
+      "name": "bay_count_east_front",
+      "as_printed": "EAST FRONT: 6 bays plus towers",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "'Plus towers', so 6 is the range between them and not the front's whole width."
+    },
+    {
+      "name": "bay_count_west_front",
+      "as_printed": "WEST FRONT; 7 bays plus towers",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The east and west fronts of a house the same entry calls 'Square plan with symmetrical fronts' are printed with different bay counts, 6 against 7. Both are recorded as printed and neither is corrected."
+    },
+    {
+      "name": "hall_screen_arch_count",
+      "as_printed": "2 round-arches with Doric full columns and half-columns",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1255269",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned the EXTERIOR and the two front elevations, the second the opening description, the CENTRAL HALL paragraph and the Official list entry block. Line breaks collapsed to single spaces. THE ENTRY DISAGREES WITH THE NODE ABOUT WHERE THE ORDERS SIT: 'each floor of main building has a classical order with paired pilasters and an entablature', running the full elevation, against elizabethan.c02's hard rule that orders occur only on the entrance frontispiece. It also records a central tower 'of medieval revival character, with traceried windows', which is not the applied-heraldry classicism the node's defining characteristics describe."
+}

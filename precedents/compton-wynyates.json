@@ -1,0 +1,121 @@
+{
+  "id": "compton-wynyates",
+  "name": "Compton Wynyates",
+  "location": {
+    "text": "Warwickshire, England",
+    "country": "England",
+    "state": "Warwickshire"
+  },
+  "dates": {
+    "built": "Mainly c.1500 and incorporating parts of earlier house",
+    "circa": true,
+    "altered": "C18 additions with rainwater heads dated 1723 and 1732; the east front remodelled c.1867 by Sir Mathew Digby Wyatt; C19 and C20 repairs; north parapets renewed in the C20.",
+    "note": "Historic England 1024349 dates it 'Mainly c.1500'; the node's exemplar year is 1515 and its note says 'the early sixteenth century'. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "tudor"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1024349",
+      "title": "Compton Wynyates",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1024349",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. 'Date first listed: 02-Sept-1952'; 'Date of most recent amendment: 30-Jun-1986'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1024350",
+      "title": "Compton Wynyates, Dovecote",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1024350",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The dovecote is listed separately at Grade II, 'Date first listed: 02-Sept-1952'. Read from a search result; carried only to show that the house entry covers the house."
+    }
+  ],
+  "survey": {
+    "item": "1024349",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1024349",
+    "prepared": "Date first listed: 02-Sept-1952; Date of most recent amendment: 30-Jun-1986, as the Official list entry block prints them.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Fortified Manor House. Mainly c.1500 and incorporating parts of earlier house. C18 additions. C19 and C20 repairs. Rose-red brickwork with dark brick diapering especially on the entrance front. Limestone dressings to doors and windows. Steeply pitched stone slate roofs with stone coped gables and stone battlement copings. Numerous brick ridge, lateral and end stacks with decorative mouldings.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "Courtyard plan. Entrance front: main range plus north and south ranges, 2 storeys plus attic. 3 bays. Corner turrets. Off-centre porch to right is flanked by gable-fronted half-timbered projecting bays. Irregular fenestration. 2-storey embattled porch has 4-centred arched entrance with decorated spandrels, on the left the arms of Katherine of Aragon, on the right the portcullis badge of the Tudors.",
+        "page": "Official list entry, Details, entrance front description"
+      },
+      {
+        "field": "openings",
+        "text": "South front includes a large, irregular embattled tower. To right a 5-light window to the chapel with transoms and arched heads. Rainwater heads dated IN/1723. East front has addition flanking east range. Rainwater heads dated IN 1732. Remodelled c.1867 by Sir Mathew Digby Wyatt. North front includes tower with 7-light wood-mullioned windows and 4-light ogee sectioned stone-mullioned window.",
+        "page": "Official list entry, Details, south, east and north front descriptions"
+      },
+      {
+        "field": "general_description",
+        "text": "Courtyard: 4-centred arched doorways and plank doors. Square-headed windows of 2-centred or 4-centred lights and cusped or uncusped heads. East range has large bay window to the hall noted as coming from Fulbroke Castle. 8-light stone-mullioned window to chapel range has king mullion and continuous hood mould and label stop. 4 gabled roof dormers to south range.",
+        "page": "Official list entry, Details, courtyard description"
+      },
+      {
+        "field": "roof",
+        "text": "Interior: Hall. C15 screens passage with linenfold panelling, incorporating earlier carved panels and C20 doors. Original hall roof replaced c.1512 by a 4-bay roof from Fulbroke Castle including a deeply carved frieze. C18 stone fireplace. Minstrel gallery has original roof of c.1480.",
+        "page": "Official list entry, Details, interior description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys plus attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "entrance_front_bay_count",
+      "as_printed": "3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The entrance front only; the same paragraph says the fenestration is irregular, so this is not a rhythm a bay module could be read from."
+    },
+    {
+      "name": "chapel_window_light_count",
+      "as_printed": "a 5-light window to the chapel with transoms and arched heads",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "On the south front. A DIFFERENT chapel window is stated at eight lights in the courtyard; both are recorded and neither is a total."
+    },
+    {
+      "name": "courtyard_chapel_window_light_count",
+      "as_printed": "8-light stone-mullioned window to chapel range",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "4 gabled roof dormers to south range",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The south range only; the entry states no total for the house."
+    },
+    {
+      "name": "hall_roof_bay_count",
+      "as_printed": "a 4-bay roof from Fulbroke Castle",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "SALVAGED, not built for this hall: the entry says the original hall roof was replaced c.1512 by this one. A bay module read off it is a module of Fulbroke Castle."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. The entry corroborates the node's exemplar note that the house incorporates salvaged material, and names the source: the hall's bay window and its four-bay roof both come from Fulbroke Castle. Extracted twice with different queries; the second returned the Official list entry header."
+}

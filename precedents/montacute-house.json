@@ -1,0 +1,113 @@
+{
+  "id": "montacute-house",
+  "name": "Montacute House",
+  "location": {
+    "text": "Somerset, England",
+    "country": "England",
+    "state": "Montacute, Somerset"
+  },
+  "dates": {
+    "built": "Circa 1590-1601",
+    "circa": true,
+    "altered": "Remodelled 1785-87: the west elevation, now the principal entrance, was added then, 'possibly designed by Edward Phelips and a local builder, and incorporating major fragments of Clifton Maybank House, Yeovil, of c1546-64'. The dining room was reshaped in the C19.",
+    "note": "The register prints 'Circa 1590-1601'; the node's exemplar prints 'Built 1598-1601' with a year of 1601. The start dates differ by eight years and the register hedges its own with 'Circa'. Both are recorded; neither is changed."
+  },
+  "nodes": [
+    "elizabethan"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1252021",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1252021",
+      "title": "Montacute House, Montacute - 1252021 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details print the listing date as '19.4.61' and the search result's overview line printed 'Date first listed: 19-Apr-1961'. The entry states 'This list entry was subject to a Minor Amendment on 21/10/2019'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1252025",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1252025",
+      "title": "Walls, turrets and gateway to east forecourt of Montacute House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separately listed forecourt walls and turrets. Carried because the house's own entry is a group listing ('GV') and the forecourt pavilions are part of what a reader sees in the standard view of the east front."
+    }
+  ],
+  "survey": {
+    "item": "1252021",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1252021",
+    "prepared": "Date first listed 19.4.61 as the Details print it; the entry states 'This list entry was subject to a Minor Amendment on 21/10/2019'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country house. Circa 1590-1601, remodelled 1785-87. Probably by William Arnold for Sir Edward Phelips. Ham stone ashlar; Welsh slate roofs behind open balustered parapets with obelisk finials, coped gables, some Dutch style; ashlar chimney stacks, including plain stacks set diagonally and Doric columns. H-plan; three storeys, attic and basement.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "East elevation original entrance facade; thirteen bays, of which outer and centre bays project; plinth, string courses, open parapets; hollow-chamfer mullioned and transomed windows set in wave mould recesses; outer bays have angled 1+5+1-light bay windows of two storeys, crowned with segmental pediments; above five-light windows, and then three-light attic windows with labels in Dutch gables; in returns six- and four-light windows; the windows in crosswing of three-, three-, five-, three- and three-lights either side of central bay, two lower floors double-transomed.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "openings",
+        "text": "West elevation, now principal entrance, added 1785-87, possibly designed by Edward Phelips and a local builder, and incorporating major fragments of Clifton Maybank House, Yeovil, of c1546-64 also thirteen bays, of which bays 1/3 and 11/13 are surviving C16 work, with four-light mullioned and transomed windows, plus three-light to attics in Dutch gables; bays two, three and eleven and twelve extended to accommodate stairs, with matching windows at staggered levels; the remainder recessed; the second floor set back again, bays five and nine have four-light windows to two lower levels; second floor windows, of three lights, are to bays four, six, eight and ten, gables with chimneys to bays five and nine: porch to bay seven, three storeys, has moulded four-centre arch to open porch, and",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "plan",
+        "text": "Inside, a vaulted cross-entrance lobby, a screens passage, with stone screen to north, and panelled hall with plaster frieze, fireplace and decorative plasterwork panel, all early C17; to south the dining room, reshaped in C19, and also has wallpaper and a fireplace from Coleshill House, Berkshire; south west parlour has C16 chimney piece, freize and panelling.",
+        "page": "Official list entry, Details, interior description; a list entry is not paginated."
+      },
+      {
+        "field": "stairways",
+        "text": "Stairs, bays 2/3 and 11/12 west elevation, original, 2.15 m wide round central stone core. On first floor the north-east room, the library or great chamber the most important room, with a 'porch' chimney piece, plaster frieze and stained glass being original work; on second floor the long gallery, although now modified.",
+        "page": "Official list entry, Details, interior description, continuation of the same span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "three storeys, attic and basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_count_east_front",
+      "as_printed": "thirteen bays, of which outer and centre bays project",
+      "value": 13,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count_west_front",
+      "as_printed": "also thirteen bays, of which bays 1/3 and 11/13 are surviving C16 work",
+      "value": 13,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "stair_width_ft",
+      "as_printed": "2.15 m wide round central stone core",
+      "value": 7.05,
+      "unit": "ft",
+      "from_quote": 4,
+      "note": "The register prints the figure in metres; 2.15 m is 7.05 ft. The conversion is a reading of mine and the printed string is what was read. It is the width of the stair round its central stone core, not a stair-hall dimension."
+    },
+    {
+      "name": "porch_storey_count",
+      "as_printed": "porch to bay seven, three storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1252021",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned both elevations and the interior, the second the opening paragraph with the material, plan and storey statement. Line breaks collapsed to single spaces. THE ROOF CONTRADICTS THE NODE'S CONSTRAINT AS THE OTHER EXEMPLARS DO NOT: 'Welsh slate roofs behind open balustered parapets' is exactly elizabethan.c04's concealed roof, so this record is the one that supports the rule where Longleat's does not. The 2.15 m stair is the only room-scale dimension any list entry in this cluster printed."
+}

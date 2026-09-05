@@ -1,0 +1,110 @@
+{
+  "id": "leigh-court-barn",
+  "name": "Leigh Court Barn",
+  "aka": [
+    "Cruck Barn, Leigh Court"
+  ],
+  "location": {
+    "text": "Leigh, Worcestershire, England",
+    "country": "England",
+    "state": "Worcestershire"
+  },
+  "dates": {
+    "built": "Probably C14, with a date of c1325 likely",
+    "circa": true,
+    "note": "The entry's own hedges are kept: 'Probably C14' and 'Radiocarbon dating, although not conclusive, suggests that the building is C14, with a date of c1325 likely.'"
+  },
+  "nodes": [
+    "english-medieval-timber-frame"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1349245",
+      "title": "Leigh Court Barn, Leigh - 1349245",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1349245",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens 'This list entry was subject to a Minor Amendment on 09/09/2020' and then the legacy header 'SO 75 SE 2/40 LEIGH CP Leigh Court Barn (Formerly listed as Cruck Barn, Leigh Court) GV I'. A search result printed 'Date first listed: 09-Feb-1988'. The entry closes 'Scheduled Ancient Monument, County number 308.'"
+    },
+    {
+      "kind": "monograph",
+      "title": "Charles, FWB and Horn, W: \"The Cruck-Built Barn of Leigh Court, Worcestershire, England\", Journal of the Society of Architectural Historians, March 1973, Vol XXXII, no 1",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1349245",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Cited inside the list entry itself, as the source of its dimensions and dating; the entry's own Sources block repeats it as 'Journal of the Society of Architectural Historians of Great Britain, Vol. 32, (1973)'. The article was not read here -- only the list entry that cites it."
+    }
+  ],
+  "survey": {
+    "item": "1349245",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1349245",
+    "prepared": "The Details section's own legacy header: 'SO 75 SE 2/40 LEIGH CP Leigh Court Barn (Formerly listed as Cruck Barn, Leigh Court) GV I', above which the entry prints 'This list entry was subject to a Minor Amendment on 09/09/2020'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Barn. Probably C14. Cruck-framed with weatherboarded walls and tile roof. South-east wall has two gabled porches. Main roof half-hipped. Two cart entrances in north-west wall. Some studwork is exposed externally, mostly with brick infill. Some original wattle-and-daub infill remains on north side.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "structural_system",
+        "text": "Interior: ten bays. Each cruck truss has an arch-braced collar with struts in the spandrels, and the tops of the blades joined by a yoke. These carry the ridge, either directly or by means of a vertical post. The two tiers of wind-braces on each side have curved wind-braces. Each porch has two cruck trusses.",
+        "page": "Official list entry, Details, interior description"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "The barn, with a length of 140 feet, and trusses nearly 33 feet high, spanning 34 feet, is the largest cruck building in the country. Radiocarbon dating, although not conclusive, suggests that the building is C14, with a date of c1325 likely.",
+        "page": "Official list entry, Details, closing paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_length_ft",
+      "as_printed": "a length of 140 feet",
+      "value": 140,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "clear_span_ft",
+      "as_printed": "spanning 34 feet",
+      "value": 34,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The span of a cruck truss, which for a cruck building is the clear internal width: the blades rise from ground to ridge and there is no aisle post."
+    },
+    {
+      "name": "truss_height_ft",
+      "as_printed": "trusses nearly 33 feet high",
+      "value": 33,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "'nearly' is the entry's own hedge and is kept; 33 ft is the figure it prints."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "Interior: ten bays",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "porch_count",
+      "as_printed": "South-east wall has two gabled porches",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "porch_cruck_truss_count",
+      "as_printed": "Each porch has two cruck trusses",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR, AND THE ONLY BUILDING IN THIS CLUSTER WHOSE LIST ENTRY STATES THREE LINEAR DIMENSIONS. It is a barn, not a house, and is here for that reason: the cruck frame is half of what `english-medieval-timber-frame` claims as its structure and no dwelling in the node's exemplars is cruck-framed. A BAY LENGTH IS NOT RECORDED AS A MEASUREMENT BECAUSE THE ENTRY DOES NOT STATE ONE -- 140 ft over ten bays is a division, and a division is an inference, not a quotation. Extracted twice with different queries; the second returned boilerplate and the Sources block."
+}

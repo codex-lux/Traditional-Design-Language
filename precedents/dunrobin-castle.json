@@ -1,0 +1,128 @@
+{
+  "id": "dunrobin-castle",
+  "name": "Dunrobin Castle",
+  "location": {
+    "text": "Golspie, Sutherland, Scotland",
+    "country": "Scotland",
+    "state": "Sutherland, Highland"
+  },
+  "dates": {
+    "built": "mainly Sir Charles Barry, 1835-50",
+    "circa": false,
+    "altered": "'subsequent repairs and alterations by Sir Robert Lorimer, 1919'. The record explains why: 'Much of the interior destroyed by fire in 1915, when the castle was used as a naval hospital. It was this damage that initiated the re-designing of the interior by Sir Robert Lorimer in 1919.'",
+    "note": "The listing prints '1835-50'. HES's own Inventory entry GDL00160 prints 'quadrupled in size by Sir Charles Barry and William Leslie (David Walker personal communication) from 1835- 50' and separately says the 2nd Duke 'commissioned Sir Charles Barry ... to make additions to the Castle in 1845'. The castle's own website gives 1845. Two campaign dates and a second architect, William Leslie, all recorded and none resolved."
+  },
+  "nodes": [
+    "scottish-baronial"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB7044",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7044",
+      "title": "DUNROBIN CASTLE (LB7044)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. Its own bibliography reads: 'IMPERIAL GAZETTEER OF SCOTLAND, i, (circa 1858) p482. Groome's ORDNANCE GAZETTEER OF SCOTLAND, II, (1883) p445. Peter Savage, LORIMER AND THE EDINBURGH CRAFT DESIGNERS (1980) pp 120, 129-31, 176. DUNROBIN CASTLE (guide) 1980).'"
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "GDL00160",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00160",
+      "title": "DUNROBIN CASTLE (GDL00160)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Inventory of Gardens and Designed Landscapes entry, which describes the castle independently and names a second architect the listing does not: 'quadrupled in size by Sir Charles Barry and William Leslie (David Walker personal communication) from 1835- 50 and repaired in 1920 by Sir Robert Lorimer' -- and dates the Lorimer work 1920 where the listing says 1919."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Dunrobin_Castle",
+      "title": "Dunrobin Castle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its reference list cites 'Dunrobin Castle (Category A Listed Building LB7044)', which is how the number was found, and separately 'Dunrobin Castle Station Waiting Room (Category B Listed Building LB7054)', which is a different building."
+    }
+  ],
+  "survey": {
+    "item": "LB7044",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7044",
+    "prepared": "Category A. No designation date was returned inside either extracted span and none is claimed.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Vast Baronial turretted mansion, mainly Sir Charles Barry, 1835-50, with subsequent repairs and alterations by Sir Robert Lorimer, 1919, all encasing 14th century square tower with abutting 17th century drum stair tower with small pedimented windows; also further 17th century L-plan tower house wing with angle turrets, and 1788-95 wing. Mainly 3 storeys and attic.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "materials",
+        "text": "Materials; 14th century tower and stair tower, rubble; 17th century range, harled to inner court, rendered to outer faces; 18th century wing, rendered; 19th century work, tooled ashlar with polished dressings, battered rubble plinth, and terrace retaining walls at south.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "porches",
+        "text": "Main entrance elevation at north dominated by square 4-stage tower with round-headed porte cochere in base with pedimented and balconied 1st floor window above, clasping angle turrets corbelled from 3rd floor, corbelled castellated parapet and centre romantic corbelled square turret with steep pyramidal roof in the manner of Viollet-le-Duc.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "other",
+        "text": "Expansive south elevation set at 3 angles with tall angle drum towers with corbelled upper stage to those clasping taller eastern block, and attenuated conical decorative fish-scale and ribbed leaded roofs with terminating cast-iron finials.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "finishes",
+        "text": "Drawingroom; re-designed by Lorimer combining 2 smaller rooms of Barry wing; long room lit by 5 full length windows; ornate plaster ceiling with reticulated design, central armorial boss and decorative frieze; decorative carved marble chimneypiece with lugged moulded surround set with figured green and white marble; corniced door-cases; decorative panelled doors and window shutters with secondary glazed inner shutters (for double glazing); ornamental radiator casings.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "condition",
+        "text": "Stone for 1835-50 from Brora and Braambury quarries, Sutherland. Staircase and entrance hall lined with Caen stone. Much of the interior destroyed by fire in 1915, when the castle was used as a naval hospital. It was this damage that initiated the re-designing of the interior by Sir Robert Lorimer in 1919.",
+        "page": "Listed building record, NOTES / Statement of Special Interest section. An HES designation record is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Mainly 3 storeys and attic",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "'Mainly' is the register's own hedge on a building it calls vast and describes elevation by elevation; the hedge is in the printed string."
+    },
+    {
+      "name": "entrance_tower_stage_count",
+      "as_printed": "square 4-stage tower with round-headed porte cochere in base",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "turret_corbel_storey",
+      "as_printed": "clasping angle turrets corbelled from 3rd floor",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The storey the corbelling springs from, not a count of turrets. It is direct evidence for scottish-baronial.c01 -- the turrets are carried out on corbels and the register says from which floor."
+    },
+    {
+      "name": "south_elevation_angle_count",
+      "as_printed": "Expansive south elevation set at 3 angles",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "drawing_room_window_count",
+      "as_printed": "long room lit by 5 full length windows",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "A Lorimer room of 1919 made by combining two of Barry's, so it dates the interior and not the Baronial shell."
+    }
+  ],
+  "rights_evidence": "The legal part of the listing is the address/name of site which is known as the statutory address. Other than the name or address of a listed building, further details are provided for information purposes only. Historic Environment Scotland does not accept any liability for any loss or damage suffered as a consequence of inaccuracies in the information provided.",
+  "rights_evidence_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB7044",
+  "note": "Tranche 3, 5 Sep 2026, and a NEW exemplar: the node names Balmoral as the royal endorsement and Bryce as the industrialiser, and Dunrobin is the third leg -- the case where an English classical architect, Barry of the Palace of Westminster, wrapped a real medieval tower in the style. Extracted twice: the first pass returned the description, the materials and the two main elevations, the second the interiors, the quarry sources and the fire. Line breaks collapsed to single spaces. IT CORROBORATES scottish-baronial.c01 as directly as any record in the cluster -- 'clasping angle turrets corbelled from 3rd floor', 'corbelled castellated parapet' -- and it qualifies the node's Scottishness claim from a different direction than Balmoral does: the register reads the crowning turret as being 'in the manner of Viollet-le-Duc'."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "alfriston-clergy-house",
+  "name": "Alfriston Clergy House",
+  "aka": [
+    "The Old Clergy House"
+  ],
+  "location": {
+    "text": "Alfriston, East Sussex, England",
+    "country": "England",
+    "state": "East Sussex"
+  },
+  "dates": {
+    "built": "C14",
+    "circa": true,
+    "altered": "The stone tablet the entry quotes records that the house 'had fallen into decay' and 'was bought and repaired by the National Trust, 1898'.",
+    "note": "Historic England 1191431 dates the building only to the fourteenth century. The node's exemplar year of 1350 is finer than anything this record's references state, and is left as the node has it rather than adjusted to a source that does not carry it."
+  },
+  "nodes": [
+    "english-medieval-timber-frame"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1191431",
+      "title": "The Old Clergy House, Alfriston - 1191431",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1191431",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE GRADE IS RECORDED TWO WAYS BY DIFFERENT SOURCES AND NEITHER IS RESOLVED HERE. The Historic England page as extracted prints 'Grade: II' in both its Overview and its Official list entry blocks, and the Details section's legacy header ends 'II'. A gazetteer entry and the Wikipedia infobox both print Grade II*. An asterisk may or may not survive markdown extraction, so this is stated rather than decided."
+    },
+    {
+      "kind": "wikipedia",
+      "title": "Alfriston Clergy House - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Alfriston_Clergy_House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Type | Wealden hall house', 'Built | Mid-14th Century', 'Reference no. | 1191431', 'Designated | 13 October 1952'. Field values, not prose."
+    }
+  ],
+  "survey": {
+    "item": "1191431",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1191431",
+    "prepared": "Date first listed: 13-Oct-1952, as the Official list entry block prints it. The Details section opens with the legacy header 'ALFRISTON THE TYE L 5208 The Old Clergy House Old Clergy House TQ 5202 39/91 13.lO.52', in which the day-month-year is printed with a letter O for the zero.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "2. This was the first building and second property acquired by the National Trust. It has a stone tablet on it recording that \"The old Vicarage of Alfriston, which had fallen into decay, was bought and repaired by the National Trust, 1898\". C14 timber-framed and close-studded building of wealden type with plaster infilling. Each end projects, the first floor of the east projection oversailing on brackets. Curved braces and brackets to eaves of recessed centre. Ripped thatched roof. Casement windows with diamond-shaped panes, one being an oriel. Brick chimney breast on west wall. The interior retains its open hall with crown-post exposed.",
+        "page": "Official list entry, Details, paragraph numbered 2 (the legacy list format); this is the whole of the Details prose"
+      }
+    ]
+  },
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE ENTRY STATES NO NUMBER AT ALL AND THIS RECORD THEREFORE CARRIES NO MEASUREMENTS -- the dominant outcome of a European list entry for a small house, recorded rather than filled. 'Ripped thatched roof' is printed exactly so in the legacy text and is almost certainly a transcription of 'Hipped'; it is kept verbatim and read nowhere. The entry independently confirms the two things the node's own prose leans on -- the Wealden type and the open hall with its crown post."
+}
