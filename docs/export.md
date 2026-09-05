@@ -71,7 +71,11 @@ drawing importer is WP-5.5, which will generalize it.
 IFC4, lengths in **feet** (a conversion-based unit; if the unit API refuses,
 the file falls back to SI metres and the result says so). Walls (exterior /
 bearing / partition thickness from `structure.wall_thickness()`, exterior
-walls with their inner face on the clear line), floor slabs, spaces per placed
+walls with their inner face on the clear line), floor slabs **one per storey and
+per massing element** (WP-11.6 layer 6; `export_ifc.slab_boxes` is pure
+arithmetic so it can be measured where `ifcopenshell` is absent, which is CI —
+before it, one main-block slab per storey left a dependency's three spaces
+floating clear of every slab in the model), spaces per placed
 room, windows with `IfcOpeningElement`/`IfcRelFillsElement` in their exterior
 walls, doors on their shared walls, and the roof. Every product carries a
 `TDL` property set with `plan_id`, `style` and its `tdl_id`, so any element

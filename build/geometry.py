@@ -1856,14 +1856,14 @@ def multi_element_disclosure(plan):
     """What a multi-element placement does NOT yet judge, stated on the record (OQ 40).
 
     The block machinery places a dependency beside the house and both renderers draw it there.
-    ONE layer below it still reads `footprint.width_ft/depth_ft` as though it were the whole
-    building (six until WP-11.6, which taught `openings`, `structure`, `vertical_score`, the lot
-    cap and `plan_check`'s drawn layer; their entries below are kept for the record and marked),
-    and each was wrong in its own direction on a dependency room -- measured, not supposed, by an
-    adversarial audit of the change that introduced blocks. **This count is written out in words
-    and the list below it is the record; the WORD said FIVE for two commits while the list held
-    three**, which is why the machine-readable answer is `not_element_aware` and never this
-    sentence:
+    SIX layers below it read `footprint.width_ft/depth_ft` as though it were the whole building
+    when this block was written, and WP-11.6 taught all six -- `openings`, `structure`,
+    `vertical_score`, the lot cap, `plan_check`'s drawn layer and `export_ifc`. Each was wrong in
+    its own direction on a dependency room, measured rather than supposed by an adversarial audit
+    of the change that introduced blocks, and each entry below is kept as the record and marked.
+    **The count is written out in words here and the list below it is the record; the WORD said
+    FIVE for two commits while the list held three**, which is why the machine-readable answer is
+    `not_element_aware` and never this sentence:
 
       openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
                  so on the reference fixture a dependency at x -41..-14 touched no boundary at
@@ -1896,13 +1896,20 @@ def multi_element_disclosure(plan):
                  half and a sentence rather than a severity. Measured on the fixture: two
                  dependency rooms read `[]` against the main block and `['S','W']` / `['S','E']`
                  against their own, while `chamber2` and `stair` read `[]` on both.
-      export_ifc `export_ifc` sizes the floor slab `W + 2*t_ext` centred on the main block, so a
-                 dependency's IfcSpaces float clear of the slab under them.
+      export_ifc TAUGHT AT WP-11.6, and the last of the six. It sized ONE floor slab per storey
+                 `W + 2*t_ext` centred on the main block while every `IfcSpace` is placed from
+                 its room's own ABSOLUTE rectangle, so a dependency's spaces floated clear of
+                 every slab in the model -- measured, 3 of them. `slab_boxes` is one slab per
+                 storey AND per element, and it is PURE ARITHMETIC so it can be measured where
+                 ifcopenshell is absent, which is here and in CI.
 
-    None of that is fixed here and none of it is claimed to be. It is DISCLOSED, because the
-    alternative is a record that reports numbers from five instruments pointed at one rectangle
-    while describing two -- and the composer emits no `block` today, so the only way to reach
-    this state is a caller-supplied record, which is exactly the reader who cannot know.
+    All six are fixed now (WP-11.6, layers 1-6) and their entries above are kept as the record.
+    THE BLOCK ITSELF STAYS, and its `not_element_aware` list is empty rather than gone, for two
+    reasons that outlive the six: `engine="cp"` still REFUSES a multi-element plan outright, so
+    here the engine that PROVES is unavailable and the engine that SEARCHES carries the findings;
+    and the roof is still derived for the main block alone, with no stated ridge relation per
+    element (ruling 1's second half, unbuilt). The composer emits no `block` today, so the only
+    way to reach this state is a caller-supplied record -- exactly the reader who cannot know.
     """
     fp = plan.get("footprint") or {}
     if len(fp.get("blocks") or []) < 2:
@@ -1964,12 +1971,25 @@ def multi_element_disclosure(plan):
         # arithmetic, so a meter watching the finding would have crossed this name off at layer 1.
         # Driving the condition -- stripping the placement from the dependency's windows -- is
         # what kept it honest, and it is what the guard does now.
-        "not_element_aware": ["export_ifc"],
-        "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
-                 "element and each of the layers named reads footprint.width_ft/depth_ft as the "
-                 "whole building. Openings on a dependency wall, spans across the gap, upper-wall "
-                 "support, the lot cap and the drawn exterior-wall test are all unreliable here. "
-                 "Teaching them about elements is a package of its own."),
+        # NONE, down from six (WP-11.6 layers 1-6). `export_ifc` gets a slab per element, and its
+        # geometry is `export_ifc.slab_boxes` -- PURE ARITHMETIC, because ifcopenshell is optional
+        # and absent here, so a slab rule written inside the writer would have been "fixed"
+        # against a check that never ran. Measured: 3 placed rooms over no slab -> 0.
+        #
+        # THE LIST BEING EMPTY IS NOT THE QUESTION BEING CLOSED. The ruling's own check was a
+        # falling count and it has fallen; two of its four items are still unbuilt -- the
+        # per-element ROOF with its stated ridge relation (item 1's second half) and the
+        # abutment between adjacent elements (item 3's seventh defect). This block stays, because
+        # the two facts below it are true whatever the list holds.
+        "not_element_aware": [],
+        "note": ("This placement has more than one massing element. Every layer below the placer "
+                 "that used to read footprint.width_ft/depth_ft as the whole building now reads "
+                 "the room's own element (WP-11.6): openings, structure, vertical_score, the lot "
+                 "cap, plan_check's drawn layer and export_ifc's slabs. TWO THINGS ARE STILL "
+                 "TRUE HERE and neither is a layer: `engine=\"cp\"` REFUSES a multi-element plan "
+                 "outright, so the engine that PROVES is unavailable and the engine that SEARCHES "
+                 "carries the findings; and the roof is still derived for the main block alone, "
+                 "with no stated ridge relation per element."),
     }
     off = sorted({r["id"] for lv in plan.get("levels", [])
                   if (lv.get("index") or 0) != 0

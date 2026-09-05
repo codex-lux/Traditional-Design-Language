@@ -116,3 +116,39 @@ the six-number baseline `PLAN-OF-ACTION.md` Phase 11 states.
 Built by **WP-11.6**. Nothing about the disclosure is removed until the layer it discloses is
 taught: `geometry_report.multi_element` names six layers today and must name five, then four, then
 none — a falling count, in the record, is how this ruling is checked rather than claimed.
+
+---
+
+## Where this stands, 5 September 2026
+
+**ALL SIX LAYERS ARE TAUGHT and `not_element_aware` is `[]`.** The falling count went 6 → 5 → 4 → 3
+→ 2 → 1 → 0 over six commits, in the ruled order, with a measurement after each:
+
+| layer | measured before → after |
+|---|---|
+| `openings` | dependency openings refused **9 → 5** (the five that remain are honest) |
+| `structure` | main wall set contaminated **1 → 0**; the dependency's own envelope walls **0 of 2 → 2 of 2**, and its spans then fail at 27.0 ft against a 20 ft cap |
+| `vertical_score` | a cross-element `stacks_over` claim **charged 40 → COULD NOT EVALUATE** (and the entry's support credit above turned out to be unreachable) |
+| lot cap | built extent **104 → 86 ft** on an 80 ft lot, `lot_capped` **false → true** |
+| `plan_check.drawn` | dependency rooms convicted landlocked **2 → 0**, with `chamber2` and `stair` still convicted as the control |
+| `export_ifc` | placed rooms over no slab **3 → 0** |
+
+**THIS ENTRY IS NOT CLOSED, AND THE EMPTY LIST IS NOT THE REASON IT WOULD BE.** Two of the four
+ruled items are unbuilt:
+
+1. **The per-element ROOF** — item 1's second half. Each element was to carry a stated ridge
+   relation to the main block, which `groupings/georgian-service-core.json` already states as a
+   rule (`wing_ridge_ft / main_ridge_ft at-most 0.85`) and which still has no reader. `roof.py`
+   derives one roof for the main block. The gap item 1 named for itself is also still open: a
+   per-element roof makes the massing's `roof_default` a fact about the MAIN element and the
+   dependency's a choice, and the corpus has nowhere to say the second.
+2. **The abutment between adjacent elements** — item 3's seventh defect. `blocks_for` still centres
+   each element on the main block's axis and slices each with an independent `slice_rect` call, so
+   nothing makes the house-side room abut the hyphen or the hyphen abut the dependency's anchor.
+
+**And `geometry_report.multi_element` stays in the record with an empty list**, because two things
+it discloses are not layers and are still true: `engine="cp"` refuses a multi-element plan outright,
+so the engine that PROVES is unavailable there; and the roof is the main block's alone. Its note may
+no longer say COULD NOT EVALUATE — with nothing unjudged that would be a fake unjudged.
+
+Report: `docs/reports/wp-11.6-the-container.md`.

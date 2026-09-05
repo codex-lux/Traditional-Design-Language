@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,735 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,740 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -530,7 +530,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   suite. **Both are the same root cause as the layer-map miss**: a package that commits before its
   build finishes learns what it broke from the next package's build.
 - **`openings` READS THE ROOM'S OWN MASSING ELEMENT NOW, AND THE DISCLOSURE FELL FROM SIX TO FIVE
-  (WP-11.6, layer 1 of 6; it is at ONE after layer 5 -- read `not_element_aware` in the record,
+  (WP-11.6, layer 1 of 6; it is at ZERO after layer 6 -- read `not_element_aware` in the record,
   never a count written in a sentence, including this one).** `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` is RULED
   (4 Sep: an element has its own envelope and its own roof; the lot cap is on the BUILT EXTENT
   hyphen included; the hyphen is a THIRD ELEMENT carrying one room; the drawn layer measures
@@ -629,6 +629,41 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   count: both shipped plans are identical before and after, which is what `envelopes` returning
   `{}` below two elements buys. **When a symptom vanishes after you changed something else, find
   out which.**
+- **`export_ifc` GETS A SLAB PER ELEMENT, AND THE FIX HAD TO BE WRITTEN WHERE IT COULD BE MEASURED
+  (WP-11.6, layer 6 of 6; DISCLOSURE AT ZERO).** `ifcopenshell` is optional, absent here and absent
+  in CI, so `export_ifc.py selftest` reports COULD NOT EVALUATE in every run `check_all.py` has ever
+  made -- **a slab rule written inside the writer would have been "fixed" against a check that
+  never runs.** `export_ifc.slab_boxes(plan, section, t_ext)` is PURE ARITHMETIC over the section
+  and the blocks and only the entity emission needs the library: computed where a test can read it,
+  emitted where it cannot. The defect: ONE slab per storey sized `W + 2t` on the MAIN BLOCK while
+  every `IfcSpace` is placed from its room's own ABSOLUTE rectangle, so the main slab spanning
+  `x[-1.29, 64.29]` left three rooms at `x[-41.0, -14.0]` over nothing -- **3 -> 0**. **The
+  single-slab baseline is reconstructed as a test of its own**, so the pair has something to be
+  measured against rather than being one number standing alone. A dependency gets a GROUND slab and
+  no upper one, which is the building rather than an omission (`blocks_for` lays only level 0 into
+  elements) -- the function reads the placed ROOMS rather than crossing every element with every
+  storey, which makes that true by construction. The main block's slab keeps its old name and
+  `tdl_id` exactly; only a second element's carries a suffix.
+- **THE DISCLOSURE REACHED ZERO AND THE BLOCK DID NOT VANISH WITH IT (WP-11.6).** The ruling's check
+  was a falling count -- "six today and must name five, then four, then none" -- and
+  `not_element_aware` is `[]`. **The note may no longer say COULD NOT EVALUATE**, and that is the
+  harder half: with nothing unjudged those words are a FAKE UNJUDGED, which this corpus treats as
+  exactly as dishonest as a fake pass. What the block keeps are the two facts that outlive the six
+  layers and are still true of a multi-element plan -- **`engine="cp"` refuses one outright**, so
+  the engine that PROVES is unavailable and the engine that SEARCHES carries the findings, and
+  **the roof is still derived for the main block alone** with no stated ridge relation per element.
+  **AN EMPTY LIST IS NOT THE QUESTION CLOSED**: two of the ruling's four items are unbuilt (the
+  per-element roof, and the abutment between adjacent elements), and
+  `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` stays open on them.
+- **A MULTI-EDIT SCRIPT THAT ASSERTS BETWEEN ITS EDITS WRITES NEITHER, AND THE COMMIT SAYS IT WROTE
+  BOTH (WP-11.6, found at layer 6).** Two replacements went into one `PLAN-OF-ACTION.md` script,
+  the SECOND assertion failed, and the script died before `write_text` -- so the first did not land
+  either. Re-running only the second put the layer-5 section in **beneath a status line still
+  saying "layers 1 through 4" and "two"**, and that shipped in a pushed commit whose message says
+  the plan board was updated. It is `65901a2`'s shape exactly, which this file records as *"the
+  hand correction itself failed to land"*. **Assert before editing anything, or write what
+  succeeded -- and RE-READ THE FILE after correcting a number in it**, which is still the only
+  thing that has ever caught one of these.
 - **TWO OF THE SIX PROBES READ ZERO ON THEIR FIRST RUN AND NEITHER ZERO WAS A DEFECT'S ABSENCE
   (WP-11.6).** The openings probe looked for a window drawn FAR FROM its room and found none,
   because the real defect is a window REFUSED outright ("the placement puts this room on no such

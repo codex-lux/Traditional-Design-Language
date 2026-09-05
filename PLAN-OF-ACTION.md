@@ -1859,11 +1859,25 @@ term is worse in the middle of its range than at either end, and a rule is the e
 
 ### WP-11.6 The container the programme describes
 
-**Status: IN PROGRESS (4–5 Sep 2026) — layers 1 through 4 of 6 taught, in the ruled order,
-measuring after each as the ruling requires.** `openings` reads the room's own element, `structure`
-runs once per element, a cross-element stacking claim is unjudged rather than charged, the lot cap
-is on the built extent with the hyphen counted, and `geometry_report.multi_element` names **two**
-layers, down from six. The falling count is the ruling's own check.
+**Status: ALL SIX LAYERS TAUGHT (4–5 Sep 2026), in the ruled order, measuring after each as the
+ruling requires. The entry stays OPEN on its other two items.** `openings` reads the room's own
+element, `structure` runs once per element, a cross-element stacking claim is unjudged rather than
+charged, the lot cap is on the built extent with the hyphen counted, the critic measures `touches`
+against the room's own element, `export_ifc` writes a slab per element, and
+`geometry_report.multi_element` names **no** layer, down from six. The falling count is the ruling's
+own check and it has fallen to zero. **What is NOT done, and this line says so rather than letting
+a reader infer it**: the per-element ROOF with its stated ridge relation (ruling 1's second half)
+and the abutment between adjacent elements (ruling 3's seventh defect) — plus this package's own
+remaining parts, the parti and plan re-authoring and CP-SAT's per-element solve.
+
+**AND THIS LINE SAID "LAYERS 1 THROUGH 4" AND "TWO" THROUGH THE WHOLE OF LAYER 5, IN A PUSHED
+COMMIT WHOSE MESSAGE SAYS THE PLAN BOARD WAS UPDATED.** Two replacements went into one script, the
+second assertion failed, and the script died before writing — so NEITHER landed; re-running only the
+second put the layer-5 section in beneath a status line describing layer 4. It is `65901a2`'s shape
+exactly, which CLAUDE.md records as *"the hand correction itself failed to land"*, met again four
+paragraphs from where that entry is quoted. **A multi-edit script must write what it can or assert
+before it edits anything** — and re-read the file after correcting a number in it, which is the only
+thing that has ever caught one of these.
 
 **THE INSTRUMENT FIRST, AND TWO OF ITS PROBES WERE WRONG.** The six defects are measured directly
 rather than inferred from the disclosure list, so a name leaving that list is evidence. Baseline on
@@ -1955,11 +1969,28 @@ the main element"*, while the kitchen's south and west faces take no such note. 
 is refused by requiring perpendicular overlap. Regression pinned as a digest over every finding's
 kind, room and statement — both shipped plans identical. Seven mutations, seven caught.
 
-**Still to do: layer 6** — `export_ifc`, a slab per element — then the parti and plan re-authoring
-and CP-SAT's per-element solve. (This line named five items for three layers for as long as it took
-to re-read it: it still listed `structure` and `vertical_score`, taught in the two commits above
-it. A to-do list that survives the work it describes is the *"until X lands"* class, one file
-over.)
+**LAYER 6: `export_ifc` — a fix that could not have been measured where it was written.**
+`ifcopenshell` is optional, absent here and absent in CI, so `export_ifc.py selftest` reports COULD
+NOT EVALUATE in every run this project has ever made — a slab rule written inside the writer would
+have been "fixed" against a check that never runs. `export_ifc.slab_boxes` is therefore **pure
+arithmetic**, computed where a test can read it and emitted where it cannot. The defect: one slab
+per storey sized on the MAIN BLOCK while every `IfcSpace` is placed from its room's own ABSOLUTE
+rectangle, so the main slab spanning `x[-1.29, 64.29]` left three rooms at `x[-41.0, -14.0]` over
+nothing — **3 → 0**, with the single-slab baseline reconstructed as a test of its own so the pair
+has something to be measured against. A dependency gets a ground slab and no upper one, which is
+the building rather than an omission. Six mutations, six caught.
+
+**AND THE DISCLOSURE REACHES ZERO WITHOUT THE BLOCK VANISHING.** `not_element_aware: []`, and the
+note **may no longer say COULD NOT EVALUATE** — with nothing unjudged those words would be a fake
+unjudged, as dishonest in their own direction as a fake pass. What it keeps are the two facts that
+outlive the six layers: `engine="cp"` still refuses a multi-element plan outright, and the roof is
+still the main block's alone.
+
+**Still to do: the parti and plan re-authoring, and CP-SAT's per-element solve** — then, outside
+this package, the two unbuilt items of the ruling itself. (An earlier version of this line named
+five items for three layers for as long as it took to re-read it: it still listed `structure` and
+`vertical_score`, taught in the two commits above it. A to-do list that survives the work it
+describes is the *"until X lands"* class, one file over.)
 
 **Original package text, left as written:**
 

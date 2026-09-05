@@ -55,15 +55,19 @@ def dep_rooms(p):
 
 
 class TestTheDisclosureFalls:
-    def test_it_names_ONE_layer_and_the_five_taught_are_not_among_them(self, placed):
-        """The ruling's own check. Five layers were taught at WP-11.6 and left the list; the one
-        that remains is named because it still reads the main block as the whole building."""
+    def test_it_names_NO_LAYER_and_the_disclosure_survives_anyway(self, placed):
+        """The ruling's own check, at the end of its own fall: "must name five, then four, then
+        none". All six are taught. **The block does not vanish with the list**, and its two
+        surviving facts are why -- the prover refuses a multi-element plan, and the roof is still
+        the main block's alone."""
         me = placed["geometry_report"]["multi_element"]
         assert me["elements"] == 2
-        assert me["not_element_aware"] == ["export_ifc"]
-        for taught in ("openings", "structure", "vertical_score", "lot_cap",
-                       "plan_check.drawn"):
-            assert taught not in me["not_element_aware"], taught
+        assert me["not_element_aware"] == []
+        assert "COULD NOT EVALUATE" not in me["note"], (
+            "with nothing unjudged the note may not claim an unjudged state -- a fake unjudged "
+            "is as dishonest in its own direction as a fake pass")
+        assert "REFUSES a multi-element plan" in me["note"]
+        assert "roof" in me["note"]
 
     def test_a_one_rectangle_plan_discloses_NOTHING(self):
         """Every plan in this corpus is one rectangle. The disclosure exists for the record a
@@ -561,3 +565,107 @@ class TestTheLotCapIsOnTheBuiltExtent:
         L = p["geometry_report"]["lot"]
         assert round(hi - lo, 2) == L["built_extent_ft"] == 118.0, (hi - lo, L)
         assert round(L["built_extent_ft"] - L["main_block_ft"], 2) == L["flanking_ft"] == 55.0, L
+
+
+EI = modcache.load("export_ifc", os.path.join(ROOT, "build", "export_ifc.py"))
+STRUCT = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
+
+
+def _boxes(p):
+    sec = STRUCT.build_section(p, geometry_result=p)
+    t = sec["wall"]["exterior_in"] / 12.0
+    return sec, t, EI.slab_boxes(p, sec, t)
+
+
+def _rooms_over_no_slab(p, boxes):
+    off = []
+    for lv in p["levels"]:
+        idx = lv.get("index", 0)
+        for r in lv["rooms"]:
+            g = r.get("geometry")
+            if not g:
+                continue
+            if not any(b["level"] == idx
+                       and g["x_ft"] >= b["cx"] - b["width_ft"] / 2 - 0.01
+                       and g["y_ft"] >= b["cy"] - b["depth_ft"] / 2 - 0.01
+                       and g["x_ft"] + g["width_ft"] <= b["cx"] + b["width_ft"] / 2 + 0.01
+                       and g["y_ft"] + g["depth_ft"] <= b["cy"] + b["depth_ft"] / 2 + 0.01
+                       for b in boxes):
+                off.append(r["id"])
+    return sorted(off)
+
+
+class TestTheIfcSlabIsPerElement:
+    """Layer 6, the last. Ruling 1: `export_ifc` gets a slab per element.
+
+    THE GEOMETRY IS A PURE FUNCTION AND THAT IS WHY THESE TESTS EXIST AT ALL. `ifcopenshell` is
+    optional and absent here and in CI, so `export_ifc.py selftest` reports COULD NOT EVALUATE --
+    a slab rule written inside the writer would have been "fixed" against a check that never runs.
+    `slab_boxes` is arithmetic over the section and the blocks; only the entity emission needs the
+    library."""
+
+    def test_the_three_rooms_that_floated_are_over_a_slab(self, placed):
+        """The headline, and it is the disclosure's own published baseline: the main slab spans
+        x[-1.29, 64.29] and the kitchen, pantry and breakfast room sit at x[-41.0, -14.0]. Every
+        `IfcSpace` is placed from its room's own ABSOLUTE rectangle, so all three floated clear of
+        every slab in the model."""
+        _, t, boxes = _boxes(placed)
+        assert _rooms_over_no_slab(placed, boxes) == []
+        dep = next(b for b in boxes if b["element"] != "main")
+        el = next(b for b in placed["footprint"]["blocks"] if b["id"] != "main")
+        assert dep["width_ft"] == pytest.approx(el["width_ft"] + 2 * t)
+        assert dep["cx"] == pytest.approx(el["x_ft"] + el["width_ft"] / 2)
+
+    def test_the_baseline_it_replaces_REALLY_FLOATED_THREE(self, placed):
+        """The instrument, not the fix: the single main-block slab this replaced, reconstructed
+        here, leaves exactly three rooms over nothing. Without this the '3 -> 0' above is one
+        number with nothing to be measured against."""
+        sec, t, _ = _boxes(placed)
+        fp = sec["geometry"]["footprint"]
+        W, D = fp["width_ft"], fp["depth_ft"]
+        old = [{"level": st["index"], "element": "main",
+                "width_ft": W + 2 * t, "depth_ft": D + 2 * t, "cx": W / 2, "cy": D / 2}
+               for st in sec["storeys"] if st.get("storey_height_ft") is not None]
+        assert _rooms_over_no_slab(placed, old) == ["breakfast", "kitchen", "pantry"]
+
+    def test_a_dependency_gets_a_GROUND_slab_and_no_upper_one(self, placed):
+        """Not an omission: `blocks_for` lays only level 0 into elements, so there is no upper
+        floor over the dependency to carry. The function reads the rooms rather than crossing
+        every element with every storey, which is what makes that true by construction."""
+        _, _, boxes = _boxes(placed)
+        by_level = {}
+        for b in boxes:
+            by_level.setdefault(b["level"], set()).add(b["element"])
+        assert by_level[0] == {"main", "west-dependency"}, by_level
+        assert by_level[1] == {"main"}, by_level
+
+    def test_a_one_rectangle_plan_gets_THE_OLD_NUMBERS_EXACTLY(self):
+        """The regression, stated as the arithmetic the single-slab loop did rather than as a
+        pinned literal: one box per storey, `W + 2t` by `D + 2t`, centred on the main block."""
+        for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            GEO._SOLVE_CACHE.clear()
+            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            GEO.solve(q, engine="heuristic")
+            sec, t, boxes = _boxes(q)
+            fp = sec["geometry"]["footprint"]
+            W, D = fp["width_ft"], fp["depth_ft"]
+            storeys = [st for st in sec["storeys"] if st.get("storey_height_ft") is not None
+                       and (st.get("index") or 0) >= 0]
+            assert len(boxes) == len(storeys), (name, boxes)
+            for b in boxes:
+                assert b["element"] == "main", (name, b)
+                assert b["width_ft"] == pytest.approx(W + 2 * t)
+                assert b["depth_ft"] == pytest.approx(D + 2 * t)
+                assert b["cx"] == pytest.approx(W / 2) and b["cy"] == pytest.approx(D / 2)
+            assert _rooms_over_no_slab(q, boxes) == [], name
+
+    def test_a_block_tag_naming_no_element_falls_to_the_main_block(self, placed):
+        """`is_block_tag`'s own conservative answer one layer up, not a new rule: a tag the placer
+        did not build is read as the main block rather than raising or inventing a slab."""
+        q = json.loads(json.dumps(placed))
+        for lv in q["levels"]:
+            for r in lv["rooms"]:
+                if r.get("block"):
+                    r["block"] = "an-element-nobody-placed"
+        _, _, boxes = _boxes(q)
+        assert {b["element"] for b in boxes} == {"main"}, boxes
