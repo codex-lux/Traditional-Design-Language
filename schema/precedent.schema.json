@@ -121,9 +121,16 @@
               "historic-scotland",
               "institution",
               "monograph",
-              "other"
+              "other",
+              "niah",
+              "merimee",
+              "bic",
+              "rijksmonument",
+              "denkmalliste",
+              "vincolo",
+              "unesco"
             ],
-            "description": "What sort of locator this is. `habs` carries the survey number (VA-141); `loc-item` the Library's item id (va0433); `nrhp` the eight-digit reference; `state-register` the state's own file number; `institution` the owning body's own page. The id shape per kind is checked by build/check_precedents.py, not here, so this file stays self-contained."
+            "description": "What sort of locator this is. `habs` carries the survey number (VA-141); `loc-item` the Library's item id (va0433); `nrhp` the eight-digit reference; `state-register` the state's own file number; `institution` the owning body's own page. The id shape per kind is checked by build/check_precedents.py, not here, so this file stays self-contained. WP-11.5 widened this for Europe, which Tranche 3 cannot be written without: `niah` the Irish National Inventory of Architectural Heritage, `merimee` France's Base Mérimée (a PA/IA reference), `bic` Spain's Bien de Interés Cultural, `rijksmonument` the Dutch monument number, `denkmalliste` a German Land's monument-list number, `vincolo` an Italian ministerial protection record, `unesco` a World Heritage inscription. `historic-england`, `cadw` and `historic-scotland` were already here and no record used them."
           },
           "id": {
             "type": "string"
@@ -165,11 +172,11 @@
         "quotes"
       ],
       "additionalProperties": false,
-      "description": "The Historic American Buildings Survey's WRITTEN historical and descriptive data for this building, quoted verbatim. It is text about the plates, not the plates: it states overall dimensions, storeys, bays, walls, chimneys, roof and openings as a surveyor recorded them, and it is a poor source for room dimensions, which live on the measured drawings (wp-9.2-what-the-tradition-actually-does.md §7 Q10). OCR is noisy -- a `4` reads as `h` -- so every figure taken from a quote is carried `as_printed` in `measurements`.",
+      "description": "The Historic American Buildings Survey's WRITTEN historical and descriptive data for this building, quoted verbatim. It is text about the plates, not the plates: it states overall dimensions, storeys, bays, walls, chimneys, roof and openings as a surveyor recorded them, and it is a poor source for room dimensions, which live on the measured drawings (wp-9.2-what-the-tradition-actually-does.md §7 Q10). OCR is noisy -- a `4` reads as `h` -- so every figure taken from a quote is carried `as_printed` in `measurements`. WP-11.5: this block is no longer only HABS. A national heritage list entry serves the same purpose and is often richer -- Historic England's `Details` section prints MATERIALS, PLAN and EXTERIOR paragraphs stating storeys, bays, roof covering, string-course positions and window lights (measured 5 Sep 2026 on entry 1254925). For such a record, `item` is the List Entry Number, `data_url` the list-entry URL, `prepared` the `Date first listed` and any `Date of most recent amendment` as the page prints them, and `survey_no` is ABSENT because there is no HABS number. The page marker says which section the quote is from, since a list entry is not paginated.",
       "properties": {
         "item": {
           "type": "string",
-          "description": "The Library's item id, e.g. va0433."
+          "description": "The Library's item id, e.g. va0433 -- or, for a national heritage list entry, that register's own record number (Historic England's 7-figure List Entry Number, e.g. 1254925)."
         },
         "survey_no": {
           "type": "string",
@@ -212,6 +219,7 @@
                   "storeys",
                   "bays",
                   "foundations",
+                  "materials",
                   "walls",
                   "structural_system",
                   "porches",

@@ -61,7 +61,23 @@ NRHP_RE = re.compile(r"^(?:\d{8}|10\d{7})$")                  # 66000701, and th
 # Register moved to for listings since 2013 -- NPS's own Best Practices Review (April 2023) cites
 # "NR Ref. 100005974" and "NR Ref. 100008758" beside legacy 88000403 and 96000614. Widened by
 # Tranche 2, which found one: Richmond Heights Pioneer Historic District, listed 2019.
-ID_SHAPES = {"habs": HABS_RE, "haer": HABS_RE, "loc-item": LOC_ITEM_RE, "nrhp": NRHP_RE, "nhl": NRHP_RE}
+# WP-11.5, for Europe. HISTORIC ENGLAND'S OWN DOCUMENTATION states the shape and it was read
+# rather than remembered: "Every List entry has a unique 7-figure reference number"
+# (historicengland.org.uk/listing/the-list/understanding-list-entries, 5 Sep 2026), corroborated
+# against fifteen sampled numbers -- 1000100, 1004281, 1046598, 1162800, 1188692, 1254925,
+# 1256894, 1342941, 1357515, 1359189, 1379911, 1380478, 1401425, 1452906 -- every one 7 digits
+# beginning with 1. Written from the register's own statement because the NRHP rule two commits
+# ago was written from ONE remembered form and rejected a valid 2019 listing.
+HE_LIST_RE = re.compile(r"^1\d{6}$")
+ID_SHAPES = {"habs": HABS_RE, "haer": HABS_RE, "loc-item": LOC_ITEM_RE, "nrhp": NRHP_RE,
+             "nhl": NRHP_RE, "historic-england": HE_LIST_RE}
+# AND THE KINDS WITH NO SHAPE ARE NAMED RATHER THAN LEFT TO A SILENT `.get()` MISS. An id of one
+# of these is carried and NOT checked, because no evidence for its format has been read here and
+# inventing one is how the NRHP rule went wrong. `check_precedents.py` reports the count on every
+# run so the gap is a number rather than a silence; add a shape WITH ITS EVIDENCE when a tranche
+# meets the register and can read the register's own statement of it.
+UNSHAPED_ID_KINDS = ("cadw", "historic-scotland", "state-register", "niah", "merimee", "bic",
+                     "rijksmonument", "denkmalliste", "vincolo", "unesco")
 KIT_POINTER_RE = re.compile(r"^precedents/([a-z0-9][a-z0-9-]*)#(?:survey\.([a-z_]+)|measurements\[(\d+)\])$")
 
 # ONE BUILDING, ONE RECORD (WP-11.3). Twelve agents researching in parallel can produce the one
@@ -175,6 +191,11 @@ RATCHET = {
     # A FLOOR, and it is the half that stops the other three being satisfied by deleting sources.
     # Every ceiling above reads better when a citation is removed; this one reads worse.
     "source_agrees": 6,
+    # WP-11.5. A CEILING, and naming the gap turned it into a number on its first run: 58 ids --
+    # every one a `state-register` from the American tranches -- were being carried unchecked and
+    # nobody knew, because ID_SHAPES.get() misses silently. It may only fall, which happens by
+    # adding a shape backed by the register's own statement of its format.
+    "ids_with_no_shape_rule": 58,
     "exemplars_unresearched": 185,      # a CEILING -- may only fall, as tranches resolve them.
                                         # Pinned TIGHT at the measured value: 693 exemplars, 505
                                         # resolved, 3 stated refusals, 185 gaps. Pinning it at 188
@@ -346,6 +367,8 @@ def main():
             if not ref.get("id") and not ref.get("url"):
                 counts["refs_without_locator"] += 1
                 rep.err(rw, "kind %r carries neither an id nor a url, so it locates nothing" % ref.get("kind"))
+            if ref.get("kind") in UNSHAPED_ID_KINDS and ref.get("id"):
+                counts["ids_with_no_shape_rule"] += 1
             shape = ID_SHAPES.get(ref.get("kind"))
             if shape and ref.get("id") and not shape.match(ref["id"]):
                 counts["malformed_ids"] += 1
@@ -546,7 +569,7 @@ def main():
               # WP-11.4. Ruling D's two, then Ruling A's four.
               "no_precedent_beside_a_precedent", "exemplars_unresearched",
               "measured_cites_a_paragraph", "source_contradicts", "source_uncomparable",
-              "source_agrees"):
+              "source_agrees", "ids_with_no_shape_rule"):
         m[k] = counts[k]
 
     live_state = None
@@ -561,6 +584,10 @@ def main():
     # WP-11.4, Ruling D. PRINTED ON EVERY RUN, not only when a ratchet breaks: the whole point of
     # the field is that a stated refusal and an unresearched row stop being one number, and a
     # distinction nobody can see is a distinction nobody will keep.
+    if counts["ids_with_no_shape_rule"]:
+        print("  %d archival id(s) carry a kind with NO SHAPE RULE (%s) -- carried, not checked. "
+              "Not a pass: add a shape with the register's own statement of its format when a "
+              "tranche meets it." % (counts["ids_with_no_shape_rule"], ", ".join(UNSHAPED_ID_KINDS)))
     print("  of the %d exemplars with no `precedent`: %d are a STATED REFUSAL (%s) and %d are "
           "NOT YET RESEARCHED. A refusal is a decision and a gap is work; they are not the same "
           "number." % (counts["stated_refusals"] + counts["exemplars_unresearched"],

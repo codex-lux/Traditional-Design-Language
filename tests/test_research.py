@@ -332,3 +332,42 @@ def test_the_gate_is_per_parameter_and_not_a_net_count():
     assert all(t in CK.GRANDFATHERED for t in list(CK.GRANDFATHERED)[:50])
     # the set is frozen: a plain set could be mutated by a later import and silently widen the gate
     assert isinstance(CK.GRANDFATHERED, frozenset)
+
+
+# ---------------------------------------------------------------------------------------------
+# WP-11.5, preparing Tranche 3: the archival vocabulary for Europe.
+
+def test_the_historic_england_shape_is_the_registers_own_statement():
+    """"Every List entry has a unique 7-figure reference number" -- Historic England's own
+    Understanding List Entries page, read 5 Sep 2026, corroborated against fifteen sampled numbers.
+    Written from the register's statement because the NRHP rule was written from one remembered
+    form and rejected a valid 2019 listing."""
+    assert all(CP.HE_LIST_RE.match(v) for v in
+               ("1000100", "1004281", "1046598", "1162800", "1188692", "1254925", "1256894",
+                "1342941", "1357515", "1359189", "1379911", "1380478", "1401425", "1452906"))
+    for bad in ("254925", "12549250", "1254925a", "2254925", "", "1-254925"):
+        assert not CP.HE_LIST_RE.match(bad), bad
+    assert CP.ID_SHAPES["historic-england"] is CP.HE_LIST_RE
+
+
+def test_a_kind_with_no_shape_rule_is_named_and_counted_not_silent():
+    """`ID_SHAPES.get()` misses silently, so an unshaped kind is an id nobody checks and nobody
+    knows about. Naming them turned that into a number on the first run: 58, every one a
+    `state-register` from the American tranches. The ceiling may only fall, which happens by
+    adding a shape backed by the register's own statement of its format -- never by inventing one.
+    """
+    import glob
+    assert set(CP.UNSHAPED_ID_KINDS).isdisjoint(CP.ID_SHAPES), "a kind cannot be both"
+    n = 0
+    for f in glob.glob(os.path.join(ROOT, "precedents", "*.json")):
+        for r in json.load(open(f, encoding="utf-8")).get("refs") or []:
+            if r.get("kind") in CP.UNSHAPED_ID_KINDS and r.get("id"):
+                n += 1
+    assert n == CP.RATCHET["ids_with_no_shape_rule"] == 58
+    # every kind the schema admits is either shaped or named unshaped -- no third, silent category
+    schema = json.load(open(os.path.join(ROOT, "schema", "precedent.schema.json"), encoding="utf-8"))
+    kinds = set(schema["properties"]["refs"]["items"]["properties"]["kind"]["enum"])
+    # `wikipedia`, `wikidata`, `institution`, `monograph`, `other` carry a url and no id by nature
+    idless = {"wikipedia", "wikidata", "institution", "monograph", "other"}
+    assert kinds - set(CP.ID_SHAPES) - set(CP.UNSHAPED_ID_KINDS) == idless, \
+        kinds - set(CP.ID_SHAPES) - set(CP.UNSHAPED_ID_KINDS)

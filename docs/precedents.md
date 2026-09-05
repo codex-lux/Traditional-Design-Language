@@ -72,6 +72,35 @@ and found 57 defects to Tranche 1's 8.
    reference rules test an id's SHAPE and that a URL is present, never that it answers; one record
    stored a percent-encoded URL that had been dead since it was written.
 
+## The archival vocabulary, and the ids nobody checks (WP-11.5)
+
+`refs[].kind` is a closed enum and `ID_SHAPES` in `build/check_precedents.py` holds each kind's id
+to a shape. Europe needed seven more kinds — `niah`, `merimee`, `bic`, `rijksmonument`,
+`denkmalliste`, `vincolo`, `unesco` — beside the `historic-england`, `cadw` and `historic-scotland`
+that were already there and that no record used.
+
+**A shape is written from the register's own statement of its format, never from a remembered
+example.** Historic England's *Understanding List Entries* says *"Every List entry has a unique
+7-figure reference number"*, corroborated against fifteen sampled numbers, so `HE_LIST_RE` is
+`^1\d{6}$`. The counter-example is in this repository's own history: `NRHP_RE` was written from the
+legacy 8-digit form and rejected a valid 2019 listing on the first corpus that contained one.
+
+**A kind with no shape rule is NAMED, not left to a silent miss.** `ID_SHAPES.get(kind)` returns
+`None` for an unknown kind and no check runs, so an unshaped kind is an id nobody validates and
+nobody knows about. `UNSHAPED_ID_KINDS` lists them, the checker prints the count every run, and it
+is ratcheted. It read **58 on its first run** — every one a `state-register` id from the American
+tranches, carried unchecked since Tranche 1. The ceiling falls by adding a shape with its evidence,
+never by inventing one. A test asserts that every kind the schema admits is either shaped or named
+unshaped, so there is no third, silent category.
+
+**A national heritage list entry may BE the `survey` block.** Measured 5 Sep 2026: Historic
+England's `Details` section prints MATERIALS, PLAN and EXTERIOR paragraphs stating storeys, bays,
+roof covering, string-course positions and window lights — the same job as a HABS Part II and often
+richer. For such a record `item` is the List Entry Number, `data_url` the entry URL, `prepared` the
+`Date first listed` and any amendment date, and `survey_no` is absent because there is no HABS
+number; the `page` marker names the section, since a list entry is not paginated. The quote-field
+enum gained `materials`.
+
 ## A kit figure may cite a building (WP-11.4, Ruling A, 5 Sep 2026)
 
 A `measured` kit parameter may carry `source: "precedents/<id>#measurements[<n>]"` at
