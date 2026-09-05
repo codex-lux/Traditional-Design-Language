@@ -60,6 +60,37 @@ NRHP_RE = re.compile(r"^\d{8}$")                           # 66000701
 ID_SHAPES = {"habs": HABS_RE, "haer": HABS_RE, "loc-item": LOC_ITEM_RE, "nrhp": NRHP_RE, "nhl": NRHP_RE}
 KIT_POINTER_RE = re.compile(r"^precedents/([a-z0-9][a-z0-9-]*)#(?:survey\.([a-z_]+)|measurements\[(\d+)\])$")
 
+# ONE BUILDING, ONE RECORD (WP-11.3). Twelve agents researching in parallel can produce the one
+# defect the per-record checks cannot see: two records for the same building under two ids. The
+# partition makes it unlikely and this makes it visible. Two tests, and they are NOT the same
+# strength. A shared archival id is EVIDENCE -- a HABS number, a National Register reference and a
+# Library item id each name one building, so two records carrying one is an error. A shared NAME is
+# a QUESTION: American house names repeat across states (this corpus holds a Mount Airy, a Mount
+# Pleasant and a Mount Vernon, three different houses), so a name match is reported with both
+# locations for a reader to judge and is never resolved by merging two real buildings.
+UNIQUE_ID_KINDS = ("habs", "haer", "nrhp", "nhl", "loc-item")
+_NAME_ELIDE = re.compile(r"[\u2019']")
+_NAME_NOISE = re.compile(r"\(.*?\)|[^a-z0-9 ]")
+
+
+def normalised_name(name):
+    """Case, punctuation, a leading article and a trailing parenthetical alias -- the four ways one
+    building gets written two ways. `The Breakers` and `Breakers`; `Steuben House (Zabriskie
+    House)` and `Steuben House`.
+
+    The apostrophe is DELETED rather than spaced, and that is not a detail: spacing it makes
+    `Carter's Grove` normalise to `carter s grove` and `Carters Grove` to `carters grove`, which do
+    not match -- so the guard would have missed a duplicate written the commonest way an American
+    house name varies, on a building this corpus already holds. Found by the test below, which is
+    why the test names all four normalisations rather than trusting one."""
+    n = _NAME_ELIDE.sub("", (name or "").lower())
+    n = _NAME_NOISE.sub(" ", n)
+    n = " ".join(n.split())
+    for article in ("the ", "a "):
+        if n.startswith(article):
+            n = n[len(article):]
+    return n
+
 # Measured 4 Sep 2026 on the seeded pilot (Gunston Hall, Westover, Drayton Hall) and thereafter
 # may only improve. The floors are the point: a may-only-fall ceiling on dangling references is
 # satisfied by deleting the references, and the floors are what stop that reading as progress.
@@ -75,6 +106,12 @@ RATCHET = {
     "license_keys": 0,
     "kit_pointers_unresolved": 0,
     "as_printed_not_in_quote": 0,
+    # WP-11.3. Both measured 0 before Tranche 2 began, so both start clean. `duplicate_archival_id`
+    # is a hard error and stays 0. `same_name_records` counts pairs a reader must look at; it is
+    # ratcheted at what the corpus honestly holds, and driving it down by merging two real
+    # buildings would be the corruption, not the fix.
+    "duplicate_archival_id": 0,
+    "same_name_records": 0,
 }
 FLOORS = ("precedents", "exemplars_with_precedent", "precedents_with_survey")
 
@@ -307,11 +344,38 @@ def main():
                 rep.err(where, "source %r: the record has %d measurement(s)" % (src, n))
         counts["kit_pointers"] += 1
 
+    # One building, one record.
+    by_archival = collections.defaultdict(list)
+    by_norm = collections.defaultdict(list)
+    for rec in records.values():
+        rid = rec.get("id")
+        by_norm[normalised_name(rec.get("name"))].append(rid)
+        for ref in rec.get("refs") or []:
+            if ref.get("kind") in UNIQUE_ID_KINDS and ref.get("id"):
+                by_archival[(ref["kind"], ref["id"])].append(rid)
+    for (kind, aid), ids in sorted(by_archival.items()):
+        uniq = sorted(set(ids))
+        if len(uniq) > 1:
+            counts["duplicate_archival_id"] += 1
+            rep.err("precedents", "%s %s is carried by %s. An archival id names ONE building, so "
+                                  "these are one record written twice -- merge them, keeping the id "
+                                  "the exemplars already point at." % (kind, aid, ", ".join(uniq)))
+    for norm, ids in sorted(by_norm.items()):
+        uniq = sorted(set(ids))
+        if len(uniq) > 1:
+            counts["same_name_records"] += 1
+            where = ["%s (%s)" % (i, (by_id.get(i, {}).get("location") or {}).get("text", "no location"))
+                     for i in uniq]
+            rep.warn("precedents", "the name %r is carried by %s. Two houses may share a name -- read "
+                                   "the locations and merge only if they are one building."
+                                   % (norm, "; ".join(where)))
+
     m = measure(records, EX)
     for k in ("dangling_precedent",):
         m[k] = max(m[k], counts[k])
     for k in ("back_reference_disagreements", "refs_without_locator", "malformed_ids", "license_keys",
-              "kit_pointers_unresolved", "kit_pointers", "as_printed_not_in_quote"):
+              "kit_pointers_unresolved", "kit_pointers", "as_printed_not_in_quote",
+              "duplicate_archival_id", "same_name_records"):
         m[k] = counts[k]
 
     live_state = None

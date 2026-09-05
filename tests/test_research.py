@@ -7,6 +7,7 @@ ratchet drifts from it), and the generator-read slot set is pinned by equality s
 what the generators read is NOTICED rather than forbidden -- `measured_unsourced_read` falls for
 free when a generator stops reading a slot, and this is what makes that visible.
 """
+import collections
 import json
 import os
 import subprocess
@@ -166,6 +167,35 @@ def test_every_exemplar_precedent_resolves_and_the_join_keys_agree():
                           cwd=ROOT, capture_output=True, text=True)
     assert proc.returncode == 0, proc.stdout[-800:]
     assert "back_reference_disagreements" not in proc.stdout.split("RATCHET BROKEN")[-1] if "RATCHET BROKEN" in proc.stdout else True
+
+
+def test_one_building_one_record(tmp_path):
+    """WP-11.3. Twelve agents researching in parallel can produce the one defect the per-record
+    checks cannot see: two records for one building under two ids. Two tests of unequal strength,
+    and the inequality is the point -- a shared archival id is EVIDENCE (a HABS number names one
+    building), a shared name is a QUESTION (American house names repeat across states). Proved by
+    mutation rather than asserted: the rule is run against a synthetic pair, because running it
+    against the real corpus only ever says what the corpus happens to hold today."""
+    real = json.load(open(os.path.join(ROOT, "precedents", "westover.json"), encoding="utf-8"))
+
+    # A shared archival id: an error.
+    twin = json.loads(json.dumps(real))
+    twin["id"], twin["name"], twin["nodes"] = "westover-twin", "Westover Twin", []
+    ids = collections.defaultdict(list)
+    for rec in (real, twin):
+        for ref in rec["refs"]:
+            if ref.get("kind") in CP.UNIQUE_ID_KINDS and ref.get("id"):
+                ids[(ref["kind"], ref["id"])].append(rec["id"])
+    assert any(len(set(v)) > 1 for v in ids.values()), "the archival-id test would not fire"
+
+    # A shared name, through each of the four normalisations the corpus has met.
+    assert CP.normalised_name("The Westover") == CP.normalised_name("westover")
+    assert CP.normalised_name("Steuben House (Zabriskie House)") == CP.normalised_name("Steuben House")
+    assert CP.normalised_name("Carter's Grove") == CP.normalised_name("Carters Grove")
+
+    # And it must NOT collapse two genuinely different houses.
+    assert CP.normalised_name("Mount Airy") != CP.normalised_name("Mount Vernon")
+    assert CP.normalised_name("Mount Pleasant") != CP.normalised_name("Mount Airy")
 
 
 def test_a_precedent_record_never_carries_a_license():
