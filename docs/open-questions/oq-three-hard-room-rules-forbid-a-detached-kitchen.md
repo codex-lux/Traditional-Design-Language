@@ -90,7 +90,46 @@ Like for like on the composer's own `counts`, the same parti before and after:
 against it**: they were taken with `plan_check` on the placed record, a different instrument from
 the composer's own count, which this corpus warns about by name.
 
-**So the order is: the per-element roof, then item 3.** Building item 3 first would ship a diagram
+**AND THE PER-ELEMENT ROOF WOULD NOT FIX IT — MEASURED 6 Sep 2026, AFTER THAT WAS RULED.** The
+fatal is on the MAIN block's own roof, not on a wing's, so a per-element ridge relation never
+reaches it. The numbers say what does:
+
+| | shipped (one rectangle) | re-authored (dependency) |
+|---|---|---|
+| main block | 63 × **38.17** ft | 45 × **28.89** ft |
+| its massing's own `depth_rooms` | `double-pile` | `double-pile` |
+| `PILE["double-pile"]` target | **36.0 ft** | **36.0 ft** |
+| roof pitch / ridge | 8/12 · 35.93 ft | 8/12 · 35.93 ft |
+
+**The main block comes out seven feet shallower than its own massing's stated pile.** A side-gable
+roof's rise is half the DEPTH times the pitch, so a 28.89 ft block gives 9.6 ft of roof over 26 ft
+of wall — 0.4066 against the fault's 0.45 floor. The truss fault is TRUE and is reporting a real
+thing: **a `centre-passage-double-pile` whose main block is 28.89 ft deep has stopped being a
+double pile.** Fixing the roof to agree with it would be making the checker green about a house
+that is wrong.
+
+**The mechanism is `derive_footprint` having no depth FLOOR.** It sets `W = bays × module` and
+`H = need / W`, and its growth loop's exit condition is `H <= depth_for(W) * 1.18` — an upper bound
+on depth with nothing below. Moving the service out cut `need`, so `H` fell, and nothing in the
+derivation knows that `double-pile` states 36 ft. On one rectangle the areas happened to give 38.17
+and the absence never showed. It is `wp-9.2-what-the-tradition-actually-does.md`'s own diagnosis
+arriving in a new place — *area was satisfiable at any shape, so area is what the generator
+satisfied* — and the diagnosis's Part IV asks the composer to *"size from the type's commitments
+(Part V) rather than from area"* for this reason.
+
+**So item 3 is blocked on a DEPTH FLOOR in `derive_footprint`, not on the roof.** The per-element
+roof remains worth building — it is ruling 1's second half and `wing_step_down` currently returns
+`applicable: false` on this very plan because it gates on a grouping the parti does not carry —
+but it is not what clears this fatal, and building it first would leave item 3 exactly where it is.
+
+**`wing_step_down`'s own docstring is now false and is the "until X lands" class.** It says this
+corpus's geometry layer *"solves a single rectangular footprint and has never placed a real second
+volume, so there is no actual wing footprint to measure"*, and its `ok: None` rests on that. The
+placement above lays three elements and measures the dependency at 36 × 21.27 ft. The verdict is
+still honestly unjudged for a plan with no blocks; on a plan with them there is now something to
+measure.
+
+**So the order was: the per-element roof, then item 3.** Building item 3 first would ship a diagram
 that composes to a fatal, ranks ninth and is never placed — a materially better house the generator
 would never choose.
 
