@@ -39,7 +39,62 @@ until that package ships the composer will rank a materially better house lower,
 could take a five-part scheme may come back with a one-rectangle one and no reader will be told
 why.
 
-## What is now to be built (WP-11.6 item 3, unblocked and NOT YET BUILT)
+## MEASURED 6 Sep 2026: the ruling's widening is NOT NEEDED, and item 3 is blocked on the ROOF
+
+**The corpus already names the answer and WP-11.6 tried the two types it does not name.**
+`butlers-pantry`'s kitchen rule carries `via: ["back-hall", "gallery-corridor"]` — added 24 Aug
+2026 by OQ 59, for exactly this case, its own `why` saying *"in a plan whose kitchen is in a
+dependency … the pantry is in the block and the kitchen is in another building, and the connecting
+gallery is the connection."* WP-11.6 tried a `gallery-corridor` hyphen (whose own hard rule wants a
+stair hall) and a `breezeway` (not in the via list). **It did not try `back-hall`, which the list
+names FIRST**, and which requires only a direct door to the kitchen — a door the hyphen abuts.
+
+With the service in a `service-dependency` reached through a **`back-hall` hyphen**, the pantry
+staying in the main block beside the dining room:
+
+* `build/check_partis.py` **passes**, exit 0, no rule loosened and no field added;
+* `build/validate.py` passes with the parti schema as WP-11.6 left it;
+* placed directly, `geometry.solve` lays **three elements** — main 0–45 ft, hyphen 45–50, dependency
+  50–86 — and **places all 27 rooms** with **0 unplaced doors**.
+
+**So the ruling's widening is not needed for this parti.** That does not retract the ruling — it is
+the right answer to the question asked — but the cheapest execution of it turns out to be authoring
+the arrangement the records already permit, which is better than adding a field.
+
+**AND ITEM 3 IS STILL BLOCKED, ON SOMETHING ELSE.** Composed through `compose.py` the re-authored
+diagram picks up **one fatal finding: `truss-flattened-pitch`, "The Truss Default: 0.4066 against
+at-least 0.45"** — `roof_height_eave_to_ridge / wall_height_grade_to_eave`. Moving the service out
+shrinks the main block (63 ft wide to 45), **and the roof is still derived for the MAIN BLOCK ALONE
+with no stated ridge relation per element** — which is ruling 1's second half in
+`oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, recorded there as unbuilt.
+A smaller block at the same eave rule gives a lower ridge and the ratio falls under the fault's
+floor.
+
+**The consequence is mechanical and it is why this cannot simply be committed**: that one fatal
+drops the candidate from **rank 1 of 12 to rank 9**, because `compose`'s sort key is
+`(fatal, -score, demerits, parti)` — fatal FIRST — and the placement-and-revision budget is spent
+in rank order, so at rank 9 the candidate is never reached and comes back **with no geometry at
+all**. Its demerits go 102 → 210 for that reason and not because the house is worse.
+
+Like for like on the composer's own `counts`, the same parti before and after:
+
+| | shipped (one rectangle) | re-authored (dependency) |
+|---|---|---|
+| rank | **1** of 12 | **9** of 12 |
+| fatal / serious / minor | 0 / 20 / 82 | **1** / 21 / 82 |
+| score | 73.5 | 73.1 |
+| demerits | 102.0 | 210.0 |
+| rooms placed by the composer | 27 | **0** |
+
+**The earlier figures in this entry (17 → 10 fatal) are NOT this measurement and must not be quoted
+against it**: they were taken with `plan_check` on the placed record, a different instrument from
+the composer's own count, which this corpus warns about by name.
+
+**So the order is: the per-element roof, then item 3.** Building item 3 first would ship a diagram
+that composes to a fatal, ranks ninth and is never placed — a materially better house the generator
+would never choose.
+
+## What is now to be built (WP-11.6 item 3, unblocked BY THE RULING and blocked ON THE ROOF)
 
 The field on the rule; the three `butlers-pantry` / `gallery-corridor` rules authored with it; the
 re-authored `centre-passage-double-pile`; `check_partis.py` green on it; and the drawn-layer
