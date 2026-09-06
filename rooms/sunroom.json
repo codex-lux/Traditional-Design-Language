@@ -30,6 +30,20 @@
     "depth_multiplier": 2.8,
     "sides_lit": 3,
     "orientation": "SOUTH OR SOUTH-EAST. South is shadeable by an overhang and gives winter gain; east gives morning sun and no afternoon overheating; WEST IS THE WORST ORIENTATION IN THE HOUSE for a glazed room and is exactly where sunrooms most often get put, because it is what the plan has left over. North is a cold glass box with no compensating gain - pleasant in July, unusable in January, and structurally the least defensible version.",
+    "aspect": {
+      "applies": true,
+      "strength": "hard",
+      "prefer": [
+        "S",
+        "SE"
+      ],
+      "avoid": [
+        "W",
+        "N"
+      ],
+      "basis": "SOUTH OR SOUTH-EAST.",
+      "judgment": true
+    },
     "glazing_fraction": [0.4, 0.8],
     "note": "THE ONE ROOM WHERE THE DAYLIGHT DEPTH RULE DOES NOT BIND, because glazing on three sides means there is no single window wall to measure from - which is why the multiplier is set generously at 2.8. The binding constraints are the other two. GLARE, because a room lit from three sides has no dark surface for the eye to rest on and the contrast against the doorway into the house is severe. And HEAT, in both directions: a single-glazed sun porch loses roughly five to ten times as much heat per square foot as the wall it replaced, which is why the historic ones were unheated and shut in winter, and why heating one is the most expensive square footage in a house to condition. The honest position for new work is to decide whether the room is CONDITIONED or SEASONAL and build it accordingly - a seasonal room with single glazing, no heat and a door to the house that seals, or a conditioned room with insulated glass, a proper thermal envelope and shading. The half measure, which is what most enclosed porches are, gives a room that is uncomfortable eight months of the year and a heating bill for all twelve."
   },

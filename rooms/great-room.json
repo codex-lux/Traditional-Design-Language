@@ -100,6 +100,12 @@
     "depth_multiplier": 2.6,
     "sides_lit": 2,
     "orientation": "Usually the rear, and usually with a two-storey glazed gable. Note that a south-facing two-storey glass wall on a 25 ft deep room is a large solar gain - 300 sf of glass at 0.4 SHGC facing south takes about 25,000 Btu/h at noon in January, which is welcome, and a comparable figure in July, which is not. Overhangs sized on the solar altitude are the only fix that works, and the two-storey gable is the hardest possible geometry to shade.",
+    "aspect": {
+      "applies": false,
+      "basis": "Usually the rear, and usually with a two-storey glazed gable.",
+      "note": "Placed at the rear by the plan. What follows is a warning about SOLAR GAIN through a two-storey glass wall, which is a glazing-area rule and not a preferred aspect.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.18,
       0.4

@@ -1845,6 +1845,85 @@ def check(plan, C=None, strict=False):
                   f"{r.get('name') or rid} is a wet room with no other wet room adjacent or below it.",
                   room=rid, fix="Stack or pair wet rooms. An isolated bath on the far side of a plan is the most expensive plumbing decision most clients make without knowing it.")
 
+    # ---- THE ASPECT, WHICH SIXTY RECORDS STATE AND NOTHING HAS EVER READ (WP-11.9)
+    #
+    # Part VI of the Tidewater diagnosis lists four compass rules the corpus states and cannot
+    # execute -- the library's north, the kitchen's east, the drawing room's south and west, the
+    # closet's north or east. Reading them found that all SIXTY room records answer the
+    # orientation question and nothing in the tree read a single one; `build/compass.py` and the
+    # authored `daylight.aspect` beside each sentence are that reading.
+    #
+    # THE LAYER IS CHOSEN BY WHAT IT READS (WP-11.4's rule). A window's `wall` is AUTHORED and a
+    # door's is solver output, so this is a fact of the declared record and belongs here rather
+    # than in the drawn layer -- which is also why it can speak on all sixteen plan records
+    # instead of the two that carry a placement. Whether the placement could SEAT those windows
+    # where the author put them is a different question and `drawn-window-off-the-placed-wall`
+    # already answers it.
+    #
+    # PLAN-N IS TRUE-N UNLESS A BEARING SAYS OTHERWISE, ruled 5 Sep 2026, and the ruling's stated
+    # cost is that the assumption is printed in every finding rather than merely held.
+    _CMP = _load("compass", f"{ROOT}/build/compass.py")
+    _north = _CMP.plan_north(plan)
+    _assume = _CMP.assumption(_north)
+    _aspect_census = {"satisfied": 0, "avoided": 0, "unwanted": 0,
+                      "not_applicable": 0, "unstated": 0, "unjudged": 0}
+    for rid, r in rooms.items():
+        rt = C["rooms"].get(r["type"])
+        if not rt:
+            continue
+        label = r.get("name") or rt["name"]
+        v = _CMP.read((rt.get("daylight") or {}).get("aspect"), _CMP.lit_faces(r), _north)
+        # KeyError rather than `.get(..., 0)` ON PURPOSE: a verdict `compass.read` grows and this
+        # block does not know about would be counted into a key the message never prints, and a
+        # room would vanish from its own census. Loud is the only safe direction here.
+        _aspect_census[v["verdict"]] += 1
+        if v["verdict"] == "unstated":
+            F.add("info", "daylight",
+                  f"{label}: rooms/{r['type']}.json states no daylight.aspect, so its orientation "
+                  f"prose has not been read into tokens and this room's aspect is UNJUDGED. "
+                  f"Not a pass.", room=rid, kind="aspect-unstated")
+            continue
+        if v["verdict"] in ("not_applicable", "unjudged"):
+            continue
+        sev = "serious" if v.get("strength") == "hard" else "minor"
+        tok = ", ".join(f"plan-{f} is {v['tokens'][f]}" for f in sorted(v.get("faces") or []))
+        if v["verdict"] == "avoided":
+            F.add(sev, "daylight",
+                  f"{label} is glazed on an aspect its own record rules out: {tok}, and "
+                  f"rooms/{r['type']}.json avoids {'/'.join(v['avoid'])} — \"{v['basis']}\" "
+                  f"({v['strength']}). {_assume}",
+                  room=rid, kind="room-on-an-aspect-its-record-avoids",
+                  aspect_faces=sorted(v["faces"]), aspect_avoid=v["avoid"],
+                  plan_north_stated=_north["stated"],
+                  fix="Move the room to a wall the record admits, or move its glass to another "
+                      "wall of the same room.")
+        elif v["verdict"] == "unwanted":
+            F.add(sev, "daylight",
+                  f"{label} takes none of the light its record asks for: {tok}, and "
+                  f"rooms/{r['type']}.json wants {'/'.join(v['prefer'])} — \"{v['basis']}\" "
+                  f"({v['strength']}). {_assume}",
+                  room=rid, kind="room-off-the-aspect-its-record-wants",
+                  aspect_faces=sorted(v["faces"]), aspect_prefer=v["prefer"],
+                  plan_north_stated=_north["stated"],
+                  fix="Give the room a window on one of the walls the record names, or accept "
+                      "the aspect and say so on the record.")
+    # THE CENSUS IS THE DELIVERABLE AS MUCH AS THE FINDINGS ARE. Twenty-five of the sixty records
+    # answer the orientation question with something that is not a compass, and a reader who sees
+    # no aspect finding on a plan must be able to tell "clear" from "nothing was asked".
+    #
+    # IT FIRES WHENEVER ANY ROOM WAS READ, not only where something was unjudged. A first version
+    # gated it on `unjudged or not_applicable`, which would have let a plan whose rooms were all
+    # judged show two convictions and no denominator -- the reader cannot then tell three
+    # satisfied from three never asked, which is the whole distinction this block exists to keep.
+    if sum(_aspect_census.values()):
+        F.add("info", "daylight",
+              f"Aspect: {_aspect_census['satisfied']} satisfied, "
+              f"{_aspect_census['avoided'] + _aspect_census['unwanted']} against the record, "
+              f"{_aspect_census['not_applicable']} room(s) whose record answers with something "
+              f"that is not a compass, {_aspect_census['unjudged']} that could not be evaluated, "
+              f"{_aspect_census['unstated']} unstated. {_assume}",
+              kind="aspect-census")
+
     # ============================================================ GROUPING LAYER
     # The variables the groupings' own tests name. The placement is passed in where there is
     # one, because a handful of these rules (the passage against its facade, above all) are
@@ -1929,8 +2008,18 @@ def check(plan, C=None, strict=False):
                           f"[{g['name']}] REPORTED, not required — {ir['statement']} "
                           + (f"Observed band {band[0]}–{band[1]}, advisory. " if band else "")
                           + f"Measured by {rep}.", rule=gid)
-                elif hard:
-                    F.add("info", "grouping", f"[{g['name']}] check by hand: {ir['statement']}", rule=gid)
+                else:
+                    # AND THE BRANCH USED TO READ `elif hard`, WHICH LEFT 28 OF 86 RULES SILENT
+                    # (WP-11.9). 28 carry a test, 29 hard ones were handed to a human by name,
+                    # one reports -- and the remaining 28, every `strong` and `preferred` rule in
+                    # the corpus, emitted NOTHING: no evaluation, no note, no hand-off. A rule
+                    # nobody executes and nobody is told about reads exactly like a rule that
+                    # passed, which is the same defect `measures.reported_by` was added for one
+                    # rule at a time. The severity is named because it is what a reader needs to
+                    # know how hard to look.
+                    F.add("info", "grouping",
+                          f"[{g['name']}] check by hand ({ir.get('severity', 'strong')}, no "
+                          f"machine test): {ir['statement']}", rule=gid)
                 continue
             parsed = ARR.parse_rule_test(test) if ARR else None
             if not parsed:

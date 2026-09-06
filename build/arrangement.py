@@ -662,6 +662,57 @@ def grouping_vars(plan, C=None, placed=None, footprint=None):
         m["suite_area_sf"] = round(suite, 1)
         m["sleeping_floor_area_sf"] = round(sleeping, 1)
 
+    # --- BOTH ENDS OF THE PASSAGE, AND THE STAIR THAT OPENS OFF IT (WP-11.9)
+    #
+    # Two of the twenty prose rules the Tidewater diagnosis's Part VI lists. Both are DECLARED
+    # facts -- a door's `to` is authored even though its `wall` is solver output -- so they are
+    # answerable on all sixteen plan records rather than on the two that carry a placement.
+    #
+    # An end of the passage counts as doored where the door reaches outdoors, DIRECTLY or through
+    # a threshold room. That second clause is not a loosening: the Tidewater passage's front door
+    # is `to: porch`, because the porch is a room in this model and the front door is between the
+    # two, so a reader counting only `to: exterior` would find one end where the record states
+    # two -- and would report the diagnosis's own B4 against a record that does not commit it.
+    #
+    # LEVEL 0 ONLY, and the type is preferred rather than pooled. The Tidewater record carries a
+    # second `centre-passage` on the floor above, which is the landing corridor and has no ends to
+    # door; and where a record ever carries a `centre-passage` AND a `cross-passage` on the ground
+    # floor, the grouping is about the first and the second is likely a service run. Among several
+    # of ONE type the WORST is taken, not the best: reporting the best would be the flattering
+    # direction, which is the OQ 52 family. One of the sixteen records carries a passage at all,
+    # and it carries exactly one, so neither clause is exercised by this corpus -- both are driven
+    # in `tests/test_compass.py`.
+    ground = [rid for rid, r in rooms.items() if level_of.get(rid) == 0]
+    passages = [rid for rid in ground if rooms[rid].get("type") == "centre-passage"] \
+        or [rid for rid in ground if rooms[rid].get("type") == "cross-passage"]
+    if passages:
+        counts = []
+        for rid in passages:
+            n = 0
+            for d in (rooms[rid].get("doors") or []):
+                to = d.get("to")
+                if to == "exterior":
+                    n += 1
+                elif to in rooms and _fclass(C, rooms[to]) == "threshold":
+                    n += 1
+            counts.append(n)
+        m["passage_ends_with_a_door"] = float(min(counts))
+        # The stair rises in the passage, or in a hall opening off it. The FIRST half is true by
+        # construction in this model -- `openings.stair_pass` will only put a stair in a room of
+        # type `stair-hall` -- so a test of it would be an instrument that cannot fail, which
+        # this corpus rates worse than a test that cannot fail. What is failable is the SECOND
+        # half: a stair hall reached from a room rather than from the passage.
+        halls = [rid for rid, r in rooms.items()
+                 if r.get("type") == "stair-hall" and level_of.get(rid) == 0]
+        if halls:
+            reach = 0.0
+            for h in halls:
+                tos = {d.get("to") for d in (rooms[h].get("doors") or [])}
+                for pid in passages:
+                    if pid in tos or h in {d.get("to") for d in (rooms[pid].get("doors") or [])}:
+                        reach = 1.0
+            m["stair_hall_opens_off_the_passage"] = reach
+
     # --- placement-dependent (absent unless the drawn layer passes a placement in)
     if placed and footprint:
         fw, fh = footprint

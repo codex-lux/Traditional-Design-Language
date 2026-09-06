@@ -86,6 +86,19 @@
   "depth_multiplier": 1.8,
   "sides_lit": 1,
   "orientation": "South and east are the easy ones. West is the hard one and needs a vertical device - shutters, a pierced screen, a vine on wires - because at low sun angles no roof depth is enough. North is a cold damp arcade and is used only where the loggia is a circulation gallery around a courtyard, where it is correct.",
+  "aspect": {
+    "applies": true,
+    "strength": "preferred",
+    "prefer": [
+      "S",
+      "E"
+    ],
+    "avoid": [
+      "N"
+    ],
+    "basis": "South and east are the easy ones.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.4,
    0.8

@@ -122,7 +122,17 @@ class TestShippedPlans:
         # and did not run this suite, so the commit went out with this pin red.** Fatal and
         # serious are unmoved, which is what says the hearth layer surfaced a fact rather than
         # re-grading anything.
-        assert result["counts"]["minor"] == 75
+        # 75 -> 80 on 6 Sep 2026 (WP-11.9): the aspect. Five rooms whose declared window walls
+        # disagree with what their own room record says about the compass -- four taking none of
+        # the light the record asks for, one glazed on a wall the record rules out. All five are
+        # DECLARED facts (a window's `wall` is authored; a door's is solver output), which is why
+        # this reads on a record with no placement, and every one of them prints the plan-north
+        # assumption it was judged under. **Serious 57 and fatal 4 are UNMOVED** for the third
+        # package running, which is what says a new layer surfaced facts rather than re-graded
+        # anything. `info` also moves, 17 -> 25, and that is a SEPARATE change in the same
+        # package: the grouping layer's no-test branch read `elif hard`, so 28 of the corpus's
+        # 86 internal rules emitted nothing at all.
+        assert result["counts"]["minor"] == 80
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -193,7 +203,21 @@ class TestShippedPlans:
         # never told about. **Serious 30 and fatal 0 are UNMOVED.** The careful plan takes four
         # new minors where the ordinary one takes twelve, which is the ratio this pair of tests
         # exists to watch.
-        assert result["counts"]["minor"] == 65
+        # 65 -> 74 on 6 Sep 2026 (WP-11.9): the aspect, nine rooms. Six take none of the light
+        # their record asks for and three are glazed on a wall it rules out -- the library on the
+        # south among them, which is the Tidewater diagnosis's own C4. **Serious 29 and fatal 0
+        # are UNMOVED.** The careful plan takes nine new minors against the ordinary one's five,
+        # and that is the ratio inverting for the first time in this pair of tests: it is not the
+        # careful plan being worse. Twenty-five rooms against twenty-one is not the whole of it
+        # either: the aspect check reads the rooms whose TYPE states one, and this house is built
+        # of period rooms that nearly all do (library, drawing room, dining room, breakfast room,
+        # chambers) where the spec plan's family room, great room and mudroom answer the compass
+        # question with "whatever the lot gives".
+        # **And the WP-9.6 note above says "Serious 30" where the measured figure is 29** --
+        # nothing pins the serious count on this plan, so the prose drifted and nobody could
+        # notice. It is 29 before this package and 29 after. The sentence is left as written
+        # because it records what that package measured; this is the correction beside it.
+        assert result["counts"]["minor"] == 74
 
 
 class TestAdjacencyMechanics:

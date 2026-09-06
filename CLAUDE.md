@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,818 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,852 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -371,16 +371,22 @@ a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Repo
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
 **Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
-through 11.8 are complete, 11.9 through 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
+through 11.9 are complete, 11.10 and 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
 are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
 above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
 itself, two headings up.) Raised by Lucas against the workbench's own
 sheet, with the instruction to diagnose before building; the diagnosis is
 `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` and all five of the phase's questions were
-ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6,7,8}-*.md`. **Read WP-11.3's refusal
+ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6,7,8,9}-*.md`. **Read WP-11.3's refusal
 before proposing a score term for the axis**, WP-11.2's cost table before quoting any fatal count on
 the Tidewater plan, and **WP-11.6's item-4 section before quoting a downgrade count on either
 engine** — the number is a property of the number of massing elements the record states.
+**WP-11.9's §IV sets out all twenty of the diagnosis's prose rules ROW BY ROW -- 6 already
+executable, 5 executed there, 9 not done, each of the nine with the fact that would have to exist
+first.** Do not propose one of the nine without reading it. **Its first draft said "seven, six and
+seven" and left three rows in no bucket at all**, which is the arithmetic looking right (7+6+7=20)
+while the enumeration was never done -- caught by counting the table's rows instead of re-reading
+the sentence, which is WP-9.5's technique and is still the only thing that catches these.
 
 **Phase 9 — the critique and the corrective revisions — is COMPLETE (2 Sep 2026): WP-9.1,
 WP-9.2, WP-9.3 (the surfaces) and WP-9.4 (the adversarial audit of the other three).**
@@ -472,6 +478,76 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **SIXTY ROOM RECORDS STATE AN ASPECT AND NOTHING READ ONE, AND THE READING IS AUTHORED RATHER
+  THAN PARSED (WP-11.9).** `daylight.orientation` is on every record in `rooms/` and had ZERO
+  readers -- the same shape as `structural_logic`'s zero and `grows_by`'s one. `daylight.aspect`
+  is the compass reading beside each sentence, `build/compass.py` is the ONE reader, and
+  `check_rooms.py` holds each `basis` against the prose it quotes. **A regex was refused and the
+  reason is one layer over**: WP-11.4's `opening_width_in` searched `servicing.heat` for `NN in`
+  and gave `rooms/closet.json` -- *"None required and none wanted"* -- a 30.0 in MEASURED
+  fireplace opening off a sentence about a drywall hatch. Four jobs share this syntax too:
+  `larder`'s governing *"NORTH, and it is not a preference"*, `terrace`'s CLIMATE-CONDITIONAL
+  aspect whose two branches point opposite ways, `breezeway`'s axis of DOORS across the breeze,
+  and `garage`'s *"Any"*, which is an ANSWER. **35 state an aspect, 5 hard, 25 answer with
+  something that is not a compass** -- and `applies: false` is the state a two-state reader loses,
+  WP-11.4's `wants_a_hearth` lesson exactly. **A CAPITALISED PREFERENCE IS STILL A PREFERENCE**:
+  the library's NORTH is shouted and licensed two sentences later, so `strength: hard` is taken
+  only from words like *"and it is not a preference"* and *"HARD CONSTRAINT"*.
+  **The first version of the refusal check exempted the short ones by a LIST OF FIVE LITERAL
+  STRINGS** -- it fitted the corpus that existed rather than stating a rule. Five notes were
+  written and the exemption deleted.
+- **PLAN-N IS TRUE-N UNLESS A BEARING SAYS OTHERWISE, AND THE COST IS PAID IN THE FINDING RATHER
+  THAN IN THE CODE (ruled 5 Sep 2026, built WP-11.9).** The convention `render_plan.py` has
+  printed as **NORTH IS UP** since WP-2.4, made a rule. `compass.assumption()` returns one sentence
+  and **all 63 aspect findings carry it**, because a reader told a library faces south deserves to
+  know whether the record said so or the checker assumed it; a mutation deleting it turns the suite
+  red. `site.street_bearing_deg` is the bearing that says otherwise and **0 of 16 plan records
+  state one** -- `oq/no-plan-record-states-its-bearing`, which names the two readings the corpus
+  cannot separate and forbids defaulting a bearing (zero is not a measured north).
+  **A STATED BEARING WITH NO STATED FRONT IS COULD-NOT-EVALUATE, not the S default**: taking
+  `axis.DEFAULT_FRONT` there would silently turn a real house by whatever the difference happened
+  to be. `SECTOR_TOL_DEG = 22.5` is editorial and decides NOTHING on an unrotated plan -- every
+  face lands exactly on a cardinal -- so widening it to lower a count would be tuning the wrong
+  instrument. It is also the only route to an intercardinal at all: a window's `wall` enum is
+  N/E/S/W, so `NE` cannot be written on a wall and arrives only by rotation.
+- **THE ASPECT CHECK IS A ROOM-LAYER CHECK, AND THAT IS WHY IT IS NOT SILENT ON 94% OF THE CORPUS
+  (WP-11.9).** A window's `wall` is AUTHORED and a door's is solver output, so an aspect is a fact
+  of the DECLARED record -- WP-11.4's rule, ask what a check READS. It therefore speaks on **16 of
+  16** plans instead of joining `oq/fifteen-of-sixteen-plans-name-no-parti` and
+  `oq/fourteen-of-sixteen-plans-name-no-massing` in speaking on one or two. Measured: **40 rooms
+  take none of the light their record asks for, 23 are glazed on an aspect it rules out, and
+  exactly ONE is serious** -- `good-04`'s enclosed porch is a NORTH sunroom, which
+  `rooms/sunroom.json` calls a cold glass box unusable in January. **Serious and fatal are UNMOVED
+  on both shipped plans**, as for WP-9.6 and WP-11.4 -- three packages running; every movement is a minor or an info and
+  every one is attributed in the report's §III.
+- **TWENTY-EIGHT OF EIGHTY-SIX GROUPING RULES WERE EMITTING NOTHING AT ALL (WP-11.9).** The
+  grouping layer's no-test branch read `elif hard`: a hard rule with no test was handed to a human
+  by name, a rule with `measures.reported_by` said so (WP-11.7) -- and **every `strong` and
+  `preferred` rule with neither was silent**, which reads exactly like a rule that passed. 28 carry
+  a test, 1 reports, and 57 are now named with their severity. **It was found by a test asserting
+  that a split rule's untested half was named, which came back empty**, and the guard is a COUNT of
+  all three states rather than an assertion about one rule -- WP-11.7's own lesson, where a removed
+  serious and an added duplicate cancelled and 63 stayed 63.
+- **THE PASSAGE RULES PASS ON THE TIDEWATER RECORD, AND THAT IS THE FINDING (WP-11.9).** The
+  diagnosis's B4 -- *a centre passage whose rear door read as a window* -- is a defect of the
+  DRAWING: `passage_ends_with_a_door` is 2.0 and `stair_hall_opens_off_the_passage` is 1.0. A
+  package assuming the record was at fault would have "fixed" a correct record. **An end counts as
+  doored through a THRESHOLD ROOM as well as directly**, because that passage's front door is
+  `to: porch` -- counting only `to: exterior` reports B4 against a record that does not commit it.
+  **The rule was SPLIT** (count vs alignment) exactly as rule 2 was split out of the facade share,
+  and the alignment half carries no test and is named to the reader, which is what stops the count
+  passing from reading as the alignment passing. And *"the stair rises in the passage"* is tested
+  only in its SECOND half: `openings.stair_pass` puts a stair in a `stair-hall` and nowhere else,
+  so the first half is true by construction and a test of it would be an instrument that cannot
+  fail.
+- **A NEW FINDING KIND COSTS MORE THAN ITS CHECK, AND THE COST LANDED IN `critique._intended_move`
+  (WP-11.9).** All nine aspect findings reached the critique as `architect` -- the right class,
+  since rotating a house is not a move -- **carrying "the depth rule does not govern this room
+  type"**, the `daylight` layer's fall-through, a true sentence about a DIFFERENT rule handed to a
+  finding it was not written for. WP-11.4's *a refusal with one message for three causes* in a new
+  place, arriving the moment a second kind joined that layer. **Found by running `classify` on the
+  plan, not by reading the file.** When adding a finding kind, run the critique and read the `why`
+  it comes back with.
 - **THE PLAN LAYER HAS A FIRE NOW, AND FOURTEEN OF THE SIXTEEN PLAN RECORDS CANNOT BE JUDGED BY
   IT (WP-11.4).** `hearth` is an ARRAY on a plan room (schema **0.7.0**), `build/hearths.py` reads
   it, `render_plan.py` draws the breast as poché, and `roof.py` stands its stacks over stated flues
@@ -2233,8 +2309,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **141 entries, of which 55 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **142 entries, of which 56 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

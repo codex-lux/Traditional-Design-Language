@@ -30,6 +30,20 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "North or east, and the reason is the instrument rather than the eye: direct sunlight on a piano case dries and cracks the finish and the soundboard, and a south or west window with the instrument in front of it will take it out of regulation over a few seasons. Keep the piano out of the sun path and put the listeners in it if anyone must be.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N",
+        "E"
+      ],
+      "avoid": [
+        "S",
+        "W"
+      ],
+      "basis": "North or east, and the reason is the instrument rather than the eye",
+      "judgment": true
+    },
     "glazing_fraction": [0.12, 0.25],
     "note": "Windows are acoustically the hardest and most reflective surface in the room, so a music room glazed on two adjacent walls needs lined curtains on both or it will ring. The best historic arrangement puts one glazed wall opposite an absorbing one - curtains against bookcases or panelling - which breaks the parallel-surface problem without deadening the room."
   },

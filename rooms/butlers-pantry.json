@@ -103,6 +103,12 @@
   "depth_multiplier": 1.6,
   "sides_lit": 1,
   "orientation": "None required; a north window is pleasant and the room is usually interior.",
+  "aspect": {
+    "applies": false,
+    "basis": "None required; a north window is pleasant and the room is usually interior.",
+    "note": "The record requires none and calls north merely pleasant. A preference that the record itself declines to require is not one this check may enforce.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.0,
    0.08

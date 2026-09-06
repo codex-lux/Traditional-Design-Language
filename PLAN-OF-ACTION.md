@@ -2189,7 +2189,33 @@ demerit score; `corpus._placed` records which it drew and why in `geometry_repor
 
 ### WP-11.9 The prose, executed
 
-**Status: NOT STARTED. Mostly unblocked.** Part VII item 8; the report's Part VI table.
+**Status: COMPLETE (6 September 2026).** Report:
+`docs/reports/wp-11.9-the-prose-executed.md` · new open question:
+`oq/no-plan-record-states-its-bearing`.
+
+**The four compass rules the table names turned out to be sixty.** Every room record states an
+aspect in `daylight.orientation` and nothing in the tree read one. `daylight.aspect` is that
+reading, authored beside each sentence and quoting it (`check_rooms.py` holds the quotation against
+the record, `openings/grammar.json`'s rule one layer over): **35 state an aspect, 5 of those hard,
+25 answer with something that is not a compass** — "Any", a door axis, a climate condition — and
+each of the 25 carries a note saying which, because a refusal's value is its reason.
+`build/compass.py` is the one reader; **plan-N is true-N unless a bearing says otherwise (ruled
+5 Sep)** and the ruling's stated cost is honoured in the FINDING: all 63 print the assumption they
+were judged under. It is a ROOM-layer check because a window's `wall` is authored (WP-11.4's rule
+— ask what a check READS), which is why it speaks on 16 of 16 plans rather than on the 2 that
+carry a placement. Measured: **40 rooms taking none of the light their record asks for, 23 glazed
+on an aspect it rules out, ONE serious in the whole corpus** and it is true (a north sunroom on
+`good-04`). Two grouping rules were also given a test — the passage's two ends and the stair hall
+opening off it — and **both PASS on the Tidewater record, which is the finding**: B4 is a defect of
+the drawing, not of the record. Building them found that **28 of the corpus's 86 grouping
+`internal_rules` emitted nothing at all**, the no-test branch reading `elif hard`; it speaks for
+every rule now, and names the severity. Of the twenty: **6 were already executable, 5 are executed
+here, 9 are not done** — and the report's §IV sets all twenty out row by row, each of the nine
+with the fact that would have to exist first, because the first draft of that section said
+"seven, six and seven" and left three rows of the table in no bucket at all. Read it before
+proposing any of the nine.
+
+*The package as originally written:* Part VII item 8; the report's Part VI table.
 
 The twenty prose rules that table lists, each given a `test` beside its `statement` where WP-11.3
 and WP-11.4 have not already done so: the stair setback ceiling of 12 ft (E4) from the Georgian

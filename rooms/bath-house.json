@@ -103,6 +103,12 @@
     "depth_multiplier": 2.0,
     "sides_lit": 2,
     "orientation": "Toward the water it serves, and away from the house's principal elevation. A bath house is a dependency and it must read as subordinate - lower ridge, smaller bay, simpler order.",
+    "aspect": {
+      "applies": false,
+      "basis": "Toward the water it serves, and away from the house's principal elevation.",
+      "note": "Sited against the water and the principal elevation -- a relation to two things on the site, neither of which is a compass point.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.08,
       0.2

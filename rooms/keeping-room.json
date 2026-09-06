@@ -101,6 +101,18 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "South, and in a central-chimney house it takes the south front beside the entry, because it is the room used all day. The north lean-to rooms behind it are the buttery and the dairy, which want the cold - so a first-period New England plan is a thermal diagram, warm rooms south and cold rooms north, and the daylight follows the same line.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "S"
+      ],
+      "avoid": [
+        "N"
+      ],
+      "basis": "South, and in a central-chimney house it takes the south front beside the entry, because it is the room used all day.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.06,
       0.14

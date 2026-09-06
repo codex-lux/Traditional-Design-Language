@@ -165,6 +165,26 @@ def _intended_move(plan, f):
             if ext:
                 return "give-the-room-a-window", None
             return None, "the room declares no exterior wall to put a window in"
+        # THE ASPECT IS NOT THE DEPTH RULE, AND THE FALL-THROUGH USED TO SAY IT WAS (WP-11.9).
+        # Nine findings on the Tidewater plan reached the architect carrying "the depth rule does
+        # not govern this room type" -- a true sentence about a different rule, which is WP-11.4's
+        # "a refusal with one message for three causes" in a new place. The two aspect kinds get
+        # their own reasons, and both are honest refusals rather than absent moves: rotating a
+        # house is not a move at all, and moving a room's glass to another of its walls would
+        # change the elevation the author composed.
+        if k == "room-on-an-aspect-its-record-avoids":
+            return None, ("the room is glazed on an aspect its own record rules out. No move "
+                          "answers it: the house's bearing is a site fact and moving the glass "
+                          "to another wall of the same room recomposes an elevation the author "
+                          "drew. The architect chooses between the aspect and the facade")
+        if k == "room-off-the-aspect-its-record-wants":
+            return None, ("the room takes none of the light its record asks for. Either the room "
+                          "is on the wrong side of the plan, which is an arrangement decision, or "
+                          "the record's preference is being traded for something the plan wants "
+                          "more; both are the architect's")
+        if k == "aspect-unstated":
+            return None, ("the room type's record has not had its orientation prose read into "
+                          "tokens; this is a corpus gap, not a defect of the plan")
         return None, "the depth rule does not govern this room type"
     if layer == "style":
         if k == "variant-forbidden":

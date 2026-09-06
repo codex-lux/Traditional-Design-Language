@@ -38,9 +38,20 @@
   ],
   "internal_rules": [
     {
-      "statement": "Both ends of the passage have doors, and they are aligned. A passage closed at the back is a corridor and loses the reason the type exists.",
+      "statement": "Both ends of the passage have doors. A passage closed at the back is a corridor and loses the reason the type exists. Split from the alignment rule below because it measures a different quantity -- a COUNT of ends reached, which the declared record answers, against a geometric relation between two placed doors, which only a placement can (WP-11.9).",
       "kind": "circulation",
-      "severity": "hard"
+      "severity": "hard",
+      "test": "passage_ends_with_a_door at-least 2",
+      "measures": {
+        "quantity": "passage_ends_reached",
+        "units": "count",
+        "room": "centre-passage"
+      }
+    },
+    {
+      "statement": "The two end doors are aligned, so the view runs through the house. Carries no test: the quantity is a relation between two PLACED doors and every layer that may read a placement is the drawn layer (OQ 54). Unjudged, and named here rather than left inside the rule above, where the count passing would have read as the alignment passing too. Filed `circulation` rather than a new `axis` kind: the enum is closed at eight and widening it for one rule would be a schema change made to suit a sentence.",
+      "kind": "circulation",
+      "severity": "strong"
     },
     {
       "statement": "The passage takes a BAY of the front, and its share of the facade follows -- observed at roughly one fifth to one quarter. Below 8 ft the stair cannot turn and the passage stops being a room, which is rule 2's floor and is a rule; this share is a CONSEQUENCE and is reported rather than required (oq/the-facade-is-a-result-not-an-input, ruled 4 Sep 2026). The observation is real and is why the band is kept as an advisory; it is not an input the passage may be sized from, which is what the hard test it replaces did.",
@@ -74,9 +85,15 @@
       "severity": "strong"
     },
     {
-      "statement": "The stair rises in the passage or in a hall opening off it, never through a room.",
+      "statement": "The stair rises in the passage or in a hall opening off it, never through a room. The test holds the SECOND half only: that a separate stair hall is reached from the passage. The first half is true by construction in this model -- build/openings.py::stair_pass places a stair in a room of type stair-hall and nowhere else -- and a test of it would be an instrument that cannot fail (WP-11.9).",
       "kind": "circulation",
-      "severity": "hard"
+      "severity": "hard",
+      "test": "stair_hall_opens_off_the_passage at-least 1",
+      "measures": {
+        "quantity": "stair_hall_reaches_the_passage",
+        "units": "count",
+        "room": "stair-hall"
+      }
     },
     {
       "statement": "Where the plan is single-pile, the passage cross-ventilates the whole house. Filling in behind to make it double-pile buys area and loses the draft, and that trade should be made deliberately.",

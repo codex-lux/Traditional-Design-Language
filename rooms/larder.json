@@ -93,6 +93,22 @@
     "depth_multiplier": 1.2,
     "sides_lit": 1,
     "orientation": "NORTH, and it is not a preference. A larder with any direct sun on it is a warm cupboard.",
+    "aspect": {
+      "applies": true,
+      "strength": "hard",
+      "prefer": [
+        "N"
+      ],
+      "avoid": [
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W"
+      ],
+      "basis": "NORTH, and it is not a preference. A larder with any direct sun on it is a warm cupboard.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.04

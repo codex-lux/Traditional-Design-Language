@@ -60,6 +60,12 @@
   "depth_multiplier": 3.0,
   "sides_lit": 4,
   "orientation": "South-east in cold climates for morning use; east or north in hot ones, where a west terrace is uninhabitable from May to September.",
+  "aspect": {
+    "applies": false,
+    "basis": "South-east in cold climates for morning use; east or north in hot ones",
+    "note": "Conditioned on the climate, and the two branches point opposite ways -- south-east in a cold climate, north in a hot one. The condition is real and this check has no climate axis to resolve it on, so the record is left unexecuted rather than resolved by picking a branch.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0,
    0

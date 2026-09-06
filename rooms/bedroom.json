@@ -103,6 +103,18 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "East. A bedroom wants morning light and does not want a western afternoon, which is the hardest room in the house to cool and the one most likely to have the smallest cooling load calculated for it. In a hot climate a west bedroom needs either a shading device that is part of the architecture or a different room.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E"
+      ],
+      "avoid": [
+        "W"
+      ],
+      "basis": "East. A bedroom wants morning light and does not want a western afternoon",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.15
