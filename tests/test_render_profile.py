@@ -1,8 +1,11 @@
 """The eleven asset records the corpus can draw for itself, and the refusals on the plate.
 
-WP-4.4 has been blocked on a network this container does not have since it was written, and 150
-of its 322 records could never be harvested anyway -- they are `role: incorrect`, and no archive
-indexes wrongness. Eleven records were never blocked on anything: they carry a `generated_from`
+WP-4.4 has been blocked on a network this container does not have since it was written, and a
+large share of the manifest could never be harvested anyway -- those records are `role: incorrect`,
+and no archive indexes wrongness. (The figures this paragraph used to carry, "150 of its 322
+records", were the manifest's size and shape when the layer was authored; `check_counts.computed()`
+owns `image_records` and `image_never_harvestable` and holds four documents to them.)
+Eleven records were never blocked on anything: they carry a `generated_from`
 block naming a proportion pack and an assembly, and everything needed to draw them has been in
 the corpus since WP-5.11. They were waiting on a driver.
 
@@ -289,10 +292,15 @@ def test_gen_assets_carries_forward_the_fields_it_does_not_own(tmp_path):
             assert after[i]["file"]["sha256"] == before[i]["file"]["sha256"], i
 
         named = [i for i, a in before.items() if (a.get("provenance") or {}).get("building")]
-        # 786, not 845: build/name_asset_buildings.py keyed on `role`, which gave a real
-        # building to 52 line-diagrams whose own alt_text says there is nothing to photograph,
-        # and to 7 code-conflict drawings. It keys on `kind` now.
-        assert len(named) == 786, len(named)
+        # The count is NOT pinned here. It read 845, then 786 when name_asset_buildings.py
+        # stopped keying on `role` (which gave a real building to 52 line-diagrams whose own
+        # alt_text says there is nothing to photograph, and to 7 code-conflict drawings) and
+        # started keying on `kind`, then 858 when WP-11.6's Ruling B gave the last 18
+        # exemplar-less nodes something to deal from. `check_counts.computed()` owns
+        # `image_building_named` and holds three documents' prose to it; the subject HERE is
+        # that the generator CARRIES FORWARD a field it does not own, which the loop below is.
+        # The floor exists so a manifest that lost every building name cannot pass in silence.
+        assert len(named) > 100, len(named)
         for i in named:
             assert (after[i].get("provenance") or {}).get("building"), \
                 "%s lost the building name WP-4.4 gave it" % i

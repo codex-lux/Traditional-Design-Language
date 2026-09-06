@@ -564,6 +564,22 @@ printed every run; deleting the fallback is MEASURED and refused, because it con
 legitimate sharers.
 `oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity`. Report:
 `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII.
+**AND THE SUITE THEN FOUND FOUR MORE OF THE SAME DEFECT, CAUSED BY THIS PACKAGE'S OWN CHANGE.**
+Naming the 72 asset records moved `image_building_named` 786 -> 858, `image_queries` 305 -> 312,
+`image_queries_us` 180 -> 183 and the residual 72 -> 0, and **seven literals in three test files
+described the corpus of a fortnight ago**. Three such tests were repaired on Friday and Friday's own
+change produced four more: nobody knows how many remain, because nothing counts them.
+**THE OBVIOUS REPAIR WAS THE TAUTOLOGY THAT HAD JUST BEEN REMOVED** -- binding them to
+`check_counts.computed()` looks like §XIII.1's fix and is not, because `computed()` derives
+`image_queries` by calling `query_for`, the very function under test (the same reader twice), and
+`image_building_named` counts ALL assets where the harvest test counts WANTED ones (two populations
+that coincide today, which is OQ 48's error in a new place). The copies are DELETED instead: each
+test asserts the property it was written to prove, and the four figures keep their one owner.
+**One test's subject was DISCHARGED, not moved** -- it asked for `<= 72` and, because the reason line
+prints only when non-zero, also asserted that line EXISTED, so it failed on its own scaffolding the
+moment the count reached zero. It reads the absence as the zero now, pinned tight at 0.
+Five mutations, all red from a green baseline, each restored in a `finally` and each proved to have
+LANDED first. **And the sweep afterwards found two more stale figures in prose no assertion reads.**
 **THE BENCH ACQUIRED A LITERATURE AND IT IMMEDIATELY CONVICTED SEVENTEEN `measured` KIT FIGURES, AND
 NOTHING WAS APPLIED (WP-11.3).** 240 survey-against-kit readings over Tranche 2: **196 silent, 27 agree,
 17 CONTRADICT**, three of them by the node's OWN exemplar -- `southern-federal`'s `max_depth_ft 20`

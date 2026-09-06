@@ -1763,7 +1763,22 @@ that leaves the class open for the next tranche and the question is which fact t
 missing, not which 27 rows to edit. **`build/name_asset_buildings.py` WAS re-run and the 72 asset
 records on the 18 exemplar-less higher-rank nodes are named** — 786 → **858 of 1,850**, across 312
 queries of which 183 are inside HABS's charter, and a dry run now assigns zero. That was WP-4.4's
-own stated next step and it had been waiting on exactly this ruling. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII · new open question:
+own stated next step and it had been waiting on exactly this ruling.
+
+**AND THAT NAMING RUN REDDENED FOUR MORE TESTS, ALL THE SAME DEFECT AS THE THREE ABOVE.** The full
+suite read `1 of 49 checks failed`: every checker green, the three named could-not-evaluate states
+in place, and four tests carrying literals that the moved figures falsified —
+`image_building_named` 786 → 858, `image_queries` 305 → 312, `image_queries_us` 180 → 183, the
+residual 72 → 0. **Three repaired one day, four more produced by that day's own change**, and
+nothing counts how many remain. **The obvious repair was the tautology just removed**: binding them
+to `check_counts.computed()` reads as the same fix and is not, because `computed()` derives
+`image_queries` by calling `query_for` — the function under test — and `image_building_named` counts
+ALL assets where the harvest test counts WANTED ones. The copies are deleted rather than moved; each
+test asserts its own property, and no ratchet is added to `check_assets.py` because a second owner
+makes an honest change a two-file edit and a dishonest one invisible. One test's subject was
+DISCHARGED rather than moved — it required the residual LINE to exist, and that line prints only
+when the count is non-zero, so it failed on its own scaffolding at success. Five mutations, all red
+from a proved-green baseline, each restored in a `finally`. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII · new open question:
 `oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity` · closed:
 `oq/a-family-node-has-no-exemplar`.
 
