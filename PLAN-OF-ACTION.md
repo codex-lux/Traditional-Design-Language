@@ -1653,10 +1653,32 @@ term — not stepped around.
   `docs/reports/wp-11.8-the-search-ranks-what-it-used-to-price.md` · closed:
   `oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five`,
   `oq/the-frozen-fixture-is-regenerated-by-solving`.
-- **WP-11.9 — the dependency.** Gated on the four rulings in
-  `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, then the six layers in a
-  stated order with a measurement after each, then the tags on the shipped record.
-- **WP-11.10 — the terrace at grade**, after WP-11.9's first ruling.
+- **WP-11.9 — the dependency. COMPLETE (6 Sep 2026), and its last item REFUSED with a number.**
+  All four rulings taken before any code (per-element envelope with the union beside it; the lot
+  cap on the built extent, gap excluded; a hyphen is an element and abutment is a constraint;
+  `touches` against the room's own element's face), then all six layers taught in the stated
+  order with a measurement after each. `build/elements.py` is the one reader, a LEAF.
+  **The whole shipped corpus is byte-identical** — placement, footprint, openings, fixtures,
+  furniture and findings — because every plan here is one rectangle, and that is the guarantee
+  the package is read against; `tests/test_elements.py` pins both digests. Measured on a
+  hand-tagged Tidewater: outward openings placed on their own element's real faces **18 → 23**
+  with refusals 11 → 6 (five authored windows recovered); exterior walls **4 → 12** on the ground
+  and 4 upstairs; unsupported upper wall lines **20 → 27** on one record with only the instrument
+  changed (seven had been credited to walls under no upper floor); built extent **97 → 77 ft**,
+  because the main block had been sized for rooms that go in the dependency; rooms reaching no
+  exterior wall **8 → 1**; one IFC slab per element per storey. **The abutment constraint is
+  INERT on everything the placer produces and the test says so in its own name** — tried at five
+  hyphen depths and on a composed five-part with five elements, the count is zero, because
+  `blocks_for` clamps the hyphen's depth and centres all three on one axis. **The tags are NOT
+  authored on the shipped record**, and the reason is one measured fact: tagging is now an
+  improvement on every axis (fatal 9 → 6, serious 61 → 53, rooms out of band 6 → 2, where
+  WP-10.1 measured the same tags trebling the fatals) but `engine="cp"` REFUSES a multi-element
+  plan, so it would trade a proved reference plan for a searched one —
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`. Report:
+  `docs/reports/wp-11.9-the-six-layers-that-read-one-rectangle.md`.
+- **WP-11.10 — the terrace at grade**, after WP-11.9's first ruling (taken: per-element
+  envelope, union beside it). Gated on the same CP fact as the tags —
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`.
 
 ## 6. Parallelisation map
 

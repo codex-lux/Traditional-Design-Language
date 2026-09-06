@@ -158,17 +158,41 @@ def export_ifc(plan, path, parti=None):
     counts = {"walls": 0, "slabs": 0, "spaces": 0, "windows": 0, "doors": 0,
               "windows_without_geometry": 0}
 
-    # ---- slabs: one framed floor per storey, its top at the storey's own datum
+    # ---- slabs: one framed floor per storey PER MASSING ELEMENT, its top at the storey's own
+    # datum. WP-11.9, ruling 1 (5 Sep 2026): an element has its own envelope, so it has its own
+    # slab. This sized one slab `W + 2*t_ext` centred on the MAIN BLOCK, so a dependency's
+    # IfcSpaces floated clear of the slab under them -- the sixth of the six layers
+    # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` names.
+    #
+    # An element with no rooms on a storey gets no slab on that storey, which is the same rule
+    # `structure.build_section` takes for walls and for the same reason: a floor under nothing
+    # is phantom structure, and inventing it here would be the defect this package removes
+    # arriving one level up.
+    EL = _mod("elements", f"{ROOT}/build/elements.py")
+    _els = EL.elements(plan) or [{"id": "main", "role": "main", "x": 0.0, "y": 0.0,
+                                  "W": W, "H": D, "attached_to": None}]
+    _rooms_by_level = {(lv.get("index") or 0): (lv.get("rooms") or [])
+                       for lv in (plan.get("levels") or [])}
     for idx, (storey, st) in storeys.items():
         depth = (st.get("floor_structure_depth_in") or 10.0) / 12.0
-        slab = _run("root.create_entity", f, ifc_class="IfcSlab", name=f"{pid} floor L{idx}")
-        slab.PredefinedType = "FLOOR"
-        _box(f, body, slab, W + 2 * t_ext, D + 2 * t_ext, depth)
-        _placement(f, slab, (W / 2, D / 2, float(st["grade_to_floor_ft"]) - depth))
-        _run("spatial.assign_container", f, products=[slab], relating_structure=storey)
-        _pset(f, slab, {"plan_id": pid, "style": style, "tdl_id": f"floor-L{idx}",
-                        "depth_in": st.get("floor_structure_depth_in")})
-        counts["slabs"] += 1
+        here = [e for e in _els
+                if any(EL.element_of(plan, r, _els) is e for r in _rooms_by_level.get(idx, []))]
+        if not here:
+            here = [_els[0]] if len(_els) == 1 else []
+        for e in here:
+            suffix = "" if len(_els) == 1 else f"-{e['id']}"
+            slab = _run("root.create_entity", f, ifc_class="IfcSlab",
+                        name=f"{pid} floor L{idx}{suffix}")
+            slab.PredefinedType = "FLOOR"
+            _box(f, body, slab, e["W"] + 2 * t_ext, e["H"] + 2 * t_ext, depth)
+            _placement(f, slab, (e["x"] + e["W"] / 2, e["y"] + e["H"] / 2,
+                                 float(st["grade_to_floor_ft"]) - depth))
+            _run("spatial.assign_container", f, products=[slab], relating_structure=storey)
+            _pset(f, slab, {"plan_id": pid, "style": style,
+                            "tdl_id": f"floor-L{idx}{suffix}",
+                            "massing_element": e["id"], "massing_role": e["role"],
+                            "depth_in": st.get("floor_structure_depth_in")})
+            counts["slabs"] += 1
 
     # ---- walls per level, from structure.py's own wall lines
     exterior_walls = {}   # (level, wall_letter) -> (IfcWall, along_axis)
@@ -361,7 +385,15 @@ def export_ifc(plan, path, parti=None):
         if m.get("form") in GABLE_FORMS and ridge.get("grade_to_ridge_ft") and m.get("pitch_rise_per_12"):
             eave, ridge_h = m["grade_to_eave_ft"], ridge["grade_to_ridge_ft"]
             axis = ridge.get("axis", "x")
-            ow, od = W + 2 * t_ext, D + 2 * t_ext
+            # THE ROOF IS THE UNION READER, and ruling 1 says so in as many words: an element
+            # has its own envelope and the union is reported beside it, because the roof spans
+            # something and that something is not an element. On a one-rectangle house the union
+            # IS the main block and every figure below is unchanged; on a multi-element house
+            # this is a stated approximation -- one gable over the whole union -- and
+            # `geometry_report.multi_element` is where a reader is told the roof layer has not
+            # been taught about elements.
+            _bb = EL.union_bbox(plan, _els) or (0.0, 0.0, W, D)
+            ow, od = (_bb[2] - _bb[0]) + 2 * t_ext, (_bb[3] - _bb[1]) + 2 * t_ext
             ridge_len, span = (ow, od) if axis == "x" else (od, ow)
             slope_run, slope_rise = span / 2.0, ridge_h - eave
             slope_len = math.hypot(slope_run, slope_rise)

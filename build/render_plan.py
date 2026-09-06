@@ -488,10 +488,30 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
 
     blocks = [(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]) for b in (fp.get("blocks") or [])] \
         or [(0.0, 0.0, W, H)]
+    # AN ELEMENT WITH NO ROOMS ON THIS LEVEL GETS NO ENVELOPE ON THIS LEVEL (WP-11.9). The
+    # renderer drew every element's ring on every plate, so a house with a ground-floor
+    # dependency had a 30 ft poche rectangle enclosing nothing on its UPPER plate -- an envelope
+    # around no rooms, which says the house has a storey it does not have. Found by rendering a
+    # tagged record and LOOKING at it, after the same defect had been fixed in
+    # `structure.build_section` and `export_ifc` the same afternoon; the renderer is the third
+    # place it lived and the only one no count would have caught. On a one-rectangle house every
+    # room is in element zero and this is the single ring, as before.
+    def _blocks_here(rooms):
+        if len(blocks) < 2:
+            return blocks
+        here = [b for b in blocks
+                if any((r.get("geometry") or {}) and
+                       r["geometry"]["x_ft"] >= b[0] - 0.5 and
+                       r["geometry"]["y_ft"] >= b[1] - 0.5 and
+                       r["geometry"]["x_ft"] + r["geometry"]["width_ft"] <= b[0] + b[2] + 0.5 and
+                       r["geometry"]["y_ft"] + r["geometry"]["depth_ft"] <= b[1] + b[3] + 0.5
+                       for r in rooms)]
+        return here or blocks
     level_bands, all_stray = [], []
     for i, lv in enumerate(levels):
         gaps = opening_gaps(level_openings[i], W, H)
-        bands, stray = wall_bands(lv["rooms"], blocks, W, H, fp.get("bay_module_ft"), wall, gaps)
+        bands, stray = wall_bands(lv["rooms"], _blocks_here(lv["rooms"]), W, H,
+                                  fp.get("bay_module_ft"), wall, gaps)
         level_bands.append(bands)
         all_stray.extend(stray)
 

@@ -173,19 +173,20 @@ def _shared(a, b, tol=0.4):
 _OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
 
-def _boundary_walls(rect, W, H, tol=0.6):
-    """Which of a room's own walls lie on the footprint boundary, with their runs."""
-    x, y, w, h = rect
-    out = {}
-    if y <= tol:
-        out["S"] = (x, x + w)
-    if y + h >= H - tol:
-        out["N"] = (x, x + w)
-    if x <= tol:
-        out["W"] = (y, y + h)
-    if x + w >= W - tol:
-        out["E"] = (y, y + h)
-    return out
+def _boundary_walls(rect, bounds, tol=0.6):
+    """Which of a room's own walls lie on ITS OWN ELEMENT's boundary, with their runs.
+
+    WP-11.9. This took `(W, H)` -- the main block's -- until 5 Sep 2026, which is the first of
+    the six layers `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` names.
+    A garage at x 84-105 on a 70 ft block reported its east face as a footprint boundary, and
+    both renderers and `export_dxf` then drew the window at `x = W`, FOURTEEN FEET from the
+    room. `bounds` is `(x, y, W, H)` of the room's own element (ruling 1, 5 Sep 2026); on the
+    whole shipped corpus that is `(0, 0, W, H)` and every placement is byte-identical.
+
+    The body lives in `build/elements.py` so the drawn layer's `touches` tests cannot answer
+    differently -- they had their own transcription of this rule, one file over, and ruling 4
+    makes them the same question."""
+    return _elem().boundary_walls(rect, bounds, tol=tol)
 
 
 def _free(lo, hi, blocked):
@@ -327,7 +328,7 @@ def _place_interior(level_rooms, occupied, report):
         report["placed"] += 1
 
 
-def _place_exterior(level_rooms, occupied, W, H, C, report):
+def _place_exterior(level_rooms, occupied, W, H, C, report, bounds=None):
     """Exterior doors, and the one rule that fixes the reported symptom.
 
     op-passage-axis. styles/tidewater-georgian.json c03 is HARD — "Centre passage 10-14 ft
@@ -348,7 +349,22 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
                 d["unplaced"] = {"reason": "the room is not placed on this level"}
                 report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
             continue
-        bw = _boundary_walls(rect, W, H)
+        # THE ROOM'S OWN ELEMENT, never the main block (WP-11.9, ruling 1). A miss is
+        # COULD NOT EVALUATE and is refused with a reason: it can only happen on a
+        # multi-element record whose room straddles two elements, which the slicer cannot
+        # produce and a caller-supplied record can, and guessing the main block there is the
+        # exact defect this package removes.
+        eb = (bounds or {}).get(r["id"])
+        if eb is None:
+            if bounds:
+                for d in ext_doors:
+                    d["unplaced"] = {"reason": "this room stands in no single massing element, "
+                                               "so which of its walls face outward cannot be "
+                                               "decided"}
+                    report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
+                continue
+            eb = (0.0, 0.0, W, H)
+        bw = _boundary_walls(rect, eb)
         declared = [w for w in (r.get("exterior_walls") or []) if w in bw] or list(bw)
         fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
 
@@ -369,7 +385,8 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
                 served.add(seg[0])
             # a porch on the south end serves the south end even where the shared wall
             # between the two runs east-west
-            for w2, run in _boundary_walls(_rect(other), W, H).items() if _rect(other) else []:
+            ob = (bounds or {}).get(other["id"]) or eb
+            for w2, run in _boundary_walls(_rect(other), ob).items() if _rect(other) else []:
                 if w2 in bw:
                     served.add(w2)
 
@@ -417,7 +434,7 @@ def _place_exterior(level_rooms, occupied, W, H, C, report):
                                        "rule": "op-passage-axis"})
 
 
-def _place_windows(level_rooms, occupied, W, H, report):
+def _place_windows(level_rooms, occupied, W, H, report, bounds=None):
     """Windows into the run the doors left, centred on the bay grid where a bay line falls
     inside the free space. build/geometry.py's own header says the bay module is what
     "joists span, windows centre on, the facade composes from" — and no renderer or pass
@@ -428,7 +445,17 @@ def _place_windows(level_rooms, occupied, W, H, report):
             for win in (r.get("windows") or []):
                 win["unplaced"] = {"reason": "the room is not placed on this level"}
             continue
-        bw = _boundary_walls(rect, W, H)
+        eb = (bounds or {}).get(r["id"])
+        if eb is None:
+            if bounds:
+                for win in (r.get("windows") or []):
+                    win["unplaced"] = {"reason": "this room stands in no single massing "
+                                                 "element, so which of its walls face outward "
+                                                 "cannot be decided"}
+                    report["windows_unplaced"] += (win.get("count") or 1)
+                continue
+            eb = (0.0, 0.0, W, H)
+        bw = _boundary_walls(rect, eb)
         for win in (r.get("windows") or []):
             wall = win.get("wall")
             n = win.get("count") or 1
@@ -646,6 +673,18 @@ _FIXTURE_ALIASES = {
 }
 
 
+_ELEM = None
+
+
+def _elem():
+    """build/elements.py, the one reader of which massing element a room stands in. A LEAF:
+    it imports nothing from build/, so loading it here closes no cycle (WP-11.9)."""
+    global _ELEM
+    if _ELEM is None:
+        _ELEM = _mod("elements", os.path.join(ROOT, "build", "elements.py"))
+    return _ELEM
+
+
 def _furniture_for(room_type, fixture, C):
     """The room catalogue's own footprint for a named fixture, or None."""
     rt = C["rooms"].get(room_type) or {}
@@ -808,8 +847,13 @@ def place(plan, C=None):
         rooms = [r for r in lv["rooms"]]
         occupied = {}
         _place_interior(rooms, occupied, report)
-        _place_exterior(rooms, occupied, W, H, C, report)
-        _place_windows(rooms, occupied, W, H, report)
+        # WP-11.9: which massing element each room stands in, computed ONCE per level and
+        # threaded down. On every plan in this corpus there is one element and this maps every
+        # placed room to `(0, 0, W, H)`, which is what the two passes read before -- so the
+        # whole shipped corpus is byte-identical across the change.
+        ebounds = _elem().bounds_index(plan, rooms)
+        _place_exterior(rooms, occupied, W, H, C, report, bounds=ebounds)
+        _place_windows(rooms, occupied, W, H, report, bounds=ebounds)
         fixture_pass(rooms, C, report, occupied)
         holds.append((rooms, occupied))
     stair = stair_pass(plan, C, report)

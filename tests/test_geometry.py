@@ -507,14 +507,21 @@ class TestTheAuditGapsInTheBlockWork:
         """Gap #5, and the reason the block machinery may stay in the tree after the composer
         packages above it were reverted.
 
-        Five layers below the placer read `footprint.width_ft/depth_ft` as the whole building,
+        Six layers below the placer read `footprint.width_ft/depth_ft` as the whole building,
         and an adversarial audit measured each one wrong on a dependency room: a garage window
         drawn fourteen feet from the garage, a clear span manufactured across the hyphen gap, an
         upper wall supported by a wall under no upper floor, a lot cap that caps the main block
-        while the built extent runs 34 ft past the lot line, and a critic convicting a dependency
-        room of reaching no exterior wall. None of that is fixed. The composer emits no `block`,
-        so the only way to reach it is a caller-supplied record -- which is precisely the reader
-        who cannot know, which is why the record says so itself.
+        while the built extent runs 34 ft past the lot line, a critic convicting a dependency
+        room of reaching no exterior wall, and IfcSpaces floating clear of their slab.
+
+        **WP-11.9 TAUGHT ALL SIX AND THIS TEST MOVED WITH THEM.** It pinned the six as
+        `not_element_aware`, which was the honest disclosure until 6 Sep 2026 and became a false
+        one the moment the layers were taught -- WP-6.4's own finding, in the assertion that
+        guards the disclosure. What it pins now is the same INVARIANT stated against the current
+        facts: a multi-element placement says which layers judge it and which do not, in the
+        corpus's own words, and the second list is shorter rather than empty. A key rename is
+        NOT part of that: `ignored_tags_above_ground` is unchanged, and the rewrite renaming it
+        in passing is what first broke this test.
 
         A one-rectangle plan must carry NO such key: sixteen records that have never needed one
         are the byte-identity guard the whole change is held to."""
@@ -523,13 +530,20 @@ class TestTheAuditGapsInTheBlockWork:
         g._SOLVE_CACHE.clear()
         g.solve(plan, None, engine="heuristic")
         me = plan["geometry_report"].get("multi_element")
-        assert me, "a two-element placement reports the five layers' numbers and discloses nothing"
+        assert me, "a two-element placement reports its layers' numbers and discloses nothing"
         assert me["elements"] == 2
-        assert set(me["not_element_aware"]) == {
+        assert set(me["element_aware"]) == {
             "openings", "structure", "vertical_score", "lot_cap", "plan_check.drawn", "export_ifc"}
-        assert "COULD NOT EVALUATE" in me["note"], (
-            "the disclosure must use the corpus's own words for an unjudged state, or a reader "
-            "takes it for a caveat rather than a verdict")
+        assert me["not_element_aware"] == ["roof", "engine=cp", "composer"], (
+            "the shorter list is the deliverable: what a multi-element placement still cannot "
+            "judge is the roof (it spans the union), the proving engine (it refuses) and the "
+            "composer (it writes no tag)")
+        assert me["built_extent_width_ft"] and me["union_bbox_ft"], (
+            "ruling 1 and ruling 2 both live on this record -- the extent the lot is capped on "
+            "and the union the roof spans, side by side and told apart")
+        assert "searched and not proved" in me["note"], (
+            "a reader of a multi-element placement must be told the engine that PROVES refused "
+            "it, because that is the one thing this package did not fix")
         assert "ignored_tags_above_ground" not in me
 
         # A tag the placer cannot read is named rather than silently dropped. The schema admits

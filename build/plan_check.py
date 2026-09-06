@@ -37,6 +37,10 @@ def _load(name, path):
 # file, so this file may never load geometry.py, and the stacking verdict has to be one
 # spelling that both can reach. Same shape as build/storeys.py and build/assemblies.py.
 STACKING = _load("stacking", os.path.join(ROOT, "build", "stacking.py"))
+# WP-11.9. Which massing element a room stands in. A LEAF -- it imports nothing from build/ --
+# which is what lets this file, `geometry.py` and `structure.py` all read one answer despite
+# sitting on three different rungs of the import ladder.
+ELEMENTS = _load("elements", os.path.join(ROOT, "build", "elements.py"))
 
 
 # SUBSTITUTION, and it runs in one direction (OQ 43, ruled 24 Aug 2026).
@@ -513,6 +517,22 @@ def drawn_layer(plan, rooms, level_of, C, F):
     _fp = plan.get("footprint") or {}
     fp_w = _fp.get("width_ft") or max((g["x_ft"] + g["width_ft"] for g in placed.values()), default=0.0)
     fp_h = _fp.get("depth_ft") or max((g["y_ft"] + g["depth_ft"] for g in placed.values()), default=0.0)
+    # WP-11.9, ruling 4, 5 Sep 2026: **`touches` is measured against the room's OWN element.**
+    # This layer read the MAIN BLOCK for every room, so a dependency room with authored windows
+    # was convicted of *"drawn in the middle of the house: it reaches no exterior wall on any
+    # side"* while both renderers drew that same wall as an exterior envelope -- the critic and
+    # the drawing wrong in OPPOSITE directions about one wall. Exterior is exterior: a face on
+    # the dependency's own boundary carries a window, a sill, a load and the weather. A face
+    # that looks across the hyphen gap at the house is exterior too and is counted separately
+    # as `faces_across_a_gap`, so a later ruling has the number without this one baking an
+    # answer in. `bounds_index` maps every placed room to `(0, 0, fp_w, fp_h)` on a
+    # one-rectangle house, which is every plan in this corpus.
+    _ebounds = {}
+    try:
+        _ebounds = ELEMENTS.bounds_index(plan, [r for lv in plan.get("levels") or []
+                                                for r in lv.get("rooms") or []])
+    except Exception:
+        _ebounds = {}
 
     # --- reachability over the openings that were actually PLACED
     ok_edges = {rid: set() for rid in rooms}
@@ -992,11 +1012,12 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # "directly in the middle of the house". A room that touches a boundary but not the
         # one its record names could be lit tomorrow by moving the window. Both are serious;
         # only the first is a plan that cannot work.
+        _bx, _by, _bw, _bh = _ebounds.get(rid, (0.0, 0.0, fp_w, fp_h))
         touches = []
-        if abs(g["y_ft"]) < 0.6: touches.append("S")
-        if abs(g["y_ft"] + g["depth_ft"] - fp_h) < 0.6: touches.append("N")
-        if abs(g["x_ft"]) < 0.6: touches.append("W")
-        if abs(g["x_ft"] + g["width_ft"] - fp_w) < 0.6: touches.append("E")
+        if abs(g["y_ft"] - _by) < 0.6: touches.append("S")
+        if abs(g["y_ft"] + g["depth_ft"] - (_by + _bh)) < 0.6: touches.append("N")
+        if abs(g["x_ft"] - _bx) < 0.6: touches.append("W")
+        if abs(g["x_ft"] + g["width_ft"] - (_bx + _bw)) < 0.6: touches.append("E")
         units = sum(int(w.get("count") or 1) for w in wins)
         if not touches:
             _add("serious", "drawn",

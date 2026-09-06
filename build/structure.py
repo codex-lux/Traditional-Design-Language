@@ -46,6 +46,10 @@ DEFAULT_CONSTRUCTION_TYPE = _mod("assemblies", f"{ROOT}/build/assemblies.py").DE
 # openings.stair_pass). Re-exported under the old names so every existing caller and
 # tests/test_structure.py keep working, and so there is exactly ONE implementation.
 STOREYS = _mod("storeys", f"{ROOT}/build/storeys.py")
+# WP-11.9. Which massing element a room stands in, and each element's own envelope. A LEAF, so
+# loading it at import time here closes no cycle (this file already loads geometry, which loads
+# plan_check; elements loads nothing).
+ELEMENTS = _mod("elements", f"{ROOT}/build/elements.py")
 STOREY_CEILING_FRACTION = STOREYS.STOREY_CEILING_FRACTION
 storey_heights = STOREYS.storey_heights
 DEFAULT_GRADE_TO_FIRST_FLOOR_FT = 2.0          # storey-graduation.json's foundation_expression default (part*2.4 on a 10 ft storey)
@@ -94,10 +98,25 @@ def _shared_segment(a, b, tol=0.4):
         if hi - lo > 1.0: return ("y", y, lo, hi)
     return None
 
-def wall_lines(level_rooms, W, H):
-    """Every wall segment on one level: the four exterior boundary edges, plus every interior
-    segment two placed rooms actually share. Each is tagged 'exterior' or 'interior' here;
-    bearing_lines() below tags interior segments 'bearing' or 'partition'."""
+def wall_lines(level_rooms, W, H, elements=None):
+    """Every wall segment on one level: the exterior boundary edges of EVERY massing element,
+    plus every interior segment two placed rooms actually share. Each is tagged 'exterior' or
+    'interior' here; bearing_lines() below tags interior segments 'bearing' or 'partition'.
+
+    `elements` is `[(x, y, W, H), ...]` -- one entry per massing element, ruling 1 of WP-11.9
+    (5 Sep 2026): *an element has its own envelope, and the union is reported beside it*. Omit
+    it and the whole building is one rectangle at the origin, which is every plan in this corpus
+    and is exactly what this function did before the argument existed.
+
+    Before WP-11.9 the four walls were the MAIN BLOCK's, and a dependency 37 ft west of it got
+    no envelope at all while its interior partitions became bearing lines out beyond the block:
+    `span_check` then measured a clear span ACROSS THE HYPHEN GAP between two buildings. That is
+    the second of the six layers named by
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, and it was wrong in
+    both directions at once -- structure invented where there was none, and modelled none where
+    there was structure. (That slug is on ONE line on purpose: `check_citations.py` reads line by
+    line, so a slug wrapped across a newline is a dangling citation to it. It caught this one.)
+    """
     placed = [r for r in level_rooms if r.get("geometry")]
     walls = []
     # Axis convention matches _shared_segment() below: axis "x" is a VERTICAL wall (constant x,
@@ -109,9 +128,14 @@ def wall_lines(level_rooms, W, H):
     # wall's y=H position leaking in as a bogus x-axis break point -- which silently fabricates
     # spans that do not exist on the actual footprint. Caught by running this file for the first
     # time against plans/tidewater-georgian-careful.json and inspecting the raw span list.
-    for wall, axis, pos, extent in (("S", "y", 0.0, W), ("N", "y", H, W), ("W", "x", 0.0, H), ("E", "x", W, H)):
-        walls.append({"role": "exterior", "wall": wall, "axis": axis, "position_ft": pos,
-                      "lo_ft": 0.0, "hi_ft": extent})
+    for ex, ey, eW, eH in (elements or [(0.0, 0.0, W, H)]):
+        for wall, axis, pos, lo, hi in (("S", "y", ey, ex, ex + eW),
+                                        ("N", "y", ey + eH, ex, ex + eW),
+                                        ("W", "x", ex, ey, ey + eH),
+                                        ("E", "x", ex + eW, ey, ey + eH)):
+            walls.append({"role": "exterior", "wall": wall, "axis": axis,
+                          "position_ft": round(pos, 4),
+                          "lo_ft": round(lo, 4), "hi_ft": round(hi, 4)})
     seen = set()
     for i, r in enumerate(placed):
         for o in placed[i + 1:]:
@@ -424,10 +448,25 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
                           f"call this file does not resolve; it follows the style, per the pack's own wording, and "
                           f"records the tension here rather than silently picking one reading.")
 
+    # WP-11.9, ruling 1: every massing element gets its own envelope. `elements.py` reads
+    # `footprint.blocks` and answers with ONE entry -- the block at the origin -- on every
+    # single-rectangle house, which is all sixteen plans in this corpus, so every span, every
+    # bearing line and every pinned figure below is byte-identical across the change.
+    _all_els = ELEMENTS.elements(geometry_result)
     levels_out = []
     for lv in geometry_result["levels"]:
         W, H = clear_fp["width_ft"], clear_fp["depth_ft"]
-        walls = wall_lines(lv["rooms"], W, H)
+        # AN ELEMENT WITH NO ROOMS ON THIS LEVEL HAS NO WALLS ON THIS LEVEL, and the first
+        # version of this line did not say so: it handed every level all three elements, so the
+        # UPPER floor of a house with a ground-floor dependency grew a dependency envelope with
+        # nothing inside it -- 12 exterior walls over 0 dependency rooms, phantom structure of
+        # exactly the kind this package removes, one level up. Caught by reading the counts per
+        # level rather than in total. On a one-rectangle house every room is in element zero and
+        # this is the single block, as before.
+        _here = [ELEMENTS.bounds_of(e) for e in _all_els
+                 if any(ELEMENTS.element_of(geometry_result, r, _all_els) is e
+                        for r in lv["rooms"])] or None
+        walls = wall_lines(lv["rooms"], W, H, elements=_here)
         bearing = bearing_lines(walls, bay_module_ft)
         spans = span_check(bearing, W, H, plan.get("style"), construction["floor"])
         levels_out.append({
