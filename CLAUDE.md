@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,852 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,864 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -371,7 +371,7 @@ a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Repo
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
 **Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
-through 11.9 are complete, 11.10 and 11.11 are planned.** (**This line said "11.1, 11.2 and 11.3
+through 11.9 and 11.11 are complete, 11.10 is planned.** (**This line said "11.1, 11.2 and 11.3
 are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
 above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
 itself, two headings up.) Raised by Lucas against the workbench's own
@@ -478,6 +478,30 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **A PART VI IS ENUMERATION AND A PART II IS RESEARCH, AND ONLY ONE OF THEM CAN BE GENERATED
+  (WP-11.11).** `build/parti_prose.py <parti-id> [--md] [--all]` reads a parti's own groupings,
+  massing and room records and sorts every sentence into `executed` / `reported` / `by hand`, plus
+  the prose figures no band carries. The Tidewater diagnosis's twenty-row Part VI took a session by
+  hand; **for that same parti the generated table is FIFTY rows -- 24 executed, 6 reported, 20 by
+  hand, 7 prose figures** -- because the hand table was a reading of ONE SHEET and caught what that
+  sheet broke, while the generated one is the whole surface. `--all` prints one line per parti
+  (`five-part-palladian` largest at 30/9/26, `single-cell-hall` smallest at 12 rows).
+  **A ROW THAT HAS LEFT THE TABLE IS THE ONLY EVIDENCE IT IS WORTH GENERATING**: all twenty of
+  this parti's room-orientation rows moved out of `by hand` at WP-11.9 (15 executed, 5 reported).
+  **The prose meter is `check_grouping_rules`'s, IMPORTED**, with a source-reading test that fails
+  if this file grows `re.finditer` or its own `_WORDS` -- a second crude regex is how a corpus ends
+  up with two upper bounds for one question. **A rule with no test is NOT a defect**: one is a
+  REPORT by ruling, several are a reader's, and WP-11.9's §IV refuses nine with reasons; a file
+  calling them all debt would argue for the mechanical execution the facade ruling refused.
+- **A BLIND MUTATION IS A MEASUREMENT AND IS WORTH RECORDING RATHER THAN PATCHING (WP-11.11).**
+  One of six mutations left the suite green: widening `room_figures`' room filter to the whole
+  corpus changes nothing, because `prose_meter`'s room population is keyed on the GROUPINGS it is
+  handed, so the grouping scope already constrains it (it reaches `bedroom` and `centre-passage`,
+  both named by the parti). The filter is KEPT with its reason written above it and a test pins
+  the equality, whose failure message says the comment has become wrong -- so the day the meter
+  grows a room-side population, the claim stops being true loudly instead of the line quietly
+  starting to matter. Patching it with a test that passed for the wrong reason was the available
+  alternative and is the thing this corpus keeps catching.
 - **SIXTY ROOM RECORDS STATE AN ASPECT AND NOTHING READ ONE, AND THE READING IS AUTHORED RATHER
   THAN PARSED (WP-11.9).** `daylight.orientation` is on every record in `rooms/` and had ZERO
   readers -- the same shape as `structural_logic`'s zero and `grows_by`'s one. `daylight.aspect`

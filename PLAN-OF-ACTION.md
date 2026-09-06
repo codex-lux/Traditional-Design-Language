@@ -2233,7 +2233,33 @@ programme. Not before: a term measured on the wrong box measures the box.
 
 ### WP-11.11 The diagnosis as an instrument, and the per-parti pass
 
-**Status: NOT STARTED. Unblocked.** Part IX's method.
+**Status: COMPLETE (6 September 2026).** Report:
+`docs/reports/precedents-centre-passage-double-pile.md`. No new open question.
+
+**The instrument half shipped with WP-11.2** — `build/diagnose_sheet.py`, with `--baseline` and
+`--seeds`. What this package added is the SECOND half, and the finding is that the two halves are
+different kinds of thing. **Part II is RESEARCH and cannot be generated**; **Part VI is
+ENUMERATION and now is** — `build/parti_prose.py <parti-id> [--md] [--all]` reads a parti's own
+groupings, massing and room records and sorts every sentence into `executed` / `reported` /
+`by hand`, plus the prose figures no band carries. The diagnosis's twenty-row Part VI took a
+session by hand; the equivalent for any of the twenty-one is now one command, and for
+`centre-passage-double-pile` it is **50 rows: 24 executed, 6 reported, 20 by hand, 7 prose
+figures** — the hand table was a reading of one sheet and caught what that sheet broke, the
+generated one is the whole surface. Corpus-wide (`--all`): `five-part-palladian` is the largest at
+30/9/26, `single-cell-hall` the smallest at 12 rows.
+**All twenty of this parti's room-orientation rows LEFT the by-hand column at WP-11.9** (15
+executed, 5 reported), which is the only evidence a generated Part VI is worth having rather than
+a list of complaints. **The prose meter is `check_grouping_rules`'s, imported and not
+transcribed**, with a source-reading test that fails if this file grows its own regex.
+**One of six mutations was BLIND and is recorded rather than patched**: the room filter in
+`room_figures` is inert today, because `prose_meter`'s room population is keyed on the GROUPINGS
+it is handed, and the test pins that measurement so it stops being true loudly if the meter
+changes.
+Ruled: **one parti, done properly, as the pattern** — the precedent file carries the method for
+the other twenty in §2 and states in §4 that it re-measured nothing, every figure cited to the
+pass that established it.
+
+*The package as originally written:* Part IX's method.
 
 `build/diagnose_sheet.py <plan> [--engine]`: prints the diagnosis's Part I tables for any placed
 plan — every room's drawn rectangle beside its declared one, its placed and declared exterior
