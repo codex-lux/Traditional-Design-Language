@@ -141,12 +141,26 @@ diffs on `f.id`, so the bench reported a row cleared and a new one opened for a 
 touched. The same mechanism churned six ids at WP-11.9's merge, for rows whose statements were
 byte-identical either side.
 
-`kind` is part of the key now and the twelve grouping `F.add` calls gained one. Ordinal-suffixed ids
-**472 → 395**, longest id 66 characters, 0 collisions across all 16 plans.
+Putting `kind` in the key fixes it — ordinal-suffixed ids **472 → 395**, 0 collisions, longest id
+66 characters — and **it was built, measured, and then reverted, because the full build caught it
+breaking a stated contract.** `tests/test_critique.py::test_the_finding_id_is_unchanged_by_the_
+evidence_it_carries` says, citing OQ 32:
 
-It churns every id carrying a kind, once. That is the right trade — the ids are per-process and
-per-plan by construction, and the alternative is a namespace that reshuffles itself every time a
-layer grows a finding.
+> an id is what a finding is ABOUT. Evidence rides beside it and must never enter it, or every
+> citation and every open/cleared diff breaks on a number.
+
+and lists `kind` among the evidence, beside `need_ft`, `have_ft`, `axis` and `item`. Changing a
+pinned contract on one session's reading is precisely the move this audit criticises WP-11.9 for
+making to the composer's score, so the change came out rather than the test being re-pinned. It had
+a second measured cost besides: finding ids expressible as a `finding:<id>` citation fell **55 → 12
+of 1,620** (§VII½), because each new segment adds a colon the grammar excludes.
+
+**What survives:** the twelve grouping `F.add` calls keep the `kind` they gained — useful, and it
+enters no id — and the defect is written down with its measurement in
+`oq/a-findings-ordinal-is-not-an-identity`, which asks the question the test does not draw: is
+`kind` evidence, or identity? `need_ft=10.667` moves as the plan moves and is plainly evidence; a
+`kind` is a closed vocabulary naming what sort of finding this is, and does not change while the
+finding is the same finding.
 
 ---
 
@@ -268,17 +282,16 @@ all? It is not, and it was not before:
 
 | | citable as `finding:<id>` | of |
 |---|---|---|
-| before this audit | **55** | 1,620 |
-| after it | **12** | 1,620 |
+| as shipped (and after the revert below) | **55** | 1,620 |
+| under the reverted `kind`-in-the-id change | **12** | 1,620 |
 
 `ID_CHARS = "A-Za-z0-9_.-"` in all three spellings of the citation grammar, and **`:` is not in
 it** — while `Findings.add` joins every id with `:`. So `adjacency:great-room` has never been
 citable, and the twelve that are are the plan-wide findings whose id is one bare segment. The
 grammar carries a `finding` kind that routes correctly the moment an id reaches it, and no id can.
 
-**Pre-existing, and widened by 43 by this audit's own fix**, which is stated rather than absorbed:
-3.4% became 0.7%, both approximately none, and the id fix removed a defect a reader could see.
-Widening `ID_CHARS` is a change to three spellings held together by `test_grammar_agreement.py` —
+**Pre-existing, and it is one of the two reasons the `kind`-in-the-id change came back out** —
+3.4% citable would have become 0.7%. The tree ships at 55. Widening `ID_CHARS` is a change to three spellings held together by `test_grammar_agreement.py` —
 which exists because an audit once found two of them disagreeing about a dot — and it would make
 `style:craftsman:junk` parse on every kind. That is a grammar ruling, not an audit fix:
 `oq/a-finding-citation-cannot-name-a-finding`.

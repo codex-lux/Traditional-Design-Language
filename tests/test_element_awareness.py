@@ -415,12 +415,18 @@ class TestTheCriticReadsTheRoomsOwnElement:
 
         Two changes, both to fields inside existing rows and neither adding or removing one:
         the twelve grouping `F.add` calls gained a `kind` (18 rows on the Tidewater plan, 17 on
-        the spec Colonial), so that a finding's id stops reshuffling when its layer grows a
-        sibling; and the aspect census gained a clause naming rooms whose type has no record
-        (1 row each). PROVED rather than asserted: undoing exactly those two edits on the live
-        output -- clearing every `grouping-*` kind and stripping the census clause -- reproduces
-        70be99010403c9f3 and b5b33adeb258e516 BYTE FOR BYTE on both plans, so nothing else moved.
-        That reconstruction is the only reason a digest change was accepted here at all."""
+        the spec Colonial), which makes the grouping layer's findings machine-readable in the
+        same way every other layer's already are; and the aspect census gained a clause naming
+        rooms whose type has no record (1 row each). PROVED rather than asserted: undoing exactly
+        those two edits on the live output -- clearing every `grouping-*` kind and stripping the
+        census clause -- reproduces 70be99010403c9f3 and b5b33adeb258e516 BYTE FOR BYTE on both
+        plans, so nothing else moved. That reconstruction is the only reason a digest change was
+        accepted here at all.
+
+        The `kind` was added in the same pass that put `kind` into the finding ID, and THAT half
+        was reverted (`oq/a-findings-ordinal-is-not-an-identity`) after the full build found it
+        breaking OQ 32's stated contract. This digest is over `(kind, room, statement)` and never
+        over the id, so the revert does not move it -- checked, not assumed."""
         import hashlib
         import collections as _c
         for name, want, rows, hist in (

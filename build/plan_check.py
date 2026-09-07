@@ -317,26 +317,24 @@ class Findings:
     # bug with extra steps.
     _ID_LIKE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$")
 
-    # AND `kind` IS PART OF THE IDENTITY, WHICH IT WAS NOT (audit, 7 Sep 2026).
+    # `kind` IS NOT IN THE KEY, AND AN AUDIT PUT IT THERE AND TOOK IT BACK OUT (7 Sep 2026).
     #
-    # The docstring above says a finding's identity is WHAT IT IS ABOUT. `kind` is the field
-    # that says what it is about, in one machine-readable token, and `add()` was the one reader
-    # in the tree that did not look at it -- so two findings of DIFFERENT kinds about one room
-    # in one layer were separated only by the order they happened to be minted in, and an
-    # ordinal is not an identity.
+    # THE DEFECT IS REAL AND IS MEASURED: two findings of different kinds about one room in one
+    # layer are separated only by the ORDER they were minted in. Shrink `backhall` on the
+    # Tidewater record until its depth finding clears, and the aspect finding beneath it --
+    # unchanged in every respect -- moves from `daylight:backhall#1` to `daylight:backhall`, so
+    # the bench (`PlanWorkbench.jsx` diffs on `f.id`) reports a row cleared and a new one opened
+    # for a finding nothing touched. That falsifies the docstring above, which says the ordinal
+    # is "stable for a given plan and a given checker, which is what a diff between two
+    # evaluations of the same record needs".
     #
-    # MEASURED, because the cost was live rather than theoretical. Shrink `backhall` on the
-    # Tidewater record until its depth finding clears and the aspect finding beneath it -- which
-    # did not change at all -- moved from `daylight:backhall#1` to `daylight:backhall`. The
-    # bench diffs on `f.id` (`PlanWorkbench.jsx`, "N findings new since the last evaluation"),
-    # so it reported a finding cleared and a new one opened for a row nothing had touched. The
-    # same mechanism churned six ids at the merge of WP-11.9, for findings whose statements were
-    # byte-identical either side.
-    #
-    # This CHURNS every id carrying a kind, once, and that is the right trade: the ids are
-    # per-process and per-plan by construction (the docstring says so -- two plans may mint the
-    # same id and that is a feature), nothing on disk holds one, and the alternative is a
-    # namespace that reshuffles itself every time a layer grows a finding.
+    # IT IS NOT FIXED HERE, because `tests/test_critique.py::test_the_finding_id_is_unchanged_
+    # by_the_evidence_it_carries` states the opposite contract in as many words, citing OQ 32:
+    # evidence "must never enter" the id, and that test lists `kind` among the evidence. Putting
+    # it in churned every id carrying one and took the finding ids expressible as a
+    # `finding:<id>` CITATION from 55 to 12 of 1,620. Changing a pinned contract on one
+    # session's reading is the move this audit criticised WP-11.9 for making to the score.
+    # `oq/a-findings-ordinal-is-not-an-identity` carries the measurement and the two ways out.
     def add(self, severity, layer, statement, **kw):
         parts = [layer, str(kw.get("room") or "")]
         for key in ("rule", "constraint", "fault"):
@@ -344,9 +342,6 @@ class Findings:
             if isinstance(v, str) and self._ID_LIKE.match(v):
                 parts.append(v)
                 break
-        kind = kw.get("kind")
-        if isinstance(kind, str) and self._ID_LIKE.match(kind):
-            parts.append(kind)
         base = ":".join(p for p in parts if p)
         n = self._seq[base]
         self._seq[base] += 1

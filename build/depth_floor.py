@@ -64,13 +64,22 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _storeys():
     """`build/storeys.py`, the OTHER leaf. Leaf-to-leaf is allowed and leaf-to-sibling is not:
-    `storeys.py`'s own docstring carries the same rule and the same reason."""
-    import importlib.util
-    spec = importlib.util.spec_from_file_location(
-        "tdl_storeys", os.path.join(ROOT, "build", "storeys.py"))
-    m = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(m)
-    return m
+    `storeys.py`'s own docstring carries the same rule and the same reason.
+
+    THROUGH `modcache`, because a raw `spec_from_file_location` here is the standing trap
+    CLAUDE.md names first, and `tests/test_modcache.py::test_no_new_by_path_loader_outside_
+    modcache` failed on this line (found by the full build, 7 Sep 2026; WP-11.10 had committed
+    before its own run finished). Being a LEAF is a rule about this file's SIBLINGS -- it may
+    not reach `structure` or `geometry`, because `geometry` reads it -- and `modcache` is the
+    loader itself, which depends on nothing in the corpus, so routing through it closes no
+    cycle. It also stops `storeys.py` being executed afresh on every call.
+    """
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache as _mc
+    return _mc.load("tdl_storeys", os.path.join(ROOT, "build", "storeys.py"))
 
 # THE FOUNDATION CONSTANT IS NOT TRANSCRIBED HERE, AND THE TEST GUARDING THE TRANSCRIPTION WAS
 # GUARDING NOTHING (audit, 7 Sep 2026). This file carried `DEFAULT_GRADE_TO_FIRST_FLOOR_FT = 2.0`

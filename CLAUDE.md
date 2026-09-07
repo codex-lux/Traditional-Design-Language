@@ -671,18 +671,28 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   the suppression bit before reading any delta: `tests/test_compass.py` asserts the finding count
   falls to 0 first, for exactly this reason. This is the repo's own *a mutation that silently does
   not apply looks exactly like a guard that works*, met in a measurement rather than a test.
-- **A FINDING'S ID DID NOT INCLUDE ITS `kind`, SO A FINDING'S IDENTITY MOVED WHEN A SIBLING CLEARED
-  (audit, 7 Sep 2026).** `Findings.add`'s own docstring says identity is WHAT IT IS ABOUT and it
-  was the one reader in the tree not looking at `kind` — two findings of different kinds about one
-  room in one layer were separated by an insertion ORDINAL. Driven: shrink `backhall` until its
-  depth finding clears and the aspect finding beneath it, unchanged, moved
-  `daylight:backhall#1` → `daylight:backhall`, so the bench (`PlanWorkbench.jsx` diffs on `f.id`)
-  reported a row cleared and a new one opened for a finding nothing had touched. The same
-  mechanism churned six ids at WP-11.9's merge with byte-identical statements. `kind` is in the
-  key now and the twelve grouping `F.add` calls gained one; ordinal-suffixed ids **472 → 395**,
-  longest id 66 characters, 0 collisions. **It churns every id carrying a kind, once**, which is
-  the right trade: the ids are per-process and per-plan by construction and nothing on disk holds
-  one.
+- **A FINDING'S IDENTITY MOVES WHEN AN UNRELATED SIBLING CLEARS, AND THE FIX WAS BUILT, MEASURED
+  AND REVERTED (audit, 7 Sep 2026).** `Findings.add` separates two findings of different kinds
+  about one room in one layer by an insertion ORDINAL, and its docstring calls that ordinal
+  *"stable for a given plan and a given checker, which is what a diff between two evaluations of
+  the same record needs."* **Driven, and that sentence is false**: shrink `backhall` until its
+  depth finding clears and the aspect finding beneath it, unchanged in kind, room, layer and
+  statement, moves `daylight:backhall#1` → `daylight:backhall`, so the bench
+  (`PlanWorkbench.jsx` diffs on `f.id`) reports a row cleared and a new one opened for a finding
+  nothing touched. Six ids churned that way at WP-11.9's merge with byte-identical statements;
+  472 of 1,620 ids carry an ordinal.
+  **PUTTING `kind` IN THE KEY FIXES IT (472 → 395, 0 collisions) AND WAS TAKEN BACK OUT**, because
+  `tests/test_critique.py::test_the_finding_id_is_unchanged_by_the_evidence_it_carries` states the
+  opposite contract citing OQ 32 -- *"evidence ... must never enter it"* -- and lists `kind` among
+  the evidence beside `need_ft` and `axis`. **The full build caught it**, and changing a pinned
+  contract on one session's reading is the move this same audit criticised WP-11.9 for making to
+  the score. It also cost citability: finding ids expressible as a `finding:<id>` citation
+  **55 → 12 of 1,620**, because `ID_CHARS` excludes the colon each segment adds
+  (`oq/a-finding-citation-cannot-name-a-finding`). The twelve grouping `F.add` calls KEEP the
+  `kind` they gained -- it is useful and enters no id.
+  `oq/a-findings-ordinal-is-not-an-identity` asks the real question: is `kind` evidence, or is it
+  identity? The test does not draw the distinction and there is one -- `need_ft` moves as the plan
+  moves, a kind does not.
 - **A NEW FINDING KIND COSTS MORE THAN ITS CHECK, AND THE COST LANDED IN `critique._intended_move`
   (WP-11.9).** All nine aspect findings reached the critique as `architect` -- the right class,
   since rotating a house is not a move -- **carrying "the depth rule does not govern this room
@@ -2464,8 +2474,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **146 entries, of which 60 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-finding-citation-cannot-name-a-finding, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **147 entries, of which 61 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
