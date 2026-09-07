@@ -143,19 +143,82 @@ def test_the_cost_table_names_units_that_exist():
     # would make adding a test file a two-step operation for no correctness gain.
 
 
+def _junit(tmp_path, cases):
+    """A JUnit report of `(classname, seconds)` pairs, written OUTSIDE the repository."""
+    body = "".join(
+        f'<testcase classname="{c}" name="t{n}" time="{t}"/>' for n, (c, t) in enumerate(cases))
+    path = tmp_path / "pytest.xml"
+    path.write_text(f'<?xml version="1.0"?><testsuites><testsuite name="pytest" '
+                    f'tests="{len(cases)}">{body}</testsuite></testsuites>', encoding="utf-8")
+    return str(path)
+
+
 def test_the_refresh_block_never_invents_a_per_file_figure():
-    """A shard that runs many test files in ONE pytest process has measured that process, not
-    its files. The first version divided the elapsed time evenly and printed the result into
-    the block the file's own comment says to paste back -- so a paste-back from an unsharded
-    run would have flattened all 78 per-file figures to their mean and wrecked the balance the
-    table exists to give, while looking exactly like a measurement. Inventing a number and
-    calling it measured, in the repository whose first rule is not to."""
+    """A shard runs its whole set in ONE pytest process, and TWICE now a per-file cost has been
+    derived from that one number instead of measured. The first divided `elapsed` evenly, which
+    would have flattened all 78 figures to their mean. The second -- shipped, and the reason
+    this test was rewritten -- scaled each file by its own shard's ratio of measured to
+    predicted: that makes every shard's TOTAL right by construction and leaves the shape inside
+    it exactly as assumed as before, so the aggregate agreed while the distribution was four
+    minutes wrong. Both looked like measurements.
+
+    The figures come from pytest's own report now. This holds the source against the two
+    retired instruments; the four tests below hold the reader itself."""
     body = open(os.path.join(ROOT, "build", "check_all.py"), encoding="utf-8").read()
     assert "elapsed / len(my_files)" not in body, (
         "the per-file timing is an even split of one pytest run again; pasting that back "
         "flattens build/check_costs.json to a single value per test file")
-    assert "if len(my_files) == 1:" in body, (
-        "a per-file figure must only be recorded when the shard held exactly one file")
+    assert "--junitxml=" in body and "per_file_seconds(junit" in body, (
+        "the shard no longer costs its files from pytest's own report, so whatever figure it "
+        "now prints into the refresh block is derived from the one number it measured")
+
+
+def test_a_test_files_cost_is_its_own_cases_and_not_a_share_of_the_run(tmp_path):
+    """The whole point: two files in one pytest process come back with their OWN times."""
+    ca = _check_all()
+    per, unattributed = ca.per_file_seconds(
+        _junit(tmp_path, [("tests.test_axis.TestA", 1.0), ("tests.test_axis", 2.0),
+                          ("tests.test_compass.TestB", 7.0)]),
+        ["tests/test_axis.py", "tests/test_compass.py"])
+    assert per == {"tests/test_axis.py": 3.0, "tests/test_compass.py": 7.0}
+    assert unattributed == 0.0
+
+
+def test_a_longer_module_name_is_not_credited_to_a_shorter_one(tmp_path):
+    """THE TRAP A SUBSTRING TEST WALKS INTO, and there is a real pair: `tests.test_score` is a
+    prefix of `tests.test_scoreboard`, and test_score.py is the 422 s file the whole makespan
+    is bounded by. Crediting a sibling's cases to it would inflate the one figure that decides
+    how many shards are worth running."""
+    ca = _check_all()
+    per, unattributed = ca.per_file_seconds(
+        _junit(tmp_path, [("tests.test_scoreboard.TestX", 5.0), ("tests.test_score.TestY", 2.0)]),
+        ["tests/test_score.py"])
+    assert per == {"tests/test_score.py": 2.0}, "a sibling module's time landed on test_score.py"
+    assert unattributed == 5.0, "the sibling's time must be reported, not silently dropped"
+
+
+def test_time_that_cannot_be_attributed_is_reported_and_never_spread(tmp_path):
+    """`unattributed` exists so that a reader whose classname-to-module reading has stopped
+    matching the suite's layout sees a number rather than files that quietly grew. It must not
+    be shared out over the files that DID match -- that is the invented figure again, wearing
+    the clothes of a correction."""
+    ca = _check_all()
+    per, unattributed = ca.per_file_seconds(
+        _junit(tmp_path, [("something.else.Entirely", 9.0), ("tests.test_axis.TestA", 1.0)]),
+        ["tests/test_axis.py", "tests/test_compass.py"])
+    assert per == {"tests/test_axis.py": 1.0, "tests/test_compass.py": 0.0}
+    assert unattributed == 9.0
+
+
+def test_a_file_that_contributed_no_case_costs_zero_rather_than_going_missing(tmp_path):
+    """A file whose every test skipped is cheap, and that is a measurement. Leaving it out of
+    the block would send it back to DEFAULT_COST on the next refresh -- a file silently
+    re-costed by its own absence."""
+    ca = _check_all()
+    per, _ = ca.per_file_seconds(_junit(tmp_path, [("tests.test_axis.TestA", 1.0)]),
+                                 ["tests/test_axis.py", "tests/test_compass.py"])
+    assert per["tests/test_compass.py"] == 0.0
+    assert set(per) == {"tests/test_axis.py", "tests/test_compass.py"}
 
 
 def test_the_shard_holds_itself_to_what_it_was_assigned():

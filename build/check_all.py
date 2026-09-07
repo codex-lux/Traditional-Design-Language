@@ -44,9 +44,11 @@ be the shape this repository keeps finding: a check that went quiet behind a gre
 """
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -327,6 +329,49 @@ def pytest_target(my_files):
     return files, f"pytest tests/ ({len(files)} of {len(test_files())} files)"
 
 
+def per_file_seconds(junit_path, my_files):
+    """Per-file seconds read out of pytest's own JUnit report, attributed EXACTLY or not at all.
+
+    Returns `(per_file, unattributed)`. A shard runs its whole set in ONE pytest process, so
+    wall clock measures the process and not its files -- and for two cost tables running that
+    was the whole problem. The first table divided a local sweep three-files-at-a-time and was
+    wrong per file; the second scaled each file by ITS OWN SHARD's ratio of measured to
+    predicted, which makes every shard's TOTAL right by construction and leaves the
+    distribution INSIDE the shard exactly as assumed as before. That is this repository's
+    `TOTAL - 3 = len(CHECKS)` trap one level down, and it cost the makespan four minutes:
+    shard 1, whose single unit carries an exact figure, predicted 422 s and measured 439 (+4%),
+    while shard 3, whose largest file carried a spread one, predicted 416 and measured 571
+    (+37%).
+
+    pytest already knows. `--junitxml` records a `time` per test case, and the case's
+    `classname` names the module it came from, so a per-file figure is a measurement rather
+    than a share of one. ATTRIBUTION IS EXACT: a case is credited only to a file whose module
+    path the classname equals or begins with (`tests.test_score` never collects
+    `tests.test_scoreboard`, which a substring test would). Anything that matches no file, or
+    more than one, is counted into `unattributed` and REPORTED -- never spread over the files
+    that did match, because that is the invented figure this function exists to remove.
+
+    What it does not measure is a file's share of collection, imports and the session-scoped
+    fixtures in tests/conftest.py. That cost is per SHARD and not per file -- it is paid once
+    however the files are packed -- so leaving it out of a per-file figure is the more correct
+    reading, not a shortfall. It is reported beside them as the shard's own overhead.
+    """
+    import xml.etree.ElementTree as ET
+
+    modules = {f: "tests." + Path(f).stem for f in my_files}
+    per = {f: 0.0 for f in my_files}
+    unattributed = 0.0
+    for case in ET.parse(junit_path).getroot().iter("testcase"):
+        seconds = float(case.get("time") or 0.0)
+        classname = case.get("classname") or ""
+        hit = [f for f, m in modules.items() if classname == m or classname.startswith(m + ".")]
+        if len(hit) == 1:
+            per[hit[0]] += seconds
+        else:
+            unattributed += seconds
+    return per, unattributed
+
+
 def parse_shard(text):
     """"i/n" -> (i, n), 1-based and inclusive. Refuses anything else rather than guessing:
     a mistyped shard that silently ran everything, or ran nothing, would report a green
@@ -372,6 +417,7 @@ def run(shard_i, shard_n, my_checks, my_files, my_suites):
     results = []
     t0 = time.time()
     timings = {}
+    unattributed = pytest_overhead = None
     sharded = shard_n > 1
     if sharded:
         print(f"### shard {shard_i}/{shard_n}: {len(my_checks)} checker(s), "
@@ -430,18 +476,37 @@ def run(shard_i, shard_n, my_checks, my_files, my_suites):
         # libs silently skipping the export tests while the selftests two lines up ran them. A skipped
         # test reports success, so the whole point of the entry point was being lost without a word.
         print(f"\n=== {label} " + "=" * max(0, 60 - len(label)))
+        # --junitxml so the shard can cost its OWN files. Written into a temp directory and
+        # never inside the repository: a run that leaves a file in the tree looks exactly
+        # like an authored change to the next reader, and six runners doing it at once is
+        # the corpus-mutation hazard this whole split exists to keep apart.
+        junit_dir = tempfile.mkdtemp(prefix="tdl-shard-")
+        junit = os.path.join(junit_dir, "pytest.xml")
         t = time.time()
-        rc = subprocess.run([sys.executable, "-m", "pytest"] + target, cwd=str(ROOT)).returncode
+        rc = subprocess.run([sys.executable, "-m", "pytest", f"--junitxml={junit}"] + target,
+                            cwd=str(ROOT)).returncode
         elapsed = time.time() - t
-        # ONE PYTEST RUN MEASURES ONE PYTEST RUN. The first version of this divided `elapsed`
-        # evenly across the shard's files and wrote that into the refreshable block -- so a
-        # paste-back from an unsharded run would have flattened all 78 per-file figures to
-        # their mean and destroyed the very balance the table exists to provide, while looking
-        # exactly like a measurement. That is inventing a number and calling it measured, in
-        # the file that says not to. A per-file figure needs a per-file run, so the block
-        # carries one only when the shard held exactly one file, and says so otherwise.
-        if len(my_files) == 1:
-            timings[my_files[0]] = elapsed
+        # ONE PYTEST RUN MEASURES ONE PYTEST RUN, AND THE FIX IS TO ASK PYTEST RATHER THAN TO
+        # DIVIDE. Two earlier answers to this were both wrong and both looked like
+        # measurements: dividing `elapsed` evenly would have flattened all 78 figures to their
+        # mean, and scaling each file by its shard's measured/predicted ratio made every
+        # shard's TOTAL right by construction while leaving the shape inside it assumed -- four
+        # minutes of makespan, and invisible because the totals agreed. `--junitxml` carries a
+        # time per test case and the case's classname names its module, so each file's figure
+        # is now its own tests' measured time. See per_file_seconds().
+        try:
+            per_file, unattributed = per_file_seconds(junit, my_files)
+        except Exception as exc:
+            # A report that cannot be read is COULD NOT MEASURE and is said out loud. It must
+            # not fail the shard -- the tests themselves have already run and their verdict is
+            # the point of this script -- and it must not silently fall back to a share of
+            # `elapsed`, which is the invented figure the block below refuses.
+            per_file, unattributed, pytest_overhead = {}, None, None
+            print(f"    (no per-file costs: {type(exc).__name__}: {exc})")
+        else:
+            pytest_overhead = elapsed - (sum(per_file.values()) + unattributed)
+            timings.update(per_file)
+        shutil.rmtree(junit_dir, ignore_errors=True)
         # normalized: pytest's own exit 3 means "internal error", not our
         # could-not-evaluate protocol — only the build/ checks speak that code
         results.append((label, 0 if rc == 0 else 1))
@@ -543,13 +608,31 @@ def run(shard_i, shard_n, my_checks, my_files, my_suites):
     unmeasured = [f for f in my_files if f not in timings]
     print(f"\n--- measured, {time.time() - t0:.0f}s in this shard "
           f"(merge into build/check_costs.json's \"seconds\") ---")
-    print(json.dumps({k: round(v, 2) for k, v in sorted(timings.items())}, indent=1))
+    # ONLY SCHEDULABLE UNITS. build.py FRAMES every shard -- it runs first and last in all of
+    # them -- so it is timed like everything else and is not something assign() can place. It
+    # was in this block once, a refresh pasted it back wholesale, and
+    # test_the_cost_table_names_units_that_exist failed on the very next run. The header used
+    # to warn a reader not to paste it; the block does not offer it now, which is the half
+    # that does not depend on the warning being read.
+    schedulable = {k for _, k in units()}
+    print(json.dumps({k: round(v, 2) for k, v in sorted(timings.items()) if k in schedulable},
+                     indent=1))
     if unmeasured:
-        print(f"    {len(unmeasured)} test file(s) ran inside one pytest process and carry no "
-              f"figure of their own here.\n"
-              f"    For those: python3 -m pytest <file> -q, one at a time. An even split of "
-              f"the run would look\n"
-              f"    like a measurement and would flatten the table it was pasted into.")
+        # Only reachable when the JUnit report could not be read; per_file_seconds() gives a
+        # figure to every file the shard was handed, zero included.
+        print(f"    {len(unmeasured)} test file(s) carry no figure of their own here: "
+              f"pytest's report could not be read.")
+    if pytest_overhead is not None:
+        # THE TWO RESIDUES, PRINTED BECAUSE THEY ARE THE LIMIT OF THE FIGURES ABOVE THEM. A
+        # test file's figure is its own test cases' time and nothing else. `unattributed` is
+        # case time this shard could not credit to exactly one of its files -- it should be
+        # zero, and a number here means the classname-to-module reading has stopped matching
+        # this suite's layout. `overhead` is collection, imports and the session-scoped
+        # fixtures in tests/conftest.py: a cost of RUNNING A SHARD rather than of any file in
+        # it, paid once however the files are packed, which is why it is reported apart
+        # instead of being shared out over figures that would then be wrong everywhere.
+        print(f'    "_pytest_overhead_per_shard": {pytest_overhead:.2f},   '
+              f'"_unattributed": {unattributed:.2f}')
 
     if failed:
         print(f"\n{len(failed)} of {len(results)} checks failed.")

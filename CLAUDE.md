@@ -813,14 +813,31 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   contention inflated most of them (shards 4-6 landed at 0.73-0.82 of prediction), while the
   CP-SAT-bound files are far slower on a smaller runner (shard 3 at 1.62). **AN AGGREGATE THAT
   AGREES IS NOT EVIDENCE THAT THE PARTS DO**, and only the aggregate had been checked. The
-  costs are re-derived from that run now and `check_costs.json`'s header states which figures
-  are per-unit CI measurements and which are a shard's group ratio spread over its files.
-  **The 7.5 min that re-costing should buy is a PREDICTION and is marked as one**; the numbers
-  above are what a run measured.
-  **AND THE STALE-KEY GUARD EARNED ITSELF ON THAT REFRESH**: the block a shard prints names
+  costs were re-derived from that run, as per-unit CI measurements for the checkers and
+  `test_score.py` and as a shard's group ratio spread over its files for everything else.
+  **THE NEXT RUN THEN MEASURED THE RE-COSTING AND THE SECOND INSTRUMENT HAD THE FIRST'S DEFECT
+  ONE LEVEL DOWN (run 34163342215): 10 min 3 s against a predicted 7.5, makespan 571 s against
+  421.** Scaling every file by its shard's own measured/predicted ratio makes that shard's TOTAL
+  right BY CONSTRUCTION -- it cannot be wrong, so it cannot be evidence -- and leaves the shape
+  INSIDE the shard exactly as assumed as before. The two ends prove which half is which: shard 1
+  holds one unit carrying an EXACT CI figure and came in **+4%**, while shard 3, whose largest
+  file carries a SPREAD one, came in **+37%**. The fix had been applied to the number and not to
+  the instrument, four paragraphs under the sentence that names the error.
+  **THE FIGURES ARE PYTEST'S OWN NOW, PER FILE**: `--junitxml` carries a time per test case and
+  the case's classname names its module, so `check_all.per_file_seconds()` costs a shard's files
+  from that shard's own run. Attribution is EXACT rather than by substring -- `tests.test_score`
+  must never collect `tests.test_scoreboard`, on the one file the makespan is bounded by -- and
+  time it cannot credit to exactly one file is REPORTED as `_unattributed`, never shared out over
+  the files that did match. Collection, imports and the session fixtures are a cost of running a
+  SHARD and not of any file in it (1.2-1.4 s), so they are printed apart as
+  `_pytest_overhead_per_shard`. **And the same work summed 2,499 s then 2,675 s on two runs**, so
+  no table is right to better than 7% and the flat spot is a band rather than a number.
+  **AND THE STALE-KEY GUARD EARNED ITSELF ON THAT REFRESH**: the block a shard prints named
   `build.py`, which FRAMES every shard and is not a schedulable unit, so pasting it back
   wholesale added a key that is not a unit -- caught by
-  `test_the_cost_table_names_units_that_exist` on the first run after the paste.
+  `test_the_cost_table_names_units_that_exist` on the first run after the paste. The remedy was a
+  warning in a header telling a reader not to paste something; **the block does not offer it
+  now**, which is the half that does not depend on the warning being read.
   **THE SPLIT IS BY JOB AND THAT IS THE POINT.** Six test files mutate repository data in place
   and restore it in a `finally` (`test_kit_cascade`, `test_manifest_io`, `test_render_profile`,
   `test_ontology`, `test_constraints`, `test_open_question_ids`), so `pytest -n auto` in one

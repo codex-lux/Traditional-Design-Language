@@ -15,15 +15,20 @@ name: CI
 # tests/test_score.py is 422 s on its own (measured HERE, on a runner that held it alone),
 # so six shards land 422 s and a seventh buys nothing.
 #
-# MEASURED ON THE FIRST SHARDED RUN (34162261372): the whole run 11 min 17 s against the
-# single job's 39 min 32 s -- a 3.5x cut, not the sixfold the local costs predicted. The six
-# shards came back 306, 315, 346, 423, 465 and 645 s against a predicted flat 421, because
-# build/check_costs.json had been measured on a 4-core container: its TOTAL was right to
-# 0.2% and its DISTRIBUTION was not (see that file's header for the two errors that
-# cancelled). The costs are re-derived from this run, which should put the next one near
-# 7.5 min -- a PREDICTION until a run measures it, and the numbers above are what a run
-# measured. Re-measure with `python3 build/check_all.py --list-units --shard 1/N`
-# before changing it; the balance is a property of the corpus, not of the number.
+# MEASURED, TWICE. Run 34162261372: the whole run 11 min 17 s against the single job's
+# 39 min 32 s -- a 3.5x cut, not the sixfold the local costs predicted, because
+# build/check_costs.json had been measured on a 4-core container and its TOTAL was right to
+# 0.2% while its DISTRIBUTION was four minutes wrong. Re-costed from that run, and run
+# 34163342215 then measured the re-costing: 10 min 3 s against a predicted 7.5, makespan
+# 571 s against 421. THE SECOND INSTRUMENT HAD THE FIRST'S DEFECT ONE LEVEL DOWN -- scaling
+# every file by its shard's measured/predicted ratio makes each shard's TOTAL right BY
+# CONSTRUCTION and leaves the shape inside it as assumed as before (shard 1, one unit and an
+# exact figure: +4%; shard 3, whose largest file carried a spread one: +37%). The figures are
+# pytest's own now, per file, via --junitxml; see per_file_seconds() and the report's §VI-b.
+# The same work also summed 2,499 s then 2,675 s on two runs, so no table is right to better
+# than 7% and the flat spot is a band. Re-measure with
+# `python3 build/check_all.py --list-units --shard 1/N` before changing N; the balance is a
+# property of the corpus, not of the number.
 #
 # THE SPLIT IS BY JOB, WHICH IS THE POINT. Six test files mutate repository data in place and
 # restore it in a `finally`; a thread- or xdist-parallel suite in one checkout would let one

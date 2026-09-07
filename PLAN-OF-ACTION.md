@@ -2823,9 +2823,20 @@ CANCELLED IN THE SUM -- the per-file sweep ran three files at a time and inflate
 runner (shard 3 at 1.62). **An aggregate that agrees is not evidence that the parts do**, and only
 the aggregate was ever checked. `tests/test_score.py` is the one file whose CI cost is known
 exactly -- shard 1 held it alone -- at **422.37 s** against a local 431.50, so the floor was right
-and everything else was not. Re-costed from that run, six shards balance at 416-422 s, which
-should put the next run near 7.5 min: a PREDICTION, marked as one. `--list-units` prints the assignment, so the next person to ask whether seven
-would help can answer it rather than argue it.
+and everything else was not. Re-costed from that run, six shards balanced at 416-422 s, which was
+published as a PREDICTION of 7.5 min.
+
+**AND THE NEXT RUN FALSIFIED IT: 10 min 3 s, makespan 571 s against 421 (run 34163342215).** The
+second instrument carried the first's defect one level down. Scaling every file by ITS OWN
+SHARD's measured/predicted ratio makes that shard's total right BY CONSTRUCTION, so the total
+cannot be evidence, and the shape inside the shard stayed as assumed as before: shard 1, one unit
+and an exact CI figure, came in +4%; shard 3, whose largest file carried a spread one, +37%. The
+figures are pytest's own now -- `--junitxml` gives a time per test case and the classname names
+its module, so `per_file_seconds()` costs a shard's files from that shard's own run, attributing
+exactly or not at all and reporting what it cannot attribute. The table is NOT re-costed in that
+commit: the figures it needs are CI's and arrive with the next run, and deriving them locally
+would be a third instrument measured on the wrong machine. `--list-units` prints the assignment,
+so the next person to ask whether seven would help can answer it rather than argue it.
 
 **THE SPLIT IS BY JOB AND THAT IS THE FINDING.** Six test files mutate repository data in place
 and restore it in a `finally` -- `test_kit_cascade`, `test_manifest_io`, `test_render_profile`,
