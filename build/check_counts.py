@@ -360,7 +360,11 @@ CLAIMS = [
     # exactly -- "name the surface the checker does not read" -- and the remedy is the same: read it.
     ("STATE-OF-THE-PROJECT.md", "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
     ("CLAUDE.md",              "read_slots",              r"of them on one of the (\d+) generator-read slots"),
-    ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works a sibling also cites"),
+    # WP-11.7 corrected the WORD from "a sibling" to "ANOTHER NODE" (the counter is corpus-wide).
+    # THIS REGEX IS WHY THAT SWEEP MATTERED: a CLAIM pattern carries the prose it polices, so
+    # rewording the sentence without it turns a live guard into "0 patterns not found" -- which
+    # check_counts itself treats as a failure, and rightly.
+    ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works ANOTHER NODE also cites"),
     ("CLAUDE.md",              "exemplars_with_precedent", r"(\d+) of \d+ exemplars carry a `precedent`"),
     ("CLAUDE.md",              "exemplars",                r"\d+ of (\d+) exemplars carry a `precedent`"),
     # WP-11.5. The three figures published beside the exemplar total, in the two files that

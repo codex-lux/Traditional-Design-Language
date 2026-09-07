@@ -50,7 +50,7 @@ CHECKS = [
     # templated on the surface when it was surveyed (2-4 exemplars, 4-5 sources, 5 constraints on
     # every buildable node; the exemplar clause has since moved and the other two have not)
     # and the things that DO discriminate were tracked nowhere: exemplars a checker can resolve,
-    # nodes citing only works a sibling cites, `measured` figures with no source at all, split by
+    # nodes citing only works ANOTHER NODE cites, `measured` figures with no source at all, split by
     # whether a generator reads the slot. Ratcheted.
     ("check_research.py", ["--strict"]),
 

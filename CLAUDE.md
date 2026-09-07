@@ -439,7 +439,10 @@ run:
 (an UPPER BOUND, from the generators' own string constants -- `height_proportion`, `chimney`,
 `ceiling_height_rule`, `window_proportion` lead), while the census in `check_kits.py` had counted
 editorial-bare (0) for a year and never this;
-24 buildable nodes cite only works a sibling also cites; 32 higher-rank nodes cite nothing and are
+24 buildable nodes cite only works ANOTHER NODE also cites (the word said "a sibling" in TEN
+places across eight files until WP-11.7 -- five found by reading and five more only by sweeping,
+including a `check_counts.py` CLAIM regex that carried the retired phrase and would have gone
+"pattern not found" the moment the sentence it guards was reworded and the counter is corpus-wide; the true sibling reading is **9**); 32 higher-rank nodes cite nothing and are
 all `confidence: high`; three nodes carry no executable constraint. **An exemplar had no locator**:
 482 across 164 nodes, 410 buildings, zero URLs in `styles/`. `precedents/` is the building's own
 record now (`schema/precedent.schema.json`, one file per building, shared by every node that names

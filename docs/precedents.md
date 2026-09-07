@@ -241,8 +241,9 @@ does not automatically stand for everything above it.
 buildable node carried 2–4 exemplars, 4–5 sources, 5 constraints and 3 distinctions — a composite of
 those spread 1.5× across all 132. The research tranches have moved the exemplar clause and nothing
 else (800 exemplars, 4 to 9 a node), so the things that DO separate a researched node from a skeletal one are
-computed on every run: exemplars carrying a `precedent`; nodes citing only works a sibling also
-cites; `measured` kit parameters with no source on the parameter or its slot, split by whether a
+computed on every run: exemplars carrying a `precedent`; nodes citing only works ANOTHER NODE also
+cites (corpus-wide, not by family: the word was "a sibling" until WP-11.7 and the true sibling
+reading is 9); `measured` kit parameters with no source on the parameter or its slot, split by whether a
 generator reads the slot (the read set is derived from the generators' own string constants, an
 upper bound, printed and pinned by equality in `tests/test_research.py` so a change is noticed);
 constraints carrying a test against those `scope: judgment`; pack authority strengths over the

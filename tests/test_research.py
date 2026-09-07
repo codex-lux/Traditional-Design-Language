@@ -110,10 +110,18 @@ def test_the_ratchets_are_read_from_the_checkers_and_hold():
         "measured_unsourced_read": m["measured_unsourced_read"],
         "editorial_read": m["editorial_read"],
         "shared_only_nodes": len(m["shared_only_nodes"]),
+        "sourceless_nodes": len(m["sourceless_nodes"]),
         "untested_nodes": len(m["untested_nodes"]),
         "exemplars_with_precedent": m["exemplars_with_precedent"],
         "nodes_with_a_precedent": m["nodes_with_a_precedent"],
     }
+    # THE REBUILD IS PINNED, because this dict is rebuilt key-by-key and a new RATCHET entry would
+    # otherwise reach it as a KeyError deep in the loop -- the shape `proportion_engine.evaluate()`
+    # was caught by, where a new rule field was silently dropped by a hand-written rebuild. It DID
+    # fire here when WP-11.7 added `sourceless_nodes`; this says what happened instead of raising.
+    assert set(got) == set(CR.RATCHET), (
+        "the ratchet and this rebuild disagree; add the key here too: %s"
+        % sorted(set(CR.RATCHET) ^ set(got)))
     for k, pin in CR.RATCHET.items():
         if k in CR.FLOORS:
             assert got[k] >= pin, (k, got[k], pin)
@@ -473,3 +481,100 @@ def test_the_five_traditions_stay_empty_because_the_ruling_says_so():
     for nid in traditions:
         assert not (nodes[nid][1].get("exemplars") or []), nid
     assert CP.RATCHET["family_specimens_drifted"] == 0
+
+
+# ---------------------------------------------------------------------------------------------
+# WP-11.7. The guard that makes authoring a higher-rank node's literature safe.
+
+def _hazard():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "family_source_hazard_for_test", os.path.join(ROOT, "build", "family_source_hazard.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def test_the_hazard_guard_and_check_research_agree_about_shared_only():
+    """TWO INDEPENDENT READERS OF ONE RULE. `family_source_hazard.shared_only` exists so an author
+    can be told BEFORE writing a source what `check_research.py` will say after; a guard that
+    predicts the checker wrongly is worse than none, because its output is advice.
+
+    The first version of that module read `shared_only` over BUILDABLE nodes only, and
+    `check_research` reads it over all 164 -- so it advised "prefer a work the corpus already
+    cites", which is the one thing that makes a FAMILY `shared_only` itself. That died the first
+    time the advice was applied and the real checker run, not on any re-reading. This holds the two
+    populations together so it cannot come back."""
+    H = _hazard()
+    nodes = H.load_nodes()
+    mine = H.shared_only(nodes)
+    # check_research's own reader, not a transcription of it
+    theirs = set(CR.measure()["totals"]["shared_only_nodes"]) if hasattr(CR, "measure") else None
+    assert theirs is not None, "check_research.measure() moved; this guard is reading air"
+    assert mine == theirs, sorted(mine ^ theirs)
+    assert mine, "nobody is shared_only -- the comparison is vacuous"
+
+    # AND THE LIVE CORPUS CANNOT PROVE THE POINT, which mutation-checking is how we know: with no
+    # higher-rank node citing anything, restricting `shared_only` to buildable nodes changes
+    # nothing and the comparison above stays green on the very defect it exists for. So the
+    # population is driven through a CONSTRUCTED case -- a family citing only already-shared works,
+    # which is what the rank restriction would wrongly acquit.
+    counts = H.cited_by(nodes)
+    shared = sorted(s for s, n in counts.items() if n >= 2)
+    assert shared, "no work is cited twice; this fixture is reading a different corpus"
+    fam = "english-classical"
+    assert nodes[fam]["rank"] == "family"
+    probe = {i: dict(n) for i, n in nodes.items()}
+    probe[fam]["sources"] = [shared[0]]
+    assert fam in H.shared_only(probe), (
+        "a family citing only already-cited works must read as shared_only -- it does in "
+        "check_research, whose population is all 164 nodes")
+
+
+def test_a_higher_rank_node_needs_a_work_of_its_own():
+    """The rule the package is authored under, asserted on the real corpus rather than a fixture:
+    a list made entirely of already-cited works is refused, and one carrying a work nobody else
+    cites is accepted. Both verdicts are needed -- a guard that only ever says `unsafe` would pass
+    the first assertion alone."""
+    H = _hazard()
+    nodes = H.load_nodes()
+    counts = H.cited_by(nodes)
+    shared = [s for s, n in counts.items() if n >= 2]
+    assert shared, "no work is cited twice; this fixture is reading a different corpus"
+    fam = "english-classical"
+    assert nodes[fam]["rank"] == "family"
+
+    v, why = H.judge_list(fam, [shared[0]], nodes)
+    assert v == "unsafe", (v, why)
+    assert any("shared_only" in w for w in why), why
+
+    v, why = H.judge_list(fam, ["A Work No Other Node Cites (2026)", shared[0]], nodes)
+    assert v == "ok", (v, why)
+
+
+def test_no_higher_rank_node_may_cite_one_of_the_hazard_strings():
+    """Each is some buildable node's ONLY unique citation, so a second citation anywhere flips that
+    node. Asserted over the corpus as it stands, so it keeps holding as Tranche 4 lands."""
+    H = _hazard()
+    nodes = H.load_nodes()
+    haz = H.hazards(nodes)
+    assert haz, "no hazardous string found -- the guard has gone blind"
+
+    # The sweep over the live corpus. It is VACUOUS while no higher-rank node cites anything --
+    # proved by mutation -- so the refusal itself is driven below rather than trusted to this loop.
+    checked = 0
+    for i, n in nodes.items():
+        if n.get("rank") not in H.HIGHER:
+            continue
+        for s in n.get("sources") or []:
+            checked += 1
+            assert s.strip() not in haz, (i, s, "would flip %s" % haz[s.strip()])
+
+    # THE DRIVEN CASE. `judge_list` must REFUSE a hazard string on a family even when the family
+    # also carries a work of its own -- otherwise the only thing refusing it is the absence of any
+    # family sources at all, which Tranche 4 is about to remove.
+    victim = sorted(haz.items())[0]
+    v, why = H.judge_list("english-classical",
+                          ["A Work No Other Node Cites (2026)", victim[0]], nodes)
+    assert v == "unsafe", (v, why)
+    assert any(victim[1] in w for w in why), (victim[1], why)

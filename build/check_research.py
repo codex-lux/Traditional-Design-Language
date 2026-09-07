@@ -10,9 +10,21 @@ thoroughly researched node from a skeletal one, and no checker in this tree ever
 measures DO separate them, and this file computes every one on every run:
 
   * exemplars carrying a `precedent` -- a locator a checker can resolve (`precedents/`).
-  * NODE-SPECIFIC source share. A node whose every cited work is also cited by a sibling was
+  * NODE-SPECIFIC source share. A node whose every cited work is also cited by ANOTHER NODE was
     written from the survey literature alone; 24 nodes were, on the first run, and the composite
     scores them HIGHER because they cite five books.
+    THE WORD IS "ANOTHER NODE" AND IT USED TO SAY "A SIBLING", HERE AND IN NINE OTHER PLACES
+    across eight files (corrected WP-11.7). Five were found by reading; the other five only by
+    sweeping for the retired phrase afterwards -- among them `check_all.py`'s comment, the
+    progress-board row, and, sharpest, a `check_counts.py` CLAIM REGEX that quoted the sentence
+    verbatim: rewording a claimed sentence without moving its pattern unguards the number, and
+    the checker calls that "pattern(s) not found" and fails, which is the only reason it is a
+    caught class rather than a silent one. `cited_by` counts over all 164 nodes, so `english-georgian` and
+    `tidewater-georgian` -- not siblings, different families -- share Summerson and each stops
+    counting as uniquely sourced. The figure was right for what it measures and the word was
+    wrong about it. Measured while correcting it: the TRUE sibling reading, restricted to nodes
+    sharing a `member_of`, is **9**, not 24. Ruled 7 Sep 2026: correct the word, keep the
+    measurement. The 9 is recorded here so the choice stays legible and nobody re-derives it.
   * `measured` kit parameters with no source on the parameter AND none on the slot -- the
     provenance census in check_kits.py counts editorial-bare (0) and had never counted this
     (542), which is the class VISION.md calls the worst thing that can be done to the corpus,
@@ -64,6 +76,13 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #                                the instrument's figure is the one pinned.
 #   editorial_read 69            Editorial parameters on a read slot (the hand list said 55).
 #   shared_only_nodes 24         Nodes whose every source is shared with another node.
+#   sourceless_nodes 32          Nodes citing NO source at all. It was printed and unratcheted
+#                                from WP-11.1 until WP-11.7 -- computed, published every run, and
+#                                free to move in either direction, which is the shape WP-8.14 is
+#                                about. All 32 are the families and traditions. This is the meter
+#                                Tranche 4 moves, as `exemplars_with_precedent` was for Tranches
+#                                1-3, and it falls only by AUTHORING a work that establishes the
+#                                node as a category -- never by copying a member's citation up.
 #   untested_nodes 3             Nodes with constraints and not one carrying a test.
 #   exemplars_with_precedent 171 A FLOOR: exemplars naming a `precedents/` record.
 #   nodes_with_a_precedent 27    A FLOOR.
@@ -72,6 +91,7 @@ RATCHET = {
     "measured_unsourced_read": 270,  # 272 at WP-11.1; two of the six are on a read slot
     "editorial_read": 69,
     "shared_only_nodes": 24,
+    "sourceless_nodes": 32,         # a CEILING -- may only FALL. WP-11.7's deliverable.
     "untested_nodes": 3,
     "exemplars_with_precedent": 915,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171,
                                         # Tranche 2 505 -- North America complete; Tranche 3 794;
@@ -226,7 +246,10 @@ def main():
           % (", ".join(GENERATOR_FILES), len(tot["read_slots"]), len(ontology_slots()), " ".join(tot["read_slots"])))
     print("  pack authority strengths: %s." % ", ".join("%s %d" % kv for kv in sorted(tot["pack_strengths"].items())))
     print("  %d node(s) cite no source (all higher rank): %s" % (len(tot["sourceless_nodes"]), " ".join(tot["sourceless_nodes"])))
-    print("  %d node(s) cite only works a sibling also cites: %s" % (len(tot["shared_only_nodes"]), " ".join(tot["shared_only_nodes"])))
+    # ANOTHER NODE, not a sibling: `cited_by` counts over all 164. The true sibling reading is 9
+    # (WP-11.7). A printed surface is outside `check_counts.py`'s CLAIMS, which is exactly why this
+    # word survived in five places for as long as it did.
+    print("  %d node(s) cite only works ANOTHER NODE also cites: %s" % (len(tot["shared_only_nodes"]), " ".join(tot["shared_only_nodes"])))
     print("  %d node(s) carry constraints and not one with a test: %s" % (len(tot["untested_nodes"]), " ".join(tot["untested_nodes"])))
     print("  %d kit(s) with zero parameters: %s" % (len(tot["zero_param_kits"]), " ".join(tot["zero_param_kits"])))
     print("  %d node(s) with no kit file: %s" % (len(tot["no_kit_nodes"]), " ".join(tot["no_kit_nodes"])))
@@ -249,6 +272,7 @@ def main():
         "measured_unsourced_read": tot["measured_unsourced_read"],
         "editorial_read": tot["editorial_read"],
         "shared_only_nodes": len(tot["shared_only_nodes"]),
+        "sourceless_nodes": len(tot["sourceless_nodes"]),
         "untested_nodes": len(tot["untested_nodes"]),
         "exemplars_with_precedent": tot["exemplars_with_precedent"],
         "nodes_with_a_precedent": tot["nodes_with_a_precedent"],
