@@ -556,14 +556,17 @@ def test_a_higher_rank_node_needs_a_work_of_its_own():
 
 def test_no_higher_rank_node_may_cite_one_of_the_hazard_strings():
     """Each is some buildable node's ONLY unique citation, so a second citation anywhere flips that
-    node. Asserted over the corpus as it stands, so it keeps holding as Tranche 4 lands."""
+    node. Asserted over the corpus as it stands, so it keeps holding as more sources are written."""
     H = _hazard()
     nodes = H.load_nodes()
     haz = H.hazards(nodes)
     assert haz, "no hazardous string found -- the guard has gone blind"
 
-    # The sweep over the live corpus. It is VACUOUS while no higher-rank node cites anything --
-    # proved by mutation -- so the refusal itself is driven below rather than trusted to this loop.
+    # The sweep over the live corpus. It WAS vacuous -- proved by mutation -- while no higher-rank
+    # node cited anything, which is why the refusal is also driven through a constructed case below.
+    # Tranche 4 wrote 156 sources over those 32 nodes, so the loop now reads real strings; the
+    # non-vacuity assertion after it is what stops that from silently reverting. Both are kept: the
+    # driven case does not depend on the corpus continuing to carry family sources.
     checked = 0
     for i, n in nodes.items():
         if n.get("rank") not in H.HIGHER:
@@ -572,9 +575,15 @@ def test_no_higher_rank_node_may_cite_one_of_the_hazard_strings():
             checked += 1
             assert s.strip() not in haz, (i, s, "would flip %s" % haz[s.strip()])
 
+    # NON-VACUITY. `check_research.RATCHET["sourceless_nodes"]` is pinned tight at 0, so every
+    # higher-rank node carries sources and this loop reads them. No literal here -- the ratchet owns
+    # the count and a second copy of it is the defect this file has met four times.
+    assert checked > 0, (
+        "the sweep read no higher-rank source at all, so the loop above asserted nothing")
+
     # THE DRIVEN CASE. `judge_list` must REFUSE a hazard string on a family even when the family
     # also carries a work of its own -- otherwise the only thing refusing it is the absence of any
-    # family sources at all, which Tranche 4 is about to remove.
+    # family sources at all -- which Tranche 4 removed, which is why this case is not optional.
     victim = sorted(haz.items())[0]
     v, why = H.judge_list("english-classical",
                           ["A Work No Other Node Cites (2026)", victim[0]], nodes)

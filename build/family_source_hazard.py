@@ -119,10 +119,10 @@ def judge_list(node_id, proposed, nodes=None):
 def set_sources(node_id, proposed, nodes=None):
     """Write a higher-rank node's `sources`, REFUSING an unsafe list rather than landing it.
 
-    The writer enforces the guard on purpose. Tranche 4 is authored by parallel agents, and a rule
-    that lives only in a prompt is a rule six agents can each read differently; a rule in the one
-    function that writes the field is a rule none of them can get past. Returns (written, verdict,
-    reasons).
+    The writer enforces the guard on purpose. Tranche 4 WAS authored by six parallel agents, and a
+    rule that lives only in a prompt is a rule six agents can each read differently; a rule in the
+    one function that writes the field is a rule none of them can get past. Returns (written,
+    verdict, reasons).
 
     `sources` is placed directly after `exemplars`, which is where a buildable node carries it, and
     every other key keeps its position so the diff is the field and nothing else."""
@@ -175,7 +175,11 @@ def main(argv=None):
             srcs = (nodes.get(t) or {}).get("sources") or []
             v, why = judge_list(t, srcs, nodes)
             if v == "could-not-judge" and not srcs:
-                print("  %-34s CITES NOTHING (the gap Tranche 4 closes)" % t)
+                # `check_research.RATCHET["sourceless_nodes"]` is pinned tight at 0, so no node
+                # reaches this branch today and one that does is a regression rather than a
+                # backlog. Said here because `check_counts.py` reads markdown and never opens
+                # `build/*.py`: a claim printed by a checker is outside every guard in the tree.
+                print("  %-34s CITES NOTHING -- a regression: the ceiling is 0" % t)
                 continue
             print("  %-34s %s" % (t, v.upper()))
             for w in why:

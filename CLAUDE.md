@@ -424,15 +424,18 @@ cannot be judged stops before its first round and says so. Nine tests could not 
 proved by mutation. The sweep re-measured: fatal
 135 -> 93, serious 961 -> 750, 131 of 273 refused (48.0%), still 0 worse. **A second pass then audited the audit** (report §VIII): three auditors over the whole session's diff found WP-9.4's own diff guard blind four ways (a list whose length changed, a rewrite inside an appended list, two rooms sharing an id, a dict added whole), `split-per-grouping` still re-deriving plan-wide under it, a revised plan whose DXF round trip failed the plan schema, the MCP tools passing every knob raw onto a threadpool token, and one compose submission able to hold the one-worker pool for four hours. All fixed with tests that bite; the deferred items and the reasons are listed in §VIII.
 
-**Phase 11 -- the precedent bench -- is OPEN; EVERY BUILDABLE NODE AND EVERY FAMILY NOW CARRIES A
-PRECEDENT, and Tranche 4 is what remains (WP-11.1 4 Sep; WP-11.2 through WP-11.6 5 Sep 2026).** Lucas asked where the
+**Phase 11 -- the precedent bench -- is COMPLETE; EVERY BUILDABLE NODE AND EVERY FAMILY CARRIES A
+PRECEDENT AND EVERY NODE AT EVERY RANK CITES A SOURCE (WP-11.1 4 Sep; WP-11.2 through WP-11.6
+5 Sep; WP-11.7 7 Sep 2026).** Lucas asked where the
 research is thin, for the exemplars of each style researched into the most beautiful and iconic
 precedents with links, and for a reading of where deepening the bench would change what the machine
 does. **The corpus WAS templated on the surface** when WP-11.1 surveyed it: every buildable node carried
 2-4 exemplars, 4-5 sources, 5 constraints and 3 distinctions, so field counts separated nothing. **Three
 tranches have moved the exemplar half and not one of the other three** -- 800 exemplars now, 4 to 9 a
 node, 131 of 132 buildable nodes carrying five or more, against 4-5 sources, exactly 5 constraints on all
-132 and 3 distinctions on 128, all unmoved. What does separate
+132 and 3 distinctions on 128, all unmoved. **Tranche 4 then moved the sources clause at HIGHER RANK
+ONLY** -- 156 written over the 32 families and traditions, which cited nothing at all; the buildable
+nodes' 4-5 is untouched, and constraints and distinctions are unmoved everywhere. What does separate
 thorough from skeletal was tracked nowhere and `build/check_research.py` now measures it on every
 run:
 **536 `measured` kit parameters cite no source** on the parameter or its slot, 270 of them on one of the 35 generator-read slots
