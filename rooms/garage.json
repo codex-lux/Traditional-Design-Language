@@ -57,6 +57,12 @@
     "depth_multiplier": 1.5,
     "sides_lit": 1,
     "orientation": "Any",
+    "aspect": {
+      "applies": false,
+      "basis": "Any",
+      "note": "The record answers \"Any\": the garage has no aspect preference, which is a verdict and not a silence.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.1

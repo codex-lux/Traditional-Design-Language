@@ -61,6 +61,13 @@ def test_tdl_sheet_returns_the_complete_record(client):
 
 
 def test_unreadable_dxf_is_a_stated_422(client):
+    # AN ABSENT OPTIONAL DEPENDENCY IS UNJUDGED, NOT FAILED (fixed 4 Sep 2026). Without ezdxf
+    # the route answers **501 Not Implemented**, which is the CORRECT answer and not the one
+    # this test is about -- it exists to prove the 422 names the unreadable file rather than the
+    # ambiguous-units refusal. It asserted 422 unconditionally and so reported FAIL on a machine
+    # that simply lacks the parser, which is the dangerous direction. The sibling test twenty
+    # lines up has always had this line.
+    pytest.importorskip("ezdxf")
     r = client.post("/api/ingest/dxf", json={"dxf": "this is not a dxf"})
     assert r.status_code == 422
     # THE unreadable-file message, not any 422 (the ambiguous-units refusal

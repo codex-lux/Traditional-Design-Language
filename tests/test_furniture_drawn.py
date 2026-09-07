@@ -147,7 +147,24 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
 DRAWN_SHORT_CEILING = 86
-DRAWN_LONG_CEILING = 69
+# 74, RAISED FROM 69 BY WP-11.2, AND THE RAISE IS THE PACKAGE'S COST RATHER THAN A TIDY-UP.
+# The plan now names its parti, so the placement takes the diagram's own 9 ft bay module and the
+# massing's odd bay count: seven bays of 9 ft where it was six of 10, 63.0 x 38.2 ft where it was
+# 60.0 x 40.1. Five more placed rooms fail an essential item ALONG their length in that footprint;
+# ACROSS is unmoved at 86. The same change costs about three fatal findings on this engine (8-seed
+# means 6.2 -> 9.2, every one an unreachable room) and ZERO on CP-SAT, where serious goes 73 -> 67
+# and transfer beams 30 -> 17.
+#
+# It was taken anyway, and the reason is in `docs/reports/wp-11.2-the-diagram-reaches-the-record.md`:
+# a house with a centre bay and more findings from a search that cannot realise doors is closer to
+# the type than a house with NO CENTRE BAY, which is where a Georgian door goes. The findings are
+# the critic telling the truth about a hill-climb result on a program known to be wrong for its
+# container (`oq/the-parti-dissolved-its-own-dependencies`, ruled and unbuilt).
+#
+# THE DIRECTION IS RECORDED SO THE NEXT READER CAN SEE IT: 69 was the WP-9.6 measurement and this
+# is the first time either number has gone UP. If it goes up again, read this comment and the two
+# reports before adding a third line to it.
+DRAWN_LONG_CEILING = 74
 
 
 def test_drawn_furniture_shortfalls_are_ratcheted():

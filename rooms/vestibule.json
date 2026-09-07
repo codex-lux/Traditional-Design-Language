@@ -84,6 +84,12 @@
     "depth_multiplier": 1.6,
     "sides_lit": 1,
     "orientation": "Takes whatever the front door faces; it has no choice and does not need one.",
+    "aspect": {
+      "applies": false,
+      "basis": "Takes whatever the front door faces; it has no choice and does not need one.",
+      "note": "The record says outright that the vestibule has no choice: its aspect is the front door's, exactly as the entrance hall's is.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.35

@@ -154,6 +154,19 @@
                   "ceiling_min_ft"
                 ],
                 "description": "Which of that room's `dimensions` bands. Note `ceiling_min_ft` is a scalar floor rather than a two-element band, and the checker treats it accordingly."
+              },
+              "advisory_band": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 2,
+                "maxItems": 2,
+                "description": "A band that is REPORTED rather than required, for a rule whose quantity is a CONSEQUENCE of the design rather than an input to it. Added by oq/the-facade-is-a-result-not-an-input (WP-11.7): `centre-passage-core`'s facade-share rule sized the passage FROM the facade, which the ruling found backwards -- the passage takes a bay and its share of the front follows -- so the rule lost its `test` and its band lives here. It is the observed range for the type and the observation is real, which is why it is kept at all. **A rule carrying this must NOT also carry a `test` on the same quantity**: that would be requiring and reporting one number at once. The band is written HERE and nowhere else, so a reader (build/facade.py::facade_share) takes it from the record instead of transcribing it -- one spelling, which is the discipline this corpus keeps having to relearn."
+              },
+              "reported_by": {
+                "type": "string",
+                "description": "The reader that reports this quantity, `path::function`, for a rule that is a report rather than a requirement. It exists so that a rule with no `test` cannot read as a rule nobody executes -- `plan_check` emits `check by hand` for an untested HARD rule, and a REPORTED rule needs to say where its answer actually comes from instead."
               }
             }
           }

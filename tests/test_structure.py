@@ -460,14 +460,28 @@ class TestBuildSectionEndToEnd:
         flagged = [b for lv in section["levels"] for b in lv["spans_exceeding_capacity"]]
         assert all(not b["ok"] for b in flagged)
 
-    def test_spec_builder_plan_flags_a_span_over_capacity(self, structure_module):
+    def test_a_shipped_plan_flags_a_span_over_capacity(self, structure_module):
         """The concrete case this file's own CLI run turned up: a 23+ ft clear span checked
         against the bay-module cap fails it, and build_section surfaces that as a finding
-        rather than silently reporting 0 problems."""
-        plan = load_plan("spec-builder-colonial")
+        rather than silently reporting 0 problems.
+
+        THE PLAN MOVED, AND THAT IS A FINDING RATHER THAN A MAINTENANCE CHORE. This asserted
+        on `spec-builder-colonial`, which after WP-11.2 flags NONE: its massing states five
+        bays, the odd-count rule took it from six to seven, and more bay lines means more
+        walls landing on the grid, more bearing lines, and shorter clear spans. That is a real
+        improvement to that house and it leaves this assertion with nothing to find, which is
+        the fixture going blind — so it reads the Tidewater plan, which still flags two, and
+        says out loud that the OTHER plan now flags none rather than quietly dropping it."""
+        plan = load_plan("tidewater-georgian-careful")
         section = structure_module.build_section(plan)
         flagged = [s for lv in section["levels"] for s in lv["spans_exceeding_capacity"]]
-        assert flagged, "expected at least one over-capacity span on spec-builder-colonial.json"
+        assert flagged, "expected at least one over-capacity span on tidewater-georgian-careful"
+        spec = structure_module.build_section(load_plan("spec-builder-colonial"))
+        spec_flagged = [s for lv in spec["levels"] for s in lv["spans_exceeding_capacity"]]
+        assert spec_flagged == [], (
+            "spec-builder-colonial flagged a span again. It flagged one until WP-11.2 and none "
+            "after; if it is back, the bay count or the bearing-line rule moved and the reason "
+            "belongs in a report before this line is edited.")
 
     def test_storeys_carry_a_grade_relative_floor_datum(self, structure_module):
         plan = load_plan("tidewater-georgian-careful")
@@ -503,11 +517,46 @@ class TestRenderSection:
         assert "RIDGE UNJUDGED" in text
 
     def test_render_bearing_diagram_writes_a_valid_svg_and_flags_over_capacity_spans(self, structure_module, render_section_module, tmp_path):
-        plan = load_plan("spec-builder-colonial")
+        plan = load_plan("tidewater-georgian-careful")
         section = structure_module.build_section(plan)
         out = tmp_path / "bearing.svg"
         render_section_module.render_bearing_diagram(section, str(out))
         text = out.read_text()
         assert text.startswith("<svg")
         assert "BEARING LINES" in text
-        assert 'class="bad"' in text  # this plan has a flagged over-capacity span
+        # WP-11.2: spec-builder-colonial stopped flagging any span (see
+        # test_a_shipped_plan_flags_a_span_over_capacity), so the plate that must carry the
+        # mark is the Tidewater one now.
+        assert 'class="bad"' in text
+
+
+def test_the_timber_span_cap_matches_the_invariant_it_is_lifted_from():
+    """`structure.py`'s 20 ft timber-frame span cap against the record it cites.
+
+    Found by the audit of 7 Sep 2026: the comment beside the literal said it came from
+    `module.default_size_in`'s range, and that record states `default_size_in: 192.0` with no
+    range as data. The 240 in = 20 ft is inside the TEXT of an invariant. Nothing held the two
+    together, so moving the pack's bound would have left every timber-framed span in the corpus
+    convicted or acquitted against a number the pack no longer states.
+
+    The invariant is matched, not parsed generally -- a second expression reader beside
+    `proportion_engine`'s is the duplication this corpus refuses. If the invariant is reworded
+    this fails and says so, which is the honest failure for a transcription.
+    """
+    import re
+    rec = json.loads(open(os.path.join(ROOT, "proportions", "modules", "timber-bay.json")).read())
+    exprs = [i.get("expression", "") for i in (rec.get("invariants") or [])]
+    hits = [m for e in exprs
+            for m in re.findall(r"module\.default_size_in\s*<=\s*([0-9.]+)", e)]
+    assert len(hits) == 1, (
+        f"timber-bay.json states {len(hits)} upper bounds on module.default_size_in in its "
+        f"invariants; structure.py's span cap is lifted from exactly one of them, so which one "
+        f"is no longer decidable here. Invariants: {exprs}")
+    upper_in = float(hits[0])
+    src = open(os.path.join(ROOT, "build", "structure.py")).read()
+    assert "\n                cap = 20.0\n" in src, (
+        "the timber-frame span cap has moved or been reformatted; re-derive it against "
+        "timber-bay.json's invariant rather than re-pinning this string")
+    assert upper_in / 12.0 == 20.0, (
+        f"timber-bay.json's invariant now tops out at {upper_in} in = {upper_in / 12.0} ft and "
+        f"build/structure.py still caps a hewn-joist span at 20.0 ft")

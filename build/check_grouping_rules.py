@@ -75,10 +75,26 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 #                       `dependency-and-hyphen` and `garage-and-hyphen`. The register said one.
 #   unit_splits  0      Nothing yet says one quantity in two units across a co-carried pair.
 #                       Zero here is a real zero: 26 of 26 tested rules carry `units`.
-#   uncomparable 22     Rules whose quantity names no room band -- ridge ratios, work triangles,
+#   uncomparable 21     Rules whose quantity names no room band -- ridge ratios, work triangles,
 #                       a landing depth. Mostly correct and permanent: a building-level quantity
 #                       has no band to be held against. NOT a backlog to drive to zero, and
 #                       binding one to a band it does not mean would be the OQ 48 error.
+#                       **22 -> 21 at WP-11.7, and the fall is not progress**: it is
+#                       `centre-passage-core`'s facade-share rule losing its `test` when the
+#                       facade ruling made it a REPORT rather than a requirement, so there is one
+#                       fewer test to be uncomparable. A ceiling that falls because a rule stopped
+#                       being executable is exactly the way a may-only-fall ratchet lies, which is
+#                       why the `compared` FLOOR below is the guard that matters here -- it held
+#                       at 5 across the change, measured.
+#                       **21 -> 23 at WP-11.9, and this rise IS legitimate**: two of the twenty
+#                       prose rules the Tidewater diagnosis lists were given a test in that
+#                       package -- `passage_ends_with_a_door` and `stair_hall_opens_off_the_
+#                       passage` -- and both measure a COUNT, which no room band states or could.
+#                       They land in the "correct and permanent" bucket this entry already
+#                       describes. A same-commit ceiling change is how a blinded instrument gets
+#                       ratified (WP-9.4), so the guard is the FLOOR: `compared` held at 5 across
+#                       this change, measured, and the two new rules are named here so a later
+#                       reader can check the claim rather than take it.
 #   prose_uncompared 35 Figures stated in prose that no test or band carries. Falls when a figure
 #                       is AUTHORED into a test (the passage's was, in this package) -- never by
 #                       tightening the regex until the number looks better.
@@ -90,7 +106,7 @@ RATCHET = {
     "rule_vs_band": 3,
     "rule_vs_rule": 2,
     "unit_splits": 0,
-    "uncomparable": 22,
+    "uncomparable": 23,
     "prose_uncompared": 35,
     "compared": 5,          # a FLOOR -- may only RISE
 }

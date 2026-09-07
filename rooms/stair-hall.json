@@ -82,6 +82,15 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "North is best and is the historic choice where there is one, because a stair window that faces the sun throws a moving bar of light across the treads and a tread you cannot read the edge of is a tread you fall on. The stair window is the one opening in the house where glare is a safety matter.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N"
+      ],
+      "basis": "North is best and is the historic choice where there is one",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.3

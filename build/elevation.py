@@ -199,12 +199,29 @@ def _bay_count(facade_pack, span_ft):
                     dimension="bay_count_on_front", clip=False)
     return max(3, int(round(count))), module_in
 
-def _face_bays(facade_pack, span_ft, has_entrance):
-    """Bay centres evenly spaced across the face's own outside width, an odd count from
-    facade-classical's own bay-count formula. The centre bay carries the entrance on the face
-    context.entrance_faces names; every other elevation gets the same odd-bay treatment (window
-    only) so the whole building reads as one composed object, not just its front."""
+def _face_bays(facade_pack, span_ft, has_entrance, plan_bays=None):
+    """Bay centres evenly spaced across the face's own outside width. The centre bay carries the
+    entrance on the face context.entrance_faces names; every other elevation gets the same odd-bay
+    treatment (window only) so the whole building reads as one composed object, not just its front.
+
+    **`plan_bays` IS THE PLAN'S OWN COUNT AND IT WINS (WP-11.7).** Until then the count came only
+    from `facade-classical.json`'s `window_grouping_rule` against this face's outside width — a
+    formula that has never read `footprint.bays`, which is what `derive_footprint` computed and
+    what WP-11.2 made odd where the diagram wants a centre bay. Two records built from different
+    rules, and nothing compared them: the exact shape of OQ 85, four hundred lines below this one,
+    where a window was drawn on a chimney axis for the same reason.
+
+    **THEY AGREE ON BOTH SHIPPED PLANS AND THAT IS WHY IT WAS INVISIBLE** — 7 against 7 on
+    `tidewater-georgian-careful` and 5 against 5 on `spec-builder-colonial`, so this change is
+    byte-identical on the whole corpus and is a removal of the second rule rather than a new
+    answer. Passed only for the faces that span the block's WIDTH, because `footprint.bays` counts
+    bays across the width and a gable end is a different span; and only where
+    `facade.rhythm` DERIVED a count, so a plan that names no parti keeps the formula and the
+    facade layer says the rhythm is unjudged rather than this quietly asserting one."""
     count, module_in = _bay_count(facade_pack, span_ft)
+    from_plan = False
+    if plan_bays:
+        count, from_plan = int(plan_bays), True
     span_in = span_ft * 12.0
     bay_w_in = span_in / count
     centres_ft = [round((i + 0.5) * bay_w_in / 12.0, 3) for i in range(count)]
@@ -213,12 +230,20 @@ def _face_bays(facade_pack, span_ft, has_entrance):
     if has_entrance:
         kinds[mid] = "door"
     return {"count": count, "nominal_module_in": module_in, "actual_bay_width_in": round(bay_w_in, 2),
-            "centres_ft": centres_ft, "kinds": kinds,
-            "note": (f"Bay count from facade-classical.json's own window_grouping_rule at its stated default module "
+            "centres_ft": centres_ft, "kinds": kinds, "count_from_the_plan": from_plan,
+            "note": ((f"Bay count from the PLAN's own footprint.bays ({count}), which is the "
+                      f"organising move the facade follows rather than leads "
+                      f"(oq/the-facade-is-a-result-not-an-input); the bays are then spaced evenly "
+                      f"across this face's actual outside width ({span_ft} ft), giving "
+                      f"{round(bay_w_in/12,2)} ft per bay.") if from_plan else
+                     f"Bay count from facade-classical.json's own window_grouping_rule at its stated default module "
                      f"({module_in} in); the {count} bays are then spaced EVENLY across this face's own actual outside "
                      f"width ({span_ft} ft), which is why the realised per-bay spacing ({round(bay_w_in/12,2)} ft) differs "
                      f"from the {module_in/12:.1f} ft module the bay-count formula assumed -- normal practice: the formula "
-                     f"picks a plausible odd count, the real facade width decides the real spacing.")}
+                     f"picks a plausible odd count, the real facade width decides the real spacing. "
+                     f"The PLAN's own bay count was not available for this face -- either it is a "
+                     f"gable end, whose span is the depth, or the facade layer could not derive a "
+                     f"rhythm for this record and says so.")}
 
 def blind_bays_behind_stacks(face_rec, stack_axes_ft, stack_width_ft):
     """Mark any bay whose centre a chimney stack stands on as `blind`, in place.
@@ -1694,9 +1719,20 @@ def build_elevation(plan, parti=None, section=None, roof=None):
     faces = {}
     blinded_bays = {}
     _stack_w_ft = (chimney_plan_in or 22.0) / 12.0
+    # WP-11.7: the plan's own bay count, where the facade layer could DERIVE one. It refuses on
+    # any record that names no parti (fifteen of the sixteen here) and on a non-centre-door
+    # diagram BY NAME, so this is None far more often than not and the formula below stays the
+    # reader for those -- which is the ruling's scope, not a gap.
+    try:
+        _FA = _mod("facade", f"{ROOT}/build/facade.py")
+        _rh = _FA.rhythm(plan)
+        _plan_bays = _rh["bays"] if _rh.get("verdict") == "derived" else None
+    except Exception:
+        _plan_bays = None
     for f in FACES:
         span_ft = fp["width_ft"] if f in ("S", "N") else fp["depth_ft"]
-        faces[f] = _face_bays(facade_pack, span_ft, has_entrance=(f == entrance_face))
+        faces[f] = _face_bays(facade_pack, span_ft, has_entrance=(f == entrance_face),
+                              plan_bays=_plan_bays if f in ("S", "N") else None)
         faces[f]["outside_width_in"] = round(span_ft * 12.0, 2)
         # OQ 85: a bay a chimney stands on is BLIND. The two records -- roof.py's chimney plan
         # positions and this file's evenly spaced odd bay count -- were built from different rules
