@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,864 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,879 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -371,7 +371,7 @@ a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Repo
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
 **Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
-through 11.9 and 11.11 are complete, 11.10 is planned.** (**This line said "11.1, 11.2 and 11.3
+through 11.9 and 11.11 are complete; 11.10 is PART-BUILT (the container question answered and refused; its three shape terms remain).** (**This line said "11.1, 11.2 and 11.3
 are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
 above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
 itself, two headings up.) Raised by Lucas against the workbench's own
@@ -478,6 +478,53 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE DEPTH A ROOF NEEDS IS DERIVABLE FROM THE FAULT'S OWN RULE, AND DERIVING IT IS WHAT SHOWS
+  IT CANNOT BE ENFORCED (WP-11.10).** `derive_footprint` bounds depth from ABOVE
+  (`H <= depth_for(W) * 1.18`) and from below by NOTHING, so moving a programme into a wing makes
+  the block shallower without limit -- measured, a main block of 45 x 28.89 ft convicted at 0.4066.
+  **THREE FRAMINGS OF THE FIX WERE FALSIFIED IN A ROW, EACH BY MEASUREMENT AND NONE BY READING.**
+  A floor at the massing's pile moves `spec-builder-colonial`, a SHIPPED plan, 30.75 → 36.0 ft --
+  **262 sf of empty floor, 17.1% over programme** -- to satisfy a rule not convicting it; a pile is
+  a TYPICAL depth, and reading a typical value as a hard one is what the 3 Sep ruling removed 35
+  proportion floors for. `build/depth_floor.py` inverts
+  `faults/truss-flattened-pitch.json`'s own test instead (a LEAF, for `storeys.py`'s reason; the
+  threshold READ from the record and an AST guard failing if it appears as a constant; agrees with
+  the fault's forward verdict **2–0, 14 unjudged**).
+  **AND THE DERIVATION IS THE REFUSAL**: `good-05-lobby-gallery-mansion`, a `good-*` reference
+  plan, is convicted FATALLY at **0.2509** by a licence naming `italianate-american` where its
+  style is `italian-renaissance-revival` -- `oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants`
+  -- and the floor that implies is **69.31 ft against a drawn 38.64**. A cap would make a
+  known-broken licence a hard constraint on the placer. Only **3 of 16** plans have a style with a
+  migrated pitch at all. It is reported by the INSTRUMENT and read by nothing;
+  `oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced`.
+  **`spec-builder-colonial` does not PASS that fault -- it is UNJUDGED** (no migrated pitch, so no
+  ridge height). I wrote "passes" and that is the collapse this corpus names first.
+- **A THIRD COPY OF A SHARED READING WAS WRONG TWO WAYS ON ITS FIRST RUN (WP-11.10).**
+  `_style_roof_pitch` is spelled identically in `structure.py` and `roof.py` (roof.py's comment
+  says so) and `depth_floor.py` needed a third because it must stay a leaf. Mine walked
+  `constraints/*.json` on `applies_to_styles` where the real one reads the constraints ON THE STYLE
+  NODE, and dropped the `direction == "between"` branch -- `None` where structure returns 8.0.
+  **Caught by comparing against the function it was copied from, not by reading it**; the guard is
+  agreement on all 164 styles. **Do not add a fourth without extending that test.**
+- **A SIGNATURE THAT LETS A CALLER SUPPLY THE WRONG NUMBER WILL BE HANDED THE WRONG NUMBER
+  (WP-11.10).** `wall_height_ft` first took a list of heights and its OWN CLI passed
+  `floor_to_ceiling_ft` (21 ft) where the fault's denominator wants the STOREY heights
+  `storeys.py` derives (23.44) -- an 11.6% error in the direction that makes the floor look
+  smaller and the house look better. It takes the PLAN now and derives them itself.
+- **A TEST THAT MUTATES A TRACKED CORPUS FILE AND RESTORES IT IN A `finally` IS A DATA-LOSS BUG
+  (WP-11.10).** To prove a threshold is read rather than transcribed, the first version wrote to
+  `faults/truss-flattened-pitch.json` in place. **A `finally` does not run if the process is
+  killed, and this session alone had two container restarts mid-run** -- leaving a corrupted
+  threshold in the corpus, looking exactly like an authored change, in the file every other reader
+  of that fault trusts. Redirect the module's path constant at a temp COPY instead; nothing a test
+  does may write inside the repository.
+- **SOLVE A RULE BOTH WAYS AND COMPARE -- IT IS THE ONLY REAL CORRECTNESS TEST FOR AN INVERSION,
+  AND IT FOUND THE THIRD TEST LOCATION (WP-11.10).** The floor's first run agreed with the fault
+  on 2 plans and DISAGREED on `good-03`, which the fault convicted at *"22.6 against between 33.7
+  and 39.8"* -- a band in different units, because `greek-revival-american` carries an
+  `exceptions[].bounds_test` that SUBSTITUTES for the primary. **A fault's tests live in three
+  places and the third is the one that bites**; the floor was right about the primary and the
+  primary was not the rule in force.
 - **THE WP-11.6 FINDING DIGEST IS OVER EVERY FINDING, NOT ONLY THE DRAWN ONES, AND WP-11.9 SHIPPED
   RED ON IT (found by the build, 6 Sep 2026).** `test_a_one_rectangle_plan_is_UNTOUCHED_finding_
   for_finding` hashes `PC.check(q)["findings"]` ENTIRE, so a new ROOM-layer finding moves it just
@@ -2351,8 +2398,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **142 entries, of which 56 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **143 entries, of which 57 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

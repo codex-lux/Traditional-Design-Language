@@ -2227,7 +2227,27 @@ that carries it — a room rule on the room, a grouping rule on the grouping, a 
 
 ### WP-11.10 The placer's shape terms, on the right box
 
-**Status: NOT STARTED. Blocked on WP-11.6.** Part VII item 9. `WIDTH_W`, the flat 12, and the
+**Status: PART-BUILT (7 September 2026) — the container question is answered and REFUSED; the
+three shape terms are NOT done and are named below.** Report:
+`docs/reports/wp-11.10-the-floor-that-cannot-be-enforced.md` · new open question:
+`oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced`.
+
+**Its stated blocker, WP-11.6, is complete** — so the package opened on the container question
+Lucas ruled first: give `derive_footprint` a depth floor. **THREE FRAMINGS WERE FALSIFIED IN A
+ROW, EACH BY MEASUREMENT.** A floor at the massing's pile moves `spec-builder-colonial`, a shipped
+plan, 30.75 → 36.0 ft — 262 sf of empty floor, 17.1% over programme — to satisfy a rule not
+convicting it. So the floor is derived from `faults/truss-flattened-pitch.json`'s OWN test
+instead (`build/depth_floor.py`, a leaf; the threshold READ, never transcribed; agreeing with the
+fault's forward verdict 2–0 with 14 unjudged) — **and the derivation is what shows the fault
+cannot carry a cap**: `good-05-lobby-gallery-mansion`, a `good-*` plan, is convicted FATALLY at
+0.2509 by a licence naming its SIBLING style, and the floor that implies is 69.31 ft against a
+drawn 38.64. A cap would make a known-broken licence a hard constraint on the placer. **Reported
+by the instrument, read by nothing**, and the refusal is TESTED rather than asserted.
+Four defects found in the building of it, all mine, none by reading — read §IV before touching
+this file. **`WIDTH_W`, the flat 12 and the direction-to-the-square remain**, and §VI says what
+each needs.
+
+*The package as originally written:* Part VII item 9. Part VII item 9. `WIDTH_W`, the flat 12, and the
 direction-to-the-square the 3 Sep ruling opened, measured on the container that can hold the
 programme. Not before: a term measured on the wrong box measures the box.
 

@@ -234,6 +234,38 @@ def solver_account(plan):
     }
 
 
+def roof_depth_floor(plan):
+    """The depth this block's roof needs before it reads as a truss default (WP-11.10).
+
+    **A DIAGNOSTIC, NOT A CAP, AND THE INSTRUMENT IS WHERE A DIAGNOSTIC BELONGS.**
+    `build/depth_floor.py` inverts `faults/truss-flattened-pitch.json`'s own test to give the
+    shortest span whose roof still clears it. It is reported here and acted on NOWHERE, because
+    three measurements refused the cap -- read that file's docstring for all three; the sharpest
+    is that `good-05-lobby-gallery-mansion`, a `good-*` reference plan, is convicted FATALLY by
+    this fault today at 0.2509, its licence naming a SIBLING style, and the floor that implies is
+    69.31 ft against a drawn 38.64. A cap would make a known-broken licence a hard constraint on
+    the placer. `oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced`.
+
+    The wall thickness comes from `structure.wall_thickness`, which this file may read because it
+    is an instrument and not a leaf; `depth_floor.py` takes it as an argument for exactly that
+    reason and never reaches for it itself.
+    """
+    DF = _mod("depth_floor", f"{ROOT}/build/depth_floor.py")
+    fp = plan.get("footprint") or {}
+    w, dp = fp.get("width_ft"), fp.get("depth_ft")
+    span = min(w, dp) if (w and dp) else None
+    t = 0.0
+    try:
+        ST = _mod("structure", f"{ROOT}/build/structure.py")
+        t = (ST.wall_thickness(plan) or {}).get("exterior_in") or 0.0
+    except Exception as exc:                      # noqa: BLE001 -- reported, never swallowed
+        return {"verdict": "unjudged",
+                "reason": f"the exterior wall thickness could not be read ({exc}); the fault "
+                          f"measures the OUTSIDE envelope and a clear span cannot be compared "
+                          f"to it without one"}
+    return DF.evaluate(plan, exterior_wall_in=t, clear_span_ft=span)
+
+
 def diagnose(plan, engine="auto", candidates=250, time_limit_s=25.0):
     """Place (or reuse a placement), check, and return the whole account."""
     if not has_placement(plan):
@@ -248,6 +280,7 @@ def diagnose(plan, engine="auto", candidates=250, time_limit_s=25.0):
         "footprint": plan.get("footprint"),
         "baseline": baseline(plan, check),
         "solver": solver_account(plan),
+        "roof_depth_floor": roof_depth_floor(plan),
         "rooms": room_table(plan),
         "front": front_openings(plan),
     }
@@ -269,6 +302,18 @@ def report(d):
           f'{fp.get("bays")} bays of {fp.get("bay_module_ft")} ft, {fp.get("area_sf")} sf')
     b = d["baseline"]
     print(f"\n  BASELINE  {baseline_line(b)}")
+
+    rf = d.get("roof_depth_floor") or {}
+    if rf:
+        if rf.get("verdict") == "unjudged":
+            print(f'\n  ROOF FLOOR  COULD NOT EVALUATE — {rf.get("reason")}')
+        else:
+            print(f'\n  ROOF FLOOR  {rf["verdict"].upper()}: this block\'s shortest span is '
+                  f'{rf.get("clear_span_ft")} ft clear against a floor of '
+                  f'{rf.get("min_clear_span_ft")} ft, inverted from '
+                  f'faults/truss-flattened-pitch.json at {rf.get("threshold")} '
+                  f'(pitch {rf.get("pitch")}:12, wall {rf.get("wall_height_ft")} ft). '
+                  f'REPORTED AND NOT ENFORCED — oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced')
 
     s = d["solver"]
     print(f'\n  SOLVER    {s["engine"]} — {s["status"]}')
