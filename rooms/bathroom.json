@@ -102,6 +102,15 @@
     "depth_multiplier": 1.8,
     "sides_lit": 1,
     "orientation": "East if there is a choice. The room is used at 6 am and a small east window does more for it than any fixture in it.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E"
+      ],
+      "basis": "East if there is a choice.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.04,
       0.1

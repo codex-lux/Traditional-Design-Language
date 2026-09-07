@@ -142,6 +142,30 @@ SCORE_LAYERS = {
     # already flagged as editorial and whose returned set has changed once as a side effect
     # (OQ 66, OQ 67). Not worth doing silently in a package about something else.
     "drawn": "connections",
+    # WP-11.5, closing a defect WP-11.4 pushed. That package added a `hearth` layer to
+    # `plan_check` and did not map it here, so both its findings landed in
+    # `score_unclassified_layers` and no axis counted them --
+    # `test_every_layer_the_validator_emitted_is_classified` went red on the first full build
+    # after the push and named the layer and the remedy in its own message. The guard did its
+    # job; the package that tripped it committed before its build finished.
+    #
+    # `rooms` IS THE AXIS THE CORPUS ALREADY PUTS HEAT ON. A room's fire is read from that
+    # room's own `servicing.heat` and `servicing` is mapped to `rooms` three lines above; a
+    # room the corpus gives a fire and the record does not is a fact about that room.
+    #
+    # MEASURED THREE WAYS on family-georgian before this was pinned, because `test_score.py`
+    # demands it: unmapped / rooms / canon return the SAME SET IN THE SAME ORDER, and only the
+    # two candidates carrying hearth findings move at all -- 78.7 / 68.7 unmapped, 78.4 / 68.4
+    # here, 78.1 / 68.3 on canon. The axis choice changes nothing today; the argument below is
+    # what decides it, not a number.
+    #
+    # THE COMPROMISE, STATED RATHER THAN HIDDEN, exactly as the `drawn` note above states its
+    # own: `hearth-off-the-stack-wall` is not a room fact. It is a disagreement between the
+    # plan record and the MASSING about where the stacks stand, which belongs on `canon`.
+    # Splitting one layer across two axes is the alternative and it is the same re-weighting
+    # the `drawn` note declines, on a composite whose weights are already editorial. It rides
+    # on `rooms` and this comment is the record of it.
+    "hearth": "rooms",
 }
 
 # What a room is still worth once something has been found against it. A serious finding
@@ -244,8 +268,25 @@ def _axis_canon(res, plan):
     of = max(of, len(per_rule)) + len(loose)
     if not of: return {"share": None, "of": 0, "unjudged": unjudged}
     kept = sum(per_rule.values()) + sum(loose) + max(0, of - len(loose) - len(per_rule))
+    # `unjudged` AND `of` ARE COUNTED ON DIFFERENT GRAINS, AND THE CARD NOW SAYS SO (audit,
+    # 7 Sep 2026). `of` counts each GROUPING as one opportunity; the info findings counted into
+    # `unjudged` are one per internal RULE, and a grouping carries up to 86 of them between
+    # them. So the field read "23 could not be evaluated" beside "of: 10" -- 23 of 10 -- and at
+    # `share: 1.0`, which reads as full marks on a fraction whose unjudged count exceeds its
+    # own denominator. WP-11.9 made it visible (28 silent grouping rules began to speak, taking
+    # tidewater 15 -> 23 and spec-builder 12 -> 19) and did not cause it: the mismatch is as old
+    # as the docstring above, which says "per RULE" about a denominator counted per grouping.
+    #
+    # THE SCORE IS DELIBERATELY NOT TOUCHED HERE. Recounting `of` per rule would change `share`
+    # on every candidate and re-rank the shipped briefs, which is a scoring decision and not an
+    # audit's to take; clamping `unjudged` to `of` would make the number look right by throwing
+    # away the count. So the number is published with the population it was counted over, and
+    # the grain question is written down: `oq/the-canon-axis-counts-two-grains-as-one`.
     return {"share": max(0.0, min(1.0, kept / of)), "of": of, "clean": round(kept, 2),
             "flagged": len(per_rule) + len(loose), "unjudged": unjudged,
+            "unjudged_of": ("canon-layer findings that could not be evaluated, counted per "
+                            "RULE and per constraint -- a different population from `of`, "
+                            "which counts each grouping once"),
             "denominator": "declared slots, groupings, evaluated constraints and the massing"}
 
 
@@ -660,6 +701,14 @@ def instantiate(parti_id, brief):
                               for wall in lit]
         if r.get("fixtures"): rec["fixtures"] = r["fixtures"]
         if r.get("stacks_over"): rec["stacks_over"] = r["stacks_over"]
+        # WP-11.6: the diagram's own massing composition reaches the plan record. Copied rather
+        # than derived, exactly as `stacks_over` above is: a parti that states two elements is
+        # making an authored claim about the building, and the placer's `blocks_for` is the one
+        # reader. **The composer wrote no `block` on any room until this**, so the only route into
+        # the multi-element machinery was a caller-supplied record -- which is precisely the reader
+        # `geometry_report.multi_element` was written for because they cannot know.
+        if r.get("block"): rec["block"] = r["block"]
+        if r.get("hyphen"): rec["hyphen"] = True
         doors = [{"to": d} for d in (r.get("doors") or [])]
         if doors: rec["doors"] = doors
         levels[lv].append(rec)
@@ -784,6 +833,12 @@ def attach_garage(plan, brief, log):
         anchor = {"id": "garage-mudroom", "type": "mudroom", "name": "Mudroom",
                   "width_ft": 7.0, "length_ft": 9.0, "ceiling_ft": 8.5,
                   "doors": doors,
+                  # WP-11.6: the mudroom joins the element its ANCHOR is in. Once a diagram can
+                  # state a service dependency, the kitchen this room doors onto may be in one --
+                  # and a door between two elements cannot be placed, measured 5 of 5. Landing
+                  # the mudroom in the main block while its kitchen is in a wing is a door across
+                  # open ground, which is the one thing the hyphen exists to prevent.
+                  **({"block": kitchen["block"]} if kitchen.get("block") else {}),
                   "note": "Added with the garage. Without it the kitchen becomes the mudroom, "
                           "which is the failure rooms/garage.json names. Sits on the service "
                           "sequence the back hall's own record describes: garage, mudroom, "
@@ -804,6 +859,8 @@ def attach_garage(plan, brief, log):
     garage = {"id": "garage", "type": "garage", "name": f"{int(bays)}-Car Garage",
               "width_ft": width, "length_ft": round(l, 1), "ceiling_ft": 9.0,
               "exterior_walls": ["N", "E", "S"],
+              # ...and the garage joins the mudroom it doors onto, for the same reason.
+              **({"block": anchor["block"]} if anchor.get("block") else {}),
               # A window in the side wall, not a glazed vehicle door: rooms/garage.json is
               # explicit that "glazed garage doors are a contemporary convention with no
               # traditional precedent; where light is wanted, a window in the side wall costs

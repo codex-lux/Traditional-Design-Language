@@ -1,6 +1,6 @@
 # oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it — six layers read the main block as the whole building
 
-*Status: OPEN · Raised in: From the adversarial audit of OQ 40's block machinery (3 Sep 2026)*
+*Status: RULED 4 Sep 2026 · Raised in: From the adversarial audit of OQ 40's block machinery (3 Sep 2026)*
 
 **OPEN — the placer states two massing elements and SIX layers below it read
 `footprint.width_ft`/`depth_ft` as the whole building. Each is wrong in its own direction on a
@@ -70,3 +70,95 @@ package here has to take the layers in an order it can state, and measure after 
 **Do not close this by narrowing the schema.** `block` on a room and `blocks` on a footprint are
 the record OQ 40 ruled for; removing them would make the disclosure unnecessary by making the
 feature unreachable, which is a different decision and belongs to OQ 40, not here.
+
+---
+
+## Lucas's ruling, 4 September 2026 — all four items
+
+Taken against `docs/reports/tidewater-layout-diagnosis-2026-09-04.md`, whose Part V finds the
+container to be the root of twenty-two of its fifty-one findings: the declared Tidewater record is
+INFEASIBLE in one rectangle because its `exterior_walls` are the exposures of a five-part house,
+and the CP engine's remedy is to delete sixteen of them and keep the box. The four items were put
+with a recommendation apiece and all four recommendations were taken.
+
+**1. An element has its own envelope, and the roof is per element too.** Not the union. `structure`
+gets four walls per element, `export_ifc` a slab per element, and each element carries a stated
+ridge relation to the main block — which `groupings/georgian-service-core.json` already states as a
+rule and tests (`wing_ridge_ft / main_ridge_ft at-most 0.85`) and which has never had a reader.
+*The consequence to watch:* a per-element roof means the massing's `roof_default` is a fact about
+the MAIN element and the dependency's is a choice, and the corpus has nowhere to say the second.
+That gap is named here and not filled.
+
+**2. The lot cap is on the BUILT EXTENT, hyphen included.** The hyphen is roofed ground; a building
+whose covered area overruns its lot has overrun it. The union bounding box is the wrong measure
+only where two elements sit diagonally and the box counts open yard between them; that case does
+not arise on an axial five-part scheme and is refused rather than modelled.
+
+**3. The hyphen is a THIRD ELEMENT carrying one room.** Not a joint between two. Every count in the
+table above then says "elements" and means it, and the seventh defect recorded in item 3 above —
+that nothing makes the house-side room abut the hyphen or the hyphen abut the dependency's anchor —
+becomes a placement constraint between adjacent elements rather than an accident of two independent
+`slice_rect` calls. It does NOT reopen the 3 Sep ruling that the hyphen is a room: it is a room,
+and its element is the thing the room is placed in.
+
+**4. `plan_check`'s drawn layer measures `touches` against the room's OWN element.** And where a
+room's exterior wall faces the hyphen gap, the finding says so in its own words rather than
+convicting a landlocked room: exterior to the weather, interior to the view, which is a distinction
+the corpus has the vocabulary for (`lit_from` is about light, `exterior_walls` about exposure).
+
+**The order the layers are taught, and it is the ruling's operative half.** The entry's own trap —
+fixing one layer removes the shield the others hide behind — sets the order: `openings` first
+(which makes the dependency's windows real and therefore makes `structure`'s missing envelope a
+DRAWN collision rather than a silent absence), then `structure`, then `vertical_score`, then the
+lot cap, then `plan_check.drawn`, then `export_ifc`. **Measure after each**, and the measurement is
+the six-number baseline `PLAN-OF-ACTION.md` Phase 11 states.
+
+Built by **WP-11.6**. Nothing about the disclosure is removed until the layer it discloses is
+taught: `geometry_report.multi_element` names six layers today and must name five, then four, then
+none — a falling count, in the record, is how this ruling is checked rather than claimed.
+
+---
+
+## Where this stands, 5 September 2026
+
+**ALL SIX LAYERS ARE TAUGHT and `not_element_aware` is `[]`.** The falling count went 6 → 5 → 4 → 3
+→ 2 → 1 → 0 over six commits, in the ruled order, with a measurement after each:
+
+| layer | measured before → after |
+|---|---|
+| `openings` | dependency openings refused **9 → 5** (the five that remain are honest) |
+| `structure` | main wall set contaminated **1 → 0**; the dependency's own envelope walls **0 of 2 → 2 of 2**, and its spans then fail at 27.0 ft against a 20 ft cap |
+| `vertical_score` | a cross-element `stacks_over` claim **charged 40 → COULD NOT EVALUATE** (and the entry's support credit above turned out to be unreachable) |
+| lot cap | built extent **104 → 86 ft** on an 80 ft lot, `lot_capped` **false → true** |
+| `plan_check.drawn` | dependency rooms convicted landlocked **2 → 0**, with `chamber2` and `stair` still convicted as the control |
+| `export_ifc` | placed rooms over no slab **3 → 0** |
+
+**THIS ENTRY IS NOT CLOSED, AND THE EMPTY LIST IS NOT THE REASON IT WOULD BE.** Two of the four
+ruled items are unbuilt:
+
+1. **The per-element ROOF** — item 1's second half. Each element was to carry a stated ridge
+   relation to the main block, which `groupings/georgian-service-core.json` already states as a
+   rule (`wing_ridge_ft / main_ridge_ft at-most 0.85`) and which still has no reader. `roof.py`
+   derives one roof for the main block. The gap item 1 named for itself is also still open: a
+   per-element roof makes the massing's `roof_default` a fact about the MAIN element and the
+   dependency's a choice, and the corpus has nowhere to say the second.
+2. **The abutment between adjacent elements** — item 3's seventh defect, and item 4 changed what is
+   left of it rather than closing it. `blocks_for` still centres each element on the main block's
+   axis, and `flank_slice` states a strip against the shared face where an authored door crosses
+   through a link, but nothing decides *when* two elements ought to touch. On the CP engine the
+   abutment turned out to need no new constraint at all — the door rule is already
+   `a.x + a.w == b.x`, vacuous while every room shared one rectangle and hard the moment the
+   elements are real — and what it needed was the other half: a door between elements that do NOT
+   touch is stated as outside the model rather than made an infeasibility of the house, because a
+   detached dependency is detached.
+
+**And `geometry_report.multi_element` stays in the record with an empty list.** It used to give two
+reasons that are not layers, and **item 4 removed one of them**: `engine="cp"` no longer refuses a
+multi-element plan — `geometry_cp._boxes` gives each room its own element box and the prover places
+per element, taking the Tidewater record's downgraded wall pins from 12 to 4 with no declared fact
+changed. What survives is that the roof is the main block's alone, and that the abutment above is
+nobody's rule. Its note may no longer say COULD NOT EVALUATE — with nothing unjudged that would be
+a fake unjudged — and it may no longer say the prover refuses a multi-element plan, for the same
+reason in the other direction.
+
+Report: `docs/reports/wp-11.6-the-container.md`.

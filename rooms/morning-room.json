@@ -100,6 +100,19 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "EAST TO SOUTH-EAST, HARD. The room is used from about eight to noon and that is the only sun available in those hours; a morning room on a west front receives no direct light at all while it is in use and is a north room with a misleading name. Where the plan cannot deliver east, the honest move is to rename the room. Two-sided lighting - east plus south - is the ideal and gives the room sun for its whole occupied period.",
+    "aspect": {
+      "applies": true,
+      "strength": "hard",
+      "prefer": [
+        "E",
+        "SE"
+      ],
+      "avoid": [
+        "W"
+      ],
+      "basis": "EAST TO SOUTH-EAST, HARD.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.18,
       0.3

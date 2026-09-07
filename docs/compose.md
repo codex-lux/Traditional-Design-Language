@@ -111,6 +111,18 @@ and could not fix — from its point of view the area had been spent.
 So a courtyard brief now returns a house of the requested heated area inside a visibly larger
 block, and `footprint.heated_area_sf` beside `footprint.area_sf` is where the difference is read.
 
+## What a parti says that nothing executes (WP-11.11)
+
+`build/parti_prose.py <parti-id> [--md] [--all]` reads one parti's own groupings, massing and room records and sorts every sentence into three states: it carries a `test` the grouping layer evaluates (`executed`), it carries `measures.reported_by` and is measured but deliberately not required (`reported`), or it is named to a reader and executed by nobody (`by hand`). Beside them it lists the figures a room's prose states that no band or test carries, using `check_grouping_rules.prose_meter` — **imported, never transcribed**, because a second crude regex is how a corpus ends up with two upper bounds for one question.
+
+It exists because the enumerating, not the executing, was the expensive part of `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` Part VI. That table was twenty rows assembled by hand from one rendered sheet; generated for the same parti it is **fifty** — 24 executed, 6 reported, 20 by hand, 7 prose figures — because the hand table caught what that sheet broke and the generated one is the whole surface.
+
+**A rule with no test is not a defect.** One of them is a REPORT by ruling (`oq/the-facade-is-a-result-not-an-input`), several are genuinely a reader's, and WP-11.9's §IV refuses nine of the diagnosis's twenty with the fact that would have to exist first. The number is a work list in leverage order, which is what `check_inheritance.py --unendorsed` is for the pack cascade one layer over — not a debt to drive to zero.
+
+**A row that leaves the table is the point.** All twenty of `centre-passage-double-pile`'s room-orientation rows moved out of `by hand` when WP-11.9 made `daylight.orientation` executable. That movement is the only thing distinguishing a generated Part VI from a list of complaints.
+
+`docs/reports/precedents-centre-passage-double-pile.md` is the worked pattern for the other twenty, and its §2 is the method: generate Part VI first, then research the parti's own `exemplars`, quote the sentence, mark M/A/via, name what was not reached, and compare the parti's DECLARED record against the precedent — the comparison that produced `oq/the-parti-dissolved-its-own-dependencies` and `oq/the-partis-bay-module-contradicts-its-own-exemplars`.
+
 ## Every parti must work for the style it was written for (OQ 59)
 
 `build/check_partis.py` check 10 instantiates each parti against the first style in its own

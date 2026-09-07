@@ -27,6 +27,12 @@
     "depth_multiplier": 1.5,
     "sides_lit": 1,
     "orientation": "Gable ends first, dormers second — a gable window is free and a dormer costs a roof penetration.",
+    "aspect": {
+      "applies": false,
+      "basis": "Gable ends first, dormers second",
+      "note": "The record answers with an OPENING TYPE, not a compass: a gable window against a dormer.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.12

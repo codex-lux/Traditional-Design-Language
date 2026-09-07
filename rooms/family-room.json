@@ -101,6 +101,12 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "Rear of the house, so it takes whatever the lot gives - which in a north-facing-rear lot means this room is the darkest social room in the house and needs a second source. A south-facing family room with a big screen has the opposite problem: direct sun on a screen is unwatchable and the room needs a shading strategy the plan never includes.",
+    "aspect": {
+      "applies": false,
+      "basis": "Rear of the house, so it takes whatever the lot gives",
+      "note": "Placed by the plan rather than by the compass; the record then describes what each lot orientation costs, which is a consequence and not a preference.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.12,
       0.25

@@ -91,7 +91,14 @@ class TestMainRoofHip:
         main = roof_module.main_roof(plan, section, plan["style"])
         fp = section["footprint"]
         ridge_len = main["ridge"]["to_ft"] - main["ridge"]["from_ft"]
-        assert math.isclose(ridge_len, fp["width_ft"] - fp["depth_ft"], rel_tol=1e-6)
+        # THE TOLERANCE IS THE RECORD'S OWN ROUNDING, and WP-11.2 is what exposed it. The
+        # ridge's two endpoints are each rounded to a hundredth of a foot -- `D/2` and
+        # `W - D/2` -- so their difference equals `W - D` only when `D/2` lands on a
+        # hundredth. It did on the old 40.08 ft depth (20.04 exactly) and does not on the new
+        # 40.75 (20.375), which loses a half-hundredth at each end: 24.82 against 24.83. That
+        # is a property of a rounded record and not a defect in the roof, and pinning it at
+        # `rel_tol=1e-6` was pinning a coincidence of one footprint.
+        assert math.isclose(ridge_len, fp["width_ft"] - fp["depth_ft"], abs_tol=0.02)
 
     def test_four_hip_lines_run_corner_to_ridge_endpoint(self, roof_module):
         plan, section = _tidewater_section(roof_module, roof_form="hip")
@@ -372,7 +379,8 @@ class TestDormerRhythm:
         plan["declared"]["dormer"] = {"count": 6}
         main = roof_module.main_roof(plan, section, plan["style"])
         d = roof_module.dormer_rhythm_check(plan, section, main)
-        assert d["bay_count"] == 4 and d["on_bay_count"] == 4
+        # 5, moved from 4 by WP-11.2 (the odd-count rule; see that report).
+        assert d["bay_count"] == 5 and d["on_bay_count"] == 5
         assert d["ok"] is False and d["ratio"] < 1.0
 
     def test_the_roof_and_the_elevation_agree_or_the_roof_declines(self, roof_module):

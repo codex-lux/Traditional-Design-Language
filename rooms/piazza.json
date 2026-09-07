@@ -97,6 +97,20 @@
   "depth_multiplier": 1.8,
   "sides_lit": 1,
   "orientation": "HARD CONSTRAINT: within 45 degrees of south-west. The piazza has two jobs - shade the long wall from the afternoon sun and catch the prevailing summer breeze off the water - and both point the same way. A piazza on the north flank is decoration and defeats the type; the style node states this as a hard constraint and it is one of the few orientation rules in the catalogue that cannot be traded away.",
+  "aspect": {
+    "applies": true,
+    "strength": "hard",
+    "prefer": [
+      "S",
+      "SW",
+      "W"
+    ],
+    "avoid": [
+      "N"
+    ],
+    "basis": "HARD CONSTRAINT: within 45 degrees of south-west.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.5,
    0.9

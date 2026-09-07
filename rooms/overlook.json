@@ -72,6 +72,12 @@
     "depth_multiplier": 2.4,
     "sides_lit": 1,
     "orientation": "Usually none of its own. The overlook is normally lit borrowed - from a tall window in the volume below, or from a window at its own end - and the good versions put a window at the end of the run so the corridor has a destination and is not lit only from the side that has no floor.",
+    "aspect": {
+      "applies": false,
+      "basis": "Usually none of its own.",
+      "note": "Lit borrowed, from the volume below or from its own end; the record states no aspect because the room has no exterior wall to state one about.",
+      "judgment": true
+    },
     "note": "The overlook's real daylight role is what it does for the room BELOW, not for itself: a double-height space with an overlook on one side has a high wall free for tall glazing, and that is the whole daylight argument for the type. It works in the other direction too - an overlook lets light from an upper window fall into the plan's centre, which is how the type earns its place in a deep house. What it cannot do is light the rooms that open off it: those still need their own windows, and an upstairs corridor lit only by the void beside it leaves every bedroom door in the dark."
   },
   "adjacency": {

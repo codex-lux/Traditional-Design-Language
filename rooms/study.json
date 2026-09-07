@@ -104,6 +104,16 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "North or east. A study is occupied for long unbroken periods and its problem is glare rather than quantity: direct sun on a page or a screen is unusable and the occupant closes the blind, after which the room is worse than a north room would have been. NORTH LIGHT IS THE RIGHT ANSWER for any room in which someone works for four hours at a stretch, and it is the historic choice for exactly this reason.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N",
+        "E"
+      ],
+      "basis": "North or east.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.2

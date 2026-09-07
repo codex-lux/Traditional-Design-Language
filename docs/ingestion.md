@@ -60,7 +60,15 @@ plausible house in feet *and* in metres — the extractor **refuses to pick**,
 returns the scores, and asks for `--units`. Unjudged is not passed, applied to
 a number as basic as the unit of measure.
 
-## Provenance (added at plan schema 0.2.0; the schema is 0.3.0 now)
+## Provenance (added at plan schema 0.2.0)
+
+<!-- THIS HEADING USED TO CARRY THE CURRENT VERSION AND IT HAS NOW ROTTED TWICE. WP-6.4 found it
+     reading 0.2.0 against a schema at 0.3.0 and corrected it to 0.3.0; the schema has since gone
+     to 0.4.0 (the placed record), 0.5.0, 0.6.0 (`parti`) and 0.7.0 (`hearth`, WP-11.4) and the
+     heading said 0.3.0 through all four. A heading that states a version somebody else bumps is a
+     heading that goes stale silently, and nothing checks it -- `check_counts.py` polices numbers
+     DERIVED FROM THE CORPUS and a schema version is not one. It now states only when the field
+     ARRIVED, which cannot rot; the current version is in `schema/plan.schema.json`, once. -->
 
 The structured provenance WP-2.1 asked for, after carrying `source_image`,
 confidence and the style reasoning as prose in `note`. Optional on every

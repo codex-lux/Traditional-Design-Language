@@ -59,6 +59,32 @@ def _data():
             "rooms": rooms, "groupings": groupings,
             "ontology_version": sd["version"], "engine": _load_engine()}
 
+_PARTIS_CACHE = None
+
+
+def _disclosures():
+    return _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
+
+
+def _partis():
+    """The parti records by id. `_data()` does not carry them — it is the STYLE-side corpus —
+    and `load_parti` reads one by id from a caller-supplied string, which is deliberately the
+    only path that joins a caller's value to a path (see its docstring). This is the read-all
+    accessor, cached, used by the disclosure that asks whether the parti a plan names lists the
+    style the sheet judged it as."""
+    global _PARTIS_CACHE
+    if _PARTIS_CACHE is None:
+        out = {}
+        for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
+            try:
+                rec = json.load(open(f))
+                out[rec["id"]] = rec
+            except Exception:
+                continue
+        _PARTIS_CACHE = out
+    return _PARTIS_CACHE
+
+
 def _yr(v):
     if v is None: return "?"
     return f"{-v} BC" if v < 0 else str(v)
@@ -859,22 +885,42 @@ def check_style_constraints(style, measurements):
     returns for faults, so a caller can ask 'does this style's roof-pitch rule pass at 9:12'
     without building a whole plan record for tdl_check_plan.
 
-    Only 140 of the corpus's ~660 constraints carry a test as of WP-1.1's worked example
-    (docs/constraints.md); the rest, and every scope: judgment constraint, come back under
-    judgment_only rather than silently ignored."""
+    365 of the corpus's 660 live constraints carry a test; 170 more are hard with none and come
+    back under `judgment_only`. **THE REMAINING 125 -- 98 `soft` and 27 `advisory` -- USED TO
+    VANISH, AND THIS DOCSTRING SAID THEY DID NOT.** It read "the rest ... come back under
+    judgment_only rather than silently ignored", which was false for every one of them: the loop
+    below appended a testless constraint only when its severity was `hard`, so a soft or advisory
+    one landed in no list, in no summary count, and in nothing a caller could see. Measured on
+    `garrison-revival`: 5 live constraints, 3 accounted for, 2 gone.
+
+    That is the same narrowing WP-11.9 removed from `plan_check.py`'s grouping loop one layer up
+    (`elif hard` there, `if severity == "hard"` here) -- a rule nobody executes and nobody is told
+    about reads exactly like a rule that passed. Found by an adversarial audit of that fix, which
+    swept for second occurrences of the pattern; the number was re-derived here before it was
+    believed.
+
+    They come back under `not_migrated` now -- a FIFTH list rather than a widened
+    `judgment_only`, because that key is documented as hard-with-no-test and quietly changing what
+    it contains would move the meaning of a field callers already read."""
     D = _data()
     n = D["styles"].get(style)
     if not n:
         near = [s for s in D["styles"] if style.lower() in s][:6]
         return {"error": f"unknown style '{style}'", "did_you_mean": near}
-    present, clear, needed, judgment_only = [], [], [], []
+    present, clear, needed, judgment_only, not_migrated = [], [], [], [], []
     for c in n.get("constraints", []):
         if c.get("deprecated_in_favour_of"):
             continue
         test = c.get("test")
         if not test:
+            row = {"id": c.get("id"), "kind": c["kind"], "statement": c["statement"],
+                   "severity": c.get("severity")}
+            # `if/else`, never `if hard: ... continue`. See the docstring: the narrowed form
+            # dropped 125 of 660 constraints and the docstring asserted it did not.
             if c.get("severity") == "hard":
-                judgment_only.append({"id": c.get("id"), "kind": c["kind"], "statement": c["statement"]})
+                judgment_only.append(row)
+            else:
+                not_migrated.append(row)
             continue
         row = {"id": c["id"], "kind": c["kind"], "severity": c.get("severity"), "statement": c["statement"]}
         r = _eval_test(test, measurements)
@@ -891,10 +937,17 @@ def check_style_constraints(style, measurements):
     return {"style": style, "measurements_given": sorted(measurements),
             "constraints_present": present, "constraints_clear": clear,
             "could_not_judge": needed, "judgment_only": judgment_only,
-            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
+            "not_migrated": not_migrated,
+            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed),
+                        "judgment_only": len(judgment_only),
+                        "not_migrated": len(not_migrated)},
             "note": ("A constraint only counts as present (violated) when a test actually failed. "
-                     "could_not_judge is unknown, not passed. judgment_only lists hard constraints "
-                     "with no test at all -- scope: judgment, or simply not yet migrated.")}
+                     "could_not_judge is unknown, not passed. judgment_only lists HARD constraints "
+                     "with no test at all -- scope: judgment, or simply not yet migrated. "
+                     "not_migrated lists the soft and advisory ones with no test, which this "
+                     "function used to drop entirely while claiming it did not: every live "
+                     "constraint on the style now appears in exactly one of the five lists, and "
+                     "the summary counts all five.")}
 
 def check_measurements(measurements, style=None, slot=None, include_needed=True, limit=40,
                        context=None):
@@ -1279,19 +1332,64 @@ def check_plan(plan, strict=False):
     """Validate a plan record across five layers: rooms, groupings, faults, code, style."""
     pc = _load_plan_checker()
     try:
-        import jsonschema
+        detail = _schema_error("plan", plan)
     except ImportError:
         # An absent validator is an environment fact, not a verdict about the plan.
         # Collapsing it into "does not match the schema" was OQ 35's exact complaint:
         # a dependency problem laundered as a data judgment.
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install jsonschema", "unvalidated": True}
-    try:
-        jsonschema.validate(plan, schema("plan"))
-    except Exception as e:
-        return {"error": "plan does not match the plan schema", "detail": str(e)[:400],
+    if detail:
+        return {"error": "plan does not match the plan schema", "detail": detail[:400],
                 "hint": "see schema/plan.schema.json; the minimum is id, name, style and one level with rooms"}
     return pc.check(plan, strict=strict)
+
+@functools.lru_cache(maxsize=2)
+def validator(name):
+    """The COMPILED validator for schema/<name>.schema.json, built once per process.
+
+    `jsonschema.validate(instance, schema)` REBUILDS the validator on every call, and three of
+    this module's callers -- `check_plan`, `critique_plan`, `revise_plan` -- sat on the route
+    the infrastructure audit measured as the whole server's bound. `workbench/server/app.py`
+    learned this at WP-10.1 and compiled the validator at the door; the lesson stopped there,
+    so `/api/plan/evaluate` ran a compiled validation at the gate and then an UNCOMPILED one
+    inside `check_plan`, on the same document, one of them at 4 ms and the other at 79.
+
+    Measured here, same interpreter, on the record `evaluate()` actually passes (32,389 B, the
+    SOLVED plan rather than the declared one):
+
+        jsonschema.validate(plan, schema("plan"))      79.1 ms   -- 23% of the 338 ms budget
+        validator("plan").iter_errors(plan)             4.2 ms
+
+    Returns None where jsonschema is absent, which every caller already has a branch for: an
+    absent validator is an environment fact and not a verdict about the plan (OQ 35).
+
+    The schema dict comes from `schema()`, which is cached and SHARED. A validator holds a
+    reference to it and neither mutates it. Both caches are cleared together by
+    `workbench/server/corpus.invalidate()`, which `test_reload_clears_every_cache` enforces by
+    walking this module rather than by naming them.
+    """
+    try:
+        import jsonschema
+    except ImportError:
+        return None
+    sch = schema(name)
+    return jsonschema.validators.validator_for(sch)(sch)
+
+
+def _schema_error(name, doc):
+    """The first schema error in `doc`, as a string, or None. Raises ImportError with no
+    jsonschema, which is a different thing from a plan that does not validate and is why the
+    callers catch it separately."""
+    v = validator(name)
+    if v is None:
+        raise ImportError("jsonschema")
+    err = next(iter(sorted(v.iter_errors(doc), key=lambda e: list(e.absolute_path))), None)
+    if err is None:
+        return None
+    at = "/" + "/".join(str(x) for x in err.absolute_path)
+    return f"{err.message} (at {at})"
+
 
 @functools.lru_cache(maxsize=8)
 def schema(name):
@@ -1453,6 +1551,14 @@ def placement_summary(out):
     # it already held. The stair and the fixture layout are here for the same reason: they
     # are placement facts, and there is nowhere else for a reader to get them.
     return {"footprint": out["footprint"], "geometry_report": out["geometry_report"],
+            # WP-11.1: what this placement GAVE UP, computed once in build/disclosures.py and
+            # rendered by both surfaces -- the printed plate draws these lines and the bench
+            # shows the same list, so the two cannot drift the way the citation grammar's three
+            # spellings did. Before this the bench's own paragraph told a reader that the walls
+            # a proof had to give up "are named above rather than dropped", and nothing above
+            # named them: `downgraded_wall_pins` had no reader on any surface.
+            "disclosures": _disclosures().banner(out, styles=_data()["styles"],
+                                                 partis=_partis()),
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),
                        "geometry": r.get("geometry"),
                        "doors": r.get("doors"), "windows": r.get("windows"),
@@ -1502,12 +1608,13 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
     counts are returned beside them and the check itself is omitted to spare the caller's
     context -- tdl_check_plan returns it."""
     try:
-        import jsonschema
-        jsonschema.validate(plan, schema("plan"))
+        _bad = _schema_error("plan", plan)
     except ImportError:
         return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
     except Exception as e:
-        return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+        return {"error": "the plan schema could not be compiled", "detail": str(e)[:400]}
+    if _bad:
+        return {"error": "plan does not match the plan schema", "detail": _bad[:400]}
     if parti is not None and not isinstance(parti, str):
         # an ID, resolved through load_parti -- the one confined path from a caller's string
         # to a file. A caller-supplied parti RECORD would become the template geometry reads
@@ -1535,12 +1642,13 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
     was refused and why) and, with include_plan, the revised record carrying the same report
     as `revision_report`."""
     try:
-        import jsonschema
-        jsonschema.validate(plan, schema("plan"))
+        _bad = _schema_error("plan", plan)
     except ImportError:
         return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
     except Exception as e:
-        return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+        return {"error": "the plan schema could not be compiled", "detail": str(e)[:400]}
+    if _bad:
+        return {"error": "plan does not match the plan schema", "detail": _bad[:400]}
     if parti is not None and not isinstance(parti, str):
         return {"error": "parti must be a parti id, not a record", "detail": type(parti).__name__}
     bounded = []
