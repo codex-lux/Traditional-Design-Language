@@ -127,8 +127,9 @@ Taken together: **Phases 0, 1, 2 and 3 are complete, and Phase 4 is complete thr
 
 ## Part III — What is begun but needs to be fleshed out
 
-**THE BENCH HAS A GRAMMAR AND A LITERATURE, AND EVERY BUILDABLE NODE NOW CARRIES ONE
-(WP-11.1 4 Sep; WP-11.2, WP-11.3, WP-11.4 and WP-11.5 5 Sep 2026).** Asked where the research is thin,
+**THE BENCH HAS A GRAMMAR AND A LITERATURE, EVERY BUILDABLE NODE CARRIES A PRECEDENT AND EVERY
+NODE AT EVERY RANK NOW CITES A SOURCE (WP-11.1 4 Sep; WP-11.2 through WP-11.5 5 Sep; WP-11.6 5 Sep;
+WP-11.7 7 Sep 2026).** Asked where the research is thin,
 the survey found the corpus templated on the surface — every buildable node 2–4 exemplars, 4–5 sources,
 5 constraints — and unmetered underneath (**the exemplar half of that has since moved and the other three
 have not**: three research tranches took the corpus to 800 exemplars, 4 to 9 a node, while sources are
@@ -157,7 +158,33 @@ Europe's own 18 candidates yielded **nothing**, because a parameter has ONE `sou
 ones a building may not corroborate. The archival written data states materials, dates and condition and
 rarely a dimension, so more of the same series will not by
 itself dimension the generator. Report:
-`docs/reports/wp-11.1-the-bench-without-a-literature.md` (§VII.10, §VII.11 and §XII are the tranches).
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` (§VII.10, §VII.11, §XII and §XIV are the
+tranches).
+
+**TRANCHE 4 GAVE THE 32 HIGHER-RANK NODES A LITERATURE OF THEIR OWN (WP-11.7, 7 Sep 2026).** Every
+family and every tradition cited **nothing** — the one figure `check_research.py` printed on every
+run and ratcheted nowhere, which is the WP-8.14 shape. **156 sources written over all 32 -- 109 works new to the corpus, 45 strings reused
+verbatim -- and `sourceless_nodes` is 0 and pinned tight at 0**; ruled the same day that a
+family's sources are AUTHORED (the works that establish the category, never the union of what its
+members cite), that the package covers sources only, and that the `shared_only` ceiling keeps its 24
+while the word is corrected. **The approved protocol was backwards and measuring it is what found
+that**: it said to prefer a work the corpus already cites, and `shared_only` runs over all 164 nodes,
+so a family citing only pre-vetted strings IS a `shared_only` node — giving `english-classical`
+Summerson alone took `--strict` from green to red. `build/family_source_hazard.py` judges the LIST
+(ok / unsafe / could-not-judge) and refuses to write an unsafe one, so six parallel agents could not
+each read the rule differently.
+
+**AND THE FINDING IS THAT THE SOURCE LAYER HAS NO IDENTITIES.** `sources` is `array of string`: 422
+distinct, **0 URLs**, 63 with no year, and nothing checks that a work exists — one string,
+`Dan Cruickshank and Peter Wyld, Georgian Buildings of Britain and Ireland (1975)`, **names no book
+that exists** and is cited by five buildable nodes, found by an auditor and pre-dating this package.
+Beyond that, **23 works appear under 51 strings** (*A Field Guide to American Houses* is six works to
+this corpus), so `cited_by` over-counts: normalising them takes distinct sources 422 → 394 and
+`shared_only` **24 → 30 — six nodes over a live ceiling, produced by making the data more correct**.
+`beaux-arts-american`'s only unique citation differs from `beaux-arts-french`'s by a comma. Nothing
+was normalised;
+`oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated` and
+`oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction` carry it.
 
 **THE LARGEST OUTSTANDING ITEM, NOW RULED AND THEREFORE THE NEXT PACKAGE: the lineage cascade
 delivers proportion packs nobody bound (OQ 51).**

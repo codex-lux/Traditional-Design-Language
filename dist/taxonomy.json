@@ -2868,6 +2868,12 @@
           "why": "Derived, not authored: `craftsman-bungalow`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Robert Judson Clark (ed.), The Arts and Crafts Movement in America, 1876-1916 (1972)",
+        "Eileen Boris, Art and Labor: Ruskin, Morris, and the Craftsman Ideal in America (1986)",
+        "Anthony D. King, The Bungalow: The Production of a Global Culture (1984)",
+        "Clay Lancaster, The American Bungalow, 1880-1930 (1985)"
+      ],
       "_cascade": [],
       "_children": [
         "arts-and-crafts-american",
@@ -3081,6 +3087,12 @@
           "standing": "canonical",
           "why": "Derived, not authored: `tidewater-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Hugh Morrison, Early American Architecture: From the First Colonial Settlements to the National Period (1952)",
+        "James D. Kornwolf, Architecture and Town Planning in Colonial North America (2002)",
+        "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic (1922)",
+        "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
       ],
       "_cascade": [],
       "_children": [
@@ -3617,6 +3629,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `dogtrot-vernacular`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Henry Glassie, Pattern in the Material Folk Culture of the Eastern United States (1968)",
+        "Henry Glassie, Vernacular Architecture (2000)",
+        "Allen G. Noble, Wood, Brick, and Stone: The North American Settlement Landscape (1984)",
+        "Fred Kniffen, 'Folk Housing: Key to Diffusion', Annals of the Association of American Geographers 55 (1965)",
+        "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
       ],
       "_cascade": [],
       "_children": [
@@ -4431,6 +4450,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `roman-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Vitruvius, De architectura",
+        "D. S. Robertson, A Handbook of Greek and Roman Architecture (1929; 2nd ed., 1943)",
+        "John Onians, Bearers of Meaning: The Classical Orders in Antiquity, the Middle Ages, and the Renaissance (1988)",
+        "Mark Wilson Jones, Origins of Classical Architecture: Temples, Orders and Gifts to the Gods in Ancient Greece (2014)",
+        "Clemente Marconi (ed.), The Oxford Handbook of Greek and Roman Art and Architecture (2015)"
       ],
       "_cascade": [],
       "_children": [
@@ -6537,6 +6563,13 @@
           "why": "Derived, not authored: `arts-and-crafts-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Gillian Naylor, The Arts and Crafts Movement: A Study of Its Sources, Ideals and Influence on Design Theory (1971)",
+        "Hermann Muthesius, Das englische Haus (1904-05)",
+        "Elizabeth Cumming and Wendy Kaplan, The Arts and Crafts Movement (1991)",
+        "Lionel Lambourne, Utopian Craftsmen: The Arts and Crafts Movement from the Cotswolds to Chicago (1980)",
+        "Margaret Richardson, Architects of the Arts and Crafts Movement (1983)"
+      ],
       "_cascade": [],
       "_children": [
         "arts-and-crafts-british"
@@ -6580,6 +6613,13 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "sources": [
+        "David Watkin, English Architecture: A Concise History (1979)",
+        "John Archer, The Literature of British Domestic Architecture 1715-1842 (1985)",
+        "Maurice Craig, The Architecture of Ireland from the Earliest Times to 1880 (1982)",
+        "Peter Smith, Houses of the Welsh Countryside: A Study in Historical Geography (1975)",
+        "R. W. Brunskill, Traditional Buildings of Britain (1981)"
       ],
       "_cascade": [],
       "_children": [
@@ -6653,6 +6693,13 @@
           "why": "Derived, not authored: `scottish-baronial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Christopher Hussey, The Picturesque: Studies in a Point of View (1927)",
+        "Uvedale Price, An Essay on the Picturesque, as Compared with the Sublime and the Beautiful (1794)",
+        "David Watkin, The English Vision: The Picturesque in Architecture, Landscape and Garden Design (1982)",
+        "John Macarthur, The Picturesque: Architecture, Disgust and Other Irregularities (2007)",
+        "Mark Girouard, The Victorian Country House (1971, rev. 1979)"
+      ],
       "_cascade": [],
       "_children": [
         "gothic-revival-british",
@@ -6714,6 +6761,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `english-cottage-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "R. W. Brunskill, Houses and Cottages of Britain: Origins and Development of Traditional Buildings (1997)",
+        "Alec Clifton-Taylor and A. S. Ireson, English Stone Building (1983)",
+        "Matthew Johnson, English Houses 1300-1800: Vernacular Architecture, Social Life (2010)",
+        "Alec Clifton-Taylor, The Pattern of English Building (1962)",
+        "R. W. Brunskill, Traditional Buildings of Britain (1981)"
       ],
       "_cascade": [],
       "_children": [
@@ -10337,6 +10391,13 @@
       "tags": [
         "container"
       ],
+      "sources": [
+        "John Summerson, The Classical Language of Architecture (1963)",
+        "Joseph Rykwert, The Dancing Column: On Order in Architecture (1996)",
+        "Hanno-Walter Kruft, A History of Architectural Theory from Vitruvius to the Present (1994)",
+        "Mario Carpo, Architecture in the Age of Printing: Orality, Writing, Typography, and Printed Images in the History of Architectural Theory (2001)",
+        "William L. MacDonald, The Architecture of the Roman Empire, Volume 1: An Introductory Study, rev. ed. (1982)"
+      ],
       "_cascade": [],
       "_children": [
         "antique-classical",
@@ -10400,6 +10461,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `mexican-hacienda`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Diego Angulo Iniguez, Historia del arte hispanoamericano (1945-1956)",
+        "Pal Kelemen, Baroque and Rococo in Latin America (1951)",
+        "Ramon Gutierrez, Arquitectura y urbanismo en Iberoamerica (1983)",
+        "Gauvin Alexander Bailey, Art of Colonial Latin America (2005)",
+        "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800"
       ],
       "_cascade": [],
       "_children": [
@@ -10959,6 +11027,13 @@
           "why": "Derived, not authored: `new-urbanist-traditional`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Peter Katz, The New Urbanism: Toward an Architecture of Community (1994)",
+        "Steven W. Semes, The Future of the Past: A Conservation Ethic for Architecture, Urbanism, and Historic Preservation (2009)",
+        "Robert A. M. Stern, Modern Classicism (1988)",
+        "Leon Krier, The Architecture of Community (2009)",
+        "Marianne Cusato and Brent Hull, Get Your House Right: Architectural Elements to Use and Avoid (2007)"
+      ],
       "_cascade": [],
       "_children": [
         "modern-farmhouse-traditional",
@@ -11036,6 +11111,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `french-renaissance-chateau`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Anthony Blunt, Art and Architecture in France 1500-1700, Pelican History of Art",
+        "Wend von Kalnein, Architecture in France in the Eighteenth Century (1995)",
+        "Barry Bergdoll, European Architecture 1750-1890 (2000)",
+        "Donald Drew Egbert, The Beaux-Arts Tradition in French Architecture (1980)",
+        "Robin Middleton and David Watkin, Neoclassical and 19th Century Architecture (1980)"
       ],
       "_cascade": [],
       "_children": [
@@ -14446,6 +14528,13 @@
           "why": "Derived, not authored: `southern-federal`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Kenneth Hafertepe and James F. O'Gorman (eds.), American Architects and Their Books to 1848 (2001)",
+        "W. Barksdale Maynard, Architecture in the United States, 1800-1850 (2002)",
+        "Talbot Hamlin, Greek Revival Architecture in America (1944)",
+        "William H. Pierson Jr., American Buildings and Their Architects: The Colonial and Neoclassical Styles (1970)",
+        "Roger G. Kennedy, Greek Revival America (1989)"
+      ],
       "_cascade": [],
       "_children": [
         "federal-style",
@@ -14650,6 +14739,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `monterey-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Mark Alan Hewitt, The Architect and the American Country House, 1890-1940 (1990)",
+        "Alan Gowans, Styles and Types of North American Architecture: Social Function and Cultural Expression (1992)",
+        "Richard Guy Wilson, The American Renaissance 1876-1917 (1979)",
+        "William B. Rhoads, The Colonial Revival (1977)",
+        "The White Pine Series of Architectural Monographs (1915-1940)"
       ],
       "_cascade": [],
       "_children": [
@@ -15801,6 +15897,12 @@
           "standing": "canonical",
           "why": "Derived, not authored: `english-georgian-townhouse`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)",
+        "Giles Worsley, Classical Architecture in Britain: The Heroic Age (1995)",
+        "Eileen Harris, British Architectural Books and Writers 1556-1785 (1990)",
+        "Howard Colvin, A Biographical Dictionary of British Architects 1600-1840 (4th ed., 2008)"
       ],
       "_cascade": [],
       "_children": [
@@ -22335,6 +22437,13 @@
           "why": "Derived, not authored: `norman-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Jean Cuisenier (ed.), L'architecture rurale francaise: corpus des genres, des types et des variantes (1977- )",
+        "Jean Cuisenier, La maison rustique: logique sociale et composition architecturale (1991)",
+        "Albert Demangeon, 'L'habitation rurale en France. Essai de classification des principaux types', Annales de Geographie 29 (1920)",
+        "Yves Esquieu and Jean-Marie Pesez (eds.), Cent maisons medievales en France, du XIIe au milieu du XVIe siecle: un corpus et une esquisse (1998)",
+        "Clement Alix and Frederic Epaud (eds.), La construction en pan de bois au Moyen Age et a la Renaissance (2013)"
+      ],
       "_cascade": [],
       "_children": [
         "french-manoir",
@@ -24615,6 +24724,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `german-fachwerk`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Karl Baumgarten, Das deutsche Bauernhaus (1980)",
+        "Verband Deutscher Architekten- und Ingenieur-Vereine, Das Bauernhaus im Deutschen Reiche und in seinen Grenzgebieten (1905-1906)",
+        "G. Ulrich Grossmann, Der Fachwerkbau in Deutschland: das historische Fachwerkhaus, seine Entstehung, Farbgebung, Nutzung und Restaurierung (1998)",
+        "Hans-Gunther Griep, Kleine Kunstgeschichte des deutschen Burgerhauses (1985)",
+        "William Woys Weaver, 'The Pennsylvania German House: European Antecedents and New World Forms', Winterthur Portfolio 21 (1986)"
       ],
       "_cascade": [],
       "_children": [
@@ -27771,6 +27887,13 @@
           "why": "Derived, not authored: `mudejar`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Jonathan M. Bloom, Architecture of the Islamic West: North Africa and the Iberian Peninsula, 700-1800 (2020)",
+        "Leopoldo Torres Balbas, Arte almohade, arte nazari, arte mudejar: Ars Hispaniae IV (1949)",
+        "Rafael Lopez Guzman, Arquitectura mudejar: del sincretismo medieval a las alternativas hispanoamericanas (2000)",
+        "D. Fairchild Ruggles, Gardens, Landscape, and Vision in the Palaces of Islamic Spain (2000)",
+        "Dodds (ed.), Al-Andalus: The Art of Islamic Spain"
+      ],
       "_cascade": [],
       "_children": [
         "moorish-andalusian",
@@ -27816,6 +27939,13 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "sources": [
+        "George Kubler, Portuguese Plain Architecture: Between Spices and Diamonds, 1521-1706 (1972)",
+        "James Early, The Colonial Architecture of Mexico (1994)",
+        "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800",
+        "Dodds (ed.), Al-Andalus: The Art of Islamic Spain",
+        "Toussaint, Arte colonial en Mexico"
       ],
       "_cascade": [],
       "_children": [
@@ -27871,6 +28001,12 @@
           "standing": "canonical",
           "why": "Derived, not authored: `andalusian-courtyard-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Carlos Flores, Arquitectura popular espanola (1973)",
+        "Luis Feduchi, Itinerarios de arquitectura popular espanola, IV: Los pueblos blancos (1978)",
+        "Fernando Garcia Mercadal, La casa popular en Espana (1930)",
+        "Leopoldo Torres Balbas, 'La vivienda popular en Espana', Folklore y costumbres de Espana III (1933)"
       ],
       "_cascade": [],
       "_children": [
@@ -32194,6 +32330,13 @@
           "why": "Derived, not authored: `flemish-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "R. C. Hekker, 'De ontwikkeling van de boerderijvormen in Nederland', in S. J. Fockema Andreae, E. H. ter Kuile and R. C. Hekker, Duizend jaar bouwen in Nederland, vol. 2 (1958)",
+        "H. J. Zantkuijl, Bouwen in Amsterdam: het woonhuis in de stad (1993)",
+        "Clemens V. Trefois, Ontwikkelingsgeschiedenis van onze landelijke architectuur (1950)",
+        "E. L. van Olst, Uilkema, een historisch boerderij-onderzoek: boerderij-onderzoek in Nederland 1914-1934, 2 vols (1991)",
+        "C. L. Temminck Groll, The Dutch Overseas Architectural Survey: Mutual Heritage of Four Centuries in Three Continents (2002)"
+      ],
       "_cascade": [],
       "_children": [
         "cape-dutch",
@@ -32263,6 +32406,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `norman-romanesque-english`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Geoffrey Webb, Architecture in Britain: The Middle Ages (1956)",
+        "Anthony Emery, Greater Medieval Houses of England and Wales, 1300-1500, 3 vols (1996-2006)",
+        "Jane Grenville, Medieval Housing (1997)",
+        "John Harvey, English Mediaeval Architects: A Biographical Dictionary down to 1550 (1954; rev. ed. 1984)",
+        "Margaret Wood, The English Mediaeval House (1965)"
       ],
       "_cascade": [],
       "_children": [
@@ -32717,6 +32867,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `italian-villa-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Giuseppe Barbieri and Lucio Gambi (eds.), La casa rurale in Italia (1970)",
+        "Giuseppe Pagano and Guarniero Daniel, Architettura rurale italiana (1936)",
+        "Enrico Guidoni, L'architettura popolare italiana (1980)",
+        "Myron Goldfinger, Villages in the Sun: Mediterranean Community Architecture (1969)",
+        "Paul Oliver (ed.), Encyclopedia of Vernacular Architecture of the World (1997)"
       ],
       "_cascade": [],
       "_children": [
@@ -33803,6 +33960,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `ranch-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Alan Hess, The Ranch House (2004)",
+        "Clifford Edward Clark Jr., The American Family Home, 1800-1960 (1986)",
+        "Barbara Miller Lane, Houses for a New World: Builders and Buyers in American Suburbs, 1945-1965 (2015)",
+        "Dolores Hayden, Building Suburbia: Green Fields and Urban Growth, 1820-2000 (2003)",
+        "Gwendolyn Wright, Building the Dream: A Social History of Housing in America (1981)"
       ],
       "_cascade": [],
       "_children": [
@@ -35775,7 +35939,7 @@
         "Gebhard, Architecture in California",
         "Kirker, California's Architectural Frontier",
         "Winter, Toward a Simpler Way of Life: The Arts and Crafts Architects of California",
-        "Hess, The Ranch House"
+        "Alan Hess, The Ranch House (2004)"
       ],
       "confidence": "medium",
       "tags": [
@@ -40043,6 +40207,13 @@
           "why": "Derived, not authored: `swiss-chalet`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Gunnar Bugge and Christian Norberg-Schulz, Stav og laft i Norge / Early Wooden Architecture in Norway (1969)",
+        "Jerri Holan, Norwegian Wood: A Tradition of Building (1990)",
+        "Richard Weiss, Hauser und Landschaften der Schweiz (1959)",
+        "Edoardo Gellner, Architettura anonima ampezzana (1981)",
+        "Hermann Phleps, The Craft of Log Building: A Handbook of Craftsmanship in Wood (1982)"
+      ],
       "_cascade": [],
       "_children": [
         "scandinavian-log-vernacular",
@@ -40670,6 +40841,13 @@
       "tags": [
         "container"
       ],
+      "sources": [
+        "James Marston Fitch, American Building: The Historical Forces That Shaped It, 2nd ed. (1966)",
+        "Carl W. Condit, American Building: Materials and Techniques from the First Colonial Settlements to the Present (1968)",
+        "Vincent Scully, American Architecture and Urbanism (1969)",
+        "Virginia Savage McAlester, A Field Guide to American Houses (2013)",
+        "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
+      ],
       "_cascade": [],
       "_children": [
         "american-arts-and-crafts",
@@ -41011,6 +41189,13 @@
       "confidence": "high",
       "tags": [
         "container"
+      ],
+      "sources": [
+        "Christian Norberg-Schulz, Nightlands: Nordic Building (1996)",
+        "Karl Baumgarten, Das deutsche Bauernhaus (1980)",
+        "Jean Cuisenier, La maison rustique: logique sociale et composition architecturale (1991)",
+        "Oliver (ed.), Encyclopedia of Vernacular Architecture of the World",
+        "Terry G. Jordan, American Log Buildings: An Old World Heritage (1985)"
       ],
       "_cascade": [],
       "_children": [
@@ -45995,6 +46180,13 @@
           "why": "Derived, not authored: `palladian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Ludwig H. Heydenreich, Architecture in Italy 1400-1500, rev. Paul Davies (1996)",
+        "Wolfgang Lotz, Architecture in Italy 1500-1600, rev. Deborah Howard (1995)",
+        "Rudolf Wittkower, Architectural Principles in the Age of Humanism (1949)",
+        "Vaughan Hart and Peter Hicks (eds.), Paper Palaces: The Rise of the Renaissance Architectural Treatise (1998)",
+        "Alina A. Payne, The Architectural Treatise in the Italian Renaissance: Architectural Invention, Ornament, and Literary Culture (1999)"
+      ],
       "_cascade": [],
       "_children": [
         "italian-baroque",
@@ -47241,6 +47433,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `rural-gothic-villa`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "James Early, Romanticism and American Architecture (1965)",
+        "Calder Loth and Julius Trousdale Sadler Jr., The Only Proper Style: Gothic Architecture in America (1975)",
+        "David Schuyler, Apostle of Taste: Andrew Jackson Downing, 1815-1852 (1996)",
+        "Andrew Jackson Downing, The Architecture of Country Houses (1850)",
+        "William H. Pierson Jr., American Buildings and Their Architects: Technology and the Picturesque (1978)"
       ],
       "_cascade": [],
       "_children": [
@@ -50124,6 +50323,13 @@
           "why": "Derived, not authored: `spanish-plateresque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Fernando Chueca Goitia, Arquitectura del siglo XVI: Ars Hispaniae XI (1953)",
+        "George Kubler, Arquitectura de los siglos XVII y XVIII: Ars Hispaniae XIV (1957)",
+        "Victor Nieto, Alfredo J. Morales and Fernando Checa, Arquitectura del Renacimiento en Espana, 1488-1599 (1989)",
+        "Alfonso Rodriguez G. de Ceballos, El siglo XVIII: entre tradicion y academia (1992)",
+        "Kubler & Soria, Art and Architecture in Spain and Portugal and their American Dominions 1500-1800"
+      ],
       "_cascade": [],
       "_children": [
         "churrigueresque",
@@ -52759,6 +52965,13 @@
           "why": "Derived, not authored: `tudor`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
       ],
+      "sources": [
+        "Mark Girouard, Elizabethan Architecture: Its Rise and Fall, 1540-1640 (2009)",
+        "Anthony Wells-Cole, Art and Decoration in Elizabethan and Jacobean England: The Influence of Continental Prints, 1558-1625 (1997)",
+        "Timothy Mowl, Elizabethan & Jacobean Style (1993)",
+        "Malcolm Airs, The Tudor and Jacobean Country House: A Building History (1995)",
+        "John Summerson, Architecture in Britain 1530-1830 (9th ed., 1993)"
+      ],
       "_cascade": [],
       "_children": [
         "elizabethan",
@@ -54017,6 +54230,13 @@
           "standing": "canonical",
           "why": "Derived, not authored: `queen-anne-patterned-masonry`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
         }
+      ],
+      "sources": [
+        "Herbert Gottfried and Jan Jennings, American Vernacular Design, 1870-1940: An Illustrated Glossary (1985)",
+        "Daniel D. Reiff, Houses from Books: Treatises, Pattern Books, and Catalogs in American Architecture, 1738-1950 (2000)",
+        "Palliser, Palliser & Co., Palliser's American Cottage Homes (1878)",
+        "Vincent Scully, The Shingle Style and the Stick Style (1955; rev. ed. 1971)",
+        "Marcus Whiffen, American Architecture Since 1780: A Guide to the Styles (1969)"
       ],
       "_cascade": [],
       "_children": [

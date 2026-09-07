@@ -295,3 +295,27 @@ own exemplar, and nothing says what a contradiction obliges anyone to do.
 the duplicate guard drops, of which 27 are an individual building's own listing number.
 **And a locator that does not resolve is not a locator**: `--live` exists and no tranche has run it,
 so nothing in this tree checks that one does.
+
+## The other evidence layer, which has none of this discipline
+
+Everything above is about a BUILDING. A `styles[].sources` entry — the corpus's record of a BOOK —
+is `{"type": "array", "items": {"type": "string"}}` and nothing more. Measured after WP-11.7's
+Tranche 4: **422 distinct strings, 762 citations, 0 URLs, 63 with no year, 321 cited exactly once.**
+There is no id, no locator, no `retrieved`, no `via`, no quotation discipline and no checker. A
+precedent must name a register and survive a shape rule; a source is whatever somebody typed.
+
+Two consequences are measured rather than feared:
+
+- **A source can be a book that does not exist.** `Dan Cruickshank and Peter Wyld, Georgian
+  Buildings of Britain and Ireland (1975)` is two real works welded into one citation and is held
+  by five buildable nodes. It survived every check this corpus runs for as long as it has existed,
+  because there is no check to survive.
+- **One work has as many identities as it has spellings.** 23 works appear under 51 strings, so
+  `check_research.py`'s `cited_by` over-counts; normalising them takes distinct sources 422 → 394
+  and pushes `shared_only_nodes` 24 → 30, over its own ceiling.
+
+`oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction` and
+`oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated` carry both, with the
+four things that must be ruled before a `works/` layer is built. **Do not read this section as a
+plan**: a structure nobody can populate is worse than a string, and the research tier that would
+populate it is currently degraded.

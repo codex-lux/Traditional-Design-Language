@@ -50,5 +50,12 @@
       "standing": "canonical",
       "why": "Derived, not authored: `norman-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
     }
+  ],
+  "sources": [
+    "Jean Cuisenier (ed.), L'architecture rurale francaise: corpus des genres, des types et des variantes (1977- )",
+    "Jean Cuisenier, La maison rustique: logique sociale et composition architecturale (1991)",
+    "Albert Demangeon, 'L'habitation rurale en France. Essai de classification des principaux types', Annales de Geographie 29 (1920)",
+    "Yves Esquieu and Jean-Marie Pesez (eds.), Cent maisons medievales en France, du XIIe au milieu du XVIe siecle: un corpus et une esquisse (1998)",
+    "Clement Alix and Frederic Epaud (eds.), La construction en pan de bois au Moyen Age et a la Renaissance (2013)"
   ]
 }

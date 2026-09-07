@@ -76,13 +76,15 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #                                the instrument's figure is the one pinned.
 #   editorial_read 69            Editorial parameters on a read slot (the hand list said 55).
 #   shared_only_nodes 24         Nodes whose every source is shared with another node.
-#   sourceless_nodes 32          Nodes citing NO source at all. It was printed and unratcheted
+#   sourceless_nodes 0           Nodes citing NO source at all. It was printed and unratcheted
 #                                from WP-11.1 until WP-11.7 -- computed, published every run, and
 #                                free to move in either direction, which is the shape WP-8.14 is
-#                                about. All 32 are the families and traditions. This is the meter
-#                                Tranche 4 moves, as `exemplars_with_precedent` was for Tranches
-#                                1-3, and it falls only by AUTHORING a work that establishes the
-#                                node as a category -- never by copying a member's citation up.
+#                                about. It was 32 when it was ratcheted, all of them the families
+#                                and the traditions; Tranche 4 authored 156 works over those 32
+#                                and it is PINNED TIGHT AT ZERO. It falls only by AUTHORING a work
+#                                that establishes the node as a category -- never by copying a
+#                                member's citation up -- and a node arriving here is a regression
+#                                at any rank.
 #   untested_nodes 3             Nodes with constraints and not one carrying a test.
 #   exemplars_with_precedent 171 A FLOOR: exemplars naming a `precedents/` record.
 #   nodes_with_a_precedent 27    A FLOOR.
@@ -91,7 +93,7 @@ RATCHET = {
     "measured_unsourced_read": 270,  # 272 at WP-11.1; two of the six are on a read slot
     "editorial_read": 69,
     "shared_only_nodes": 24,
-    "sourceless_nodes": 32,         # a CEILING -- may only FALL. WP-11.7's deliverable.
+    "sourceless_nodes": 0,          # a CEILING at its floor -- 32 at WP-11.1, 0 after WP-11.7.
     "untested_nodes": 3,
     "exemplars_with_precedent": 915,    # FLOOR -- may only RISE (4 at seeding; Tranche 1 landed 171,
                                         # Tranche 2 505 -- North America complete; Tranche 3 794;
@@ -245,7 +247,11 @@ def main():
     print("  generator-read slots (an UPPER BOUND, from string constants in %s): %d of %d: %s"
           % (", ".join(GENERATOR_FILES), len(tot["read_slots"]), len(ontology_slots()), " ".join(tot["read_slots"])))
     print("  pack authority strengths: %s." % ", ".join("%s %d" % kv for kv in sorted(tot["pack_strengths"].items())))
-    print("  %d node(s) cite no source (all higher rank): %s" % (len(tot["sourceless_nodes"]), " ".join(tot["sourceless_nodes"])))
+    # The parenthetical here read "(all higher rank)" until WP-11.7 took the count to zero, at
+    # which point it was a claim about an empty set -- a spent instruction in the present tense,
+    # on a printed surface `check_counts.py` cannot open. Where the 32 were and why is in the
+    # RATCHET comment; this line says only what is true now.
+    print("  %d node(s) cite no source: %s" % (len(tot["sourceless_nodes"]), " ".join(tot["sourceless_nodes"])))
     # ANOTHER NODE, not a sibling: `cited_by` counts over all 164. The true sibling reading is 9
     # (WP-11.7). A printed surface is outside `check_counts.py`'s CLAIMS, which is exactly why this
     # word survived in five places for as long as it did.

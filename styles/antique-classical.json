@@ -51,5 +51,12 @@
       "standing": "canonical",
       "why": "Derived, not authored: `roman-classical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
     }
+  ],
+  "sources": [
+    "Vitruvius, De architectura",
+    "D. S. Robertson, A Handbook of Greek and Roman Architecture (1929; 2nd ed., 1943)",
+    "John Onians, Bearers of Meaning: The Classical Orders in Antiquity, the Middle Ages, and the Renaissance (1988)",
+    "Mark Wilson Jones, Origins of Classical Architecture: Temples, Orders and Gifts to the Gods in Ancient Greece (2014)",
+    "Clemente Marconi (ed.), The Oxford Handbook of Greek and Roman Art and Architecture (2015)"
   ]
 }

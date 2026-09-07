@@ -22,7 +22,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4**, **8.6**, **8.7**, **8.8**, **8.9**, **8.10**, **8.11**, **8.12**, **8.13**, **8.14** *(no 8.5 — see the note in CLAUDE.md; it shipped as `6f9e7c7` before the numbering existed)* | **8.1-8.4, 8.6 complete (28 Aug 2026); 8.7-8.14 complete (2-4 Sep); OQ 51's delivery half FINISHED and AUDITED** — **WP-8.8** made the baked-snapshot class knowable (135 judged, 0 stale, 8 unjudgeable for want of a recorded binding) and found the evaluator the question asked for had existed in two places all along. **WP-8.9** measured OQ 51's flip before building it and found the ruling had been taken on `unendorsed` — a count of ROLE GAPS — where the thing a gate stops is DELIVERIES: 2,899 slots, not ~223, a factor of thirteen. Put back with the numbers, Lucas ruled *stage it pack by pack* and *a separate field*; the `--stranding` meter and the `delivery: opt-in` / `inherits_packs` mechanism shipped inert. **WP-8.10** landed the first flip and built the loudness the ruling required: `trim-classical` is opt-in, six vouched nodes admit it, 10 slots over 10 nodes are stranded, and every stranded slot in the corpus (2,889 of 2,889) now NAMES the pack withheld and why. It found the meter's gate and the mechanism's gate were different predicates (10 against 15, one of the five a shipped reference plan), that `measure()` could not see a flip at all, and that the flip was sold on a corpus-level writer count that described no node — the same wrong-grain error as WP-8.9's, one package later. — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` **WP-8.11** flipped `facade-gable` (32 slots over 29 nodes, 29 of them `cornice_return`, whose only writer in the corpus is that pack) and found that BOTH suites drove the opt-in gate through the very pack about to be flipped -- a counterfactual that becomes the status quo, stays green and stops testing anything. **WP-8.12** flipped `sash-light` (70 slots over 34 nodes) and falsified WP-8.11's own two-point claim that the refill is roughly proportional: 4 gaps from a 10-slot flip, 13 from a 32-slot one, 10 from a 70-slot one. The refill is now landing ENTIRELY on the five packs whose `applies_to` arms a live gate (3 of 13, then 10 of 10), which follows from the staging order rather than chance and is worth a ruling before the remaining flips. `judged` is 249 after all three flips and 136 withheld arrivals: zero cases read. Reports: `docs/reports/wp-8.1{0,1,2}-*.md` |
 | **9 — Arrangement** | **WP-9.1, 9.5, 9.6, 9.7** complete · **9.2 text half done, image half waiting on Lucas's download** · **9.3 part built** · **9.4 COMPLETE AND ITS OWN PREMISE REFUSED** (`docs/reports/wp-9.4-the-unit-was-not-the-problem.md` — cite the FILENAME, two WP-9.4s exist) | **In progress (1 Sep 2026; this row was corrected on 3 Sep, having said "9.2, 9.3, 9.4, 9.5 not started" while four of those five had moved and two more packages had shipped with no section of their own — see `docs/reports/project-review-2026-09-03.md` §VII. The 9.4 cell in that same correction still said NOT STARTED and was itself wrong — the package had run on 1 Sep and refused `parti_slice` with its measurement, a probe taking fatals 3 to 8. Corrected again hours later; see that review's §IX, which is about this exact line)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
 | **10 — The second massing element** | **WP-10.1** | **Complete, and two of its three packages withdrawn by its own audit (3 Sep 2026)** — OQ 40 ruled a dependency a second massing element and the machinery ships and is DORMANT: the block placer, `exterior_score(bounds=)`, plan schema 0.5.0, both reference plans byte-identical. The service strip and the hyphen-as-a-room were WITHDRAWN when the audit found eight blocking defects, five of which reduce to **six layers below the placer reading the main block as the whole building** — a garage window drawn 14 ft from the garage, a span manufactured across the hyphen gap, a house reporting `lot_capped: true` at 34 ft wider than its lot. CP-SAT refuses a multi-element plan rather than flattening it (which had also flattered a number this session published); `geometry_report.multi_element` discloses the six. Report: `docs/reports/wp-10.1-the-audit-of-the-dependency.md` · new question: `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` |
-| **11 — The precedent bench** | **WP-11.1 through 11.6 COMPLETE** · Tranche 4 (WP-11.7) next | **Every buildable node carries a precedent (5 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research runs in tranches. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
+| **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 109 works new to the corpus — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -1563,7 +1563,8 @@ spreads 1.5× across the set, so field counts separate nothing. What separates t
 tracked nowhere: 542 `measured` kit parameters with no source on the parameter or its slot (272 on a
 generator-read slot — the census had counted editorial-bare, 0, for a year); an exemplar with no locator
 (482, 410 buildings, zero URLs); 24 buildable nodes citing only works ANOTHER NODE cites ("a sibling" until WP-11.7 corrected the word; the true sibling reading is 9); 32 higher-rank nodes
-citing nothing, all `confidence: high`; three nodes with no executable constraint; 11 kits with zero
+citing nothing, all `confidence: high` (**0 today — WP-11.7 sourced all 32**, and the survey's
+reading is kept in the past tense because it is what raised the package); three nodes with no executable constraint; 11 kits with zero
 parameters; 16 of 57 packs `reconstructed`, nine from the corpus's own records; 0 of 761 pack rules with a
 per-rule source; `massings/` with no provenance vocabulary; no period building anywhere in `plans/`. And
 the operational map: `elevation.py` dimensions every house from five hard-coded packs whatever the style
@@ -1583,7 +1584,9 @@ a survey block for every US building with a HABS data page, then a 10% adversari
 before any more research was authored. **WP-11.5** Tranche 3 — the British and European ancestors, and the
 "links and standing only" this line promised was overtaken by a measurement: a Historic England list entry
 is survey-shaped, so Europe carries surveys, quotes and measurements like North America. **WP-11.6** —
-Ruling B, the family type specimens. **Tranche 4** (WP-11.7) — families and traditions.
+Ruling B, the family type specimens. **WP-11.7** Tranche 4 — the families and traditions get a
+literature of their own, which is the SOURCES half rather than more precedents: the precedent half
+of higher rank was already finished by Ruling B.
 
 **THE ORDER AFTER TRANCHE 3 IS RULED (5 Sep 2026): FINISH PHASE 11.** Put to Lucas against the two
 alternatives the 3 Sep project review names — building the register (ruled 1 Sep, nothing built) and
@@ -1781,6 +1784,63 @@ when the count is non-zero, so it failed on its own scaffolding at success. Five
 from a proved-green baseline, each restored in a `finally`. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII · new open question:
 `oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity` · closed:
 `oq/a-family-node-has-no-exemplar`.
+
+**WP-11.7 Status: COMPLETE (7 Sep 2026) — TRANCHE 4, AND THE APPROVED PROTOCOL WAS BACKWARDS.**
+Every family and every tradition cited NOTHING: the one figure `check_research.py` printed on every
+run and ratcheted nowhere, which is exactly the shape WP-8.14 is about. **156 sources written over
+all 32 nodes — 28 carry five and four carry four — 109 of them new to the corpus, 45 strings reused
+verbatim; `distinct sources` 314 → 422 and `sourceless_nodes` 32 → 0, pinned tight at 0.**
+Ruled 7 Sep: a family's sources are **AUTHORED**, the works that establish the category and never
+the union of what its members cite; **sources only**, no `distinguished_from` and no constraints at
+higher rank; and the `shared_only` ceiling **keeps its 24 while the WORD is corrected** to "another
+node" (the true same-parent sibling reading is **9**, measured).
+
+**THE PLAN'S OWN PROTOCOL WOULD HAVE REDDENED THE BUILD, AND MEASURING IT IS WHAT FOUND THAT.** It
+said *"prefer a work the corpus already cites — 95 strings are pre-vetted and automatically safe"*.
+The opposite: `shared_only` is computed over all 164 nodes, so a family whose every source is cited
+by somebody else IS a `shared_only` node. Measured before a word was authored — giving
+`english-classical` Summerson alone took `check_research --strict` from green to **RED**. The safe
+contract has two clauses and the plan had neither: at least one source in the LIST must be cited by
+no other node, and none may be one of **38 named strings** (cited today by exactly one node which
+has no other unique citation, so citing it flips THAT node). `build/family_source_hazard.py` judges
+the list — **ok / unsafe / could-not-judge**, never a bool — and **refuses to write an unsafe one**,
+because six agents writing in parallel would otherwise each have read the rule from prose. Three of
+its five guards could not fail when first written and each is driven through a constructed case now.
+
+**Six auditors, two strings removed of 157 written, and no fabrication by a writing agent.**
+`english-classical` cited a book that does not exist (`Dan Cruickshank and Peter Wyld, Georgian
+Buildings of Britain and Ireland (1975)` is two real works welded together) — removed, deliberately
+not "corrected", and **pre-existing on five buildable nodes where it remains**;
+`american-arts-and-crafts` cited a monograph on its own member `prairie-school`, byte-identical to
+that node's citation, which is the brief's worked example instantiated; and
+`northern-european-vernacular` wrote a book this package had already written under a different
+subtitle. **Two audits reported COULD NOT EVALUATE on existence as their headline** — Tavily
+answered HTTP 433 (pay-as-you-go limit) to every call in the package and the WebSearch budget went
+with it — and removed nothing, reasoning that dropping works they could not check converts
+*could-not-evaluate* into *evaluated-and-failed* on the strength of an exhausted quota.
+
+**THE FINDING: 23 WORKS APPEAR UNDER 51 STRINGS, AND CORRECTING THEM REDDENS THE BUILD BY SIX.**
+`cited_by` is an exact-string counter, so *A Field Guide to American Houses* is six works to this
+corpus (35 / 27 / 12 / 3 / 1 / 1 nodes). Collapsing every group to its commonest spelling takes
+`distinct sources` **422 → 394** (28 phantoms, 6.6% of the layer) and `shared_only_nodes` **24 →
+30**: `american-farmhouse-vernacular`, `beaux-arts-american`, `craftsman`, `garrison-revival`,
+`modern-farmhouse-traditional` and `neo-eclectic` each escape a thin-research meter by a spelling.
+`beaux-arts-american`'s only unique citation differs from `beaux-arts-french`'s **by a comma**.
+**Nothing was normalised** — making the data more correct is a six-node regression against a live
+ratchet, which is a ruling and not a tidy — except the ONE phantom this package minted, normalised
+after measuring that neither node flips. A package may not leave its own behind.
+
+**AND A SOURCE IS ADDED BECAUSE IT ESTABLISHES THE CATEGORY, NEVER BECAUSE IT WIDENS A MARGIN.**
+`northern-european-vernacular` holds exactly one work no other node cites, against a ceiling with
+zero headroom, because two of its five are also cited by its own member families. Two tradition-scope
+replacements were researched and confirmed here and **neither was added**: every other node got 4 or
+5, this one would have got 6, and the reason would have been that a meter looked tight. Padding a
+list to buy headroom on the meter that exists to detect thin research is the failure the whole
+protocol was written against.
+
+Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIV · new open questions:
+`oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction` and
+`oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated`.
 
 ## 6. Parallelisation map
 

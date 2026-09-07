@@ -20,17 +20,6 @@ import modcache  # noqa: E402
 CR = modcache.load("check_research", os.path.join(ROOT, "build", "check_research.py"))
 CP = modcache.load("check_precedents", os.path.join(ROOT, "build", "check_precedents.py"))
 
-SOURCELESS = {
-    "american-arts-and-crafts", "american-colonial", "american-folk-vernacular", "antique-classical",
-    "british-arts-and-crafts", "british-isles", "british-picturesque", "british-vernacular",
-    "classical-mediterranean", "colonial-iberian-americas", "contemporary-traditional",
-    "continental-baroque-neoclassical", "early-republic", "eclectic-revivals", "english-classical",
-    "french-vernacular", "germanic-vernacular", "iberian-islamic", "iberian-mediterranean",
-    "iberian-vernacular", "low-countries-vernacular", "medieval-british", "mediterranean-vernacular",
-    "mid-century-traditional", "nordic-alpine-vernacular", "north-american",
-    "northern-european-vernacular", "renaissance-classical", "romantic-revivals", "spanish-classical",
-    "tudor-jacobean", "victorian",
-}
 SHARED_ONLY = {
     "carpenter-gothic", "colonial-revival", "creole-cottage-vernacular", "dutch-colonial-american",
     "dutch-colonial-revival", "elizabethan", "folk-victorian", "french-normandy-revival",
@@ -79,14 +68,27 @@ READ_SLOTS = {
 }
 
 
-def test_the_sourceless_nodes_are_exactly_the_higher_ranks():
-    """32 nodes cite no source and every one is a family or a tradition -- and every one is
-    `confidence: high`, which is the field doing no work at that rank (its schema description
-    scopes it to dates and lineage). A buildable node appearing here is a regression."""
+def test_no_node_in_the_corpus_cites_nothing():
+    """THE SUBJECT IS DISCHARGED AND THE PIN IS TIGHT AT ZERO. This test used to hold a
+    32-name literal -- every family and every tradition, the only nodes citing no source -- and
+    assert that each was higher rank. WP-11.7 gave all 32 a literature, so the set is empty and
+    the literal described a corpus that no longer exists. It is deleted rather than emptied in
+    place: an inert wrong list is an instruction to the next reader, which is the lesson the
+    proportion-floor ruling was taken on.
+
+    What remains is the property the literal was standing in for, and it is stronger: NO node,
+    at any rank, cites nothing. A node appearing here is a regression whoever wrote it, and the
+    remedy is to source it, never to re-pin this ceiling upward.
+
+    The rank check the old test carried is gone with the set. It said "and every one of these is
+    higher rank", which is a claim about WHICH nodes are sourceless; with none, there is nothing
+    to be higher rank."""
     m = CR.measure()
-    assert set(m["totals"]["sourceless_nodes"]) == SOURCELESS
-    for n in SOURCELESS:
-        assert m["per_node"][n]["rank"] in ("family", "tradition"), n
+    assert m["totals"]["sourceless_nodes"] == [], m["totals"]["sourceless_nodes"]
+    # Non-vacuity: an empty assertion is satisfied by a measure() that read no nodes at all, which
+    # is exactly how a guard goes quiet. 164 is the corpus and `check_counts.py` owns the figure.
+    assert len(m["per_node"]) == 164, len(m["per_node"])
+    assert all(n["sources"] for n in m["per_node"].values())
 
 
 def test_the_shared_only_and_untested_sets_are_pinned_by_name():

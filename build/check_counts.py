@@ -211,6 +211,11 @@ def computed():
     v["measured_unsourced"] = _rt["measured_unsourced"]
     v["measured_unsourced_read"] = _rt["measured_unsourced_read"]
     v["shared_only_nodes"] = len(_rt["shared_only_nodes"])
+    # WP-11.7's deliverable, and the reason it is here: it was PRINTED by check_research.py on
+    # every run and derived by nothing, which is exactly the shape WP-8.14 is about -- of the
+    # seven figures that layer published, the one nobody policed is the one that rotted. It is
+    # ratcheted tight at 0 in check_research.RATCHET and its prose is held here.
+    v["sourceless_nodes"] = len(_rt["sourceless_nodes"])
     v["sourceless_nodes"] = len(_rt["sourceless_nodes"])
     v["exemplars_with_precedent"] = _rt["exemplars_with_precedent"]
     v["read_slots"] = len(_rt["read_slots"])
@@ -365,6 +370,7 @@ CLAIMS = [
     # rewording the sentence without it turns a live guard into "0 patterns not found" -- which
     # check_counts itself treats as a failure, and rightly.
     ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works ANOTHER NODE also cites"),
+    ("CLAUDE.md",              "sourceless_nodes",        r"\*\*(\d+) nodes cite nothing, down from 32\*\*"),
     ("CLAUDE.md",              "exemplars_with_precedent", r"(\d+) of \d+ exemplars carry a `precedent`"),
     ("CLAUDE.md",              "exemplars",                r"\d+ of (\d+) exemplars carry a `precedent`"),
     # WP-11.5. The three figures published beside the exemplar total, in the two files that
