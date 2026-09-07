@@ -126,7 +126,8 @@ def judge_list(node_id, proposed, nodes=None):
         put `shared_only` at 26 against a ceiling of 24. The package's own report names that node
         as having zero headroom, and the guard written in the same commit could not see it.
       * A victim with TWO unique works was invisible, because neither string alone is a hazard.
-        Cite both and it flips anyway -- **43 buildable nodes** were exposed this way.
+        Cite both and it flips anyway -- **44 buildable nodes** were exposed this way
+        (published as 43 in `f72e154`, a figure taken from an auditor and not re-derived).
       * A repeated string counted twice toward "works of its own", so a duplicated list read `ok`
         while `cited_by` counted the node as citing one work twice.
 
