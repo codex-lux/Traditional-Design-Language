@@ -351,5 +351,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by federal-style at cascade depth 4; there is no direct lineage edge between them. --impact: governs 0 slots, so declining changes no dimension on this node. No live gate."
     }
+  ],
+  "inherits_packs": [
+    "sash-light"
   ]
 }

@@ -261,6 +261,10 @@
     }
   ],
   "inherits_packs": [
+    "facade-classical",
+    "gibbs-ionic",
+    "opening-proportion",
+    "sash-light",
     "trim-classical"
   ]
 }

@@ -305,5 +305,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning and no live gate is armed either way."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

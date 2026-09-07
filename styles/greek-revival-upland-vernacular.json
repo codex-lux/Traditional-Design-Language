@@ -302,5 +302,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by federal-style at cascade depth 3 with no direct lineage edge. Governs 0 slots -- trim-classical, which this node binds directly, holds these addresses -- so declining changes no dimension and no slot loses dimensioning. --pair reports no live gate. The decline's value is that it records the refusal of the richest order in the corpus on a node whose whole subject is classicism done in boards."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

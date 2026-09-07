@@ -15,6 +15,7 @@ or re-attributed away by a neighbouring decline -- would put a settled question 
 reader. And a live unendorsed gap that appears in NO row would be a gap nobody has looked at,
 sitting silently outside the list that claims to be the remainder.
 """
+import collections
 import importlib.util
 import os
 import re
@@ -58,9 +59,33 @@ def live():
 
 def test_the_table_parses_at_all():
     """A regex matching nothing would make both tests below pass vacuously -- the failure mode
-    `e2e/walk.mjs` guards against by counting rooms before checking labels."""
+    `e2e/walk.mjs` guards against by counting rooms before checking labels.
+
+    THIS WAS A FLOOR OF 150 AND THE FLOOR WAS THE WRONG INSTRUMENT (WP-8.12). Every opt-in flip
+    legitimately WITHDRAWS rows -- 10, then 13, then 11 -- so the population this guards shrinks
+    by design, and the count reached 147. Lowering the number each flip is precisely the
+    "a floor that drops every time somebody does the ruled thing protects nothing by the end"
+    anti-pattern this repository argues against in `test_construction_scope.py` and in
+    `check_inheritance`'s own ratchet comments.
+
+    So the guard is a CROSS-CHECK instead of a magic number, and it is strictly stronger. Each
+    pack heading states its own row count (`## `pack` — N node(s)`), authored beside the rows; the
+    row regex and the heading regex are independent, so a broken row pattern makes the two
+    disagree and a heading whose count went stale is caught in the same assertion. Neither can go
+    vacuous alone."""
+    import re as _re
     rows = _rows()
-    assert len(rows) >= 150, len(rows)
+    claimed = [(m.group(1), int(m.group(2))) for m in
+               _re.finditer(r"^## `([a-z0-9-]+)`[^\n]*?— (\d+) node\(s\)",
+                            open(TABLE, encoding="utf-8").read(), _re.M)]
+    assert claimed, "no pack heading states a row count -- the heading regex found nothing"
+    per_pack = collections.Counter(p for _n, p in rows)
+    assert sum(n for _p, n in claimed) == len(rows), (
+        sum(n for _p, n in claimed), len(rows),
+        "the headings' own counts and the parsed rows disagree -- one of the two regexes is "
+        "broken, or a heading went stale when rows were withdrawn")
+    for pack, n in claimed:
+        assert per_pack[pack] == n, (pack, per_pack[pack], n)
     assert len(set(rows)) == len(rows), "a (node, pack) pair is tabled twice"
 
 

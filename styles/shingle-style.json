@@ -320,5 +320,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by italian-renaissance at cascade depth 11 with no direct lineage edge. --impact: governs 0 slots today, so the decline changes no dimension. No live gate."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

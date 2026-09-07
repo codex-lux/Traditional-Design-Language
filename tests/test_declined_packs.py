@@ -61,15 +61,28 @@ def test_a_declined_pack_does_not_reach_the_node(rk, graph):
 def test_the_decline_is_proved_against_the_undeclared_corpus(rk, graph):
     """MUTATION-CHECKED: strip the declines and the pack comes back. Without this the test
     above passes on a corpus where `storey-graduation` never reached these nodes at all, which
-    would make it a tautology rather than a guard."""
+    would make it a tautology rather than a guard.
+
+    THE GATE IS LIFTED TOO, FOR THE REASON THE CORPUS-WIDE VERSION OF THIS TEST ALREADY GIVES
+    (WP-8.13). `storey-graduation` declared `delivery: opt-in` in the five-pack flip, so from
+    that moment stripping the decline changed nothing -- the gate stops the pack first -- and
+    this probe went vacuous and SAID SO. That is the fourth instance of one mechanism hiding
+    another from a counterfactual, after the two `test_construction_scope.py` counts and
+    WP-8.10's own corpus-wide decline proof, whose docstring predicted it. The decline is
+    superseded, not refuted: the property under test is still "this decline names a delivery
+    the cascade would really make", asked of the cascade rather than of whichever gates are
+    shipped."""
     import copy
     g = copy.deepcopy(graph)
+    if (g.get("_packs") or {}).get("storey-graduation", {}).get("delivery") == "opt-in":
+        g["_packs"]["storey-graduation"]["delivery"] = "cascade"
     for nid in THE_FOUR:
         g["nodes"][nid].pop("declined_packs", None)
     for nid in THE_FOUR:
         packs = rk.resolve_packs(g, rk.chain_for(g, nid))
         assert "storey-graduation" in packs, (
-            f"{nid} does not receive storey-graduation even undeclared — this test is vacuous")
+            f"{nid} does not receive storey-graduation even undeclared and ungated — "
+            f"this test is vacuous")
 
 
 def test_a_node_may_not_decline_a_pack_it_binds_itself(rk, graph):
@@ -155,14 +168,30 @@ def test_unendorsed_did_not_move_and_that_is_the_point():
     # the entire argument this test was written to make, now demonstrated by a mechanism instead
     # of an anecdote: the ceilings fall for two completely different reasons and only the floor
     # can tell them apart.
-    # 223 -> 217 -> 215 across the two flips (WP-8.10, WP-8.11) and 3158 -> 3123 -> 3056.
-    # 102 arrivals stopped in total, no case was read, and `judged` has not moved once.
-    assert ci.RATCHET["unendorsed"] == 215
-    assert ci.RATCHET_FLOOR["judged"] == 249, (
-        "a flip must not move the floor: stranding is the ruling ACCEPTING unjudged cases, "
-        "never adjudicating them")
-    assert ci.RATCHET["inherited_packs"] == 3056, (
-        "208 declines removed 208 real deliveries and the first flip removed 35 more; 3366 was "
+    # 223 -> 217 -> 215 -> 214 -> 180 across the four flips (WP-8.10 through 8.13) and
+    # 3158 -> 3123 -> 3056 -> 3022 -> 2762. 338 arrivals stopped in total and no case was read.
+    #
+    # AND `judged` MOVED AT THE FOURTH FLIP, WHICH THIS ASSERTION HAD FORBIDDEN IN SO MANY WORDS
+    # (WP-8.13). 249 -> 250, with nothing adjudicated. The message below was right about
+    # `declined` and blind to `endorsed`: withholding a pack VACATES the role it filled, the role
+    # re-attributes to the next ancestor, and where that pack both ARRIVES (the node opted in)
+    # and VOUCHES (`applies_to` names it), the re-attributed gap lands in `endorsed` --
+    # `judged` = endorsed + declined. One instance, and it is pinned BY NAME in
+    # `tests/test_opt_in_packs.py` because a count cannot tell it from an adjudication:
+    # `american-farmhouse-vernacular` / `opening`, vacated by `opening-proportion` and landing on
+    # `sash-light`.
+    #
+    # THE CLAIM THIS TEST WAS WRITTEN TO MAKE IS NARROWER THAN IT SAID, and is kept in the
+    # narrower form rather than deleted: a flip never moves `declined`, so the DECLINE half of
+    # the floor is still a clean discriminator. `judged` as a whole is not one any more. Read
+    # `--strict`'s `withheld` line to tell a flip from a reading.
+    assert ci.RATCHET["unendorsed"] == 180
+    assert ci.RATCHET_FLOOR["judged"] == 250, (
+        "the floor moved: a flip may not ADJUDICATE anything, so establish whether a case was "
+        "READ before accepting this as progress -- WP-8.13's move was a re-attribution into "
+        "`endorsed`, not a judgment")
+    assert ci.RATCHET["inherited_packs"] == 2762, (
+        "208 declines removed 208 real deliveries and four flips removed 338 more; 3366 was "
         "the figure before any")
 
 
@@ -226,7 +255,7 @@ def test_the_forbidden_slot_meter_is_ratcheted_separately_from_the_backlog():
     # 776 -> 761 -> 723 (WP-8.10, WP-8.11): fifteen pairs left with `trim-classical` and
     # thirty-eight with `facade-gable`, because a pack rule cannot land on a forbidden slot it no
     # longer reaches. Smaller corpus, not better corpus.
-    assert ci.FORBIDDEN_RATCHET == 723
+    assert ci.FORBIDDEN_RATCHET == 712
     assert ci.FORBIDDEN_RATCHET not in (ci.RATCHET["role_gaps"], ci.RATCHET["unendorsed"],
                                         ci.RATCHET["inherited_packs"]), (
         "the forbidden-slot figure has collided with a backlog figure; they measure different "
@@ -247,7 +276,7 @@ def test_a_decline_beats_an_inherited_slot_level_packs_ruling_and_says_so():
     out = subprocess.run([sys.executable, "build/check_inheritance.py", "--slots", "ranch-style"],
                          cwd=ROOT, capture_output=True, text=True)
     assert out.returncode == 0, out.stderr
-    assert "68 slot(s) dimensioned, 61 by a pack it never bound" in out.stdout
+    assert "65 slot(s) dimensioned, 58 by a pack it never bound" in out.stdout
     assert "DECLINED by this node" in out.stdout, (
         "the contradiction between a decline and an inherited slot-level ruling is no longer "
         "surfaced — it used to be a KeyError, and silence would be worse")

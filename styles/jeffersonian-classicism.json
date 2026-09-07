@@ -326,5 +326,8 @@
       "note": "THE OTHER OCTAGON ENTIRELY, and the node that states its rule: 'octagonal rooms generated on a square, canted corners at 1/3 of the side', with 'plan geometry built from octagons, cubes, and their halves rather than from the rectangular Georgian room grid'. This is a ROOM and not a building -- take a square, cut each corner back a third, and the result sits comfortably inside a rectangular plan. That record also gives the elevation consequence the pack's bay rule is about: 'octagonal or semi-octagonal room projections in plan, visible as canted bays on the elevation'. Take the canted-corner rule and the bay rule here; leave every rule that begins from a regular octagon's side, because this house has none.",
       "precedence": 12
     }
+  ],
+  "inherits_packs": [
+    "gibbs-ionic"
   ]
 }

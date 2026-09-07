@@ -258,6 +258,11 @@
     }
   ],
   "inherits_packs": [
+    "gibbs-ionic",
+    "opening-proportion",
+    "sash-light",
+    "storey-graduation",
+    "timber-bay",
     "trim-classical"
   ]
 }

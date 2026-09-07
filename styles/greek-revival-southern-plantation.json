@@ -315,5 +315,8 @@
       "authority": "greek-doric",
       "note": "WP-4.6: bound secondary, and deliberately not primary. American Greek Revival work was built from Benjamin and Lafever, not from the Parthenon, and `benjamin-doric` is the pack that describes what the carpenters actually did. This pack is bound beside it as the archaeological order those buildings were imitating, so a plan can be checked against both -- what was built, and what it was reaching for. Where they disagree the disagreement is the finding."
     }
+  ],
+  "inherits_packs": [
+    "sash-light"
   ]
 }

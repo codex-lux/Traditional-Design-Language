@@ -309,8 +309,20 @@ class TestThePerRuleScope(unittest.TestCase):
                 # re-resolving with the decline lifted, rather than assumed. The lift is done
                 # IN PLACE and restored in a finally: a `copy.deepcopy` of the graph per probe
                 # made this class take minutes, and the graph is only read here.
+                # THE GATE IS LIFTED WITH THE DECLINE (WP-8.13), for the reason
+                # `test_declined_packs.py` gives for the same pair: once `opening-proportion`
+                # declared `delivery: opt-in`, lifting a node's decline stopped restoring the
+                # delivery -- the gate stops the pack first -- so this counter fell 3 -> 0 and
+                # three refusals vanished from a sum that must not fall. Measured: 24 + 0 + 32 =
+                # 56 against a floor of 59, and the missing three were here, not in the live
+                # count. One mechanism hiding another from a counterfactual is now the FOURTH
+                # instance in this file's own history, exactly as the note below predicts.
                 original = g["nodes"][nid].get("declined_packs")
+                _saved = {q: v.get("delivery") for q, v in (g.get("_packs") or {}).items()
+                          if v.get("delivery") == "opt-in"}
                 try:
+                    for q in _saved:
+                        g["_packs"][q]["delivery"] = "cascade"
                     g["nodes"][nid]["declined_packs"] = [
                         d for d in (original or []) if d["pack"] != key[0]]
                     p_chain = RK.chain_for(g, nid)
@@ -319,6 +331,8 @@ class TestThePerRuleScope(unittest.TestCase):
                     RK.eval_packs(RK.resolve_packs(g, p_chain),
                                   {"ceiling_height": 108.0}, None, p_kit, p_dropped)
                 finally:
+                    for q, v in _saved.items():
+                        g["_packs"][q]["delivery"] = v
                     if original is None:
                         g["nodes"][nid].pop("declined_packs", None)
                     else:
@@ -347,15 +361,29 @@ class TestThePerRuleScope(unittest.TestCase):
                 if ((g.get("_packs") or {}).get(pid, {}).get("delivery") != "opt-in"
                         or pid in own_ids or pid in opted or pid in declined):
                     continue
+                # LIFT EVERY GATE, NOT JUST THIS PACK'S (WP-8.13). With one pack gated it was
+                # enough to lift one; with EIGHT, a second flipped pack can stop the rule reaching
+                # the scope before this pack's own gate is even consulted -- the counterfactual
+                # then reports the scope going quiet when what went quiet is a different
+                # delivery. Measured: 24 + 0 + 32 = 56 against a floor of 59, three deliveries
+                # invisible to a one-pack lift. The property under test is about the SCOPE, so
+                # the counterfactual has to restore the whole cascade, which is the same argument
+                # `test_declined_packs.py` makes for lifting a decline AND its gate together.
+                # This is the FOURTH mechanism the docstring above predicted, arriving as one
+                # flip hiding another rather than as a new kind of refusal.
+                _saved = {q: v.get("delivery") for q, v in (g.get("_packs") or {}).items()
+                          if v.get("delivery") == "opt-in"}
                 try:
-                    g["_packs"][pid]["delivery"] = "cascade"
+                    for q in _saved:
+                        g["_packs"][q]["delivery"] = "cascade"
                     w_chain = RK.chain_for(g, nid)
                     w_kit, _ = RK.resolve_slots(g, w_chain, RK.scope_for(g, nid))
                     w_dropped = []
                     RK.eval_packs(RK.resolve_packs(g, w_chain),
                                   {"ceiling_height": 108.0}, None, w_kit, w_dropped)
                 finally:
-                    g["_packs"][pid]["delivery"] = "opt-in"
+                    for q, v in _saved.items():
+                        g["_packs"][q]["delivery"] = v
                 for d in w_dropped:
                     if (d["pack"], d["slot"], d.get("dimension")) == key:
                         cls.withheld_away[key] += 1

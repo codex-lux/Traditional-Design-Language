@@ -115,7 +115,17 @@ RATCHET = {"own": 0, "cascade": 9,
            # and will keep rising while the backlog is worked; re-pinning it is the meter
            # following the work, not a ratchet being relaxed. The number to watch is the RATIO.
            # Do not lower it by withdrawing declines.
-           "baked_vs_refused": 71}
+           # 71 -> 67 on 3 Sep 2026 (WP-8.12, the third opt-in flip). Four baked snapshots stopped
+           # being "a value the live rule refuses" because the live rule no longer REACHES those
+           # nodes -- `sash-light` is `delivery: opt-in` now. Nothing was fixed and no snapshot
+           # was corrected: the population shrank. Re-pinned tight anyway, because a ceiling left
+           # slack after the corpus shrinks under it stops catching the next real one.
+           #
+           # AND THE FLIP DOES NOT CLOSE THIS QUESTION, which OQ 51's own entry says in as many
+           # words: a baked value in an ancestor's kit file is not a cascade delivery, so
+           # `inherits_packs` cannot stop one. These four went because the rule they were
+           # measured against went, not because the second delivery path was closed.
+           "baked_vs_refused": 60}
 
 
 def cobinding(nodes, scope):
