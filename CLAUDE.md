@@ -675,13 +675,20 @@ test. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIV.7.
 This entry is the PRECEDENT BENCH -- WP-11.1 through WP-11.7,
 `docs/reports/wp-11.1-the-bench-without-a-literature.md`. A parallel session opened its own Phase 11
 from the same base commit and it is the SHEET -- the massing element, the axis vocabulary, the
-facade as a result -- WP-11.1 through WP-11.11,
-`docs/reports/wp-11.1-the-sheet-says-what-the-placement-gave-up.md`, open as
+facade as a result -- WP-11.1 through WP-11.11, open as
 [PR #28](https://github.com/codex-lux/Traditional-Design-Language/pull/28). So 11.1 through 11.7
-each name two different packages, exactly as the two Phase 9s do. **CITE THE REPORT BY FILENAME.**
-The report SLUGS differ, so `check_ids.py`'s two-reports-one-slug rule does not fire and nothing in
-the tree will tell you: the NUMBER is what collides, and only somebody reading both branches sees
-it. **OQ 90 already rules the rest and nothing here is renumbered** -- whoever merges first keeps
+each name two different packages, exactly as the two Phase 9s do. **CITE THE REPORT BY FILENAME --
+AND THAT BRANCH'S FILENAMES ARE DELIBERATELY NOT WRITTEN HERE, BECAUSE THEY CANNOT BE.** The first
+draft of this paragraph named its WP-11.1 report as a `docs/reports/...` path and
+`check_ids.py::check_reports` failed the build -- *"is cited somewhere and does not exist"*. **A
+report on another branch is a dangling citation here BY CONSTRUCTION**, and the guard is right:
+dropping the `docs/reports/` prefix to get past it would be evading a checker that is doing its
+job. Note which checker caught it -- `check_citations.py` came back clean, because it polices OQ
+ids and not report paths, and the reader that fired is reached only through `pytest`. **This is the
+entry's own point arriving as a build failure**: the two lines are invisible to each other's guards,
+and the only surface that can hold both is the PR. The report SLUGS differ, so the
+two-reports-one-slug rule will not fire at the merge either -- the NUMBER is what collides, and only
+somebody reading both branches sees it. **OQ 90 already rules the rest and nothing here is renumbered** -- whoever merges first keeps
 the numbers and it is never the side still on a branch, so merge order decides. **And both branches
 edit `CLAUDE.md`, `PLAN-OF-ACTION.md` and `build/check_all.py`**, so the merge WILL move the check
 total and the test count: the number this file records going wrong at exactly a merge five times,
