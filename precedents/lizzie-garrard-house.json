@@ -1,0 +1,37 @@
+{
+  "id": "lizzie-garrard-house",
+  "name": "Lizzie Garrard House",
+  "location": {
+    "text": "Beebe, Arkansas",
+    "country": "United States",
+    "state": "Arkansas"
+  },
+  "dates": {
+    "built": "1906",
+    "circa": true,
+    "note": "The Wikipedia infobox prints 'Built 1906 (1906)' and 'Built by Oscar Rogers'; the article's own text says 'Built about 1906'. The node's exemplar gives 1906."
+  },
+  "nodes": [
+    "folk-victorian"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "91001263",
+      "url": "https://en.wikipedia.org/wiki/Lizzie_Garrard_House",
+      "title": "NRHP reference No. 91001263; added September 5, 1991; N. Cypress St., Beebe, Arkansas; MPS White County MPS; architectural style Folk Victorian (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lizzie_Garrard_House",
+      "title": "Lizzie Garrard House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its whole fabric account: 'It is a 1+1/2-story wood-frame structure, with a gable-on-hip roof that has a forward-projecting gable section. The gable end is finished in decorative cut shingles, with bargeboard along the rake edges. A porch wraps across the front, with turned posts and balusters, and a delicate spindlework valance. Built about 1906, it is a good local example of Folk Victorian architecture.'"
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY. The Arkansas nomination itself was not reached -- the state's own PDF service was not queried by name for this property -- so the record rests on a register number and one paragraph. No rights line."
+}

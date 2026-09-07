@@ -1,0 +1,48 @@
+{
+  "id": "el-transparente-toledo-cathedral",
+  "name": "El Transparente, Toledo Cathedral",
+  "aka": [
+    "Transparente de la catedral de Toledo",
+    "El Transparente de Tomé"
+  ],
+  "location": {
+    "text": "Toledo, Spain",
+    "country": "Spain",
+    "state": "Castile-La Mancha"
+  },
+  "dates": {
+    "built": "1721-1732",
+    "circa": false,
+    "note": "THE SOURCE AND THE NODE DISAGREE ABOUT THE START. The Spanish article says the work was 'construido entre 1721 y 1732 por el arquitecto Narciso Tomé, ayudado por sus hijos', and that Tomé was appointed deputy architect of the cathedral in 1721; the node's own exemplar note gives 1729-1732. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "churrigueresque",
+    "spanish-classical"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Transparente_de_la_catedral_de_Toledo",
+      "title": "Transparente de la catedral de Toledo - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The article's authority block carries only a Wikidata item, Q5352277, and no heritage identifier of any kind: the Transparente is a WORK INSIDE a listed cathedral and has no listing of its own. Its own category lines classify it as sculpture -- 'Esculturas de España del siglo XVIII', 'Esculturas del Rococó' -- which is itself evidence for the node's claim that the boundary between architecture and sculpture is the thing being dissolved."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-transparente-de-la-catedral-de-toledo",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Transparente_de_la_catedral_de_Toledo",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El Transparente de la catedral de Toledo es una obra del arte barroco construida entre 1721 y 1732 por el arquitecto Narciso Tomé, ayudado por sus hijos. Tomé fue nombrado en 1721 arquitecto suplente de la catedral. Se encuentra en el muro absidial de la catedral, en el trasaltar mayor. La obra es de estilo churrigueresco, siguiendo el modo iniciado por José de Churriguera (1665 - 1725).",
+        "page": "Spanish Wikipedia, opening paragraph"
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. NO MEASUREMENT IS RECORDED: the article's 'Composición' section was not returned by the extract and nothing dimensional was printed. The one thing this record adds beyond the node's own note is that the source dates the work from 1721 rather than 1729, and that it is catalogued as sculpture rather than as architecture."
+}

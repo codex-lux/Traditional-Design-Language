@@ -1,0 +1,53 @@
+{
+  "id": "ochre-court",
+  "name": "Ochre Court",
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1888-1892",
+    "circa": false,
+    "altered": "Given to the Religious Sisters of Mercy in 1947 by Robert Goelet IV to found Salve Regina College; it housed the entire college for its first years and is now the university's central administration building.",
+    "note": "Salve Regina's own guides give the design and construction as 1888-1892 and the cost as 'an estimated $4.5 million'; the Clio entry gives 'constructed from 1888-1891'; the Wikipedia lead gives 'built at a cost of $4.5 million in 1892'. The style node's exemplar gives 1892."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ochre_Court",
+      "title": "Ochre Court - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox gives Architectural style 'Chateauesque', Client 'Ogden Goelet', Architect 'Richard Morris Hunt'. The lead: 'Ochre Court is a large chateauesque mansion in Newport, Rhode Island, United States. Commissioned by Ogden Goelet, it was built at a cost of $4.5 million in 1892. It is the second largest mansion in Newport after nearby The Breakers.' The article's categories file it as a 'Historic district contributing property in Newport County, Rhode Island', so there is no individual National Register number and none is written here."
+    },
+    {
+      "kind": "institution",
+      "url": "https://salve.libguides.com/salve-architecture",
+      "title": "Overview - Architecture & Heritage: Salve's Seven Estates - Research Guides at Salve Regina University",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own architectural description, and the only one read that itemises the skyline this node is about: 'For the mansion's exterior, Hunt drew his inspiration from the late medieval period in French architecture, installing high roofs, turrets, whimsical gargoyles and tall chimneys. Inside, he used details from French Gothic chateaux and churches to create a soaring great hall, impressive ground floor reception rooms and private upstairs family rooms designed with imported antique fireplaces and lavish wall coverings.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://salve.libguides.com/c.php?g=1292946&p=9494754",
+      "title": "Ochre Court - CHP399 - Heather Rockwell - Research Guides at Salve Regina University",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "CONTRADICTS the style name on the owner's own site: 'Commissioned by New York real estate magnate Ogden Goelet as his family's summer residence, Ochre Court (1888-1892) was designed by architect Richard Morris Hunt. Built in the Beaux-Arts style, Goelet spent an estimated $4.5 million on the estate between 1888 and 1892. James Sinclair and company completed the stonework with blue Indiana limestone, and the 13 acres of estate grounds were designed by the Olmsted brothers.' The material figure -- blue Indiana limestone, by James Sinclair and company -- is the useful part and is not contradicted anywhere."
+    },
+    {
+      "kind": "other",
+      "url": "https://buildingsofnewengland.com/2022/01/02/ochre-court-1892",
+      "title": "Ochre Court // 1892 - Buildings of New England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Named Ochre Court, the 50-room chateau overlooks the Cliff Walk and Atlantic Ocean and is the second-largest mansion in Newport (after The Breakers). ... The operation of Ochre Court usually required twenty-seven house servants, eight coachmen and grooms for horses and their carriages, and twelve gardeners for the grounds.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. No HABS survey was found and there is no individual National Register listing: the house is a contributing property in the Ochre Point-Cliffs Historic District, which is a district reference and not an identity. Worth carrying: the OWNER'S OWN LIBRARY GUIDES NAME TWO DIFFERENT STYLES for this building on two pages -- one describes Hunt drawing 'from the late medieval period in French architecture', the other says it was 'Built in the Beaux-Arts style'. This corpus separates the two into different nodes; Salve Regina does not, and a reader relying on an institution's own label to sort Newport houses will sort this one twice."
+}

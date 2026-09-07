@@ -205,25 +205,64 @@
       "name": "Homeplace Plantation House (Keller Homeplace)",
       "location": "Hahnville, St. Charles Parish, Louisiana",
       "year": 1791,
-      "note": "Built 1787–91. Stuccoed brick ground storey, cypress above, encircling gallery under a two-storey hip roof; designated a National Historic Landmark in 1970 as one of the finest French colonial raised cottages in the country."
+      "note": "Built 1787–91. Stuccoed brick ground storey, cypress above, encircling gallery under a two-storey hip roof; designated a National Historic Landmark in 1970 as one of the finest French colonial raised cottages in the country.",
+      "precedent": "homeplace-plantation-house",
+      "standing": "icon",
+      "why": "The node's own prose stands on its gallery ('Standing on a raised gallery at Homeplace or Parlange'), and HABS LA-155 states the type in four lines -- brick ground storey, bousillage main floor, a two-storey porch 'On all sides', a hipped 'French West Indies type' roof."
     },
     {
       "name": "Parlange Plantation House",
       "location": "Pointe Coupee Parish, Louisiana",
       "year": 1750,
-      "note": "Traditionally dated c. 1750; some fabric analysis argues for c. 1830–40, and the date should be treated as contested. Brick raised basement, bousillage of mud, moss and animal hair above, encircling gallery, octagonal pigeonniers."
+      "note": "Traditionally dated c. 1750; some fabric analysis argues for c. 1830–40, and the date should be treated as contested. Brick raised basement, bousillage of mud, moss and animal hair above, encircling gallery, octagonal pigeonniers.",
+      "precedent": "parlange-plantation-house",
+      "standing": "icon",
+      "why": "The register's nomination calls it 'the finest and least altered example of a large French colonial plantation house in the United States ... a classic example of a two-story raised-cottage type', and the node's own prose stands on its gallery beside Homeplace."
     },
     {
       "name": "Madame John's Legacy",
       "location": "632 Dumaine Street, New Orleans, Louisiana",
       "year": 1789,
-      "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on a site occupied since c. 1730; six-bay gallery on shaped colonnettes, brick basement, double-pitched roof over Norman trusses with two dormers."
+      "note": "Rebuilt for Don Manuel de Lanzos immediately after the 1788 fire on a site occupied since c. 1730; six-bay gallery on shaped colonnettes, brick basement, double-pitched roof over Norman trusses with two dormers.",
+      "precedent": "madame-johns-legacy",
+      "standing": "canonical",
+      "why": "The urban type specimen: a National Historic Landmark of 1970 whose 1788 building contract with the master carpenter Roberto Jones the HABS data page cites, and whose historical inventory the same page quotes as 'six large apartments, galleries front and rear ... and a store under the house'."
     },
     {
       "name": "Destrehan Plantation",
       "location": "Destrehan, St. Charles Parish, Louisiana",
       "year": 1790,
-      "note": "Built 1787–90 as a raised Creole house and given Greek Revival columns in an 1840 remodelling — the two traditions visible in one building, and a useful case for teaching the distinction."
+      "note": "Built 1787–90 as a raised Creole house and given Greek Revival columns in an 1840 remodelling — the two traditions visible in one building, and a useful case for teaching the distinction.",
+      "precedent": "destrehan-plantation",
+      "standing": "canonical",
+      "why": "The documented specimen in the strict sense: Wikipedia records the 1787 building contract with Charles Paquet on file at the parish courthouse as making it the oldest documented house in the lower Mississippi valley, and the node's note keeps it for the 1840 Greek Revival columns laid over a raised Creole frame."
+    },
+    {
+      "name": "Magnolia Mound Plantation House",
+      "location": "Baton Rouge, Louisiana",
+      "year": 1791,
+      "note": "A 1790s bousillage house on four-foot piers above the river, made polite between 1815 and 1820 -- outer posts replaced by brick piers, a Federal parlour with a cove ceiling, a rear gallery -- and restored 1971-75. Three rooms across the front under a hipped roof of cypress shakes with flared, bracketed eaves; the 1978 HABS report is unusually complete and the reason the house is here.",
+      "precedent": "magnolia-mound-plantation-house",
+      "standing": "canonical",
+      "why": "HABS LA-1130 (1978) states the type's whole arithmetic -- 72'-0\" x 35'-7\" without galleries, four-foot piers, bousillage between pegged cypress members, ten risers to the gallery, a hipped roof with flared eaves -- on a house restored 1971-75, so its figures can be read against the kit."
+    },
+    {
+      "name": "Pitot House",
+      "location": "1440 Moss Street, New Orleans, Louisiana",
+      "year": 1799,
+      "note": "Built 1799 on Bayou St. John for the merchant Bartholemé Bosque and the home of James Pitot, the city's first American mayor: a brick ground storey under a colombage main floor, galleries on two sides on stuccoed brick columns below and turned colonnettes above, a broad hipped roof, and Samuel Wilson Jr.'s 1964 survey finding five rooms a floor and no chimney at all. Moved 150 yards in 1964 to save it from a school; the Louisiana Landmarks Society's museum since.",
+      "precedent": "pitot-house",
+      "standing": "canonical",
+      "why": "Samuel Wilson Jr.'s 1964 HABS report (LA-1116) sets the type down as a plan 'common for the period in this region' with 'the broad hipped roof and the colonnaded porticoes', gives it 39'-4\" x 60'-8\" in seven by four bays, and the Louisiana Landmarks Society keeps it as the only Creole colonial country house open to the public in New Orleans."
+    },
+    {
+      "name": "Whitney Plantation",
+      "location": "Wallace, St. John the Baptist Parish, Louisiana",
+      "year": 1790,
+      "note": "The Big House of Habitation Haydel, a raised Creole house of about 1790 on the German Coast with Federal finish laid over its Creole frame, and the plantation's outbuildings around it; HABS drew the house and the outbuildings to the sheet. Since 2014 the first plantation museum in the country given wholly to the enslaved people who built and worked it.",
+      "precedent": "whitney-plantation",
+      "standing": "documentary",
+      "why": "A plain-documented rather than a celebrated specimen: HABS LA-1194 recorded the Big House in measured drawings and field records, and the register lists the district under Louisiana's French Creole Architecture multiple-property submission -- surveyed to the sheet rather than admired."
     }
   ],
   "sources": [

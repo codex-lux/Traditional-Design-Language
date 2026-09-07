@@ -1,0 +1,176 @@
+{
+  "id": "balmoral-castle",
+  "name": "Balmoral Castle",
+  "location": {
+    "text": "Aberdeenshire, Scotland",
+    "country": "Scotland",
+    "state": "Crathie, Aberdeenshire"
+  },
+  "dates": {
+    "built": "1852-6",
+    "circa": false,
+    "altered": "Formal gardens 1855-9. The record separately dates the South Garden's horticultural buildings 1856, 1857 and 1870-71.",
+    "note": "The HES record prints 'William Smith, under direction of Prince Albert, 1852-6'; the node's exemplar prints 'Built 1853-56' with a year of 1856; the Wikipedia infobox prints 'Construction started 1853' and 'Completed 1856'. The start year differs by one between the register and the other two. All are recorded."
+  },
+  "nodes": [
+    "scottish-baronial"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB51460",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB51460",
+      "title": "BALMORAL CASTLE WITH PARTERRE AND TERRACE WALLS (LB51460)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. The statutory address covers the castle with its parterre and terrace walls. The estate carries many further listings under their own numbers -- LB51461 Baile-na-Coille, LB51462 a bench, LB51464 the chamois deer statue, LB51465 The Croft, LB51475 the Garden Cottage, LB51485 Princess Alice's Monument, LB51490 the South Garden, LB51492 the Florentine Boar, LB51493 the statue of John Brown -- all seen in search; only LB51460 is the castle."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Balmoral_Castle",
+      "title": "Balmoral Castle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its infobox prints 'Official name Balmoral Castle with Parterre and Terrace Walls', 'Reference no. LB51460', 'Designated 12 March 2010', 'Material Granite and slate' and 'Architectural 100 ft 0 in (30.48 m) (Great Tower)'. THE HEIGHT IN THAT INFOBOX DISAGREES WITH THE REGISTER'S OWN TEXT, which gives the Great Tower as 80 ft and its stair turret as rising to 100 ft; see measurements."
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "GDL00045",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00045",
+      "title": "Balmoral Castle (GDL00045)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Inventory of Gardens and Designed Landscapes entry, 'Designated 1 July 1987' per the Wikipedia infobox. Not read by extract."
+    }
+  ],
+  "survey": {
+    "item": "LB51460",
+    "register": "historic-scotland",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB51460",
+    "prepared": "Category A. 'Designated 12 March 2010' per the Wikipedia infobox; no designation date was returned inside the extracted spans of the HES record itself.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "William Smith, under direction of Prince Albert, 1852-6. Formal gardens, 1855-9. Quadrangular main house with dominant clock tower block to E, clock by Frederick Dent of London installed 1856, partly screening kitchen court set in diagonal plan arrangement at lower level to NE. Composite, baronial, Tudor-Jacobean style of English and Scottish derivation. Granite ashlar-faced throughout on external elevations (quarried from Canup Hill, Glen Gelder); slated roofs (Foudland slates).",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "plan",
+        "text": "Quadrangular, irregular plan approx 120' E-W and 113' N-S, single pile ranges with corridors to courtyard side, enclosed parterres to E and W, raised on terrace over sunken garden in fall of ground to N.",
+        "page": "Listed building record, Description section, 'Main block: Plan:' sub-heading."
+      },
+      {
+        "field": "bays",
+        "text": "S (entrance) elevation: main 3-storey, symmetrical 7-bay range with timber mullioned and transomed windows of 3-2-3-2-3-2-3 lights, upper floors of 3rd and 5th bays corbelled out and rising into gablets, 1st and 7th bays rise into dormerheads; roof divided into 3 sections by crowstepped chimney gables.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "porches",
+        "text": "Asymmetrical treatment at ends, western entrance bay gable end of 2-storeyed western elevation and consistent in treatment with it, single 2-light window at 1st floor, crowstepped gable with slit windows set on corbel table linking circular angle turrets; single storey porte cochère projects with semi-elliptical carriage arches on E and W faces, semicircular arch on S face, octagonal angles with crosslets, heavily corbelled and crenellated parapet.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "other",
+        "text": "Great Tower: approx 35' square and 80' high with circular NE stair tower rising to 100' with balustraded parapet. 5 stages, angles rounded at upper stages; lowest stage of hammer-dressed rustication with segment-headed windows, panel of Royal Arms of Scotland over centre window S face, impressive hoodmoulded doorpiece for servant and luggage with further armorial panel centre of E face; lower floors originally comprised pages' apartments, 2 windows each stage 1st and 2nd floors, 1 segment-headed window with balustraded balcony S face, 1 plain window with balcony N face, 3 windows W face and 2 windows E face 3rd floor level; clock stage 4th floor level; circular angle turrets with conical roofs corbelled from mid-way clock stage at NW, SW and SE angles, enclosing crenellated parapets over",
+        "page": "Listed building record, Description section, 'East wing and Great Tower:' sub-heading."
+      },
+      {
+        "field": "openings",
+        "text": "Small-paned sash windows throughout, 8-lying-panes at link block, 12-pane at Great Tower.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "dependencies",
+        "text": "Detached (except for later service link) from main castle, at lower (kitchen court) level, overlooking sunk N garden. Orangery-like, 5-bay rectangle, approx 74' x 31', 68' x 25' internally, externally of hammer-dressed masonry with ashlar crenellated parapet. 4-centre-arched windows with Y-tracery and transoms, sculptured relief panel centre of parapet. Dais recess on E side breaking on to kitchen, orchestra gallery at S end.",
+        "page": "Listed building record, Description section, 'Ballroom:' sub-heading."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approx 120' E-W and 113' N-S",
+      "value": 120,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The first figure printed, as the schema directs. The record does not say in this sentence which side is the front; a later sentence names the S elevation as the entrance, which would make the 120' E-W dimension the frontage. That is a reading, not a statement of the record's, and it is not carried into the parse."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "113' N-S",
+      "value": 113,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "main 3-storey, symmetrical 7-bay range",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "bay_count_entrance_front",
+      "as_printed": "symmetrical 7-bay range with timber mullioned and transomed windows of 3-2-3-2-3-2-3 lights",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "tower_plan_side_ft",
+      "as_printed": "Great Tower: approx 35' square and 80' high",
+      "value": 35,
+      "unit": "ft",
+      "from_quote": 4
+    },
+    {
+      "name": "tower_height_ft",
+      "as_printed": "approx 35' square and 80' high",
+      "value": 80,
+      "unit": "ft",
+      "from_quote": 4,
+      "note": "THE REGISTER AND THE WIKIPEDIA INFOBOX DISAGREE. The infobox prints 'Architectural 100 ft 0 in (30.48 m) (Great Tower)'; the register gives the tower as 80' and says the CIRCULAR STAIR TURRET at its NE angle rises to 100'. The likeliest reading is that the infobox took the turret's figure for the tower's, but that is an inference and neither number is changed here."
+    },
+    {
+      "name": "stair_tower_height_ft",
+      "as_printed": "circular NE stair tower rising to 100'",
+      "value": 100,
+      "unit": "ft",
+      "from_quote": 4
+    },
+    {
+      "name": "tower_stage_count",
+      "as_printed": "5 stages, angles rounded at upper stages",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "ballroom_length_ft",
+      "as_printed": "approx 74' x 31', 68' x 25' internally",
+      "value": 74,
+      "unit": "ft",
+      "from_quote": 6
+    },
+    {
+      "name": "ballroom_internal_length_ft",
+      "as_printed": "68' x 25' internally",
+      "value": 68,
+      "unit": "ft",
+      "from_quote": 6
+    },
+    {
+      "name": "ballroom_internal_width_ft",
+      "as_printed": "68' x 25' internally",
+      "value": 25,
+      "unit": "ft",
+      "from_quote": 6,
+      "note": "The second figure of the internal pair. 74 x 31 external against 68 x 25 internal gives a wall thickness of 3' on each of the four faces, which the record does not state and which is arithmetic, not a quotation."
+    }
+  ],
+  "rights_evidence": "The legal part of the listing is the address/name of site which is known as the statutory address. Other than the name or address of a listed building, further details are provided for information purposes only. Historic Environment Scotland does not accept any liability for any loss or damage suffered as a consequence of inaccuracies in the information provided.",
+  "rights_evidence_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB51460",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned the description, the plan and the entrance elevation, the second the Great Tower, the ballroom and the statement of special interest. Line breaks collapsed to single spaces. THIS IS THE RICHEST RECORD IN THE CLUSTER FOR MEASUREMENT: a plan dimension, a tower plan and height, a stair-turret height and two ballroom dimensions inside and out, none of which any HABS-shaped source in this corpus would have carried for a European building. TWO THINGS CONTRADICT THE NODE. HES calls the style 'Composite, baronial, Tudor-Jacobean style of English and Scottish derivation', which is not the Scottish-tower-house descent scottish-baronial states; and the entrance range is 'symmetrical 7-bay', where the node's proportional_system declares the symmetry 'picturesque-asymmetrical' and its bay_rhythm 'Deliberately irregular'. The record does say 'Asymmetrical treatment at ends'."
+}

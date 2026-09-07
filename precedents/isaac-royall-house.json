@@ -1,0 +1,92 @@
+{
+  "id": "isaac-royall-house",
+  "name": "Isaac Royall House",
+  "aka": [
+    "Royall House and Slave Quarters",
+    "Colonel Isaac Royall House",
+    "Usher-Royall House"
+  ],
+  "location": {
+    "text": "Medford, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1732",
+    "circa": true,
+    "altered": "The survey's data form: 'Remodeled and enlarged 1733-37, 1747-50', over a core it dates 'Pre-1697'.",
+    "note": "The Wikipedia infobox prints 1732; the survey form dates the core 'Pre-1697' and the enlargements 1733-37 and 1747-50; the node's exemplar says built out in the 1730s and raised to three storeys in the 1740s. Recorded as the infobox states it, with the survey's two campaigns noted."
+  },
+  "nodes": [
+    "new-england-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-577",
+      "url": "https://www.loc.gov/pictures/item/ma0489",
+      "title": "Colonel Isaac Royall House, Main Street, between George & Royall Streets, Medford, Middlesex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Call number HABS MASS,9-MED,1-. The survey number is read from the data page's own addendum header ('Addendum to Colonel Isaac Royall House HABS No. MA-577 (Usher-Royall House)') and the 1983 form ('HABS MA- NO. -577')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0489",
+      "url": "https://www.loc.gov/pictures/item/ma0489",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/item/ma0788",
+      "title": "Colonel Isaac Royall Slave Quarters, 15 George Street, Medford, Middlesex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The SLAVE QUARTERS, a separate HABS record (the search hit prints 'Survey number: HABS MA-130'); carried because the node's own exemplar note says the surviving quarters are what make the house the most historically important Georgian house in New England."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Isaac_Royall_House",
+      "title": "Royall House and Slave Quarters - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000786",
+      "url": "https://en.wikipedia.org/wiki/Isaac_Royall_House",
+      "title": "NRHP reference No. 66000786; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the Register's own database."
+    }
+  ],
+  "survey": {
+    "item": "ma0489",
+    "register": "loc-item",
+    "survey_no": "MA-577",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0489/data/ma0489data.pdf",
+    "prepared": "Architectural Data Form compiled by Mary Buckley, Architectural Historian, HABS, June 28, 1983; the 1930s sheet beneath it is headed 'District of Massachusetts ... Frank Chouteau Brown, District Officer, 78 Chestnut Street, Boston' (as the sheets read)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "DATE OF CONSTRUCTION (INCLUDE SOURCE) Pre-1697 ARCHITECT(S) (INCLUDE SOURCE) SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) One of the few existing brick houses of the 17 th century. STYLE (IF APPROPRIATE} Federal MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Brick and fraqie with clapboarding",
+        "page": "HABS No. MA-577, Architectural Data Form (Form 10-920, June 1983); no page number on the form. The form's STYLE field reads 'Federal' and its significance line calls the house a 17th-century brick house; both are quoted as printed."
+      },
+      {
+        "field": "walls",
+        "text": "EXTERIOR FEATURES OF NOTE Wooden imitation: tiasonry, gabled brick ends terminating in tall chimney stacks, wooden west front rusticated and adorned with a colossal order, quoining (among the earliest examples)",
+        "page": "HABS No. MA-577, Architectural Data Form; no page number"
+      },
+      {
+        "field": "other",
+        "text": "MAJOR ALTERATIONS AND ADDITIONS WITH DATES Remodeled and enlarged 1733-37, 1747-50.",
+        "page": "HABS No. MA-577, Architectural Data Form; no page number"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the new-england-georgian node already carried were kept exactly. The survey's written data is a one-page 1983 form with no dimensions; three extracts with different queries returned nothing of the 1930s sheet beyond its header."
+}

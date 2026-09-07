@@ -1,0 +1,108 @@
+{
+  "id": "fournier-street",
+  "name": "Fournier Street",
+  "location": {
+    "text": "Spitalfields, London, England",
+    "country": "England",
+    "state": "London Borough of Tower Hamlets"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "Early C18 (No. 17, the house surveyed here)",
+    "circa": true,
+    "note": "The list entry for No. 17 dates it only as 'Early C18'. The node's exemplar says the street was built 1725-c.1730 for Huguenot silk masters. Both are recorded; neither is resolved, and no date is claimed for the street as a whole."
+  },
+  "nodes": [
+    "english-georgian-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1357850",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1357850",
+      "title": "17, FOURNIER STREET E1, Non Civil Parish - 1357850 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade II; the entry's own header prints the listing date 29.12.50. This entry is the source of the survey block below."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1240697",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1240697",
+      "title": "Brick Lane Jamme Masjid (Former Neuve Eglise), Non Civil Parish - 1240697 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Grade II*, the Huguenot chapel of 1743 at the corner of Fournier Street and Brick Lane; formerly listed under Fournier Street. Its entry describes a two-storied south elevation to Fournier Street of six bays."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1357795",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1357795",
+      "title": "Christ Church (Including Gatepiers and Gates to Vergers Yard) , Non Civil Parish - 1357795 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Hawksmoor's church at the west end of the street; its entry says 'Christ Church forms part of groups on Commercial Street and is also part of the group centred on Fournier Street'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fournier_Street",
+      "title": "Fournier Street - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "monograph",
+      "url": "https://www.british-history.ac.uk/survey-london/vol27/pp199-225",
+      "title": "The Wood-Michell estate: Fournier Street | British History Online",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Survey of London's chapter on the street, listed by the search tier. The page itself was not extracted here, so nothing is quoted from it and no figure in this record rests on it."
+    }
+  ],
+  "survey": {
+    "item": "1357850",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1357850",
+    "prepared": "The entry's own Details header prints the listing date 29.12.50. The record carries the note 'The contents of this record have been generated from a legacy data system.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "FOURNIER STREET E1 1. 4431 (North Side) No 17 TQ 3381 NE 14A/381 29.12.50. II GV 2. Early C18. Fainted brick with slated mansard roof. 3 storeys and continuous dormers. 3 windows with segmental arches and flush frames. Sashes, some with glazing bars.",
+        "page": "Official list entry 1357850, Details, entry header and description"
+      },
+      {
+        "field": "openings",
+        "text": "Wooden doorcase has disappeared but door has fluted pilasters and rectangular fanlight, with tracery, above.",
+        "page": "Official list entry 1357850, Details"
+      },
+      {
+        "field": "other",
+        "text": "The Great Synagogue forms a group with Nos 1 to 39 (odd), Nos 2 to 20 (even) and No 84 (The Ten Bells Public House) and with Christ Church, Commercial Street, and Nos 57 & 59 Brick Lane, and No 2 Wilkes Street.",
+        "page": "Official list entry 1357850, Details, group value paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys and continuous dormers",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three storeys under a mansard whose dormers run continuously: the weavers' loft the node's exemplar describes, stated as a roof form rather than as a use."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 windows with segmental arches and flush frames",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The segmental arch and the flush frame both date the house before the 1709 Act's recessed frame became universal, which is what the node's prose says the street shows."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1357850",
+  "note": "Tranche 3, 5 Sep 2026. A group record: Historic England lists the street house by house, so the survey block is No. 17 and the group is established by the entry's own group-value paragraph, which names Nos 1 to 39 odd and Nos 2 to 20 even. The entry's OCR prints 'Fainted brick' for painted brick, carried verbatim."
+}

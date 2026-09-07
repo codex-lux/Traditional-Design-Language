@@ -180,25 +180,55 @@
       "name": "Abbotsford House",
       "location": "Melrose, Scottish Borders, Scotland",
       "year": 1824,
-      "note": "Built 1817-24 by William Atkinson for Sir Walter Scott, incorporating salvaged fragments and antiquarian details. The founding building of the style and the clearest case of a Regency plan in baronial dress."
+      "note": "Built 1817-24 by William Atkinson for Sir Walter Scott, incorporating salvaged fragments and antiquarian details. The founding building of the style and the clearest case of a Regency plan in baronial dress.",
+      "precedent": "abbotsford-house",
+      "standing": "icon",
+      "why": "Historic Environment Scotland's own designation record makes the claim this node rests on: 'the first Baronial Revival house where a conscious effort was made to re-create an authentic Scottish castle'."
     },
     {
       "name": "Balmoral Castle",
       "location": "Aberdeenshire, Scotland",
       "year": 1856,
-      "note": "Built 1853-56 by William Smith of Aberdeen with Prince Albert closely involved. Granite ashlar, a dominant clock tower with bartizans, and the royal endorsement that turned a regional revival into a national style."
+      "note": "Built 1853-56 by William Smith of Aberdeen with Prince Albert closely involved. Granite ashlar, a dominant clock tower with bartizans, and the royal endorsement that turned a regional revival into a national style.",
+      "precedent": "balmoral-castle",
+      "standing": "canonical",
+      "why": "The type specimen the node's figures can be held against, because its listing prints real dimensions -- a plan of approximately 120 by 113 feet and a Great Tower 35 feet square and 80 feet high -- and because HES calls its style 'Composite, baronial, Tudor-Jacobean', which qualifies the node's Scottish descent."
     },
     {
       "name": "Fettes College",
       "location": "Edinburgh, Scotland",
       "year": 1869,
-      "note": "Built 1863-69 by David Bryce. Explicitly a Loire chateau crossed with the Scots tower house, and the fullest demonstration of Bryce's ability to hold a vast picturesque silhouette over a rational plan."
+      "note": "Built 1863-69 by David Bryce. Explicitly a Loire chateau crossed with the Scots tower house, and the fullest demonstration of Bryce's ability to hold a vast picturesque silhouette over a rational plan.",
+      "precedent": "fettes-college",
+      "standing": "regional",
+      "why": "Regional rather than canonical because HES classifies it as 'Franco-Scottish gothic' with a 'flamboyant chapel', which sits against this node's hard c03 forbidding tracery: it is the style at its furthest from the tower house and it is an institution rather than a house."
     },
     {
       "name": "The Glen",
       "location": "Innerleithen, Peeblesshire, Scotland",
       "year": 1858,
-      "note": "Built 1855-58 by David Bryce for the Tennant family on chemical-industry money. A textbook Bryce composition of towers, turrets, crow-steps and corbelled dormers on a hillside site."
+      "note": "Built 1855-58 by David Bryce for the Tennant family on chemical-industry money. A textbook Bryce composition of towers, turrets, crow-steps and corbelled dormers on a hillside site.",
+      "precedent": "the-glen",
+      "standing": "canonical",
+      "why": "The documented case for the node's central claim that a picturesque silhouette sits over a rational plan: HES names the plan type, 'plan type A (which he based on the designs of William Burn); it has 3 principal rooms arranged en-suite along a garden frontage', and names the pattern book the towers were copied from."
+    },
+    {
+      "name": "Dunrobin Castle",
+      "location": "Golspie, Sutherland, Scotland",
+      "year": 1850,
+      "note": "Remodelled 1835-50 by Sir Charles Barry for the 2nd Duke of Sutherland, encasing a 14th-century square tower, a 17th-century L-plan tower house wing and an 1788-95 wing; interiors re-designed by Sir Robert Lorimer from 1919 after the fire of 1915. Nineteenth-century work in tooled ashlar with polished dressings.",
+      "precedent": "dunrobin-castle",
+      "standing": "icon",
+      "why": "The third leg beside Abbotsford and Balmoral in this node's own account of how the style spread -- an English classical architect wrapping a real medieval tower -- and Historic Environment Scotland's entry states the corbelling this node's c01 is about: 'clasping angle turrets corbelled from 3rd floor'."
+    },
+    {
+      "name": "Craigievar Castle",
+      "location": "Alford, Aberdeenshire, Scotland",
+      "year": 1626,
+      "note": "Completed 1626 by William Forbes, re-roofed 1824 by John Smith of Aberdeen, repaired and reharled 1973 by the National Trust for Scotland. A PRE-REVIVAL tower house, two centuries older than this node's period, carried because it is the specimen the revival copied: Historic Environment Scotland's own record calls it a six-storey L-plan tower house and 'one of the finest original examples of Scottish Baronial architecture'.",
+      "precedent": "craigievar-castle",
+      "standing": "canonical",
+      "why": "Canonical and deliberately not icon: this node's own description.long names it -- 'Craigievar, completed in 1626, is the finished form' -- so it is the type specimen the corbel, crow-step and turret rules can be held against, while being 191 years older than the node's stated origin and therefore not an example of the style the node models."
     }
   ],
   "sources": [

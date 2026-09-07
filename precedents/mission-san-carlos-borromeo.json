@@ -1,0 +1,77 @@
+{
+  "id": "mission-san-carlos-borromeo",
+  "name": "Mission San Carlos Borromeo",
+  "aka": [
+    "Mission San Carlos Borromeo de Carmelo",
+    "Carmel Mission",
+    "Mission San Carlos Borromeo del Río Carmelo"
+  ],
+  "location": {
+    "text": "Carmel-by-the-Sea, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "Rio Road & Lausen Drive, Carmel-by-the-Sea, Monterey County, California",
+      "3080 Rio Road, Carmel, California"
+    ]
+  },
+  "dates": {
+    "built": "1793-1797",
+    "circa": false,
+    "note": "The National Park Service says 'In 1793, Father Lausen, Father Serra's successor, supervised the construction of a more permanent stone church'; the California Missions Foundation says 'It took Father Lasuén fourteen years to fulfill Father Serra's dream – the new church was completed in 1797'; Architectural Resources Group gives 'The church, built in 1797'. The mission itself was founded 1770 in Monterey and moved to Carmel in 1771."
+  },
+  "nodes": [
+    "california-mission-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-136",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0300/ca0361/data/ca0361data.pdf",
+      "title": "Mission San Carlos Borromeo, Carmel, Monterey County, California — HABS Wo. CAL-136 (the cover sheet's own heading; 'Wo.' is OCR of 'No.')",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's photograph call number is the older geographic form 'HABS CAL,27-CARM,1-'; the data PDF's own cover sheet prints 'CAL-136', recorded here as CA-136 in the form the checker admits."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0361",
+      "url": "https://www.loc.gov/pictures/collection/hh/item/ca0361.photos.013542p",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Reached through a photograph page — '46. Historic American Buildings Survey Robert W. Kerrigan ... Mission San Carlos Borromeo, Rio Road & Lausen Drive, Carmel-by-the-Sea, Monterey County, CA ... Reproduction Number: HABS CAL,27-CARM,1--46'. The item landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000214",
+      "url": "https://en.wikipedia.org/wiki/Mission_San_Carlos_Borromeo_de_Carmelo",
+      "title": "U.S. National Register of Historic Places, official name 'Carmel Mission', designated 15 October 1966, reference no. 66000214 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "66000214",
+      "url": "https://en.wikipedia.org/wiki/Mission_San_Carlos_Borromeo_de_Carmelo",
+      "title": "U.S. National Historic Landmark, designated 9 October 1960 (as the Wikipedia infobox prints it, under the same reference number)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "135",
+      "url": "https://californiamissionsfoundation.org/mission-san-carlos-borromeo",
+      "title": "California State Landmark #135 (California Missions Foundation)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/places/carmel-mission.htm",
+      "title": "Carmel Mission (U.S. National Park Service)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. NO SURVEY BLOCK, AND THE REASON IS THAT THERE IS NOTHING TO QUOTE: the data PDF at the item's own path was fetched and returned only a photograph cover sheet — 'Mission San Carlos Borromeo Cansel Monterey County California HABS Wo. CAL-136 1-40 ... PHOTOGRAPHS ... HISTORIC AMERICAN BUILDINGS SURVEY NATIONAL PARK SERVICE Western Office, Division of Design and Construction' — with no written historical or descriptive data at all. A survey block on that would be a header wearing a survey's clothes. The extract's own header does carry the HABS number, which is what confirms the item."
+}

@@ -1,0 +1,55 @@
+{
+  "id": "tuscaloosa-federal-building-and-courthouse",
+  "name": "Tuscaloosa Federal Building and Courthouse",
+  "aka": [
+    "United States Federal Building and Courthouse, Tuscaloosa"
+  ],
+  "location": {
+    "text": "Tuscaloosa, Alabama",
+    "country": "United States",
+    "state": "Alabama"
+  },
+  "dates": {
+    "built": "2009-2011",
+    "circa": false,
+    "note": "The only fetched page printing dates is a Facebook group post ('2009-2011'); HBRA's own project page and Architect magazine's gallery print none. The span is recorded on that weak authority and said to be."
+  },
+  "nodes": [
+    "new-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.hbra-arch.com/projects/governmental/governmental_usfederalbuildingandcourthouse_tuscaloosaalabama.html",
+      "title": "HBRA Architects | United States Federal Building and Courthouse, Tuscaloosa, Alabama",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Architect. 'a state-of-the-art, LEED gold-certified building ... a civic resource of a scale and architectural aspect reflecting the unique identity of the City of Tuscaloosa'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.architectmagazine.com/project-gallery/tuscaloosa-federal-building-and-courthouse",
+      "title": "Tuscaloosa Federal Building and Courthouse - Architect Magazine",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The 127,000-square-foot building is part of the U.S. General Services Administration’s (GSA) Design Excellence program ... the $47.8 million project'; 'massive Doric columns influenced by the Greek Temple of Zeus at Nemea made from Indiana Limestone'; 'The Ionic columns in the second-floor atrium were modeled after those found at the Erechtheion in Athens'."
+    },
+    {
+      "kind": "other",
+      "url": "https://commonedge.org/lets-talk-about-federal-patronage-and-classical-architecture",
+      "title": "Let’s Talk About Federal Patronage and Classical Architecture – Common Edge (Steven W. Semes, 14 Feb 2020)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'An exception, the federal courthouse in Tuscaloosa by HBRA Architects, was resisted by the U.S. General Services Administration'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.facebook.com/groups/ArchitecturalUprising/posts/28003181045968333",
+      "title": "Tuscaloosa, AL federal building and courthouse design (Architectural Uprising, Facebook group post)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'2009-2011 Architects: HBRA Architects'. A social-media post; the only date source found, and weak."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A blog found by the same search attributes the courthouse to Hartman-Cox; HBRA's own page claims it and Architect magazine and Semes agree, so the blog is not cited."
+}

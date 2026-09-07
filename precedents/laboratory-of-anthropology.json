@@ -1,0 +1,48 @@
+{
+  "id": "laboratory-of-anthropology",
+  "name": "Laboratory of Anthropology (Museum of Indian Arts and Culture)",
+  "aka": [
+    "Laboratory of Anthropology",
+    "Museum of Indian Arts and Culture"
+  ],
+  "location": {
+    "text": "Santa Fe, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1931",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1931', architect John Gaw Meem, style 'Spanish Pueblo Revival'."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Laboratory_of_Anthropology",
+      "title": "Museum of Indian Arts and Culture - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The 'Laboratory of Anthropology' title resolves to the museum's article, whose infobox is the Laboratory's register entry."
+    },
+    {
+      "kind": "nrhp",
+      "id": "83001630",
+      "url": "https://en.wikipedia.org/wiki/Laboratory_of_Anthropology",
+      "title": "NRHP reference No. 83001630; added July 12, 1983 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "890",
+      "url": "https://en.wikipedia.org/wiki/Laboratory_of_Anthropology",
+      "title": "NMSRCP No. 890, designated December 1, 1982 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Added 4 Sep 2026 as Meem's first large Santa Fe commission in the style, listed under his name. No HABS record was found."
+}

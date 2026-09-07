@@ -1,0 +1,51 @@
+{
+  "id": "wentworth-gardner-house",
+  "name": "Wentworth-Gardner House",
+  "location": {
+    "text": "Portsmouth, New Hampshire",
+    "country": "United States",
+    "state": "New Hampshire"
+  },
+  "dates": {
+    "built": "1760",
+    "circa": false,
+    "note": "The Wikipedia infobox and article both give 1760. The address is printed two ways on the same page -- '140 Mechanic Street' in the infobox, '50 Mechanic Street' in the article's first sentence -- which is why the exemplar's location stops at the town."
+  },
+  "nodes": [
+    "new-england-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wentworth-Gardner_House",
+      "title": "Wentworth-Gardner House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "68000012",
+      "url": "https://en.wikipedia.org/wiki/Wentworth-Gardner_House",
+      "title": "NRHP reference No. 68000012; added November 24, 1968; designated NHL November 24, 1968; contributing to 'Wentworth-Gardner and Tobias Lear Houses' (ID79000319) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/distinctive-destinations/wentworth-gardner-house",
+      "title": "Wentworth-Gardner House | National Trust for Historic Preservation",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Trust's page: built 'as a wedding gift for Thomas Wentworth and his bride, Anne Tasker'; 'the heavy carving and exquisite detail of the formal parlor, parlor chamber, and traditional hallway, which extends the entire depth of the house'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.wentworth-gardner.org",
+      "title": "Wentworth-Gardner Historic House Association",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The owning association's own site."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on new-england-georgian. No HABS record was found: the query '\"Wentworth-Gardner House\" Mechanic Street Portsmouth NH HABS' on loc.gov returned other Portsmouth houses, and an open search returned only the Trust's and the association's pages."
+}

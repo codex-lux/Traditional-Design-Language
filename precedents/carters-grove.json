@@ -1,0 +1,162 @@
+{
+  "id": "carters-grove",
+  "name": "Carter's Grove",
+  "aka": [
+    "Carter's Grove Plantation"
+  ],
+  "location": {
+    "text": "James City County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1750-55",
+    "circa": false,
+    "altered": "1908: a hyphen built to connect the kitchen. 1928 (MacCrae): the roof raised eleven feet, the hyphen rebuilt and a second added, the dependencies extended to the south on a line with the house (the 1974 NHL nomination's account, and the survey's own description of the 'modernization'). The survey says the roof 'formerly' pitched about 40 degrees and the chimney stacks are 'rebuilt on the original lines'.",
+    "note": "The DHR entry says 'built 1750-55 for Carter Burwell'; the Library's item says '1751 Initial Construction'; the Wikipedia infobox prints 1750. Recorded as the DHR states it."
+  },
+  "nodes": [
+    "tidewater-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-351",
+      "url": "https://www.loc.gov/pictures/item/va0654",
+      "title": "Carter's Grove, U.S. Route 60 vicinity, Williamsburg, Independent City, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS VA-351; Building/structure dates: 1751 Initial'. Wikipedia's external-links line, read the same day, gives 82 photos, 1 color transparency, 27 measured drawings, 4 data pages, 6 photo caption pages. The survey number is also printed in the data page's own running header ('HABS no. VA-351 Page 2')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0654",
+      "url": "https://www.loc.gov/pictures/item/va0654",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Carter%27s_Grove",
+      "title": "Carter's Grove",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "69000249",
+      "url": "https://www.dhr.virginia.gov/historic-registers/047-0001",
+      "title": "NRHP reference No. 69000249; added November 12, 1969; designated NHL April 15, 1970 (as both the Wikipedia infobox and the DHR page print it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "047-0001",
+      "url": "https://www.dhr.virginia.gov/historic-registers/047-0001",
+      "title": "Carter's Grove – DHR",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.dhr.virginia.gov/wp-content/uploads/2018/04/047-0001_Carters_Grove_1974_Final_Nomination_NHL.pdf",
+      "title": "[PDF] Carter's Grove Plantation - Virginia Department of Historic Resources",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The 1974 NHL nomination. Its search snippet: 'In 1908, a hyphen was constructed, connecting the kitchen to the house, and in 1928 when the property was purchased by Mr. and Mrs. Archibald MacCrae, very extensive changes were made to the fabric of the building. The roof was raised eleven feet, the hyphen to the kitchen was rebuilt, and a similar one was added to the other side of the house.'"
+    }
+  ],
+  "survey": {
+    "item": "va0654",
+    "register": "loc-item",
+    "survey_no": "VA-351",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0600/va0654/data/va0654data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "walls",
+        "text": "The structure is of brick laid in Flemish bond, with red rubbed ana gauged dressings and trim- The windows have rubbed jamb brick and gauged flat arches elaborately jointed. Both door- ways are treated with moulded and gauged pediments, that on the south front being supported by pilasters and that on the north by ' the brick frame of the doorway.",
+        "page": "HABS No. VA-351; the extract's nearest page marker, following, reads 'HABS no. VA-351 Page 2'"
+      },
+      {
+        "field": "walls",
+        "text": "The water-table is unusual in that two courses of brick form one moulding, a torus, above which is a small cove. The belt course at the second-floor line is a flat four-course feature which stops short of the corners to allow the brick dressings of the corner of the house to continue unbroken. This is an unusual feature and can be seen in the Powder Horn at Williamsburg. The cornice is of wood with modillions. The roof formerly was pitched about 40 degrees, with a pronounced splay at the eaves. The chimneystacks are rebuilt on the original lines, with elaborately moulded caps similar to those at the Nelson house in Yorktown,",
+        "page": "HABS No. VA-351; precedes the 'HABS no. VA-351 Page 2' marker"
+      },
+      {
+        "field": "bays",
+        "text": "The north front is five bays wide with a center door, and the south front seven bays Each end has two windows on each floor. All sash is nine-over-nine lights and is original.",
+        "page": "HABS No. VA-351; precedes the 'HABS no. VA-351 Page 2' marker"
+      },
+      {
+        "field": "dependencies",
+        "text": "The dependencies are of brick, laid in Flemish bond with glazed .headers. They were substantially changed in the modernize- , ■ .tion'j\"evidently in an attempt to make them resemble those at '/£• HABS no. VA-351 Page 2 &estover. They were extended to the south, the increase in depth bringing the roof-ridge up to the line of the cornice of the main house. The chimneys were formerly much lighter in bulk and lacked the great arched hoods. The dormers were formerly gabled, with six-over-six-light sash. Except for the north face of the west dependency all the elevations were three bays long with a center door and three dormers on the roof. The lower windows had nine- over-nine-light sash.",
+        "page": "HABS no. VA-351 Page 2 -- the marker falls inside the span, as quoted"
+      },
+      {
+        "field": "plan",
+        "text": "Th.o south en- trance hall is a large rectangular room with an arch in the north wall leading to the stair hall The entrance hall is treated with Ionic pilasters flanking the doorways to the east and west rooms. The full entablature that surrounds the room breaks out over the pilasters, accenting the doorways. The entablature is formed by a full architrave, a pulvinated frieze, and a modillioned cornice.",
+        "page": "HABS No. VA-351; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "water_table_courses",
+      "as_printed": "two courses of brick form one moulding, a torus",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "belt_course_courses",
+      "as_printed": "a flat four-course feature",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "roof_pitch_original_deg",
+      "as_printed": "The roof formerly was pitched about 40 degrees",
+      "value": 40,
+      "unit": "deg",
+      "from_quote": 1,
+      "note": "The roof as built, before 1928 raised it eleven feet; 'about'."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "The north front is five bays wide with a center door",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The north (land) front."
+    },
+    {
+      "name": "bay_count_south_front",
+      "as_printed": "the south front seven bays",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The river front; the two fronts do not agree."
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "All sash is nine-over-nine lights",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Nine over nine; recorded as the total per window."
+    },
+    {
+      "name": "dependency_bay_count",
+      "as_printed": "all the elevations were three bays long with a center door and three dormers on the roof",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The dependencies as built, before the modernization."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the tidewater-georgian node already carried were kept exactly. Worth carrying: the survey records the two fronts at different bay counts (five to the land, seven to the river), a roof pitch of about 40 degrees before 1928 and a belt course that stops short of the corners -- three things the node's prose does not say and a generator would have to be told."
+}

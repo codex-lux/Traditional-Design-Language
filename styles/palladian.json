@@ -197,25 +197,55 @@
       "name": "Villa La Rotonda (Villa Almerico Capra)",
       "location": "Vicenza, Veneto, Italy",
       "year": 1567,
-      "note": "Commissioned 1565-66, begun 1567, completed under Vincenzo Scamozzi by 1605. Four identical porticoes about a domed circular hall; the whole plan inscribed in a single circle."
+      "note": "Commissioned 1565-66, begun 1567, completed under Vincenzo Scamozzi by 1605. Four identical porticoes about a domed circular hall; the whole plan inscribed in a single circle.",
+      "precedent": "villa-la-rotonda",
+      "standing": "icon",
+      "why": "The Vicenza tourist consortium calls it 'Palladio's most famous villa' and records that Palladio himself put it in the Quattro Libri's book of PALACES, 'more a suburban residence than a country house and farm' -- so the node's icon is, on the register's own reading, the one villa in its list that is not a farm."
     },
     {
       "name": "Villa Barbaro",
       "location": "Maser, Treviso, Veneto, Italy",
       "year": 1560,
-      "note": "Dating disputed; commonly given as c. 1554-1560, with some scholarship pushing completion to 1570. Ionic temple front over a working farm, barchesse terminating in sundial pavilions, frescoes by Veronese."
+      "note": "Dating disputed; commonly given as c. 1554-1560, with some scholarship pushing completion to 1570. Ionic temple front over a working farm, barchesse terminating in sundial pavilions, frescoes by Veronese.",
+      "precedent": "villa-barbaro",
+      "standing": "icon",
+      "why": "Its own institution calls it 'un'opera sapiente, armonica ed equilibrata' and carries the line that the villa is a UNESCO World Heritage property; that one sentence is the whole of what this record's sources say about it, which is recorded rather than dressed up."
     },
     {
       "name": "Palazzo Chiericati",
       "location": "Piazza Matteotti, Vicenza, Italy",
       "year": 1550,
-      "note": "Begun 1550, completed only in 1680. A two-storey open loggia across the entire front - the Roman forum portico turned into a private house facade."
+      "note": "Begun 1550, completed only in 1680. A two-storey open loggia across the entire front - the Roman forum portico turned into a private house facade.",
+      "precedent": "palazzo-chiericati",
+      "standing": "canonical",
+      "why": "The Vicenza tourist consortium calls it 'the most spectacular civilian residence designed by Palladio' -- and says nothing at all about the two-storey open loggia across the whole front, which is the only reason this node names it."
     },
     {
       "name": "Il Redentore",
       "location": "Giudecca, Venice, Italy",
       "year": 1577,
-      "note": "Founded 1577 as a plague votive, consecrated 1592. The canonical interlocking-pediment temple front."
+      "note": "Founded 1577 as a plague votive, consecrated 1592. The canonical interlocking-pediment temple front.",
+      "precedent": "il-redentore",
+      "standing": "icon",
+      "why": "Chorus, the Patriarchate of Venice's own association for these churches, calls it 'uno dei massimi capolavori architettonici del Rinascimento' and describes the front as 'il tipico impianto palladiano', which is the register naming the type after the building."
+    },
+    {
+      "name": "Villa Emo",
+      "location": "Fanzolo di Vedelago, Treviso, Veneto, Italy",
+      "year": 1561,
+      "note": "Frescoed by Battista Zelotti between 1561 and 1565 on the villa's own dating; no construction date is stated by the institution. Central body of three floors between two barchesse, each ending in a dovecote tower set slightly back. Owned by the Emo family until 2004.",
+      "precedent": "villa-emo",
+      "standing": "canonical",
+      "why": "Its own institution states this node's governing logic in words -- the rooms 'divided according to the precise geometric rules set by Palladio, in which a basic module, appropriately replicated in half or in full, generates perfect environments in harmonious relationship with each other' -- which no other building in this cluster's registers does, and it is the working farm villa the node's account is actually about."
+    },
+    {
+      "name": "Basilica Palladiana",
+      "location": "Piazza dei Signori, Vicenza, Italy",
+      "year": 1546,
+      "note": "Palladio's double order of loggias, from 1546, wrapped round the late-Gothic Palazzo della Ragione after an earlier attempt collapsed two years from its inauguration and Sansovino, Serlio, Sanmicheli and Giulio Romano had all been consulted and passed over. The building that gave the serliana its other name.",
+      "precedent": "basilica-palladiana",
+      "standing": "canonical",
+      "why": "The Vicenza tourist consortium calls it 'a prime example of Palladio's architecture' standing 'in the most representative place in town', and it is the building on which the node's serliana tell was invented -- although the register describes only 'a double order of loggias' and never names the motif."
     }
   ],
   "sources": [

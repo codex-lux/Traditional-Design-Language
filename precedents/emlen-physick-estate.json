@@ -1,0 +1,133 @@
+{
+  "id": "emlen-physick-estate",
+  "name": "Emlen Physick Estate",
+  "aka": [
+    "Emlen Physick House"
+  ],
+  "location": {
+    "text": "Cape May, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "1879",
+    "circa": false,
+    "note": "The HABS Architectural Data Form gives 'DATE OF CONSTRUCTION (INCLUDE SOURCE) 1879' and 'ARCHITECTS) (INCLUDESOURCE) attributed to Frank Furness' -- the attribution is the form's own word, which matches the node's exemplar note that the Furness attribution is traditional and not documented."
+  },
+  "nodes": [
+    "stick-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NJ-746",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0000/nj0034/data/nj0034data.pdf",
+      "title": "Emlen Physick House HABS No. NJ-746, 1048 Washington Street, Cape May, Cape May County, New Jersey",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed twice in the document's own header and again on the Architectural Data Form. A separate aggregator page indexes an 'Emlen Physick House ... Survey number: HABS NJ-860'; that number was not confirmed against any Library page and is not recorded as this record's survey."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nj0034",
+      "url": "https://www.loc.gov/pictures/item/nj0034",
+      "title": "Emlen Physick House, 1048 Washington Street, Cape May, ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Survey number: HABS NJ-746; Building/structure dates: 1879 Initial Construction; National Register of Historic Places NRIS Number: 70000383.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000383",
+      "url": "https://www.loc.gov/pictures/item/nj0034",
+      "title": "National Register of Historic Places NRIS Number: 70000383 (as the Library's item summary prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the Library's item summary line, not from the National Register's own database. A second surface should confirm it before anything is built on the number."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nj.gov/dca/njht/funded/sitedetails/ct_emlen_physick_house.shtml",
+      "title": "Emlen Physick House - Cape May Historic District (New Jersey Historic Trust)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'The 1879 Physick House is attributed to notable Philadelphia architect Frank Furness and is an outstanding example of Victorian Stick Style architecture.'"
+    }
+  ],
+  "survey": {
+    "item": "nj0034",
+    "register": "loc-item",
+    "survey_no": "NJ-746",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nj/nj0000/nj0034/data/nj0034data.pdf",
+    "prepared": "COMPILER, AFFILIATION Druscilla J. Null, HABS DATE 8/12/84, as the form prints it; the form's sources line cites 'Bassett, William B. Historic American Buildings Survey of New Jersey. 1977.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Emlen Physick House HABS No. NJ-746 1048 Washington Street Cape May Ui^^ Cape May County ^3 New Jersey J",
+        "page": "Cover sheet. Quoted because it is the header that confirms this PDF is HABS No. NJ-746; no page number is printed on it."
+      },
+      {
+        "field": "other",
+        "text": "DATE OF CONSTRUCTION (INCLUDE SOURCE) 1879 ARCHITECTS) (INCLUDESOURCE) attributed to Frank Furness",
+        "page": "HABS No. NJ-746, ARCHITECTURAL DATA FORM (Form 10-920, June 1983); the form prints no page number. Line breaks between the printed field label and its value are collapsed to single spaces here."
+      },
+      {
+        "field": "significance",
+        "text": "SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) Excellent Stick Style/Shingle Style villa. STYLE (IFAPPROPRIATE) Stick Style/Shingle Style MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Frame, with beveled siding and exposed framing",
+        "page": "HABS No. NJ-746, ARCHITECTURAL DATA FORM; no page number printed. Label-to-value line breaks collapsed to single spaces."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "60' x 521 with 22' x 35' rear wing; 2-1/2 stories; gable, mansard and hip roofs; hip-roofed porch across portions of northwest front and northeast side",
+        "page": "HABS No. NJ-746, ARCHITECTURAL DATA FORM, 'SHAPE AND DIMENSIONS OF STRUCTURE' (printed 'IHAPE AND DIMENSIONS'); no page number printed."
+      },
+      {
+        "field": "other",
+        "text": "EXTERIOR FEATURES OF NOTE Numerous shed-roofed and jerkinhead-roofed dormers; porch supported by heavy angle braces; overhanging cross gable on southwest side; ornate, stepped brick chimneys; eaves supported by rafters",
+        "page": "HABS No. NJ-746, ARCHITECTURAL DATA FORM; no page number printed. Label-to-value line break collapsed to a single space."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "60' x 521",
+      "value": 60,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "The form does not say which figure is the front; the first printed is taken as the width, per the schema."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "60' x 521",
+      "value": 52,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "The second figure prints as '521', with no space -- read as 52 feet, the trailing '1' being OCR of the foot mark, as the '60' and the '22' x 35' beside it are printed. A reading, marked as one. An earlier version of this record printed the quote as '52 1'; three separate reads of the data page (two extractions and a search snippet) return '521' and the space was removed."
+    },
+    {
+      "name": "rear_wing_width_ft",
+      "as_printed": "22' x 35' rear wing",
+      "value": 22,
+      "unit": "ft",
+      "from_quote": 3
+    },
+    {
+      "name": "rear_wing_depth_ft",
+      "as_printed": "22' x 35' rear wing",
+      "value": 35,
+      "unit": "ft",
+      "from_quote": 3
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2-1/2 stories",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "This survey is a one-page Architectural Data Form and not the usual Part I/Part II outline, so its quotes carry the form's printed field labels: everything the surveyor wrote about this building fits on one sheet. Two things worth carrying against the node: the form's own style line is 'Stick Style/Shingle Style' rather than Stick Style flat, and it records 'gable, mansard and hip roofs' on one house, which no single `roof_pitch` figure can describe. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

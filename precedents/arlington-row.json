@@ -1,0 +1,111 @@
+{
+  "id": "arlington-row",
+  "name": "Arlington Row",
+  "location": {
+    "text": "Bibury, Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "Late C14",
+    "circa": true,
+    "altered": "The entry records the conversion and two campaigns of repair: 'late C17 conversion with late C17 or early C18 additions. Repaired by Royal Society of Arts in 1929; restored by The National Trust in early 1970s.' Two of the front dormers are recorded as C20.",
+    "note": "THE ENTRY AND THE NODE DISAGREE ABOUT TWO DATES AND NEITHER IS CHANGED HERE. The style node's exemplar gives the year 1380 and says the row was 'converted to weavers' cottages in the late seventeenth century'; the Historic England entry dates the wool store only to 'Late C14' and its conversion to 'late C17'. The Wikipedia article gives 1380 for the store and 'the late 17th century' for the conversion. 1380 is finer than anything the list entry states."
+  },
+  "nodes": [
+    "cotswold-vernacular",
+    "british-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1155677",
+      "title": "Arlington Row, Bibury - 1155677 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1155677",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read twice with different queries. The first extract returned the Details prose and the second the Official list entry block, which prints 'Heritage Category: Listed Building', 'Grade: I', 'List Entry Number: 1155677', 'Date first listed: 23-Jan-1952', 'List Entry Name: Arlington Row' and 'Statutory Address 1: ARLINGTON ROW, 1-9, AWKWARD HILL' as field values."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Arlington_Row",
+      "title": "Arlington Row - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Official name | Arlington Row', 'Designated | 23 January 1952', 'Reference no. | 1155677'. Field values, not prose."
+    }
+  ],
+  "survey": {
+    "item": "1155677",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1155677",
+    "prepared": "Date first listed: 23-Jan-1952, as the Official list entry block prints it. The Details section opens with the legacy header 'BIBURY AWKWARD HILL SP 1006-1106 (south side) 11/60 Nos 1 to 9 (consec) Arlington Row 23.1.52 GV I'; no amendment date was returned by either extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Originally wool store, possibly containing domestic portion. Altered to row of weavers' houses. Late C14; late C17 conversion with late C17 or early C18 additions. Repaired by Royal Society of Arts in 1929; restored by The National Trust in early 1970s.",
+        "page": "Official list entry, Details, opening paragraph (legacy list format, which prints the whole description as running prose without headed paragraphs)"
+      },
+      {
+        "field": "materials",
+        "text": "Random rubble limestone; ashlar and rubble chimneys; stone slate roof.",
+        "page": "Official list entry, Details, materials sentence, immediately after the dating paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "Earliest part is single-storey with attic; 2-storey houses added at ends, one to east, 2 to west. Various single-storey rear additions, some with attics.",
+        "page": "Official list entry, Details, sentence following the materials sentence"
+      },
+      {
+        "field": "dormers",
+        "text": "Front: low eaves to early part with 4 half gables, 3 eaves-mounted gables and 2 C20 hipped roof dormers.",
+        "page": "Official list entry, Details, first sentence of the description of the front"
+      },
+      {
+        "field": "openings",
+        "text": "Mixture of leaded casements to ground floor; paired doorways with timber lintels and plank doors to No 3. Stone flat-arched doorway to No 5; timber lintel to No 6. Two gabled eaves-mounted dormers and 2 hipped roof dormers to Nos 5 and 6, all with leaded casements. Two-light ground floor recessed chamfered casement with hoodmould to Nos 6 and 7.",
+        "page": "Official list entry, Details, description of the front continued; this span begins the second block returned by the first extract"
+      },
+      {
+        "field": "chimneys",
+        "text": "Ridge-mounted chimneys. are mostly C20 rebuilt with plain caps except one in ashlar with moulded cap.",
+        "page": "Official list entry, Details; the stray full stop after 'chimneys' is as the page prints it"
+      },
+      {
+        "field": "cornice",
+        "text": "Original gable end coping partially visible at west end with trefoil enriched apex saddle.",
+        "page": "Official list entry, Details, sentence following the chimneys sentence"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "half_gable_count",
+      "as_printed": "4 half gables",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "On the front of the earliest, single-storey part only."
+    },
+    {
+      "name": "eaves_mounted_gable_count",
+      "as_printed": "3 eaves-mounted gables",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "2 C20 hipped roof dormers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The entry dates these two to the twentieth century. A separate sentence counts 'Two gabled eaves-mounted dormers and 2 hipped roof dormers to Nos 5 and 6', which may or may not be the same marks seen from a different position; the two sentences are not reconciled here and no total is parsed."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1155677",
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. The entry states NO DIMENSION -- the dominant outcome of a European list entry, and the reason this record's measurements are all counts. It does corroborate the two things the node's prose leans on hardest: one material for walls, chimneys and roof alike ('Random rubble limestone; ashlar and rubble chimneys; stone slate roof'), and the wall dormer rising through a low eaves ('low eaves to early part with 4 half gables, 3 eaves-mounted gables'). A HOUSE COUNT WAS WRITTEN AND WITHDRAWN: the row is 'Nos 1 to 9 (consec)' in the legacy header carried in `survey.prepared`, and that header is not one of the quotes, so nine cottages is stated there and is deliberately not parsed as a measurement -- `measurements[]` indexes `survey.quotes[]` and a figure outside them cannot be checked."
+}

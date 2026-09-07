@@ -1,0 +1,51 @@
+{
+  "id": "heberton-house",
+  "name": "Heberton House",
+  "aka": [
+    "El Hogar",
+    "Casa Dracaena",
+    "La Casa Dracaena",
+    "Smith-Heberton House",
+    "George Washington Smith House #1"
+  ],
+  "location": {
+    "text": "Montecito, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1916-1917",
+    "circa": true,
+    "note": "THE SOURCES DISAGREE AND BOTH ARE RECORDED. Wikipedia's article on George Washington Smith says 'The house he built in 1917, called Casa Dracaena (a.k.a. El Hogar and Heberton House), was an immediate success', while the list in the same article prints 'Smith-Heberton House \"El Hogar\", Montecito, 1916' and the Pacific Coast Architecture Database prints 'Smith, George Washington, House #1, Montecito, CA | 1916-1917'. WHO IT WAS BUILT FOR IS ALSO UNSETTLED: the UCSB Architecture and Design Collection and Wikipedia both say Smith built it for himself and that it was 'later known as the Heberton house', while the period press published it as Craig Heberton's — 'Residence of Craig Heberton at Santa Barbara, California', Western Architect, 1922, and 'Entrance front, the house of Craig Heberton, Montecito, California', Architectural Record, 1924. Neither reading is adopted here."
+  },
+  "nodes": [
+    "andalusian-spanish-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/George_Washington_Smith_(architect)",
+      "title": "George Washington Smith (architect) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Images of it were used to sell cement and tiles among other goods, and Smith quickly found that his neighbors wanted to live in houses like it. Before long he stopped painting and took up working as an architect full-time in Santa Barbara.'"
+    },
+    {
+      "kind": "institution",
+      "url": "http://www.adc-exhibits.museum.ucsb.edu/collections/show/17",
+      "title": "George Washington Smith (1876-1930): Renderings and elevations · UCSB Architecture and Design Collection",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The archive holding Smith's own drawings: 'a move to Montecito from Paris in 1916 gave him the chance to build his own house. They rented a house in Montecito while Smith built a house for them, later known as the Heberton house, designed to resemble the Spanish farmhouses he had seen in Europe. This house brought George Washington Smith national attention when it appeared in the 1920 issue of Architectural Forum.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://pcad.lib.washington.edu/person/305",
+      "title": "PCAD - George Washington Smith",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carries the publication record: Bottomley, 'The American Country House \"La Casa Dracaena\", Residence at Santa Barbara, Calif.: George Washington Smith, Archt.', Architectural Record, XLVIII: IV, 258, 261-272, October 1920."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the house the mode starts from — a Spanish farmhouse built in Montecito by a painter who had seen the originals, published nationally in 1920, and the reason his neighbours started commissioning them. It is in private hands, has no register listing and no survey, and the record says so rather than dressing the archive citations up as documentation. The date and the client are both disputed in the sources and BOTH readings are carried in `dates.note` unchanged; anyone who needs one of them settled must go to the drawings at UCSB, which this container cannot reach."
+}

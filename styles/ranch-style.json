@@ -210,19 +210,55 @@
       "name": "O'Leary House",
       "location": "San Diego, California",
       "year": 1932,
-      "note": "Cliff May's first ranch house, sold for $9,500. The origin point of the type as an idea, if not of the tract house that carried it."
+      "note": "Cliff May's first ranch house, sold for $9,500. The origin point of the type as an idea, if not of the tract house that carried it.",
+      "precedent": "oleary-house",
+      "standing": "icon",
+      "why": "Cliff May's first house and, in the words of Save Our Heritage Organisation, 'the progenitor of the ranch house movement' -- the building the type is dated from, on the judgment of San Diego's preservation body and of the UCSB collection that holds May's archive."
     },
     {
       "name": "Levittown ranch model",
       "location": "Nassau County, New York",
       "year": 1949,
-      "note": "The model that replaced the 1947 Cape mid-build-out, with a carport and a rear-facing living room. The moment the East Coast tract industry converted."
+      "note": "The model that replaced the 1947 Cape mid-build-out, with a carport and a rear-facing living room. The moment the East Coast tract industry converted.",
+      "precedent": "levittown-ranch-model",
+      "standing": "canonical",
+      "why": "The documented type specimen of the eastern tract ranch, about two thirds of Levittown, and the only exemplar here that carries plan dimensions -- 32 by 25 feet, a proportion of 1.28, which is not the long low body this node's description asks for."
     },
     {
       "name": "Lakewood",
       "location": "Lakewood, California",
       "year": 1950,
-      "note": "Boyar, Taper and Weingart, 1949-1953: 17,500 houses at up to 110 completions in a day. The ranch as an industrial product, and the largest single American subdivision of its moment."
+      "note": "Boyar, Taper and Weingart, 1949-1953: 17,500 houses at up to 110 completions in a day. The ranch as an industrial product, and the largest single American subdivision of its moment.",
+      "precedent": "lakewood",
+      "standing": "regional",
+      "why": "The Southern California tract ranch at its industrial extreme -- a house every seven and a half minutes, 110 in one day -- and a population of 17,500 houses in which not one is individually documented in anything read for this record."
+    },
+    {
+      "name": "Rancho Estates",
+      "location": "Long Beach, California",
+      "year": 1953,
+      "note": "Seven hundred houses designed by Cliff May with Chris Choate for the developer Ross Cortese, inside the larger Lakewood development, built 1953-54 from prefabricated panels: L-shaped plans, three or four bedrooms, low-pitched gable roofs with wide overhangs, clerestories and board-and-batten. May's largest tract, and the case where the custom ranch and the merchant-built ranch are the same building.",
+      "precedent": "rancho-estates-long-beach",
+      "standing": "canonical",
+      "why": "The type specimen for the designed tract ranch, which the Los Angeles Conservancy calls the largest and 'one of the highest-praised' of May's developments."
+    },
+    {
+      "name": "Sunset Magazine Headquarters",
+      "location": "Menlo Park, California",
+      "year": 1951,
+      "note": "Cliff May with the landscape architect Thomas Church, at 80 Willow Road: a two-winged building around courtyards, about 30,000 square feet, opened to the public in 1952 and occupied by the magazine that had published Western Ranch Houses with May in 1946 until 2015. Not a house, and the only building on this node that a state review body has ever assessed.",
+      "precedent": "sunset-magazine-headquarters",
+      "standing": "icon",
+      "why": "The ranch's one public monument -- the magazine that nationalised the type, housed by the designer of the type -- and the California State Historical Resources Commission determined it eligible for NOMINATION to the National Register, after which the Keeper of the National Register determined it eligible for listing under architecture, commerce and landscape architecture."
+    },
+    {
+      "name": "Lindstrom House",
+      "location": "San Diego, California",
+      "year": 1933,
+      "note": "May's second house, completed 2 February 1933 and sold fully furnished for $9,500 in cash: the same one-storey U-shaped plan as the O'Leary House, entered through a courtyard, low-slung and set very close to the street behind an almost blank wall. Every source read says it is on the National Register and not one gives a reference number.",
+      "precedent": "lindstrom-house",
+      "standing": "documentary",
+      "why": "A documented second instance of the first house's plan, by which a reader can tell which of May's moves were decisions and which were accidents -- and the earliest ranch house any government has evaluated, on the account of Save Our Heritage Organisation and of van Balgooy's article in The Journal of San Diego History."
     }
   ],
   "sources": [

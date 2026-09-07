@@ -1,0 +1,110 @@
+{
+  "id": "palace-of-the-governors",
+  "name": "Palacio de los Gobernadores (Palace of the Governors)",
+  "aka": [
+    "El Palacio Real de Santa Fe",
+    "Palace of the Governors"
+  ],
+  "location": {
+    "text": "Santa Fe, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1610-1614 (?)",
+    "circa": true,
+    "altered": "The survey records seventy-five feet of the west end collapsed in 1853, a Victorian portal added between 1866 and 1883, and a rehabilitation for museum purposes begun in 1909 under Jesse L. Nusbaum that restored the portal 'to a more primitive' form. Both style nodes' exemplar notes say the famous portal is a 1909-13 reconstruction and not colonial fabric.",
+    "note": "The 1930s survey prints 'Between 1610 and 1614. (?)' with its own question mark; the Wikipedia infobox prints 'Built 1610'; both style nodes give 1610, and the new-mexico-adobe node adds substantial construction c. 1618-25 and a 1731 rebuilding after the Pueblo Revolt. Recorded as the survey states it; nothing edited to agree."
+  },
+  "nodes": [
+    "spanish-colonial-american",
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-2",
+      "title": "El Palacio Real de Santa Fe, 105 West Palace Avenue, Santa Fe, Santa Fe County, NM",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0100/nm0109/data/nm0109data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The 1930s data page's own header prints 'HABS No. 36-NM-2' (District No. 36, Utah, Colorado and New Mexico); the addendum cover in the same PDF prints 'HABS NM-2' and the call number 'HABS NM,25-SANFE,2-'. The Library's item title gives the address as 105 West Palace Avenue where the Wikipedia infobox gives 120 Washington Avenue."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0109",
+      "url": "https://www.loc.gov/pictures/item/nm0109",
+      "title": "El Palacio Real de Santa Fe, 105 West Palace Avenue, Santa Fe ...",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Palace_of_the_Governors",
+      "title": "Palace of the Governors - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000489",
+      "url": "https://en.wikipedia.org/wiki/Palace_of_the_Governors",
+      "title": "NRHP reference No. 66000489; added October 15, 1966; designated NHL October 9, 1960; contributing property of the Santa Fe Historic District (ID73001150) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "state-register",
+      "id": "17",
+      "url": "https://en.wikipedia.org/wiki/Palace_of_the_Governors",
+      "title": "NMSRCP No. 17, designated September 29, 1972 (New Mexico State Register of Cultural Properties, as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "nm0109",
+    "register": "loc-item",
+    "survey_no": "NM-2",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0100/nm0109/data/nm0109data.pdf",
+    "prepared": "District No. 36, Utah, Colorado and New Mexico; A. Leicester Hyde, District Officer, Box 902, Santa Fe (as the header reads; no date legible in the extract). The same PDF carries a later addendum of photographs.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "EL PALACIO REAL DE SANTA FE North Side of Plaza Santa Fe, Santa Fe County New Mexico Owner: N#M, State Museum ana School of American Research. Date of Erections Between 1610 and 1614. (?) Architect and Builders No record. Present Condition; Good, Number of. Stories 1 One • Materials of Construction: Adobe.",
+        "page": "The header printed immediately before it reads 'HABS No. 36-NM-2 Page d.'; the page letter is OCR noise, most likely 1."
+      },
+      {
+        "field": "significance",
+        "text": ":hi3 famous old building served as the royal palace throughout the 6Danish occupation of the southwest and continued as the of icial residence of the Governors of ITew Kexico until 1909. I.liny historians claim that the Palace was built by Don Juan de Opiate about 1606 upon existing foundations of an old Indian house, fhere is, however, no documental evidence available to prove that Santa Fe was founded prior to 1609 when Don Pedro de .Permits was appointed Governor. We have #ood eviaence that he occupied the Palace a short time, so it is safe to assume the /alace was built bet'een 1610 and 1614.",
+        "page": "No page marker legible in the extract span; it follows the 'Page d.' header sheet."
+      },
+      {
+        "field": "other",
+        "text": "Seventy-five -feet of the west end of the Pslace collapsed in 1853 (at the time of the inauguration of Governor herriwether) . The wuartels or soldiers quarters v/hlch extended about five hundred feet north of the present \"building have entirely disappeared. A Victorian portpl was added sometime between 1BG£ and 1883. A oro;--ran for rehaoilita1 ion of the Palace for museum purposes was started in 1909 by the State of New -exioo. This program continued under the direc'tion of Jesse L. ^\"usbaum \\M-- m untII late in 191\".",
+        "page": "No page marker legible in the extract span. Two extract spans overlapped at 'present \"building have entirely disappeared. A Victorian' and are joined at the overlap, so the span is contiguous."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Stories 1 One",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "west_end_collapsed_1853_ft",
+      "as_printed": "Seventy-five -feet of the west end",
+      "value": 75,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "A length of building lost in 1853, not a dimension of the building as it stands."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026 for the spanish-colonial-american and new-mexico-adobe nodes, whose exemplar name and location strings are identical. The survey's written data is a 1930s historical sheet and states no overall dimension or wall thickness; a reader wanting figures needs the measured drawings, which this container cannot open."
+}

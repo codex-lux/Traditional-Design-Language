@@ -158,7 +158,11 @@
       "test": {
         "expression": "chimney_position",
         "direction": "one-of",
-        "set": ["gable-end-interior", "gable-end-exterior", "paired-exterior"],
+        "set": [
+          "gable-end-interior",
+          "gable-end-exterior",
+          "paired-exterior"
+        ],
         "units": "enum",
         "measurable_from": "elevation",
         "note": "Tests that chimney_position excludes interior-central, capturing 'central chimney is forbidden'. paired-exterior is the closest available vocabulary match for 'paired as interior stacks flanking the stair hall' -- the enum has no paired-interior value -- so this is a flagged approximation, not an exact test of the interior-stack claim."
@@ -201,25 +205,55 @@
       "name": "First Harrison Gray Otis House",
       "location": "141 Cambridge Street, Boston, Massachusetts",
       "year": 1796,
-      "note": "Charles Bulfinch; brick, three storeys, five bays, Palladian window above the entrance with a lunette above that."
+      "note": "Charles Bulfinch; brick, three storeys, five bays, Palladian window above the entrance with a lunette above that.",
+      "precedent": "first-harrison-gray-otis-house",
+      "standing": "icon",
+      "why": "Bulfinch, and the single building the Boston brick Federal is known by; the HABS inventory sheet states its five bays and three storeys in those words, and the federal-style node already reads it the same way."
     },
     {
       "name": "Gore Place",
       "location": "52 Gore Street, Waltham, Massachusetts",
       "year": 1806,
-      "note": "Five-part brick country house about 190 feet long with bowed oval projections; plans developed with the French architect Jacques-Guillaume Legrand."
+      "note": "Five-part brick country house about 190 feet long with bowed oval projections; plans developed with the French architect Jacques-Guillaume Legrand.",
+      "precedent": "gore-place",
+      "standing": "canonical",
+      "why": "The five-part country house, documented and open, and the National Historic Landmark statement quoted on its HABS sheet calls it 'a noteworthy example of a five-part Federal house'."
     },
     {
       "name": "Nickels-Sortwell House",
       "location": "Main and Federal Streets, Wiscasset, Maine",
       "year": 1808,
-      "note": "Built 1807-08 for shipmaster William Nickels; the fullest expression of the coastal Maine merchant Federal, with a monumental two-storey entrance frontispiece in wood."
+      "note": "Built 1807-08 for shipmaster William Nickels; the fullest expression of the coastal Maine merchant Federal, with a monumental two-storey entrance frontispiece in wood.",
+      "precedent": "nickels-sortwell-house",
+      "standing": "regional",
+      "why": "The coastal Maine merchant Federal at full stretch, and the Maine Historic Preservation Commission ties its doorway to Plate 20 of Asher Benjamin's 1806 American Builder's Companion -- one of this node's own four sources, named on the building."
     },
     {
       "name": "Ruggles House",
       "location": "146 Main Street, Columbia Falls, Maine",
       "year": 1818,
-      "note": "Built 1818-20 by housewright Aaron Sherman with carving by Alvah Peterson; the free-flying stair rises to a landing and reverses without visible support in a village of a few hundred people."
+      "note": "Built 1818-20 by housewright Aaron Sherman with carving by Alvah Peterson; the free-flying stair rises to a landing and reverses without visible support in a village of a few hundred people.",
+      "precedent": "ruggles-house",
+      "standing": "regional",
+      "why": "The Down East village Federal at the end of the carrying trade, and 'outstanding because of its craftsmanship rather than for its beauty of design' is the 1937 surveyor's own verdict on it."
+    },
+    {
+      "name": "Gardner-Pingree House",
+      "location": "128 Essex Street, Salem, Massachusetts",
+      "year": 1804,
+      "note": "Samuel McIntire for John Gardner. The brick Salem front, and the other half of this node's hearth: Bulfinch's Otis House is the Boston case and this is the Salem one. HABS recorded it as the Gardner-White-Pingree Place (MA-271) and the extractor has so far returned only the survey's cover, so no figure of its own is on the record yet.",
+      "precedent": "gardner-pingree-house",
+      "standing": "icon",
+      "why": "This node names two hearths, Boston and Salem, and one icon can only stand for one of them; this is the Salem one, and the attribution to McIntire is the standard reading the federal-style node already carries."
+    },
+    {
+      "name": "Rundlet-May House",
+      "location": "364 Middle Street, Portsmouth, New Hampshire",
+      "year": 1807,
+      "note": "Portsmouth's three-storey merchant Federal: five bays under a low hip with a wooden balustrade, four chimneys paired at the ends, clapboard rather than brick. James Rundlet's building ledger survives and puts the cost at $12,604.47, more than half of it labour and board, with as many as eighteen men on site.",
+      "precedent": "rundlet-may-house",
+      "standing": "documentary",
+      "why": "There is no HABS survey and it is carried for the ledger instead: the house's own interpretive site, reading the surviving ledger labelled 'Building House 1806-1809', calls it 'perhaps one of the best documented houses in terms of knowing how the laborers worked, what materials they used and how much the materials cost; right down to the cost of nails', and a construction account is worth more to this node than another photograph."
     }
   ],
   "sources": [

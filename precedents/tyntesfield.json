@@ -1,0 +1,116 @@
+{
+  "id": "tyntesfield",
+  "name": "Tyntesfield",
+  "aka": [
+    "Tyntesfield House, Servants' Wing and Chapel"
+  ],
+  "location": {
+    "text": "Wraxall, Somerset, England",
+    "country": "United Kingdom",
+    "state": "North Somerset"
+  },
+  "dates": {
+    "built": "1813",
+    "altered": "Extensively remodelled 1863-66 by John Norton for William Gibbs; altered 1885-89 by Henry Woodyer; chapel 1873-75 by Arthur Blomfield; further alterations c. 1890.",
+    "note": "The list entry dates the remodelling 1863-66; the node's exemplar carries the year 1865 and its own note says 'Remodelled 1863-65'. The Wikipedia article says the house was made a Grade II* listed building in 1973 and has since been upgraded to Grade I; the entry as read today prints 'GV I'. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1129053",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1129053",
+      "title": "Tyntesfield House, Servants Wing and Chapel, Wraxall and Failand - 1129053 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text's own header block reads '121/4/194 TYNTESFIELD PARK 24-APR-1973 TYNTESFIELD HOUSE, SERVANTS' WING AND CHAPEL GV I', which carries the date first listed and the grade. The entry's Sources block cites Girouard's The Victorian Country House (1971), Pevsner's North Somerset and Bristol (1958), The Builder of 10 February 1866 and Country Life of 17 May 1902."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000570",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000570",
+      "title": "Tyntesfield, Wraxall and Failand - 1000570 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park and garden entry, which also describes the house: it locates Tyntesfield on an artificially levelled terrace, gives ashlar under Cotswold stone, slate and lead roofs, calls the style asymmetrical Perpendicular Gothic, and records that the tall pinnacled entrance tower with its high pyramidal roof was removed in the early C20."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Tyntesfield",
+      "title": "Tyntesfield - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "It says the house is built of two types of Bath stone, which the list entry does not say -- the entry says only 'Ashlar'. The two are compatible and neither is preferred here."
+    }
+  ],
+  "survey": {
+    "item": "1129053",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1129053",
+    "prepared": "Date first listed: 24 April 1973, as the entry's own Details header prints it ('121/4/194 TYNTESFIELD PARK 24-APR-1973').",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Large country house. Built 1813 for John Seymour. Extensively remodelled 1863-66 by John Norton for William Gibbs; altered 1885-89 by Henry Woodyer; chapel, 1873-75 by Arthur Blomfield, further alterations c. 1890. Ashlar; Cotswold stone slate, plain tiled and lead roofs; ashlar octagonal stacks on tall bases. Irregular and asymmetrical in the High Victorian Gothic Revival style.",
+        "page": "Official list entry, Details section, MATERIALS and opening paragraph (List Entry Number 1129053)."
+      },
+      {
+        "field": "bays",
+        "text": "The south elevation is an asymmetrical but balanced composition with the core of the older house as a 3 bay central section of 3 storeys. The centre is advanced and has a 3 storey canted bay of 1:4:1 light cross windows with cusped heads, bands of quatrefoils above; thin octagonal corner turrets; panelled parapet with a tall, central 2-light attic window",
+        "page": "Official list entry, Details section, south elevation paragraph; the extracted span continues 'steeply pitched, pyramidal lead roof with ornamental'."
+      },
+      {
+        "field": "porches",
+        "text": "The veranda extends, for 3 large 4-centred arches and 2 small pointed arches, in front of the single storey drawing room wing. This wing has an arcaded parapet, 3-light windows with cusped ogee heads and buttresses terminating in pinnacle. The arches of the veranda are supported on clustered granite columns; open arcading in the spandrels; double row of quatrefoils to the parapet.",
+        "page": "Official list entry, Details section, veranda and drawing room wing."
+      },
+      {
+        "field": "general_description",
+        "text": "The east elevation begins with the gable end of the library: canted bay of 2:4:2 lights, cusped tracery, and a pierced quatrefoil parapet with pinnacles. Central part is 3-storeys and attics in 4 gables with cusped lancet windows: three 2 storey bay windows of 1:3:1 light cross windows with cusped ogee heads and a pierced quatrefoil parapet (1885).",
+        "page": "Official list entry, Details section, east elevation paragraph."
+      },
+      {
+        "field": "finishes",
+        "text": "INTERIOR retains a remarkable number of its original fixtures and fittings by Crace, Norton, Blomfield and Woodyer. The porch and entrance corridor have stone vaulted roofs, panelled doors and Minton tiled floors.",
+        "page": "Official list entry, Details section, INTERIOR paragraph; returned only by the second extract."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "a 3 bay central section of 3 storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The south elevation's central section, which is the core of the 1813 house; the drawing room and library wings are single storey."
+    },
+    {
+      "name": "central_section_bay_count",
+      "as_printed": "a 3 bay central section",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "east_elevation_gable_count",
+      "as_printed": "3-storeys and attics in 4 gables",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "veranda_arch_count",
+      "as_printed": "3 large 4-centred arches and 2 small pointed arches",
+      "from_quote": 2,
+      "note": "Two counts of two different arches in one clause; no single value is parsed."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1129053",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Two Historic England entries cover this place, the listed building (1129053) and the registered park and garden (1000570), and both describe the house; the listed-building entry is the survey block and the park entry is carried as a second locator because it states the lost entrance tower, which a photograph of the house before 1900 will show and the survey block does not mention. The window rhythms the entry prints -- 1:4:1, 2:4:2, 1:3:1 -- are the closest thing to a proportional statement anywhere in this cluster's evidence."
+}

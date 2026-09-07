@@ -1,0 +1,48 @@
+{
+  "id": "lobero-theatre",
+  "name": "Lobero Theatre",
+  "location": {
+    "text": "33 East Canon Perdido Street, Santa Barbara, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "33 E Canon Perdido St, Santa Barbara, California"
+    ]
+  },
+  "dates": {
+    "built": "1922-1924",
+    "circa": false,
+    "altered": "Renovated again in 2013 (Wikipedia infobox: 'Renovated 1922-24, 2013').",
+    "note": "The Wikipedia infobox prints 'Opened February 22, 1873' for the ORIGINAL Lobero opera house on the site and 'Renovated 1922-24' for the building that stands; the article says 'The new Lobero Theatre opened in August 1924. Constructed on the site of the original opera house'. `built` records the George Washington Smith building, not the 1873 house it replaced."
+  },
+  "nodes": [
+    "andalusian-spanish-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lobero_Theatre",
+      "title": "Lobero Theatre - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'the building incorporated elements associated with Spanish Colonial Revival architecture, including stucco walls, tiled roofs, arched openings, wrought-iron detailing, and an intimate courtyard-oriented design.' Architects given as George Washington Smith and Lutah Maria Riggs; capacity 604."
+    },
+    {
+      "kind": "state-register",
+      "id": "361",
+      "url": "https://en.wikipedia.org/wiki/Lobero_Theatre",
+      "title": "California Historical Landmark, reference no. 361 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://pcad.lib.washington.edu/firm/438",
+      "title": "PCAD - Smith, George Washington, Architect",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carries the contemporary trade record of the second Lobero's plans: '\"Lobero Theatre #2 Plans, Santa Barbara\", Southwest Builder & Contractor, 42, col 1, 10/26/1923' and '\"Lobero Theatre #2, Santa Barbara plans 11/9/1923\", Southwest Builder & Contractor, 46, col 2, 11/9/1923.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the building that put Smith's manner on a public street a year before the earthquake — the article ties its August 1924 reopening to Santa Barbara's first Old Spanish Days Fiesta and to 'the city's emerging Spanish Colonial Revival identity'. It carries a state landmark number and no National Register number in the source read, and no survey; nothing further is asserted."
+}

@@ -1,0 +1,121 @@
+{
+  "id": "holkham-hall",
+  "name": "Holkham Hall",
+  "location": {
+    "text": "Norfolk, England",
+    "country": "United Kingdom",
+    "state": "Norfolk"
+  },
+  "dates": {
+    "built": "1734-1764",
+    "circa": false,
+    "note": "The listed-building entry says 'Begun 1734, published 1761, finished 1764'. The node's own exemplar gives 1764 as the year and says 'Built 1734-64'; the two agree. The register attributes the design to 'William Kent, executed and completed by Matthew Brettingham the Elder' and the parks entry adds that it 'came out of a collaboration between Thomas Coke, Lord Burlington, and William Kent', which is the node's own account."
+  },
+  "nodes": [
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1373659",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1373659",
+      "title": "Holkham Hall, Holkham - 1373659 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details header prints '30.11.51'; a search result's Overview block prints 'Date first listed: 30-Nov-1951', and the Wikipedia article for Holkham Hall cites 'Holkham Hall (Grade I) (1373659)'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000461",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000461",
+      "title": "Holkham Hall, Holkham - 1000461 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, Grade I. Read in a tavily-search result and not extracted, so nothing is quoted from it; it independently describes the house as 'built of Holkham gault brick of exceptional quality with slate roofs ... arranged as a Palladian villa on an enlarged scale with a rusticated ground floor, a single main floor above the rustic, and four low wings or pavilions, one on each corner'."
+    }
+  ],
+  "survey": {
+    "item": "1373659",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1373659",
+    "prepared": "Historic England's National Heritage List entry; the Details header prints 'HOLKHAM HOLKHAM PARK TF 84SE 5/32 Holkham Hall 30.11.51 G.V. I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "HOLKHAM HOLKHAM PARK TF 84SE 5/32 Holkham Hall 30.11.51 G.V. I Mansion. Begun 1734, published 1761, finished 1764, the seat of Thomas Coke, later First Earl of Leicester, Designed to reflect his taste as a Grand Tourist. By William Kent, executed and completed by Matthew Brettingham the Elder. Holkham gault brick of exceptional quality. Slate roofs. Central block with 4 wings divided by internal courtyards. Arranged as a Palladian villa on enlarged scale, with references in towered central block to Inigo Jones's Wilton House. N front: rusticated ground floor, 3 by pedimented central block with central Venetian window recessed under brick semi-circular arch; 2 pedimented windows. Two flanking bays",
+        "page": "Official list entry 1373659, Details, header, opening paragraph and north front; the span ends where the extract's chunk ends, mid-sentence"
+      },
+      {
+        "field": "porches",
+        "text": "and tower bays with similar Venetian window. Cornice, entablature recessed off ridge. Towers with external storey and hipped roofs. Stacks recessed off ridge. C19 plate glass to all windows on N Garden front (S) with rusticated ground floor. Central hexastyle Corinthian portico, entablature with pediment, with six round- headed windows, two pedimented windows either side and single Venetian window, without superimposed arch, to towers. The glazing bars on this front have been reinstated. At four comers two storey link blocks to four wings containing chapel, kitchen, guest wing and private family wing. Each wing has identical elevations: rusticated ground floor, 2 1/2 storey central block of 3 bays, 2 storey",
+        "page": "Official list entry 1373659, Details, north front continued and garden front; the span begins and ends where the extract's chunk does, mid-sentence at both ends. 'round- headed' and 'comers' are the register's own line wrap and its own typographical error for 'corners', left as printed"
+      },
+      {
+        "field": "chimneys",
+        "text": "flanking blocks of one bay, each pedimented. Each has 4 prominent eaves stacks to central block and subsidiary stacks to flanking blocks.",
+        "page": "Official list entry 1373659, Details, wings; this span begins where the extract's next chunk begins"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: the central block arranged as suite of rooms of parade on piano-nobile. Central Stone Hall, an evocation of the Vitruvian so-called Egyptian Hall and of the apsed and aisled antique basilica, with alabaster facings, a rich Ionic Order from the Temple of Fortuna Virilis, Rome; coffered cove and compartmented ceiling. To West the North Dining Room, the Sculpture gallery with Octagon rooms at N and S, and on axis with the Stone Hall the Drawing Room with a deep cofferet vault. Further Rooms of Parade to South.",
+        "page": "Official list entry 1373659, Details, Interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "wing_count",
+      "as_printed": "Central block with 4 wings divided by internal courtyards",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "north_front_centre_bay_count",
+      "as_printed": "3 by pedimented central block",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The entry prints '3 by pedimented central block', which reads as a three-bay pedimented centre; the 'by' is unexplained and may be legacy-data noise."
+    },
+    {
+      "name": "garden_portico_column_count",
+      "as_printed": "Central hexastyle Corinthian portico",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A READING: hexastyle is six columns. The entry states the word and not the number."
+    },
+    {
+      "name": "portico_window_count",
+      "as_printed": "with six round- headed windows",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "wing_central_block_storey_count",
+      "as_printed": "2 1/2 storey central block of 3 bays",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "wing_central_block_bay_count",
+      "as_printed": "2 1/2 storey central block of 3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "wing_eaves_stack_count",
+      "as_printed": "4 prominent eaves stacks to central block",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. The one thing this entry states that the node's own prose does not is the STOREY REGIME: 'rusticated ground floor' under a piano nobile of 'rooms of parade', with the four wings at 2 1/2 storeys over their own rusticated ground floor -- which is the arrangement `english-palladian`'s `height_proportion` slot bands in feet (basement 8.9-11.5, piano nobile 14.75-19.7) and the register gives in storeys and no figure. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

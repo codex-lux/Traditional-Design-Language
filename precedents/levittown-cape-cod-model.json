@@ -1,0 +1,53 @@
+{
+  "id": "levittown-cape-cod-model",
+  "name": "Levittown Cape Cod model",
+  "record_kind": "type-model",
+  "location": {
+    "text": "Levittown, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1947-1951",
+    "circa": false,
+    "note": "Three counts of the development and none edited: Wikipedia's Levitt & Sons article says the company 'broke ground on the $50 million development of Levittown' on 1 July 1947 and that it 'ultimately included 17,500 homes'; its Levittown article says '17,000 units were sold'; a Keri Murray Architecture note says '17,447 homes were constructed in Levittown between 1947 and 1951'. Sales began in March 1947 (Wikipedia)."
+  },
+  "nodes": [
+    "cape-cod-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Levitt_%26_Sons",
+      "title": "Levitt & Sons - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The houses, which were in the Cape Cod and ranch house styles, sat on a quarter-acre (0.09 ha) lot. They had 750 square feet (70 m2) with two bedrooms, a living room with a television and a kitchen with modern appliances, an unfinished second floor and no garage.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Levittown",
+      "title": "Levittown - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The houses were, by later standards, quite small: 750 sq ft (70 m2), with no basement or porch.' and 'The first Levittown house sold for $7,900, and in a short period of time 17,000 units were sold, providing homes for 84,000 people.' and 'Sales in the original Levittown began in March 1947. 1,400 houses were purchased during the first three hours.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://papers.cumincad.org/data/works/att/acadia06_426.content.pdf",
+      "title": "Richard Garber and Nicole Robertson, 'The Pleated Cape: From the Mass-Standardization of Levittown to Mass Customization Today', ACADIA 2006, p. 426",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The original Levittown houses of 1947 were in the Cape Code style. Each house measured 750sf and included two bedrooms, living room, kitchen, dining, and one bathroom. The houses had no garage, no basement, and an unfinished second floor (Figure 2). While the floor plans were the same, variation was introduced through the choice of five exterior styles.' A refereed conference paper; the '[Cape] Code' is its own typographical error."
+    },
+    {
+      "kind": "other",
+      "url": "https://kerimurrayarchitecture.com/levittown-ny",
+      "title": "FUN FACT: LEVITTOWN, NY | Keri Murray Architecture",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Cape Cod model: The 750-square-foot Cape Cods featured two bedrooms, one bath, a kitchen, a living room and a staircase to an unfinished attic. There were slight external differences. Homebuyers could choose from one of five colors and one of five window-arrangement patterns.' It also prints 'The Rancher model: Larger, 32 by 25 feet' -- see this record's note, because that figure belongs to the ranch and not to the Cape."
+    }
+  ],
+  "note": "A MODEL rather than a single building, on the precedent of `sears-modern-homes`, which records a product line under the same rule and says so. THE TRAP WORTH RECORDING: the only plan dimensions any source read here states -- '32 by 25 feet' -- describe the RANCHER, not the Cape, and appear one paragraph away from the Cape's description on the same page. The only figure that is the Cape's is its 750 square feet of floor area, given by four independent sources; no width, depth or roof pitch for the Cape model was found, so none is recorded and there is no `measurements` block. No HABS survey exists and no National Register listing for the Cape Cod model was found; the neighbouring exemplars 'Levittown' (minimal-traditional) and 'Levittown ranch model' (ranch-style) are different subjects on other nodes and are deliberately not merged into this record."
+}

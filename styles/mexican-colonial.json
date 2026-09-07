@@ -218,25 +218,55 @@
       "name": "Casa de Montejo",
       "location": "Merida, Yucatan, Mexico",
       "year": 1549,
-      "note": "1542-1549; the earliest surviving substantial domestic facade in Mexico, with a Plateresque portada carved by Maya masons — including the notorious conquistadores standing on severed heads."
+      "note": "1542-1549; the earliest surviving substantial domestic facade in Mexico, with a Plateresque portada carved by Maya masons — including the notorious conquistadores standing on severed heads.",
+      "precedent": "casa-de-montejo",
+      "standing": "icon",
+      "why": "The earliest surviving substantial domestic front in Mexico, its INAH monument code and its 1542-1549 dates printed together in one record; the same record warns that an owner modernised the facade after 1914, which is why the standing rests on the building's date and not on the photograph."
     },
     {
       "name": "Convento de San Nicolas de Tolentino",
       "location": "Actopan, Hidalgo, Mexico",
       "year": 1573,
-      "note": "1546-1573; Augustinian, with an intact walled atrio, one of the largest surviving open chapels, and a fully frescoed stair."
+      "note": "1546-1573; Augustinian, with an intact walled atrio, one of the largest surviving open chapels, and a fully frescoed stair.",
+      "precedent": "convento-de-san-nicolas-de-tolentino-actopan",
+      "standing": "canonical",
+      "why": "The one exemplar in this node whose atrio, nave and tower are all dimensioned by a source, which is what a type specimen has to be; declared a national historic and artistic monument by decree of 2 February 1933."
     },
     {
       "name": "Casa del Dean",
       "location": "Puebla, Mexico",
       "year": 1580,
-      "note": "c. 1580; the oldest surviving house in Puebla, with a Renaissance portada and two rooms of indigenous-painted mural cycles."
+      "note": "c. 1580; the oldest surviving house in Puebla, with a Renaissance portada and two rooms of indigenous-painted mural cycles.",
+      "precedent": "casa-del-dean-puebla",
+      "standing": "documentary",
+      "why": "A fragment rather than a house: its own source says only the front, the zaguan, the entrance room, the patio, the stair and four rooms survive the 1953 demolition, so it is read rather than measured."
     },
     {
       "name": "Casa de los Azulejos",
       "location": "Mexico City, Mexico",
       "year": 1737,
-      "note": "16th-century house whose facade was clad in Puebla talavera tile in 1737; the fullest surviving demonstration of tile used as a whole-facade field rather than as a dado."
+      "note": "16th-century house whose facade was clad in Puebla talavera tile in 1737; the fullest surviving demonstration of tile used as a whole-facade field rather than as a dado.",
+      "precedent": "casa-de-los-azulejos",
+      "standing": "icon",
+      "why": "Its own source calls the tile field 'una de las más bellas joyas de la arquitectura civil del barroco novohispano' -- an attribution the article makes and this project repeats rather than makes; note the same source gives no date at all for the tiling this node dates 1737."
+    },
+    {
+      "name": "Convento de San Miguel Arcangel",
+      "location": "Huejotzingo, Puebla, Mexico",
+      "year": 1570,
+      "note": "1525-1570, begun under fray Juan de Alameda and finished by Toribio de Alcaraz; a walled atrio of 14,400 m2 with a stone cross at its centre and four posa chapels 5.5 m square at its corners. UNESCO component 702-013 of the Popocatepetl monasteries.",
+      "precedent": "convento-de-san-miguel-arcangel-huejotzingo",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 because it supplies the two dimensions this node's founding claim depends on and the corpus had neither -- the size of an atrio and the size of a posa chapel."
+    },
+    {
+      "name": "Santa Maria Tonantzintla",
+      "location": "Cholula, Puebla, Mexico",
+      "year": null,
+      "note": "c. 1730-1790; a tiled exterior over an interior whose every surface, dome and ceiling included, is covered in polychrome plaster relief carrying American plants and figures in feather headdresses.",
+      "precedent": "santa-maria-tonantzintla",
+      "standing": "icon",
+      "why": "Added by Tranche 3 because this node's own prose names it twice as the clearest case of indigenous-built and indigenous-decorated work; the record also states that the evidence for it is the weakest in this cluster and that the one source found hedges the attribution in the conditional."
     }
   ],
   "sources": [

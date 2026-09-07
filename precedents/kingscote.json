@@ -1,0 +1,161 @@
+{
+  "id": "kingscote",
+  "name": "Kingscote",
+  "aka": [
+    "George Jones-William H. King House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1839-1841",
+    "circa": false,
+    "altered": "Dining room addition of 1880-1881 by Stanford White for McKim, Mead & White; the Library's item record also carries '1876 Subsequent Work' and '1893 Subsequent Work'.",
+    "note": "The Library's item record prints '1839-1841 Initial Construction'; the survey's own cover says the house 'was begun in 1839'; the Wikipedia infobox prints 'Built 1839'. The node's own exemplars give 1839. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "gothic-revival-american",
+    "rural-gothic-villa",
+    "romantic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-307",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0060/data/ri0060data.pdf",
+      "title": "Kingscote, Bellevue Avenue & Bowery Street, Newport, Newport County, RI",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own cover header ('HISTORIC AMERICAS BUILDINGS SURVEY \"KINGSCOTE\" (George Jones-William H. King House) HABS No. RI-307') and again, OCR-mangled to 'HAES No. RI-3C^', in the running header of page 7. The Library's item record confirms it as 'HABS RI-307'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0060",
+      "url": "https://www.loc.gov/pictures/item/ri0060/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "73000058",
+      "url": "https://www.loc.gov/pictures/item/ri0060/",
+      "title": "National Register of Historic Places NRIS Number 73000058 (as the Library's item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia infobox gives the same number, with 'Added to NRHP May 17, 1973' and 'Designated NHL June 19, 1996'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kingscote_(mansion)",
+      "title": "Kingscote (mansion) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ri0060",
+    "register": "loc-item",
+    "survey_no": "RI-307",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0060/data/ri0060data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "This house was begun in 1839 for George Jones of Savannah. It was acquired in 1863 \"by William King who named it Kings-cote, and the house remains in the King family. The orig-inal Gothic revival house was designed by Richard Upjohn, and the dining room addition of l880-l88l, one of the finest rooms of the period, was designed by Stanford White.",
+        "page": "HABS No. RI-307, cover sheet; no numbered page marker was legible in this extract span"
+      },
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: A key example of Gothic Revival domestic architecture in America, the house is an important work of Richard Upjohn. The dining room addition of l880-l88l by Stanford White Is one of the finest interiors done in his early style.",
+        "page": "HABS No. RI-307, Part II.A.1; no numbered page marker was legible in this extract span"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: Large irregular plan; original house one-and-a-half and two-and-a-half stories: 1880-1881 addition two-and-a-half and three stories.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: There are large cut granite blocks at the south and east sides. Random ashlar walls at the north and west show on the outside. Stone foundations show in the cellar except for poured concrete foundations in the new laundry wing at the rear.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "walls",
+        "text": "3- Wall construction: The frame wall construction is covered by five inch wide ship-lap matched siding. Dining room addition has matched siding, five to eight inch widths on lower story and wooden shingles above. The house is painted grey with mold-ings picked out in red and black, probably the original color scheme.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "structural_system",
+        "text": "h. Structural system, framing: The heavy timber frame is mortised and tenoned.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: There are four plastered brick chimneys with separate stacks on the original portion of the house. Two tall brick chimneys top the addition of l880-l88l.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "openings",
+        "text": "6. Openings: a. Doorways: The main entrance on the south is centered in a wide entrance porch. The Tudor arched doorway has a two leaf door with tracery patterned paneling. b. Windows: Generally paired casement windows under label moldings, some with diamond patterned millions. There is colored glass in some windows, notably the Tiffany windows in the new dining room.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "roof",
+        "text": "7- Roof: The steeply pitched roofs are intersected ~by numerous gables on the lower portions of the house. Higher roofs are hipped with lower pitches.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "cornice",
+        "text": "The open eaves have elabo-rately sawn eave boards with pendants, barge boards, and shaped finials at the gable peaks.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "porches",
+        "text": "8. Porches, stoops, and bulkheads: A one story porch on the east side opens to the double parlors through four French doors. The five wooden columns are quatrefoil in section. A cove roof with sawn pendant eaves and Gothic moldings decorates;-the porch. The entrance porch has three stone steps. The two service en-trance porches have three steps.",
+        "page": "HABS No. RI-307, Part II.B; the nearest page marker printed in the extract reads '\"KIHGSCOTE\" {George Jcnes-William H. King House) HAES No. RI-3C^ (Page-7)'"
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior: 1. Floor plan: The entrance hall is divided by a Gothic archway with two columns that separate the vestibule from the stairhall.",
+        "page": "HABS No. RI-307 (Page 7); this span follows the page-7 running header directly in the extract"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "original house one-and-a-half and two-and-a-half stories",
+      "from_quote": 2,
+      "note": "The survey states two storey heights for the original house rather than one, and a third and a fourth for the 1880-1881 addition. No single value is parsed."
+    },
+    {
+      "name": "siding_exposure_in",
+      "as_printed": "five inch wide ship-lap matched siding",
+      "value": 5,
+      "unit": "in",
+      "from_quote": 4
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four plastered brick chimneys with separate stacks",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "On the original portion only; the same sentence adds 'Two tall brick chimneys top the addition of l880-l88l', so the building as standing carries six."
+    },
+    {
+      "name": "porch_column_count",
+      "as_printed": "The five wooden columns are quatrefoil in section",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 10
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ri0060/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Shared by two nodes at one location string. The data page was extracted twice with different queries; the second pass returned the cover and the significance statement, which the first did not. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

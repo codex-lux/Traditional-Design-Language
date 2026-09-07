@@ -51,8 +51,10 @@ def _named(assets):
 
 
 def test_the_checker_passes_on_the_corpus_as_committed():
-    """The state this guard was added in: 786 names, every one traceable. If this fails, a name
-    was added that no node's exemplars record -- fix the name, never the check."""
+    """Every building name in the manifest traces to an exemplar of a node the record depicts.
+    If this fails, a name was added that no node's exemplars record -- fix the name, never the
+    check. No count here: it read 786 when the guard was added and 858 after WP-11.6, and
+    `check_counts.computed()` owns `image_building_named`."""
     proc = subprocess.run([sys.executable, os.path.join(ROOT, "build", "check_assets.py")],
                           capture_output=True, text=True, cwd=ROOT)
     assert proc.returncode == 0, proc.stdout + proc.stderr
@@ -182,16 +184,31 @@ def test_deleting_the_provenance_block_is_caught(assets, tmp_path):
         "tests are not bound to the block they claim to guard", proc.stdout)
 
 
-def test_the_residual_is_seventy_two_and_may_only_fall():
-    """What is LEFT offline, pinned so it cannot grow and so a session cannot claim the work is
-    open when a dry run assigns zero. These 72 depict higher-rank nodes that record no exemplars;
-    naming them needs sources this container cannot reach, or a ruling that a child's exemplar may
-    stand for its parent. A ceiling, not a target."""
+def test_no_record_is_left_unnamed_for_want_of_an_exemplar():
+    """THE RESIDUAL IS ZERO AND THE PIN IS TIGHT AT ZERO. It was 72 -- records depicting
+    higher-rank nodes that recorded no exemplars, which WP-4.4 could not name offline. This test
+    asked for `<= 72` and, because the reason line only prints when the count is non-zero, ALSO
+    asserted the line existed; when WP-11.6 took the count to zero the ceiling was satisfied and
+    the test failed on its own scaffolding.
+
+    The docstring said naming them needed "sources this container cannot reach, or a ruling that a
+    child's exemplar may stand for its parent". That ruling arrived -- Ruling B, 5 Sep 2026 -- and
+    was executed: every family carries type specimens derived from its members' icons, so the 18
+    nodes had exemplars to deal from and `name_asset_buildings.py` named all 72 on the first run.
+    Kept in the past tense rather than left as advice for a decision nobody can make again.
+
+    A ceiling that has reached its floor is pinned tight, as `exemplars_unresearched` is. A node
+    whose asset records depict it and whose family carries no specimens goes red here, which is
+    the signal wanted -- and the remedy is one command, `build/family_specimens.py --apply`."""
     proc = subprocess.run(
         [sys.executable, os.path.join(ROOT, "build", "name_asset_buildings.py")],
         capture_output=True, text=True, cwd=ROOT)
     assert proc.returncode == 0, proc.stderr
     assert proc.stdout.startswith("0 record(s) would gain a building"), proc.stdout
+    # The bucket is printed only when non-empty, so its ABSENCE is the zero. Read it that way
+    # rather than requiring the line, which is exactly how this test came to fail on success.
     residual = [l for l in proc.stdout.splitlines() if "records no exemplars" in l]
-    assert residual, proc.stdout
-    assert int(residual[0].split()[0]) <= 72, proc.stdout
+    assert not residual, proc.stdout
+    # Non-vacuity: the reason breakdown must be there at all, or a program that printed nothing
+    # after its first line would satisfy the assertion above by saying nothing.
+    assert "still unnamed, by reason:" in proc.stdout, proc.stdout

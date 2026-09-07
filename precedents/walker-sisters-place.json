@@ -1,0 +1,67 @@
+{
+  "id": "walker-sisters-place",
+  "name": "Walker Sisters Place",
+  "aka": [
+    "King-Walker Place",
+    "Walker Cabin",
+    "Walker Family Farm"
+  ],
+  "location": {
+    "text": "Little Greenbrier, Great Smoky Mountains National Park, Sevier County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1840s, 1850s, 1870s",
+    "circa": true,
+    "note": "As the Wikipedia infobox prints it. The article: 'part of the Walker Cabin was built in the 1840s (this section later became the cabin's kitchen) ... the present cabin is mostly the work of Wiley King (1800-1859)'; the park's structure list prints 1859. Nothing read here narrows it."
+  },
+  "nodes": [
+    "log-vernacular-american",
+    "appalachian-log-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-121",
+      "url": "https://www.loc.gov/resource/hhh.tn0124.photos?st=image",
+      "title": "1. ENTRANCE TO THE WALKER FARM - Walker Family Farm (General views), Gatlinburg, Sevier County, TN | Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "HABS records the farm as 'Walker Family Farm' with lettered sub-records: the search results list 'Walker Family Farm, Big House ... Photos from Survey HABS TN-121-A', 'Walker Family Farm, Corn Crib ... HABS TN-121-C' (item tn0191) and 'Walker Family Farm, Springhouse' (item tn0192). The Big House's own item id was not read, so the cabin's photographs are cited through the general-views record and no data page was fetched."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0124",
+      "url": "https://www.loc.gov/resource/hhh.tn0124.photos?st=image",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The general-views item, read from the resource path the search returned."
+    },
+    {
+      "kind": "nrhp",
+      "id": "76000169",
+      "url": "https://en.wikipedia.org/wiki/Walker_Sisters_Place",
+      "title": "NRHP reference No. 76000169; added March 16, 1976 (as the Wikipedia infobox prints it, under the name King-Walker Place)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Walker_Sisters_Place",
+      "title": "Walker Sisters Place - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/grsm/learn/historyculture/walker-sisters.htm",
+      "title": "The Walker Sisters - Great Smoky Mountains National Park (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'The house was made of logs from tulip-poplars, insulated with mud and rock.'"
+    }
+  ],
+  "note": "Named exactly as the appalachian-log-house node already names it, so that node can join this record. Seeded 4 Sep 2026."
+}

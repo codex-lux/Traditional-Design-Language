@@ -1,0 +1,40 @@
+{
+  "id": "jackling-house",
+  "name": "Jackling House",
+  "aka": [
+    "Daniel C. Jackling House"
+  ],
+  "location": {
+    "text": "Woodside, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1925",
+    "circa": false,
+    "altered": "Demolished February 2011 (Wikipedia infobox: 'Demolished | February 2011').",
+    "note": "The Wikipedia infobox prints 'Opened 1925' and the list of George Washington Smith's works in the same encyclopaedia prints 'Jackling House, Woodside, 1925'; the style node's exemplar carries 1926. Both recorded; the exemplar's year was NOT changed."
+  },
+  "nodes": [
+    "andalusian-spanish-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Jackling_House",
+      "title": "Jackling House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox gives 'Architectural style Spanish Colonial Revival', 'Other dimensions 17,250 square feet (1,603 m2)', 'Floor count 2', 'Grounds 6 acres (2.4 ha)', 'Owner Steve Jobs (1984–2011)'."
+    },
+    {
+      "kind": "other",
+      "url": "https://pcad.lib.washington.edu/person/305",
+      "title": "PCAD - George Washington Smith",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Pacific Coast Architecture Database's bibliography for Smith lists the house's own publication record: '\"Jackling House, Woodside\", California Arts and Architecture, 19, 6/1934' and the monograph entry 'Jackling House, Woodside, California\", George Washington Smith: Architect of the Spanish Colonial Revival, 159, 2005.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. A demolished house carries no survey and no register listing; the locators that exist are the encyclopaedia entry and the architectural databases, and that is all this record asserts. The floor area of 17,250 sq ft, the two storeys and the six acres are quoted inside a ref note rather than carried as `measurements`, because measurements index survey quotes and there is no survey here. This is the node's evidence-only case: it can be read but not visited or measured."
+}

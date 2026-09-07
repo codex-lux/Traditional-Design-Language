@@ -1,0 +1,94 @@
+{
+  "id": "val-de-grace",
+  "name": "Val-de-Grace",
+  "aka": [
+    "Abbaye du Val-de-Grâce",
+    "Église Notre-Dame du Val-de-Grâce",
+    "Ancienne abbaye du Val-de-Grâce, puis hôpital militaire"
+  ],
+  "location": {
+    "text": "Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1623-1666 (the span of the campaign years the Mérimée notice prints)",
+    "circa": true,
+    "altered": "The abbey became a military hospital after the Revolution; fr.wikipedia records that 'le règlement du 30 floréal an IV (19 mai 1796) la transforme en hôpital d'instruction' and that the hospital moved out of the conventual buildings into a new building by André Chatelin in 1979.",
+    "note": "The Mérimée notice prints 'Année(s) de(s) campagne(s) de construction 1623 ; 1645 ; 1655 ; 1666' and states no single build date. 1645 is the year usually given for the church, and the notice does not say so."
+  },
+  "nodes": [
+    "french-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088392",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088392",
+      "title": "Ancienne abbaye du Val-de-Grâce, puis hôpital militaire",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Nature de la protection de l'édifice classé MH partiellement' and names six authors. The reference was read from the fr.wikipedia list of monuments historiques of the 5th arrondissement, which prints 'Abbaye du Val-de-Grâce | place Alphonse-Laveran | « PA00088392 » | Classé | 1964 1990'."
+    },
+    {
+      "kind": "merimee",
+      "id": "PA00088471",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088471",
+      "title": "Pavillon sud bordant la cour d'honneur de l'église du Val-de-Grâce",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A second, separate listing for the south pavilion of the church's cour d'honneur, classed 1996; read from the same list page and carried as a locator only."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Val-de-Gr%C3%A2ce",
+      "title": "Hôpital d'instruction des armées du Val-de-Grâce — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read for the later history; it states the abbey 'comprend aujourd'hui l'église Notre-Dame du Val-de-Grâce (conçue par François Mansart et réalisée par Jacques Lemercier)'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088392",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088392",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1623 ; 1645 ; 1655 ; 1666",
+        "page": "Notice Mérimée PA00088392, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Mansart François (architecte) ; Le Mercier ; ou ; Lemercier (architecte) ; Le Muet Pierre (architecte) ; Le Duc (maître de l'oeuvre) ; Mignard Pierre (peintre) ; Anguier Michel (sculpteur)",
+        "page": "Notice Mérimée PA00088392, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "general_description",
+        "text": "Siècle de campagne principale de construction 17e siècle ; 18e siècle",
+        "page": "Notice Mérimée PA00088392, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_campaign_count",
+      "as_printed": "1623 ; 1645 ; 1655 ; 1666",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "named_author_count",
+      "as_printed": "Mansart François (architecte) ; Le Mercier ; ou ; Lemercier (architecte) ; Le Muet Pierre (architecte) ; Le Duc (maître de l'oeuvre)",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Four ARCHITECTS or maîtres d'oeuvre, counted from the author field with the painter and the sculptor excluded. The notice's own 'Le Mercier ; ou ; Lemercier' is one man under two spellings and is counted once; that reading is this record's, not the register's."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. Carried for this node because the corpus's own account of the Dôme des Invalides places it at the end of a Parisian sequence of domed churches, and the Val-de-Grâce is the middle term. The register states four campaign years, six names and no architecture: no material, no dimension, no order, no dome diameter. No rights line was read, so no `rights_evidence`."
+}

@@ -1,0 +1,78 @@
+{
+  "id": "indian-valley",
+  "name": "Indian Valley",
+  "aka": [
+    "The Anderson Place"
+  ],
+  "location": {
+    "text": "Geneva, Henderson County, Kentucky",
+    "country": "United States",
+    "state": "Kentucky"
+  },
+  "dates": {
+    "built": "1840s",
+    "circa": true,
+    "altered": "The surveyor found the fabric 'Bad' and records the avenue of locust trees, the curved yard fence and the piazza round the 'Island Room' as all destroyed by the time of the survey.",
+    "note": "The survey's own form prints 'Date built: (approx) In the 184-0 s.' -- 1840s with an OCR hyphen. The Library's catalogue line prints 'after 1840 Initial Construction'. No other date was found."
+  },
+  "nodes": [
+    "greek-revival-upland-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "KY-29",
+      "title": "\"Indian Valley\" (or The Anderson Place), eight miles west of Geneva, Henderson County, Kentucky",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0093/data/ky0093data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data page's own header carries the number in a damaged OCR -- 'HABS Ho. -aft-29' -- which resolves to KY-29 against the Library's own catalogue line ('Survey number: HABS KY-29 - Building/structure dates: after 1840 Initial Construction'), read the same day. The state prefix is not legible in the header itself and is taken from the Library."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ky0093",
+      "url": "https://www.loc.gov/resource/hhh.ky0093.photos?sp=1&st=grid",
+      "title": "Indian Valley, Geneva, Henderson County, KY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A photographs resource page, which is what the search returned; it prints 'Survey number: HABS KY-29 - Building/structure dates: after 1840 Initial Construction'. The item landing page itself was not opened."
+    }
+  ],
+  "survey": {
+    "item": "ky0093",
+    "register": "loc-item",
+    "survey_no": "KY-29",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0000/ky0093/data/ky0093data.pdf",
+    "prepared": "Historic American Buildings Survey, District No. 20, 'G. I. Grlivior' District Officer (OCR), 304 Martin Brown Building, Louisville, Kentucky",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Name of structures \"Indian Valley 11 (or The Anderson Place) Location Eight miles west of G-eneva, Henderson County, Kentucky Owner or custodian; Charlie Duncan Address: Alzey, Henderson County, Kentucky Date built: (approx) In the 184-0 s. Architect or builder;",
+        "page": "HABS No. KY-29, the 1930s data form; no page number is printed on it and none is legible in the extract."
+      },
+      {
+        "field": "structural_system",
+        "text": "Present condition; llurober of stories: Bad Two stories; wings are one story. Material used in construction: Foundation; Brick. Exterior walls; Brick. Interior partitions; Brick and frame, plastered. Floors: Wood, Roof; Frame construction, covered with wood shingles.",
+        "page": "HABS No. KY-29, the same data form. The OCR runs the form's two left-hand labels together and then their two answers together, so 'Bad' is the condition and 'Two stories; wings are one story' the storey count; quoted as it stands."
+      },
+      {
+        "field": "condition",
+        "text": "The natural beauty which in former years surrounded this old place has been removed. The avenue of locust trees, one-half mile to the main road, the curved fence about the yard, the piasza surrounding the \"island Room\" on the side facing the river, features which added to the beauty of the place have all been destroyed.",
+        "page": "HABS No. KY-29, 'Description: architectural and historical'; no page number legible."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two stories; wings are one story",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two in the main block, one in the wings. The label-and-answer interleaving described in the quote's page field is why the phrase begins with the condition's answer, 'Bad', in the raw span."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. The plainest record in this cluster, and it is here for that reason: a two-storey brick house in the Ohio Valley of the 1840s with one-storey wings, brick and frame partitions and wood shingles, surveyed while it was failing, with no ornament described and no dimension given. It is what the node calls the stratum -- the house the region was already building -- and the surveyor never once uses the word Greek. Note that the piazza the surveyor mourns is on the RIVER side and is named for the room behind it, which is a Louisiana-and-Ohio habit rather than an Appalachian one; the node's geography lists the Ohio Valley and this is what that inclusion buys."
+}

@@ -1,0 +1,87 @@
+{
+  "id": "ancy-le-franc",
+  "name": "Chateau d'Ancy-le-Franc",
+  "aka": [
+    "Château d'Ancy-le-Franc"
+  ],
+  "location": {
+    "text": "Ancy-le-Franc, Yonne, France",
+    "country": "France",
+    "state": "Yonne, Bourgogne-Franche-Comté"
+  },
+  "dates": {
+    "built": "1544-1550",
+    "circa": false,
+    "altered": "The Mérimée notice records the northern communs built for Louvois at the end of the seventeenth century by Jules Hardouin-Mansart or Robert de Cotte, and a cour d'honneur laid out about 1761.",
+    "note": "FOUR SOURCES GIVE FOUR START DATES AND NONE IS CHANGED HERE. The Mérimée protection notice says 'Construit entre 1544 et 1550', which is the node's own 1544; fr.wikipedia's article and infobox give '(1538-1546)' and 'Début construction 1538 / Fin construction 1546'; the château's own site says 'Bâti entre 1542 et 1550' in French and 'raised (1542-1550)' in English; en.wikipedia's infobox says 'Built 14th century' and its category says 'Houses completed in 1550'. The register agrees with the corpus and the building's own owner does not."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00113570",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00113570",
+      "title": "Château d'Ancy-le-Franc - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Référence de la notice PA00113570' and 'Date et niveau de protection de l'édifice 1983/03/08 : classé MH ; 2003/09/26 : classé MH'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_d%27Ancy-le-Franc",
+      "title": "Château d'Ancy-le-Franc — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the competing dates recorded in `dates.note`; its infobox prints 'Début construction 1538', 'Fin construction 1546' and 'Classé MH (1983, 2003)'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.chateau-ancy.com/fr",
+      "title": "Château d'Ancy le Franc - Palais de la Renaissance italienne",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own site, read for its date - 'Bâti entre 1542 et 1550' - which agrees with neither the register nor the encyclopedia."
+    }
+  ],
+  "survey": {
+    "item": "PA00113570",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00113570",
+    "prepared": "The notice prints 'Date de création de la notice 26 novembre 1993' and 'Date de dernière modification de la notice 4 mars 2026'; its legal note is signed '(c) Monuments historiques'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Construit entre 1544 et 1550 pour Antoine III de Clermont-Tonnerre sur les plans de Sebastiano Serlio, le château d'Ancy-le-Franc constitue un jalon essentiel dans l'évolution de l'architecture de la Renaissance en France par la qualité de son architecture et de son décor. Au nord, les communs construits pour Louvois à la fin du 17e siècle par Jules Hardouin-Mansart ou Robert de Cotte se composent de deux tours quadrangulaires, la première, la cour des écuries, étant ouverte sur la cour d'honneur aménagée vers 1761 par François-Michel César, petit-fils du ministre de Louis XIV. Au nord de la façade septentrionale de ces deux cours, se trouvent trois parcelles qui abritaient des aménagements domestiques : derrière les écuries, un pédiluve et deux glacières.",
+        "page": "Notice Mérimée PA00113570, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice SERLIO Sebastiano (architecte)",
+        "page": "Notice Mérimée PA00113570, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "communs_tower_count",
+      "as_printed": "deux tours quadrangulaires",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The two square towers of the seventeenth-century communs to the north, NOT the four corner pavilions of Serlio's block that the node's exemplar note describes. The notice states no figure at all for the château itself."
+    },
+    {
+      "name": "construction_span_years",
+      "as_printed": "entre 1544 et 1550",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension; carried because this span is the register's and it is one of four the sources give. `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The register's description is historical and topographic and says nothing at all about the thing the node values this building for - four equal ranges of one height round a square court with corner pavilions. That silence is recorded rather than filled. No rights line was read, so no `rights_evidence`."
+}

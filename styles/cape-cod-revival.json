@@ -208,25 +208,46 @@
       "name": "Royal Barry Wills House",
       "location": "59 Oakland Street, Melrose, Massachusetts",
       "year": 1929,
-      "note": "The architect's own house and the reference example for his office's Cape standards; later extended to the rear."
+      "note": "The architect's own house and the reference example for his office's Cape standards; later extended to the rear.",
+      "precedent": "royal-barry-wills-house",
+      "standing": "icon",
+      "why": "The architect's own house, and the building this revival is known by wherever it is named after a person rather than a place; SAH Archipedia's entry opens by calling it 'a classic New England Cape Cod'."
     },
     {
       "name": "Life magazine 'Eight Houses for Modern Living' Wills house",
       "location": "Edina, Minnesota",
       "year": 1938,
-      "note": "Royal Barry Wills. The traditional entry chosen by the client family over Frank Lloyd Wright's modern design in the same income bracket."
+      "note": "Royal Barry Wills. The traditional entry chosen by the client family over Frank Lloyd Wright's modern design in the same income bracket.",
+      "precedent": "life-magazine-eight-houses-wills-house",
+      "standing": "canonical",
+      "why": "The type specimen for the CLAIM this node makes about mid-century taste, because a real family chose it over a Wright design in a documented competition; Historic New England's own finding aid names the family and the town, and no street address was found."
     },
     {
       "name": "Levittown Cape Cod model",
       "location": "Levittown, New York",
       "year": 1947,
-      "note": "Levitt & Sons. The first mass-produced model at Levittown, 1947-49, and the vehicle by which the type became the American postwar default."
+      "note": "Levitt & Sons. The first mass-produced model at Levittown, 1947-49, and the vehicle by which the type became the American postwar default.",
+      "precedent": "levittown-cape-cod-model",
+      "standing": "icon",
+      "why": "The building most Americans have actually stood in front of, seventeen thousand times over on Wikipedia's own count; that the Cape came FIRST rests on one source and not two -- the refereed ACADIA paper's 'The original Levittown houses of 1947 were in the Cape Code style' -- because the two Wikipedia articles the record cites say only that the houses were in the Cape Cod and ranch styles, and no record of Levitt & Sons' own was read here."
     },
     {
       "name": "Webber House",
       "location": "Brookline, Massachusetts",
       "year": 1935,
-      "note": "Harry Morton Ramsay. Included as a contemporaneous Boston-area point of comparison; see garrison-revival, where its overhang places it."
+      "note": "Harry Morton Ramsay. Included as a contemporaneous Boston-area point of comparison; see garrison-revival, where its overhang places it.",
+      "precedent": "webber-house",
+      "standing": "documentary",
+      "why": "A dated Boston-suburb contemporary by a named architect, useful here only as a control on the same 1935 moment; its overhang places it under garrison-revival, which is where this node's own note already sends the reader."
+    },
+    {
+      "name": "Atwood-Higgins House",
+      "location": "Bound Brook Island, Wellfleet, Massachusetts",
+      "year": 1730,
+      "note": "Not a revival building. The surveyed eighteenth-century Cape this whole variant is a reading of: HABS MA-1087 records a half house 21 ft wide by 27 ft long, widened to 35 ft when it was doubled, one central brick stack with four flues, a wood box cornice with short eaves, and -- under its own 'dormers' heading -- 'None', which is the single thing the revival never keeps.",
+      "precedent": "atwood-higgins-house",
+      "standing": "documentary",
+      "why": "It states the model in feet, which nothing else available to this node does, and its surveyor reports Ernest Allen Connally's 1959 finding that it was locally considered the best example on Cape Cod; a revival Cape's proportions can be checked against this house and against nothing else in the corpus."
     }
   ],
   "sources": [

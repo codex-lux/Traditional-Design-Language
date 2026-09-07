@@ -1,0 +1,53 @@
+{
+  "id": "widener-library-harvard-university",
+  "name": "Widener Library, Harvard University",
+  "aka": [
+    "Harry Elkins Widener Memorial Library"
+  ],
+  "location": {
+    "text": "Cambridge, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1912-1915",
+    "circa": false,
+    "note": "The Harvard research guide: designed by Horace Trumbauer & Associates with Julian F. Abele as chief designer, dedicated on Commencement Day 1915, re-dedicated 2004 after a five-year renovation; Wikipedia's Abele article dates the design 1912-1915."
+  },
+  "nodes": [
+    "georgian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Widener_Library",
+      "title": "Widener Library - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "States the Main Reading Room spans 'the entire front of the building and some 42 feet (13 m) in both depth and height' and that the Memorial Rooms sit 'between what were originally two light courts (28 by 110 ft or 8.5 by 33 m)' -- Wikipedia's figures, not a survey's."
+    },
+    {
+      "kind": "institution",
+      "url": "https://guides.library.harvard.edu/hua/Widener_Library",
+      "title": "Introduction - Harvard Buildings: Widener Library - Research Guides at Harvard Library",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner's archives guide."
+    },
+    {
+      "kind": "other",
+      "url": "https://news.harvard.edu/gazette/story/2020/02/recognizing-architect-julian-abeles-contributions-to-harvard",
+      "title": "Recognizing architect Julian Abele's contributions to Harvard — Harvard Gazette",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Julian_Abele",
+      "title": "Julian Abele - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written 4 Sep 2026. Not a house and not a register property; no HABS. It carries the node's institutional claim and nothing here measures it."
+}

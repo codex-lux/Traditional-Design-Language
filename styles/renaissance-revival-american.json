@@ -203,19 +203,46 @@
       "name": "Athenaeum of Philadelphia",
       "location": "Philadelphia, Pennsylvania",
       "year": 1847,
-      "note": "John Notman, designed 1845, completed 1847. A National Historic Landmark cited as one of the nation's first palazzo-facade buildings, and one of the first brownstone buildings in Philadelphia."
+      "note": "John Notman, designed 1845, completed 1847. A National Historic Landmark cited as one of the nation's first palazzo-facade buildings, and one of the first brownstone buildings in Philadelphia.",
+      "precedent": "athenaeum-of-philadelphia",
+      "standing": "icon",
+      "why": "The node's own canonical American beginning, and a HABS survey exists for it (PA-1389) whose data file is a cover sheet only -- the icon is documented in drawings this container cannot read."
     },
     {
       "name": "A. T. Stewart Store (Marble Palace, later the Sun Building), 280 Broadway",
       "location": "New York, New York",
       "year": 1846,
-      "note": "Joseph Trench and John B. Snook. The commercial palazzo that set the pattern for American downtowns; extant and a New York City landmark."
+      "note": "Joseph Trench and John B. Snook. The commercial palazzo that set the pattern for American downtowns; extant and a New York City landmark.",
+      "precedent": "a-t-stewart-store",
+      "standing": "icon",
+      "why": "New York's own custodian calls it 'one of the most influential buildings ever erected in New York City, as its style, materials, use, and location helped determine the course of architecture and commerce in the City'."
     },
     {
       "name": "Boston Athenaeum, 10 1/2 Beacon Street",
       "location": "Boston, Massachusetts",
       "year": 1849,
-      "note": "Edward Clarke Cabot; cornerstone 1847, opened 1849. Palladian-Renaissance sandstone front, enlarged 1913-14 by Bigelow and Wadsworth."
+      "note": "Edward Clarke Cabot; cornerstone 1847, opened 1849. Palladian-Renaissance sandstone front, enlarged 1913-14 by Bigelow and Wadsworth.",
+      "precedent": "boston-athenaeum",
+      "standing": "canonical",
+      "why": "A type specimen for the institutional palazzo whose section the owner states floor by floor -- sculpture, books, top-lit paintings -- which is the piano nobile this node's kit asserts, named by use."
+    },
+    {
+      "name": "Academy of Music, 240 South Broad Street",
+      "location": "Philadelphia, Pennsylvania",
+      "year": 1857,
+      "note": "Napoleon LeBrun and Gustavus Runge, 1855-57, after LeBrun visited the European opera houses and took particularly from La Scala. Its sources disagree about the style -- the National Register infobox says 'Rundbogenstil and Baroque Revival', the conservators say 'Renaissance Revival ... with Baroque influences' -- and neither is edited here. A HABS survey is said to have been made in 1979 and was not located.",
+      "precedent": "academy-of-music-philadelphia",
+      "standing": "documentary",
+      "why": "Carried as a documented case rather than as a specimen, because the one thing its sources will not agree on is the style label this node files it under, and saying so is worth more than a confident placement."
+    },
+    {
+      "name": "E. V. Haughwout Building, 488-492 Broadway",
+      "location": "New York, New York",
+      "year": 1857,
+      "note": "John P. Gaynor with cast iron by Daniel D. Badger's Architectural Iron Works, its arcaded two-order system taken from Sansovino's library in Venice. HABS NY-5459: five storeys, nine bays in 63'-1\" on Broadway, fourteen in 99'-10\" on Broome. Shared with italianate-american, which claims the same building for the bracketed commercial block.",
+      "precedent": "e-v-haughwout-building",
+      "standing": "canonical",
+      "why": "This node's own prose calls the cast-iron front 'the most literal kit-of-parts building system the nineteenth century produced'; this is that claim's type specimen, and its survey names Badger's foundry as the maker."
     }
   ],
   "sources": [

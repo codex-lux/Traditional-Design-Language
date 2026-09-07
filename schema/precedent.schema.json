@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/precedent.schema.json",
+  "title": "Precedent",
+  "version": "0.1.0",
+  "description": "One real building, as a record a checker can resolve. Until WP-11.1 an exemplar was a name with no locator: 482 exemplars across 164 style nodes, 410 distinct buildings, and not one carried a HABS number, a register reference or a link, so a reader could find Westover and a checker could resolve nothing. A precedent is the building itself -- shared by every node that names it (Stanley-Whitman House stands for three) -- with the archival references that locate it and, where the Historic American Buildings Survey wrote one, its written data quoted verbatim. Every URL records when it was read and by which route, because from this project's own container the Library of Congress answers 403 and only two routes reach past that (`oq/fetching-through-a-tier-the-proxy-denies`). A record carries `rights_evidence` and never a `license`: a licence is a conclusion a person draws, and the asset schema says why.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "location",
+    "nodes",
+    "refs"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Stable, never reused, equal to the filename. A building that turns out to be misnamed gets a new record; the old one is kept and points forward."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name the style node's exemplar uses, exactly. `build/check_assets.py` holds asset records to exemplar names, so this is the join key everything else hangs off."
+    },
+    "record_kind": {
+      "enum": [
+        "building",
+        "district",
+        "type-model",
+        "group"
+      ],
+      "description": "WP-11.4, ruled 5 Sep 2026. What this record IS. `building` (the default when absent) -- one building. `district` -- a listed area covering many buildings, which is why the duplicate-archival-id rule exempts one: a district's NRHP number names the listing, not a building. `type-model` -- a repeated or regionally standard house where the TYPE is the record and no single address is it: a builder's or developer's model (the Levittown ranch), a house built to one programme (the Leopoldine casa colonica of the Val di Chiana, several hundred surviving under Pietro Leopoldo's land reclamation), or a regional vernacular type an exemplar row names as a population rather than a building (the farmhouses of the Simmental). RULED 5 Sep 2026: such a row takes a `type-model` RECORD and is NOT a `no_precedent` refusal -- the closed refusal vocabulary has no word for a regional population and does not need one, because the type can carry its own record with the programme's or the region's own sources. `group` -- a named, documented set (the Villard Houses, Project Row Houses). The corpus was already doing this thirteen times before the ruling, saying so only in each record's `note`; this field makes the class declared rather than inferred from prose and from a regex over a title. It does NOT license a vaguer record: a `district` still needs its own listing reference, and a `type-model` still needs a source for the model."
+    },
+    "aka": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "location": {
+      "type": "object",
+      "required": [
+        "text"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "The exemplar's own `location` string, exactly -- the asset checker reads it as half the query."
+        },
+        "country": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string",
+          "description": "State, county or region, as the source writes it."
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Other nodes' `location` strings for the same building, exactly as they print them. Found by Tranche 1: georgian-colonial-american locates the Hammond-Harwood House at 'Annapolis, Maryland' and mid-atlantic-georgian at '19 Maryland Avenue, Annapolis, Maryland'; an existing exemplar's location may not be renamed (the asset layer reads it), so a record must be able to say both. `check_precedents.py` accepts `text` or any alias as the join."
+        }
+      }
+    },
+    "dates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "built": {
+          "type": "string",
+          "description": "As the source states it: `1755-1759`, `c. 1726`. A string, because a single integer is a claim the sources rarely make."
+        },
+        "circa": {
+          "type": "boolean"
+        },
+        "altered": {
+          "type": "string",
+          "description": "Later work that changed what a photograph or a survey shows -- Westover's wings rebuilt about 1900, Gunston Hall's 1949-52 restoration."
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+      },
+      "description": "Every style node whose `exemplars` names this building. `build/check_precedents.py` holds the two directions to each other. WP-11.5: minItems is 0 in the SCHEMA and the rule lives in check_precedents.py instead, because it is CONDITIONAL -- a record carrying `deprecated_in_favour_of` has no nodes by definition, its nodes having moved to the record that superseded it, and a schema cannot say 'non-empty unless deprecated' without an if/then that reads worse than the checker line it replaces."
+    },
+    "refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "retrieved",
+          "via"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "habs",
+              "haer",
+              "loc-item",
+              "nrhp",
+              "nhl",
+              "state-register",
+              "wikipedia",
+              "wikidata",
+              "historic-england",
+              "cadw",
+              "historic-scotland",
+              "institution",
+              "monograph",
+              "other",
+              "niah",
+              "merimee",
+              "bic",
+              "rijksmonument",
+              "denkmalliste",
+              "vincolo",
+              "unesco"
+            ],
+            "description": "What sort of locator this is. `habs` carries the survey number (VA-141); `loc-item` the Library's item id (va0433); `nrhp` the eight-digit reference; `state-register` the state's own file number; `institution` the owning body's own page. The id shape per kind is checked by build/check_precedents.py, not here, so this file stays self-contained. WP-11.5 widened this for Europe, which Tranche 3 cannot be written without: `niah` the Irish National Inventory of Architectural Heritage, `merimee` France's Base Mérimée (a PA/IA reference), `bic` Spain's Bien de Interés Cultural, `rijksmonument` the Dutch monument number, `denkmalliste` a German Land's monument-list number, `vincolo` an Italian ministerial protection record, `unesco` a World Heritage inscription. `historic-england`, `cadw` and `historic-scotland` were already here and no record used them."
+          },
+          "id": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string",
+            "description": "The page's own title as the source gave it, so a dead link can still be searched for."
+          },
+          "retrieved": {
+            "type": "string",
+            "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$",
+            "description": "ISO date the reference was read. A reference nobody read on a stated day was typed from memory, which is how a wrong id is laundered as a citation."
+          },
+          "via": {
+            "enum": [
+              "tavily-search",
+              "tavily-extract",
+              "github-actions",
+              "manual"
+            ],
+            "description": "The route it was read by. Closed, because these are the only routes that reach the archives from this project's tiers (`oq/fetching-through-a-tier-the-proxy-denies`, ruled 31 Aug 2026)."
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "survey": {
+      "type": "object",
+      "required": [
+        "item",
+        "data_url",
+        "retrieved",
+        "via",
+        "quotes"
+      ],
+      "additionalProperties": false,
+      "description": "The Historic American Buildings Survey's WRITTEN historical and descriptive data for this building, quoted verbatim. It is text about the plates, not the plates: it states overall dimensions, storeys, bays, walls, chimneys, roof and openings as a surveyor recorded them, and it is a poor source for room dimensions, which live on the measured drawings (wp-9.2-what-the-tradition-actually-does.md §7 Q10). OCR is noisy -- a `4` reads as `h` -- so every figure taken from a quote is carried `as_printed` in `measurements`. WP-11.5: this block is no longer only HABS. A national heritage list entry serves the same purpose and is often richer -- Historic England's `Details` section prints MATERIALS, PLAN and EXTERIOR paragraphs stating storeys, bays, roof covering, string-course positions and window lights (measured 5 Sep 2026 on entry 1254925). For such a record, `item` is the List Entry Number, `data_url` the list-entry URL, `prepared` the `Date first listed` and any `Date of most recent amendment` as the page prints them, and `survey_no` is ABSENT because there is no HABS number. The page marker says which section the quote is from, since a list entry is not paginated.",
+      "properties": {
+        "item": {
+          "type": "string",
+          "description": "The Library's item id, e.g. va0433 -- or, for a national heritage list entry, that register's own record number (Historic England's 7-figure List Entry Number, e.g. 1254925)."
+        },
+        "register": {
+          "enum": [
+            "loc-item",
+            "historic-england",
+            "historic-scotland",
+            "cadw",
+            "niah",
+            "merimee",
+            "bic",
+            "rijksmonument",
+            "denkmalliste",
+            "vincolo",
+            "unesco",
+            "state-register",
+            "institution",
+            "wikipedia",
+            "other"
+          ],
+          "description": "WP-11.5. WHICH REGISTER `item` BELONGS TO. Absent means `loc-item` -- the Library of Congress item id every HABS record carried before this field existed. It is required for anything else, and the reason is a defect this field exists to fix: the checker shape-checked `item` against the Library's `xx0000` form and, worse, `identity_keys` attributed EVERY survey item to `loc-item`, so a Historic England List Entry Number was read as a Library id and five Medici villas sharing UNESCO inscription 175 read as one building written five times. A survey block that says which register it is can be checked against that register's own shape and attributed to that register's own namespace."
+        },
+        "survey_no": {
+          "type": "string",
+          "description": "The HABS number in the Library's normalised form (VA-141), which is what the refs carry and what a search resolves. Where the data page's own header prints an older form -- MASS-223, FLA-116, a 1930s SC-104 later renumbered -- say so in the habs ref's note; the audit of Tranche 1 found six such pages and this description had asked for the header's form, which would have made the field unsearchable."
+        },
+        "data_url": {
+          "type": "string"
+        },
+        "prepared": {
+          "type": "string",
+          "description": "Who wrote the data page and when, as it says."
+        },
+        "retrieved": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "via": {
+          "enum": [
+            "tavily-extract",
+            "github-actions",
+            "manual"
+          ]
+        },
+        "quotes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "field",
+              "text",
+              "page"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "field": {
+                "enum": [
+                  "general_description",
+                  "overall_dimensions",
+                  "storeys",
+                  "bays",
+                  "foundations",
+                  "materials",
+                  "walls",
+                  "structural_system",
+                  "porches",
+                  "chimneys",
+                  "openings",
+                  "roof",
+                  "cornice",
+                  "dormers",
+                  "plan",
+                  "stairways",
+                  "ceiling_heights",
+                  "finishes",
+                  "dependencies",
+                  "significance",
+                  "condition",
+                  "other"
+                ],
+                "description": "Which part of the survey's own outline the quote comes from (Part II.B exterior: dimensions, foundations, walls, structural system, porches, chimneys, openings, roof; II.C interior: plan, stairways, finishes). These map onto the ontology's slots nearly one for one, which is why the survey is worth quoting."
+              },
+              "text": {
+                "type": "string",
+                "description": "Verbatim, OCR errors included. A contiguous span, never two spans joined with an ellipsis."
+              },
+              "page": {
+                "type": "string",
+                "description": "The page marker the data sheet prints (`HABS No. VA-141 (Page 2)`), or a statement that none was legible in the extract. A quote with no page cannot be checked against the sheet."
+              }
+            }
+          }
+        }
+      }
+    },
+    "measurements": {
+      "type": "array",
+      "description": "Every figure a quote states. `as_printed` MUST be a contiguous substring of the quote it indexes (checked, whitespace-normalised): a count assembled from two spans joined with an ellipsis is an inference wearing a quotation, and four were removed at the 4 Sep audit. Where a survey prints two plan figures and does not say which is the front, the FIRST figure printed is `overall_width_ft`; say in `note` that the front is unstated.",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "as_printed",
+          "from_quote"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "description": "The corpus's measurement vocabulary where one fits (`overall_width_ft`, `wall_thickness_in`, `chimney_stack_count`); otherwise a plain name that says what it is."
+          },
+          "as_printed": {
+            "type": "string",
+            "description": "The figure exactly as the quote prints it, OCR noise included. The parse below is a reading of this string and may be wrong; this string is what was read."
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "enum": [
+              "ft",
+              "in",
+              "count",
+              "ratio",
+              "deg",
+              "rise_in_12"
+            ]
+          },
+          "from_quote": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Index into survey.quotes."
+          },
+          "note": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rights_evidence": {
+      "type": "string",
+      "description": "The rights statement AS THE SOURCE WORDS IT, verbatim. Not a conclusion. The Library of Congress says 'No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted' on every HABS item alike -- byte-identical on a government photograph and on a HABS photograph OF somebody else's copyrighted drawing. A machine may record this sentence; it may not read a licence out of it. There is deliberately no `license` property in this schema."
+    },
+    "rights_evidence_url": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "deprecated_in_favour_of": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    }
+  }
+}

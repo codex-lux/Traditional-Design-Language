@@ -1,0 +1,58 @@
+{
+  "id": "cranbrook-house",
+  "name": "Cranbrook House",
+  "aka": [
+    "Cranbrook House and Gardens",
+    "Cranbrook House & Gardens"
+  ],
+  "location": {
+    "text": "Bloomfield Hills, Michigan",
+    "country": "United States",
+    "state": "Michigan"
+  },
+  "dates": {
+    "built": "1907-1908",
+    "circa": false,
+    "note": "THREE DATES ARE ON THE RECORD AND NONE IS EDITED TO AGREE WITH THE OTHERS. The owner's own history page says 'Ground was broken for Cranbrook House in January 1907 and the Booths took up residency in their new home in June 1908'; the Cranbrook Art Museum and the house's own page both say 'Completed in 1908'; the Detroit Historical Society calls it 'The 1909 English Arts and Crafts-style house'. The style node's exemplar gives 1908."
+  },
+  "nodes": [
+    "tudor-revival",
+    "jacobethan-revival"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://housegardens.cranbrook.edu/explore/house",
+      "title": "House | Cranbrook House and Gardens",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own account: 'Cranbrook House was designed by Detroit architect Albert Kahn in 1908 for the founders of Cranbrook, George Gough Booth and Ellen Scripps Booth, and served as their family home for 40 years. ... Designed in the English Arts and Crafts-style, Cranbrook House is the oldest surviving manor home in metro Detroit.' Note that the OWNER calls the style English Arts and Crafts, not Tudor; the Cranbrook Art Museum's own page calls it 'English-Tudor, Arts & Crafts style'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://cranbrookartmuseum.org/historic-homes",
+      "title": "Historic House Tours At Cranbrook Art Museum",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Cranbrook House is the English-Tudor, Arts & Crafts style estate of Cranbrook's founders, George Gough and Ellen Scripps Booth. Completed in 1908 by Detroit architect Albert Kahn, Cranbrook House is the oldest surviving manor home in the metro-Detroit area and the centerpiece of the Cranbrook Educational Community campus, a National Historic Landmark.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73000954",
+      "url": "https://en.wikipedia.org/wiki/Cranbrook_Educational_Community",
+      "title": "Cranbrook -- U.S. National Historic Landmark DISTRICT; NRHP reference No. 73000954, added March 7, 1973, designated NHLD June 29, 1989 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing covering fourteen contributing buildings, of which 'Cranbrook House & Gardens' is one; it is not an identity for this house and must not be read as one. The house itself has no individual National Register reference number on any surface read here."
+    },
+    {
+      "kind": "institution",
+      "url": "https://housegardens.cranbrook.edu/about/history",
+      "title": "History | Cranbrook House and Gardens",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Ground was broken for Cranbrook House in January 1907 and the Booths took up residency in their new home in June 1908, not long after celebrating their 21st wedding anniversary.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. No HABS survey was found; the house was twenty-five years old when the survey began and is still in institutional use. The finding worth carrying is that THE OWNER DOES NOT CALL IT TUDOR: Cranbrook's own house page says 'English Arts and Crafts-style' flat, and only its art museum adds 'English-Tudor'. That agrees with tudor-revival's own description.long, which says the style 'descends from ... the British Arts and Crafts movement, published continuously in American journals from the 1890s' and names this house as showing that descent 'more plainly than the Tudor reference'; it sits less easily beside jacobethan-revival, whose subject is the formal masonry prodigy house, and the exemplar's standing on that node says so."
+}

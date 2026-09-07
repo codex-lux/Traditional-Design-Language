@@ -61,7 +61,7 @@ def test_the_spa_catch_all_still_serves_a_real_asset():
 
 def test_the_cloudflare_header_is_not_believed_by_default(monkeypatch):
     """`curl -H 'Cf-Access-Authenticated-User-Email: anyone'` returned the whole corpus and
-    all 26 tools. The header means something only when Access is in front, because Access
+    all 27 tools. The header means something only when Access is in front, because Access
     overwrites whatever the caller sent."""
     monkeypatch.delenv("WORKBENCH_TRUST_PROXY_AUTH", raising=False)
     assert auth.trust_proxy_auth() is False
@@ -127,7 +127,7 @@ def test_an_unmetered_tool_never_reaches_a_heavy_core_function():
     HEAVY = {"compose", "place_plan", "critique_plan", "revise_plan", "check_plan"}
     tree = ast.parse(open(os.path.join(ROOT, "mcp_server", "server.py"), encoding="utf-8").read())
     tools = {n.name: n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name.startswith("tdl_")}
-    assert len(tools) == 26
+    assert len(tools) == 27
     for name, fn in tools.items():
         called = set()
         for node in ast.walk(fn):

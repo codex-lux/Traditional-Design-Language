@@ -1,0 +1,60 @@
+{
+  "id": "herengracht-168",
+  "name": "Herengracht 168",
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "1638",
+    "circa": false,
+    "altered": "Altered about 1730; the register records interiors of about 1730 including the stucco hall and staircase by Jan van Logteren (1733) and wall and ceiling paintings by Isaac de Moucheron and Jacob de Wit.",
+    "note": "The register, the Amsterdam city archive and the node all give 1638 and Philips Vingboons; the archive adds 'gerenoveerd in 1730'."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "1760",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/1760",
+      "title": "Herengracht 168, 1016 BP te Amsterdam | Rijksdienst voor het Cultureel Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://archief.amsterdam/beeldbank/detail/8ed36656-b7ec-d5f1-91f7-9479d30daf1e",
+      "title": "Herengracht 168 - Archief.Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The city archive's caption line reads 'Bouwjaar ca. 1638. Door Philips Vingboons. Oudste voorbeeld van haaksche hals- in plaats van trapgevel (haakse gevelhals met gezwenkte zijkanten)' -- the archive's own statement that this is the oldest example of the neck gable, which is the claim the node rests its exemplar on."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.jordaanweb.nl/startamsterdam/HTML/kpherengrleliegr.htm",
+      "title": "Philips Vingboons, architect, ontwerper van Herengracht 168",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Het monument Herengracht 168 heeft de oudste halsgevel (1638, gerenoveerd in 1730), gemaakt door de ontwerper, architect Philips Vingboons.' A second surface for the same claim, and a weaker one."
+    }
+  ],
+  "survey": {
+    "item": "1760",
+    "register": "rijksmonument",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/1760",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed. The listing date is printed by the search tier as 'May 26, 1970'; the entry's own 'Inschrijving register' field came back blank in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Pand met zandstenen halsgevel, in 1638 gebouwd door Philips Vingboons, plm 1730 gewijzigd. Interieurs uit plm 1730 o.a. zeer rijke stucgang en trappenhuis door Jan van Logteren (1733) en suite met betimmeringen, wand- en plafondschilderingen door Isaac de Moucheron en Jacob de Wit.",
+        "page": "Rijksmonumentenregister, monument 1760, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. The register states the date, the architect and the gable type -- 'zandstenen halsgevel', a sandstone neck gable -- and does NOT state that it is the first. That claim is the Amsterdam city archive's ('Oudste voorbeeld van haaksche hals- in plaats van trapgevel') and it is attributed to the archive rather than to the register. The register also does not corroborate that the gable is a screen in front of a roof, or give any dimension."
+}

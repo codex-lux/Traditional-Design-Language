@@ -212,25 +212,55 @@
       "name": "Pieter Wyckoff House",
       "location": "Flatlands, Brooklyn, New York",
       "year": 1652,
-      "note": "Occupied by the Wyckoffs from about 1652 and generally called the oldest house in New York City, though much of the standing fabric is later; the small kitchen wing preserves the earliest work."
+      "note": "Occupied by the Wyckoffs from about 1652 and generally called the oldest house in New York City, though much of the standing fabric is later; the small kitchen wing preserves the earliest work.",
+      "precedent": "pieter-wyckoff-house",
+      "standing": "canonical",
+      "why": "The frame the whole node is about, recorded by the Historic American Buildings Survey (NY-4-28) as 'sturdy oak posts carry up thru the building and tie into and form part of the bracing and framing in the attic' -- the H-bent as a surveyor found it, on the building the city itself calls its oldest."
     },
     {
       "name": "Pieter Bronck House",
       "location": "Coxsackie, Greene County, New York",
       "year": 1663,
-      "note": "Thick stone walls, steep straight gable, single open chambers on two floors — the rural Hudson type before the gambrel."
+      "note": "Thick stone walls, steep straight gable, single open chambers on two floors — the rural Hudson type before the gambrel.",
+      "precedent": "pieter-bronck-house",
+      "standing": "icon",
+      "why": "The building a fluent reader names first for the seventeenth-century Dutch house in America, on the National Historic Landmark designation of 1967 and the general claim, repeated by Wikipedia and the county society, that it is the oldest surviving building in upstate New York."
     },
     {
       "name": "Jean Hasbrouck House",
       "location": "Historic Huguenot Street, New Paltz, New York",
       "year": 1721,
-      "note": "National Historic Landmark; retains the only original eighteenth-century jambless fireplace on Huguenot Street. Built by Huguenot settlers using wholly Dutch construction — a useful reminder that this is a building culture, not an ethnicity."
+      "note": "National Historic Landmark; retains the only original eighteenth-century jambless fireplace on Huguenot Street. Built by Huguenot settlers using wholly Dutch construction — a useful reminder that this is a building culture, not an ethnicity.",
+      "precedent": "jean-hasbrouck-house",
+      "standing": "icon",
+      "why": "The National Historic Landmark nomination's own judgment, that it is among 'the impressive examples of Dutch Colonial stone architecture remaining in the United States' whose 'medieval frame structure' is 'especially magnificant in its garret'."
     },
     {
       "name": "Steuben House (Zabriskie House)",
       "location": "Historic New Bridge Landing, River Edge, New Jersey",
       "year": 1752,
-      "note": "Bergen sandstone, enlarged c. 1765 when the fashionable gambrel roof was added."
+      "note": "Bergen sandstone, enlarged c. 1765 when the fashionable gambrel roof was added.",
+      "precedent": "steuben-house",
+      "standing": "regional",
+      "why": "The Bergen sandstone house at its fullest, and the survey states the node's material and roof in one line -- 'Exterior walls - sandstone, brick gables ... Roof - gambrel, wood shingles' -- but it is the New Jersey branch of the trunk rather than the whole of it, which is why it is regional here and not icon."
+    },
+    {
+      "name": "Luykas Van Alen House",
+      "location": "2589 New York State Route 9H, Kinderhook, Columbia County, New York",
+      "year": 1737,
+      "note": "Brick, with a stone base and a steep straight gable, built in two campaigns whose join is legible; the Historic American Buildings Survey records it under the name Adam Van Alen and the National Historic Landmark designation under Luykas Van Alen, and the archive joins them by one National Register number. The entrance porch and the east dormers are recorded by the survey as recent.",
+      "precedent": "luykas-van-alen-house",
+      "standing": "icon",
+      "why": "The Columbia County Historical Society, which owns it, calls it 'one of the best, and rarest remaining examples of a historically intact Dutch Colonial house in the Hudson Valley', and it is the house the popular accounts of the style reproduce first."
+    },
+    {
+      "name": "Lefferts Historic House",
+      "location": "Prospect Park, Brooklyn, New York",
+      "year": 1777,
+      "note": "Flatbush, moved into Prospect Park in 1917-18. The survey's materials line is the reason it is here: masonry foundation and wood everything else, the Long Island timber end of a culture the Hudson branch builds in stone. Its dormers, porch and columns are 1855.",
+      "precedent": "lefferts-historic-house",
+      "standing": "regional",
+      "why": "The Long Island end of the node's own claim that the walls follow the geology: the survey records a wholly timber house -- 'Masonry foundation, wood floors, wood walls, shingle sides and roof' -- in the same building culture whose Hudson branch is two feet of stone."
     }
   ],
   "sources": [

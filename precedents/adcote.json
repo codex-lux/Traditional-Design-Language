@@ -1,0 +1,105 @@
+{
+  "id": "adcote",
+  "name": "Adcote",
+  "aka": [
+    "Adcote and Adjoining Forecourt Walls",
+    "Adcote Hall"
+  ],
+  "location": {
+    "text": "Little Ness, Shropshire, England",
+    "country": "United Kingdom",
+    "state": "Shropshire"
+  },
+  "dates": {
+    "built": "1876-81",
+    "circa": false,
+    "note": "The list entry gives '1876-81 (dated 1879)' -- the span of the work and the date carved on the building, which is why the two are not the same claim. The Wikipedia list of Grade I listed buildings in Shropshire gives 1876-1881."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1055113",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1055113",
+      "title": "Adcote and Adjoining Forecourt Walls, Little Ness - 1055113 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text cites B.o.E., pp. 52-3; Andrew Saint, Richard Norman Shaw (1976), pp. 100-2, 110-11 and 416; and Mark Girouard, The Victorian Country House. No Overview 'Date first listed' line was returned by either extract."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grade_I_listed_buildings_in_Shropshire",
+      "title": "Grade I listed buildings in Shropshire - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its table row prints 'Adcote and Adjoining Forecourt Walls | Little Ness | House | 1876-1881 | 2 July 1971 | ... | 1055113', which is the only surface read here that carries the date first listed."
+    }
+  ],
+  "survey": {
+    "item": "1055113",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1055113",
+    "prepared": "Date first listed: 2 July 1971, as the Wikipedia list of Grade I listed buildings in Shropshire prints it beside List Entry Number 1055113. Neither extract of the entry itself returned a 'Date first listed' line or the entry's own header block, so this date rests on one surface only.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Country house. 1876-81 (dated 1879). By Richard Norman Shaw for Mrs. Rebecca Darby. Red sandstone ashlar with some timber frame to north. Plain tile roofs. Irregular plan with great hall and staircase behind entrance range. In a free Elizabethan style. West (entrance) front: 2 storeys and attics. Plinth, moulded string course over first floor, and gabled parapet with chamfered coping with gabled kneelers, running over 3 regularly arranged gables.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1055113)."
+      },
+      {
+        "field": "bays",
+        "text": "windows of 2:2:2 lights; 2 large gabled dormers to right with mullioned windows, and 4 mullioned and transomed windows to ground and first floors. Arcaded garden loggia in angle to left of 2 + 2 bays, with panelled parapet. Extensive service range to north. Windows with leaded lights throughout, those to the hall bay of a lattice pattern.",
+        "page": "Official list entry, Details section, garden front paragraph; the extracted span opens here mid-sentence."
+      },
+      {
+        "field": "plan",
+        "text": "Fine interior including entrance hall with steps, leading to vast 4-bay full-height hall: large moulded transverse stone arches, springing from moulded stone corbels and supporting a crown post roof construction. Stone fireplace consisting of short colonnettes with foliate capitals and tall tapered hood. Passage at north end and wooden screen, with gallery over, incorporating embossed leather panels and continuous bench with balus- trade.",
+        "page": "Official list entry, Details section, interior paragraph. The hyphenation of 'balus- trade' is the entry's own line break, kept verbatim."
+      },
+      {
+        "field": "significance",
+        "text": "Adcote is \"recognised as Shaw's maturest house of the 1870s\" (Saint).",
+        "page": "Official list entry, Details section, closing sentence before the bibliography."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "West (entrance) front: 2 storeys and attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys and attics on the entrance front, and the only single storey figure any entry in the `queen-anne-british` cluster states without qualification."
+    },
+    {
+      "name": "entrance_front_gable_count",
+      "as_printed": "3 regularly arranged gables",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "garden_front_dormer_count",
+      "as_printed": "2 large gabled dormers to right",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "great_hall_bay_count",
+      "as_printed": "vast 4-bay full-height hall",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A full-height hall of four bays under a crown post roof, with a screens passage and gallery: the entry is describing a medieval hall in a house of 1879, which is what 'Old English' means at the scale of a plan."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1055113",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `queen-anne-british`. The entry's own judgment, quoting Saint, is why it is here: Adcote is 'recognised as Shaw's maturest house of the 1870s'. Two things in it cut against the node's prose: the register calls the style 'free Elizabethan', not Queen Anne, and the house is red sandstone ashlar rather than the red brick the node makes diagnostic -- the third of four exemplars in this node whose register entry names a different style."
+}

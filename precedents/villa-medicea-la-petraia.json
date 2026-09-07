@@ -1,0 +1,100 @@
+{
+  "id": "villa-medicea-la-petraia",
+  "name": "Villa Medicea La Petraia",
+  "aka": [
+    "Villa della Petraia",
+    "Villa La Petraia"
+  ],
+  "location": {
+    "text": "Castello, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1544-1568",
+    "circa": true,
+    "altered": "The courtyard was roofed in metal and glass in 1872 to make a ballroom.",
+    "note": "ICOMOS says the villa 'was acquired by Cosimo I and remodelled to form a princely residence, starting in 1544'; the Ministry catalogue's date field for the scheda reads '1566/00/00 - 1568/00/00'; the node's own exemplar entry gives 1588 for the transformation traditionally ascribed to Buontalenti. All three are recorded and none is resolved."
+  },
+  "nodes": [
+    "italian-villa-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "175",
+      "url": "https://whc.unesco.org/en/list/175",
+      "title": "Medici Villas and Gardens in Tuscany - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The serial inscription of 2013, criteria (ii)(iv)(vi), which covers twelve villas and two gardens; this building is one component of it. The Italian Ministry of Culture's UNESCO office page for the same property prints 'Ref 175', 'Date of Inscription 2013', 'Property 125.4 ha' and 'Buffer zone 3,539.08 ha'."
+    },
+    {
+      "kind": "vincolo",
+      "id": "0900373196",
+      "url": "http://catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900373196",
+      "title": "Villa della Petraia Firenze, 1566/00/00 - 1568/00/00",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "ICCD Catalogo generale dei Beni Culturali, scheda Architettura, 'CODICE DI CATALOGO NAZIONALE 0900373196', 'DATA DI COMPILAZIONE 1993', 'DATA DI AGGIORNAMENTO 2005', address 'via di Petraia 40'. A cataloguing record rather than a decree of vincolo; `vincolo` is the nearest kind in the enum. Its attributions are 'Fortini Davide (xvi): progetto', 'Parigi Giulio (1571/1635): ampliamento' and 'Parigi Alfonso Detto il Giovane (1606/1656)'. Its description, read as continuous prose in an extract of this page on 2026-09-05, is: 'L'edificio presenta una struttura portante in muratura continua, realizzata presumibilmente da laterizio misto a pietrame di varie pezzature. Significativa la presenza di volte a botte al piano interrato,volte a vela ed a crociera ai piani terra e nobile. I livelli superiori sono localizzabili all'interno del corpo a torre, articolato con solai in legno.' Recorded here rather than as a survey quote because the survey block is the ICOMOS evaluation."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://it.wikipedia.org/wiki/Villa_La_Petraia",
+      "title": "Villa La Petraia - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Italian article's infobox prints 'Architetto Davide Fortini Raffaello Pagni', 'Costruzione XVI secolo' and 'Proprietario Stato italiano'."
+    }
+  ],
+  "survey": {
+    "item": "175",
+    "register": "unesco",
+    "data_url": "https://whc.unesco.org/document/152903",
+    "prepared": "ICOMOS evaluation of nomination No 175, 'Medici Villas and Gardens (Italy)', prepared for the World Heritage Committee; the report prints 'Date of ICOMOS approval of this report 6 March 2013'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Part 7: The Villa La Petraia (Florence) was acquired by Cosimo I and remodelled to form a princely residence, starting in 1544. The villa occupies a panoramic position. Its architecture is characterised by a closed, compact square plan, a central courtyard and a massive tower.",
+        "page": "ICOMOS evaluation No 175, section 2 'The property - Description', Part 7; no page number was legible beside this span in the extract."
+      },
+      {
+        "field": "openings",
+        "text": "One side is mannerist with large openings linking with the gardens below; the facade of the other side facing uphill is dominated by the tower and reminiscent of medieval architecture with small windows opening onto a vast area planted with oak and cypress.",
+        "page": "ICOMOS evaluation No 175, Part 7, continuing directly from the span above; the extract prints the c-cedilla of 'facade' as an accented character which is transcribed here without it."
+      },
+      {
+        "field": "condition",
+        "text": "The courtyard was covered with a metal and glass roof in 1872 to turn it into a ballroom.",
+        "page": "ICOMOS evaluation No 175, Part 7, same span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "block_plan_ratio",
+      "as_printed": "a closed, compact square plan",
+      "value": 1.0,
+      "unit": "ratio",
+      "from_quote": 0,
+      "note": "A READING of the word 'square', not a dimensioned figure. The evaluation gives no plan dimension for this villa; what it states is that the plan is square, compact and closed round one courtyard."
+    },
+    {
+      "name": "courtyard_count",
+      "as_printed": "a central courtyard",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "tower_count",
+      "as_printed": "a massive tower",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. The node's own exemplar note calls the kept medieval tower 'the clearest surviving demonstration of how the villa tower came to exist'; that is the node's judgment and not ICOMOS's, and this record does not restate it as evidence. What ICOMOS supplies is the compact square plan with one courtyard and one dominating tower."
+}

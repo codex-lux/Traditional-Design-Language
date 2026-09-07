@@ -1,0 +1,51 @@
+{
+  "id": "greystone-mansion",
+  "name": "Greystone Mansion",
+  "aka": [
+    "Doheny Estate/Greystone",
+    "Doheny Mansion",
+    "Greystone Mansion & Gardens"
+  ],
+  "location": {
+    "text": "Beverly Hills, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1928",
+    "circa": false,
+    "altered": "Bought by the City of Beverly Hills in 1965 and dedicated as a public park in 1971; the interiors are not open, and the house is one of the most heavily filmed in California.",
+    "note": "Wikipedia's National Register infobox gives 'Built 1928'; a Hollywood Times account gives 'Built between 1926 and 1928'. Both are recorded."
+  },
+  "nodes": [
+    "tudor-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "76000485",
+      "url": "https://en.wikipedia.org/wiki/Greystone_Mansion",
+      "title": "Doheny Estate/Greystone; NRHP reference No. 76000485, added April 23, 1976 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The same infobox gives the location as 905 Loma Vista Drive, the area as '46,000 sq ft', the builder as '(Percival John) P. J. Walker and Company, San Francisco', the architect as Gordon Kaufmann and the architectural style as 'Tudor Revival'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Greystone_Mansion",
+      "title": "Greystone Mansion - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'The Greystone Mansion, also known as the Doheny Mansion, is a Tudor Revival mansion in Beverly Hills, California, United States. A gift from Los Angeles oil tycoon Edward L. Doheny to his son, Edward \"Ned\", Jr., it was purchased by the City of Beverly Hills in 1965 and became a public park six years later.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://adglighting.com/blog/la-architecture-celebrating-greystone-mansion-architect-gordon-kaufmann",
+      "title": "LA Architecture: Celebrating Greystone Mansion Architect Gordon Kaufmann - ADG Lighting",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It was built at a cost of over $4 million, and was the most expensive home built in California up to that time.' A trade blog, cited for the cost claim and for nothing else; a Hollywood Times piece read the same day calls the style 'a striking blend of Gothic and Neoclassical styles', which contradicts the register's own 'Tudor Revival' and is recorded rather than resolved."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 and added to tudor-revival to break the node's geography, which was four estates in Ohio, Michigan and Virginia -- the node's own `geography.hearth` says 'the streetcar and rail suburbs of the Northeast and Midwest', and a style that is genuinely national needs at least one western example on the list. Greystone is the largest Tudor Revival house in California and it is the same programme as Meadow Brook Hall on the other coast and in the same two years. No HABS survey was found."
+}

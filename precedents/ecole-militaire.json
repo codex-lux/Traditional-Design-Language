@@ -1,0 +1,69 @@
+{
+  "id": "ecole-militaire",
+  "name": "Ecole Militaire",
+  "aka": [
+    "École militaire",
+    "École Militaire"
+  ],
+  "location": {
+    "text": "Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "2e moitié 18e siècle (as the Mérimée notice states the principal campaign); campaign years 1751 and 1788",
+    "circa": true,
+    "altered": "The notice adds campaign years 1820 and 1856 and names Brongniart beside Gabriel and Boullée.",
+    "note": "The notice prints 'Année(s) de(s) campagne(s) de construction 1751 ; 1788 ; 1820 ; 1856' and states no single build date."
+  },
+  "nodes": [
+    "french-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088684",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088684",
+      "title": "Ecole Militaire - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Nature de la protection de l'édifice classé MH partiellement' and 'Date et niveau de protection de l'édifice 1990/08/13 : classé MH'. The reference was read from the fr.wikipedia list of monuments historiques of the 7th arrondissement, which prints 'École militaire | « PA00088684 » | Classé | 1990'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088684",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088684",
+    "prepared": "The notice prints 'Date de création de la notice 8 juillet 1993' and 'Date de dernière modification de la notice 24 juillet 2026'; its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Gabriel J.A. (maître de l'oeuvre) ; Boullee (maître de l'oeuvre) ; Brongniart (architecte)",
+        "page": "Notice Mérimée PA00088684, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1751 ; 1788 ; 1820 ; 1856",
+        "page": "Notice Mérimée PA00088684, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Grilles séparant la cour d'honneur de la cour Morland ; sols de la cour d'honneur, de la courRoederer et de la cour Coquelin de l'Isle ; grilles monumentales reliant sur la place Joffre les bâtiments 011 et 009, 044 et 002 ; grilles et fossés donnant sur l'avenue Lowendal (cad. 07 : 03 BS 1 ; 07 : 03 BT 1) : classement par arrêté du 13 août 1990",
+        "page": "Notice Mérimée PA00088684, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. The run-together 'courRoederer' is the notice's own spacing and is left as read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "named_court_count",
+      "as_printed": "sols de la cour d'honneur, de la courRoederer et de la cour Coquelin de l'Isle",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three named courts whose paving the 1990 arrêté classes, beside the cour Morland the same sentence names - so the complex has at least four courts. Three is what this clause enumerates and four is a reading; the smaller, stated figure is the one carried."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. Added by this tranche as the second Gabriel building on the node, beside the Place de la Concorde fronts the node already carried: it is the same architect's public-building manner, and its 1751 campaign year is the earliest date any source in this cluster gives for the style. The protection notice is an enumeration of railings, courts and numbered buildings, and states no material, no order, no bay count and no dimension. No rights line was read, so no `rights_evidence`."
+}

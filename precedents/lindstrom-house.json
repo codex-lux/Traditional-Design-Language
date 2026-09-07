@@ -1,0 +1,64 @@
+{
+  "id": "lindstrom-house",
+  "name": "Lindstrom House",
+  "aka": [
+    "Captain and Mrs. William Lindstrom House",
+    "William Lindstrom House"
+  ],
+  "location": {
+    "text": "San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1933",
+    "circa": false,
+    "note": "van Balgooy: 'on February 2, 1933, May completed his second house at 4669 East Talmadge Drive and, by the end of March, May and Miracle sold the house to Ridy and William Lindstrom for $9,500.' The street is printed as 'East Talmadge Drive' by van Balgooy and USModernist and as 'East Talmadge Road' by the SOHO tour booklet; the National Register listing year is given as 2001 by SOHO and as 2000 by USModernist. Neither disagreement is resolved."
+  },
+  "nodes": [
+    "ranch-style"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://sohosandiego.org/exhibits/cliffmay/lindstrom.htm",
+      "title": "Lindstrom House - Cliff May's First Houses, 1932-1936, Save Our Heritage Organisation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 2001, the Lindstrom House became the first building designed by May to be listed on the National Register of Historic Places.' On the rooms: a room 'big enough for a table and chairs to fit in front of the kiva fireplace, but it feels larger because its pair of casement windows swing open, dissolving the barrier between courtyard and room.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.sohosandiego.org/tourbooklets/CliffMayTourweb.pdf",
+      "title": "First Houses (Cliff May tour booklet), Save Our Heritage Organisation, 2011",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Lindstrom House / Year built - 1933 / 4669 East Talmadge Road. May's second hacienda, which is low-slung and very close to the street, presents an almost impenetrable facade. The rugged, wooden window grille provides protection and a distinctive decorative element. Upon opening the rustic front door, a picturesque, private world unfolds. It evidently captivated Captain and Mrs. William Lindstrom, who bought what was a fully furnished house from May (then a newlywed 24-year-old) for $9,500 in cash.'"
+    },
+    {
+      "kind": "other",
+      "url": "http://www.sandiegohistory.org/journal/v57-4/v57-4vanbalgooy.pdf",
+      "title": "Mary A. van Balgooy, 'Before LA: Cliff May's Beginnings in San Diego', The Journal of San Diego History 57, no. 4 (2011)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Similar to the O'Leary House, May's second house is a one-story, U-shaped home entered through a heavy wooden door into the courtyard.' Its footnote 36 cites a 'State of California -- The Resources Agency, Department of Parks and Recreation, Primary Record, The Lindstrom House, July 19, 1999' and states 'The Lindstrom House is listed on the National Register of Historic Places.' Footnote 37 records that the house appeared in Architectural Digest and that the year cannot be settled between 1933 and 1934 because early issues were undated."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.usmodernist.org/may.htm",
+      "title": "Cliff May - USModernist (project list)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'1933 - The William Lindstrom House, 4669 East Talmadge Drive, San Diego CA ... Sold in 1998 to the D. Lee and Barbara Roper Family Trust, who were instrumental in putting it on the National Registry in 2000.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.agentsofarch.com/home/california-hacienda-style-ranch-home-lindstrom-house-by-cliff-may-kensington",
+      "title": "1933 California Hacienda-style Ranch Home (Lindstrom House) by Cliff May - Kensington | Agents of Architecture",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'This Spanish Hacienda is the second home designed by Cliff May. Not only is it designated as a Historic Landmark under the Mills Act, but it is also on the US National Register of Historic Places.' An estate agent's page, recorded as one."
+    }
+  ],
+  "note": "The earliest ranch house this corpus can point at that a government has evaluated: every source read here says it is on the National Register, and NOT ONE GIVES A REFERENCE NUMBER, so none is recorded. That is the gap to close if this record is ever leaned on. Two smaller disagreements are carried rather than resolved: Drive against Road in the street name, and 2000 against 2001 for the listing. Recorded as `documentary` rather than as an icon because what it supplies to the node is a documented second instance of the O'Leary plan -- one storey, U-shaped, one room deep, entered through the courtyard -- by which a reader can tell what in the first house was a decision and what was an accident."
+}

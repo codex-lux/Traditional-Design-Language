@@ -1,0 +1,91 @@
+{
+  "id": "allegheny-county-courthouse-and-jail",
+  "name": "Allegheny County Courthouse and Jail",
+  "location": {
+    "text": "Pittsburgh, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1884-1886",
+    "circa": false,
+    "altered": "The data form: 'Courthouse: In 1912-14, Alden & Harlow designed stairs to main entrance; these were removed in 1928 when the street was widened. The necessary changes to the main entrance altered its proportions. In 1903-1905, F. J. Osterling enlarged the jail.'",
+    "note": "The HABS architectural data form gives 'DATE OF CONSTRUCTION (INCLUDE SOURCE) 1884-1886'. The style node's exemplar gives 1888 and says 1884-88, completed after Richardson's death in 1886. The two do not agree about the end date and neither is edited."
+  },
+  "nodes": [
+    "richardsonian-romanesque"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-610",
+      "title": "Allegheny County Courthouse & Jail, 436 Grant Street, Pittsburgh, Allegheny County, PA",
+      "url": "https://www.loc.gov/resource/hhh.pa0034.sheet?sp=32&st=image",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The survey number is printed in the data page's own form field ('HABS NO. PA-610') and again in its transmittal sheets ('Addendum to HABS No. PA-610'). The search result's own summary of the item's significance reads 'A prime example of noted architect Richardson's work in what would come to be known as the \"Richardsonian Romanesque Style.\" The jail is'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0034",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0000/pa0034/data/pa0034data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched by extract; the loc.gov landing page for pa0034 was not opened. Recorded as `manual` for that reason. A supplemental sheet at .../pa0034/supp/pa0034supp.pdf appeared in search and states 'One of H.H. Richardson's finest monumental designs. 35 sheets.'"
+    }
+  ],
+  "survey": {
+    "item": "pa0034",
+    "register": "loc-item",
+    "survey_no": "PA-610",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0000/pa0034/data/pa0034data.pdf",
+    "prepared": "The form's own last two fields: 'COMPILER, AFFILIATION Druscilla J. Null, HABS' and 'DATE 7/11/84'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "walls",
+        "text": "Pinkish-grey Milford granite, partly rock-face and partly cut",
+        "page": "HABS No. PA-610, ARCHITECTURAL DATA FORM, field 'MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS)'. This survey is a one-page NPS Form 10-920 data form rather than the usual Part I/Part II outline, so the quotes below are field answers and carry no page numbers; the form prints none."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "Courthouse: 5 stories plus basement;- rectangular with interior courtyard; gable & hip roof£ Jail: 5 stories plus basement; irregular plan of radiating wings: gable, hip & tent roofs",
+        "page": "HABS No. PA-610, data form, field 'SHAPE AND DIMENSIONS OF STRUCTURE'. No page number is printed on the form; the field gives storeys and plan shape and NO linear dimension."
+      },
+      {
+        "field": "general_description",
+        "text": "Courthouse & Jail connected by enclosed arched bridge. Courthouse: approx. 10-story tower on Grant Street facade; smaller towers rise from corners of interior court; heavy round-arched openings; rounded and square projections; ornate dormers. Jail: Corbeled round, square & octagonal towers; large enclosing wall.",
+        "page": "HABS No. PA-610, data form, field 'EXTERIOR FEATURES OF NOTE'. No page number printed."
+      },
+      {
+        "field": "significance",
+        "text": "A prime example of noted architect Richardson's work in what would cone to be known as the \"Richardsonian Romanesque Style.\" The jail is particularly notable as an example of functional ism.",
+        "page": "HABS No. PA-610, data form, field 'SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE)'. No page number printed. 'cone' and 'functional ism' are OCR."
+      },
+      {
+        "field": "condition",
+        "text": "Courthouse: In 1912-14, Alden & Harlow designed stairs to main entrance; these were removed in 1928 when the street was widened. The necessary changes to the main entrance altered its proportions. In 1903-1905, F. J. Osterling enlarged the jail.",
+        "page": "HABS No. PA-610, data form, field 'MAJOR ALTERATIONS AND ADDITIONS WITH DATES'. No page number printed."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Courthouse: 5 stories plus basement",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "approx. 10-story tower",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The form says 'approx.'; it is a storey count of the tower on the Grant Street facade, not a height in feet."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. The survey is an NPS Form 10-920 architectural data form -- one page of field answers, not the Part I/Part II outline -- so it gives storeys, plan shape, material and alterations and NO linear dimension at all. Two things worth carrying. The stone is named as 'Pinkish-grey Milford granite', the same quarry the Trinity Church survey names for its walls, which ties the style's two most-cited buildings to one source of stone. And the form is the only place in this cluster where a surveyor writes the style's own name back at it: 'what would cone to be known as the \"Richardsonian Romanesque Style.\"'"
+}

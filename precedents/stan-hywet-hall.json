@@ -1,0 +1,116 @@
+{
+  "id": "stan-hywet-hall",
+  "name": "Stan Hywet Hall",
+  "aka": [
+    "Stan Hywet Hall-Frank A. Seiberling House",
+    "Stan Hywet Hall & Gardens"
+  ],
+  "location": {
+    "text": "Akron, Ohio",
+    "country": "United States",
+    "state": "Ohio"
+  },
+  "dates": {
+    "built": "1912-1915",
+    "circa": false,
+    "altered": "The survey records that the basement's original full-size basketball court, bowling alley and gymnastic equipment were remodelled into an auditorium, and that the grounds were cut back from 3,000 acres to 65.",
+    "note": "The estate's own history page says construction began in 1912 and the family moved in in December 1915; the Wikipedia National Register infobox reads 'Built 1911'. Both are recorded and neither is edited to agree with the other. The style node's exemplar gives 1915."
+  },
+  "nodes": [
+    "tudor-revival",
+    "jacobethan-revival",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "OH-50",
+      "title": "Stan Hywet Hall, 714 North Portage Path, Akron, Summit County, OH",
+      "url": "https://www.loc.gov/resource/hhh.oh0106.photos?st=grid",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The survey number is printed in the data page's own running header, read by extract the same day ('STAN HYWET HALL HABS No. OH-50 (Page 3)'; the Page 4 header prints it as '0H-5O', which is OCR). The Library's own resource page carries the significance line 'Stan Hywet Hall is one of the most outstanding examples of Tudor Revival architecture in the United States.' The carriage house and garage are a separate survey, HABS OH-50-A."
+    },
+    {
+      "kind": "loc-item",
+      "id": "oh0106",
+      "url": "https://www.loc.gov/resource/hhh.oh0106.photos?st=grid",
+      "title": "Stan Hywet Hall, 714 North Portage Path, Akron, Summit ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "75002058",
+      "url": "https://en.wikipedia.org/wiki/Stan_Hywet_Hall",
+      "title": "Stan Hywet Hall-Frank A. Seiberling House; NRHP reference No. 75002058, added January 17, 1975; designated NHL December 21, 1981 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building. The estate's own fact sheet calls it 'Akron, Ohio's oldest National Historic Landmark' without giving a number."
+    },
+    {
+      "kind": "institution",
+      "url": "https://stanhywet.org/sites/default/files/assets/docs/Stan%20Hywet_Fact%20Sheet.pdf",
+      "title": "STAN HYWET FACT SHEET",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own count, which the HABS survey does not give and which is therefore NOT carried as a measurement: 'Bathrooms: 25, including 14 complete baths and 9 lavatories (without tub/shower) Fireplaces: 23 Chimneys: 12 Doors: 73 doors plus 20 sets of French Doors Windows: 21,455 panes of glass'. It also names the three English models -- Compton Wynyates (1509-1528), Ockwells Manor (ca. 1446-1466) and Haddon Hall -- which is where the style node's exemplar note comes from."
+    }
+  ],
+  "survey": {
+    "item": "oh0106",
+    "register": "loc-item",
+    "survey_no": "OH-50",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/oh/oh0100/oh0106/data/oh0106data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: Modelled on several authentic British Tudor manors, including Compton Wynyates and Ockwells Manor, Stan Hywet is one of the finest examples of Tudor Revival architecture in America.",
+        "page": "HABS No. OH-50, Part II.A.1; the running header 'STAN HYWET HALL HABS No. OH-50 (Page 3)' prints two sentences after this span"
+      },
+      {
+        "field": "walls",
+        "text": "B. Description of Exterior: 1. Foundation: rock 2. Walls: red brick with sandstone trim",
+        "page": "HABS No. OH-50 (Page 3)"
+      },
+      {
+        "field": "chimneys",
+        "text": "3. Chimneys: The numerous chimneys are designed in a variety of ways, sometimes clustered and sometimes standing individually.",
+        "page": "HABS No. OH-50 (Page 3)"
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows: Designed in a variety of sizes, the mansion's many windows are placed asymmetrically, A number of them are filled with diamond shaped panes of leaded glass. The window surrounds are primarily sandstone.",
+        "page": "HABS No. OH-50 (Page 3)"
+      },
+      {
+        "field": "roof",
+        "text": "5. Roof: a. Shape, covering: Except for the tower portion, the roofs of the various sections are steeply pitched and covered with Vermont slates which are graduated in size with the larger ones on the lower edges.",
+        "page": "HABS No. OH-50 (Page 3)"
+      },
+      {
+        "field": "dormers",
+        "text": "c. Dormers and tower: The many dormer windows punctuate the roof in an asymmetrical fashion on both east and west facades. The design of the three-story tower is typical of the earlier Medieval period. The crenelations are formed of brick and sandstone.",
+        "page": "HABS No. OH-50; no page marker was legible in this extract span, which falls between the '(Page 3)' and '(Page 4)' headers"
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior: Planned around a central rectangle, Stan Hywet was designed to appear as if it had been built over a period of several hundred years, rather than four years. Thus, its wings project asymmetrically and a number of different design traditions are represented on the interior.",
+        "page": "HABS No. OH-50; the running header 'STAN HYWET HALL HABS No. 0H-5O (Page 4)' prints shortly after this span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "tower_storey_count",
+      "as_printed": "three-story tower",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "The tower, not the house. The survey gives NO overall dimensions and no storey count for the main ranges, which is why nothing else here is carried as a measurement."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 (Tudor, Jacobethan and the storybook). Two things the survey says that are worth carrying against this corpus. First, it states the roofs are 'steeply pitched' and gives NO figure, so it neither supports nor contradicts tudor-revival's kit, which specifies a 10:12 to 16:12 band as `measured` -- silent, not agreeing. Second, the survey's account of the interior is the node's own thesis in a surveyor's words: the house 'was designed to appear as if it had been built over a period of several hundred years, rather than four years.' The rights line was not read (loc.gov refuses extraction from this container), so no `rights_evidence` is recorded rather than a boilerplate one copied from another item."
+}

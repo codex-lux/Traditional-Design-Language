@@ -1,0 +1,29 @@
+{
+  "id": "dillingham-house",
+  "name": "Dillingham House",
+  "location": {
+    "text": "Sandwich, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "c. 1650-1659",
+    "circa": true,
+    "altered": "Moved from Tupper Road to Main Street and raised to its present two-storey size in the late 19th century (Wikipedia's First Period list, citing MACRIS); the node's exemplar says 'substantially enlarged in the 18th century'.",
+    "note": "Wikipedia's list of First Period houses gives c. 1659, by Simeon Dillingham, and notes that 'an earlier date of 1650 which was previously cited by the S.H.C. is also still mentioned among sources'; the node's exemplar says 1650."
+  },
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://en.wikipedia.org/wiki/First_Period_houses_in_Massachusetts_(1620%E2%80%931659)",
+      "title": "First Period houses in Massachusetts (1620–1659) - Wikipedia",
+      "note": "The Sandwich Dillingham House has no article of its own; the Brewster house of the same name does, and is a different building. This list entry cites 'Dillingham House', Massachusetts Cultural Resource Information System, which was not opened.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "No register reference and no HABS survey were found: the loc.gov search '\"Dillingham House\" Sandwich Massachusetts HABS' returned only the Dillingham Transportation Building in Honolulu, and the searches for a National Register entry returned the Brewster house. Wikipedia's account that the house was raised to two storeys in the late 19th century sits badly beside its standing on this node, and is reported rather than resolved.",
+  "nodes": [
+    "cape-cod-colonial"
+  ]
+}

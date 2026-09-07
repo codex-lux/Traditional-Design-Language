@@ -193,25 +193,55 @@
       "name": "Manoir du Catel",
       "location": "Ecretteville-les-Baons, Seine-Maritime, France",
       "year": 1270,
-      "note": "c. 1270; one of the oldest surviving non-fortified manor houses in France, and a rare survival of the pre-Renaissance hall-and-solar plan. Classe monument historique."
+      "note": "c. 1270; one of the oldest surviving non-fortified manor houses in France, and a rare survival of the pre-Renaissance hall-and-solar plan. Classe monument historique.",
+      "precedent": "manoir-du-catel",
+      "standing": "canonical",
+      "why": "Its Mérimée notice PA00100634 describes precisely this node's enclosure -- buildings organised round a closed court with the angles defended by a round tower and a monumental fortified entrance on the logis -- and calls the original arrangement « remarquablement préservées », which is the Ministry of Culture's judgment and the reason it can serve as a type specimen for the defensive-memory clause."
     },
     {
       "name": "Manoir de Courboyer",
       "location": "Perche en Noce, Orne, France",
       "year": null,
-      "note": "15th-16th century; the canonical Perche manoir, with corner turrets, stair tower and an intact agricultural domaine. Facades, roofs and four chimneypieces classes monument historique."
+      "note": "15th-16th century; the canonical Perche manoir, with corner turrets, stair tower and an intact agricultural domaine. Facades, roofs and four chimneypieces classes monument historique.",
+      "precedent": "manoir-de-courboyer",
+      "standing": "icon",
+      "why": "The Ministry of Culture's own Mérimée notice PA00110876 closes « Cette demeure constitue le type le plus complet et le plus classique des manoirs du Perche », so the ranking is the register's and not this project's."
     },
     {
       "name": "Manoir d'Ango",
       "location": "Varengeville-sur-Mer, Seine-Maritime, France",
       "year": 1544,
-      "note": "Built 1532-1544 for the shipowner Jean Ango; the Renaissance hybrid in its clearest form, with a polychrome flint-and-brick colombier at the centre of the cour."
+      "note": "Built 1532-1544 for the shipowner Jean Ango; the Renaissance hybrid in its clearest form, with a polychrome flint-and-brick colombier at the centre of the cour.",
+      "precedent": "manoir-dango",
+      "standing": "icon",
+      "why": "Its Mérimée notice PA00101079 states the hybrid this node names as the type's Renaissance phase in one sentence -- the manor « se présente comme un château fort vu de l'extérieur, mais comme un chef-d'oeuvre de la Renaissance à l'intérieur de la cour » -- and it has been classé by the list of 1862, the oldest protection in this cluster."
     },
     {
       "name": "Manoir de Coupesarte",
       "location": "Mezidon Vallee d'Auge, Calvados, France",
       "year": null,
-      "note": "15th-16th century; the timber-framed variant of the type, moated, with overhanging corner turrets carried on brackets."
+      "note": "15th-16th century; the timber-framed variant of the type, moated, with overhanging corner turrets carried on brackets.",
+      "precedent": "manoir-de-coupesarte",
+      "standing": "regional",
+      "why": "The French Wikipedia article credits it with « une unité architecturale exceptionnelle en pays d'Auge » and records that its oak frame was never remodelled, which is a judgment about the Auge specifically rather than about the manoir as a whole type."
+    },
+    {
+      "name": "Manoir d'Argentelles",
+      "location": "Villebadin, Gouffern en Auge, Orne, France",
+      "year": 1414,
+      "note": "1414, with the two carved stone lucarnes of the crowning added in 1632; its Merimee notice records the particularity, rare among Norman manoirs, of having been designed and executed in a single campaign, and the old defensive tower on the motte survives as the colombier.",
+      "precedent": "manoir-dargentelles",
+      "standing": "canonical",
+      "why": "Its Mérimée notice PA00110967 records the particularity « rare dans les manoirs normands, d'avoir été conçu et exécuté d'une seule traite », which makes it the one manoir in this list whose proportions can be read as a single decision rather than as a sequence of campaigns -- and that is what a type specimen has to be."
+    },
+    {
+      "name": "Manoir de la Vove",
+      "location": "Corbon, Orne, France",
+      "year": null,
+      "note": "15th-17th century; a Perche manoir whose logis meets an older pavilion at a right angle, with an octagonal stair turret at the junction carrying a smaller corbelled turret above it, a large round tower at the opposite angle surviving from the earlier building, and a detached flamboyant chapel. Facades, toitures, escalier de la tour octogonale and chapelle classes monument historique 1974.",
+      "precedent": "manoir-de-la-vove",
+      "standing": "regional",
+      "why": "Its Mérimée notice PA00110782 describes the projecting polygonal stair turret, its newel and its vault in more detail than any other Perche notice read for this cluster, and the external stair is this node's own stated diagnostic."
     }
   ],
   "sources": [

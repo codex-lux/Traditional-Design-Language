@@ -1,0 +1,147 @@
+{
+  "id": "herbert-hoover-birthplace-cottage",
+  "name": "Herbert Hoover Birthplace Cottage",
+  "aka": [
+    "Herbert Hoover Birthplace House",
+    "Jesse Hoover House"
+  ],
+  "location": {
+    "text": "West Branch, Cedar County, Iowa",
+    "country": "United States",
+    "state": "Iowa"
+  },
+  "dates": {
+    "built": "c. 1871",
+    "circa": true,
+    "altered": "The survey's data form: 'Moved and attached to rear of 2-story house in 1885; returned to original location and restored in 1938 by McKay Construction Company; further restoration in 1962, William Wagner, architect.' The Park Service's FAQ tells it differently: 'After the Hoover family sold the Birthplace Cottage in 1878, later owners rotated it 90 degrees, moved it 30 feet west, and attached a larger house. When President and Mrs. Hoover purchased the cottage in 1935, they restored it to its original location and appearance.' Both kept.",
+    "note": "The survey: 'DATE OF CONSTRUCTION (INCLUDE SOURCE) ca. 1871'; Wikipedia: 'built in the spring of 1871'."
+  },
+  "nodes": [
+    "american-farmhouse-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IA-21",
+      "url": "https://www.loc.gov/pictures/item/ia0042",
+      "title": "Herbert Hoover Birthplace House, Southwest corner of Penn ...",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Photo(s): 9'; sheets 1-4 carry the call number 'HABS IOWA,16-WEBRA,1-'. The survey number is read from the data page's own header ('HABS No. IA-21'), by extract the same day."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ia0042",
+      "url": "https://www.loc.gov/pictures/item/ia0042",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "66000110",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Hoover_National_Historic_Site",
+      "title": "NRHP reference No. 66000110 (original) 13000594 (increase); added October 15, 1966; designated NHLD June 23, 1965 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The whole historic site's numbers; the cottage is within it. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/66000110_text",
+      "title": "[PDF] West Branch, Iowa - NPGallery",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The NHL nomination; its own words: 'The cottage where Herbert Hoover was born is simple in every detail and contains two roans. One of these served as a parlor, kitchen, and dining room combined; the other as a bedroom.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Herbert_Hoover_National_Historic_Site",
+      "title": "Herbert Hoover National Historic Site - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The two-room cottage ... was only 14 by 20 feet (4.3 m x 6.1 m) and had two rooms.' -- a figure that does not agree with the survey's 20'-4\" x 20'-10\" including the rear porch; both are on the record."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/heho/faqs.htm",
+      "title": "Frequently Asked Questions - Herbert Hoover National Historic Site (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. Source of the second account of the moves."
+    }
+  ],
+  "survey": {
+    "item": "ia0042",
+    "register": "loc-item",
+    "survey_no": "IA-21",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ia/ia0000/ia0042/data/ia0042data.pdf",
+    "prepared": "COMPILER, AFFILIATION Druseilia J. Null, HABS DATE 9/2/83 (as the Architectural Data Form prints it; 'Druseilia' is OCR)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) Birthplace of President Herbert Hoover. Architecturally, interesting as an example of vernacular construction. STYLE (IFAPPROPRIATE) Vernacular",
+        "page": "HABS No. IA-21, Architectural Data Form (Form 10-920, June 1983); the form carries no page number"
+      },
+      {
+        "field": "walls",
+        "text": "MATERIAL OF CONSTRUCTION (INCLUDESTRUCTURAL SYSTEMS) SH/5 ard-and-batten",
+        "page": "HABS No. IA-21, Architectural Data Form; 'SH/5 ard-and-batten' is OCR for board-and-batten"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "20,-U\" (3-\"bay front) x 20'-10\" including partly enclosed rear porch; gable roof; 1-bay, shed roof front porch",
+        "page": "HABS No. IA-21, Architectural Data Form, 'SHAPE AND DIMENSIONS OF STRUCTURE'"
+      },
+      {
+        "field": "plan",
+        "text": "2 rooms; vertical hoard walls",
+        "page": "HABS No. IA-21, Architectural Data Form, 'INTERIOR FEATURES OF NOTE'"
+      },
+      {
+        "field": "other",
+        "text": "MAJOR ALTERATIONS AND ADDITIONS WITH DATES Moved and attached to rear of 2-story house in 1885; returned to original location and restored in 1938 by McKay Construction Company; further restoration in 1962, William Wagner, architect.",
+        "page": "HABS No. IA-21, Architectural Data Form"
+      },
+      {
+        "field": "other",
+        "text": "DATE OF CONSTRUCTION (INCLUDE SOURCE) ca. 1871",
+        "page": "HABS No. IA-21, Architectural Data Form"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "20,-U\" (3-\"bay front)",
+      "value": 20.33,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OCR prints '20,-U\"'; read as 20'-4\", the three-bay front. A reading, marked as one; Wikipedia's 14 ft does not agree and is recorded on its ref."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "20'-10\" including partly enclosed rear porch",
+      "value": 20.83,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "Including the rear porch, as printed."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3-\"bay front",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "room_count",
+      "as_printed": "2 rooms",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "The smallest building in the corpus's precedents and the plainest: two rooms, board-and-batten, a shed-roofed one-bay porch -- the 'whatever the mill offered' end of the farmhouse node at 504 sq ft's poorer cousin. The survey is a 1983 short data form, not a full Part II. Seeded 4 Sep 2026."
+}

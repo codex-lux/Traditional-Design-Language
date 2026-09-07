@@ -1,0 +1,97 @@
+{
+  "id": "aljaferia",
+  "name": "Aljaferia",
+  "aka": [
+    "Palacio de la Aljafería",
+    "Qasr al-Surur"
+  ],
+  "location": {
+    "text": "Zaragoza, Spain",
+    "country": "Spain",
+    "state": "Aragon"
+  },
+  "dates": {
+    "built": "1065-1081",
+    "circa": false,
+    "altered": "Converted to a palace of the kings of Aragon; the Throne Room of the Catholic Monarchs added from 1488; used as a barracks and heavily restored in the 20th century; now the seat of the Cortes of Aragon.",
+    "note": "The English article dates the first phase 'to between 1065 and 1080' from the inscriptions naming al-Muqtadir; the node's exemplar gives 1065-1081. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "moorish-andalusian"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0001033",
+      "url": "https://culturaleza.es/cultura/palacio-de-la-aljaferia-zaragoza",
+      "title": "Palacio de la Aljafería - Zaragoza (Zaragoza) - BIC",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result prints 'Declaración: 03-06-1931. Código R.I.: RI-51-0001033-00000'. The Aragon register's own page for the palace prints a DIFFERENT day for the same act: 'El 4 de junio de 1931 el Palacio de la Aljafería fue declarado Monumento Nacional de Interés Histórico-Artístico'. Both are recorded and neither is changed. The same code, without the trailing zeros, is printed on the Spanish Wikipedia file pages for photographs of the monument."
+    },
+    {
+      "kind": "unesco",
+      "id": "378-008",
+      "url": "https://en.wikipedia.org/wiki/Mud%C3%A9jar_architecture_of_Aragon",
+      "title": "Mudejar architecture of Aragon, component 378-008: 'Mudéjar remains of the Palace of Aljafería (Zaragoza)'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Only the MUDEJAR REMAINS of the palace are inscribed, not the Taifa palace this node names it for. The component number is the English Wikipedia navigation box's, which lists all ten components of reference 378ter."
+    },
+    {
+      "kind": "institution",
+      "url": "https://patrimonioculturaldearagon.es/patrimonio/palacio-de-la-aljaferia",
+      "title": "Palacio de la Aljafería - Patrimonio Cultural de Aragón",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Aljaferia",
+      "title": "Aljafería - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "palacio-de-la-aljaferia",
+    "register": "other",
+    "data_url": "https://patrimonioculturaldearagon.es/patrimonio/palacio-de-la-aljaferia",
+    "prepared": "Patrimonio Cultural de Aragón, the Government of Aragon's own heritage register. No author line and no revision date were printed in the extract; the page's own timeline block ends with a heading reading 'Declaración. Siglo XX - XXI'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Tipológicamente, el conjunto se inspiró en los palacios omeyas del desierto del siglo VIII, rodeándose por un recinto amurallado de planta cuadrada con lienzos reforzados mediante torreones ultrasemicirculares.",
+        "page": "Patrimonio Cultural de Aragón, monument record, opening descriptive paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "En el interior, el eje central en dirección Norte-Sur, alberga las construcciones residenciales del palacio taifal, de gran belleza ornamental. Allí se localiza el patio de Santa Isabel, de planta rectangular, a cielo abierto, con albercas en sus lados cortos y un pórtico que lo rodea precediendo las estancias.",
+        "page": "Patrimonio Cultural de Aragón, monument record, descriptive paragraph continuing from the above"
+      },
+      {
+        "field": "plan",
+        "text": "En el lado Norte se disponen los espacios más relevantes, como son el Salón de los Mármoles o Salón del Trono y a ambos lados dos estancias cuadradas a modo de alcobas reales.",
+        "page": "Patrimonio Cultural de Aragón, monument record, descriptive paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "La torre interior está  formada por tres estancias superpuestas, cubiertas por bóveda de crucería y de muros de ladrillo hasta la segunda estancia y en delante de tapial de yeso.",
+        "page": "Patrimonio Cultural de Aragón, monument record, paragraph on the Torre del Trovador; the double space after 'está' is the page's own and is left as it stands"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "court_pool_count",
+      "as_printed": "con albercas en sus lados cortos",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A reading: 'albercas en sus lados cortos' -- basins on its short sides -- of a rectangular court, which is two. The register does not print the number."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The survey block is a REGIONAL register entry (Patrimonio Cultural de Aragón), which is the nearest thing to a Historic England Details section that this cluster found for Spain: it prints typology, plan and materials as prose and prints no dimension at all. The BIC declaration date is given as 3 June 1931 by one source and 4 June 1931 by the register's own page; both are carried."
+}

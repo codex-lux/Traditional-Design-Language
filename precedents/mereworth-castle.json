@@ -1,0 +1,123 @@
+{
+  "id": "mereworth-castle",
+  "name": "Mereworth Castle",
+  "location": {
+    "text": "Kent, England",
+    "country": "United Kingdom",
+    "state": "Kent"
+  },
+  "dates": {
+    "built": "roofed 1723",
+    "circa": false,
+    "note": "The listed-building entry says only 'House. Roofed 1723.' The Wikipedia infobox for the same building prints 'Construction started 1723, Completed 1725'. The node's own exemplar gives 1725 as the year and says 'Built 1723-25'. All are recorded; none is resolved. The register spells the architect 'Colin Campbell' where every other source in this record spells him Colen; the spelling is left as printed."
+  },
+  "nodes": [
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1070675",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1070675",
+      "title": "Mereworth Castle (Main Block) , Mereworth - 1070675 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result's Overview block prints 'Grade: I ; List Entry Number: 1070675 ; Date first listed: 01-Aug-1952 ; List Entry Name: Mereworth Castle (Main Block)'. The listing covers the main block only; the flanking pavilions and stables are listed separately at 1070676."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mereworth_Castle",
+      "title": "Mereworth Castle - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the second date reading (construction started 1723, completed 1725) and because its infobox names the architect Colen Campbell where the list entry prints 'Colin Campbell'."
+    }
+  ],
+  "survey": {
+    "item": "1070675",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1070675",
+    "prepared": "Historic England's National Heritage List entry; Date first listed 01-Aug-1952 on the Overview block as a search result printed it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "House. Roofed 1723. Designed by Colin Campbell for John Fane, 1736 to become the Earl of Westmorland. Interior plasterwork by Francesco Bagutti and Fresco painting by Francesco Sleter.",
+        "page": "Official list entry 1070675, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Based on Palladio's Villa Capra near Vicenza stuccoed in C18 'stone colour' with Portland stone porticos, entablatures and window surrounds. Leaded ribbed dome.",
+        "page": "Official list entry 1070675, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Large square block with 4 identical fronts, excepting the lack of portico steps to east and west. String-course above basement, cornice-band at portico entablature level.",
+        "page": "Official list entry 1070675, Details, opening paragraph"
+      },
+      {
+        "field": "roof",
+        "text": "Hipped slate roof carrying heavily banded almost hemispherical dome with blind lantern surrounded by high half-columns.",
+        "page": "Official list entry 1070675, Details, opening paragraph"
+      },
+      {
+        "field": "porches",
+        "text": "Single pedimented and balconied 1st floor windows each side of Hexastyle Ionic porticos. Flight of steps up to north and south porticos. The block was originally moated, parts still visible to north.",
+        "page": "Official list entry 1070675, Details, elevations"
+      },
+      {
+        "field": "plan",
+        "text": "Rotunda: 2 storeys and dome with plaster copping. Four major axial and four minor diagonal doorways on both floors, the upper to deep balustraded gallery on carved volute brackets. Cornice under gallery.",
+        "page": "Official list entry 1070675, Details, Interior, Rotunda"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "front_count",
+      "as_printed": "Large square block with 4 identical fronts",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "Hexastyle Ionic porticos",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "A READING: hexastyle is six columns. The entry states the word and not the number."
+    },
+    {
+      "name": "portico_step_flight_count",
+      "as_printed": "Flight of steps up to north and south porticos",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Four porticoes, steps to two of them: the entry says the east and west fronts are identical 'excepting the lack of portico steps'. The node's own exemplar note says 'four porticoes' and does not distinguish them."
+    },
+    {
+      "name": "rotunda_storey_count",
+      "as_printed": "Rotunda: 2 storeys and dome",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "rotunda_axial_doorway_count",
+      "as_printed": "Four major axial",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "rotunda_diagonal_doorway_count",
+      "as_printed": "four minor diagonal doorways",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 5
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE NODE'S CLAIM THAT THE DOME'S VOID CONCEALS THE CHIMNEY FLUES IS NOT IN THE REGISTER. The entry describes the dome twice -- 'Leaded ribbed dome' and 'heavily banded almost hemispherical dome with blind lantern surrounded by high half-columns' -- and never mentions flues, stacks or chimneys anywhere in either extract. Silence, not contradiction, and the claim stays where the node put it. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

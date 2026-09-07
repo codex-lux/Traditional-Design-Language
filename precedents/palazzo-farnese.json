@@ -1,0 +1,80 @@
+{
+  "id": "palazzo-farnese",
+  "name": "Palazzo Farnese",
+  "location": {
+    "text": "Piazza Farnese, Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "1513-1589",
+    "circa": false,
+    "note": "The French Embassy's own chronology states the total as 'settantasei anni di lavori (1513-1589)' and then dates the start of construction to 1514 -- the two lines of the same page differ by a year. The node's exemplar note gives 1517-1589. All three are recorded and none is changed."
+  },
+  "nodes": [
+    "italian-renaissance"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://it.diplomatie.gouv.fr/it/node/6/palazzo-farnese",
+      "title": "Palazzo Farnese | La Francia in Italia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Palace has housed the French Embassy since 1874 and the Ecole francaise de Rome from the following year; this is the Embassy's own history page."
+    },
+    {
+      "kind": "institution",
+      "url": "https://visite-palazzofarnese.it/palazzo-farnese?lang=en",
+      "title": "Farnese Palace - Palazzo Farnese",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Embassy's official visit site, which names the four architects as 'Sangallo the Younger, Michelangelo, the Vignola Giacomo Della Porta' and dates completion to 1589. Read in a search result."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription."
+    }
+  ],
+  "survey": {
+    "item": "palazzo-farnese",
+    "register": "other",
+    "data_url": "https://it.diplomatie.gouv.fr/it/node/6/palazzo-farnese",
+    "prepared": "Ambassade de France en Italie, 'Palazzo Farnese' history page and chronology; no author line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Per l’edificazione occorreranno in tutto settantasei anni di lavori (1513-1589) con l’intervento di quattro architetti di fama tra cui Sangallo il Giovane e Michelangelo.",
+        "page": "Ambassade de France en Italie, Palazzo Farnese, history paragraph"
+      },
+      {
+        "field": "cornice",
+        "text": "1546: Morte di Antonio da Sangallo. Michelangelo riprende il cantiere.\n   1546-49: Michelangelo crea il cornicione, completa il cortile e chiude le logge del primo piano.\n   1549: Morte di Papa Paolo III. Compimento della facciata principale.",
+        "page": "Ambassade de France en Italie, Palazzo Farnese, chronology, entries for 1546, 1546-49 and 1549. The line breaks and leading spaces are the chronology's own list formatting as extracted."
+      },
+      {
+        "field": "other",
+        "text": "1514: Inizia la costruzione, sotto la responsabilità di Antonio da Sangallo il Giovane.",
+        "page": "Ambassade de France en Italie, Palazzo Farnese, chronology, entry for 1514"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_duration_years",
+      "as_printed": "settantasei anni di lavori (1513-1589)",
+      "value": 76,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Not a dimension. It is carried because the node reads this palace as its reference for storey grading and cornice proportion, and the register's own figure says the front took four architects and three generations -- which is an argument against treating any one elevation rule as this building's."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The node calls this 'the reference palazzo for storey grading and cornice proportion' and the register supports the ATTRIBUTION of the cornice and nothing about its size: '1546-49: Michelangelo crea il cornicione'. No dimension of any kind was found in a state or institutional text for this building."
+}

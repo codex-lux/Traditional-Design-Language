@@ -1,0 +1,52 @@
+{
+  "id": "westlake-daly-city",
+  "name": "Westlake, Daly City",
+  "location": {
+    "text": "Daly City, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1947-early 1960s",
+    "circa": false,
+    "note": "The California historic context statement says the community 'was built in 12 phases, working from north to south, keeping Doelger's construction crews busy from 1947 to the early 1960s', and Doelger's own Wikipedia entry says he 'started building what is now known as the Westlake district' in 1947. Daly City's own history page says Westlake 'was annexed to Daly City in 1948'. This node's exemplar says 'Construction begins 1949', which no source read here supports and which sits after the annexation it is printed beside."
+  },
+  "nodes": [
+    "minimal-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://planning.lacity.gov/odocument/7b3709a9-42d8-44ad-ac78-0bcf7fd70312/TractHousinginCalifornia_1945-1973.pdf",
+      "title": "Tract Housing in California, 1945-1973 (historic context statement, hosted by Los Angeles City Planning)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'Westlake is the largest of the new postwar communities in the Bay Area and one of the largest in the state ... When complete, Westlake included 6,500 houses, 3,000 apartment units, one major shopping center, two smaller neighborhood shopping centers, and several schools ... Doelger completed new houses at Westlake at a rate of seven per day during the busiest years of his operation.' The same document defines the type this node is about: 'The distinguishing characteristic of Postwar Minimal houses is that they are small. In fact, they are typically smaller than the bungalows of the 1910s and 1920s' and 'features of the Postwar Minimal house include the one-car garage, small front porch, and lack of roof overhangs.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Henry_Doelger",
+      "title": "Henry Doelger - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1947, Doelger and his associates started building what is now known as the Westlake district in Daly City. This is one of the earliest examples of a large-tract suburb and manifestation of urban sprawl.' Also records that Life photographed the rows of houses in the 1950s and that Malvina Reynolds's 'Little Boxes' was written about them."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.dalycity.org/760/History-of-Daly-City",
+      "title": "History of Daly City | Daly City, CA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'A San Francisco builder, Henry Doelger, purchased some 600 acres of sand dunes and cabbage patches ... He built a community called Westlake, which was annexed to Daly City in 1948.' The 600 acres here disagrees with the 1,350 acres the context statement gives for the Spring Valley Water Company purchase."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.outsidelands.org/sw2.php",
+      "title": "Streetwise: Doelger City - Western Neighborhoods Project",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Woody LaBounty on Doelger's San Francisco work and on Westlake as 'Henry Doelger's masterpiece'. Records that the company built over 3,000 units of defense housing in the East Bay and South San Francisco during the war -- the wartime training that made the postwar rate possible."
+    }
+  ],
+  "note": "No survey and no register listing found for the tract; the best documentation is the statewide historic context statement, which treats Westlake as a named example of the Postwar Minimal house and of the tract Ranch and illustrates both with Westlake photographs. That is exactly the shading this node's exemplar note describes, and it is the reason both this node and ranch-style can point here honestly. The acreage and the start date each disagree between sources and neither is resolved."
+}

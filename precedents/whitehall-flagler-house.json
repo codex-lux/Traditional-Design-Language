@@ -1,0 +1,194 @@
+{
+  "id": "whitehall-flagler-house",
+  "name": "Whitehall (Henry M. Flagler House)",
+  "aka": [
+    "Henry M. Flagler Mansion",
+    "Henry Morrison Flagler Museum"
+  ],
+  "location": {
+    "text": "Palm Beach, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "1900-1902",
+    "circa": false,
+    "altered": "Used as a hotel between its original occupancy and its present museum use; a ten-storey, 300-room hotel addition was built on the west side in 1925 (Carrere and Hastings again) and its upper ten storeys were demolished in 1963. The survey says the west facade 'still retains evidence of its one-time existence as a hotel' and that its documentation covers only the original mansion.",
+    "note": "The style node's exemplar gives 1902 and Wikipedia's infobox gives 'Built 1900-1901' against a text saying 'Completed in 1902'; the National Historic Landmark nomination says the foundation was laid in the summer of 1900, construction was completed in 1901, and the Flaglers first resided there in the season of 1902. The Library's own item record prints 'Building/structure dates: 1902 Initial Construction'. All are recorded; none is edited."
+  },
+  "nodes": [
+    "neoclassical-revival",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "FL-224",
+      "title": "Henry M. Flagler Mansion, Whitehall Way, Palm Beach, Palm Beach County, FL",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0178/data/fl0178data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's normalised form is FL-224 and is what a search resolves; the data page's own cover and running header print the older form, 'HABS No. FLA-224'. Recorded here in the searchable form, with the header's form stated, as the schema asks. The Wikipedia external-links line gives the item as '24 photos, 1 color transparency, 2 measured drawings, 34 data pages, 3 photo caption pages, supplemental material'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "fl0178",
+      "url": "https://www.loc.gov/pictures/item/fl0178",
+      "title": "Henry M. Flagler Mansion, Whitehall Way, Palm Beach, ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line reads 'Survey number: HABS FL-224; Building/structure dates: 1902 Initial Construction; National Register of Historic Places NRIS Number: 72000345'. The item id is the path segment of that URL and of the data PDF actually fetched."
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000345",
+      "url": "https://www.loc.gov/pictures/item/fl0178",
+      "title": "National Register of Historic Places NRIS Number: 72000345, as the Library's item record prints it; added December 5, 1972",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The reference number is confirmed on two surfaces read the same day - the Library's item record and the Wikipedia infobox - which is one more than most of this tranche's register numbers carry."
+    },
+    {
+      "kind": "nhl",
+      "url": "https://npgallery.nps.gov/GetAsset/6a439741-160e-4234-b3ab-4b6c1e2b2014",
+      "title": "Whitehall - National Historic Landmark nomination, National Register of Historic Places Registration Form (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "No landmark reference number is printed in the span read, so none is recorded. Its architectural classification field reads 'ARCHITECTURAL CLASSIFICATION: Neoclassical Revival MATERIALS: Foundation: Walls: stucco Roof: Terra cotta tile Other:' and its description opens 'Whitehall, a marble mansion of the Gilded Age, was constructed on the west side of the island of Palm Beach, Florida, in 1900-1901. It is a two-and-a-half story monumental residence designed in the Neoclassical Revival style by Carrere and Hastings' - a nomination whose own materials field says stucco three lines under its own prose calling the house marble."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Whitehall_(Henry_M._Flagler_House)",
+      "title": "Whitehall (Henry M. Flagler House) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "fl0178",
+    "register": "loc-item",
+    "survey_no": "FL-224",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0100/fl0178/data/fl0178data.pdf",
+    "prepared": "A Florida project of the summer of 1971 in cooperation with the Historical Society of Palm Beach County and the Florida Board of Archives and History, under James C. Massey, then Chief of HABS, with Professor Woodrow W. Wilkins, AIA (University of Miami) as Project Supervisor and Richard C. Crisson, Architect (University of Florida); the field office was in the Flagler Museum itself.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: Including porticos, the structure originally measured 256 r-G\" on the east-west axis, and 176 T-0\" on the north-south axis.",
+        "page": "HABS No. FLA-224, Part II.B.1. The page marker printed immediately after this passage reads 'HENRY M. FLAGLER MANSION (Whitehall) HABS No. FLA-224 (Page 8)'."
+      },
+      {
+        "field": "bays",
+        "text": "The east front presents a seven-bay composition, with, the five central Bays defined By a two-story portico.. The mansion is two stories and an attic over a Easement in height, and is in layout Basically- a rectangle composed symmetrically about both axes.",
+        "page": "HABS No. FLA-224 (Page 8); the marker is printed immediately before this passage"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction, finish, and color: Walls are of brick, stuccoed and painted white, with decoration reserved to openings, cornices, and the east portico.",
+        "page": "HABS No. FLA-224, Part II.B.3; same extract span as the seven-bay passage, page 8"
+      },
+      {
+        "field": "porches",
+        "text": "a. JSntrance portico: Here the main entrance is on the east,, reached through, a two-story portico measuring 101'-6\" across the front and 18-0\" deep. It is divided into five bays by the colossal stuccoed Roman Doric columns, resting on high plinths. The capitals are decorated with rosettes on the four cardinal compass points, above which is a band of egg-and-dart molding. The shafts are fluted. These columns are matched by engaged pilasters on the east (front) wall of the house. The end col-umns are engaged to rectangular piers for their full height.",
+        "page": "HABS No. FLA-224, Part II.B.5.a; no page marker legible inside this contiguous span"
+      },
+      {
+        "field": "openings",
+        "text": "All windows on the second—floor north, and south, wall are single-hung fi-6\" x S'-Q\"- Two thin vertical mullions divide the sash, into a center light, 33\" x 52\", flanked by 18\" x 52\" lights A wood valance is: set in the reveals.",
+        "page": "HABS No. FLA-224 (Page 13); the marker is printed immediately before this passage"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering: Behind the flat-roofed portico the main tiled roof is gabled with tiled hipped roofs framed below the parapeted gable ends with the two chimneys. Roofs over the other wings are hipped and tiled, except for the flat roof over the south loggia. b. Cornice, eaves: Eaves are generally wood-bracketed with asimple crown molding in contrast to the ornate cornice and eaves of the east portico. 9. Dormers, cupolas, towers: None.",
+        "page": "HABS No. FLA-224, Part II.B.8-9; same extract span as the window passage, page 13"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "256 r-G\"",
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The east-west axis, including porticos. NO VALUE IS PARSED: the OCR gives 'r-G' where the sheet prints the foot mark and the inches, and while 256'-6\" is the obvious reading it is a guess about a digit and this record does not make those. The figure is 256 feet and some inches."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "176 T-0\"",
+      "value": 176.0,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 176'-0\" on the north-south axis, including porticos; a reading, marked as one. The zero inches is legible where the width's inches are not."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "seven-bay composition",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two stories and an attic over a Easement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two storeys and an attic over a basement; 'Easement' and the capitalised 'B's through this passage are OCR."
+    },
+    {
+      "name": "portico_width_ft",
+      "as_printed": "101'-6\"",
+      "value": 101.5,
+      "unit": "ft",
+      "from_quote": 3
+    },
+    {
+      "name": "portico_depth_ft",
+      "as_printed": "18-0\"",
+      "value": 18.0,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "OCR for 18'-0\"; a reading. This is the figure that speaks to the kit's porch_depth slot and it sits above the band that slot states."
+    },
+    {
+      "name": "portico_bay_count",
+      "as_printed": "divided into five bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "window_centre_light_width_in",
+      "as_printed": "33\" x 52\"",
+      "value": 33,
+      "unit": "in",
+      "from_quote": 4,
+      "note": "The first figure of the pair the survey prints for the centre light of a second-floor sash."
+    },
+    {
+      "name": "window_centre_light_height_in",
+      "as_printed": "33\" x 52\"",
+      "value": 52,
+      "unit": "in",
+      "from_quote": 4,
+      "note": "The second figure of the same pair. The overall sash size in the same sentence is unreadable OCR ('fi-6\" x S'-Q\"') and is not parsed."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "the two chimneys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "9. Dormers, cupolas, towers: None.",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "A measured zero stated by the surveyor, not a silence - which is the distinction the plan schema's `declared.dormer` was built for."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, the French modes and the Beaux-Arts. This is the cluster's best measured house: a 176 ft depth, a seven-bay front, a 101'-6\" x 18'-0\" five-bay portico of colossal Roman Doric columns, two chimneys and no dormers at all. Two things it says that the corpus does not. First, the node's own exemplar calls Whitehall a 'Marble-faced classical block'; the survey says 'Walls are of brick, stuccoed and painted white', and the National Historic Landmark nomination's materials field says 'Walls: stucco' four lines below its own prose calling the house 'a marble mansion'. Second, the portico is 18 ft deep, against a kit that gives porch_depth a typical range of 10 to 14 ft."
+}

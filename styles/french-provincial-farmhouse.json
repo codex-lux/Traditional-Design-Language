@@ -199,25 +199,55 @@
       "name": "Ferme de la Foret",
       "location": "Courtes, Ain, France",
       "year": null,
-      "note": "17th century; a Bressan timber-framed farm with an external first-floor gallery and a cheminee sarrasine of timber and daub. Classee monument historique."
+      "note": "17th century; a Bressan timber-framed farm with an external first-floor gallery and a cheminee sarrasine of timber and daub. Classee monument historique.",
+      "precedent": "ferme-de-la-foret-courtes",
+      "standing": "canonical",
+      "why": "The 1930 classification wording itself names the chimney -- « Ferme de la Forêt (ensemble) , y compris sa cheminée sarrazine » -- so it is the register, not this project, that treats the freestanding Bressan stack as constitutive of the type rather than as a fitting."
     },
     {
       "name": "Mas de la Pyramide",
       "location": "Saint-Remy-de-Provence, Bouches-du-Rhone, France",
       "year": null,
-      "note": "A working mas cut into the face of the Roman quarry at Glanum and continuously occupied into the 20th century; the clearest demonstration of a Provencal farm built out of, and into, its own material source."
+      "note": "A working mas cut into the face of the Roman quarry at Glanum and continuously occupied into the 20th century; the clearest demonstration of a Provencal farm built out of, and into, its own material source.",
+      "precedent": "mas-de-la-pyramide",
+      "standing": "regional",
+      "why": "It stands for the Provençal end of a node that also reaches Brittany, Bresse and Alsace, and it is carried as that regional case alone: repeated searches of the Base Mérimée found no notice for it, so nothing in its record rests on a register."
     },
     {
       "name": "Village de Poul-Fetan",
       "location": "Quistinic, Morbihan, France",
       "year": null,
-      "note": "A restored Breton hamlet of 16th-19th century granite longeres with thatched roofs, preserved as a working ensemble."
+      "note": "A restored Breton hamlet of 16th-19th century granite longeres with thatched roofs, preserved as a working ensemble.",
+      "precedent": "village-de-poul-fetan",
+      "standing": "regional",
+      "why": "It is the Breton case and a heavily restored one -- the operator's own account dates the recovery (acquired 1977, restored from 1979, opened 1985) and never dates the fabric -- so it is carried for the type and not as evidence about any building's age."
     },
     {
       "name": "Ecomusee d'Alsace",
       "location": "Ungersheim, Haut-Rhin, France",
       "year": null,
-      "note": "Some seventy relocated Alsatian rural buildings of the 15th-19th centuries, reassembled as a village; the largest single sample of the eastern French farm."
+      "note": "Some seventy relocated Alsatian rural buildings of the 15th-19th centuries, reassembled as a village; the largest single sample of the eastern French farm.",
+      "precedent": "ecomusee-dalsace",
+      "standing": "documentary",
+      "why": "The French Wikipedia article calls it « le plus grand musée de plein air de France » and says its re-erected constructions are « généralement anciennes (certaines datant du XVe siècle) », which makes it a place to measure the eastern French farm rather than a building to admire -- and nothing on the site stands where it was built."
+    },
+    {
+      "name": "Ferme des Planons",
+      "location": "Saint-Cyr-sur-Menthon, Ain, France",
+      "year": null,
+      "note": "Five ranges round a closed square court at la Mulatiere, entered through a passou: oak frame on a soubassement of the bricks called carrons with torchis of earth and straw on alder wattle for the dwelling, pise on stone or brick for the stables, canal tile on oak throughout, and a cheminee sarrasine. Classee monument historique 1938, the arrete naming the chimney.",
+      "precedent": "ferme-des-planons",
+      "standing": "canonical",
+      "why": "It is classée monument historique with its cheminée sarrasine named in the 1938 arrêté, and the French Wikipedia article describes its five ranges wall by wall -- frame on carron soubassement, torchis for the dwelling, pisé for the stables -- which makes it the one Bressan farm in this list whose construction a reader can check without visiting; the ranking is this project's."
+    },
+    {
+      "name": "Mas de la Chassagne",
+      "location": "Arles, Bouches-du-Rhone, France",
+      "year": null,
+      "note": "An Arles mas on a 350-hectare holding north of the etang du Vaccares, documented by the regional Inventaire general and not protected: a rendered rubble logis of one storey over a ground floor with bays, an ashlar stable set parallel to it and joined by two small ranges, canal-tile roofs, the principal facade facing south onto an open yard, and a large detached bergerie of Fontvieille stone with very low eaves walls and small buttresses.",
+      "precedent": "mas-de-la-chassagne",
+      "standing": "documentary",
+      "why": "It is an ordinary Camargue mas nobody calls beautiful, described field by field by the regional Inventaire, and it is the only record in this node that states this node's own orientation rule as a fact about a real building: « Façade principale donnant au sud sur une cour ouverte »."
     }
   ],
   "sources": [

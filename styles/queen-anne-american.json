@@ -223,19 +223,55 @@
       "name": "Carson Mansion",
       "location": "Eureka, California",
       "year": 1886,
-      "note": "Samuel and Joseph Cather Newsom, 1884-86, for the lumber baron William Carson. Redwood, and the most elaborate surviving American Queen Anne; correctly read as Queen Anne with Eastlake, Italianate, and Stick elements."
+      "note": "Samuel and Joseph Cather Newsom, 1884-86, for the lumber baron William Carson. Redwood, and the most elaborate surviving American Queen Anne; correctly read as Queen Anne with Eastlake, Italianate, and Stick elements.",
+      "precedent": "carson-mansion",
+      "standing": "icon",
+      "why": "Wikipedia reports it 'considered the most grand Victorian home in America' and 'one of the premier examples of Queen Anne style architecture in the United States', and it is the case this node's rule is about -- one dominant mass against 'a lumpy accumulation of unrelated projections'. That prose states the rule and names no building; the sibling `queen-anne-spindled`'s prose is where this one is named."
     },
     {
       "name": "Haas-Lilienthal House",
       "location": "San Francisco, California",
       "year": 1886,
-      "note": "Peter R. Schmidt. Redwood, on the local narrow deep-lot row-house plan; the best-preserved San Francisco Queen Anne open to the public."
+      "note": "Peter R. Schmidt. Redwood, on the local narrow deep-lot row-house plan; the best-preserved San Francisco Queen Anne open to the public.",
+      "precedent": "haas-lilienthal-house",
+      "standing": "canonical",
+      "why": "Its 1977 HABS report dimensions the node's own texture rule storey by storey -- eight-inch siding, four-inch shingle divisions, scale-like shingles above -- and the National Trust calls it the city's only intact private home of the period open regularly as a museum."
     },
     {
       "name": "William Watts Sherman House",
       "location": "Newport, Rhode Island",
       "year": 1876,
-      "note": "H. H. Richardson, 1874-76, with later interiors by Stanford White. The American beginning of the Shaw manner; simultaneously the first American Queen Anne and the prototype of the Shingle Style, which is exactly why the graph needs multiple parents here."
+      "note": "H. H. Richardson, 1874-76, with later interiors by Stanford White. The American beginning of the Shaw manner; simultaneously the first American Queen Anne and the prototype of the Shingle Style, which is exactly why the graph needs multiple parents here.",
+      "precedent": "william-watts-sherman-house",
+      "standing": "canonical",
+      "why": "The Pennsylvania State Historic Preservation Office's own style essay says 'The first Queen Anne style building in America is considered to be the Watts Sherman house', and its National Register infobox's style word is 'Queen Anne' even though the corpus files it first under the Shingle Style."
+    },
+    {
+      "name": "Rosson House",
+      "location": "Phoenix, Arizona",
+      "year": 1895,
+      "note": "A. P. Petit, 1894-95, for Dr Roland Lee Rosson. Brick below and wood above with an octagonal turret, at the dry edge of the style's distribution and reached by the same railroad that carried the millwork.",
+      "precedent": "rosson-house",
+      "standing": "regional",
+      "why": "Wikipedia calls it 'the Stick-Eastlake - Queen Anne Style of Victorian architecture' and the Library of Congress files its HABS photographs under the subjects 'houses / turrets (towers) / Stick Style architectural elements', so the register and the cataloguer between them place it exactly on this node's own boundary."
+    },
+    {
+      "name": "Hale House",
+      "location": "Los Angeles, California",
+      "year": 1887,
+      "note": "Joseph Cather Newsom, 1887, for the developer George W. Morgan. The Carson Mansion's own architect working speculatively at ordinary scale, and the clearest single demonstration that this style is a catalogue applied at any budget.",
+      "precedent": "hale-house",
+      "standing": "regional",
+      "why": "Wikipedia records it described as 'the most photographed house in the entire city' and 'the most elaborately decorated', and also records five different style names applied to it -- Queen Anne, Eastlake, Carpenter Gothic, 'picturesque eclectic,' and 'a capricious old gingerbread' -- without saying by whom, which is the honest state of this node's own edges."
+    },
+    {
+      "name": "Charles H. Hackley House",
+      "location": "Muskegon, Michigan",
+      "year": 1887,
+      "note": "David S. Hopkins, 1887, for a lumber baron, standing beside his partner Thomas Hume's house on lots the two men divided between them. The Great Lakes millwork economy expressed by the men who owned the mills.",
+      "precedent": "charles-h-hackley-house",
+      "standing": "canonical",
+      "why": "Listed individually on the National Register in 1970 as Queen Anne, professionally restored and open to the public as half of the Hackley and Hume Historic Sites, which makes it the best-documented ordinary-plan Queen Anne in the Midwest this cluster reached."
     }
   ],
   "sources": [

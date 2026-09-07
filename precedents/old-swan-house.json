@@ -1,0 +1,80 @@
+{
+  "id": "old-swan-house",
+  "name": "Old Swan House",
+  "aka": [
+    "Swan House",
+    "No 17 Chelsea Embankment"
+  ],
+  "location": {
+    "text": "Chelsea Embankment, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (Royal Borough of Kensington and Chelsea)"
+  },
+  "dates": {
+    "built": "1876",
+    "note": "The list entry gives the single year 1876. The node's exemplar carries the year 1877 and its own note says 'Built 1875-77'. Neither is changed here."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1294208",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1294208",
+      "title": "Swan House, Non Civil Parish - 1294208 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Overview line carries Grade 'II*', List Entry Number '1294208' and Date first listed '24-Jun-1954'; the Details text prints '24.6.54' under the reference '63/14' and names the building 'No 17 (Swan House)'. The entry ends 'Listing NGR: TQ2762177720'. The register's name for the building is Swan House; the node's exemplar calls it Old Swan House, which is why `aka` carries both."
+    }
+  ],
+  "survey": {
+    "item": "1294208",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1294208",
+    "prepared": "Date first listed: 24-Jun-1954, as the Overview line prints it; the Details text prints '24.6.54'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "House. 1876. R Norman Shaw, architect. 4-storey, basement and dormers. Mostly 7 windows. Red brick tiled roof. Carved eaves cornice. Overhanging first and second floor, with second floor projecting beyond first floor, flanked by brick piers.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1294208)."
+      },
+      {
+        "field": "openings",
+        "text": "Three wide oriels with curved returns and semi-circular-headed central lights at first floor. Leaded panes. Second floor windows long and narrow with glazing bars, alternate windows 3-sided oriels with single brackets beneath. Central entrance with swan motif over door.",
+        "page": "Official list entry, Details section, openings paragraph, above 'Listing NGR: TQ2762177720'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "4-storey, basement and dormers",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four storeys over a basement and under dormers; the fullest storey statement in this cluster and the only one from an urban terrace house."
+    },
+    {
+      "name": "front_window_count",
+      "as_printed": "Mostly 7 windows",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "'Mostly' is the entry's own hedge: the front's window count varies by storey, which is exactly the effect the node's prose describes -- the elevation is composed storey by storey rather than on a single grid."
+    },
+    {
+      "name": "first_floor_oriel_count",
+      "as_printed": "Three wide oriels",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "At first floor. The node's own exemplar note says 'Three tall oriels on the first floor over a recessed ground storey', which the register corroborates for the count and does not corroborate for the recessed ground storey -- the entry says the first and second floors overhang."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1294208",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. The most citable envelope statement in this cluster: a four-storey house over a basement, seven windows wide, with the first and second floors overhanging and the second projecting beyond the first. It is the one exemplar in these three nodes where the register states a storey count and a window-bay count for the same elevation in the same sentence."
+}

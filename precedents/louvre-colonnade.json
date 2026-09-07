@@ -1,0 +1,42 @@
+{
+  "id": "louvre-colonnade",
+  "name": "Louvre east front (Colonnade)",
+  "aka": [
+    "Colonnade du Louvre",
+    "Colonnade de Perrault",
+    "façade orientale du palais du Louvre"
+  ],
+  "location": {
+    "text": "Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1667-1670",
+    "circa": false,
+    "note": "THE NODE AND THE ONE DESCRIPTIVE SOURCE READ HERE DISAGREE ABOUT THE END DATE. The node's exemplar says '1667-1674'; the fr.wikipedia article says the front 'a été édifiée entre 1667 et 1670' and its infobox prints 'Construction 1667' and 'Inauguration 1758'. The Mérimée notice for the palace states no date for this front at all. Neither is changed."
+  },
+  "nodes": [
+    "french-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00085992",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00085992",
+      "title": "Palais du Louvre et jardin des Tuileries",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The protection notice for the whole palace. It prints 'Date et niveau de protection de l'édifice 2017/05/02 : classé MH' under the domaine national decree n°2017-720, and records the superseded classements: 'Le Palais du Louvre : classement par liste de 1889 - Le jardin des Tuileries (cad. 101 AG 1 à 6) : classement par journal officiel du 18 avril 1914'. Its 'Description historique' field says only 'Arc du Carrousel date du 1er quart du 19e siècle, par Percier et Fontaine' - it does not mention the Colonnade."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Colonnade_du_Louvre",
+      "title": "Colonnade du Louvre — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The only source read here that describes this front. It states that the Colonnade is 'Longue de 183 m', that a rusticated ground storey carries 'une colonnade de style corinthien dissimulant deux étages, puis une balustrade à la hauteur du toit', and that the central pavilion's pediment is made of two stones of '17,5 m de long, 2,6 m de large et 48 cm d'épaisseur'. NONE OF THOSE FIGURES IS CARRIED AS A MEASUREMENT, because a measurement indexes a survey quote and this record has no survey: an encyclopedia is not a heritage register and is not promoted to one here."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. NO SURVEY BLOCK, DELIBERATELY, AND THIS IS THE CLEAREST GAP THE CLUSTER FOUND. The exemplar names a FAÇADE; the Base Mérimée lists the PALACE, under one domaine national notice whose only descriptive sentence is about the Arc du Carrousel. The Louvre's own site was tried at https://www.louvre.fr/en/explore/the-palace/from-castle-to-museum and answered 404. So the building the node calls 'the manifesto of the flat French wall' has a locator and no description, and the 183 m length that would be its most useful figure rests on an encyclopedia alone. Recorded as a hole rather than filled by promoting the encyclopedia. `record_kind` is left at the default `building` because the schema's vocabulary - building, district, type-model, group - has no term for a named front of a larger palace; that is a gap in the vocabulary and it is stated here rather than papered over with a wrong term."
+}

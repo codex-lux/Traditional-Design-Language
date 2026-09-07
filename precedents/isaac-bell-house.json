@@ -1,0 +1,230 @@
+{
+  "id": "isaac-bell-house",
+  "name": "Isaac Bell House",
+  "aka": [
+    "Edna Villa",
+    "Isaac Bell, Jr. House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1881-1883",
+    "circa": false,
+    "note": "The Wikipedia infobox and the NHL nomination give 1881-1883; the Library's item summary says 'built as a summer \"cottage\" in 1882-1883'; the node's exemplar says 1881-83. All kept."
+  },
+  "nodes": [
+    "shingle-style",
+    "victorian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-308",
+      "url": "https://www.loc.gov/pictures/item/ri0034",
+      "title": "Isaac Bell House, 70 Perry Street, Newport, Newport County, RI",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Significance: This large house, built as a summer \"cottage\" in 1882-1883, is an early work of the architects McKim, Mead, and White. · Survey number: HABS RI-308'. The Wikipedia external-links section, read the same day, gives the item as '10 photos, 8 measured drawings, 14 data pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0034",
+      "url": "https://www.loc.gov/pictures/item/ri0034",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000022",
+      "url": "https://en.wikipedia.org/wiki/Isaac_Bell_House",
+      "title": "NRHP reference No. 72000022 (original) 97001276 (NHL); added January 13, 1972; designated NHL September 25, 1997 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "nhl",
+      "id": "97001276",
+      "url": "https://npgallery.nps.gov/GetAsset/c42ec182-1cba-4454-883c-9f07ba7666bb",
+      "title": "[PDF] BELL, ISAAC, JR. HOUSE O - NPGallery",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The NHL nomination; its own words: 'The Bell House was built between 1881 and 1883 by the architects McKim, Mead and White' and it cites 'Historic American Buildings Survey, HABS No. RI-308, 3-NEWP, 44, August 1969'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Isaac_Bell_House",
+      "title": "Isaac Bell House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.newportmansions.org/mansions-and-gardens/isaac-bell-house",
+      "title": "Isaac Bell House | Newport Mansions",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner (The Preservation Society of Newport County, since 1994 per the page). Its page calls the house 'one of the finest surviving examples of shingle-style architecture in the country' -- an owner's claim, recorded as one."
+    }
+  ],
+  "survey": {
+    "item": "ri0034",
+    "register": "loc-item",
+    "survey_no": "RI-308",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0034/data/ri0034data.pdf",
+    "prepared": "The extract's header reads '... Dame Project Historian June, 1971'; the historian's full name was not legible in the span",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: This is a typical example of the Shingle Style with characteristic surface textures on both exterior and interior walls, and distinguished by the extreme open character of its planning.",
+        "page": "HABS No. RI-308, Part II.A.1; the marker 'ISAAC BELL HOUSE HABS No. RI-308 page 9.' follows the dimensions below"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: 106 feet by 99 feet; irregular layout; three stories.",
+        "page": "HABS No. RI-308, Part II.B.1; the marker 'ISAAC BELL HOUSE HABS No. RI-308 page 9.' follows"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Exterior foundation walls are of fieldstone with a roughly dressed surface on the outer face. Interior foundation walls are brick.",
+        "page": "HABS No. RI-308, Part II.B.2; the marker 'page 9.' follows"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: First floor walls are red brick laid in red mortar with narrow joints. A quoining pattern is worked out in very smooth-faced brick which contrasts in texture only slightly with the coarser faced intervening brick. The upper walls and large gable ends are covered with shingles, with ends cut in various shapes and arranged in horizontal patterns. The shingles have a natural weathered finish.",
+        "page": "HABS No. RI-308 page 9"
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system, framing: The masonry structure in the exterior walls is continuous throughout the first floors. The exterior walls above the first floor, and the interior construction are frame.",
+        "page": "HABS No. RI-308 page 9"
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: There are four tall brick chimneys with panelled faces.",
+        "page": "HABS No. RI-308 page 9"
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows: Most windows are double hung, with the larger lower sash of undivided single panes of plate glass. The smaller upper sashes are composed of small 6 1/2\" x 7\" panes. Windows on the east side of the house opening onto the porch have a six foot lower sash at floor level which can be raised allowing access to the porch. Louvered shutters are in place on most windows. They were originally painted a warm, medium gray, now green. First floor window sills are of brownstone.",
+        "page": "HABS No. RI-308 page 9, Part II.B.6.b"
+      },
+      {
+        "field": "roof",
+        "text": "7. Roof: Gabled and hipped roofs are steeply pitched at the top with flatter pitches on lower roofs with modern asphalt shingles. There are very shallow eaves with simple wood moldings. A semi-circular bay at the southwest corner of the house terminates in a bell-shaped roof with a spiral finial.",
+        "page": "HABS No. RI-308 page 9, Part II.B.7"
+      },
+      {
+        "field": "porches",
+        "text": "8. Porches, stoops, and bulkheads: A one-story porch wraps around the south and east sides of the house becoming two stories at the northeast corner. The wooden floored porch has a brick parapet on which stand turned wood columns in a bamboo pattern to carry the low-pitched roof. The roof swings out in a segmental projection over the steps to the ISAAC BELL HOUSE HABS No. RI-308 page 10. front door. The projection is carried on two carved wood dragon heads. There is a later back porch at the northwest corner.",
+        "page": "HABS No. RI-308 pages 9-10; the running head falls inside the span and is quoted as printed"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plan: The house has an irregular main block with a block of service rooms to the northwest. The main block is developed around a large central hall, a great hall, which is reached through a vestibule from the main door. A broad stairway leads from the hall to the upper floor. The principal rooms open from the hall: a reception room to the southeast, the parlor to the east, the dining room to the northeast, and the library to the southwest. The reception room and parlor, and the parlor and dining room connect through broad sliding doors. The parlor and dining room open to the hall through very wide doorways with sliding partitions.",
+        "page": "HABS No. RI-308 page 10, Part II.C.1"
+      },
+      {
+        "field": "stairways",
+        "text": "2. Stairways: The main stairway with a broad eight foot wide first run leads from the central hall to the U-shaped hall above.",
+        "page": "HABS No. RI-308 page 10, Part II.C.2"
+      },
+      {
+        "field": "other",
+        "text": "Each gable is thirty-two feet wide and twenty feet high from the eaves, and faced with cut shingles; and between them is a very elaborate leader-box of galvanized iron. There is also an elliptic window in the north gable. Three chimneys, the highest about twenty feet above the roof, are plainly treated, though one of them has an intricately-wrought iron brace serving purposes both useful and ornamental.",
+        "page": "HABS No. RI-308; a period description the survey quotes in its Part I, whose source citation was not legible in the extract span; no page marker legible"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "106 feet by 99 feet",
+      "value": 106,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey does not say which figure is the front; 'irregular layout'."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "106 feet by 99 feet",
+      "value": 99,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Same caveat."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "three stories",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four tall brick chimneys",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "The 1971 surveyor's count; the period description the survey quotes (quote 11) says three."
+    },
+    {
+      "name": "upper_sash_pane_width_in",
+      "as_printed": "6 1/2\" x 7\" panes",
+      "value": 6.5,
+      "unit": "in",
+      "from_quote": 6
+    },
+    {
+      "name": "upper_sash_pane_height_in",
+      "as_printed": "6 1/2\" x 7\" panes",
+      "value": 7,
+      "unit": "in",
+      "from_quote": 6
+    },
+    {
+      "name": "porch_window_lower_sash_height_ft",
+      "as_printed": "a six foot lower sash at floor level",
+      "value": 6,
+      "unit": "ft",
+      "from_quote": 6
+    },
+    {
+      "name": "stair_first_run_width_ft",
+      "as_printed": "a broad eight foot wide first run",
+      "value": 8,
+      "unit": "ft",
+      "from_quote": 10
+    },
+    {
+      "name": "gable_width_ft",
+      "as_printed": "Each gable is thirty-two feet wide",
+      "value": 32,
+      "unit": "ft",
+      "from_quote": 11,
+      "note": "From the period description, not the surveyor's tape."
+    },
+    {
+      "name": "gable_height_above_eaves_ft",
+      "as_printed": "twenty feet high from the eaves",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 11,
+      "note": "From the period description."
+    },
+    {
+      "name": "chimney_height_above_roof_ft",
+      "as_printed": "the highest about twenty feet above the roof",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 11,
+      "note": "From the period description."
+    }
+  ],
+  "note": "Worth carrying: the surveyor's 'very shallow eaves with simple wood moldings' is the survey's own reading of the eave condition the shingle-style kit binds at an overhang of not more than 12 in, and it states no inch figure. The two chimney counts (four in 1971, three in the period text the survey quotes) are both on the record. Seeded 4 Sep 2026."
+}

@@ -1,0 +1,83 @@
+{
+  "id": "hacienda-de-jaral-de-berrio",
+  "name": "Hacienda de Jaral de Berrio",
+  "aka": [
+    "Hacienda del Jaral de Berrios",
+    "Hacienda de San Diego de Jaral de Berrios"
+  ],
+  "location": {
+    "text": "San Felipe, Guanajuato, Mexico",
+    "country": "Mexico",
+    "state": "Guanajuato"
+  },
+  "dates": {
+    "built": "17th-19th century",
+    "circa": true,
+    "altered": "The estate was granted to Miguel de Berrio y Zaldivar in 1774 and the neoclassical palacete built by the last marquesses Moncada y Berrio at the end of the 19th century; ruinous, with a tequila works in the main building, and changing hands in 2019.",
+    "note": "The node's exemplar dates the row '18th century'. The festival site says the casco is THREE HOUSES of the 17th, 18th and 19th centuries and that the celebrated one is the last; a Facebook post read the same day says four houses. No single date is claimed here."
+  },
+  "nodes": [
+    "mexican-hacienda"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://jaraldeberrio.net/hacienda-de-jaral-de-berrio",
+      "title": "Hacienda de Jaral de Berrio - Jaral de Berrio - Festival de la Noche Buena",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A LOCAL FESTIVAL SITE, NOT A REGISTER AND NOT AN INSTITUTION. It is used because THERE IS NO SPANISH WIKIPEDIA ARTICLE for this building -- the title 'Hacienda de Jaral de Berrio' returns 'Wikipedia todavía no tiene una página llamada «Hacienda de Jaral de Berrio»' -- and no INAH or Guanajuato state page was reached in this session. The page was first met in a search result and then EXTRACTED, and every quote below is a contiguous span of that extract."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.atlasobscura.com/places/hacienda-del-jaral-de-berrios",
+      "title": "Hacienda del Jaral de Berrios in San Felipe - Atlas Obscura",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A TRAVEL SITE. Carried for one figure nothing else in this cluster supplies: 'During its heyday throughout the 19th century, the estate housed somewhere around 6,500 people and boasted its own railroad station, post office, parish church, and two primary schools.' It hedges with 'somewhere around'."
+    }
+  ],
+  "survey": {
+    "item": "jaraldeberrio-net-hacienda-de-jaral-de-berrio",
+    "register": "other",
+    "data_url": "https://jaraldeberrio.net/hacienda-de-jaral-de-berrio",
+    "prepared": "No author and no date are printed on the page. NOT A REGISTER, NOT AN INSTITUTION AND NOT AN ENCYCLOPEDIA -- a local festival's own site, and the weakest survey source in this cluster. It is here because this building has no encyclopedia article in Spanish at all.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El casco de la Hacienda de Jaral de Berrio se compone de 3 casas cada una construida en diferentes siglos abarcando desde el siglo XVII hasta el siglo XIX. Siendo así en este último cuando se construyó la casa que más sobresale por su peculiar arquitectura de estilo neoclásico.",
+        "page": "jaraldeberrio.net, monument page, opening description. Read in an extract of the page, not in a search-result summary."
+      },
+      {
+        "field": "plan",
+        "text": "Al interior se encuentra un patio central con pasillos laterales, esta primer planta era dedicada a actividades administrativas de la hacienda. Al fondo del patio podemos apreciar una escalera imperial de dos entradas cada una enmarcada con un arco ojival de cantera y al centro un arco de medio punto.",
+        "page": "jaraldeberrio.net, monument page. Read in an extract of the page, not in a search-result summary."
+      },
+      {
+        "field": "materials",
+        "text": "La fachada es de cantera rosa dividida en tres planos.",
+        "page": "jaraldeberrio.net, monument page. Read in an extract of the page, not in a search-result summary."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "casco_house_count",
+      "as_printed": "se compone de 3 casas cada una construida en diferentes siglos",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A Facebook post read the same day says the casco has FOUR houses beside a parish church, trojes and a family mortuary chapel. Three is the figure in the quoted span; the other is recorded here and neither is resolved."
+    },
+    {
+      "name": "facade_plane_count",
+      "as_printed": "dividida en tres planos",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE WORST-SOURCED RECORD IN THIS CLUSTER AND IT SAYS SO: no Spanish Wikipedia article exists -- the title returns 'Wikipedia todavía no tiene una página llamada «Hacienda de Jaral de Berrio»' -- no INAH or Guanajuato state page was reached, and the survey block is a local festival's own site. The first draft of this record put the quotes in from a SEARCH RESULT, which is the exact condition under which three Tranche 2 records manufactured sentences their pages do not contain; the page was then extracted and every quote below is a contiguous span of that extract. The schema would have caught it anyway: `survey.via` does not admit `tavily-search`."
+}

@@ -1,0 +1,56 @@
+{
+  "id": "newport-casino",
+  "name": "Newport Casino",
+  "aka": [
+    "International Tennis Hall of Fame"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1879-1881",
+    "circa": false,
+    "note": "Wikipedia's text: 'Built in 1879-1881'; its infobox prints 'Built 1879'."
+  },
+  "nodes": [
+    "shingle-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-331",
+      "url": "https://www.loc.gov/pictures/item/ri0065",
+      "title": "Newport Casino, 186-202 Bellevue Avenue ... - Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'The casino was an entertainment center with lawn and court tennis, game rooms, apartments, a ...'. The Wikipedia external-links section, read the same day, gives 'HABS No. RI-331, \"Newport Casino, 186-202 Bellevue Avenue, Newport, Newport County, RI\", 21 photos, 21 data pages, 1 photo caption page'. The data PDF at the tile.loc.gov path built from this item id answered 'Failed to fetch url' twice, so the written data is NOT quoted here."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0065",
+      "url": "https://www.loc.gov/pictures/item/ri0065",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000083",
+      "url": "https://en.wikipedia.org/wiki/Newport_Casino",
+      "title": "NRHP reference No. 70000083; added December 2, 1970; designated NHL February 27, 1987 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Newport_Casino",
+      "title": "Newport Casino - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The Newport Casino was the firm's first major commission and helped to establish the firm's national reputation.'"
+    }
+  ],
+  "note": "Not domestic -- a club with shops, courts and apartments -- and named for the reason the italian-renaissance-revival node names the Boston Public Library: the firm's first statement of the surface in public. Twenty-one data pages exist at the Library and could not be fetched from here; a later pass should quote them. Seeded 4 Sep 2026."
+}

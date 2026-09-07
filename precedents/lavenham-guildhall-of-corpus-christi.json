@@ -1,0 +1,68 @@
+{
+  "id": "lavenham-guildhall-of-corpus-christi",
+  "name": "Lavenham Guildhall of Corpus Christi",
+  "aka": [
+    "The Guildhall"
+  ],
+  "location": {
+    "text": "Lavenham, Suffolk, England",
+    "country": "England",
+    "state": "Suffolk"
+  },
+  "dates": {
+    "built": "circa 1529",
+    "circa": true,
+    "altered": "Used as the Bridewell and workhouse in the C18 and C19; restored by Sir Cuthbert Quilter circa 1911; the windows 'have all been restored to their original pattern'.",
+    "note": "The entry's 'circa 1529' and the guild's foundation year of 1529 agree with the node's exemplar year."
+  },
+  "nodes": [
+    "english-medieval-timber-frame"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1037186",
+      "title": "The Guildhall, Lavenham - 1037186",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1037186",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens 'This list entry was subject to a Minor Amendment on 27/03/2013' and then the legacy header 'TL 9149 50/617 23.1.58 LAVENHAM, MARKET PLACE (south-east side) The Guildhall GV I'."
+    }
+  ],
+  "survey": {
+    "item": "1037186",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1037186",
+    "prepared": "The Details section prints 'This list entry was subject to a Minor Amendment on 27/03/2013' above the legacy header, whose date reads 23.1.58.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "A superb early C16 timber-framed building with plaster infill (circa 1529). It was the hall of the Guild of Corpus Christi, founded in 1529, and one of the 4 medieval guilds of Lavenham. It is one of the finest examples of half timbering in this part of the country. In the C18 and C19 it was used as the Bridewell and workhouse and was restored by Sir Cuthbert Quilter (circa 1911). It is now owned by the National Trust. All the timber-framing is very heavy and closely spaced. Roofs tiled.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "storeys",
+        "text": "Two storeys. A fine two storeyed gabled porch projects on the north-west front, with heavy carved corner posts and doorcase. The upper storey is jettied on both fronts on a richly carved bressumer which extends across the whole building. At the north-west corner there is a heavy corner post carved with a figure with a lance. The windows have all been restored to their original pattern, mostly 5 or 6 light shallow oriel windows with moulded sills, the upper windows are mullioned and the ground storey windows are mullioned and transomed, all with lattice leaded lights.",
+        "page": "Official list entry, Details, second paragraph of the description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "mostly 5 or 6 light shallow oriel windows",
+      "from_quote": 1,
+      "note": "The entry states a pair of counts and a hedge ('mostly'), so no single value is parsed. These are restored windows by the entry's own statement."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. Extracted twice with different queries. The register's own claim is REGIONAL and not national -- 'one of the finest examples of half timbering in this part of the country' -- and the exemplar's `standing` is set to match those words rather than the node's stronger note."
+}

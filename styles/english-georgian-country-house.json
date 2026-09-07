@@ -187,25 +187,46 @@
       "name": "Basildon Park",
       "location": "Berkshire, England",
       "year": 1783,
-      "note": "Built 1776-83 by John Carr of York for Sir Francis Sykes, on an East India Company fortune. Bath stone, a pedimented centre with an Ionic portico, and flanking pavilions joined by short links — the type at its most polished."
+      "note": "Built 1776-83 by John Carr of York for Sir Francis Sykes, on an East India Company fortune. Bath stone, a pedimented centre with an Ionic portico, and flanking pavilions joined by short links — the type at its most polished.",
+      "precedent": "basildon-park",
+      "standing": "icon",
+      "why": "Historic England's Grade I entry states the whole composition as a '3:3:3:7:3:3:3 bay rhythm' -- screen wall, pavilion, screen wall, seven-bay centre block, and the same again reversed -- which is this node's own formula written down by the register."
     },
     {
       "name": "Danson House",
       "location": "Bexleyheath, London, England",
       "year": 1766,
-      "note": "Built 1762-66 by Sir Robert Taylor for the slave-trade merchant John Boyd. A compact three-storey villa of near-cubic proportion with canted bays — Taylor's characteristic reduction of the Palladian villa to a suburban scale."
+      "note": "Built 1762-66 by Sir Robert Taylor for the slave-trade merchant John Boyd. A compact three-storey villa of near-cubic proportion with canted bays — Taylor's characteristic reduction of the Palladian villa to a suburban scale.",
+      "precedent": "danson-house",
+      "standing": "canonical",
+      "why": "The list entry says in one sentence what makes this a type rather than a house: 'All 4 fronts are exposed, but the north and south fronts are slightly wider than the east and west fronts', with three storeys, the principal apartments on the first floor and nineteen steps up to the door."
     },
     {
       "name": "Nostell Priory",
       "location": "West Yorkshire, England",
       "year": 1750,
-      "note": "Begun 1733 to designs by Colonel James Moyser and executed by James Paine, with later interiors by Robert Adam from 1766. A main block with corner pavilions showing the transition from Palladian scheme to Georgian practice."
+      "note": "Begun 1733 to designs by Colonel James Moyser and executed by James Paine, with later interiors by Robert Adam from 1766. A main block with corner pavilions showing the transition from Palladian scheme to Georgian practice.",
+      "precedent": "nostell-priory",
+      "standing": "canonical",
+      "why": "Its entry states the storey graduation as glazing rather than as a ratio -- twelve-pane sashes on the piano nobile against square nine-pane sashes at first floor, on one thirteen-bay elevation -- which is this node's proportional claim in a form a checker can hold a kit figure against."
     },
     {
       "name": "Hagley Hall",
       "location": "Worcestershire, England",
       "year": 1760,
-      "note": "Built 1754-60 by Sanderson Miller, a gentleman amateur, for the first Lord Lyttelton. A four-square block with corner towers and Rococo plasterwork inside, and a good demonstration of how far a well-read amateur could get with pattern books."
+      "note": "Built 1754-60 by Sanderson Miller, a gentleman amateur, for the first Lord Lyttelton. A four-square block with corner towers and Rococo plasterwork inside, and a good demonstration of how far a well-read amateur could get with pattern books.",
+      "precedent": "hagley-hall",
+      "standing": "regional",
+      "why": "Historic England calls it 'Palladian style' and states an eleven-bay front articulated 1:3:3:3:1 with the corner pavilions composed as the outer bays; it is carried as the wide end of this node's five-or-seven-bay family rather than as its norm, and the entry is the authority for the arrangement, not for the norm."
+    },
+    {
+      "name": "Marble Hill House",
+      "location": "Twickenham, London, England",
+      "year": 1729,
+      "note": "Built 1724-29 to the designs of Lord Herbert and Roger Morris for Henrietta Howard. Stucco with stone dressings, a pyramidal roof of blue-black pantiles with a lead ball finial, and a setting laid out by Alexander Pope and Charles Bridgeman.",
+      "precedent": "marble-hill-house",
+      "standing": "documentary",
+      "why": "Historic England's entry calls it 'An unusually instructive exemplar of the architectural ideas of the English Palladian School' and states this node's formula at its smallest workable size -- a rectangle with north and south fronts of five bays, the centre three projecting and pedimented, three main storeys of which the lowest reads as a basement."
     }
   ],
   "sources": [

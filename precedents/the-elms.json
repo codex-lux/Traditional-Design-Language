@@ -1,0 +1,156 @@
+{
+  "id": "the-elms",
+  "name": "The Elms",
+  "aka": [
+    "Edward J. Berwind House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1901",
+    "circa": false,
+    "altered": "The survey records greenhouses and a service group built in 1911 on the Ida Powel Johnson estate Berwind acquired in 1909; the house passed to the Preservation Society of Newport County in 1962 and is a museum house.",
+    "note": "The style node's exemplar gives 1901 and the survey's own significance paragraph says 'completed in 1901'. Wikipedia gives 1901 for the infobox and 1909 as a date of subsequent work; the getarchive/PICRYL index of the same Library item prints 'Building/structure dates: 1901 Initial Construction' and a 1909 subsequent-work date. Nothing here disagrees, so nothing is reconciled."
+  },
+  "nodes": [
+    "french-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-344",
+      "title": "The Elms, Bellevue Avenue, Newport, Newport County, RI",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0049/data/ri0049data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own cover header ('HABS No. RI-344') and again, OCR-mangled, in the running header ('KABS No. RI-3U (Page 10)'). The Wikipedia external-links line, read the same day, gives the item as '29 photos, 1 color transparency, 18 data pages, 3 photo caption pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0049",
+      "url": "http://www.loc.gov/pictures/item/ri0049.photos.144828p",
+      "title": "29. CALLBOX IN MRS. BERWIND'S BATHROOM - The Elms, Bellevue Avenue, Newport, Newport County, RI",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id is the leading path segment of this photograph's own item URL, which a search returned; the same id is the path segment of the data PDF actually fetched. The loc.gov/pictures landing page itself refuses extraction from this container."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Elms_(Newport,_Rhode_Island)",
+      "title": "The Elms (Newport, Rhode Island) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000021",
+      "url": "https://en.wikipedia.org/wiki/The_Elms_(Newport,_Rhode_Island)",
+      "title": "NRHP reference No. 71000021; added September 10, 1971; designated NHL June 19, 1996; part of the Bellevue Avenue Historic District (ID72000023), as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building."
+    }
+  ],
+  "survey": {
+    "item": "ri0049",
+    "register": "loc-item",
+    "survey_no": "RI-344",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0049/data/ri0049data.pdf",
+    "prepared": "Historic American Buildings Survey, National Park Service, Department of the Interior, Washington, D.C. 20240, as the cover sheet reads; the sources list cites Reed, Henry Hope, The Elms (Newport: The Preservation Society of Newport County, 1963) and names Horace Trumbauer's office records among sources not yet investigated.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Over-all dimensions: 120 feet by 60 feet; rectangular, nine bays, 3 stories. 2. Foundations: The exterior walls are granite faced with brick on the interior. 3- Wall construction: The exterior walls are faced with limestone with a first floor coursing of granite. k. Structural system: The entire structure is framed in steel, with coffered brick arches in the first basement level.",
+        "page": "HABS No. RI-344, Part II.B; no page marker was legible inside this contiguous extract span. The running header appears in a second span of the same document as 'KABS No. RI-3U (Page 10)' immediately above 'PART II. ARCHITECTURAL INFORMATION', so this passage stands on page 10 or the page after it."
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: No chimney is visible above the blind balustrade which rings the roof line. Eleven low, rectangular chimneys, are .located on the third floor roof.",
+        "page": "HABS No. RI-344, Part II.B.5; same extract span as the dimensions, no page marker legible"
+      },
+      {
+        "field": "openings",
+        "text": "6. Openings: a. Doorways: A three bay central projection on the east facade contains three arched doorways which are reached by a-^hort, low flight of six granite steps. The elaborate wrought iron and glass grillwork doors are framed by rusticated stonework with concave chamfering.",
+        "page": "HABS No. RI-344, Part II.B.6.a; same extract span, no page marker legible"
+      },
+      {
+        "field": "roof",
+        "text": "An eight foot high blind balus- trade conceals the third story, the servants quarters. This level is set back four to six feet from the balustrade. This service walk is tarred and gravelled. Slate shingles cover the inside wall of the balustrade and the exterior walls of the third story. Copper sheets are used as roofing of this story. Twelve metal ventilator shafts project through the walk and roof. Eight sculpture groups, installed in 1903, are located on the balustrade at the projecting corners of the bays and of the house proper.",
+        "page": "HABS No. RI-344, Part II.B, the cornice-and-parapet passage; no page marker legible in the span"
+      },
+      {
+        "field": "significance",
+        "text": "\"The Elms,\" completed in 1901, is an example of the European tradition of palaces interpreted in Newport in the Age of Elegance.",
+        "page": "HABS No. RI-344, cover sheet 'Significance'; the header printed at the head of this span reads 'HAES No. Zl-lkk', OCR for HABS No. RI-344"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "120 feet",
+      "value": 120,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey prints '120 feet by 60 feet' and does not say which dimension is the front. The first figure printed is taken as the width, per the schema's rule; the front is unstated."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "60 feet",
+      "value": 60,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "nine bays",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "3 stories",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The third storey is the servants' floor concealed behind the blind balustrade quoted at index 3, so the house reads as two storeys from the avenue."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Eleven low, rectangular chimneys",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "None is visible from the ground: the same sentence says no chimney rises above the balustrade."
+    },
+    {
+      "name": "entrance_step_count",
+      "as_printed": "six granite steps",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "parapet_height_ft",
+      "as_printed": "eight foot high blind balus- trade",
+      "value": 8,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "The hyphen and space inside 'balus- trade' are the survey's own line break, kept."
+    },
+    {
+      "name": "attic_setback_ft",
+      "as_printed": "set back four to six feet",
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "A band, not a figure; no single value is parsed."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, the French modes and the Beaux-Arts. Worth carrying to the kit layer: the survey states a 120 x 60 ft rectangle of nine bays in three storeys, an eight-foot blind balustrade hiding the third, and eleven chimneys none of which can be seen - a house whose chimney slot and whose parapet are doing the opposite of what a domestic revival kit assumes. AND ITS ROOF IS INVISIBLE, which matters because french-eclectic is the one node in this cluster whose identity is stated to rest 'almost entirely on roof geometry': the survey says a blind balustrade conceals the third storey, the slate is on the INSIDE wall of that balustrade and the roofing proper is copper sheet on a service walk. The academic French model this node carries has no visible roof at all. (An earlier draft of this note attributed to The Elms a phrase - 'Terra cotta rather than marble' - that belongs to beaux-arts-american's note on ROSECLIFF, a different building in the same town by a different architect. It was caught by re-reading the node file rather than the draft, and is recorded here because a misattributed quotation is the exact failure this directory exists to make impossible.)"
+}

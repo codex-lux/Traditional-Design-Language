@@ -1,0 +1,46 @@
+{
+  "id": "zimmerman-library",
+  "name": "Zimmerman Library, University of New Mexico",
+  "aka": [
+    "Zimmerman Library"
+  ],
+  "location": {
+    "text": "Albuquerque, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1936-1938",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1936–38', architect John Gaw Meem, style Pueblo Revival; the style node gives 1938 and 'John Gaw Meem, 1936-38'."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Zimmerman_Library",
+      "title": "Zimmerman Library - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "16000549",
+      "url": "https://en.wikipedia.org/wiki/Zimmerman_Library",
+      "title": "NRHP reference No. 16000549; added August 22, 2016; location 1900 Roma Ave. NE, Albuquerque (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "2026",
+      "url": "https://en.wikipedia.org/wiki/Zimmerman_Library",
+      "title": "NMSRCP No. 2026, designated June 10, 2016 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. No HABS record was found (the search 'La Fonda Santa Fe HABS OR Museum of Fine Arts Santa Fe HABS OR Zimmerman Library HABS' over loc.gov returned unrelated New Mexico items)."
+}

@@ -1,0 +1,80 @@
+{
+  "id": "san-carlo-alle-quattro-fontane",
+  "name": "San Carlo alle Quattro Fontane",
+  "aka": [
+    "San Carlino",
+    "Chiesa di San Carlo alle Quattro Fontane"
+  ],
+  "location": {
+    "text": "Via del Quirinale, Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "1638-1667",
+    "circa": false,
+    "note": "Roma Capitale's record says Borromini 'worked there in a first period from 1638 to 1642 and resumed his project until his death in 1667 leaving the prospect under construction'; the node's exemplar note gives the church 1638-1641, dedicated 1646, with the facade's upper stage finished after 1667. Both are recorded; the register does not date the dedication and the node does not date the facade's completion."
+  },
+  "nodes": [
+    "italian-baroque",
+    "renaissance-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.turismoroma.it/en/places/church-san-carlo-alle-quattro-fontane",
+      "title": "The Church of San Carlo alle Quattro Fontane | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Roma Capitale's own monument record, English version."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription."
+    },
+    {
+      "kind": "institution",
+      "url": "https://turismoroma.it/en/itineraries/i-luoghi-di-borromini",
+      "title": "Borromini's locations | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same body's Borromini itinerary, which dates the church 1634-67 rather than 1638-67 -- Roma Capitale disagreeing with itself across two of its own pages. Read in a search result."
+    }
+  ],
+  "survey": {
+    "item": "church-san-carlo-alle-quattro-fontane",
+    "register": "other",
+    "data_url": "https://www.turismoroma.it/en/places/church-san-carlo-alle-quattro-fontane",
+    "prepared": "Roma Capitale, Turismo Roma, monument record 'The Church of San Carlo alle Quattro Fontane'; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The Spanish Trinitarian Fathers commissioned at Francesco Borromini to built the church and the convent. He worked there in a first period from 1638 to 1642 and resumed his project until his death in 1667 leaving the prospect under construction.",
+        "page": "Turismo Roma, San Carlo alle Quattro Fontane, opening section"
+      },
+      {
+        "field": "other",
+        "text": "The scenographic façade is the last work of the architect and it presents a serpentine course also in the belltower. At the centre of the façade is the statue of Saint Charles Borromeo by Antonio Raggi. Because of its reduced dimension, Romans called it San Carlino, it is said its area is as  big as one of the four pillars sustaining Saint Peter’s dome.",
+        "page": "Turismo Roma, San Carlo alle Quattro Fontane, facade paragraph. The double space in 'as  big' is as the page prints it."
+      },
+      {
+        "field": "plan",
+        "text": "The oval shaped interior is one of the first Borromini’s achievements and it is divided by a giant order of columns.The trabeation runs for  the entire perimeter, flexing at the apse and at  the lateral curved sectors, giving a great continuity to the small area. It has an elliptical coffered dome elegantly decorated with esagonal, octagonal and cross-shaped stucco  work that becomes smaller to the top, thus profusing an optical illusion of a greater depth.",
+        "page": "Turismo Roma, San Carlo alle Quattro Fontane, interior paragraph. The missing space after 'columns.' and the double spaces are the page's own."
+      },
+      {
+        "field": "dependencies",
+        "text": "Next to the church is the closter on two levels, with an octagonal plan at coveted corners, masterpiece of harmony and proportion.",
+        "page": "Turismo Roma, San Carlo alle Quattro Fontane, cloister sentence. 'closter' and 'coveted' are the page's own errors for 'cloister' and 'convex'."
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE REGISTER STATES THREE OF THE NODE'S OWN DIAGNOSTIC TELLS AND NO NUMBER. It confirms the serpentine facade line, the entablature 'flexing' round the whole perimeter, the giant order, and coffers that diminish upward -- but for the direction of the illusion it says 'greater depth' where the node's proportional_system says the coffering diminishes 'to exaggerate apparent height'. The node's own '20 x 12 m' site figure is corroborated by nothing here; the register's only size statement is that the church would fit inside one of the four piers of St Peter's dome."
+}

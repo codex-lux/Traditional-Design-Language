@@ -33,5 +33,46 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Palais Garnier (Opera de Paris)",
+      "location": "Place de l'Opera, Paris, France",
+      "year": 1861,
+      "precedent": "palais-garnier",
+      "standing": "canonical",
+      "why": "Derived, not authored: `beaux-arts-french`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Chateau de Vaux-le-Vicomte",
+      "location": "Maincy, Seine-et-Marne, France",
+      "year": 1658,
+      "precedent": "vaux-le-vicomte",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-baroque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Petit Trianon",
+      "location": "Versailles, Yvelines, France",
+      "year": 1762,
+      "precedent": "petit-trianon",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-neoclassical`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Chateau de Chambord",
+      "location": "Chambord, Loir-et-Cher, France",
+      "year": 1519,
+      "precedent": "chambord",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-renaissance-chateau`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Anthony Blunt, Art and Architecture in France 1500-1700, Pelican History of Art",
+    "Wend von Kalnein, Architecture in France in the Eighteenth Century (1995)",
+    "Barry Bergdoll, European Architecture 1750-1890 (2000)",
+    "Donald Drew Egbert, The Beaux-Arts Tradition in French Architecture (1980)",
+    "Robin Middleton and David Watkin, Neoclassical and 19th Century Architecture (1980)"
   ]
 }

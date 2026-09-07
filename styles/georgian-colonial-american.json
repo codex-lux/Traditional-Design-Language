@@ -223,25 +223,55 @@
       "name": "Westover",
       "location": "Charles City County, Virginia",
       "year": 1750,
-      "note": "Built by William Byrd III shortly after a 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Steep hipped roof, tall paired interior-end chimneys, Portland stone doorways added c. 1767."
+      "note": "Built by William Byrd III shortly after a 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Steep hipped roof, tall paired interior-end chimneys, Portland stone doorways added c. 1767.",
+      "precedent": "westover",
+      "standing": "canonical",
+      "why": "The 1939 survey's one-sentence description is the parent type's whole recipe -- Flemish bond, two storeys, hipped roof, two chimneys each end, seven bays, centre door, nine-over-nine sash -- on the house the tidewater child holds as its icon."
     },
     {
       "name": "Drayton Hall",
       "location": "Ashley River, Charleston County, South Carolina",
       "year": 1742,
-      "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible."
+      "note": "Built 1738–42; the earliest fully realized two-tier Palladian portico in British North America, derived from a plate in Palladio known through its English editions. Never modernized — no plumbing or wiring — so the fabric is exceptionally legible.",
+      "precedent": "drayton-hall",
+      "standing": "canonical",
+      "why": "The family's type specimen for the double-pile block: 70'-5\" x 52'-2\", seven bays, two storeys over a raised basement, with its service below and its symmetry completed by a blind door (HABS SC-377)."
     },
     {
       "name": "Mount Pleasant",
       "location": "Fairmount Park, Philadelphia, Pennsylvania",
       "year": 1765,
-      "note": "Built 1762–65 for John Macpherson; stuccoed and scored rubble with brick quoins, pedimented central pavilion, flanking dependencies — the Mid-Atlantic Palladian composition at full strength."
+      "note": "Built 1762–65 for John Macpherson; stuccoed and scored rubble with brick quoins, pedimented central pavilion, flanking dependencies — the Mid-Atlantic Palladian composition at full strength.",
+      "precedent": "mount-pleasant",
+      "standing": "regional",
+      "why": "The node's own exemplar note calls it 'the Mid-Atlantic Palladian composition at full strength', which is the region's expression of the parent and not the parent's whole reach; its survey, HABS PA-1130, is on the record and its written data could not be read."
     },
     {
       "name": "Hammond-Harwood House",
       "location": "Annapolis, Maryland",
       "year": 1774,
-      "note": "William Buckland's last work. The entrance is a Gibbs surround executed in southern pine and rusticated to imitate stone, taken directly from Gibbs's A Book of Architecture (1728), as are the oeil-de-boeuf windows in the pediment — pattern-book transmission caught in the act."
+      "note": "William Buckland's last work. The entrance is a Gibbs surround executed in southern pine and rusticated to imitate stone, taken directly from Gibbs's A Book of Architecture (1728), as are the oeil-de-boeuf windows in the pediment — pattern-book transmission caught in the act.",
+      "precedent": "hammond-harwood-house",
+      "standing": "canonical",
+      "why": "Buckland's last and most complete house, the one Jefferson drew; the family's type specimen for the five-part plan at town scale (HABS MD-251, 5 quotes, 10 figures)."
+    },
+    {
+      "name": "Mount Vernon",
+      "location": "Fairfax County, Virginia",
+      "year": 1787,
+      "note": "A farmhouse of the 1730s enlarged by Washington in campaigns completed by 1787 (the DHR's date): rusticated and sanded boards scored to read as stone, a cupola, and the two-storey river piazza. HABS VA-505 is photographs only; the house's own institution holds the measured record.",
+      "precedent": "mount-vernon",
+      "standing": "icon",
+      "why": "The house the whole family is known by outside the profession, and the DHR's own summary sets its composition off by the three things the node's prose lists -- rusticated wooden siding, cupola and portico; the new-england-georgian child already cites it for the rusticated boards."
+    },
+    {
+      "name": "George Wythe House",
+      "location": "Williamsburg, Virginia",
+      "year": 1754,
+      "note": "Built about 1750-54 by Richard Taliaferro, most likely to his own design: a plain five-bay two-storey brick double pile on the Palace Green, with ten HABS measured drawings (VA-1009) and no written data. The DHR calls it the Virginia house that has spawned the most imitations.",
+      "precedent": "george-wythe-house",
+      "standing": "canonical",
+      "why": "The DHR's 'few colonial Virginia houses are so admired or have spawned so many imitations' is the type specimen's job description, and its ten HABS sheets make the plain five-bay brick block the node's prose describes at its most modest a thing a generator can be held against."
     }
   ],
   "sources": [

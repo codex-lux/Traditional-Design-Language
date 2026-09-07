@@ -1,4 +1,4 @@
-"""The AI rail — an Anthropic agent loop over the same 26 tools the MCP server
+"""The AI rail — an Anthropic agent loop over the same 27 tools the MCP server
 exposes, streamed to the browser as SSE. The behaviours are the product, not the
 wrapper: every claim cites its record, the tool trace is visible, refusals are
 content, and every turn ends by saying what could not be evaluated.
@@ -111,7 +111,7 @@ def _client():
 
 
 SYSTEM = """You are the rail of the Traditional Design Language workbench — a design
-partner beside the canvas, driving 26 tools over a corpus that encodes traditional
+partner beside the canvas, driving 27 tools over a corpus that encodes traditional
 architecture as an executable language. The user is a plan-development lead at a
 production builder: fluent in plans, framing, cost and code; not in classical
 proportion. Be specific, dimensioned, and dry. Show your arithmetic. Never scold —

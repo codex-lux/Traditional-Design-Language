@@ -1,0 +1,148 @@
+{
+  "id": "piazza-san-pietro-colonnade",
+  "name": "Piazza San Pietro colonnade",
+  "aka": [
+    "Colonnato di San Pietro",
+    "Bernini's colonnade"
+  ],
+  "location": {
+    "text": "Vatican City",
+    "country": "Vatican City"
+  },
+  "dates": {
+    "built": "1656-1667",
+    "circa": false,
+    "altered": "The Vatican's own record dates the statues separately: '1662 - 1703 statue'. It also records that Bernini intended a 'terzo braccio' of portico that the pope's death in 1667 ended.",
+    "note": "The Vatican's colonnade record gives '1656 - 1667 colonnato'; the Fabbrica di San Pietro's page says the square 'venne completata nel 1667, dopo undici anni di intensi e onerosi lavori'. The node's exemplar note gives 1656-1667. All agree."
+  },
+  "nodes": [
+    "italian-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.vatican.va/content/vatican/it/ra/colonnato-statue-santi.html",
+      "title": "Colonnato - La Santa Sede",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Holy See's own record, with a tabulated 'Dimensioni' block. This is the survey below."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.basilicasanpietro.va/it/san-pietro/la-piazza",
+      "title": "La Piazza | Basilica di San Pietro",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Fabbrica di San Pietro's own page, 'Scritto e letto da Pietro Zander'. IT CONTRADICTS THE HOLY SEE'S OWN COLONNADE RECORD ON THE COLUMN HEIGHT: this page says the colonnade is 'costituito da 284 colonne disposte su quattro file, alte 16 metri' where vatican.va's Dimensioni block says 'Colonne: Altezza 13 m'. It also gives the oval of the square as '196x149 m' and the statues as 'alte più di tre metri'. Neither figure is changed and neither page is preferred; only the vatican.va figures are carried as measurements, because those are the ones the survey block indexes."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription."
+    }
+  ],
+  "survey": {
+    "item": "colonnato-statue-santi",
+    "register": "other",
+    "data_url": "https://www.vatican.va/content/vatican/it/ra/colonnato-statue-santi.html",
+    "prepared": "La Santa Sede (vatican.va), record 'Colonnato'; the page prints a fielded card (Materiali, Autore, Datazione, Dimensioni, Collocazione) and a 'Testo del frate'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "| Dimensioni | Colonnato:    Larghezza: 16,77 m  Lunghezza interna: 163 m  Lunghezza esterna: 202 m     Colonne:    Altezza 13 m     Statue:    Altezza: 3,10 m  ca |",
+        "page": "vatican.va, 'Colonnato', the fielded card's Dimensioni row, carried with its table pipes as the extract renders them"
+      },
+      {
+        "field": "bays",
+        "text": "È composto da 284 colonne e 88 pilastri disposti su 4 file. A coronamento della struttura vi è un architrave sorretto da capitelli di ordine e sormontato da una cornice marmorea. La copertura è a capanna.",
+        "page": "vatican.va, 'Colonnato', 'Testo del frate', third paragraph"
+      },
+      {
+        "field": "other",
+        "text": "Sulla balaustra sono collocate, rivolte simbolicamente verso la piazza, 140 statue di santi.",
+        "page": "vatican.va, 'Colonnato', 'Testo del frate', fourth paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "| Materiali | Travertino e marmo |",
+        "page": "vatican.va, 'Colonnato', the fielded card's Materiali row"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "column_count",
+      "as_printed": "284 colonne",
+      "value": 284,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "pier_count",
+      "as_printed": "88 pilastri",
+      "value": 88,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "colonnade_rank_count",
+      "as_printed": "disposti su 4 file",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Four ranks, exactly as the node's exemplar note says."
+    },
+    {
+      "name": "statue_count",
+      "as_printed": "140 statue di santi",
+      "value": 140,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "colonnade_width_ft",
+      "as_printed": "Larghezza: 16,77 m",
+      "value": 55.02,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The depth of the four-rank portico itself. 16.77 m converted; the unit vocabulary has no metre."
+    },
+    {
+      "name": "colonnade_inner_length_ft",
+      "as_printed": "Lunghezza interna: 163 m",
+      "value": 534.78,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "colonnade_outer_length_ft",
+      "as_printed": "Lunghezza esterna: 202 m",
+      "value": 662.73,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "column_height_ft",
+      "as_printed": "Colonne:    Altezza 13 m",
+      "value": 42.65,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "DISPUTED. The Fabbrica di San Pietro's own page says the columns are 16 m. Two Vatican sources, three metres apart, and neither is corrected here."
+    },
+    {
+      "name": "statue_height_ft",
+      "as_printed": "Altezza: 3,10 m  ca",
+      "value": 10.17,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The register says 'ca'. The Fabbrica's page says 'alte più di tre metri', which agrees."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE RICHEST RECORD IN THIS CLUSTER AND THE ONE THAT CONTRADICTS ITSELF: the Holy See's own dimensions card and the Fabbrica di San Pietro's own description differ by three metres on the height of the same 284 columns. Note also what the register does NOT say: the node calls these Tuscan, and the vatican.va sentence reads 'un architrave sorretto da capitelli di ordine' with the order's name simply absent from the text as extracted -- so nothing read here names the order at all."
+}

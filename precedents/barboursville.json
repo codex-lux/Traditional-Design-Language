@@ -1,0 +1,63 @@
+{
+  "id": "barboursville",
+  "name": "Barboursville",
+  "aka": [
+    "Barboursville Ruins",
+    "Barbour House"
+  ],
+  "location": {
+    "text": "Orange County, Virginia",
+    "country": "United States",
+    "state": "Virginia",
+    "aliases": [
+      "7655 Winery Road, Barboursville, Orange County, VA",
+      "17655 Winery Road, Barboursville, VA 22923"
+    ]
+  },
+  "dates": {
+    "built": "1814-1822",
+    "circa": true,
+    "altered": "Burned on Christmas Day 1884 and standing as a stabilised ruin since. The DHR: 'Until it burned on Christmas Day, 1884, James Barbour's home at Barboursville in Orange County stood essentially as completed ca. 1822'. Virginia's tourism listing adds 'After the fire, the family renovated a pair of brick dependencies to the west of the mansion.'",
+    "note": "The DHR says 'completed ca. 1822'; the state tourism listing says 'constructed between 1814-1822'; the Journey Through Hallowed Ground says 'constructed between 1814 and 1822'. All agree on the completion and differ on when work began; the span is recorded and nothing is resolved."
+  },
+  "nodes": [
+    "jeffersonian-classicism"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "068-0002",
+      "url": "https://www.dhr.virginia.gov/historic-registers/068-0002",
+      "title": "Barboursville - DHR (Virginia Department of Historic Resources), VLR No. 068-0002",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words: 'Jefferson's drawings called for a dwelling with a recessed portico on the north front and a three-part bay sheltered by a portico on the south front, with dome above--a scheme resembling Jefferson's own home, Monticello. The dome, however, was not built. Even in its ruinous state, the house presents a romantic image of the Jeffersonian ideal, a compact but architecturally sophisticated classical villa in a carefully contrived landscape setting. The great oval in front of the house was originally a racetrack.' The page also credits photographs to Frances Benjamin Johnston, Library of Congress, 1930."
+    },
+    {
+      "kind": "other",
+      "id": "va2279",
+      "url": "https://www.loc.gov/pictures/item/va2279",
+      "title": "Barboursville, 7655 Winery Road, Barboursville, Orange County, VA -- Historic American LANDSCAPES Survey HALS VA-67",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A HALS ITEM AND NOT A HABS ONE, which is why the kind is `other` and not `habs`: this schema's `kind` enum has no term for the Historic American Landscapes Survey. The search result's own lines: 'Data Page(s): 27. Its ruins are now stabilized and preserved. Survey number: HALS VA-67'. The twenty-seven data pages were NOT opened -- a landscape report is not the written data this record's `survey` block means, and reading one into that block would be the wrong document under the right heading."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.virginia.org/listing/barboursville-ruins/4567",
+      "title": "Barboursville Ruins (Virginia Tourism Corporation)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words: 'The only building in Orange County known to have been designed by Thomas Jefferson, Barboursville was constructed between 1814-1822 for Jefferson's friend James Barbour, who served as governor of Virginia, U.S. senator and secretary of war. A brick Flemish-bond mansion with a hipped roof, Barboursville stood two stories high over an English basement.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hallowedground.org/site-locations/barboursville-ruins",
+      "title": "Barboursville Ruins - Journey Through Hallowed Ground",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words: 'Jefferson design called for a dome similar to his own home at Monticello. Although the dome was not built, the rest of the house largely followed Jefferson plans.'"
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. NO HABS SURVEY WAS FOUND and this record carries no survey block. Two searches were run -- one for the HALS/HABS item and one specifically for a 'HABS VA-' number for the building -- and the Library holds it as HALS VA-67, a landscape survey with 27 data pages that were deliberately not opened, because a landscape report is not the Historic American Buildings Survey's written architectural data and putting one in that field would misrepresent what a reader is being shown. THE BUILDING IS THE CLUSTER'S ONE RUIN AND THAT IS WHY IT IS HERE: it burned in 1884 with the exterior brick walls, the interior masonry partitions and the portico columns standing, so enough survives to be compared against Jefferson's own drawings, which is a kind of evidence none of the intact houses in this cluster offers. The corpus should note that the DOME WAS NEVER BUILT: three independent sources say so, and a reader taking Barboursville as a Monticello cousin on the strength of the drawings would be reading a design rather than a building. Two storeys over an English basement, brick in Flemish bond, hipped roof, per the state tourism listing."
+}

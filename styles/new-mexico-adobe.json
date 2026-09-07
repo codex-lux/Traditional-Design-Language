@@ -205,25 +205,73 @@
       "name": "Palacio de los Gobernadores (Palace of the Governors)",
       "location": "Santa Fe, New Mexico",
       "year": 1610,
-      "note": "Founded with the villa in 1610, with substantial construction c. 1618–25 and a rebuilding in 1731 after the Pueblo Revolt. The famous portal is a 1909–13 reconstruction by Jesse Nussbaum and is not colonial fabric."
+      "note": "Founded with the villa in 1610, with substantial construction c. 1618–25 and a rebuilding in 1731 after the Pueblo Revolt. The famous portal is a 1909–13 reconstruction by Jesse Nussbaum and is not colonial fabric.",
+      "precedent": "palace-of-the-governors",
+      "standing": "canonical",
+      "why": "The one-storey adobe file behind a portal that the node's plan logic describes, standing since 1610-14 on the survey's dating (HABS NM-2); canonical rather than icon because the survey itself records the 1853 collapse of the west end and the 1909-13 portal, so the fabric a visitor sees is a known reconstruction."
     },
     {
       "name": "Taos Pueblo",
       "location": "Taos, New Mexico",
       "year": 1400,
-      "note": "The Puebloan substrate, in continuous occupation for more than six centuries. Included here not as a Spanish colonial building but because the New Mexican adobe tradition is unintelligible without it."
+      "note": "The Puebloan substrate, in continuous occupation for more than six centuries. Included here not as a Spanish colonial building but because the New Mexican adobe tradition is unintelligible without it.",
+      "precedent": "taos-pueblo",
+      "standing": "icon",
+      "why": "The node's own prose calls the tradition 'Puebloan first' and this the substrate 'without which the New Mexican adobe tradition is unintelligible'; it is the terraced coursed-earth roomblock every reader pictures, and HABS NM-102 holds its photogrammetric record."
     },
     {
       "name": "Mission San Esteban del Rey",
       "location": "Acoma Pueblo, New Mexico",
       "year": 1641,
-      "note": "Built 1629–41 with adobe walls up to nine feet thick and roof timbers carried on foot some thirty miles from Mount Taylor; built by Acoma labour to a Franciscan plan."
+      "note": "Built 1629–41 with adobe walls up to nine feet thick and roof timbers carried on foot some thirty miles from Mount Taylor; built by Acoma labour to a Franciscan plan.",
+      "precedent": "mission-san-esteban-del-rey",
+      "standing": "canonical",
+      "why": "The survey (HABS NM-5) confirms the node's own story of timber carried up the rock by hand, and the pueblo around it (HABS NM-6, 86 sheets) is the best-measured Puebloan settlement in the record; the node's nine-foot wall is a figure the survey's written data does not state."
     },
     {
       "name": "Hacienda de los Martínez",
       "location": "Taos, New Mexico",
       "year": 1804,
-      "note": "A fully enclosed two-placita adobe hacienda with no exterior windows on the ground floor — the defended domestic type at full development."
+      "note": "A fully enclosed two-placita adobe hacienda with no exterior windows on the ground floor — the defended domestic type at full development.",
+      "precedent": "hacienda-de-los-martinez",
+      "standing": "canonical",
+      "why": "The node's own note calls it 'the defended domestic type at full development', and HABS NM-70 is a set of measured drawings of exactly that plan -- drawings this container cannot open, which is why the record locates them and states nothing."
+    },
+    {
+      "name": "San Francisco de Asís Mission Church",
+      "location": "Ranchos de Taos, New Mexico",
+      "year": 1816,
+      "note": "The Ranchos de Taos church, built 1772-1816 by the Franciscans in adobe brick laid in adobe mortar with an adobe plaster surface (Wikipedia's materials line): on the Park Service's description 'a large, sculpted Spanish Colonial church with massive adobe buttresses and two front-facing bell towers', four beehive buttresses at the back, re-mudded by the parish and its visitors for two weeks each June after a hard plaster proved damaging -- the maintained annual practice the node's prose describes, on the building O'Keeffe, Adams and Strand made the tradition's best-known wall. National Historic Landmark; no HABS record was found.",
+      "precedent": "san-francisco-de-asis-mission-church",
+      "standing": "icon",
+      "why": "The building a fluent reader names first for New Mexican adobe after the pueblos themselves -- the Park Service's 'massive adobe buttresses' and the June re-mudding it describes are the node's own prose made visible -- and the National Historic Landmark designation (1970) and not a survey is what stands behind it here."
+    },
+    {
+      "name": "El Santuario de Chimayó",
+      "location": "Chimayó, New Mexico",
+      "year": 1816,
+      "note": "Don Bernardo Abeyta's shrine chapel of 1816, a single-storey adobe on the survey's own sheet, 'a shrine for the miraculous cure of disease, one of the few on the American continent'. The 1930s survey (HABS NM-9) records that the pitched tin roof and the wooden towers were recent additions before 1929, so the roofline in the famous photographs is not the 1816 azotea.",
+      "precedent": "el-santuario-de-chimayo",
+      "standing": "regional",
+      "why": "The village shrine of the Santa Cruz valley -- Chimayó is named in the node's own regions -- and its survey states the one thing a reader most needs to know about it, that the pitched roof and towers are twentieth-century additions."
+    },
+    {
+      "name": "Kit Carson House",
+      "location": "Taos, New Mexico",
+      "year": 1825,
+      "note": "A plain Taos town house of 1825 (the Library's record says c. 1858) on Kit Carson Avenue, whose register entry gives its style as 'Spanish Colonial; Territorial' -- the milled-wood Territorial vocabulary the pueblo-revival node says the revival stripped from the tradition. National Historic Landmark; HABS NM-111 is photographs only.",
+      "precedent": "kit-carson-house",
+      "standing": "documentary",
+      "why": "The ordinary house rather than the hacienda, listed (NHL 1963, per the register) for its occupant and surveyed for its photographs, which makes it the plain example the node otherwise lacks; the two dates on its record are thirty-three years apart and neither is edited."
+    },
+    {
+      "name": "San José de Gracia Church",
+      "location": "Las Trampas, Taos County, New Mexico",
+      "year": 1776,
+      "note": "Built by the settlers of Las Trampas between about 1760 and 1776, on Bunting's reading for the survey (HABS NM-61, 1961): a single-nave cruciform church with transepts and a projecting apse, adobe walls 'as great as six feet in thickness', a clay-covered timber roof, and a choir balcony reached by a ladder. Its isolation is why it survives unmodernised, and Meem's 1931-32 restoration is where the revival learned the type.",
+      "precedent": "san-jose-de-gracia-church",
+      "standing": "canonical",
+      "why": "The best-documented village church in the tradition -- Bunting's survey data, Kubler's monograph behind it -- and the one whose written record states a wall thickness, which every other New Mexican building on this node lacks."
     }
   ],
   "sources": [

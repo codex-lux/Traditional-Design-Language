@@ -1,0 +1,41 @@
+{
+  "id": "j-milton-carson-house",
+  "name": "J. Milton Carson House",
+  "aka": [
+    "The Pink Lady",
+    "Milton Carson House"
+  ],
+  "location": {
+    "text": "Eureka, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1889",
+    "circa": false,
+    "altered": "Used as a boarding house after the family sold it and rehabilitated from 1963 by Robert Madsen, who, on the interpretative marker's account, painted it pink and white to contrast with the dark Carson Mansion opposite.",
+    "note": "Wikipedia's Carson Mansion article says William Carson 'gifted [it] to his son Milton as a wedding present in 1889'; the noehill point-of-interest page, citing the marker in front of the house, says it 'was completed in 1889'."
+  },
+  "nodes": [
+    "queen-anne-spindled"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://noehill.com/humboldt/poi_carson_house.asp",
+      "title": "Point of Historic Interest in Eureka, California: Carson House (noehill.com)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words, sourced on the page to 'An interpretative marker in front of the house': 'The Carson House, also known as the \"Pink Lady,\" is a classic Queen Anne residence designed by the prestigious San Francisco architectural firm, Newsom Brothers. It was completed in 1889 for William Carson, a pioneer lumber baron of Northern California, who had it built as a wedding gift for his son Milton Carson.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Carson_Mansion",
+      "title": "Carson Mansion - Wikipedia (which describes this house under 'Carson family history')",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'One Queen Anne style Victorian house they designed in Eureka was named \"The Pink Lady,\" which William Carson gifted to his son Milton as a wedding present in 1889. ... In 1964, it became the first historic building in Eureka to be restored.'"
+    }
+  ],
+  "note": "The same office, the same client family and the same town three years after the Carson Mansion, at an ordinary house's size -- which is what makes it useful to this node: the spindlework vocabulary without the mansion's budget, across the street from the mansion for comparison. NO National Register reference number was found for this building by the query used ('\"Pink Lady\" OR \"J. Milton Carson House\" Eureka California 1889 Newsom Brothers Queen Anne National Register'), and none is invented here; the strongest locator on the record is a California point-of-historic-interest page quoting the marker in front of the house. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

@@ -1,0 +1,36 @@
+{
+  "id": "57-stone-street",
+  "name": "57 Stone Street",
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1903 (the date of the Dutch Colonial Revival front; the building behind it is older)",
+    "circa": false,
+    "note": "THE SOURCES DISAGREE ABOUT WHETHER THIS IS A NEW BUILDING OR A NEW FACE. Wikipedia's Stone Street article says Amos F. Eno 'hired C. P. H. Gilbert in 1903 to REMODEL the building at 57 Stone Street in the Dutch Colonial Revival style', and elsewhere in the same article '57 Stone Street was built in 1903 in the Dutch Colonial Revival style'. Several secondary pages say it was 'rebuilt in 1903'. The Historical Marker Database says 'In 1903 architect C.P.H. Gilbert converted it into its current Neo-Dutch Renaissance style.' Recorded as all of them print it; the node's exemplar year of 1903 is kept."
+  },
+  "nodes": [
+    "dutch-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Stone_Street_(Manhattan)",
+      "title": "Stone Street (Manhattan) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE DESCRIPTION VERBATIM: 'The four-story neo-Dutch Renaissance facades at 57 Stone Street and 13 South William Street contain stepped gables, a limestone base, and a honey-colored brick cladding on its upper stories.' And on the group: 'Amos R. Eno's son, Amos F. Eno, hired C. P. H. Gilbert in 1903 to remodel the building at 57 Stone Street in the Dutch Colonial Revival style and, in 1908, rehired Gilbert for a similar renovation at 55 Stone Street. Between these two renovations merchant Henry Schaefer hired Edward L. Tilton to redesign 53 Stone Street in the same style.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=146728",
+      "title": "57 Stone Street -- The Historical Marker Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1903 architect C.P.H. Gilbert converted it into its current Neo-Dutch Renaissance style.' A marker text, recorded as one. NO NATIONAL REGISTER REFERENCE was read for this building or for the Stone Street Historic District, so no `nrhp` ref is recorded rather than a guessed one."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. TWO NAMES FOR THIS BUILDING'S STYLE ARE IN THE SOURCES AND THEY ARE NOT THE SAME NAME. Wikipedia's narrative calls the 1903 work 'the Dutch Colonial Revival style'; its own descriptive paragraph, and the marker, call the facade 'neo-Dutch Renaissance'. The node's exemplar note already says as much -- 'quoting the Netherlands rather than the Hudson Valley - the style's other branch' -- and this record is where the terminological split is written down. Nothing here is a Dutch COLONIAL precedent in the sense the node's roof-and-gambrel prose describes; it is Amsterdam quoted in lower Manhattan, which is the other half of what the revival was."
+}

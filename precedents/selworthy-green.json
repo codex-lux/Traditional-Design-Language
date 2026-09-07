@@ -1,0 +1,110 @@
+{
+  "id": "selworthy-green",
+  "name": "Selworthy Green",
+  "record_kind": "group",
+  "location": {
+    "text": "Selworthy, Somerset, England",
+    "country": "England",
+    "state": "Somerset"
+  },
+  "dates": {
+    "built": "Early C19",
+    "circa": true,
+    "note": "THE GREEN IS NOT ALL OF ONE DATE AND THE NODE'S PROSE SAYS IT IS. The node's exemplar says it was 'Rebuilt in 1828 by Sir Thomas Dyke Acland to house the aged of the Holnicote estate'. Of the three list entries read here, Cottage (National Trust Estate No 68) is 'Early C19, enlarged mid C20', Periwinkle Cottage Tea Rooms is 'Mid t19, incorporating part of earlier building' (the entry prints 't19' for C19), and Lorna Doone and National Trust Shop is 'Probably C17, enlarged mid C19'. Not one of the three states 1828, and one of the three is seventeenth-century fabric. Nothing is changed on the node."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1058025",
+      "title": "Cottage (National Trust Estate No 68) , Selworthy - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1058025",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The record's survey block. Its Details section opens with the legacy header 'SS9146 SELWORTHY CP SELWORTHY GREEN 26/116 Cottage (National Trust Estate No 68) 22.5.69' and 'GV II', which is how the Green itself is named in the statutory address."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1058026",
+      "title": "Periwinkle Cottage Tea Rooms, Selworthy - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1058026",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A second cottage on the Green, read as continuous prose in an extract. It states the plan the node's own description names -- 'Plan: 2-cell and cross passage with outshots flanking full height porch. One and a half storeys' -- and the catslide the node derives from thatch: 'thatched roof hipped to left with catslide over addition'. Its legacy header reads '26/118 Periwinkle Cottage Tea Rooms (formerly listed as Cottage (National Trust Estate No 69-70)) 22.5.69'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1295998",
+      "title": "Lorna Doone National Trust Shop and Information Centre, Selworthy - 1295998 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1295998",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A third building on the Green, read as continuous prose in an extract, and the one that disturbs the 1828 story: 'Semi-detached cottages, now cottage and shop. Probably C17, enlarged mid C19. Roughcast over rubble and possibly cob, thatched roofs hipped to left, large lateral stack to right of original entrance.' Its legacy header reads '26/117 Lorna Doone and National Trust Shop and Information Centre (formerly listed as 2 separate items; Lorna Doone and The Rest) 22.5.69'."
+    }
+  ],
+  "survey": {
+    "item": "1058025",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1058025",
+    "prepared": "The Details section's legacy header prints '26/116 Cottage (National Trust Estate No 68) 22.5.69' -- listed 22 May 1969. No Official list entry block was returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "GV II Cottage. Early C19, enlarged mid C20.",
+        "page": "Official list entry, Details, opening after the legacy header"
+      },
+      {
+        "field": "materials",
+        "text": "Roughcast over rubble, thatched roof, circular stack on rear elevation.",
+        "page": "Official list entry, Details, materials sentence"
+      },
+      {
+        "field": "plan",
+        "text": "Plan: semicircular bays flanking. north end, outshot east side, C20 addition south end.",
+        "page": "Official list entry, Details, headed plan sentence; the stray full stop after 'flanking' is as the page prints it"
+      },
+      {
+        "field": "bays",
+        "text": "Single storey with attic, 3 bays east front, entrance right through semicircular bay, ogee headed double doors, left 4-light leaded casement in outshot, 3-light leaded ogee headed casements beyond, projecting into eaves, left addition C20 2-light window; right return, gable end unlit, thatched pentice to leaded 4-light window.",
+        "page": "Official list entry, Details, description of the east front"
+      },
+      {
+        "field": "condition",
+        "text": "Interior not seen. (Photograph in NMR).",
+        "page": "Official list entry, Details, close of the description, followed by 'Listing NGR: SS9191346775'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Single storey with attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "AGREES with the node's 'one and a half storeys', and the second cottage on the Green says it in the corpus's own words -- 'One and a half storeys' -- in the entry quoted in that reference's note."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 bays east front",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "3-light leaded ogee headed casements",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The ogee head is the picturesque hand on an otherwise plain cottage; the node's exemplar note calls Selworthy 'the honest borderline case between vernacular and revival' and this is where the line runs."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1058025",
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. RECORD KIND `group`: Selworthy Green is a set of individually listed cottages round a green and no single address is it, so the record names three of them and takes its survey block from one, because `survey` admits one item and quoting three entries under one item number would be a citation nobody could check. The two entries not used as the survey are quoted verbatim in their own reference notes, which is prose no checker reads -- stated because it is a known limit of this layer and not a slip."
+}

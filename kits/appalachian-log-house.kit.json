@@ -604,7 +604,10 @@
             20
           ],
           "unit": "ft",
-          "kind": "measured"
+          "kind": "measured",
+          "source": "precedents/henry-whitehead-place#measurements[6]",
+          "confidence": "medium",
+          "note": "WP-11.4, Ruling A. HABS TN-161's narrative: 'The cabin is about 16 by 18 feet, which is about the largest length of log which would be sawn at a sash-saw mill.' The survey states the CAUSE as well as the figure, which is why this band is sourceable where most are not. AND THE SAME SURVEY CONTRADICTS THE BAND ON ITS OWN MEASURED CABINS: the old pen's INTERIOR width is 15'2\" (measurements[0]), below the 16 ft floor -- verified by pointing this parameter at it, which the checker convicts. Interior against a band that does not say whether it is interior or exterior; the gap could be wall thickness, and the slot states no datum. Cited on the narrative figure with the disagreement recorded rather than hidden."
         },
         "pen_depth_ft": {
           "range": [
@@ -612,7 +615,10 @@
             18
           ],
           "unit": "ft",
-          "kind": "measured"
+          "kind": "measured",
+          "source": "precedents/henry-whitehead-place#measurements[7]",
+          "confidence": "medium",
+          "note": "WP-11.4, Ruling A. HABS TN-161, the same narrative sentence: 'about 16 by 18 feet'. AND THE SAME SURVEY CONTRADICTS THIS BAND TOO: the new pen's INTERIOR depth is 19'9-1/2\" (measurements[4]), above the 18 ft ceiling. Same caveat as `pen_width_ft` -- interior against a band with no stated datum. Recorded, not reconciled."
         }
       },
       "rule_append": "Pen dimension 16-20 ft by 14-18 ft, a near-square plan, set by log handling limits (own typical_ratios).",

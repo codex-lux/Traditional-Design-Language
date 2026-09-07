@@ -1,0 +1,82 @@
+{
+  "id": "villa-medici-fiesole",
+  "name": "Villa Medici, Fiesole",
+  "aka": [
+    "Villa Medicea di Fiesole",
+    "Belcanto",
+    "Il Palagio di Fiesole"
+  ],
+  "location": {
+    "text": "Fiesole, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1458-1461",
+    "circa": true,
+    "altered": "The Ministry catalogue names Gaspare Maria Paoletti (1727/1813) for an ampliamento and Cecil Ross Pinsent (1884/1963) for a restauro.",
+    "note": "ICOMOS says construction 'was started in 1458 by Michelozzo'; the Ministry catalogue's date field for the scheda reads '1451/00/00 - 1451/00/00'; Visit Tuscany's page says it was built between 1458 and 1461. The attribution is itself contested: the Italian Wikipedia article reports that recent studies attribute the design to Leon Battista Alberti rather than to Michelozzo. Everything is recorded and nothing is resolved."
+  },
+  "nodes": [
+    "italian-villa-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "175",
+      "url": "https://whc.unesco.org/en/list/175",
+      "title": "Medici Villas and Gardens in Tuscany - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The serial inscription of 2013, criteria (ii)(iv)(vi), which covers twelve villas and two gardens; this building is one component of it. The Italian Ministry of Culture's UNESCO office page for the same property prints 'Ref 175', 'Date of Inscription 2013', 'Property 125.4 ha' and 'Buffer zone 3,539.08 ha'."
+    },
+    {
+      "kind": "vincolo",
+      "id": "0900372969",
+      "url": "http://catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900372969",
+      "title": "Palagio di Fiesole Fiesole, 1451/00/00 - 1451/00/00",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "ICCD Catalogo generale dei Beni Culturali, scheda Architettura, 'CODICE DI CATALOGO NAZIONALE 0900372969', 'OGGETTO villa-signorile', address 'via Vecchia Fiesolana 3', 'DATA DI COMPILAZIONE 1993', 'DATA DI AGGIORNAMENTO 2008'. A cataloguing record rather than a decree of vincolo; `vincolo` is the nearest kind in the enum. Read through a search result and not through an extract, so nothing from this page is quoted as running prose in this record."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://it.wikipedia.org/wiki/Villa_Medici_(Fiesole)",
+      "title": "Villa Medici (Fiesole) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THIS REFERENCE CARRIES THE ONLY PLAN DIMENSION FOUND FOR ANY VILLA IN THIS CLUSTER, and it is carried here rather than as a measurement because a measurement must index a survey quote and this record's survey block is the ICOMOS evaluation. Read as continuous prose in an extract of this page on 2026-09-05: 'Michelozzo non fu vincolato da preesistenze e costrui con criteri stilistici innovativi un sobrio edificio a pianta quadrangolare, originariamente di 32x32 braccia fiorentine, intonacato di bianco con finestre riquadrate da cornici in pietra serena e con ampie logge aperte sul panorama su entrambi i lati del salone centrale al piano nobile.' And, further down the same article: 'La razionalita del progetto e espressa anche nelle sue misure: la sovrapposizione di una griglia modulo 4x4 braccia fiorentine (cioe una canna mercantile) evidenzia come tutte le murature principali siano definite da questo schema e come la villa sia frutto di un'accurata progettazione.' Two accented characters are transcribed here without their accents. The article cites no source for either figure, and no conversion of the braccio to metres is attempted here."
+    }
+  ],
+  "survey": {
+    "item": "175",
+    "register": "unesco",
+    "data_url": "https://whc.unesco.org/document/152903",
+    "prepared": "ICOMOS evaluation of nomination No 175, 'Medici Villas and Gardens (Italy)', prepared for the World Heritage Committee; the report prints 'Date of ICOMOS approval of this report 6 March 2013'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "roof",
+        "text": "Part 4: Construction of the Villa Medici in Fiesole (Fiesole) was started in 1458 by Michelozzo. This is the first of the Medici's architectural creations that abandons medieval references. The sloping roof and round tiles are now visible from the outside.",
+        "page": "ICOMOS evaluation No 175, section 2 'The property - Description', Part 4; the extract prints the page number '171' immediately before 'Part 4'. The apostrophe in 'Medici's' is a typographic apostrophe in the source."
+      },
+      {
+        "field": "general_description",
+        "text": "Its structure complies with Leon Batista Alberti's criteria of symmetry, and the rational distribution of space and light. In appearance, it is a cube-shaped ensemble incorporating arcaded loggias opening onto the terraced gardens, the countryside and the valley looking towards Florence.",
+        "page": "ICOMOS evaluation No 175, Part 4, later in the same paragraph; read in a second extract with a different query. The source prints the architect's name with an acute accent on Leon, transcribed here without it."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "block_plan_ratio",
+      "as_printed": "it is a cube-shaped ensemble",
+      "value": 1.0,
+      "unit": "ratio",
+      "from_quote": 1,
+      "note": "A READING of 'cube-shaped', not a dimensioned figure. It is corroborated independently of this survey by the Italian Wikipedia article quoted in the refs, which states the original plan as '32x32 braccia fiorentine' -- a square. Neither source states a height."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Added by this pass. Fiesole is the boundary case of this node and is carried for that reason: ICOMOS calls it the first Medici villa 'that abandons medieval references', so it is where the informal country house starts becoming the architect's villa. Two things it supplies that nothing else in the cluster does -- an eave and tile roof described as visible from outside, and a plan the sources call square twice by two routes."
+}

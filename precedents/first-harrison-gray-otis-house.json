@@ -1,0 +1,111 @@
+{
+  "id": "first-harrison-gray-otis-house",
+  "name": "First Harrison Gray Otis House",
+  "aka": [
+    "Otis House",
+    "Harrison Gray Otis House (First)"
+  ],
+  "location": {
+    "text": "141 Cambridge Street, Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1795-96",
+    "circa": false,
+    "note": "The HABS Architectural Data Form prints '1795-96'; the Wikipedia infobox prints 'Built 1795'; the node's exemplar year is 1796. Recorded as the survey states it, the others noted rather than reconciled."
+  },
+  "nodes": [
+    "federal-style",
+    "new-england-federal",
+    "early-republic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-845",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0471/data/ma0471data.pdf",
+      "title": "Harrison Gray Otis House (First), 141 Cambridge Street, Boston, Suffolk County, Massachusetts",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header ('Harrison Gray Otis House HABS No. MA-845 (Society for the Preservation of N.E. Antiquities)'). A search hit that named MA-845 earlier was a commercial print listing and is not cited."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0471",
+      "url": "https://www.loc.gov/pictures/item/ma0471",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the caption index at the same path (ma0471cap.pdf) came up in a loc.gov search. The landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000539",
+      "url": "https://en.wikipedia.org/wiki/First_Harrison_Gray_Otis_House",
+      "title": "NRHP reference No. 70000539; added to NRHP and designated NHL December 30, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/First_Harrison_Gray_Otis_House",
+      "title": "First Harrison Gray Otis House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/otis-house",
+      "title": "Otis House | Historic New England",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. Its page: 'the first of three houses Bulfinch designed for Otis' and 'reflects the classical proportions and delicate detail of the Federal style'."
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/MA-01-WE2",
+      "title": "First Harrison Gray Otis House (SAH Archipedia, MA-01-WE2)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0471",
+    "register": "loc-item",
+    "survey_no": "MA-845",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0471/data/ma0471data.pdf",
+    "prepared": "Architectural Data Form (Form 10-920, June 1983) compiled by Mary Buckley, Architectural Historian, HABS, dated June 24, 1983, as the form reads",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "HISTORIC NAME OF STRUCTURE (INCLUDE SOURCE FOR NAME) Harrison Gray Otis House (First) HABS NO. MA-845 SECONDARY OR COMMON NAMES OF STRUCTURE Society for the Preservation of New England Antiquities COMPLETE ADDRESS (DESCRIBE LOCATION FOR RURAL SITES) 141 Cambridge Street DATE OF CONSTRUCTION (INCLUDE SOURCE) 1795-96 ARCHITECTS) (INCLUDE SOURCE) Charles Bulfinch SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) The noted lawyer-politician Harrison Gray Otis acquired the lot for this town house in 1793.",
+        "page": "HABS No. MA-845, Architectural Data Form; the form prints no page number"
+      },
+      {
+        "field": "storeys",
+        "text": "STYLE (IFAPPROPRIATE) Federal MATERIAL OF CONSTRUCTION (INCLUDESTRUCTURAL SYSTEMS) Brick • PE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) Five-bay wide, three stories EXTERIOR FEATURES OF NOTE INTERIOR FEATURES OF NOTE (DESCRIBE FLOOR PLANS, IF NOT SKETCHED) MAJOR ALTERATIONS AND ADDITIONS WITH DATES PRESENT CONDITION AND USE Museum",
+        "page": "HABS No. MA-845, Architectural Data Form, same span; the form prints no page number"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "Five-bay wide",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "three stories",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Written 4 Sep 2026. The survey is a one-page 1983 data form with no measured description; it states the bay count and storey count and nothing else dimensional. `new-england-federal` also names this building and its exemplar was not touched (that node is not in this package's scope); add it to `nodes[]` when that exemplar gains a `precedent`."
+}

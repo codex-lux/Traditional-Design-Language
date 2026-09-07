@@ -1,0 +1,66 @@
+{
+  "id": "governors-palace-reconstruction",
+  "name": "Governor's Palace (reconstruction)",
+  "aka": [
+    "Governor's Palace, Williamsburg"
+  ],
+  "location": {
+    "text": "Williamsburg, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "Reconstruction completed 1934",
+    "circa": false,
+    "note": "The completion year is the node's; Colonial Williamsburg's own journal records that on 5 December 1927 William Perry 'got authorization \"to proceed with work on Wren Building\" and reconstruction of the colonial Capitol and Governor's Palace' and that the Bodleian Plate, engraved about 1740 and showing the Palace, was found 21 December 1929 and arrived in Williamsburg in mid-January 1930. The dates of the original palace were not read from any fetched source and are not recorded."
+  },
+  "nodes": [
+    "colonial-revival",
+    "georgian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Governor%27s_Palace_(Williamsburg,_Virginia)",
+      "title": "Governor's Palace (Williamsburg, Virginia) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Its infobox prints only 'Part of Williamsburg Historic District (ID66000925), Added to NRHP October 15, 1966'; the reconstruction has no register entry of its own."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000925",
+      "url": "https://www.dhr.virginia.gov/historic-registers/137-0050",
+      "title": "NRHP Reference Number 66000925 -- the Williamsburg Historic District, NRHP listed 10/15/1966, NHL 10/09/1960 (as the DHR page prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The district's number, not the Palace's; the Palace has none of its own."
+    },
+    {
+      "kind": "state-register",
+      "id": "137-0050",
+      "url": "https://www.dhr.virginia.gov/historic-registers/137-0050",
+      "title": "Williamsburg Historic District – DHR (Virginia Department of Historic Resources), VLR listed 09/09/1969",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The district entry; its photo captions include 'Governor's Palace. Photo credit: David Edwards/DHR, 2022'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://research.colonialwilliamsburg.org/Foundation/journal/Autumn04/perry.cfm",
+      "title": "The Colonial Williamsburg Official History & Citizenship Site (Colonial Williamsburg journal, Autumn 2004: Will Molineux on Perry, Shaw & Hepburn)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner's own journal; source of the 5 December 1927 authorisation and the Bodleian Plate's discovery."
+    },
+    {
+      "kind": "institution",
+      "url": "https://research.colonialwilliamsburg.org/DigitalLibrary/view/index.cfm?doc=ResearchReports%5CRR1630.xml&highlight=",
+      "title": "The Capitol Architectural Report Block 8 Building 11 (Colonial Williamsburg Digital Library)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Discusses Perry, Shaw & Hepburn's reading of 'the clearly delineated symmetrical fronts on the Wren Building and the Governor's Palace in the Bodleian plate' and A. G. Lambert's 1932 Beaux-Arts site study of the Palace grounds."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A reconstruction, so no HABS survey (a loc.gov search found none) and no register entry of its own. It stands on two nodes with one record, as the schema intends: the colonial-revival node calls it the instrument of the accuracy phase and the georgian-revival node the reference library for the variant."
+}

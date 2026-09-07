@@ -1,0 +1,41 @@
+{
+  "id": "la-fonda-on-the-plaza",
+  "name": "La Fonda on the Plaza",
+  "aka": [
+    "La Fonda",
+    "La Fonda Hotel"
+  ],
+  "location": {
+    "text": "Santa Fe, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1922",
+    "circa": false,
+    "altered": "Interiors by Mary Elizabeth Jane Colter for the Fred Harvey Company after the Atchison, Topeka and Santa Fe Railway bought it in 1925; remodelled and enlarged by John Gaw Meem from 1929 (the style node; the hotel's own timeline names all three designers).",
+    "note": "Wikipedia prints 'Opening December 30, 1922'; the hotel's timeline says 'The structure that guests enjoy today was built in 1922'; the style node gives 1922."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/La_Fonda_on_the_Plaza",
+      "title": "La Fonda on the Plaza - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Location '100 E. San Francisco Street'; 'a member of Historic Hotels of America, a program of the National Trust for Historic Preservation, since 1991'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://lafondasantafe.com/timeline",
+      "title": "Historic Timeline - La Fonda on the Plaza",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'built in 1922 and features the influence of architects Isaac Rapp, Mary Elizabeth Jane Colter and John Gaw Meem'; a 2014 City of Santa Fe Historic Preservation Division award for the recent renovation."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. No National Register number was found (the article carries none; the search '\"La Fonda\" Santa Fe hotel 1922 Rapp Meem \"National Register\" OR \"Historic Hotels\" OR sah-archipedia' returned the hotel's own pages and travel writing) and no HABS record."
+}

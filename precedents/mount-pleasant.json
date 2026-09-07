@@ -1,0 +1,59 @@
+{
+  "id": "mount-pleasant",
+  "name": "Mount Pleasant",
+  "aka": [
+    "Clunie",
+    "Mount Pleasant Mansion"
+  ],
+  "location": {
+    "text": "Fairmount Park, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "c. 1761",
+    "circa": true,
+    "altered": "Restored in 1926 by the Philadelphia Museum of Art (Wikipedia).",
+    "note": "The Wikipedia infobox prints 'c. 1761'; both nodes' exemplars say 1762-65. Recorded as the infobox states it, with the nodes' own dating noted rather than resolved."
+  },
+  "nodes": [
+    "georgian-colonial-american",
+    "mid-atlantic-georgian",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1130",
+      "url": "https://www.loc.gov/pictures/item/pa0824",
+      "title": "Mount Pleasant, East Fairmount Park, Philadelphia, Philadelphia County, PA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS PA-1130; National Register of Historic Places NRIS Number: 66000685'; call number HABS PA,51-PHILA,15-. The data PDF's OCR returned only its cover sheets ('Photographs Written Historical and Descriptive Data District of Pennsylvania ... Addendum to Mount Pleasant (Clunie)') on three extracts with different queries, so the written data, which the cover says exists, could not be read and no survey block is carried. Unread is not absent."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0824",
+      "url": "https://www.loc.gov/pictures/item/pa0824",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mount_Pleasant_(Philadelphia)",
+      "title": "Mount Pleasant (mansion) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000685",
+      "url": "https://en.wikipedia.org/wiki/Mount_Pleasant_(Philadelphia)",
+      "title": "NRHP reference No. 66000685; added October 15, 1966; designated NHL May 30, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox and from the Library's item note, which prints the same number. The Register's own database was not opened."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location are identical on both nodes that carry it, so one record serves both. The survey's written data exists and could not be read through this container's extraction tier; a later pass with a legible copy should add the survey block."
+}

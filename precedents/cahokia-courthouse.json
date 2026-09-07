@@ -1,0 +1,87 @@
+{
+  "id": "cahokia-courthouse",
+  "name": "Cahokia Courthouse",
+  "aka": [
+    "Cahokia Court House",
+    "Old Cahokia Courthouse"
+  ],
+  "location": {
+    "text": "Cahokia, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "c. 1740",
+    "circa": true,
+    "altered": "Dismantled and re-erected 'in partial form' at the Louisiana Purchase Exposition, St Louis, in 1904-05; moved again in 1906 to the south end of the Wooded Island, Jackson Park, Chicago, where HABS recorded it; the surviving original fabric was returned to Cahokia and incorporated into a building constructed on the original courthouse foundation, dedicated 1940. Each move lost fabric.",
+    "note": "The survey says 'Tradition dates it as early as 1716'. The Illinois Historic Preservation Division says 'built as a residence around 1740'. The node's own exemplar carries 1740 and says it was converted to a courthouse in 1793; the Illinois site says the Common Pleas Court of the Northwest Territory bought it in 1793. Listed on the National Register 9 November 1972; no reference number was resolved."
+  },
+  "nodes": [
+    "french-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "title": "Cahokia Courthouse, Jackson Park, Chicago, Cook County, IL -- Survey HABS IL-26-31-A, call number HABS ILL,16-CHIG,3-",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0200/il0257/data/il0257data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO `id` is recorded deliberately. The survey number is the 1930s district form 'IL-26-31-A' (district 26, project 31, building A), which check_precedents.py's HABS id shape cannot hold -- it admits one suffix group and this has two -- and inventing a shorter form would be inventing an identifier. The number is stated here and in `survey.data_url`; `survey.survey_no` is omitted for the same reason. The data page's own head prints 'Cahokia Court. House Chicago, Illinois HASS 26-3I-A' and 'HABS ILL, 16-CHIG, 3-' with a cross-reference 'See Also ILL, 82-CAHO'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "il0257",
+      "url": "https://www.loc.gov/item/il0257/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The loc.gov item page, read by search, prints 'Photos from Survey HABS IL-26-31-A' and one sheet of measured drawings."
+    },
+    {
+      "kind": "other",
+      "url": "https://dnrhistoric.illinois.gov/experience/sites/site.cahokia-courthouse.html",
+      "title": "Cahokia Courthouse -- Illinois Historic Preservation Division",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own words, and they contradict the node's exemplar: 'It is architecturally significant as an example of the French Colonial vertical log poteaux-sur-solle (\"post-on-sill\") construction technique.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=142087",
+      "title": "Cahokia Courthouse Historical Marker (Illinois Historic Preservation Agency) -- The Historical Marker Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Marker text: 'The post-on-sill, or poteaux-sur-solle, structure consists of upright hewn logs seated in a horizontal sill log, and is an excellent example of French colonial-era timber construction.'"
+    }
+  ],
+  "survey": {
+    "item": "il0257",
+    "register": "loc-item",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0200/il0257/data/il0257data.pdf",
+    "prepared": "Historic American Buildings Survey District No. 26, Earl H. Reed, Jr., Northern Illinois District Officer, Project No. 26-51, by Geo. W. Terp, Jr.; sources cited include a Chicago Historical Society scrapbook, 'Early Illinois Towns'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The story of Cahokia Court House is a long and varied one. Tradition dates it as early as 1716. Certain it is that it occupied its location on the Parade Ground in sleepy Cahokia, perhaps the earliest of the French settlements in Illinois, until its unfortunate removal to the Louisiana Purchase Exposition in 1905 when it was re-ereeted in.partial f orm.",
+        "page": "HABS IL-26-31-A, Project No. 26-51; no page marker legible in the extract span"
+      },
+      {
+        "field": "other",
+        "text": "Cahokia, St.Clalr County, Illinois 16-CHIG Later at o_ 'Louisiana Purchase Exposition At St. Louis, St. Louis County, Mo. Now at South End of Wooded Island Jackson Park, Chicago, Illinois.",
+        "page": "HABS IL-26-31-A, the location block of the cover sheet"
+      },
+      {
+        "field": "condition",
+        "text": "After Bellville was made the county seat 3. in 1819, the Cahokia Court house was con-verted into a saloon whence the present appelation \"Court Saloon\". The court room became the bar-room, the bar being the corner where the jury box had stood. When the saloon was discontinued the house was used for a jail until Cahokia was deprived of that privilege. Two farmers now occupy the rear of the building; the old court and jury room are no more in use.",
+        "page": "HABS IL-26-31-A; the surveyor is quoting an undated newspaper cutting from the Chicago Historical Society scrap book 'Early Illinois Towns'"
+      },
+      {
+        "field": "general_description",
+        "text": "colonies is notable; the English seemed to intend that their earliest structures should be temporary and in the places first selected by them. There are no traces of their original build-ings, while in the French colonies many re-main.",
+        "page": "HABS IL-26-31-A; part of the same quoted newspaper cutting"
+      }
+    ]
+  },
+  "note": "Two things a reader of the node should know before using this exemplar. FIRST: the HABS survey does not describe the building at Cahokia. It describes it standing in Jackson Park, Chicago, re-erected 'in partial form' after the 1904 exposition; the building at Cahokia today was constructed on the original foundation with the returned fabric and dedicated in 1940. SECOND: the node's own exemplar note calls it 'poteaux-en-terre -- vertical logs set directly in the ground', and both the owning agency and its own historical marker call it poteaux-SUR-SOLLE, post on sill. The Cane River HABS survey quoted in precedents/badin-roque-house.json states that only three other poteaux-en-terre buildings are known besides the Badin-Roque House and that all three are in Ste. Genevieve, Missouri -- which excludes this one. No dimension is legible anywhere in the extracted spans."
+}

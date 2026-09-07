@@ -1,0 +1,64 @@
+{
+  "id": "linda-vista-defense-housing-project",
+  "name": "Linda Vista Defense Housing Project",
+  "aka": [
+    "Defense Housing Project No. 4002",
+    "Linda Vista Housing Project"
+  ],
+  "location": {
+    "text": "San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1941-1943",
+    "circa": false,
+    "note": "Three dates and none edited. Clio gives 'The project broke ground on February 19, 1941' and the initial project 'completed on November 5, 1941'; the San Diego History Center's 1982 journal says 'Construction on the Linda Vista housing project began on March 5, 1941'; the City of San Diego Historical Resources Board report says 'the construction of 3,001 permanent residential units by May 1941 and an additional 1,845 temporary units by 1943'. The unit counts also disagree -- 3,000 or 3,001 permanent, plus 750 dormitory units, plus 1,845 later 'temporary' units."
+  },
+  "nodes": [
+    "minimal-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.sandiegouniontribune.com/2021/03/23/linda-vista-started-with-a-housing-boom-in-1941",
+      "title": "Linda Vista started with a housing boom in 1941 - San Diego Union-Tribune (reprinting 'Building 3000 Homes in 300 Days Job of 3000 Men on Bustling Kearny Mesa', The San Diego Union, 23 March 1941)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The only dimensioned statement about the houses found anywhere for this project, and it is a newspaper of the month construction began, not a survey: 'The average unit is 25 by 30 feet, totaling 750 square feet of floor space. Compact arrangement provides for a sizeable living room, and each bedroom will have a roomy closet.' The same article says of the elevations: 'The exteriors of these homes by no means present a stereotyped pattern. Siding vary in line, some being of stucco, others frame, and still others, a combination of both.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://theclio.com/entry/43976",
+      "title": "Linda Vista history and housing - Clio",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Over 259 days, 3,000 homes and 750 dormitory units were built in Linda Vista, the largest public housing project in the U.S. for a brief time.' Also names the development 'Defense Housing Project No. 4002' and says single- and multi-family homes original to it survive on two walking-tour loops."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.sandiego.gov/sites/default/files/legacy//planning/programs/historical/pdf/reports/hrb11012mtng110224.pdf",
+      "title": "City of San Diego Historical Resources Board, Agenda of February 24, 2011 (Linda Vista Tenant Activity Building)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States the project 'resulted in the construction of 3,001 permanent residential units by May 1941 and an additional 1,845 temporary units by 1943', that it was laid out on 'the principles of the garden city and the \"Neighborhood Unit Theory\"', and that the Lanham Act funded housing but not the shops, schools and civic buildings a neighbourhood needs -- which is why the community building came two years late."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.huduser.gov/portal/pdredge/pdr-edge-frm-asst-sec-040325.html",
+      "title": "WWII Emergency War Housing | HUD USER",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Attributes '3,000 houses in just 300 days' to the historian Mary Taschner and says most of the Linda Vista houses still stand."
+    },
+    {
+      "kind": "other",
+      "url": "https://sandiegohistory.org/journal/1982/january/boom",
+      "title": "Boomerang Boom: San Diego 1941-1942, The Journal of San Diego History (January 1982)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'\"3000 houses in 300 days\" boasted the contractor's slogan for building Linda Vista, America's largest defense housing project.' The companion photo page dates the start of construction to March 5, 1941."
+    }
+  ],
+  "note": "No HABS or HAER survey for the housing was found, and none is claimed; the only documentation located is a city landmark report on the project's COMMUNITY BUILDING, not on the houses. There is therefore no `survey` block and no `measurements`: the 25 x 30 ft / 750 sq ft figure is a newspaper's, printed while the first foundations were being poured, and it is carried in the ref note rather than parsed as a measurement, because `measurements` may only index a survey quote. Worth carrying for the node: 750 sq ft here in 1941 and 750 sq ft at Levittown in 1947 are the same number reached by a federal agency and by a private builder six years apart."
+}

@@ -193,25 +193,55 @@
       "name": "Haus Bethlehem",
       "location": "Schwyz, Switzerland",
       "year": 1287,
-      "note": "Dendro-dated to 1287; among the oldest surviving timber dwellings in Europe and an intact demonstration of medieval Blockbau."
+      "note": "Dendro-dated to 1287; among the oldest surviving timber dwellings in Europe and an intact demonstration of medieval Blockbau.",
+      "precedent": "haus-bethlehem",
+      "standing": "icon",
+      "why": "The commune of Schwyz's own page calls it 'das älteste Holzhaus in Europa', which is the commune's claim and not this corpus's, and the same page reads its differentiated room structure as evidence of a former Herrenhaus -- so it is cited as an icon of the Blockbau and explicitly not as a farmhouse."
     },
     {
       "name": "Haus Nideroest",
       "location": "Schwyz, Switzerland",
       "year": 1176,
-      "note": "Timbers dendro-dated to 1176; discovered during demolition in 2002 and dismantled for conservation. Cited with that caveat — it is evidence rather than a visitable building."
+      "note": "Timbers dendro-dated to 1176; discovered during demolition in 2002 and dismantled for conservation. Cited with that caveat — it is evidence rather than a visitable building.",
+      "precedent": "haus-nideroest",
+      "standing": "documentary",
+      "why": "Cited for one measured number and not for anything visible: Descoeudres's building archaeology, published by the foundation that now holds the reconstructed house, records a two-storey square block building of about 6.90 m a side dated 1176, which is the corpus's only sourced instance of the log-length limit the node argues from."
     },
     {
       "name": "Ballenberg Swiss Open-Air Museum",
       "location": "Hofstetten bei Brienz, Switzerland",
       "year": null,
-      "note": "Over a hundred relocated rural buildings of the 14th-19th centuries from every canton; the only place where the regional range of the type can be compared directly."
+      "note": "Over a hundred relocated rural buildings of the 14th-19th centuries from every canton; the only place where the regional range of the type can be compared directly.",
+      "precedent": "ballenberg",
+      "standing": "documentary",
+      "why": "A collection of relocated buildings and carried as one, on the museum's own figures (16 objects in 1978, over 100 today); its stated academic basis is the «Aktion Bauernhausforschung in der Schweiz», which is the national farmhouse survey this node's first cited source belongs to."
     },
     {
       "name": "Chalet-Museum / farmhouses of the Simmental",
       "location": "Bernese Oberland, Switzerland",
       "year": null,
-      "note": "17th-18th century; the Simmental facade, with its stepped purlin overhang, carved and painted inscription band and full-width gallery, is the type specimen for what the 19th century exported as 'the chalet'."
+      "note": "17th-18th century; the Simmental facade, with its stepped purlin overhang, carved and painted inscription band and full-width gallery, is the type specimen for what the 19th century exported as 'the chalet'.",
+      "precedent": "simmental-farmhouses",
+      "standing": "regional",
+      "why": "A region and a museum named in one string, so the record is a group of the dated Simmental houses the German Wikipedia list carries with their KGS numbers -- 1642 to 1759 -- and its one substantive addition is the «Heidenkreuz», the braced ridge post stiffening the gable wall, which this node's account of the gable face does not mention."
+    },
+    {
+      "name": "Le Grand Chalet",
+      "location": "Rossiniere, Switzerland",
+      "year": 1756,
+      "note": "Built 1752-1756 by and for the curial Jean-David Henchoz, whose cheese cellars in the masonry base set the volume of the building above them. The largest historic chalet in Switzerland: 27 m of facade over five storeys, 20 m to the ridge, 15 m deep, 113 windows, 60 rooms of which 40 are habitable chambers, 750 m3 of round timber and 950 m2 of split-larch tavillons. A hotel from 1857 to 1976; Balthus lived and worked there from 1977 until his death in 2001. Swiss cultural property of national significance.",
+      "precedent": "grand-chalet-rossiniere",
+      "standing": "icon",
+      "why": "The English Wikipedia article calls it 'the largest historic chalet in Switzerland and possibly in the entire Alpine region' and Switzerland classified it nationally in 1996; it is carried here because it is the only building in the node for which published dimensions exist, and because its own sources say the cheese cellar determined its volume, which is this node's method stated about a real house."
+    },
+    {
+      "name": "Knuttihaus",
+      "location": "Darstetten, Simmental, Switzerland",
+      "year": 1756,
+      "note": "Moos 47, Därstetten, on the Simmentaler Hausweg. A farmhouse by Hans Messerli with flat carving and elaborate painting and a Sonntagsstube of 1760; Swiss cultural property, KGS A 00862.",
+      "precedent": "knuttihaus-darstetten",
+      "standing": "canonical",
+      "why": "The node calls the Simmental facade the type specimen for what the nineteenth century exported as the chalet, and this is one such facade with a name, an address, a date, a builder and a cultural-property number rather than a region; it supplies no dimension at all, which is the honest state of the Alpine sources."
     }
   ],
   "sources": [

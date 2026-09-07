@@ -1,0 +1,57 @@
+{
+  "id": "simmental-farmhouses",
+  "name": "Chalet-Museum / farmhouses of the Simmental",
+  "record_kind": "group",
+  "location": {
+    "text": "Bernese Oberland, Switzerland",
+    "country": "Switzerland",
+    "state": "Kanton Bern, Simmental und Diemtigtal"
+  },
+  "dates": {
+    "built": "1642 to 1759 among the houses read here",
+    "circa": true,
+    "note": "The German Wikipedia list of Simmental farmhouses gives dated houses from 1642 (Nidfluh Nr. 309, Därstetten) through 1655, 1705, 1738, 1751, 1756 and 1759. The node's exemplar note says '17th-18th century', which those dates support."
+  },
+  "nodes": [
+    "swiss-chalet"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
+      "title": "Liste von Simmentaler Bauernhäusern – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A table of individual Simmental farmhouses with, for each, the commune and address, a Simmentaler Hausweg number, a KGS (Swiss cultural-property inventory) number, a one-line description and the year of building."
+    },
+    {
+      "kind": "state-register",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
+      "title": "KGS-Inventar numbers as transcribed in the German Wikipedia list of Simmental farmhouses",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO SINGLE NUMBER IS CARRIED HERE because this record is a GROUP and the numbers belong to individual houses: A 00862 Knuttihaus (Därstetten 1756), A 09213 Argel Nr. 161 (Därstetten 1759), A 00869 Sälbezehus (Diemtigen 1738), A 00870 Haus Klossner (Diemtigen 1751), A 09202 Adlemsried 85/86 (Boltigen 1655), A 09770 Weissenbach Nr. 543 (Boltigen 1705), A 00864 Nidfluh Nr. 309 (Därstetten 1642). KGS is the Swiss Inventory of Cultural Property; its own site was not reached and these are the Wikipedia table's transcriptions."
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-liste-simmentaler-bauernhaeuser",
+    "register": "wikipedia",
+    "data_url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
+    "prepared": "The German Wikipedia list of Simmental farmhouses, read as continuous prose in an extract. AN ENCYCLOPEDIA LIST AND NOT A REGISTER, though its KGS column transcribes one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "structural_system",
+        "text": "Die ältesten Häuser aus der Zeit um 1500 zeigen das spätmittelalterliche Konstruktionselement des «Heidenkreuzes» an der Fassade. Der mit wuchtigen Fusshölzern verstrebte Firstpfosten diente der Versteifung der Giebelwand. Baumeister vieler ausgezeichneter Bauernhäuser sind Hans Messerli und seine beiden Söhne.",
+        "page": "German Wikipedia, 'Liste von Simmentaler Bauernhäusern', introductory text above the table. Not paginated."
+      },
+      {
+        "field": "other",
+        "text": "| Knuttihaus | Därstetten, Moos, Moos 47 | S17 (Lage46.6561647.4916) | A 00862 | Bauernhaus, von Hans Messerli, Flachschnitzereien und kunstvolle Malerei, Sonntagsstube von 1760 | 1756 |",
+        "page": "German Wikipedia, 'Liste von Simmentaler Bauernhäusern', table row for the Knuttihaus. Quoted with the table's own pipes because the row IS the record; the coordinate string is run together in the extract exactly as shown."
+      }
+    ]
+  },
+  "note": "Tranche 3, Alpine cluster, 5 September 2026. A GROUP record and declared as one, because the node's exemplar names a museum and a region in one string and cannot be resolved to a building. WHAT THE SOURCE ADDS TO THE NODE is a piece of structure the node's prose does not mention at all: the oldest Simmental fronts carry a «Heidenkreuz», a ridge post braced with heavy foot timbers to stiffen the gable wall. The node explains the gable face entirely in terms of the eave overhang and its ornament -- carved bargeboard, Lauben, inscription band, shaped purlin ends -- and here is a structural member doing the gable's real work.\n\nThe Knuttihaus row is quoted rather than paraphrased because this tranche also gives that house its own record, and the two must agree."
+}

@@ -33,5 +33,181 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Pieter Bronck House",
+      "location": "Coxsackie, Greene County, New York",
+      "year": 1663,
+      "precedent": "pieter-bronck-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `dutch-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Louis Bolduc House",
+      "location": "Ste. Geneviève, Missouri",
+      "year": 1792,
+      "precedent": "louis-bolduc-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Mount Vernon",
+      "location": "Fairfax County, Virginia",
+      "year": 1787,
+      "precedent": "mount-vernon",
+      "standing": "canonical",
+      "why": "Derived, not authored: `georgian-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Hans Herr House (1719 Museum)",
+      "location": "West Lampeter Township, Lancaster County, Pennsylvania",
+      "year": 1719,
+      "precedent": "hans-herr-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `german-pennsylvania-colonial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Fairbanks House",
+      "location": "Dedham, Massachusetts",
+      "year": 1637,
+      "precedent": "fairbanks-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-england-colonial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Mission San Xavier del Bac",
+      "location": "Tucson, Arizona",
+      "year": 1797,
+      "precedent": "mission-san-xavier-del-bac",
+      "standing": "canonical",
+      "why": "Derived, not authored: `spanish-colonial-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Mission San Luis Rey de Francia",
+      "location": "Oceanside, California",
+      "year": 1798,
+      "precedent": "mission-san-luis-rey-de-francia",
+      "standing": "canonical",
+      "why": "Derived, not authored: `california-mission-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Atwood-Higgins House",
+      "location": "Bound Brook Island, Wellfleet, Massachusetts",
+      "year": 1730,
+      "precedent": "atwood-higgins-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `cape-cod-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Miles Brewton House",
+      "location": "27 King Street, Charleston, South Carolina",
+      "year": 1769,
+      "precedent": "miles-brewton-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `charleston-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Lafitte's Blacksmith Shop",
+      "location": "941 Bourbon Street, New Orleans, Louisiana",
+      "year": 1772,
+      "precedent": "lafittes-blacksmith-shop",
+      "standing": "canonical",
+      "why": "Derived, not authored: `creole-cottage-vernacular`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Parson Capen House",
+      "location": "Topsfield, Massachusetts",
+      "year": 1683,
+      "precedent": "parson-capen-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `garrison-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Jean Hasbrouck House",
+      "location": "Historic Huguenot Street, New Paltz, New York",
+      "year": 1721,
+      "precedent": "jean-hasbrouck-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `hudson-valley-dutch`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Mount Pleasant",
+      "location": "Fairmount Park, Philadelphia, Pennsylvania",
+      "year": 1765,
+      "precedent": "mount-pleasant",
+      "standing": "canonical",
+      "why": "Derived, not authored: `mid-atlantic-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Larkin House",
+      "location": "464 Calle Principal, Monterey, California",
+      "year": 1835,
+      "precedent": "larkin-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `monterey-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Vassall-Craigie-Longfellow House",
+      "location": "105 Brattle Street, Cambridge, Massachusetts",
+      "year": 1759,
+      "precedent": "vassall-craigie-longfellow-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-england-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Steuben House (Zabriskie House)",
+      "location": "Historic New Bridge Landing, River Edge, New Jersey",
+      "year": 1752,
+      "precedent": "steuben-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-jersey-dutch-gambrel`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Taos Pueblo",
+      "location": "Taos, New Mexico",
+      "year": 1400,
+      "precedent": "taos-pueblo",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-mexico-adobe`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Heinrich Zeller House (Fort Zeller)",
+      "location": "Millcreek Township, Lebanon County, Pennsylvania",
+      "year": 1745,
+      "precedent": "heinrich-zeller-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `pennsylvania-bank-house`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Homeplace Plantation House (Keller Homeplace)",
+      "location": "Hahnville, St. Charles Parish, Louisiana",
+      "year": 1791,
+      "precedent": "homeplace-plantation-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `raised-creole-plantation`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Hoxie House",
+      "location": "Sandwich, Massachusetts",
+      "year": 1675,
+      "precedent": "hoxie-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `saltbox-colonial`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Westover",
+      "location": "Charles City County, Virginia",
+      "year": 1750,
+      "precedent": "westover",
+      "standing": "canonical",
+      "why": "Derived, not authored: `tidewater-georgian`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Hugh Morrison, Early American Architecture: From the First Colonial Settlements to the National Period (1952)",
+    "James D. Kornwolf, Architecture and Town Planning in Colonial North America (2002)",
+    "Fiske Kimball, Domestic Architecture of the American Colonies and of the Early Republic (1922)",
+    "Dell Upton and John Michael Vlach, eds., Common Places: Readings in American Vernacular Architecture (1986)"
   ]
 }

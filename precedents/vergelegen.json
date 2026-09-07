@@ -1,0 +1,70 @@
+{
+  "id": "vergelegen",
+  "name": "Vergelegen",
+  "location": {
+    "text": "Somerset West, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1700",
+    "circa": false,
+    "altered": "Altered by Samuel Kerr in the nineteenth century; restored, refurbished and extended for Lady Florence Phillips from 1922 by the architect Percy Walgate, who produced 195 sketches between November 1922 and September 1923. Two modern wings were added then, and the east gable, largely disintegrated, was rebuilt to a copy of the old Pastorie at Paarl.",
+    "note": "The grant to Willem Adriaan van der Stel is dated 1700 by every source read. What stands is heavily a 1920s restoration and the record says so rather than letting the 1700 stand alone."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/083/0010",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
+      "title": "Vergelegen, Somerset West -- List of heritage sites of the Helderberg area",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    },
+    {
+      "kind": "state-register",
+      "id": "9/2/083/0010/001",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
+      "title": "Camphor trees, Vergelegen, Somerset West",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The five camphor trees in front of the homestead are separately listed; the row's own description gives the setting -- 'The historical farm Vergelegen lies a few kilometres due east of Somerset West in an angle between the Hottentots Holland Mountains and the Helderberg. It was granted to Governor Willem Adriaan van der Stel by the visiting Commissioner Wouter Valckenier.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Vergelegen",
+      "title": "Vergelegen - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A SEARCH-RESULT SUMMARY AND NOT A QUOTATION, corrected at the Tranche 3 audit. The tier returned 'Vergelegen (Dutch: \"remotely situated\") is a historic wine estate in Somerset West, Founded 1700 (restarted in 1992) Founder Willem Adriaan van der Stel', and an earlier version of this note printed that string as running prose. It is not a sentence the page contains: the summariser cut the lead off after 'Somerset West,' and ran two INFOBOX FIELDS -- the 'Founded' and 'Founder' rows -- on after it with no separator, which is why a capital letter follows a comma. Re-extracted 2026-09-05: the lead and the infobox rows are separate spans on the page and each says what the summary says it does, but the joined sentence was manufactured by the tier."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.theheritageportal.co.za/article/vergelegen-story-part-two-phillips-and-barlow-years",
+      "title": "The Vergelegen Story Part Two - The Phillips and Barlow Years | The Heritage Portal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Heritage Portal, republishing an article from the 1994 Restorica with the permission of the University of Pretoria and the Heritage Association of South Africa. Read as continuous prose."
+    }
+  ],
+  "survey": {
+    "item": "9/2/083/0010/001",
+    "register": "state-register",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_of_the_Helderberg_area",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The historical farm Vergelegen lies a few kilometres due east of Somerset West in an angle between the Hottentots Holland Mountains and the Helderberg. It was granted to Governor Willem Adriaan van der Stel by the visiting Commissioner Wouter Valckenier. Type of site: Tree",
+        "page": "SAHRA identifier 9/2/083/0010/001, description column of the Helderberg heritage-site table. A register description is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Cape cluster, 5 September 2026. THE ONLY DESCRIBED SAHRA ROW FOR VERGELEGEN IS THE ONE ABOUT THE TREES. The row for the farm itself (9/2/083/0010) carries no description in the table at all; the described sub-record is 9/2/083/0010/001, the five camphor trees, so the survey block quotes the row that exists rather than the row a reader would expect. The Heritage Portal's account is the substantive one and is a secondary work, cited as one: it establishes that the house standing today is Percy Walgate's restoration for Lady Phillips, that two wings were added in the 1920s, and that the east gable is a COPY OF ANOTHER BUILDING'S -- 'the present, rather ornate gable, was copied from the old Pastorie in Paarl'. Anyone measuring a Cape gable from Vergelegen is measuring the Paarl parsonage."
+}

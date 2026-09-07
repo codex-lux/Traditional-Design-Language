@@ -54,9 +54,14 @@ def _data():
         r = json.load(open(f)); rooms[r["id"]] = r
     for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
         g = json.load(open(f)); groupings[g["id"]] = g
+    # WP-11.1. The building behind an exemplar, one record per building, shared by every node
+    # that names it. Read like rooms/: a directory, never dist/.
+    precedents = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
+        r = json.load(open(f)); precedents[r["id"]] = r
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
-            "rooms": rooms, "groupings": groupings,
+            "rooms": rooms, "groupings": groupings, "precedents": precedents,
             "ontology_version": sd["version"], "engine": _load_engine()}
 
 _PARTIS_CACHE = None
@@ -224,10 +229,103 @@ def get_style(style_id, sections=None):
         out["massing_affinities"] = [m | {"massing_name": D["massings"].get(m["massing"], {}).get("name")}
                                      for m in n.get("massing_affinities", [])]
     if "constraints" in sec: out["constraints"] = n.get("constraints", [])
-    if "exemplars" in sec: out["exemplars"] = n.get("exemplars", [])
+    if "exemplars" in sec: out["exemplars"] = [_exemplar_with_record(e) for e in n.get("exemplars", [])]
     if "sources" in sec: out["sources"] = n.get("sources", [])
     out["kit"] = f"tdl_resolve_kit('{style_id}')" if style_id in D["kits"] else "no kit directory"
     return out
+
+def _precedent_card(r):
+    """The smallest thing that answers: where the building is, what locates it, whether the
+    survey's written data is on the record. The full record is one call away by id."""
+    return {"id": r["id"], "name": r.get("name"), "location": (r.get("location") or {}).get("text"),
+            "built": (r.get("dates") or {}).get("built"), "nodes": r.get("nodes", []),
+            "refs": [{k: v for k, v in ref.items() if k in ("kind", "id", "url", "title")}
+                     for ref in r.get("refs", [])],
+            "has_survey": bool(r.get("survey")),
+            "survey_fields": sorted({q.get("field") for q in (r.get("survey") or {}).get("quotes", [])}),
+            "measurements": [m.get("name") for m in r.get("measurements", [])]}
+
+def _exemplar_with_record(e):
+    """An exemplar as the node states it, plus its precedent record's card when it names one --
+    so a reader of tdl_get_style sees the locators without a second call, and an exemplar with
+    no `precedent` says so in a field rather than by silence."""
+    D = _data()
+    out = dict(e)
+    pid = e.get("precedent")
+    if pid:
+        r = D["precedents"].get(pid)
+        out["precedent_record"] = _precedent_card(r) if r else {"error": f"precedents/{pid}.json does not exist"}
+    else:
+        out["precedent_record"] = None
+    return out
+
+def precedents(query=None, style=None, precedent_id=None):
+    """WP-11.1. The real buildings behind a style, with what locates them.
+
+    By id: the whole record. By style: that node's exemplars with their records joined; where
+    the node names none, walk the kit cascade and say which ancestor answered -- an agent asking
+    for a family's precedents gets its children's, labelled, rather than an empty list. By
+    query: a substring over precedent names, aka and the nodes they stand for."""
+    D = _data(); P = D["precedents"]
+    if precedent_id:
+        r = P.get(precedent_id)
+        if not r:
+            return {"error": f"no precedent '{precedent_id}'",
+                    "did_you_mean": [k for k in P if precedent_id.lower() in k][:6],
+                    "hint": "tdl_precedents(style=...) lists a style's, tdl_precedents(query=...) searches"}
+        return r
+    if style:
+        n = D["styles"].get(style)
+        if not n:
+            return {"error": f"no style '{style}'", "did_you_mean": [s for s in D["styles"] if style.lower() in s][:6]}
+        exs = [dict(e, node=style) for e in n.get("exemplars") or []]
+        answered_by, walked = [style], [style]
+        if not exs:
+            # A family or a tradition records no exemplars of its own (32 nodes, every one by
+            # convention). Walk DOWN the membership tree breadth-first and answer with the
+            # nearest level that has any, every node at that level, icons first -- a reading,
+            # labelled as one, and not a fact about the node.
+            level = [style]; seen = {style}; answered_by = []
+            while level and not exs:
+                nxt = [m["id"] for m in D["styles"].values()
+                       if m.get("member_of") in level and m["id"] not in seen]
+                nxt = sorted(nxt); seen.update(nxt); walked.extend(nxt)
+                for cid in nxt:
+                    for e in D["styles"][cid].get("exemplars") or []:
+                        exs.append(dict(e, node=cid))
+                    if D["styles"][cid].get("exemplars"):
+                        answered_by.append(cid)
+                level = nxt
+            rank = {"icon": 0, "canonical": 1, "regional": 2, "documentary": 3}
+            exs.sort(key=lambda e: (rank.get(e.get("standing"), 4), 0 if e.get("precedent") else 1, e["node"], e["name"]))
+        total = len(exs)
+        shown = exs[:12] if answered_by != [style] else exs
+        out = {"style": style, "answered_by": answered_by, "walked": walked,
+               "exemplars": [_exemplar_with_record(e) for e in shown],
+               "with_precedent": sum(1 for e in exs if e.get("precedent")), "total": total,
+               "shown": len(shown)}
+        if answered_by != [style]:
+            # WP-11.6, Ruling B (5 Sep 2026). The question IS ruled now, and the answer differs by
+            # rank, so the note must too. A FAMILY carries derived type specimens of its own and no
+            # longer reaches this branch at all; the five TRADITIONS carry none BY RULING, so the
+            # honest note for one says that rather than that nobody has decided. Leaving the old
+            # sentence would have been "until X lands is a lie the moment X lands" on a surface a
+            # user reads through an MCP tool.
+            out["note"] = (f"'{style}' records no exemplars of its own; these are its members' "
+                           f"({', '.join(answered_by) or 'none found'}), reached by walking the membership "
+                           f"tree {len(walked) - 1} node(s) down, icons first, {len(shown)} of {total} shown. "
+                           f"Ruling B (5 Sep 2026) gives a FAMILY type specimens derived from its "
+                           f"members' icons and leaves the five TRADITIONS empty, so a walk is the "
+                           f"answer here rather than a gap -- but it is still a reading: what stands "
+                           f"for a member does not automatically stand for everything above it.")
+        return out
+    q = (query or "").lower().strip()
+    hits = [r for r in P.values() if not q or q in r.get("name", "").lower()
+            or any(q in a.lower() for a in r.get("aka", []))
+            or any(q in nid for nid in r.get("nodes", []))]
+    return {"query": q, "count": len(hits), "precedents": [_precedent_card(r) for r in hits[:40]],
+            "note": ("An exemplar with no record is a name a reader can find and a checker cannot resolve; "
+                     "tdl_get_style(..., sections=['exemplars']) lists those too, with precedent_record null.")}
 
 def _cascade(i, seen=None):
     """The kit cascade, DELEGATED to `build/resolve_kit.chain_for` rather than re-walked.

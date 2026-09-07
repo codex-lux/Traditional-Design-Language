@@ -32,5 +32,38 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Strawberry Hill",
+      "location": "Twickenham, London, England",
+      "year": 1776,
+      "precedent": "strawberry-hill",
+      "standing": "canonical",
+      "why": "Derived, not authored: `gothic-revival-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Cragside",
+      "location": "Rothbury, Northumberland, England",
+      "year": 1884,
+      "precedent": "cragside",
+      "standing": "canonical",
+      "why": "Derived, not authored: `queen-anne-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Abbotsford House",
+      "location": "Melrose, Scottish Borders, Scotland",
+      "year": 1824,
+      "precedent": "abbotsford-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `scottish-baronial`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Christopher Hussey, The Picturesque: Studies in a Point of View (1927)",
+    "Uvedale Price, An Essay on the Picturesque, as Compared with the Sublime and the Beautiful (1794)",
+    "David Watkin, The English Vision: The Picturesque in Architecture, Landscape and Garden Design (1982)",
+    "John Macarthur, The Picturesque: Architecture, Disgust and Other Irregularities (2007)",
+    "Mark Girouard, The Victorian Country House (1971, rev. 1979)"
   ]
 }

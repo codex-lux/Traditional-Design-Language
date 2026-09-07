@@ -1,0 +1,54 @@
+{
+  "id": "stanley-whitman-house",
+  "name": "Stanley-Whitman House",
+  "location": {
+    "text": "Farmington, Connecticut",
+    "country": "United States",
+    "state": "Connecticut"
+  },
+  "dates": {
+    "built": "c. 1720",
+    "circa": true,
+    "altered": "The lean-to was added by the second owner, Solomon Whitman (Wikipedia); the NPS says the house 'incorporates earlier features typical of late-17th-century work, including its frame'.",
+    "note": "The Wikipedia infobox and the node's exemplar agree on c. 1720; the museum's own site counts its birthday from 31 December 1720."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Stanley-Whitman_House",
+      "title": "Stanley-Whitman House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000882",
+      "url": "https://en.wikipedia.org/wiki/Stanley-Whitman_House",
+      "title": "NRHP reference No. 66000882; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://s-wh.org",
+      "title": "HOME - Stanley Whitman House",
+      "note": "Owner-operator (Farmington Village Green and Library Association per Wikipedia); the site calls itself 'National Historic Landmark. Living History Center.'",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/thingstodo/stanley-whitman-house.htm",
+      "title": "Stanley-Whitman House (Farmington, CT) (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "This building is also named by the garrison-colonial and garrison-revival nodes, which are not linked here; those links belong to whoever works those nodes. No HABS survey was found: two searches ('\"Whitman House\" Farmington Connecticut HABS CT High Street' on loc.gov, and an unrestricted '\"Stanley-Whitman House\" ... Historic American Buildings Survey HABS CONN') returned nothing on the Library's site.",
+  "nodes": [
+    "saltbox-colonial",
+    "garrison-colonial",
+    "garrison-revival"
+  ]
+}

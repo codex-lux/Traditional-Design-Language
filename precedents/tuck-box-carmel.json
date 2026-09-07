@@ -1,0 +1,57 @@
+{
+  "id": "tuck-box-carmel",
+  "name": "The Tuck Box",
+  "aka": [
+    "The Hobby House",
+    "Sally's Luncheon & Teas"
+  ],
+  "location": {
+    "text": "Dolores Street, Carmel-by-the-Sea, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1926",
+    "circa": false,
+    "altered": "The rear garden-shop building was added by Comstock in 1929 and the kiosk beside the patio gate in 1931, both under a later owner, the Stanford art professor Pedro J. Lemos, who added the courtyard. The main building became a restaurant (Sally's) in the early 1930s and a tea room named The Tuck Box in the early 1940s.",
+    "note": "The town's own walking tour, a Carmel hotel's dated Comstock list and a Monterey County local wiki all give 1926; The Vale Magazine gives 1927. Recorded as 1926 with the disagreement stated."
+  },
+  "nodes": [
+    "storybook-style"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.carmelcalifornia.com/carmel-fairytale-cottages",
+      "title": "Carmel-by-the-Sea Fairytale Cottages Walking Tour",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own tour, entry 1, 'The Hobby House, Hugh Comstock 1926, Dolores between Ocean and 7th': 'Probably the most photographed structure in Carmel-by-the-Sea, what is now The Tuck Box (formerly Sally's Luncheon & Teas), is the prime example of the fairytale style the village is famous for. Built in 1926 by Hugh Comstock, the preeminent practitioner of the style, it was originally home to \"The Hobby House,\" a furniture and knickknacks shop owned by Bonnie Lee. From day one it was famous, \"a fantastic little building,\" gushed the May 8, 1926, Carmel Pine Cone newspaper. \"It is built of dreams-of moth wings-of the shimmer of moonlight.\"'"
+    },
+    {
+      "kind": "other",
+      "url": "https://localwiki.org/montereycounty/The_Tuck_Box",
+      "title": "The Tuck Box - Monterey County (LocalWiki)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1926, Hugh W. Comstock designed and built what would be later called the Tuck Box, located on Dolores Street between Ocean & 7th Avenue.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.carmelcalifornia.com/courtyards_south_of_ocean-tuck_box_courtyard_632.htm",
+      "title": "Tuck Box Courtyard ~ Carmel-by-the-Sea Courtyards - South of Ocean",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Tuck Box, built in 1926 by Hugh Comstock for artist Bonnie Lee to display her antiques and rare shawl collection, is the iconic fairytale cottage of Carmel. Pedro J. Lemos, a Stanford art professor, later purchased the cottage and added the courtyard and adjacent buildings, including a garden shop in his own fairytale inspired building at the rear.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://lifeoutofbounds.com/2016/06/30/the-carmel-journals-tea-at-the-tuck-box",
+      "title": "The Carmel Journals | Tea at The Tuck Box | Life Out of Bounds",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Dates the accretions: 'The building in the rear was also built by Comstock in 1929, and was used as a garden shop ... while the kiosk next to the patio gate ... was added in 1931. The main building was first used as a restaurant (Sally's) in the early 1930s. Then, in the early 1940s, two sisters from England, Mrs. Bumbridge and Mrs. Watson, turned it into a small tea room and named it The Tuck Box.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 and added because the node's Carmel line was represented by one exemplar (the Hansel and Gretel pair) and the Carmel line is half of what the node's own description.long says the style is -- 'The Carmel line is handmade and sincere where the Los Angeles line is professional and theatrical, and the two together define the style's range.' The Tuck Box is the building that made the town's identity commercial: it is a shop, then a restaurant, then a tea room, and it is the most photographed structure in Carmel by the town's own account. Note also the contemporary evidence, which is rare for this node: the Carmel Pine Cone reviewed it on 8 May 1926, seventeen days or so after it went up. No survey and no register listing was found."
+}

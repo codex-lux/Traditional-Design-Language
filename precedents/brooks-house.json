@@ -1,0 +1,57 @@
+{
+  "id": "brooks-house",
+  "name": "Brooks House",
+  "aka": [
+    "Brooks-Bigelow House"
+  ],
+  "location": {
+    "text": "Middlesboro, Kentucky",
+    "country": "United States",
+    "state": "Kentucky"
+  },
+  "dates": {
+    "built": "1889",
+    "circa": false,
+    "note": "The 1889 date comes from the caption on the Wikimedia Commons photograph used for the National Register listing ('Built in 1889'), which is a photographer's caption and not a register document; a National Register aggregator gives the property's period of significance as 1875-1899. The Kentucky Heritage Council's nomination for the neighbouring Cary House says only that the Cary House 'was built at the same time as its neighbor, the Brooks House'. Recorded with the weakness of its source stated rather than hardened."
+  },
+  "nodes": [
+    "queen-anne-free-classic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "09001137",
+      "url": "https://www.federalregister.gov/documents/2010/03/17/2010-5755/national-register-of-historic-places-weekly-listing-of-historic-properties",
+      "title": "National Register of Historic Places; Weekly Listing of Historic Properties -- 'KENTUCKY / Bell County / Brooks House, 210 Arthur Heights, Middlesboro, 09001137, Listed, 12/23/09'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The listing notice itself, which is the strongest surface reached for this number: the Federal Register's own weekly listing rather than an encyclopaedia infobox."
+    },
+    {
+      "kind": "other",
+      "url": "https://heritage.ky.gov/historic-places/national-register/Documents/Bell%20County,%20Cary%20House.pdf",
+      "title": "National Register of Historic Places Registration Form -- Cary House, Bell County, Kentucky (Kentucky Heritage Council)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Cited for the classification of this house, which is a comparative property in it: 'Queen Anne Subtypes 4 - BLM 100 (Brooks House) - Queen Anne Free Classic - BLM 101 (Cary House) - Queen Anne Stick/Eastlake', and 'Its neighbor, the Brooks House (BLM 100), represents Queen Anne Free Classic, together forming the most intact paired examples of Victorian high-style design in Bell County.' The Kentucky SHPO inventory number is BLM-100."
+    },
+    {
+      "kind": "state-register",
+      "id": "BLM-100",
+      "url": "https://heritage.ky.gov/historic-places/national-register/Documents/Bell%20County,%20Cary%20House.pdf",
+      "title": "Kentucky Heritage Council SHPO inventory number BLM-100 for the Brooks House, as printed in the National Register registration form for the neighbouring Cary House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The inventory number is read from the Cary House nomination's comparative table ('BLM 100 (Brooks House) - Queen Anne Free Classic') and from its sentence 'the Brooks House (NRIS 09001137; SHPO inventory BLM-100)'. The aggregator page that supplies the alternative name Brooks-Bigelow House and the 1875-1899 period of significance is recorded separately below."
+    },
+    {
+      "kind": "other",
+      "url": "https://nationalregisterofhistoricplaces.com/ky/bell/state.html",
+      "title": "National Register of Historic Places - Kentucky (KY), Bell County -- 'Brooks House (added 2009 - #09001137) Also known as Brooks-Bigelow House, 210 Arthur Heights, Middlesboro ... Architectural Style: Queen Anne ... Period of Significance: 1875-1899'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "An aggregator of the register's own data fields; it is the source of the alternative name and the period of significance recorded above."
+    }
+  ],
+  "note": "A Free Classic house that a state historic preservation office classified as one IN WRITING and against its own next-door neighbour, which the office called Queen Anne Stick/Eastlake -- two subtypes of this cluster built at the same moment on adjoining lots, and named apart by the same reader. That pairing is worth more to the taxonomy than either house is on its own. No HABS record was found. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

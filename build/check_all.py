@@ -77,6 +77,18 @@ CHECKS = [
     # the 209 fault links -- went in unchecked. Reports COULD NOT EVALUATE without jsonschema,
     # which CI installs, so it is judged there.
     ("check_assets.py", []),
+    # WP-11.1. The building behind every exemplar, held to a record a checker can resolve: an
+    # exemplar's `precedent` and the record's `nodes[]` in both directions, every reference's id
+    # shape, `retrieved` and `via` on every URL, no `license` key at any depth, and kit figures
+    # citing a survey quote that exists. Reads styles/ and precedents/ directly, not dist/.
+    ("check_precedents.py", ["--strict"]),
+    # WP-11.1. How deep the research under each node goes -- measured, because the corpus was
+    # templated on the surface when it was surveyed (2-4 exemplars, 4-5 sources, 5 constraints on
+    # every buildable node; the exemplar clause has since moved and the other two have not)
+    # and the things that DO discriminate were tracked nowhere: exemplars a checker can resolve,
+    # nodes citing only works ANOTHER NODE cites, `measured` figures with no source at all, split by
+    # whether a generator reads the slot. Ratcheted.
+    ("check_research.py", ["--strict"]),
 
     ("check_orders.py", []),
     ("check_modules.py", ["--eval"]),
@@ -265,10 +277,11 @@ def assign(n):
     """{shard index 0..n-1: [(kind, key), ...]} -- longest-processing-time-first packing.
 
     LPT because the makespan is bounded below by the single largest unit whatever we do
-    (tests/test_score.py is 400 s of the suite's 2,490), so the only thing a scheduler can
+    (tests/test_score.py is 431 s of the suite's 2,503), so the only thing a scheduler can
     win is the tail: place the big ones first and let the small ones fill in behind them.
-    That floor is why six shards is where the curve goes flat: 4 -> 623 s, 5 -> 498,
-    6 -> 415, 7 -> 400, 8 -> 400. `--list-units` re-derives it whenever anyone asks again.
+    That floor is why six shards is where the curve goes flat: 5 -> 507 s, 6 -> 432,
+    7 -> 432. `--list-units` re-derives it whenever anyone asks again -- and it MOVES: the
+    file was costed at 400 s from a per-file sweep and a one-file shard later measured 431.
     Ties break on the key so the partition is deterministic -- two shards computing this
     independently on two runners must agree, and a wall-clock-dependent split would be a
     race that shows up as a unit running twice.

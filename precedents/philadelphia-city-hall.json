@@ -1,0 +1,47 @@
+{
+  "id": "philadelphia-city-hall",
+  "name": "Philadelphia City Hall",
+  "location": {
+    "text": "Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania",
+    "aliases": [
+      "Broad and Market Streets, Penn Square, Philadelphia, Pennsylvania"
+    ]
+  },
+  "dates": {
+    "built": "1871-1901",
+    "circa": false,
+    "note": "The National Register inventory form gives 'SPECIFIC DATES 1871-81' in its own heading and then says in prose that 'Construction lasted for thirty years (1872-1901); the building was occupied in stages over a period of twenty-two years (1877-1898)'. The document disagrees with itself; both are recorded and neither is edited. The style node's exemplar says 1871-1901."
+  },
+  "nodes": [
+    "second-empire"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/GetAsset/3d41c8f1-4628-4dc9-8ac5-4068c74772a4",
+      "title": "PHILADELPHIA CITY HALL - National Register of Historic Places inventory/nomination (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "No reference number was read off this asset, so none is recorded rather than guessed. Its statement of significance says: 'The largest and most elaborate City Hall in America', that the 'prominent mansard roofs were inspired by the new Louvre of 1852-57', and that among the city halls 'in this flamboyant French manner ... built in Boston, Baltimore, Pittsburgh and Detroit, as well as in Paris itself, in Montreal and Sydney ... all were surpassed by the Philadelphia City Hall, the greatest monument of the worldwide Second Empire style.' It also gives 'BUILDER/ARCHITECT John McArthur, Jr. and Thomas U. Walter'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Philadelphia_City_Hall",
+      "title": "Philadelphia City Hall - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States 'Built in the ornate Second Empire style' and gives the antenna-spire height as 548 ft (167 m), topped out 1894, completed 1901."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.asce.org/about-civil-engineering/history-and-heritage/historic-landmarks/philadelphia-city-hall",
+      "title": "Philadelphia City Hall - American Society of Civil Engineers",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States the building 'was the largest masonry load-bearing wall building in the world at the time of its completion in 1901', 'covers 14.26 acres, originally contained 634 rooms with over 1 million square feet of space, and with its tower and statue of William Penn rises a total of 548 feet above the ground', and names John Ord and W. Bleddyn Powell as assistants alongside Thomas U. Walter. Engineering-society figures, recorded as prose and NOT parsed into measurements."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. Carried with a warning about a near-miss: a loc.gov HABS item at pa0941 is titled 'Philadelphia City Hall, Fifth & Chestnut Streets' and carries the call number HABS PA,51-PHILA,6B. That is a DIFFERENT building on Independence Square, not McArthur's building at Broad and Market, and this record deliberately does not cite it. The National Register nomination is the strongest document located and it disagrees with itself about the construction dates within two paragraphs, which is recorded above rather than tidied."
+}

@@ -1,0 +1,46 @@
+{
+  "id": "project-row-houses",
+  "name": "Project Row Houses",
+  "record_kind": "group",
+  "location": {
+    "text": "Third Ward, Houston, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1930 (the houses); the project founded 1993",
+    "circa": true,
+    "altered": "Twenty-two derelict shotgun houses across a block and a half at the corner of Holman and Live Oak were bought and restored from 1993; the organisation now covers five city blocks and, on a 2022 count, thirty-nine houses and buildings.",
+    "note": "Wikipedia says the twenty-two houses 'were built in 1930'; no source read gives a builder or a survey. The 1993 founding is agreed by every source."
+  },
+  "nodes": [
+    "shotgun-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Project_Row_Houses",
+      "title": "Project Row Houses - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Lowe and a coalition of artists purchased a group of 22 shotgun houses across two blocks that were built in 1930 and, by the 1990s, were in poor condition.' Founders: Rick Lowe, James Bettison, Bert Long Jr., Jesse Lott, Floyd Newsum, Bert Samples, George Smith."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.ricklowe.com/projects",
+      "title": "Project Row Houses, 1993-2018, Houston (Texas) -- Rick Lowe official website",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The founder's own account, and the one that states the intellectual line: 'Early conversations between Dr. Biggers and PRH founder Rick Lowe about the rich history and symbolism of the shotgun houses that dot the physical landscape of Third Ward informed and shaped the ideals of Project Row Houses. It was a style that originated in West Africa and was brought to the US via the slave trade -- first through the Caribbean up to New Orleans and then across the country.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://hyperallergic.com/project-row-houses-art-basic-needs-go-hand-in-hand",
+      "title": "At Project Row Houses, Art and Basic Needs Go Hand in Hand -- Hyperallergic",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records the 1992 bus tour on which city officials recommended demolishing the rows 'because these are like drug havens', and Lowe's reading of that as pre-gentrification clearance."
+    }
+  ],
+  "note": "The building the type is now KNOWN by, and the reason is not architectural. Vlach's African-Caribbean derivation of the plan reached a wide public through John Biggers's paintings and through Rick Lowe's decision in 1993 to buy twenty-two condemned shotguns rather than let them be cleared -- so the same claim the corpus's node makes in prose is, at this site, the stated basis of a preservation. No survey and no National Register listing was resolved; the houses are ordinary 1930 stock and the significance is what was done with them."
+}

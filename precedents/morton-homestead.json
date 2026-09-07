@@ -1,0 +1,41 @@
+{
+  "id": "morton-homestead",
+  "name": "Morton Homestead",
+  "aka": [
+    "Morton Mortonson House",
+    "John Morton Homestead"
+  ],
+  "location": {
+    "text": "Prospect Park, Delaware County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "c. 1698",
+    "circa": true,
+    "note": "The Wikipedia infobox prints 'Built c.1698'. The claim that it is John Morton's birthplace was withdrawn by the state in 1957 (a local history page read in passing, not relied on)."
+  },
+  "nodes": [
+    "log-vernacular-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "70000546",
+      "url": "https://en.wikipedia.org/wiki/Morton_Homestead",
+      "title": "NRHP reference No. 70000546; added December 2, 1970; Pennsylvania state historical marker designated September 09, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Morton_Homestead",
+      "title": "Morton Homestead - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'part of Morton Homestead State Park, which is located along Darby Creek at 100 Lincoln Avenue in Prospect'."
+    }
+  ],
+  "note": "The Delaware Valley hearth the node names, at the Pennsylvania end of the same creek as the Lower Swedish Cabin. No HABS survey was found ('\"Morton Homestead\" OR \"Morton-Mortonson House\" Prospect Park Delaware County HABS PA- loc.gov' returned unrelated surveys). Seeded 4 Sep 2026."
+}

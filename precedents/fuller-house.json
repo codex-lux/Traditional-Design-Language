@@ -1,0 +1,48 @@
+{
+  "id": "fuller-house",
+  "name": "Fuller House",
+  "aka": [
+    "Fuller-White House"
+  ],
+  "location": {
+    "text": "Minden, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "c. 1905",
+    "circa": true,
+    "note": "Wikipedia's infobox and text both give 'c.1905' / 'built in about 1905'; the node's exemplar states 1905 flat. Recorded with the circa the source carries."
+  },
+  "nodes": [
+    "queen-anne-free-classic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "96000433",
+      "url": "https://en.wikipedia.org/wiki/Fuller_House_(Minden,_Louisiana)",
+      "title": "NRHP reference No. 96000433; added to NRHP April 18, 1996; architectural style 'Queen Anne, Colonial Revival' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox's two style words are exactly this node's subject: a Queen Anne body with Colonial Revival trim."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fuller_House_(Minden,_Louisiana)",
+      "title": "Fuller House (Minden, Louisiana) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'While Queen Anne houses of its era would often have Eastlake detailing, this house is unusual for having ornament which is almost all Colonial Revival in style. These elements include a Palladian window, the simple Tuscan columns on the house's wraparound gallery, and denticular molding under the eaves of the main block and on the turret and dormer.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/510a1c39-e955-4e5f-861f-f137f98feb13",
+      "title": "National Register of Historic Places Registration Form (NPGallery asset)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Returned by a search for this building; its visible text cites 'Historic photos of Fuller House, National Register file, Louisiana Division of Historic Preservation.' The document itself was not extracted, so nothing in it is quoted here."
+    }
+  ],
+  "note": "No Historic American Buildings Survey record was found for this house (query: 'Fuller House Minden Louisiana National Register 1996 Queen Anne Palladian window Tuscan columns'), which is normal for a 1905 house in a small Louisiana parish seat. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

@@ -1,0 +1,64 @@
+{
+  "id": "jabez-wilder-house",
+  "name": "Jabez Wilder House",
+  "aka": [
+    "Rainbow Roof House"
+  ],
+  "location": {
+    "text": "Main Street, Hingham, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1690",
+    "circa": true,
+    "note": "The node's exemplar says 1690 and calls the date traditional; the loc.gov catalogue for HABS MA-137 prints '1690 Initial Construction'; the Town of Hingham's asset inventory lists '557-9 MAIN ST ... JABEZ WILDER 1761'. Two dates seventy years apart, neither edited."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-137",
+      "title": "Jabez Wilder House, Main Street, Hingham, Plymouth County, MA",
+      "url": "https://www.loc.gov/pictures/item/ma0895",
+      "note": "The loc.gov item page prints 'Survey number: HABS MA-137'; the data page's cover prints 'Jabez Wilder House MASS-137'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0895",
+      "url": "https://www.loc.gov/pictures/item/ma0895",
+      "title": "Jabez Wilder House, Main Street, Hingham, Plymouth County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hingham-ma.gov/341/Historical-Asset-Inventory-PDF",
+      "title": "Hingham Comprehensive Community Inventory of Historic, Architectural And Archaeological Assets",
+      "note": "The town's inventory row: '557-9 MAIN ST 570 JABEZ WILDER 1761 P/COL B RES CAPE COD SHNRHD/TWLHD'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0895",
+    "register": "loc-item",
+    "survey_no": "MA-137",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0800/ma0895/data/ma0895data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer (as the cover reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Jabez Wilder House MASS-137j~{y\\£<r-> Hiagham, Massachusetts Mf\\$S # PHOTOGRAPHS HKHTfflBJr'atSTORICAIi AND -DESCRIPTIVE-DATA JED, COPIES OF MEASURED DR. Jistnct of Massachusetts Historic American Buildings Survey- Frank Chouteau Brown, District Officer Boston, Massachusetts",
+        "page": "Cover sheet; no page number printed"
+      }
+    ]
+  },
+  "note": "Both extract queries returned the cover sheet only; no descriptive data was reached. No Wikipedia article was found for the house (a search returned the Hingham town article and a different Jabez Howland House).",
+  "nodes": [
+    "cape-cod-colonial"
+  ]
+}

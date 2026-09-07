@@ -1,0 +1,45 @@
+{
+  "id": "mount-auburn-cemetery-gateway",
+  "name": "Mount Auburn Cemetery Egyptian Revival Gateway",
+  "location": {
+    "text": "Cambridge, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1842-1843",
+    "circa": false,
+    "note": "Rebuilt, not built: the National Historic Landmark nomination says the gateway 'was first built in wood dusted with sand in 1832' and 'In 1842-43 when funds permitted it was rebuilt in Quincy granite by Octavius T. Rogers'. The Cambridge Historical Commission's landmark report says the present gateway and fence 'were erected during 1842-1844'. Two end dates, both recorded."
+  },
+  "nodes": [
+    "egyptian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "75000254",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/75000254_text",
+      "title": "Mount Auburn Cemetery - National Historic Landmark nomination (NPGallery), reference 75000254",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The reference number is the asset's own path segment on NPGallery, which is how it was read. The nomination states: 'The Egyptian Gateway to Mount Auburn was one of the first buildings placed at the new Cemetery. Designed by Dr. Jacob Bigelow, it was first built in wood dusted with sand in 1832.' It gives dimensions in prose -- '60 feet. The piers are 4 foot square, the central entrance 4 feet wide and the greatest length of cornice 24 feet' -- and quotes Bigelow that he took the design 'from \"some of the best examples in Denderah and Karnac, in which the piers are vertical, and the curve of the cornice vertical in its lower half. The banded cylinder, the foliage of the cornice, and winged globe are Egyptian.\"' These are NOMINATION figures, not survey figures, and are deliberately recorded in this note rather than in a `measurements` array."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.cambridgema.gov/~/media/files/historicalcommission/pdf/landmark_reports/lm_mtauburn_580.pdf",
+      "title": "Mount Auburn Cemetery Gate and Fence - Cambridge Historical Commission landmark report",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'The present granite gateway and cast iron fence of Mount Auburn Cemetery were erected during 1842-1844 from the designs of Dr. Jacob Bigelow (1786-1879)'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://mountauburn.org/2012/06/25/the-egyptian-revival-gateway-mount-auburns-first-iconic-image",
+      "title": "The Egyptian Revival Gateway: Mount Auburn's First Iconic Image",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Records the 1834 lithograph of the faux-granite structure and its cost of $1,366."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The first of the type in America and the one the corpus's own Grove Street record is measured against: the Grove Street nomination says explicitly that its gate 'introduced the use of massive masonry (the wooden Mount Auburn gate was later rebuilt in stone)'. Two gates, one line of descent, and this corpus now holds both records. The Mount Auburn dimensions come from a National Register nomination and NOT from a survey, so they stay in a reference note; the one worth a reader's eye is the 4 ft square pier against Grove Street's surveyed 18 ft depth -- these are not the same kind of structure, and 'cemetery gateway' names both."
+}

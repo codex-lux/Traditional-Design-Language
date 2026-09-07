@@ -1,0 +1,56 @@
+{
+  "id": "adamson-house",
+  "name": "Adamson House",
+  "aka": [
+    "Adamson House at Malibu Lagoon State Beach",
+    "Taj Mahal of Tile"
+  ],
+  "location": {
+    "text": "Malibu, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1929",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1929 (family moved in during June 1930)' and its reference number 77000298, while the article's own body says the house was 'added to the National Register of Historic Places in 1985'. The eight-digit reference and the stated year disagree with each other in one document; both are recorded and neither is corrected here. The house's own foundation says construction began in 1929 and took a year and a half."
+  },
+  "nodes": [
+    "spanish-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Adamson_House",
+      "title": "Adamson House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "77000298",
+      "url": "https://en.wikipedia.org/wiki/Adamson_House",
+      "title": "NRHP reference No. 77000298 (as the Wikipedia infobox prints it; the same article's body dates the listing to 1985)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "966",
+      "url": "https://en.wikipedia.org/wiki/Adamson_House",
+      "title": "California Historical Landmark No. 966, designated 1977",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The landmark marker is quoted in full in the article: 'NO. 966 ADAMSON HOUSE AT MALIBU LAGOON STATE BEACH - Designed by Stiles O. Clements in 1929, this Spanish Colonial Revival home contains the best surviving examples of decorative ceramic tile produced by Malibu Potteries.'"
+    },
+    {
+      "kind": "institution",
+      "url": "http://www.adamsonhouse.org/history.html",
+      "title": "Welcome to Adamson House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The house museum's own account: 'The house, designed by well-known architect Stiles Clements, was constructed in 1929 and first used by the Adamsons as a beach house beginning in 1930.' Its architect page gives the floor area as 5,000 square feet and the build time as one and a half years."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. No HABS survey was found and none is asserted. The one figure a source states — 5,000 sq ft — comes from the house museum's own page and not from a survey, so it is carried in this note rather than as a `measurement`, which indexes survey quotes only."
+}

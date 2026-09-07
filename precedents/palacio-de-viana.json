@@ -1,0 +1,90 @@
+{
+  "id": "palacio-de-viana",
+  "name": "Palacio de Viana",
+  "aka": [
+    "Palacio de Viana (Córdoba)",
+    "Museo de los Patios"
+  ],
+  "location": {
+    "text": "Cordoba, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "15th century",
+    "circa": true,
+    "altered": "Enlarged over five centuries; the Patio de las Columnas made in the 1980s after the building was bought for public visiting; opened to the public in 1981.",
+    "note": "The Spanish article's infobox prints 'Construcción Siglo XV-siglo XX'; the node's own exemplar says '14th-century origins, largely 16th-19th century'. Both are recorded and neither is resolved -- the article's text says only 'El palacio fue construido en el siglo XV'."
+  },
+  "nodes": [
+    "andalusian-courtyard-vernacular",
+    "iberian-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "url": "https://es.wikipedia.org/wiki/Palacio_de_Viana_(C%C3%B3rdoba)",
+      "title": "Palacio de Viana (Córdoba) - Wikipedia, la enciclopedia libre; declared a Bien de Interés Cultural in the category of monument on 27 March 1981",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The article's own sentence, read in the search result, is 'El 27 de marzo de 1981 fue declarado bien de interés cultural en la categoría de monumento'. NO CODE IS RECORDED because none was printed. An academic article read the same day gives the year alone: 'Este conjunto declarado Bien de Interés Cultural en 1981 cuenta con doce patios y un jardín'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Palacio_de_Viana_(C%C3%B3rdoba)",
+      "title": "Palacio de Viana (Córdoba) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.palaciodeviana.com/patios-de-cordoba",
+      "title": "Patios de Córdoba - Palacio de Viana (the house's own site)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The site's own line, as the search result renders it, is 'el Palacio de Viana cuenta con doce patios y un jardín que lo convierten en uno de los mejores y más curiosos monumentos de Córdoba'. A Cordoban tourism site read the same day says THIRTEEN: 'El Palacio de Viana cuenta con trece patios y un jardín'. The house's own count and the encyclopedia's agree at twelve; the thirteen is recorded and not resolved."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-palacio-de-viana-cordoba",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Palacio_de_Viana_(C%C3%B3rdoba)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El palacio fue construido en el siglo XV y se ha ido ampliando con el paso de los siglos. Su denominación proviene del marquesado de Viana, última familia propietaria del inmueble. En 1981, tras ser adquirido por la Caja Provincial de Ahorros, se abre por primera vez al público con sus doce patios, el jardín y el interior del palacio, lo que harían unos 6500 metros cuadrados.",
+        "page": "Spanish Wikipedia, opening section"
+      },
+      {
+        "field": "plan",
+        "text": "Patio de los Gatos. Este patio estaba formado por viviendas de vecinos denominadas casas de la Puentezuela de Tres Caños, siendo el primer patio de vecinos documentado en la ciudad cordobesa, que fueron compradas por el I señor de Villaseca en 1545.",
+        "page": "Spanish Wikipedia, section on the individual patios"
+      },
+      {
+        "field": "plan",
+        "text": "Patio de las Columnas. Se trata del patio más reciente, ya que fue realizado durante los años 1980 una vez fue adquirido para las visitas públicas. Su tamaño hace que sea el más grande del complejo, solo superado por el jardín.",
+        "page": "Spanish Wikipedia, section on the individual patios"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "court_count",
+      "as_printed": "sus doce patios",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The house's own site gives twelve as well; one Cordoban tourism site read the same day gives thirteen. Twelve is the figure in the quoted span."
+    },
+    {
+      "name": "site_area_sf",
+      "as_printed": "unos 6500 metros cuadrados",
+      "from_quote": 0,
+      "note": "AN AREA, AND THE SCHEMA'S UNIT ENUM CANNOT EXPRESS ONE, so no `value` and no `unit` are recorded. 6,500 m2 is about 69,965 sf. The sentence counts the twelve patios, the garden and the interior of the palace together."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The record is worth carrying for one sentence the node's own prose depends on and does not cite: the Patio de los Gatos was made out of neighbours' dwellings bought in 1545 and is called 'el primer patio de vecinos documentado en la ciudad cordobesa' -- the corral inside the palace, which is the node's claim that the type runs the whole social range."
+}

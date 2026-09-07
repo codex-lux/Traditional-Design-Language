@@ -1,0 +1,45 @@
+{
+  "id": "1251-oakridge-road",
+  "name": "1251 Oakridge Road",
+  "location": {
+    "text": "Cleveland Heights, Ohio",
+    "country": "United States",
+    "state": "Ohio"
+  },
+  "dates": {
+    "built": "1929",
+    "circa": false,
+    "note": "The nomination states the date and the architects in one sentence: 'Walker and Weeks designed the residence at 1251 Oakridge in 1929 in the Garrison Colonial style.' No second source was sought and none is claimed."
+  },
+  "nodes": [
+    "garrison-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.clevelandheights.gov/DocumentCenter/View/202/Inglewood-Historic-District-2009-PDF",
+      "title": "National Register of Historic Places, Inglewood Historic District Continuation Sheet, Cleveland Heights, Cuyahoga County, Ohio (2009 nomination)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Section 7 of the continuation sheet reads: 'Walker and Weeks designed the residence at 1251 Oakridge in 1929 in the Garrison Colonial style. The Garrison Colonial style is characterized by the second story extended slightly forward to project or overhang the wall below. The plan is L-shaped, with the entry wing forward. The first floor of the house is clad in stone while the remaining exterior material is clapboard. Ray Moulthrop's 1941 design for 1315 Inglewood Drive is very similar.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "09000210",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Cuyahoga_County,_Ohio",
+      "title": "Inglewood Historic District, Cleveland Heights; NRHP reference No. 09000210, listed April 15, 2009 (as the Cuyahoga County listings table prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing covering the whole neighbourhood -- Inglewood Dr., Oakridge Dr., Cleveland Heights Boulevard, Yellowstone and Glenwood Rds., and Quilliams -- and NOT an individual listing of this house. It shares the number with 1315 Inglewood Drive and with every other contributing building, so it identifies a district and never a building."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.clevelandheights.gov/273/National-Register-of-Historic-Places",
+      "title": "National Register of Historic Places | Cleveland Heights, OH",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The city's own index page, which is where the nomination PDF is published ('Inglewood Historic District, 2009 - Nomination Form (PDF)')."
+    }
+  ],
+  "note": "A National Register nomination is not a Historic American Buildings Survey and its prose is not quoted in a `survey` block, which requires a Library item and a data page; the nomination's sentences are carried verbatim in the ref note instead. What this house is worth to garrison-revival is that it is described, dated and attributed by one hand -- and that the description contradicts the node's own picture of the type. The node says the typical example is 'five bays wide, two rooms deep'; the nomination describes an L-shaped plan with the entry wing forward and a stone-clad ground floor under clapboard. Nothing was edited to reconcile them."
+}

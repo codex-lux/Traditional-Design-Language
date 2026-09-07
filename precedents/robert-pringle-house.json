@@ -1,0 +1,32 @@
+{
+  "id": "robert-pringle-house",
+  "name": "Robert Pringle House",
+  "aka": [
+    "Judge Robert Pringle House"
+  ],
+  "location": {
+    "text": "70 Tradd Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1774",
+    "circa": false,
+    "altered": "Wikipedia: 'The piazzas and street front door reflect early 19th-century style'; an August 1789 deed described the house as two floors, 'either a mistake or perhaps an indication that the third floor was a later enlargement'.",
+    "note": "Dated by its builder's initials and 1774 'inscribed in a stone used in the construction' (Wikipedia)."
+  },
+  "nodes": [
+    "charleston-single-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Robert_Pringle_House",
+      "title": "Robert Pringle House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The 3+1/2-story house is three bays wide and six bays deep. Unlike most Charleston single houses, 70 Tradd Street has two rooms on each of its first two floors that are not of the same size. Rather, the front room is three bays deep and is separated by a stair hall from a two-bay room to the rear.'"
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-single-house node already carried were kept exactly. No HABS record was found (query '\"Robert Pringle House\" OR \"Judge Robert Pringle House\" 70 Tradd Street Charleston SC HABS' on loc.gov returned nothing) and no individual Register listing was read; the house lies inside the Charleston Historic District, whose number (66000964) is the district's and not this building's, so no `nrhp` ref is recorded."
+}

@@ -1,0 +1,56 @@
+{
+  "id": "cotswold-cottage-greenfield-village",
+  "name": "Cotswold Cottage, Greenfield Village",
+  "aka": [
+    "Rose Cottage"
+  ],
+  "location": {
+    "text": "Dearborn, Michigan",
+    "country": "United States",
+    "state": "Michigan"
+  },
+  "dates": {
+    "built": "c. 1620, re-erected 1930",
+    "circa": true,
+    "altered": "MOVED, AND ALTERED BEFORE IT MOVED, WHICH IS THE POINT. Henry Ford had modifications made to the cottage on its original site in Chedworth, Gloucestershire, completed by early October 1929 - so what stands in Dearborn reflects both the early 1600s and the 1920s. Dismantling began in January 1930; the stones went into 506 sacks and the doors, windows, staircases and beams into 211 crates; 67 railway wagons carried 475 tonnes from Foss Cross station to Brentford, whence it was shipped to New Jersey and on to Dearborn. The house was rebuilt from July to September 1930.",
+    "note": "The style node's exemplar gives 1930 and says 'a genuine c. 1620 Cotswold cottage from Chedworth, Gloucestershire, dismantled and re-erected by Henry Ford in 1929-30'. The sources agree: The Henry Ford says the house 'had been lived in for over 300 years, from the early 1600s into the late 1920s'; a Greenfield Village blog gives '1620 Rose Cottage in Chedworth'. The BBC's account puts the dismantling in January 1930 and the rebuilding from July to September 1930, with Ford's own alterations finished in October 1929."
+  },
+  "nodes": [
+    "cotswold-cottage-revival"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.thehenryford.org/collections/explore/articles/cotswold-cottage-from-english-village-to-greenfield-village",
+      "title": "Cotswold Cottage: From English Village to Greenfield Village - The Henry Ford",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner. Records that the house 'had been lived in for over 300 years, from the early 1600s into the late 1920s', that Ford wanted his modifications completed BEFORE disassembly 'perhaps so that he could establish the final \"look\" of the cottage', that those modifications 'were completed by early October 1929', and - worth carrying to the node - that 'Henry Ford's son Edsel and his wife Eleanor built their impressive but unpretentious home, Gaukler Pointe, in the Cotswold Revival style in the late 1920s.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.thehenryford.org/collections/explore/artifact/389352",
+      "title": "Cotswold Cottage at its Original Site, Chedworth, Gloucestershire, England, 1929-1930 - The Henry Ford, Object ID EI.1929.244",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A collection record for a photograph of the cottage in Chedworth, carrying the object id and the 1929-1930 subject date."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.bbc.com/news/uk-england-gloucestershire-66546779",
+      "title": "Why Henry Ford imported a Cotswold cottage to Michigan - BBC News",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes Jim Johnson, director of Greenfield Village: 'He loved the region, and quietly worked with his English agent, Herbert Morton, to find a building that was for sale to acquire it' and 'It was without doubt the most expensive project at Greenfield Village.' Gives the counts: 506 sacks of stone, 211 crates, 67 railway wagons, 475 tonnes, Foss Cross station to Brentford to New Jersey to Dearborn, rebuilt July to September 1930, with the masons Ratcliffe and Troughton doing the work."
+    },
+    {
+      "kind": "other",
+      "url": "http://gfv1929.blogspot.com/2008/08/cotswold-cottage-previously-known-as.html",
+      "title": "Cotswold Cottage (previously known as Rose Cottage) - Greenfield Village 1929",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The source of the alternative name recorded in `aka`: '1620 Rose Cottage in Chedworth'."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. The style node calls this 'the reference object against which any revival example should be judged', and the research qualifies that in one way worth recording: Ford altered the cottage on its own site before taking it apart, so the control specimen was adjusted to look more like the thing it is the control for. The Henry Ford says so in its own words. No dimensions were found for it; the counts that exist are of sacks, crates and railway wagons."
+}

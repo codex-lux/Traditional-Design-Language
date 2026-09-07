@@ -1,0 +1,53 @@
+{
+  "id": "dr-glenn-r-frye-house",
+  "name": "Dr. Glenn R. Frye House",
+  "location": {
+    "text": "Hickory, North Carolina",
+    "country": "United States",
+    "state": "North Carolina"
+  },
+  "dates": {
+    "built": "1937",
+    "circa": false,
+    "note": "The Wikipedia infobox: 'Built 1937', architect Robert L. Clemmer, built by Q. E. Herman; the NC nomination (listed 8/5/2009) agrees."
+  },
+  "nodes": [
+    "colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "09000600",
+      "url": "https://npgallery.nps.gov/AssetDetail/NRIS/09000600",
+      "title": "NPGallery Asset Detail, National Register Information System ID 09000600 (Frye, Dr. Glenn R., House; Hickory, Catawba County)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Wikipedia infobox, read the same day, prints the same number and 'Added to NRHP August 5, 2009'."
+    },
+    {
+      "kind": "state-register",
+      "id": "CT1102",
+      "url": "https://files.nc.gov/ncdcr/nr/CT1102.pdf",
+      "title": "Dr. Glenn R. Frye House (Hickory) CT1102, listed 8/5/2009 -- North Carolina State Historic Preservation Office nomination PDF",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey-site id is as the NC HPO's county list prints it. The extract returned the nomination's comparative section 8 (other Hickory stone houses), not the house's own description."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Dr._Glenn_R._Frye_House",
+      "title": "Dr. Glenn R. Frye House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'a two-story, Colonial Revival style stone dwelling. It has a 1+1/2-story frame wing.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://theclio.com/entry/86309",
+      "title": "Dr. Glenn R. Frye House - Clio",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written 4 Sep 2026. No HABS. The nomination is the document of record and it was only partly read; its section 8 says of Hickory's Colonial Revival houses that 'only a small number of these houses were rendered in stone'."
+}

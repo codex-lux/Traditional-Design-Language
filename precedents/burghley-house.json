@@ -1,0 +1,136 @@
+{
+  "id": "burghley-house",
+  "name": "Burghley House",
+  "location": {
+    "text": "Stamford, Lincolnshire, England",
+    "country": "England",
+    "state": "St. Martin's Without, Lincolnshire"
+  },
+  "dates": {
+    "built": "Circa 1555 to circa 1587",
+    "circa": true,
+    "altered": "The south side was altered by Capability Brown circa 1763-5. The entry records that the right-hand of the two low projecting wings on the north front was demolished in the C18, and that the west front's round-arched bay carries wrought iron gates by Jean Tijou.",
+    "note": "The register prints 'Circa 1555 to circa 1587'; its own Parks and Gardens entry 1000359 prints 'Building began in 1555'. Both hedge and both are recorded."
+  },
+  "nodes": [
+    "elizabethan"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1127501",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1127501",
+      "title": "Burghley House, St. Martin's Without - 1127501 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details print the listing reference as 'TF 00 NW 1/511 16.1.56' and add that the house was 'previously listed on 16 January 1956 under the Parish of Barnack only'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000359",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000359",
+      "title": "Burghley House, St. Martin's Without - 1000359",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry for the setting, 'Date first listed: 16-Jan-1985'. Its historical development section opens 'Burghley House was built by William Cecil, Lord High Treasurer to Elizabeth I, who was created Baron Burghley in 1571. Building began in 1555 and continued for a long period, into the 1580s.' and it describes the house separately as 'one of the largest Elizabethan mansions in the country, erected by William Cecil Lord Burghley between 1555 and 1587'. AN EARLIER VERSION OF THIS NOTE PRINTED 'Burghley House was built by William Cecil, Building began in 1555' AS THOUGH IT WERE ONE PRINTED SENTENCE: that is a search-result summary, which joins discontinuous spans, and twenty words are elided at the comma. The tell is the capital letter after a comma. Corrected by re-extracting the page, 5 Sep 2026; the note is prose and no checker reads it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Burghley_House",
+      "title": "Burghley House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox prints 'Reference no. 1127501' and 'Designated 16 January 1956', which is how the list entry number was found; the number was then read on the register's own page."
+    }
+  ],
+  "survey": {
+    "item": "1127501",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1127501",
+    "prepared": "Listed 16.1.56 as the Details print it; the entry adds that it was 'previously listed on 16 January 1956 under the Parish of Barnack only'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Circa 1555 to circa 1587. One of the largest of the Elizabethan mansions. An earlier house on the site with remains of St Michaels Priory, incorporated in the present house, came into the possession of Richard Cecil between 1508 and 1528. Richard Cecil's son William Cecil Lord Burghley built the mansion. Built of Barnack stone. The hall with double hammer beam roof and the vaulted kitchen are the earliest parts and form the east side.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "Three storeys, at the corners 3 storey and attic square towers with octagonal turrets with ogee cupolas. West front dated 1577 is 1:3:3:3:1 bays with projecting bay windows in the recesses between the angle towers and the central 4 storey entrance tower which has 4 octagonal corner turrets with ogee cupolas and a 3 storeyed canted bay window above a round arch bay with fine wrought iron gates by Jean Tijou. Openwork cresting over the parapet.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "bays",
+        "text": "The south side altered by Capability Brown circa 1763-5, 3 storeys, the top storey has blind windows, 12 bays the ground floor has 9 bay arcade and a C17 segmental pediment over the central entrance.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "porches",
+        "text": "The north front dated 1586 has projecting canted feature with ground floor loggia with semi-circular bay at centre and quater-circle bays in the angles, and with crestings and obelisks. Low projecting wing on the left (northeast) with end tower with octagonal top stage with ogee cap, the corresponding right hand wing having been demolished in C18.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "East side of the courtyard has large central tower in 4 stages, the ground and first stage have large coffered arches. A splayed bay above, each storey flanked by pilastered niches, with superimposed arches. Above is a square clock tower dated 1585 supported by lions and with obelisks at the corners, and surmounted by a huge obelisk spire.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Three storeys, at the corners 3 storey and attic square towers",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_rhythm_west_front",
+      "as_printed": "West front dated 1577 is 1:3:3:3:1 bays",
+      "from_quote": 1,
+      "note": "The rhythm as printed; the entry states no total and none is computed here."
+    },
+    {
+      "name": "entrance_tower_storey_count",
+      "as_printed": "the central 4 storey entrance tower",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "corner_turret_count",
+      "as_printed": "4 octagonal corner turrets with ogee cupolas",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "On the west front's entrance tower. The angle towers of the block carry octagonal turrets too and the entry does not total them."
+    },
+    {
+      "name": "bay_count_south_front",
+      "as_printed": "12 bays the ground floor has 9 bay arcade",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The south side as Capability Brown left it circa 1763-5, not as the Elizabethans built it."
+    },
+    {
+      "name": "arcade_bay_count_south_front",
+      "as_printed": "9 bay arcade",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "courtyard_tower_stage_count",
+      "as_printed": "large central tower in 4 stages",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1127501",
+  "note": "Tranche 3, 5 Sep 2026, and a NEW exemplar: the node's own description.long names Burghley among the four prodigy houses and the exemplars did not carry it. Extracted twice: the first pass returned the west, south and north fronts and the courtyard, the second the opening historical paragraph and the sources block. Line breaks collapsed to single spaces. The entry's own bibliography names Country Life 16 October 1975 (vol. 158) and 3 December 1953 (vol. 114)."
+}

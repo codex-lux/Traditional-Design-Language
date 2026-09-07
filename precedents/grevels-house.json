@@ -1,0 +1,112 @@
+{
+  "id": "grevels-house",
+  "name": "Grevel's House",
+  "location": {
+    "text": "Chipping Campden, Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "possibly C14, remodelled C17 and C19",
+    "circa": true,
+    "note": "THE ENTRY REFUSES THE ATTRIBUTION THE BUILDING'S NAME CARRIES. It says the house is 'not necessarily the home of William Grevil; the \"flower of the wool merchants of all England\" who died circa 1400', and that it was 'Thought to have been a mediaeval barn, possibly C14, converted to dwelling'. A Chipping Campden town website read the same day says flatly 'Built in 1380 by William Grevel'. The refusal is Historic England's and the attribution is the town's; neither is resolved here and the exemplar's `why` is written from the entry rather than from the name."
+  },
+  "nodes": [
+    "cotswold-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1342004",
+      "title": "Grevel's House, Chipping Campden - 1342004 - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1342004",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Official list entry block was not returned by the extract; a search result the same day printed its field values as 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1342004 ; Date first listed: 25-Aug-1960 ; List Entry Name: Grevel's House.'"
+    }
+  ],
+  "survey": {
+    "item": "1342004",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1342004",
+    "prepared": "Date first listed: 25-Aug-1960. NOT READ IN AN EXTRACT: the extract returned the Details prose and not the Official list entry block, so this is the field value a Tavily search result printed for this entry on the same day.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "2. Externally partly mediaeval with Cl7 and C19 remodellings. Thought to have been a mediaeval barn, possibly C14, converted to dwelling and converted in late C16 when the 'Grevil bay' was imported. A complex and enigmatic building - not necessarily the home of William Grevil; the 'flower of the wool merchants of all England' who died circa 1400.",
+        "page": "Official list entry, Details, opening of the numbered paragraph 2; 'Cl7' is printed with a letter l for the digit 1"
+      },
+      {
+        "field": "materials",
+        "text": "Rubble built with Cotswold stone roof. Three large corniced chimney stacks.",
+        "page": "Official list entry, Details, materials sentence in paragraph 2"
+      },
+      {
+        "field": "openings",
+        "text": "Two large and 2 smaller gables with saddlestones, that to right of centre having an exceptionally fine 2 storey Perpendicular bay window containing 6 lights with tracery and tracery panels and surmounted by gargoyles.",
+        "page": "Official list entry, Details, sentence following the chimneys sentence"
+      },
+      {
+        "field": "openings",
+        "text": "The left hand one has an altered 2 storey C16 bay of 1-3-1 lights, transoms first floor, side lights and common label on ground floor. Right hand bay has a",
+        "page": "Official list entry, Details, description of the front. Official list entry, Details; the span is CUT where the extract's block ends and is deliberately not joined to the block that follows, whose opening words repeat it."
+      },
+      {
+        "field": "openings",
+        "text": "and common label on ground floor. Right hand bay has a C17 4 light mullion window with label on first floor and below a moulded arched door with flanking windows under common label (presumably C19 when the Gainsborough Estate Office operated from there).",
+        "page": "Official list entry, Details, front continued; this span opens another block of the extract, which repeats the closing words of the one before"
+      },
+      {
+        "field": "openings",
+        "text": "The gable to left of centre has a sundial and 4- and 6-light mullion windows (with king mullions). Apparently C14 doorway to right of left hand bay with moulded arch and rounded label - stops and a small 2 light window above. Wide coachway in similar style to left of right hand bay.",
+        "page": "Official list entry, Details, description of the front continued"
+      },
+      {
+        "field": "plan",
+        "text": "Inside: the house is really C16 in plan - 7 units with cross passage to left of hall (Tudor fireplace) and parlour to right of hall",
+        "page": "Official list entry, Details, opening of the interior description; the sentence continues past the end of the extract's second block and is cut here rather than joined across the break"
+      },
+      {
+        "field": "roof",
+        "text": "The roof has stout short wind- braces to the lower purlin and retains (above the hall) smoke-blackening (which indicates that the hall was domestic before the Tudor conversion.",
+        "page": "Official list entry, Details, interior; the unclosed parenthesis is as the page prints it, and 'wind- braces' carries a line-break space"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Three large corniced chimney stacks",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "gable_count",
+      "as_printed": "Two large and 2 smaller gables",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Read as four by addition. The entry states two sizes and no total; the sum is this record's reading and the sizes are not equal, so a generator reading 4 gets a count and not a rhythm."
+    },
+    {
+      "name": "bay_window_light_count",
+      "as_printed": "containing 6 lights",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The Perpendicular bay, over two storeys. Beside Owlpen Manor's 6-light ground-floor window this is the second reading in this cluster above the node's kit band of 2 to 5 lights, and both are on the display window of a wealthy front."
+    },
+    {
+      "name": "plan_unit_count",
+      "as_printed": "7 units",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "The entry's own word for the C16 plan. It does not say what a unit is, and the count is not a room count: the same clause names a cross passage, a hall and a parlour."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. Added by this tranche. The building is here because the node's central claim -- that a Perpendicular Gothic window detail survives in working use for centuries -- has to rest on a building where the detail is at full strength, and this is that building: a two-storey traceried bay of six lights, with king mullions in the gable beside it. The entry is unusually candid that the house is 'complex and enigmatic' and refuses the attribution the name asserts. A QUOTE THAT STRADDLED TWO EXTRACT CHUNKS WAS FOUND BY RE-EXTRACTING THE PAGE WITH A DIFFERENT QUERY AND WAS SPLIT RATHER THAN JOINED. The chunker returns the same boundaries on every query and each block repeats the tail of the one before, so the text is demonstrably continuous -- but a span crossing the boundary was never READ as one contiguous run, and this record does not print one as though it had been."
+}

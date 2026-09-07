@@ -1,0 +1,81 @@
+{
+  "id": "manoir-de-la-vove",
+  "name": "Manoir de la Vove",
+  "location": {
+    "text": "Corbon, Orne, France",
+    "country": "France",
+    "state": "Orne, Normandie"
+  },
+  "dates": {
+    "built": "15e siècle ; 16e siècle ; 17e siècle",
+    "circa": true,
+    "note": "The Mérimée notice's century field says « 15e siècle ; 16e siècle ; 17e siècle » while its own Description historique dates the pavilion to the 15th century and the larger logis to the 18th; the French Wikipedia article says « des XVe – XVIIe siècles ». Recorded, not resolved."
+  },
+  "nodes": [
+    "french-manoir"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00110782",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00110782",
+      "title": "Manoir de la Vove - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_de_la_Vove",
+      "title": "Manoir de la Vove — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its Description says the logis is « haut de trois étages » and is flanked by a 12th-century round tower, with the polygonal stair tower on the courtyard side."
+    },
+    {
+      "kind": "wikidata",
+      "url": "https://commons.wikimedia.org/wiki/Category:Manoir_de_la_Vove",
+      "title": "Category:Manoir de la Vove - Wikimedia Commons",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Commons category's authority block prints « Wikidata Q22963530 » and « Mérimée ID: PA00110782 », which is the second surface the Mérimée reference was read from."
+    }
+  ],
+  "survey": {
+    "item": "PA00110782",
+    "register": "merimee",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00110782",
+    "prepared": "Date de rédaction de la notice 1992",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Le manoir se compose d'un pavillon (15e siècle) formant équerre avec un logis plus important (18e siècle). Au point de jonction se trouve une tourelle octogone, flanquée d'une autre plus petite en encorbellement. La première renferme un escalier en colimaçon supporté par un pilier central contourné en vis, qui soutient la retombée d'une voûte dont les arcs diagonaux reposent sur des modillons figurant des animaux. La porte d'entrée à arc surbaissé est surmontée d'un tympan ogival décoré de feuillages, et encadré lui-même dans un arc en accolade couronné par un fleuron. A l'angle opposé, grosse tour ronde à l'extérieur, carrée à l'intérieur, seul reste de l'édifice primitif. La chapelle, bâtiment détaché, est de style flamboyant. Sa porte du 16e siècle est à arc surbaissé.",
+        "page": "Notice Mérimée PA00110782, section « Historique de l'édifice », champ Description historique"
+      },
+      {
+        "field": "other",
+        "text": "Nature de la protection de l'édifice classé MH partiellement Date et niveau de protection de l'édifice 1974/06/18 : classé MH Précision sur la protection Façades et toitures ; escalier de la tour octogonale ; chapelle (cad. C 140) : classement par arrêté du 18 juin 1974",
+        "page": "Notice Mérimée PA00110782, section « Statut juridique, intérêt, protection et label »"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 15e siècle ; 16e siècle ; 17e siècle",
+        "page": "Notice Mérimée PA00110782, section « Historique de l'édifice »"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "stair_turret_side_count",
+      "as_printed": "une tourelle octogone",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A READING of the word « octogone » as eight sides, not a figure the notice prints. The protection line calls the same thing « l'escalier de la tour octogonale », which corroborates the word and not a count."
+    }
+  ],
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00110782",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. New exemplar. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. Carried for the stair: the notice describes the projecting polygonal turret, its newel and its vault in more detail than any other Perche notice read for this cluster, and the stair is this node's own diagnostic."
+}

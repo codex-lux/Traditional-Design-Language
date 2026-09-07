@@ -204,25 +204,53 @@
       "name": "Robert Pringle House",
       "location": "70 Tradd Street, Charleston, South Carolina",
       "year": 1774,
-      "note": "Circa 1774; a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly."
+      "note": "Circa 1774; a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly.",
+      "precedent": "robert-pringle-house",
+      "standing": "canonical",
+      "why": "The node's own note calls it 'a canonical pre-Revolutionary single house whose Federal-era neighbours copy its section exactly', dated by its own 1774 date stone; the one source read adds that its two rooms a floor are three bays and two bays deep, which the type's diagram does not require to be equal."
     },
     {
       "name": "Timothy Ford House",
       "location": "54 Meeting Street, Charleston, South Carolina",
       "year": 1806,
-      "note": "Built circa 1800-1806; the type at full Federal maturity, three storeys with a two-tier piazza."
+      "note": "Built circa 1800-1806; the type at full Federal maturity, three storeys with a two-tier piazza.",
+      "precedent": "timothy-ford-house",
+      "standing": "canonical",
+      "why": "The node's own note calls it 'the type at full Federal maturity, three storeys with a two-tier piazza'; no survey and no register page were found, so this standing rests on the node and on a newspaper column that describes the same house."
     },
     {
       "name": "Charles Elliott House",
       "location": "43 Legare Street, Charleston, South Carolina",
       "year": 1759,
-      "note": "Circa 1759; among the earliest documented single houses, showing the plan fully resolved a generation before Federal trim arrives."
+      "note": "Circa 1759; among the earliest documented single houses, showing the plan fully resolved a generation before Federal trim arrives.",
+      "precedent": "charles-elliott-house"
     },
     {
       "name": "Charles Graves House",
       "location": "123 Tradd Street, Charleston, South Carolina",
       "year": null,
-      "note": "Late eighteenth century; normal single-house plan with a three-storey central stair hall, one room each side, and a two-storey west piazza on Tuscan columns."
+      "note": "Late eighteenth century; normal single-house plan with a three-storey central stair hall, one room each side, and a two-storey west piazza on Tuscan columns.",
+      "precedent": "charles-graves-house",
+      "standing": "canonical",
+      "why": "The node's own note and the one article read agree on 'the normal Charleston single house plan' -- a three-storey stair hall in the centre with one room either side and a two-storey piazza on Tuscan columns -- which is the diagram the node is about, stated without ornament."
+    },
+    {
+      "name": "Robert Brewton House",
+      "location": "71 Church Street, Charleston, South Carolina",
+      "year": 1730,
+      "note": "Built 1730 (the survey's and the register's date; the Charleston Museum says between 1721 and 1740): a stuccoed brick house, three storeys by the survey's count and two and a half by the museum's, three bays to the street with quoins, a hipped roof and a two-storey wrought-iron balcony on the street front. Its side piazza has been removed.",
+      "precedent": "robert-brewton-house",
+      "standing": "icon",
+      "why": "The HABS form calls it the 'earliest existing example of Charleston \"single house\"' and the SC register 'the earliest accurately dated example' -- the building the type's origin is argued from, whichever source is read."
+    },
+    {
+      "name": "Charles Augustus Magwood House",
+      "location": "61-63 Smith Street, Charleston, South Carolina",
+      "year": 1825,
+      "note": "Built about 1825 for a merchant's son: a two-and-a-half-storey frame single house over a full English basement of stuccoed brick scored to read as stone, one bay to the street by the survey's count and five deep, with a double piazza on a brick arcade along the south flank, a pediment and fanlight on the south slope, and a hyphen to the dependency behind. Greek Revival trim on the Georgian diagram; HABS SC-441 (2015) with measured drawings.",
+      "precedent": "charles-augustus-magwood-house",
+      "standing": "documentary",
+      "why": "The survey's own significance line calls it 'an example of the typical Charleston single house', and it is the one single house on this node with a modern HABS Part II description and measured drawings -- the diagram the node's prose says the builders never changed, measured in 2015."
     }
   ],
   "sources": [

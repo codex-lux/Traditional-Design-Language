@@ -1,0 +1,46 @@
+{
+  "id": "hunter-house",
+  "name": "Hunter House",
+  "aka": [
+    "Nichols-Wanton-Hunter House"
+  ],
+  "location": {
+    "text": "54 Washington Street, Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1748",
+    "circa": true,
+    "altered": "Enlarged after 1756 by Colonel Joseph Wanton Jr., 'adding a south wing and a second chimney, transforming the building into a formal Georgian mansion with a large central hall' (Wikipedia)."
+  },
+  "nodes": [
+    "new-england-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hunter_House_(Newport,_Rhode_Island)",
+      "title": "Hunter House (Newport, Rhode Island) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "68000003",
+      "url": "https://en.wikipedia.org/wiki/Hunter_House_(Newport,_Rhode_Island)",
+      "title": "NRHP reference No. 68000003; added November 24, 1968; designated NHL November 24, 1968; contributing to the Newport Historic District (ID68000001) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.newportmansions.org/mansions-and-gardens/hunter-house",
+      "title": "Hunter House | Newport Mansions",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Preservation Society of Newport County, owner: 'Hunter House (c. 1748) is one of the finest examples of Colonial architecture in Newport.' Its page also records at least 13 enslaved people identified as living and working in the house."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on new-england-georgian, for the Newport hearth the node's geography names and no other exemplar covered. No HABS record was found under either name."
+}

@@ -1,0 +1,76 @@
+{
+  "id": "oak-alley",
+  "name": "Oak Alley",
+  "aka": [
+    "Oak Alley Plantation",
+    "Bon Sejour"
+  ],
+  "location": {
+    "text": "Vacherie, St. James Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1837-1839",
+    "circa": false,
+    "note": "The node: begun 1837, year 1839; the Wikipedia infobox: 'Built 1839', architect Joseph Pilié. The HABS data PDF carries no date of its own in the extractable text."
+  },
+  "nodes": [
+    "greek-revival-american",
+    "greek-revival-southern-plantation",
+    "early-republic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-71",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0500/la0544/data/la0544data.pdf",
+      "title": "Oak Alley Plantation (Bon Sejour), 3645 State Highway 18, Vacherie vicinity, St. James Parish, Louisiana",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header ('OAK ALLEY PLANTATION HABS LA-71 (Bon Sejour) LA-71'); a second data page (Hickory Hill, LA-50) read the same day also cites 'Oak Alley (HABS No. LA-71)' as a Koch restoration."
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0544",
+      "url": "http://www.loc.gov/pictures/item/la0544",
+      "title": "Oak Alley Plantation, 3645 State Highway 18, Vacherie, St. James Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item page summary read 'pdf version of data pages [3.3mb]'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "74002187",
+      "url": "https://en.wikipedia.org/wiki/Oak_Alley_Plantation",
+      "title": "NRHP reference No. 74002187; added to NRHP and designated NHL December 2, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Oak_Alley_Plantation",
+      "title": "Oak Alley Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "la0544",
+    "register": "loc-item",
+    "survey_no": "LA-71",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0500/la0544/data/la0544data.pdf",
+    "prepared": "A modern HABS cover essay on Richard Koch's 1930s district work, with Koch's photo mount cards scanned as pages 2-8; no author or date legible in the extract",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Not all of Richard Koch's photographs made it into the formal HABS collection at the Library of Congress, however. The HABS office in Washington has file copies of several of Koch's photographs dating from around 1936 to about 1941. Each print is mounted on a card and identified, but the negatives (and original pictures) remain elusive. Scans were made of the surviving photo mount cards and, for each site catalogued by Koch, appended hereafter.",
+        "page": "HABS No. LA-71, page 1; pages 2-8 carry only the running head 'OAK ALLEY PLANTATION HABSNo. LA-71 (page n)' over scanned cards"
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026. The 3.3 MB of 'data pages' are scanned photo mount cards; the extractor returns their running heads and nothing else, so no description and no dimension is quoted. The node's 28-column count stays the node's. `greek-revival-southern-plantation` also names this building; see the Andalusia note."
+}

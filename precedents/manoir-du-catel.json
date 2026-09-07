@@ -1,0 +1,76 @@
+{
+  "id": "manoir-du-catel",
+  "name": "Manoir du Catel",
+  "aka": [
+    "Ancien manoir du Catel"
+  ],
+  "location": {
+    "text": "Ecretteville-les-Baons, Seine-Maritime, France",
+    "country": "France",
+    "state": "Seine-Maritime, Normandie"
+  },
+  "dates": {
+    "built": "1270",
+    "circa": false,
+    "altered": "Sold as a bien national in 1791 and turned into a farm; bought in 2000 by Frédéric Toussaint and under restoration since, the Mérimée notice saying « la restauration en cours a permis de le sauver de la ruine ».",
+    "note": "The Mérimée notice gives the construction campaigns as « 13e siècle ; 14e siècle ; 15e siècle ; 16e siècle » with the year 1270; the node's own exemplar says « c. 1270 ». Both are recorded and neither is changed. The notice's protection line is 2010/08/27 : classé MH, which supersedes the 1977 inscription several secondary pages still print."
+  },
+  "nodes": [
+    "french-manoir"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00100634",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00100634",
+      "title": "Ancien manoir du Catel - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints « Date de création de la notice 15 septembre 1993 » and « Date de dernière modification de la notice 4 mars 2026 »."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_du_Catel",
+      "title": "Manoir du Catel — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints « Fondation 1270 », « Restauration juin 2000 - 2005 » and « Patrimonialité Classé MH (2010) »."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.fondation-patrimoine.org/les-projets/manoir-du-catel-a-ecretteville-les-baons-toussaint/102079",
+      "title": "Manoir du Catel à Ecretteville-les-Baons dans la Seine-Maritime | Les projets | Fondation du patrimoine",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Fondation du patrimoine's project page is the source of the claim that this is « la plus ancienne maison-forte de Normandie »; it is that body's judgment and is cited as such rather than asserted here."
+    }
+  ],
+  "survey": {
+    "item": "PA00100634",
+    "register": "merimee",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00100634",
+    "prepared": "Date de création de la notice 15 septembre 1993 ; Date de dernière modification de la notice 4 mars 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Ce manoir a été édifié à partir de 1270 par Richard de Treigots (dixième abbé de Fécamp) , sur des terres données aux moines par le duc de Normandie. Les travaux se sont poursuivis aux 14e et 15e siècles. Il s'agit d'une maison forte, dont les btiments sont organisés autour d'une cour fermée et les angles défendus par une tour ronde. L'entrée fortifiée est composée d'un avant-corps monumental, situé sur la façade principale du logis. L'ensemble des dispositions d'origine de ce manoir sont remarquablement préservées, la restauration en cours a permis de le sauver de la ruine.",
+        "page": "Notice Mérimée PA00100634, section « Historique de l'édifice », champ Description historique"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 13e siècle ; 14e siècle ; 15e siècle ; 16e siècle Année(s) de(s) campagne(s) de construction 1270",
+        "page": "Notice Mérimée PA00100634, section « Historique de l'édifice », liste des champs"
+      },
+      {
+        "field": "other",
+        "text": "Nature de la protection de l'édifice classé MH Date et niveau de protection de l'édifice 2010/08/27 : classé MH",
+        "page": "Notice Mérimée PA00100634, section « Statut juridique, intérêt, protection et label »"
+      }
+    ]
+  },
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00100634",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. The Mérimée notice states the enclosure and the fortified entrance but no dimension, so this record carries no measurements: nothing numeric was printed to carry."
+}

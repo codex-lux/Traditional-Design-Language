@@ -1,0 +1,40 @@
+{
+  "id": "payne-whitney-house",
+  "name": "Payne Whitney House",
+  "aka": [
+    "Cultural Services of the French Embassy"
+  ],
+  "location": {
+    "text": "972 Fifth Avenue, New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1902-1909",
+    "circa": false,
+    "note": "Wikipedia: 'Completed in 1909'; the house was 'a wedding gift' on the 1902 marriage (William Payne Whitney article) and among 'the last residences White designed before his death in 1906'. Only the completion year is firm."
+  },
+  "nodes": [
+    "italian-renaissance-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Payne_Whitney_House",
+      "title": "Payne Whitney House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'It was designed in the High Italian Renaissance style by architect Stanford White of the firm McKim, Mead & White.' The lot: 'a frontage of 45 feet (14 m) on Fifth Avenue and a depth of 100 feet (30 m)'; the Venetian Room 'measuring 14 feet 10 inches (4.52 m) square'."
+    },
+    {
+      "kind": "other",
+      "id": "0737",
+      "url": "https://en.wikipedia.org/wiki/Payne_Whitney_House",
+      "title": "New York City Landmark, designated September 15, 1970, reference no. 0737 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "A city designation, not a state or national one; no National Register number was found on the page."
+    }
+  ],
+  "note": "Domestic, unlike the club and the library beside it in this node, and at town-house scale: a 45 ft frontage. No HABS survey was found (the loc.gov query returned the unrelated Payne Whitney Clinic, HABS NY-6340-A). Seeded 4 Sep 2026."
+}

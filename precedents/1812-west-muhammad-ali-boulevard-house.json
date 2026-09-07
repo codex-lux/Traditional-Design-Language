@@ -1,0 +1,80 @@
+{
+  "id": "1812-west-muhammad-ali-boulevard-house",
+  "name": "1812 West Muhammad Ali Boulevard (House)",
+  "location": {
+    "text": "1812 West Muhammad Ali Boulevard, Russell National Register District, Louisville, Jefferson County, Kentucky",
+    "country": "United States",
+    "state": "Kentucky"
+  },
+  "dates": {
+    "built": "late 19th or early 20th century",
+    "circa": true,
+    "altered": "Form stone applied to the primary facade; both front openings replaced (the sentence naming what replaced them runs off the end of the extracted span).",
+    "note": "The survey dates the type and not the house: 'shotgun houses that were built throughout this particular neighborhood ... during the late 19th and early 20th centuries'. No year is stated anywhere in the extracted spans, and none is invented here."
+  },
+  "nodes": [
+    "shotgun-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "KY-231",
+      "title": "1812 West Muhammad Ali Boulevard (House), Louisville, Jefferson County, KY",
+      "url": "https://www.loc.gov/item/ky0319",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The loc.gov item page prints 'Survey number: HABS KY-231' and 'Call Number/Physical Location HABS KY,56-LOUVI,76-', and lists photographs, data pages and a photo caption page. The survey was made for the Russell Neighborhood -- Jay's Cafeteria Project by the NPS Southeast Region."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ky0319",
+      "url": "https://www.loc.gov/item/ky0319",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ky0319",
+    "register": "loc-item",
+    "survey_no": "KY-231",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ky/ky0300/ky0319/data/ky0319data.pdf",
+    "prepared": "Historic American Buildings Survey, National Park Service, Southeast Region, Atlanta -- 'Russell Neighborhood - Jay's Cafeteria Project'; no compiler or date legible in the extracted spans",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "1812 West Muhammad Ali Boulevard is significant within the context of the Russell National District which was listed in 1980, This structure is typical of shotgun houses that were built throughout this particular neighborhood (as well as throughout Louisville) during the late 19th and early 20th centuries. Houses with this floor plan were routinely built for the common man as worker housing. A variety of architectural ornamentation reflecting popular Victorian era styles were often applied to shotgun houses. The Italianate was among the",
+        "page": "HABS No. KY-231, 'Significance:'; no page marker legible in the extract span, which ends where the extractor's chunk ends"
+      },
+      {
+        "field": "general_description",
+        "text": "1812 West Muhammad Ali Boulevard is a single-story Italianate style house built with a shotgun floor plan (see attached Sanborn Insurance Map). It is constructed of brick but form stone has been applied to the primary facade. It has a two bay facade arrangement with the door to the west balanced by a window to the east. Both have prominent segmentally arched hoods.",
+        "page": "HABS No. KY-231, 'Description:'; no page marker legible in the extract span"
+      },
+      {
+        "field": "roof",
+        "text": "The building's cornice is elaborately detailed with sawn wood Gothic bargeboard pendles. A front facing gabled roof covered with asphalt shingles tops the building.",
+        "page": "HABS No. KY-231, 'Description:'; same span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "single-story",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "two bay facade arrangement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A door and one window: the whole public face of the household, and the eight feet of frontage the node's own prose describes."
+    }
+  ],
+  "note": "The plain, surveyed, undated one. It is here because the corpus's shotgun node argues that the type absorbed whatever ornament the era offered and concentrated all of it on the street gable, and this survey says exactly that in a federal document: Italianate hoods, a sawn Gothic bargeboard cornice, and a two-bay front on a house whose plan is a file of rooms. The form stone on the facade is the same instinct a century later."
+}

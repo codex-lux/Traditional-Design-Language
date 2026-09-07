@@ -179,25 +179,55 @@
       "name": "Stokesay Castle",
       "location": "Shropshire, England",
       "year": 1291,
-      "note": "Licence to crenellate granted 1291 to the wool merchant Laurence of Ludlow. A fortified manor whose great hall, with its cruck-braced roof and tall traceried windows, survives almost unaltered."
+      "note": "Licence to crenellate granted 1291 to the wool merchant Laurence of Ludlow. A fortified manor whose great hall, with its cruck-braced roof and tall traceried windows, survives almost unaltered.",
+      "precedent": "stokesay-castle",
+      "standing": "icon",
+      "why": "Historic England's scheduled-monument entry 1003011 calls it 'one of the finest fortified manor houses in the country' and ascribes its hall and solar a date circa 1260-80; that judgment is the register's, not this project's."
     },
     {
       "name": "Penshurst Place, Barons Hall",
       "location": "Kent, England",
       "year": 1341,
-      "note": "Built for Sir John de Pulteney. The most complete surviving fourteenth-century domestic hall: central octagonal hearth, chestnut arch-braced roof, dais, and screens passage all intact."
+      "note": "Built for Sir John de Pulteney. The most complete surviving fourteenth-century domestic hall: central octagonal hearth, chestnut arch-braced roof, dais, and screens passage all intact.",
+      "precedent": "penshurst-place-barons-hall",
+      "standing": "icon",
+      "why": "Historic England 1243169 records the hall house of John de Pulteney under a licence to crenellate of 1341 and a 'Very large hall with fine timber roof resting on figure corbels'; the claim in this node's own note that it is the most complete surviving fourteenth-century domestic hall is carried by no reference in the record."
     },
     {
       "name": "Westminster Hall roof",
       "location": "London, England",
       "year": 1399,
-      "note": "Hugh Herland's hammerbeam roof of 1393-99 spanning 20.7 m without intermediate support — the largest medieval timber roof in Northern Europe and the technical summit of the tradition."
+      "note": "Hugh Herland's hammerbeam roof of 1393-99 spanning 20.7 m without intermediate support — the largest medieval timber roof in Northern Europe and the technical summit of the tradition.",
+      "precedent": "westminster-hall-roof",
+      "standing": "icon",
+      "why": "UK Parliament's own description calls it 'the largest medieval timber roof in Northern Europe' and Historic England 1226284 calls it 'a vast hammerbeam roof of an exceptionally early date and scale'; both judgments are the institutions' own."
     },
     {
       "name": "Great Chalfield Manor",
       "location": "Wiltshire, England",
       "year": 1480,
-      "note": "Built c.1465-80 for Thomas Tropenell. A late-Perpendicular manor with the hall range flanked by gabled wings — the H-plan arriving in its finished domestic form."
+      "note": "Built c.1465-80 for Thomas Tropenell. A late-Perpendicular manor with the hall range flanked by gabled wings — the H-plan arriving in its finished domestic form.",
+      "precedent": "great-chalfield-manor",
+      "standing": "canonical",
+      "why": "Historic England 1250902 states this node's central diagram with figures a kit can be held against -- 'H- plan; 4-bay open hall with service and solar wings. Two-storey, 5- window north front' -- and the judgment that it is therefore a type specimen is this project's."
+    },
+    {
+      "name": "Haddon Hall",
+      "location": "Derbyshire, England",
+      "year": null,
+      "note": "Historic England 1334982 describes a 'Large double courtyard, fortified manor house' with C12 fragments, an upper courtyard built mainly in the second quarter of the fourteenth century and a lower courtyard mostly of the fifteenth, restored between 1920 and 1930. Its Great Hall keeps a C15 screens passage with four four-centred doorcases, three of them leading to the kitchen, pantry and buttery. No single build year is stated by any source read here.",
+      "precedent": "haddon-hall",
+      "standing": "icon",
+      "why": "Historic England 1334982 describes a Great Hall whose screens passage carries 'four,four-centred arched doorcases' of which three lead to the kitchen, pantry and buttery -- this node's own dais-hall-screens-service diagram intact, in a register's words; that it is the building a reader names first for the English medieval manor is this project's judgment."
+    },
+    {
+      "name": "Ightham Mote",
+      "location": "Kent, England",
+      "year": 1340,
+      "note": "Historic England 1362410: a moated house of four ranges round a courtyard, 'Present buildings date at least from circa 1340-1360'. The year here is the earlier end of that range as the entry prints it. The entry also says the house 'Possibly never had a screens passage for there is a lancet of contemporary date where the answering doorway to the main entrance should have been'.",
+      "precedent": "ightham-mote",
+      "standing": "canonical",
+      "why": "Historic England 1362410 dates the present buildings circa 1340-1360 and says the house 'Possibly never had a screens passage', which makes it the useful counter-case to this node's central plan claim; the judgment is this project's, resting on the register's words."
     }
   ],
   "sources": [

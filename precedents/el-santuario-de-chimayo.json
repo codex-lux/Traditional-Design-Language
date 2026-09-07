@@ -1,0 +1,101 @@
+{
+  "id": "el-santuario-de-chimayo",
+  "name": "El Santuario de Chimayó",
+  "aka": [
+    "El Santuario del Señor Esquipula",
+    "Santuario de Chimayo"
+  ],
+  "location": {
+    "text": "Chimayó, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1816",
+    "circa": false,
+    "altered": "The survey records a tin roof and wooden towers as recent additions made before 1929, and the purchase of the chapel in October 1929 by the Society for the Preservation and Restoration of New Mexico Mission Churches, which turned it over to the Roman Catholic Church.",
+    "note": "The survey prints 'Date, of Erection: 1816' and the Wikipedia infobox 'Built 1816'. The survey places the chapel in Santa Fe County; the Library's item title and Wikipedia say Rio Arriba County."
+  },
+  "nodes": [
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-9",
+      "title": "El Santuario del Senor Esquipula, Chimayo, Rio Arriba County, NM",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0047/data/nm0047data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The number is read from the addendum cover in the same PDF ('ADDENDUM TO: HABS NM-9 EL SANTUARIO DEL SENOR ESQUIPULA NM,25-CHIM, 1-'); on the 1930s sheet the number after 'HABS No.' is lost to OCR."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0047",
+      "url": "https://www.loc.gov/pictures/item/nm0047",
+      "title": "El Santuario del Senor Esquipula, Chimayo, Rio Arriba County, NM",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result gives 'Photo(s): 21 Color Transparencies: 2' and the drawing sheets' call number 'HABS NM,25-CHIM,1-'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/El_Santuario_de_Chimay%C3%B3",
+      "title": "El Santuario de Chimayo - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000412",
+      "url": "https://en.wikipedia.org/wiki/El_Santuario_de_Chimay%C3%B3",
+      "title": "NRHP reference No. 70000412; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "188",
+      "url": "https://en.wikipedia.org/wiki/El_Santuario_de_Chimay%C3%B3",
+      "title": "NMSRCP No. 188, designated December 20, 1968 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "nm0047",
+    "register": "loc-item",
+    "survey_no": "NM-9",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0047/data/nm0047data.pdf",
+    "prepared": "District No. 36, Utah, Colorado and New Mexico; A. Leicester Hyde, District Officer, Box 902, Santa Fe (as the header reads); signed by Hyde; no date legible in the extract, which cites a 1931 New Mexico Highway Journal article.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "EL SANTUARIO DEL SENOR ESQUIPULA Chimayo, Santa Fe County New Mexico H/M2.5 N M. n J ;v Owner: Roman Catholic Church. Date, of Erection: 1816. Architects Builder; Don Bernardo Abeyta. Present Condition; Fair. Number of .Stories,; One» Sfeterials of Construction: Adobe •",
+        "page": "The header sheet; the 'HABS No.' before the title has its number lost to OCR, and no page number is printed."
+      },
+      {
+        "field": "significance",
+        "text": "This charming adobe chapel ..situated at Santuario; near Ohiriiayo, »ew Ilexlco was built in 1816 by Don TiernarSo Abeyta. This is a shrine for the miraculous cure of disease, one of the few on the American con- tinent. The chapel remained in the family until 1929^ at whioh time it was in the lossesston of .Don Jose Chavez of\" Chir-ayo.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "roof",
+        "text": "Prior to 1929 the chapel wss roofed v/ith its present tin roof and the wooden iov/ers added, all of which were recent additions. A photograph by 0. S. ■Emblem.of Santa Fa, Sew Mexico, shows the chapel prior to this addition.",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of .Stories,; One»",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Added 4 Sep 2026. The 1930s survey states no dimension; its value here is the dated roof and towers, which a reader of the famous photographs would otherwise take for the 1816 fabric."
+}

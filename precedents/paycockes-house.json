@@ -1,0 +1,117 @@
+{
+  "id": "paycockes-house",
+  "name": "Paycocke's House",
+  "aka": [
+    "Paycocke's",
+    "Paycockes House"
+  ],
+  "location": {
+    "text": "Coggeshall, Essex, England",
+    "country": "England",
+    "state": "Essex"
+  },
+  "dates": {
+    "built": "C15 and C16; the main range c.1505",
+    "circa": true,
+    "altered": "Altered c.1600 -- when the main range was reduced from three storeys to two -- and in the C18; restored 1910, the close-studded main elevation 'comprehensively restored' with carving by Ernest Beckwith.",
+    "note": "Historic England 1337597 dates the main range c.1505; the node's exemplar year is 1509. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "english-medieval-timber-frame"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1337597",
+      "title": "Paycocke's, Coggeshall - 1337597",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1337597",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. 'Date first listed: 02-May-1953'; 'Date of most recent amendment: 06-Sept-1988'. The list entry name is 'Paycocke's' and the statutory address 'PAYCOCKE'S, 25, WEST STREET'; the node's exemplar calls it Paycocke's House, which is this record's `name` because the exemplar is the join key."
+    }
+  ],
+  "survey": {
+    "item": "1337597",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1337597",
+    "prepared": "Date first listed: 02-May-1953; Date of most recent amendment: 06-Sept-1988, as the Official list entry block prints them. The Details section opens with the legacy header 'TL 8422-8522 COGGESHALL WEST STREET (south side) 9/227 No. 25 (Paycocke's) 2.5.53 (formerly listed as Paycocks House) GV I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House. C15 and C16, altered c.1600 and in C18, restored 1910. Timber framed, plastered with some exposed framing and brick nogging, roofed with handmade red plain tiles.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Main range of 5 bays facing N, c.1505, with C19 axial stack near right end and 2 rear stacks, late C16 and C18. 3-bay wing to rear of right end, C15/early C16, with stack in rear bay. Beyond it, and originally separate, is a 2-bay building jettied to the left, C15, with a short connecting link.",
+        "page": "Official list entry, Details, opening paragraph, following the materials sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "2 storeys (the main range reduced from an original build of 3 storeys c.1600).",
+        "page": "Official list entry, Details, following the description of the rear wings"
+      },
+      {
+        "field": "openings",
+        "text": "Ground floor, 2 square oriels and 3 fixed lights, and 5 similar oriels on first floor, all C20, in early C16 style.",
+        "page": "Official list entry, Details, north elevation description"
+      },
+      {
+        "field": "structural_system",
+        "text": "In the main range all the rear posts continue upwards above the girt which now effectively forms the rear eaves plate, sawn off when the building was reduced from 3 storeys. There are structural indications that the left bay was added shortly after the original build. Close studding with curved bracing trenched into it is exposed in most rooms.",
+        "page": "Official list entry, Details, interior description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "main_range_bay_count",
+      "as_printed": "Main range of 5 bays facing N",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "rear_wing_bay_count",
+      "as_printed": "3-bay wing to rear of right end",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "AS STANDING. The same sentence says the main range was reduced from three storeys about 1600, and the interior description says the rear posts were 'sawn off' then -- so a two-storey reading of this building as built is wrong."
+    },
+    {
+      "name": "original_storey_count",
+      "as_printed": "an original build of 3 storeys c.1600",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The build; the date c.1600 in the same phrase is the date of the REDUCTION, not of the three-storey build."
+    },
+    {
+      "name": "ground_floor_oriel_count",
+      "as_printed": "2 square oriels and 3 fixed lights",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "All C20 in early C16 style, by the entry's own statement; not evidence of the original fenestration."
+    },
+    {
+      "name": "first_floor_oriel_count",
+      "as_printed": "5 similar oriels on first floor",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "All C20 in early C16 style, by the entry's own statement."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. Extracted twice with different queries; the second returned the Official list entry header the first had not. THE MOST USEFUL THING THE ENTRY SAYS IS A DEMOLITION: a five-bay merchant's house of about 1505 built three storeys high and cut down to two about 1600, with the sawn-off posts still readable inside. The node's own note describes only the display framing on the front."
+}

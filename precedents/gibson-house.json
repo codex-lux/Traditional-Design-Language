@@ -1,0 +1,48 @@
+{
+  "id": "gibson-house",
+  "name": "Gibson House, 137 Beacon Street",
+  "location": {
+    "text": "Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "aka": [
+    "Gibson House Museum"
+  ],
+  "dates": {
+    "built": "1859-1860",
+    "circa": false,
+    "note": "The Wikipedia infobox says 'Built 1859-60' and the museum says the family lived there from 1859; the article's lead calls it 'the 1860 Victorian rowhouse'."
+  },
+  "nodes": [
+    "italianate-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "01001048",
+      "url": "https://en.wikipedia.org/wiki/Gibson_House_Museum",
+      "title": "NRHP reference No. 01001048; added and designated NHL August 7, 2001; contributing property of the Back Bay Historic District (ID73001948) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/01001048_text",
+      "title": "GIBSON HOUSE - National Historic Landmark nomination (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination text itself, located but not quoted here: no span of it was extracted, so nothing from it is recorded as a quotation. The id is carried on the NHL ref above rather than repeated here."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.thegibsonhouse.org",
+      "title": "House Museum | The Gibson House Museum | Boston",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. States the house 'served as residence to three generations of Gibson family members and their household staff between 1859 and 1954' and that its 'four floors of period rooms, including the original kitchen, are a time capsule of domestic life'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The one intact interior in the cluster, and the reason it earns a place: the National Historic Landmark case, as Wikipedia summarises it, is that this is 'the only Victorian era row house in Boston's Back Bay to maintain the integral relationship between the exterior architectural shell and the original interior plan'. The italianate-townhouse node asserts a section -- basement kitchen, raised parlour floor, bedrooms above -- and this is the surviving building against which that section could be checked, including the service rooms that every other precedent has lost."
+}

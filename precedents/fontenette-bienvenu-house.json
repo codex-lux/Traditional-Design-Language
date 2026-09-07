@@ -1,0 +1,45 @@
+{
+  "id": "fontenette-bienvenu-house",
+  "name": "Fontenette-Bienvenu House",
+  "location": {
+    "text": "201 North Main Street, St. Martinville, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1817",
+    "circa": false,
+    "note": "The Wikipedia infobox says 1817 under Louisiana's French Creole Architecture MPS; listed on the National Register August 21, 1997 and removed March 13, 2024, as the node's note already records."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fontenette-Bienvenu_House",
+      "title": "Fontenette-Bienvenu House - Wikipedia",
+      "note": "The infobox heads the entry 'Formerly listed on the U.S. National Register of Historic Places'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "97000876",
+      "url": "https://en.wikipedia.org/wiki/Fontenette-Bienvenu_House",
+      "title": "NRHP reference No. 97000876; added August 21, 1997; removed from NRHP March 13, 2024 (as the Wikipedia infobox prints it)",
+      "note": "A delisted reference; recorded because the number still locates the nomination file.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.historic-structures.com/la/st_martinville/fontenette_bienvenu_house.php",
+      "title": "Fontenette-Bienvenu House, St. Martinville Louisiana",
+      "note": "Describes it as 'a one-and-a-half-story Creole cottage of colombage construction with Federal details', which is the node's own note nearly word for word.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "No HABS survey was found; the search '\"Fontenette-Bienvenu House\" St. Martinville Louisiana' returned no loc.gov item.",
+  "nodes": [
+    "creole-cottage-vernacular"
+  ]
+}

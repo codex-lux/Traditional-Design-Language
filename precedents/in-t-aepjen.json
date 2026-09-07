@@ -1,0 +1,64 @@
+{
+  "id": "in-t-aepjen",
+  "name": "In 't Aepjen, Zeedijk 1",
+  "aka": [
+    "Het Aepgen",
+    "Café In 't Aepjen"
+  ],
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "rond 1550",
+    "circa": true,
+    "altered": "The register dates the boarding and the console brackets of the front to the last quarter of the eighteenth century ('beplanking en consoles XVIIId').",
+    "note": "Vereniging Hendrick de Keyser says the house 'werd gebouwd rond 1550'; Amsterdam Monumentenstad prints 'Zeedijk 1 (1560)'; the register's own description dates the house 'XVIb?', with the register's own question mark. Recorded and not resolved."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "6500",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/6500",
+      "title": "Zeedijk 1, 1012 AN te Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.hendrickdekeyser.nl/de-huizen/het-aepgen",
+      "title": "Het Aepgen | Hendrick de Keyser Monumenten",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owning association's own page. It states the plan section in words -- 'Het pand bestaat uit een kelder, begane grond, twee verdiepingen en een zolder' -- and that behind the timber front stands a masonry house with an almost completely preserved sixteenth-century timber skeleton."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.houtenhuizen.amsterdam/Centrum/Centrum02_V.html",
+      "title": "Zeedijk 1, Amsterdam - Houten huizen",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A documentary site whose page for this house is a bibliography: it cites the Rijksmonumentenregister entry, Van Tussenbroek's 'De houten eeuw van Amsterdam' (2023), and G.A. van Arkel's measured drawing of the front elevation in the Amsterdam City Archive (010097000045). The measured drawing was not read here."
+    }
+  ],
+  "survey": {
+    "item": "6500",
+    "register": "rijksmonument",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/6500",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's own 'Inschrijving register' field came back blank in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Dwarshuis (XVIb?) met houten, per verdieping overkragende gevel; beplanking en consoles XVIIId. Op de verdiepingen nog ten dele originele vensters; goede roedenverdeling. Inwendig renaissance houtskelet.",
+        "page": "Rijksmonumentenregister, monument 6500, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. Added by this tranche as the second of the two surviving timber-fronted houses in Amsterdam, which is the fact the node's Houten Huys exemplar note already asserts and which nothing in the corpus could resolve. Two things in the register's sentence bear on the node's own account: the front oversails ONCE PER STOREY ('per verdieping overkragende gevel'), which is the jetty the German Fachwerk node treats as its own signature, and this is a DWARSHUIS -- a house set with its long side to the street, the opposite of the gable-fronted deep lot the node describes. It is therefore evidence for the timber wall and evidence AGAINST reading every old Amsterdam house as a narrow gable front."
+}

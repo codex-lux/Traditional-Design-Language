@@ -1,0 +1,60 @@
+{
+  "id": "blandwood",
+  "name": "Blandwood",
+  "location": {
+    "text": "Greensboro, North Carolina",
+    "country": "United States",
+    "state": "North Carolina",
+    "aliases": [
+      "447 West Washington Street, Greensboro, North Carolina"
+    ]
+  },
+  "aka": [
+    "Blandwood Mansion",
+    "Blandwood Mansion and Gardens"
+  ],
+  "dates": {
+    "built": "1844-1846",
+    "circa": true,
+    "note": "Preservation Greensboro says Davis's additions were 'Completed in 1846'; the National Trust says the house 'was designed in 1844'; NCpedia says Morehead contracted Davis in 1844. The core is a two-storey frame farmhouse of about 1795 that the villa was built around, which is why no single build date is right."
+  },
+  "nodes": [
+    "italianate-villa"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "70000455",
+      "url": "https://en.wikipedia.org/wiki/List_of_National_Historic_Landmarks_in_North_Carolina",
+      "title": "Blandwood, Greensboro, Guilford County - designated NHL June 7, 1988 (#70000455), described as 'Former home of progressive North Carolina Governor John Motley Morehead, designed by New York architect Alexander Jackson Davis in the Italian Tuscan style'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from Wikipedia's list of National Historic Landmarks in North Carolina, which prints the designation date and the reference number together. Not read from the National Register's own database; a second surface should confirm it."
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/NC-01-081-0082",
+      "title": "Blandwood Mansion | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'Blandwood Mansion is believed to be the oldest extant example of the Italian Villa Style as promoted by American architect Alexander Jackson (A.J.) Davis.' 'Believed to be' is the Society's own hedge and is kept."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.preservationgreensboro.org/blandwood-museum",
+      "title": "Blandwood | PreservationGreensboro",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Describes 'additions in the Tuscan Villa (Italianate) style that featured a central three-story tower, stucco walls, and a low roofline within a tripartite plan with flanking dependencies', and records that the house was published in Downing's The Architecture of Country Houses (1850)."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.ncpedia.org/blandwood",
+      "title": "Blandwood | NCpedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States that 'Davis devised a Tuscan-style addition of four rooms centered around a tower. A kitchen and an office were connected to the main house by vaulted arches.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The claim to carry is the DATE, because the italianate-villa node opens on Notman's Riverside of 1839 and then jumps to Upjohn's King House of 1845-47; Blandwood sits between them and its own Society of Architectural Historians entry calls it 'the oldest extant example of the Italian Villa Style as promoted by ... Davis'. The other thing worth knowing is that its plan is TRIPARTITE with flanking dependencies joined by arcades -- not the L with a tower in the reentrant angle that the node states as the type's compositional logic. Two of this node's six precedents refuse its own diagram."
+}

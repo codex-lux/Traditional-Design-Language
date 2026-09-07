@@ -1,0 +1,69 @@
+{
+  "id": "cooper-molera-adobe",
+  "name": "Cooper-Molera Adobe",
+  "aka": [
+    "Cooper House (Molera House)",
+    "Captain John Cooper House"
+  ],
+  "location": {
+    "text": "Polk and Munras, Monterey, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1827",
+    "circa": false,
+    "altered": "Enlarged through the 1830s and 40s (the style node); a $6.5 million rehabilitation completed in 2018 and Save America's Treasures-funded restoration of the Cooper and Diaz adobes after 2022 (National Trust).",
+    "note": "The style node says begun 1827; the National Trust's page says 'originally dating from 1827'. The Library's item title gives the address as 508 Munras Street where the node says Polk and Munras; the node's string is kept because it is the join key."
+  },
+  "nodes": [
+    "monterey-colonial",
+    "monterey-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-125",
+      "title": "Cooper House (Molera House), Monterey, Monterey County, California",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0300/ca0377/data/ca0377data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The PDF at this address was read twice on 4 Sep 2026 with different queries and returned only its cover sheet each time: 'Cooper House (Molera House) Monterey Monterey County* California HABS No. CAL-125 HAB5 CAL PHOTOGRAPHS # HISTORIC AMERICAN BUILDINGS SURVEY NATIONAL PARK SH&VICE Western Office, Division of Design and Construction 1000 Geary Street San Francisco, California'. It is a photographs record with no written description, so no `survey` block is recorded."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0377",
+      "url": "https://www.loc.gov/pictures/item/ca0377",
+      "title": "Captain John Cooper House, 508 Muras Street, Monterey, Monterey County, CA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Survey number: HABS CA-125'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/places/cooper-molera-adobe",
+      "title": "Cooper Molera Adobe and The Barns | National Trust for Historic Preservation",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. Its page: 'Cooper-Molera Adobe, originally dating from 1827, is a National Trust Historic Site in Monterey's Old Town Historic District, a National Historic Landmark' and 'two adjacent adobe homes, a corner store, an adobe warehouse, a barn complex ... on roughly 2.5 acres surrounded by a historic adobe wall'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cooper-Molera_Adobe",
+      "title": "Monterey State Historic Park - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The article title resolves to the park's article, which describes the adobe among the park's buildings; the en-dash spelling of the title answered 404."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000137",
+      "url": "https://en.wikipedia.org/wiki/Cooper-Molera_Adobe",
+      "title": "Monterey Old Town Historic District: NRHP reference No. 70000137; added April 15, 1970; designated NHLD April 15, 1970 (as the park article's infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The DISTRICT's number, of which the adobe is a part; the building carries no individual listing that was found."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. The one HABS record found is photographs only; the National Trust is the source for the site's extent. Nothing here states a dimension. CROSS-LINKED 5 Sep 2026: monterey-revival now names this building too, at the same location string, as one of the Monterey adobes the twentieth-century revival copied rather than as an example of the revival."
+}

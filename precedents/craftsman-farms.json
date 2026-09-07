@@ -1,0 +1,51 @@
+{
+  "id": "craftsman-farms",
+  "name": "Craftsman Farms (the Log House)",
+  "aka": [
+    "Craftsman Farms",
+    "Gustav Stickley House, Parsippany"
+  ],
+  "location": {
+    "text": "Parsippany-Troy Hills, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "1911",
+    "circa": false,
+    "note": "Wikipedia: 'Craftsman Farms is a log house built in 1911'; the craftsman node's exemplar gives 1908-1911 (Stickley began acquiring the land in 1908 per the same article). Both kept."
+  },
+  "nodes": [
+    "craftsman-bungalow",
+    "craftsman",
+    "arts-and-crafts-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "85003730",
+      "url": "https://en.wikipedia.org/wiki/Craftsman_Farms",
+      "title": "NRHP reference No. 85003730; added April 10, 1989; designated NHL December 14, 1990 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Craftsman_Farms",
+      "title": "Craftsman Farms - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Its own words: 'The focal point of his \"Garden of Eden\" was a large, log house constructed of hewn chestnut logs found on-site and local stone also found on-site.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/f3f8d256-80d4-4478-ae68-2468f20d8693?branding=NRHP",
+      "title": "[PDF] National Register of Historic Places Registration Form - NPGallery",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The registration form. Its own words: 'This style consisted of building simple houses of natural materials -- logs, field-stones, and wood shingles -- in harmony with the natural setting.'"
+    }
+  ],
+  "note": "No HABS survey was found (query: 'Craftsman Farms OR Stickley Morris Plains Parsippany HABS NJ survey log house' on loc.gov returned unrelated New Jersey surveys), so there is no survey block. WP-11.3, Tranche 2 (5 Sep 2026): arts-and-crafts-american names this building at 'Parsippany-Troy Hills, New Jersey' and now carries the precedent key; the sentence that stood here said it named it WITHOUT one. Seeded 4 Sep 2026."
+}

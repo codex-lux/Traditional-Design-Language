@@ -1,0 +1,132 @@
+{
+  "id": "convento-de-san-nicolas-de-tolentino-actopan",
+  "name": "Convento de San Nicolas de Tolentino",
+  "aka": [
+    "Templo y exconvento de San Nicolás de Tolentino (Actopan)"
+  ],
+  "location": {
+    "text": "Actopan, Hidalgo, Mexico",
+    "country": "Mexico",
+    "state": "Hidalgo"
+  },
+  "dates": {
+    "built": "1550-1560",
+    "circa": false,
+    "altered": "Secularised 1750; a foreign vicarage from 1832; declared a national historic and artistic monument by decree of 2 February 1933.",
+    "note": "FOUR DATES AND NOT ONE. The infobox prints 'Fundación 1546' and 'Construcción 1550-1560'; the article's text says construction was officially ordered in 1548 and 'La construcción inició en 1550'; a Wikipedia file-description page for the same building says 'Su construcción se inició en 1548' and that by 1573 the complex was finished; and the node's own exemplar gives 1546-1573. All are recorded and none is resolved."
+  },
+  "nodes": [
+    "mexican-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://es.wikipedia.org/wiki/Templo_y_exconvento_de_San_Nicol%C3%A1s_de_Tolentino_(Actopan)",
+      "title": "'Declaración Monumento: En 1933, por el Instituto Nacional de Antropología e Historia', as the Spanish Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A Wikipedia file-description page for the same building, read the same day, dates the instrument: 'Fue declarado Monumento Histórico y Artístico de la Nación, mediante el decreto del 2 de febrero de 1933 emitido por el Gobierno de México.' NO CATALOGUE NUMBER WAS PRINTED anywhere and none is invented."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Templo_y_exconvento_de_San_Nicol%C3%A1s_de_Tolentino_(Actopan)",
+      "title": "Templo y exconvento de San Nicolás de Tolentino (Actopan) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Church_and_Convent_of_San_Nicol%C3%A1s_de_Tolentino",
+      "title": "Church and Convent of San Nicolás de Tolentino - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for one sentence the Spanish article does not put so plainly: 'The construction began in 1550 and by 1573 the set was already completed and had a church, capilla abierta, convent, stables, orchard and a huge cistern for the uses of the community.'"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-templo-y-exconvento-de-san-nicolas-de-tolentino-actopan",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Templo_y_exconvento_de_San_Nicol%C3%A1s_de_Tolentino_(Actopan)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER, and the fullest one this cluster found: its table of contents runs to the dovecote, the latrines and the stables.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "El atrio de la capilla abierta mide 63.36 m de largo por 36.28 m de ancho; sirve para congregar a las grandes multitudes reunidas en los eventos realizados en esta, ocupando el atrio como nave al aire libre.",
+        "page": "Spanish Wikipedia, section 'Arquitectura', subsection 'Atrio'. The stray wikilink title '\"Nave (arquitectura)\")' the extractor leaves after 'nave' has been removed and no word is changed."
+      },
+      {
+        "field": "plan",
+        "text": "Se encuentra delimitado en la parte norte por un muro con almenas piramidales, un gran arco de medio punto que sirve como acceso. El acceso norte comunica con el Antiguo Palacio Municipal de Actopan.",
+        "page": "Spanish Wikipedia, section 'Arquitectura', subsection 'Atrio', continuing from the above"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "| Nave principal | Bóveda de cañón Largo: 64.0 m Ancho: 14.5 m |\n| Torres | Una (38.0 m de altura) |\n| Otros datos |\n| Declaración Monumento | En 1933, por el Instituto Nacional de Antropología e Historia |",
+        "page": "Spanish Wikipedia, infobox rows, as the extractor renders them in a markdown table. THIS IS A TABLE AND NOT PROSE."
+      },
+      {
+        "field": "materials",
+        "text": "| Orientación | Poniente |\n| Materiales | Piedra, cantera, mampostería |",
+        "page": "Spanish Wikipedia, infobox rows. A TABLE AND NOT PROSE."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "atrium_length_ft",
+      "as_printed": "63.36 m de largo",
+      "value": 207.9,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "THE FIGURE THIS NODE'S ARGUMENT NEEDS. The node's own prose says mass conversion required 'a walled precinct (the atrio) large enough to hold thousands of people outdoors'; this is one, measured. Converted at 3.28084 ft/m."
+    },
+    {
+      "name": "atrium_width_ft",
+      "as_printed": "36.28 m de ancho",
+      "value": 119.0,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "nave_length_ft",
+      "as_printed": "Largo: 64.0 m",
+      "value": 210.0,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "Of the barrel-vaulted principal nave, from the infobox."
+    },
+    {
+      "name": "nave_width_ft",
+      "as_printed": "Ancho: 14.5 m",
+      "value": 47.6,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "THE SINGLE-NAVE CLEAR SPAN, which is the structural fact behind the node's 'single-naved and buttressed' claim. 14.5 m of masonry vault is a large span and the buttressing follows from it."
+    },
+    {
+      "name": "tower_height_ft",
+      "as_printed": "Una (38.0 m de altura)",
+      "value": 124.7,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "tower_count",
+      "as_printed": "| Torres | Una (38.0 m de altura) |",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "nave_length_to_width",
+      "as_printed": "Largo: 64.0 m Ancho: 14.5 m",
+      "value": 4.41,
+      "unit": "ratio",
+      "from_quote": 2,
+      "note": "64.0 divided by 14.5, computed here from two figures in one infobox row. A DERIVATION and not a quotation."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE BEST-MEASURED RECORD IN THIS CLUSTER, and the one that answers the node's own founding claim with numbers: a walled atrio of 63.36 by 36.28 m used as an open-air nave, in front of a church whose single vaulted nave is 64.0 by 14.5 m. A Wikipedia file-description page read the same day adds a figure for the open chapel's vault -- '17.5 metros de ancho y más de 12 de altura' -- and it is NOT recorded as a measurement here because a file-description caption is not the article and the article's own capilla-abierta section was not returned by either extract."
+}

@@ -1,0 +1,49 @@
+{
+  "id": "rosecliff",
+  "name": "Rosecliff",
+  "aka": [
+    "Hermann Oelrichs House",
+    "J. Edgar Monroe House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1898-1902",
+    "circa": false,
+    "note": "The style node's exemplar gives 1902, the completion year; the Wikipedia infobox gives 'Built 1898-1902' and a Southern Methodist University photograph caption read the same day says 'built in 1899-1902'. The two start years disagree by one and neither is edited."
+  },
+  "nodes": [
+    "beaux-arts-american"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rosecliff",
+      "title": "Rosecliff - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the address as 548 Bellevue Avenue, the architect as 'Stanford White, McKim, Mead & White', and - worth carrying - the architectural style as 'French Baroque Revival', not Beaux-Arts."
+    },
+    {
+      "kind": "nrhp",
+      "id": "73000059",
+      "url": "https://en.wikipedia.org/wiki/Rosecliff",
+      "title": "NRHP reference No. 73000059; added February 6, 1973; contributing property of the Bellevue Avenue Historic District (ID72000023), as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "state-register",
+      "url": "https://preservation.ri.gov/sites/g/files/xkgbur406/files/pdfs_zips_downloads/national_pdfs/newport/newp_bellevue-avenue_rosecliff.pdf",
+      "title": "Rosecliff - National Register of Historic Places Inventory, Rhode Island Historical Preservation & Heritage Commission",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state commission's own copy of the Register nomination, indexed under 'Newport / Bellevue Avenue / Rosecliff'. Found by search; the PDF itself was not extracted, so nothing is quoted from it."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. Worth carrying: the National Register classifies Rosecliff as French Baroque Revival while this corpus files it under beaux-arts-american, and the style node's own note calls it 'after the Grand Trianon at Versailles'. Both readings are about the same building and the register's is the one a checker can cite."
+}

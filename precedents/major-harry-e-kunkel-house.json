@@ -1,0 +1,163 @@
+{
+  "id": "major-harry-e-kunkel-house",
+  "name": "Major Harry E. Kunkel House",
+  "aka": [
+    "Maj. Kunkel House"
+  ],
+  "location": {
+    "text": "1542 North McCadden Place, Los Angeles, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1910",
+    "circa": false,
+    "note": "The survey: 'Date of erection: 1910', 'Architect: Unknown'."
+  },
+  "nodes": [
+    "craftsman-bungalow",
+    "california-bungalow"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-2969",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca4500/ca4548/data/ca4548data.pdf",
+      "title": "MAJOR HARRY E. KUNKEL HOUSE HABS CA-2969 1542 North McCadden Place Los Angeles Los Angeles County California",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is read from the data page's own header and running heads ('MAJOR HARRY E. KUNKEL HOUSE HABS CA-2969 (Page 8)')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca4548",
+      "url": "https://www.loc.gov/pictures/item/ca4548",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page itself was not opened."
+    }
+  ],
+  "survey": {
+    "item": "ca4548",
+    "register": "loc-item",
+    "survey_no": "CA-2969",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca4500/ca4548/data/ca4548data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The character-defining features of the Maj. Kunkel House include the one-story height, rectangular plan, low pitched gabled roof and shed dormer with shallow overhanging eaves and exposed rafter tails, wood clapboard siding, recessed front porch, and wood casement windows.",
+        "page": "HABS CA-2969; the nearest marker legible in the extract, '(Page 7)', precedes this span"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Overall dimensions: The house is approximately 31' wide, 52' deep, and 15' tall.",
+        "page": "HABS CA-2969, Part II.B.1; between the '(Page 7)' and '(Page 8)' markers"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The foundation is concrete. The thickness varies to accommodate changes in grade.",
+        "page": "HABS CA-2969, Part II.B.2; same span"
+      },
+      {
+        "field": "walls",
+        "text": "3. Walls: The exterior walls are sheathed with wood clapboard that has been texture coated.",
+        "page": "HABS CA-2969, Part II.B.3; same span"
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system, framing: The house has a wood frame and floors. Interior bearing walls are 2\" by 4\" wood studs.",
+        "page": "HABS CA-2969, Part II.B.4; same span"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches, stoops, balconies, porticos, bulkheads: The front porch at the south end of the west façade is recessed. It is approached by a short flight of non-original brick and stone steps. The floor is stained wood plank, and the ceiling is wood beadboard. The square porch pillars are in their original locations but have been clad in non-original stone with brick caps. The square wood posts are original.",
+        "page": "HABS CA-2969, Part II.B.5; same span"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: There are no chimneys.",
+        "page": "HABS CA-2969, Part II.B.6; same span"
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows and shutters: Windows are distributed irregularly across all facades. Window openings are rectangular in shape, different in size, surrounded by plain MAJOR HARRY E. KUNKEL HOUSE HABS CA-2969 (Page 8) wood frames with lug sills, and filled with wood casements and sashes. Casement windows have vertical and horizontal wood muntins at the top and are found along the west, north, and south facades. Double hung sash windows are found on the east façade.",
+        "page": "HABS CA-2969 (Page 8); the running head falls inside the span and is quoted as printed"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering: The low pitched, side gabled roof is covered with non-original composition shingles. b. Cornice, eaves: The roof has overhanging eaves with exposed rafter tails and non-original knee braces.",
+        "page": "HABS CA-2969 (Page 8)"
+      },
+      {
+        "field": "dormers",
+        "text": "c. Dormers, cupolas, towers: There is a shed dormer centered on the west side of the roof. It has three windows and details like the main roof.",
+        "page": "HABS CA-2969 (Page 8)"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plans: The first and only floor is approximately 1,088 square feet and includes a living room, dining room, kitchen, utility room, two bedrooms, and one bathroom. 2. Stairways: None.",
+        "page": "HABS CA-2969 (Page 8), Part II.C"
+      },
+      {
+        "field": "other",
+        "text": "1. Date of erection: 1910 2. Architect: Unknown1",
+        "page": "HABS CA-2969, Part I.A; no page marker legible in that span of the extract"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approximately 31' wide",
+      "value": 31,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "52' deep",
+      "value": 52,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "overall_height_ft",
+      "as_printed": "15' tall",
+      "value": 15,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "one-story height",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "There are no chimneys.",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "A measured zero: the survey states the absence."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "a shed dormer centered on the west side of the roof",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 9
+    },
+    {
+      "name": "floor_area_sf",
+      "as_printed": "approximately 1,088 square feet",
+      "value": 1088,
+      "from_quote": 10,
+      "note": "Square feet; the schema's unit enum has no area unit, so none is given."
+    }
+  ],
+  "note": "A plain 1910 Los Angeles bungalow, added as a HABS-measured specimen the corpus can put a figure to: 31 x 52 ft, one storey, no chimney, 1,088 sq ft -- inside the node's own 24-28 ft width band only if the 31 ft is read as over the walls, and the survey does not say. The house is not on a register that was found; HABS recorded it. Seeded 4 Sep 2026. WP-11.3, Tranche 2 (5 Sep 2026): california-bungalow gained an exemplar naming this building, spelled exactly as this record spells it, and linked to it: a Los Angeles bungalow of 1910 is the Californian type in its own hearth, and the survey's 31 x 52 ft is the only measured envelope that node has."
+}

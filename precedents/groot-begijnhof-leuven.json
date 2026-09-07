@@ -1,0 +1,97 @@
+{
+  "id": "groot-begijnhof-leuven",
+  "name": "Groot Begijnhof",
+  "aka": [
+    "Groot Begijnhof van Leuven",
+    "Great Beguinage, Leuven"
+  ],
+  "location": {
+    "text": "Leuven, Belgium",
+    "country": "Belgium",
+    "state": "Vlaams-Brabant, Vlaanderen"
+  },
+  "dates": {
+    "built": "13th century, the standing houses largely 17th century",
+    "circa": true,
+    "altered": "Bought by KU Leuven in 1962 and restored between 1964 and 1989 under Professor Raymond M. Lemaire; the restoration of the Begijnhofkerkstraat houses was completed on 23 March 1990 under the engineer-architect Van Aerschot, as a plaque on the corner of number 13 records.",
+    "note": "The register says the built stock 'dateert ... grotendeels uit de 17de eeuw' and the node's exemplar note says 'largely 16th-17th century'. Individual houses carry dates: 1650 on a stone between numbers 11 and 12, 1662 on a Baroque gable stone at number 17, 1638 in burnt headers at number 19, 1639 in an inscription over numbers 26-27."
+  },
+  "nodes": [
+    "flemish-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "125415",
+      "url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/125415",
+      "title": "Groot Begijnhof | Inventaris Onroerend Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inventaris Onroerend Erfgoed object id. The register's own permanent identifier is https://id.erfgoed.net/erfgoedobjecten/125415, which its citation line prints."
+    },
+    {
+      "kind": "unesco",
+      "id": "855-011",
+      "url": "https://en.wikipedia.org/wiki/Great_Beguinage,_Leuven",
+      "title": "Great Beguinage, Leuven -- Flemish Béguinages, World Heritage reference 855-011",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the English Wikipedia infobox, which prints 'Part of Flemish Béguinages', 'Criteria Cultural: (ii), (iii), (iv)', 'Reference 855-011', 'Inscription 1998 (22nd Session)', 'Area 4.2 ha (10 acres)'. whc.unesco.org was not reached from this container. NOTE that the area disagrees with two other sources: the article's own body and a secondary site both say 'About 3 hectares'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.visitleuven.be/en/great-beguinage",
+      "title": "Great Beguinage | Visit Leuven",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The city's visitor body: 'The beguinage dates from the 13th century. The community had about 360 beguines in its heyday in the 17th century.' and 'The Great Beguinage, along with 12 other Flemish beguinages, was listed as UNESCO world heritage in 1998.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.kuleuven.be/erfgoed/gebouwen-en-monumenten/groot-begijnhof",
+      "title": "Groot Begijnhof — KU Leuven erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's heritage page, read in a search result: 'Het Groot Begijnhof telt nog een aantal huizen uit de zestiende eeuw – gebouwd in vakwerk met lemen vulling … opgetrokken in baksteen.' Timber frame with clay infill survives inside the brick, which the register's own text corroborates."
+    }
+  ],
+  "survey": {
+    "item": "125415",
+    "register": "state-register",
+    "data_url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/125415",
+    "prepared": "Agentschap Onroerend Erfgoed (the Flemish heritage agency), Inventaris Onroerend Erfgoed. This is the register's OWN descriptive text, read in an extract from the register's own site. The Flemish inventory is the richest heritage description this whole tranche found: it states bays, storeys, roof form, materials and gable type as a matter of course, in the way a HABS Part II does. The pages carry their own citation line -- 'Je kan deze pagina citeren als: INVENTARIS ONROEREND ERFGOED 2026' -- and name the printed inventory volume each text came from.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Zowel in de oudste kern als in de twee westelijke uitbreidingen dateert de bebouwing van het begijnhof grotendeels uit de 17de eeuw. Het straatbeeld wordt vooral bepaald door traditionele verankerde baksteenbouw met gebruik van kalkzandsteen voor deur- en vensterlijsten. Tal van gevels worden gekenmerkt door deuropeningen met gedrukte rondbogen, kruisvensters, een kroonlijst met muizentandfries en dakkapellen met een trapgeveltje. De dwarsgevels van de huizen zijn voornamelijk tuitgevels met vlechtingen. Enkele huizen bevatten nog muren in versteend vakwerk en overkragende verdiepingen.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 125415, section 'Beschrijving'. A register description is not paginated."
+      },
+      {
+        "field": "general_description",
+        "text": "De huizen aan de noordzijde van de Begijnhofkerkstraat (nummers 3-7) vormen een aaneengesloten geheel van een bouwlaag hoog onder zadeldak. De langsgevels worden doorbroken door hoge (kruis)vensters, rondbogige deuropeningen en dakkapellen (hout en leien). De huizen aan de zuidzijde van de straat (nrs. 8-13) zijn twee bouwlagen hoog, met houten voluutconsoles onder de uitsprong van het dak en dakkapellen met bakstenen trapgevels.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 125415, section 'Beschrijving', subsection 'Gebouwen tussen de Schapenstraat en de kleine Dijle'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count_north_side",
+      "as_printed": "een aaneengesloten geheel van een bouwlaag hoog onder zadeldak",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "ONE storey on the north side of the Begijnhofkerkstraat."
+    },
+    {
+      "name": "storey_count_south_side",
+      "as_printed": "(nrs. 8-13) zijn twee bouwlagen hoog",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "TWO on the south side of the same street. The pair is worth carrying together: the register states two different storey counts on the two sides of one lane, so any single 'storey count' for the type would be an average of a thing that varies house by house."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. THE REGISTER SUPPORTS THE NODE'S OWN EXPLANATION OF THE STONE AND NOT THE PICTURESQUE ONE. The node's prose says the alternating brick and stone is 'more honestly explained as a rationing system: the expensive material goes where it does the most work -- sills, jambs, arch voussoirs, string courses at the floor lines'. Here the register describes exactly that and does not describe banding at all: 'traditionele verankerde baksteenbouw met gebruik van kalkzandsteen voor deur- en vensterlijsten' -- brick, with limestone reserved for the door and window frames. It also corroborates the timber substrate: some walls are still 'versteend vakwerk' with jettied storeys, half-timber later filled in with masonry."
+}

@@ -1,0 +1,131 @@
+{
+  "id": "frederick-c-robie-house",
+  "name": "Frederick C. Robie House",
+  "aka": [
+    "Robie House"
+  ],
+  "location": {
+    "text": "Chicago, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1909",
+    "circa": false,
+    "note": "The style node's exemplar gives 1910 and says the house was designed 1908-09 and completed 1910; the Library of Congress's own HABS/HAER highlights page says it 'was completed in 1909'. Both are recorded and neither is edited to agree with the other."
+  },
+  "nodes": [
+    "prairie-school",
+    "american-arts-and-crafts"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IL-1005",
+      "title": "Frederick C. Robie House, 5757 Woodlawn Avenue, Chicago, Cook County, IL",
+      "url": "https://www.loc.gov/pictures/item/il0039",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's normalised survey number is IL-1005 (search result: 'Drawings from Survey HABS IL-1005'); the data page's own running header prints the older form, OCR'd as 'HABS No. ILL-1005' and once 'ILL-1O05'. The shelf number is HABS, ILL,16-CHIG,33-."
+    },
+    {
+      "kind": "loc-item",
+      "id": "il0039",
+      "url": "https://www.loc.gov/pictures/item/il0039",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/collection/hh/highlights.html",
+      "title": "HABS/HAER Highlights - Prints & Photographs Online Catalog (Library of Congress)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's own judgment, quoted: 'The Robie House has the distinction of being the most frequently requested structure in the HABS and HAER collections.' It is the page's chosen Illinois example, described as '1909 Prairie School suburban Chicago house by Frank Lloyd Wright'."
+    }
+  ],
+  "survey": {
+    "item": "il0039",
+    "register": "loc-item",
+    "survey_no": "IL-1005",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0000/il0039/data/il0039data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: The Robie House is one of the best known early works of Frank Hoyd Wright, It has been cited as a Landmark by the Commission on Chicago Archi-tectural Landmarks: \"In recognition of the creation of the Prairie House — a home organized around the great hearth where interior space, under wide sweeping roofs, opens to the outdoors. The bold interplay of horizontal planes about the chimney mass, and the structurally expressive piers and windows, established a new form of domestic design.\"",
+        "page": "HABS No. IL-1005, Part II.A.1; no page marker was legible in this extract span. The nearest marker anywhere in the extract reads 'FREDERICK C. R0B2E HOUSE HABS No. ILL-1O05 (Page 14)', several fields later."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: Asymmetrical plan; 154'-9\" x 6O'-0\"; concrete footings below grade. No foundation wall. Two stories above raised basement.",
+        "page": "HABS No. IL-1005, Part II.B.1; no page marker legible in this span, which precedes the '(Page 14)' marker."
+      },
+      {
+        "field": "walls",
+        "text": "Exterior walls are 2\" x 12\" reddish-orange, brick, now with flush grey mortar joints. Capstones, lintels, sills, water table, etc., are of light grey stone resembling sandstone.",
+        "page": "HABS No. IL-1005, Part II.B.2; no page marker legible in this span."
+      },
+      {
+        "field": "structural_system",
+        "text": "3. Structural system: The principal spanning members are\" . steel ITs and channels The exterior decks are reinforced concrete supported on steel; the interior floors are-wood joist construction bearing on steel.",
+        "page": "HABS No. IL-1005, Part II.B.3; no page marker legible in this span. The sentence that follows it in the document ('The wide projecting eaves are framed,with principal members of steel with wood rafters resting on the steel') falls in a different extract chunk and is NOT quoted here, because a quote may not straddle two spans."
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: The chimneys and the fireplaces are of the same brick as the exterior walls. No firebrick is used on the interior surfaces of the fireplaces.",
+        "page": "HABS No. IL-1005 (Page 14) -- the marker printed immediately before this field in the extract."
+      },
+      {
+        "field": "openings",
+        "text": "b, Windows: Stiles and rails are of softwood. Exterior wood stops replace putty for holding glass in place. Most of the glass in each window is clear, fitted into a pattern created by the cames. Small panes of colored glass are used to highlight the pattern. Narrow pairs of french doors open almost all of the south wall of the living room and dining room to the balcony. The rest of the sash are casements, also swinging outward.",
+        "page": "HABS No. IL-1005, Part II.B.6.b; the nearest preceding marker in the extract is '(Page 14)'."
+      },
+      {
+        "field": "roof",
+        "text": "7. Roof: a. Shape, covering: Hip roofs with low pitch and deep overhangs; the present roofing material is red clay tile with a lip",
+        "page": "HABS No. IL-1005, Part II.B.7.a; the extract's chunk ends mid-sentence at 'with a lip' and the quote is cut there rather than completed from a second span."
+      },
+      {
+        "field": "plan",
+        "text": "b. First floor: Living room and dining room occupy the west and east portions of the principal volume, with the chimney and the stairway from the basement sepa-rating the two spaces. A high opening in the chimney allows one to look from one space to another, and one can walk from one room to the other by passing either aide of the fireplace. At the west, a porch extends the house under the wide projection of the roof.",
+        "page": "HABS No, ILL-1005 (Page 15) -- the marker printed immediately before this field in the extract."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "154'-9\"",
+      "value": 154.75,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The first figure printed. The survey does not say which dimension is the front; the house's long axis is in fact its street front, but that is a reading and the survey does not state it."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "6O'-0\"",
+      "value": 60.0,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "OCR prints a capital letter O for the first zero."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two stories above raised basement.",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "brick_course_height_in",
+      "as_printed": "2\" x 12\"",
+      "value": 2,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "Roman brick, two inches high by twelve inches long. The value carries the course height only, because that is the figure a belt-course or sill rule would read."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. Two things in this survey speak to prairie-school's own kit. The roof is recorded as 'Hip roofs with low pitch and deep overhangs', which is the node's own hipped 3:12-4:12 rule in words and gives no number, so it agrees without confirming. And the structural system is STEEL -- 'principal spanning members are steel ITs and channels', the eaves 'framed,with principal members of steel with wood rafters resting on the steel' -- which is not a fact any slot in this corpus currently carries, and it is what the cantilevered roof plane the style is known for actually rests on."
+}

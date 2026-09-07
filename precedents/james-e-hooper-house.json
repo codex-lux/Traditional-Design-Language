@@ -1,0 +1,54 @@
+{
+  "id": "james-e-hooper-house",
+  "name": "James E. Hooper House",
+  "location": {
+    "text": "Baltimore, Maryland",
+    "country": "United States",
+    "state": "Maryland"
+  },
+  "dates": {
+    "built": "1886",
+    "circa": false,
+    "note": "The Maryland Historical Trust's listing gives 'Period/Date of Construction: 1886'; the nomination's own description summary says the house 'was erected in the late 1880s' and its significance statement says 'for whom the house was erected in 1886'. The two are the same document disagreeing with itself by a few years and neither is edited. The Trust prints the architect with a question mark of its own: 'Architect: Charles L. Carson?; Builder: Benjamin Franklin Bennett'."
+  },
+  "nodes": [
+    "queen-anne-patterned-masonry"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "82004746",
+      "url": "https://en.wikipedia.org/wiki/James_E._Hooper_House",
+      "title": "NRHP reference No. 82004746; added to NRHP March 15, 1982 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database; the Maryland Historical Trust's own page gives the same listing date."
+    },
+    {
+      "kind": "state-register",
+      "id": "B-3611",
+      "url": "https://apps.mht.maryland.gov/nr/NRDetail.aspx?NRID=667",
+      "title": "James E. Hooper House, Inventory No. B-3611 -- Maryland's National Register Properties (Maryland Historical Trust)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own line: 'Date Listed: 3/15/1982 Location: 100 E. 23rd Street & Saint Paul Street (NE corner), Baltimore, Baltimore City Category: Building Period/Date of Construction: 1886'."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/7643c236-18a5-46af-ac2b-509cda3e5782",
+      "title": "National Register of Historic Places Inventory Nomination Form -- James E. Hooper house, Baltimore city, Maryland (B-3611)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its DESCRIPTION SUMMARY: 'The James E. Hooper house is a large-scale free-standing Queen Anne influenced brick structure that was erected in the late 1880s and is characterized by an irregularity of plan and massing, small scale classical decorative detailing on both the interior and exterior, multiple steeply pitched roofs, and a somber colored masonry exterior of red brick with dark stone decoration.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/James_E._Hooper_House",
+      "title": "James E. Hooper House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'It is constructed of dark red bricks with terra cotta, brownstone, and granite trim. The exterior features a slate shingle roof, and a square oriel, three bays wide and one bay deep, made of wood, and painted green.'"
+    }
+  ],
+  "note": "The nomination states this node's rarity claim as a fact about a city: a free-standing masonry Queen Anne 'embodies the distinctive characteristics of a type and method of construction not commonly found in inner-city Baltimore where the rowhouse is the dominent type', while 'Blocks of Queen Anne influenced masonry rowhouses do exist in great numbers'. That is worth carrying against `queen-anne-patterned-masonry`'s own prose, which calls the subtype 'the smallest of the American Queen Anne subtypes' without distinguishing the free-standing house from the row. No HABS record was found for this building. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

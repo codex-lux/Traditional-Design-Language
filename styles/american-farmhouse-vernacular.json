@@ -237,25 +237,55 @@
       "name": "American Gothic House (Dibble House)",
       "location": "300 American Gothic Street, Eldon, Iowa",
       "year": 1882,
-      "note": "Built 1881-82 by local carpenters Bussy and Herald; 504 square feet, board-and-batten, with two catalogue Gothic windows in the gable as the building's entire ornamental content. The specimen case for 'whatever the mill offered'. National Register 1974."
+      "note": "Built 1881-82 by local carpenters Bussy and Herald; 504 square feet, board-and-batten, with two catalogue Gothic windows in the gable as the building's entire ornamental content. The specimen case for 'whatever the mill offered'. National Register 1974.",
+      "precedent": "american-gothic-house",
+      "standing": "icon",
+      "why": "The node's own prose calls it 'the perfect specimen precisely because it is a plain board-and-batten farmhouse with a single pointed Gothic window in the gable', and Wikipedia records the 504 sq ft and the local carpenters behind it."
     },
     {
       "name": "Jarrell Plantation farmhouse",
       "location": "711 Jarrell Plantation Road, Juliette, Jones County, Georgia",
       "year": 1847,
-      "note": "Plain-style Georgia piedmont farmhouse of heart pine, with a second 1895 house on the same site by the next generation - two dated points on the same vernacular line. Georgia state historic site; National Register 1973."
+      "note": "Plain-style Georgia piedmont farmhouse of heart pine, with a second 1895 house on the same site by the next generation - two dated points on the same vernacular line. Georgia state historic site; National Register 1973.",
+      "precedent": "jarrell-plantation-farmhouse",
+      "standing": "regional",
+      "why": "The Georgia piedmont's 'simple heart-pine house typical of most plantations' in the state's own words (Digital Library of Georgia), and the node's two dated points on one vernacular line."
     },
     {
       "name": "Seeley Farmhouse",
       "location": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
       "year": 1850,
-      "note": "L-shaped, with a two-storey pedimented centre and one-and-a-half-storey flanking wings; the transitional case where the Greek Revival trim discipline is fading into plain farmhouse practice. National Register 1978."
+      "note": "L-shaped, with a two-storey pedimented centre and one-and-a-half-storey flanking wings; the transitional case where the Greek Revival trim discipline is fading into plain farmhouse practice. National Register 1978.",
+      "precedent": "seeley-farmhouse",
+      "standing": "documentary",
+      "why": "The node's own transitional case between Greek Revival trim and plain farmhouse practice, held here by a single register row (May 23, 1978, #78001909) and nothing else read."
     },
     {
       "name": "Levi Coffin House",
       "location": "113 U.S. 27, Fountain City, Wayne County, Indiana",
       "year": 1839,
-      "note": "A brick I-house with a two-storey rear wing - the prosperous, disciplined end of the farmhouse spectrum, built by Quaker emigrants and reduced to trim-only classicism. National Historic Landmark."
+      "note": "A brick I-house with a two-storey rear wing - the prosperous, disciplined end of the farmhouse spectrum, built by Quaker emigrants and reduced to trim-only classicism. National Historic Landmark.",
+      "precedent": "levi-coffin-house",
+      "standing": "canonical",
+      "why": "The brick I-house the node names as 'the prosperous, disciplined end of the farmhouse spectrum', with ten HABS measured sheets (IN-79) that a later pass can take the type's dimensions from."
+    },
+    {
+      "name": "Harry S. Truman Farm Home",
+      "location": "Grandview, Jackson County, Missouri",
+      "year": 1894,
+      "note": "The Young family's frame farmhouse of 1894-95, built after the 1867 house burned, where Truman farmed from 1906 to 1917. A plain Missouri farmhouse of the railroad-catalogue decades, drawn by HABS in twelve sheets (MO-1937). National Historic Landmark district 1985.",
+      "precedent": "harry-s-truman-farm-home",
+      "standing": "documentary",
+      "why": "Twelve HABS measured sheets exist for it (Wikipedia's external links, MO-1937), which makes it the node's best-drawn plain farmhouse of the 1890s, whatever its other fame."
+    },
+    {
+      "name": "Herbert Hoover Birthplace Cottage",
+      "location": "West Branch, Cedar County, Iowa",
+      "year": 1871,
+      "note": "A two-room board-and-batten cottage of about 1871, 20 ft 4 in by 20 ft 10 in over its rear porch on the 1983 HABS data form, with a one-bay shed-roofed front porch; moved in the 1880s, put back and restored in the 1930s. The bottom of the farmhouse spectrum, measured.",
+      "precedent": "herbert-hoover-birthplace-cottage",
+      "standing": "documentary",
+      "why": "The HABS data form (IA-21) calls it 'an example of vernacular construction' and states its plan dimensions, which the node's other plain examples do not have."
     }
   ],
   "sources": [

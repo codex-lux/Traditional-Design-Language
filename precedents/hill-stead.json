@@ -1,0 +1,126 @@
+{
+  "id": "hill-stead",
+  "name": "Hill-Stead",
+  "aka": [
+    "Hill–Stead Museum"
+  ],
+  "location": {
+    "text": "Farmington, Connecticut",
+    "country": "United States",
+    "state": "Connecticut"
+  },
+  "dates": {
+    "built": "1901",
+    "circa": false,
+    "altered": "The survey records the stables reconstructed after a 1908 fire in the barns and Theodate Pope's 1917 renovation adding the Makeshift Theater.",
+    "note": "Wikipedia: 'built in 1901'; the node's year is 1901; the survey mentions 'the original barn as constructed in 1899' and the McKim, Mead & White plan."
+  },
+  "nodes": [
+    "colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CT-472",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0600/ct0689/data/ct0689data.pdf",
+      "title": "Hill-Stead, 35 Mountain Road, Farmington, Hartford County, CT",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's running head ('HILL-STEAD HABS No. CT-472 (Page 92)'); the farm complex is CT-472-B (item ct0701), found by the same search."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ct0689",
+      "url": "https://www.loc.gov/pictures/item/ct0689",
+      "title": "Hill-Stead, 35 Mountain Road, Farmington, Hartford County, CT",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item page summary read 'pdf version of data pages [1.6mb]' and its abstract names McKim, Mead & White and Warren Manning."
+    },
+    {
+      "kind": "nrhp",
+      "id": "91002056",
+      "url": "https://en.wikipedia.org/wiki/Hill%E2%80%93Stead_Museum",
+      "title": "NRHP reference No. 91002056; added to NRHP and designated NHL July 17, 1991; contributing to Farmington Historic District (ID72001331) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building. The Wikipedia lists of NHLs in Connecticut and of NRHP listings in Hartford County, read the same day, print the same number."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hill%E2%80%93Stead_Museum",
+      "title": "Hill–Stead Museum - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'designated a National Historic Landmark as a nationally significant example of Colonial Revival architecture, built in 1901 to designs that were the result of a unique collaboration between Theodate Pope Riddle ... ' (the sentence is cut in the extract)."
+    }
+  ],
+  "survey": {
+    "item": "ct0689",
+    "register": "loc-item",
+    "survey_no": "CT-472",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0600/ct0689/data/ct0689data.pdf",
+    "prepared": "Not legible in the extract spans; the Library's item record for the farm complex names Lisa Pfueller Davidson (HABS) and James W. Rosenthal, photographer, with the Hill-Stead Museum as sponsor",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Description of Exterior: 1. Overall dimensions: Hill-Stead rises two-and-one-half stories above a basement. Wings extend from three sides of the main block, and these drop to a height of one-and-a- half stories. The building's height drops again in the transition to the attached outbuildings. The open garage, which joins the mansion house to the attached carriage barn is only a single story in height, though the high pitch of its gabled roof increases its vertical effect. The attached carriage barn again rises to two stories in height but drops to a single story in the abutting garage. The attached barn has a basement separate from that of the main house. The massing of the mansion house complex can be understood in terms of three sections joined perpendicularly.",
+        "page": "HABS No. CT-472; the marker '(Page 92)' falls in the sentence that follows"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The house and attached outbuildings are set on stone foundations. The red sandstone foundations of the main house consist of neatly-aligned courses of large rectangular stone blocks (at most points two",
+        "page": "HABS No. CT-472 (Page 92); the span is cut mid-sentence by the extractor"
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system, framing: Hill-Stead is a wood-frame house on a stone foundation that also makes strategic use of structural metal. In addition to stone foundation walls and brick or stone interior walls throughout the basement, there are several rows of six inch round metal posts providing additional support in more open areas. I-beams are also visible in several areas of the ceiling. The wood-frame walls rest on four by eight inch wood sills capping the stone foundation.",
+        "page": "HABS No. CT-472 (Page 93)"
+      },
+      {
+        "field": "porches",
+        "text": "protruding bays, as well as of the grand front portico, is a decorative balustrade in a Chinese Chippendale-inspired pattern.",
+        "page": "HABS No. CT-472 (Page 93); the span begins mid-sentence"
+      },
+      {
+        "field": "openings",
+        "text": "The most elaborate surround is found on the main door at the center of grand portico. Here the door is flanked by six over six wood sash windows, each with a louvered shutter on the outer edge. The door and windows are set into rectangular recess approximately two feet deep and framed by a wide entablature and Doric pilasters.",
+        "page": "HABS No. CT-472, Part II.B.7.a; no page marker in the span"
+      },
+      {
+        "field": "dormers",
+        "text": "This pedimented gable dormer is in line with the main entrance and included a partially glazed door flanked by sidelights and pilasters. This door provides access to the balcony on top of the grand portico.",
+        "page": "HABS No. CT-472, dormers; no page marker in the span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two-and-one-half stories above a basement",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Main block; the wings are one-and-a-half."
+    },
+    {
+      "name": "wall_sill_depth_in",
+      "as_printed": "four by eight inch wood sills",
+      "value": 8,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "A 4 x 8 in sill; the 8 is recorded."
+    },
+    {
+      "name": "entrance_recess_ft",
+      "as_printed": "rectangular recess approximately two feet deep",
+      "value": 2,
+      "unit": "ft",
+      "from_quote": 4,
+      "note": "The main door's recess behind the portico."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A modern (2000s) survey with 90-odd data pages -- the running heads read (Page 92) and (Page 93) -- of which the extractor returned the exterior description's opening, the structure, the entrance and one dormer. The roof, cornice, chimney and plan sections exist and were not reached; three passes were made."
+}

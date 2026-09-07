@@ -214,25 +214,64 @@
       "name": "Syon House interiors",
       "location": "Isleworth, London, England",
       "year": 1769,
-      "note": "Remodelled 1762-69 for the first Duke of Northumberland inside a Jacobean shell. The Ante-Room with its twelve verd-antique columns from the Tiber and the apsed Long Gallery are the fullest demonstration of Adam's spatial doctrine."
+      "note": "Remodelled 1762-69 for the first Duke of Northumberland inside a Jacobean shell. The Ante-Room with its twelve verd-antique columns from the Tiber and the apsed Long Gallery are the fullest demonstration of Adam's spatial doctrine.",
+      "precedent": "syon-house-interiors",
+      "standing": "icon",
+      "why": "The scheme this node is argued from, and the standing rests entirely on the node's own literature: Historic England's entry for Syon House describes a three-storey Jacobethan hollow square and mentions the Adam interiors only to record that two statues in the Ante-Room were destroyed by war damage."
     },
     {
       "name": "Osterley Park",
       "location": "Isleworth, London, England",
       "year": 1780,
-      "note": "Remodelled 1761-80 for the Child banking family, again around an Elizabethan core. The Etruscan Dressing Room, painted throughout in the antique grotesque manner, is the most complete surviving Adam interior scheme."
+      "note": "Remodelled 1761-80 for the Child banking family, again around an Elizabethan core. The Etruscan Dressing Room, painted throughout in the antique grotesque manner, is the most complete surviving Adam interior scheme.",
+      "precedent": "osterley-park",
+      "standing": "icon",
+      "why": "Historic England's park register states the one planning fact this node needs -- the Ionic portico gives on to state rooms at first-floor level because the courtyard itself is raised -- and the completeness of the interior scheme, which is why this corpus names it, is the National Trust's and this corpus's judgment rather than the register's."
     },
     {
-      "name": "Kedleston Hall, Marble Hall and Saloon",
+      "name": "Kedleston Hall",
       "location": "Derbyshire, England",
       "year": 1765,
-      "note": "Adam took over from Matthew Brettingham and James Paine in 1760 and completed the south front and principal interiors 1759-65, including a triumphal-arch south elevation and a domed rotunda saloon."
+      "note": "Adam took over from Matthew Brettingham and James Paine in 1760 and completed the south front and principal interiors 1759-65, including a triumphal-arch south elevation and a domed rotunda saloon.",
+      "precedent": "kedleston-hall",
+      "standing": "canonical",
+      "why": "The only room in this cluster the register states in three dimensions -- the Marble Hall 'about 67ft by 37ft, and 40ft high (taking in the attic storey)' -- so it is the one Adam interior whose figures this node's kit can be held against."
     },
     {
       "name": "Home House, 20 Portman Square",
       "location": "Marylebone, London, England",
       "year": 1777,
-      "note": "Built 1773-77 for Elizabeth, Countess of Home. A town house whose top-lit oval staircase and sequence of shaped rooms show what Adam could do within a terrace plot."
+      "note": "Built 1773-77 for Elizabeth, Countess of Home. A town house whose top-lit oval staircase and sequence of shaped rooms show what Adam could do within a terrace plot.",
+      "precedent": "home-house-20-portman-square",
+      "standing": "canonical",
+      "why": "The list entry states the terrace-plot constraint this node otherwise has no specimen for -- five windows wide, the door in the second bay from the right, the elevation composed with No. 21 next door -- and calls the interior 'a typically inventive Adam use of varied apsidal and screened volumes'."
+    },
+    {
+      "name": "Kenwood House",
+      "location": "Hampstead, London, England",
+      "year": 1779,
+      "note": "Remodelled c.1764-79 by Robert and James Adam around a house of about 1616: the south front raised by a storey and given pilasters of Adam's own invention, the north entrance portico added, and the library with anteroom built to the east.",
+      "precedent": "kenwood-house",
+      "standing": "icon",
+      "why": "Its list entry was rewritten in the modern format in 2020 and is by far the fullest in this cluster, counting every front; it also states this node's own subject without using its vocabulary -- 'Pilasters of Adam's own invention rise through the first and second floors' is a register calling the order non-canonical."
+    },
+    {
+      "name": "Culzean Castle",
+      "location": "Maybole, South Ayrshire, Scotland",
+      "year": 1792,
+      "note": "Adam's cliff-top castellated house for the tenth Earl of Cassillis, dated 1777-1812 by Historic Environment Scotland: two to four storeys of polished ashlar with battered bases, machicolated string courses and a drum tower to the north, and inside a central oval staircase lit by a cupola.",
+      "precedent": "culzean-castle",
+      "standing": "regional",
+      "why": "The Scottish half of this node's own stated hearth, and regional rather than iconic because it is Adam's castellated manner, which none of this node's kit -- attenuated columns, 5-15 mm ornament relief, cornices cut by a third -- describes."
+    },
+    {
+      "name": "Charlotte Square, north side",
+      "location": "Edinburgh, Scotland",
+      "year": 1805,
+      "note": "Adam's palace-front terrace of 1791, executed 1793-1805 after his death: a symmetrical 27-bay block of eleven houses, three storeys over a rock-faced basement in polished cream sandstone, nine houses entered from the front and two from the ends.",
+      "precedent": "charlotte-square-north-side",
+      "standing": "regional",
+      "why": "The Edinburgh half of this node's stated hearth and the only urban composition in its exemplars; regional rather than canonical because it is a designed terrace front over houses other men built, which is a different problem from the villa and the town mansion the rest of this node's kit is drawn from."
     }
   ],
   "sources": [

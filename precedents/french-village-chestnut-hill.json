@@ -1,0 +1,64 @@
+{
+  "id": "french-village-chestnut-hill",
+  "name": "French Village",
+  "location": {
+    "text": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1925-1928",
+    "circa": false,
+    "altered": "Listed on the Philadelphia Register of Historic Places as the French Village Historic District, by a unanimous vote in November 2021 according to a local account read the same day.",
+    "note": "The three style nodes that name it give 1928 with notes reading '1925-1928', '1925-28' and '1925-28'. A local architecture group's post read the same day says 'French Village is comprised of 24 homes designed between 1924 and 1929', which widens the range at both ends; the local newspaper's article on the historic designation says the district holds 24 properties. Both ranges are recorded and neither is edited."
+  },
+  "nodes": [
+    "french-eclectic",
+    "french-normandy-revival",
+    "cotswold-cottage-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/PA-02-PH187",
+      "title": "French Village - SAH Archipedia (Society of Architectural Historians)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The scholarly entry, id PA-02-PH187. Its opening reads 'A cluster of local stone houses by Horace Trumbauer-trained McGoodwin, unified by high French roofs and rough but lively carving, establishes the identity ...' - the sentence is cut where the search result ends. SAH Archipedia is egress-blocked from this container (`oq/fetching-through-a-tier-the-proxy-denies`), so the entry itself was not opened and nothing further is quoted from it."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.chestnuthilllocal.com/stories/mt-airys-french-village-is-on-track-for-historic-designation,20157",
+      "title": "Mt. Airy's French Village is on track for historic designation - Chestnut Hill Local",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States that 415 Gate Lane is one of the 24 properties within the French Village Historic District."
+    },
+    {
+      "kind": "other",
+      "url": "https://whyy.org/articles/look-french-village-mt-airy",
+      "title": "Look Up! The French Village in Mt. Airy - WHYY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Names Edmund Gilchrist as well as McGoodwin for the Gate Lane houses, which the style nodes do not: all three of this corpus's exemplar notes credit McGoodwin alone."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.philadelphiabuildings.org/pab/app/ar_display_projects.cfm/27083",
+      "title": "McGoodwin, Robert Rodes (1886 - 1967) -- project list, Philadelphia Architects and Buildings",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Athenaeum of Philadelphia's project index locates it as 'French Village, housing development, W ALLENS LN near ELBOW LN, and EMLEN ST' and cites 'Athenaeum of Philadelphia - Chestnut Hill Historic District Files, 142:63'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "85001334",
+      "url": "https://en.wikipedia.org/wiki/Chestnut_Hill_Historic_District_(Philadelphia)",
+      "title": "Chestnut Hill Historic District, NRHP reference No. 85001334, added June 20, 1985; nomination compiled 1984-85 by Jefferson M. Moak",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing covering 1,920 acres, not an identity for this group; recorded because it is the federal listing the village sits inside, and flagged here so no reader takes the number for the village's own."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. THIS BUILDING GROUP IS NAMED BY THREE OF THE CLUSTER'S FIVE NODES - french-eclectic, french-normandy-revival and cotswold-cottage-revival - all with the identical location string, which is why it is one record and not three. That it can stand for the French suburban mode, the Norman variant and the English cottage variant at once is a fact about the corpus's own taxonomy worth someone's attention: either the village really is that various, or three nodes are leaning on one development because nothing else in the American record does the job. It is a development rather than a building, so no dimensions are recorded and none should be."
+}

@@ -1,0 +1,104 @@
+{
+  "id": "miles-brewton-house",
+  "name": "Miles Brewton House",
+  "aka": [
+    "Pringle House",
+    "Brewton-Motte House"
+  ],
+  "location": {
+    "text": "27 King Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "ca. 1765-1769",
+    "circa": true,
+    "note": "The SC register says 'ca. 1765-1769'; the 1930s survey sheet says 'built by Miles Brewton about 1765' (OCR 'l 7b5'); the Wikipedia infobox prints 1765 and its text 'c. 1765–1769'; the node's exemplar says 1769 and names Ezra Waite. Recorded as the state register states it."
+  },
+  "nodes": [
+    "charleston-georgian",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-78",
+      "url": "https://www.loc.gov/item/sc0262",
+      "title": "Miles Brewton House, 27 King Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The photos resource page reads 'Photos from Survey HABS SC-78' and the survey number is printed in the data page's own header ('HABS No. SC-78 Page 1'). The dependencies are separate items: carriage house SC-78-A (sc0399), kitchen SC-78-B (sc0400), slave quarters SC-78-C (sc0401)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0262",
+      "url": "https://www.loc.gov/item/sc0262",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/item/2017889226",
+      "title": "Miles Brewton House, Charleston, Charleston County, South Carolina",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Frances Benjamin Johnston's 1937 photograph in the Carnegie Survey of the Architecture of the South (the search hit reads 'Building/structure dates: ca. 1765')."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Miles_Brewton_House",
+      "title": "Miles Brewton House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000699",
+      "url": "https://en.wikipedia.org/wiki/Miles_Brewton_House",
+      "title": "NRHP reference No. 66000699; added October 15, 1966; designated NHL October 9, 1960; contributing to the Charleston Historic District (ID66000964) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710002",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710002/index.htm",
+      "title": "Miles Brewton House - SCDAH - South Carolina",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The Miles Brewton House (ca. 1765-1769) is one of the most distinguished town houses of the American colonial period, and the most outstanding of' (the search snippet ends there)."
+    }
+  ],
+  "survey": {
+    "item": "sc0262",
+    "register": "loc-item",
+    "survey_no": "SC-78",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0200/sc0262/data/sc0262data.pdf",
+    "prepared": "'Prepared and Survey Headquarters for Samuel Lapham, Jr., Dist. Officer, 42 Broad Street, Charleston, South Carolina' (as the 1930s sheet reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Historical Data: HABS No. SC-78 Page 1 HA.BS SC, 10-CHAR, 5-The fine house built by Miles :Brewton about l 7b5 is known today as the Pringle House on King Street. It is a square 11double house\", has fine iron fence, double gateway, portico very handsome, two tiers of stone pillars are im-pressive. ~aneling, ceilings, cornices, mantel-pieces and other details are noticeably fine examples of their period.",
+        "page": "HABS No. SC-78 Page 1 -- the marker falls inside the span, as quoted"
+      },
+      {
+        "field": "significance",
+        "text": "It was doubted by some that Ezra Waite did the architecture and conducted the execution thereof. Therefore, Mr. Waite made a public announcement to the effect that he did the work and offered \"One Hundred Guineas\" to anyone who could prove to the contrary. It was never known whether the 110ne Hundred Guineas 11 were ever claimed .• The Gardens originally extended through to Legare Street. Mr. Brewton did not long enjoy his new home for he, his wife and children were all lost at sea in 1775 on their way to Philadelphia and the property passed to his sisters, Mrs. Pinckney and Mrs. Motte. After the capture of Charleston, this house was used as the :British headquarters and occupied by Sir Henry Clinton,",
+        "page": "HABS No. SC-78, Page 1 continuing; no further page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_tiers",
+      "as_printed": "portico very handsome, two tiers of stone pillars",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two tiers; the node's exemplar names them Doric below Ionic, which the survey does not."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-georgian node already carried were kept exactly. The 1930s survey sheet is historical data with one descriptive sentence and no dimensions; the item's photographs and the three dependency records are where the measurements would come from."
+}

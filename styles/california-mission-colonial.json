@@ -201,25 +201,55 @@
       "name": "Mission San Luis Rey de Francia",
       "location": "Oceanside, California",
       "year": 1798,
-      "note": "Founded 1798; the surviving cruciform church of 1811–15 and the largest of the mission quadrangles, sometimes called the King of the Missions."
+      "note": "Founded 1798; the surviving cruciform church of 1811–15 and the largest of the mission quadrangles, sometimes called the King of the Missions.",
+      "precedent": "mission-san-luis-rey-de-francia",
+      "standing": "icon",
+      "why": "The survey's own comparison sets it above the rest -- the quadrangle was 'upon a larger scale snc more pretent-ious than any of the others except possibly that at Capis-trano' -- which is the surveyor stating in 1930s prose what the King of the Missions name has always meant."
     },
     {
       "name": "Mission Santa Barbara church",
       "location": "Santa Barbara, California",
       "year": 1820,
-      "note": "Built 1815–20 by master mason José Antonio Ramírez after the 1812 earthquake destroyed the adobe predecessor. Twin campaniles flanking a temple front with engaged Ionic columns, in rough-hewn stone with crude joints; second tower 1831–33, both rebuilt after the 1925 earthquake, facade reconstructed 1950–53."
+      "note": "Built 1815–20 by master mason José Antonio Ramírez after the 1812 earthquake destroyed the adobe predecessor. Twin campaniles flanking a temple front with engaged Ionic columns, in rough-hewn stone with crude joints; second tower 1831–33, both rebuilt after the 1925 earthquake, facade reconstructed 1950–53.",
+      "precedent": "mission-santa-barbara",
+      "standing": "icon",
+      "why": "The one mission front with a full classical temple face and paired towers, and the survey confirms the material the node's prose depends on: 'Walls of church and the towers were built of yellow sandstone.'"
     },
     {
       "name": "Serra Chapel, Mission San Juan Capistrano",
       "location": "San Juan Capistrano, California",
       "year": 1782,
-      "note": "The oldest standing building in California and the only surviving church in which Junípero Serra is known to have said Mass; the adjoining Great Stone Church of 1806 collapsed in the 1812 earthquake and stands as a ruin."
+      "note": "The oldest standing building in California and the only surviving church in which Junípero Serra is known to have said Mass; the adjoining Great Stone Church of 1806 collapsed in the 1812 earthquake and stands as a ruin.",
+      "precedent": "serra-chapel-mission-san-juan-capistrano",
+      "standing": "canonical",
+      "why": "Documented in the mission-wide HABS report and separately as HABS CA-331-B, which is as close to a type specimen as the earliest surviving fabric gets -- though that same report warns that 'Serra's church has been much changed from the original design.'"
     },
     {
       "name": "Mission San Gabriel Arcángel",
       "location": "San Gabriel, California",
       "year": 1805,
-      "note": "Church completed 1805 with buttressed side walls and a detached campanario of six bells — the pierced bell wall in its clearest form."
+      "note": "Church completed 1805 with buttressed side walls and a detached campanario of six bells — the pierced bell wall in its clearest form.",
+      "precedent": "mission-san-gabriel-arcangel",
+      "standing": "canonical",
+      "why": "The only building in this node whose survey states dimensions -- church walls 4 to 5 ft thick rising 27 ft 6 in to 30 ft 2 in, convento walls of adobe brick 14 ft 2 in high -- so it is the one specimen the node's own figures can actually be held against."
+    },
+    {
+      "name": "Mission San Carlos Borromeo",
+      "location": "Carmel-by-the-Sea, California",
+      "year": 1797,
+      "note": "The stone church begun under Lasuén in 1793 and completed in 1797, with a catenary vault and a Moorish-detailed front -- one of the few mission churches built of stone rather than adobe. A National Historic Landmark since 1960 and a minor basilica since 1961. The HABS item holds photographs and drawings and its data file is a cover sheet with no written description.",
+      "precedent": "mission-san-carlos-borromeo",
+      "standing": "icon",
+      "why": "Serra's own mission and his burial place, designated a National Historic Landmark in 1960 -- the National Park Service's own page calls it 'the second of Spain's missions' in Alta California and the church visitors go to see."
+    },
+    {
+      "name": "Mission La Purísima Concepción",
+      "location": "Lompoc, California",
+      "year": null,
+      "note": "The mission moved to its present site after the 1812 earthquake; the survey will fix no completion year, saying only that the structures there were 'built 1812 to possibly 1830'. Largely reconstructed in the 1930s in the original materials with concrete foundations and concrete columns and bond beams built into the adobe walls, and now a state historic park. No year is given here because the survey gives none.",
+      "precedent": "mission-la-purisima-concepcion",
+      "standing": "documentary",
+      "why": "State-owned, surveyed, and the one mission where the record says plainly which fabric is original and which is reconstruction -- useful to measure precisely because it is not asked to be admired as untouched."
     }
   ],
   "sources": [

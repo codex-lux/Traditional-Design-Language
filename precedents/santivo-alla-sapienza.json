@@ -1,0 +1,84 @@
+{
+  "id": "santivo-alla-sapienza",
+  "name": "Sant'Ivo alla Sapienza",
+  "aka": [
+    "Chiesa di Sant'Ivo alla Sapienza",
+    "S.Ivo alla Sapienza"
+  ],
+  "location": {
+    "text": "Corso del Rinascimento, Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "1642-1660",
+    "circa": false,
+    "note": "Roma Capitale's record: 'The church was erected, between 1642 and 1660'. The node's exemplar note gives the same span."
+  },
+  "nodes": [
+    "italian-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.turismoroma.it/en/places/church-santivo-alla-sapienza",
+      "title": "The Church of Sant'Ivo alla Sapienza | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Roma Capitale's own monument record, English version."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.turismoroma.it/it/luoghi/chiesa-di-santivo-alla-sapienza",
+      "title": "Chiesa di Sant'Ivo alla Sapienza | Turismo Roma",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Italian version of the same record, which states the plan figure the English version does not: 'La pianta centralizzata, mistilinea, disegna una sorta di stella a sei punte, e le mura ne ricalcano il perimetro'. Read in a search result, so it is not quoted in the survey below."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription."
+    }
+  ],
+  "survey": {
+    "item": "church-santivo-alla-sapienza",
+    "register": "other",
+    "data_url": "https://www.turismoroma.it/en/places/church-santivo-alla-sapienza",
+    "prepared": "Roma Capitale, Turismo Roma, monument record 'The Church of Sant'Ivo alla Sapienza'; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The church of S.Ivo alla Sapienza stands inside the small courtyard of the Palazzo della Sapienza, the ancient University of Rome from the 15th century until 1935 when it became the seat of the State Archive.",
+        "page": "Turismo Roma, Sant'Ivo alla Sapienza, opening line"
+      },
+      {
+        "field": "roof",
+        "text": "On the attic, stands the multifoiled dome. On the top, the original clerestory with a spiral cusp, travertine torches, culminating in a crown, on which, made of wrought iron,  are a sphere, a cross and a dove with the olive branch in its beak.",
+        "page": "Turismo Roma, Sant'Ivo alla Sapienza, dome paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "The church’s interior, due to the busy plan and the surge of the pilaster strips, continued from the dome into six segments, all in light colours, is even more surprising for the innovations in concepts and decorations.",
+        "page": "Turismo Roma, Sant'Ivo alla Sapienza, interior paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "dome_segment_count",
+      "as_printed": "continued from the dome into six segments",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Six lobes, which is the same figure as the Italian version's 'stella a sei punte' and is the geometric consequence of the node's own claim that the plan comes from two superimposed equilateral triangles."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The register corroborates the node's generative claim without asserting it: the node says the plan is 'generated from two superimposed equilateral triangles' and the register says the centralised plan draws 'a sort of six-pointed star' and that the walls follow its perimeter. Six is the only number in the record."
+}

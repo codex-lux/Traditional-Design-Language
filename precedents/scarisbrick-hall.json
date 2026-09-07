@@ -1,0 +1,96 @@
+{
+  "id": "scarisbrick-hall",
+  "name": "Scarisbrick Hall",
+  "aka": [
+    "Scarisbrick Hall at 392 127"
+  ],
+  "location": {
+    "text": "Scarisbrick, Lancashire, England",
+    "country": "United Kingdom",
+    "state": "Lancashire (West Lancashire)"
+  },
+  "dates": {
+    "built": "1836-1845",
+    "altered": "Successive remodelling of a C16 seat begun in 1814, probably by John Slater of Liverpool and Thomas Rickman; the east wing and tower for Anne Scarisbrick in the 1860s and 1870s by Edward Welby Pugin.",
+    "note": "The list entry dates A. W. N. Pugin's main campaign 1836-1845. Historic England's own visitor page for the same building says instead that it was 'built between 1830 and 1860', which is a different span from the same body; both are recorded and neither is resolved."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1038565",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1038565",
+      "title": "Scarisbrick Hall at 392 127, Scarisbrick - 1038565 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text's own header reads 'SD 31 SE 8/16 26.4.1963 SCARISBRICK Scarisbrick Hall at GV I' and the entry ends 'Listing NGR: SD3917112594'. Its Sources block cites Pevsner's The Buildings of England: North Lancashire (1969), 218-223. A search result for the same number printed the Overview lines Grade 'I' and Date first listed '26-Apr-1963'."
+    },
+    {
+      "kind": "other",
+      "url": "https://historicengland.org.uk/listing/heritage-at-risk/search-register/list-entry/46554",
+      "title": "Scarisbrick Hall, Southport Road, Scarisbrick, Ormskirk, Scarisbrick - West Lancashire | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Historic England's Heritage at Risk register entry for the same building, carrying the same List Entry Number 1038565 at grade I, site type Domestic > Country house, condition Poor, vulnerability High, trend Improving, priority F, ownership a commercial company. Read as a search result and not extracted, so nothing here is quoted from it."
+    }
+  ],
+  "survey": {
+    "item": "1038565",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1038565",
+    "prepared": "Date first listed: 26-Apr-1963, as the Overview line prints it; the Details text prints '26.4.1963'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Country house, now school. Successive remodelling, rebuilding and enlargement of C16 seat of the Scarisbrick family, begun in 1814, probably by John Slater (of Liverpool) and Thomas Rickman, but mainly 1836-1845 by Augustus Welby Northmore Pugin for Thomas Scarisbrick, and 1860s and 1870s for Anne Scarisbrick. Sandstone, with stone slate roofs. Hall facing south-east, with east and west crosswings, east tower, kitchens (etc), L-shaped service wing to the rear.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1038565)."
+      },
+      {
+        "field": "general_description",
+        "text": "All in Gothic style: the west wing of 1814 in early Gothic, the hall and other parts of the main range of 1836-45 in fully developed C15 Gothic revival",
+        "page": "Official list entry, Details section; the extracted span ends 'the east wing and very high tower in'."
+      },
+      {
+        "field": "general_description",
+        "text": "The centre of the composition is Augustus Welby Northmore Pugin's 2-storey open-hall, with 2-storey oriels, steeply pitched roof with 3-stage lantern on the ridge, but it is dominated by Edward Welby Pugin's east wing with an octagonal angle turret surmounted by a cluster of large fluttering birds, and by the tower of extravagant height finished with corner pinnacles and an attenuated rectangular spire.",
+        "page": "Official list entry, Details section, second span of the composition paragraph."
+      },
+      {
+        "field": "roof",
+        "text": "The kitchen attached at the east end, by Augustus Welby Northmore Pugin, is likewise in C15 Gothic style, octagonal, with steeply-pitched roof and square lantern.",
+        "page": "Official list entry, Details section, kitchen sentence."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "hall_storey_count",
+      "as_printed": "2-storey open-hall",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The open hall at the centre of the composition; the entry gives no storey count for the house as a whole."
+    },
+    {
+      "name": "oriel_storey_count",
+      "as_printed": "2-storey oriels",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "lantern_stage_count",
+      "as_printed": "3-stage lantern on the ridge",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1038565",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `gothic-revival-british`. Chosen as a documentary rather than a beautiful case: it is Pugin's largest secular commission, the register describes it as a succession of campaigns whose ornament becomes 'more flamboyant and fanciful in the progression from east to west', and the same body's Heritage at Risk register records it in poor condition -- which is the honest state of a great deal of this style's domestic work and is worth having in the corpus beside the National Trust houses."
+}

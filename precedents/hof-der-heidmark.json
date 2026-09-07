@@ -1,0 +1,49 @@
+{
+  "id": "hof-der-heidmark",
+  "name": "Hof der Heidmark",
+  "aka": [
+    "Bookholts Hof",
+    "Hof Buchholz"
+  ],
+  "location": {
+    "text": "Bad Fallingbostel, Germany",
+    "country": "Germany",
+    "state": "Niedersachsen, Heidekreis"
+  },
+  "dates": {
+    "built": "1642",
+    "circa": false,
+    "altered": "MOVED: the Wikimedia Commons file description says it is the former Hof Buchholz (Bookholts Hof) from the village of Kolk in the former Gemeinde Oberndorfmark, Osterheide. The regional tourist board records that the farm was one of the oldest holdings in the Ostheidmark and was moved to Bad Fallingbostel as a memorial to the twenty-one places cleared in the mid-1930s for the Bergen troop training area. A stepped granary of 1767 belongs to the property.",
+    "note": "1642 in every source read, which agrees with the node's exemplar year."
+  },
+  "nodes": [
+    "north-german-hall-house"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.vogelpark-region.de/detail/id=5ff84d6cb4dc7458417f9a49",
+      "title": "Hof der Heidmark: Vogelpark-Region",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The regional tourist board: 'der \"Hof der Heidmark\", ein Fachwerkhaus aus dem Jahr 1642 mit alten Treppenspeichern. Er ist Museum und Gedenkstätte zugleich.' and 'Der Bookholtshof, eines der ältesten Anwesen, wurde als Gedenkstätte nach Bad Fallingbostel versetzt.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://commons.wikimedia.org/wiki/File:Hof_der_Heidmark.jpg",
+      "title": "File:Hof der Heidmark.jpg -- Wikimedia Commons",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A FILE DESCRIPTION AND NOT AN ARTICLE, and it is the only place read that states the structural type: 'Hof der Heidmark in Bad Fallingbostel. Zweiständerhaus von 1642, ehemals der Hof Buchholz (Bookholts Hof) aus dem Ort Kolk, ehemalige Gemeinde Oberndorfmark, Osterheide'. A caption written by a photographer is weak evidence and is carried as such."
+    },
+    {
+      "kind": "other",
+      "url": "https://maps.adac.de/poi/hof-der-heidmark-fallingbostel",
+      "title": "Hof der Heidmark, Fallingbostel",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Der Hof der Heidmark ist ein niederdeutsches Hallenhaus von 1642.' A second surface for the date and for the type name."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. NO SURVEY BLOCK: no monument-register entry and no encyclopedia article for this building was reached, and the three sources read are a tourist board, a photograph caption and a motoring club's points-of-interest page. That is why no measurement is carried.\n\nThe substantive finding is about the node's exemplar note, which says 'Dated hall house, now the core of an open-air museum farmstead' and does not say that the house was MOVED, or why. It stood at Kolk in the Ostheidmark, one of twenty-one places cleared in the mid-1930s for the Bergen military training area, and it was re-erected at Bad Fallingbostel as a memorial to them. It is a Zweistaenderhaus -- two rows of posts -- if the Commons caption is right, which matters because the node's own prose describes exactly that arrangement: 'Two rows of posts run the length of the building and divide it into three aisles.'"
+}

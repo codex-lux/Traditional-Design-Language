@@ -1,0 +1,57 @@
+{
+  "id": "william-g-low-house",
+  "name": "William G. Low House",
+  "aka": [
+    "Low House"
+  ],
+  "location": {
+    "text": "Bristol, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1886-1887",
+    "circa": false,
+    "altered": "Demolished 1962. Wikipedia: 'Just before it was demolished in 1962, the house was documented with measured drawings and photographs by the Historic American Buildings Survey.'",
+    "note": "Wikipedia infobox: construction started 1886, completed 1887; the McKim, Mead & White article's table says 1887."
+  },
+  "nodes": [
+    "shingle-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-346",
+      "url": "https://www.loc.gov/resource/hhh.ri0006.photos?sp=1&st=list",
+      "title": "William G. Low House, 3 Low Lane, Bristol, Bristol County, RI",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Photos from Survey HABS RI-346 · Photo(s): 8'. The data PDF at the tile.loc.gov path built from this item id answered 'Failed to fetch url', so no written data is quoted; the Library's listing shows photographs only."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0006",
+      "url": "https://www.loc.gov/pictures/item/ri0006",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Related Names: McKim, Mead & White Robinson, made of wood-frame and clad with shingles'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_G._Low_House",
+      "title": "William G. Low House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Its own words, quoting Leland Roth: 'Although little known in its own time, the Low House has come to represent the high mark of the Shingle Style.' Location as the infobox prints it: 3 Low Lane, Bristol."
+    },
+    {
+      "kind": "other",
+      "url": "https://en.wikipedia.org/wiki/McKim,_Mead_%26_White",
+      "title": "McKim, Mead & White - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The William G. Low House in Bristol, Rhode Island (1886-1887), demolished in 1962, is today seen as a quintessential expression of the Shingle Style', quoting Vincent Scully: 'at once a climax and a kind of conclusion' for McKim."
+    }
+  ],
+  "note": "A demolished building, kept as a precedent because the style's own literature (Scully, Roth) names it first and HABS photographed it before the wreckers; there is no register number because it was gone before the Register existed. Seeded 4 Sep 2026."
+}

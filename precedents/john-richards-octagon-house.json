@@ -1,0 +1,104 @@
+{
+  "id": "john-richards-octagon-house",
+  "name": "John Richards Octagon House",
+  "aka": [
+    "Octagon House",
+    "Octagon House Museum",
+    "Watertown Octagon House"
+  ],
+  "location": {
+    "text": "Watertown, Wisconsin",
+    "country": "United States",
+    "state": "Wisconsin"
+  },
+  "dates": {
+    "built": "1853",
+    "circa": false,
+    "note": "The survey's inventory line reads 'Date of Erection. 1853', its narrative says 'The house dates from the year 1853', the Library's item record prints '1853 Initial Construction' and the Wikipedia infobox prints 'Built 1853'. The SAME Wikipedia article's own first sentence says the house 'was built in 1854'. Four surfaces say 1853 and one says 1854; recorded as 1853 with the disagreement noted rather than resolved."
+  },
+  "nodes": [
+    "octagon-house"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "WI-135",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/wi/wi0000/wi0083/data/wi0083data.pdf",
+      "title": "Octagon House, Watertown, Jefferson County, WI",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's item record prints the survey number as 'HABS WI-135'; the data sheet's own header prints the 1930s form 'WIS-135'. The call number is 'HABS WIS,28-WATO,1-' and the item carries five measured drawings, which is where a plan of this house is if anyone goes to get one."
+    },
+    {
+      "kind": "loc-item",
+      "id": "wi0083",
+      "url": "https://www.loc.gov/pictures/item/wi0083/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000039",
+      "url": "https://en.wikipedia.org/wiki/Octagon_House_(Watertown,_Wisconsin)",
+      "title": "NRHP reference No. 71000039; added November 23, 1971; 919 Charles St., Watertown, Wisconsin (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The Library's item record carries no NRIS number for this item."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Octagon_House_(Watertown,_Wisconsin)",
+      "title": "Octagon House (Watertown, Wisconsin) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "It quotes Rexford Newcomb, 1950: '...probably the best-planned octagon house in the country is the John Richards House at Watertown, Wisconsin...'"
+    }
+  ],
+  "survey": {
+    "item": "wi0083",
+    "register": "loc-item",
+    "survey_no": "WI-135",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/wi/wi0000/wi0083/data/wi0083data.pdf",
+    "prepared": "'His loric American Building Survey AlexanderC Guth District Officer ... North Frvnkfin Place, Milwaukee Wis.' (OCR), District of Wisconsin.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Date of Erection. 1853 Architect. Probably John Richards Builder. John Richards Present Condition. Fairly well preserved Number of Stories. Four Materials of Construction. Brick walls and chimneys. Wood porticoes and cornices. Other Existing Records. None known.",
+        "page": "HABS No. WI-135; the 1934 district inventory sheet prints no page numbers and none was legible in either extract span. The sheet's own header prints the older form, OCR'd as 'WIS-135'."
+      },
+      {
+        "field": "plan",
+        "text": "The four floors contain thi rty- t^vo rooms all told, which is oui te a number v/hen one considers that but one family was to occupy the house, except the upper story which v;as planned and built to house the miilhands.",
+        "page": "HABS No. WI-135; the 1934 district inventory sheet prints no page numbers and none was legible in either extract span. The sheet's own header prints the older form, OCR'd as 'WIS-135'."
+      },
+      {
+        "field": "significance",
+        "text": "1-This house is \"built some distance i'ron the east limits of the city of T?atertown, \\7isconsin. The premises front on one of the main travelled arteries leading out of that city. The house dates from the year 1853 and. v-ras erected for one named John Richards, a lawyer and mill ov/ner. 'From what has \"been learned, he made his own pl^ns for the house. He was determined to erect the largest house in the state of Wisconsin,",
+        "page": "HABS No. WI-135; the 1934 district inventory sheet prints no page numbers and none was legible in either extract span. The sheet's own header prints the older form, OCR'd as 'WIS-135'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories. Four",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "room_count",
+      "as_printed": "thi rty- t^vo rooms all told",
+      "value": 32,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "OCR of 'thirty-two'; the same sentence says the count is over four floors and that the top storey housed the millhands rather than the family."
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/wi0083/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Added to octagon-house as the type at full size and as the counter-case to the node's own 'it could not grow' reading: thirty-two rooms on four floors, and the survey still records no dimension. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

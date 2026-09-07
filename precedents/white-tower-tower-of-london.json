@@ -1,0 +1,99 @@
+{
+  "id": "white-tower-tower-of-london",
+  "name": "The White Tower, Tower of London",
+  "aka": [
+    "The White Tower"
+  ],
+  "location": {
+    "text": "Tower of London, London, England",
+    "country": "England",
+    "state": "City of London"
+  },
+  "dates": {
+    "built": "c.1078-1100 for William I and William II",
+    "circa": true,
+    "altered": "Later repairs and alterations, principally in the C18 and C19 and by A Salvin, 1856-7; Caen stone dressings later replaced by Portland stone; brick piers and vaulting of c.1730 in the basement; a C14 vice inserted in the south wall.",
+    "note": "THE TWO HISTORIC ENGLAND ENTRIES DATE THE KEEP DIFFERENTLY AND NEITHER IS CHANGED. The listed-building entry 1260258 says 'c.1078-1100 for William I and William II, probably to designs of Gundulf, Bishop of Rochester'; the scheduled-monument entry 1002061 says 'The White Tower is dateable to 1075-1100'."
+  },
+  "nodes": [
+    "norman-romanesque-english"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1260258",
+      "title": "The White Tower, Non Civil Parish - 1260258",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1260258",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result printed 'Grade: I ; List Entry Number: 1260258 ; Date first listed: 30-Nov-1989 ; List Entry Name: The White Tower ; Statutory Address: THE WHITE TOWER.'"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1002061",
+      "title": "Tower of London, Non Civil Parish - 1002061 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1002061",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The scheduled-monument entry for the whole castle, 'Date first listed: 01-Jan-1900'. It is this record's survey block because it states the keep's plan dimensions, which the listed-building entry does not."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000092",
+      "title": "Tower of London, Non Civil Parish - 1000092",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000092",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The World Heritage Site entry, 'Date first listed: 1988'. Read from a search result only."
+    }
+  ],
+  "survey": {
+    "item": "1002061",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1002061",
+    "prepared": "Scheduled Monument entry, 'Date first listed: 01-Jan-1900' as the Official list entry block prints it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "The White Tower, the tower keep of the medieval castle, is positioned near the centre of the castle surrounded by an Inner Curtain Wall, Outer Curtain Wall and Moat. The White Tower is dateable to 1075-1100 but was altered principally in the 15th, 18th and 19th centuries. The keep is rectangular in plan, 36m by 32.5m, with an apsidal projection at the south-east angle and a cylindrical stair turret at the north-east angle. It is three storeys high, except for the four five storey turrets, and constructed of ragstone rubble with Portland stone dressings (replacing earlier Caen stone) and lead-covered roofs. The keep is Anglo-Norman in style with flat pilaster buttresses defining each bay, round-headed windows and a crenellated parapet.",
+        "page": "Official list entry, Details, the White Tower paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "36m by 32.5m",
+      "value": 118.1,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "A CONVERSION AND THEREFORE A READING: 36 m at 3.28084 ft/m. The entry prints metric only. The first figure printed is taken as the width, per the corpus convention where the front is unstated -- and the front here really is unstated, the keep being freestanding with an apsidal projection on one angle."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "36m by 32.5m",
+      "value": 106.6,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "A conversion: 32.5 m at 3.28084 ft/m."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "It is three storeys high, except for the four five storey turrets",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The listed-building entry 1260258 states it differently -- '3 storeys and basement, with 5-storey angle turrets' -- so the basement is counted by one entry and not by the other."
+    },
+    {
+      "name": "turret_count",
+      "as_printed": "the four five storey turrets",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR. THE SURVEY IS THE SCHEDULED-MONUMENT ENTRY AND NOT THE LISTED-BUILDING ONE, because only the former states a plan dimension; the latter is the richer architectural description and is carried as a ref. Read as continuous prose in an extract of 1260258 the same day: 'Tower keep. c.1078-1100 for William I and William II, probably to designs of Gundulf, Bishop of Rochester; later repairs and alterations, principally in C18 and C19 and by A Salvin, 1856-7; Rag-stone rubble with Caen stone dressings later replaced by Portland stone; lead roofs. Rectangular plan with apsidal projection at south-east angle housing east end of chapel, and cylindrical north-east stair turret. Anglo-Norman style. 3 storeys and basement, with 5-storey angle turrets. Each elevation (4-bay to north and south, 3-bay to east and 5-bay to west) has crenellated parapet, offset flat pilaster buttresses defining each bay and second-floor windows set in round-headed recesses forming bold Romanesque arcading', and of the interior: 'First floor: west compartment, former great hall, has C18 timber posts supporting ceiling, 5 round-arched embrasures and remains of late C11 round-arched fireplace along west wall'. A ref note is prose and nothing in this tree checks it; the figures in it are therefore not carried as measurements."
+}

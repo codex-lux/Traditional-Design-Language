@@ -1,0 +1,58 @@
+{
+  "id": "spadena-house",
+  "name": "Spadena House (the Witch's House)",
+  "aka": [
+    "The Witch's House",
+    "Willat studio building"
+  ],
+  "location": {
+    "text": "Beverly Hills, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1921",
+    "circa": false,
+    "altered": "Moved from Culver City to the corner of Walden Drive and Carmelita Avenue in Beverly Hills, and converted from studio offices and dressing rooms into a private house. Restored over more than five years by a later owner who, the Los Angeles Times reports, bought it 'only after promising the seller he wouldn't tear it down'.",
+    "note": "THE MOVE DATE IS UNSETTLED AND FOUR ANSWERS WERE READ. Wikipedia says 'moved to its present location in 1926'; the Los Angeles Times says 'Producer-director Ward Lascelle bought it for his residence and moved it to Beverly Hills in 1924, according to that city's planning department'; a Southern California landmarks account says 1924; Atlas Obscura says 'In either 1926 or 1934 (accounts vary)'; and a collector's page quotes a guidebook saying 'before being moved to Beverly Hills in 1934'. The style node's exemplar says 1926. The BUILD date, 1921, is agreed by every source read."
+  },
+  "nodes": [
+    "storybook-style",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Spadena_House",
+      "title": "Spadena House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The house was designed by Hollywood art director Harry Oliver, who went on to play a major role in Storybook architecture. ... It was originally built in 1921 to serve as the offices and dressing rooms for Irvin Willat's film studio in Culver City, and was moved to its present location in 1926. The converted private home, with its pointy, lopsided roof, tiny windows and stucco with a distressed paint job were then surrounded by an intentionally overgrown English-style garden and a moat-like pond.' The infobox gives the architectural style as 'Storybook' and the address as 516 Walden Drive."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.atlasobscura.com/places/witchs-house",
+      "title": "Spadena House in Beverly Hills - Atlas Obscura",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Oliver, an Oscar-nominated art director, originally built the structure in Culver City as part of the Willat silent film studio. Despite its funny exterior, it was the site of studio offices and dressing rooms, and was featured in several silent films until the industry gave way to the \"talkies\".' It also records the disagreement about the move date."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.phantomranch.net/hofc/architecture.htm",
+      "title": "Dick Oakes' Harry Oliver's Architecture",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes a description of the building that is the closest thing to a measured reading found for it: 'The Spadena house in Beverly Hills is perhaps the ultimate example of Storybook Style, as well as its most literal link to the film industry. The house was designed by Harry Oliver in 1921 and constructed in Culver City to provide offices and dressing rooms for a movie studio. With its serpentine fascia boards and cartoonishly lopsided walls and roofs, the entire design is a cleverly-wrought caricature of dilapidated antiquity.' An enthusiast's site quoting an unnamed guidebook; recorded as one, and no figure is taken from it."
+    },
+    {
+      "kind": "other",
+      "url": "https://enewspaper.latimes.com/infinity/article_share.aspx?guid=75fe0819-98e1-44f3-bcea-d98a3c073ef6",
+      "title": "Steeped in Hollywood fairy tales (Los Angeles Times)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1921, Harry Oliver was art director at Willat Studios in Culver City when he designed a house with tall, teetering gables and wonky windows, intended as both office space and a backdrop for silent movies. The wavy, sagging roof looked worn from centuries of age, or being sat upon by a giant. It was dubbed the \"Witch's House\".' It also gives the spread of the idiom: 'From Los Angeles, the Storybook fad spread to the San Francisco Bay Area by the mid-1920s, then elsewhere across the U.S.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. No survey, no National Register listing; a Southern California landmarks account read the same day calls it 'a City of Beverly Hills Landmark', and no ordinance number was found on any surface, so no `state-register` ref is written. NOTHING READ GIVES A DIMENSION -- not a ridge deflection, not a chimney width, not an eave height -- which is the state of the whole node: storybook-style's kit states a ridge deflected 3 to 6 in below level, a chimney 1.5 to 2.5 times its flue width and casement lights 6 to 10 in wide, all `measured`, and not one of the five buildings on this node has a document that could confirm or refute any of them. The style is fourteen years old at its widest and was over before HABS began recording the twentieth century; that is the reason, and it is worth stating rather than leaving as an absence."
+}

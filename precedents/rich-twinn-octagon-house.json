@@ -1,0 +1,37 @@
+{
+  "id": "rich-twinn-octagon-house",
+  "name": "Rich-Twinn Octagon House",
+  "location": {
+    "text": "Akron, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1849",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1849' and the style as 'Italianate: Octagon Mode'."
+  },
+  "nodes": [
+    "octagon-house"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "95000050",
+      "url": "https://en.wikipedia.org/wiki/Rich-Twinn_Octagon_House",
+      "title": "NRHP reference No. 95000050; added February 10, 1995; 145 Main Street, Akron, New York (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The article's references name the nomination: 'Nancy L. Todd (December 1994). National Register of Historic Places Registration: New York SP Rich--Twinn Octagon House. National Archives and Records Administration.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rich-Twinn_Octagon_House",
+      "title": "Rich-Twinn Octagon House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'It is one of three known octagon houses in Erie County, New York and was \"meticulously restored\" prior to its 1994 nomination to the National Register.'"
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY: a loc.gov pictures search for 'Rich-Twinn Octagon House Akron New York' returned zero hits, which is recorded because a zero from that catalogue is a real answer and not a failure to look. The nomination itself was not fetched -- it lives at the National Archives rather than at NPGallery -- so this record carries a register number and a sentence and no fabric description at all. No rights line: no Library item page exists to read one from."
+}

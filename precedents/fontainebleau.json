@@ -1,0 +1,85 @@
+{
+  "id": "fontainebleau",
+  "name": "Chateau de Fontainebleau",
+  "aka": [
+    "Château de Fontainebleau",
+    "Domaine de Fontainebleau",
+    "Domaine national de Fontainebleau"
+  ],
+  "location": {
+    "text": "Fontainebleau, Seine-et-Marne, France",
+    "country": "France",
+    "state": "Seine-et-Marne, Île-de-France"
+  },
+  "dates": {
+    "built": "16e siècle (as the Mérimée notice states the principal campaign)",
+    "circa": true,
+    "altered": "The Mérimée notice gives '18e siècle ; 19e siècle' as secondary campaigns; fr.wikipedia's infobox prints 'Début construction XIIe siècle' and 'Fin construction XIXe siècle'.",
+    "note": "NO SOURCE READ HERE STATES A YEAR FOR THE FRANÇOIS I CAMPAIGN THIS NODE VALUES, AND NONE IS INVENTED. The protection notice gives centuries only. The exemplar's `year` is therefore left null rather than filled with a remembered date."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00086975",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00086975",
+      "title": "Domaine de Fontainebleau - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 2024/05/24 : classé MH' and explains that 'Cet immeuble fait partie du Domaine national du château de Fontainebleau institué par le décret n°2024-472 du 24 mai 2024', which supersedes the earlier partial classements."
+    },
+    {
+      "kind": "merimee",
+      "id": "DN00000017",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/DN00000017",
+      "title": "Domaine du château de Fontainebleau (domaine national)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The domaine national notice, found by search and not extracted; carried as a locator only."
+    },
+    {
+      "kind": "unesco",
+      "url": "https://whc.unesco.org/en/list/160",
+      "title": "Palace and Park of Fontainebleau",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The World Heritage entry, whose page states 'Listed as a Historic Monument, it generates a perimeter of 500 m.' The inscription number is the list path itself; no separate reference number was printed."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_de_Fontainebleau",
+      "title": "Château de Fontainebleau — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the protection history: 'Le château fait l'objet d'un classement au titre des monuments historiques par la liste de 1862, classement complété par plusieurs arrêtés pris en 1913, 1930, 2008 et 2009', with UNESCO inscription in 1981."
+    }
+  ],
+  "survey": {
+    "item": "PA00086975",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00086975",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "finishes",
+        "text": "Technique du décor porté de l'édifice peinture ; décor stuqué ; sculpture",
+        "page": "Notice Mérimée PA00086975, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Le Nôtre André (jardinier) ; Le Vau Louis (architecte)",
+        "page": "Notice Mérimée PA00086975, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Cet immeuble fait partie du Domaine national du château de Fontainebleau institué par le décret n°2024-472 du 24 mai 2024. Les parties intérieures ont été classées au titre des Monuments historiques intégralement et de plein droit par ce décret.",
+        "page": "Notice Mérimée PA00086975, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. THE THINNEST SURVEY IN THIS CLUSTER, AND THE GAP IS WORTH NAMING RATHER THAN PAPERING OVER. The domaine national notice is a protection instrument: it states the decor techniques, two authors and the decree, and no material, storey count, bay count or dimension. Worse, its author field names only Le Nôtre and Le Vau - seventeenth-century men - for a palace whose Renaissance work is the reason this node cites it. No Inventaire (IA) notice for Fontainebleau was found by the queries run here, and one is the obvious next thing to look for. No measurement is recorded because the notice states no figure. No rights line was read, so no `rights_evidence`."
+}

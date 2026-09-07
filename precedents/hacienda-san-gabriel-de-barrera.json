@@ -1,0 +1,74 @@
+{
+  "id": "hacienda-san-gabriel-de-barrera",
+  "name": "Hacienda San Gabriel de Barrera",
+  "aka": [
+    "Ex Hacienda San Gabriel de Barrera"
+  ],
+  "location": {
+    "text": "Guanajuato, Mexico",
+    "country": "Mexico",
+    "state": "Guanajuato"
+  },
+  "dates": {
+    "built": "17th-18th century",
+    "circa": true,
+    "altered": "Adapted through the 18th and 19th centuries for mining and agricultural work; out of productive use after the 20th-century decline of traditional mining; now a museum with seventeen themed gardens.",
+    "note": "The node's exemplar gives 'Late 17th to early 18th century'. The article gives no construction date at all: it says only that local tradition attributes the main casco to captain Gabriel de Barrera y Rojas, 'dentro del auge minero virreinal'. The attribution is explicitly TRADITION and not record."
+  },
+  "nodes": [
+    "mexican-hacienda"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_San_Gabriel_de_Barrera",
+      "title": "Hacienda San Gabriel de Barrera - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_San_Gabriel_de_Barrera",
+      "title": "'Ex Hacienda San Gabriel de Barrera', Instituto Estatal de la Cultura de Guanajuato, and 'Historia de la Ex Hacienda San Gabriel de Barrera', Gobierno de Guanajuato -- the two references the article cites, both consulted by it on 20 September 2025",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NEITHER WAS READ HERE and no URL for either was printed in the extract, so neither is given an address. They are named because they are the state's own sources for this building and are where the next reader should go."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-hacienda-san-gabriel-de-barrera",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Hacienda_San_Gabriel_de_Barrera",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; its two cited sources are Guanajuato state culture pages.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "El conjunto conserva la traza típica de las haciendas de beneficio: casa grande con patios y galerías, espacios de servicio (trojes, caballerizas y áreas de trabajo) y elementos asociados a la actividad minera. En el casco destacan portadas de cantera, patios con arquerías y estancias ornamentadas que hoy alojan salas museográficas.",
+        "page": "Spanish Wikipedia, section 'Arquitectura y jardines'"
+      },
+      {
+        "field": "general_description",
+        "text": "Uno de sus rasgos distintivos son los 17 jardines temáticos que articulan el recorrido del museo. Diseñados con inspiración europea y mexicana, integran fuentes, andadores, parterres y vegetación ornamental que dialogan con la arquitectura virreinal del conjunto.",
+        "page": "Spanish Wikipedia, section 'Arquitectura y jardines'"
+      },
+      {
+        "field": "significance",
+        "text": "La hacienda se estableció en las afueras de la ciudad de Guanajuato como centro de beneficio de minerales («hacienda de beneficio»), dentro del auge minero virreinal.",
+        "page": "Spanish Wikipedia, section 'Historia'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "garden_count",
+      "as_printed": "los 17 jardines temáticos",
+      "value": 17,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A MODERN MUSEUM ARRANGEMENT, not a colonial one: the gardens 'articulan el recorrido del museo'. Recorded with that warning because a reader meeting a count of seventeen in a hacienda record would otherwise take it for a historical fact."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE ONE PASSAGE WORTH THE RECORD IS THE FIRST QUOTE, and it is a TYPE description rather than a measurement: casa grande with patios and galleries, service spaces of trojes and stables, and mining plant, which is exactly this node's own account of the casco. No dimension, no bay count and no storey count were printed."
+}

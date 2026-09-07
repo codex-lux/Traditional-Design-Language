@@ -1,0 +1,44 @@
+{
+  "id": "james-and-clara-butler-house",
+  "name": "James and Clara Butler House",
+  "location": {
+    "text": "Blakely, Georgia",
+    "country": "United States",
+    "state": "Georgia"
+  },
+  "dates": {
+    "built": "c. 1890",
+    "circa": true,
+    "note": "The nomination says 'Built in c.1890' and the Wikipedia infobox prints 'Built c.1890'. The node's own exemplar gives 1890."
+  },
+  "nodes": [
+    "folk-victorian"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "01001430",
+      "url": "https://en.wikipedia.org/wiki/James_and_Clara_Butler_House",
+      "title": "NRHP reference No. 01001430; added January 11, 2002; 418 College St., Blakely, Georgia; architectural style Folk Victorian (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/6b953d58-cc4b-46aa-9060-22d406841043",
+      "title": "Butler, James and Clara, House -- National Register of Historic Places Registration Form",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The form's own description, which is the best short account of a Folk Victorian in this cluster: 'Built in c.1890, the house is a one-story, frame, Folk Victorian-style, Georgian cottage (photograph 1). The house features a steep side-gable roof, flush-board siding on the front facade and vinyl siding over the original weatherboard on the rest of the exterior, nine-over-nine double-hung windows, and a brick pier foundation. The house has a full-width porch with free-standing chamfered posts on brick piers; the porch floor is recessed (photograph 2).' Its significance section adds that the house 'retains its Georgian cottage plan with two rooms flanking a center hall with interior chimneys' and that it 'is one of only two Folk Victorian-style Georgian cottages in Blakely out of the 127 historic single-family houses surveyed in the city.' The form's street address is 418 College Street, Blakely, Early County."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/James_and_Clara_Butler_House",
+      "title": "James and Clara Butler House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY was sought or found: this is a 2002 listing of an ordinary town house, which is exactly the population HABS did not record. The nomination is the whole evidential basis and it is quoted rather than paraphrased in the ref note above. No rights line: NPGallery prints none on the asset."
+}

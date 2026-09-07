@@ -1,0 +1,41 @@
+{
+  "id": "ecomusee-dalsace",
+  "name": "Ecomusee d'Alsace",
+  "aka": [
+    "Écomusée d'Alsace",
+    "Écomusée de Haute-Alsace"
+  ],
+  "record_kind": "group",
+  "location": {
+    "text": "Ungersheim, Haut-Rhin, France",
+    "country": "France",
+    "state": "Haut-Rhin, Grand Est"
+  },
+  "dates": {
+    "built": "Constructions « généralement anciennes (certaines datant du XVe siècle) », per the French Wikipedia article; each building has its own date and the museum as a whole has none.",
+    "altered": "Opened 1 June 1984, per the Wikipedia infobox; the buildings were dismantled at their original sites and re-erected here, so nothing on the site stands where it was built.",
+    "note": "The counts disagree. The French Wikipedia article says « environ 80 bâtiments » on « 97 hectares »; the Mulhouse tourist office says « 80 bâtiments »; an events-venue listing says « un site de 15 hectares »; the node's own exemplar says « some seventy relocated Alsatian rural buildings ». All are recorded and none is changed."
+  },
+  "nodes": [
+    "french-provincial-farmhouse"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/%C3%89comus%C3%A9e_d%27Alsace",
+      "title": "Écomusée d'Alsace — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose. It opens: « L'Écomusée d'Alsace à Ungersheim, dans le Haut-Rhin, est le plus grand musée de plein air de France où ont été transférées et remontées d'authentiques constructions alsaciennes formant comme un village : maisons à colombages, maisons d'ouvriers, boutique, mairie, tour fortifiée, halle des fêtes, ferme, école, lavoir, jardins, champs. » And: « Dans ces constructions généralement anciennes (certaines datant du XVe siècle) et ouvertes au public, sont présentés les travaux traditionnels de la région ainsi que l'artisanat. »"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.tourisme-mulhouse.com/experiences/ecomusee-dalsace-2",
+      "title": "Écomusée d'Alsace | mulhouse-tourisme",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Mulhouse tourist office's page gives the founding association as « Maisons paysannes d'Alsace », the first re-erected house as 1980, the opening as 1984 with twenty buildings, and the present figure as « 80 bâtiments représentatifs de l'Alsace »."
+    }
+  ],
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. `record_kind: group` -- a named, documented set, and the one case in this cluster where the set is the point: the buildings were dismantled elsewhere and re-erected here, so the site is a collection of real Alsatian houses and NOT a place. No survey: the museum is not a monument historique and the buildings' own original notices, if any exist, are filed under their villages of origin and were not traced. A precedent this node can measure would have to name one house in the collection, which is work this tranche did not do. THE PUBLISHED LITERATURE IS RECORDED HERE AND NOT AS A REF, because a ref must carry an id or a URL and neither work was read: the Wikipedia article's Bibliographie lists « Les maisons de l'Écomusée racontent l'Alsace. Bâti, histoire, société, Philémont éditions, 2011 (ISBN 978-2-9538907-0-9) » and « Collectif, À la découverte des maisons d'Alsace, Guide de l'Écomusée de Haute-Alsace, 1984 ». A citation with no locator is a name, and this project keeps names out of `refs`."
+}

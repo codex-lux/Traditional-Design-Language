@@ -1,0 +1,109 @@
+{
+  "id": "fachwerkmuseum-standerbau-quedlinburg",
+  "name": "Fachwerkmuseum im Standerbau, Wordgasse 3",
+  "aka": [
+    "Fachwerkmuseum Ständerbau",
+    "Fachwerkmuseum (Quedlinburg)"
+  ],
+  "location": {
+    "text": "Quedlinburg, Germany",
+    "country": "Germany",
+    "state": "Sachsen-Anhalt, Landkreis Harz"
+  },
+  "dates": {
+    "built": "1346/47",
+    "circa": false,
+    "altered": "Derelict by 1968; converted and opened as a museum in 1976.",
+    "note": "The German Wikipedia article gives the dendrochronological date as 1346/47, which agrees with the node's exemplar year of 1346. One travel site read in the same search prints 1310; it is not corroborated anywhere else read here and is recorded rather than followed."
+  },
+  "nodes": [
+    "german-fachwerk"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Fachwerkmuseum_(Quedlinburg)",
+      "title": "Fachwerkmuseum (Quedlinburg) – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "denkmalliste",
+      "url": "https://de.wikipedia.org/wiki/Fachwerkmuseum_(Quedlinburg)",
+      "title": "Quedlinburger Denkmalverzeichnis, as cited by the German Wikipedia article",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO NUMBER IS CARRIED because none was read. The article states only that the house 'ist im Quedlinburger Denkmalverzeichnis als Wohnhaus eingetragen' and cites the printed inventory -- Landesamt fuer Denkmalpflege Sachsen-Anhalt (Hrsg.), Denkmalverzeichnis Sachsen-Anhalt, Band 7 ... Teilband 1: Stadt Quedlinburg, Halle 1998, ISBN 3-910147-67-4, Seite 286. Inventing a list number to fill the `id` field is exactly what this corpus forbids, so the field is absent."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.quedlinburg-info.de/en/museums-details/fachwerkmuseum-im-ständerbau.html",
+      "title": "Fachwerkmuseum im Ständerbau (half-timbered museum) - Quedlinburg - world heritage",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own tourist office. It explains the Staenderbau principle in the same terms the node's prose uses: 'In a Ständerbau, upright beams, the “Ständer”, surround the building from the base to the roof.'"
+    },
+    {
+      "kind": "unesco",
+      "id": "535",
+      "url": "https://en.wikipedia.org/wiki/Quedlinburg_Abbey",
+      "title": "Collegiate Church, Castle, and Old Town of Quedlinburg -- World Heritage reference 535",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The house stands inside the World Heritage area; the reference number is the inscription's, not this building's. Read from the English Wikipedia infobox for Quedlinburg Abbey, which prints 'Reference 535' and 'Inscription 1994 (18th Session)'."
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-fachwerkmuseum-quedlinburg",
+    "register": "wikipedia",
+    "data_url": "https://de.wikipedia.org/wiki/Fachwerkmuseum_(Quedlinburg)",
+    "prepared": "The German (or French) Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER. Germany's monument registers are held per Land and the Land databases reachable from this container print a one-line Schutzbegruendung rather than a HABS-style description, so the fullest description available is this. Every figure taken from it carries the same warning on the measurement itself: a number sourced here is NOT of the same standing as one from a HABS data page or a Historic England Details section, and it should not be read as one merely because it sits in the same field of the same schema.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "structural_system",
+        "text": "Das Gebäude ist zweigeschossig und verfügt über eine Grundfläche von lediglich 48 m². Es besitzt sechs Meter hohe, durch beide Geschosse führende Ständer. Die Ständer sind sowohl in der Stockschwelle als auch im oberen Rähm eingezapft. Die Balken der Geschossdecke sind mittels Zapfenschlössern, die mit zwei Holznägeln gesichert sind, mit den Ständern verbunden. Ein weiterer Holznagel verbindet Ständer und Deckenbalken. Zwischen den einzelnen Ständern bestehen zur Stabilisierung vier Lagen von Riegeln. Die untere Schwelle ruht auf einem Sockel aus Bruchsteinen und Sandsteinquadern. Als Holz nutzte man mit einem Beil bearbeitete Nadelhölzer. Die Gefache sind mit Stakenhölzern verfüllt, in die Weidenruten eingeflochten sind.",
+        "page": "German Wikipedia, 'Fachwerkmuseum (Quedlinburg)', section 'Geschichte und Architektur'. Not paginated. The extract renders a footnote marker after 'Zapfenschlössern' as a stray quotation mark and bracket; those two characters have been dropped and nothing else was changed."
+      },
+      {
+        "field": "significance",
+        "text": "Nach dendrochronologischen Untersuchungen ergibt sich eine Datierung von 1346/47. Als alleinstehendes Gebäude ist es in Quedlinburg eines der ältesten und zur Verdeutlichung des Ständerbauprinzips das markanteste.",
+        "page": "German Wikipedia, 'Fachwerkmuseum (Quedlinburg)', section 'Geschichte und Architektur'. Not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Das Gebäude ist zweigeschossig",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey. See survey.prepared."
+    },
+    {
+      "name": "ground_floor_area_sf",
+      "as_printed": "eine Grundfläche von lediglich 48 m²",
+      "from_quote": 0,
+      "note": "48 m2 of ground area. THE UNIT VOCABULARY HAS NO AREA MEASURE, so no `value` and no `unit` are carried: a square foot written as `ft` would let a numeric check agree with a length. The figure is 48 m2, about 517 sf, and it is in `as_printed` where it cannot be mistaken for a comparable quantity. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    },
+    {
+      "name": "post_height_ft",
+      "as_printed": "sechs Meter hohe, durch beide Geschosse führende Ständer",
+      "value": 19.69,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Six metres, converted. This is the whole point of a Staenderbau and of the node's own prose about it: ONE post runs through both storeys, so the post length is the wall height and the storey is not a separable unit. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    },
+    {
+      "name": "rail_course_count",
+      "as_printed": "vier Lagen von Riegeln",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four courses of rails between adjacent posts, stated as stabilisation. SOURCE IS AN ENCYCLOPEDIA ARTICLE, not a survey."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. This is the most dimensionally useful record in the cluster and it is worth saying why: a two-storey house of 48 m² on six-metre posts gives the node's own Staenderbau paragraph an actual size, and 48 m² over a six-metre wall is a building far smaller than the word 'house' suggests to a modern reader. NONE OF IT COMES FROM A REGISTER. The Land inventory entry exists in print (Denkmalverzeichnis Sachsen-Anhalt Band 7, page 286) and was not read here."
+}

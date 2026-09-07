@@ -1,0 +1,37 @@
+{
+  "id": "swift-daley-house",
+  "name": "Swift-Daley House",
+  "location": {
+    "text": "Eastham, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1741",
+    "circa": false,
+    "altered": "Restored to what its owners called its original condition by Mr and Mrs Raymond Daley after 1939; given to the Eastham Historical Society in 1974 (Cape Cod Museum Trail).",
+    "note": "The Eastham Historical Society, which owns it, gives 1741 and names Joshua Knowles as builder."
+  },
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.easthamhistoricalsociety.org/1741-swift-daley-house",
+      "title": "1741 Swift-Daley House",
+      "note": "Owner. 'Built in 1741 by Joshua Knowles, its bowed roof is typical of early houses built by ship's carpenters.'",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.capecodmuseumtrail.com/museumdirectory/eastham-historical-society",
+      "title": "Eastham Historical Society | Cape Cod Museum Trail",
+      "note": "Gives the address as 2375 State Highway, Eastham, and the later history: occupied in 1859 by the butcher Nathaniel Swift, restored by the Daleys from 1939, donated 1974.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "No register reference and no HABS survey were found; the search '\"Swift-Daley House\" Eastham Massachusetts Cape Cod house 1741' returned the owner's and the museum trail's pages and no loc.gov or nps.gov item.",
+  "nodes": [
+    "cape-cod-colonial"
+  ]
+}

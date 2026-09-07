@@ -1,0 +1,107 @@
+{
+  "id": "munstead-wood",
+  "name": "Munstead Wood",
+  "location": {
+    "text": "Godalming, Surrey, England",
+    "country": "United Kingdom",
+    "state": "Surrey; the register places the entry in the parish of Munstead and Tuesley"
+  },
+  "dates": {
+    "built": "1896-7",
+    "note": "The list entry gives '1896-7'; the Wikipedia infobox gives 1896-1897. They agree. The garden preceded the house: the registered park and garden entry records the Hut and the Gardener's Cottage as built first."
+  },
+  "nodes": [
+    "arts-and-crafts-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1261159",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1261159",
+      "title": "Munstead Wood, Munstead and Tuesley - 1261159 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A search result for this number printed the Overview lines Grade 'I', List Entry Number '1261159', Date first listed '09-Mar-1960' and List Entry Name 'Munstead Wood'. The entry ends 'Listing NGR: SU9821142703' and cites Pevsner's Buildings of England: Surrey (1971), pp 377-8 and Country Life of 8 December 1900."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000156",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000156",
+      "title": "Munstead Wood, Munstead and Tuesley - 1000156 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park and garden entry, Grade I, for the late C19 and early C20 home and garden Gertrude Jekyll created and lived in for over fifty years."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Munstead_Wood",
+      "title": "Munstead Wood - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox gives Location 'Munstead and Tuesley, Surrey', Built 1896-1897, Architect Edwin Lutyens, Architectural style 'Arts and Crafts style', Owner the National Trust, official name 'Munstead Wood', Designated 9 March 1960 and Reference no. 1261159, and records that the National Trust bought the house in 2023."
+    }
+  ],
+  "survey": {
+    "item": "1261159",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1261159",
+    "prepared": "Date first listed: 09-Mar-1960, as the Overview line returned by search prints it. Neither extract returned the entry's own header block.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House. 1896-7. Designed by Sir Edwin Lutyens for Gertrude Jekyll, built by Thomas Underwood. Coursed Bargate stone blocks with some half-timbering and plain tiled roofs swept out to eaves, hipped with gablets on the main range. Half-H shaped plan with projecting hipped wing to left of centre to form U-shaped smaller entrance court. Two storeys with prominent brick multiple stacks, all on moulded plinths with corbelled tops and some placed diagonally.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1261159)."
+      },
+      {
+        "field": "openings",
+        "text": "Elevation facing drive:- wall to left with breathers under tile-on-edge lintels at eaves. Round arched door giving access to corridor with tile-on-edge bands to arch. Four wood-framed leaded casement windows to first floor, five windows below, the outer ones with flat tile-on-edge lintels, the centre two with cambered heads.",
+        "page": "Official list entry, Details section, elevation facing drive."
+      },
+      {
+        "field": "general_description",
+        "text": "Entrance front:- Double hipped range to left with cobbled court between to kitchen range,approached through buttressed walls and wooden gallery over. Half-glazed door and low window on end wall. Gabled wing to right: Jettied half-timbered range between the two wings with ogee bracing and continuous leaded fenestration on the first floor in projecting frames. Door and window, under common segmental head, to gable end of right hand wing. Paved circular area between wings.",
+        "page": "Official list entry, Details section, entrance front. 'range,approached' is the entry's own."
+      },
+      {
+        "field": "plan",
+        "text": "Garden front:- Two gables left and right of centre, each with one first floor and two ground floor windows. Door to left of centre and hipped wing to right. Interior:- 6-bay-gallery across centre of first floor with queen strut roof and panelled walls.",
+        "page": "Official list entry, Details section, garden front and interior."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys with prominent brick multiple stacks",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "drive_elevation_window_count",
+      "as_printed": "Four wood-framed leaded casement windows to first floor, five windows below",
+      "from_quote": 1,
+      "note": "Four above and five below: the upper and lower rhythms differ by one, so this elevation is not a grid, and no single value is parsed."
+    },
+    {
+      "name": "gallery_bay_count",
+      "as_printed": "6-bay-gallery across centre of first floor",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "A six-bay gallery under a queen strut roof running across the centre of the first floor -- the one interior dimension-bearing statement in the cluster that a plan generator could act on."
+    },
+    {
+      "name": "garden_front_gable_count",
+      "as_printed": "Two gables left and right of centre",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1261159",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `arts-and-crafts-british`. Two things here are worth a rule the corpus does not have: a half-H plan whose projecting wing forms a U-shaped entrance court, and an elevation whose first floor carries four windows over five below. The second is the node's own claim about window bands stated as a count -- the wall is not a grid of holes and the register's own numbers say so."
+}

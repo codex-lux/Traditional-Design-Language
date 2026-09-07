@@ -1,0 +1,54 @@
+{
+  "id": "gunderson-house",
+  "name": "Gunderson House",
+  "location": {
+    "text": "Vermillion, South Dakota",
+    "country": "United States",
+    "state": "South Dakota"
+  },
+  "dates": {
+    "built": "1895",
+    "circa": false,
+    "altered": "Wikipedia: 'Its siding was originally wooden clapboard; between 1978 and 2000, it had aluminum siding, but the wood was restored after this time. The large picture window on the ground floor that overlooks the porch was installed in the 1960s.'",
+    "note": "Individually listed in 2001 and included within the Jolley Historic District in 2022 (South Dakota State Historic Preservation Office, via the Brookman House nomination). Built by Harvey Gunderson, per the Wikipedia infobox's 'Built by' line; no architect is named."
+  },
+  "nodes": [
+    "queen-anne-free-classic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "01000092",
+      "url": "https://en.wikipedia.org/wiki/Gunderson_House",
+      "title": "NRHP reference No. 01000092; added to NRHP February 9, 2001; architectural style Queen Anne (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. A Federal Register notice of pending nominations read in the same search carries the row 'Clay County Gunderson House, 24 S. Harvard, Vermillion'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gunderson_House",
+      "title": "Gunderson House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'Gunderson House is a classic example of Queen Anne style architecture-and specifically, the Free Classic subtype-which was popular in the Midwest during the Late Victorian and Edwardian eras. It is two stories tall and sits on a foundation made of Sioux Quartzite. Its steep cross-gabled roof is entirely clad in asphalt shingles. ... A raised porch spans the entire front facade and features paired classic columns and a simple frieze.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://boardsandcommissions.sd.gov/bcuploads/Agenda%20Item%207b%20Brookman%20House%20DRAFT%20nomination.pdf",
+      "title": "National Register of Historic Places Registration Form -- Brookman House, Vermillion, South Dakota (draft, South Dakota Boards and Commissions)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Cited for its comparative analysis, not for its own subject: 'Only two Queen Anne houses in Vermillion are individually listed in the National Register as of 2023. The first is the Gunderson House, located at 24 S. Harvard St. (individually listed in 2001; included within the Jolley Historic District in 2022). It was built in 1895 and is a restrained example of the Free Classic subtype of Queen Anne architecture.' The document is a DRAFT nomination for a different house and is quoted as a state office's own comparative reading."
+    },
+    {
+      "kind": "other",
+      "url": "https://vermillionhpc.org/properties.aspx",
+      "title": "VHPC | Historic Properties: Individual -- 'Gunderson House (Jolley) (added 2001 - - #01000092) 24 S. Harvard, Vermillion'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Vermillion Historic Preservation Commission's own list of individually-listed properties, repeating the National Register reference number and the address. It prints no separate state file number, so this ref carries no id."
+    }
+  ],
+  "note": "The documentary end of this node: a small-town Free Classic with the paired classical columns and the plain frieze, and no ambition beyond them. It is here because two independent state-office readings call it Free Classic in so many words, which is what a subtype node needs and what the two named exemplars it already had -- one in Louisiana, one in Arkansas -- did not give it in the Midwest. Do not confuse it with the Tenus Isaac Gunderson House in Turner County, South Dakota, a different chalkrock Queen Anne with its own National Register nomination. No HABS record was found. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

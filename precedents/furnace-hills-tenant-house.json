@@ -1,0 +1,58 @@
+{
+  "id": "furnace-hills-tenant-house",
+  "name": "Furnace Hills Tenant House",
+  "aka": [
+    "Kurtz House",
+    "Foxfire House"
+  ],
+  "location": {
+    "text": "West Cocalico Township, Lancaster County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "c. 1830-1850",
+    "circa": true,
+    "altered": "Girl Scout work parties from 1973 reconstructed a squirrel-tail bake oven last used in the late nineteenth century, rebuilt a frame bake house on the foundations of an earlier one, and built a new springhouse on the original springhouse foundation; a German four-square garden was added in 1978. A contributing stone stable of the same date carries a 1930s frame barn addition.",
+    "note": "Wikipedia's summary of the National Register nomination gives c. 1830-1850; the node's own exemplar carries 1840, which is the middle of that band and not a stated year."
+  },
+  "nodes": [
+    "pennsylvania-bank-house"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "05000451",
+      "url": "https://en.wikipedia.org/wiki/Furnace_Hills_Tenant_House",
+      "title": "NRHP reference No. 05000451; added May 20, 2005; architectural style 'Penn. German Bankhouse' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The style field is the reason this building is in the corpus: the National Register itself types it as a Pennsylvania German bank house."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Furnace_Hills_Tenant_House",
+      "title": "Furnace Hills Tenant House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It is a 1 1/2 to 2+1/2-story, banked sandstone dwelling, built c. 1830-1850. It is considered to be in a vernacular Pennsylvania German perpendicular bankhouse style. It measures 19 feet wide and 26 feet deep and has a gable roof.' A summary of the nomination, not the nomination; the figures are secondary."
+    },
+    {
+      "kind": "other",
+      "url": "https://lancasteronline.com/video/foxfire-house-girl-scouts-bring-19th-century-life-into-the-21st/article_b4ca419e-d5c0-11e5-82e8-431551bfb7e8.html",
+      "title": "Foxfire House: Girl Scouts bring 19th-century life into the 21st -- LNP | LancasterOnline",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The only source read that says which way the building meets the bank: 'Tucked into a slight rise along Girl Scout Road ... Its style of architecture, the Swiss Weinbauern, is similar to the more familiar bank barns -- but, in this case, the short, gable end extends into the ground.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.visitlancasterpa.com/lancaster-county/furnace-hills",
+      "title": "Furnace Hills -- Visit Lancaster PA (Girl Scouts in the Heart of Pennsylvania, Camp Furnace Hills)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner: 'The 19th century bank house located on the property is on the National Registry of Historic Places and home to the Foxfire Program.'"
+    }
+  ],
+  "note": "The modest end of the type, and the one that names the sub-type: PERPENDICULAR. Everything else in this node is banked on its long eaves side; here 'the short, gable end extends into the ground', which is the form Robert Bucher called the Swiss bank house and which the corpus's node does not distinguish. Nineteen feet by twenty-six is 1.37 -- a single-pen footprint at bank-house section. No HABS survey; the figures come through Wikipedia's summary of the 2005 nomination and are recorded as secondary."
+}

@@ -198,19 +198,55 @@
       "name": "Leopoldine farmhouses of the Val di Chiana",
       "location": "Val di Chiana, Arezzo and Siena provinces, Tuscany, Italy",
       "year": 1780,
-      "note": "Built from the 1770s onward under Grand Duke Pietro Leopoldo's land-reclamation programme; several hundred survive. A symmetrical, regularised casa colonica with a central colombaia over the entrance - the type at its most codified."
+      "note": "Built from the 1770s onward under Grand Duke Pietro Leopoldo's land-reclamation programme; several hundred survive. A symmetrical, regularised casa colonica with a central colombaia over the entrance - the type at its most codified.",
+      "precedent": "leopoldine-farmhouses-of-the-val-di-chiana",
+      "standing": "canonical",
+      "why": "The Region of Tuscany's own landscape project defines the type in a rule -- 'edificio a blocco isolato, tetto a padiglione, portico, loggia e colombaia, rustico al piano terreno e abitazione al primo' -- so here the type states its own parts in a legal instrument instead of a reader inferring them from houses."
     },
     {
       "name": "Villa Medicea di Cafaggiolo",
       "location": "Barberino di Mugello, Florence, Italy",
       "year": 1452,
-      "note": "Michelozzo's reconstruction of an existing fortified farm for Cosimo de' Medici, 1452, keeping the crenellated entrance tower and battlemented wings. Included here because it preserves, at the moment of transition, the working farm block with tower from which the villa type was extracted."
+      "note": "Michelozzo's reconstruction of an existing fortified farm for Cosimo de' Medici, 1452, keeping the crenellated entrance tower and battlemented wings. Included here because it preserves, at the moment of transition, the working farm block with tower from which the villa type was extracted.",
+      "precedent": "villa-medicea-di-cafaggiolo",
+      "standing": "canonical",
+      "why": "ICOMOS's evaluation records that the villa 'was originally a medieval farm' and calls it 'the first appearance of the domus rustica', which is exactly why this node keeps a Medici villa: it preserves the working farm block with its tower at the moment the villa was extracted from it."
     },
     {
       "name": "Podere and fattoria complexes of the Val d'Orcia",
       "location": "Val d'Orcia, Siena province, Tuscany, Italy",
       "year": null,
-      "note": "The mezzadria landscape of dispersed single-family poderi inscribed as a UNESCO World Heritage cultural landscape in 2004; individual houses are undated but the settlement pattern is documented from the fifteenth century."
+      "note": "The mezzadria landscape of dispersed single-family poderi inscribed as a UNESCO World Heritage cultural landscape in 2004; individual houses are undated but the settlement pattern is documented from the fifteenth century.",
+      "precedent": "val-d-orcia-cultural-landscape",
+      "standing": "regional",
+      "why": "UNESCO's inscription covers 'an agrarian and pastoral landscape reflecting innovative land-management systems; towns and villages; farmhouses', so the Sienese dispersed-podere landscape is named as a whole by the World Heritage Centre and no single house stands for it."
+    },
+    {
+      "name": "Podere Primo di Brolio",
+      "location": "Castiglion Fiorentino, Arezzo, Tuscany, Italy",
+      "year": 1783,
+      "note": "An ordinary Leopoldina of the Valdichiana reclamation, measured plan, section, elevation and masonry sample by a 2022 Politecnico di Torino restoration dissertation. It states what nothing else in this cluster states: a square plan of about 322 sq m covered, 51 cm walls at two sampled points, stair flights 1.30 m wide, brick 30 x 15 x 5.5 cm and pietra serena blocks 90 x 20 x 15 cm, two levels plus a mezzanine and a dovecote tower, built to hold a household of sixteen. The year is the date of the 1783 project the survey credits with the present form; it says the exact build year is unknown.",
+      "precedent": "podere-primo-di-brolio",
+      "standing": "documentary",
+      "why": "It is plain, it has been surveyed, and it is the only building in this cluster whose wall thickness, stair width and covered area exist as figures -- the dissertation's own section 4.3.2 is a rilievo geometrico and says so."
+    },
+    {
+      "name": "Grancia di Cuna",
+      "location": "Cuna, Monteroni d'Arbia, Siena, Tuscany, Italy",
+      "year": 1314,
+      "note": "The fortified grange of the Hospital of Santa Maria della Scala, and the estate-centre form from which the mezzadria fattoria descends: one large square brick block with battered walls and two corner towers on the south, entered by a ramp up which pack animals could reach the stores, inside two rings of wall. The year is that of the new granary and the church rebuilding; Terre di Siena gives 1224 for the grange's founding and the two do not describe the same act.",
+      "precedent": "grancia-di-cuna",
+      "standing": "regional",
+      "why": "Visit Tuscany, the Region's own tourism site, calls it 'the best-preserved example of a medieval fortified farm', and it is the Sienese contado's own answer to storing a landlord's half of the harvest -- the judgment is the Region's and the record carries no heritage survey to support more."
+    },
+    {
+      "name": "Podere S. Salvaggio di Sotto II",
+      "location": "Montepulciano, Siena, Tuscany, Italy",
+      "year": null,
+      "note": "A catalogued ordinary farmhouse, carried because its record is nine words long: the Ministry's Catalogo generale dei Beni Culturali holds it as a 'casale rurale' of 'Maestranze Locali', dates it 'ante XVIII - post XVIII', and describes it entirely as 'La struttura è in muratura di pietra e laterizio'. That is the shape of the archival evidence for the ordinary Tuscan farm, and the year is null because the catalogue declines to give one.",
+      "precedent": "podere-s-salvaggio-di-sotto-ii",
+      "standing": "documentary",
+      "why": "It is plain and it is catalogued by the state and it is admired by nobody -- the control case this node's own long description asks for, and the Soprintendenza's 1994 scheda is the whole of what is known about it here."
     }
   ],
   "sources": [

@@ -1,4 +1,4 @@
-"""The 26 tools over HTTP.
+"""The 27 tools over HTTP.
 
 Four things here are regressions waiting to happen, and each cost real debugging once:
 
@@ -125,7 +125,7 @@ def test_mcp_is_mounted():
     from mcp_server import server as tdl_mcp
     live_tools = [n for n, v in vars(tdl_mcp).items()
                   if n.startswith("tdl_") and callable(v)]
-    assert MCP_STATE["tools"] == len(live_tools) == 26
+    assert MCP_STATE["tools"] == len(live_tools) == 27
 
 
 def test_bearer_is_required(live):
@@ -146,7 +146,7 @@ def test_every_tool_is_served(live):
     r = live.post("/mcp", json={"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
                   headers=h)
     names = [t["name"] for t in _body(r)["result"]["tools"]]
-    assert len(names) == 26
+    assert len(names) == 27
     assert "tdl_overview" in names and "tdl_place_plan" in names
 
 

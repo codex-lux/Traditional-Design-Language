@@ -203,25 +203,55 @@
       "name": "Ospedale degli Innocenti",
       "location": "Piazza Santissima Annunziata, Florence, Italy",
       "year": 1419,
-      "note": "Brunelleschi, begun 1419, completed 1445. The first fully proportioned Renaissance elevation: an arcade of nine bays in which the column height, arch span and bay depth are all the same dimension."
+      "note": "Brunelleschi, begun 1419, completed 1445. The first fully proportioned Renaissance elevation: an arcade of nine bays in which the column height, arch span and bay depth are all the same dimension.",
+      "precedent": "ospedale-degli-innocenti",
+      "standing": "icon",
+      "why": "The Istituto degli Innocenti's own museum says Brunelleschi's loggia language 'anticipates a distinctive feature of Florentine Renaissance architecture' and quotes Giovanni Michelucci calling it 'a palace for children', so the standing rests on the owning institution's judgment rather than on this corpus's."
     },
     {
       "name": "Palazzo Rucellai",
       "location": "Via della Vigna Nuova, Florence, Italy",
       "year": 1446,
-      "note": "Traditionally 1446-1451, attributed to Alberti with Bernardo Rossellino executing. The first application of superimposed pilaster orders to a private palace facade - the Colosseum bay brought indoors to the city street."
+      "note": "Traditionally 1446-1451, attributed to Alberti with Bernardo Rossellino executing. The first application of superimposed pilaster orders to a private palace facade - the Colosseum bay brought indoors to the city street.",
+      "precedent": "palazzo-rucellai",
+      "standing": "canonical",
+      "why": "Museo Galileo's itinerary calls it 'uno dei prototipi dell'architettura civile rinascimentale' and states the three superimposed pilaster orders that make it this node's type specimen -- while also recording that the front is unfinished and covers eight earlier houses."
     },
     {
       "name": "Tempietto, San Pietro in Montorio",
       "location": "Rome, Italy",
       "year": 1502,
-      "note": "Bramante, c. 1502. A peripteral Tuscan drum under a hemispherical dome; the purest surviving demonstration that the Renaissance had fully recovered the ancient system."
+      "note": "Bramante, c. 1502. A peripteral Tuscan drum under a hemispherical dome; the purest surviving demonstration that the Renaissance had fully recovered the ancient system.",
+      "precedent": "tempietto-san-pietro-in-montorio",
+      "standing": "icon",
+      "why": "Roma Capitale's monument record calls it 'questo piccolo gioiello architettonico' and states the sixteen granite columns with Vitruvius's authority for the number, which is the register supplying the reason as well as the figure."
     },
     {
       "name": "Palazzo Farnese",
       "location": "Piazza Farnese, Rome, Italy",
       "year": 1517,
-      "note": "1517-1589; Antonio da Sangallo the Younger, cornice and upper cortile by Michelangelo from 1546. The reference palazzo for storey grading and cornice proportion."
+      "note": "1517-1589; Antonio da Sangallo the Younger, cornice and upper cortile by Michelangelo from 1546. The reference palazzo for storey grading and cornice proportion.",
+      "precedent": "palazzo-farnese",
+      "standing": "canonical",
+      "why": "The French Embassy, which has occupied it since 1874, records that the palace took 'settantasei anni di lavori (1513-1589)' and four famous architects and that Michelangelo made the cornicione in 1546-49 -- the attribution this node rests its cornice figure on, without any dimension attached."
+    },
+    {
+      "name": "Palazzo Medici Riccardi",
+      "location": "Via Cavour, Florence, Italy",
+      "year": 1444,
+      "note": "Commissioned from Michelozzo by Cosimo il Vecchio about 1444. The Regione Toscana's own record calls it the first palace in Florence of clearly Renaissance stamp, and notes the two ASYMMETRIC entrance doors and a courtyard built 'secondo moduli brunelleschiani'.",
+      "precedent": "palazzo-medici-riccardi",
+      "standing": "canonical",
+      "why": "Visit Tuscany, the Regione Toscana's official destination site, calls it 'primo palazzo di chiara impronta rinascimentale a Firenze', which makes the priority claim the register's rather than this corpus's; the node describes the graded-rustication urban block at length and carried no example of it."
+    },
+    {
+      "name": "Palazzo Strozzi",
+      "location": "Piazza Strozzi, Florence, Italy",
+      "year": 1489,
+      "note": "Begun 6 August 1489 for Filippo Strozzi, on the Fondazione's own dating, and documented through the Libri della muraglia. Its cornice was never finished. The Fondazione names Giuliano da Sangallo and il Cronaca as the architects and not Benedetto da Maiano, to whom the design is usually given.",
+      "precedent": "palazzo-strozzi",
+      "standing": "documentary",
+      "why": "The Fondazione Palazzo Strozzi calls it 'un progetto esemplare di dimora signorile rinascimentale' and its value to this corpus is documentary rather than formal: the building accounts survive as the Libri della muraglia, and the institution's own text describes no elevation at all."
     }
   ],
   "sources": [

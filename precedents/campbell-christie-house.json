@@ -1,0 +1,45 @@
+{
+  "id": "campbell-christie-house",
+  "name": "Campbell-Christie House",
+  "location": {
+    "text": "Historic New Bridge Landing, River Edge, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "c. 1774",
+    "circa": true,
+    "altered": "Moved. The nomination: 'Rescued by funds from the Freeholders, it was moved bodily, minus the roof, to the Steuben house grounds on September 27, 1977', from #715 River Road at the south-east corner of Henley Avenue in New Milford. And: 'The gambrel roof, removed for the move, has had its 19th C. dormers and second floor partitions removed to recreate the original loft area.' A DORMERLESS ROOF ON THIS BUILDING IS A 1977 RESTORATION DECISION AND NOT SURVIVING EVIDENCE.",
+    "note": "The nomination: 'it is felt from architectural evidence that the house was built by Jacob about the time of his marriage in 1774', and elsewhere 'The Campbell/Chris tie House, circa 1774'. The Bergen County Historical Society says 'about the time of his marriage to Altche Westervelt in April 1774'."
+  },
+  "nodes": [
+    "new-jersey-dutch-gambrel"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/322a2744-9218-4928-94ee-de9e81887ecb",
+      "title": "National Register of Historic Places Inventory - Nomination Form: STEUBEN ESTATE COMPLEX, Bergen County, New Jersey (prepared by Claire K. Tholl, vice-president, Bergen County Historical Society, 20 January 1978, revisions by T. Karschner, OHP Trenton)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE DESCRIPTION VERBATIM, and the reason this record exists: 'The CAMPBELL-CHRISTIE HOUSE is a 1 1/2 story sandstone house measuring 30' x 40' with neatly dressed blocks all around with the best work on the front. It has a five-bay center hall plan, two rooms deep on both sides. The front parlours have large fireplaces connected to separate internal stack. On its original 3/4 acre site the house had early 19th C. frame wings on its south and rear sides and in its present location the rear wing will be rebuilt to house utilities. The gambrel roof, removed for the move, has had its 19th C. dormers and second floor partitions removed to recreate the original loft area. Interesting features of construction are the wood trapezoidal lintels over the openings on the front, plastered wattle and daub interior walls and hand-split lath ceilings over beaded beams.' This is a National Register nomination and not a Historic American Buildings Survey, so it is carried here and NOT in a `survey` block: the schema's survey block is for HABS written data, and these figures are therefore not eligible to become `measurements`."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Campbell-Christie_House",
+      "title": "Campbell-Christie House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It was added to the National Register of Historic Places on January 10, 1983, as part of the Early Stone Houses of Bergen County Multiple Property Submission (MPS).' No eight-digit reference number was read, so no `nrhp` id is recorded."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.bergencountyhistory.org/campbell-christie-house",
+      "title": "Campbell-Christie House | Bergen County Historical Society (by Kevin W. Wright)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner-custodian. 'The Campbell-Christie House is a sandstone center-hall 4-room house with a full cellar and full garret/attic capped with a gambrel roof.'"
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass as the node's best-dimensioned specimen: 30 x 40 ft, one and a half storeys, five-bay centre hall, two rooms deep, gambrel. TWO THINGS IT SAYS TO THE KIT. (1) It CORROBORATES `depth_and_pile`'s `double-pile` variant and its `applies_when` date range of 1760-1820: a c. 1774 house 'two rooms deep on both sides' about a centre hall. (2) It SITS AWKWARDLY WITH THE INHERITED `chimney` slot, which makes gable-end chimneys canonical and forbids both a central stack and interior stacks flanking the ridge: the nomination says 'The front parlours have large fireplaces connected to separate internal stack.' Recorded, not resolved -- 'internal stack' may still mean a stack inside a gable wall, and the nomination does not say which. The masonry grading the node's prose describes is stated here in the surveyor's own words: 'neatly dressed blocks all around with the best work on the front.'"
+}

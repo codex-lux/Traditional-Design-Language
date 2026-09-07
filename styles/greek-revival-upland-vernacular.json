@@ -203,13 +203,55 @@
       "name": "DeVault-Massengill House",
       "location": "Piney Flats, Sullivan County, Tennessee",
       "year": 1842,
-      "note": "Built by Isaac DeVault; upland East Tennessee Greek Revival on a farm whose earlier circa-1769 log house survives on the same property - the whole log-to-Grecian sequence in one place."
+      "note": "Built by Isaac DeVault; upland East Tennessee Greek Revival on a farm whose earlier circa-1769 log house survives on the same property - the whole log-to-Grecian sequence in one place.",
+      "precedent": "devault-massengill-house",
+      "standing": "canonical",
+      "why": "The National Register's own judgment -- \"one of the finest examples of the Greek Revival style in Sullivan County\" -- and its description reads back the node's whole diagnostic list independently: three bays wide, one room deep, low pitched roof, outside end chimneys, and the Grecian content confined to cornice, lintels and shouldered surrounds."
     },
     {
       "name": "Swaim House",
       "location": "Chapel Hill, Marshall County, Tennessee",
       "year": 1845,
-      "note": "Circa 1840s; a plain Greek Revival farmhouse in the Middle Tennessee uplands, listed on the National Register in 1984. Ordinary in the way this stratum is ordinary, which is why it is worth recording."
+      "note": "Circa 1840s; a plain Greek Revival farmhouse in the Middle Tennessee uplands, listed on the National Register in 1984. Ordinary in the way this stratum is ordinary, which is why it is worth recording.",
+      "precedent": "swaim-house",
+      "standing": "canonical",
+      "why": "A type specimen for the rarer masonry half of the stratum on the National Register's judgment that \"small brick residences in this style are rare\" -- and it is a ONE-STOREY cottage with a pedimented Doric portico, which contradicts the node's own two-storey, portico-less description and is carried for that reason."
+    },
+    {
+      "name": "Carter House",
+      "location": "1140 Columbia Avenue, Franklin, Williamson County, Tennessee",
+      "year": 1830,
+      "note": "A brick Middle Tennessee farmhouse of 1830 with a frame ell and an L-shaped portico, surveyed in 1971 with a full outline. Its detached office, smoke-house and kitchen stand at the corners of the house, which is this stratum's service arrangement recorded by a surveyor rather than asserted. Neither extract reached an overall dimension.",
+      "precedent": "carter-house",
+      "standing": "regional",
+      "why": "The Middle Tennessee expression, and the reason is the survey rather than any assessment of quality -- it is the one house in this set with a 1971 HABS outline stating roof, openings and outbuildings entry by entry."
+    },
+    {
+      "name": "Indian Valley",
+      "location": "Geneva, Henderson County, Kentucky",
+      "year": 1840,
+      "note": "Two storeys of brick with one-storey wings, brick and frame partitions, wood shingles, and a piazza on the river side that was already gone when the surveyor arrived; he found the fabric \"Bad\" and never once used the word Greek. Dated only as \"(approx) In the 184-0 s\" by the survey and \"after 1840\" by the Library.",
+      "precedent": "indian-valley",
+      "standing": "documentary",
+      "why": "Plain, surveyed and useful to measure rather than to admire -- carried on this corpus's own judgment that a stratum defined by its ordinariness needs an ordinary instance in the record, and it is in the Ohio Valley the node's geography claims and rarely illustrates."
+    },
+    {
+      "name": "Rumbough-Doughty House",
+      "location": "215 South Irish Street, Greeneville, Greene County, Tennessee",
+      "year": null,
+      "note": "Dated by the survey only as \"Mid-nineteenth century\" and only by its likeness to the Andrew Johnson Home two streets away, \"perhaps constructed by the same builder\". Two storeys, brick, L-plan, gable roof, MOULDED BRICK CORNICES where this stratum usually runs its eave in boards, no dormers, and a one-storey slave quarters in the yard recorded in the same list.",
+      "precedent": "rumbough-doughty-house",
+      "standing": "documentary",
+      "why": "Carried for what the surveyor wrote down rather than for the building: \"C. Technical Description of Interiors: Unable to view the interior\" is an evaluated could-not-evaluate written in 1958, and the corpus's own rule that unjudged is not passed is what makes it worth keeping."
+    },
+    {
+      "name": "Andrew Johnson House",
+      "location": "217 South Main Street, Greeneville, Greene County, Tennessee",
+      "year": null,
+      "note": "The stratum's one nationally known building, and the survey has measured drawings and photographs and NO written data at all -- the PDF at the data path is two cover sheets. It is here because the survey next door dates and describes itself by reference to it, so the pair says more than either alone.",
+      "precedent": "andrew-johnson-house",
+      "standing": "regional",
+      "why": "The East Tennessee town house of this stratum, and it is marked regional rather than icon deliberately: what a reader can name it for is its occupant, and no architectural judgment about it was found in any source read."
     }
   ],
   "sources": [

@@ -1,0 +1,66 @@
+{
+  "id": "grims-dyke",
+  "name": "Grim's Dyke",
+  "aka": [
+    "Grimsdyke",
+    "Graeme's Dyke"
+  ],
+  "location": {
+    "text": "Harrow Weald, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (London Borough of Harrow)"
+  },
+  "dates": {
+    "built": "1872",
+    "altered": "Wing added at east end; converted to a hotel in 1970-71.",
+    "note": "The list entry gives the single year 1872; the Wikipedia article says the house was built from 1870 to 1872 for the painter Frederick Goodall. Both are recorded."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1079676",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1079676",
+      "title": "Grimsdyke, Non Civil Parish - 1079676 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details text's own header reads 'OLD REDDING 1. 5016 Harrow Weald Grimsdyke TQ 1492 6/1 5.9.69 II', carrying the date first listed (5 September 1969); the entry ends 'Listing NGR: TQ1417992883' and carries the legacy system number 202137. The entry as read prints the grade as 'II' while the Wikipedia infobox and Wikidata both say Grade II*; the disagreement is recorded and not resolved. The register spells the name Grimsdyke as one word. Re-read the same day at the `?section=official-list-entry` URL: the Overview block prints Grade 'II' twice and Date first listed '05-Sept-1969', so the register's own answer is II and the Wikipedia and Wikidata claim of II* is unsupported by anything read here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grim%27s_Dyke",
+      "title": "Grim's Dyke - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "It gives Built 1872, Architect Richard Norman Shaw, official name 'Grimsdyke', Designated 5 September 1969 and Reference no. 1079676, and separately a National Register of Historic Parks and Gardens designation of 5 July 1996 under reference 1001254. It records that the house was built for the painter Frederick Goodall and named after the nearby prehistoric earthwork, and that it was called Graeme's Dyke until late 1891."
+    }
+  ],
+  "survey": {
+    "item": "1079676",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1079676",
+    "prepared": "Date first listed: 5 September 1969, as the entry's own Details header prints it ('TQ 1492 6/1 5.9.69'); the Wikipedia infobox gives the same date.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1872, by Richard Norman Shaw. Large, irregular house of 2 and 3-storeys in modified Tudor style. Red brick and stone with timber-framed gables. Tiled roof. Prominent chimneys. Wing added at east end. Residence of W S Gilbert. Internal features includes highly elaborate alabaster chimney piece by Ernest George.",
+        "page": "Official list entry, Details section, the whole of paragraph 2 (List Entry Number 1079676), above 'Listing NGR: TQ1417992883'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "house of 2 and 3-storeys",
+      "from_quote": 0,
+      "note": "Two figures for one house, as at Cragside; no single value is parsed. This is the fourth building in this cluster whose register entry declines to state one storey count, which is a finding about the style and not about the entry."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1079676",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `queen-anne-british`, and the record is thin on purpose: this is one of the shortest list entries in the cluster, six sentences with no bay count and no dimension, and it is carried because it is the earliest of Shaw's Old English country houses to survive substantially and because the register calls its style 'modified Tudor' rather than Queen Anne -- the second entry in this node to classify its exemplar differently from the corpus."
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ervin-and-ethel-jesse-house",
+  "name": "Ervin and Ethel Jesse House",
+  "location": {
+    "text": "La Jolla, San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1938",
+    "circa": false
+  },
+  "nodes": [
+    "minimal-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://sandiego.cfwebtools.com/images/files/CR%201454.pdf",
+      "title": "The Ervin and Ethel Jesse House, historic resource report on California DPR 523 forms, City of San Diego (report CR 1454)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'Constructed in 1938, the small home displays all character-defining and identifying characteristics of the minimal traditional style, which had prominence from 1935-1950 ... 7402 Eads is a simple, wood framed, minimal traditional single-family residence in the J.G Burne's addition to La Jolla Park. The home faces east to Eads Avenue.' On the sub-type: '7402 Eads is a gable-and-wing roof sub-type, which has a low-pitched front-facing gable added on one side of a side-gabled roof. Typically, the front-facing gable does not protrude very far in front of the side gable and consists only of a small extension added to one room of the house.' And, quoting the node's own named source at one remove: 'The FHA 1940's version of Principles for Planning Small Houses says \"Simplicity in exterior design gives the small house the appearance of maximum size\". The exterior design of minimal traditional homes is described as \"simple\" four times in the pamphlet.'"
+    }
+  ],
+  "note": "A single house rather than a tract, and the only one in this node's exemplars: 7402 Eads Avenue, La Jolla. It is here because the report is a room-by-room, feature-by-feature reading of one ordinary Minimal Traditional house against the FHA's own pamphlet, which is what this node's description argues from and what nothing else in the exemplar list supplies. WHAT IS NOT KNOWN: the report is a designation report prepared for the City of San Diego's Historical Resources Board; the Board's decision on it was not read here, so no designation is claimed. No overall dimensions, roof pitch or eave projection were found in the spans read, so nothing dimensional is recorded."
+}

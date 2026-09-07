@@ -1,0 +1,41 @@
+{
+  "id": "thorsen-house",
+  "name": "Thorsen House",
+  "aka": [
+    "William R. Thorsen House",
+    "Sigma Phi-Thorsen House"
+  ],
+  "location": {
+    "text": "Berkeley, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1909",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1909'; the article calls it 'the last of five so-called \"ultimate bungalows\"' by Greene & Greene."
+  },
+  "nodes": [
+    "craftsman"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "78000646",
+      "url": "https://en.wikipedia.org/wiki/Thorsen_House",
+      "title": "NRHP reference No. 78000646; added November 20, 1978; Berkeley Landmark No. 4, designated December 15, 1975 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Thorsen_House",
+      "title": "Thorsen House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Location as the infobox prints it: 2307 Piedmont Avenue, Berkeley."
+    }
+  ],
+  "note": "No HABS survey was found: the query '\"Thorsen House\" 2307 Piedmont Avenue Berkeley Alameda County HABS CA- loc.gov pictures item' returned nothing. Seeded 4 Sep 2026."
+}

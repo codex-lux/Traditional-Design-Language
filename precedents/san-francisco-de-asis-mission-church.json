@@ -1,0 +1,57 @@
+{
+  "id": "san-francisco-de-asis-mission-church",
+  "name": "San Francisco de Asís Mission Church",
+  "aka": [
+    "Ranchos de Taos Church",
+    "San Francisco de Asís Parish Church"
+  ],
+  "location": {
+    "text": "Ranchos de Taos, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1772-1816",
+    "circa": false,
+    "note": "Wikipedia's text says 'The current church was constructed between 1772 and 1816' while its infobox prints 'Completed 1772'; the Park Service page says 'Completed in 1816'. All three are recorded; the exemplar year is 1816.",
+    "altered": "A hard plaster applied to protect the walls proved damaging and was replaced by an annual June re-mudding by the parish and visitors (National Park Service)."
+  },
+  "nodes": [
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/San_Francisco_de_As%C3%ADs_Mission_Church",
+      "title": "San Francisco de Asís Mission Church - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Infobox materials line: 'Adobe Terra Colorado Exterior. Adobe brick laid up in adobe mortar with adobe plaster surface.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000416",
+      "url": "https://en.wikipedia.org/wiki/San_Francisco_de_As%C3%ADs_Mission_Church",
+      "title": "NRHP Reference no. 70000416; added April 15, 1970; designated NHL April 15, 1970; contributing property of Ranchos de Taos Plaza (reference no. 78001830, designated October 2, 1978) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/places/san-francisco-de-assisi-mission-church-ranchos-de-taos-new-mexico.htm",
+      "title": "San Francisco de Assisi Mission Church, Ranchos de Taos, New Mexico (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Completed in 1816, the San Francisco de Assisi Mission Church is a large, sculpted Spanish Colonial church with massive adobe buttresses and two front-facing bell towers'; 'Four \"beehive\" shaped buttresses support the back of the church structure and two buttresses in front of each bell tower support the front'; after a hard plaster 'proved to be damaging', 'citizens of Ranchos de Taos, parish members, and visitors gather for two weeks each June to re-mud the exterior of the adobe church with a mixture of mud and straw'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.newmexico.org/lowriders/northern-santuarios",
+      "title": "Historic Churches & Cathedrals of Northern New Mexico (New Mexico Tourism Department)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Names the June 'Enjarre' re-mudding and quotes O'Keeffe calling the church 'one of the most beautiful buildings left in the United States by the early Spaniards'."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the building a fluent reader names first for New Mexican adobe after Taos Pueblo itself. No HABS record was found: two loc.gov searches ('\"Ranchos de Taos\" \"San Francisco de Asis\" church HABS loc.gov pictures item' and '\"San Francisco de Asis\" OR \"Ranchos de Taos\" church Taos County NM loc.gov pictures item HABS') returned the Capilla de Nuestra Senora de Dolores at Ranchos de Taos (HABS NM-93), the Taos Pueblo record and the San Francisco mission in California, never this church. Nothing here states a dimension."
+}

@@ -199,25 +199,64 @@
       "name": "Cragside",
       "location": "Rothbury, Northumberland, England",
       "year": 1884,
-      "note": "Enlarged 1869-84 by Richard Norman Shaw for the armaments manufacturer William Armstrong. Old English at full stretch — half-timbered gables, immense stacks, a rambling hillside plan — and the first house in the world lit by hydroelectricity."
+      "note": "Enlarged 1869-84 by Richard Norman Shaw for the armaments manufacturer William Armstrong. Old English at full stretch — half-timbered gables, immense stacks, a rambling hillside plan — and the first house in the world lit by hydroelectricity.",
+      "precedent": "cragside",
+      "standing": "icon",
+      "why": "Shaw's Old English at full stretch, and entry 1042076 is the evidence for what that means dimensionally -- three fronts, on which it states storey counts of one, 1 1/2, two, three, five and six -- while recording that the house was 'the first in the world to be lit by electricity derived from water power'."
     },
     {
       "name": "Lowther Lodge",
       "location": "Kensington Gore, London, England",
       "year": 1875,
-      "note": "Built 1873-75 by Shaw for William Lowther, now the Royal Geographical Society. Red brick, tall shaped gables, white sashes and rubbed-brick ornament: the style's arrival in the capital."
+      "note": "Built 1873-75 by Shaw for William Lowther, now the Royal Geographical Society. Red brick, tall shaped gables, white sashes and rubbed-brick ornament: the style's arrival in the capital.",
+      "precedent": "lowther-lodge",
+      "standing": "icon",
+      "why": "Historic England's entry 1217774 says the building “was one of the earliest and most influential works in the Queen Anne style, being hailed as an 'artistic landmark' in the Building News of 1875”, which is the register's judgment and not this project's."
     },
     {
       "name": "Bedford Park",
       "location": "Chiswick, London, England",
       "year": 1880,
-      "note": "Developed from 1875 by Jonathan Carr with E. W. Godwin and then Norman Shaw as architects. The first garden suburb, and the model for the entire Anglo-American leafy suburb that followed."
+      "note": "Developed from 1875 by Jonathan Carr with E. W. Godwin and then Norman Shaw as architects. The first garden suburb, and the model for the entire Anglo-American leafy suburb that followed.",
+      "precedent": "bedford-park",
+      "standing": "icon",
+      "why": "The London Borough of Hounslow's own conservation area appraisal calls it 'probably the best-known and best-preserved later Victorian suburb in outer London' and the first place where a market town's informal mood was adopted for a whole speculatively built suburb; the precedent record is a district rather than a building, because no single list entry covers it."
     },
     {
       "name": "Old Swan House",
       "location": "Chelsea Embankment, London, England",
       "year": 1877,
-      "note": "Built 1875-77 by Shaw for the collector Wickham Flower. Three tall oriels on the first floor over a recessed ground storey, small-paned sashes throughout — the most refined statement of the urban manner."
+      "note": "Built 1875-77 by Shaw for the collector Wickham Flower. Three tall oriels on the first floor over a recessed ground storey, small-paned sashes throughout — the most refined statement of the urban manner.",
+      "precedent": "old-swan-house",
+      "standing": "canonical",
+      "why": "The one exemplar in this node whose entry states a storey count and a window count for the same elevation -- Historic England 1294208 gives '4-storey, basement and dormers. Mostly 7 windows' with three first-floor oriels -- so it is the type specimen the node's urban figures can be measured against."
+    },
+    {
+      "name": "Grim's Dyke",
+      "location": "Harrow Weald, London, England",
+      "year": 1872,
+      "note": "Built 1870-72 by Norman Shaw for the painter Frederick Goodall, later the home of W. S. Gilbert and a hotel since 1971. Red brick and stone with timber-framed gables, of two and three storeys, with prominent chimneys.",
+      "precedent": "grims-dyke",
+      "standing": "regional",
+      "why": "An early Shaw country house of 1872, carried as the half-timbered Middlesex end of this node's range rather than as its icon -- Historic England 1079676 calls its style 'modified Tudor' and not Queen Anne, which is the register disagreeing with the node's classification of its own exemplar."
+    },
+    {
+      "name": "6 Ellerdale Road",
+      "location": "Hampstead, London, England",
+      "year": 1876,
+      "note": "Built 1874-76 by Richard Norman Shaw for himself, with a rear extension of 1885-86 by Shaw and later additions; a convent since the twentieth century. Narrow red bricks to the main fronts and normal bricks at the back, with tiers of Ipswich oriels and a canted bay of three storeys.",
+      "precedent": "6-ellerdale-road",
+      "standing": "canonical",
+      "why": "The architect's own London house, and the only entry in this node that names the style as the corpus does: Historic England 1078274 prints 'STYLE: free Queen-Anne style' and records a brick module that changes with the face it is on, 'narrow bricks for main fronts, normal bricks at back'."
+    },
+    {
+      "name": "Adcote",
+      "location": "Little Ness, Shropshire, England",
+      "year": 1881,
+      "note": "Built 1876-81 and dated 1879, by Norman Shaw for Mrs Rebecca Darby. Red sandstone ashlar under plain tile roofs, two storeys and attics under three regular gables, with a full-height four-bay hall behind the entrance range.",
+      "precedent": "adcote",
+      "standing": "canonical",
+      "why": "Historic England 1055113 quotes Andrew Saint calling it 'recognised as Shaw's maturest house of the 1870s' and then states the plan that judgment rests on -- a 'vast 4-bay full-height hall' with screens passage, wooden screen and gallery over -- which is this node's plan-first inheritance from Gothic made countable."
     }
   ],
   "sources": [

@@ -1,0 +1,127 @@
+{
+  "id": "kelmscott-manor",
+  "name": "Kelmscott Manor",
+  "location": {
+    "text": "Kelmscott, Oxfordshire, England",
+    "country": "England",
+    "state": "Oxfordshire"
+  },
+  "dates": {
+    "built": "Circa 1570",
+    "circa": true,
+    "altered": "The entry records the house 'extended c.1670 probably for Thomas Turner; late C18 and C19 additions and alterations'.",
+    "note": "The entry says 'Circa 1570 for Richard Turner'; the Wikipedia infobox prints 'Built | 1570' without the circa, and a tourist-board page read the same day says 'built around 1600'. The list entry's own circa is what this record carries."
+  },
+  "nodes": [
+    "cotswold-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1199373",
+      "title": "Kelmscott Manor, Kelmscott - 1199373 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1199373",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read twice with different queries. The second extract returned the Sources block, which cites 'Dufty, A R, Kelmscott An Illustrated Guide, (1984)' and 'Pevsner, N, Sherwood, J, The Buildings of England: Oxfordshire, (1974), 666', and the Listing NGR SU2509698888; neither extract returned the Official list entry block."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kelmscott_Manor",
+      "title": "Kelmscott Manor - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Type | Manor House', 'Built | 1570', 'Owner | Society of Antiquaries of London', 'Official name | Kelmscott Manor', 'Designated | 12 September 1955', 'Reference no. | 1199373'. Field values, not prose."
+    }
+  ],
+  "survey": {
+    "item": "1199373",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1199373",
+    "prepared": "No Official list entry block was returned by either extract of this page. The Wikipedia infobox prints 'Designated | 12 September 1955' against reference 1199373; that is a field value from a search result and is recorded in the refs rather than asserted as the entry's own statement.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Shown on O.S. map as Manor House. Manor house. Circa 1570 for Richard Turner, extended c.1670 probably for Thomas Turner; late C18 and C19 additions and alterations; between 1871 and 1896 it was the home of William Morris.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Uncoursed limestone rubble with alternating angle quoins; stone slate roofs with moulded coped verges, parapet and ball finials to gables.",
+        "page": "Official list entry, Details, materials sentence following the opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Original house a U-plan with main range of 3-unit through-passage type and gabled ranges projecting to rear; extended at right-angles to east on north in late C17. 2 storeys and attics.",
+        "page": "Official list entry, Details, plan and storeys sentences following the materials sentence"
+      },
+      {
+        "field": "bays",
+        "text": "East (entrance) front. 3 bays; mullion windows with dripstones, of 4 lights to ground floor, 3 lights to first floor except centre of 2 lights and of 2 lights to prominent gabled full dormers to left and right.",
+        "page": "Official list entry, Details, description of the east front"
+      },
+      {
+        "field": "chimneys",
+        "text": "Prominent external end stack to left has 2 detached diagonal shafts with moulded capping and rectangular windows to left; similar ridge stack to right with 3 detached shafts.",
+        "page": "Official list entry, Details, east front continued; this span sits in the third block returned by the extract"
+      },
+      {
+        "field": "openings",
+        "text": "West front: has projecting gables to left and right, left longer and flush gable to centre. All have 2-, 3- and 4-light mullion windows with dripstones to attic, first floor and ground floor respectively, except for right gable which has half-glazed stable door in earlier surround with rectangular chamfered window to right on ground floor.",
+        "page": "Official list entry, Details, description of the west front"
+      },
+      {
+        "field": "cornice",
+        "text": "Bracketed wooden gutters to",
+        "page": "Official list entry, Details, west front; the sentence is cut by the end of the extract's second block and is carried only as far as it was read"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys and attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The attics are lit by their own 2-light mullioned windows in gabled full dormers and are not counted as a storey by the entry."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 bays",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The east, entrance front."
+    },
+    {
+      "name": "plan_unit_count",
+      "as_printed": "3-unit through-passage type",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The main range. This is the same plan word the Grevel's House entry uses ('7 units') and the two are not on the same scale; a unit here is a room-width bay of a three-room through-passage house."
+    },
+    {
+      "name": "window_light_count_ground",
+      "as_printed": "4 lights to ground floor",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The east front. The same sentence gives 3 lights to the first floor and 2 to the dormers, so the diminishing course of lights up the elevation is stated twice in this cluster -- here and at Owlpen Manor -- by two different surveyors."
+    },
+    {
+      "name": "chimney_shaft_count",
+      "as_printed": "2 detached diagonal shafts",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The left end stack; the ridge stack to the right carries three."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1199373",
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. Added by this tranche. Kelmscott is on the eastern edge of the node's stated hearth ('west Oxfordshire') and is here for a reason the node's own prose supplies: it is the house William Morris took as the standard of unforced building, and the link from the district's masons to Arts and Crafts runs through it as much as through Sapperton. The entry is the cleanest statement in this cluster of the Cotswold elevation grammar -- uncoursed rubble, dressed quoins, coped verges with ball finials, and lights falling 4 - 3 - 2 from ground to attic."
+}

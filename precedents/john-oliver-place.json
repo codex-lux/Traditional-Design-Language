@@ -1,0 +1,58 @@
+{
+  "id": "john-oliver-place",
+  "name": "John Oliver Place",
+  "aka": [
+    "John Oliver Cabin"
+  ],
+  "location": {
+    "text": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1820s",
+    "circa": true,
+    "altered": "NPS: 'A kitchen was added to the present cabin but has since been removed by the National Park Service.'",
+    "note": "NPS: 'A second cabin, the one that still stands today, was built in the 1820s just a few dozen yards from the original cabin'; Wikipedia's Cades Cove article: 'constructed circa 1822-1823'; the park's Cades Cove Opportunities Plan inventory prints 'Date of Origin ... 1817' for it; the node's exemplar says the 1820s replacing an 1818 cabin. All kept."
+  },
+  "nodes": [
+    "log-vernacular-american",
+    "appalachian-log-house",
+    "american-folk-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-248",
+      "url": "https://www.loc.gov/item/tn0273",
+      "title": "John Oliver Cabin, Townsend, Blount County, TN | Library of ...",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own lines: 'Survey number: HABS TN-248', 'Photo (s): 3 Photo Caption Page (s): 1', call number 'HABS TENN,5-CADCO,5-'. No data pages, so no survey block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0273",
+      "url": "https://www.loc.gov/item/tn0273",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/places/john-oliver-place.htm",
+      "title": "John Oliver Place (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'The John Oliver cabin is the first historic structure on the 11-mile Cades Cove driving loop. It is also the oldest.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://parkplanning.nps.gov/showFile.cfm?sfid=53774&projectID=23304",
+      "title": "Great Smoky Mountains National Park Cades Cove Opportunities Plan Appendix E",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The park's cultural-resources inventory. Its own words: 'the John Oliver Cabin, is a one-and-a-half-story, single-room, half-dovetail notched log cabin set on fieldstone footings. It has a single-story front and rear porch, with a wood-shingled shed roof supported by three poles set on a half-sawn log floor. The structure has a stone chimney, and a gable roof with wood shake'."
+    }
+  ],
+  "note": "The Park Service's inventory description -- single pen, half-dovetail, fieldstone footings, stone chimney, shed-roofed porches front and rear -- is the nearest thing to a survey this cabin has in words; HABS photographed it and wrote nothing. The appalachian-log-house node names it at the same location string and could join this record. Seeded 4 Sep 2026."
+}

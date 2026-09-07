@@ -1,0 +1,53 @@
+{
+  "id": "carter-shields-cabin",
+  "name": "Carter Shields Cabin",
+  "location": {
+    "text": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "c. 1880",
+    "circa": true,
+    "note": "Wikipedia's Cades Cove article calls it 'a rustic log cabin built in the 1880s'; a Great Smoky Mountains tourism guide read the same day says 'Likely built circa 1880 by William Sparks'. The node's own exemplar carries 1880. No archival source for the year was resolved here."
+  },
+  "nodes": [
+    "appalachian-log-house"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "77000111",
+      "url": "https://en.wikipedia.org/wiki/Cades_Cove",
+      "title": "Cades Cove Historic District, NRHP reference No. 77000111, added July 13, 1977 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing over the whole cove; the cabin is a contributing structure and has no individual listing that was resolved here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cades_Cove",
+      "title": "Cades Cove - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Carter Shields Cabin, a rustic log cabin built in the 1880s' and 'the last homestead on the Cades Cove automobile tour'."
+    },
+    {
+      "kind": "other",
+      "url": "https://npshistory.com/publications/grsm/tipton-oliver-homestead-cli.pdf",
+      "title": "Tipton-Oliver Homestead, Cultural Landscapes Inventory, Great Smoky Mountains NP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Cited for one sentence only: its list of the twelve component landscapes of the Cades Cove Cultural Landscape names 'the Carter Shields Homestead', which is where the site's own administrative identity is recorded. The Carter Shields inventory itself was not opened."
+    },
+    {
+      "kind": "other",
+      "url": "https://smokymountains.com/park/blog/12-historical-stops-cades-cove",
+      "title": "12 Fascinating Historical Stops Along the Cades Cove Loop",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A tourism guide, not an archival source, and recorded as one: 'Likely built circa 1880 by William Sparks, it later came to serve as the residence of the Civil War veteran Carter Shields, who was injured during the Battle of Shiloh in 1862.'"
+    }
+  ],
+  "note": "No HABS survey was found for this cabin under any of the names tried; the park's own documentation of it is a Cultural Landscapes Inventory rather than a measured survey. A record with references and no survey block, which is the normal state for a Cades Cove structure that HABS did not reach -- the surveys went to the John Oliver Cabin (TN-248), the Henry Whitehead Place (TN-161) and the Walker Family Farm (TN-121)."
+}

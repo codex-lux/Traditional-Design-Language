@@ -1,0 +1,59 @@
+{
+  "id": "woodward-development-houses-chestnut-hill",
+  "name": "Woodward development houses, Chestnut Hill",
+  "record_kind": "group",
+  "aka": [
+    "the Quadruple Houses",
+    "Benezet Street houses"
+  ],
+  "location": {
+    "text": "Chestnut Hill, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1909-1930",
+    "circa": true,
+    "altered": "Two sets of 'Quads' were built on Benezet Street and three more later on Nippon Street in Mount Airy.",
+    "note": "The style node's exemplar gives 1920 as its year with a note saying the houses were built 'between 1910 and 1930'. The sources read here put the start a year earlier: the Philadelphia Register nomination for 208-10 Rex Avenue says Duhring, Okie & Ziegler 'was first engaged by Woodward in 1909 as the architects for what Woodward characterized as a \"slum\" redevelopment on Benezet Street', with the prototype quadruple houses following 'in 1910'. The exemplar's year is not edited; the range recorded here is the nomination's."
+  },
+  "nodes": [
+    "cotswold-cottage-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/H._Louis_Duhring_Jr.",
+      "title": "H. Louis Duhring Jr. - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Between 1910 and 1930, he designed 180 houses in the Chesnut Hill [sic] neighborhood of Philadelphia.' It describes the Quadruple Houses of 1910 as 'four attached houses huddled together so that each shared one long and one short wall', cheaper than detached houses and more private than rows, and says Duhring 'also designed dozens of Cotswold-style houses for Woodward'. It names Edmund B. Gilchrist and Robert Rodes McGoodwin as the other architects Woodward used."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.phila.gov/media/20201119161428/208-10-Rex-Ave-nomination.pdf",
+      "title": "208-10 Rex Ave, William L. Hirst-H. Louis Duhring Jr. House - Philadelphia Register of Historic Places nomination",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A nomination for Duhring's own house and studio, whose historical context section carries the Benezet Street account verbatim: 'The firm was first engaged by Woodward in 1909 as the architects for what Woodward characterized as a \"slum\" redevelopment on Benezet Street in Chestnut Hill', resulting in 'long row of three-story Colonial Revival twins along the north side of Benezet Street in Chestnut Hill, followed in 1910 by prototype \"quadruple\" houses for the south side of Benezet which were equally progressive for their time in terms of planning.' It also records Woodward's own statement that these were specifically NOT intended for 'white collar class' tenants."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.chestnuthilllocal.com/stories/discovering-chestnut-hill-walking-tour-innovative-attached-houses-in-east-chestnut-hill,6907",
+      "title": "Innovative attached houses in East Chestnut Hill - Chestnut Hill Local",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The tour will begin with the Benezet Street houses developed by Dr. George Woodward in 1910 and designed by Duhring, Okie & Ziegler.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "85001334",
+      "url": "https://en.wikipedia.org/wiki/Chestnut_Hill_Historic_District_(Philadelphia)",
+      "title": "Chestnut Hill Historic District, NRHP reference No. 85001334, added June 20, 1985",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing over 1,920 acres, recorded because these houses stand inside it and flagged so no reader takes the number for theirs."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. This is a body of work rather than a building - about 180 houses by one architect for one client over twenty years - so it carries no dimensions and no single date, and the record says so rather than picking one house to stand for the rest. Worth carrying against the node's prose, which frames Cotswold Cottage Revival as a claim of RETREAT by the professional class: the Benezet Street quadruple houses were built as workers' housing by a client who said in writing that they were not for white-collar tenants, so the earliest and best-documented part of this exemplar is a philanthropic rental development, not a suburb of the retreating middle class."
+}

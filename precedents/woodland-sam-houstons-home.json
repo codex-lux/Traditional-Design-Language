@@ -1,0 +1,60 @@
+{
+  "id": "woodland-sam-houstons-home",
+  "name": "Woodland (Sam Houston's home)",
+  "aka": [
+    "Woodland Home",
+    "Sam Houston House"
+  ],
+  "location": {
+    "text": "Sam Houston State University campus, Huntsville, Walker County, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1847-1848",
+    "circa": false,
+    "altered": "Used as a boarding house for Sam Houston Normal Institute students in the 1890s; restored 1929 and again through the twentieth and twenty-first centuries; photographs in the Sam Houston Memorial Museum collection show the house 'without the porch'.",
+    "note": "Three statements, none edited to agree. Wikipedia: 'Built in stages beginning about 1847'. The Texas Historical Commission's 1962 Recorded Texas Historic Landmark marker: 'He and his wife Margaret (Lea) built this house, \"Woodland\", in 1847 to provide themselves with a town place.' East Texas History: 'The house was finished in February 1848.' The node's own exemplar carries 1847."
+  },
+  "nodes": [
+    "dogtrot-vernacular",
+    "american-folk-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "74002097",
+      "url": "https://en.wikipedia.org/wiki/Woodland_(Huntsville,_Texas)",
+      "title": "NRHP reference No. 74002097; added to the National Register and designated a National Historic Landmark May 30, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox gives the architectural style as 'Dog-trot'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Woodland_(Huntsville,_Texas)",
+      "title": "Woodland (Huntsville, Texas) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It is a classic dogtrot house, with a central breezeway flanked by rectangular log chambers, with brick chimneys at the ends. A shed-roof porch extends in front of the breezeway, supported by square posts. The breezeway includes a winding staircase which provides access to loft spaces used as bedrooms.'"
+    },
+    {
+      "kind": "state-register",
+      "id": "5471008482",
+      "url": "https://atlas.thc.texas.gov/Details/5471008482",
+      "title": "Woodland, Home of Sam Houston -- Texas Historical Commission Atlas, Recorded Texas Historic Landmark marker No. 8482 (1962)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The marker text states the construction: 'The house was built in a style common to the South at the time: squared logs covered with hand-hewn, whitewashed boards. The detached kitchen and law office were built of unfinished, squared logs.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://easttexashistory.org/items/show/131",
+      "title": "Woodland Home | East Texas History",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The house was finished in February 1848'; the family lived on the property eight years and the house was sold in 1858 for $4,000 to pay campaign debts."
+    }
+  ],
+  "note": "No HABS survey was found. The type is stated by two independent sources -- the National Register style field ('Dog-trot') and Wikipedia's description of a central breezeway between rectangular log chambers with end chimneys -- and the breezeway stair the description names is the detail the corpus's own dogtrot prose does not mention: the winding stair to the loft stands IN the passage, which makes the passage circulation as well as a room."
+}

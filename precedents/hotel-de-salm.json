@@ -1,0 +1,85 @@
+{
+  "id": "hotel-de-salm",
+  "name": "Hotel de Salm (Palais de la Legion d'Honneur)",
+  "aka": [
+    "Hôtel de Salm",
+    "Ancien hôtel de Salm, actuel Palais de la Légion d'Honneur",
+    "Palais de la Légion d'honneur"
+  ],
+  "location": {
+    "text": "64 rue de Lille, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1782-1788",
+    "circa": false,
+    "altered": "BURNT AND REBUILT, AND THE NODE DOES NOT SAY SO. The Mérimée notice records that the hôtel was 'incendié par les Communards en mai 1871' and rebuilt by Anastase Mortier from 1871 to 1874 'en respectant le projet d'origine de Rousseau mais en intégrant une décoration demandée aux artistes officiels de l'époque', after an enlargement on the rue de Solférino by Lejeune about 1860 and before a museum wing by Jean de la Morinerie in 1922-1925.",
+    "note": "THE REGISTER AND THE NODE DISAGREE ABOUT THE END DATE. The node's exemplar says 'Pierre Rousseau, 1782-1787'; the Mérimée notice says 'construit de 1782 à 1788'. The notice's campaign years are '1782 ; 1860 ; 1871 ; 1922'. Neither is changed."
+  },
+  "nodes": [
+    "french-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088793",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088793",
+      "title": "Ancien hôtel de Salm, actuel Palais de la Légion d'Honneur",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 1985/11/25 : classé MH'. The reference was read twice: from fr.wikipedia's article, whose reference 1 reads '«Ancien hôtel de Salm, actuel Palais de la Légion d'Honneur», notice n o PA00088793', and from the fr.wikipedia list of monuments historiques of the 7th arrondissement, which prints 'Hôtel de Salm (actuel Palais de la Légion d'honneur) | 64 rue de Lille ... | « PA00088793 » | Classé | 1985'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/H%C3%B4tel_de_Salm",
+      "title": "Palais de la Légion d'honneur — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Where the Mérimée number was first read; also read for the fire and reconstruction, which its own text confirms by referring to 'les 50 000 donateurs qui contribuèrent à la reconstruction du palais après l'incendie'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088793",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088793",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Hôtel construit de 1782 à 1788 par l'architecte Pierre Rousseau pour Frédéric III, prince de Salm-Kyrbourg, puis acquis par la Légion d'Honneur en 1804, deux ans après sa création. L'édifice est agrandi sur la rue de Solférino vers 1860 par l'architecte Lejeune, puis incendié par les Communards en mai 1871. Il est reconstruit par l'architecte Anastase Mortier de 1871 à 1874, en respectant le projet d'origine de Rousseau mais en intégrant une décoration demandée aux artistes officiels de l'époque. De 1922 à 1925, à l'emplacement des anciennes écuries sur la rue de Bellechasse, l'architecte Jean de la Morinerie construit les bâtiments destinés à abriter le musée de la Légion d'Honneur.",
+        "page": "Notice Mérimée PA00088793, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1782 ; 1860 ; 1871 ; 1922",
+        "page": "Notice Mérimée PA00088793, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Ensemble des façades et des toitures, y compris celles des bâtiments des 19e et 20e siècles ; mur de clôture à balustres",
+        "page": "Notice Mérimée PA00088793, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. The span quoted stops before the notice's enumeration of numbered interior rooms; nothing is joined across the break."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_span_years",
+      "as_printed": "de 1782 à 1788",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension, and one year longer than the node's 1782-1787. `count` is the nearest unit the closed enum offers."
+    },
+    {
+      "name": "construction_campaign_count",
+      "as_printed": "1782 ; 1860 ; 1871 ; 1922",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE FINDING HERE IS ABOUT WHAT THE CORPUS IS LOOKING AT. The node cites this building for 'the garden-front rotunda and the low balustraded silhouette that Jefferson admired in person' - and Jefferson saw it between 1784 and 1789, before the Commune burnt it in May 1871. The register records that what stands is Anastase Mortier's reconstruction of 1871-1874, faithful to Rousseau's design but redecorated by the official artists of the Third Republic. The exemplar is sound and the sentence beside it is about a building that was rebuilt after Jefferson saw it, which the corpus nowhere says. The notice states no material, no dimension and no storey count. No rights line was read, so no `rights_evidence`."
+}

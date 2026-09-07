@@ -203,25 +203,55 @@
       "name": "Hoxie House",
       "location": "Sandwich, Massachusetts",
       "year": 1675,
-      "note": "A two-and-a-half-storey half house with an integral rear lean-to; frequently called the oldest house on Cape Cod, and a saltbox rather than a Cape despite its location."
+      "note": "A two-and-a-half-storey half house with an integral rear lean-to; frequently called the oldest house on Cape Cod, and a saltbox rather than a Cape despite its location.",
+      "precedent": "hoxie-house",
+      "standing": "icon",
+      "why": "The saltbox a visitor to Cape Cod is shown first: the node's own note says it is 'frequently called the oldest house on Cape Cod'. (An earlier version also quoted a Wikipedia list the record does not cite; dropped at the 4 Sep audit rather than a ref typed from memory.)"
     },
     {
       "name": "John Quincy Adams Birthplace",
       "location": "141 Franklin Street, Quincy, Massachusetts",
       "year": 1717,
-      "note": "Central-chimney saltbox with two rooms per floor flanking the stack; the lean-to was added c. 1764, so the rear slope shows the classic break. Often mis-dated to 1663 in popular sources."
+      "note": "Central-chimney saltbox with two rooms per floor flanking the stack; the lean-to was added c. 1764, so the rear slope shows the classic break. Often mis-dated to 1663 in popular sources.",
+      "precedent": "john-quincy-adams-birthplace",
+      "standing": "canonical",
+      "why": "Well documented on both sides of the argument the node's own note raises about its date: the 1979 HABS data form (MA-597) gives the plan, the raised purlin roof and 'approx. 36' X 33'', while itself printing the 1663 date the node says is a popular error."
     },
     {
       "name": "Stanley-Whitman House",
       "location": "Farmington, Connecticut",
       "year": 1720,
-      "note": "A jettied saltbox — the type in its hybrid form, with a framed overhang on the front and a catslide behind."
+      "note": "A jettied saltbox — the type in its hybrid form, with a framed overhang on the front and a catslide behind.",
+      "precedent": "stanley-whitman-house",
+      "standing": "canonical",
+      "why": "A type specimen of the hybrid the node's note describes -- a framed overhang in front and a catslide behind -- and a National Historic Landmark of 1960 whose Wikipedia description calls it 'a well-preserved saltbox with post-medieval construction features'."
     },
     {
       "name": "Boardman House",
       "location": "Saugus, Massachusetts",
       "year": 1692,
-      "note": "Unusually unaltered First Period frame with an integral lean-to; the framing is legible throughout."
+      "note": "Unusually unaltered First Period frame with an integral lean-to; the framing is legible throughout.",
+      "precedent": "boardman-house",
+      "standing": "documentary",
+      "why": "The frame to measure rather than the facade to admire: the node's own note calls it 'unusually unaltered' with the framing 'legible throughout', Historic New England says it is unaltered from the seventeenth and eighteenth centuries, and HABS MA-492 drew it."
+    },
+    {
+      "name": "John Adams Birthplace",
+      "location": "133 Franklin Street, Quincy, Massachusetts",
+      "year": 1681,
+      "note": "The plainer and older of the two Adams saltboxes, 75 feet from the other on the same property; built c. 1681 as a two-room central-chimney house, its purlin roof later raised on the north to take the lean-to. The 1897 restoration stripped the brick nogging from the studs, so the frame the 1979 HABS team measured is the survivor of a restoration as much as of a century.",
+      "precedent": "john-adams-birthplace",
+      "standing": "documentary",
+      "why": "Measured by the 1979 HABS team at 41'-8\" x 42'-5\" with its lean-to, and the survey names the brick-nogged stud walls and the raised purlin roof, so it is the plain specimen whose figures can be read rather than the famous one next door."
+    },
+    {
+      "name": "Hyland House",
+      "location": "Guilford, Connecticut",
+      "year": 1713,
+      "note": "A five-bay saltbox on the Connecticut shore, built 1713 for Isaac Parmelee: stone central stack, clapboard, diamond-pane sash symmetrical about a simply framed door with a five-light transom, and the rear roof face carried down to the first floor. Its chamfered girts are held to be an early example of that decoration -- the one carved decision, made carefully. A museum since 1918.",
+      "precedent": "hyland-house",
+      "standing": "regional",
+      "why": "The Connecticut shore's version, described by Wikipedia in the node's own terms -- five bays, a stone central chimney and the rear roof face extended to the first floor 'giving the house a classic New England saltbox profile' -- with chamfered girts held to be an early example of that decoration."
     }
   ],
   "sources": [

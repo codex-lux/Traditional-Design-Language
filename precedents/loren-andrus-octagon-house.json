@@ -1,0 +1,49 @@
+{
+  "id": "loren-andrus-octagon-house",
+  "name": "Loren Andrus Octagon House",
+  "aka": [
+    "Washington Octagon House"
+  ],
+  "location": {
+    "text": "Washington, Michigan",
+    "country": "United States",
+    "state": "Michigan"
+  },
+  "dates": {
+    "built": "1860",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1860' and 'Architect David Stewart'."
+  },
+  "nodes": [
+    "octagon-house"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "71000413",
+      "url": "https://en.wikipedia.org/wiki/Loren_Andrus_Octagon_House",
+      "title": "NRHP reference No. 71000413; added September 3, 1971 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The article gives the address as 57500 Van Dyke Avenue just north of 26 Mile Road, Washington Township, Macomb County."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Loren_Andrus_Octagon_House",
+      "title": "Loren Andrus Octagon House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The interior description this record rests on, in the article's own words: 'On the interior, the octagon houses four rooms on each level. In the center of the house is a dramatic spiral staircase, which extends upward from the main floor all the way to the cupola. Triangular alcoves lead off the stair to each of the rooms. Ceilings throughout the house are twelve feet high.'"
+    },
+    {
+      "kind": "other",
+      "id": "LC-DIG-ppem-00806",
+      "url": "https://www.loc.gov/pictures/search/?q=Loren%20Andrus%20Octagon%20House%20Washington%20Michigan",
+      "title": "[The Loren Andrus Octagon House, Washington Octagon House, Washington Township, Detroit, Michigan exterior]",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A Balthazar Korab Studios photograph in the Library's Prints and Photographs Division, catalogue key 2020714641, found by the search this url reproduces. It is NOT a HABS survey; it is the only Library holding for this house. The url is the search, because the item page itself was not opened."
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY. Carried for one figure that no survey in this cluster supplies and that the octagon-house kit has no parameter for: twelve-foot ceilings throughout, from Wikipedia, uncited there -- weak enough that nothing should be built on it, and worth recording because it is the only ceiling height anywhere in the cluster. Its 'four rooms on each level ... Triangular alcoves lead off the stair' is the node's own prose about eight triangular residues, stated by somebody else about a real house. No rights line: no Library item page was opened."
+}

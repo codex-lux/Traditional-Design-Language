@@ -1,0 +1,71 @@
+{
+  "id": "azay-le-rideau",
+  "name": "Chateau d'Azay-le-Rideau",
+  "aka": [
+    "Château d'Azay-le-Rideau"
+  ],
+  "location": {
+    "text": "Azay-le-Rideau, Indre-et-Loire, France",
+    "country": "France",
+    "state": "Indre-et-Loire, Centre-Val de Loire"
+  },
+  "dates": {
+    "built": "1518-1529",
+    "circa": false,
+    "altered": "The Mérimée notice records 'Restaurations au 19e siècle' and 'Le château a été acquis par l'Etat le 11 août 1905'; fr.wikipedia describes the house as 'Profondément restauré et remanié au XIXe siècle par ses propriétaires dans le style néo-Renaissance'.",
+    "note": "THE SOURCES DISAGREE ABOUT THE END DATE AND NOTHING IS RESOLVED HERE. The Mérimée protection notice says the building was raised 'de 1518 à 1529' and prints 'Année(s) de(s) campagne(s) de construction 1529'; the node's own exemplar note says 'Built 1518-1527'. Both are recorded. The protection history is also not one date: fr.wikipedia states the château was classed on the list of 1875, declassed in 1888 and reclassed with its park and dependencies, and the Mérimée notice prints '1914/04/18 : classé MH'."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00097546",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00097546",
+      "title": "Château - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Référence de la notice PA00097546', locates the building at 'Centre-Val de Loire ; Indre-et-Loire (37) ; Azay-le-Rideau', and names 'Rousseau Etienne (architecte)' with the hedge 'qui aurait été construit par' - an attribution the register itself does not assert flatly."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_d%27Azay-le-Rideau",
+      "title": "Château d'Azay-le-Rideau — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read for the protection history and for the 1518 start, which its infobox prints as 'Début construction 1518'."
+    }
+  ],
+  "survey": {
+    "item": "PA00097546",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00097546",
+    "prepared": "The notice prints 'Date de création de la notice 14 septembre 1993' and 'Date de dernière modification de la notice 4 mars 2026'; its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "En 1355, le donjon de Hugues Rideau est brûlé par les Anglais. Gilles Berthelot le fait raser pour édifier, sur cet emplacement, le bâtiment actuel, qui aurait été construit par l'architecte Etienne Rousseau, de 1518 à 1529. Restaurations au 19e siècle. Le château a été acquis par l'Etat le 11 août 1905.",
+        "page": "Notice Mérimée PA00097546, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "finishes",
+        "text": "Technique du décor porté de l'édifice sculpture",
+        "page": "Notice Mérimée PA00097546, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_span_years",
+      "as_printed": "de 1518 à 1529",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension; carried because the register's span is the one figure this notice states and it disagrees with the node's own 1518-1527. `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The Mérimée protection notice is the survey block: WP-11.5 extended that block from HABS to a national heritage list entry, and the Base Mérimée is France's. It is thinner than a Historic England 'Details' section - it carries a historical paragraph and a decor field and states no material, no storey count and no dimension for this building - and that thinness is recorded rather than filled from elsewhere. No rights line was read, so no `rights_evidence`."
+}

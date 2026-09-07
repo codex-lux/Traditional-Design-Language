@@ -1,0 +1,122 @@
+{
+  "id": "badin-roque-house",
+  "name": "Badin-Roque House",
+  "location": {
+    "text": "Natchez vicinity, Natchitoches Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "between 1790 and 1827",
+    "circa": true,
+    "altered": "A beaded tongue-and-groove ceiling and board-and-batten fenestration in the 1830s; the present pitched roof and siding in 1850 (Wikipedia). The Cane River survey says the unbroken steep roof 'is original and has never been added to'.",
+    "note": "Four dates: the NPS preservation-plan page says 'built circa the 1770s'; the Cane River HABS area survey (LA-1361) 'between 1790 and 1827'; the Wikipedia infobox 'Built 1830s' while its own text says 'originally built in the early nineteenth century'. Recorded as the survey states it; the exemplar's year is left null because no two sources agree."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1294",
+      "title": "Badin-Roque House, State Highway 484, Natchez, Natchitoches Parish, LA",
+      "url": "https://www.loc.gov/pictures/item/la0415",
+      "note": "The loc.gov item page prints the call number 'HABS LA-1294'; the item's data PDF carries only covers ('REDUCED COPIES OF MEASURED DRAWINGS ... HABS No. LA-1294' and a photographs addendum). The written description is in the Cane River area survey below.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "habs",
+      "id": "LA-1361",
+      "title": "Cane River National Heritage Area, Natchitoches Parish, LA (HABS area survey)",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0500/la0502/data/la0502data.pdf",
+      "note": "The running head prints 'CANE RIVER NATIONAL HERITAGE AREA HABS No. LA-1361 (page 26)'; its footnote 66 cites 'Badin-Roque House, Historic American Buildings Survey, Library of Congress (HABS No. LA-1294)'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0415",
+      "url": "https://www.loc.gov/pictures/item/la0415",
+      "title": "Badin-Roque House, State Highway 484, Natchez, Natchitoches Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "80001739",
+      "url": "https://en.wikipedia.org/wiki/Badin-Roque_House",
+      "title": "NRHP reference No. 80001739; added June 6, 1980 (as the Wikipedia infobox prints it)",
+      "note": "The Natchitoches Parish NRHP listings page, read by search the same day, prints the same number.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Badin-Roque_House",
+      "title": "Badin-Roque House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/locations/lowermsdeltaregion/preservation-plan-for-the-badin-roque-house.htm",
+      "title": "Preservation Plan for the Badin-Roque House - Lower Mississippi Delta Region (U.S. National Park Service)",
+      "note": "'Today, there are only four known extant examples of poteaux-en-terre'; funded a preservation plan for the St. Augustine Historical Society.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "la0502",
+    "register": "loc-item",
+    "survey_no": "LA-1361",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0500/la0502/data/la0502data.pdf",
+    "prepared": "The HABS Cane River National Heritage Area survey (photography 2004; the extracted footnotes cite sources accessed in 2005-2006)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "houses with side-gable roofs.63 The sixth example of the side-gable roof type is the Badin Roque House. It was built between 1790 and 1827, at which time Francois Frederic sold the property to Augustin Metoyer, who then gave it to his son, Jean Baptiste Metoyer.64 The house is a one-story building framed with cedar posts set into the ground that were in-filled with bousillage.65 The unbroken steeply pitched roof is original and has never been added to. The roof cantilevers over the front of the house creating",
+        "page": "CANE RIVER NATIONAL HERITAGE AREA HABS No. LA-1361, page 25-26; the '(page 26)' marker follows; the chunk ends mid-sentence"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "66 Badin-Roque House, Historic American Buildings Survey, Library of Congress (HABS No. LA-1294); Creole Chronicles, 8-9, 13-14, 29, 39-40. It measures 27' x 30' and faces northeast. Historic Standing Structure Survey, No. 534.",
+        "page": "CANE RIVER NATIONAL HERITAGE AREA HABS No. LA-1361 (page 26), footnote 66"
+      },
+      {
+        "field": "structural_system",
+        "text": "65 Poteaux en terre construction, like that seen at the Badin Roque House, was prevalent in the eighteenth and early nineteenth century; only three other French Creole examples are known. They are located in Ste. Genevieve, Missouri.",
+        "page": "CANE RIVER NATIONAL HERITAGE AREA HABS No. LA-1361 (page 26), footnote 65"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "27' x 30'",
+      "value": 27,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey does not say which figure is the front; a one-room-deep cottage facing north-east."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "27' x 30'",
+      "value": 30,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "a one-story building",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "The survey block points at the Cane River area survey (LA-1361) rather than the house's own item (LA-1294) because the house's own data PDF carries only drawing and photograph covers, and the written description lives in the area report.",
+  "nodes": [
+    "creole-cottage-vernacular",
+    "french-colonial-american"
+  ]
+}

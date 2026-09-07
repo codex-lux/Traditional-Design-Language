@@ -1,0 +1,47 @@
+{
+  "id": "academy-of-music-philadelphia",
+  "name": "Academy of Music, 240 South Broad Street",
+  "location": {
+    "text": "Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "aka": [
+    "American Academy of Music"
+  ],
+  "dates": {
+    "built": "1855-1857",
+    "circa": false
+  },
+  "nodes": [
+    "renaissance-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "66000674",
+      "url": "https://en.wikipedia.org/wiki/Academy_of_Music_(Philadelphia)",
+      "title": "NRHP reference No. 66000674; added October 15, 1966; designated NHL December 29, 1962; architect Napoleon LeBrun & Gustavus Runge; architectural style Rundbogenstil and Baroque Revival (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. Note that the infobox's style label is NOT the one under which this corpus files the building; see the record's note."
+    },
+    {
+      "kind": "other",
+      "url": "https://evergreene.com/projects/philadelphia-academy-of-music",
+      "title": "Philadelphia Academy of Music - EverGreene",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The conservator's account: the Academy 'was designed in the Renaissance Revival style with Baroque influences by the architecture form of Lebrun and Runge', LeBrun 'visited the great opera houses of Europe, and was particularly influenced by Milan's Teatro della Scala', and 'It was recorded on the Historic American Building Survey in 1979'. That last sentence is the reason this record exists and the survey it names was NOT located from here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Academy_of_Music_(Philadelphia)",
+      "title": "Academy of Music (Philadelphia) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Carries the category 'Historic American Buildings Survey in Philadelphia', which corroborates that a survey exists without giving its number."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. A survey is KNOWN to exist and was not found: EverGreene states the building 'was recorded on the Historic American Building Survey in 1979' and Wikipedia files it under 'Historic American Buildings Survey in Philadelphia', and no loc.gov item id or HABS number was resolved from here. That is a located gap rather than an absence, and it is the most worthwhile single follow-up in this cluster. The sources also disagree about the style -- 'Rundbogenstil and Baroque Revival' against 'Renaissance Revival style with Baroque influences' -- and the corpus files it under the second; both are recorded and neither is edited."
+}

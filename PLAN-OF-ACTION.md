@@ -23,6 +23,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **9 — Arrangement** | **WP-9.1, 9.5, 9.6, 9.7** complete · **9.2 text half done, image half waiting on Lucas's download** · **9.3 part built** · **9.4 COMPLETE AND ITS OWN PREMISE REFUSED** (`docs/reports/wp-9.4-the-unit-was-not-the-problem.md` — cite the FILENAME, two WP-9.4s exist) | **In progress (1 Sep 2026; this row was corrected on 3 Sep, having said "9.2, 9.3, 9.4, 9.5 not started" while four of those five had moved and two more packages had shipped with no section of their own — see `docs/reports/project-review-2026-09-03.md` §VII. The 9.4 cell in that same correction still said NOT STARTED and was itself wrong — the package had run on 1 Sep and refused `parti_slice` with its measurement, a probe taking fatals 3 to 8. Corrected again hours later; see that review's §IX, which is about this exact line)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
 | **10 — The second massing element** | **WP-10.1** | **Complete, and two of its three packages withdrawn by its own audit (3 Sep 2026)** — OQ 40 ruled a dependency a second massing element and the machinery ships and is DORMANT: the block placer, `exterior_score(bounds=)`, plan schema 0.5.0, both reference plans byte-identical. The service strip and the hyphen-as-a-room were WITHDRAWN when the audit found eight blocking defects, five of which reduce to **six layers below the placer reading the main block as the whole building** — a garage window drawn 14 ft from the garage, a span manufactured across the hyphen gap, a house reporting `lot_capped: true` at 34 ft wider than its lot. CP-SAT refuses a multi-element plan rather than flattening it (which had also flattered a number this session published); `geometry_report.multi_element` discloses the six. Report: `docs/reports/wp-10.1-the-audit-of-the-dependency.md` · new question: `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` |
 | **11 — The house the sheet should have drawn** | **WP-11.1 through 11.9, 11.11 and 11.12 COMPLETE · 11.10 PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · then the adversarial audit of 11.9-11.11** | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
+| **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -438,9 +439,9 @@ The Georgian binding in `styles/georgian-colonial-american.json` is the template
 
 ### WP-4.4 Images from HABS
 
-**Status: THE NAMING STEP IS DONE AND ITS OWN FIGURES WENT STALE IN EIGHT FILES (2 Sep 2026).** The step every list still named as WP-4.4's next — giving the asset records their `provenance.building` names — finished on 31 Aug, and a dry run now assigns **zero**: 786 of 1,850 records name a building across 305 queries, 180 of them inside HABS's charter. Twelve claims across eight files still said 322, 845, 330 and 188, two of them instructions to do work that was finished, while `check_counts.py` reported 0 stale in the same run — every stale figure sat in a field no claim covered, and **this file was not in the checker's list at all**. Four values are computed now and nineteen claims guard them. `check_assets.py` also gained the check it never had: a building name must be an exemplar of a node the record depicts, its location that exemplar's own, on a photograph that is not `role: incorrect` — **all 786 pass, including the 161 written by hand**. What is left offline is **72 records on 18 exemplar-less higher-rank nodes**, needing sources this container cannot reach or a ruling that a child's exemplar may stand for its parent; the acceptance line (≥100 sourced, zero `license: unknown`) stands at 73 and 1,716 and needs the network. Report: `docs/reports/wp-4.4-the-record-that-said-322.md`.
+**Status: THE NAMING STEP IS DONE AND ITS OWN FIGURES WENT STALE IN EIGHT FILES (2 Sep 2026).** The step every list still named as WP-4.4's next — giving the asset records their `provenance.building` names — finished on 31 Aug, and a dry run now assigns **zero**: 786 of 1,850 records name a building across 305 queries, 180 of them inside HABS's charter. Twelve claims across eight files still said 322, 845, 330 and 188, two of them instructions to do work that was finished, while `check_counts.py` reported 0 stale in the same run — every stale figure sat in a field no claim covered, and **this file was not in the checker's list at all**. Four values are computed now and nineteen claims guard them. `check_assets.py` also gained the check it never had: a building name must be an exemplar of a node the record depicts, its location that exemplar's own, on a photograph that is not `role: incorrect` — **all 786 pass, including the 161 written by hand**. **The 72 records on 18 exemplar-less higher-rank nodes are named as of WP-11.6** (5 Sep 2026): Ruling B gave every family type specimens derived from its members' icons, so those nodes have exemplars to deal from, and the ruling this sentence asked for is the one that arrived. Nothing is left for this step offline; the acceptance line (≥100 sourced, zero `license: unknown`) stands at 73 and 1,716 and needs the network. Report: `docs/reports/wp-4.4-the-record-that-said-322.md`.
 
-**Status (31 Aug 2026): THE HARVEST IS STILL BLOCKED; 73 RECORDS WERE NEVER BLOCKED AND ARE NOW SOURCED, AND THE MANIFEST NOW COVERS THE CORPUS.** `322 wanted / 0 sourced` over three style nodes is `1,777 / 73` over 142 — the manifest was a frozen snapshot and the generator had been tracking the corpus all along. **786 records now name a real building** across 305 distinct queries, where 161 named eleven; 180 of those queries are within HABS's US charter. The acceptance line — "at least 100 sourced or generated" — is NOT met by the 73 drawn plates, and widening the authored assembly filter to reach it was refused rather than done. The eleven carry a `generated_from` block naming a proportion pack, and `build/render_profile.py` draws them from the corpus's own geometry — no network, no rights clearance, and everything needed has been present since WP-5.11. The harvester's four defects were also fixed, none of them findable by running it: a rate limit three times loc.gov's ceiling that would have returned 0 after being blocked, an unconditional `license: public-domain` the source does not state, a selector that preferred a record holding no images, and 161 records collapsing onto eleven queries behind a guard testing the opposite condition. Report: `docs/reports/wp-4.4-the-eleven-that-were-never-blocked.md`. **The routes question is ruled** at `oq/fetching-through-a-tier-the-proxy-denies`, and CI — the only tier that can fetch bytes — has not run since 29 Aug.
+**Status (31 Aug 2026): THE HARVEST IS STILL BLOCKED; 73 RECORDS WERE NEVER BLOCKED AND ARE NOW SOURCED, AND THE MANIFEST NOW COVERS THE CORPUS.** `322 wanted / 0 sourced` over three style nodes is `1,777 / 73` over 142 — the manifest was a frozen snapshot and the generator had been tracking the corpus all along. **858 records now name a real building** across 312 distinct queries, where 161 named eleven; 183 of those queries are within HABS's US charter. The acceptance line — "at least 100 sourced or generated" — is NOT met by the 73 drawn plates, and widening the authored assembly filter to reach it was refused rather than done. The eleven carry a `generated_from` block naming a proportion pack, and `build/render_profile.py` draws them from the corpus's own geometry — no network, no rights clearance, and everything needed has been present since WP-5.11. The harvester's four defects were also fixed, none of them findable by running it: a rate limit three times loc.gov's ceiling that would have returned 0 after being blocked, an unconditional `license: public-domain` the source does not state, a selector that preferred a record holding no images, and 161 records collapsing onto eleven queries behind a guard testing the opposite condition. Report: `docs/reports/wp-4.4-the-eleven-that-were-never-blocked.md`. **The routes question is ruled** at `oq/fetching-through-a-tier-the-proxy-denies`, and CI — the only tier that can fetch bytes — has not run since 29 Aug.
 
 **Status (superseded, 26 Aug 2026):** All 322 asset records are still `wanted` and none can be sourced from here: this container's network policy denies the Library of Congress at the proxy. What has changed is that the package's own named next step is complete — **161 records now carry a `provenance.building` and its location**, taken from the depicted node's own `exemplars`, so the day the network opens `--live --write` works on those instead of refusing on all 322. Two findings came with it, both in `docs/reports/wp-4.4-offline-half-building-names.md`: the image layer covers **three style nodes**, not the corpus (`georgian-colonial-american` 247, `tidewater-georgian` 46, `english-georgian` 18), which no count anywhere says; and **the other 161 cannot be given a building name at all** — 150 are `role: incorrect`, and the corpus names buildings that exemplify a style, never ones that exemplify a fault. That half cannot be harvested from any archive and needs a decision rather than a fetch.
 
@@ -1297,7 +1298,10 @@ rule, un-exempted and with no second door authored. That wants a ruling.
 **Depends on:** nothing. **Size:** medium.
 
 ### WP-9.2 The precedents
-**Status: TEXT HALF DONE, IMAGE HALF STILL WAITING ON LUCAS'S DOWNLOAD.**
+**Status: TEXT HALF DONE, IMAGE HALF STILL WAITING ON LUCAS'S DOWNLOAD.** *(4 Sep 2026, WP-11.1: the six
+buildings' HABS written data now lives in `precedents/` as records with quotes and `as_printed` figures —
+`gunston-hall`, `westover`, `drayton-hall` seeded from this package's own extracts, the rest in Tranche 1 —
+so the text half has a home in the data rather than in a report's table. The sheets are still not here.)*
 TWO reports: `docs/reports/wp-9.2-the-parti-is-not-the-type.md` (the measured half -- HABS written
 data, the code, the furniture sweep) and `docs/reports/wp-9.2-what-the-tradition-actually-does.md`
 (the study of the compositional literature, with an adversarial sourcing pass and ten questions
@@ -2472,6 +2476,306 @@ so, exactly as `storey-graduation`'s 7.5 in riser divisor does.
    simply be larger, and whether a placement that set aside sixteen declared facts should be drawn
    at all.
 
+## Phase 11 — The precedent bench
+
+*Opened 4 Sep 2026 at Lucas's request: where the research is thin and where deepening it would change
+what the machine does; the exemplars of each style researched into the most beautiful and iconic
+precedents, with links. Cite reports by filename, never the bare number (OQ 90).*
+
+### WP-11.1 The survey, the record and the meter
+
+**Status: BUILT (4 Sep 2026); the research runs as WP-11.2 through 11.4.** Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md`.
+
+**What was found**, and the exemplar clause is a record of 4 Sep rather than a description of today —
+WP-11.2, WP-11.3 and WP-11.5 moved it to 800 exemplars, 4 to 9 a node, and moved none of the other
+three.
+The corpus WAS TEMPLATED on the surface: all 132 buildable nodes carried 2–4 exemplars
+(90 exactly 4), 4 or 5 sources, exactly 5 constraints and 3 `distinguished_from`; a composite of those
+spreads 1.5× across the set, so field counts separate nothing. What separates thorough from skeletal was
+tracked nowhere: 542 `measured` kit parameters with no source on the parameter or its slot (272 on a
+generator-read slot — the census had counted editorial-bare, 0, for a year); an exemplar with no locator
+(482, 410 buildings, zero URLs); 24 buildable nodes citing only works ANOTHER NODE cites ("a sibling" until WP-11.7 corrected the word; the true sibling reading is 9); 32 higher-rank nodes
+citing nothing, all `confidence: high` (**0 today — WP-11.7 sourced all 32**, and the survey's
+reading is kept in the past tense because it is what raised the package); three nodes with no executable constraint; 11 kits with zero
+parameters; 16 of 57 packs `reconstructed`, nine from the corpus's own records; 0 of 761 pack rules with a
+per-rule source; `massings/` with no provenance vocabulary; no period building anywhere in `plans/`. And
+the operational map: `elevation.py` dimensions every house from five hard-coded packs whatever the style
+binds, so research on the other 51 changes what the system says and not what it draws.
+
+**What was built.** `schema/precedent.schema.json` and `precedents/` (one record per building: refs with
+`retrieved`/`via`, the HABS written data quoted verbatim with figures `as_printed`, `rights_evidence` and
+never a `license`); the exemplar's `precedent`, `standing` and `why`; `build/check_precedents.py` (both
+directions, id shapes, no licence, kit pointers) and `build/check_research.py` (the meter, ratcheted, the
+read-slot set derived and pinned); `check_kits.py`'s census gains `measured-bare`; `tdl_precedents` (27);
+the record's refs on the workbench and the atlas; `docs/precedents.md`; five open questions.
+
+**Tranches.** **WP-11.2** Tranche 1 — the 28 nodes the platform exercises or the partis' exemplars belong
+to (5 parallel agents, 4 Sep): every existing exemplar gets a record, 5–8 precedents per node with standing,
+a survey block for every US building with a HABS data page, then a 10% adversarial re-resolution.
+**WP-11.3** Tranche 2 — the rest of North America. **WP-11.4** — the four rulings, executed as mechanism
+before any more research was authored. **WP-11.5** Tranche 3 — the British and European ancestors, and the
+"links and standing only" this line promised was overtaken by a measurement: a Historic England list entry
+is survey-shaped, so Europe carries surveys, quotes and measurements like North America. **WP-11.6** —
+Ruling B, the family type specimens. **WP-11.7** Tranche 4 — the families and traditions get a
+literature of their own, which is the SOURCES half rather than more precedents: the precedent half
+of higher rank was already finished by Ruling B.
+
+**THE ORDER AFTER TRANCHE 3 IS RULED (5 Sep 2026): FINISH PHASE 11.** Put to Lucas against the two
+alternatives the 3 Sep project review names — building the register (ruled 1 Sep, nothing built) and
+the dependency (`oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, unruled) —
+both of which unblock the generator the review says has not arrived. **Ruled: Ruling B, then Tranche
+4.** So the bench is completed before the generator is resumed. **The first two of those three are
+done (WP-11.6): every buildable node and every family carries precedents, and the 72 asset records
+are named.** `tdl_precedents` no longer hedges for a family; it still says a walk is a reading for a
+TRADITION, and that is the ruling rather than a gap. The register and
+the dependency keep their place in the review's ranking and are the work after Phase 11 closes.
+
+**And Tranche 3's own scope note, ruled the same day**: an exemplar row naming a REGIONAL POPULATION
+(*"the Leopoldine farmhouses of the Val di Chiana"*, *"the farmhouses of the Simmental"*) takes a
+`record_kind: type-model` RECORD and is NOT a `no_precedent` refusal — the closed refusal vocabulary
+has no word for a population and does not need one, because the type can carry its own record with
+the programme's or the region's own sources.
+
+**WP-11.3 Status: COMPLETE (5 Sep 2026). NORTH AMERICA IS DONE — 86 of 164 nodes carry precedents,
+which is all 85 buildable nodes of the `north-american` tradition plus `scandinavian-log-vernacular`.
+The 46 buildable nodes still without one sit under the four European trunks — `british-isles` 19,
+`classical-mediterranean` 11, `northern-european-vernacular` 9, `iberian-mediterranean` 7 — and are
+Tranche 3.** One `pipeline(clusters, research,
+audit)` over 12 clusters, each a union of whole connected components of the shared-building graph, so no
+two agents could write one record file — the write race designed out rather than instructed away. 254 new
+records (161 → **415**), 78 new surveys (→ **155**), 358 new quotes (→ **723**), 255 new measurements
+(→ **526**), 505 of 693 exemplars resolved. Every artefact figure re-derived from git; the one that
+disagreed with the agents' own reports was the one describing their action rather than the artefact.
+**240 kit readings: 196 silent, 27 agree, 17 CONTRADICT**, three convicted by the node's own exemplar
+(`southern-federal`'s 20 ft max depth against Woodlawn's 45; its 4-in chimney standoff against Belle
+Grove's *"four inside chimneys"*, which the parameter cannot satisfy at all; the Gamble House's three
+chimneys against a singular rule whose slot note cites that very building). **Nothing was applied** —
+ruling A is still a ruling nobody has given. 12 per-cluster auditors fixed 57 defects, 82 of them
+unsupported `why` sentences; the deepest finding is that `as_printed`-must-be-a-substring proves internal
+consistency and NOT fidelity, since a quote edited to fit its own figure passes it. Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` §VII.10 and §VII.11 · new open question:
+`oq/an-exemplar-that-is-not-one-whole-building`.
+
+**Rulings asked for.** `oq/a-surveyors-prose-may-source-an-envelope-figure`; `oq/a-family-node-has-no-exemplar`;
+`oq/a-measured-parameter-with-no-source-is-not-metered` (its parts 1 and 2).
+
+**WP-11.4 Status: COMPLETE (5 Sep 2026) — ALL FOUR RULED AND THREE EXECUTED.** Lucas ruled every
+open Phase 11 question the same day. **A** — yes, a survey measurement may source a `measured`
+envelope figure at `confidence: medium`; built, and the ruling's own trap closed MECHANICALLY by
+requiring the `#measurements[<n>]` form so `kit_source_agrees` can compare the two numbers
+(agrees / contradicts / could-not-compare, never a bool). **Six figures cite a building**, the
+checker's own count off zero for the first time, and `source_agrees` is a FLOOR so they cannot
+quietly vanish. **C part 2** — yes, refuse a new unsourced `measured` parameter; built as a
+per-parameter gate against a frozen 542-triple set, because the ratchet that preceded it was a NET
+count and passed a commit that sourced one figure while adding another (measured: `check_research`
+returned 0 with an unsourced parameter in the tree). **Part 1 NOT ruled and nothing re-kinded.**
+**D** — ratify districts and type models as records (`record_kind`) and make a refusal a field
+(`no_precedent`); built, with the district exemption now driven by the declaration rather than by a
+regex over a title. **B** — families carry type specimens derived from members' icons; RULED and
+DEFERRED, because 18 of the 27 families have zero `standing: icon` exemplars today and all 18 are
+European: it must follow Tranche 3 or it lands half-executed.
+Ratchets: `measured_unsourced` 542 -> 536, `measured_unsourced_read` 272 -> 270.
+New question: `oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity`. Deliberately not done: no
+sheet transcribed, no band changed, no parti edited, no licence written, no harvest workflow, nothing
+sourced from a secondary work for OQ 7–11 or OQ 18, and `elevation.py`'s five packs left as
+`oq/the-elevation-reads-five-packs-whatever-the-style-binds`.
+
+**WP-11.5 Status: COMPLETE (5 Sep 2026). TRANCHE 3 FINISHED EUROPE AND WITH IT EVERY BUILDABLE NODE.**
+25 agents, 0 errors, 4h27m over the four European trunks — `british-isles` 19,
+`classical-mediterranean` 11, `northern-european-vernacular` 9, `iberian-mediterranean` 7. **415 ->
+695 records, 155 -> 423 surveys, 723 -> 1,701 quotes, 526 -> 1,309 measurements, and 794 of 800
+exemplars resolved across 132 of 132 buildable nodes.** The 32 nodes still without a precedent are the
+families and traditions — Ruling B's work and Tranche 4's, not a gap in this one. Six exemplars are
+unresolved and Ruling D's field makes the split legible: **3 stated refusals against 3
+not-yet-researched**. `record_kind` is carrying the other half of D — 653 buildings, 26 groups, 13
+districts, 3 type models — so a regional population is a record with the region's own sources rather
+than a refusal the vocabulary has no word for.
+
+**THE PACKAGE'S OWN DEFECT WAS MINE, AND A RESEARCH AGENT DIAGNOSED IT BEFORE IT COULD FIRE.** The
+plan widened the `survey` block's DESCRIPTION to admit a national heritage list entry and did not
+widen the CODE that reads it: `check_precedents.py` shape-checked every `survey.item` against the
+Library of Congress's `xx0000` form and `identity_keys` attributed every one to the `loc-item`
+namespace. First global run: `malformed_ids` **0 -> 268**, and **five Medici villas sharing UNESCO
+inscription 175 read as one building written five times**, because a UNESCO inscription names a
+SERIAL property exactly as a National Register district does. The first research agent simulated the
+checker's own regexes over its 24 records, predicted the failure for every European record from all
+twelve clusters, named the fix, and **did not touch `build/` because eleven agents were writing** —
+which is the protocol working. `survey.register` is the fix: the block says which register issued its
+`item`, so it is shape-checked against THAT register's rule and attributed to THAT namespace, and
+`unesco`, `institution`, `wikipedia` and `other` are declared SERIAL and may never be an identity.
+**271 errors -> 2.**
+
+**THE TWO SURVIVORS WERE REAL, AND THEY ARE THE HOLE THE CLUSTER PARTITION CANNOT CLOSE.** The
+partition is over the exemplars that already EXIST; agents also ADD buildings, and two clusters each
+added Kedleston Hall (HE 1311507) and Charlotte Square (HES LB28502). Merged as the corpus prescribes
+— evidence folded in, the superseded id DEPRECATED and never deleted or reused — which surfaced that
+`superseded` was computed in the duplicate pass and read in only ONE of the two loops that needed it,
+so a merge done exactly right still convicted itself.
+
+**RULING A YIELDED NOTHING FROM EUROPE AND THE REASON IS STRUCTURAL RATHER THAN A RESEARCH FAILURE.**
+18 `citable` candidates, **0 applied**. A parameter has ONE `source` field, and **489 `measured`
+parameters already cite an INTERNAL source** (a constraint id, the node's own `typical_ratios`)
+against the 6 that cite a precedent — so Ruling A can only ever reach the 536 that cite nothing, and
+the corpus's most-reasoned figures are exactly the ones a building may not corroborate. Five more
+candidates point at a `set`-shaped parameter `kit_source_agrees` cannot compare at all, and two of
+those — Royal Crescent at FOUR bays, Kedleston at ELEVEN — say the set is INCOMPLETE rather than
+wrong. Five more point at a band two of the node's own exemplars break at six lights apiece.
+**Contradictions 17 -> 20**, and a fourth kind appeared: not a wrong band, not an unmet
+presupposition, not a missing datum, but an incomplete ENUMERATION. New question:
+`oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure`.
+
+**The audits, and the reconciliation.** 12 per-cluster auditors: 252 of 261 sampled refs confirmed,
+671 of 685 sampled quotes verbatim, **0 `as_printed` failures**, 36 unsupported `why` sentences
+against Tranche 2's 82 on more records, and **10 manufactured quotations** found by hunting that class
+by name after Tranche 2 named it — 24 defects fixed in all. One cluster's records **decline to quote
+anything read `via: tavily-search`** and say so in the ref note; that discipline came from an agent
+rather than from the protocol and belongs in it. **Records reconcile exactly at 280 new; surveys,
+quotes and measurements came in 1, 8 and 4 lower than the agents claimed, and no auditor deleted any,
+so the residue is the agents' own tallies. Git is the number.**
+
+**`ids_with_no_shape_rule` 58 -> 216, and 163 of 423 survey blocks sit on a register with no shape
+rule.** Raising a ceiling is a deliberate act and this one is honest rather than a slip: Europe
+carries ids from ten registers whose format this project has read a statement of exactly once —
+Historic England's own *"Every List entry has a unique 7-figure reference number"*. The alternative
+was to invent shapes, which is precisely how `NRHP_RE` went wrong. It falls by reading one register's
+own statement of its format at a time, never by guessing. Report:
+`docs/reports/wp-11.1-the-bench-without-a-literature.md` §XII.
+
+**Deliberately not done:** no band changed on any of the 20 contradictions; no bulk re-kinding of the
+536 (Ruling C part 1 is still unruled and the meter is the interim); nothing sourced from a secondary
+work or a modern redrawing for OQ 7–11 or OQ 18's source half; no locator resolution sweep, so
+**nothing in this tree checks that a locator resolves** and the report says so plainly rather than
+implying it was checked.
+
+**WP-11.6 Status: COMPLETE (5 Sep 2026) — RULING B EXECUTED, AND THE DEFERRAL WAS RIGHT.**
+121 type specimens over all 27 families, one per member node, derived from the members' own
+`standing: icon` rows and deduplicated by building; 121 family names added to 119 precedent
+records. **915 of 921 exemplars carry a `precedent`, across 159 nodes** — every buildable node and
+all 27 families. The 5 that remain are the TRADITIONS and the ruling says they stay empty, so the
+floor may never reach 164 and that is the answer rather than a gap.
+**The gate was real**: 18 of 27 families had zero icons under them when the ruling was given and all
+18 were European, so executing it before Tranche 3 would have served nine and left eighteen empty.
+
+**The derivation is a module and a CHECK rather than a one-shot script**, which is the substance of
+the package. `build/family_specimens.py` derives, `--apply` writes, and `check_precedents.py` fails
+the build when a family's stored rows are not the ones its members' icons derive
+(`family_specimens_drifted`, hard 0). A derived record nothing can re-derive is a snapshot, and a
+snapshot of somebody else's judgment goes stale the moment that judgment moves. The check went
+INSIDE an existing checker deliberately, because a new checker moves `check_all.TOTAL_CHECKS`,
+`tests/test_counts_guard.py` and CLAUDE.md's `N of M checks passed` illustration together.
+The `why` REPORTS and does not restate: it names the member and points at that node for the reason
+rather than copying its sentence, because a copied sentence is a second spelling that drifts.
+**Two buildings stand for two families each** — Larkin House for `monterey-colonial` and
+`monterey-revival`, the American Gothic House for `american-farmhouse-vernacular` and
+`folk-victorian` — a style and the revival that quotes it naming one building, which is the graph
+saying something true rather than a duplicate to merge.
+
+**THE FULL SUITE CAME BACK WITH THREE FAILURES AND ALL THREE WERE MINE, ALL THE SAME DEFECT**: a
+literal in a test duplicating a number the ratchet already held (`== 693` exemplars, an exact
+`record_kind` census, `== 58` unshaped ids). Tranche 3 moved all three with nothing being wrong.
+Each now holds the durable invariant instead — the corpus against `measure()`'s independent walk,
+the vocabulary against the schema's own enum, the count against the ratchet — and every repair was
+mutation-checked from a green baseline, by exit code. **The harness caught itself first**: its first
+run reported four mutations red against a baseline that was ALREADY red, because an earlier crash
+had written a mutation and died before restoring it. *A mutation that silently does not revert makes
+every later result meaningless, and it reads as success.* And the obvious repair for the first test
+was a tautology — `== total` counted in the same loop cannot fail, because every row increments
+exactly one bucket.
+
+**AND UNDERNEATH THE DISTRICT TEST: 51 ARCHIVAL IDENTITIES THE DUPLICATE GUARD IS DROPPING.**
+`identity_keys` skips an nrhp/nhl id on an undeclared record whose reference title or note matches
+`DISTRICT_RE`. Some drops are right — four Great Smoky Mountains cabins share NRHP 77000111 and two
+Cleveland Heights houses share 09000210, where the number names the listing. **Twenty-seven are
+wrong**: Marble House, The Elms, Rosecliff, the Boston Athenaeum, Cliveden, Hill-Stead, the Palace
+of the Governors, Taos Pueblo and nineteen more, each an individual building losing its own listing
+number because its title names a district it contributes to. A false SILENCE and never a false
+error, which is why nothing caught it. Counted, ratcheted at 51 and printed every run;
+`oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity`. **Deleting the
+fallback is measured and refused** — it would convict the six legitimate sharers as duplicates.
+
+**Deliberately not done:** the 27 were NOT hand-declared `building` to make the number fall, because
+that leaves the class open for the next tranche and the question is which fact the corpus is
+missing, not which 27 rows to edit. **`build/name_asset_buildings.py` WAS re-run and the 72 asset
+records on the 18 exemplar-less higher-rank nodes are named** — 786 → **858 of 1,850**, across 312
+queries of which 183 are inside HABS's charter, and a dry run now assigns zero. That was WP-4.4's
+own stated next step and it had been waiting on exactly this ruling.
+
+**AND THAT NAMING RUN REDDENED FOUR MORE TESTS, ALL THE SAME DEFECT AS THE THREE ABOVE.** The full
+suite read `1 of 49 checks failed`: every checker green, the three named could-not-evaluate states
+in place, and four tests carrying literals that the moved figures falsified —
+`image_building_named` 786 → 858, `image_queries` 305 → 312, `image_queries_us` 180 → 183, the
+residual 72 → 0. **Three repaired one day, four more produced by that day's own change**, and
+nothing counts how many remain. **The obvious repair was the tautology just removed**: binding them
+to `check_counts.computed()` reads as the same fix and is not, because `computed()` derives
+`image_queries` by calling `query_for` — the function under test — and `image_building_named` counts
+ALL assets where the harvest test counts WANTED ones. The copies are deleted rather than moved; each
+test asserts its own property, and no ratchet is added to `check_assets.py` because a second owner
+makes an honest change a two-file edit and a dishonest one invisible. One test's subject was
+DISCHARGED rather than moved — it required the residual LINE to exist, and that line prints only
+when the count is non-zero, so it failed on its own scaffolding at success. Five mutations, all red
+from a proved-green baseline, each restored in a `finally`. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIII · new open question:
+`oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity` · closed:
+`oq/a-family-node-has-no-exemplar`.
+
+**WP-11.7 Status: COMPLETE (7 Sep 2026) — TRANCHE 4, AND THE APPROVED PROTOCOL WAS BACKWARDS.**
+Every family and every tradition cited NOTHING: the one figure `check_research.py` printed on every
+run and ratcheted nowhere, which is exactly the shape WP-8.14 is about. **156 sources written over
+all 32 nodes — 28 carry five and four carry four — 111 citations of works new to the corpus (109
+DISTINCT works, two of them cited by two nodes apiece) and 45 reusing a string the corpus already held; `distinct sources` 314 → 422 and `sourceless_nodes` 32 → 0, pinned tight at 0.**
+Ruled 7 Sep: a family's sources are **AUTHORED**, the works that establish the category and never
+the union of what its members cite; **sources only**, no `distinguished_from` and no constraints at
+higher rank; and the `shared_only` ceiling **keeps its 24 while the WORD is corrected** to "another
+node" (the true same-parent sibling reading is **9**, measured).
+
+**THE PLAN'S OWN PROTOCOL WOULD HAVE REDDENED THE BUILD, AND MEASURING IT IS WHAT FOUND THAT.** It
+said *"prefer a work the corpus already cites — 95 strings are pre-vetted and automatically safe"*.
+The opposite: `shared_only` is computed over all 164 nodes, so a family whose every source is cited
+by somebody else IS a `shared_only` node. Measured before a word was authored — giving
+`english-classical` Summerson alone took `check_research --strict` from green to **RED**. The safe
+contract has two clauses and the plan had neither: at least one source in the LIST must be cited by
+no other node, and none may be one of **38 named strings** (cited today by exactly one node which
+has no other unique citation, so citing it flips THAT node). `build/family_source_hazard.py` judges
+the list — **ok / unsafe / could-not-judge**, never a bool — and **refuses to write an unsafe one**,
+because six agents writing in parallel would otherwise each have read the rule from prose. Three of
+its five guards could not fail when first written and each is driven through a constructed case now.
+
+**Six auditors, two strings removed of 157 written, and no fabrication by a writing agent.**
+`english-classical` cited a book that does not exist (`Dan Cruickshank and Peter Wyld, Georgian
+Buildings of Britain and Ireland (1975)` is two real works welded together) — removed, deliberately
+not "corrected", and **pre-existing on five buildable nodes where it remains**;
+`american-arts-and-crafts` cited a monograph on its own member `prairie-school`, byte-identical to
+that node's citation, which is the brief's worked example instantiated; and
+`northern-european-vernacular` wrote a book this package had already written under a different
+subtitle. **ONE audit reported COULD NOT EVALUATE on existence as its headline** (this line said "two", and
+so does `f7d2ee9`'s pushed commit message, which cannot be corrected; the second audit confirmed
+every work and recorded a limit on the strength of its YEAR evidence, which is not the same state) — Tavily
+answered HTTP 433 (pay-as-you-go limit) to every call in the package and the WebSearch budget went
+with it — and removed nothing, reasoning that dropping works they could not check converts
+*could-not-evaluate* into *evaluated-and-failed* on the strength of an exhausted quota.
+
+**THE FINDING: 23 WORKS APPEAR UNDER 51 STRINGS, AND CORRECTING THEM REDDENS THE BUILD BY SIX.**
+`cited_by` is an exact-string counter, so *A Field Guide to American Houses* is six works to this
+corpus (35 / 27 / 12 / 3 / 1 / 1 nodes). Collapsing every group to its commonest spelling takes
+`distinct sources` **422 → 394** (28 phantoms, 6.6% of the layer) and `shared_only_nodes` **24 →
+30**: `american-farmhouse-vernacular`, `beaux-arts-american`, `craftsman`, `garrison-revival`,
+`modern-farmhouse-traditional` and `neo-eclectic` each escape a thin-research meter by a spelling.
+`beaux-arts-american`'s only unique citation differs from `beaux-arts-french`'s **by a comma**.
+**Nothing was normalised** — making the data more correct is a six-node regression against a live
+ratchet, which is a ruling and not a tidy — except the ONE phantom this package minted, normalised
+after measuring that neither node flips. A package may not leave its own behind.
+
+**AND A SOURCE IS ADDED BECAUSE IT ESTABLISHES THE CATEGORY, NEVER BECAUSE IT WIDENS A MARGIN.**
+`northern-european-vernacular` holds exactly one work no other node cites, against a ceiling with
+zero headroom, because two of its five are also cited by its own member families. Two tradition-scope
+replacements were researched and confirmed here and **neither was added**: every other node got 4 or
+5, this one would have got 6, and the reason would have been that a meter looked tight. Padding a
+list to buy headroom on the meter that exists to detect thin research is the failure the whole
+protocol was written against.
+
+Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIV · new open questions:
+`oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction` and
+`oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated`.
 
 ### WP-11.12 The suite that ran on one core
 
@@ -2506,10 +2810,11 @@ against each other on real records with each required property removed in turn.
 **SECOND, SIX JOBS INSTEAD OF ONE.** `build/check_all.py --shard i/N` partitions 123 units -- the
 `CHECKS` entries and a glob of `tests/test_*.py` -- longest-first onto N shards. `--shard 1/1` is
 `make check`, byte for byte. **SIX IS MEASURED AND NOT CHOSEN**: the makespan is bounded below by
-the largest INDIVISIBLE unit and `tests/test_score.py` is 400 s on its own, so 4 -> 623 s,
-5 -> 498, **6 -> 415**, 7 -> 400, 8 -> 400. Six is also free -- 6 x (415 + ~30) is 45 runner
+the largest INDIVISIBLE unit and `tests/test_score.py` is 431 s on its own, so 5 -> 507 s,
+**6 -> 432**, 7 -> 432. Six is also free -- 6 x (432 + ~30) is 46 runner
 minutes against the 41 the single job already spent -- so the wall clock falls sixfold and the
-bill does not move. `--list-units` prints the assignment, so the next person to ask whether seven
+bill barely moves. **The floor itself moved after the merge**: a per-file sweep costed that file
+at 400 s and a one-file shard measured 431, taking the flat spot from seven shards to six. `--list-units` prints the assignment, so the next person to ask whether seven
 would help can answer it rather than argue it.
 
 **THE SPLIT IS BY JOB AND THAT IS THE FINDING.** Six test files mutate repository data in place

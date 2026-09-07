@@ -1,0 +1,29 @@
+{
+  "id": "charles-elliott-house",
+  "name": "Charles Elliott House",
+  "location": {
+    "text": "43 Legare Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "c. 1759",
+    "circa": true,
+    "altered": "'Some of the interior elements were remodeled between 1790 and 1800 in the Adamesque style' (Wikipedia).",
+    "note": "The build date is the node's own ('Circa 1759'); the Wikipedia article read gives the 1764 purchase of the property for 2,500 pounds current currency and no construction date. Recorded as the node states it, and marked so."
+  },
+  "nodes": [
+    "charleston-single-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Charles_Elliott_House",
+      "title": "Charles Elliott House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The house is a Georgian double house built of cypress with interior cypress woodwork ... Although the house follows the normal floorplan for a double house (four rooms per floor separated by a hall and staircase), the rear rooms are much smaller than the front rooms; the disparity in sizes has even led to the house's being described as a \"modified Charleston single house.\" Unusually, the house has thick brick firewalls rising from the basement to the attic between the rooms to limit the spread of any fires.'"
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-single-house node already carried were kept exactly. Worth carrying, and it is why this exemplar has no standing: the one source read calls this a DOUBLE house of the four-room plan, described as a 'modified Charleston single house' only because its rear rooms are small -- against the node's exemplar note, which calls it 'among the earliest documented single houses, showing the plan fully resolved'. Nothing here is changed; the disagreement is recorded for a ruling. No HABS record and no individual register page were found."
+}

@@ -238,13 +238,46 @@
       "name": "The Woodlands",
       "location": "Montgomery County, Texas",
       "year": 1974,
-      "note": "Opened October 1974 and built out over three decades; a large, well-planned master community whose houses show the full sequence of elevation packages from neo-Colonial through neo-Mediterranean."
+      "note": "Opened October 1974 and built out over three decades; a large, well-planned master community whose houses show the full sequence of elevation packages from neo-Colonial through neo-Mediterranean.",
+      "precedent": "the-woodlands",
+      "standing": "icon",
+      "why": "The best known and best documented American master-planned community of this node's period, conceived under the HUD Title VII new-town programme after its founder attended a Rouse Company symposium, and built out over thirty-three years so the elevation packages can be read decade by decade in one place."
     },
     {
       "name": "Weston (Indian Trace)",
       "location": "Broward County, Florida",
       "year": 1984,
-      "note": "Arvida; first homes completed 1984, incorporated as a city in 1996. A textbook late-century merchandised subdivision, and a useful control case because the planning is competent and the elevations still decouple from the plans."
+      "note": "Arvida; first homes completed 1984, incorporated as a city in 1996. A textbook late-century merchandised subdivision, and a useful control case because the planning is competent and the elevations still decouple from the plans.",
+      "precedent": "weston-indian-trace",
+      "standing": "regional",
+      "why": "The South Florida expression -- an Arvida community entitled in 1978 for over 25,000 dwellings and governed by its own development district until its residents incorporated it -- and this node's own control case for competent planning still carrying decoupled elevations."
+    },
+    {
+      "name": "Mission Viejo",
+      "location": "Orange County, California",
+      "year": 1966,
+      "note": "The Mission Viejo Company was formed in 1963 by the O'Neill family and partners to develop about 11,000 acres of the old Rancho Mission Viejo; the first families arrived in 1966 and the city incorporated in 1988. An aerial photograph of about 1966 held by the Mission Viejo Library shows three separate builders' model rows -- Deane Homes, Monterey Homes and La Paz Homes -- standing together inside one master plan, which is the merchandising arrangement this node's description is about, photographed at its beginning.",
+      "precedent": "mission-viejo",
+      "standing": "canonical",
+      "why": "The earliest documented instance of the arrangement this node defines -- one master developer, several merchant builders, model rows side by side -- and the photograph that shows it is a library's, not a marketing department's."
+    },
+    {
+      "name": "Highlands Ranch",
+      "location": "Douglas County, Colorado",
+      "year": 1981,
+      "note": "The same Mission Viejo Company, fifteen years later and one state away: 22,000 acres bought for $29 million in 1978, a thirty-year plan to develop 12,000 of them, first houses sold in 1981 with three model homes in the first filing, and parcels then sold on to production builders neighbourhood by neighbourhood, each named and merchandised separately. Bought by Shea Homes in 1997.",
+      "precedent": "highlands-ranch",
+      "standing": "regional",
+      "why": "The Front Range instance of the arrangement, and a controlled comparison with Mission Viejo -- one company, one method, fifteen years apart -- that nobody has drawn."
+    },
+    {
+      "name": "New Daleville",
+      "location": "Londonderry Township, Chester County, Pennsylvania",
+      "year": null,
+      "note": "A 125-lot subdivision on ninety acres of Chester County cornfield, planned by Arcadia Land Company with Cornerstone Communities and built by Ryan Homes and NV Homes, both divisions of NVR. It is the subject of Witold Rybczynski's Last Harvest, already a source on this node, and it is the only exemplar here that carries dimensions: lots of about an eighth of an acre, 50 to 60 feet of frontage, and garages moved to rear lanes because a two-car door will not fit across a fifty-foot lot. No source read gives a first-occupancy year, so none is stated.",
+      "precedent": "new-daleville",
+      "standing": "documentary",
+      "why": "The one case in this node watched from inside by someone who wrote down the numbers, which is exactly what documentary means here and exactly what the rest of the node's exemplars lack."
     }
   ],
   "sources": [

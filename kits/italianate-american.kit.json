@@ -159,7 +159,10 @@
             14
           ],
           "unit": "ft",
-          "kind": "measured"
+          "kind": "measured",
+          "source": "precedents/kenworthy-hall#measurements[5]",
+          "confidence": "medium",
+          "note": "WP-11.4, Ruling A. HABS AL-765 on Kenworthy Hall: \"generous eaves, 14' and 12' tall ceilings\". The 12 ft is the lower storey and sits inside the band; the 14 ft upper storey sits on its ceiling. The building is an `italianate-villa` exemplar and this parameter is authored here on the parent, so a member's building is evidencing the parent's band. One building; the band is not otherwise corroborated."
         },
         "diminish_pct_per_storey": {
           "range": [

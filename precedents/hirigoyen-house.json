@@ -1,0 +1,46 @@
+{
+  "id": "hirigoyen-house",
+  "name": "Hirigoyen House",
+  "location": {
+    "text": "400 West Brookdale Place, Fullerton, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "400 W. Brookdale Place, Fullerton, California"
+    ]
+  },
+  "dates": {
+    "built": "1930",
+    "circa": false
+  },
+  "nodes": [
+    "monterey-revival"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.fullertonheritage.org/Gallery/monterey.php",
+      "title": "Fullerton Heritage — Monterey Revival (architectural styles gallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The preservation body's own words: 'A good example of the Monterey Revival style in Fullerton is the Hirigoyen House, a Local Landmark, at 400 W. Brookdale Place, constructed in 1930.' The same page lists the style's characteristics: 'Two story rectilinear volume; Low pitched gable roofs covered with shingles or tiles; Projecting cantilevered second floor balconies with wood railings; Colonial double-hung windows; louvered shutters; Plaster walls; Picket fences around gardens; Second story balconies', and dates the style '1915 to 1940'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.fullertonheritage.org/architectural-styles.php",
+      "title": "Architectural Styles in Fullerton",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same text on the parent index page, with the photograph captioned 'Hirigoven House (1930) 400 W. Brookdale Place' — the spelling of the name varies between 'Hirigoyen' and 'Hirigoven' on the organisation's own pages; the prose spelling is used here."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.facebook.com/FullertonHeritageOC/posts/1206103364875530",
+      "title": "Fullerton Heritage post on the Wright House, which also describes the Hirigoyen House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A SOCIAL POST BY THE SAME PRESERVATION BODY, recorded because it is the only source read that gives a cost and a room count: 'Hirigoyen House, 400 West Brookdale Place- Constructed in 1930 by active Santa Ana building for $5,000, the three- bedroom, two bathroom-room'. The sentence is truncated in the search result and the figures are NOT carried as measurements."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the node's plain, dated, locally documented Monterey Revival house — the case where the style is a builder's house on an ordinary lot rather than an adobe of the 1830s. It is a city Local Landmark with no National Register listing, no survey and no measured record; everything here rests on one preservation body's own pages, which is stated rather than dressed up. It is the ONLY building on this node that is an example of the revival with a locator; the rest are the adobes the revival copied."
+}

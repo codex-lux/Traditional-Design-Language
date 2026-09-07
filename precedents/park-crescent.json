@@ -1,0 +1,107 @@
+{
+  "id": "park-crescent",
+  "name": "Park Crescent",
+  "location": {
+    "text": "Marylebone, London, England",
+    "country": "England",
+    "state": "City of Westminster"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "1812",
+    "circa": false,
+    "altered": "restored after war damage, as the entry states.",
+    "note": "The list entry prints '1812 (restored after war damage) by John Nash and the earliest feature of his Regent's Park development'. The node's exemplar gives 1821 and 'Built 1806-21 by Nash'; the Wikipedia infobox gives 'Built 1812-1821'. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "regency"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1225956",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1225956",
+      "title": "1-6, PARK CRESCENT W1, 98, PORTLAND PLACE W1, 8-14, PARK CRESCENT W1, Non Civil Parish - 1225956 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, the eastern half of the crescent; the entry's own header prints the listing date 5.2.70. The Wikipedia infobox gives the same number with 'Designated 5 February 1970'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1380697",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1380697",
+      "title": "Numbers 17-24 and 26-32 Park Crescent, Non Civil Parish - 1380697 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A second entry covering part of the western half; 'Date first listed: 24-Jul-1969'. Recorded so that this record's own scope is legible."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Park_Crescent,_London",
+      "title": "Park Crescent, London - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1225956",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1225956",
+    "prepared": "The entry's own Details header prints the listing date 5.2.70. The Overview block was not returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "TQ 2882 SE CITY OF WESTMINSTER PARK CRESCENT, Wl 36/23 (east side) 5.2.70 Nos. 1 to 6 (consec,) 8, 10, 12 and 14 (Including No. 98 Portland Place) G.V. I Quadrant of town houses forming eastern half of crescent. 1812 (restored after war damage) by John Nash and the earliest feature of his Regent's Park development.",
+        "page": "Official list entry 1225956, Details, entry header and opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Stucco faced; slate roofs. Simple spacious Grecian detailing distinguished by the unifying sweep of the ground floor colonnade.",
+        "page": "Official list entry 1225956, Details"
+      },
+      {
+        "field": "storeys",
+        "text": "4 storeys (including attic storey) and basement. 3 window-wide fronts, the end houses have very slightly advanced fronts as terminal pavilions with returns to Marylebone Road and Portland Place respectively, the latter with colonnade returned as well.",
+        "page": "Official list entry 1225956, Details"
+      },
+      {
+        "field": "porches",
+        "text": "The colonnade of coupled Ionic columns on square plinths uniformly screens the basement areas and ground floors with balustraded parapet to terrace over dentil corniced entablature; the channelled ground floor has square headed recessed doorways (some altered to windows) and recessed glazing bar sashes.",
+        "page": "Official list entry 1225956, Details"
+      },
+      {
+        "field": "openings",
+        "text": "Between the end pavilions the 1st floor glazing bar sashes are semicircular arched and recessed for 2 orders; square headed recessed glazing bar sashes to 2nd floor and attic storey. The end pavilion houses have square headed windows in shallow architraves, with cornices over on 1st floor, and semicircular arched attic storey windows",
+        "page": "Official list entry 1225956, Details"
+      },
+      {
+        "field": "significance",
+        "text": "Park Crescent is Nash's sweeping introduction to Regent's Park, via Park Square q.v., from the axis of Portland Place and is the southern half of the vast projected circus in his 1811-12 scheme.",
+        "page": "Official list entry 1225956, Details, significance paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "4 storeys (including attic storey) and basement",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The entry counts the attic within the four and names the basement separately."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "3 window-wide fronts",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three bays to each house, uniformly, which is what lets the colonnade run without a break."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1225956",
+  "note": "Tranche 3, 5 Sep 2026. A group record: Historic England lists the crescent in more than one entry and this one covers the eastern half. The entry states the elevation's whole method in one clause -- 'the unifying sweep of the ground floor colonnade' over uniform three-bay houses -- which is the node's scenographic claim in the register's own words."
+}

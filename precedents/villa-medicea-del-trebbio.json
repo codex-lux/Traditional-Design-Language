@@ -1,0 +1,73 @@
+{
+  "id": "villa-medicea-del-trebbio",
+  "name": "Villa Medicea del Trebbio",
+  "aka": [
+    "Castello del Trebbio",
+    "Villa del Trebbio",
+    "Il Trebbio"
+  ],
+  "location": {
+    "text": "San Piero a Sieve, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1427-1440",
+    "circa": true,
+    "note": "The date range is the Ministry catalogue's own field for this scheda, '1427/00/00 - 1440/00/00'. ICOMOS says only that the villa 'was acquired in the 14th century' and was 'built on the ruins of a Lombard tower' and 'Also restored by Michelozzo', giving no year. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "italian-villa-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "175",
+      "url": "https://whc.unesco.org/en/list/175",
+      "title": "Medici Villas and Gardens in Tuscany - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The serial inscription of 2013, criteria (ii)(iv)(vi), which covers twelve villas and two gardens; this building is one component of it. The Italian Ministry of Culture's UNESCO office page for the same property prints 'Ref 175', 'Date of Inscription 2013', 'Property 125.4 ha' and 'Buffer zone 3,539.08 ha'."
+    },
+    {
+      "kind": "vincolo",
+      "id": "0900373022",
+      "url": "http://catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900373022",
+      "title": "Castello del Trebbio San Piero a Sieve, 1427/00/00 - 1440/00/00",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "ICCD Catalogo generale dei Beni Culturali, scheda Architettura, 'CODICE DI CATALOGO NAZIONALE 0900373022', 'OGGETTO villa', 'ATTRIBUZIONI Michelozzo (1396/1472): rifacimento', 'DATA DI COMPILAZIONE 1993', 'DATA DI AGGIORNAMENTO 2009', address 'via del Trebbio 1'. A cataloguing record rather than a decree of vincolo; `vincolo` is the nearest kind in the enum. Its description, read as continuous prose in an extract of this page on 2026-09-05, is: 'Edificio con muratura di pietrame misto in varie pezzature, intervallato ad opere di tamponamento sia interno che esterno in laterizio. La struttura risulta articolata con volte al piano seminterrato ed al pianoterra e quindi solai in legno ai piani successivi'. Recorded here and not as a survey quote because the survey block is the ICOMOS evaluation."
+    }
+  ],
+  "survey": {
+    "item": "175",
+    "register": "unesco",
+    "data_url": "https://whc.unesco.org/document/152903",
+    "prepared": "ICOMOS evaluation of nomination No 175, 'Medici Villas and Gardens (Italy)', prepared for the World Heritage Committee; the report prints 'Date of ICOMOS approval of this report 6 March 2013'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Part 2: The Villa del Trebbio (San Piero a Sieve) was acquired in the 14th century, in the early days of the rise in the Medici's fortunes.",
+        "page": "ICOMOS evaluation No 175, section 2 'The property - Description', Part 2; the extract cut the span after the following words 'It was built on the ruins of a Lombard'. The apostrophe in 'Medici's' is printed as a typographic apostrophe in the source."
+      },
+      {
+        "field": "general_description",
+        "text": "It was built on the ruins of a Lombard tower. Also restored by Michelozzo, its architecture retains medieval motifs with a large square tower closely associated with a tall residential building punctuated with regular window openings on its first floor. The internal courtyard has a glazed loggia with slender pillars and an exterior staircase. The main building is crowned with an exterior walkway in medieval style. Located on the top of a hill, it dominates the Mugello Plain whilst retaining its appearance of a cloistered residence. This tall and austere ensemble was connected to its garden in the 15th century via a pergola walk with Roman-inspired columns.",
+        "page": "ICOMOS evaluation No 175, Part 2; a second extract of the same document with a different query returned this span, which begins one sentence earlier than the cut above."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "tower_count",
+      "as_printed": "a large square tower closely associated with a tall residential building",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "One tower is named. The evaluation does not say the building has only one, and none is dimensioned."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Added by this pass; the node carried no exemplar for it. Trebbio is the pair to Cafaggiolo -- the other Mugello fortified farm the Medici held before they were the Medici -- and the ICOMOS description is unusually specific about the parts this node's grammar cares about: a square tower against a taller block, regular first-floor windows, a glazed courtyard loggia and an external stair."
+}

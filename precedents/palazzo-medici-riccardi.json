@@ -1,0 +1,75 @@
+{
+  "id": "palazzo-medici-riccardi",
+  "name": "Palazzo Medici Riccardi",
+  "location": {
+    "text": "Via Cavour, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "from 1444",
+    "circa": false,
+    "altered": "The palace's own chronology records the 1659 sale to the marchese Gabriello Riccardi, 'il quale promuove importanti lavori di ampliamento e ammodernamento' -- the enlargement that lengthened the via Larga front."
+  },
+  "nodes": [
+    "italian-renaissance"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.visittuscany.com/it/attrazioni/palazzo-medici-riccardi",
+      "title": "Palazzo Medici Riccardi | Visit Tuscany",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Visit Tuscany is the Regione Toscana's official destination site ('Sito ufficiale della destinazione Toscana')."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.palazzomediciriccardi.it/il-palazzo",
+      "title": "Il Palazzo | Palazzo Medici Riccardi",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The building's own site. It is owned and occupied by the Citta Metropolitana di Firenze, which bought it as the Provincia di Firenze in 1874; the page is a dated chronology and describes no elevation."
+    },
+    {
+      "kind": "unesco",
+      "id": "174",
+      "url": "https://whc.unesco.org/en/list/174",
+      "title": "Historic Centre of Florence - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription. The Wikipedia list article read the same day prints the reference as '174bis' and the inscription as '1982 (6th Session)' with a 2015 extension; the list URL itself carries 174."
+    }
+  ],
+  "survey": {
+    "item": "palazzo-medici-riccardi",
+    "register": "other",
+    "data_url": "https://www.visittuscany.com/it/attrazioni/palazzo-medici-riccardi",
+    "prepared": "Regione Toscana, Visit Tuscany, attraction record 'Palazzo Medici Riccardi'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Palazzo Medici Riccardi, primo palazzo di chiara impronta rinascimentale a Firenze, fu commissionato intorno al 1444 all’architetto Michelozzo da Cosimo il Vecchio, patriarca della famiglia Medici, che lo volle in via Larga (l’attuale via Cavour), nei pressi della chiesa di San Lorenzo.",
+        "page": "Visit Tuscany, Palazzo Medici Riccardi, opening paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "Coronato da un robusto cornicione, l’edificio ha la facciata decorata da eleganti bifore; dalle due porte asimmetriche di ingresso si entra in un cortile costruito secondo moduli brunelleschiani e da qui si accede ad un tipico giardino all’italiana.",
+        "page": "Visit Tuscany, Palazzo Medici Riccardi, second paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "entrance_door_count",
+      "as_printed": "le due porte asimmetriche di ingresso",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The register calls them ASYMMETRIC, which is the point: the node's own bay rhythm says a Renaissance palazzo front is 'even, additive and non-hierarchical' with 'emphasis given only by centring the portal', and Florence's first Renaissance palace has two doors and does not centre either."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche. The Regione Toscana's own record calls it 'primo palazzo di chiara impronta rinascimentale a Firenze', which is the register's judgment and the reason for its standing; the node carried the Rucellai front and no example of the rusticated Florentine block it describes at length in its own prose."
+}

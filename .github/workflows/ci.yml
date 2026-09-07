@@ -12,10 +12,11 @@ name: CI
 #
 # `build/check_all.py --shard i/N` partitions the work. SIX, and the number is measured
 # rather than chosen: the makespan is bounded below by the largest INDIVISIBLE unit, and
-# tests/test_score.py is 400 s on its own, so six shards land 415 s and a seventh buys 15.
-# Six also costs what one did -- 6 x (415 s + ~30 s of setup) is 45 runner minutes against
+# tests/test_score.py is 431 s on its own, so six shards land 432 s and a seventh buys nothing.
+# Six also costs what one did -- 6 x (432 s + ~30 s of setup) is 46 runner minutes against
 # the 41 the single job was already spending, so the wall clock falls sixfold and the bill
-# does not move. Re-measure with `python3 build/check_all.py --list-units --shard 1/N`
+# barely moves. That floor MOVED once already (a per-file sweep said 400, a one-file shard
+# said 431), which is why the instruction below is re-measure rather than re-read. Re-measure with `python3 build/check_all.py --list-units --shard 1/N`
 # before changing it; the balance is a property of the corpus, not of the number.
 #
 # THE SPLIT IS BY JOB, WHICH IS THE POINT. Six test files mutate repository data in place and

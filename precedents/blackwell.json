@@ -1,0 +1,107 @@
+{
+  "id": "blackwell",
+  "name": "Blackwell",
+  "aka": [
+    "Blackwell School"
+  ],
+  "location": {
+    "text": "Bowness-on-Windermere, Cumbria, England",
+    "country": "United Kingdom",
+    "state": "Cumbria; the register places the entry in Windermere"
+  },
+  "dates": {
+    "built": "1899",
+    "altered": "Minor late C20 alterations. Used as a school and then as offices, and empty when the entry was written (May 1998).",
+    "note": "The list entry gives '1899' and the same entry records a rainwater head on the front inscribed 'AD. 1900'. Historic England's registered park and garden entry for the same place (1001553) gives '1898-1900'; the node's exemplar carries 1900 and its own note says 'Built 1898-1900'; the Wikipedia article says 1898-1900. Four statements from three surfaces, one of them self-contradictory; none is changed here."
+  },
+  "nodes": [
+    "arts-and-crafts-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1124680",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1124680",
+      "title": "Blackwell School, Windermere - 1124680 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A search result for this number printed the Overview lines List Entry Number '1124680', Date first listed '12-Nov-1969' and List Entry Name 'Blackwell School'. Neither extract returned the entry's own header block. The register's name for the building is Blackwell School, from its use when the entry was written; the node's exemplar calls it Blackwell, which is why `aka` carries both. The entry misspells the architect twice, as 'Mackey Hugh Bailley Scott', and the building once, as 'Blackwall'; both are kept verbatim in the quotes."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001553",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001553",
+      "title": "Blackwell, Windermere and Bowness - 1001553 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park and garden entry, which describes the house independently and dates it 'Mackay Hugh Baillie Scott 1898-1900, listed grade I', with painted roughcast walls and stone dressings. Its spelling of the architect's name and its date both differ from the listed-building entry's."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Blackwell_(historic_house)",
+      "title": "Blackwell (historic house) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox gives Architectural style 'Arts and Crafts', Location Bowness-on-Windermere, Client Sir Edward Holt, Architects Baillie Scott and Thomas Mawson (garden), official name 'BLACKWELL SCHOOL' and Designated 12 November 1969; the article says the house was built in 1898-1900 as a holiday home for a Manchester brewer."
+    }
+  ],
+  "survey": {
+    "item": "1124680",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1124680",
+    "prepared": "Date first listed: 12-Nov-1969, as the Overview line returned by search prints it. The description itself is dated internally: it records the house as 'empty at the time of inspection ( May 1998 )'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House, more recently used as a school and subsequently as offices, and empty at the time of inspection ( May 1998 ). 1899 with minor late C20 alterations. By Mackey Hugh Bailley Scott, architect, for Sir Edward Holt. Painted roughcast walling, with ashlar sandstone dressings and a Westmorland slate roof covering, laid to diminishing courses. Coped gables and tapering linked chimneys. Vernacular Revival style.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1124680)."
+      },
+      {
+        "field": "plan",
+        "text": "PLAN. Elongated L-plan house, with principal range aligned east-west, with a service wing attached at the west end, extending southwards.",
+        "page": "Official list entry, Details section, PLAN heading."
+      },
+      {
+        "field": "storeys",
+        "text": "MAIN RANGE, FRONT ELEVATION (south): Irregular, gabled front of 2 storeys with attics breaking forward in steps from right to left.",
+        "page": "Official list entry, Details section, FRONT ELEVATION heading; the extracted span continues 'Principal entrance to centre gable, approached by a shallow'."
+      },
+      {
+        "field": "openings",
+        "text": "Gables incorporate flush- mullioned windows of 2, 3 and 4 lights, mostly with plain leaded glazing, but with some windows to principal rooms with stained glass in Art Nouveau style. Set between the gables are decorative rainwater heads, that to the right inscribed `AD. 1900', that to the left `E(.dward) H(olt)'",
+        "page": "Official list entry, Details section, FRONT ELEVATION heading, continued; returned only by the second extract. The hyphenation of 'flush- mullioned' is the entry's own."
+      },
+      {
+        "field": "finishes",
+        "text": "INTERIOR: Ground floor principal rooms face south, with access corridor leading from entrance hallway with patterned stone floor and stained glass windows. PRINCIPAL RECEPTION ROOM to centre with massive inglenook to south-west corner, lit by small canted bay fire window, with fixed wooden bench seating.",
+        "page": "Official list entry, Details section, INTERIOR heading."
+      },
+      {
+        "field": "significance",
+        "text": "Blackwall is considered to be to be Baillie Scott's finest surviving work in England, and its significance is enhanced by the survival of so many elements of the outstandingly important interior, despite its recent usage as a school and then as offices.",
+        "page": "Official list entry, Details section, closing paragraph. 'Blackwall' and the doubled 'to be' are the entry's own."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "gabled front of 2 storeys with attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Two storeys with attics on the south front; the entry adds that the front breaks forward in steps from right to left, so the height is uniform and the plane is not."
+    },
+    {
+      "name": "window_light_count",
+      "as_printed": "windows of 2, 3 and 4 lights",
+      "from_quote": 3,
+      "note": "Three figures for one wall; no single value is parsed. The set 2/3/4 is the vocabulary of the mullioned band the node's prose describes -- 'casements with leaded lights, grouped into horizontal bands under stone or oak mullions'."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1124680",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Two Historic England entries for one house give two dates and two spellings of the architect's name, and the listed-building entry contradicts itself by dating the house 1899 while quoting a rainwater head on its own front inscribed AD. 1900. The interior evidence is what the node most needs: 'Ground floor principal rooms face south, with access corridor leading from entrance hallway', and a principal reception room with a massive inglenook in one corner lit by its own fire window -- an inglenook that is a lit room within a room, which is the arrangement the node's prose calls a hall with an inglenook and which no corpus room record currently models."
+}

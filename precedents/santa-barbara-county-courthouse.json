@@ -1,0 +1,64 @@
+{
+  "id": "santa-barbara-county-courthouse",
+  "name": "Santa Barbara County Courthouse",
+  "location": {
+    "text": "Santa Barbara, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "1100 Anacapa Street, Santa Barbara, California"
+    ]
+  },
+  "dates": {
+    "built": "1929",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1926'; the Library of Congress item for the building says it was 'Dedicated on August 14, 1929'; the style nodes carry 1929. All recorded, none changed. The building replaced a courthouse wrecked by the 1925 earthquake, so a start date of 1926 and a dedication of 1929 are not in conflict."
+  },
+  "nodes": [
+    "spanish-colonial-revival",
+    "andalusian-spanish-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Santa_Barbara_County_Courthouse",
+      "title": "Santa Barbara County Courthouse - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "81000177",
+      "url": "https://en.wikipedia.org/wiki/Santa_Barbara_County_Courthouse",
+      "title": "NRHP reference No. 81000177; added to the National Register 23 January 1981; area 4.65 acres; architect William Mooser (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nhl",
+      "id": "81000177",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/81000177_text",
+      "title": "Santa Barbara County Courthouse — National Historic Landmark nomination text (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's own checklist line reads '_ Recorded by Historic American Buildings Survey: #' with the box unticked, which is the document saying there is no HABS record. It also quotes Mooser on the intention: the building was to be '.. .more Spanish than any hotel-de-ville in Spain.'"
+    },
+    {
+      "kind": "state-register",
+      "id": "1037",
+      "url": "https://en.wikipedia.org/wiki/Santa_Barbara_County_Courthouse",
+      "title": "California Historical Landmark No. 1037 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/item/2013631909",
+      "title": "The Santa Barbara County Courthouse, Santa Barbara, California",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A Library of Congress item that is NOT a HABS record; its summary line gives 'William Mooser III - 1929' and the August 14, 1929 dedication."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. No survey block: the building's own National Historic Landmark nomination records that it was not documented by HABS, which is a stated absence rather than a search that came up empty. Two nodes name it at the same location string, so no alias was needed for the join; the street address is carried as an alias only because the nomination prints it."
+}

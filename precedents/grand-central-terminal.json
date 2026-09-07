@@ -1,0 +1,53 @@
+{
+  "id": "grand-central-terminal",
+  "name": "Grand Central Terminal",
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1903-1913",
+    "circa": false,
+    "altered": "Restored from 1994 under the Metropolitan Transportation Authority after LaSalle Partners and Williams Jackson Ewing were chosen to redevelop it; the proposed upper storeys of the station were never built.",
+    "note": "The Register nomination's own 'SPECIFIC DATES' field reads '1903-1913'; the terminal opened February 2, 1913. Wikipedia gives the same. No disagreement."
+  },
+  "nodes": [
+    "beaux-arts-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "75001206",
+      "url": "https://en.wikipedia.org/wiki/Grand_Central_Terminal",
+      "title": "NRHP reference No. 75001206, listed January 17, 1975, designated a National Historic Landmark December 8, 1976; a boundary increase of August 11, 1983 carries reference no. 83001726, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox. Two reference numbers exist because the listing was enlarged; the first is the building's."
+    },
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/GetAsset/d3380180-7c4e-4d8a-92ba-c0060347e915",
+      "title": "Grand Central Terminal - National Register of Historic Places Inventory - Nomination Form (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination itself. Its statement of significance opens 'Grand Central Terminal is one of the great examples of urban design in America and is a engineering and architectural triumph as well', names 'Warren and Wetmore Reed and Stem' as builder/architect and gives the specific dates as 1903-1913. Its description quotes a contemporary account: 'The terminal has two levels. The upper one of these, 20 ft. below the street, is 46.4 acres in area and has 19.5 miles of track. There are 42 tracks, and 29 of these are adjacent to platforms for a total distance of 28,850 ft.' No `id` is recorded on this ref because the form itself does not print the reference number in the span read."
+    },
+    {
+      "kind": "state-register",
+      "id": "06101.000365",
+      "url": "https://en.wikipedia.org/wiki/Grand_Central_Terminal",
+      "title": "New York State Register of Historic Places, designated June 23, 1980, reference no. 06101.000365",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grand_Central_Terminal",
+      "title": "Grand Central Terminal - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to beaux-arts-american. The figures in the nomination's description are of the train yard rather than of the head house, so nothing here is carried into `measurements`: an acreage of platforms is not a building dimension and putting one in the measurement vocabulary would be the OQ 48 error in a new place."
+}

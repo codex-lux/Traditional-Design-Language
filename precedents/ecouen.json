@@ -1,0 +1,78 @@
+{
+  "id": "ecouen",
+  "name": "Chateau d'Ecouen",
+  "aka": [
+    "Château d'Écouen",
+    "Domaine du Château d'Ecouen",
+    "Musée national de la Renaissance"
+  ],
+  "location": {
+    "text": "Ecouen, Val-d'Oise, France",
+    "country": "France",
+    "state": "Val-d'Oise, Île-de-France"
+  },
+  "dates": {
+    "built": "1538-1555",
+    "circa": false,
+    "altered": "The Mérimée notice records a park laid out by Jules Hardouin-Mansart while the property belonged to the son of Condé, and a grotto commissioned from Bernard Palissy in 1556 that was never finished; the château became a school for daughters of the Legion of Honour in 1805 and the Musée national de la Renaissance in the 1970s.",
+    "note": "The Mérimée notice prints 'Année(s) de(s) campagne(s) de construction 1538' and dates the building 'entre 1538 et 1555'."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00080045",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00080045",
+      "title": "Domaine du Château d'Ecouen, actuellement musée de la Renaissance",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 2007/07/18 : classé MH' and records that the earlier protection - 'Le château : classement par liste de 1862 et J.O. du 18 04 1914' - was annulled by the 2007 classement."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ch%C3%A2teau_d%27%C3%89couen",
+      "title": "Château d'Écouen - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "READ BECAUSE IT CONTRADICTS THE REGISTER ON THE ATTRIBUTION. The Mérimée notice says the château was built 'par Jean Bullant'; this article says 'Records of the construction have been lost, so the name of the building's original architect is uncertain, but it is known that the royal architect Jean Bullant ... participated in decoration of the château, particularly in the design of the north wing's ornate neo-classical peristyles employing the colossal order'. Neither is changed."
+    }
+  ],
+  "survey": {
+    "item": "PA00080045",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00080045",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Edifice de style Renaissance construit entre 1538 et 1555 pour le connétable Anne de Montmorency par Jean Bullant. Les sculptures sont dues à Jean Goujon. Le quadrilatère du château était, dans son angle nord-est, bordé d'un jardin clos. Le mur de soutènement de la terrasse d'accès conserve la trace d'une niche appartenant au mur sud de ce jardin clos. Celui-ci n'existe plus, au moins depuis la fin du 17e siècle. La grotte a été commandée par le connétable à Bernard Palissy en 1556, mais elle ne fut pas achevée. Au 19e siècle, les chroniqueurs la situaient près de la Fontaine Madame.",
+        "page": "Notice Mérimée PA00080045, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Bullant Jean (architecte) ; Goujon Jean (sculpteur) ; Hardouin-Mansart Jules (architecte, architecte paysagiste)",
+        "page": "Notice Mérimée PA00080045, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "finishes",
+        "text": "Technique du décor porté de l'édifice sculpture",
+        "page": "Notice Mérimée PA00080045, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_span_years",
+      "as_printed": "entre 1538 et 1555",
+      "value": 17,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension; `count` is the nearest unit the closed enum offers."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE REGISTER AND THE ENCYCLOPEDIA DISAGREE ABOUT WHO BUILT THIS AND BOTH ARE RECORDED. Mérimée attributes the whole building to Jean Bullant; en.wikipedia says the original architect is unknown because the building accounts are lost and puts Bullant at the decoration and the north wing's colossal-order peristyles. The corpus values Écouen for exactly that colossal order, so the disagreement sits on the thing the exemplar is for. The notice states no material, no storey count and no dimension. No rights line was read, so no `rights_evidence`."
+}

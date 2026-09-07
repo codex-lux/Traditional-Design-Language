@@ -209,25 +209,73 @@
       "name": "Hans Herr House (1719 Museum)",
       "location": "West Lampeter Township, Lancaster County, Pennsylvania",
       "year": 1719,
-      "note": "The oldest building in Lancaster County and the canonical American Flurküchenhaus: squared sandstone with oversized quoins, three-room plan, central chimney, high steep roof, small casement openings."
+      "note": "The oldest building in Lancaster County and the canonical American Flurküchenhaus: squared sandstone with oversized quoins, three-room plan, central chimney, high steep roof, small casement openings.",
+      "precedent": "hans-herr-house",
+      "standing": "icon",
+      "why": "HABS calls it 'the oldest dwelling house in Lancaster County' and says it 'is important for its Germanic design'; it is the building every account of this tradition opens with, and its 37'-9\" by 30-10\" is the only plan dimension in the node that the survey states BAY BY BAY -- '(three bays) X ... (two bays)' -- so the front is not in doubt. CORRECTED 5 Sep 2026 by the cluster audit: this had read 'the only stated plan dimension the node has', which three sibling exemplars in this same file falsify -- the Golden Plough Tavern's 34' x 28'-5\", the Troxell-Steckel House's 48 by 35 ft and the Bertolet-Herbein Cabin's 'approximately 20 feet by 30 feet'. The depth is printed 30-10\" and the foot mark is an OCR loss; the measurement record marks it as a reading."
     },
     {
       "name": "Golden Plough Tavern",
       "location": "York, Pennsylvania",
       "year": 1741,
-      "note": "Half-timbered Fachwerk with brick nogging, built as a Palatine builder would have built at home — the framing tradition before stone displaced it."
+      "note": "Half-timbered Fachwerk with brick nogging, built as a Palatine builder would have built at home — the framing tradition before stone displaced it.",
+      "precedent": "golden-plough-tavern",
+      "standing": "canonical",
+      "why": "The Fachwerk half of the tradition in a federal survey that calls it 'the only remaining example of half-timber construction, which was widely used during the early period of the region's settlement', with 34 by 28'-5\" and a flared eave stated on the same form."
     },
     {
       "name": "Schifferstadt",
       "location": "Frederick, Maryland",
       "year": 1758,
-      "note": "Built by Elias Bruner of the Palatinate. Retains the central wishbone chimney, liegender Stuhl truss, vaulted cellar, five-plate jamb stove and stone kitchen sink — the most legible surviving section of the type."
+      "note": "Built by Elias Bruner of the Palatinate. Retains the central wishbone chimney, liegender Stuhl truss, vaulted cellar, five-plate jamb stove and stone kitchen sink — the most legible surviving section of the type.",
+      "precedent": "schifferstadt",
+      "standing": "canonical",
+      "why": "The most legible section in the tradition - wishbone chimney, liegender Stuhl, vaulted cellar, five-plate jamb stove all surviving - which is SAH ARCHIPEDIA's list, not the government's; a National Historic Landmark since 2017, and the Department of the Interior's citation as Preservation Maryland quotes it puts the case more generally: 'an outstanding example of a Georgian-period house influenced by German American cultural and construction traditions'. CORRECTED 5 Sep 2026 by the cluster audit: the why had said the Landmark was designated 'on precisely that ground, per the Department of the Interior's own citation', and the citation names none of the four features."
     },
     {
       "name": "Heinrich Zeller House (Fort Zeller)",
       "location": "Millcreek Township, Lebanon County, Pennsylvania",
       "year": 1745,
-      "note": "Limestone house banked over an everflowing spring that discharges through an arched cellar opening; narrow irregular windows."
+      "note": "Limestone house banked over an everflowing spring that discharges through an arched cellar opening; narrow irregular windows.",
+      "precedent": "heinrich-zeller-house",
+      "standing": "regional",
+      "why": "The limestone country's own building and the one the Pennsylvania Historical and Museum Commission names in its field-guide entry on the fortified Pennsylvania German house; carried here for the walls and openings rather than for the bank, which is pennsylvania-bank-house's business."
+    },
+    {
+      "name": "House of Miller at Millbach",
+      "location": "Millbach, Millcreek Township, Lebanon County, Pennsylvania",
+      "year": 1752,
+      "note": "A 2 1/2-storey sandstone and limestone house with a gambrel roof, bell-cast at the base of each slope, and pent eaves crossing the GABLE ENDS rather than the facade; a datestone over the south entrance reads 'Jerg Muler/Maria. Catr. U/ 1752' in Rhineland dialect. Two interiors were removed in 1926 and are period rooms at the Philadelphia Museum of Art. The attached mill is dated 1784 by HABS and 1778 by a mill gazetteer.",
+      "precedent": "house-of-miller-at-millbach",
+      "standing": "icon",
+      "why": "The HABS survey's own brief statement of significance calls it 'one of the finest and best known examples ... of Pennsylvania-German architecture', and its kitchen has been on display in a major museum since 1926, which is as close to a canon as this tradition has."
+    },
+    {
+      "name": "Bethlehem Gemeinhaus",
+      "location": "62-66 West Church Street, Bethlehem, Northampton County, Pennsylvania",
+      "year": 1741,
+      "note": "Built of white oak timbers in two stages 1741-43, with a two-storey attic over a partial cellar and a steep roof with kicked eaves; believed to be the largest eighteenth-century log structure in continuous use in the United States, and since 2024 part of the Moravian Church Settlements World Heritage site. The HABS item (PA-1142) is photographs only and its data page carries no written description.",
+      "precedent": "bethlehem-gemeinhaus",
+      "standing": "regional",
+      "why": "The Moravian branch of the tradition at institutional scale, and the one surviving building that shows the steep kicked-eave roof and the usable two-storey loft this node's description claims for the liegender Stuhl; the significance judgment is UNESCO's and the National Historic Landmark programme's, not this project's."
+    },
+    {
+      "name": "Troxell-Steckel House",
+      "location": "4229 Reliance Street, Egypt, Whitehall Township, Lehigh County, Pennsylvania",
+      "year": 1756,
+      "note": "A 2 1/2-storey fieldstone dwelling of 1756 with a high-pitched gable roof, 48 ft long by 35 ft wide, with a dated German inscription on the second storey and a separate contributing stone springhouse - the spring served from a building of its own rather than run through the cellar. The dimensions reach this record through Wikipedia's summary of the nomination, not through a survey.",
+      "precedent": "troxell-steckel-house",
+      "standing": "documentary",
+      "why": "Plain and measurable, and useful as the control case for the bank house: same tradition, same decade, same limestone country, and the spring is a separate building instead of a floor of the dwelling."
+    },
+    {
+      "name": "Bertolet-Herbein Cabin",
+      "location": "Limekiln vicinity, Berks County, Pennsylvania",
+      "year": null,
+      "note": "A one-and-a-half-storey log cabin of about 20 by 30 ft with a large stone chimney slightly off centre, two Dutch half doors on opposite sides, three double-hung windows and a steep gable roof that flares at the lower third. HABS in 1960 called it 'a simple and picturesque type of home built by the first settlers in the Pennsylvania-German country' and said it was in imminent danger of demolition. Its own survey disagrees with itself about whether the plan is two rooms or three.",
+      "precedent": "bertolet-herbein-cabin",
+      "standing": "documentary",
+      "why": "The log channel of this tradition, and the only building in the node whose HABS sheet is a full Part II description room by room -- openings, roof, chimney, plan, stairway, finishes and heating, where the stone houses are recorded on a one-page Architectural Data Form; the record was already in the corpus for log-vernacular-american, and the central chimney and the Germanic three-room reading make it this node's building as much as that one's. CORRECTED 5 Sep 2026 by the cluster audit: this had read 'fully measured by HABS where the stone houses are not', and the Hans Herr House and the Golden Plough Tavern both carry HABS plan dimensions in this same node."
     }
   ],
   "sources": [
