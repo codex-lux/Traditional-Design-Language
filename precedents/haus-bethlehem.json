@@ -1,0 +1,46 @@
+{
+  "id": "haus-bethlehem",
+  "name": "Haus Bethlehem",
+  "location": {
+    "text": "Schwyz, Switzerland",
+    "country": "Switzerland",
+    "state": "Kanton Schwyz"
+  },
+  "dates": {
+    "built": "1287",
+    "circa": false,
+    "altered": "A hall with wall paintings was fitted into the masonry base in the sixteenth century; the boarded Lauben are eighteenth-century. Opened to the public by the Stiftung Ital-Reding-Haus in 1981.",
+    "note": "1287 in every source read, and the dating is dendrochronological: a scholarly account of the group (Descoeudres on the Haus Nideroest) lists 'das Haus «Bethlehem» in Schwyz (erbaut 1287)' first in the order the houses were investigated, and a Swiss heritage-holiday foundation records that when the core was dated to 1287 in 1987 it was treated in the field as a sensation."
+  },
+  "nodes": [
+    "swiss-chalet",
+    "nordic-alpine-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.gemeindeschwyz.ch/sehenswuerdigkeiten/19048",
+      "title": "Gemeinde Schwyz - Ital Reding-Hofstatt & Haus Bethlehem",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The commune's own page. It states the claim the popular press repeats -- 'Das Haus Bethlehem in Schwyz gilt als das älteste Holzhaus in Europa' -- and the reading that matters more here: 'Das zweistöckige Haus Bethlehem weist eine differenzierte Raumstruktur auf. Diese lässt darauf schliessen, dass es sich um ein ehemaliges Herrenhaus handelt.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://ferien-im-baudenkmal.ch/ferien-in-der-mittelalterlichen-innerschweiz",
+      "title": "Ferien in der mittelalterlichen Innerschweiz - Stiftung Ferien im Baudenkmal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Swiss Heritage Society's holiday foundation. It gives the population this house belongs to: 'Mittlerweile sind im Gebiet zwischen Küssnacht und Schwyz, Steinen und Morschach an die zwanzig Blockbauten aus dem 12. bis 14. Jahrhundert dendrochronologisch nachgewiesen. ... Die meisten der bislang bekannten Bauten wurden in der Zeit um 1300, genauer zwischen 1280 und 1320, errichtet.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.lessentiel.lu/de/story/haus-bethlehem-das-aelteste-holzhaus-europas-steht-in-der-schweiz-103420085",
+      "title": "Haus Bethlehem: Das älteste Holzhaus Europas steht in der Schweiz - L'essentiel",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A newspaper, carried only because it reports the commune's claim and adds one figure: 'Das Haus Bethlehem ist eines von zwölf historischen Gebäuden im Kanton Schwyz, die alle zu den ältesten Häusern ihrer Art in Europa gehören.' Twelve here, about twenty in the heritage foundation's account, nearly thirty in the Swiss Heritage Society's. Three counts, recorded and not reconciled."
+    }
+  ],
+  "note": "Tranche 3, Alpine cluster, 5 September 2026. NO SURVEY BLOCK AND NO REGISTER REFERENCE, and the reason is a finding in itself. The Swiss Heritage Society's Rote Liste says of these houses: 'Der Kanton Schwyz hat es bis heute unterlassen, ein systematisches Inventar zu erstellen – mit dem Resultat, dass solche historisch einmaligen Objekte erst entdeckt wurden, als bereits Abbruchbewilligung vorlagen.' The oldest timber houses in Europe stand in a canton that has never inventoried them, so there is no register description for this cluster to quote.\n\nAND THE SOURCES SAY THIS IS NOT A FARMHOUSE. The commune reads the differentiated room structure as evidence of a former Herrenhaus, and Descoeudres writes of the whole group that 'es sich bei diesen Bauten nicht um Bauernhäuser handelte'. The node is about the alpine FARMHOUSE; its two oldest exemplars are, on their own sources' reading, gentry houses."
+}

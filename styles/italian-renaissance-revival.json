@@ -226,25 +226,64 @@
       "name": "Villard Houses",
       "location": "451 Madison Avenue, New York, New York",
       "year": 1884,
-      "note": "Joseph Morrill Wells for McKim, Mead & White, after the Palazzo della Cancelleria in Rome. The founding building of the style in America."
+      "note": "Joseph Morrill Wells for McKim, Mead & White, after the Palazzo della Cancelleria in Rome. The founding building of the style in America.",
+      "precedent": "villard-houses",
+      "standing": "icon",
+      "why": "The node's own prose opens with it -- 'Italian Renaissance Revival begins in 1882 on Madison Avenue' -- and the HABS sheet caption says why: 'Appearing as a single Italian palazzo, the Villard Houses were actually six residences built around a central courtyard.'"
     },
     {
       "name": "Boston Public Library, McKim Building",
       "location": "Boston, Massachusetts",
       "year": 1895,
-      "note": "McKim, Mead & White. Not domestic, but the clearest demonstration of the arcaded palazzo wall as a compositional system."
+      "note": "McKim, Mead & White. Not domestic, but the clearest demonstration of the arcaded palazzo wall as a compositional system.",
+      "precedent": "boston-public-library-mckim-building",
+      "standing": "canonical",
+      "why": "The node's own exemplar note: not domestic, 'but the clearest demonstration of the arcaded palazzo wall as a compositional system'; a National Historic Landmark since 1986 (Wikipedia)."
     },
     {
       "name": "The Breakers",
       "location": "Newport, Rhode Island",
       "year": 1895,
-      "note": "Richard Morris Hunt for Cornelius Vanderbilt II, on a sixteenth-century Genoese palazzo model. The style at maximum budget, where it overlaps Beaux-Arts."
+      "note": "Richard Morris Hunt for Cornelius Vanderbilt II, on a sixteenth-century Genoese palazzo model. The style at maximum budget, where it overlaps Beaux-Arts.",
+      "precedent": "the-breakers",
+      "standing": "canonical",
+      "why": "The node's own note calls it 'the style at maximum budget, where it overlaps Beaux-Arts', and the HABS data page measures that budget: about 250 x 150 ft, thirteen stone chimneys, a steel lattice frame."
     },
     {
       "name": "Vizcaya",
       "location": "Miami, Florida",
       "year": 1916,
-      "note": "F. Burrall Hoffman with Paul Chalfin. Veneto villa parti around a true cortile; the point where Italian Renaissance Revival and Mediterranean Revival separate."
+      "note": "F. Burrall Hoffman with Paul Chalfin. Veneto villa parti around a true cortile; the point where Italian Renaissance Revival and Mediterranean Revival separate.",
+      "precedent": "vizcaya",
+      "standing": "regional",
+      "why": "The point where the node says Italian Renaissance Revival and Mediterranean Revival separate, and the register agrees: Wikipedia's style line reads 'Mediterranean Revival Style; with Baroque, Italian Renaissance, Italian Renaissance Revival'."
+    },
+    {
+      "name": "Henry Clay Frick House",
+      "location": "1 East 70th Street, New York, New York",
+      "year": 1914,
+      "note": "Thomas Hastings of Carrère and Hastings, 1913-14: a single-family palazzo on a full Fifth Avenue block front, built low on purpose and now the Frick Collection. National Historic Landmark 2008; the city landmark designation covers the facade only.",
+      "precedent": "henry-clay-frick-house",
+      "standing": "canonical",
+      "why": "The Register lists it as an NHL (Wikipedia infobox, 08001091, 2008) and it is the palazzo formula at domestic scale on the avenue where the node says the buyers lived."
+    },
+    {
+      "name": "University Club of New York",
+      "location": "1 West 54th Street, New York, New York",
+      "year": 1899,
+      "note": "McKim, Mead and White, 1899: nine storeys composed as a three-storey Florentine palazzo, each great storey holding a mezzanine, on a corner of Fifth Avenue. The proportional system the node describes -- change the ground storey and everything above must change -- run at its largest scale.",
+      "precedent": "university-club-of-new-york",
+      "standing": "canonical",
+      "why": "The node's own prose names clubs among the formula's applications, and the Register (80002726, 1980) and the city (landmark 0263, 1967) both list this one."
+    },
+    {
+      "name": "Payne Whitney House",
+      "location": "972 Fifth Avenue, New York, New York",
+      "year": 1909,
+      "note": "Stanford White, completed 1909, on a 45 ft frontage: a bowed granite town house 'in the High Italian Renaissance style', among the last houses White designed before 1906, and since 1952 the French embassy's cultural services. New York City landmark 1970.",
+      "precedent": "payne-whitney-house",
+      "standing": "canonical",
+      "why": "Wikipedia records it as designed 'in the High Italian Renaissance style by architect Stanford White', and it is the node's formula at row-house width rather than block scale."
     }
   ],
   "sources": [

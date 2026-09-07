@@ -71,6 +71,16 @@ def eval_expr(pack_id, expr):
     return pe.evaluate_expr(expr, env)
 
 
+# WP-11.4, Ruling C part 2. The unsourced `measured` parameters as they stood when the gate went
+# in, as (node, slot, parameter) triples. Removing one is a ONE-WAY DOOR -- it means the parameter
+# now carries a source. Part 1 of the ruling was NOT given, so nothing here is re-kinded: this is a
+# record of a debt, not a licence.
+GRANDFATHERED = frozenset(
+    tuple(e) for e in json.load(open(
+        os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                     "measured_unsourced_grandfathered.json"), encoding="utf-8"))["entries"])
+
+
 def provenance_census(kits_seen):
     """The kind-of-claim census, computed rather than recounted (OQ 18).
 
@@ -419,12 +429,38 @@ def main():
         check_determined_by(errs, warns, base, kit, ont_set)
         check_slot_fields(errs, warns, base, kit, ont_fields)
         check_baked_snapshots(errs, baked_unjudged, base, kit, stats)
-        for _s in (kit.get("slots") or {}).values():
-            for _pv in (_s.get("parameters") or {}).values():
+        for _sid, _s in (kit.get("slots") or {}).items():
+            for _pk, _pv in (_s.get("parameters") or {}).items():
                 if not isinstance(_pv, dict): continue
                 census[_pv.get("kind")] += 1
                 if _pv.get("kind") == "editorial" and not _pv.get("source") and not _pv.get("note"):
                     census["editorial-bare"] += 1
+                # WP-11.1. The census had counted the OTHER kind for a year. `measured` is "from
+                # surviving fabric or a documented standard" (the schema's words), and 672 of
+                # 1,161 carried no `source`; 542 sat on a slot with no `sources[]` either. Both
+                # are SUBSETS of `measured` and stay out of the denominator, as editorial-bare does.
+                if _pv.get("kind") == "measured" and not _pv.get("source"):
+                    census["measured-bare"] += 1
+                    if not _s.get("sources"):
+                        census["measured-bare-slot"] += 1
+                        # WP-11.4, Ruling C part 2 (5 Sep 2026): a NEW `measured` parameter must
+                        # carry a source. The gate is PER-PARAMETER against a frozen set and not
+                        # the net ratchet that preceded it: `measured_unsourced` is a ceiling on a
+                        # TOTAL, so sourcing one figure while adding another kept it at 542 and the
+                        # build green -- a counter that nets out, which is this repository's
+                        # commonest blind guard. Refused by identity, it cannot net.
+                        if (base, _sid, _pk) not in GRANDFATHERED:
+                            errs.append(
+                                "%s: slot %s parameter %s is `kind: measured` and carries no "
+                                "`source`, and its slot carries no `sources[]`. A measured figure "
+                                "is \"from surviving fabric or a documented standard\" (the kit "
+                                "schema's own words) and this one says where from nowhere. Either "
+                                "cite the building -- `source: \"precedents/<id>#measurements[<n>]\"`, "
+                                "which check_precedents.py resolves AND holds against the figure "
+                                "(WP-11.4 Ruling A) -- or mark it `kind: editorial` with a `note` "
+                                "saying what it rests on. The 542 that predate this gate are "
+                                "grandfathered in build/measured_unsourced_grandfathered.json; that "
+                                "list may only shrink." % (base, _sid, _pk))
         unknown = set(slots) - ont_set
         missing = ont_set - set(slots)
         if unknown:
@@ -585,6 +621,12 @@ def main():
           "That is the figure OQ 18 is about -- a number nobody can check and nobody said "
           "anything about. An editorial call WITH a note is the corpus working as designed."
           % (census["editorial-bare"], 100.0 * census["editorial-bare"] / max(total, 1)))
+    print("  measured with NO source on the parameter: %d (%.1f%%); %d of those on a slot with no "
+          "`sources[]` either. That is the figure WP-11.1 is about -- a number claiming to have been "
+          "measured that nothing on the record says where. build/check_research.py ratchets it and "
+          "splits it by whether a generator reads the slot."
+          % (census["measured-bare"], 100.0 * census["measured-bare"] / max(total, 1),
+             census["measured-bare-slot"]))
 
     # THE BAKED SNAPSHOTS, AND THE UNJUDGED ONES REPORTED AS UNJUDGED. A snapshot whose
     # expression reads a binding `computed_at` does not carry is not passing this check; it is

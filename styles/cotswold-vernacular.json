@@ -197,25 +197,63 @@
       "name": "Arlington Row",
       "location": "Bibury, Gloucestershire, England",
       "year": 1380,
-      "note": "Built as a monastic wool store in 1380 and converted to weavers' cottages in the late seventeenth century. A party-walled terrace of steeply pitched graded stone slate roofs and wall dormers, the type's most photographed statement."
+      "note": "Built as a monastic wool store in 1380 and converted to weavers' cottages in the late seventeenth century. A party-walled terrace of steeply pitched graded stone slate roofs and wall dormers, the type's most photographed statement.",
+      "precedent": "arlington-row",
+      "standing": "icon",
+      "why": "Historic England lists it Grade I and its own entry records the row being repaired by the Royal Society of Arts in 1929 and restored by the National Trust in the early 1970s -- two national bodies each choosing this terrace as the thing to save -- and the judgment that it is the type's most photographed statement is the node's own."
     },
     {
       "name": "Chipping Campden Market Hall",
       "location": "Chipping Campden, Gloucestershire, England",
       "year": 1627,
-      "note": "Built in 1627 by Sir Baptist Hicks for the sale of cheese, butter and poultry. An open arcaded hall of local stone with a graded slate roof and gabled bays — the district's civic vocabulary in its clearest form."
+      "note": "Built in 1627 by Sir Baptist Hicks for the sale of cheese, butter and poultry. An open arcaded hall of local stone with a graded slate roof and gabled bays — the district's civic vocabulary in its clearest form.",
+      "precedent": "chipping-campden-market-hall",
+      "standing": "icon",
+      "why": "Historic England lists it Grade I, records it as owned by the National Trust and dates it 1627 for Sir Baptist Hicks; the judgment that an open arcade states the district's structural vocabulary with nothing to hide behind is this project's."
     },
     {
       "name": "Owlpen Manor",
       "location": "Uley, Gloucestershire, England",
       "year": 1616,
-      "note": "A gabled Cotswold manor developed between roughly 1450 and 1616 around a medieval hall, with mullioned and transomed windows, kneelered gables and a Great Chamber — the vernacular reaching gentry scale without changing its details."
+      "note": "A gabled Cotswold manor developed between roughly 1450 and 1616 around a medieval hall, with mullioned and transomed windows, kneelered gables and a Great Chamber — the vernacular reaching gentry scale without changing its details.",
+      "precedent": "owlpen-manor",
+      "standing": "canonical",
+      "why": "Historic England lists it Grade I and its entry calls the interior 'remarkable for number and range of period features, this mainly due to the building's lowly status in Cl9' -- a gentry-scale house that was never modernised, which is why its mullion and hoodmould detail can be read as authored rather than restored."
     },
     {
       "name": "Snowshill Manor",
       "location": "Snowshill, Gloucestershire, England",
       "year": 1500,
-      "note": "A late medieval and Tudor manor house whose principal facade was refronted around 1720 in Cotswold stone with sash windows — a useful demonstration of how the tradition absorbed Georgian fashion without changing material or roof."
+      "note": "A late medieval and Tudor manor house whose principal facade was refronted around 1720 in Cotswold stone with sash windows — a useful demonstration of how the tradition absorbed Georgian fashion without changing material or roof.",
+      "precedent": "snowshill-manor",
+      "standing": "canonical",
+      "why": "Historic England's two entries for it disagree about its date and agree about its fabric -- 'coursed, squared Cotswold stone with stone slate roofs' -- and the listed-building entry puts mullion-and-transom windows on one side of the door and sashes on the other across a 'change in stone colour', which is the node's own claim about absorbing Georgian fashion made visible in one elevation."
+    },
+    {
+      "name": "Grevel's House",
+      "location": "Chipping Campden, Gloucestershire, England",
+      "note": "Historic England dates it 'Externally partly mediaeval with Cl7 and C19 remodellings', thinks it was 'a mediaeval barn, possibly C14, converted to dwelling', and refuses the attribution the name carries -- 'not necessarily the home of William Grevil'. Its two-storey Perpendicular bay window of six traceried lights is the node's central claim at full strength.",
+      "precedent": "grevels-house",
+      "standing": "canonical",
+      "why": "Historic England lists it Grade I and calls the bay 'an exceptionally fine 2 storey Perpendicular bay window containing 6 lights with tracery and tracery panels'; the standing rests on that sentence and not on the wool merchant, because the same entry declines to say the house was his."
+    },
+    {
+      "name": "Kelmscott Manor",
+      "location": "Kelmscott, Oxfordshire, England",
+      "year": 1570,
+      "note": "'Circa 1570 for Richard Turner, extended c.1670', and between 1871 and 1896 the home of William Morris. Uncoursed limestone rubble with dressed angle quoins, stone slate roofs with moulded coped verges and ball finials, mullioned lights falling 4-3-2 from ground to attic across a three-bay front.",
+      "precedent": "kelmscott-manor",
+      "standing": "icon",
+      "why": "Historic England lists it Grade I and its entry records that 'between 1871 and 1896 it was the home of William Morris'; the judgment that this is the house through which the district's building culture reached the rest of England is this project's, and it is the reason the node's Arts and Crafts paragraph has a building to point at."
+    },
+    {
+      "name": "Rodmarton Manor",
+      "location": "Rodmarton, Gloucestershire, England",
+      "year": 1909,
+      "note": "Begun 1909 for the Hon Claud Biddulph by Ernest Barnsley, finished under Sidney Barnsley and, for the chapel, Norman Jewson. Coursed and dressed stone, stone slate roof with coped gables, ovolo-moulded stone mullions with leaded iron casements -- a surveyor's description of a twentieth-century house in the same words as one of 1616.",
+      "precedent": "rodmarton-manor",
+      "standing": "canonical",
+      "why": "Historic England lists it Grade I and its entry states that 'All materials locally obtained, both externally and internally, and hand worked by local craftsmen' and that the house 'features in many books on the Arts and Crafts movement'; it is carried as the test of the node's own continuity claim rather than as an ornament to it."
     }
   ],
   "sources": [

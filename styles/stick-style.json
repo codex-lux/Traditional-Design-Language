@@ -194,19 +194,46 @@
       "name": "John N. A. Griswold House (Newport Art Museum)",
       "location": "Newport, Rhode Island",
       "year": 1864,
-      "note": "Richard Morris Hunt; sources give the design and construction variously as 1862-64. Generally cited as the first fully developed American Stick Style building."
+      "note": "Richard Morris Hunt; sources give the design and construction variously as 1862-64. Generally cited as the first fully developed American Stick Style building.",
+      "precedent": "john-n-a-griswold-house",
+      "standing": "icon",
+      "why": "Its National Historic Landmark nomination calls it 'the first example of the developed Stick Style' on Vincent Scully's authority, and its own 1970 HABS report -- the only survey in this cluster to use the node's style name -- describes 'This \"Stick Style\" house ... richly-articulated wall surfaces with elabor-ate patterns of half-timbering and bracketing'."
     },
     {
       "name": "Emlen Physick Estate",
       "location": "Cape May, New Jersey",
       "year": 1879,
-      "note": "Frank Furness. Oversized inverted corbelled chimneys, huge brackets, and a complete stickwork grid; the style at its most idiosyncratic. The Frank Furness attribution is traditional and not documented."
+      "note": "Frank Furness. Oversized inverted corbelled chimneys, huge brackets, and a complete stickwork grid; the style at its most idiosyncratic. The Frank Furness attribution is traditional and not documented.",
+      "precedent": "emlen-physick-estate",
+      "standing": "canonical",
+      "why": "Its HABS Architectural Data Form states the style in the surveyor's own hand -- 'Excellent Stick Style/Shingle Style villa' -- and prints the plan, the storeys, the roofs and the porch on one sheet, which is more measured description than any other building in this node carries."
     },
     {
       "name": "Mark Twain House",
       "location": "Hartford, Connecticut",
       "year": 1874,
-      "note": "Edward Tuckerman Potter. Classified variously as Stick Style and as High Victorian Gothic; included with that caveat because its brick polychromy and applied timber banding show the boundary between the two."
+      "note": "Edward Tuckerman Potter. Classified variously as Stick Style and as High Victorian Gothic; included with that caveat because its brick polychromy and applied timber banding show the boundary between the two.",
+      "precedent": "mark-twain-house",
+      "standing": "documentary",
+      "why": "Its HABS report is by far the most fully dimensioned in this node (68'4\" x 58' main block, nine bays, 42'-8\" to the gable peak) and it is the building whose own survey most clearly refuses the label, calling it 'a stunning example of the Continental Picturesque style' and never Stick Style at all."
+    },
+    {
+      "name": "Cram-Sturtevant House",
+      "location": "Middletown, Rhode Island",
+      "year": 1872,
+      "note": "Dudley Newton, dated 1871-72 by two Rhode Island state nominations and 1875-76 by Scully and by a later local account. A summer house above Second Beach whose exposed gable trusses stand about three feet clear of the wall, so the sticks make volumes that are neither inside nor out.",
+      "precedent": "cram-sturtevant-house",
+      "standing": "canonical",
+      "why": "Vincent Scully, who named this style, called this house 'the apogee of the movement: a highly articulated plan, deep porches, high, jagged, movemented silhouette ... the surface exploded into a basketry of sticks' -- quoted in the Griswold House's own National Historic Landmark nomination."
+    },
+    {
+      "name": "William Westerfeld House",
+      "location": "San Francisco, California",
+      "year": 1889,
+      "note": "Henry Geilfuss, 1889, for a German-born confectioner, on a corner opposite Alamo Square. The urban case: a twenty-eight-room town house on a city lot, where this style is otherwise a resort and suburban one.",
+      "precedent": "william-westerfeld-house",
+      "standing": "regional",
+      "why": "The National Register infobox's style word is 'Stick/Eastlake' and the Library of Congress files its HABS photographs under the subject 'Stick Style', which is two cataloguing authorities agreeing on a building this node's own prose would not otherwise predict."
     }
   ],
   "sources": [

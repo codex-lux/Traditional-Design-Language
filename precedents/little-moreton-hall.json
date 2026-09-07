@@ -1,0 +1,119 @@
+{
+  "id": "little-moreton-hall",
+  "name": "Little Moreton Hall",
+  "aka": [
+    "Old Moreton Hall",
+    "Moreton Old Hall"
+  ],
+  "location": {
+    "text": "Congleton, Cheshire, England",
+    "country": "England",
+    "state": "Cheshire"
+  },
+  "dates": {
+    "built": "Early C15-c.1600",
+    "circa": true,
+    "altered": "The entry counts 'at least seven builds': an eastern wing before 1450, the present great hall c.1450, the west wing c.1480 making an H-shaped plan, bay windows added 1559 by Richard Dale, a further eastern range with the chapel between 1559 and 1570, the three-storey south wing with the Long Gallery c.1570-80, and service rooms at the north-west corner c.1600.",
+    "note": "The node's exemplar dates the north range 1504-08, the west range 1546 and the Long Gallery c.1560-62. HISTORIC ENGLAND'S SEQUENCE IS DIFFERENT IN BOTH ORDER AND DATE -- east wing before 1450, west wing c.1480, south wing with the Long Gallery c.1570-80 -- and neither account is changed here."
+  },
+  "nodes": [
+    "english-medieval-timber-frame"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1161988",
+      "title": "Little Moreton Hall, Odd Rode - 1161988 - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1161988",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'ODD RODE C.P. (Off) CONGLETON ROAD SJ 85 NW 7/79 Little Moreton Hall 6.6.52 (formerly listed as Moreton Old - Hall) GV I'. A search result for the same entry printed the field values 'List Entry Number: 1161988. Date first listed: 06-Jun-1952.'"
+    },
+    {
+      "kind": "wikipedia",
+      "title": "Little Moreton Hall - Wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Little_Moreton_Hall",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Built | c. 1504 - c. 1610', 'Reference no. | 1161988', and a scheduled-monument reference of 1011879 designated 12 November 1991. Field values, not prose; the build range differs from the list entry's 'Early C15-c.1600'."
+    }
+  ],
+  "survey": {
+    "item": "1161988",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1161988",
+    "prepared": "The Details section's own legacy header: 'ODD RODE C.P. (Off) CONGLETON ROAD SJ 85 NW 7/79 Little Moreton Hall 6.6.52 (formerly listed as Moreton Old - Hall)'. A search result printed 'Date first listed: 06-Jun-1952'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Country house. Early C15-c.1600. Timber framed with rendered infill and Flemish bond brick with a stone slate roof. Two and three storeys. The ranges of buildings are grouped around three sides of a courtyard. The present agglomerated appearance of the building is the result of at least seven builds.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "The eastern wing (including the present parlour and withdrawing room) was built prior to 1450 and included a great hall on the site of the present parlour and withdrawing room, together with service rooms. The present great hall was built c.1450 and the former hall converted to service rooms. In c.1480 the west wing was built incorporating new service rooms, thus creating an H-shaped plan. The former service range was converted to other uses.",
+        "page": "Official list entry, Details, opening paragraph, the build sequence"
+      },
+      {
+        "field": "general_description",
+        "text": "The south wing of 3 storeys, including the guests' hall and long gallery, was added c.1570-80 and a further range of service rooms added to the north-western corner of this in c.1600.",
+        "page": "Official list entry, Details, build sequence, continuing after the 1559-70 range"
+      },
+      {
+        "field": "structural_system",
+        "text": "The second floor Long Gallery is of 8 bays divided by wall posts supporting arched braces which rise to connect with moulded collars. The lower walls and lower portions of these braces have been encased behind C17 panelling; and further strengthening collar-beams and iron tie-rods have been added. Between each wall-post are windows of 7 lights with transoms.",
+        "page": "Official list entry, Details, interior description of the south wing"
+      },
+      {
+        "field": "chimneys",
+        "text": "Immediately to the left of the wing is a massive chimney stack of English bond brick of c.1480 which has at mezzanine level a bee-bole or light well with pointed arch and a 2-light window to its back. To the top are 4 diamond-shaped chimney stacks of C18 or early C19 brick.",
+        "page": "Official list entry, Details, Northern Front (to Garden)"
+      },
+      {
+        "field": "openings",
+        "text": "To right are the windows of the great hall range having at ground floor level windows of 4 and 6 lights with a transom and to the former first floor windows of 3 and 7 lights, set in small-framed walling.",
+        "page": "Official list entry, Details, Northern Front (to Garden)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two and three storeys",
+      "from_quote": 0,
+      "note": "The entry gives two counts for the building as a whole and no single value is parsed. The south wing is separately stated as three storeys."
+    },
+    {
+      "name": "south_wing_storey_count",
+      "as_printed": "The south wing of 3 storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "long_gallery_bay_count",
+      "as_printed": "Long Gallery is of 8 bays",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "long_gallery_window_light_count",
+      "as_printed": "windows of 7 lights with transoms",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "4 diamond-shaped chimney stacks",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "ON ONE STACK ONLY -- the four shafts crowning the c.1480 stack on the northern front, and C18 or early C19 brick at that. The entry describes further stacks elsewhere on the house and states no total, so this is not the building's chimney count."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. Extracted three times with different queries: the first returned the opening of the Details, the second the northern and other fronts, the third the legacy Details header. The entry corroborates the node's own reading that the Long Gallery is deforming the frame beneath it, in the register's own words -- 'further strengthening collar-beams and iron tie-rods have been added'."
+}

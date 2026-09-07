@@ -1,0 +1,93 @@
+{
+  "id": "charlton-house",
+  "name": "Charlton House",
+  "location": {
+    "text": "Charlton, Greenwich, London, England",
+    "country": "England",
+    "state": "Royal Borough of Greenwich, London"
+  },
+  "dates": {
+    "built": "1612",
+    "circa": false,
+    "altered": "'Additions 1659 for Sir William Ducie.' The register's Details record that the house was in use as a Community Centre when the entry was written.",
+    "note": "The register prints a single year, 1612. Wikipedia's article, read by search, gives a construction span of 1607 to 1612 and the Royal Greenwich Heritage Trust's own news page gives 1607. The register's single year is what this record states; the span is recorded here and not merged into it."
+  },
+  "nodes": [
+    "jacobean"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1218593",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1218593",
+      "title": "Charlton House, Non Civil Parish - 1218593 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details print the reference as 'TQ 4177 29/G17 19.10.51.' and the search result's own line printed 'List Entry Number: 1218593' and 'Date first listed: 19-Oct-1951'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1291892",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1291892",
+      "title": "Garden House to North West of Charlton House (Now Public Lavatory)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separately listed Grade I garden house, attributed by some to Inigo Jones. Carried because the house's own entry does not mention it and a reader looking for the ancillary structure needs the number."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.greenwichheritage.org/news/charlton-house-is-added-to-historic-englands-at-risk-register",
+      "title": "Charlton House is added to Historic England's 'At Risk ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owning trust's own page. Its summary line reads 'Charlton House was built for Prince Henry, son of James I, in 1607' -- a third date and a different patron from the register's 'built 1612 for Sir Adam Newton'. Recorded, not resolved."
+    }
+  ],
+  "survey": {
+    "item": "1218593",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1218593",
+    "prepared": "Date first listed: 19-Oct-1951, printed in the Details as '19.10.51.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "(The house is at present a Community Centre). Large Jacobean mansion, built 1612 for Sir Adam Newton. Additions 1659 for Sir William Ducie. The mansion - 3 storeys with H-shaped plan. Red brick with stone dressings and stone bands at floor levels and mullion windows.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "West front has pierced stone parapet. In the centre is a brick and stone projection containing richly ornamented porch and 2 bay windows above with 2-window links to projecting wings of 3 storey bays. East front similar in outline to West and less ornamental in character. North and South elevations 3 storeys 7 windows with square central towers of 5 storeys",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys with H-shaped plan",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "window_count_north_and_south_elevations",
+      "as_printed": "North and South elevations 3 storeys 7 windows",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "central_tower_storey_count",
+      "as_printed": "square central towers of 5 storeys",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Five storeys of tower against three of house: two full storeys of tower above the general roofline, which is the vertical accent the node's silhouette prose describes and never dimensions."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1218593",
+  "note": "Tranche 3, 5 Sep 2026, and a NEW exemplar: the node's four existing exemplars are all great country houses, and Charlton is the compact suburban H-plan version of the same vocabulary, now inside London. Extracted twice; the second pass returned only the page furniture and the Open Government Licence line, so the survey rests on one span and is shorter than the others in this cluster. Line breaks collapsed to single spaces. It supports jacobean.c03 as plainly as any record here -- 'Red brick with stone dressings and stone bands at floor levels and mullion windows' -- and it supports the node's porch rule: 'a brick and stone projection containing richly ornamented porch and 2 bay windows above', a porch with rooms over it. Three sources give three build dates and two patrons; all three are in dates.note and none is preferred."
+}

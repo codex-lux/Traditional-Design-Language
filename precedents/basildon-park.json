@@ -1,0 +1,160 @@
+{
+  "id": "basildon-park",
+  "name": "Basildon Park",
+  "location": {
+    "text": "Berkshire, England",
+    "country": "England",
+    "state": "West Berkshire"
+  },
+  "dates": {
+    "built": "1776-83",
+    "circa": false,
+    "altered": "some alterations and internal details by J.B. Papworth in 1839-42, as the entry states."
+  },
+  "nodes": [
+    "english-georgian-country-house",
+    "english-classical"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1221097",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1221097",
+      "title": "Basildon Park, Basildon - 1221097 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Overview block read on the same day prints 'Date first listed: 14-Apr-1967' and 'Statutory Address: Basildon Park, Lower Basildon, RG8 9NR'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000581",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000581",
+      "title": "Basildon Park - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered park-and-garden entry; the Wikipedia infobox gives the same number with 'Designated 30 September 1987'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Basildon_Park",
+      "title": "Basildon Park - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "1221097",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1221097",
+    "prepared": "Date first listed: 14-Apr-1967, as the entry's Overview block prints it. No 'Date of most recent amendment' was shown.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Mansion. 1776-83, by John Carr in the Palladian style; some alterations and internal details by J.B. Papworth in 1839-42. 3:3:3:7:3:3:3 bay rhythm.",
+        "page": "Official list entry 1221097, Details, opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Centre block: Bath stone ashlar with plinth, rusticated basement with raised band above, first floor cill string and string below cornice.",
+        "page": "Official list entry 1221097, Details"
+      },
+      {
+        "field": "porches",
+        "text": "Central tetrastyle Ionic portico in antis over slightly projecting basement beneath with triangular pediment above.",
+        "page": "Official list entry 1221097, Details"
+      },
+      {
+        "field": "roof",
+        "text": "Dentil cornice and parapet to hipped slate roof with six stacks and central light well.",
+        "page": "Official list entry 1221097, Details"
+      },
+      {
+        "field": "storeys",
+        "text": "Three storeys comprising basement, piano nobile, and attic; seven bays, glazing bar sashes. Attic windows with architraves, three in centre with two-light casements; first floor windows with balustrading beneath, architraves and cornices.",
+        "page": "Official list entry 1221097, Details"
+      },
+      {
+        "field": "dependencies",
+        "text": "Pavilions: Bath stone ashlar with plinth, plat band above ground floor windows, first floor cill string and string below cornice. Dentil cornice with triangular pediment to slate roof with central ridge stack. Rectangular plan with recessed corners. Two storeys; three bays, glazing bar sashes, those on first floor with balustrading beneath, and arched on ground floor.",
+        "page": "Official list entry 1221097, Details, Pavilions paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Rear elevation: centre block of five bays with central canted bay and balustraded parapet. Central first floor Venetian window with Ionic columns and antae supporting frieze and cornice. Central ground floor half glazed double doors.",
+        "page": "Official list entry 1221097, Details, rear elevation paragraph"
+      },
+      {
+        "field": "dependencies",
+        "text": "Screen Walls: four walls, flanking each pavilion. Ashlar with plinth and raised band below alternating solid and balustraded parapet. One storey; three bays, glazing bar sashes and central six-panelled door with architrave and cornice.",
+        "page": "Official list entry 1221097, Details, Screen Walls paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "seven bays, glazing bar sashes",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The centre block. The whole composition including pavilions and screen walls is stated separately as a '3:3:3:7:3:3:3 bay rhythm'."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Three storeys comprising basement, piano nobile, and attic",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The entry counts the basement as one of the three, so there are two storeys above ground."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "hipped slate roof with six stacks and central light well",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "Central tetrastyle Ionic portico in antis",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "'Tetrastyle' means four columns across the front. The entry does not print the numeral, so 4 is a reading of a term of art and is marked as one."
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "Two storeys; three bays, glazing bar sashes",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "pavilion_storey_count",
+      "as_printed": "Two storeys; three bays",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "rear_bay_count",
+      "as_printed": "centre block of five bays with central canted bay",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "The rear elevation is five bays where the entrance front is seven; the difference is the canted bay in the centre."
+    },
+    {
+      "name": "screen_wall_count",
+      "as_printed": "Screen Walls: four walls, flanking each pavilion",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 7
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1221097",
+  "note": "Tranche 3, 5 Sep 2026. Extracted twice: the first pass returned the Details, the second the Overview block with the listing date. The entry states the composition as a '3:3:3:7:3:3:3 bay rhythm', which is a screen wall, a pavilion, a screen wall, the centre block, and the same again reversed; no single number is parsed from it."
+}

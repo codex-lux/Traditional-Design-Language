@@ -1,0 +1,53 @@
+{
+  "id": "casa-loma",
+  "name": "Casa Loma",
+  "location": {
+    "text": "Toronto, Ontario",
+    "country": "Canada",
+    "state": "Ontario"
+  },
+  "dates": {
+    "built": "1911-1914",
+    "circa": false,
+    "altered": "Pellatt left in 1923, less than ten years after moving in; the house became a museum in 1937 and is owned by the City of Toronto. Most of the third floor was left unfinished and now houses the regimental museum of The Queen's Own Rifles of Canada.",
+    "note": "Every source read gives construction 1911 to 1914. The style node's exemplar gives 1914 and says 'begun 1911'."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Casa_Loma",
+      "title": "Casa Loma - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox gives Architectural style 'Gothic Revival', Location '1 Austin Terrace Toronto, Ontario M5R 1X8', Construction started 1911, Completed 1914, Cost 'CA$5.4M', Client 'Sir Henry Pellatt', Owner 'City of Toronto', Floor count '7 floors', Floor area '64,700 sq.ft.', Grounds '343,253 sqft'. THE STYLE FIELD SAYS GOTHIC REVIVAL, NOT CHATEAUESQUE; see this record's note."
+    },
+    {
+      "kind": "state-register",
+      "url": "https://en.wikipedia.org/wiki/Casa_Loma",
+      "title": "Ontario Heritage Act, Official name 'Casa Loma', Type 'Designated Part IV (Heritage Property)', Designated 1987 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A Part IV designation under the Ontario Heritage Act carries a municipal by-law number, and none was found on any surface read here, so this ref carries no `id`. It is recorded as a `state-register` because the province's own statute is what designates it; there is no Canadian equivalent of a National Register reference number in the schema's vocabulary."
+    },
+    {
+      "kind": "other",
+      "url": "https://trimpe.org/casaloma/history.htm",
+      "title": "Casa Loma in Toronto -- History",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States the eclecticism the style node's exemplar note is about: 'Based on a life-long fascination with European castles, Sir Henry borrowed the most pleasing elements of Norman, Gothic and Romanesque styles to create Casa Loma.' Norman, Gothic and Romanesque -- and not French Renaissance."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.startribune.com/casa-loma-finding-edwardian-england-in-toronto/401924645",
+      "title": "Casa Loma: Finding Edwardian England in Toronto (Star Tribune)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In addition to the grandeur of this 98-room estate, it also has its share of servant staircases, secret passageways and the oldest wine cellar in Toronto. ... When it opened in 1914, it was the largest private residence in Canada.' The room count, 98, is not corroborated by any other source read."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, and it carries a contradiction against its own node that is worth having on the record. CHATEAUESQUE NAMES CASA LOMA AS AN EXEMPLAR AND NOT ONE SOURCE READ CALLS IT CHATEAUESQUE: Wikipedia's infobox says Gothic Revival, a history site says Pellatt 'borrowed the most pleasing elements of Norman, Gothic and Romanesque styles', a newspaper calls it Edwardian England. The style node's own exemplar note anticipates this -- 'Late, Canadian, and eclectic enough to show the style dissolving into general castellated romance' -- so the disagreement is the reason the building is on the list rather than an objection to it, and the exemplar's `standing` says so. No National Historic Site of Canada designation was found; the designation that exists is municipal, under the Ontario Heritage Act."
+}

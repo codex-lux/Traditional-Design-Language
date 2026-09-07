@@ -1,0 +1,70 @@
+{
+  "id": "meerlust",
+  "name": "Meerlust",
+  "location": {
+    "text": "Stellenbosch, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "1776",
+    "circa": false,
+    "altered": "The estate says the manor was built in two stages: the rear portion by Henning Husing before his death in 1713, and the front section completed in 1776, the date on the front door. Restored; the SAHRA description says 'recently restored by the owner'. The cellar was restored in 1974 by the architect Revel Fox.",
+    "note": "The node's exemplar year, 1776, is the date of the gabled front and is agreed by every source read."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/084/0171",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Stellenbosch",
+      "title": "Meerlust, Stellenbosch District -- List of heritage sites in Stellenbosch",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    },
+    {
+      "kind": "state-register",
+      "id": "9/2/084/0171/001",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Stellenbosch",
+      "title": "Dovecot, Meerlust, Stellenbosch District",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The dovecot is separately listed and its description makes the werf argument in the register's own words: 'just as much attention was given to their facades as to those of the main dwellings'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.stellenboschheritage.co.za/downloads/database-listed-buildings-stellenbosch/meerlust",
+      "title": "Meerlust | Stellenbosch Heritage Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose in an extract. It states the plan change -- 'The gabled facade was added in 1776, when the house was enlarged to an H-plan' -- and names measured drawings that exist for this building: the pigeon house 'Measured by Rex Martienssen and drawn by John Fassler for prof. Geoffrey Pearse's book “Eighteenth Century Architecture in South Africa” - see Plate 71', and the bell tower 'measured by L.R.F. Bustin and redrawn by E.G. Tucker', Plate 71, described on page 44."
+    },
+    {
+      "kind": "institution",
+      "url": "https://meerlust.co.za/the-estate",
+      "title": "The Estate - Meerlust Wines",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own account, and it CONTRADICTS the Stellenbosch Heritage Foundation about the plan letter: 'The Myburgh's, after purchasing the farm in 1756, continued to build on to the house adding a second or front T-section to the home, which was completed in 1776'. It also records that 'The historic Meerlust complex, consisting of the Manor House, dovecot, cellar and tasting room was declared a National Monument in 1987.'"
+    }
+  ],
+  "survey": {
+    "item": "9/2/084/0171",
+    "register": "state-register",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Stellenbosch",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "One of the first farmers to be granted land beyond the confines of the Cape Peninsula in about 1680, was Henning Husing, a large-scale cattle farmer who for many years enjoyed the monopoly of supplying meat to the Dutch East India Company. His farm, which he called Meerlust, was situated on the Eerste River, a short distance north of where Faure is today. Not only did it become one of the most important historical farms in the area, but the fine gabled house which was recently restored by the owner remains an outstanding example of Cape Dutch architecture.",
+        "page": "SAHRA identifier 9/2/084/0171, description column of the Stellenbosch heritage-site table. A register description is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Cape cluster, 5 September 2026. THE PLAN LETTER IS DISPUTED BY THE TWO BEST SOURCES AND NEITHER IS CHANGED HERE. The Stellenbosch Heritage Foundation says the 1776 work 'enlarged' the house 'to an H-plan'; the estate's own page says the Myburghs added 'a second or front T-section' and calls the resulting shape 'completely unique'. The node's own exemplar note calls Meerlust 'one of the least-altered surviving H-plan werf ensembles'. That matters to this corpus more than it would elsewhere, because the node's prose makes the letter of the plan the whole growth grammar of the type: 'A single range is a langhuis. Add a rear wing and it is a T; add two and it is a U; close the two wings with a back range and it is an H'. On that grammar the two sources are describing different buildings."
+}

@@ -1,0 +1,60 @@
+{
+  "id": "greenacres-harold-lloyd-estate",
+  "name": "Greenacres (Harold Lloyd Estate)",
+  "aka": [
+    "Greenacres",
+    "Harold Lloyd Estate"
+  ],
+  "location": {
+    "text": "Beverly Hills, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "1740 Green Acres Drive, Beverly Hills, California"
+    ]
+  },
+  "dates": {
+    "built": "1928",
+    "circa": false,
+    "altered": "After Lloyd's death in 1971 'the acreage in the lower part of the estate along Benedict Canyon was subdivided into approximately 15 large home lots. The mansion, on top of its own hill, retained approximately 5 original acres of flat land' (Wikipedia).",
+    "note": "ATTRIBUTION IN DISPUTE, BOTH RECORDED. The Wikipedia infobox prints 'Architect Webber, Staunton & Sumner Spaulding' with 'Landscape architect A.E. Hanson'; the style node's exemplar credits Sumner Spaulding alone. Neither was changed."
+  },
+  "nodes": [
+    "mediterranean-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Harold_Lloyd_Estate",
+      "title": "Harold Lloyd Estate - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'The estate originally consisted of a 44-room mansion, golf course, outbuildings, and 900-foot (270 m) canoe run on 15 acres (61,000 m2). Greenacres has been called \"the most impressive movie star's estate ever created.\"'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "84000876",
+      "url": "https://en.wikipedia.org/wiki/Harold_Lloyd_Estate",
+      "title": "NRHP reference No. 84000876; added to the National Register 9 February 1984; architectural style Mediterranean Revival architecture (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "961",
+      "url": "https://en.wikipedia.org/wiki/Harold_Lloyd_Estate",
+      "title": "California Historical Landmark No. 961 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "id": "279",
+      "url": "https://en.wikipedia.org/wiki/Harold_Lloyd_Estate",
+      "title": "Los Angeles Historic-Cultural Monument No. 279, designated 24 July 1984 (a city designation, not a state register file)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the node's Californian case against four Florida ones. No survey exists in what was searched and none is asserted. The 44 rooms and 15 acres are encyclopaedia figures and stay in a ref note. The California Historical Landmark number 961 sits one below the Adamson House's 966; the two were designated in the same programme and are different buildings."
+}

@@ -170,25 +170,55 @@
       "name": "Santa Maria la Blanca",
       "location": "Toledo, Spain",
       "year": 1180,
-      "note": "Built c. 1180-1200 as the principal synagogue of Toledo by Mudejar craftsmen for a Jewish congregation under Christian rule; converted to a church in the early 15th century. Horseshoe arcades on octagonal brick piers with carved plaster capitals."
+      "note": "Built c. 1180-1200 as the principal synagogue of Toledo by Mudejar craftsmen for a Jewish congregation under Christian rule; converted to a church in the early 15th century. Horseshoe arcades on octagonal brick piers with carved plaster capitals.",
+      "precedent": "santa-maria-la-blanca-toledo",
+      "standing": "icon",
+      "why": "The Spanish register-linked article calls it 'una construcción mudéjar, creada por canteros musulmanes' whose arcaded naves 'tienden a recordar la tipología propia de una mezquita' -- a mosque-shaped synagogue under a Christian king, which is the node's whole argument in one building."
     },
     {
       "name": "Torre de San Martin",
       "location": "Teruel, Spain",
       "year": 1316,
-      "note": "1315-1316; brick tower of Almohad minaret type with glazed ceramic inlay. Part of the UNESCO 'Mudejar Architecture of Aragon' inscription."
+      "note": "1315-1316; brick tower of Almohad minaret type with glazed ceramic inlay. Part of the UNESCO 'Mudejar Architecture of Aragon' inscription.",
+      "precedent": "torre-de-san-martin",
+      "standing": "canonical",
+      "why": "The Government of Aragon's own register calls it 'ejemplo de la tipología de torre alminar almohade' with two concentric shafts and the stair between them, which is the minaret-as-belfry claim stated by a heritage authority rather than by this project."
     },
     {
       "name": "Alcazar of Seville, Palacio del Rey Don Pedro",
       "location": "Seville, Spain",
       "year": 1366,
-      "note": "Built 1364-1366 for Pedro I of Castile by craftsmen sent from Toledo and from Nasrid Granada — a Christian king's palace built by Muslim workshops, and the single clearest demonstration of the transmission edge."
+      "note": "Built 1364-1366 for Pedro I of Castile by craftsmen sent from Toledo and from Nasrid Granada — a Christian king's palace built by Muslim workshops, and the single clearest demonstration of the transmission edge.",
+      "precedent": "alcazar-of-seville-palacio-del-rey-don-pedro",
+      "standing": "icon",
+      "why": "A Christian king's palace whose ground floor carries Arabic inscriptions naming him 'Sultan Don Bidru', which is the transmission edge documented in the building's own fabric and not inferred from style."
     },
     {
       "name": "Casa de Pilatos",
       "location": "Seville, Spain",
       "year": 1539,
-      "note": "Begun 1483, largely 1519-1539; Mudejar tile, plaster and artesonado combined with Italian Renaissance marble in one building without any attempt at reconciliation."
+      "note": "Begun 1483, largely 1519-1539; Mudejar tile, plaster and artesonado combined with Italian Renaissance marble in one building without any attempt at reconciliation.",
+      "precedent": "casa-de-pilatos",
+      "standing": "canonical",
+      "why": "Its main patio carries Genoese marble columns under arches whose plasterwork the Spanish article describes as mixing 'motivos mudéjares y platerescos', so the two grammars are stated as sharing one arcade rather than being read as sharing it."
+    },
+    {
+      "name": "Sinagoga del Transito",
+      "location": "Toledo, Spain",
+      "year": null,
+      "note": "14th century, under the patronage of Samuel ha-Levi in the reign of Pedro I; a single hall of 23 by 9.5 m under a par y nudillo roof, with polychrome plaster friezes carrying Hebrew, Arabic and Castilian heraldry together.",
+      "precedent": "sinagoga-del-transito",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 as the one building in this cluster whose principal room is dimensioned by two independent sources -- which is also how their five-metre disagreement about its height was found."
+    },
+    {
+      "name": "Catedral de Santa Maria de Mediavilla",
+      "location": "Teruel, Spain",
+      "year": 1257,
+      "note": "Church begun about 1200 with the plan dimensions of the present building; the Mudejar tower of 1257 and a painted par y nudillo roof 32 m long over the nave, the timber for which was felled about 1265. Tower, roof and dome are UNESCO component 378-001.",
+      "precedent": "catedral-de-santa-maria-de-mediavilla-teruel",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 because the node makes the armadura de par y nudillo the ceiling of the tradition and no exemplar it carried had one dimensioned; this roof is 32 metres long and dated by dendrochronology."
     }
   ],
   "sources": [

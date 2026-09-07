@@ -1,0 +1,89 @@
+{
+  "id": "templo-de-santa-prisca-taxco",
+  "name": "Templo de Santa Prisca",
+  "aka": [
+    "Templo de Santa Prisca y San Sebastián",
+    "Santa Prisca de Taxco"
+  ],
+  "location": {
+    "text": "Taxco de Alarcon, Guerrero, Mexico",
+    "country": "Mexico",
+    "state": "Guerrero"
+  },
+  "dates": {
+    "built": "18th century",
+    "circa": true,
+    "altered": "Declared a monument on 20 November 2001, as the article's infobox prints it.",
+    "note": "No construction date was returned in the extracted spans; the infobox prints only the declaration date. The building is conventionally dated 1751-1758 and THAT DATE IS NOT SOURCED HERE, so it is not written into this record."
+  },
+  "nodes": [
+    "churrigueresque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Templo_de_Santa_Prisca_de_Taxco",
+      "title": "Templo de Santa Prisca (Taxco de Alarcón) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-templo-de-santa-prisca-de-taxco",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Templo_de_Santa_Prisca_de_Taxco",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "La parroquia se ubica en una pequeña hondonada con respecto al resto de la ciudad de Taxco nivelada artificialmente. Tiene una planta de cruz latina, con una nave lateral que sirve de capilla para el altar de las Ánimas y una tribuna sobre calle de bóvedas de crucería con terceletes con la clave principal decorada que le hace de camuflaje al acceso al sagrario. Posee dos torres gemelas de estilo churrigueresco y una capilla decorada con azulejos de talavera, característicos de la arquitectura novohispana.",
+        "page": "Spanish Wikipedia, descriptive section"
+      },
+      {
+        "field": "general_description",
+        "text": "De esta manera, se ve como la obra cuenta con un gran sentido verticalista y dominante. Las torres altas de estilo churrigueresco, fueron muy bien trabajadas en su parte superior para dejar intacto el basamento que actúa de contrafuerte visual para encuadrar la portada del retablo. Es así, como el frente cuenta con un lenguaje de composición arquitectónico, típico de la época, con columnas cilíndricas en la parte inferior y salomónicas en su parte superior.",
+        "page": "Spanish Wikipedia, descriptive section"
+      },
+      {
+        "field": "materials",
+        "text": "| Tipo | Planta en cruz latina, con una nave y crucero |\n| Estilo | Churrigueresco Barroco novohispano |\n| Materiales | Cantera |\n| Declaración | 20 de noviembre de 2001 |\n| Nave principal | Una nave |\n| Cúpula | Una cúpula |\n| Torres | Dos torres |\n| Altura | 47 m |",
+        "page": "Spanish Wikipedia, infobox rows, as the extractor renders them in a markdown table. THIS IS A TABLE AND NOT PROSE."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_height_ft",
+      "as_printed": "| Altura | 47 m |",
+      "value": 154.2,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The infobox does not say whether 47 m is to the top of the towers, to the dome or to the ridge. Converted at 3.28084 ft/m; the ambiguity is stated rather than resolved."
+    },
+    {
+      "name": "tower_count",
+      "as_printed": "| Torres | Dos torres |",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "dome_count",
+      "as_printed": "| Cúpula | Una cúpula |",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "nave_count",
+      "as_printed": "| Nave principal | Una nave |",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The single nave the node's own prose calls the New Spain norm; the descriptive text adds one lateral nave serving as a chapel, so the infobox's 'una nave' is of the principal vessel."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. The node's own text names Santa Prisca as one of the three buildings the style culminates in and the corpus carried no record of it. THE SECOND QUOTE IS THE NODE'S OWN ARGUMENT IN A SOURCE'S WORDS: the tower bases are left plain so as to act as a visual buttress framing the portada, which is the bounded-ornament reading rather than an all-over one."
+}

@@ -174,25 +174,55 @@
       "name": "Parthenon",
       "location": "Acropolis, Athens, Greece",
       "year": -447,
-      "note": "Built 447-432 BC, Iktinos and Kallikrates. Doric octastyle peripteral, 8x17. The densest concentration of optical refinements anywhere in the tradition."
+      "note": "Built 447-432 BC, Iktinos and Kallikrates. Doric octastyle peripteral, 8x17. The densest concentration of optical refinements anywhere in the tradition.",
+      "precedent": "parthenon",
+      "standing": "icon",
+      "why": "The Hellenic Ministry of Culture's own monument record calls it 'the most magnificent creation of Athenian democracy at the height of its power' and 'the finest monument on the Acropolis in terms of both conception and execution', so the superlative is the state register's and not this corpus's."
     },
     {
       "name": "Temple of Hephaestus (Hephaisteion)",
       "location": "Agora, Athens, Greece",
       "year": -449,
-      "note": "c. 449-415 BC. The most completely preserved Doric temple standing; the reference specimen for entablature detail."
+      "note": "c. 449-415 BC. The most completely preserved Doric temple standing; the reference specimen for entablature detail.",
+      "precedent": "temple-of-hephaestus-athens",
+      "standing": "canonical",
+      "why": "The same Ministry record calls it 'one of the best preserved ancient temples', and its 6 x 13 peristyle is the one building in this node's list that meets the node's own stated rule n_flank = 2 x n_front + 1 exactly."
     },
     {
       "name": "Erechtheion",
       "location": "Acropolis, Athens, Greece",
       "year": -421,
-      "note": "421-406 BC. The canonical Attic Ionic capital and the caryatid porch; also the clearest demonstration that Greek symmetry is per-elevation, not per-building."
+      "note": "421-406 BC. The canonical Attic Ionic capital and the caryatid porch; also the clearest demonstration that Greek symmetry is per-elevation, not per-building.",
+      "precedent": "erechtheion",
+      "standing": "icon",
+      "why": "UNESCO's criterion (i) names it as one of the four masterpieces of the Acropolis composition, and the Ministry's record states the three-metre fall across its plan that makes it this corpus's evidence for per-elevation rather than per-building symmetry."
     },
     {
       "name": "Temple of Apollo Epikourios",
       "location": "Bassae, Arcadia, Greece",
       "year": -429,
-      "note": "c. 429-400 BC, attributed to Iktinos. Contains the earliest known Corinthian capital."
+      "note": "c. 429-400 BC, attributed to Iktinos. Contains the earliest known Corinthian capital.",
+      "precedent": "temple-of-apollo-epikourios-bassae",
+      "standing": "canonical",
+      "why": "UNESCO inscribed it in its own right and its criterion (ii) calls its capital 'the most ancient conserved Corinthian capital', which makes it the type specimen for where the third order begins."
+    },
+    {
+      "name": "Temple of Athena Nike",
+      "location": "Acropolis, Athens, Greece",
+      "year": -426,
+      "note": "426-421 BC on the Ministry's dating, 427-424 on UNESCO's. Ionic amphiprostyle, four monolithic columns at each end and none on the flanks; the smallest temple on the Acropolis and the node's only tetrastyle.",
+      "precedent": "temple-of-athena-nike",
+      "standing": "canonical",
+      "why": "UNESCO's criterion (i) lists it beside the Parthenon, Propylaia and Erechtheion as one of the four works making the Acropolis 'the supreme expression of the adaptation of architecture to a natural site', and its amphiprostyle plan is the small-temple type the node's four large peripteral examples did not cover."
+    },
+    {
+      "name": "Second Temple of Hera (Temple of Neptune)",
+      "location": "Paestum, Campania, Italy",
+      "year": -460,
+      "note": "c. 460 BC on the Italian Ministry's dating. Doric peripteral, 6 x 14 -- a Magna Graecia deviation from the mainland 6 x 13 -- with the entablature and both pediments still standing and the cella's two tiers of internal columns in place.",
+      "precedent": "second-temple-of-hera-paestum",
+      "standing": "regional",
+      "why": "The node's own geography names Magna Graecia and carried no building there; the Italian Ministry's park record states its complete 6 x 14 Doric peristyle, and the squat column the node's prose invokes when it writes 'the squat Paestum columns at roughly four diameters' is this building's."
     }
   ],
   "sources": [

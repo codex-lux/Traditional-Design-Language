@@ -1,0 +1,49 @@
+{
+  "id": "maison-olivier",
+  "name": "Maison Olivier",
+  "aka": [
+    "Acadian House",
+    "Olivier House"
+  ],
+  "location": {
+    "text": "St. Martinville, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "c. 1815",
+    "circa": true,
+    "note": "The Wikipedia infobox for the Acadian House gives c. 1815; the Longfellow-Evangeline State Historic Site, the oldest state park site in Louisiana (1934), holds it."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Longfellow-Evangeline_State_Historic_Site",
+      "title": "Longfellow-Evangeline State Historic Site - Wikipedia",
+      "note": "Maison Olivier has no article of its own; the site's article carries the house's NRHP/NHL infobox under the register name 'Acadian House'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73002133",
+      "url": "https://en.wikipedia.org/wiki/Longfellow-Evangeline_State_Historic_Site",
+      "title": "NRHP reference No. 73002133 (as 'Acadian House'); added March 30, 1973; designated NHL May 30, 1974 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "habs",
+      "id": "LA-1276",
+      "url": "https://en.wikipedia.org/wiki/Longfellow-Evangeline_State_Historic_Site",
+      "title": "Historic American Buildings Survey (HABS) No. LA-1276, 'Olivier House, State Highway 31, Saint Martinville, St. Martin Parish, LA' (as the Wikipedia external link reads)",
+      "note": "The loc.gov item was not found by search ('\"Olivier House\" St. Martinville HABS LA-1276' returned unrelated items), so the number is read from Wikipedia's external-links line only and no item id or data page is recorded.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "nodes": [
+    "creole-cottage-vernacular"
+  ]
+}

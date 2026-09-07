@@ -206,25 +206,55 @@
       "name": "French Village",
       "location": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
       "year": 1928,
-      "note": "Robert Rodes McGoodwin, 1925-28, for Dr. George Woodward. A complete development in Wissahickon schist; the fullest American realisation of the English and Norman cottage idea."
+      "note": "Robert Rodes McGoodwin, 1925-28, for Dr. George Woodward. A complete development in Wissahickon schist; the fullest American realisation of the English and Norman cottage idea.",
+      "precedent": "french-village-chestnut-hill",
+      "standing": "canonical",
+      "why": "The fullest American demonstration of the idea on real sites in real stone, and SAH Archipedia's entry on it is the one scholarly reference any of this node's exemplars carries."
     },
     {
       "name": "Woodward development houses, Chestnut Hill",
       "location": "Chestnut Hill, Philadelphia, Pennsylvania",
       "year": 1920,
-      "note": "H. Louis Duhring Jr., with Edmund B. Gilchrist and McGoodwin, built roughly 180 houses for George Woodward between 1910 and 1930, dozens of them explicitly Cotswold in register. The Quadruple Houses on Benezet and Nippon Streets (from 1910) are the best documented."
+      "note": "H. Louis Duhring Jr., with Edmund B. Gilchrist and McGoodwin, built roughly 180 houses for George Woodward between 1910 and 1930, dozens of them explicitly Cotswold in register. The Quadruple Houses on Benezet and Nippon Streets (from 1910) are the best documented.",
+      "precedent": "woodward-development-houses-chestnut-hill",
+      "standing": "canonical",
+      "why": "About 180 houses by one architect for one client over twenty years, documented in a Philadelphia Register nomination for Duhring's own house - and worth reading closely, because the Benezet Street houses at the start of it were built as workers' rentals, not as the professional class's retreat."
     },
     {
       "name": "Sulgrave Manor house, 200 West Willow Grove Avenue",
       "location": "Chestnut Hill, Philadelphia, Pennsylvania",
       "year": 1927,
-      "note": "H. Louis Duhring Jr. for George Woodward, incorporating interiors from the Sulgrave Manor replica shown at the 1926 Sesquicentennial Exposition."
+      "note": "H. Louis Duhring Jr. for George Woodward, incorporating interiors from the Sulgrave Manor replica shown at the 1926 Sesquicentennial Exposition.",
+      "precedent": "sulgrave-manor-house-chestnut-hill",
+      "standing": "documentary",
+      "why": "A copy of a copy, holding the interiors of the Sulgrave Manor replica from the 1926 Sesquicentennial, with drawings and papers catalogued at the Athenaeum of Philadelphia - which makes the style's own transmission mechanism visible in one building."
     },
     {
       "name": "Cotswold Cottage, Greenfield Village",
       "location": "Dearborn, Michigan",
       "year": 1930,
-      "note": "Not a revival building: a genuine c. 1620 Cotswold cottage from Chedworth, Gloucestershire, dismantled and re-erected by Henry Ford in 1929-30. The reference object against which any revival example should be judged."
+      "note": "Not a revival building: a genuine c. 1620 Cotswold cottage from Chedworth, Gloucestershire, dismantled and re-erected by Henry Ford in 1929-30. The reference object against which any revival example should be judged.",
+      "precedent": "cotswold-cottage-greenfield-village",
+      "standing": "documentary",
+      "why": "The control object, and The Henry Ford's own account qualifies it usefully: Ford had the cottage altered on its site in Chedworth before it was taken apart, so the specimen was adjusted to look more like the thing it is the specimen for."
+    },
+    {
+      "name": "Edsel and Eleanor Ford House",
+      "location": "Grosse Pointe Shores, Michigan",
+      "year": 1929,
+      "note": "Albert Kahn for Edsel Ford at Gaukler Point, about 1926-29, with the grounds by Jens Jensen. Sandstone walls under a roof of stone slates in graduated courses; The Henry Ford's own account calls it 'impressive but unpretentious' and puts it in the Cotswold Revival style.",
+      "precedent": "edsel-and-eleanor-ford-house",
+      "standing": "icon",
+      "why": "The largest and best documented American house in the idiom, and the National Register classifies it 'English Cotswold' in its own style field - the federal listing naming the manner, which is rare for a twentieth-century revival - with a National Historic Landmark designation added in 2016."
+    },
+    {
+      "name": "Hansel cottage",
+      "location": "Carmel-by-the-Sea, California",
+      "year": 1924,
+      "note": "Hugh Comstock's first cottage, put up as a shop window for his wife Mayotta's dolls, and the start of the Carmel group. Gretel followed in 1925. Carried here as the boundary marker rather than as a specimen: this is the manner with the restraint removed.",
+      "precedent": "hansel-cottage-carmel",
+      "standing": "regional",
+      "why": "It is the Californian end of the English cottage idea and the exact place this node's own description draws its line - 'past that point the building becomes Storybook, which was a real and different Californian style' - so naming and locating it is what makes that line checkable rather than rhetorical."
     }
   ],
   "sources": [

@@ -1,8 +1,8 @@
-"""Serving the 26 MCP tools over HTTP, from the same process as the workbench.
+"""Serving the 27 MCP tools over HTTP, from the same process as the workbench.
 
 VISION.md §IX has two audiences reaching one corpus. WP-5.2 gave the human one an
 interface; this gives the agent one an address. `mcp_server/server.py` is unchanged in
-what it does — the same 26 tools over the same `core.py` — and does not know which
+what it does — the same 27 tools over the same `core.py` — and does not know which
 transport it is answering on. Stdio keeps working exactly as it did.
 
 Mounting rather than running a second service means one process, one origin, one auth

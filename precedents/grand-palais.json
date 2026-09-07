@@ -1,0 +1,70 @@
+{
+  "id": "grand-palais",
+  "name": "Grand Palais",
+  "aka": [
+    "Grand Palais des Champs-Élysées"
+  ],
+  "location": {
+    "text": "Avenue Winston-Churchill, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1900 (the campaign year the Mérimée notice prints)",
+    "circa": false,
+    "note": "The node's exemplar says 1897-1900. The Mérimée notice prints 'Année(s) de(s) campagne(s) de construction 1900' alone and dates the campaigns '4e quart 19e siècle ; 1er quart 20e siècle'. The register records the completion, not the start; nothing is changed."
+  },
+  "nodes": [
+    "beaux-arts-french"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088877",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088877",
+      "title": "Grand Palais - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 2000/11/06 : classé MH' and records that an earlier partial protection was annulled: 'Classement 12 06 1975 (grande nef) et inscription 12 06 1975 (arrêtés) annulés.' The reference was read from the fr.wikipedia list of monuments historiques of the 8th arrondissement, which prints 'Grand Palais | Avenue Winston-Churchill ... | « PA00088877 » | Classé | 2000'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088877",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088877",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Cet édifice a été construit pour l'exposition universelle de 1900, vouée à la célébration de l'art, et était destiné dès l'origine à abriter les salons. La construction fut confiée à plusieurs architectes (Deglane pour le bâtiment principal ; Louvet pour la construction intermédiaire ; Thomas pour l'édifice parallèle au bâtiment principal ; Girault comme coordinateur de l'ensemble). Style néo-Louis 14 avec quelques références à l'art du 18e siècle. Influence de l'art nouveau. Parements des façades en pierre de taille ; charpente de la nef en métal et en verre ; béton armé. Décor dû à divers artistes (Récipon pour les deux quadriges ; conception de la frise en mosaïque par Louis-Edouard Fournier et exécution par Guibert-Martin).",
+        "page": "Notice Mérimée PA00088877, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Deglane (maître de l'oeuvre) ; Thomas (maître de l'oeuvre) ; Louvet (maître de l'oeuvre)",
+        "page": "Notice Mérimée PA00088877, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "named_architect_count",
+      "as_printed": "Deglane pour le bâtiment principal ; Louvet pour la construction intermédiaire ; Thomas pour l'édifice parallèle au bâtiment principal ; Girault comme coordinateur de l'ensemble",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four architects with four stated roles - exactly the four the node's exemplar names, and the register gives each his part, which the node does not."
+    },
+    {
+      "name": "quadriga_count",
+      "as_printed": "les deux quadriges",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Récipon's two quadrigae on the skyline. This node's defining characteristics call for 'Sculpture concentrated at entrance, centrepiece and skyline' and its diagnostic tells name 'quadrigae' by that word; this is the register counting them on the building."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE ONE REGISTER ENTRY IN THIS CLUSTER THAT STATES MATERIALS, and they corroborate the node's central claim precisely: 'Parements des façades en pierre de taille ; charpente de la nef en métal et en verre ; béton armé' is the corpus's 'Classical stone envelope wrapped around a 240-metre iron, steel and glass barrel vault' in the register's own words. THE 240 M IS NOT IN THE NOTICE and is not carried as a measurement: it was read only on a commercial heritage-tourism page, which is not a source this corpus may cite. The notice also calls the style 'néo-Louis 14', which is not a term the corpus uses. No rights line was read, so no `rights_evidence`."
+}

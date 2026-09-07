@@ -34,5 +34,22 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Haus Bethlehem",
+      "location": "Schwyz, Switzerland",
+      "year": 1287,
+      "precedent": "haus-bethlehem",
+      "standing": "canonical",
+      "why": "Derived, not authored: `swiss-chalet`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Gunnar Bugge and Christian Norberg-Schulz, Stav og laft i Norge / Early Wooden Architecture in Norway (1969)",
+    "Jerri Holan, Norwegian Wood: A Tradition of Building (1990)",
+    "Richard Weiss, Hauser und Landschaften der Schweiz (1959)",
+    "Edoardo Gellner, Architettura anonima ampezzana (1981)",
+    "Hermann Phleps, The Craft of Log Building: A Handbook of Craftsmanship in Wood (1982)"
   ]
 }

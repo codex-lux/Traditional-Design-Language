@@ -1,0 +1,71 @@
+{
+  "id": "john-whipple-house",
+  "name": "John Whipple House",
+  "location": {
+    "text": "Ipswich, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1677",
+    "circa": false,
+    "altered": "Moved to its present site on the South Green in the 1890s after use as mill tenement housing (Wikipedia, Ipswich Mills Historic District article).",
+    "note": "The Wikipedia infobox and the node's exemplar agree on 1677; the node's note calls it a two-phase house."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-460",
+      "title": "John Whipple House, 53 South Main Street, Ipswich, Essex County, MA",
+      "url": "https://www.loc.gov/pictures/item/ma0645",
+      "note": "The loc.gov item page prints 'Survey number: HABS MA-460' and 'National Register of Historic Places NRIS Number: 66000791'. The data page's own header is OCR-garbled ('MASS-46©').",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0645",
+      "url": "https://www.loc.gov/pictures/item/ma0645",
+      "title": "John Whipple House, 53 South Main Street, Ipswich, Essex County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000791",
+      "url": "https://en.wikipedia.org/wiki/John_Whipple_House",
+      "title": "NRHP reference No. 66000791; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "note": "The loc.gov item page prints the same NRIS number, so this one is read on two surfaces.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/John_Whipple_House",
+      "title": "John Whipple House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ma0645",
+    "register": "loc-item",
+    "survey_no": "MA-460",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0600/ma0645/data/ma0645data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer (as the cover reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "BABS Mo, MASS-46© saehusetts 55 5' PHOTOGRAPH^ District of Massachusetts • Historic American Buildings Survey- Prank Chouteau Brown,District Officer 76 Chestnut St., Boston, Mass.",
+        "page": "Cover sheet; no page number printed. The survey number is taken from the loc.gov item page because the header's OCR is illegible."
+      }
+    ]
+  },
+  "note": "One of the two extract queries failed to fetch and the other returned the cover sheet only; no descriptive data was reached.",
+  "nodes": [
+    "new-england-colonial",
+    "garrison-colonial"
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "id": "a-t-stewart-store",
+  "name": "A. T. Stewart Store (Marble Palace, later the Sun Building), 280 Broadway",
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "aka": [
+    "280 Broadway",
+    "Marble Palace",
+    "Sun Building",
+    "Stewart Building"
+  ],
+  "dates": {
+    "built": "1845-1846",
+    "circa": false,
+    "altered": "Raised and extended repeatedly: Wikipedia records renovating architects Trench & Snook (1850-51 and 1851-52), Frederick Schmidt (1872) and Edward D. Harris (1884), and the building is now seven storeys against an original five (the New York City Department of Citywide Administrative Services says 'its original five-story section, at Broadway and Reade, was completed in 1846'). The style node's exemplar names the building extant; it is not the building of 1846."
+  },
+  "nodes": [
+    "renaissance-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "78001885",
+      "url": "https://en.wikipedia.org/wiki/280_Broadway",
+      "title": "NRHP reference No. 78001885; added to the National Register and designated NHL June 2, 1978; NYSRHP 06101.001774; NYCL 1439, designated October 7, 1986 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. A children's-encyclopaedia mirror of the same article says the building 'was named a National Historic Landmark' in 1965, which contradicts the infobox's 1978; the infobox date is recorded and the disagreement noted."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nyc.gov/site/dcas/business/dcasmanagedbuildings/sun-building.page",
+      "title": "The Sun Building - New York City Department of Citywide Administrative Services",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Custodian. States: 'The former A.T. Stewart Store was one of the most influential buildings ever erected in New York City, as its style, materials, use, and location helped determine the course of architecture and commerce in the City', and that with the exception of City Hall it is the oldest building DCAS manages."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/280_Broadway",
+      "title": "280 Broadway - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'The Marble Palace was New York City's first commercial structure designed in the Italianate style, and it was one of the first structures in the U.S. designed in a Romano-Tuscan style. It was also the first store in the city to contain a marble facade.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://villagepreservation.org/2020/09/21/beyond-the-village-and-back-the-marble-palace-a-t-stewart-store-at-280-broadway",
+      "title": "Beyond the Village and Back: The 'Marble Palace' A.T. Stewart Store at 280 Broadway - Village Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Names Joseph Trench and John B. Snook as architects and calls the building an 'Italian Renaissance \"Marble Palace\"'; records that it 'was furthermore the first building in city to be clad in tuckahoe marble, which, like the Italianate style, became the standard for high end retail thereafter'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The node's own beginning, and the sources cannot agree what style it is: Wikipedia calls it 'New York City's first commercial structure designed in the Italianate style' and 'Romano-Tuscan'; Village Preservation calls it 'Italian Renaissance'; the corpus files it under Renaissance Revival. All three are describing the same astylar marble palazzo, and the disagreement is the finding rather than an error to resolve. The alteration history is the other thing to carry: five storeys became seven under four architects, so any elevation study of the 1846 building must not be made from the present one."
+}

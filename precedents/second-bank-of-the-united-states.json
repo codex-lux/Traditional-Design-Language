@@ -1,0 +1,61 @@
+{
+  "id": "second-bank-of-the-united-states",
+  "name": "Second Bank of the United States",
+  "location": {
+    "text": "420 Chestnut Street, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1818-1824",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1818–1824'; the NPS page and the William Strickland article say 1819-1824. Recorded as the infobox prints it."
+  },
+  "nodes": [
+    "greek-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-137",
+      "url": "https://en.wikipedia.org/wiki/Second_Bank_of_the_United_States",
+      "title": "Historic American Buildings Survey (HABS) No. PA-137, 'Second Bank of the United States', 43 photos, 20 measured drawings, 2 photo caption pages (as Wikipedia's external links print it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from Wikipedia's external-links list; two loc.gov searches did not surface the Library's item page, so no `loc-item` is recorded and no data page was fetched. The listing names no data pages, so none is claimed."
+    },
+    {
+      "kind": "nrhp",
+      "id": "87001293",
+      "url": "https://en.wikipedia.org/wiki/Second_Bank_of_the_United_States",
+      "title": "NRHP reference No. 87001293; added to NRHP and designated NHL May 4, 1987 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Second_Bank_of_the_United_States",
+      "title": "Second Bank of the United States - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nps.gov/inde/learn/historyculture/places-secondbank.htm",
+      "title": "Second Bank of the United States - Independence National Historical Park (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Steward. 'Designed by architect William Strickland and built between 1819 and 1824 ... Strickland looked to the Parthenon in Greece as his muse, borrowing its blank pediments and Doric columns.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_Strickland_(architect)",
+      "title": "William Strickland (architect) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'a competition that called for \"chaste\" Greek style. Strickland ... won with an ambitious design modeled on the iconic Parthenon of Athens.'"
+    }
+  ],
+  "note": "Written 4 Sep 2026. Not a house. It is on the node because the node's own prose names the professional line -- Latrobe, Strickland, Walter -- that 'produced the banks', and this is the bank; the Wikipedia article describes the north and south fronts as eight Doric columns over a stylobate of steps under a triglyph frieze."
+}

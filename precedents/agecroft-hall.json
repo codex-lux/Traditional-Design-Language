@@ -1,0 +1,51 @@
+{
+  "id": "agecroft-hall",
+  "name": "Agecroft Hall",
+  "aka": [
+    "Agecroft"
+  ],
+  "location": {
+    "text": "Richmond, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1926",
+    "circa": false,
+    "altered": "The house is a re-erection, not a building: the nomination records that 'Williams had the building dismantled and brought parts of it back to Virginia' and that 'A l l four sides of the former quadrangle were not to be reproduced.' A new steel frame carries it.",
+    "note": "The National Register infobox gives 'Built 1926'; the style node's exemplar gives 1928; the nomination itself dates the purchase to 1925 and describes the house 'as i t stood i n 1925' in Lancashire. The English fabric is late-15th to late-16th century by the nomination's own account. Four dates for one building, and none of them is edited here."
+  },
+  "nodes": [
+    "tudor-revival",
+    "jacobethan-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "78003186",
+      "url": "https://en.wikipedia.org/wiki/Agecroft_Hall",
+      "title": "Agecroft Hall; NRHP reference No. 78003186, added 13 December 1978; VLR No. 127-0223, designated 18 July 1978 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox. The nomination form itself, read the same day, prints 'VLR Listed: 7/18/1978 NRHP Listed: 12/13/1978', which agrees."
+    },
+    {
+      "kind": "state-register",
+      "id": "127-0223",
+      "url": "https://www.dhr.virginia.gov/wp-content/uploads/2018/04/127-0223_Agecroft_1978_NRHP_Nomination_final.pdf",
+      "title": "NOMINATION FORM ... Agecroft, Richmond, Virginia -- Virginia Historic Landmarks Commission Survey, December 1977",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The nomination's own description of the exterior, verbatim and OCR included: 'Agecroft consists of a two-and-one-half-story, stone-foundation, gable-roof manor house from which radiates a series of wings and dependencies. The exterior wall? of the complex are. finished i n a variety of decorative timber framing including omamental and herringbone paneling and small framing. Most of the a r c h i t e c t u r a l fragments found on both the i n t e r i o r and exterior of the house date from the l a t e 16th and 17th centuries. Between the exposed timbers i s rough-cast stucco which conceals a s t e e l frame. Casement windows of l a t t i c e d leaded glass are used throughout the building.' The nomination also records the architect as 'New York architect Homer G. Morse', where the Wikipedia infobox reads 'Henry G. Morse'; both are recorded and neither is corrected."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Agecroft_Hall",
+      "title": "Agecroft Hall - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Gives the address as 4305 Sulgrave Road, Windsor Farms, and the architectural style as 'Tudor-Tudor Revival', which is the register's own two-word answer to the question this record exists to pose."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. This is the corpus's cleanest CONTROL for the revival's own claim, and the nomination hands it over in one sentence: 'Between the exposed timbers i s rough-cast stucco which conceals a s t e e l frame.' A genuine late-Tudor Lancashire house, shipped and re-erected in 1926 -- and the wall that reads as fifteenth-century framing is stucco over 1920s steel. tudor-revival's own description.long says the style's economics 'run exactly opposite to its imagery'; this building runs them opposite at the one place where the imagery was real. Immediately to the east is Virginia House, the same story told a second time by a different owner."
+}

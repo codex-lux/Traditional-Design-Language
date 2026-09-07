@@ -1,0 +1,72 @@
+{
+  "id": "knuttihaus-darstetten",
+  "name": "Knuttihaus",
+  "aka": [
+    "Knuttihaus im Moos"
+  ],
+  "location": {
+    "text": "Darstetten, Simmental, Switzerland",
+    "country": "Switzerland",
+    "state": "Kanton Bern, Niedersimmental"
+  },
+  "dates": {
+    "built": "1756",
+    "circa": false,
+    "altered": "The Sonntagsstube is dated 1760 by the same source, four years after the house.",
+    "note": "1756 in the German Wikipedia list of Simmental farmhouses and in two Wikimedia Commons file descriptions ('Erbaut 1756')."
+  },
+  "nodes": [
+    "swiss-chalet"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "A 00862",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
+      "title": "KGS-Nr. A 00862, Knuttihaus, Därstetten -- as transcribed in the German Wikipedia list",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is from the KGS column of the Wikipedia table; the Swiss Inventory of Cultural Property's own site was not reached from this container, so the id is a TRANSCRIPTION and its format is not checked by this corpus. Wikidata (Q19362559, 'Knuttihaus im Moos') independently describes it as a 'Cultural Property of National Significance'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
+      "title": "Liste von Simmentaler Bauernhäusern – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q19362559",
+      "url": "https://www.wikidata.org/wiki/Q19362559",
+      "title": "Knuttihaus im Moos -- Wikidata",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Rural dwelling house. Knuttihaus im Moos Rural dwelling house … cultural properties in Därstetten. Cultural Property of National Significance,' as the search tier returned the item's own summary."
+    },
+    {
+      "kind": "other",
+      "url": "https://commons.wikimedia.org/wiki/File:Simmentaler_Bauernhaus_%22Knuttihaus%22,_Moos_47,_D%C3%A4rstetten_BE_(cropped).jpg",
+      "title": "File:Simmentaler Bauernhaus \"Knuttihaus\", Moos 47, Därstetten BE (cropped).jpg -- Wikimedia Commons",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A FILE DESCRIPTION AND NOT AN ARTICLE, carried for the address and the date it prints: 'Simmentaler Bauernhaus \"Knuttihaus\", Moos 47, Därstetten BE. Erbaut 1756.'"
+    }
+  ],
+  "survey": {
+    "item": "A 00862",
+    "register": "state-register",
+    "data_url": "https://de.wikipedia.org/wiki/Liste_von_Simmentaler_Bauernh%C3%A4usern",
+    "prepared": "The German Wikipedia list of Simmental farmhouses, whose table transcribes the KGS inventory number and gives a one-line description per house. AN ENCYCLOPEDIA LIST AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "| Knuttihaus | Därstetten, Moos, Moos 47 | S17 (Lage46.6561647.4916) | A 00862 | Bauernhaus, von Hans Messerli, Flachschnitzereien und kunstvolle Malerei, Sonntagsstube von 1760 | 1756 |",
+        "page": "German Wikipedia, 'Liste von Simmentaler Bauernhäusern', table row for the Knuttihaus. The table's own pipes are kept because the row IS the record."
+      }
+    ]
+  },
+  "note": "Tranche 3, Alpine cluster, 5 September 2026. Added by this tranche because the node's Simmental exemplar names a museum and a region in one string and resolves to no building, and because the Simmental facade is what the node calls 'the type specimen for what the nineteenth century exported as \"the chalet\"'. This is one such facade with a name, an address, a date, a builder -- Hans Messerli, whom the same source calls the maker of many of the finest houses on the list -- and a Swiss cultural-property number.\n\nWHAT IT DOES NOT SUPPLY IS A DIMENSION. No source read states a width, a depth, a roof pitch or an overhang for it, which is the whole cluster's condition: the Alpine sources describe carving and painting and almost never a size."
+}

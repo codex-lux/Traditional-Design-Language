@@ -1,0 +1,67 @@
+{
+  "id": "william-j-rotch-gothic-cottage",
+  "name": "William J. Rotch Gothic Cottage",
+  "aka": [
+    "William J. Rotch House",
+    "Rotch Cottage"
+  ],
+  "location": {
+    "text": "New Bedford, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1845",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1845'. The National Historic Landmark nomination for the neighbouring James Arnold Mansion, read the same day, says 'In 1846 he commissioned Alexander Jackson Davis to design a Gothic Cottage' and calls it 'the 1846 William J. Rotch Cottage at 19 Irving Street'. The node's own two exemplars give 1846. Both are recorded; neither is changed."
+  },
+  "nodes": [
+    "gothic-revival-american",
+    "rural-gothic-villa"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "06000236",
+      "url": "https://en.wikipedia.org/wiki/William_J._Rotch_Gothic_Cottage",
+      "title": "NRHP reference No. 06000236; added February 17, 2006; contributing property of the County Street Historic District (ID76000229) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The Wikimedia Commons file page for the house prints the same number as '6000236', dropping the leading zero, which is why the eight-digit form is taken from the infobox."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/707c9c37-97da-43fe-922b-2edc6d1de187",
+      "title": "William J. Rotch Gothic Cottage -- National Historic Landmark Nomination",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its own words on the plate that made the house famous: 'The house was featured in Design XXIII, referred to as \"A Cottage-Villa in the Rural Gothic Style,\" and it was indicated that the design depicted \"the front elevation and plans of the residence of William J. Rotch, Esq., of New Bedford, Mass., built from the plans of Mr. Davis.\"' It also names the three other Davis Gothic Revival cottages on the National Register -- the John B. Angier House, Cottage Lawn and the Henry Delamater House."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/96514257/",
+      "title": "[Cottage-villa in the rural Gothic style, residence of William J. Rotch of New Bedford, Mass., built from the plans of Mr. Davis: front elevation]",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's own copy of Downing's plate. Its note reads 'Illus. in: The architecture of country houses / A.J. Downing. New York : Appleton, 1850, p. 296.'; call number 'Illus. in NA7561.D75 1850 [Rare Book RR]'; reproduction number 'LC-USZ62-90964 (b&w film copy neg.)'. Kind is `other` rather than `loc-item` because the id is a nine-digit catalogue key, not the two-letter-plus-four-digit survey item shape the checker enforces."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/96514258/",
+      "title": "[Cottage-villa in the rural Gothic style, residence of William J. Rotch of New Bedford, Mass., built from the plans of Mr. Davis: principal floor plan]",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The plan half of the same plate: 'Illus. in: The architecture of country houses / A.J. Downing. New York : Appleton, 1850, p. 297.'; reproduction number 'LC-USZ62-90965 (b&w film copy neg.)'. This is the one image in this cluster that carries a dimensioned plan of a Rural Gothic villa, and it is a wood engraving of 1850 rather than a measured drawing."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_J._Rotch_Gothic_Cottage",
+      "title": "William J. Rotch Gothic Cottage - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "rights_evidence": "No known restriction on publication.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/96514257/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Shared by two nodes at one location string. NO HABS SURVEY: a loc.gov pictures search for 'William J. Rotch Gothic Cottage' returned only the two Downing plates, and a search for 'Rotch House New Bedford' returned item ma0136 -- an unrelated late-18th-century Quaker house whose data page opens 'A large, but unpretentious well built house of the end of the 18th century' and gives 'Approximately 51' front (five bays) x 44' deep. Fronts east. Three stories.' That is NOT this building and its figures are deliberately not recorded here. THE NUMBER OF THE PLATE IS A CONTRADICTION AND IS LEFT STANDING: the NHL nomination says Design XXIII while both style nodes' exemplar notes say Design XXIV, and the Library's own catalogue prints only the caption and the page numbers, 296 and 297. The plate number is not resolved here and the exemplar notes were not edited. The rights line is the one printed on item 96514257; item 96514258 prints the plural 'No known restrictions on publication.' -- a one-letter difference between two halves of one plate, recorded rather than smoothed."
+}

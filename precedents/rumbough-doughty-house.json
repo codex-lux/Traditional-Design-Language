@@ -1,0 +1,92 @@
+{
+  "id": "rumbough-doughty-house",
+  "name": "Rumbough-Doughty House",
+  "location": {
+    "text": "215 South Irish Street, Greeneville, Greene County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "mid-nineteenth century",
+    "circa": true,
+    "altered": "The survey: 'Original brick chimneys have been recapped.' Condition of fabric, 'Kept in good repair.'",
+    "note": "The survey gives no year at all -- '2. Date of erection: Mid-nineteenth century' -- and dates it only by its likeness to the Andrew Johnson Home. No other source was read, so no year is asserted."
+  },
+  "nodes": [
+    "greek-revival-upland-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-151",
+      "title": "Rumbough-Doughty House, 215 South Irish Street, Greeneville, Greene County, TN",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0061/data/tn0061data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed three times in the data page's own text, OCR'd as 'HABS No. TEKH-151', 'HABS No. TENN-151' and, in the running head, 'HABS Wo. TEKN-151 ... Page 2'. The Library normalises it to TN-151."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0061",
+      "url": "https://www.loc.gov/item/tn0061",
+      "title": "Rumbough-Doughty House, 215 South Irish Street, Greeneville, Greene County, TN",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own lines: '[ Data Pages from Survey HABS TN-151 ] [ pdf version of supplemental pages ]' and the significance note 'This mid-nineteenth century house is similar to the Andrew Johnson Home, being of the same period and perhaps built by the same builder.'"
+    }
+  ],
+  "survey": {
+    "item": "tn0061",
+    "register": "loc-item",
+    "survey_no": "TN-151",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0061/data/tn0061data.pdf",
+    "prepared": "Historic American Buildings Survey, National Park Service, Eastern Office, Division of Design and Construction, 120 South Third Street, Philadelphia; both sections signed 'Henry Judd, Architect, NPS' (OCR 'fienry Jif Ju^/Architect, NPS' and 'Henry^ Jud§< Architect, KPS')",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "PART II. ARCHITECTURAL INFORMATION A. General Statement: 1. Architectural character: This two-story brick house, with an \"L\" plan is similar to the Andrew Johnson Home, being of the same period and perhaps constructed by the same builder, 2. Condition of fabric: Kept in good repair.",
+        "page": "HABS No. TN-151, Part II.A; no page number is printed on this first page of the entry and none is legible in the extract."
+      },
+      {
+        "field": "walls",
+        "text": "B, Technical Description of Exterior: 1« Foundations: Brick 2. Wall construction: Brick",
+        "page": "HABS No. TN-151, Part II.B.1-2; the running head 'HABS Wo. TEKN-151 RUKBGUGH - DOUGHTX HOUSE Page 2' is printed immediately after this pair in the same extract span."
+      },
+      {
+        "field": "roof",
+        "text": "3. Chimneys: Original brick chimneys have been recapped. 4. Roof: a. Shape, covering: Gable, tin b. Cornice: Moulded brick cornices c. Dormers: None",
+        "page": "HABS No. TN-151, Page 2 -- the running head 'HABS Wo. TEKN-151 RUKBGUGH - DOUGHTX HOUSE Page 2' is printed immediately above this entry."
+      },
+      {
+        "field": "other",
+        "text": "1. Original owner: James Rumbough 2. Date of erection: Mid-nineteenth century 3. Original plans, construction, etc.: Original one-story slave quarters in yard.",
+        "page": "HABS No. TN-151, Part I.A; no page number legible in the extract span."
+      },
+      {
+        "field": "condition",
+        "text": "C. Technical Description of Interiors: Unable to view the interior.",
+        "page": "HABS No. TN-151, Part II.C, Page 2; the running head for that page is printed in the same span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "This two-story brick house",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "c. Dormers: None",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A MEASURED ZERO, not a silence: the surveyor was asked for dormers and answered none. Worth the distinction in this corpus, where a dormer count that nobody supplied and a dormer count of zero have historically been the same thing to a checker."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. The most useful thing about this record is what the surveyor declined to do: 'C. Technical Description of Interiors: Unable to view the interior.' -- an evaluated could-not-evaluate, written down in 1958, on the layer this project spends most of its checkers on. He also gives the CORNICE as moulded BRICK, which is the one place this stratum's Grecian eave is not a board; the node's prose says the frieze and cornice are wide flat boards and here the same effect is run in masonry. And he records the one-storey slave quarters in the yard in the same list as the chimneys, which is where they belong in an honest record of the type. No dimension of any kind is stated."
+}

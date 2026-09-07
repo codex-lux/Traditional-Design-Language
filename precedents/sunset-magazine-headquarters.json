@@ -1,0 +1,61 @@
+{
+  "id": "sunset-magazine-headquarters",
+  "name": "Sunset Magazine Headquarters",
+  "location": {
+    "text": "Menlo Park, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1951",
+    "circa": false,
+    "altered": "The Cultural Landscape Foundation records 'ongoing additions until 1966'. Sunset occupied it from 1951 to 2015, when the magazine moved to Jack London Square, Oakland.",
+    "note": "The site's area is given as seven acres by The Cultural Landscape Foundation and as 6.7 acres by The Almanac. Neither is edited."
+  },
+  "nodes": [
+    "ranch-style"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.tclf.org/sunset-magazine-headquarters",
+      "title": "Sunset Magazine Headquarters | The Cultural Landscape Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Constructed in 1951 (with ongoing additions until 1966), architect Cliff May and landscape architect Thomas Church synthesized a corporate version of their celebrated yet sensible postwar suburban gardens. Opened to the public in 1952, the two-winged structure resembles a square doughnut and embodies many of May's innovations, employing contemporary materials and ideas that aimed to modernize the ranch house without compromising the relaxed, informal, indoor-outdoor qualities.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.tclf.org/sunset-magazine-headquarters-eligible-nomination-national-register-historic-places",
+      "title": "Sunset Magazine Headquarters Eligible for Nomination to the National Register of Historic Places | The Cultural Landscape Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 2024 the owner submitted a formal protest against the nomination to the state preservation office; however, the letter only prevents the property from being listed in the National Register, and not for the consideration or determination of eligibility. The property is now officially a historic resource. With the determination of eligibility, the property was also automatically listed in the California Register of Historical Resources.' So there is a determination of eligibility and a California Register listing, and NO National Register listing and no reference number to cite."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.almanacnews.com/menlo-park/2024/12/30/site-of-former-sunset-magazine-hq-nominated-to-national-register-of-historic-places",
+      "title": "Site of former Sunset Magazine HQ nominated to National Register of Historic Places - The Almanac",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The 6.7-acre site located at 80 Willow Road housed Sunset Magazine from the time the building was constructed in 1951 until 2015 ... The nomination, which was prepared by Los Angeles-based historic preservation consultants Chattel, Inc., proposes that the site should be added to the register based on two criteria: that the property embodies the distinctive characteristics of architect Cliff May and his ranch-style construction, and that the property is associated with significant historical events.' Nomination sponsored by the Menlo Park Historical Association."
+    },
+    {
+      "kind": "institution",
+      "url": "https://sunset.com/lifestyle/culture/sunset-menlo-park-campus-national-register-of-historic-places",
+      "title": "Sunset's Menlo Park Campus Earns National Recognition for Historic Significance - Sunset",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Built in 1951 to embody the indoor-outdoor ideals the magazine helped popularize, the headquarters is an early and exceptional example of the California Ranch style adapted for commercial use. With its carved sugar pine doors, deep eaves, and signature courtyards, the building and surrounding gardens exemplify Sunset's vision of Western living.' Eligible under three areas -- Architecture, Landscape Architecture and Commerce. The magazine's own account of its own building, and recorded as one."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.pbssocal.org/history-society/home-on-the-california-range-ranch-housing-in-postwar-america",
+      "title": "Home on the California Range: Ranch Housing in Postwar America - PBS SoCal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Sunset appreciated May's craft so much that in 1951 they commissioned him to design their new Menlo Park corporate headquarters. The 30,000 foot \"suburban Western home\" stood as a physical monument to Sunset's admiration for May; daily tours of the building only reinforced May's place among 1950s architects.' Also records that Sunset published Western Ranch Houses with May in 1946, which is this node's first cited source."
+    }
+  ],
+  "note": "NOT A HOUSE, and it is here for that reason: the ranch's one public monument, the building the magazine that nationalised the type built for itself, by the designer of the type, with Thomas Church's landscape. 80 Willow Road, Menlo Park. It also carries the node's own eave claim from the other side -- 'deep eaves' on the one ranch building anybody wrote an architectural evaluation of. WHAT IS NOT TRUE OF IT: it is not on the National Register. It was determined ELIGIBLE and is on the California Register; the owner's 2024 protest prevents listing while a demolition-and-redevelopment proposal is live, so there is no NRHP reference number and none is invented here."
+}

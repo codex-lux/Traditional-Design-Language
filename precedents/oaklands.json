@@ -1,0 +1,119 @@
+{
+  "id": "oaklands",
+  "name": "Oaklands",
+  "aka": [
+    "Oakland"
+  ],
+  "location": {
+    "text": "Gardiner, Maine",
+    "country": "United States",
+    "state": "Maine"
+  },
+  "dates": {
+    "built": "1835-1836",
+    "circa": false,
+    "note": "The survey says 'designed in 1835-36 by Richard Upjohn' and the Library's item record prints '1835- 1836 Initial Construction'; the Wikipedia infobox prints 'Built 1835'. The survey adds, quoting Everard M. Upjohn, that the Gothic mansion 'was begun in that year' (1835)."
+  },
+  "nodes": [
+    "rural-gothic-villa"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "ME-113",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0000/me0049/data/me0049data.pdf",
+      "title": "Oaklands, South end of Dresden Street, West side of Kennebec River, Gardiner, Kennebec County, ME",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Library's item record prints 'HABS ME-113' as the survey number; the data page's own running header was not legible in either extract span, which is why every quote here says so."
+    },
+    {
+      "kind": "loc-item",
+      "id": "me0049",
+      "url": "https://www.loc.gov/pictures/item/me0049/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "73000131",
+      "url": "https://en.wikipedia.org/wiki/Oaklands_(Gardiner,_Maine)",
+      "title": "NRHP reference No. 73000131; added July 27, 1973 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Oaklands_(Gardiner,_Maine)",
+      "title": "Oaklands (Gardiner, Maine) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "me0049",
+    "register": "loc-item",
+    "survey_no": "ME-113",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0000/me0049/data/me0049data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Brief Statement of This structure is a large granite Gothic Revival Significance: house designed in 1835-36 by Richard Upjohn, archi-tect. \"Oaklands\" is architecturally unique in Maine and the house of a family important in both state and national history.",
+        "page": "HABS No. ME-113; no page marker was legible anywhere in either extract span -- the two-column cover layout has interleaved the label 'Brief Statement of Significance:' with the text it labels, and the quote is given exactly as the extract prints it"
+      },
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: This structure is a large granite Gothic Revival house designed in 1835-36 by Richard Upjohn/ who later designed Trinity Church in New Tork City. Especially significant are the stairway, details, and large-scale interior spaces.",
+        "page": "HABS No. ME-113; no page marker was legible anywhere in either extract span"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Number of stories, over-all dimensions, etc.: This Structure consists of a main house of two stories with a two-and-a-half story ell Over-all dimensions are 93 !-l 1/2\" x 95 !-2 3/4\".",
+        "page": "HABS No. ME-113; no page marker was legible anywhere in either extract span"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundation: The \"building is situated on \"bedrock; exterior foundation walls are faced with granite ashlar to the .exterior and hacked with brick and fieldstone. Monolithic granite piers, brick piers, wood posts, brick",
+        "page": "HABS No. ME-113; no page marker was legible anywhere in either extract span"
+      },
+      {
+        "field": "other",
+        "text": "\"The notebooks [of Richard Upjohn] of 1835 are full of entries of letters and packages sent to R. H. Gardiner, Gardiner, Maine, for the Gothic mansion 'Oaklands, 1 which was begun in that year. The original drawings fsee HABS photocopies], signed Rd. Upjohn, Arch, 1 include plans for the ground and second floors with the pochl in gray and elevations of the east, north, and south fronts, all at the unusual scale of twelve feet to an inch.",
+        "page": "HABS No. ME-113; no page marker was legible anywhere in either extract span; Part I.B, the survey quoting Everard M. Upjohn's biography of his great-grandfather, pp. 38-43"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "93 !-l 1/2\"",
+      "value": 93.13,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OCR: the apostrophe reads as ' !' and the inch digit 1 as 'l'. Read as 93'-1 1/2\". The survey does not say which face is the front, so the FIRST figure printed is taken as the width, per the schema's rule. A reading, marked as one."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "95 !-2 3/4\"",
+      "value": 95.23,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OCR as above; read as 95'-2 3/4\". The front is unstated."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "a main house of two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The same sentence gives the ell as two-and-a-half storeys."
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/me0049/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Added to rural-gothic-villa as the earliest dated villa in the set and the one whose plan the architect's own drawings survive for. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

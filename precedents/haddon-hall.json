@@ -1,0 +1,111 @@
+{
+  "id": "haddon-hall",
+  "name": "Haddon Hall",
+  "location": {
+    "text": "Derbyshire, England",
+    "country": "England",
+    "state": "Derbyshire"
+  },
+  "dates": {
+    "built": "Fragments of C12 work; upper courtyard mainly second quarter of C14, lower courtyard mostly C15",
+    "circa": true,
+    "altered": "Major refashionings and alterations of C16 and C17; a major restoration between 1920 and 1930 supervised by Mr Leonard Stanhope, Clerk of Works; the Great Hall's arched braced roof is dated 1923 and the roofs and parapets are 'mostly C20'.",
+    "note": "The list entry gives no single build year. The C12 fragments, the C14 upper courtyard and the C15 lower courtyard are all its own statements."
+  },
+  "nodes": [
+    "english-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1334982",
+      "title": "Haddon Hall, Nether Haddon - 1334982",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1334982",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'SK 26 NW PARISH OF NETHER HADDON HADDON ROAD 2/28 (North Side) 29.9.51 Haddon Hall GV I'; the overview block prints 'Date first listed: 29-Sept-1951'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000679",
+      "title": "Haddon Hall, Nether Haddon - 1000679",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000679",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separately registered Park and Garden, Grade I, 'Date first listed: 04-Aug-1984'. Read from a search result only."
+    }
+  ],
+  "survey": {
+    "item": "1334982",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1334982",
+    "prepared": "The Details section's own legacy header: 'SK 26 NW PARISH OF NETHER HADDON HADDON ROAD 2/28 (North Side) 29.9.51 Haddon Hall GV I'. The overview block prints 'Date first listed: 29-Sept-1951'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Large double courtyard, fortified manor house. Seat of the Dukes of Rutland and built by the Vernon family. Fragments of C12 work but mainly of two periods with the upper courtyard built mainly in the second quarter of Cl4 and the lower courtyard built mostly in C15, but also with major refashionings and alterations of C16 and C17 and a major restoration between 1920 and 1930, supervised by Mr Leonard Stanhope, the Clerk of Works.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Limestone and gritstone rubble and ashlar gritstone with gritstone dressings and quoins. Leaded roof, mostly hidden by embattled parapets with ridgeback copings, roofs and parapets mostly C20.",
+        "page": "Official list entry, Details, materials sentence following the opening paragraph"
+      },
+      {
+        "field": "chimneys",
+        "text": "Numerous stone ridge and side wall stacks, mostly C20, some with crenellated tops, plus massive late C15 external stacks to west side of Great Hall and, possibly C14, corbelled out stone stacks to north walls.",
+        "page": "Official list entry, Details, chimney sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "Two storeys with four storey north-west gatetower, and three storey eastern Peveril Tower and north-east lodgings to upper courtyard.",
+        "page": "Official list entry, Details, immediately following the chimney sentence"
+      },
+      {
+        "field": "plan",
+        "text": "Double courtyard plan on sloping site with upper courtyard to north-east and lower courtyard to south-west.",
+        "page": "Official list entry, Details, immediately following the storey sentence"
+      },
+      {
+        "field": "plan",
+        "text": "Great Hall has C15 timber screens passage with cusped panelling and gallery over, also arched braced roof dated 1923, C16 panelled lobby to south through to parlour and C16 panelling to the walls; large cavetto moulded fireplace to west and four,four-centred arched doorcases to north of screens passage, eastern one opens on to the staircase up to the gallery, whilst the other three lead to the kitchen, pantry and buttery, all have original oak studded doors.",
+        "page": "Official list entry, Details, interior description of the Great Hall"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys with four storey north-west gatetower",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The ranges. The towers are counted separately in the same sentence."
+    },
+    {
+      "name": "gatetower_storey_count",
+      "as_printed": "four storey north-west gatetower",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "peveril_tower_storey_count",
+      "as_printed": "three storey eastern Peveril Tower",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "screens_passage_doorway_count",
+      "as_printed": "four,four-centred arched doorcases to north of screens passage",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "The legacy text prints 'four,four-centred' with no space after the comma; kept as printed. Three of the four lead to the kitchen, pantry and buttery, which is the service end of this node's own diagram, stated by a register rather than by the corpus."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. ADDED EXEMPLAR. Extracted twice with different queries; the second returned the Details header and the opening paragraph the first had not."
+}

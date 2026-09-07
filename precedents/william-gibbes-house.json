@@ -1,0 +1,53 @@
+{
+  "id": "william-gibbes-house",
+  "name": "William Gibbes House",
+  "location": {
+    "text": "64 South Battery, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "shortly after 1772",
+    "circa": true,
+    "altered": "Redecorated in 1794, when the double staircase with its iron rail was added (the SC register).",
+    "note": "The SC register says 'built sometime shortly after 1772, and redecorated in 1794'; the Wikipedia infobox prints 1775; the HABS addendum for the Blacklock House cites it as 'the William Gibbes House (1772)'. Recorded as the state register states it; the exemplar's year is null because no source read gives a single year."
+  },
+  "nodes": [
+    "charleston-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_Gibbes_House",
+      "title": "William Gibbes House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000575",
+      "url": "https://en.wikipedia.org/wiki/William_Gibbes_House",
+      "title": "NRHP reference No. 70000575; added April 15, 1970; designated NHL April 15, 1970; contributing to the Charleston Historic District (ID66000964) (as the Wikipedia infobox prints it; the SC register prints the same two dates)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710015",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710015/index.htm",
+      "title": "National Register Properties in South Carolina -- William Gibbes House, Charleston County (64 S. Battery, Charleston)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'one of the finest two-story frame residences in America ... built upon a high English basement of carefully distressed stone ... The modillions at the cornice level are carried around all sides of the building, and the building is roofed by a tiled hipped roof ... The Gibbes House has the usual Georgian four-room double pile floor plan, known in Charleston simply as a double house.'"
+    },
+    {
+      "kind": "other",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710015/S10817710015.pdf",
+      "title": "[PDF] nomination form - National Register of Historic Places - South Carolina",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The nomination form itself, not read beyond its first line ('The William Gibbes House, at #64 South Battery, Charleston, lies within the residentially developed old section of the city')."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on charleston-georgian. No HABS record was found: the query '\"William Gibbes House\" \"South Battery\" Charleston \"Survey number\" HABS SC' on loc.gov returned other Battery houses and the Blacklock addendum that cites this one. The state register's description is the fullest source read."
+}

@@ -1,0 +1,63 @@
+{
+  "id": "lakewood",
+  "name": "Lakewood",
+  "aka": [
+    "Lakewood Park"
+  ],
+  "location": {
+    "text": "Lakewood, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1950-1953",
+    "circa": false,
+    "note": "Wikipedia says the development was 'Begun in late 1949' with the first day of sales on 24 March 1950 and the plan completed in 1953; the Mall Hall of Fame page says 'The first residents moved into the housing development -originally known as Lakewood Park- on July 8, 1951. By 1953, 17,500 tract houses had been built.' The land purchase is given as 3,375 acres (Los Angeles Almanac), about 3,500 acres (LA County Library and Mall Hall of Fame) and 3,500 acres of west Lakewood (Wikipedia). None edited."
+  },
+  "nodes": [
+    "ranch-style"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lakewood,_California",
+      "title": "Lakewood, California - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'On the first day of sales, March 24, 1950, an estimated 30,000 people lined up to walk through a row of seven model houses ... The building of Lakewood broke records. Empty fields became 17,500 houses in less than three years. A new house was completed every 7+1/2 minutes, 40 to 60 houses per day, with a record 110 completed in a single day.' Monthly cost $44 to $56 including principal, interest and insurance."
+    },
+    {
+      "kind": "institution",
+      "url": "https://lacountylibrary.org/lakewood-local-history",
+      "title": "Lakewood Local History - LA County Library",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Lakewood was a massive housing development consisting of 17,500 single-family homes built in the early 1950s ten miles southeast of Los Angeles. When built it was the largest-ever private land development in the United States' -- Louis Boyar, Mark Taper and Ben Weingart named as the three developers, with 'assembly-line construction of about 50 houses a day'."
+    },
+    {
+      "kind": "other",
+      "url": "http://www.laalmanac.com/history/hi08a.php",
+      "title": "A New Kind of City - Lakewood, California - Los Angeles Almanac",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1949, developers Louis Boyar, Mark Taper and Ben Weingart borrowed close to $9 million from Prudential Insurance and purchased 3,375 acres of farmland ... Over the next five years, they frantically laid out 133 miles of streets and erected 17,500 homes in assembly-line fashion ... As each subdivision opened, people lined up to buy the $7,500 to $9,500 homes.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.pbssocal.org/history-society/the-lakewood-plan-homeownership-taxes-and-diversity-in-postwar-suburbia",
+      "title": "The Lakewood Plan: Homeownership, Taxes, and Diversity in Postwar Suburbia - PBS SoCal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes D. J. Waldie, Lakewood's own chronicler, on what was built: 'No theorist or urban planner had the experience then to gauge how thirty thousand former GI's and their wives would take to frame and stucco houses on small rectangular lots next to hog farms and dairies.' Also records that the developers 'had bought a suburb in which \"they could not live\"', and the segregation the Lakewood Plan is argued over."
+    },
+    {
+      "kind": "other",
+      "url": "https://mall-hall-of-fame.blogspot.com/2009/10/lakewood-center-lakewood-and-del-amo.html",
+      "title": "MALL HALL OF FAME: Lakewood Center, Lakewood and Del Amo Boulevards",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The first residents moved into the housing development -originally known as Lakewood Park- on July 8, 1951. By 1953, 17,500 tract houses had been built. Lakewood became the largest area in the nation to incorporate as a city, on April 16, 1954.' The 259-acre Lakewood Center shopping complex is the piece that made the tax base work and is the reason the ranch here faces a car."
+    }
+  ],
+  "note": "No survey, no register listing, and no plan dimension for a Lakewood house was found in any source read here -- which is worth stating plainly, because 17,500 houses were built and the corpus can measure none of them. What the sources do supply is the industrial rate (a house every 7.5 minutes, 110 in a day), the price band, and Waldie's 'frame and stucco houses on small rectangular lots'. The seven model houses of the first sales day are the earliest instance in this node's exemplars of the merchandised model row that neo-eclectic later ran on."
+}

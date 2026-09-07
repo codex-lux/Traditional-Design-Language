@@ -1,0 +1,56 @@
+{
+  "id": "blair-hall-princeton-university",
+  "name": "Blair Hall, Princeton University",
+  "aka": [
+    "Blair Hall"
+  ],
+  "location": {
+    "text": "Princeton, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "1897",
+    "circa": false,
+    "altered": "Extended; the Historical Society of Princeton and Princeton's own Mathey College history both record later additions, and Stafford Little Hall was built against it 'half in 1899, half in 1901'.",
+    "note": "Every source read gives 1897 for the original dormitory."
+  },
+  "nodes": [
+    "jacobethan-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/95000181_text",
+      "title": "National Register of Historic Places Registration Form (reference 95000181), which characterises Blair Hall in its statement of context",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DIFFERENT property's nomination, and the only federal document read that characterises this building: 'Blair Hall at Princeton, NJ by Cope and Stewardson in 1897, is one of the first Collegiate Gothic buildings in America.' Recorded as an `other` ref and NOT as an `nrhp` identity, because the eight-digit number belongs to that other property and an archival id names one building."
+    },
+    {
+      "kind": "institution",
+      "url": "https://matheycollege.princeton.edu/about-us/history",
+      "title": "History | Mathey College -- Buildings of Mathey: The Rise of 'Collegiate Gothic'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Princeton's own account, quoting the Princetoniana Museum: 'Blair Hall was designed by architects Cope and Stewardson of Philadelphia, who were among the first to apply the Tudor Gothic style to American college dormitories. Blair Hall is considered their masterpiece...When first built, Blair, Little, and the Gymnasium marked the western boundary of the campus.' The same page calls Stafford Little Hall 'Princeton's second collegiate Gothic building'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://princeton.pastperfectonline.com/Photo/5DC6B204-C4B0-40CA-96A9-029213653306",
+      "title": "O_1_007 - [Blair Hall Arch] | Historical Society of Princeton",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Blair Hall was designed by the architectural firm Cope & Stewardson and built in 1897. The dormitory was a gift of John Insley Blair (1802-1899), Princeton'. The span ends there."
+    },
+    {
+      "kind": "other",
+      "url": "https://dspace.njstatelib.org/items/ef94160c-6d4a-4b57-bf9a-25e2b39b2bd8",
+      "title": "Blair Hall at Princeton University - NJSL Digital Collections",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Built in 1897, Blair Hall marked the western edge of campus for 20 years and its architects, the firm Cope & Stewardson, were masters of the Collegiate Gothic'."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2, and it is on this node with a caveat that belongs in the record rather than only in the exemplar's `why`. EVERY SOURCE READ CALLS BLAIR HALL COLLEGIATE GOTHIC OR TUDOR GOTHIC AND NONE CALLS IT JACOBETHAN. It is here because jacobethan-revival's own description.long makes the claim that this label conceals -- 'American universities adopted the Elizabethan-Jacobean and Perpendicular registers as their default ... producing what is usually called Collegiate Gothic and which shares almost all of its detail with domestic Jacobethan Revival. The two markets shared masons, stone suppliers, and detail books.' The node asserts that the campus market is 'more consequential' than the estate market and then named four estates and no campus building. This record is the campus half, named, located, and carrying the disagreement about what to call it, which is the fact the node's own argument turns on. No HABS survey was found."
+}

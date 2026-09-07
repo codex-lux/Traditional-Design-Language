@@ -1,0 +1,84 @@
+{
+  "id": "pieter-bronck-house",
+  "name": "Pieter Bronck House",
+  "aka": [
+    "Bronck House",
+    "Peter Bronck House"
+  ],
+  "location": {
+    "text": "Coxsackie, Greene County, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1663 (the node's figure and the Wikipedia infobox)",
+    "circa": true,
+    "note": "The survey's own cover states 'Date of Erection: Between 166S and 1669' -- the OCR of a figure this record does not read as certain -- and the Library's item line dates the structure 'after 1660 Initial Construction'. Wikipedia gives 1663. Three statements of one date, none edited to agree with another."
+  },
+  "nodes": [
+    "dutch-colonial-american",
+    "hudson-valley-dutch",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-3114",
+      "title": "Peter Bronck House, West Coxsackie, Greene County, NY",
+      "url": "https://www.loc.gov/pictures/item/ny0226",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Wikipedia external-links line reads: 'Historic American Buildings Survey (HABS) No. NY-3114, \"Peter Bronck House, West Coxsackie, Greene County, NY\", 8 photos, 2 data pages'. The Library's item line reads 'Survey number: HABS NY-3114 - Building/structure dates: after 1660 Initial Construction - National Register of Historic Places NRIS Number: 67000012.' The data page's own header OCR is 'HABS No. W 311^'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0226",
+      "url": "https://www.loc.gov/pictures/item/ny0226",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "67000012",
+      "url": "https://www.loc.gov/pictures/item/ny0226",
+      "title": "National Register of Historic Places NRIS Number: 67000012 (as the Library's own item line prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Confirmed by the Wikipedia infobox, which prints the same number and adds NYSRHP No. 03905.000261 and NHL designation 24 December 1967."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bronck_House",
+      "title": "Bronck House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0226",
+    "register": "loc-item",
+    "survey_no": "NY-3114",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0226/data/ny0226data.pdf",
+    "prepared": "Historic American Buildings Survey, District 3 of New York; the cover reads 'Prepared by Washington Office'. Its stated reference is Reynolds, Dutch Houses in the Hudson Valley before 1776 -- one of this node's own four sources.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "THE PIETER BRGUCK EOUSfi West Coxsackie, New York Owner: Leonard Bronek Lampman Date of Erection: Between 166S and 1669 Architect: Unknown Builder: Pieter Bronek (By tradition in lironck family) Present ^pondit ion; Good Number of Stories: l4-Materials of Construction: Brick and 3tone, Gable roof new slates.",
+        "page": "HABS No. NY-3114; no page number is printed on this two-page 1930s form and none is legible in the extract. The nearest header reads 'Bronck House HABS No. W 311^ West Coxsaokio Green© County'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: l4-",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "OCR. Read as one and a half, which is what the building is and what the same forms print elsewhere as '1 1/2'. A reading, marked as one."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Two data pages and no dimensions: the whole of the survey's description is 'Brick and stone, Gable roof new slates'. Worth carrying for both nodes it serves: the surveyor recorded a BRICK AND STONE house, where hudson-valley-dutch's prose describes the rural type as stone with brick reserved for the towns."
+}

@@ -1,0 +1,66 @@
+{
+  "id": "universidad-de-salamanca-facade",
+  "name": "Universidad de Salamanca, principal facade",
+  "aka": [
+    "Fachada de la Universidad de Salamanca"
+  ],
+  "location": {
+    "text": "Salamanca, Spain",
+    "country": "Spain",
+    "state": "Castile and Leon"
+  },
+  "dates": {
+    "built": "1529",
+    "circa": false,
+    "note": "The Spanish article's first sentence is 'La fachada de la Universidad de Salamanca data de 1529'. The node's exemplar gives 'c. 1512-1529'; the article states only the one year and no start."
+  },
+  "nodes": [
+    "spanish-plateresque",
+    "spanish-classical"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Fachada_de_la_Universidad_de_Salamanca",
+      "title": "Fachada de la Universidad de Salamanca - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-fachada-de-la-universidad-de-salamanca",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Fachada_de_la_Universidad_de_Salamanca",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "La fachada de la Universidad de Salamanca data de 1529 y pertenece al estilo plateresco, que se desarrolló en los primeros 30 años del siglo XVI. Se caracteriza por una minuciosa y abundante decoración. Para muchos, esta fachada es la obra maestra del plateresco español.",
+        "page": "Spanish Wikipedia, opening paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "Está dividida en tres cuerpos.",
+        "page": "Spanish Wikipedia, section 'Análisis', its first line"
+      },
+      {
+        "field": "general_description",
+        "text": "En el segundo cuerpo vemos tres escudos: el más grande tiene representaciones de los reinos de la Corona Hispánica con una cruz sobre una corona.",
+        "page": "Spanish Wikipedia, section 'Análisis'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portada_register_count",
+      "as_printed": "Está dividida en tres cuerpos.",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "THE CENTRAL FIGURE OF THIS NODE, STATED BY A SOURCE. The node's own description says the retablo facade is 'three registers of villamayor sandstone against a plain wall'; the article says the facade is divided into three cuerpos. Registers, not storeys: the wall behind carries its own windows on a different rhythm."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. This is the one record in the cluster whose source states the node's own governing number -- three registers -- in its own words. TWO THINGS WERE REMOVED FROM THIS RECORD BEFORE IT WAS COMMITTED AND BOTH ARE WORTH KNOWING. A UNESCO reference for the Old City of Salamanca was drafted from memory of the number and deleted: no UNESCO page was read for it in this session, and a plausible id is exactly the laundered citation this layer exists to prevent. And a `portada_bay_count` measurement was drafted whose `as_printed` was in a paragraph of the article that no quote here carries; the article's analysis names a 'calle central' and a 'calle de la izquierda' and a right, which is three vertical bays, but it never counts them and reading three out of three mentions is an inference. Neither omission is a gap in the source."
+}

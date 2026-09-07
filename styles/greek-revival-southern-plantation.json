@@ -215,25 +215,55 @@
       "name": "Oak Alley",
       "location": "Vacherie, St. James Parish, Louisiana",
       "year": 1839,
-      "note": "Begun 1837, probably designed by Joseph Pilie; a free-standing colonnade of 28 stuccoed brick Doric columns on all four sides, 16-inch walls, brick made and laid on site by enslaved people."
+      "note": "Begun 1837, probably designed by Joseph Pilie; a free-standing colonnade of 28 stuccoed brick Doric columns on all four sides, 16-inch walls, brick made and laid on site by enslaved people.",
+      "precedent": "oak-alley",
+      "standing": "icon",
+      "why": "The building the variant is known by, on the National Historic Landmark designation of 2 December 1974 its record carries -- twenty-eight columns on all four sides is the peripteral silhouette the node's first diagnostic tell is written for."
     },
     {
       "name": "Rosedown",
       "location": "St. Francisville, West Feliciana Parish, Louisiana",
       "year": 1835,
-      "note": "Built November 1834 to May 1835 of cypress and cedar milled on site; five-bay two-storey gallery on smooth Doric columns, with Doric-porticoed brick wings added 1845. Transitional Federal-to-Greek and useful for dating the shift precisely."
+      "note": "Built November 1834 to May 1835 of cypress and cedar milled on site; five-bay two-storey gallery on smooth Doric columns, with Doric-porticoed brick wings added 1845. Transitional Federal-to-Greek and useful for dating the shift precisely.",
+      "precedent": "rosedown",
+      "standing": "canonical",
+      "why": "A type specimen because the paperwork survives: the 1958 HABS sheet quotes the builder's own contract asking for \"full gretio dorric Collums\" and no dormers, so the Grecian body can be dated to a signed document rather than to a stylistic reading."
     },
     {
       "name": "Berry Hill",
       "location": "3105 River Road, Halifax County, Virginia",
       "year": 1844,
-      "note": "Begun 1842; John Evans Johnson, architect. Octastyle Doric portico with a six-and-a-half-foot entablature correctly detailed with triglyphs, metopes and guttae, and matching tetrastyle Doric dependencies."
+      "note": "Begun 1842; John Evans Johnson, architect. Octastyle Doric portico with a six-and-a-half-foot entablature correctly detailed with triglyphs, metopes and guttae, and matching tetrastyle Doric dependencies.",
+      "precedent": "berry-hill",
+      "standing": "canonical",
+      "why": "The Virginia Department of Historic Resources calls it \"A premier monument of the American Greek Revival\", and the octastyle Doric with its correctly detailed entablature is where the variant's figures can be held against an order rather than against a carpenter's approximation."
     },
     {
       "name": "Gaineswood",
       "location": "Demopolis, Marengo County, Alabama",
       "year": 1861,
-      "note": "Built 1843-1861 by Nathan Bryan Whitfield, who grew the house outward from an existing dogtrot log house using enslaved craftsmen and Lafever's plates. National Historic Landmark; the most elaborately Grecian interior in the South. Built in campaigns 1843-1861."
+      "note": "Built 1843-1861 by Nathan Bryan Whitfield, who grew the house outward from an existing dogtrot log house using enslaved craftsmen and Lafever's plates. National Historic Landmark; the most elaborately Grecian interior in the South. Built in campaigns 1843-1861.",
+      "precedent": "gaineswood",
+      "standing": "icon",
+      "why": "A National Historic Landmark on the 1973 designation the record carries, and the survey's own quoted authority makes it interesting \"from all four sides\", which is the wrapped colonnade the node's leading tell is about. No source on this record states anything about the interior, so no judgment about it is relied on here."
+    },
+    {
+      "name": "Millford Plantation",
+      "location": "Pinewood, Sumter County, South Carolina",
+      "year": 1841,
+      "note": "Built 1839-1841 by Nathaniel F. Potter of Providence, and the one house in this set whose HABS survey states plan dimensions -- 45' x 70' plus wings of about 20' x 20' each, five bays on front and on side, three-storey centre with two-storey wings. A Corinthian hexastyle where the node's prose names Doric as the substitution, which is worth knowing before the node's order language is read as a rule.",
+      "precedent": "millford-plantation",
+      "standing": "canonical",
+      "why": "The measurable one: the surveyor gives dimensions, bays, portico, chimneys, sash and shutters, so this is the record the variant's kit figures can actually be tested against, and the judgment is the survey's own -- \"One of the most important Greek Revival country mansions of South Carolina\"."
+    },
+    {
+      "name": "The Hermitage",
+      "location": "Nashville, Davidson County, Tennessee",
+      "year": 1819,
+      "note": "A plain two-storey brick house begun 1818-19, with the portico, the flanking wings and a new roof arriving in a separate campaign in 1831 -- the HABS sheet lists them as additions with a date, which is the Grecian apparatus being laid over an existing plan, dated. The survey's descriptive sentence about the remodelled front breaks off mid-clause and is quoted broken.",
+      "precedent": "the-hermitage",
+      "standing": "regional",
+      "why": "The Tennessee and Upland South end of a variant whose hearth the node puts in the Gulf, and it earns its place by the SEQUENCE the survey records rather than by any judgment about its quality."
     }
   ],
   "sources": [

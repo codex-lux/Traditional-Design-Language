@@ -181,25 +181,46 @@
       "name": "Hall house at Best",
       "location": "North Brabant, Netherlands",
       "year": 1262,
-      "note": "Frame dendro-dated to 1262; the earliest dated example of the type anywhere, still in use as a stable with the living end rebuilt c. 1640-1680."
+      "note": "Frame dendro-dated to 1262; the earliest dated example of the type anywhere, still in use as a stable with the living end rebuilt c. 1640-1680.",
+      "precedent": "armenhoef-best",
+      "standing": "documentary",
+      "why": "Cited for a date the Dutch national register states in its own words -- 'de datering door middel van dendrochronologisch onderzoek is vastgesteld op 1263' -- and for the five anchor-beam trusses it counts in the byre, which is the corpus's only register-sourced bay count for this type; the register also says the dwelling end is heavily modernised, so what is medieval here is the stable."
     },
     {
       "name": "Dat ole Huus",
       "location": "Wilsede, Luneburg Heath, Germany",
       "year": 1540,
-      "note": "Museum-preserved Heath farmhouse, c. 1540; one of the least-altered surviving hall interiors with the Flett intact."
+      "note": "Museum-preserved Heath farmhouse, c. 1540; one of the least-altered surviving hall interiors with the Flett intact.",
+      "precedent": "dat-ole-huus",
+      "standing": "canonical",
+      "why": "The best interior account in the cluster and the one that states the node's central claim rather than asserting it -- the Flett across the whole width, the smoke leaving by the Eulenloch, the byre continuing off it with no partition -- on the German Wikipedia article's authority; the same article dates the BUILDING to 1742 and only its Flett to about 1540."
     },
     {
       "name": "Hof der Heidmark",
       "location": "Bad Fallingbostel, Germany",
       "year": 1642,
-      "note": "Dated hall house, now the core of an open-air museum farmstead."
+      "note": "Dated hall house, now the core of an open-air museum farmstead.",
+      "precedent": "hof-der-heidmark",
+      "standing": "regional",
+      "why": "The Ostheidmark's own memorial building rather than a specimen chosen for its architecture: the regional tourist board records that it is the Bookholtshof, moved to Bad Fallingbostel to stand for twenty-one places cleared in the mid-1930s for the Bergen training area."
     },
     {
       "name": "Museumsdorf Hosseringen",
       "location": "Suderburg, Lower Saxony, Germany",
       "year": null,
-      "note": "Landwirtschaftsmuseum Luneburger Heide; relocated hall houses and farm buildings of the 17th-19th centuries with the bay structure legible."
+      "note": "Landwirtschaftsmuseum Luneburger Heide; relocated hall houses and farm buildings of the 17th-19th centuries with the bay structure legible.",
+      "precedent": "museumsdorf-hosseringen",
+      "standing": "documentary",
+      "why": "A collection of relocated buildings and carried as one; the only two dated hall houses any source read here names are the Brummerhof of 1644 and the Kotnerhaus of 1648, and no museum page or register entry was reachable."
+    },
+    {
+      "name": "Rieck Haus",
+      "location": "Hamburg-Curslack, Germany",
+      "year": 1533,
+      "note": "A Vierlande hufner's hall house on its own hufe between the drainage ditches, with barns, a bakehouse and a working drainage mill round it. Dendrochronology puts the core frame at about 1532, with repairs in 1545 and 1565; the written record of the farm begins in 1633, when a large extension was made and the owners' names cut into the side-door lintel. Farmed until about 1940; museum from 1954. NDR calls it the last surviving Low German hall house in the Vierlande.",
+      "precedent": "rieck-haus",
+      "standing": "canonical",
+      "why": "Added because it is the only building the node names that still stands where it was built -- two of the four existing exemplars were moved and a third is a museum village -- and because the operating museum states the type's whole social claim in one line: two or three generations, servants and cattle under one roof."
     }
   ],
   "sources": [

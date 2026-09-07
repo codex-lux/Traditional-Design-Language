@@ -1,0 +1,82 @@
+{
+  "id": "museo-ex-hacienda-el-lencero",
+  "name": "Museo Ex Hacienda El Lencero",
+  "aka": [
+    "Hacienda El Lencero",
+    "El Lencero"
+  ],
+  "location": {
+    "text": "Emiliano Zapata, Veracruz, Mexico",
+    "country": "Mexico",
+    "state": "Veracruz"
+  },
+  "dates": {
+    "built": "colonial",
+    "circa": true,
+    "altered": "Agrarian reform from 1923 took the land away in stages -- about 600 ha to the village of El Chico, 3,025 ha expropriated in 1939 -- leaving 28 ha bought with the principal buildings in 1935 and the 8 ha the state bought for the museum in 1981. The museum opened 1 November 1986.",
+    "note": "NO CONSTRUCTION DATE WAS PRINTED in the extracted spans and none is claimed. The article's own criticism of the museum's restoration -- it quotes charges of 'inautenticidad' and of being 'históricamente aberrante[s]' -- is recorded because it bears on whether what stands can be measured as colonial fabric."
+  },
+  "nodes": [
+    "mexican-hacienda"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_El_Lencero",
+      "title": "Hacienda El Lencero - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://es.wikipedia.org/wiki/Hacienda_El_Lencero",
+      "title": "Patronato para la Administración y Conservación del Museo Exhacienda El Lencero, the administering body as the article's infobox names it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO URL of the trust's own was printed and none is invented. The infobox also prints 'Creación 1 de noviembre de 1986' and 'Superficie: Ocho hectáreas'."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-hacienda-el-lencero",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Hacienda_El_Lencero",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Está conformado por ocho hectáreas, dentro de las que se ubica una construcción tipo colonial de dos plantas, en la que se encuentran utensilios —como «ollas de barro, vajillas de talavera y cucharas de madera»—, una máquina de coser de época, dos carruajes de madera y una sala de música, una capilla, un lago y jardines con plantas como la Heliconia.",
+        "page": "Spanish Wikipedia, section 'Museo'. THE SPAN BEGINS MID-SENTENCE where the extract's chunk begins; the words before 'Está' carry the article's report of criticism of the restoration as 'inautenticidad' and 'históricamente aberrante[s]' and are not joined to this quote."
+      },
+      {
+        "field": "condition",
+        "text": "En medio de un extendido periodo de crisis económica para la Compañía, en 1923, dio inicio la afectación agrícola del terreno. Unas seiscientas hectáreas pasaron al poblado de El Chico; para 1930, El Lencero aún se conformaba por 3737 hectáreas. En 1935, Rafael Murillo Camacho compró veintiocho hectáreas que contenían los edificios principales y, en 1939, se expropiaron 3025 hectáreas más. En 1981, el gobierno estatal de Agustín Acosta Lagunes compró las ocho hectáreas que conforman el museo por doce millones de pesos.",
+        "page": "Spanish Wikipedia, section on the 20th century"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "una construcción tipo colonial de dos plantas",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "NOTE THE HEDGE IN THE SOURCE'S OWN WORDS: 'tipo colonial' -- colonial IN TYPE -- on a page that elsewhere reports the restoration being called historically aberrant. Two storeys is what stands; whether it is what stood is a question the article itself raises."
+    },
+    {
+      "name": "museum_area_ha",
+      "as_printed": "ocho hectáreas",
+      "from_quote": 0,
+      "note": "AN AREA IN HECTARES, AND THE SCHEMA'S UNIT ENUM CANNOT EXPRESS ONE, so no `value` and no `unit` are recorded. Eight hectares is the museum's own extent, bought by the state of Veracruz in 1981."
+    },
+    {
+      "name": "estate_area_ha_1930",
+      "as_printed": "para 1930, El Lencero aún se conformaba por 3737 hectáreas",
+      "from_quote": 1,
+      "note": "AN AREA IN HECTARES, AND THE SCHEMA'S UNIT ENUM CANNOT EXPRESS ONE, so no `value` and no `unit` are recorded. The pair 3,737 ha in 1930 and 8 ha in 1981 is the dismantling this node dates to the Revolution and the Cardenas expropriations, stated for one estate with figures."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche as the DOCUMENTARY case: a hacienda whose land record survives as a series of dated expropriations even though its architecture is barely described. It is also the one record in this cluster whose own source questions the authenticity of what a visitor sees, which is worth knowing before anybody measures a photograph of it."
+}

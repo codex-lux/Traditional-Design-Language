@@ -196,19 +196,46 @@
       "name": "James and Clara Butler House",
       "location": "Blakely, Georgia",
       "year": 1890,
-      "note": "A one-storey side-gabled Georgian-plan cottage with chamfered porch posts, scrollwork, and scrolled bargeboards in the gable ends; the folk plan is entirely intact behind the ornament."
+      "note": "A one-storey side-gabled Georgian-plan cottage with chamfered porch posts, scrollwork, and scrolled bargeboards in the gable ends; the folk plan is entirely intact behind the ornament.",
+      "precedent": "james-and-clara-butler-house",
+      "standing": "canonical",
+      "why": "Its own National Register nomination calls it 'a good example of a Folk Victorian-style Georgian cottage' and says it is one of only two in Blakely out of 127 historic single-family houses surveyed."
     },
     {
       "name": "Lizzie Garrard House",
       "location": "Beebe, Arkansas",
       "year": 1906,
-      "note": "One-and-a-half-storey frame house with a projecting front gable, cut shingles in the gable end, bargeboard, and a wraparound porch with turned posts, balusters, and a delicate spindlework valance."
+      "note": "One-and-a-half-storey frame house with a projecting front gable, cut shingles in the gable end, bargeboard, and a wraparound porch with turned posts, balusters, and a delicate spindlework valance.",
+      "precedent": "lizzie-garrard-house",
+      "standing": "regional",
+      "why": "Listed under the White County multiple-property submission, and called 'a good local example of Folk Victorian architecture' by the Wikipedia article this record carries; the nomination itself was not reached, so that phrase is a summary of the listing and not the nomination's own words."
     },
     {
       "name": "American Gothic House (Dibble House)",
       "location": "Eldon, Iowa",
       "year": 1882,
-      "note": "Usually classed as Carpenter Gothic, and cited here as the boundary case and the clearest single illustration of the type's mechanism: a plain folk cottage whose only architecture is a pair of Gothic sash believed to have been ordered from a catalogue."
+      "note": "Usually classed as Carpenter Gothic, and cited here as the boundary case and the clearest single illustration of the type's mechanism: a plain folk cottage whose only architecture is a pair of Gothic sash believed to have been ordered from a catalogue.",
+      "precedent": "american-gothic-house",
+      "standing": "icon",
+      "why": "The boundary case the node itself argues from: the register lists it as the Dibble House, and the Carpenter Gothic style word that keeps it out of this node is its Wikipedia infobox's rather than the register's."
+    },
+    {
+      "name": "Almand-O'Kelley-Walker House",
+      "location": "Conyers, Georgia",
+      "year": 1870,
+      "note": "A Reconstruction-era cottage with a wraparound porch on chamfered columns with decorative brackets, brackets again in the end gables and at the roof line, six original fireplaces and four original chimneys. Its nomination reproduces an owner-drawn plan, marked not to scale, whose rooms read 24 x 14 ft for the living room and a hall 9 ft wide -- the only room dimensions any source in this cluster supplies.",
+      "precedent": "almand-okelley-walker-house",
+      "standing": "canonical",
+      "why": "Its nomination calls it 'a good and very intact example of a Reconstruction-era Folk Victorian-style Cottage' and then states Georgia's own definition of the type in full, so the specimen and the definition arrive on one sheet."
+    },
+    {
+      "name": "Jonas McNair House",
+      "location": "Glendale, Arizona",
+      "year": 1897,
+      "note": "A one-storey wood-framed gable-front-and-wing cottage on a 45 x 170 ft townsite lot, set back about 40 ft, originally three rooms with front and back porches. Its own nomination says the classification rests 'solely on the use of turned wooden porch posts and classically detailed door and window casings' -- the node's thesis stated by a state reviewer about a real house.",
+      "precedent": "jonas-mcnair-house",
+      "standing": "documentary",
+      "why": "Plain, fully described in its own registration form, and outside the South, which is where the other four sit; it is here to be measured and read rather than admired."
     }
   ],
   "sources": [

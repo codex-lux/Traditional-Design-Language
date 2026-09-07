@@ -1,0 +1,53 @@
+{
+  "id": "brooklyn-heights-historic-district",
+  "name": "Brooklyn Heights Historic District brownstone rows (Willow, Hicks, and Remsen Streets)",
+  "record_kind": "district",
+  "location": {
+    "text": "Brooklyn, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": [
+      "Borough of Brooklyn, bounded by Atlantic Ave., Court and Fulton Sts. and the East River"
+    ]
+  },
+  "aka": [
+    "Brooklyn Heights Historic District"
+  ],
+  "dates": {
+    "built": "c. 1850-1870",
+    "circa": true,
+    "note": "The style node's exemplar dates the rows 'roughly 1850-1870' and gives a nominal year of 1860. The district as listed covers a far wider span, Federal through Romanesque Revival, and this record is the district's, not one house's."
+  },
+  "nodes": [
+    "italianate-townhouse",
+    "romantic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "66000524",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Brooklyn",
+      "title": "Brooklyn Heights Historic District - listed October 15, 1966 (#66000524), 'Borough of Brooklyn, bounded by Atlantic Ave., Court and Fulton Sts. and the East River'; also a National Historic Landmark",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing, which names many contributing buildings and is not an identity for any one of them. Read from Wikipedia's Brooklyn NRHP list, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.tclf.org/brooklyn-heights-historic-district",
+      "title": "Brooklyn Heights Historic District | The Cultural Landscape Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'The neighborhood was designated a National Historic Landmark District in 1965, and was listed in the National Register of Historic Places in 1966.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.facebook.com/NYCLandmarks/posts/1286532510185526",
+      "title": "NYC Landmarks Preservation Commission - 60th anniversary of the Brooklyn Heights Historic District",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Commission's own post quotes its 1965 designation: it praised the neighbourhood's 'special character' that retains 'much of the atmosphere of a 19th-century urban community', and records that Brooklyn Heights was New York City's first designated historic district. Recorded because the style node's exemplar and its own sources list both rest on that designation."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. A district, deliberately, and the checker's own rule says a district reference is not an identity for a building. It is carried because the italianate-townhouse node's claim is explicitly collective -- 'houses that are individually ordinary and collectively magnificent' -- and a corpus that only ever cites single houses cannot hold that claim against anything. The corpus's own source list already names the Landmarks Preservation Commission's 1965 designation report for this district; this record gives that citation a locator."
+}

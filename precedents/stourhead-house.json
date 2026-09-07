@@ -1,0 +1,118 @@
+{
+  "id": "stourhead-house",
+  "name": "Stourhead House",
+  "location": {
+    "text": "Stourton, Wiltshire, England",
+    "country": "United Kingdom",
+    "state": "Wiltshire"
+  },
+  "dates": {
+    "built": "1721-1724",
+    "circa": false,
+    "altered": "Library and picture gallery pavilions added 1796-1800 for Colt Hoare; east portico added 1840, from Campbell's C18 design; central block rebuilt 1902-06 by Doran Webb and Sir Aston Webb following the 1902 fire; balustraded parapets with ball finials added c1904.",
+    "note": "The list entry says '1721-24 for Henry Hoare by Colen Campbell'. The Wikipedia infobox says 'House: 1721-1724, destroyed in fire, rebuilt 1906'. They agree on the build and differ only in how much weight they give the rebuilding."
+  },
+  "nodes": [
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1131104",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1131104",
+      "title": "Stourhead House, Stourton with Gasper - 1131104 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details header prints '6.1.66'; a search result's Overview block prints 'Grade: I ; List Entry Number: 1131104 ; Date first listed: 06-Jan-1966', and the Wikipedia infobox prints 'Designated 6 January 1966, Reference no. 1131104'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Stourhead",
+      "title": "Stourhead - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried as the second surface for the list entry number and designation date, and for the fire and 1906 rebuilding."
+    }
+  ],
+  "survey": {
+    "item": "1131104",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1131104",
+    "prepared": "Historic England's National Heritage List entry; the Details header prints 'STOURTON WITH GASPER STOURHEAD PARK ST 73 SE (south side) 6/156 Stourhead House 6.1.66 GV I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "STOURTON WITH GASPER STOURHEAD PARK ST 73 SE (south side) 6/156 Stourhead House 6.1.66 GV I Country house. 1721-24 for Henry Hoare by Colen Campbell, library and picture gallery pavilions added 1796-1800 for Colt Hoare, east portico added 1840, 1902-06 rebuilding of central block by Doran Webb and Sir Aston Webb, following 1902 fire.",
+        "page": "Official list entry 1131104, Details, header and opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Limestone ashlar, Lakeland slate hipped roofs, ashlar stacks. Central C18 range with added wings and pavilions, service court on north side. Two-storey over basements, 5-window.",
+        "page": "Official list entry 1131104, Details, opening paragraph"
+      },
+      {
+        "field": "porches",
+        "text": "Tetrastyle portico added 1840, from Campbell's C18 design, Composite columns to modillioned cornice and pediment with lead statue, from the Temple of Apollo (q.v.), chamfered rusticated basement with 6-pane sashes, balustraded steps up to portico flanked by large urns on plinths.",
+        "page": "Official list entry 1131104, Details, east front"
+      },
+      {
+        "field": "openings",
+        "text": "Principal floor has double half-glazed doors flanked by cross windows within portico, casement with pediment either side. First floor has 3 blind windows in moulded architraves with 2-light casement in eared and shouldered architrave either side, modillioned cornice to balustraded parapet with corner urns, attic block above pediment also with statues from Temple of Apollo.",
+        "page": "Official list entry 1131104, Details, east front"
+      },
+      {
+        "field": "bays",
+        "text": "Right and left returns of main block of ten bays; principal floors have Venetian windows and cross windows, all in Gibbs surrounds, first floors have ten cross windows in moulded architraves, good lead rainwater heads dated 1722.",
+        "page": "Official list entry 1131104, Details, returns of the main block"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two-storey over basements, 5-window",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "front_bay_count",
+      "as_printed": "Two-storey over basements, 5-window",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "side_bay_count",
+      "as_printed": "main block of ten bays",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "Tetrastyle portico added 1840",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A READING: tetrastyle is four columns. The portico is an 1840 addition made from Campbell's own eighteenth-century design, so it is Campbell's intention executed a century late -- worth stating because a measurement of it is not a measurement of the 1721-24 house."
+    },
+    {
+      "name": "basement_sash_pane_count",
+      "as_printed": "chamfered rusticated basement with 6-pane sashes",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "first_floor_blind_window_count",
+      "as_printed": "First floor has 3 blind windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. Added as the plain, well-documented Palladian block: five windows by ten bays over a rusticated basement, two storeys, hipped Lakeland slate. It is `documentary` rather than `canonical` because the entry itself says the central block was rebuilt 1902-06 after a fire, so the fabric a surveyor measures today is Edwardian over a Campbell plan, and the portico that reads as the building's face was put up in 1840. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

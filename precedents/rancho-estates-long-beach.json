@@ -1,0 +1,55 @@
+{
+  "id": "rancho-estates-long-beach",
+  "name": "Rancho Estates",
+  "aka": [
+    "Lakewood Rancho Estates",
+    "Cliff May Ranchos"
+  ],
+  "location": {
+    "text": "Long Beach, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1953-1954",
+    "circa": false
+  },
+  "nodes": [
+    "ranch-style"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rancho_Estates,_Long_Beach,_California",
+      "title": "Rancho Estates, Long Beach, California - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Rancho Estates, also known as Lakewood Rancho Estates, in Long Beach, California, is a neighborhood of homes built between 1953 and 1954. Designed by architects Cliff May and Chris Choate, it was the largest tract designed by May ... There are 700 homes in the neighborhood.' On the buildings: 'The L-shaped houses designed by Cliff May combine a rustic rancho design with modern use of floor-to-ceiling glass, and feature the patio as an integral part of the home. They were built using pre-fabricated panels developed by Choate. Low-pitched gabled roofs with wide overhangs helped to keep the homes cool during the summer.' Cost $7,500 to build and sold for around $11,000."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.laconservancy.org/learn/historic-places/rancho-estates",
+      "title": "Rancho Estates - Los Angeles Conservancy",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Of the many tract housing developments Cliff May designed in the 1950s, the largest (and one of the highest-praised) was Lakewood Rancho Estates in Long Beach ... Completed in 1953-1954, Rancho Estates was part of the larger Lakewood development, but was designed separately by May and his architect partner Chris Choate ... The homes of Rancho Estates are all Contemporary Ranch in style and represent several different models, most of which are L-shaped and have three or four bedrooms. They have shallow gabled roofs, clerestory windows, and board and batten siding.' Developer named as Ross Cortese."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.eichlernetwork.com/article/cliff-may-ranchos-rancho-estates-long-beach",
+      "title": "The Cliff May Ranchos of Rancho Estates - Long Beach | Eichler Network",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Throughout the 700-home neighborhood -- built in 1953 and 1954 by developer Ross Cortese as part of the larger Lakewood development and designed by May ... May, a building designer, never became an architect, though he was given an honorary designation of \"AIA\" in his later years. His partner, Chris Choate, provided the needed license.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.usmodernist.org/may.htm",
+      "title": "Cliff May - USModernist (project list)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Lists the subdivision as 'Lakewood Rancho Estates' among May's tracts; the same list carries the O'Leary and Lindstrom houses used by the other two Cliff May records here."
+    }
+  ],
+  "note": "The bridge between this node's two halves: May's own design, and 700 of them, built by a merchant builder inside the Lakewood development. It is the case where the custom ranch and the tract ranch are the same building, which is why the node can hold both without contradiction. Attribution is worth stating exactly: Wikipedia and the Conservancy call May and Choate 'architects'; the Eichler Network says plainly that May was never licensed and that Choate provided the licence. No survey, no register listing, and no plan dimension found -- 1,568 sq ft appears on a real-estate listing for one expanded house and is not recorded here, because a listing for an altered house is not a figure for the model."
+}

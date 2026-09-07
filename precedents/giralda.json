@@ -1,0 +1,112 @@
+{
+  "id": "giralda",
+  "name": "Giralda",
+  "aka": [
+    "La Giralda",
+    "minaret of the Great Mosque of Seville"
+  ],
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "1184-1198",
+    "circa": false,
+    "altered": "The Renaissance belfry added over the second shaft after the 1356 earthquake brought down the original finial; the mosque it served was replaced by the Gothic cathedral from 1401.",
+    "note": "The article states that construction of the minaret began in 1184 under Ben Ahmad Baso and that, per the chronicler Ibn Sahib al-Salah, 'the works were completed on 10 March 1198'."
+  },
+  "nodes": [
+    "moorish-andalusian"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "383bis-001",
+      "url": "https://en.wikipedia.org/wiki/Giralda",
+      "title": "Cathedral, Alcázar and Archivo de Indias in Seville, component 383bis-001; inscribed 1987, extended 2010",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read in the article's World Heritage infobox, which prints 'Part of Cathedral, Alcázar and Archivo de Indias in Seville', 'Reference 383bis-001' and 'Inscription 1987 (11th Session)'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Giralda",
+      "title": "Giralda - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Seville_Cathedral",
+      "title": "Seville Cathedral - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried because it prints a SECOND and different set of figures for the same tower: 'its square base is 7.0 m (23 ft) above sea level and 13 m (44 ft) long per side' and 'The total height of the Giralda tower from the ground to the weather vane is 104.5 m (342 ft 10 in)'. The Giralda article gives the base as 13.6 m. Neither is changed."
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-giralda",
+    "register": "wikipedia",
+    "data_url": "https://en.wikipedia.org/wiki/Giralda",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the article's own citation for the fifteenth-century plan of the cathedral is Ruiz and Jiménez Martín, 'A Fifteenth-Century Plan of the Cathedral of Seville', Architectural History 55 (2012), 57-77, which was not read here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "foundations",
+        "text": "The base at street level is a square of 13.6 m (45 ft) on the side and which sits on a solid foundation which is a bit wider, 15–16 m (49.21–52.49 ft) and about 5 m (16 ft) deep. The foundation is built with solid, rectangular stones, some taken and reused from the nearby walls of the former Abbadid palace and from the Roman city walls.",
+        "page": "English Wikipedia, section on the minaret; the sentence is followed in the extract by the marker '[citation needed]'"
+      },
+      {
+        "field": "general_description",
+        "text": "The tower consists of two sections: the main shaft and a much smaller second shaft, superimposed on top of it, which is enveloped today by the Renaissance-era belfry. The main shaft is 50.51 m (165.7 ft) tall and the second shaft is 14.39 m (47.2 ft) tall and has a square base measuring 6.83 m (22.4 ft).",
+        "page": "English Wikipedia, section on the minaret"
+      },
+      {
+        "field": "plan",
+        "text": "It had a rectangular floor plan measuring approximately 113 by 135 meters. The prayer hall was symmetrical and airy, with a still-extant courtyard, the Patio de los Naranjos, or \"Courtyard of Orange Trees.\"",
+        "page": "English Wikipedia, section on the Great Mosque of Seville that the minaret served"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "tower_base_side_ft",
+      "as_printed": "a square of 13.6 m (45 ft) on the side",
+      "value": 45,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The article's own foot conversion is taken rather than a recomputation. The Seville Cathedral article prints 13 m (44 ft) for the same dimension; the disagreement is recorded in the refs and neither figure is changed."
+    },
+    {
+      "name": "foundation_depth_ft",
+      "as_printed": "about 5 m (16 ft) deep",
+      "value": 16,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "tower_shaft_height_ft",
+      "as_printed": "The main shaft is 50.51 m (165.7 ft) tall",
+      "value": 165.7,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The Almohad shaft alone, below the Renaissance belfry. Against the 45 ft base this is a slenderness of 3.7 to 1; that ratio is a DERIVATION from two figures in one quote and is deliberately not recorded as a measurement of its own."
+    },
+    {
+      "name": "upper_shaft_side_ft",
+      "as_printed": "a square base measuring 6.83 m (22.4 ft)",
+      "value": 22.4,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "mosque_plan_width_ft",
+      "as_printed": "approximately 113 by 135 meters",
+      "from_quote": 2,
+      "note": "Of the mosque, not the tower. Two figures with no front stated and no foot conversion printed; no value is parsed rather than choosing one and converting it."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. Almohad rather than Nasrid, and it is here because the node's own text makes the horseshoe arcade and the blind wall the founding moves of the tradition and carries no Almohad exemplar at all."
+}

@@ -220,19 +220,55 @@
       "name": "Isaac Bell House",
       "location": "Newport, Rhode Island",
       "year": 1883,
-      "note": "McKim, Mead and White, 1881-83. Shingled walls over a brick base, bamboo-turned porch columns, an open living hall, and a Japanese-influenced lightness; the most complete surviving statement of the style."
+      "note": "McKim, Mead and White, 1881-83. Shingled walls over a brick base, bamboo-turned porch columns, an open living hall, and a Japanese-influenced lightness; the most complete surviving statement of the style.",
+      "precedent": "isaac-bell-house",
+      "standing": "icon",
+      "why": "The node's own exemplar calls it 'the most complete surviving statement of the style', the 1971 surveyor calls it 'a typical example of the Shingle Style ... distinguished by the extreme open character of its planning', and it is the building the Library's own HABS highlights page chose for Rhode Island."
     },
     {
       "name": "Mary Fiske Stoughton House",
       "location": "Cambridge, Massachusetts",
       "year": 1883,
-      "note": "H. H. Richardson, 1882-83. Shingles stretched over irregular volumes as a taut skin with minimal ornament; the building that demonstrated the surface doctrine in wood."
+      "note": "H. H. Richardson, 1882-83. Shingles stretched over irregular volumes as a taut skin with minimal ornament; the building that demonstrated the surface doctrine in wood.",
+      "precedent": "mary-fiske-stoughton-house",
+      "standing": "canonical",
+      "why": "SAH Archipedia calls it 'Richardson's purest engagement with the American Shingle tradition' and the node's note says it 'demonstrated the surface doctrine in wood'; the 1969 HABS data page gives its 48 x 92 ft and 9 ft ceilings."
     },
     {
       "name": "William Watts Sherman House",
       "location": "Newport, Rhode Island",
       "year": 1876,
-      "note": "H. H. Richardson, 1874-76. The prototype, and simultaneously an American Queen Anne; contemporaries reported that builders could not find a name for it, which is the reticulation problem stated by the people who were there."
+      "note": "H. H. Richardson, 1874-76. The prototype, and simultaneously an American Queen Anne; contemporaries reported that builders could not find a name for it, which is the reticulation problem stated by the people who were there.",
+      "precedent": "william-watts-sherman-house",
+      "standing": "canonical",
+      "why": "The prototype by the node's own account and Wikipedia's ('the prototype for what became known as the Shingle Style'), and the register's own style word for it is Queen Anne -- which is the reticulation problem the node names, stated by the record."
+    },
+    {
+      "name": "Newport Casino",
+      "location": "Newport, Rhode Island",
+      "year": 1881,
+      "note": "McKim, Mead and White, 1879-81, for James Gordon Bennett Jr.: the firm's first major commission, a shingled club of shops, courts and apartments around a lawn, and the surface doctrine's first public statement. National Historic Landmark 1987; HABS RI-331 holds twenty-one data pages that could not be fetched from here.",
+      "precedent": "newport-casino",
+      "standing": "canonical",
+      "why": "Wikipedia: 'The Newport Casino was the firm's first major commission and helped to establish the firm's national reputation', in the Shingle style, two years before the Bell house."
+    },
+    {
+      "name": "William G. Low House",
+      "location": "Bristol, Rhode Island",
+      "year": 1887,
+      "note": "Charles McKim, 1886-87: the whole house under one enormous gable, the style reduced to a single shape. Demolished in 1962, and photographed by HABS (RI-346) just before -- so a precedent with no register number, kept because the literature names it first.",
+      "precedent": "william-g-low-house",
+      "standing": "icon",
+      "why": "Leland Roth, quoted by Wikipedia: 'the Low House has come to represent the high mark of the Shingle Style'; Scully saw it as 'at once a climax and a kind of conclusion' for McKim."
+    },
+    {
+      "name": "Redwood",
+      "location": "Bar Harbor, Maine",
+      "year": 1879,
+      "note": "William Ralph Emerson, 1879, for C. J. Morrill: the first Shingle Style house in Bar Harbor and among the earliest anywhere, and one of the few of the resort's cottages to survive. National Register 1978.",
+      "precedent": "redwood-bar-harbor",
+      "standing": "regional",
+      "why": "The National Register nomination calls it 'one of the first, if not the earliest' of the style, and Wikipedia 'the first Shingle style house built in Bar Harbor' -- the Maine resort end of the node's geography."
     }
   ],
   "sources": [

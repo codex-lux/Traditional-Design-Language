@@ -1,0 +1,69 @@
+{
+  "id": "manoir-dargentelles",
+  "name": "Manoir d'Argentelles",
+  "location": {
+    "text": "Villebadin, Gouffern en Auge, Orne, France",
+    "country": "France",
+    "state": "Orne, Normandie"
+  },
+  "dates": {
+    "built": "1414 ; 1632",
+    "circa": false,
+    "altered": "The Mérimée notice records one addition only: « La seule adjonction fut celle des deux grandes lucarnes de pierre du couronnement sculptées en 1632. »",
+    "note": "The notice's century field says « 15e siècle » while its campaign-year field says « 1414 ; 1632 » and the French Wikipedia article says the manor « a été bâti en 1410 ». Recorded, not resolved."
+  },
+  "nodes": [
+    "french-manoir"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00110967",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00110967",
+      "title": "Manoir d'Argentelles - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_d%27Argentelles",
+      "title": "Manoir d'Argentelles — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints « Type Manoir, maison forte », « Fondation XVe siècle-XVIe siècle » and « Classé MH (façade et toit en 1966) Inscrit MH (1926) »."
+    }
+  ],
+  "survey": {
+    "item": "PA00110967",
+    "register": "merimee",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00110967",
+    "prepared": "Date de dernière modification de la notice 24 juillet 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Argentelles fut, au Moyen-Age, un poste avancé de défense du chteau fort et de la ville d'Exmes. Il se composait alors d'une tour ou d'une palissade circulaire plantée sur une motte entourée de fossés. Cette motte subsiste encore et la tour de défense a été transformée en colombier. Pendant l'occupation anglaise de 1417 à 1449, le manoir tomba aux mains d'officiers anglais. Henri IV y fit un séjour en 1591. Au point de vue architectural, le manoir présente cette particularité, rare dans les manoirs normands, d'avoir été conçu et exécuté d'une seule traite. La seule adjonction fut celle des deux grandes lucarnes de pierre du couronnement sculptées en 1632.",
+        "page": "Notice Mérimée PA00110967, section « Historique de l'édifice », champ Description historique"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 15e siècle Année(s) de(s) campagne(s) de construction 1414 ; 1632",
+        "page": "Notice Mérimée PA00110967, section « Historique de l'édifice », liste des champs"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "crowning_dormer_count",
+      "as_printed": "deux grandes lucarnes de pierre du couronnement sculptées en 1632",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The stone lucarnes of the crowning, carved in 1632 and the notice's only recorded addition. This is a count of the DORMERS THE NOTICE NAMES as an addition, not necessarily of every dormer on the building."
+    }
+  ],
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00110967",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. New exemplar. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. Chosen for the sentence « d'avoir été conçu et exécuté d'une seule traite »: a Norman manoir that is a single build rather than a palimpsest is the rare case in which one building's proportions can be read as one decision, which is what a type specimen has to be."
+}

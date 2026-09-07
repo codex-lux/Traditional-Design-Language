@@ -1,0 +1,68 @@
+{
+  "id": "villard-houses",
+  "name": "Villard Houses",
+  "record_kind": "group",
+  "aka": [
+    "Henry Villard Houses",
+    "Lotte New York Palace Hotel (part)"
+  ],
+  "location": {
+    "text": "451 Madison Avenue, New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1882-1884",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1882-1884'; the node's exemplar says 1884 and its prose dates the design to 1882."
+  },
+  "nodes": [
+    "italian-renaissance-revival",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-5635",
+      "url": "https://www.loc.gov/pictures/item/ny0927",
+      "title": "Villard Houses, 451-457 Madison Avenue & 24 East Fifty-first Street, New York County, NY",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Survey number: HABS NY-5635'. The data PDF, read by extract the same day, is an inventory of 1977 photogrammetric stereopairs ('10 2.25\" x 2.25\" glass plate negatives (5 stereopairs) Produced by Perry E. Borchers of the Ohio State Univeristy') and says 'Data page 1 was previously transmitted to the Library of Congress. This is data page 2.' -- it carries no descriptive text, so no survey block is recorded."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0927",
+      "url": "https://www.loc.gov/pictures/item/ny0927",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item record lists a 'pdf version of data pages [130kb]' and 35 sheets of measured drawings."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/resource/hhh.ny0927.sheet.00001a",
+      "title": "HABS NY,31-NEYO,120- (sheet 1 of 35) - Villard Houses, 451-457 ...",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The sheet's own caption: 'Appearing as a single Italian palazzo, the Villard Houses were actually six residences built around a central courtyard by architects, McKim, Mead and White.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "75001210",
+      "url": "https://en.wikipedia.org/wiki/Villard_Houses",
+      "title": "NRHP reference No. 75001210; added September 2, 1975; NYSRHP No. 06101.004572; NYCL No. 0268-0270, designated September 30, 1968 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Villard_Houses",
+      "title": "Villard Houses - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The archdiocese hired William Shopsin in January 1976 to conduct a historical survey of the Villard Houses. Shopsin recorded the buildings' architectural details for the Historic American Buildings Survey.'"
+    }
+  ],
+  "note": "The Library holds 35 measured sheets for this building and the written data that reached us is a plate inventory; the dimensions live on the sheets, which this container cannot open. The Wikipedia article states a frontage of 60 ft on Madison Avenue and 74 ft on 51st Street for the lot under 457 Madison, which is a lot and not the building. Seeded 4 Sep 2026."
+}

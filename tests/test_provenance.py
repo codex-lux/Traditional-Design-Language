@@ -27,7 +27,29 @@ def census():
                 out[pv.get("kind")] = out.get(pv.get("kind"), 0) + 1
                 if pv.get("kind") == "editorial" and not pv.get("source") and not pv.get("note"):
                     out["bare"] = out.get("bare", 0) + 1
+                if pv.get("kind") == "measured" and not pv.get("source"):
+                    out["measured-bare"] = out.get("measured-bare", 0) + 1
+                    if not s.get("sources"):
+                        out["measured-bare-slot"] = out.get("measured-bare-slot", 0) + 1
     return out
+
+
+def test_a_measured_parameter_with_no_source_is_counted_and_may_only_fall():
+    """WP-11.1. For a year this census counted editorial-with-nothing (0) and never
+    measured-with-nothing, which VISION.md calls the worst thing that can be done to the corpus:
+    `measured` means "from surviving fabric or a documented standard", and 672 of 1,161 said so
+    with no `source` on the parameter -- 542 on a slot with no `sources[]` either. The style node
+    cites five books and the slot carries a rule, so the number is probably defensible; nothing
+    says WHICH book gives 7:12, so a reader cannot check. Ceilings: they fall when somebody sources
+    a figure (`precedents/<id>#survey.<field>` is the convention, checked by
+    build/check_precedents.py), and never by re-kinding in bulk, which moves the 202 above."""
+    c = census()
+    assert c.get("measured-bare", 0) <= 672, c.get("measured-bare")
+    assert c.get("measured-bare-slot", 0) <= 542, c.get("measured-bare-slot")
+    assert c.get("measured-bare-slot", 0) <= c.get("measured-bare", 0)
+    proc = subprocess.run([sys.executable, os.path.join(ROOT, "build", "check_kits.py")],
+                          cwd=ROOT, capture_output=True, text=True)
+    assert "measured with NO source on the parameter" in proc.stdout
 
 
 def test_the_census_is_printed_by_the_checker_and_the_percentages_are_of_one_denominator():
@@ -38,7 +60,7 @@ def test_the_census_is_printed_by_the_checker_and_the_percentages_are_of_one_den
     line = next(l for l in proc.stdout.splitlines() if "parameters by provenance" in l)
     total = int(line.split("(")[1].split(" ")[0])
     c = census()
-    assert total == sum(v for k, v in c.items() if k != "bare")
+    assert total == sum(v for k, v in c.items() if k not in ("bare", "measured-bare", "measured-bare-slot"))
     assert "editorial with NEITHER a source NOR a note" in proc.stdout
 
 

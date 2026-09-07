@@ -1,0 +1,73 @@
+{
+  "id": "whitney-plantation",
+  "name": "Whitney Plantation",
+  "aka": [
+    "Habitation Haydel",
+    "Whitney Plantation Historic District"
+  ],
+  "location": {
+    "text": "Wallace, St. John the Baptist Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1790",
+    "circa": true,
+    "note": "The Wikipedia infobox says 1790 and 'Federal, French Creole'; the loc.gov catalogue entry for HABS LA-1194 prints '1810 Initial Construction'. Wikipedia's text dates the plantation's founding, as Habitation Haydel, to 1752. Recorded as the register has it, with the catalogue's date beside it."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1194",
+      "title": "Whitney Plantation, Louisiana Route 18, Wallace, St. John the Baptist Parish, LA",
+      "url": "https://www.loc.gov/pictures/item/la0244",
+      "note": "The loc.gov item page prints 'Survey number: HABS LA-1194; Building/structure dates: 1810 Initial Construction; National Register of Historic Places NRIS Number: 92001566'. The data PDF's addendum cover prints 'FIELD RECORDS HABS LA-1194 HABS LA,48-WAL,1-'. The outbuildings are a separate item, la0243.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0244",
+      "url": "https://www.loc.gov/pictures/item/la0244",
+      "title": "Whitney Plantation, Louisiana Route 18, Wallace, St. John the Baptist Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "92001566",
+      "url": "https://en.wikipedia.org/wiki/Whitney_Plantation_Historic_District",
+      "title": "NRHP reference No. 92001566; added November 24, 1992, under Louisiana's French Creole Architecture MPS (as the Wikipedia infobox prints it)",
+      "note": "The loc.gov item page prints the same NRIS number, so this one is read on two surfaces.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Whitney_Plantation_Historic_District",
+      "title": "Whitney Plantation Historic District - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "la0244",
+    "register": "loc-item",
+    "survey_no": "LA-1194",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0200/la0244/data/la0244data.pdf",
+    "prepared": "Not stated on the extracted covers (reduced copies of measured drawings and field records)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "FIELD RECORDS HABS LA-1194 HABS LA,48-WAL,1-ADDENDUM TO: WHITNEY PLANTATION (Habitation Haydel) Louisiana Route 18 Wallace St. John the Baptist Parish Louisiana HISTORIC AMERICAN BUILDINGS SURVEY National Park Service U.S. Department of the Interior 1849 C Street NW Washington, DC 20240-0001",
+        "page": "Addendum cover; no page number printed"
+      }
+    ]
+  },
+  "note": "Both extract queries returned only the covers of the drawings and field records; no descriptive data was reached, so nothing about the fabric is quoted.",
+  "nodes": [
+    "raised-creole-plantation"
+  ]
+}

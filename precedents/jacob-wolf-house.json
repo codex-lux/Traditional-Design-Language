@@ -1,0 +1,49 @@
+{
+  "id": "jacob-wolf-house",
+  "name": "Jacob Wolf House",
+  "aka": [
+    "Wolf House"
+  ],
+  "location": {
+    "text": "Norfork, Baxter County, Arkansas",
+    "country": "United States",
+    "state": "Arkansas"
+  },
+  "dates": {
+    "built": "1829",
+    "circa": false,
+    "altered": "Wikipedia: 'The building's original chinking has been replaced by modern mortaring.'",
+    "note": "Arkansas Heritage: 'The two-story dogtrot structure was constructed by Jacob Wolf in 1829 as the first permanent courthouse for Izard County in Arkansas Territory'; Wikipedia's infobox and text say 'built in 1825'; the Dogtrot house article says 'constructed around 1820'. The node's exemplar says 1829. All kept, none edited."
+  },
+  "nodes": [
+    "log-vernacular-american",
+    "dogtrot-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "73000380",
+      "url": "https://en.wikipedia.org/wiki/Jacob_Wolf_House",
+      "title": "NRHP reference No. 73000380; added April 13, 1973 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox's own style word is 'Saddle-Bag'; the text says 'Architecturally it's a \"saddle bag\", which is a two-story dog trot with the second floor built over the open breezeway.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Jacob_Wolf_House",
+      "title": "Jacob Wolf House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.arkansasheritage.com/arkansas-preservation/properties/jacob-wolf-house",
+      "title": "Jacob Wolf House",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner (Department of Arkansas Heritage). Its page quotes the National Park Service's 2013 study: 'Notably, it is the only surviving example with at least moderate historic integrity constructed for a civic purpose; the others were private homes or early stagecoach inns and taverns.'"
+    }
+  ],
+  "note": "No HABS survey was found: '\"Wolf House\" Norfork Baxter County Arkansas HABS AR survey' on loc.gov returned nothing at all. The dogtrot-vernacular node names it at the same location string and could join this record. Seeded 4 Sep 2026."
+}

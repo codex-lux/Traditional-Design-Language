@@ -1,0 +1,61 @@
+{
+  "id": "miami-biltmore-hotel",
+  "name": "Miami Biltmore Hotel",
+  "aka": [
+    "The Biltmore Hotel",
+    "Miami-Biltmore Hotel and Country Club",
+    "Biltmore Hotel Coral Gables"
+  ],
+  "location": {
+    "text": "Coral Gables, Florida",
+    "country": "United States",
+    "state": "Florida",
+    "aliases": [
+      "1200 Anastasia Ave, Coral Gables, Florida"
+    ]
+  },
+  "dates": {
+    "built": "1926",
+    "circa": false,
+    "note": "The National Historic Landmark nomination gives 'Period(s) of Significance: 1926-1942' and says the hotel 'opened on January 14, 1926'."
+  },
+  "nodes": [
+    "mediterranean-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Miami_Biltmore_Hotel",
+      "title": "Miami Biltmore Hotel - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The hotel was designed by Schultze and Weaver and built in 1926 by John McEntee Bowman and George Merrick as part of the Biltmore hotel chain. The hotel's tower is inspired by the Giralda, the medieval tower of the cathedral of Seville.' The infobox files the style as 'Mission/Spanish Revival/Italian Renaissance'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000306",
+      "url": "https://en.wikipedia.org/wiki/Miami_Biltmore_Hotel",
+      "title": "NRHP reference No. 72000306; added to the National Register 27 September 1972 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "72000306",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/72000306_text",
+      "title": "Miami-Biltmore Hotel & Country Club — National Historic Landmark nomination text (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's own description: 'The Miami-Biltmore Hotel and Country Club, located in the City of Coral Gables is a complex consisting of the Hotel and two auxiliary buildings. The north side of the property (main elevation) faces a residential neighborhood and the south side faces the Biltmore Golf Course.' It names the style 'The Mediterranean Revival' and the architects 'Leonard Schultze (1877-1951) and Spencer Weaver (1879-1939)'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://biltmorehotel.com/about-miami-resort",
+      "title": "About Us - The Biltmore Hotel",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The hotel's own address line: 'The Biltmore Hotel is a National Historic Landmark located at 1200 Anastasia Ave, Coral Gables, Florida 33134.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. THE STYLE NAME IS SETTLED HERE BY THE FEDERAL NOMINATION ITSELF, which calls the building 'The Mediterranean Revival' in its own descriptive paragraph while the Wikipedia infobox files it under the register's compound label 'Mission/Spanish Revival/Italian Renaissance'. That is the clearest instance in this cluster of the register's style vocabulary and the architectural literature's disagreeing, and both are recorded. No HABS survey was found."
+}

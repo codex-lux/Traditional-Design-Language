@@ -1,0 +1,117 @@
+{
+  "id": "durham-cathedral-nave",
+  "name": "Durham Cathedral nave",
+  "aka": [
+    "Cathedral Church of Christ and St Mary the Virgin",
+    "Durham Cathedral"
+  ],
+  "location": {
+    "text": "Durham, England",
+    "country": "England",
+    "state": "County Durham"
+  },
+  "dates": {
+    "built": "Main body 1093-1130",
+    "circa": false,
+    "altered": "Galilee 1189 for Bishop le Puiset; west tower tops, east bay and Chapel of nine altars 1242-c.1280; tower top stage 1464-88; restorations of late C18, early C19 and mid C19 by Bonomi and Jackson, Pickering and Robson and Fowler.",
+    "note": "The node's exemplar year is 1133; Historic England 1161023 gives the main body as 1093-1130. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "norman-romanesque-english"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1161023",
+      "title": "Cathedral Church of Christ and St Mary the Virgin",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1161023",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'NZ 2742 SW, 14/365 DURHAM AND FRAMWELLGATE, PALACE GREEN (south side) Cathedral Church of Christ and St Mary the Virgin 06.05.52 GV I'. The Church of England's Church Heritage Record for Durham Cathedral prints 'Historic England ID: 1161023', which is how this number was found."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000089",
+      "title": "Durham Castle and Cathedral, City of Durham - 1000089 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000089",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The World Heritage Site entry: 'Heritage Category: World Heritage Site', 'List Entry Number: 1000089', 'Date first listed: 1986', 'Date of most recent amendment: 2008'. Read from a search result only."
+    },
+    {
+      "kind": "unesco",
+      "id": "370",
+      "title": "Durham Castle and Cathedral",
+      "url": "https://en.wikipedia.org/wiki/Durham_Cathedral",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The inscription reference as the Wikipedia infobox prints it in a search result: 'Reference | 370', 'Inscription | 1986 (10th Session)'. An infobox field value, not prose, and not read on UNESCO's own site from here."
+    }
+  ],
+  "survey": {
+    "item": "1161023",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1161023",
+    "prepared": "The Details section's own legacy header: 'NZ 2742 SW, 14/365 DURHAM AND FRAMWELLGATE, PALACE GREEN (south side) Cathedral Church of Christ and St Mary the Virgin 06.05.52 GV I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Cathedral church, originally of Benedictine Priory, refounded 1541 as secular cathedral.",
+        "page": "Official list entry, Details, opening line"
+      },
+      {
+        "field": "general_description",
+        "text": "Main body 1093-1130, begun by Bishop William of St. Calais; Galilee 1189 for Bishop le Puiset. West tower tops, east bay and Chapel of nine altars, 1242-c.1280. 1464-88 tower top stage. Restorations of late C18, early C19 and mid C19, notably by Bonomi and Jackson, Pickering and Robson and Fowler. Dressed sandstone; slate roofs. Cruciform with aisles, east transept aisles, transeptal eastern chapel, crossing tower, twin west towers and western Galilee.",
+        "page": "Official list entry, Details, following the opening line"
+      },
+      {
+        "field": "structural_system",
+        "text": "INTERIOR: tall 7-bay nave has alternating compound and incised round piers. Intersecting blank arcading to ground stage with single lights above; paired arches to gallery bays, three stepped arches in clerestory. Rib-vaulted throughout, many ribs enriched.",
+        "page": "Official list entry, Details, INTERIOR paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Galilee: five aisles of even width, four bays; quatrefoil piers with waterleaf capitals and rich chevron mouldings to arches and vault ribs.",
+        "page": "Official list entry, Details, INTERIOR paragraph, following the nave description"
+      },
+      {
+        "field": "bays",
+        "text": "Eastern transept nine bays wide, divided into three and then into single bays by large buttresses.",
+        "page": "Official list entry, Details, exterior description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "nave_bay_count",
+      "as_printed": "tall 7-bay nave",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "galilee_bay_count",
+      "as_printed": "five aisles of even width, four bays",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "galilee_aisle_count",
+      "as_printed": "five aisles of even width",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "eastern_transept_bay_count",
+      "as_printed": "Eastern transept nine bays wide",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. The exemplar names the NAVE and this record is the cathedral that contains it -- `oq/an-exemplar-that-is-not-one-whole-building`; Historic England lists the whole church as one entry. The node's exemplar note says plainly that this building is not domestic, and the record is kept for the reason the note gives. THE ENTRY DOES NOT SAY THE HIGH VAULT IS THE FIRST OF ITS KIND IN EUROPE -- it says only 'Rib-vaulted throughout, many ribs enriched' -- so the exemplar's `why` does not repeat that claim. Extracted twice with different queries; the second returned the Details header the first had not."
+}

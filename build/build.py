@@ -7,7 +7,7 @@ Outputs
   dist/taxonomy.agent.md a compact context-window digest, one block per node
   dist/taxonomy.html     the interactive phylogeny
 """
-import json, os, glob, html, re, sys
+import json, os, glob, html, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
@@ -192,6 +192,26 @@ for n in order:
     lines.append("")
 open("dist/taxonomy.agent.md","w").write("\n".join(lines))
 
+# ---------- 5. taxonomy.html ----------
+# THIS DOCSTRING NAMED A FILE THIS SCRIPT NEVER WROTE, and that is why the plate went stale: a
+# reader running `build.py` -- which `check_all.py` runs on every build -- reasonably believed the
+# interactive phylogeny was regenerated with the other two artifacts. It was not, and `render_html.py`
+# is in no check, so `dist/taxonomy.html` drifted across the whole of Phase 11: it still carried
+# `Hess, The Ranch House`, the one string WP-11.7 normalised away, and predated Ruling B's family
+# specimens and the `standing` field the exemplar list now renders.
+#
+# `dist/taxonomy.json` gets its freshness from being written HERE, inside a script check_all runs.
+# The third generated artifact now gets it the same way, at 0.2 s, rather than by adding a 47th
+# check -- which would move TOTAL_CHECKS and drag CLAUDE.md's published total and its `N of M`
+# illustration with it for no coverage gained. Subprocess rather than import: render_html.py does
+# `os.chdir(ROOT)` at module scope.
+_html = subprocess.run([sys.executable, os.path.join(ROOT, "build", "render_html.py")],
+                       capture_output=True, text=True, cwd=ROOT)
+if _html.returncode != 0:
+    print("render_html.py FAILED:\n" + _html.stdout + _html.stderr)
+    sys.exit(1)
+
 print(f"kits written: {made}  (ontology {slots_doc['version']}, kit schema {KIT_VERSION}, {len(SLOTS)} slots)")
 print(f"dist/taxonomy.json  {os.path.getsize('dist/taxonomy.json')/1e6:.2f} MB")
 print(f"dist/taxonomy.agent.md {os.path.getsize('dist/taxonomy.agent.md')/1e3:.0f} KB")
+print(f"dist/taxonomy.html  {os.path.getsize('dist/taxonomy.html')/1e6:.2f} MB")

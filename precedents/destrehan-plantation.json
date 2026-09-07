@@ -1,0 +1,74 @@
+{
+  "id": "destrehan-plantation",
+  "name": "Destrehan Plantation",
+  "aka": [
+    "Destrehan Manor House"
+  ],
+  "location": {
+    "text": "Destrehan, St. Charles Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1787-1790",
+    "circa": false,
+    "altered": "Given Greek Revival columns in an 1840 remodelling (the node's own note); the Wikipedia infobox lists both styles.",
+    "note": "The Wikipedia infobox and the loc.gov item page agree on 1787-1790 and name Charles Paquet as builder; the node's exemplar says 1787-90."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1212",
+      "title": "Destrehan Plantation, 13034 River Road, Destrehan, St. Charles Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0200/la0287/data/la0287data.pdf",
+      "note": "The addendum's running head prints 'DESTREHAN PLANTATION HABS No. LA-1212 (page 2)'. The loc.gov item page prints the call number 'HABS LA,45-DEST,1-' and 'dates: 1787-1790 Initial Construction'. The garconnieres are a separate item, la0313.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0287",
+      "url": "https://www.loc.gov/pictures/item/la0287",
+      "title": "Destrehan Plantation, 13034 River Road, Destrehan, St. Charles Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73002132",
+      "url": "https://en.wikipedia.org/wiki/Destrehan_Plantation",
+      "title": "NRHP reference No. 73002132; added March 20, 1973 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Destrehan_Plantation",
+      "title": "Destrehan Plantation - Wikipedia",
+      "note": "Says the building contract on file at the St. Charles Parish courthouse makes it 'the oldest documented house in the lower Mississippi River Valley'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "la0287",
+    "register": "loc-item",
+    "survey_no": "LA-1212",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0200/la0287/data/la0287data.pdf",
+    "prepared": "An addendum reproducing Richard Koch's 1930s photo mount cards (as the addendum text says); no descriptive data page was reached",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "ADDENDUM TO: HABS LA-1212 DESTREHAN PLANTATION LA,4^DEST,1- River Road Destrehan St. Charles Parish Louisiana WRITTEN HISTORICAL AND DESCRIPTIVE DATA FIELD RECORDS HISTORIC AMERICAN BUILDINGS SURVEY National Park Service U.S. Department of the Interior 1849 C Street NW Washington, DC 20240-0001",
+        "page": "Addendum cover; the next marker reads 'DESTREHAN PLANTATION HABSNo. LA-1212 (page 2)'"
+      }
+    ]
+  },
+  "note": "Both extract queries returned the addendum's cover and its general note on the Koch photo-card appendix; the pages carry no description of the fabric, so none is quoted.",
+  "nodes": [
+    "raised-creole-plantation"
+  ]
+}

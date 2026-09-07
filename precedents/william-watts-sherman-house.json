@@ -1,0 +1,222 @@
+{
+  "id": "william-watts-sherman-house",
+  "name": "William Watts Sherman House",
+  "aka": [
+    "Watts Sherman House"
+  ],
+  "location": {
+    "text": "Newport, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1875-1876",
+    "circa": false,
+    "altered": "The survey: 'Stanford White, after his return from Europe in 18T9, remodeled the interior and en- larged the house to the east'; 'southeast bay ext^ded about 20 feet, service extended to the north, modern brick wing added to northeast'.",
+    "note": "Wikipedia's text and the Library's item summary say 1875-1876; the Wikipedia infobox prints 'Built 1875'; the node's exemplar says 1874-76. Kept as the article states it."
+  },
+  "nodes": [
+    "shingle-style",
+    "queen-anne-american",
+    "queen-anne-free-classic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "RI-342",
+      "url": "https://www.loc.gov/pictures/item/ri0036",
+      "title": "William Watts Sherman House, 2 Shepard Avenue, Newport, Newport County, RI",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: '... erected in 1875-1876, is the prototype of the shingled Tudor Manor House in ...'. The Wikipedia external-links section, read the same day, gives the item as '10 photos, 16 data pages, 2 photo caption pages'. The survey number is printed in the data page's own running head ('WILLIAM WATTS SHERMAN HOUSE HABS No, RI-342 (Page 9)')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ri0036",
+      "url": "https://www.loc.gov/pictures/item/ri0036",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000015",
+      "url": "https://en.wikipedia.org/wiki/William_Watts_Sherman_House",
+      "title": "NRHP reference No. 70000015; added December 30, 1970; designated NHL December 30, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox's own style word is 'Queen Anne', which is the node's reticulation problem stated by the register."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_Watts_Sherman_House",
+      "title": "William Watts Sherman House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://pahistoricpreservation.com/hail-the-queen",
+      "title": "Hail to the Queen! - Pennsylvania Historic Preservation (Pennsylvania State Historic Preservation Office)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Added 5 Sep 2026 when queen-anne-american and queen-anne-free-classic were linked to this record. Its own words: 'The first Queen Anne style building in America is considered to be the Watts Sherman house designed by Henry Hobson Richardson and built in 1874 in Newport, Rhode Island. Featuring heavily textured, shingled wall surfaces, prominent brick chimneys and intersecting gables, it was most faithful to the designs promoted by Shaw and other English architects. Due to its shingled walls, the Watts Sherman house is also seen as an early example of the Shingle style' -- a state preservation office saying in one paragraph why three nodes of this corpus all name the same building. Note that it dates the house 1874 where this record's survey and Wikipedia say 1875-1876."
+    }
+  ],
+  "survey": {
+    "item": "ri0036",
+    "register": "loc-item",
+    "survey_no": "RI-342",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ri/ri0000/ri0036/data/ri0036data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: Original main block about 80 feetx 50 feet, southeast bay ext^ded about 20 feet, service extended to the north, modern brick wing added to northeast, 3 1/2 stories.",
+        "page": "HABS No. RI-342, Part II.B.1; no page marker legible in the span (the next legible is '(Page 6)')"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The stone foundations have irregular coursing-. There are some interior walls, and chimney foundations of brick.",
+        "page": "HABS No. RI-342, Part II.B.2; same span"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: The basement and first story walls are of pink granite random ashlar. The drip molding, window sills, mullions, corners and wall intersections are pecked and rusti- cated reddish sandstone. Red mortar with a projecting half- round accents the pattern of the masonry. There are two brownstone columns with abstracted capitals. The upper stories are framed with half timbering stucco, and various forms of cut shingles.",
+        "page": "HABS No. RI-342, Part II.B.3; same span"
+      },
+      {
+        "field": "structural_system",
+        "text": "k. Structural system; The first story is masonry with upper stories of woodem framing and. heavy studding. . Interior partitions are wooden framed with heavy studding.",
+        "page": "HABS No. RI-342, Part II.B.4; same span ('k.' is OCR for '4.')"
+      },
+      {
+        "field": "chimneys",
+        "text": "5- Chimneys: There are five red brick with metal flashing which have triangular pilasters or recessed panels.",
+        "page": "HABS No. RI-342, Part II.B.5; same span"
+      },
+      {
+        "field": "other",
+        "text": "The main chimney, which is about 5 x 8 feet, and which extends WILLIAM WATTS SHERMAH HOUSE HABS No, RI-3^2 (Page 6) about 12 feet above the roof, reminds one of \"ye ancient time\". The window- panes are really old-fashioned, the smallest being 3 lA x k 1/2 inches, and the largest 3 feet and 10 inches long by 2 feet and 7 inches wide.",
+        "page": "HABS No. RI-342 (Page 6); a period newspaper description the survey quotes; the running head falls inside the span and is quoted as printed"
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows: In the original portion of the house, the windows are generally in groups of two, three, five or singular units. On the first floor they are usually double hung with fixed transom above of either stained glass or tinted, textured glass.",
+        "page": "HABS No. RI-342 (Page 9), Part II.B.6.b"
+      },
+      {
+        "field": "roof",
+        "text": "a. Shape and covering: Steep gable roofs, originally covered with wooden shingles laid in horizontal patterns with periodic rows of decoratively cut forms, are now covered with asphalt shingles Decorated barge boards terminate the gable...ends- with molded cornices and bracketed eaves along the lower edge of the roofs. There is one dormer with a gable and several dormers with the roofs. The lower slope of the roofs are slightly splayed.",
+        "page": "HABS No. RI-342 (Page 9), Part II.B.7"
+      },
+      {
+        "field": "porches",
+        "text": "8. Porches, stoops and bulkheads: The low sloping roof of the porte- cocheVe is supported on chamfered posts. Decoratively cut shingles decorate the sides of the roof. Adjacent to the house are round arched openings with fixed windows and small lights.",
+        "page": "HABS No. RI-342 (Page 9), Part II.B.8"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plan: Approximately centered under the large gable on the west facade is the main entrance to the house. Opposite the en- trance is the staircase. To the right is the large living-hall extending from front to. rear whi^h coens te the^othp^ wnin rooms on the first floor.",
+        "page": "HABS No. RI-342, Part II.C.1; the marker reads '(Page 1©-)', OCR for Page 10"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "main_block_width_ft",
+      "as_printed": "Original main block about 80 feetx 50 feet",
+      "value": 80,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey does not say which figure is the front."
+    },
+    {
+      "name": "main_block_depth_ft",
+      "as_printed": "Original main block about 80 feetx 50 feet",
+      "value": 50,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Same caveat."
+    },
+    {
+      "name": "bay_extension_ft",
+      "as_printed": "southeast bay ext^ded about 20 feet",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 'extended'."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "3 1/2 stories",
+      "value": 3.5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "There are five red brick",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "main_chimney_plan_width_ft",
+      "as_printed": "about 5 x 8 feet",
+      "value": 5,
+      "unit": "ft",
+      "from_quote": 5,
+      "note": "From the period description the survey quotes."
+    },
+    {
+      "name": "main_chimney_plan_length_ft",
+      "as_printed": "about 5 x 8 feet",
+      "value": 8,
+      "unit": "ft",
+      "from_quote": 5,
+      "note": "From the period description."
+    },
+    {
+      "name": "chimney_height_above_roof_ft",
+      "as_printed": "about 12 feet above the roof",
+      "value": 12,
+      "unit": "ft",
+      "from_quote": 5,
+      "note": "From the period description."
+    },
+    {
+      "name": "largest_pane_height_in",
+      "as_printed": "3 feet and 10 inches long",
+      "value": 46,
+      "unit": "in",
+      "from_quote": 5,
+      "note": "From the period description."
+    },
+    {
+      "name": "largest_pane_width_in",
+      "as_printed": "2 feet and 7 inches wide",
+      "value": 31,
+      "unit": "in",
+      "from_quote": 5,
+      "note": "From the period description."
+    },
+    {
+      "name": "smallest_pane_width_in",
+      "as_printed": "3 lA x k 1/2 inches",
+      "value": 3.25,
+      "unit": "in",
+      "from_quote": 5,
+      "note": "OCR for 3 1/4 x 4 1/2; a reading."
+    },
+    {
+      "name": "smallest_pane_height_in",
+      "as_printed": "3 lA x k 1/2 inches",
+      "value": 4.5,
+      "unit": "in",
+      "from_quote": 5,
+      "note": "OCR for 3 1/4 x 4 1/2; a reading."
+    }
+  ],
+  "note": "The survey's own reading of the eave -- 'bracketed eaves along the lower edge of the roofs' -- is worth carrying against the shingle-style kit's canonical 'closed-tight-no-brackets' eave: this is the prototype, and the register calls it Queen Anne. Named by queen-anne-free-classic and queen-anne-american at the same location string, and linked to both on 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster) -- three nodes on one building, which is what the graph's multiple parentage here is for. For the free-classic node the survey's alteration line is the whole point: 'Stanford White, after his return from Europe in 18T9, remodeled the interior and en- larged the house to the east', so the vocabulary shift this subtype is about happened on this one building and is dated by a surveyor. Seeded 4 Sep 2026."
+}

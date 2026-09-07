@@ -196,19 +196,55 @@
       "name": "John Oliver Place",
       "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
       "year": 1822,
-      "note": "Built in the 1820s on the site of an 1818 cabin; the oldest surviving structure on the Cades Cove loop, a single pen with exterior stone chimney and loft."
+      "note": "Built in the 1820s on the site of an 1818 cabin; the oldest surviving structure on the Cades Cove loop, a single pen with exterior stone chimney and loft.",
+      "precedent": "john-oliver-place",
+      "standing": "icon",
+      "why": "'The first historic structure on the 11-mile Cades Cove driving loop. It is also the oldest' -- the National Park Service's own words on its own page; the corpus already shared the record with log-vernacular-american. CORRECTED 5 Sep 2026 by the cluster audit: this why also called it 'the most photographed log house in America' and attributed that to the Park Service. No page in the record says it, and a search of the NPS pages for the cove returns no such claim; the superlative was withdrawn rather than sourced."
     },
     {
       "name": "Walker Sisters Place",
       "location": "Little Greenbrier, Great Smoky Mountains National Park, Sevier County, Tennessee",
       "year": 1853,
-      "note": "Hewn logs with half-dovetail notching, stone-and-mud chimneys, and a circa-1838 McFalls cabin dismantled and reassembled as a kitchen wing in the 1870s - the expansion grammar documented in one building. National Register 1976."
+      "note": "Hewn logs with half-dovetail notching, stone-and-mud chimneys, and a circa-1838 McFalls cabin dismantled and reassembled as a kitchen wing in the 1870s - the expansion grammar documented in one building. National Register 1976.",
+      "precedent": "walker-sisters-place",
+      "standing": "canonical",
+      "why": "A homestead surveyed by HABS as a whole farm (TN-121 and its lettered outbuildings) whose cabin is the expansion grammar in one building -- a hewn pen with a second pen dismantled from elsewhere and reassembled as a kitchen -- which is the sequence this node's own description says the type is made of."
     },
     {
       "name": "Carter Shields Cabin",
       "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
       "year": 1880,
-      "note": "Late nineteenth-century single-pen with a frame addition; useful as evidence that the technique was still current in the mountains sixty years after it had died in the lowlands."
+      "note": "Late nineteenth-century single-pen with a frame addition; useful as evidence that the technique was still current in the mountains sixty years after it had died in the lowlands.",
+      "precedent": "carter-shields-cabin",
+      "standing": "regional",
+      "why": "The late one: a single pen of about 1880 with a frame addition, standing at the end of the Cades Cove loop, and evidence for the node's claim that the technique was still current in the mountains sixty years after it died in the lowlands; the judgment is this project's, resting on the National Register district listing and the park's own inventory."
+    },
+    {
+      "name": "Henry Whitehead Place",
+      "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+      "year": 1881,
+      "note": "Two pens joined by a roofed connecting porch, the older of 1881 in roughly hewn logs and the newer sash-sawn at the nearby Cable Mill. HABS records interior dimensions for both pens and for the porch between them, and says the new cabin is 'about 16 by 18 feet, which is about the largest length of log which would be sawn at asash-saw mill' - the pen dimensioned by the log rather than by the room.",
+      "precedent": "henry-whitehead-place",
+      "standing": "canonical",
+      "why": "The only building in this cluster whose measured dimensions the corpus can actually read, and the HABS surveyor's own judgment - quoting Charles Grossman of the National Park Service - is that the newer cabin is the 'ultimate' in log construction."
+    },
+    {
+      "name": "Tipton Place",
+      "location": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+      "year": null,
+      "note": "Built in the 1870s by Colonel Hamp Tipton; a two-storey double pen with a door to each pen on the front, a fireplace and the loft stair in the left-hand room and the kitchen behind. The year is left null because the National Park Service states only the decade.",
+      "precedent": "tipton-place",
+      "standing": "regional",
+      "why": "The double-pen move of this node's own expansion grammar, drawn from life and described room by room on the Park Service's own page; the judgment is this project's, and rests on that description rather than on a survey, since HABS did not record the house."
+    },
+    {
+      "name": "Ephraim Bales Place",
+      "location": "Roaring Fork, Great Smoky Mountains National Park, Sevier County, Tennessee",
+      "year": 1880,
+      "note": "Two pens with a roofed open passage between them, recorded by HABS with eight sheets of measured drawings. Its data page states the regional rule the node's constraint list is built on - 'The fireplace and chimney are always located at the gable end of the structure. I have found no exception to this in the log structures of this region' - and also states that the second pen is more often an older building moved from elsewhere than a new one.",
+      "precedent": "ephraim-bales-place",
+      "standing": "documentary",
+      "why": "Plain, surveyed and useful for the grammar rather than for the eye: the sheet is the corpus's only primary source that says in so many words how the pens of this tradition are grouped, and it is quoted rather than paraphrased."
     }
   ],
   "sources": [

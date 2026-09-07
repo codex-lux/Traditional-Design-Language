@@ -1,0 +1,42 @@
+{
+  "id": "devault-massengill-house",
+  "name": "DeVault-Massengill House",
+  "aka": [
+    "DeVault-Masengill House",
+    "Mary Lou Farms"
+  ],
+  "location": {
+    "text": "Piney Flats, Sullivan County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "c. 1842",
+    "circa": true,
+    "altered": "The 1985 nomination records the house as 'good' and 'altered', 'currently undergoing renovation'; it notes metal sheeting now over the low pitched hip roof, many wood sills replaced by concrete, and the louvered shutters temporarily removed.",
+    "note": "The nomination's specific dates line reads 'Ct 177Qs< c> 1842' -- the 1770s log building and c. 1842 for the house -- and its text says 'constructed In about 1842'. The node's exemplar gives 1842 and a circa-1769 log house; the nomination says the log building 'dates from the 1770s'. Neither is changed."
+  },
+  "nodes": [
+    "greek-revival-upland-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "85000669",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/85000669_text",
+      "title": "National Register of Historic Places nomination text for the DeVault-Masengill House, Sullivan County, Tennessee",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE REGISTER SPELLS THE NAME WITH ONE S ('DeVault-Masengill'); the node's exemplar spells it with two and is not renamed, because build/check_assets.py reads the exemplar name as a join key. The register's spelling is carried in `aka`."
+    },
+    {
+      "kind": "other",
+      "url": "https://historic.one/tn/sullivan-county/national-register-listing/devault-masengill-house",
+      "title": "National Register Listing: DeVault-Masengill House in Sullivan County, Tennessee",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the address as 'Andrew Johnson Hwy. US 11E, Piney Flats, TN', the alternative name 'Mary Lou Farms', the significance as 'Architecture' and the listing year as 1985."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. NO HABS SURVEY FOUND, and the search is stated so a later reader can better it: the query 'loc.gov HABS \"DeVault\" OR \"Masengill\" Piney Flats Sullivan County Tennessee Historic American Buildings Survey item' returned no Library of Congress item for this building -- only the collection's own landing page and an unrelated Florida bridge report. A Facebook post in the results asserts that 'according to the Historic American Buildings Survey, the date of construction is listed as between 1757 and 1797', which resolves to no item, matches neither the nomination's c. 1842 for the house nor its 1770s for the log building, and is recorded here as an unresolved claim rather than as a reference. This record therefore carries no `survey` block -- what follows is the National Register nomination, quoted in this note rather than in a survey block, because the survey block in this schema means the Historic American Buildings Survey's own written data and nothing else. The nomination states, verbatim: 'Constructed of hand-fired brick made on the premises, the main section of the DeVault-Masengill House is three bays wide and one room deep, A two story ell (.that 1s one bay wide and two rooms deep) extends from the northwest corner of the house. Metal sheeting now covers the low pitched hip roof. Three outside end chimneys with corbel caps project from the center of each of the two side walls of.. ,t(ie main section a,nd at the end of the rear ell. A fourth chimney separates two rooms in thVellV Exterior masonry work still evinces white penciling on the mortar joints.' Every clause of that is the node's own diagnostic list arriving from an independent hand: three bays wide, ONE ROOM DEEP (the I-house), a low pitched roof, outside end chimneys. And its significance paragraph gives the Grecian content as trim and nothing else -- 'fine Greek Revival .detailing. :1n. the; .heavy cornice and multi-paned sash windows, each with a decorative lintel on the exterior and shouldered door and window surrounds, a paneled staircase, and molded plaster ceiling medallions on the interior' -- which is exactly the node's claim that the Greek Revival here is a set of boards over a plan that does not change."
+}

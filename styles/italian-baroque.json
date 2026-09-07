@@ -185,25 +185,55 @@
       "name": "San Carlo alle Quattro Fontane",
       "location": "Via del Quirinale, Rome, Italy",
       "year": 1638,
-      "note": "Borromini; church built 1638-1641, dedicated 1646; facade begun in Borromini's last years and the upper stage completed after his death in 1667. The undulating wall and interlocking-geometry oval dome in their purest form."
+      "note": "Borromini; church built 1638-1641, dedicated 1646; facade begun in Borromini's last years and the upper stage completed after his death in 1667. The undulating wall and interlocking-geometry oval dome in their purest form.",
+      "precedent": "san-carlo-alle-quattro-fontane",
+      "standing": "icon",
+      "why": "Roma Capitale's record states three of this node's own diagnostic tells in its own words -- the serpentine facade, the entablature flexing round the whole perimeter, and the elliptical coffered dome whose coffers diminish upward -- while pointing out that the church is 'often unjustely forgotten' beside the larger Baroque churches."
     },
     {
       "name": "Sant'Ivo alla Sapienza",
       "location": "Corso del Rinascimento, Rome, Italy",
       "year": 1642,
-      "note": "Borromini, 1642-1660. Plan generated from two superimposed equilateral triangles; concave courtyard front and a spiral lantern."
+      "note": "Borromini, 1642-1660. Plan generated from two superimposed equilateral triangles; concave courtyard front and a spiral lantern.",
+      "precedent": "santivo-alla-sapienza",
+      "standing": "icon",
+      "why": "Roma Capitale's Italian record says the centralised plan draws 'una sorta di stella a sei punte' and that the walls follow its perimeter, which is the node's two-superimposed-triangles claim stated by a register; that same page calls the church the work of 'il geniale Francesco Borromini' and 'un capolavoro dallo straordinario valore artistico e tecnico'."
     },
     {
       "name": "Sant'Andrea al Quirinale",
       "location": "Via del Quirinale, Rome, Italy",
       "year": 1658,
-      "note": "Bernini, 1658-1670. Transverse oval plan with the entrance on the short axis - the compression of the approach is the whole design."
+      "note": "Bernini, 1658-1670. Transverse oval plan with the entrance on the short axis - the compression of the approach is the whole design.",
+      "precedent": "santandrea-al-quirinale",
+      "standing": "canonical",
+      "why": "Roma Capitale's record says Bernini 'considered it his best work for the perfect balance between architecture, sculpture and painting' and independently states the transverse oval -- 'the major axis perpendicular to the entrance' -- that this node reads as the whole design."
     },
     {
       "name": "Piazza San Pietro colonnade",
       "location": "Vatican City",
       "year": 1656,
-      "note": "Bernini, 1656-1667. Two quadrant colonnades of four ranks of Tuscan columns; architecture used to shape an urban void rather than an enclosure."
+      "note": "Bernini, 1656-1667. Two quadrant colonnades of four ranks of Tuscan columns; architecture used to shape an urban void rather than an enclosure.",
+      "precedent": "piazza-san-pietro-colonnade",
+      "standing": "icon",
+      "why": "The Holy See's own record states the colonnade as 284 columns and 88 piers in four ranks under 140 statues, which is the one place in this cluster where a register supplies enough numbers to check a claim -- and where two Vatican sources disagree by three metres about the height of the columns."
+    },
+    {
+      "name": "Palazzo Carignano",
+      "location": "Turin, Piedmont, Italy",
+      "year": 1679,
+      "note": "Commissioned from Guarino Guarini in 1679 by Emanuele Filiberto di Savoia-Carignano, who according to the Residenze Reali Sabaude took Bernini's Louvre designs as the model. Undulating brick front; monumental oval atrium with two symmetrical ceremonial stairs; originally a C-shaped plan open toward the gardens.",
+      "precedent": "palazzo-carignano",
+      "standing": "regional",
+      "why": "The Residenze Reali Sabaude call it 'una delle piu originali costruzioni del barocco' and single out the curving line of the brick facade; the node's geography names Piedmont and every other exemplar it carried was in Rome or the Vatican."
+    },
+    {
+      "name": "Late Baroque Towns of the Val di Noto",
+      "location": "South-eastern Sicily, Italy",
+      "year": 1693,
+      "note": "Eight towns rebuilt after the earthquake of 1693 -- Caltagirone, Militello Val di Catania, Catania, Modica, Noto, Palazzolo Acreide, Ragusa and Scicli. Not one building: the record is the World Heritage listing, and what it documents is a rebuilding programme across eight town plans.",
+      "precedent": "val-di-noto-late-baroque-towns",
+      "standing": "regional",
+      "why": "UNESCO's criterion (ii) calls these towns 'the culmination and final flowering of Baroque art in Europe' and its authenticity statement points at the almost completely preserved town plans -- which is the node's own claim that the Baroque's most durable export was the design of the space between buildings, and its geography named Sicily with nothing to show for it."
     }
   ],
   "sources": [

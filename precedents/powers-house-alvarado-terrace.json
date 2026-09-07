@@ -1,0 +1,57 @@
+{
+  "id": "powers-house-alvarado-terrace",
+  "name": "Powers House",
+  "aka": [
+    "Pomeroy Wells Powers House",
+    "Casa San Juan Diego"
+  ],
+  "location": {
+    "text": "1345 Alvarado Terrace, Los Angeles, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1903",
+    "circa": false,
+    "note": "Four sources read the same day give 1903 — the Lanterman House's Haley building list ('The Powers House, built in 1903'), Allard Real Estate, Los Angeles Relics and Big Orange Landmarks — while the style node's exemplar carries 1904. Both are recorded; the exemplar's year was NOT changed."
+  },
+  "nodes": [
+    "mission-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "84000783",
+      "url": "https://en.wikipedia.org/wiki/Alvarado_Terrace_Historic_District",
+      "title": "Alvarado Terrace Historic District, National Register reference No. 84000783, added 17 May 1984 — a DISTRICT listing covering the whole street, of which this house is one contributing property; the house carries no individual National Register number",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "id": "86",
+      "url": "http://bigorangelandmarks.blogspot.com/2007/11/no-86-powers-house.html",
+      "title": "No. 86 - Powers House (Los Angeles Historic-Cultural Monument No. 86)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'1345 Alvarado Terrace. This Mission Revival home was built by and for Pomeroy W. Powers.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.lantermanhouse.org/haley-list",
+      "title": "Haley Building List — Lanterman House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The architect's own catalogue raisonne, kept by another Haley building's museum: 'The Powers House, built in 1903, was commissioned by Pomeroy W. Powers and his wife Ida. The Mission Revival-style home is stucco on frame construction. It still stands in Alvarado Terrace and is Los Angeles City Historical-Cultural Monument #86.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.laconservancy.org/wp-content/uploads/2022/10/PicoUnion_Tour_new.pdf",
+      "title": "Pico Union Walking Tour Brochure — Los Angeles Conservancy",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Today, the Powers Residence is known as Casa San Juan Diego', run by the Missionaries of Charity Brothers; 'Alvarado Terrace was listed as a National Register Historic District in 1984.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the node's ordinary house — the case where Mission Revival is a builder's idiom rather than a monument. The Haley list's 'stucco on frame construction' is the single construction statement any source makes about it and there is no survey to measure. NOTE for the one-building-one-record guard: the National Register number here belongs to the DISTRICT and not to this house, and its title says so; it may legitimately be shared with any other contributing property that gets a record."
+}

@@ -1,0 +1,124 @@
+{
+  "id": "gunston-hall",
+  "name": "Gunston Hall",
+  "location": {
+    "text": "Mason Neck, Fairfax County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1755-1759",
+    "circa": false,
+    "altered": "Restored 1949-1952 as a house museum; the survey records that the window sash, frames and sills, most doors, about half the flooring and much of the exterior wood trim are restored, and that the southeast chimney stack was rebuilt in 1950."
+  },
+  "nodes": [
+    "tidewater-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-141",
+      "title": "Gunston Hall, 10709 Gunston Road, Lorton, Fairfax County, VA",
+      "url": "https://www.loc.gov/pictures/item/va0433",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own summary line for the item: 'Photo(s): 71 | Color Transparencies: 9 | Measured Drawing(s): 30'. The survey number is also printed in the data page's own header, read by extract the same day."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0433",
+      "url": "https://www.loc.gov/pictures/item/va0433",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "029-0050",
+      "title": "Gunston Hall – Virginia Department of Historic Resources",
+      "url": "https://www.dhr.virginia.gov/historic-registers/029-0050",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "va0433",
+    "register": "loc-item",
+    "survey_no": "VA-141",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0400/va0433/data/va0433data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: The mansion is a rectangle of h0 feet 11-1/2 inches by 60 feet 10 inches, exterior foundation measure-ments. From grade to ridge of the roof, the house is 33'-1\" high.",
+        "page": "HABS No. VA-141, Part II.B; the extract's nearest page marker reads 'GUNSTON HALL HABS No. VA-l4l (Page 2'"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations-: The foundations are brick laid in Flemish bond and are about two-and-a-half feet thick. The window .openings; are trimed in the standard way with headers and closers, and there is a flat gauged brick arch above that almost reaches to the simple beveled watertable. There are quoins of Aquia sandstone at each corner.",
+        "page": "HABS No. VA-141, Part II.B.2; same extract span as the dimensions"
+      },
+      {
+        "field": "walls",
+        "text": "3. Walls: The walls are laid in Flemish bond with bevel-edged Aquia sandstone quoins at. each corner. The walls are about two feet think at this level.",
+        "page": "HABS No. VA-141, Part II.B.3; same extract span"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: There are four tall chimney stacks on the house, tvo at each end. They are rectangular in section, and are laid in Flemish bond. Each is capped with a molded sandstone cap, which are copies of the originals, made in 1950. The entire southeast chimney was rebuilt at this time.",
+        "page": "HABS No. VA-141, Part II.B.6; no page marker legible in the extract span"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings: a. Doorways and doors: The east and north doorways are similar, having f ant ail transoms. The door on the north entrance is areproduction, adapted from the original one on the east. The designs are from the Gothic designs found in Batty Langley's pattern books. The frame of the south front door has a simple architrave surround without transom.",
+        "page": "HABS No. VA-141, Part II.B.7.a; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "60 feet 10 inches",
+      "value": 60.83,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "h0 feet 11-1/2 inches",
+      "value": 40.96,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The OCR prints 'h0'. Read as 40: the survey's own arithmetic elsewhere and `Plan Examples/HABS/WANTED.md` both carry 40'-11½\". A reading, marked as one."
+    },
+    {
+      "name": "grade_to_ridge_ft",
+      "as_printed": "33'-1\"",
+      "value": 33.08,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "foundation_thickness_in",
+      "as_printed": "about two-and-a-half feet",
+      "value": 30,
+      "unit": "in",
+      "from_quote": 1
+    },
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "about two feet",
+      "value": 24,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four tall chimney stacks on the house, tvo at each end",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "Seeded 4 Sep 2026 from the WP-11.1 pilot. The three exemplar names the tidewater-georgian node already carried were kept exactly; this record adds the locators. The rights line was not read (loc.gov/pictures refuses extraction from this container), so no `rights_evidence` is recorded rather than a boilerplate one copied from another item."
+}

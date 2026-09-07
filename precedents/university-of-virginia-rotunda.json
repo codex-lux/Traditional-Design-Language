@@ -1,0 +1,79 @@
+{
+  "id": "university-of-virginia-rotunda",
+  "name": "The Rotunda and Academical Village, University of Virginia",
+  "aka": [
+    "The Rotunda",
+    "University of Virginia, Rotunda",
+    "Rotunda, University of Virginia"
+  ],
+  "location": {
+    "text": "Charlottesville, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1817-1826",
+    "circa": false,
+    "altered": "The Wikipedia infobox names Stanford White as architect beside Jefferson, which is the 1890s rebuilding after the 1895 fire; the node's own period block calls McKim, Mead & White's restoration 'the hinge' of the neoclassical revival.",
+    "note": "The Library's catalogue line prints 'Building/structure dates: 1817-1826 Initial Construction'; the Wikipedia infobox prints 'Built 1822-1826' and its text says construction began in 1822; the node's exemplar gives 1826 and 'Begun 1817'. 1817 is the year the Academical Village was begun and 1822 the year the Rotunda itself was; the exemplar names both buildings in one string, which is why both spans are kept."
+  },
+  "nodes": [
+    "jeffersonian-classicism"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-193-A",
+      "title": "University of Virginia, Rotunda, University Ave. & Rugby Rd., Charlottesville, VA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0000/va0052/data/va0052data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed cleanly on the PDF's own cover, 'HABS No. VA-193-A', under the heading 'ADDENDUM TO: UNIVERSITY OF VIRGINIA, ROTUNDA'. NO WRITTEN DESCRIPTIVE DATA IS IN IT: the cover reads 'REDUCED COPIES OF MEASURED DRAWINGS' and nothing follows, which is why this record carries no survey block. VA-193 is the University's series -- the pavilions and hotels run VA-193-B onward, and Pavilion IX (VA-193-G) DOES carry a full written report, read the same day, which is how the series letter was confirmed."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0052",
+      "url": "https://www.loc.gov/pictures/item/va0052",
+      "title": "University of Virginia, Rotunda, University Avenue & Rugby Road, Charlottesville, VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own lines: 'Survey number: HABS VA-193-A Building/structure dates: 1817-1826 Initial Construction National Register of Historic Places NRIS Number: 70000865'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000937",
+      "url": "https://en.wikipedia.org/wiki/The_Rotunda_(University_of_Virginia)",
+      "title": "NRHP reference No. 66000937; added to NRHP October 15, 1966; designated NHL December 21, 1965 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The ROTUNDA'S OWN individual listing. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000865",
+      "url": "https://www.loc.gov/pictures/item/va0052",
+      "title": "University of Virginia Historic District, NRIS Number 70000865 (as the Library's catalogue line prints it); designated NHLDCP November 11, 1971 per the Wikipedia infobox",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT LISTING, NOT AN IDENTITY. 70000865 names the University of Virginia Historic District, of which the Rotunda is a contributing property; the Wikipedia infobox prints the same number under 'Part of'. It is recorded because the node's exemplar names the Academical Village as well as the Rotunda, and the district is the only listing that covers both."
+    },
+    {
+      "kind": "state-register",
+      "id": "002-5055",
+      "url": "https://www.dhr.virginia.gov/historic-registers/002-5055",
+      "title": "Rotunda, University of Virginia - DHR (Virginia Department of Historic Resources), VLR No. 002-5055",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words, as the search returned them: 'The Rotunda is the single-most important architectural achievement of Thomas Jefferson, for the University of Virginia.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Rotunda_(University_of_Virginia)",
+      "title": "The Rotunda (University of Virginia) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'Thomas Jefferson designed it to represent the \"authority of nature and power of reason\" and modeled it after the Pantheon in Rome ... The campus of the new university was unique in that its buildings surrounded a library (the principal function of the Rotunda) rather than a church'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. NO SURVEY BLOCK: the data PDF for HABS VA-193-A is a cover sheet for reduced copies of measured drawings and carries no written historical or descriptive data at all. ONE extract call was made against that PDF, with the query 'Rotunda University of Virginia description dome diameter Pantheon columns Corinthian brick', and it returned the cover and nothing else; a second call with a different query value was not made, so the absence of written data is probable rather than established. The written reports in this series are on the PAVILIONS -- Pavilion IX, HABS VA-193-G, opens with a full 'Location / Present Owner / Present Occupant / Significance' outline and a construction account naming the brickmakers Perry, Thorn, Carter and Chamberlin and recording that 'All of the materials used for the construction of the University were local, with the exception of the carrara marble, imported from Italy. The marble was used for the capitols of the Rotunda Columns, when local stones were found unsuitable for carving.' That sentence is about the Rotunda and is quoted here, in a note and not as a survey quote, because it belongs to a different survey number and this record may not annex it. A future tranche wanting the Rotunda's own figures should open the pavilion reports rather than this item."
+}

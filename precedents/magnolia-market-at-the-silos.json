@@ -1,0 +1,49 @@
+{
+  "id": "magnolia-market-at-the-silos",
+  "name": "Magnolia Market at the Silos",
+  "aka": [
+    "the Silos",
+    "Brazos Valley Cotton Oil Company silos"
+  ],
+  "location": {
+    "text": "Waco, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1950",
+    "circa": false,
+    "altered": "Bought by Chip and Joanna Gaines in 2014; the grounds opened to the public in October 2015.",
+    "note": "Wikipedia says the two silos were 'built in 1950 as part of the Brazos Valley Cotton Oil Company'; Baylor's Texas Collection says 'In 1949-1950 ... the company built two large 120-foot-tall storage silos'. Neither is edited."
+  },
+  "nodes": [
+    "modern-farmhouse-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Magnolia_Market",
+      "title": "Magnolia Market - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Magnolia Market at the Silos, commonly called Magnolia Market, is a shopping complex that encompasses two city blocks in downtown Waco, Texas. It is marked by two 120' high silos, built in 1950 as part of the Brazos Valley Cotton Oil Company. The Brazos Valley Cotton Oil Mill Company closed in 1958, and the silos ceased to serve as storage in the 1990s. The grounds opened to the public in October, 2015.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://wacohistory.org/items/show/188",
+      "title": "Magnolia Market at the Silos | Waco History (Baylor University)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Within a year, Chip and Joanna procured what would become the symbol of the brand, the Silos, and surrounding real estate ... The Gaines quickly turned the neighboring building into the retail store, built a stage in front of the silos and a small building for the Magnolia Seed & Supply Garden Store, and drew up plans to convert the other adjacent building into a bakery.' Address given as 601 Webster Ave, Waco."
+    },
+    {
+      "kind": "institution",
+      "url": "https://blogs.baylor.edu/texascollection/category/waco/magnolia-silos",
+      "title": "Magnolia Silos - The Texas Collection, Baylor University",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1949-1950, after several devastating fires and storage mishaps in their buildings, the company built two large 120-foot-tall storage silos ... In 1910, to help meet this demand, Waco businessman J.T. Davis started the Brazos Valley Cotton Oil Company--now the present day site Magnolia Market at the Silos.' Also: after 1958 the plant was a storage facility for JPM Feeds and then vacant until the 2014 purchase."
+    }
+  ],
+  "note": "NOT A HOUSE AND NOT IN THE STYLE: an industrial complex of 1949-50 that the brand which named the style adapted for retail in 2014-15. It is here because this node's transmission argument needs a place as well as a broadcast, and because the Silos are the one building the idiom's public actually travels to. The record deliberately claims nothing architectural for it. No survey and no register listing were found; the 120 ft silo height is the only dimension either source gives and both give it."
+}

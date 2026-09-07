@@ -172,19 +172,46 @@
       "name": "Carson Mansion",
       "location": "Eureka, California",
       "year": 1886,
-      "note": "Samuel and Joseph Cather Newsom, 1884-86. Redwood, and the maximum case of the subtype; ornamentally extreme but hierarchically ordered underneath, which is why it works."
+      "note": "Samuel and Joseph Cather Newsom, 1884-86. Redwood, and the maximum case of the subtype; ornamentally extreme but hierarchically ordered underneath, which is why it works.",
+      "precedent": "carson-mansion",
+      "standing": "icon",
+      "why": "Wikipedia reports it 'considered the most grand Victorian home in America', and this node's own prose rests its whole argument on it -- that what separates it from a thousand contemporaries is hierarchy under the ornament and not the quantity of ornament."
     },
     {
       "name": "Haas-Lilienthal House",
       "location": "San Francisco, California",
       "year": 1886,
-      "note": "Peter R. Schmidt. Redwood, on a narrow deep lot, with a circular corner tower and full spindlework porch; the best-preserved public example of the urban West Coast version."
+      "note": "Peter R. Schmidt. Redwood, on a narrow deep lot, with a circular corner tower and full spindlework porch; the best-preserved public example of the urban West Coast version.",
+      "precedent": "haas-lilienthal-house",
+      "standing": "canonical",
+      "why": "The 1977 HABS report itemises the lathe's whole output on one wall -- 'dentils, two kinds of rosettes (one with a fluted edge and one with a smooth edge), swags, broken pediments, and articulated molding' -- which is this subtype's parts catalogue written down by a surveyor."
     },
     {
       "name": "Rosson House",
       "location": "Phoenix, Arizona",
       "year": 1895,
-      "note": "A. P. Petit, 1894-95. Brick and wood with an octagonal turret; documented as Stick-Eastlake Queen Anne, and a good example of the subtype at the arid frontier of its distribution."
+      "note": "A. P. Petit, 1894-95. Brick and wood with an octagonal turret; documented as Stick-Eastlake Queen Anne, and a good example of the subtype at the arid frontier of its distribution.",
+      "precedent": "rosson-house",
+      "standing": "regional",
+      "why": "Wikipedia calls it 'the Stick-Eastlake - Queen Anne Style', which is the label this node's own prose argues is a historical accident, attached to the building at the arid frontier of the type's distribution."
+    },
+    {
+      "name": "Hale House",
+      "location": "Los Angeles, California",
+      "year": 1887,
+      "note": "Joseph Cather Newsom, 1887. Turned and jigsawn ornament over the whole front at a speculative developer's budget, restored to a documented paint scheme and moved twice.",
+      "precedent": "hale-house",
+      "standing": "regional",
+      "why": "The Historical Marker Database transcribes the marker in front of it as 'A superb example of the Queen Anne - Eastlake Style', which is the label this subtype carries in the field whatever the injustice to Eastlake."
+    },
+    {
+      "name": "J. Milton Carson House",
+      "location": "Eureka, California",
+      "year": 1889,
+      "note": "Newsom Brothers, 1889, built by William Carson as a wedding gift for his son and standing across the street from the Carson Mansion. The same office and the same vocabulary at a house's scale rather than a mansion's, which is what makes it the useful comparison.",
+      "precedent": "j-milton-carson-house",
+      "standing": "regional",
+      "why": "The interpretative marker in front of the house, as the noehill.com historic-sites page transcribes it and sources it, calls it 'a classic Queen Anne residence designed by the prestigious San Francisco architectural firm, Newsom Brothers'; no National Register number was found for it and none is claimed."
     }
   ],
   "sources": [

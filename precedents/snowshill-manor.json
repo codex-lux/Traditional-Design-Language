@@ -1,0 +1,136 @@
+{
+  "id": "snowshill-manor",
+  "name": "Snowshill Manor",
+  "location": {
+    "text": "Snowshill, Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "C17, c1720",
+    "circa": true,
+    "altered": "The listed-building entry records 'C17, c1720, C19, altered 1919-23 by and for C.P. Wade; minor later alterations'. The registered park and garden entry adds that the earliest part is 'the north hall of c 1500, converted to two storeys in c 1600' and that 'In 1712, William Sanbach altered the south end and added a projecting room to the west to give a classical front.'",
+    "note": "THREE DATINGS ARE ON RECORD AND NONE IS RESOLVED HERE. The node's exemplar gives the year 1500 and calls the house 'late medieval and Tudor ... refronted around 1720'. Historic England's listed-building entry 1340081 begins the building at C17. Historic England's own registered park and garden entry 1000781 begins it at 'the north hall of c 1500' and dates the classical front to 1712 rather than c1720. Two Historic England entries for one house disagree with each other about both ends of its history."
+  },
+  "nodes": [
+    "cotswold-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1340081",
+      "title": "Snowshill Manor, Snowshill - 1340081 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1340081",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The listed building. The Details section's legacy header prints 'SNOWSHILL SNOWSHILL VILLAGE SP 0833-0933 12/46 Snowshill Manor (formerly listed as part of Snowshill 4.7.60 Manor with dovecote and garden buildings) - GV II\\', in which the date 4.7.60 is interleaved with the entry name by the extraction and the grade is printed 'II\\' -- a backslash where the page shows a star, so the grade is II* and the asterisk did not survive markdown extraction."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000781",
+      "title": "Snowshill Manor",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000781",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The registered park and garden, whose PRINCIPAL BUILDING paragraph describes the house independently of the listed-building entry and is the only source read here that states its plan and storey count in one sentence: 'Snowshill Manor (listed grade II\\) is a Z-plan house of two-and-a-half storeys, built of coursed, squared Cotswold stone with stone slate roofs.' Read as continuous prose in an extract."
+    }
+  ],
+  "survey": {
+    "item": "1340081",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1340081",
+    "prepared": "The Details section's legacy header carries the date 4.7.60 (4 July 1960). No Official list entry block was returned by either extract of this page; a planning.data.gov.uk row for the same reference prints 'start-date: 1960-07-04' and 'entry-date: 1987-09-07', which corroborates the first date and is not the entry's own statement.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Manor house, now housing collection. C17, c1720, C19, altered 1919-23 by and for C.P. Wade; minor later alterations.",
+        "page": "Official list entry, Details, opening paragraph after the legacy header"
+      },
+      {
+        "field": "materials",
+        "text": "Coursed, squared stone, approaching ashlar entrance front and 'Admiral': stone slate roofs.",
+        "page": "Official list entry, Details, materials sentence"
+      },
+      {
+        "field": "plan",
+        "text": "'Z' plan, 2-room ends, 4-room centre, 2 1/2 storeys: short additional wing towards garden.",
+        "page": "Official list entry, Details, plan sentence following the materials sentence"
+      },
+      {
+        "field": "openings",
+        "text": "Entrance front to south: plinth, half-glazed door up 3 stone steps to right of centre; 4 flush panels to bottom half door, moulded surround, large keystone, rusticated voussoirs, pediment over on acanthus consoles, with Sambach coat of arms.",
+        "page": "Official list entry, Details, description of the entrance front"
+      },
+      {
+        "field": "openings",
+        "text": "To right two 2-light mullion and transom windows, leaded lights, iron opening casements, moulded",
+        "page": "Official list entry, Details, entrance front continued. Official list entry, Details; the span is CUT where the extract's block ends and is deliberately not joined to the block that follows, whose opening words repeat it."
+      },
+      {
+        "field": "openings",
+        "text": "leaded lights, iron opening casements, moulded surround matching door. To left change in stone colour, 2 sash windows, wide glazing bars, eared surrounds, dummy keystones.",
+        "page": "Official list entry, Details, entrance front continued; this span opens a later block of the extract, which repeats the closing words of the one before"
+      },
+      {
+        "field": "cornice",
+        "text": "Plain string course, cut by pediment. First floor 3 mullion and transom windows on right, 2 sash on left, both as below. Wooden dentil eaves cornice, hipped roof.",
+        "page": "Official list entry, Details, entrance front continued"
+      },
+      {
+        "field": "chimneys",
+        "text": "Ashlar chimney from eaves right return, 2 diamond-set stacks, moulded cap.",
+        "page": "Official list entry, Details, close of the entrance front description"
+      },
+      {
+        "field": "openings",
+        "text": "West elevation: right end left return of entrance front: 18-pane sash, wide glazing bars, ashlar surround, dropped keystone, on right to ground floor; blocked window above. Ashlar chimney from eaves left of centre, paired stack, moulded cap.",
+        "page": "Official list entry, Details, description of the west elevation"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 1/2 storeys",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Corroborated by the registered park and garden entry's 'two-and-a-half storeys' for the same house, quoted in that reference's note."
+    },
+    {
+      "name": "room_count_centre",
+      "as_printed": "4-room centre",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The Z-plan's centre range. The ends are recorded in the same sentence as '2-room ends'."
+    },
+    {
+      "name": "room_count_ends",
+      "as_printed": "2-room ends",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Per end, and there are two ends; the entry does not state a whole-house room count and none is parsed."
+    },
+    {
+      "name": "entrance_step_count",
+      "as_printed": "up 3 stone steps",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Worth carrying because the node's own prose says a Cotswold house sits with 'a hard, clean edge against the sky' and says nothing about how far it stands above grade; three steps is the only figure any source here gives for that."
+    },
+    {
+      "name": "sash_pane_count",
+      "as_printed": "18-pane sash",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 8,
+      "note": "The eighteenth-century refronting the node's exemplar note names. An 18-pane sash is a six-over-nine or nine-over-nine, and the entry does not say which."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. TWO HISTORIC ENGLAND ENTRIES FOR ONE HOUSE DISAGREE ABOUT ITS DATE, and both are carried. The house is the node's own demonstration case -- Georgian fashion absorbed without changing material or roof -- and the entry shows it in one sentence: mullion-and-transom windows to the right of the door and sashes to its left, across a 'change in stone colour'. A QUOTE THAT STRADDLED TWO EXTRACT CHUNKS WAS FOUND BY RE-EXTRACTING THE PAGE WITH A DIFFERENT QUERY AND WAS SPLIT RATHER THAN JOINED. The chunker returns the same boundaries on every query and each block repeats the tail of the one before, so the text is demonstrably continuous -- but a span crossing the boundary was never READ as one contiguous run, and this record does not print one as though it had been."
+}

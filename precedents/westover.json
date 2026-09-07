@@ -1,0 +1,123 @@
+{
+  "id": "westover",
+  "name": "Westover",
+  "aka": [
+    "Westover Plantation"
+  ],
+  "location": {
+    "text": "Charles City County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "c. 1750",
+    "circa": true,
+    "altered": "The survey's 1939 entry gives 'c. 1726' and attributes the house to William Byrd II; the style node records the correction to William Byrd III after the 1749 fire, and the NPS article says the same. East wing rebuilt about 1900 after the original was destroyed in the Civil War; modern connections join both wings to the house (survey).",
+    "note": "Two dates are on the record because two sources give them. The node's own exemplar says 1750 and explains why; the 1939 survey says c. 1726. Neither is edited to agree with the other."
+  },
+  "nodes": [
+    "tidewater-georgian",
+    "georgian-colonial-american",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-402",
+      "title": "Westover, State Route 633, Charles City vicinity, Charles City County, Virginia",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0300/va0315/data/va0315data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is read from the data page's own header ('HABS No. VA-402'); the kitchen is a separate record, VA-402-A, per wp-9.2-the-parti-is-not-the-type.md."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0315",
+      "url": "https://www.loc.gov/pictures/item/va0315",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page itself was not opened (loc.gov/pictures refuses extraction from here). Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Westover_Plantation",
+      "title": "Westover Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/articles/westover.htm",
+      "title": "Charles City County: Westover (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "States the National Register listing date (October 15, 1966) and the Virginia Landmarks Register date (September 9, 1969) without a reference number, so no `nrhp` ref is recorded."
+    }
+  ],
+  "survey": {
+    "item": "va0315",
+    "register": "loc-item",
+    "survey_no": "VA-402",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0300/va0315/data/va0315data.pdf",
+    "prepared": "Prepared at Headquarters Office for Virginia District, 1939 (as the header reads); reference given as Waterman and Barrows, Domestic and Colonial Architecture of Tidewater Virginia, p. 71",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Brick, Flemish bond; two stories; hipped roof; two chimneys each endj front seven bays; all sash 9-over-9 lights; five hipped dormers on roof, small-size glass, 9-over-9 lights; center door; front and rear similar except for doorway; both doorways stone, id.th pilasters and pediments; front segmental; rear broken, serpentine.",
+        "page": "HABS No. VA-402, 1939 entry, 'Description'; no page number printed on the 1939 form"
+      },
+      {
+        "field": "plan",
+        "text": "Plan—-off center through hall; pair of large rooms toward east; smaller rooms toward west; latter now thrown into one room. Interior paneled throughout, with fine mantels.",
+        "page": "HABS No. VA-402, 1939 entry; no page number printed on the 1939 form"
+      },
+      {
+        "field": "dependencies",
+        "text": "The house has balancing wings, that toward the east rebuilt about 1900; original destroyed in Civil War. Modern connections join this and west building to house. West building: brick, Flemish bond; end chimneys; story and a half; gable roof; front three bays; center door; three hipped dormers on roof.",
+        "page": "HABS No. VA-402, 1939 entry; no page number printed on the 1939 form"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "front seven bays",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "two chimneys each endj",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two at each of two gable ends; the 'j' is OCR."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "five hipped dormers on roof",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "all sash 9-over-9 lights",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Nine over nine; recorded as the total per sash."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026 from the WP-11.1 pilot. Worth carrying: the 1939 surveyor records the plan as 'off center through hall', which wp-9.2-what-the-tradition-actually-does.md §2f already quotes against the assumption that a Tidewater Georgian house has a symmetrical centre passage; and five hipped dormers on a house whose style node's shipped reference plan declares none."
+}

@@ -185,25 +185,64 @@
       "name": "Chiswick House",
       "location": "Chiswick, London, England",
       "year": 1729,
-      "note": "Built 1727-29 by Richard Boyle, third Earl of Burlington, for himself, after Palladio's Villa Rotonda and Scamozzi's Rocca Pisana. A manifesto rather than a dwelling: octagonal domed saloon, hexastyle Corinthian portico, and a plan of Palladian ratios throughout."
+      "note": "Built 1727-29 by Richard Boyle, third Earl of Burlington, for himself, after Palladio's Villa Rotonda and Scamozzi's Rocca Pisana. A manifesto rather than a dwelling: octagonal domed saloon, hexastyle Corinthian portico, and a plan of Palladian ratios throughout.",
+      "precedent": "chiswick-house",
+      "standing": "icon",
+      "why": "The building the English Palladian programme is argued from, and this corpus names it first; Historic England's own entries describe it in one clause, 'a two-storey Palladian villa', so the standing rests on the node's own literature and not on the register."
     },
     {
       "name": "Houghton Hall",
       "location": "Norfolk, England",
       "year": 1735,
-      "note": "Built 1722-35 by Colen Campbell and Thomas Ripley, with interiors by William Kent, for Sir Robert Walpole. The Stone Hall is a 40-foot cube — the clearest surviving demonstration of the system applied at full scale."
+      "note": "Built 1722-35 by Colen Campbell and Thomas Ripley, with interiors by William Kent, for Sir Robert Walpole. The Stone Hall is a 40-foot cube — the clearest surviving demonstration of the system applied at full scale.",
+      "precedent": "houghton-hall",
+      "standing": "canonical",
+      "why": "Its list entry states the fullest Palladian envelope in this cluster -- three storeys, nine by five bays, four angle towers, two-storey seven by seven service wings -- and calls the whole 'Palladian with some Baroque references', which is a third party stating this node's own descent."
     },
     {
       "name": "Holkham Hall",
       "location": "Norfolk, England",
       "year": 1764,
-      "note": "Built 1734-64 by William Kent and Matthew Brettingham for Thomas Coke, first Earl of Leicester, to a scheme developed with Burlington. Yellow brick, a main block with four corner wings, and the alabaster-columned Marble Hall derived from a Roman basilica."
+      "note": "Built 1734-64 by William Kent and Matthew Brettingham for Thomas Coke, first Earl of Leicester, to a scheme developed with Burlington. Yellow brick, a main block with four corner wings, and the alabaster-columned Marble Hall derived from a Roman basilica.",
+      "precedent": "holkham-hall",
+      "standing": "canonical",
+      "why": "The list entry states the storey regime this node's `height_proportion` slot bands in feet -- a rusticated ground floor under a piano nobile of rooms of parade, with the four wings at two and a half storeys -- which is the arrangement the kit assumes and the register states independently."
     },
     {
       "name": "Mereworth Castle",
       "location": "Kent, England",
       "year": 1725,
-      "note": "Built 1723-25 by Colen Campbell for John Fane. The closest English copy of the Villa Rotonda, with four porticoes and a central dome whose void conceals the chimney flues."
+      "note": "Built 1723-25 by Colen Campbell for John Fane. The closest English copy of the Villa Rotonda, with four porticoes and a central dome whose void conceals the chimney flues.",
+      "precedent": "mereworth-castle",
+      "standing": "icon",
+      "why": "Historic England says of it exactly what this node's exemplar note says -- 'Based on Palladio's Villa Capra near Vicenza' -- with four identical fronts and hexastyle Ionic porticoes; calling it the closest English copy is this corpus's judgment on top of the register's attribution."
+    },
+    {
+      "name": "Marble Hill House",
+      "location": "Twickenham, London, England",
+      "year": 1729,
+      "note": "Built 1724-29 to designs by Henry Herbert, ninth Earl of Pembroke, and Roger Morris for Henrietta Howard. Five bays with a pedimented three-bay centre, three storeys of which the lowest is an architectural basement, a pyramidal pantiled roof -- the compact villa that became the model for the Georgian villa and for American plantation houses.",
+      "precedent": "marble-hill-house",
+      "standing": "canonical",
+      "why": "Historic England itself calls it 'An unusually instructive exemplar of the architectural ideas of the English Palladian School', and its entry states a 24 ft cube for the Great Room, the only interior dimension in feet any entry in this cluster gives."
+    },
+    {
+      "name": "Stourhead House",
+      "location": "Stourton, Wiltshire, England",
+      "year": 1724,
+      "note": "Colen Campbell's block of 1721-24 for the banker Henry Hoare: two storeys over basements, five windows wide and ten bays deep, in limestone ashlar under hipped Lakeland slate. The tetrastyle portico was added in 1840 from Campbell's own design and the central block was rebuilt 1902-06 after a fire.",
+      "precedent": "stourhead-house",
+      "standing": "documentary",
+      "why": "Plain, fully counted in its list entry and useful to measure rather than to admire -- and documentary rather than canonical precisely because the register says the central block is an Edwardian rebuild on a Campbell plan and the portico an 1840 addition."
+    },
+    {
+      "name": "Wentworth Woodhouse",
+      "location": "Wentworth, South Yorkshire, England",
+      "year": 1750,
+      "note": "Two houses back to back and thirty years apart: a Baroque west front of about 1725-35 in Flemish-bond brick, and behind it the Palladian east front begun 1734 by Ralph Tunnicliffe and completed by Henry Flitcroft -- 49 bays with a 19-bay central block and a nine-bay hexastyle-porticoed centre.",
+      "precedent": "wentworth-woodhouse",
+      "standing": "icon",
+      "why": "Its list entry says the thing this corpus would otherwise have to assert -- 'Baroque style west facade conceals irregular plan adapted from C17 house. Symmetry of Palladian east front carried through to some of the internal planning' -- so one building carries the change of style this node was defined by, front and back."
     }
   ],
   "sources": [

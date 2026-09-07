@@ -215,25 +215,55 @@
       "name": "Cumberland Terrace",
       "location": "Regent's Park, London, England",
       "year": 1826,
-      "note": "Designed by John Nash and executed by James Thomson. A row of ordinary houses fronted as a single stuccoed palace with a giant Ionic order and a sculptured pediment — the scenographic method at full strength."
+      "note": "Designed by John Nash and executed by James Thomson. A row of ordinary houses fronted as a single stuccoed palace with a giant Ionic order and a sculptured pediment — the scenographic method at full strength.",
+      "precedent": "cumberland-terrace",
+      "standing": "icon",
+      "why": "Historic England calls it a 'Monumental palace-style terrace of 59 houses' approximately 240 m long and then names the trick this node describes: two-storey pairs of houses in the courtyards behind the arches while the front block runs four storeys under a decastyle giant portico."
     },
     {
       "name": "Royal Pavilion",
       "location": "Brighton, England",
       "year": 1823,
-      "note": "Remodelled by Nash 1815-23 for the Prince Regent from Henry Holland's earlier villa. Indian outside, Chinese inside, and structurally a cast-iron frame — the period's eclecticism and its technology in one building."
+      "note": "Remodelled by Nash 1815-23 for the Prince Regent from Henry Holland's earlier villa. Indian outside, Chinese inside, and structurally a cast-iron frame — the period's eclecticism and its technology in one building.",
+      "precedent": "royal-pavilion-brighton",
+      "standing": "icon",
+      "why": "Grade I and listed since 1952; the entry describes the east front as 'composed of 5 distinct parts, symmetrically arranged around the 7-bay colonnade of the rotunda', in stucco 'scored to imitate ashlar' with domes painted to resemble Bath stone until the mastic failed in 1827 and was replaced by copper."
     },
     {
       "name": "Park Crescent",
       "location": "Marylebone, London, England",
       "year": 1821,
-      "note": "Built 1806-21 by Nash. A semicircular stuccoed crescent with a continuous paired Ionic colonnade at ground level, and the hinge between Portland Place and Regent's Park."
+      "note": "Built 1806-21 by Nash. A semicircular stuccoed crescent with a continuous paired Ionic colonnade at ground level, and the hinge between Portland Place and Regent's Park.",
+      "precedent": "park-crescent",
+      "standing": "canonical",
+      "why": "The list entry calls it 'the earliest feature of his Regent's Park development' and states the whole method in one clause -- 'Simple spacious Grecian detailing distinguished by the unifying sweep of the ground floor colonnade' over uniform four-storey, three-window houses."
     },
     {
       "name": "Sir John Soane's Museum, 12-14 Lincoln's Inn Fields",
       "location": "London, England",
       "year": 1824,
-      "note": "Built and rebuilt by Soane for himself 1792-1824. The period's other pole: incised linear ornament, top-lit spaces, mirrors and shallow domes, and a classicism reduced almost to abstraction."
+      "note": "Built and rebuilt by Soane for himself 1792-1824. The period's other pole: incised linear ornament, top-lit spaces, mirrors and shallow domes, and a classicism reduced almost to abstraction.",
+      "precedent": "sir-john-soanes-museum",
+      "standing": "icon",
+      "why": "Historic England's Grade I entry describes exactly the operation this node's prose calls the period's other pole: three ordinary four-storey, three-window London houses 'Progressively rebuilt by Soane to form a symmetrical facade', with a projecting stone front of three bays and a first floor 'formerly an open loggia, glazed in 1834'."
+    },
+    {
+      "name": "Brunswick Terrace",
+      "location": "Hove, Brighton and Hove, England",
+      "year": 1828,
+      "note": "Built 1824-8 by Amon Wilds and C.A. Busby as the seaward front of the Brunswick estate. Stucco over brick with full-height bow fronts, a giant Ionic order, a minimal pediment over the centre and a rusticated ground floor; listed in four consecutive Grade I entries.",
+      "precedent": "brunswick-terrace-hove",
+      "standing": "regional",
+      "why": "The resort terrace this node's own hearth names. Historic England's Grade I entry for Nos 1-6 states 'Stucco over brick, roofs of slate', '3 storeys over basement plus attic, with additional storey in centre 6 bays, 3:3:6:3:3 bays' and 'full-height bow fronts to penultimate 3 bays east and west' -- the seaside front assembled from exactly the parts the node lists."
+    },
+    {
+      "name": "Sezincote",
+      "location": "Gloucestershire, England",
+      "year": 1805,
+      "note": "Built 1800-1805 by Samuel Pepys Cockerell with Thomas Daniell and Humphry Repton for Sir Charles Cockerell, on an East India Company fortune. A copper onion dome over a symmetrical two-storey block, with chajja, corner minarets and twelve-pane sashes; the garden is Repton's.",
+      "precedent": "sezincote",
+      "standing": "icon",
+      "why": "The evidence for this node's own claim that Regency is where British classicism 'stops being a system and becomes a menu': one Grade I entry describes 'Orange ashlar limestone, slate roof with copper dome', a 'Mixture of Mogul and Hindu elements of architecture', twelve-pane sashes on the first floor, a 'C18 classical style interior' and cast-iron girders carrying the stair, in a single sequence of paragraphs."
     }
   ],
   "sources": [

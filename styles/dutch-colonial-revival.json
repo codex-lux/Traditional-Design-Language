@@ -188,25 +188,55 @@
       "name": "William E. Curtis House",
       "location": "808 East Curtis Street, Seminole Heights, Tampa, Florida",
       "year": 1906,
-      "note": "Gambrel-roofed Dutch Colonial Revival, NRHP 1987; evidence of how far outside the Hudson Valley the variant travelled."
+      "note": "Gambrel-roofed Dutch Colonial Revival, NRHP 1987; evidence of how far outside the Hudson Valley the variant travelled.",
+      "precedent": "william-e-curtis-house",
+      "standing": "documentary",
+      "why": "The National Register nomination measures and describes it room by room -- rooms 'about 12 ft. X 20 ft.' each side of a central hall, three bays, an interior chimney off centre, three dormers of two kinds -- which makes it the node's one dimensioned specimen and not its handsomest."
     },
     {
       "name": "57 Stone Street",
       "location": "New York, New York",
       "year": 1903,
-      "note": "C. P. H. Gilbert. Urban Dutch Revival with a stepped gable, quoting the Netherlands rather than the Hudson Valley - the style's other branch."
+      "note": "C. P. H. Gilbert. Urban Dutch Revival with a stepped gable, quoting the Netherlands rather than the Hudson Valley - the style's other branch.",
+      "precedent": "57-stone-street",
+      "standing": "regional",
+      "why": "The urban branch the node's own exemplar note names, and Wikipedia describes the facade exactly: 'four-story neo-Dutch Renaissance facades ... stepped gables, a limestone base, and a honey-colored brick cladding on its upper stories'."
     },
     {
       "name": "West End Collegiate Church and School",
       "location": "West End Avenue at 77th Street, New York, New York",
       "year": 1892,
-      "note": "Robert W. Gibson, after the Vleeshal at Haarlem. The institutional case that gave the Dutch reference its New York prestige. Cornerstone 1891, dedicated 20 November 1892."
+      "note": "Robert W. Gibson, after the Vleeshal at Haarlem. The institutional case that gave the Dutch reference its New York prestige. Cornerstone 1891, dedicated 20 November 1892.",
+      "precedent": "west-end-collegiate-church-and-school",
+      "standing": "icon",
+      "why": "The building the Dutch reference in New York is known by, and its source is documented rather than inferred: Robert W. Gibson designed it after the 1606 Vleeshal at Haarlem, as both Archiseek and the New York Times state."
     },
     {
       "name": "Wallabout Market",
       "location": "Brooklyn, New York",
       "year": 1896,
-      "note": "William Tubby, 1894-96. A whole market district in Dutch Revival stepped-gable brick; demolished, but the largest commitment ever made to the idiom."
+      "note": "William Tubby, 1894-96. A whole market district in Dutch Revival stepped-gable brick; demolished, but the largest commitment ever made to the idiom.",
+      "precedent": "wallabout-market",
+      "standing": "documentary",
+      "why": "Demolished in 1941 and therefore evidence only on paper, but the landmarks report for the neighbouring district records what it was -- 'a large, picturesque complex of Dutch-inspired market buildings' of 1894-96 -- and the node's own note calls it the largest commitment ever made to the idiom."
+    },
+    {
+      "name": "Top Cottage",
+      "location": "Hyde Park, New York",
+      "year": 1939,
+      "note": "Franklin Roosevelt's own hilltop retreat, designed by him with Henry Toombs to quote Hudson Valley Dutch building: one and a half storeys of random-coursed fieldstone under steeply pitched GABLE roofs, with the west facade carried out in a concave pitch over a full-width porch. The revival getting the sprung eave right and doing without the gambrel altogether.",
+      "precedent": "top-cottage",
+      "standing": "icon",
+      "why": "The National Park Service says it 'recalls the massing, materials, and simple detailing of Dutch colonial architecture of the Hudson Valley', and it is a National Historic Landmark designed by a sitting president expressly to do so -- the one revival building in this set whose west facade 'extends in a concave pitch over an open, full-width porch'."
+    },
+    {
+      "name": "Springwood",
+      "location": "Hyde Park, New York",
+      "year": 1916,
+      "note": "Named here only for the 1915-16 fieldstone enlargement, which the National Park Service groups with Val-Kill, the FDR Library and Top Cottage as designed to emulate Hudson Valley Dutch building. The house as a whole is a columned Colonial Revival mansion and belongs to `colonial-revival`, where its own record already sits.",
+      "precedent": "springwood",
+      "standing": "regional",
+      "why": "The Park Service groups the 1915-16 fieldstone enlargement with Val-Kill, the FDR Library and Top Cottage as 'designed by FDR to emulate the Dutch colonial architecture found throughout the Hudson River Valley'; regional and not icon because the house as a whole is a columned Colonial Revival mansion and only the material and the intention are Dutch."
     }
   ],
   "sources": [

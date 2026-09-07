@@ -1,0 +1,66 @@
+{
+  "id": "palazzo-carignano",
+  "name": "Palazzo Carignano",
+  "location": {
+    "text": "Turin, Piedmont, Italy",
+    "country": "Italy",
+    "state": "Piedmont"
+  },
+  "dates": {
+    "built": "from 1679",
+    "circa": false,
+    "altered": "The Residenze Reali Sabaude record says the palace originally had a C-shaped plan open toward the gardens and stables on what is now piazza Carlo Alberto; the Parco PO Piemontese page read in a search result describes the later rear front on that square as eclectic, in white stone and pink stucco.",
+    "note": "Both official bodies date the commission to 1679; the Museo del Risorgimento's page says Guarini 'nel 1679 ha dato vita a questo edificio'."
+  },
+  "nodes": [
+    "italian-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://residenzerealisabaude.com/palazzo-carignano",
+      "title": "Palazzo Carignano - Residenze Reali Sabaude",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The official circuit of the Savoy Royal Residences, which is the body that presents this palace as part of the World Heritage property."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.museorisorgimentotorino.it/palazzo-carignano",
+      "title": "Palazzo Carignano - Museo Nazionale del Risorgimento Italiano",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The museum that occupies the piano nobile. Its own page calls the front 'una facciata ondulata in mattoni rossi, unica nel suo genere'."
+    }
+  ],
+  "survey": {
+    "item": "palazzo-carignano",
+    "register": "other",
+    "data_url": "https://residenzerealisabaude.com/palazzo-carignano",
+    "prepared": "Residenze Reali Sabaude, official site, 'Palazzo Carignano'; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Palazzo Carignano, una delle più originali costruzioni del barocco, si distingue per l’andamento curvilineo della facciata incotto e per l’atrio con le doppie scalinate. La costruzione del Palazzo era stata commissionata nel 1679 a Guarino Guarini, che si ispirò ai disegni di Bernini per il Louvre, da Emanuele Filiberto di Savoia-Carignano.",
+        "page": "Residenze Reali Sabaude, Palazzo Carignano, section 'Linee barocche per il primo Parlamento italiano'. 'facciata incotto' is the page's own running-together of 'in cotto'."
+      },
+      {
+        "field": "plan",
+        "text": "Fulcro del palazzo, che in origine aveva una pianta a C aperta verso i giardini e le scuderie, in corrispondenza dell’attuale piazza Carlo Alberto, è il monumentale atrio ovale, dal quale si articola il percorso cerimoniale nelle due maniche laterali. Intorno all’atrio si sviluppano due spettacolari scaloni simmetrici che conducono ad un",
+        "page": "Residenze Reali Sabaude, Palazzo Carignano, plan paragraph. The extract's chunk ends mid-sentence and the span is carried only as far as it was read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "ceremonial_stair_count",
+      "as_printed": "due spettacolari scaloni simmetrici",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche: the node's geography names Piedmont, Sicily and Naples and all four of its exemplars were in Rome or the Vatican. This is also the node's first diagnostic tell stated by a register in so many words -- 'l'andamento curvilineo della facciata', an undulating front in brick, and the museum's own page calls it 'unica nel suo genere'. NO DIMENSION IS STATED by either body."
+}

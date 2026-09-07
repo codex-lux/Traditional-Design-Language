@@ -222,25 +222,55 @@
       "name": "California Quadrangle, Panama-California Exposition",
       "location": "Balboa Park, San Diego, California",
       "year": 1915,
-      "note": "Bertram Grosvenor Goodhue. The founding event of the style: Churrigueresque relief on an otherwise plain wall, over an arcaded quadrangle."
+      "note": "Bertram Grosvenor Goodhue. The founding event of the style: Churrigueresque relief on an otherwise plain wall, over an arcaded quadrangle.",
+      "precedent": "california-quadrangle-balboa-park",
+      "standing": "icon",
+      "why": "The Friends of Balboa Park marker on the site calls it 'the Spanish Colonial Revival masterpiece of Exposition architect Bertram Grosvenor Goodhue', and every later Californian architect in this node's sources dates the style's arrival to what visitors saw here in 1915."
     },
     {
       "name": "Casa del Herrero",
       "location": "1387 East Valley Road, Montecito, California",
       "year": 1925,
-      "note": "George Washington Smith, with later library by Lutah Maria Riggs. Widely held to be the finest surviving example in the United States; Andalusian in register."
+      "note": "George Washington Smith, with later library by Lutah Maria Riggs. Widely held to be the finest surviving example in the United States; Andalusian in register.",
+      "precedent": "casa-del-herrero",
+      "standing": "canonical",
+      "why": "A National Historic Landmark kept as a house museum with its fabric, furnishings and garden intact, which its own foundation and the National Historic Landmark designation of 2009 both rest on -- the domestic type specimen a figure can be held against."
     },
     {
       "name": "Santa Barbara County Courthouse",
       "location": "Santa Barbara, California",
       "year": 1929,
-      "note": "William Mooser III. The civic monument of the style, built under the post-1925 earthquake design ordinance."
+      "note": "William Mooser III. The civic monument of the style, built under the post-1925 earthquake design ordinance.",
+      "precedent": "santa-barbara-county-courthouse",
+      "standing": "icon",
+      "why": "Its own National Historic Landmark nomination quotes Mooser's intention that it be '.. .more Spanish than any hotel-de-ville in Spain', and it is the building the post-1925 Santa Barbara ordinance is remembered by."
     },
     {
       "name": "Adamson House",
       "location": "Malibu, California",
       "year": 1929,
-      "note": "Stiles O. Clements. Notable for the most complete surviving programme of Malibu Potteries decorative tile in situ."
+      "note": "Stiles O. Clements. Notable for the most complete surviving programme of Malibu Potteries decorative tile in situ.",
+      "precedent": "adamson-house",
+      "standing": "regional",
+      "why": "The California Historical Landmark marker calls it the holder of 'the best surviving examples of decorative ceramic tile produced by Malibu Potteries', which is a Malibu-coast fact about a local industry rather than a claim about the style's whole reach."
+    },
+    {
+      "name": "Hearst Castle",
+      "location": "San Simeon, California",
+      "year": null,
+      "note": "Julia Morgan for William Randolph Hearst, 1919-1947. Casa Grande's twin towers are the Spanish church front used as a house front, at a scale nothing else in the style attempts; California State Parks calls the main house a '115-room' building and the operating foundation counts 165 rooms across the estate. No completion year is given here because no source states one.",
+      "precedent": "hearst-castle",
+      "standing": "icon",
+      "why": "A National Historic Landmark of 1976, and the one composition a reader outside architecture can name -- the judgment is the National Park Service's designation and California State Parks' own description of it."
+    },
+    {
+      "name": "Los Angeles Union Passenger Terminal",
+      "location": "800 North Alameda Street, Los Angeles, California",
+      "year": 1939,
+      "note": "John and Donald Parkinson, opened May 1939. The style at civic scale and at the end of its run, with Art Deco and Streamline detail over a Spanish Colonial parti; the operator's own history calls the blend 'Mission Moderne'. Cited for the concourse-and-courtyard plan rather than for the elevation.",
+      "precedent": "los-angeles-union-passenger-terminal",
+      "standing": "canonical",
+      "why": "National Register-listed with a nomination on file and a HABS group under the call number CAL,19-LOSAN,64, which makes it the best-documented large building in the node -- though the terminal's own Library item was not resolved and its style is filed three ways by three sources."
     }
   ],
   "sources": [

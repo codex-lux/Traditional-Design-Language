@@ -1,0 +1,94 @@
+{
+  "id": "palais-garnier",
+  "name": "Palais Garnier (Opera de Paris)",
+  "aka": [
+    "Palais Garnier",
+    "Opéra Garnier",
+    "Théâtre national de l'Opéra, dit opéra Garnier"
+  ],
+  "location": {
+    "text": "Place de l'Opera, Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1862-1875 (the campaign years the Mérimée notice prints)",
+    "circa": false,
+    "note": "THREE SOURCES, THREE DATES FOR THE COMPETITION AND THE START, AND NONE IS CHANGED. The node's exemplar says 'competition won 1861, built 1861-1875'. The Mérimée notice says 'Charles Garnier remporte le concours en 1860' and prints campaign years '1862 ; 1875'. en.wikipedia's infobox prints 'Groundbreaking August 1861' and 'Opened 5 January 1875'. The 1875 opening is the one thing all three agree on."
+  },
+  "nodes": [
+    "beaux-arts-french",
+    "continental-baroque-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00089004",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00089004",
+      "title": "Théâtre national de l'Opéra, dit opéra Garnier",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Date et niveau de protection de l'édifice 1923/10/16 : classé MH' and the precision 'Le théâtre (architecture et décor extérieur et intérieur (cad. 2015 00 AS 01 27) : classement par arrêté du 16 octobre 1923'. The reference was read from en.wikipedia's infobox, which prints 'Designated 16 October 1923' and 'Reference no. PA00089004', and then extracted from POP, whose page prints 'Notice merimee PA00089004'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Palais_Garnier",
+      "title": "Palais Garnier - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Where the Mérimée number was read; its infobox also prints 'Capacity 1,979', 'Groundbreaking August 1861', 'Opened 5 January 1875' and 'Cost 36,010,571.04 francs (as of 20 November 1875)'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.operadeparis.fr/en/info/150-years-of-the-palais-garnier",
+      "title": "150 years of the Palais Garnier - Opéra national de Paris",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Opéra national de Paris's own page, read for the listing date: 'Listed as a historical monument in 1923'."
+    }
+  ],
+  "survey": {
+    "item": "PA00089004",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00089004",
+    "prepared": "The notice prints 'Date de création de la notice 8 juillet 1993' and 'Date de dernière modification de la notice 4 mars 2026'; its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "La construction de l'opéra fut décidée par Napoléon III dans le cadre des travaux menés par le baron Haussmann. Charles Garnier remporte le concours en 1860 ; les travaux durent près de 15 ans et l'opéra n'est inauguré qu'en 1875.",
+        "page": "Notice Mérimée PA00089004, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1862 ; 1875",
+        "page": "Notice Mérimée PA00089004, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Le théâtre (architecture et décor extérieur et intérieur (cad. 2015 00 AS 01 27) : classement par arrêté du 16 octobre 1923",
+        "page": "Notice Mérimée PA00089004, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. The notice's own unclosed parenthesis is left as read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "construction_duration_years",
+      "as_printed": "les travaux durent près de 15 ans",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Years, not a dimension, and the register's own 'près de' is a hedge that the parsed 15 does not carry. `count` is the nearest unit the closed enum offers."
+    },
+    {
+      "name": "competition_year",
+      "as_printed": "remporte le concours en 1860",
+      "value": 1860,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The register's competition year, one year earlier than the node's exemplar note. Carried because the disagreement is the point."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE BUILDING THIS NODE IS BUILT AROUND, AND THE REGISTER DESCRIBES NONE OF IT. The corpus's account is entirely about the plan - 'the grand escalier and its foyers occupy more of the building than the auditorium', 'a stair hall thirty metres high in coloured marbles' - and the Mérimée notice states no dimension, no material, no bay count and no room. It records who decided the building, who won the competition and when it opened. The 30 m stair hall and the 1,979 seats are therefore unsourced here; the seat count is on en.wikipedia and is not carried as a measurement because it is not in the survey source. No rights line was read, so no `rights_evidence`."
+}

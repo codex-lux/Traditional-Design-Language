@@ -1,0 +1,49 @@
+{
+  "id": "andrew-johnson-house",
+  "name": "Andrew Johnson House",
+  "aka": [
+    "Andrew Johnson Homestead"
+  ],
+  "location": {
+    "text": "217 South Main Street, Greeneville, Greene County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "mid-nineteenth century",
+    "circa": true,
+    "note": "No date was reached. The HABS data PDF for this item carries only the covers of the reduced drawings and the photographs, and the sister survey next door (Rumbough-Doughty, HABS TN-151) dates itself only by likeness to this house -- 'similar to the Andrew Johnson Home, being of the same period'. Nothing more precise is asserted."
+  },
+  "nodes": [
+    "greek-revival-upland-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-142",
+      "title": "Andrew Johnson House (Andrew Johnson Homestead), 217 S. Main Street, Greeneville, Greene County, Tennessee",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0000/tn0057/data/tn0057data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed cleanly in the PDF's own header, twice: 'Andrew Johnson House (Andrew Johnson Homestead) 217 S. Main Street Greenville Greene County Tennessee HABS No. TN-142' and 'Addendum to: HABS No. TN-142'. NO WRITTEN DESCRIPTIVE DATA IS IN IT: both pages reached are covers, 'REDUCED COPIES OF MEASURED DRAWINGS' and 'PHOTOGRAPHS', which is why this record carries no survey block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0057",
+      "url": "https://www.loc.gov/item/tn0057",
+      "title": "Andrew Johnson House, 217 South Main Street, Greeneville, Greene County, TN",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's item, dated 1933 in the search result's citation line."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/collections/andrew-johnson-papers/about-this-collection/related-resources",
+      "title": "Related Resources | About this Collection | Andrew Johnson Papers (Library of Congress)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's own citation of the survey from the manuscript collection: 'Andrew Johnson House, 217 South Main Street, Greeneville, Greene County, Tenn., HABS TN-142, Historic American Buildings Survey, Prints & Photographs Division'. This is the second, independent surface for the survey number."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. NO SURVEY BLOCK, and the reason is worth stating rather than leaving as an absence: the item has measured drawings and photographs and no written historical and descriptive data at all -- the PDF at the data path is two cover sheets. So the building that gives this cluster its one recognisable name is also the one this record can say least about, which is a fair picture of the stratum. It is carried because the neighbouring survey (Rumbough-Doughty, HABS TN-151, 215 South Irish Street) dates and describes ITSELF by reference to this house, so the two records together say more than either does alone: a mid-century two-storey brick town house in Greeneville, L-plan, brick cornice, no dormers, 'perhaps built by the same builder'."
+}

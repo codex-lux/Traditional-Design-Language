@@ -1,0 +1,44 @@
+{
+  "id": "nova-constantia",
+  "name": "Nova Constantia",
+  "location": {
+    "text": "Constantia, Cape Town, South Africa",
+    "country": "South Africa",
+    "state": "Western Cape"
+  },
+  "dates": {
+    "built": "first quarter of the 19th century",
+    "circa": true,
+    "note": "The register hedges: 'the house probably dates from the first quarter of the 19th century'. No firmer date was found and none is invented."
+  },
+  "nodes": [
+    "cape-dutch"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "9/2/111/0094",
+      "url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Wynberg,_Cape_Town",
+      "title": "Nova Constantia, Constantia, Wynberg District -- List of heritage sites in Wynberg, Cape Town",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "South African Heritage Resources Agency identifier, read from the Wikipedia heritage-site table that transcribes SAHRA's own list. SAHRIS itself was not reachable from this container."
+    }
+  ],
+  "survey": {
+    "item": "9/2/111/0094",
+    "register": "state-register",
+    "data_url": "https://en.wikipedia.org/wiki/List_of_heritage_sites_in_Wynberg,_Cape_Town",
+    "prepared": "South African Heritage Resources Agency site description, as TRANSCRIBED in the English Wikipedia list of heritage sites for the district. SAHRIS (sahris.sahra.org.za), the register's own database, was not reached from this container; the identifier and the wording below are the Wikipedia table's, read in an extract. This is a transcription and not the register, and it is recorded as one.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Nova Constantia originally formed part of the Groot Constantia estate and the house probably dates from the first quarter of the 19th century. The homestead is U-shaped and is regarded, mainly because of its impressive gables and its setting, as one of the finest Cape Dutch houses. Type of site: Farmstead.",
+        "page": "SAHRA identifier 9/2/111/0094, description column of the Wynberg heritage-site table. A register description is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Cape cluster, 5 September 2026. Added by this tranche for the PLAN LETTER, which is the one thing the node's growth grammar needs a specimen of at each stage and which the corpus had for none: 'The homestead is U-shaped' is a register statement, unhedged, beside Morgenster's 'The house is H-shaped'. Together with the disputed T-or-H at Meerlust these are the corpus's first sourced instances of the langhuis-T-U-H sequence the node's prose asserts."
+}

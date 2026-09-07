@@ -1,0 +1,88 @@
+{
+  "id": "parthenon",
+  "name": "Parthenon",
+  "location": {
+    "text": "Acropolis, Athens, Greece",
+    "country": "Greece",
+    "state": "Attica"
+  },
+  "dates": {
+    "built": "447-438 BC",
+    "circa": false,
+    "note": "The Greek Ministry of Culture's monument page says 'Built between 447 and 438 BC'; the node's own exemplar note gives 447-432 BC, which is the date the sculptural programme was finished rather than the building. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "greek-classical",
+    "antique-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=912",
+      "title": "Ministry of Culture and Sports | Parthenon",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Odysseus portal is the Hellenic Ministry of Culture's own monument register; obj_id=912 is its record for the Parthenon. Its DESCRIPTION tab is the text quoted in the survey block."
+    },
+    {
+      "kind": "unesco",
+      "id": "404",
+      "url": "https://whc.unesco.org/en/list/404",
+      "title": "Acropolis, Athens - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Parthenon is a monument within the inscribed property 'Acropolis, Athens', not a separate inscription. UNESCO's criterion (i) text names it: 'the Parthenon by Iktinos and Kallikrates with the collaboration of the sculptor Pheidias (447-432)'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Parthenon",
+      "title": "Parthenon",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for its infobox figures only: 'Size 69.5 by 30.9 m (228 by 101 ft)', 'Height 13.72 m (45.0 ft)', 'Cella: 29.8 by 19.2 m'. Read from a search result, not an extract, so no figure from it is carried as a measurement below."
+    }
+  ],
+  "survey": {
+    "item": "912",
+    "register": "other",
+    "data_url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=912",
+    "prepared": "Hellenic Ministry of Culture and Sports, Odysseus portal, monument record obj_id=912; the page prints no author line in the extract",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The Parthenon, dedicated by the Athenians to Athena Parthenos, the patron of their city, is the most magnificent creation of Athenian democracy at the height of its power. It is also the finest monument on the Acropolis in terms of both conception and execution. Built between 447 and 438 BC, as part of the greater Periklean building project, this so-called Periklean Parthenon (Parthenon III) replaced an earlier marble temple (Parthenon II), begun after the victory at the battle of Marathon at approximately 490 BC and destroyed by the Persians in 480 BC.",
+        "page": "Odysseus record 912, DESCRIPTION section, opening paragraph; the portal paginates nothing"
+      },
+      {
+        "field": "bays",
+        "text": "The Parthenon is a double peripteral Doric temple with several unique and innovative architectural features. The temple proper is divided into pronaos, cella and opisthodomos, with a separate room at the west end, and is surrounded by a pteron with eight columns on each of the short sides and seventeen columns on the long ones.",
+        "page": "Odysseus record 912, DESCRIPTION section, second paragraph"
+      },
+      {
+        "field": "other",
+        "text": "The frieze, an element of the Ionic order, brilliantly added to this Doric temple along the top of the cella, pronaos and opisthodomos, depicted the splendid procession of the Panathinaia, the greatest festival of Athens in honour of Athena.",
+        "page": "Odysseus record 912, DESCRIPTION section, sculpture paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "peristyle_columns_front",
+      "as_printed": "eight columns on each of the short sides",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "peristyle_columns_flank",
+      "as_printed": "seventeen columns on the long ones",
+      "value": 17,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "8 x 17 satisfies the node's own stated rule n_flank = 2 x n_front + 1."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. There is no HABS for Europe; the survey block is the Hellenic Ministry of Culture's own Odysseus monument record, which is the same class of document as a national heritage list entry (WP-11.5). It states form, plan and column counts and states no dimension at all, which is the tranche's characteristic silence: the Parthenon's stylobate figures are everywhere in the literature and in no register text this container could read as continuous prose."
+}

@@ -1,0 +1,181 @@
+{
+  "id": "nickels-sortwell-house",
+  "name": "Nickels-Sortwell House",
+  "location": {
+    "text": "Main and Federal Streets, Wiscasset, Maine",
+    "country": "United States",
+    "state": "Maine",
+    "aliases": []
+  },
+  "dates": {
+    "built": "1807-1812",
+    "circa": false,
+    "altered": "The survey traces the house through a tavern (Turner's Tavern, c. 1820s), the Mansion House, Belle Haven from 1870 and the Wiscasset House from 1892, to Alvin Foye Sortwell in 1900; the Maine Historic Preservation Commission says the house 'went through various changes in 1900 before restoration by Alvin Sortwell in 1917 and 1918'. A later sun porch in the north-east corner is recorded on the survey's own floor-plan note.",
+    "note": "Three readings, none edited. The HABS data page states 'Date of erection: 1807-1812'. Wikipedia, Historic New England and the town of Wiscasset all say 1807. The Maine Historic Preservation Commission's page is headed '1807-1808', which is what this node's own exemplar says. The survey is the only one of them that gives a completion year at all, and it is the latest."
+  },
+  "nodes": [
+    "new-england-federal"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "ME-102",
+      "title": "Nickels-Sortwell House, Main and Federal Streets, Wiscasset, Lincoln County, Maine",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0104/data/me0104data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('NICKELS-SORTWELL HOUSE IBBS No. ME-102 (Page 3)', IBBS being OCR for HABS) and again on the addendum cover ('Addendum to: NtCKELS-SORTWELL HO0SB HABS No. HE-102'). The town of Wiscasset's community-assets page independently prints '(HABS., ME-102)'. A TRAP WORTH RECORDING: the Library item whose NUMBER matches the survey number, me0102, is the LINCOLN COUNTY COURTHOUSE (HABS ME-97). It was extracted first, its header read, and it was rejected -- which is the whole reason the protocol asks for the header before the quote."
+    },
+    {
+      "kind": "loc-item",
+      "id": "me0104",
+      "url": "https://commons.wikimedia.org/wiki/File:Nickels-Sortwell_House.jpg",
+      "title": "File:Nickels-Sortwell House.jpg — Wikimedia Commons, which prints 'This image is available from the United States Library of Congress's Prints and Photographs division under the digital ID hhh.me0104.'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id was read from the Commons file page and then CONFIRMED by fetching https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0104/data/me0104data.pdf, whose running header names this house and this survey number. The loc.gov landing page itself was not opened. The same Commons page gives the photograph call number as 'HABS: ME,8-WISC,13-1', July 1960, Cervin Robinson."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000078",
+      "url": "https://en.wikipedia.org/wiki/Nickels-Sortwell_House",
+      "title": "NRHP reference No. 70000078; added to the National Register and designated a National Historic Landmark December 30, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same number resolves the NHL nomination text on NPGallery, which was returned by the same search and is recorded separately below; read on two surfaces, neither of them the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/70000078_text",
+      "title": "National Register of Historic Places Inventory - Nomination Form: Nickels-Sortwell House, Main Street at Federal Street, Northeast corner, Wiscasset, Maine",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's physical description reads: 'The Nickels-Sortwell House is a large L-shaped three-story frame house with low hip roof and a notably elaborate facade. The main house is rectangular in shape and has a large slightly lower three-story ell located at the rear northwest corner. The structure is about ^5 feet wide and 83 feet deep, including the rear ell. The five-bay wide main (south) facade and the east side are flush-boarded and the walls of the other elevations are clapboarded.' Its width figure and the survey's DISAGREE -- see this record's note. It also records the HABS holding as '(3 photos, 6 data pages)'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/nickels-sortwell-house",
+      "title": "Nickels-Sortwell House | Historic New England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Gives the street address as '121 Main Street (Route 1)', which neither this node's exemplar nor the survey uses; the exemplar's 'Main and Federal Streets, Wiscasset, Maine' is the survey's own form and is not renamed."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.maine.gov/mhpc/did-you-know/nickels-sortwell-house-1807-1808-wiscasset-lincoln-county",
+      "title": "Nickels-Sortwell House, 1807-1808 - Wiscasset, Lincoln County | Maine Historic Preservation Commission",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The state preservation office ties the house to one of this node's own four sources: 'the main entrance looks similar to Plate 20 in his 1806 edition of American Builders Companion', of Asher Benjamin. It also names 'the elaborate elliptical fanlight over the front entry, the second-story Palladian window ..., the third story concentric lunette window, and upper story pilasters with elaborate capitals'."
+    }
+  ],
+  "survey": {
+    "item": "me0104",
+    "register": "loc-item",
+    "survey_no": "ME-102",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0104/data/me0104data.pdf",
+    "prepared": "Prepared by Osmund R. Overby, Architect, National Park Service, August 1962 (as the sheet reads); an addendum was later transmitted by the Historic American Buildings Survey, National Park Service, Washington, DC 20013-7127",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Technical Description of Exterior 1. Over-all dimensions: Three-story main block facing south, five bays about 42' wide, large wing to the rear at the northwest.",
+        "page": "HABS No. ME-102, Part II.B.1. The only page marker anywhere in the extract span is printed several lines AFTER this text and reads 'NICKELS-SORTWELL HOUSE IBBS No. ME-102 (Page 3)', so this text stands on the page before it."
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Large blocks of cut granite. 3. Wall construction: Heavy timber frame, clapboard sides and rear. Elaborately decorated facade with flush siding. Center three bays projected slightly with attenuated Corinthian Colonial pilasters treatment on upper two stories and basement on lower level.",
+        "page": "HABS No. ME-102, Part II.B.2-3. Precedes the '(Page 3)' marker in the extract, so it is on the preceding page; no marker of its own was legible."
+      },
+      {
+        "field": "porches",
+        "text": "4. Porches: Elaborate entrance porch, one story, at the center bay of house, two fluted Corinthian columns at each front corner, elaborate entablature with molded and drilled ornament.",
+        "page": "HABS No. ME-102, Part II.B.4. Precedes the '(Page 3)' marker in the extract, so it is on the preceding page; no marker of its own was legible."
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: Brick chimneys In outside end walls.",
+        "page": "HABS No. ME-102, Part II.B.5. Precedes the '(Page 3)' marker in the extract, so it is on the preceding page; no marker of its own was legible."
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows; Double hung windows, six over six light \"& on first and second floors, six over three light on third floor.",
+        "page": "NICKELS-SORTWELL HOUSE IBBS No. ME-102 (Page 3); the marker is printed immediately before this line in the extract"
+      },
+      {
+        "field": "roof",
+        "text": "7. Hoof; a. Shape, covering: Low hip roof on main \"block, shingled. b. Cornice: Molded cornice with large drilled ovolo and doubled fret bed mold.",
+        "page": "NICKELS-SORTWELL HOUSE IBBS No. ME-102 (Page 3); 'Hoof' is OCR for 'Roof'"
+      },
+      {
+        "field": "plan",
+        "text": "C. Technical Description of Interior 1. Floor plans: Central-hall, two-room plan in main block, dining room and service rooms in rear wing, later sun porch added in northeast corner, similar arrangement on upper floors.",
+        "page": "HABS No. ME-102, Part II.C.1; the preceding marker in the extract span is '(Page 3)'"
+      },
+      {
+        "field": "stairways",
+        "text": "2. Stairways: Open well, oval stairway from first to third floor with skylight in central hall, open string, delicately scaled ornament with",
+        "page": "HABS No. ME-102, Part II.C.2; the extract's chunk ends mid-sentence and the span is not continued"
+      },
+      {
+        "field": "significance",
+        "text": "Brief Statement This is one of the larger, more elaborate houses of Significance; of the early 19th century on the Maine Coast, well furnished and open as a auseum.",
+        "page": "HABS No. ME-102, 'Brief Statement of Significance'; no page marker legible in this extract span. The OCR has run the heading into the sentence and prints 'auseum' for 'museum'"
+      },
+      {
+        "field": "other",
+        "text": "2. Date of erection: 1807-1812. 3. Original construction: Total cost of the house $14,000.",
+        "page": "HABS No. ME-102, Part I.A.2-3; no page marker legible in this extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "about 42' wide",
+      "value": 42,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey's figure is for the MAIN BLOCK only and is explicitly approximate. The National Register nomination says 'about ^5 feet wide' (OCR for 45) and '83 feet deep, including the rear ell'. The two are not reconciled here: 42 is the surveyor's, 45 the nominator's, and no depth for the main block alone is stated by anyone."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "five bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Three-story main block",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "first_floor_sash_lights",
+      "as_printed": "six over six light",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Six over six on the first and second floors; recorded as the total per sash."
+    },
+    {
+      "name": "third_floor_sash_lights",
+      "as_printed": "six over three light on third floor",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The graduated storey made visible in the glazing: nine lights on the third floor against twelve below."
+    },
+    {
+      "name": "original_construction_cost_usd",
+      "as_printed": "Total cost of the house $14,000",
+      "value": 14000,
+      "from_quote": 9,
+      "note": "No `unit` is given because the schema's unit vocabulary is closed at ft/in/count/ratio/deg/rise_in_12 and carries no currency; the name says what it is."
+    }
+  ],
+  "note": "The one record in this cluster where two archival sources state the same dimension differently: HABS says the main block is 'about 42' wide' and the National Register nomination says the structure is 'about 45 feet wide and 83 feet deep, including the rear ell'. They may not even be measuring the same thing -- the nomination's figure includes the ell and the survey's does not -- and neither is edited. Worth carrying for new-england-federal beyond the figures: the survey records BRICK CHIMNEYS IN OUTSIDE END WALLS and a central-hall two-room plan, which is exactly the plan liberation the node's own kit forbids the central stack for."
+}

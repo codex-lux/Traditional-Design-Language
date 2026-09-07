@@ -1,0 +1,77 @@
+{
+  "id": "gaineswood",
+  "name": "Gaineswood",
+  "aka": [
+    "Whitfield Home",
+    "Gaineswood Museum"
+  ],
+  "location": {
+    "text": "Demopolis, Marengo County, Alabama",
+    "country": "United States",
+    "state": "Alabama"
+  },
+  "dates": {
+    "built": "1842-1861",
+    "circa": false,
+    "altered": "The Library's own catalogue entry for the item records 'ca. 1910 Subsequent Work' beside '1842 Initial Construction'.",
+    "note": "Four statements and none is edited. The 1930s survey's historical sheet prints 'Built in 184S' and, two lines below, 'General Natnan Bryan Whitfield designed and built this home in 1842'; the Library's catalogue says '1842 Initial Construction'; the node's exemplar gives the year 1861 and the span 1843-1861. Recorded as the span the node states, because the survey's own two figures disagree with each other."
+  },
+  "nodes": [
+    "greek-revival-southern-plantation"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "AL-211",
+      "title": "Gaineswood, 805 South Cedar Street, Demopolis, Marengo County, AL",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0300/al0370/data/al0370data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE HEADER'S NUMBER IS NOT LEGIBLE AND THIS ONE IS READ FROM THE LIBRARY. The data page's own cover line OCRs as 'Whitfield Home, «CFainswood tt HABS Ho, W-2U Demopolis, Alabama' and a running head as 'HA6S _ ftt4 Page-^. ALA.'; neither resolves to a number by itself. AL-211 is what the loc.gov item page and the loc.gov drawings page both print ('Drawings from Survey HABS AL-211', 'Survey number: HABS AL-211'), read the same day. The 1930s call number is 'HABS ALA,46-DEMO,1-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "al0370",
+      "url": "https://www.loc.gov/pictures/item/al0370",
+      "title": "Gaineswood, 805 South Cedar Street, Demopolis, Marengo County, AL",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary lines: 'Measured Drawing(s): 26', 'Data Page(s): 6', 'Survey number: HABS AL-211; Building/structure dates: 1842 Initial'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.ruralswalabama.org/attraction/gaineswood-started-1842-completed-on-eve-of-civil-war",
+      "title": "Gaineswood at Demopolis, AL (constructed 1843-1861) - RuralSWAlabama",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its account: 'Constructed over an 18 year period (1843-1861), Gaineswood evolved from a two-room \"dogtrot\" cabin into a Greek Revival style mansion. General Nathan Bryan Whitfield, the builder, was his own architect, though he had no formal training. The labor was done mostly by enslaved people, some of whom were extremely accomplished carpenters and plasterers. Three styles of Greek architecture are represented in the house: Doric-style outside, Ionic for the interior, and Corinthian in the drawing room.' It also states NRHP listing in 1972 and National Historic Landmark designation in 1973 and prints no reference number, so no `nrhp` ref is recorded rather than a guessed one."
+    }
+  ],
+  "survey": {
+    "item": "al0370",
+    "register": "loc-item",
+    "survey_no": "AL-211",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/al/al0300/al0370/data/al0370data.pdf",
+    "prepared": "Historic American Buildings Survey, District No. 16, E. Walter Burkhardt District Officer, Alabama Polytechnic Institute, Auburn, Alabama",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "\"GAINESWOOD, THE ?ffiITFI£LD HOME Demopolis, Marengo County, Alabama. ARCHITECTURAL DESCRIPTION(continued); Reference to \"Gaineswood\" In Howard Major's Domestic Architecture of the Early American Republic, p. 911 \"...Gainswood at Demopolis, Alabama, built by General G. B. Whitfield. The composition, amain body with subsidiary wings and porches, Y/as carefully studied, and the result is success-,. ful and interesting from all four sides. The plan also deviated from the accepted type by em-ploying a mezzanine floor. Undoubtedly we can account for this departure as due to the efforts of one of a party of educated Frenchmen, exiled from the Court of Napoleon, who sought refuge on our shores.\"",
+        "page": "HABS No. AL-211, the sheet headed 'ARCHITECTURAL DESCRIPTION(continued)'. The nearest page marker OCRs as 'HA6S _ ftt4 Page-^. ALA.' and carries no legible page number. Note that the surveyor is quoting Howard Major's book, not describing the house himself; the initials 'G. B. Whitfield' are Major's error for Nathan Bryan Whitfield and are left as printed."
+      },
+      {
+        "field": "other",
+        "text": "HISTOBICAL DATA: Built in 184S. Architect; General Nathan Bryan Whitfield. Ownership: General Natnan Bryan Whitf ield designed and built this home in 1842.",
+        "page": "HABS No. AL-211, the historical sheet; the extract prints 'ProJeotJ&Sll - Mt-T>« Mo' above it and no page number is legible."
+      },
+      {
+        "field": "other",
+        "text": "General Nathan Bryan Whitfield: Came to Demopolis with his wife in 1818, He was a man of cultured tastes. He was his own archi-tect and took great delight in seeing his plans and designs carried out by his own workmen,",
+        "page": "HABS No. AL-211, the same historical sheet; no page number legible in the extract span. 'his own workmen' is the 1930s surveyor's phrase for the enslaved craftsmen the node's own prose names."
+      }
+    ]
+  },
+  "note": "Written 5 Sep 2026 for Tranche 2. The 1930s survey states NOT ONE DIMENSION -- no width, no depth, no ceiling height, no column count -- so nothing here can be held against the node's kit, and the six data pages are a historical sheet, an index of the 25 measured drawings and a quotation from a published book. The drawings themselves carry the figures (sheet 8 is a longitudinal section, sheet 9 the front elevation and plan of the north portico with 'baluatrocte censics® i§ad e&pitnl det&iXa'), and this container cannot read them. Worth carrying: the surveyor's index names porticoes on the north and south and a 'port© cosher' (porte cochere) on its own sheet, which is the node's 'columns on more than one elevation' tell recorded in 1934 without being called that; and the quoted authority makes the MEZZANINE the thing that deviates from type, where the node's diagnostic tells do not mention a mezzanine at all."
+}

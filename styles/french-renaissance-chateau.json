@@ -194,25 +194,64 @@
       "name": "Chateau de Chambord",
       "location": "Chambord, Loir-et-Cher, France",
       "year": 1519,
-      "note": "Begun 6 September 1519 for Francois I, substantially complete 1547. Symmetrical Greek-cross donjon with a double-helix stair, wrapped in corner towers and topped by an asymmetrical roofscape of eleven tower types and three chimney types."
+      "note": "Begun 6 September 1519 for Francois I, substantially complete 1547. Symmetrical Greek-cross donjon with a double-helix stair, wrapped in corner towers and topped by an asymmetrical roofscape of eleven tower types and three chimney types.",
+      "precedent": "chambord",
+      "standing": "icon",
+      "why": "The building this style is named by outside France, on this corpus's own judgment: the Base Mérimée records only that it was classed on the first French list of 1840 and that it sits on the UNESCO World Heritage list, which is recognition and not a ranking."
     },
     {
       "name": "Chateau d'Azay-le-Rideau",
       "location": "Azay-le-Rideau, Indre-et-Loire, France",
       "year": 1518,
-      "note": "Built 1518-1527 for Gilles Berthelot. The clearest demonstration of decorative fortification - moat, machicolated cornice and corner turrets with no defensive function - and of the stone-framed dormer running the travee up through the roof."
+      "note": "Built 1518-1527 for Gilles Berthelot. The clearest demonstration of decorative fortification - moat, machicolated cornice and corner turrets with no defensive function - and of the stone-framed dormer running the travee up through the roof.",
+      "precedent": "azay-le-rideau",
+      "standing": "canonical",
+      "why": "The corpus's own type specimen for defensive vocabulary retained as heraldry - the node's prose already argues from it - and the Mérimée notice supports only the dates and the sculpture, never that reading."
     },
     {
       "name": "Chateau de Blois, Francois I wing",
       "location": "Blois, Loir-et-Cher, France",
       "year": 1515,
-      "note": "1515-1524. The open octagonal spiral staircase on the courtyard front, with the loggia facade behind it, is the single most concentrated statement of the Franco-Italian collision."
+      "note": "1515-1524. The open octagonal spiral staircase on the courtyard front, with the loggia facade behind it, is the single most concentrated statement of the Franco-Italian collision.",
+      "precedent": "chateau-de-blois-francois-i-wing",
+      "standing": "icon",
+      "why": "This corpus's judgment that the open spiral staircase on the courtyard front is the most concentrated single image of the Franco-Italian collision; the Inventaire notice corroborates the 1515 and 1524 campaign years and says nothing whatever about the staircase."
     },
     {
       "name": "Chateau d'Ancy-le-Franc",
       "location": "Ancy-le-Franc, Yonne, France",
       "year": 1544,
-      "note": "Begun 1544, attributed to Sebastiano Serlio, continued after his death in 1554. Four ranges of equal height around a square court with corner pavilions - the moment Italian regularity briefly overrides French verticality."
+      "note": "Begun 1544, attributed to Sebastiano Serlio, continued after his death in 1554. Four ranges of equal height around a square court with corner pavilions - the moment Italian regularity briefly overrides French verticality.",
+      "precedent": "ancy-le-franc",
+      "standing": "canonical",
+      "why": "A type specimen for the moment Italian regularity briefly overrides French verticality, on the corpus's own reading; the Mérimée notice supports Serlio's authorship and the 1544-1550 span and describes none of the four equal ranges the reading depends on."
+    },
+    {
+      "name": "Chateau de Chenonceau",
+      "location": "Chenonceaux, Indre-et-Loire, France",
+      "year": 1513,
+      "note": "Thomas Bohier and Katherine Briconnet from 1513, finished 1521 on the piers of a mill; Philibert Delorme's bridge over the Cher from 1555 for Diane de Poitiers, carried up as a gallery by Catherine de Medicis. The Merimee notice gives campaign years 1513, 1521 and 1560.",
+      "precedent": "chenonceau",
+      "standing": "icon",
+      "why": "The Loire chateau a reader names first whether or not they are fluent, on this corpus's judgment; the Merimee notice supports the ownership, the 1521 completion and the bridge, and - in a second paragraph of the same Description historique field, past the notice's own '£' paragraph separator - describes the corps de logis as a quadrilateral built on two piers over the river, a corner turret at each angle, the projecting chapel with a three-sided apse, the great gallery on five piers, and one of the first straight stairs built in France."
+    },
+    {
+      "name": "Chateau d'Ecouen",
+      "location": "Ecouen, Val-d'Oise, France",
+      "year": 1538,
+      "note": "Built for the connetable Anne de Montmorency from 1538, with sculpture by Jean Goujon. The north wing's colossal-order peristyles are the earliest French use of an order spanning two storeys; the Merimee notice attributes the whole building to Jean Bullant and en.wikipedia says the original architect is unknown because the accounts are lost.",
+      "precedent": "ecouen",
+      "standing": "canonical",
+      "why": "The type specimen this node needs for the colossal order arriving in France, on the corpus's reading - and the record carries the register's and the encyclopedia's flatly opposed attributions rather than choosing."
+    },
+    {
+      "name": "Chateau de Fontainebleau",
+      "location": "Fontainebleau, Seine-et-Marne, France",
+      "year": null,
+      "note": "The royal palace where the imported Italian system was actually assembled - Rosso, Primaticcio and the first School of Fontainebleau - and where Serlio was working when Ancy-le-Franc was commissioned. NO SOURCE READ FOR THIS RECORD STATES A YEAR FOR THE Francois I CAMPAIGN, so the year is left null rather than filled from memory; the Merimee domaine national notice gives '16e siecle' and names only Le Notre and Le Vau.",
+      "precedent": "fontainebleau",
+      "standing": "canonical",
+      "why": "Carried on this corpus's judgment as the palace that supplied the decorative system the other six exemplars apply, and its register entry is the thinnest in the cluster - no material, no date, no Renaissance author - so nothing in the standing rests on it."
     }
   ],
   "sources": [

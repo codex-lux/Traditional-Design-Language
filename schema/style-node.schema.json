@@ -437,15 +437,46 @@
           },
           "note": {
             "type": "string"
+          },
+          "precedent": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+            "description": "WP-11.1. The id of the building's own record in `precedents/`, which carries the archival references (HABS, NRHP, a list entry, the institution) and, where one exists, the survey's written data quoted verbatim. An exemplar without one is a name a reader can find and a checker cannot resolve. `build/check_precedents.py` holds this to the record's own `nodes` in both directions."
+          },
+          "standing": {
+            "enum": [
+              "icon",
+              "canonical",
+              "regional",
+              "documentary"
+            ],
+            "description": "WP-11.1. What this building is to THIS node, editorially: `icon` -- the building a fluent reader names first, the one the style is known by; `canonical` -- a type specimen, well documented, that the node's own figures can be held against; `regional` -- the local expression, right for the region and not the style's whole reach; `documentary` -- plain, surveyed, useful to measure and not to admire. A judgment, and `why` says whose."
+          },
+          "why": {
+            "type": "string",
+            "description": "One sentence for `standing`, in the project's voice, saying what makes it so and where the reason comes from."
+          },
+          "no_precedent": {
+            "enum": [
+              "archive",
+              "body-of-work",
+              "phase",
+              "not-yet-researched"
+            ],
+            "description": "WP-11.4, ruled 5 Sep 2026. Why this exemplar carries no `precedent`, when the reason is a DECISION rather than a gap. `archive` -- it names a drawings collection, not a building (Royal Barry Wills Associates' garrison designs, collection AR029 at Historic New England). `body-of-work` -- it names an architect's output rather than one work (Cliff May's early Monterey-mode houses). `phase` -- the building HAS a record and this row names a phase the record is not about (`dogtrot-vernacular`'s 'Gaineswood (original core)': the record is the finished 1842-1861 mansion whose survey is silent on the dogtrot substrate, so joining them would hand the reader the wrong card). `not-yet-researched` -- an honest gap, and the default meaning when the key is ABSENT. The field exists because nothing else separates a stated refusal from an unresearched row: one number carried both, and a `why` is prose no counter can read. A row carrying `precedent` may not carry this. AND A REGIONAL POPULATION IS NOT ONE OF THESE (ruled 5 Sep 2026, the day the field was added): a row naming 'the Leopoldine farmhouses of the Val di Chiana' or 'the farmhouses of the Simmental' takes a `record_kind: type-model` RECORD, not a refusal. Europe raised this on first contact and two such rows were marked `body-of-work` and WITHDRAWN, because that value means an architect's output and these have no architect."
           }
         }
       }
     },
     "sources": {
+      "description": "Works establishing this node. A blank entry is refused because `sourceless_nodes` is a ratchet pinned tight at 0 and counts LIST LENGTH: a node citing [\"\"] validated, read as one source, and satisfied the ceiling, the new CLAIM and the test together. `uniqueItems` for the same reason one layer up -- a repeated string counts twice toward the works a node holds alone. The data already satisfied both; this is the validation catching up with a guarantee that became load-bearing in WP-11.7.",
       "type": "array",
       "items": {
-        "type": "string"
-      }
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "uniqueItems": true
     },
     "confidence": {
       "enum": [

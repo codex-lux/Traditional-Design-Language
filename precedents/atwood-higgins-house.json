@@ -1,0 +1,197 @@
+{
+  "id": "atwood-higgins-house",
+  "name": "Atwood-Higgins House",
+  "aka": [
+    "Thomas Atwood House"
+  ],
+  "location": {
+    "text": "Bound Brook Island, Wellfleet, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "c. 1730",
+    "circa": true,
+    "altered": "Doubled from a half house to a full ('double') house in the late 18th or early 19th century; an ell added to the north-west; restored by George K. Higgins, the owner, before 1960 (HABS).",
+    "note": "The NPS page and the Wikipedia district article say about 1730; the node's exemplar says 1730; the HABS data page says 'Apparently mid-18th century' for the original half house. Recorded as the NPS and node have it, with the survey's own reading beside it."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-1087",
+      "title": "Atwood-Higgins House, Bound Brook Island Road, Wellfleet, Barnstable County, MA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0000/ma0080/data/ma0080data.pdf",
+      "note": "The data page's running head prints 'ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 2)'. Wikipedia's external-links line, read the same day, gives '13 photos, 14 measured drawings, 7 data pages, 1 photo caption page'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0080",
+      "url": "https://www.loc.gov/pictures/item/ma0080",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page itself was not opened. Recorded as `manual` for that reason.",
+      "retrieved": "2026-09-04",
+      "via": "manual"
+    },
+    {
+      "kind": "nrhp",
+      "id": "76000154",
+      "url": "https://en.wikipedia.org/wiki/Atwood%E2%80%93Higgins_Historic_District",
+      "title": "NRHP reference No. 76000154 (original) 10000508 (increase); added July 30, 1976 (as the Wikipedia infobox prints it for the district)",
+      "note": "The 1976 listing is the house; the 2010 increase is the district.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Atwood%E2%80%93Higgins_Historic_District",
+      "title": "Atwood–Higgins Historic District - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nps.gov/caco/learn/historyculture/atwood-higgins-house.htm",
+      "title": "Atwood-Higgins House - Cape Cod National Seashore (U.S. National Park Service)",
+      "note": "Owner; says 'built in Wellfleet about 1730 by Thomas Higgins'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/MA-02-001-0026",
+      "title": "Atwood-Higgins House | SAH ARCHIPEDIA",
+      "note": "Says the house 'represents the typical Cape Cod house in its floor plan'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://npshistory.com/publications/caco/nr-atwood-higgins-house.pdf",
+      "title": "National Register of Historic Places Inventory - Nomination Form for Federal Properties: Atwood-Higgins House (Cape Cod NS)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ma0080",
+    "register": "loc-item",
+    "survey_no": "MA-1087",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0000/ma0080/data/ma0080data.pdf",
+    "prepared": "Charles S. Dotts, Architect, HABS Cape Cod Survey I, Summer 1960, July 19 (as the sheet reads; the OCR prints 'I960')",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "This is a fine specimen of a Cape Cod \"double house\", and Dr. Ernest Allen Connally, HABS Architect and historian, in his survey of Cape Cod houses in the summer of 1959, reported that this was locally considered to be the best example on Cape Cod.",
+        "page": "HABS No. MA-1087, page 1, 'Significance'; the next marker reads 'ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 2)'"
+      },
+      {
+        "field": "general_description",
+        "text": "Originally a Cape Cod single or \"half house\", apparently mid-13th century, this house was doubled in the late 18th or early 19th century to make a \"double house\". It is a fine specimen and is locally con- sidered to be the best example on Cape Cod.",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 3), Part II General Statement; 'mid-13th' is OCR for mid-18th"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "SXTERIOR Overall dimensions The original single house was 21' wide, and 27' long. The width was increased to 35' when it was \"doubled\". An ell addition to the north west of the house is 3 x 14. Foundations Wood sills on brick foundations. Wall construction This is \"plank\" construction, consisting of vertical planks as sheathing attached to the wood sills and the top plate or girt.",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 3)"
+      },
+      {
+        "field": "structural_system",
+        "text": "Heavy corner posts ^nd heavy sills and girts make up the frame work of the house, with wood trusses supporting the roof. The corner posts an.i surrmer beams are exposed on the interior cf the house.",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 3)"
+      },
+      {
+        "field": "chimneys",
+        "text": "Chimneys One central brick stack with four flues, located over center of the house.",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 3), immediately before the '(Page 4)' marker"
+      },
+      {
+        "field": "openings",
+        "text": "Openings - doorways and doors 6 panel wood doors with 5 light transoms at the north and so uth entrances. Windows and shutters 9/6 light double hung wood sash on.' first floor, 6/6 on second floor. The window frames on the",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 4); the extract's chunk ends mid-sentence and the continuation is the next quote, kept separate rather than joined"
+      },
+      {
+        "field": "openings",
+        "text": "first floor, 6/6 on second floor. The window frames on the first floor, east side of the house, are set directly under the plate, and in the newer portion (west half), the window frames are complete. There are no exterior shutters, however there are sliding \"Indian\" type wood shutters on the interior of the windows in the west front room, first floor.",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 4)"
+      },
+      {
+        "field": "roof",
+        "text": "Roof - shape, covering Gabled, pitched roof, wood shingles. Wood gutters and downspouts. cornicet eaves Wood box cornice, short eaves, dormers None.",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 4)"
+      },
+      {
+        "field": "plan",
+        "text": "THE INTERIOR Floor plans This house faces south in typical Cape Cod manner, with the main entrance in the center, flanked by a two-window east room and by a two-window west room. The entrance and east part of the house comprised the original part of th e structure, with the west part added at an",
+        "page": "ATWOOD-HIGGINS HOUSE HABS No. MA-1087 (Page 4); the chunk ends mid-sentence"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "original_half_house_width_ft",
+      "as_printed": "21' wide",
+      "value": 21,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "original_half_house_length_ft",
+      "as_printed": "27' long",
+      "value": 27,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "overall_width_ft",
+      "as_printed": "increased to 35'",
+      "value": 35,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The doubled house; the length stays the original 27 ft."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "27' long",
+      "value": 27,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "One central brick stack with four flues",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "chimney_flue_count",
+      "as_printed": "four flues",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "dormers None",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 7
+    },
+    {
+      "name": "front_sash_lights",
+      "as_printed": "9/6 light double hung wood sash on.' first floor",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Nine over six; recorded as the total per sash."
+    }
+  ],
+  "nodes": [
+    "cape-cod-colonial",
+    "cape-cod-revival",
+    "american-colonial"
+  ]
+}

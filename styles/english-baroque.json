@@ -199,25 +199,64 @@
       "name": "Castle Howard",
       "location": "North Yorkshire, England",
       "year": 1712,
-      "note": "Begun 1699 by John Vanbrugh with Nicholas Hawksmoor for the third Earl of Carlisle; main block substantially complete by 1712, dome 1706. The first English house to be conceived as landscape-scale theatre."
+      "note": "Begun 1699 by John Vanbrugh with Nicholas Hawksmoor for the third Earl of Carlisle; main block substantially complete by 1712, dome 1706. The first English house to be conceived as landscape-scale theatre.",
+      "precedent": "castle-howard",
+      "standing": "icon",
+      "why": "Historic England's register of parks and gardens calls it Vanbrugh's first country house commission; naming it first among English Baroque houses is this corpus's editorial judgment and not the register's, which carries no architectural description of the house at all."
     },
     {
       "name": "Blenheim Palace",
       "location": "Woodstock, Oxfordshire, England",
       "year": 1722,
-      "note": "Built 1705-22 by Vanbrugh and Hawksmoor as the nation's gift to the Duke of Marlborough after Blenheim (1704). Giant Corinthian order, colossal rusticated gate towers, and a great court reached across Vanbrugh's bridge."
+      "note": "Built 1705-22 by Vanbrugh and Hawksmoor as the nation's gift to the Duke of Marlborough after Blenheim (1704). Giant Corinthian order, colossal rusticated gate towers, and a great court reached across Vanbrugh's bridge.",
+      "precedent": "blenheim-palace",
+      "standing": "icon",
+      "why": "A UNESCO World Heritage Site since 1987 (World Heritage List 425), and its list entry states the giant Corinthian order running through both storeys of a nine-bay centre on north and south fronts alike -- the scaling to the block rather than the floor that this node's `column.storeys_embraced` parameter bands; that it is the style's summit is this corpus's judgment."
     },
     {
       "name": "Seaton Delaval Hall",
       "location": "Northumberland, England",
       "year": 1728,
-      "note": "Built 1719-28, Vanbrugh's last house. Banded giant Doric columns, a compressed central block between long service wings, and the most physically overbearing domestic elevation in England."
+      "note": "Built 1719-28, Vanbrugh's last house. Banded giant Doric columns, a compressed central block between long service wings, and the most physically overbearing domestic elevation in England.",
+      "precedent": "seaton-delaval-hall",
+      "standing": "icon",
+      "why": "Vanbrugh's last house, and the list entry's own account -- a three-storey centrepiece flanked by projecting groups of three giant columns under a metope frieze, with massive stacks pierced by round arches -- is the physical overbearing this node's prose describes; the ranking is this corpus's."
     },
     {
       "name": "Easton Neston",
       "location": "Northamptonshire, England",
       "year": 1702,
-      "note": "Hawksmoor's only complete country house, c.1695-1702. A single compact block in fine ashlar with a giant Composite order — the style at its most disciplined and least theatrical."
+      "note": "Hawksmoor's only complete country house, c.1695-1702. A single compact block in fine ashlar with a giant Composite order — the style at its most disciplined and least theatrical.",
+      "precedent": "easton-neston",
+      "standing": "canonical",
+      "why": "The one Hawksmoor house whose list entry states a whole envelope a checker can hold figures against -- double-pile plan with central cross passage, two storeys and basement, a nine-window range and a giant composite order -- which is what makes it the type specimen here rather than the most famous."
+    },
+    {
+      "name": "Chatsworth House",
+      "location": "Derbyshire, England",
+      "year": 1707,
+      "note": "South wing 1687-9 and east front 1689-91 by William Talman, west front 1700-03 and north front 1705-7 by Thomas Archer, for the first and fourth Dukes of Devonshire. A Baroque skin wrapped on the four ranges of an Elizabethan courtyard house, and much altered by Wyatville 1820-42.",
+      "precedent": "chatsworth-house",
+      "standing": "canonical",
+      "why": "Its list entry states this node's own hard constraint c02 as a fact about the building -- 'Roofs hidden behind parapets' -- and gives three fronts' bay rhythms as the register writes them (3-6-3, 1-8-1, 3-3-3), which is the hierarchical rhythm this node's `bay_rhythm` field describes, stated by a third party."
+    },
+    {
+      "name": "Christ Church, Spitalfields",
+      "location": "Spitalfields, London, England",
+      "year": 1729,
+      "note": "Hawksmoor's Commissioners' church of 1723-29, its white ashlar tower and spire over a western portico of four giant Tuscan columns. Not a house: it is here because this node's own account makes Wren's and Hawksmoor's churches the style's origin.",
+      "precedent": "christ-church-spitalfields",
+      "standing": "icon",
+      "why": "Named first among Hawksmoor's churches by this corpus and not by its sources; the list entry's whole description is six short sentences and its last one, 'Interior (apart from crypt) now closed for restoration', has been out of date since services returned in 1987."
+    },
+    {
+      "name": "Mompesson House",
+      "location": "The Close, Salisbury, England",
+      "year": 1704,
+      "note": "A Queen Anne town house in the cathedral close, dated 1704 on its own rainwater heads. Two storeys and attic, hipped tile roof, three dormers, a bracketed cornice broken forward over the central first-floor window, seven windows over six.",
+      "precedent": "mompesson-house",
+      "standing": "documentary",
+      "why": "The plain Restoration-and-Queen-Anne house this node's own prose calls the style's domestic legacy, and the list entry states every count that description needs -- storeys, dormers, both window ranges, even the pane widths -- which is what makes it measurable rather than admirable. The record is shared with `english-georgian`, which researched it in the same tranche."
     }
   ],
   "sources": [

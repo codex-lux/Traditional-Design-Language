@@ -1,0 +1,48 @@
+{
+  "id": "grancia-di-cuna",
+  "name": "Grancia di Cuna",
+  "aka": [
+    "Grancia of Cuna",
+    "Cuna Grange"
+  ],
+  "location": {
+    "text": "Cuna, Monteroni d'Arbia, Siena, Tuscany, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1224; granary rebuilt and fortified from 1314",
+    "circa": true,
+    "note": "Visit Tuscany's page says a 'Spedale' existed on the site in the 12th century and that in 1314 'the construction of the new barn and the renovation of the church dedicated to Saint Giacomo and Saint Cristoforo began'. Terre di Siena's page gives 1224 for the grange's building by the commune of Siena and the Hospital of Santa Maria della Scala. Both are recorded and neither is resolved; the two do not describe the same act."
+  },
+  "nodes": [
+    "tuscan-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.visittuscany.com/en/attractions/grancia-di-cuna",
+      "title": "Grancia di Cuna | Visit Tuscany",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Region of Tuscany's official tourism site; its footer prints 'Tuscany official tourism website ©2026'. Read as continuous prose in an extract on 2026-09-05: 'The Grancia consists of one large square building with scarp walls and two corner towers which were built to defend the grange to the south. The main entrance opens into an ‘L’ shaped courtyard from which it’s possible to reach the interior rooms and storerooms via a ramp that makes it easy to bring cattle in. It is a fortified farm surrounded by fourteenth century walls.' And, earlier on the same page: 'The imposing mass of the Grancia di Cuna is the best-preserved example of a medieval fortified farm.' This is a tourism page and not a heritage survey, which is why this record carries no `survey` block at all rather than dressing one up."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://it.wikipedia.org/wiki/Grancia_di_Cuna",
+      "title": "Grancia di Cuna - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Italian article's Descrizione section describes 'un grande blocco quadrato con basamento fortificato a scarpa, con due torri angolari sul lato meridionale' and names a 'casa torre' at the centre of the settlement as the oldest core. Read through a search result and not an extract, so it is reported here and not quoted as running prose."
+    },
+    {
+      "kind": "other",
+      "url": "https://brunelleschi.imss.fi.it/itineraries/place/GranciaCuna.html",
+      "title": "Grancia di Cuna - Museo Galileo, Scientific Itineraries in Tuscany",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Museo Galileo's itinerary page, credited on the page to Mara Miniati with an English translation by Catherine Frost and 'Last update 19/gen/2008'."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Added by this pass. NO SURVEY BLOCK AND NO MEASUREMENT: no record for this building was found in the Ministry's Catalogo generale dei Beni Culturali in this pass, and the three sources that do describe it are a regional tourism page, an encyclopaedia and a museum itinerary. It is carried because it is the estate-centre form -- the fortified grange that collected one landowner's half of the harvest -- from which the mezzadria fattoria this node describes descends, and because all three sources agree on the same two facts: one large square brick block with battered walls, and two corner towers on the south side."
+}

@@ -208,25 +208,64 @@
       "name": "Marble House",
       "location": "Newport, Rhode Island",
       "year": 1892,
-      "note": "Richard Morris Hunt for William K. Vanderbilt, after the Petit Trianon. 500,000 cubic feet of marble; the American Beaux-Arts house in its purest state."
+      "note": "Richard Morris Hunt for William K. Vanderbilt, after the Petit Trianon. 500,000 cubic feet of marble; the American Beaux-Arts house in its purest state.",
+      "precedent": "marble-house",
+      "standing": "icon",
+      "why": "The house the American Beaux-Arts is named by: Hunt's temple-fronted Petit Trianon on Bellevue Avenue, listed on the National Register in its own right in 1971 and made a National Historic Landmark in 2006 rather than carried only by the avenue's district."
     },
     {
       "name": "Rosecliff",
       "location": "Newport, Rhode Island",
       "year": 1902,
-      "note": "Stanford White of McKim, Mead & White, after the Grand Trianon at Versailles. Terra cotta rather than marble, and the better building for it."
+      "note": "Stanford White of McKim, Mead & White, after the Grand Trianon at Versailles. Terra cotta rather than marble, and the better building for it.",
+      "precedent": "rosecliff",
+      "standing": "canonical",
+      "why": "A documented type specimen of the same office's lighter hand, and the useful case where the National Register's own classification - French Baroque Revival - can be held against this node's reading of the same building."
     },
     {
       "name": "New York Public Library, Stephen A. Schwarzman Building",
       "location": "New York, New York",
       "year": 1911,
-      "note": "Carrere & Hastings, 1897-1911. The Ecole plan method - axis, hierarchy, marche - applied to a public programme at the highest level achieved in America."
+      "note": "Carrere & Hastings, 1897-1911. The Ecole plan method - axis, hierarchy, marche - applied to a public programme at the highest level achieved in America.",
+      "precedent": "new-york-public-library-schwarzman-building",
+      "standing": "icon",
+      "why": "The Ecole plan method carried into a public programme at the highest level America reached, and the federal government said so by making it a National Historic Landmark in December 1965, ten months before the National Register listed it."
     },
     {
       "name": "Court of Honor, World's Columbian Exposition",
       "location": "Chicago, Illinois",
       "year": 1893,
-      "note": "Burnham with Hunt, McKim, Post, Peabody and others. Temporary and demolished, and the origin point of both this style and neoclassical-revival."
+      "note": "Burnham with Hunt, McKim, Post, Peabody and others. Temporary and demolished, and the origin point of both this style and neoclassical-revival.",
+      "precedent": "court-of-honor-worlds-columbian-exposition",
+      "standing": "icon",
+      "why": "Burnham's ten firms built the argument at one stroke, and both pages this record carries speak to its afterlife: PBS's American Experience quotes Burnham predicting 'a reversion toward the pure ideal of the ancient', and the Encyclopedia of Chicago the long-lived debate the White City's neoclassicism provoked among architects. Nothing else here is credited that way."
+    },
+    {
+      "name": "Grand Central Terminal",
+      "location": "New York, New York",
+      "year": 1913,
+      "note": "Reed & Stem with Warren & Wetmore, 1903-13. The Ecole method applied to circulation rather than to ceremony: ramps instead of stairs, a concourse read as a room, and a facade that is a triumphal arch three times over. Listed 1975, a National Historic Landmark in 1976.",
+      "precedent": "grand-central-terminal",
+      "standing": "canonical",
+      "why": "The type specimen of the method applied to a working programme, and its National Register nomination describes the building in the government's own words - 'one of the great examples of urban design in America and is a engineering and architectural triumph as well'."
+    },
+    {
+      "name": "Vanderbilt Mansion",
+      "location": "Hyde Park, New York",
+      "year": 1899,
+      "note": "McKim, Mead & White for Frederick W. Vanderbilt, 1896-99, in Indiana limestone: fifty-four rooms on a compact symmetrical block. The smallest of the great Vanderbilt houses and the one where the discipline under the richness is easiest to read.",
+      "precedent": "vanderbilt-mansion-hyde-park",
+      "standing": "canonical",
+      "why": "A National Park Service house museum since 1940, kept with its original furnishings, so its fabric and its plan sit in a public record rather than in a recollection."
+    },
+    {
+      "name": "Alexander Hamilton U.S. Custom House",
+      "location": "New York, New York",
+      "year": 1907,
+      "note": "Cass Gilbert, won in competition in 1899 and built 1901-07. A steel-framed seven-storey granite block set on Bowling Green with Daniel Chester French's Four Continents at its base - the City Beautiful argument made at the foot of Broadway rather than in a park.",
+      "precedent": "alexander-hamilton-us-custom-house",
+      "standing": "documentary",
+      "why": "Its owner is the General Services Administration, which publishes the architect, the construction dates, the primary materials and the storey count on a stable page, so this one can be cited rather than characterised."
     }
   ],
   "sources": [

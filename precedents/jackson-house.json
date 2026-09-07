@@ -1,0 +1,56 @@
+{
+  "id": "jackson-house",
+  "name": "Jackson House",
+  "aka": [
+    "Richard Jackson House"
+  ],
+  "location": {
+    "text": "Portsmouth, New Hampshire",
+    "country": "United States",
+    "state": "New Hampshire"
+  },
+  "dates": {
+    "built": "1664",
+    "circa": false,
+    "altered": "The rear lean-to is an addition; Historic New England's 2009 repairs, reported by the National Trust, found it 'doesn't attach to the roof structure'.",
+    "note": "The NHL nomination, Historic New England and the Wikipedia infobox all give 1664."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Richard_Jackson_House",
+      "title": "Richard Jackson House",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "68000009",
+      "url": "https://en.wikipedia.org/wiki/Richard_Jackson_House",
+      "title": "NRHP reference No. 68000009; added and designated NHL November 24, 1968 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox; the NHL nomination text below carries the same number in its path.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/68000009_text",
+      "title": "New Hampshire ___Rockingham The Richard Jackson Rouse ... (NHL nomination text, NPGallery)",
+      "note": "The nomination's statement of significance calls it 'the oldest remaining house in that community and one of the finest of the surviving seventy or so seventeenth century wooden houses in New England'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/jackson-house",
+      "title": "Jackson House - Portsmouth",
+      "note": "Owner. Its page calls it 'the oldest surviving wood-frame house in New Hampshire'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "No HABS survey was found: a loc.gov search for '\"Jackson House\" Portsmouth HABS NH Northwest Street' returned unrelated items, and a second unrestricted search returned only the Dr. John Jackson (Augustus Odiorne) House, a different building.",
+  "nodes": [
+    "new-england-colonial"
+  ]
+}

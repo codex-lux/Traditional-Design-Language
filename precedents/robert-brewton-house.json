@@ -1,0 +1,104 @@
+{
+  "id": "robert-brewton-house",
+  "name": "Robert Brewton House",
+  "location": {
+    "text": "71 Church Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1730",
+    "circa": false,
+    "altered": "The survey's data form: 'Side piazza removed (date unknown)'; the survey's photograph caption dates the entry's transom, jambs and architrave 'ca. 1800'.",
+    "note": "The HABS data form prints 1730 and the SC register 'built in 1730'; the Charleston Museum's collection record says 'sometime between 1721 and 1740'. Recorded as the survey and the register state it."
+  },
+  "nodes": [
+    "charleston-single-house",
+    "american-folk-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-370",
+      "url": "https://www.loc.gov/pictures/item/sc0256.photos.148060p",
+      "title": "ENTRY, SOUTH SIDE. Enframement is new; transom, jambs and architrave are ca. 1800 - Robert Brewton House, 71 Church Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search hits are a photograph record of the item. The survey number is read from the data page's own header ('Robert Brewton House 71 Church Street ... HABS No. SC-370') and its 1983 form ('HABS NO. Robert Brewton House SC-370')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0256",
+      "url": "https://www.loc.gov/pictures/item/sc0256",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the photo record the search returned and of the data PDF actually fetched; the landing page itself was not opened. Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Robert_Brewton_House",
+      "title": "Robert Brewton House",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'it is the oldest dated example of a \"single\" house' (the search snippet)."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000700",
+      "url": "https://itoldya420.getarchive.net/media/robert-brewton-house-71-church-street-charleston-charleston-county-sc-7",
+      "title": "Robert Brewton House, 71 Church Street, Charleston,… — PICRYL (a mirror of the Library's item text)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "READ FROM A MIRROR, not from loc.gov or the Register: the page reproduces the item's note lines 'Significance: Earliest existing example of Charleston \"single house.\" Survey number: HABS SC-370. National Register of Historic Places NRIS Number: 66000700.' The survey number it quotes agrees with the data page; the Register number should be confirmed on a first-party surface before anything is built on it."
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710003",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710003/index.htm",
+      "title": "Robert Brewton House - National Register of Historic Places",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The Robert Brewton House is the earliest accurately dated example of an architectural type known in Charleston as the “single house,” built in 1730.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.charlestonmuseum.org/research/collection/robert-brewton-house/FD050982-BF0F-47C3-915E-764728136270",
+      "title": "Robert Brewton House",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Charleston Museum collection record: 'Built sometime between 1721 and 1740 by Robert Brewton, it is a large two and one-half story stuccoed brick single house with three bays, quoins, and a molded' (the search snippet ends there)."
+    }
+  ],
+  "survey": {
+    "item": "sc0256",
+    "register": "loc-item",
+    "survey_no": "SC-370",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0200/sc0256/data/sc0256data.pdf",
+    "prepared": "Architectural Data Form compiled by Melissa McDonald, HABS Historian (the date field is illegible in the extract)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "DATE OF CONSTRUCTION (INCLUDE SOURCE) ARCHITECT(S) (INCLUDE SOURCE) 1730 SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) Earliest existing example of Charleston \"single house\". STYLE (IF APPROPRIATE) Georgian MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Brick; stuccoed ::,HAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR Pl.ANS ON SEPARATE PAGES ARE ACCEPTABLE) Rectangular; three stories EXTERIOR FEATURES OF NOTE Hipped roof; 2 story wrought-iron balcony on street facade; quoins",
+        "page": "HABS No. SC-370, Architectural Data Form (Form 10-920, June 1983); no page number on the form"
+      },
+      {
+        "field": "other",
+        "text": "MAJOR ALTERATIONS AND ADDITIONS WITH DATES Side piazza removed (date unknown)",
+        "page": "HABS No. SC-370, Architectural Data Form; no page number"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Rectangular; three stories",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The Charleston Museum's record says two and one-half; both as printed."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on charleston-single-house. The survey's data form and the state register agree on 1730 and on 'earliest', which is what the type's origin is argued from; the survey records the side piazza REMOVED, so the house that proves the diagram no longer shows the piazza the node's prose calls its famous move."
+}

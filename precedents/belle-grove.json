@@ -1,0 +1,121 @@
+{
+  "id": "belle-grove",
+  "name": "Belle Grove",
+  "aka": [
+    "Belle Grove Plantation"
+  ],
+  "location": {
+    "text": "Middletown, Frederick County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "c. 1795",
+    "circa": true,
+    "altered": "The 1983 data form records 'H. Peaslee did c. 1929 work.'",
+    "note": "THREE DATES, ALL FROM THE SAME SURVEY OR ITS NEIGHBOURS, AND NONE IS EDITED. The 1930s District of Virginia entry prints 'Date of erections c. 1780'; the 1983 Architectural Data Form bound with it prints 'c. 1795 - from bills and letters relating construction, in \"Belle Grove Documents.\"'; Wikipedia says 'Built between 1794 and 1797'. Recorded as the 1983 form states it, because that form names its evidence."
+  },
+  "nodes": [
+    "southern-federal"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-259",
+      "title": "Belle Grove, State Route 727, Middletown, Frederick County, VA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va1000/va1019/data/va1019data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed on both documents inside the one PDF -- the 1930s entry heads itself 'H£3£ Ho. VA-259 BELLS GROVE' and the 1983 Architectural Data Form prints 'Belle Grove HABS NO. VA-259'. The 1930s call number is 'HABS VA,35-MIDTO.V,2-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va1019",
+      "url": "https://www.loc.gov/pictures/item/va1019",
+      "title": "Belle Grove, State Route 727, Middletown, Frederick County, VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own lines: 'Survey number: HABS VA-259' and, from a second hit, '17 Measured'. Its subject headings include 'stonework (limestone)' and 'porticoes'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Belle_Grove_Plantation_(Middletown,_Virginia)",
+      "title": "Belle Grove Plantation (Middletown, Virginia) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'Built between 1794 and 1797, the large Federal-style manor house is a National Historic Landmark' and, since 2002, part of Cedar Creek and Belle Grove National Historical Park while remaining owned by the National Trust for Historic Preservation. Its category list carries both 'Federal architecture in Virginia' and 'Thomas Jefferson buildings', which is the same double reading the survey gives."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.philadelphiabuildings.org/pab/app/pj_display.cfm/1106309",
+      "title": "Belle Grove (HABS VA-259) - Philadelphia Architects and Buildings",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A second, independent surface for the survey number: 'Belle Grove (HABS VA-259) Location (State Route 727) Frederick County, VA (Middletown vicinity)'."
+    }
+  ],
+  "survey": {
+    "item": "va1019",
+    "register": "loc-item",
+    "survey_no": "VA-259",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va1000/va1019/data/va1019data.pdf",
+    "prepared": "Two documents bound as one PDF: the 1930s entry 'Prepared at Headquarters Office for District of Virginia', and an addendum on NPS Form 10-920 (June 1983), the Architectural Data Form, 'Page 1 of 2'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "BELLS GROVE $ear Middle town, Frederick County, Virginia .Owners William Henry Claflin, Jr. Date of erections c. 1780 Present condition; Good Description; Stone; one story above high basement; hipped roof; four inside chimneys; front seven bays, four center bays grouped; central door with arched transom, Doric pilasters, and entab-lature; sash 9/9 lights; central portico porch, with pediment received against main roof.",
+        "page": "HABS No. VA-259, the 1930s District of Virginia entry; no page number is printed on that form."
+      },
+      {
+        "field": "plan",
+        "text": "Plan—central and transverse halls; two small rooms either side front door; three large at rear. Simple, well designed, original Georgian trim.",
+        "page": "HABS No. VA-259, the same 1930s entry, immediately following the description; no page number printed."
+      },
+      {
+        "field": "walls",
+        "text": "MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Exterior walls of gray limestone laid in coursed ashlar. Floor and roof framing of wood.",
+        "page": "HABS No. VA-259, Architectural Data Form (NPS Form 10-920, June 1983), 'Page 1 of 2'."
+      },
+      {
+        "field": "significance",
+        "text": "Belle Grove is a distinguished example of a late 18th century Virginia manor house, with th<: added interest of Jefferson's influence. His advice was sought by the builder, and judging from the structure, which is quite Jeffersonian in spirit, the advice was followed.",
+        "page": "HABS No. VA-259, Architectural Data Form, the significance block; 'Page 1 of 2'. The form's style line, immediately below and badly OCR'd, reads 'Jeffersonian'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "bay_count",
+      "as_printed": "front seven bays, four center bays grouped",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four inside chimneys",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "INSIDE, which is the opposite of this node's leading diagnostic tell."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "one story above high basement",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "sash 9/9 lights",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Nine over nine; recorded as the total per sash, on the convention this corpus already uses at Westover."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. This record was added to southern-federal deliberately for what it CONTRADICTS, and the contradictions are worth reading before anything is built on them. The node's first diagnostic tell is 'Exterior-end chimney stacks standing away from the gable wall - a Southern habit New England never adopted'; the surveyor counts FOUR INSIDE CHIMNEYS. The node's materials paragraph says 'the region gave brick and heart pine' and 'Southern Federal detail is generally executed in brick'; this house is grey limestone in coursed ashlar. The node's tells include a raised basement lifting the principal floor, and here the survey agrees exactly -- 'one story above high basement'. And the survey's own STYLE word is neither Federal nor Georgian but 'Jeffersonian', with a signed reason: Jefferson's advice 'was sought by the builder, and judging from the structure, which is quite Jeffersonian in spirit, the advice was followed'. That makes the same building a candidate for two of this cluster's five nodes, and it is filed on one of them rather than both because a precedent record is shared by every node that names it and no node's exemplars name it twice."
+}

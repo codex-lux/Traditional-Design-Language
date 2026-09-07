@@ -1,0 +1,52 @@
+{
+  "id": "highlands-ranch",
+  "name": "Highlands Ranch",
+  "location": {
+    "text": "Douglas County, Colorado",
+    "country": "United States",
+    "state": "Colorado"
+  },
+  "dates": {
+    "built": "1981-",
+    "circa": false,
+    "note": "The Highlands Ranch Metro District says Lawrence Phipps, Jr. died in 1976, the ranch was sold to Marvin Davis for more than $13 million and re-sold in 1978 to the Mission Viejo Company; the Los Angeles Times reported in 1985 that the company had bought 22,000 acres for $29 million and was in the fifth year of a 30-year plan to develop 12,000 of them. First houses sold 1981; the Historical Society dates the first completions to the autumn of 1981 near Broadway and Northridge Parkway."
+  },
+  "nodes": [
+    "neo-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.latimes.com/archives/la-xpm-1985-07-21-fi-7110-story.html",
+      "title": "Mission Viejo Co. Works Denver Landscape: Builder Out to Retrace Orange County Success - Los Angeles Times, 21 July 1985",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The land development company is in its fifth year of implementing a 30-year plan to develop 12,000 acres of the 22,000-acre Highlands Ranch that it purchased in southeast Denver for $29 million ... Like the Mission Viejo community, which was conceived 20 years ago, Denver's Highlands Ranch is also master planned for 30,000 homes and 90,000 residents upon completion. The first Highlands Ranch houses were sold in 1981. So far, about 1,100 homes have been occupied.' Also records that by 1985 Douglas County had 'the largest number of planned communities under construction in the United States'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.highlandsranch.org/government/about-highlands-ranch/history",
+      "title": "Highlands Ranch History | Highlands Ranch Metro District",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Lawrence Phipps, Jr. died in 1976 and the ranch was sold to Marvin Davis, of Davis Oil Corporation, for more than $13 million. He re-sold the property in 1978 to Mission Viejo Company, which had a vision of a master planned community. In 1997, Mission Viejo Company was purchased by Shea Homes.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://thehrhs.org/history",
+      "title": "History | Highlands Ranch Historical Society",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE ELEVATION MENU, AT ITS SMALLEST: 'In addition to being the master planning community manager, Mission Viejo was the exclusive home builder for many years. The first homes were completed in the fall of 1981, near the intersection of Broadway and Northridge Parkway. Three model homes were offered in the first filing.' Three models in the first filing is a count of PLANS on offer, not of elevation packages, and is not read here as one."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Highlands_Ranch,_Colorado",
+      "title": "Highlands Ranch, Colorado - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Large parcels of land were sold to private housing developers, such as Richmond Homes. As these developments appeared, they often carried their own names, creating a series of segmented neighborhoods throughout Highlands Ranch.' The parcel-to-builder structure the node's description assumes, stated plainly. Population 105,631 at the 2020 census."
+    }
+  ],
+  "note": "The node's period at full industrial scale, and the clearest documented instance of the arrangement it describes: one master developer holding the plan, parcels sold on to production builders, each neighbourhood named and merchandised separately. It is the same company as `precedents/mission-viejo.json`, fifteen years and one state later, which makes the pair a controlled comparison nobody has drawn. Nothing read here documents a house, an elevation or a lot dimension."
+}

@@ -1,0 +1,61 @@
+{
+  "id": "rundlet-may-house",
+  "name": "Rundlet-May House",
+  "location": {
+    "text": "364 Middle Street, Portsmouth, New Hampshire",
+    "country": "United States",
+    "state": "New Hampshire"
+  },
+  "dates": {
+    "built": "1807",
+    "circa": false,
+    "note": "The Wikipedia infobox, Historic New England and the National Register listing all say 1807. New Hampshire Home magazine says the house was 'Built by textile merchant James Rundlet in 1806 and 1807'. The house's own interpretive site labels the surviving ledger 'Building House 1806-1809', and Historic New England says the family moved in in 1808. A three-year build recorded four ways; none edited."
+  },
+  "nodes": [
+    "new-england-federal"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "76000133",
+      "url": "https://en.wikipedia.org/wiki/Rundlet-May_House",
+      "title": "NRHP reference No. 76000133; added June 7, 1976 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same number is printed on the Wikimedia Commons file page for the house, so it was read on two surfaces; neither was the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rundlet-May_House",
+      "title": "Rundlet-May House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The description reads: 'It is a three-story wood-frame structure, topped by a low-pitch hip roof surrounded by a wooden balustrade. It is finished in wooden clapboards, and has four chimneys, symmetrically placed with two on each side. Its main facade is five bays wide, with a center entrance framed by sidelights and a fanlight.' Every element of new-england-federal's own chimney rule is in that sentence."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/rundlet-may-house",
+      "title": "Rundlet-May House (1807) | Historic New England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner since 1971, when Ralph May deeded it. Its page records 'a Rumford roaster and a Rumford range, as well as a set kettle and an elaborate venting system that services a smoke room on the third floor', 'an early coal-fired central heating system and an indoor well'."
+    },
+    {
+      "kind": "other",
+      "url": "https://rundletmay.house/topic/building-the-house",
+      "title": "Building the House | Rundlet-May House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The house's own interpretive site, reading the ledger: 'In summary, the total cost to build the house was $12,604.47. Of that, labor and board made up for more than 50% of the expenses, or $6,567.17 of the total figure. ... The primary work crew was on site six days a week, with Sunday as a day off. As many as eighteen men were on-site working on the house'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nhhomemagazine.com/an-impressive-house",
+      "title": "An Impressive House - New Hampshire Home Magazine",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "CORRECTED 5 Sep 2026 (WP-11.3 audit). This note previously printed 'Thanks to Rundlet's detailed financial records about building and furnishing the home, it's one of the best-documented structures in Portsmouth.' as a quotation of this page. Two independent extractions return no such sentence: it is not on the page. What the page carries is Gwendolyn Loomis Smith, regional site manager of Northern New England for Historic New England -- 'This is one of my favorite houses,' and 'James Rundlet kept exquisite records that give us a lot of clues about how the house was put together.' -- and, of the house itself, 'perched on a man-made hill seven feet above street level'. Recorded as corroboration and not as an independent finding."
+    }
+  ],
+  "note": "No HABS survey. Two searches were run ('\"Rundlet-May House\" HABS \"NH-\" Historic American Buildings Survey Portsmouth loc.gov item nh0' and a general one) and the only Portsmouth HABS item either returned was the Governor John Langdon House, HABS NH-51, item nh0101, which is a different building. This house is carried by new-england-federal for a documentary reason rather than an archival one: the Rundlet building ledger survives, it puts a number on what a Portsmouth merchant Federal cost to build in 1806-09, and it breaks that number down between labour and materials -- the kind of figure the corpus has for almost no building of this style. What it does NOT provide is a dimension: no source read here states a width, depth, storey height or roof pitch, so this record carries no measurements and there is no survey block to hang them on."
+}

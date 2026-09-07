@@ -1,0 +1,65 @@
+{
+  "id": "santa-fe-depot-san-diego",
+  "name": "Santa Fe Depot",
+  "aka": [
+    "San Diego Union Station",
+    "Santa Fe Depot (San Diego)"
+  ],
+  "location": {
+    "text": "San Diego, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "1050 Kettner Boulevard, San Diego, California"
+    ]
+  },
+  "dates": {
+    "built": "1915",
+    "circa": false,
+    "note": "Wikipedia's infobox prints 'Built 1915'; the city's archive page dates the opening to March 8, 1915 and a Santa Fe centenary post to March 7, 1915. The one-day disagreement is recorded and neither date is adopted."
+  },
+  "nodes": [
+    "mission-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Santa_Fe_Depot_(San_Diego)",
+      "title": "Santa Fe Depot (San Diego) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000248",
+      "url": "https://en.wikipedia.org/wiki/Santa_Fe_Depot_(San_Diego)",
+      "title": "NRHP reference No. 72000248; added to the National Register 26 June 1972; area 4.6 acres; architect Bakewell and Brown; architectural style 'Mission/Spanish Revival' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "id": "56",
+      "url": "https://en.wikipedia.org/wiki/Santa_Fe_Depot_(San_Diego)",
+      "title": "San Diego Historic Landmark No. 56, designated 4 February 1972 (a city designation, not a state register file)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.greatamericanstations.com/stations/san-diego-ca-san",
+      "title": "San Diego, CA – Santa Fe Depot (SAN) – Great American Stations",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Constructed to welcome the world to the 1915 Panama-California Exposition, the Santa Fe Depot is a city landmark known for its soaring towers and tiled domes', built by the Atchison, Topeka and Santa Fe from 1914-1915."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.sandiego.gov/digital-archives-photos/opening-day-santa-fe-depot-1915",
+      "title": "Opening Day of the Santa Fe Depot in 1915",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. No HABS survey found and none asserted. Worth carrying for the node: the Wikipedia infobox files the building under 'Mission/Spanish Revival', a compound the National Register uses for both of this cluster's revival styles at once, so the depot's assignment to `mission-revival` rests on the architecture (twin domed towers over an arcaded front) and not on the register's label."
+}

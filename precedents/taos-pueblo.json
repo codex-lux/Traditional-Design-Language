@@ -1,0 +1,65 @@
+{
+  "id": "taos-pueblo",
+  "name": "Taos Pueblo",
+  "aka": [
+    "Pueblo de Taos",
+    "Pueblo of Taos"
+  ],
+  "location": {
+    "text": "Taos, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "c. 1400",
+    "circa": true,
+    "note": "The year is the style node's own ('in continuous occupation for more than six centuries'); neither the Wikipedia infobox read nor the Library's item record states a construction date, and the HABS data PDF opened is an addendum of field records with no dated description."
+  },
+  "nodes": [
+    "new-mexico-adobe",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-102",
+      "title": "Pueblo of Taos Central Portion, Taos Pueblo, Taos County, NM",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0099/data/nm0099data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The PDF's covers print 'HABS NM-102' and the call number 'HABS NM,28-TAOP,2-'. Read three times on 4 Sep 2026 with different queries, it returned only an ADDENDUM: field records, an inventory of 1973 photogrammetric glass plates by Perry E. Borchers of Ohio State University, and a project statement naming HABS Historians Jeanne C. Lawrence (1985) and Caroline R. Alderson (1986). No written description of the buildings was found in it, so no `survey` block is recorded; the description, if one exists, is in a part of the record the extraction tier did not return."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0099",
+      "url": "https://www.loc.gov/pictures/item/nm0099",
+      "title": "Pueblo of Taos Central Portion, Taos Pueblo, Taos County, NM",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Taos_Pueblo",
+      "title": "Taos Pueblo - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000496",
+      "url": "https://en.wikipedia.org/wiki/Taos_Pueblo",
+      "title": "U.S. National Register of Historic Places, designated October 15, 1966, reference no. 66000496; U.S. National Historic Landmark District, designated October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "id": "492",
+      "url": "https://en.wikipedia.org/wiki/Taos_Pueblo",
+      "title": "UNESCO World Heritage Site 'Pueblo de Taos', cultural, criterion iv, designated 1992 (16th session), reference no. 492 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. The node names this as the Puebloan substrate and not a Spanish colonial building; the record locates it and states no measurement. HABS NM-? for the San Geronimo Mission at the pueblo (item nm0038) surfaced in the searches and is a separate record not opened."
+}

@@ -232,25 +232,55 @@
       "name": "Whitehall (Henry M. Flagler House)",
       "location": "Palm Beach, Florida",
       "year": 1902,
-      "note": "Carrere & Hastings. Marble-faced classical block with a colossal entrance portico; the type at its most emphatic and most public."
+      "note": "Carrere & Hastings. Marble-faced classical block with a colossal entrance portico; the type at its most emphatic and most public.",
+      "precedent": "whitehall-flagler-house",
+      "standing": "icon",
+      "why": "The type at its most emphatic and most public, and the one building in this node whose survey states its dimensions: FL-224 gives the seven-bay front, the 101'-6\" by 18'-0\" five-bay portico and the two chimneys, where Nemours's DE-283 carries no over-all dimensions line at all."
     },
     {
       "name": "Nemours",
       "location": "Wilmington, Delaware",
       "year": 1910,
-      "note": "Carrere & Hastings, Louis XVI classicism on an American plan - the point at which Neoclassical Revival and French academic classicism become the same office practice."
+      "note": "Carrere & Hastings, Louis XVI classicism on an American plan - the point at which Neoclassical Revival and French academic classicism become the same office practice.",
+      "precedent": "nemours",
+      "standing": "canonical",
+      "why": "A documented type specimen surveyed by HABS as DE-283, whose own narrative calls it 'a fine representat[ive]' rather than a preeminent example - which is the right register for a specimen the node's figures can be held against."
     },
     {
       "name": "Longue Vue House",
       "location": "New Orleans, Louisiana",
       "year": 1942,
-      "note": "William and Geoffrey Platt. Late, restrained, and unusually intelligent about siting; demonstrates the style surviving well past its supposed end."
+      "note": "William and Geoffrey Platt. Late, restrained, and unusually intelligent about siting; demonstrates the style surviving well past its supposed end.",
+      "precedent": "longue-vue-house",
+      "standing": "canonical",
+      "why": "A National Historic Landmark whose Register nomination describes the house member by member and locates its classicism in English architecture of 1740-80, so the node's late-survival claim rests on a document rather than on a photograph."
     },
     {
       "name": "Court of Honor, World's Columbian Exposition",
       "location": "Chicago, Illinois",
       "year": 1893,
-      "note": "Burnham, Hunt, McKim, Post and others. Temporary, demolished, and the single most consequential built object in this branch of the taxonomy."
+      "note": "Burnham, Hunt, McKim, Post and others. Temporary, demolished, and the single most consequential built object in this branch of the taxonomy.",
+      "precedent": "court-of-honor-worlds-columbian-exposition",
+      "standing": "icon",
+      "why": "The node's own description makes this the origin of the whole type, and the Encyclopedia of Chicago agrees that the White City's neoclassicism is what the following thirty years of American public building argued with."
+    },
+    {
+      "name": "W. Q. Dallmeyer House",
+      "location": "600 Capitol Avenue, Jefferson City, Missouri",
+      "year": 1910,
+      "note": "A house of about 1875 given its present Neo-Classical face by the second generation of the Dallmeyer family around 1910: a monumental two-storey portico on two fluted Corinthian columns, standing over a one-storey Doric porch that was already there. The Sanborn maps put the tall portico's first appearance later than that, between 1923 and 1940.",
+      "precedent": "w-q-dallmeyer-house",
+      "standing": "documentary",
+      "why": "It is this node's own claim - that a 1910 portico was frequently applied to an older box - written down member by member in the Capitol Avenue Historic District nomination, and its portico has TWO columns, which is the cheap end of the type and nowhere else in this set."
+    },
+    {
+      "name": "Cole-Boston House",
+      "location": "Newbern, Dyer County, Tennessee",
+      "year": 1904,
+      "note": "A timber-boom house in a Tennessee county seat: a full-length two-storey porch on large fluted redwood columns, a symmetrical facade, restrained ornament. Listed on the National Register in December 2025.",
+      "precedent": "cole-boston-house",
+      "standing": "documentary",
+      "why": "The Tennessee Historical Commission calls it 'an excellent local example of the Neoclassical style', which is a state preservation office describing a plain wooden house - the population this node's own prose says the style actually served, and which the three palaces and the world's fair in this set do not represent at all."
     }
   ],
   "sources": [

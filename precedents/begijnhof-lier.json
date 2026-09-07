@@ -1,0 +1,107 @@
+{
+  "id": "begijnhof-lier",
+  "name": "Begijnhof",
+  "aka": [
+    "Begijnhof Lier",
+    "Lierse begijnhof"
+  ],
+  "location": {
+    "text": "Lier, Belgium",
+    "country": "Belgium",
+    "state": "Antwerpen, Vlaanderen"
+  },
+  "dates": {
+    "built": "13th century, the houses mainly 17th and early 18th century",
+    "circa": true,
+    "note": "The register dates the object '17de eeuw, eerste helft 18de eeuw' and says the beguinage arose in the thirteenth. The node's exemplar note says 'houses mainly 17th century'; the register adds the first half of the eighteenth."
+  },
+  "nodes": [
+    "flemish-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "120749",
+      "url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/120749",
+      "title": "Begijnhof | Inventaris Onroerend Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inventaris Onroerend Erfgoed object id. The register's own permanent identifier is https://id.erfgoed.net/erfgoedobjecten/120749, which its citation line prints."
+    },
+    {
+      "kind": "institution",
+      "url": "https://lier.be/wonen-en-leven/stadsvernieuwing/projecten/patrimonium/restauratie-begijnhof/begijnhof-lier-unesco-werelderfgoed",
+      "title": "Begijnhof Lier UNESCO Werelderfgoed - Stad Lier",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE CITY AND THE REGISTER DISAGREE ABOUT HOW MANY HOUSES THERE ARE. The city's own page says 'Het Begijnhof van Lier is een typisch 13de-eeuwse stratenbegijnhof. Het bestaat uit 11 smalle straatjes en 95 huizen'; the Flemish register says 162 houses over eleven streets. Both were read on 5 September 2026 and neither is changed."
+    },
+    {
+      "kind": "unesco",
+      "url": "https://www.faam.vlaanderen/nl/belevingen/erfgoedinstelling/begijnhof-lier",
+      "title": "Begijnhof Lier - FAAM.vlaanderen",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "NO REFERENCE NUMBER IS CARRIED for this component of the Flemish Beguinages inscription because none was read; only the Leuven component's number (855-011) was. The page states 'Het begijnhof in Lier behoort sinds 1998 tot het Unesco Werelderfgoed', and repeats the city's count of 11 streets and 95 houses."
+    }
+  ],
+  "survey": {
+    "item": "120749",
+    "register": "state-register",
+    "data_url": "https://inventaris.onroerenderfgoed.be/erfgoedobjecten/120749",
+    "prepared": "Agentschap Onroerend Erfgoed (the Flemish heritage agency), Inventaris Onroerend Erfgoed. This is the register's OWN descriptive text, read in an extract from the register's own site. The Flemish inventory is the richest heritage description this whole tranche found: it states bays, storeys, roof form, materials and gable type as a matter of course, in the way a HABS Part II does. The pages carry their own citation line -- 'Je kan deze pagina citeren als: INVENTARIS ONROEREND ERFGOED 2026' -- and name the printed inventory volume each text came from.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Het huidige begijnhof is een miniatuurstadje op een min of meer rechthoekige plattegrond met een grootte van circa 2 hectare en is omgeven door bakstenen muren, vroeger witgekalkt op gepikte plint, voorzien van vier toegangspoorten (twee in de Wezenstraat, één in de Sint-Margaretastraat en één in de Grachtkant), die elke avond om 21 uur gesloten werden. Het is een typisch straatbegijnhof met 162 huizen verspreid over elf straten in grosso modo dambordschema, met drie hoofdstraten parallel met de Begijnhofstraat en smallere dwarsstraten.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 120749, section 'Beschrijving'. A register description is not paginated."
+      },
+      {
+        "field": "materials",
+        "text": "De woningen zijn opgetrokken in een overwegend sobere, heterogene baksteenarchitectuur met sporadisch gebruik van zandsteen. Het zijn voornamelijk breed- of diephuizen met witgekalkte geveltjes van één tot twee bouwlagen met karakteristieke rondboogdeurtjes en voortuintjes. Door talrijke aanpassingen voornamelijk in de loop van de 19de eeuw, is de oorspronkelijke toestand echter moeilijk te achterhalen.",
+        "page": "Inventaris Onroerend Erfgoed, erfgoedobject 120749, section 'Beschrijving'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "een typisch straatbegijnhof met 162 huizen verspreid over elf straten",
+      "value": 162,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "THE REGISTER'S FIGURE, AND THE CITY OF LIER PUBLISHES 95 FOR THE SAME PLACE. Both were read the same day; both are recorded in the refs; neither is edited to agree with the other. A count that differs by 70% between the heritage agency and the town council is a caution about every other count in this tranche."
+    },
+    {
+      "name": "street_count",
+      "as_printed": "verspreid over elf straten",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Eleven streets -- and here the register and the city AGREE, which is what makes the house count the odd one out."
+    },
+    {
+      "name": "site_area_ha",
+      "as_printed": "een grootte van circa 2 hectare",
+      "from_quote": 0,
+      "note": "About two HECTARES. NO `value` AND NO `unit`: the vocabulary has no area measure and a hectare written as `count` or `ft` would compare the wrong quantity. Two hectares for 162 houses is roughly 123 m2 of site per house including all eleven streets -- but that division is this record's arithmetic, not the register's, and it is stated here rather than carried as a figure."
+    },
+    {
+      "name": "gate_count",
+      "as_printed": "voorzien van vier toegangspoorten",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Four gates in the enclosing brick wall, shut every evening at nine."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "witgekalkte geveltjes van één tot twee bouwlagen",
+      "from_quote": 1,
+      "note": "A RANGE, one to two, and deliberately not parsed to a single value: the register states a spread and collapsing it would be inventing a number the source refuses to give."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. The most useful thing here is not a building but a WALL: the register describes the beguinage as a miniature town on a roughly rectangular plan of about two hectares, girt by brick walls with four gates shut at nine each night. The node's whole growth grammar for the countryside -- one range, then an L, then three sides, then a closed square with a gate -- is the same instinct at the scale of a quarter, and this is the register's own description of it."
+}

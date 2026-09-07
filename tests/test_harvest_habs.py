@@ -8,6 +8,7 @@ is that somebody runs the thing, and nobody can.
 Every test below was mutation-checked: the fix was reverted and the test was watched to go red.
 A test that passes on the broken code is worse than no test, because it reports a guard.
 """
+import collections
 import json
 import os
 import sys
@@ -121,17 +122,39 @@ def _wanted():
 def test_records_are_grouped_by_building_so_one_building_is_one_request():
     """161 building-named records name only eleven buildings, so the old code issued 161
     requests to receive eleven distinct answers -- and would have written the same result onto
-    all 32 Hammond-Harwood records as though each had its own photograph."""
-    queries = [H.query_for(x) for x in _wanted()]
-    named = [q for q in queries if q]
-    assert len(named) == 786, len(named)
-    # 305 distinct queries. Every one is a PHOTOGRAPH record: build/name_asset_buildings.py used
-    # to key on `role`, which gave a real building to 52 line-diagrams whose own alt_text says
-    # "there is nothing to photograph", and to 7 code-conflict drawings. It keys on `kind` now.
-    # Before build/name_asset_buildings.py dealt each node's records round its own exemplars,
-    # 161 records named ELEVEN buildings, and a perfect harvest would have returned eleven
-    # photographs for 161 records. That is what the grouping and this number are both about.
-    assert len(set(named)) == 305, len(set(named))
+    all 32 Hammond-Harwood records as though each had its own photograph.
+
+    THE SUBJECT IS THE COLLAPSE, NOT EITHER ABSOLUTE. This asserted `== 786` records and
+    `== 305` distinct queries, which were the figures on the day WP-4.4's naming step finished;
+    WP-11.6 named the last 72 records and both moved, with nothing wrong. Those two numbers have
+    ONE owner, `check_counts.computed()`, whose CLAIMS hold three documents' prose to them -- and
+    a test carrying a second copy turns every honest change into a two-file edit and every
+    dishonest one into neither. Binding this to `computed()` instead would be worse than a
+    literal: it derives `image_queries` by calling `query_for`, the very function under test.
+    So this states the properties, and the counts live where they belong."""
+    wanted = _wanted()
+    named = [q for q in (H.query_for(x) for x in wanted) if q]
+    assert named, "no wanted record yields a query -- this test is passing vacuously"
+
+    # `query_for` yields a query for exactly the records that name a building, and for no other:
+    # that bijection is its whole contract, and it holds at any manifest size.
+    has_building = [x for x in wanted if (x.get("provenance") or {}).get("building")]
+    assert len(named) == len(has_building), (len(named), len(has_building))
+
+    # Every one is a PHOTOGRAPH record: build/name_asset_buildings.py used to key on `role`,
+    # which gave a real building to 52 line-diagrams whose own alt_text says "there is nothing to
+    # photograph", and to 7 code-conflict drawings. It keys on `kind` now.
+    assert {x.get("kind") for x in has_building} == {"photograph"}, \
+        sorted({x.get("kind") for x in has_building})
+
+    # THE COLLAPSE ITSELF. Before the naming step dealt each node's records round its own
+    # exemplars, 161 records named ELEVEN buildings and a perfect harvest would have returned
+    # eleven photographs for 161 requests. Records must still outnumber distinct queries by a
+    # wide margin, and at least one building must be asked for once on behalf of many records --
+    # which is what "one building is one request" means and what a per-record harvest would break.
+    distinct = set(named)
+    assert len(distinct) * 2 < len(named), (len(distinct), len(named))
+    assert max(collections.Counter(named).values()) >= 10, collections.Counter(named).most_common(3)
 
 
 def test_the_guard_tests_the_right_condition():
@@ -174,17 +197,34 @@ def test_the_jurisdiction_test_is_an_allowlist_and_fails_in_the_cheap_direction(
 
 
 def test_the_manifest_is_mostly_not_searchable_here_and_says_so():
-    """180 of the 305 distinct queries are US buildings. The other 125 are named and skipped
-    with jurisdiction as the cause rather than searched and reported as empty."""
-    a = [x for x in MANIFEST["assets"] if x.get("status") == "wanted"]
+    """Most of the wanted manifest cannot be harvested from HABS, and the two reasons are
+    different: a record naming no building yields no query at all, and a record naming a foreign
+    building is refused on JURISDICTION rather than searched and reported as holding nothing.
+
+    THE COUNTS ARE NOT RESTATED HERE and the docstring's old ones (`180 of the 305 distinct
+    queries ... the other 125`) were doubly wrong to pin: they moved with WP-11.6's naming step,
+    and `len(outside) == 125` was derived from the same dict two lines above it -- a tautology
+    before it was ever stale. `check_counts.computed()` owns `image_queries` and
+    `image_queries_us`, and holds three documents to them."""
+    wanted = [x for x in MANIFEST["assets"] if x.get("status") == "wanted"]
     q = {}
-    for x in a:
+    for x in wanted:
         s_ = H.query_for(x)
         if s_:
             q.setdefault(s_, (x.get("provenance") or {}).get("location"))
+    assert q, "no wanted record yields a query -- this test is passing vacuously"
     outside = [k for k, loc in q.items() if H.outside_the_survey(loc)]
-    assert len(q) == 305, len(q)
-    assert len(outside) == 125, len(outside)
+
+    # The title's claim, at the level it is true of: most WANTED records cannot be searched here.
+    searchable = [x for x in wanted
+                  if H.query_for(x)
+                  and not H.outside_the_survey((x.get("provenance") or {}).get("location"))]
+    assert len(searchable) * 2 < len(wanted), (len(searchable), len(wanted))
+
+    # And both reasons are live rather than one covering everything -- if either bucket empties,
+    # the harvester has stopped distinguishing "names no building" from "outside the charter".
+    assert len(q) < len(wanted), "every wanted record yields a query; the no-building case is gone"
+    assert 0 < len(outside) < len(q), (len(outside), len(q))
 
 
 # ------------------------------------------------------------ CAPTCHA served behind a 200

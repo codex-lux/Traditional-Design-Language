@@ -1,0 +1,99 @@
+{
+  "id": "hope-lodge",
+  "name": "Hope Lodge",
+  "location": {
+    "text": "Whitemarsh Township, Montgomery County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1721-23",
+    "circa": false,
+    "altered": "The 1930s survey sheet: 'In original condition, except for hood over front door and rear part of kitchen wing, which are later additions.'",
+    "note": "Two dates are on the record because two sources give them: the 1930s HABS sheet prints 'Date of Erection: 1721 - 23' and 'Built in 1721-23 by Samuel Morris'; the Wikipedia infobox prints 1750 with 'Edmund Woolley' as architect. Recorded as the survey states it, with the modern dating noted rather than resolved; the exemplar's year is null for the same reason."
+  },
+  "nodes": [
+    "mid-atlantic-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-18",
+      "url": "http://www.loc.gov/pictures/item/pa0637.sheet.00000a",
+      "title": "HABS PA,46-WHIM,2- (sheet 0 of 12) - Hope Lodge, Bethlehem & Skippack Pikes, Whitemarsh, Montgomery County, PA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search hit is the sheet-0 record of a 12-sheet set. The survey number is read from the data page's own header ('HABS PA - 18 Page 1 HOPE LODGE'); the 1930s sheet is headed 'District of Pennsylvania'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0637",
+      "url": "https://www.loc.gov/pictures/item/pa0637",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the sheet record the search returned and of the data PDF actually fetched; the landing page itself was not opened. Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hope_Lodge_(Fort_Washington,_Pennsylvania)",
+      "title": "Hope Lodge (Whitemarsh Township, Pennsylvania) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72001141",
+      "url": "https://en.wikipedia.org/wiki/Hope_Lodge_(Fort_Washington,_Pennsylvania)",
+      "title": "NRHP reference No. 72001141; added April 26, 1972; PHMC designation February 16, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "pa0637",
+    "register": "loc-item",
+    "survey_no": "PA-18",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0600/pa0637/data/pa0637data.pdf",
+    "prepared": "District of Pennsylvania sheet (1930s); the district officer's line is illegible in the extract",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "HOPS LODGS On Bethlehem Pike just north of its junction with Skippack Pike in Whitemarsh, Montgomery County, Pennsylvania Owners Mr. William L, Degn. Bate o f_Erj3Cj^ip_n t 1721 - 23 Architects Unkno wn. Buil_der_: Unknown. Present Conditions In original condition, except for hood over front door and rear part of kitchen wing, which are later additions. ft umber of Stories: Two and a half-stories and basement. Materials of Contraction.; The main building is brick fronted, the side and rear walls and kitchen wing of atone covered with stucco.",
+        "page": "HABS PA - 18 Page 1 (the marker precedes the span)"
+      },
+      {
+        "field": "openings",
+        "text": "The doors and windows are similar to other houses of the same period, having heavy mouldings, and being higher and narrower than those of a later period.",
+        "page": "HABS PA - 18 Page 1"
+      },
+      {
+        "field": "plan",
+        "text": "A hall of unusual width runs the full depth of the house, and o_jens into spacious chambers on both sides. The chief rooms have round-arched doorways, flanked by pilasters with curiously designed caps. The stairway ascends laterally from the rear hall. Throughout the house the woodwork is heavy and substantial and many of the materials are said to have been brought from England.",
+        "page": "HABS PA - 18 Page 1"
+      },
+      {
+        "field": "dependencies",
+        "text": "Back of the house and connected by a brick paved porch(with glass enclosure of later date) are the kitchen and servants' quarters.",
+        "page": "HABS PA - 18 Page 1"
+      },
+      {
+        "field": "finishes",
+        "text": "Throughout the :,£ain rooms of the first floor there is panelled wainscoting stopping at a chair rail with plastered walls and wood cornices above. In the 'lain first floor rooms the fireplace side is panelled to the ceiling, the shaped 'fireplace facings being of Pennsylvania Blue • marble. Floors of wide random width boards. As no heating, system has ever oeen installed in the Main roo:;is, the woodwork is in perfect original condition.",
+        "page": "HABS PA - 18; the marker 'HAB3 PA - 13 Page 2' (OCR for 'PA - 18 Page 2') immediately follows the span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two and a half-stories and basement",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two and a half over a basement."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on mid-atlantic-georgian, chosen as the plain surveyed example: a brick-fronted stone house with a wide through-hall, twelve HABS sheets and a written description. The 1930s date of 1721-23 is a generation earlier than the modern one and this record does not choose between them."
+}

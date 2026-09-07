@@ -1,0 +1,59 @@
+{
+  "id": "old-whalers-church",
+  "name": "Old Whalers' Church (First Presbyterian Church)",
+  "location": {
+    "text": "Sag Harbor, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": [
+      "Union Street, between Church and Division Streets, Sag Harbor, New York"
+    ]
+  },
+  "aka": [
+    "First Presbyterian Church, Sag Harbor"
+  ],
+  "dates": {
+    "built": "1843-1844",
+    "circa": false,
+    "note": "The National Historic Landmark nomination says 'it was built in 1843-1844'; the Wikipedia infobox says 'Built 1844' and the article's categories include 'Churches completed in 1833', which is the parish's earlier building and not this one. The nomination's dates are recorded."
+  },
+  "nodes": [
+    "egyptian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "94001194",
+      "url": "https://en.wikipedia.org/wiki/Old_Whaler%27s_Church_(Sag_Harbor)",
+      "title": "NRHP reference No. 94001194; added to the National Register and designated NHL April 19, 1994; architect Minard Lafever; architectural style Egyptian Revival, Greek Revival (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/GetAsset/465f88e6-941e-4263-b64f-28f4e62a1956",
+      "title": "FIRST PRESBYTERIAN CHURCH (Old Whaler's) - National Historic Landmark nomination (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's own words: 'The most significant structure in that district is the First Presbyterian Church known locally as the Old Whaler's Church. Situated on Union Street, between Church and Division Streets, it was built in 1843-1844, and was designed by the well-known New York architect Minard Lafever. One of the most important buildings in the Egyptian Revival style to be found in the United States, its battered walls ...' It also records the NHL theme as 'XVI. Architecture D. Greek Revival H. Exotic Revivals 2. Egyptian'. No reference number was read off this asset; the number is carried on the nhl ref above."
+    },
+    {
+      "kind": "other",
+      "url": "https://pcusa.org/news-storytelling/blogs/historical-society-blog/egypt-tennessee-downtown-church-nashville",
+      "title": "From Egypt to Tennessee: The Downtown Presbyterian Church, Nashville | Presbyterian Church (U.S.A.)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Places this church beside the corpus's other Egyptian Revival exemplars in one sentence: 'Few churches employed an Egyptian Revival architectural vocabulary. Among those that did were Minard Lafever's 1844 Old Whaler's Church in Sag Harbor, Long Island, and the First Baptist Church of Essex, Connecticut.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.oldwhalerschurch.org/our-history",
+      "title": "OUR HISTORY - Old Whalers Church",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Confirms the 1844 date and Lafever's commission."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. Wikipedia's categories include 'Historic American Buildings Survey in New York (state)', so a survey probably exists and no number or item id was resolved from here; that is a located gap. The building matters to the node for a reason the node's own prose gets right and this record can now cite: the nomination says the details 'are then developed in a truly eclectic manner derived from Egyptian, Indian, Chinese, Persian and Moresque motifs, as well as from the symbolism of the thriving whaling industry', over a Greek Revival temple front. The corpus's claim that a revival can only supply the building types its source corpus documented is visible here as a hybrid: an Egyptian church needed a steeple that no Egyptian temple could supply."
+}

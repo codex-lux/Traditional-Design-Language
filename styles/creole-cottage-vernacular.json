@@ -195,19 +195,64 @@
       "name": "Lafitte's Blacksmith Shop",
       "location": "941 Bourbon Street, New Orleans, Louisiana",
       "year": 1772,
-      "note": "Briquette-entre-poteaux with a steep hipped roof; among the oldest surviving structures in New Orleans and the clearest surviving statement of the urban cottage before the Spanish-period fires."
+      "note": "Briquette-entre-poteaux with a steep hipped roof; among the oldest surviving structures in New Orleans and the clearest surviving statement of the urban cottage before the Spanish-period fires.",
+      "precedent": "lafittes-blacksmith-shop",
+      "standing": "icon",
+      "why": "The node's own note calls it 'the clearest surviving statement of the urban cottage before the Spanish-period fires', and HABS LA-24 recorded it as 'an example of the small cottage type in New Orleans of over a century ago, and is one of the very few remaining'."
     },
     {
       "name": "Fontenette-Bienvenu House",
       "location": "201 North Main Street, St. Martinville, Louisiana",
       "year": 1817,
-      "note": "A one-and-a-half-storey Creole cottage of colombage construction with Federal detailing — the type absorbing Anglo trim while keeping its plan. Listed on the National Register 1997, delisted 2024."
+      "note": "A one-and-a-half-storey Creole cottage of colombage construction with Federal detailing — the type absorbing Anglo trim while keeping its plan. Listed on the National Register 1997, delisted 2024.",
+      "precedent": "fontenette-bienvenu-house",
+      "standing": "regional",
+      "why": "The Bayou Teche expression: a colombage cottage of 1817 with Federal detailing (the node's own note, echoed by the register-derived description), on the Teche rather than in the Vieux Carre, and now delisted, which is a fact about the register and not about the house."
     },
     {
       "name": "Kent Plantation House",
       "location": "Alexandria, Rapides Parish, Louisiana",
       "year": 1800,
-      "note": "Bousillage Creole house, the oldest standing structure in Rapides Parish; a raised cottage version of the same four-room, no-corridor plan with its outbuildings intact."
+      "note": "Bousillage Creole house, the oldest standing structure in Rapides Parish; a raised cottage version of the same four-room, no-corridor plan with its outbuildings intact.",
+      "precedent": "kent-plantation-house",
+      "standing": "regional",
+      "why": "The Red River reach of the type: the node's own note calls it the oldest standing structure in Rapides Parish and a raised-cottage version of the four-room, no-corridor plan, and the loc.gov record for HABS LA-1303 calls it the oldest known standing structure in central Louisiana."
+    },
+    {
+      "name": "La Rionda Cottage",
+      "location": "1218-1220 Burgundy Street, New Orleans, Louisiana",
+      "year": 1811,
+      "note": "A Vieux Carre cottage of 1811 by Antonio La Rionda, and the plan paragraph of this node measured: four rooms in a square, 29 by 40-9, two front doors and two front windows straight on the banquette, two chimneys on the spine wall each serving a pair of rooms, an open loggia behind between a cabinet and a kitchen, and a gable roof carried out over the sidewalk. Restored by the city under Richard Koch in 1940 and drawn by HABS.",
+      "precedent": "la-rionda-cottage",
+      "standing": "documentary",
+      "why": "HABS LA-192 states the whole plan in one sentence -- 29'-0\" x 40'-9\", 'four rooms arranged in a square', an open loggia between a cabinet and a kitchen, two chimneys on the central wall, a gable roof with a sidewalk overhang -- which is the node's plan paragraph measured."
+    },
+    {
+      "name": "Maison Olivier",
+      "location": "St. Martinville, Louisiana",
+      "year": 1815,
+      "note": "The Teche country's raised Creole cottage of about 1815, listed on the register as the 'Acadian House' and a National Historic Landmark since 1974: brick below, colombage above, a gallery across the front and the four-room, no-corridor plan behind it. Kept by the Longfellow-Evangeline State Historic Site, the first state park in Louisiana, which is why it is the Bayou Teche house a reader is shown.",
+      "precedent": "maison-olivier",
+      "standing": "canonical",
+      "why": "The register lists it (as 'Acadian House', NHL 1974) and HABS LA-1276 recorded it as 'Olivier House'; the Longfellow-Evangeline site keeps it as the Teche's raised Creole cottage of about 1815, the node's Bayou Teche region made specific in one well-documented building."
+    },
+    {
+      "name": "LaPointe-Krebs House",
+      "location": "Pascagoula, Mississippi",
+      "year": 1757,
+      "note": "The Gulf Coast's oldest house and Mississippi's only French-period building above ground: a cypress-and-cedar frame filled with oyster-shell concrete, a bousillage room added to the west, two stuccoed brick stacks, a broken-pitch gable roof over porches on three sides, and dates offered from 1721 to 1772. The Creole plan in its coastal materials, sixty miles east of the parishes.",
+      "precedent": "lapointe-krebs-house",
+      "standing": "regional",
+      "why": "SAH Archipedia calls it 'the oldest building in Mississippi, the sole above-ground structure remaining from Mississippi's French period', and HABS MS-18 recorded its oyster-shell-concrete frame walls and three-sided porch -- the Mississippi Gulf Coast reach the node's geography names."
+    },
+    {
+      "name": "Badin-Roque House",
+      "location": "Natchez vicinity, Natchitoches Parish, Louisiana",
+      "year": null,
+      "note": "The Cane River's rarest survivor: a one-storey cottage of cedar posts set in the ground and filled with bousillage, 27 by 30 feet under an unbroken steep roof cantilevered over the front gallery, on Isle Brevelle in the Creole community of the Metoyers. One of four poteaux-en-terre houses known to stand in the country, dated anywhere from the 1770s to the 1830s depending on who is asked, and drawn by HABS.",
+      "precedent": "badin-roque-house",
+      "standing": "regional",
+      "why": "HABS LA-1361, the Cane River area survey, measures it at 27' x 30' and records it as a poteaux-en-terre house of which 'only three other French Creole examples are known', the Natchitoches reach of the node's geography in its rarest constructional form."
     }
   ],
   "sources": [

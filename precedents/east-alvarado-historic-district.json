@@ -1,0 +1,38 @@
+{
+  "id": "east-alvarado-historic-district",
+  "name": "East Alvarado Historic District",
+  "record_kind": "district",
+  "location": {
+    "text": "Phoenix, Arizona",
+    "country": "United States",
+    "state": "Arizona"
+  },
+  "dates": {
+    "built": "late 1930s",
+    "circa": true,
+    "note": "The nomination gives a period of significance of 1929-1948 and says the district represents 'the late 1930s construction boom'. No individual house date was read, so no single year is stated here."
+  },
+  "nodes": [
+    "minimal-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "00000102",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/00000102_text",
+      "title": "East Alvarado Historic District (reclassification of resources), National Register of Historic Places nomination",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "The reference number is the path segment of the nomination text asset actually fetched by extract on this date; the National Register's own database entry was not opened and the listing DATE was not read, so none is stated. Recorded `manual` for that reason, on the precedent of `precedents/westover.json`."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/00000102_text",
+      "title": "National Register of Historic Places nomination text, East Alvarado Historic District, Phoenix, Maricopa County, Arizona",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Two spans read on this date. Location and scope: 'The East Alvarado Historic District in Phoenix, Arizona is situated on a stretch of pavement less that a quarter mile in length. The original concrete road named East Alvarado is located between Third and Seventh streets and Monte Vista and Oak streets. Within that quarter mile, thirty homes make up the East Alvarado Historic District.' On the elevations: 'The eaves were typically detailed with cornice molding at the roof-wall junction and had little, if any, overhang. Doorways were often offset, facing at right angles to the street. Porches were limited to overhangs or canopies or were small attached roofs near the intersection of the houses' two main wings ... Most designs included false shutters, usually louvered.' The nomination is written against the 'Historic Residential Subdivision and Architecture in Central Phoenix, 1912-1950' Multiple Property Documentation Form of 1994."
+    }
+  ],
+  "note": "WHY THIS DISTRICT IS WORTH A RECORD: it is a National Register nomination that names the style, states the federal mechanism this node's long description is built on -- 'the district is important for its excellent representation of the national housing policy established by the Federal Housing Administration on the development of subdivisions locally during the late 1930s' -- and then describes the eave and the shutter in the terms the node's kit uses. AND IT NAMES THE BOUNDARY THIS CORPUS KEEPS AS TWO NODES: 'The houses in East Alvarado are generally known as \"Early Ranch\" or Minimal Traditional style.' The nomination treats minimal-traditional and early ranch as one population under two names; this corpus separates them. That is a disagreement of classification, not of fact, and it is recorded rather than resolved. There is no HABS survey, so no `survey` block; the quoted sentences are a National Register nomination's and are carried in the ref note, where nothing can mistake them for surveyed dimensions."
+}

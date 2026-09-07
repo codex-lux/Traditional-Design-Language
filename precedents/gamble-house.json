@@ -1,0 +1,141 @@
+{
+  "id": "gamble-house",
+  "name": "Gamble House",
+  "aka": [
+    "David B. Gamble House",
+    "The Gamble House"
+  ],
+  "location": {
+    "text": "Pasadena, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1908-1909",
+    "circa": false,
+    "note": "The survey: 'Date of erection: March 1908 to January 1909'; the Wikipedia infobox prints 'Built 1909'; the node's exemplar says 1908-09."
+  },
+  "nodes": [
+    "craftsman",
+    "arts-and-crafts-american",
+    "california-bungalow",
+    "american-arts-and-crafts"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-1981",
+      "url": "https://www.loc.gov/pictures/item/ca0279",
+      "title": "Gamble House, 4 Westmoreland Place, Pasadena, Los Angeles County, CA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Drawing(s): 11 Data Page(s): 6'; call number HABS CAL,19-PASA,5-. The survey number is printed in the data page's own header ('HABS No. CA-1981'), read by extract the same day."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0279",
+      "url": "https://www.loc.gov/pictures/item/ca0279",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000155",
+      "url": "https://en.wikipedia.org/wiki/Gamble_House_(Pasadena,_California)",
+      "title": "NRHP reference No. 71000155; added September 3, 1971; designated NHL December 22, 1977; CHISL No. 871 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gamble_House_(Pasadena,_California)",
+      "title": "Gamble House (Pasadena, California) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca0279",
+    "register": "loc-item",
+    "survey_no": "CA-1981",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0200/ca0279/data/ca0279data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The Gamble House is the most complete and best preserved example of the work of Architects Greene and Greene. Built in 1908, during the architects most refined period, it embodies the highest level of the California Bungalow style, is one of the finest examples of the American Craftsman Movement.",
+        "page": "HABS No. CA-1981, cover 'Significance'; no page number on the cover"
+      },
+      {
+        "field": "foundations",
+        "text": "1. Foundations: Brick and gunite.",
+        "page": "HABS No. CA-1981, Part II.B.1; the marker '(Page 3)' follows this span"
+      },
+      {
+        "field": "walls",
+        "text": "2. Wall construction, finish, and color: Wood frame construction. The wall surface is primarily of 36\" cedar shakes dipped in Cabot's Creosote base stain before installation. The finish is a dark olive-green color.",
+        "page": "HABS No. CA-1981, Part II.B.2; the marker '(Page 3)' follows"
+      },
+      {
+        "field": "structural_system",
+        "text": "3. Structural system, framing: Western frame, heavy timber post-and-beam with occasional use of wood truss.",
+        "page": "HABS No. CA-1981, Part II.B.3; the marker 'THE GAMBLE HOUSE (David B. Gamble House) HABS No. CA-1981 (Page 3)' follows"
+      },
+      {
+        "field": "porches",
+        "text": "4. Porches, stoops, bulkheads, etc: There are many terraces of handmade red mission tile.",
+        "page": "HABS No. CA-1981 (Page 3)"
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: Three - brick with cast concrete caps with gunite finish.",
+        "page": "HABS No. CA-1981 (Page 3)"
+      },
+      {
+        "field": "openings",
+        "text": "6. Openings: a. Doorways and doors: Wood construction - pegged and doweled, many with Tiffany leaded glass panels. Six-panel Tiffany glass entry doors. b. Windows and shutters: Wood framed with pegs and dowels. Some Tiffany leaded windows.",
+        "page": "HABS No. CA-1981 (Page 3)"
+      },
+      {
+        "field": "roof",
+        "text": "7. Roof: a. Shape, covering: Overlapping gabled roof with integrally designed gutter, and rolled edge. Material - maltoid. b. Cornice, eaves: Long overhanging eaves with exposed rafter construction.",
+        "page": "HABS No. CA-1981 (Page 3)"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plans: First - includes living room, dining room, den, kitchen, pantry, cold room, entry hall, and guest bedroom. Entry continuous through center of plan to rear terrace. Second - central hall separates master bedroom and children's bedroom from family guest bedroom, maids' quarters, and maiden aunt's bedroom. Third - designed as a billiard room, this space is now devoted to the Greene and Greene Library. Full basement including laundry, coal room, storage, dark room, heating, etc.",
+        "page": "HABS No. CA-1981 (Page 3), Part II.C.1"
+      },
+      {
+        "field": "stairways",
+        "text": "2. Stairways: Main stairway all of wood - pegged, splined, and doweled construction. Railing is solid teakwood. Back stairway - wood construction.",
+        "page": "HABS No. CA-1981 (Page 3), Part II.C.2"
+      },
+      {
+        "field": "other",
+        "text": "1. Date of erection: March 1908 to January 1909. 2. Architect: Greene and Greene (Charles Sumner Green, Henry Mather Greene).",
+        "page": "HABS No. CA-1981, Part I.A; no page marker legible in that span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Three - brick",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "wall_shake_length_in",
+      "as_printed": "36\" cedar shakes",
+      "value": 36,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "The shake's length, not its exposure; the survey gives no exposure."
+    }
+  ],
+  "note": "This survey carries no over-all dimensions line: its Part II.B begins at '1. Foundations'. The exterior figures a kit could use are therefore the chimney count and the eave description ('Long overhanging eaves with exposed rafter construction'), which names the condition and not the projection. WP-11.3, Tranche 2 (5 Sep 2026): arts-and-crafts-american and california-bungalow both name this building at 'Pasadena, California' and both now carry the precedent key. The sentence that stood here said they named it WITHOUT one, which stopped being true the moment they were linked. Seeded 4 Sep 2026. Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): a storey_count 3 measurement was removed: its as_printed joined two spans with an ellipsis, so it was a count inferred from the prose rather than a figure the survey printed (the two spans are still in the quotes)."
+}

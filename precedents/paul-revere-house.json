@@ -1,0 +1,71 @@
+{
+  "id": "paul-revere-house",
+  "name": "Paul Revere House",
+  "location": {
+    "text": "North Square, Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "c. 1676-1680",
+    "circa": true,
+    "note": "The Wikipedia infobox gives c. 1676-1680; the node's exemplar says 1680. The HABS addendum says the house was 'first recorded in 1941'."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-491",
+      "title": "Paul Revere House, 19 North Square, Boston, Suffolk County, MA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0478/data/ma0478data.pdf",
+      "note": "The cover prints 'HABS No. MASS-491' and the addendum 'HABS No. MA-491 ... (first recorded in 1941)'. The loc.gov sheet pages read by search carry 'HABS MASS,13-BOST,26- (sheet 5 of 5)'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0478",
+      "url": "https://www.loc.gov/pictures/item/MA0478",
+      "title": "Paul Revere House, 19 North Square, Boston, Suffolk County, MA",
+      "note": "The search result's URL spells the item in upper case; the id is recorded in the Library's lower-case form.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000785",
+      "url": "https://en.wikipedia.org/wiki/Paul_Revere_House",
+      "title": "NRHP reference No. 66000785; added October 15, 1966; designated NHL January 20, 1961 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Paul_Revere_House",
+      "title": "Paul Revere House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ma0478",
+    "register": "loc-item",
+    "survey_no": "MA-491",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0478/data/ma0478data.pdf",
+    "prepared": "District of Massachusetts, Frank Chouteau Brown, District Officer (as the cover reads); the extract shows covers only",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Addendum to: Paul Revere House HABS No. MA-491 19 North Square Boston Suffolk County Massachusetts (first recorded in 1941) PHOTOGRAPHS REDUCED COPIES OF MEASURED DRAWINGS",
+        "page": "Addendum cover sheet; no page number printed"
+      }
+    ]
+  },
+  "note": "Both extract queries returned only the cover sheets of the 1941 record and its addenda; no descriptive data was reached, so nothing about the fabric is quoted here.",
+  "nodes": [
+    "new-england-colonial",
+    "garrison-colonial"
+  ]
+}

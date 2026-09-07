@@ -1,0 +1,56 @@
+{
+  "id": "purcell-cutts-house",
+  "name": "Purcell-Cutts House",
+  "aka": [
+    "Edna S. Purcell House",
+    "William Gray Purcell House"
+  ],
+  "location": {
+    "text": "Minneapolis, Minnesota",
+    "country": "United States",
+    "state": "Minnesota"
+  },
+  "dates": {
+    "built": "1913",
+    "circa": false,
+    "note": "All three sources read agree on 1913. The firm is named differently by each: the style node says 'Purcell and Elmslie', Wikipedia says the house 'was designed by the firm of Purcell, Feick and Elmslie', and the Minneapolis Institute of Art says the firm was known as Purcell, Feick and Elmslie at the time but that 'George Feick is not considered a design partner for the house'."
+  },
+  "nodes": [
+    "prairie-school"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Edna_S._Purcell_House",
+      "title": "Edna S. Purcell House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "74001024",
+      "url": "https://en.wikipedia.org/wiki/Edna_S._Purcell_House",
+      "title": "NRHP reference No. 74001024; Added to NRHP October 29, 1974; Designated a Minneapolis Landmark 1975 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The City of Minneapolis landmark page, read the same day, independently gives 'Date of National Register designation: 1974' and 'Date of local designation: 1975' without a reference number."
+    },
+    {
+      "kind": "institution",
+      "url": "https://new.artsmia.org/art-artists/architecture/purcell-cutts-house",
+      "title": "Purcell-Cutts House -- Minneapolis Institute of Art",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its own claim, recorded as one: the house 'remains one of the most significant examples of the Prairie School style of architecture in the country' and is 'considered the most complete embodiment of Purcell and Elmslie's architectural philosophy'."
+    },
+    {
+      "kind": "state-register",
+      "url": "https://www.minneapolismn.gov/resident-services/property-housing/preservation/landmarks-districts/landmarks/william-gray-purcell-house",
+      "title": "Purcell-Cutts House - City of Minneapolis",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The city's landmark file. No file number is printed on the page, so this ref carries a url and no id. It states 'Construction date: 1913', 'Contractor: Day labor', and describes 'a flat roof, wide eaves, and a one-story wing' with 'Dark wood fascia boards along the roofline break up tan stucco walls'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey exists for this house so far as the searches reached, and none is expected -- it passed to a museum rather than into the Survey. Worth carrying against prairie-school's own kit: the City of Minneapolis describes the roof as FLAT, and a private page read the same day gives 'a 7-foot projection of the roof at the front (east) side of the house'. The node's roof_pitch slot specifies hipped at 3:12 to 4:12. A flat roof on the node's own third exemplar is a fact the kit's hard constraint c01 does not admit; it is recorded here and not resolved, because a real building's roof is not a reason to edit a rule and a rule is not a reason to mis-record a roof."
+}

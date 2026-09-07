@@ -1,0 +1,43 @@
+{
+  "id": "kentlands",
+  "name": "Kentlands",
+  "location": {
+    "text": "Gaithersburg, Maryland",
+    "country": "United States",
+    "state": "Maryland"
+  },
+  "dates": {
+    "built": "Charrette June 1988; construction from 1989; first residents 1991",
+    "circa": false,
+    "note": "Wikipedia: 'After the June 1988 Kentlands charrette ... Construction started in 1989, and the first model homes opened in mid-1990. The first Kentlands residents moved into new homes in 1991.' The City of Gaithersburg: Helene Danger Kent sold the farm in 1988 to Joseph Alfandre, Jr., who 'hired the land-use planners Andres Duany and Elizabeth Plater-Zyberk'."
+  },
+  "nodes": [
+    "new-urbanist-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Kentlands,_Gaithersburg,_Maryland",
+      "title": "Kentlands, Gaithersburg, Maryland - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.gaithersburgmd.gov/about-us/city-facilities/kentlands-mansion/history-of-kentlands-mansion",
+      "title": "History of Kentlands Mansion | Gaithersburg, MD",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The city, which owns the mansion; its history page records the 1988 sale and DPZ's engagement."
+    },
+    {
+      "kind": "other",
+      "url": "https://colab.dpz.com/olf8/wp-content/uploads/sites/4/2020/10/1916-DRAFT_UDR-20OCT02-Web.pdf",
+      "title": "OLF8 Master Plan, Draft Urban Diagnostics Report (DPZ CoLab, 2 Oct 2020)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "DPZ's own comparison table: 'Kentlands, Gaithersburg, Maryland Sub-urban, New Urbanist community Size: 680 acres Units: 4,600 Population: 12,000'."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A neighbourhood; DPZ's project page for it was not found by a search of dpz.com, so the planner's own figures come from a 2020 DPZ report's comparison table."
+}

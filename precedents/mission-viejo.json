@@ -1,0 +1,60 @@
+{
+  "id": "mission-viejo",
+  "name": "Mission Viejo",
+  "location": {
+    "text": "Orange County, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1966-",
+    "circa": false,
+    "note": "'In 1963, the O'Neill family and a group of investors formed the Mission Viejo Company to develop a master planned community on the northern end of the old Rancho Mission Viejo. The first families arrived here in 1966, and the City of Mission Viejo was incorporated in 1988' (Phil Brigandi, Orange County Place Names A to Z, 2006, quoted by O.C. History Roundup). The acreage disagrees: 11,000 acres (Wikipedia, Rancho Mission Viejo) against a 10,000-acre section (orangecounty.net). Not resolved."
+  },
+  "nodes": [
+    "neo-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mission_Viejo,_California",
+      "title": "Mission Viejo, California - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Mission Viejo is considered one of the largest master-planned communities ever built under a single project in the United States[not verified in body] and is rivaled only by Highlands Ranch, Colorado in size.' The bracketed tag is Wikipedia's own and is quoted with the sentence, because the claim is exactly the sort this node should not repeat unchecked. Also: 'In 1960, early developers dismissed most of the land in Mission Viejo as simply \"undevelopable\".'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rancho_Mission_Viejo,_California",
+      "title": "Rancho Mission Viejo, California - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1963, the O'Neill family and its partners established the Mission Viejo Company and embarked on its first residential development, the 11,000 acres planned community of Mission Viejo.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://ochistorical.blogspot.com/2015/07/mission-viejo-1967.html",
+      "title": "Mission Viejo, 1967 - O.C. History Roundup",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes Phil Brigandi, Orange County Place Names A to Z (2006): 'In 1963, the O'Neill family and a group of investors formed the Mission Viejo Company to develop a master planned community on the northern end of the old Rancho Mission Viejo. The first families arrived here in 1966, and the City of Mission Viejo was incorporated in 1988.' The post also links a twenty-minute 1967 film marketing the new community."
+    },
+    {
+      "kind": "institution",
+      "url": "https://calisphere.org/item/ark:/13030/kt600026mb",
+      "title": "[Aerial photograph of Deane Homes models and houses, Monterey Homes models, Mission Viejo High School, and La Paz Homes models, circa 1966] - Calisphere, Mission Viejo Library",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE MODEL-HOME PARK, PHOTOGRAPHED FROM THE AIR IN ABOUT 1966. The item title names three separate builders' model rows -- Deane Homes, Monterey Homes and La Paz Homes -- standing together inside one master plan, which is the merchandising arrangement this node's description is about. Held by the Mission Viejo Library in the Mission Viejo Heritage Committee Planned Community Collection."
+    },
+    {
+      "kind": "other",
+      "url": "https://missionviejo.com/blog/history-of-mission-viejo",
+      "title": "History of Mission Viejo | MissionViejo.com",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A local commercial guide, recorded as one, and its claims are attributed rather than adopted: it says 'The community's master planner was Donald Bren' and that 'Mission Viejo was the first and largest project that represented Bren's Spanish architecture obsession', and that 'The plan included placing roads in the valleys, houses on the hills, and contoured the geography of the area.' No second surface read here confirms the Bren attribution."
+    }
+  ],
+  "note": "The earliest of this node's exemplars and the one that shows the machinery assembling: a single master developer, several merchant builders inside it, and a photographed row of model homes by 1966. It is also the parent of `precedents/highlands-ranch.json` -- the same company took the same method to Colorado in 1978-81 -- which is why the two are worth reading together. No survey, no register listing, no documented house. The 'largest master-planned community' claim is carried with Wikipedia's own not-verified tag attached rather than repeated as fact."
+}

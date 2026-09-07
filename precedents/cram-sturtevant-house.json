@@ -1,0 +1,57 @@
+{
+  "id": "cram-sturtevant-house",
+  "name": "Cram-Sturtevant House",
+  "aka": [
+    "Jacob Cram-Mary Sturtevant House",
+    "Jacob Cram House",
+    "Sturtevant House"
+  ],
+  "location": {
+    "text": "Middletown, Rhode Island",
+    "country": "United States",
+    "state": "Rhode Island"
+  },
+  "dates": {
+    "built": "1871-1872",
+    "circa": false,
+    "note": "Two date ranges are on the record and neither is edited. The Rhode Island SHPO's own National Register nominations give 1871-72 twice -- 'the Cram-Sturtevant House (1871-1872), Middletown, Rhode Island' (St. Mary's Church Complex) and 'the Jacob Cram-Mary Sturtevant House (1871-72) by Dudley Newton' (Alexander Van Rensselaer House) -- and SAH Archipedia's entry heading reads '1871'. Against them, the Griswold House National Historic Landmark nomination quotes Vincent Scully on 'the Sturtevant House, Middletown, RI (1875-76), by Dudley Newton', and a 2016 Providence Journal column says it 'was built for Mrs. George Clarence Cram in 1875-76'. The architect is Dudley Newton (1845-1907) in every one of them."
+  },
+  "nodes": [
+    "stick-style"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://preservation.ri.gov/sites/g/files/xkgbur406/files/pdfs_zips_downloads/national_pdfs/newport/newp_william-street-14_st-marys-church-complex.pdf",
+      "title": "National Register of Historic Places Registration Form -- St. Mary's Church Complex, Newport, Rhode Island (Rhode Island Historical Preservation & Heritage Commission)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Cited for its sentence about the architect, not about St Mary's: 'His works include two Stick Style houses, the Cram-Sturtevant House (1871-1872), Middletown, Rhode Island, and the King Birkhead House (1872) in Newport. Newton's reputation was later revived by the publications of architectural historians Henry Russell Hitchcock and Vincent Scully.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://preservation.ri.gov/sites/g/files/xkgbur406/files/pdfs_zips_downloads/national_pdfs/middletown/midl_ichabod-lane-1_van-rensselaer-house.pdf",
+      "title": "National Register of Historic Places Registration Form -- Alexander Van Rensselaer House, Middletown, Rhode Island",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'The legacy of this aesthetic in Newport includes Thayer Cottage (1870-72) by Peabody and Stearns; the George Champlin Mason House (1873- 74), designed by Champlin for himself; and, in Middletown, the Jacob Cram-Mary Sturtevant House (1871- 72) by Dudley Newton.' The same form is also the plainest statement of this node's own thesis: 'Its proponents lauded the structural honesty of the exterior applied trim as reflective of the interior, balloon-frame construction. In truth, the exterior trim was generally a decorative overlay that bore no direct connection to structure.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/71000023_text",
+      "title": "GRISWOLD, JOHN N.A., HOUSE -- National Historic Landmark nomination (NPGallery), quoting Scully on this house",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'Vincent Scully points to the Sturtevant House, Middletown, RI (1875-76), by Dudley Newton, which Scully states, \"represents the apogee of the movement: a highly articulated plan, deep porches, high, jagged, movemented silhouette, full of \\'masculine\\' activity, the surface exploded into a basketry of sticks.\"'"
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/RI-01-MI11",
+      "title": "Jacob Cram-Mary Sturtevant House -- SAH Archipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The URL and title come from a search result; the page itself REFUSED extraction from this container ('Failed to fetch url'), so nothing on it is quoted beyond the search snippet, which reads 'The Architectural Heritage of Newport, Rhode Island (1951) as the epitome of the virtues of what he termed the Stick Style'."
+    }
+  ],
+  "note": "The building Scully himself called the apogee of the style he had named, and the only entry in this node whose standing rests on the historian who defined it rather than on a register clerk. No Historic American Buildings Survey record was found (query: '\"Jacob Cram House\" Middletown Rhode Island Stick Style 1871 Scully apogee National Register'), and no individual National Register reference number was found either -- every reference here reaches the building through some OTHER property's nomination, which is honest and is a gap. The street address is unsettled between sources (a Providence Journal column places it on Purgatory Lane; the SAH Archipedia snippet prints '438 Abe Meyer Ln'), so the location is recorded at town level only. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

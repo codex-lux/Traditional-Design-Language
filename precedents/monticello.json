@@ -1,0 +1,73 @@
+{
+  "id": "monticello",
+  "name": "Monticello",
+  "location": {
+    "text": "Charlottesville, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1770-1820",
+    "circa": false,
+    "altered": "The survey: 'Plan complicated by additions made to original building by Jefferson after his return from France.' Wikipedia records HABS measured drawings made by a team of architects between 1989 and 1992.",
+    "note": "The survey's 1930s entry prints 'Date of erection: 1770-1820'; the Wikipedia infobox prints 'Year built 1772'; the node's exemplar gives 1809 and the span 'Begun 1768, rebuilt from 1794 ... substantially complete 1809'. Three statements of one forty-year building campaign; none is changed."
+  },
+  "nodes": [
+    "jeffersonian-classicism"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-241",
+      "title": "Monticello, .6 mile northeast of State Route 53, Charlottesville vicinity, Albemarle County, Virginia",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0000/va0059/data/va0059data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed cleanly on one addendum cover ('ADDENDUM TO: MONTICELLO HABS No. VA-241') and in three damaged forms elsewhere in the same PDF -- 'HABS m. VA-2lii', 'Honticello HABS No. Yk-2kl', 'Hr, Vh- OA 1'. The 1930s call number is 'HABS VA,2-CHAR.V,1-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0059",
+      "url": "https://www.loc.gov/item/va0059",
+      "title": "Monticello, State Route 53 vicinity, Simeon, Albemarle County, VA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's item; its own citation line names Thomas T. Waterman, Walter Smalling and Jack E. Boucher among the recorders, and the collection is dated 1933."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Monticello",
+      "title": "Monticello - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'Monticello is a National Historic Landmark. It is the only private home in the United States to be designated a UNESCO World Heritage Site. Included in that designation are the original grounds and buildings of Jefferson's University of Virginia.' Its infobox gives the UNESCO designation as 1987 (11th session), criteria i, iv, vi. No NRHP reference number was printed in what the search returned, so none is recorded."
+    }
+  ],
+  "survey": {
+    "item": "va0059",
+    "register": "loc-item",
+    "survey_no": "VA-241",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/va/va0000/va0059/data/va0059data.pdf",
+    "prepared": "'PHOTOGRAPHS WRITTEN HISTORIC AND DESCRIPTIVE DATA District of Virginia, Historic American Buildings Survey, Prepared at Headquarters Office for District of Virginia'; the addenda covers are National Park Service, Washington, D.C.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Near Charlottesville, Albemarle County, Virginia Owner; Thomas Jefferson Memorial Association Date of erection: 1770-1820 Present condition; Good Architect; Thomas Jefferson, who designed and built the house for himself Description; Brick, Flemish bond; two stories disguised to look as one; porticos front and rear, with octagonal dome on roof. Plan complicated by additions made to original building by Jefferson after his return from France. Much fine interior woodwork.",
+        "page": "HABS No. VA-241, the 1930s District of Virginia entry; no page number is printed on that form. The same block was returned by two extract calls with different query values, identically."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two stories disguised to look as one",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "TWO, and the surveyor states the concealment in the same breath. This is the node's height_proportion.reads_as_single_storey recorded by an independent hand in the 1930s."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. Twenty-nine words of description for the most written-about house in America, and every one of them is load-bearing for this node: 'Brick, Flemish bond; two stories disguised to look as one; porticos front and rear, with octagonal dome on roof.' The kit's `height_proportion.reads_as_single_storey` is marked EDITORIAL with a note saying no proportion pack models it and it is 'the closest this schema can come to an acknowledged gap'; the 1930s surveyor states the same fact as a description, which does not make it a proportion rule but does mean the reading is not this corpus's invention. NO DIMENSION AT ALL is given -- not the dome's diameter, not the portico's width, nothing. The measured drawings carry those and this container cannot read them."
+}

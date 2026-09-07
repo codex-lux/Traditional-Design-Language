@@ -1,0 +1,75 @@
+{
+  "id": "mission-inn-riverside",
+  "name": "Mission Inn, Mission Wing",
+  "aka": [
+    "Mission Inn",
+    "The Mission Inn Hotel & Spa",
+    "Glenwood Mission Inn"
+  ],
+  "location": {
+    "text": "Riverside, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "3649 Mission Inn Ave, Riverside, California"
+    ]
+  },
+  "dates": {
+    "built": "1903",
+    "circa": false,
+    "note": "Wikipedia's infobox prints 'Built 1903–1931' for the hotel as a whole and 'Architect: Multiple'; the style node's exemplar names the Mission Wing of 1902-03 alone and gives 1903. The National Register nomination locates the property 'Bet. 5th and 7th Streets and Main and Orange Streets'. All recorded, none changed."
+  },
+  "nodes": [
+    "mission-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Mission_Inn_Hotel_%26_Spa",
+      "title": "The Mission Inn Hotel & Spa - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its own summary: 'Although a composite of many architectural styles, it is generally considered the largest Mission Revival Style building in the United States.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000173",
+      "url": "https://en.wikipedia.org/wiki/The_Mission_Inn_Hotel_%26_Spa",
+      "title": "NRHP reference No. 71000173; added to the National Register 14 May 1971 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nhl",
+      "id": "71000173",
+      "url": "https://en.wikipedia.org/wiki/The_Mission_Inn_Hotel_%26_Spa",
+      "title": "Designated a National Historic Landmark 5 May 1977 (as the Wikipedia infobox prints it, under the same reference number)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "761",
+      "url": "https://en.wikipedia.org/wiki/The_Mission_Inn_Hotel_%26_Spa",
+      "title": "California Historical Landmark No. 761; Riverside Landmark No. 1",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/eb199424-6bc3-4d82-95f9-0aaf87a104d6",
+      "title": "National Register of Historic Places Inventory — Nomination Form, Mission Inn, Riverside, California (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://missioninnmuseum.org/about",
+      "title": "Citrus Heritage and Riverside - Mission Inn",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The museum's own account: Frank Augustus Miller, 'Working with prominent architect Arthur Benton, financed by railroad baron Henry Huntington ... opened the first wing of the current Mission Inn building in 1903', and 'By 1931, the Mission Inn comprised four wings'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. No HABS record was found: a loc.gov-restricted search for a Historic American Buildings Survey item for the Mission Inn returned the Riverside post office (item ca4637) and unrelated missions, and none is asserted. The record's `name` is the exemplar's, which names the Mission Wing rather than the hotel, because the checker joins on the exemplar's own string; the hotel's other names are in `aka`."
+}

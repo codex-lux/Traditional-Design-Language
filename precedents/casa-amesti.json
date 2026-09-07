@@ -1,0 +1,136 @@
+{
+  "id": "casa-amesti",
+  "name": "Casa Amesti",
+  "aka": [
+    "Jose Amesti Casa",
+    "Amesti Adobe"
+  ],
+  "location": {
+    "text": "516 Polk Street, Monterey, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1834",
+    "circa": false,
+    "altered": "The survey argues from window spacing and the interior stair that the southern portion is later than 1834, records an 1842 Larkin lithograph showing a one-and-a-half-storey house without a balcony and letters showing it two-storeyed by 1855, and dates the present doors, the wrought-iron grilles and the ground floors to the 1919 restoration for Frances Elkins (with David Adler, per Wikipedia).",
+    "note": "The style node and Wikipedia both say 1834; the node's own exemplar note says the priority between this house and the Larkin House 'is not fully settled'. The survey's reading, that the two-storey balconied form is later than 1834, bears on exactly that question and is recorded rather than resolved."
+  },
+  "nodes": [
+    "monterey-colonial",
+    "monterey-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-143",
+      "title": "Jose Amesti Casa, 516 Polk Street, Monterey, Monterey County, CA",
+      "url": "https://www.loc.gov/pictures/item/ca0367",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own lines: 'Call Number: HABS CAL,27-MONT,20-' and 'Photo(s): 7 | Measured Drawing(s): 11 | Data Page(s): 7'. The data page prints 'Cal-143' in its running marker (OCR 'Cal-1^3', 'Cal-3i3')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0367",
+      "url": "https://www.loc.gov/pictures/item/ca0367",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "id": "HALS CA-57",
+      "url": "https://www.loc.gov/pictures/item/ca3750",
+      "title": "Casa Amesti, 516 Polk Street, Monterey, Monterey County, CA (Historic American Landscapes Survey)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The GARDEN's survey (the search result: 'The garden at Casa Amesti was the home garden of noted California-based interior designer' Frances Elkins; 'See also HABS CA-143 for additional documentation'). Kind `other` because the schema's enum has no HALS."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Casa_Amesti",
+      "title": "Casa Amesti - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca0367",
+    "register": "loc-item",
+    "survey_no": "CA-143",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0300/ca0367/data/ca0367data.pdf",
+    "prepared": "Prepared by Kenneth H. Cardwell, Architect, September 1956 (printed 'Prepared by TH H. CARDWELL \\ Architect \\ September 1956'; Wikipedia's citation of the same document gives the full name).",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "ARCHITECTURAL INFORMATION General This two-storied balconied adobe is a handsome example of Mexican (Monterey) colonial architecture in an excellent state of repair.",
+        "page": "Precedes the marker 'Cal-143 Page 4' (printed 'Cal-3i3 Page h')."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "Exterior The building is approximately forty-one and one-half feet wide and eighty-four feet long. And though it was not ascertained it is probably built on a rough stone foundation as was common in this area and which exists in the adjoining garden wall.",
+        "page": "Precedes the marker 'Cal-143 Page 4' (printed 'Cal-3i3 Page h')."
+      },
+      {
+        "field": "walls",
+        "text": "The walls are load bearing sun-dried adobe bricks of general measurements of 11-1/2\" by Zkn by U\" HAB5 C.AL • m Cal-3i3 Page h thick where it was possible to check dimensions. However, inferring from the various thickness of measured walls it is possible there may be bricks of other sizes. All the exterior walls except the south were plastered with adobe plaster and whitewashed. The bond where visible is a common bond of alternate stretchers and headers. The south wall of the structure is of rough granite stones, probably erected at a late date, and is unusual in an area where it was common to use for stone wall",
+        "page": "Cal-143 Page 4 (the marker is printed in the middle of this span, as quoted)."
+      },
+      {
+        "field": "openings",
+        "text": "All the second story openings open onto the bal- conies by means of french doors the upper half of which are glazed and fitted with interior wood shutters. The lower story windows are fitted with double hung redwood sash. These are protected by wrought iron grilles which were added in 1919.",
+        "page": "No page marker legible in the extract span (between Page 4 and Page 5)."
+      },
+      {
+        "field": "roof",
+        "text": "The roof is a simple hip roof with the long sides extended in gable form to cover the exterior balconies. The front balcony has a simple wood cornice with dentils, while the rear has a plain flat fascia. Gutters on the building are modern replacements. The roof is now cedar shingles and earliest photographs show it shingled though the garden walls are crowned with tile.",
+        "page": "No page marker legible in the extract span (between Page 4 and Page 5)."
+      },
+      {
+        "field": "plan",
+        "text": "The plan of the building is a typical California adobe plan with room to room circulation. The upper story rooms all have access to exterior circulation. The Amesti adobe has an interior stairway rising from an entrance hall. This plan is unusual but exists in a portion ■HABS 'xi-r\\ OMT  Cal-1^3 Page 5 which may date from after 1835, the date of construction of its neighbor the Larkin house.",
+        "page": "Cal-143 Page 5 (the marker is printed in the middle of this span, as quoted)."
+      },
+      {
+        "field": "other",
+        "text": "An I81i2 lithograph by Larkin shows the Amesti Adobe as a one and one-half story structure with 5 openings on the east wall ground story and 3 openings in the attic story without balcony.",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "approximately forty-one and one-half feet wide",
+      "value": 41.5,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "eighty-four feet long",
+      "value": 84,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "adobe_brick_dimension_in",
+      "as_printed": "11-1/2\" by Zkn by U\"",
+      "value": 11.5,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "Only the first figure of the brick's three is legible; 'Zkn' and 'U\"' are OCR and are NOT read. The Larkin House sheet, by the same programme, gives 11\" by 24\". Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): renamed from adobe_brick_width_in; the source does not say which axis 11-1/2 in is."
+    },
+    {
+      "name": "ground_floor_opening_count_1842",
+      "as_printed": "5 openings on the east wall ground story",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "As drawn in the 1842 lithograph the survey describes, not as built today."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. No National Register number was retrieved: the Wikipedia article carries no NRHP infobox and the one search for it ('\"Casa Amesti\" Monterey National Historic Landmark National Register reference', nps.gov / wikipedia.org / ohp.parks.ca.gov / savingplaces.org) returned only the article and the county list, so none is asserted. The house is a contributing property of the Monterey Old Town district (NRHP 70000137) on the Larkin House infobox's pattern, but that was not verified for this address. CROSS-LINKED 5 Sep 2026: monterey-revival also names this building, at the same location string, and reaches it through `precedent`."
+}

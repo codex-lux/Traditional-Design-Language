@@ -1,0 +1,99 @@
+{
+  "id": "merchants-house-museum",
+  "name": "Merchant's House Museum (Seabury Tredwell House)",
+  "aka": [
+    "Old Merchant's House",
+    "Seabury Tredwell House"
+  ],
+  "location": {
+    "text": "29 East Fourth Street, Manhattan, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1831-1832",
+    "circa": false,
+    "altered": "The 1930s survey records the house as 'Excellent. Hestored and now being used as a Museum'; the deed history it prints runs from Brewster's sale to Seabury Tredwell in 1835 to the 1935 conveyance to the Historic Landmark Society.",
+    "note": "Three dates on the record and none is edited. The survey's own form prints 'Date of Erection: 1831'; the Wikipedia infobox prints 'Built 1832'; the node's exemplar says 1832 and its note says 'Built 1831-32 by Joseph Brewster'."
+  },
+  "nodes": [
+    "greek-revival-northern"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-440",
+      "title": "Seabury Tredwell House, 29 East Fourth Street, New York County, NY",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0500/ny0591/data/ny0591data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed twice in the data page's own text -- a running head OCR'd as 'HABS No. NT-440, Page 3.' and a cover line reading 'Seabury Tredwell House H&BS NY-440'. The 1930s call number on the same pages is 'HAES NY, 31-NEYO , 30-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0591",
+      "url": "https://www.loc.gov/pictures/item/ny0591",
+      "title": "Seabury Tredwell House, 29 East Fourth Street, New York County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Photo(s): 21 Measured Drawing(s): Call Number: HABS NY,31-NEYO,30-'. The drawing count is blank in that line and the data PDF fetched the same day is headed 'REDUCED COPIES OF MEASURED DRAWINGS'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000548",
+      "url": "https://en.wikipedia.org/wiki/Merchant%27s_House_Museum",
+      "title": "NRHP reference No. 66000548 (as the Wikipedia infobox prints it, under the heading 'Old Merchant's House (Seabury Tredwell House)')",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox summary returned by the search, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Merchant%27s_House_Museum",
+      "title": "Merchant's House Museum - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'Built by the hatter Joseph Brewster in 1831 and 1832, the edifice is a four-story building with a Federal-style brick facade and a Greek Revival interior' and 'The current museum was built as one of six identical houses on the same block.' The four-storey reading disagrees with the survey's three; both are kept."
+    },
+    {
+      "kind": "institution",
+      "url": "http://www.merchantshouse.com",
+      "title": "Save The Merchant's House Museum",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'The house was built on speculation in 1832 by a hatter called Joseph Brewster. He sold it three years later in 1835 for $18,000 to Seabury Tredwell' -- the same 1835 price the survey's deed abstract prints."
+    }
+  ],
+  "survey": {
+    "item": "ny0591",
+    "register": "loc-item",
+    "survey_no": "NY-440",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0500/ny0591/data/ny0591data.pdf",
+    "prepared": "District No. 4, New York City; 'TSatoefieid Worcester, District Officer' (Wakefield Worcester), 85 East 44th Street, New York; approved 'January S9, 1937'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Date of Erection: 1831 Architect; Unknown Builder: Joseph Brewster (owner) Present Condition: Excellent. Hestored and now being used as a Museum. Number of. Stories: ■Hires, with attic, basement and cellar. Materials of Construction: Foundation - Stone Exterior walls - Brick Interior walla - Plaster Hoof - Slate",
+        "page": "HABS No. NY-440; the 1930s data form, printed under the call number 'HABS NY, 31-NEYO, 30-'. No page number is legible in this span; the running head 'HABS No. NT-440, Page 3.' appears on a later page of the same extract."
+      },
+      {
+        "field": "other",
+        "text": "1835 November 2. Joseph Brewster conveyed the house and lot to Seabury Tredwell for $18,000. Seabury Tredwell is recorded as the owner of one house on one lot on the site. The assess-ment is |10,000.",
+        "page": "HABS No. NY-440, the deed abstract; the running head 'HABS No. NT-440, Page 3.' is printed in the same extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "■Hires, with attic, basement and cellar",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "'■Hires' is OCR for 'Three'; read as three storeys over a basement and cellar, with an attic. A reading, marked as one -- and it disagrees with Wikipedia's 'four-story building', which is recorded in the refs and not reconciled here."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. The survey is a 1930s one-form entry plus a deed abstract: it states materials and storeys and no dimension at all, which is why no width or depth is recorded. Worth carrying for the node: the surveyor calls the exterior walls brick and the roof slate and says nothing whatever about the Grecian interior the node names this house for -- the Lafever-derived joinery and the fourteen-foot double parlours are the museum's account and this corpus's, not the surveyor's."
+}

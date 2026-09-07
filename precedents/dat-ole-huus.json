@@ -1,0 +1,75 @@
+{
+  "id": "dat-ole-huus",
+  "name": "Dat ole Huus",
+  "aka": [
+    "Heidemuseum Dat ole Huus"
+  ],
+  "location": {
+    "text": "Wilsede, Luneburg Heath, Germany",
+    "country": "Germany",
+    "state": "Niedersachsen"
+  },
+  "dates": {
+    "built": "1742",
+    "circa": false,
+    "altered": "Bought by Bernhard Dageforde in 1907, MOVED from Hanstedt to Wilsede and fitted out as a heath museum. It had been an inn until 1908.",
+    "note": "THE SOURCES SEPARATE THE HOUSE FROM ITS FLETT AND THE NODE'S EXEMPLAR YEAR FOLLOWS THE FLETT. The German Wikipedia article says 'Das 1742 erbaute Gebäude ist das älteste Fachwerk-Hallenhaus im Naturpark Lüneburger Heide' and then, separately, 'gehen Forscher davon aus, dass Dat ole Huus einen wesentlich älteren Flettbereich aufweist (etwa um 1540 erbaut)'. The node's exemplar year is 1540, which is the researchers' estimate for the hearth end and not the building's date. Both are recorded and neither is chosen."
+  },
+  "nodes": [
+    "north-german-hall-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Dat_ole_Huus",
+      "title": "Dat ole Huus – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.verein-naturschutzpark.de/heidemuseum-wilsede",
+      "title": "Heidemuseum \"Dat ole Huus\" in Wilsede | VNP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The operator, Verein Naturschutzpark and its foundation. Its own line: 'Das Wilseder Heidemuseum „Dat ole Huus\" ist eines der ältesten Bauernhäuser im Naturschutzgebiet Lüneburger Heide'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Hallenhaus",
+      "title": "Hallenhaus – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE TYPE ARTICLE, cited here because it carries the type-level figures no single building in this cluster supplies and because it names this house as an example. Read as continuous prose in an extract, it states: 'Die etwa 1,5 m² große, offene Feuerstelle befand sich mitten im Flett und war mit Feldsteinen eingefasst.'; 'Der Name „Kammerfach\" steht für den Wohnbereich des Hauses, der zwei Gefache, also bis zu sechs Meter, breit war.'; and 'Im 18. Jahrhundert erreichte das Hallenhaus Ausmaße von bis zu 50 m Länge und 15 m Breite.' The last CORROBORATES the node's own prose almost word for word. None of the three is carried as a measurement on this record, because they are facts about the type and not about this house."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Low_German_house",
+      "title": "Low German house - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "AND IT DISAGREES WITH THE GERMAN ARTICLE ABOUT HOW BIG THESE HOUSES GET. Read as continuous prose in an extract: 'the large Gefach or \"bay\" between two pairs of the wooden posts (Ständer) supporting the ceiling of the hall and the roof which are spaced about 2.5 metres (8.2 ft) apart. This was also used as a measure of house size: the smallest only had 2 bays, the largest, with 10 bays, were about 25 metres (82 ft) long.' Twenty-five metres against the German article's fifty, on the same type, in the same encyclopedia. The 2.5 m bay agrees exactly with the node's own figure."
+    }
+  ],
+  "survey": {
+    "item": "de-wikipedia-dat-ole-huus",
+    "register": "wikipedia",
+    "data_url": "https://de.wikipedia.org/wiki/Dat_ole_Huus",
+    "prepared": "A Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. IT IS AN ENCYCLOPEDIA ARTICLE AND NOT A SURVEY OR A REGISTER, and no figure taken from it has the standing of one. It is used because the German Land monument registers reachable from this container publish a one-line Schutzbegruendung and nothing describing the fabric.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "Dat Ole Huus ist ein typisches niedersächsisches Fachhallenhaus mit dem Flett als zentralem Aufenthaltsbereich und Wohnküche, der die ganze Hausbreite einnimmt. Dort befindet sich die Feuerstelle, deren Rauch durch das Eulenloch im First des Reetdachs abzog. Das Flett geht nach einer Seite ohne Abgrenzung in den Stall über, wo auch die Kammer untergebracht ist, in der die Knechte schliefen. Auf der anderen Seite des Fletts befinden sich mehrere, durch Wände abgegrenzte Kammern. Nur die Gute Stube und die Altenteilerstube waren indirekt durch die Hitze der Feuerstelle beheizbar. Weitere Stuben sind die Kammer der Mägde, das Schlafzimmer des Bauern und der Bäuerin sowie die Kammern der Kinder und die Spinnstube. Die letzteren beiden befinden sich im Dachgeschoss des Hauses.",
+        "page": "German Wikipedia, 'Dat ole Huus', section 'Museum'. Not paginated. A wiki-link title rendered by the extract after 'Flett' has been dropped and no word was changed."
+      },
+      {
+        "field": "significance",
+        "text": "Auch wenn der Emhoff ein jüngeres Baudatum trägt, gehen Forscher davon aus, dass Dat ole Huus einen wesentlich älteren Flettbereich aufweist (etwa um 1540 erbaut).",
+        "page": "German Wikipedia, 'Dat ole Huus', section 'Geschichte'. Not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. THE RECORD CORRECTS TWO THINGS THE NODE'S EXEMPLAR NOTE IMPLIES. First, the building is dated 1742 and only its hearth end is thought to be about 1540, so calling the house 'c. 1540' takes the earliest component's estimate for the whole. Second, it is not on its own ground: Dageforde bought it in 1907 and moved it from Hanstedt to Wilsede, and it had been an inn until 1908, so 'museum-preserved' is doing a lot of work in the node's note.\n\nWhat the sources DO give, and it is the best interior account in the cluster, is the room-by-room plan: the Flett across the whole width, the fire in it, the smoke leaving through the Eulenloch in the thatch ridge, the byre continuing off one side of the Flett WITH NO PARTITION AT ALL, and the farmhands' chamber inside the byre. That is the node's central claim -- 'There is no door and no partition between the farmer's bed and the cows' -- stated by a source rather than asserted."
+}

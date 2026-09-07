@@ -1,0 +1,84 @@
+{
+  "id": "santuario-de-ocotlan",
+  "name": "Santuario de Ocotlan",
+  "aka": [
+    "Basílica de Ocotlán",
+    "Santuario de la Virgen de Ocotlán"
+  ],
+  "location": {
+    "text": "Tlaxcala, Mexico",
+    "country": "Mexico",
+    "state": "Tlaxcala"
+  },
+  "dates": {
+    "built": "1760-1790",
+    "circa": true,
+    "altered": "The atrium and the arches of the calzada del pocito built by Luis Munive.",
+    "note": "'Debió construirse entre 1760 y 1790' -- the article hedges the facade's date with 'debió', it must have been built, so this is an estimate stated as one. The towers are dated separately: 'su construcción data del último tercio del siglo XVIII'."
+  },
+  "nodes": [
+    "churrigueresque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Santuario_de_Ocotl%C3%A1n",
+      "title": "Basílica de Ocotlán - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-santuario-de-ocotlan",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Santuario_de_Ocotl%C3%A1n",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Las torres gemelas tiene una altura de 33 m y encuadran la gran fachada. Ambas torres culminan en lo alto con una cupulita con linternilla, en donde se anclan respectivamente dos magníficas cruces de hierro forjado. Sus bases de planta mixtilínea, tapizadas de ladrillos hexagonales con empalmes de cal, su ornamentación se produce en ambos campanarios ambientando con un fuerte y cálido colorido. El total de columnas en ambas torres es de cuarenta, más 24 florones o remates, su construcción data del último tercio del siglo XVIII.",
+        "page": "Spanish Wikipedia, section 'Las torres'"
+      },
+      {
+        "field": "materials",
+        "text": "Esta semeja a un retablo cubierto por una concha. Como todas las fachadas de arte sacro, cumple una función didáctica, para que el pueblo, a través de símbolos y figuras, entienda los misterios de la fe que profesa. Construida con ladrillo recortado y recubierto por argamasa (cal y arena), y para darle un colorido blanco, le aplicaron lechada de cal; realizada con la finura y color del alfeñique (dulce de Almendra) por verdaderos maestro en el arte de la yesería propio de la región, que muestra en conjunto mucha simetría y equilibrio. Debió construirse entre 1760 y 1790.",
+        "page": "Spanish Wikipedia, section 'La fachada'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "tower_height_ft",
+      "as_printed": "una altura de 33 m",
+      "value": 108.3,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Of the twin towers, converted at 3.28084 ft/m."
+    },
+    {
+      "name": "tower_column_count",
+      "as_printed": "El total de columnas en ambas torres es de cuarenta",
+      "value": 40,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Forty columns across BOTH towers, so twenty apiece if they are equal, which the article does not say. Plus 24 finials, counted separately in the same sentence."
+    },
+    {
+      "name": "tower_finial_count",
+      "as_printed": "más 24 florones o remates",
+      "value": 24,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "tower_count",
+      "as_printed": "Las torres gemelas",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. The node's own text names Ocotlan as one of the three culminating buildings and the corpus carried no record of it. IT ALSO SUPPLIES THE MATERIAL FACT THE NODE'S PROSE GETS WRONG FOR THIS BUILDING: the node says Mexican Churrigueresque is executed 'in soft volcanic tezontle, in chiluca limestone', and Ocotlan's facade is cut brick rendered in lime mortar and limewashed white."
+}

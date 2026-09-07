@@ -1,0 +1,92 @@
+{
+  "id": "dyckman-farmhouse",
+  "name": "Dyckman Farmhouse",
+  "aka": [
+    "Dyckman House"
+  ],
+  "location": {
+    "text": "4881 Broadway, Manhattan, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1784 (the node's own figure)",
+    "circa": true,
+    "note": "The Library's item line dates the structure 'ca. 1783'. The survey's own narrative says William Dyckman returned to Kingsbridge in 1783, found the earlier house burnt, and 'proceeded at once to build the present house on its new site' -- which reads as 1783 or just after. Both kept.",
+    "altered": "The survey: 'The house had two extensions ... The one to the north was relatively new, dating about 1830 ... This has now been removed.' It also describes the house 'as restored in 1918 and since then preserved'."
+  },
+  "nodes": [
+    "hudson-valley-dutch",
+    "new-jersey-dutch-gambrel"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-4-4",
+      "title": "Dyckman House, Broadway & 204th Street, New York County, NY",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0300/ny0361/data/ny0361data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed in the data page's own header, 'Dyckman House, Broadway & 204th St., HABS Ho. 4-4', with the Library call number 'HABS NY, 31-NEYO, 11-' beside it. A Wikimedia file page quoting the Library's own line reads 'Survey number: HABS NY-4-4'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0361",
+      "url": "https://www.loc.gov/item/ny0361/",
+      "title": "Dyckman House, Broadway & 204th Street, New York County, NY | Library of Congress",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "67000014",
+      "url": "https://commons.wikimedia.org/wiki/File:Dyckman_House,_Broadway_and_204th_Street,_New_York,_New_York_County,_NY_HABS_NY,31-NEYO,11-_(sheet_9_of_11).png",
+      "title": "Survey number: HABS NY-4-4; ... Its reference number is 67000014 (as the Wikimedia file page quotes the Library's item line and Wikidata)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from a Wikimedia file page quoting the Library, not from the National Register's own database."
+    }
+  ],
+  "survey": {
+    "item": "ny0361",
+    "register": "loc-item",
+    "survey_no": "NY-4-4",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0300/ny0361/data/ny0361data.pdf",
+    "prepared": "Historic American Buildings Survey, District No. 4, Southern New York State; the cover reads 'Wm. Dewey Foster, District Officer, 25 West 45th Street, New York City' (OCR 'Wm. Bewey Foster'). The descriptive passages are quoted by the surveyor from the 22d Annual Report (1917) of the American Scenic and Historic Preservation Society, pp. 475-82.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "walls",
+        "text": "\"The house itself has basement, parlor floor, bedroom floor and attic. It is \"well built. Its stone walls are twenty inches thick, and are con-tinued up to the window ledges of the sleeping-room floor; above them, heavy, hand-hewn white oak beams covered with wide clapboards fill in the space to the peak of the gambrel roof, which, incidentally, has an exceptionally graceful curve.",
+        "page": "HABS No. 4-4; no page marker legible in the extract span. The surveyor introduces the passage as published in the 22d Ann. Report (1917), pp. 475-82."
+      },
+      {
+        "field": "dependencies",
+        "text": "\"The house had two extensions. The one to the south contained the summer kitchen and will later be described. The one to the north was relatively new, dating about 1830, built to provide additional room for the servants. This has now been removed.",
+        "page": "HABS No. 4-4; the passage continues the 22d Ann. Report quotation above and carries no page marker of its own in the extract"
+      },
+      {
+        "field": "significance",
+        "text": "Tfhen William returned to Eingsbridge in 1783, he found his forarer home burned to the ground and his farm ruined He proceeded at once to build the present house on its new site. He brought stone from the ruins cf the old house, and timbers from old buildings still standing in that neighborhood.",
+        "page": "HABS No. 4-4; the extract prints the running head 'PlA&S' NO . i - Lf 2. The Dycfcnan House lO. 31- N e H o' a few lines above this span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "twenty inches thick",
+      "value": 20,
+      "unit": "in",
+      "from_quote": 0
+    },
+    {
+      "name": "storeys_named",
+      "as_printed": "basement, parlor floor, bedroom floor and attic",
+      "from_quote": 0,
+      "note": "NO VALUE IS RECORDED. The survey names four levels; both nodes describe this house as a fieldstone lower storey with a frame storey above under the gambrel, which is a reading of the same fabric, not a count the survey made."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. The quoted 1917 description does in one sentence what both nodes' prose does at length: the stone wall stops at the upper window sills, and above it a light frame fills out to the gambrel -- masonry only where masonry earns its cost. It also records the sprung curve directly, 'the gambrel roof, which, incidentally, has an exceptionally graceful curve', which is the nearest thing in this cluster's surveys to a statement of the spring eave. The 20-inch wall is at the bottom of `hudson-valley-dutch`'s stated 20-30 in band, matching the Abraham Hasbrouck measurement."
+}

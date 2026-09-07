@@ -1,0 +1,91 @@
+{
+  "id": "villa-medicea-di-cafaggiolo",
+  "name": "Villa Medicea di Cafaggiolo",
+  "aka": [
+    "Castello Mediceo di Cafaggiolo",
+    "Villa di Cafaggiolo"
+  ],
+  "location": {
+    "text": "Barberino di Mugello, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1451-1452",
+    "circa": false,
+    "altered": "ICOMOS records a west wing facing the gardens added in the 16th century with several interior renovations, and a change noted in the 19th century.",
+    "note": "The sources disagree and none is resolved here. ICOMOS's evaluation says 'In 1451, Cosimo the Elder asked the architect Michelozzo to restructure it'; the English Wikipedia article gives 1452 as 'the year Michelozzo was charged with transforming the building from castle to villa'; both style nodes' own exemplar entries give 1452. The Ministry of Culture's catalogue record prints a date field of '1737/00/00 - 1737/00/00', which is neither of these and which the record page does not explain."
+  },
+  "nodes": [
+    "italian-villa-vernacular",
+    "tuscan-vernacular",
+    "mediterranean-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "175",
+      "url": "https://whc.unesco.org/en/list/175",
+      "title": "Medici Villas and Gardens in Tuscany - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The serial inscription of 2013, criteria (ii)(iv)(vi), which covers twelve villas and two gardens; this building is one component of it. The Italian Ministry of Culture's UNESCO office page for the same property prints 'Ref 175', 'Date of Inscription 2013', 'Property 125.4 ha' and 'Buffer zone 3,539.08 ha'."
+    },
+    {
+      "kind": "vincolo",
+      "id": "0900372935",
+      "url": "http://catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900372935",
+      "title": "Villa di Cafaggiolo Barberino di Mugello, 1737/00/00 - 1737/00/00",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Ministry of Culture's ICCD Catalogo generale dei Beni Culturali, scheda Architettura, 'CODICE DI CATALOGO NAZIONALE 0900372935'. It is a CATALOGUING record, not a decree of vincolo; `vincolo` is the nearest kind this enum carries and the distinction is stated here rather than left to be inferred. The page prints 'ENTE COMPETENTE PER LA TUTELA Soprintendenza Archeologia, Belle Arti e Paesaggio per la citta metropolitana di Firenze e la provincia di Prato', 'DATA DI COMPILAZIONE 1993', 'DATA DI AGGIORNAMENTO 2008' and the address 'Via Nazionale 15'. Its own description, read as continuous prose in an extract of this page on 2026-09-05, is: 'Edificio in muratura mista e continua (rilevabile attraverso i cedimenti di intonaco in facciata). L'organizzazione struttura risulta affidata alle volte a vela su peducci in pietra serena presenti ai pieni terra ed interrato. I livelli superiori sono interessati da solai in legno con travature intermedie su peducci'. It is recorded in this note and not as a survey quote because this record's survey block is the ICOMOS evaluation and a survey block may carry only one source."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Villa_Medici_at_Cafaggiolo",
+      "title": "Villa Medici at Cafaggiolo - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "175",
+    "register": "unesco",
+    "data_url": "https://whc.unesco.org/document/152903",
+    "prepared": "ICOMOS evaluation of nomination No 175, 'Medici Villas and Gardens (Italy)', prepared for the World Heritage Committee; the report prints 'Date of ICOMOS approval of this report 6 March 2013'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Part 1: The Villa di Cafaggiolo (Barberino di Mugello Municipality) is an ancient Medici family property acquired in the 14th century. It is located close to the road to Bologna. It was originally a medieval farm. In 1451, Cosimo the Elder asked the architect Michelozzo to restructure it and make it grander while also transforming it into a summer residence with a garden for leisure and rest. The ancestral home of the Medici, it retains the overall aspect of a medieval building with different sized square towers and machiolated battlements.",
+        "page": "ICOMOS evaluation No 175, section 2 'The property - Description', Part 1; no page number was legible beside this span in the extract, the nearest printed elsewhere in the document being 170."
+      },
+      {
+        "field": "plan",
+        "text": "In plan, it is a square-shaped complex, determined by the assemblage of medieval buildings and additional buildings around two asymmetrical courtyards. It is the prototype of the early fortified Medici villa. This is the typical transitional solution between medieval and Renaissance architecture and the first appearance of the domus rustica. A west wing facing the gardens was added in the 16th century, along with several interior renovations. A change was also noted in the 19th century, but without making any major alteration to the ensemble or to its architectural characteristics. The garden is a wide flat lawn.",
+        "page": "ICOMOS evaluation No 175, section 2 'The property - Description', Part 1, continuing directly from the span above; no page number was legible beside it."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "courtyard_count",
+      "as_printed": "two asymmetrical courtyards",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "block_plan_ratio",
+      "as_printed": "In plan, it is a square-shaped complex",
+      "value": 1.0,
+      "unit": "ratio",
+      "from_quote": 1,
+      "note": "A READING of the word 'square-shaped', not a dimensioned figure: the evaluation states no plan dimension for this building and the square it describes is the whole walled complex round two courtyards, not the residential block."
+    }
+  ],
+  "rights_evidence": "Condizioni d'uso: Beni Culturali Standard (BCS)",
+  "rights_evidence_url": "http://catalogo.beniculturali.it/detail/ArchitecturalOrLandscapeHeritage/0900372935",
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. Shared by two nodes, which print the same name and the same location string, so no alias is needed. The survey block is the ICOMOS evaluation of the World Heritage nomination rather than a HABS data page: there is no HABS in Italy, and the ICOMOS report is the fullest official architectural description of this building that could be read from this container. It states plan, towers, courtyards and history and it states no dimension at all, which is the general shape of the European evidence in this cluster."
+}

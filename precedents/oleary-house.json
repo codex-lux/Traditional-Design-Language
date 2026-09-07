@@ -1,0 +1,73 @@
+{
+  "id": "oleary-house",
+  "name": "O'Leary House",
+  "aka": [
+    "Colonel Arthur J. and Frances O'Leary House",
+    "Cliff May house #1"
+  ],
+  "location": {
+    "text": "San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1931-1932",
+    "circa": false,
+    "note": "The UCSB Architecture and Design Collection says May 'designed and built' it 'in 1931-1932'; the Save Our Heritage Organisation tour booklet dates it 'February 1932' in its own chronology and prints 'Year built - 1932' on the house's page; van Balgooy's article in The Journal of San Diego History says May 'drew up the plans and with the help of a master carpenter built his first house in 1932 in Talmadge Park'. Recorded as the span, with the difference stated rather than resolved."
+  },
+  "nodes": [
+    "ranch-style",
+    "mid-century-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://www.adc-exhibits.museum.ucsb.edu/exhibits/show/carefree/sandiego",
+      "title": "San Diego - Carefree California: Cliff May and the Romance of the Ranch House, UCSB Architecture and Design Collection",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Cliff May's future father-in-law, Roy C. Lichty, gave May a lot in the Talmadge Park subdivision, where Lichty was general manager, and financed his first speculative house, which May designed and built in 1931-1932 with the help of master carpenter William F. Hale. The house sold to Colonel Arthur O'Leary, who also purchased the Mission-style furniture that May had built and placed in the house to help sell it.' Also: 'May designed about 1,000 buildings between 1931 and 1986, most of these ranch houses.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.sohosandiego.org/exhibits/cliffmay/oleary.htm",
+      "title": "Col. Arthur J. & Francis O'Leary House - Cliff May's First Houses, 1932-1936, Save Our Heritage Organisation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE SENTENCE THIS NODE SHOULD READ FIRST: 'From the street, this house resembles a fortified hacienda, in keeping with the Spanish-Mexican rancho tradition, and it is the progenitor of the ranch house movement. May's exterior innovations include placing an attached garage at the front of the house, instead of at the rear of the lot, as was typical at the time. This massing allowed for the creation of a private inner courtyard. A traditional Spanish Colonial-style cornice caps the walls and conceals the rafter tails.' Also: 'MAY WAS ONLY 23 YEARS OLD when he sold this, the first hacienda he designed, to Arthur J. and Frances O'Leary. The $9,500 price included all the furnishings ... it ranges over one and a half lots.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.sohosandiego.org/tourbooklets/CliffMayTourweb.pdf",
+      "title": "First Houses (Cliff May tour booklet), Save Our Heritage Organisation, 2011",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Prints 'Col. Arthur J. & Francis O'Leary House / Year built - 1932 / 4725 Norma Drive' and a chronology beginning 'February 1932 . . . . . Col. Arthur J. & Francis O'Leary House'."
+    },
+    {
+      "kind": "other",
+      "url": "http://www.sandiegohistory.org/journal/v57-4/v57-4vanbalgooy.pdf",
+      "title": "Mary A. van Balgooy, 'Before LA: Cliff May's Beginnings in San Diego', The Journal of San Diego History 57, no. 4 (2011)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'May's first home, also known as the \"O'Leary House,\" is a one-story, one-room deep structure in a U-shaped configuration around a central courtyard. To make it look like an old California adobe, May intentionally laid the red roof tiles haphazardly atop of each other, placed simple terra cotta pots on top of the chimneys, plastered exterior walls coarsely'. Also records the signature details May repeated: chimney pots, wooden window grilles with flower pot boxes, tile doorbells, painted flowers on beams and shutters."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.usmodernist.org/may.htm",
+      "title": "Cliff May - USModernist (project list)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'1932 - The Colonel Arthur and Francis O'Leary House, 4725 Norma Drive, San Diego CA.' The same page's list is the source used here for Rancho Estates and the Lindstrom House."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.sandiegometro.com/2011/03/home-tour-celebrates-cliff-mays-classic-hacienda-style",
+      "title": "Home Tour celebrates Cliff May's classic hacienda style - San Diego Metro Magazine",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'this U-shaped residence rambles around a large, walled courtyard, which is intended to be the main living room. Entry is through a rough-hewn front door, which leads to the courtyard. Passage into the house itself is from a veranda, or corredor, equipped with several pairs of French doors ... The single-story house is built at ground level, making it seem like an old adobe rising out of the earth.'"
+    }
+  ],
+  "note": "4725 Norma Drive, Talmadge Park. TWO THINGS HERE CUT ACROSS THIS NODE'S OWN DESCRIPTION. First, the garage: the node argues that the attached street-facing garage is a postwar consequence of the car and the cheap driveway, and SOHO records it as May's own innovation on the first ranch house of 1932, done to close a courtyard rather than to shorten a drive -- same move, opposite reason, seventeen years earlier. Second, the eave: the node's kit expects a ranch eave of eighteen to thirty-six inches, and on this house 'a traditional Spanish Colonial-style cornice caps the walls and conceals the rafter tails', which is no eave at all. The house that begins the type does not meet the type's numbers. No HABS survey and no register listing were found for it; the Lindstrom House, the second house, is the one that was listed."
+}

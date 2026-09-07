@@ -1,0 +1,56 @@
+{
+  "id": "longue-vue-house",
+  "name": "Longue Vue House",
+  "aka": [
+    "Longue Vue House and Gardens"
+  ],
+  "location": {
+    "text": "New Orleans, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1939-1942",
+    "circa": false,
+    "altered": "The terraced main gardens south of the house, on axis with it, were altered in 1966. The oak allee leading to the main facade was planted in 1940.",
+    "note": "THE SOURCES DISAGREE AND BOTH ARE KEPT. The style node's exemplar gives 1942; the Wikipedia infobox gives 'Built 1939'; the National Register registration form says work on the gardens began in 1936 'although they achieved their final form in the 1939-42 period when the buildings were being constructed'. The range recorded here is the nomination's, which is the only source read that states one."
+  },
+  "nodes": [
+    "neoclassical-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "91001419",
+      "url": "https://en.wikipedia.org/wiki/Longue_Vue_House_and_Gardens",
+      "title": "NRHP reference No. 91001419; added September 20, 1991; designated NHL April 5, 2005, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The infobox gives the architects as 'Platt & Platt; Ellen Biddle Shipman' and the style as 'Classical Revival'."
+    },
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/GetAsset/46754b14-563f-45a9-9b57-d96ae4bed8de",
+      "title": "Longue Vue House and Gardens - National Register of Historic Places Registration Form (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination itself, at 7 Bamboo Road, New Orleans, Orleans Parish. Its description says 'Longue Vue House and Gardens is a grand suburban estate reminiscent of an English country seat' and that 'The house and its two linked dependencies are in the Classical Revival style, with the source of inspiration being English architecture of the period 1740-80 (late Palladian Revival and neo-classical)'. It counts twelve contributing buildings on an eight-acre parcel. No reference number is printed in the span read, so none is recorded on this ref."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.tclf.org/landslides/spotlight-garden-longue-vue-house-gardens",
+      "title": "Spotlight on the Garden: Longue Vue House & Gardens - The Cultural Landscape Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Calls the house 'an extraordinary example of the Classical Revival style and one of the last great houses of the American Architectural Renaissance' and 'the master residential work of William and Geoffrey Platt'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Longue_Vue_House_and_Gardens",
+      "title": "Longue Vue House and Gardens - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. Worth carrying against the node's prose, which calls Longue Vue 'Late, restrained, and unusually intelligent about siting': the nomination agrees about the siting and locates the source of the classicism in ENGLISH architecture of 1740-80 rather than in the Columbian Exposition line the node's description traces. The building was listed for its landscape - the citation is for Ellen Biddle Shipman, 'the only major work of Shipman's where she exerted complete creative control over the landscape' - which is a reason to read the house's own dating out of the nomination rather than out of a caption."
+}

@@ -41,6 +41,18 @@ CHECKS = [
     # the 209 fault links -- went in unchecked. Reports COULD NOT EVALUATE without jsonschema,
     # which CI installs, so it is judged there.
     ("check_assets.py", []),
+    # WP-11.1. The building behind every exemplar, held to a record a checker can resolve: an
+    # exemplar's `precedent` and the record's `nodes[]` in both directions, every reference's id
+    # shape, `retrieved` and `via` on every URL, no `license` key at any depth, and kit figures
+    # citing a survey quote that exists. Reads styles/ and precedents/ directly, not dist/.
+    ("check_precedents.py", ["--strict"]),
+    # WP-11.1. How deep the research under each node goes -- measured, because the corpus was
+    # templated on the surface when it was surveyed (2-4 exemplars, 4-5 sources, 5 constraints on
+    # every buildable node; the exemplar clause has since moved and the other two have not)
+    # and the things that DO discriminate were tracked nowhere: exemplars a checker can resolve,
+    # nodes citing only works ANOTHER NODE cites, `measured` figures with no source at all, split by
+    # whether a generator reads the slot. Ratcheted.
+    ("check_research.py", ["--strict"]),
 
     ("check_orders.py", []),
     ("check_modules.py", ["--eval"]),

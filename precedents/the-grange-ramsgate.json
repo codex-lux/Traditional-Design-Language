@@ -1,0 +1,103 @@
+{
+  "id": "the-grange-ramsgate",
+  "name": "The Grange",
+  "location": {
+    "text": "Ramsgate, Kent, England",
+    "country": "United Kingdom",
+    "state": "Kent"
+  },
+  "dates": {
+    "built": "1843-4",
+    "circa": false,
+    "altered": "Later alterations and additions by Edward Welby Pugin: a projecting gable at west forming his business room with external access, a glazed entrance corridor projection on the north front, and the service wing at north west heightened.",
+    "note": "The list entry gives '1843-4'; the node's exemplar note and the Wikipedia infobox both give 1843-1844."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1203285",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1203285",
+      "title": "The Grange, Ramsgate - 1203285 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The search result for this entry printed the Overview lines Grade 'I', List Entry Number '1203285', Date first listed '13-Aug-1968' and List Entry Name 'The Grange'; the extracted Details text prints the same date in the entry's own form, '13.8.68', and ends 'Listing NGR: TR3764264312'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Grange,_Ramsgate",
+      "title": "The Grange, Ramsgate - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox gives Built 1843-1844, Architect Augustus Welby Northmore Pugin, Governing body the Landmark Trust, Designated 13 August 1968 and Reference no. 1203285; it also names a separate Grade II listing, reference 1336329, for the carriage gates, gate piers, walls and west wicket gate."
+    }
+  ],
+  "survey": {
+    "item": "1203285",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1203285",
+    "prepared": "Date first listed: 13-Aug-1968, as the search result's Overview line prints it; the Details text itself prints '13.8.68'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "House with chapel attached. 1843-4 by Augustus Welby Northmore Pugin for himself, later alterations and additions by Edward Welby Pugin. Gault brick with black brick bands, stone dressings and slate roofs. Two storeys with attics. Irregular and picturesquely massed facades, illustrating Pugin's belief in expression of plan and function on elevation.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1203285)."
+      },
+      {
+        "field": "openings",
+        "text": "Tripartite garden front has crest returned gable with 2 storey canted bow with casement windows, 2 light attic basement. Centre with 2 ground floor case windows, one first floor single and one 3 light window. Ground floor plinth, first floor string, simple boarded eaves and verges to gables. One 3 light dormer, one ridge stack.",
+        "page": "Official list entry, Details section, garden front paragraph."
+      },
+      {
+        "field": "plan",
+        "text": "Three storey rectangular tower at east with battlemented parapet, single storey hipped roof projecting chapel beyond with one 2 light south and one 2 light west window. Projecting gable at west, addition by Edward Welby Pugin, forming his business room with external access. Plinth of dismantled conservatory. Highly irregular north front with glazed entrance corridor projection by Edward Welby Pugin replacing that at right angles to west connecting with original wicket gate entrance. Service wing at north west heightened by Edward Welby Pugin.",
+        "page": "Official list entry, Details section, tower, chapel and north front paragraph."
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: hall with off-axis fireplace, stairs and gallery. Dining room with carved fireplace with brackets supporting large bresummer beam forming inglenook, a reference to the medieval hall-house plan.",
+        "page": "Official list entry, Details section, interior paragraph; the extracted span ends at 'Two reception rooms'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys with attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The main block. The east tower is separately stated at three storeys and the chapel at one."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "One 3 light dormer",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "On the garden front only; the entry does not count the dormers of the house as a whole."
+    },
+    {
+      "name": "ridge_stack_count",
+      "as_printed": "one ridge stack",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "On the garden front only."
+    },
+    {
+      "name": "tower_storey_count",
+      "as_printed": "Three storey rectangular tower at east",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1203285",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. The register's own sentence -- 'Irregular and picturesquely massed facades, illustrating Pugin's belief in expression of plan and function on elevation' -- is Historic England stating the node's founding proposition about this building, which is why the exemplar's `why` rests on it rather than on this project's judgment. The inglenook sentence is the other half: the register reads the dining room fireplace as 'a reference to the medieval hall-house plan', which is the same move the Arts and Crafts hall makes fifty years later."
+}

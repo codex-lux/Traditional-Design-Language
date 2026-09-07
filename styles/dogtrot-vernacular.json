@@ -188,19 +188,55 @@
       "name": "Jacob Wolf House",
       "location": "Norfork, Baxter County, Arkansas",
       "year": 1829,
-      "note": "A two-storey hewn-log dogtrot built to serve as the county courthouse; the oldest standing public structure in Arkansas, National Register 1973. Evidence that the type carried institutional as well as domestic use."
+      "note": "A two-storey hewn-log dogtrot built to serve as the county courthouse; the oldest standing public structure in Arkansas, National Register 1973. Evidence that the type carried institutional as well as domestic use.",
+      "precedent": "jacob-wolf-house",
+      "standing": "canonical",
+      "why": "A two-storey hewn-log dogtrot built as a county courthouse in 1829 and the oldest standing public structure in Arkansas: the type at institutional scale, which is the node's own argument that the dogtrot is a climate type and not a poverty type."
     },
     {
       "name": "Woodland (Sam Houston's home)",
       "location": "Sam Houston State University campus, Huntsville, Walker County, Texas",
       "year": 1847,
-      "note": "A classic dogtrot: rectangular log chambers flanking a central breezeway, brick chimneys at the ends, clapboarded over the logs, with a winding stair to the loft."
+      "note": "A classic dogtrot: rectangular log chambers flanking a central breezeway, brick chimneys at the ends, clapboarded over the logs, with a winding stair to the loft.",
+      "precedent": "woodland-sam-houstons-home",
+      "standing": "icon",
+      "why": "The dogtrot a reader names first, and the National Register's own style field for it is 'Dog-trot': Sam Houston's house of 1847, a central breezeway between rectangular log chambers with end chimneys, clapboarded over the logs, and a National Historic Landmark on that account."
     },
     {
       "name": "Gaineswood (original core)",
       "location": "Demopolis, Marengo County, Alabama",
       "year": 1861,
-      "note": "Nathan Bryan Whitfield's Greek Revival mansion grew outward from an existing dogtrot log house between 1843 and 1861 - the type as substrate, and a useful demonstration that a folk plan can survive under any amount of applied classicism. Built in campaigns 1843-1861."
+      "note": "Nathan Bryan Whitfield's Greek Revival mansion grew outward from an existing dogtrot log house between 1843 and 1861 - the type as substrate, and a useful demonstration that a folk plan can survive under any amount of applied classicism. Built in campaigns 1843-1861.",
+      "standing": "documentary",
+      "why": "NO PRECEDENT RECORD, deliberately: `precedents/gaineswood.json` is the finished Greek Revival mansion of 1842-1861, whose 1930s survey names porticoes and a porte cochere and states not one dimension, and this exemplar names the log dogtrot core it was built around -- a phase the survey is silent on, so linking the two would hand a reader the mansion's card as the dogtrot's evidence; the standing is documentary because the building is real and the substrate claim rests on it.",
+      "no_precedent": "phase"
+    },
+    {
+      "name": "Ephraim Bales Place",
+      "location": "Roaring Fork, Great Smoky Mountains National Park, Sevier County, Tennessee",
+      "year": 1880,
+      "note": "The HABS data page names the type in the surveyor's own words: 'They are usually grouped in one of two ways - with the chimney separating the two buildings or with an entry between the two buildings as the Ephraim Bales House. The entry is called a \"dog trot\" by the natives.' Eight sheets of measured drawings exist; no dimension is legible in the written data.",
+      "precedent": "ephraim-bales-place",
+      "standing": "canonical",
+      "why": "The one federal survey this cluster found that names the type at all - 'The entry is called a \"dog trot\" by the natives' - and it separates that grouping from the other on the same page, 'with the chimney separating the two buildings', which is the move this corpus calls the saddlebag. CORRECTED 5 Sep 2026 by the cluster audit: the why had said the sheet 'distinguishes the dogtrot from the saddlebag', and the sheet names only one of the two forms; the word saddlebag is the corpus's, not the surveyor's."
+    },
+    {
+      "name": "Looney House",
+      "location": "Ashville vicinity, St. Clair County, Alabama",
+      "year": 1818,
+      "note": "A rare two-storey dogtrot on piers with half-dovetail notching and brick chimneys at both gable ends; the breezeway stair was later moved into the right-hand pen. The logs diminish by half an inch in height from the foundation upward. Heavily damaged by fire in August 2022 and closed.",
+      "precedent": "looney-house",
+      "standing": "regional",
+      "why": "The Deep South member of the type and the one that tests the node's geometry against a stacked pen; the 1978 Alabama Historical Association marker calls it 'a rare example of pioneer architecture in Alabama' and the judgment here follows that and the Encyclopedia of Alabama."
+    },
+    {
+      "name": "Fanthorp Inn",
+      "location": "Anderson, Grimes County, Texas",
+      "year": 1834,
+      "note": "A two-room dogtrot log cabin of 1834 that became an eighteen-room stagecoach inn by 1850, the logs clad in clapboard and the passage swallowed by the enlargement - the transformation the node's own description calls the single most common in Southern vernacular architecture, worked out in one building.",
+      "precedent": "fanthorp-inn",
+      "standing": "documentary",
+      "why": "Carried for the transformation rather than for the surviving diagram: the Texas Historical Commission's own site page states the 1834 dogtrot origin and the 1850 expansion, and the Handbook of Texas calls it 'the only authentically restored stagecoach inn of the 1850s in the state'."
     }
   ],
   "sources": [

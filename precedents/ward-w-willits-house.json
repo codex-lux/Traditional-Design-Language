@@ -1,0 +1,55 @@
+{
+  "id": "ward-w-willits-house",
+  "name": "Ward W. Willits House",
+  "aka": [
+    "Willits House"
+  ],
+  "location": {
+    "text": "Highland Park, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1901-1902",
+    "circa": false,
+    "note": "Three sources, three statements, none edited to agree: Wikipedia says 'Designed in 1901'; the Frank Lloyd Wright Trust's page gives 'Date: 1902'; the Frank Lloyd Wright Foundation's page gives 'Built 1901'. The style node's exemplar says 1902."
+  },
+  "nodes": [
+    "prairie-school"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Willits_House",
+      "title": "Willits House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "80001380",
+      "url": "https://en.wikipedia.org/wiki/Willits_House",
+      "title": "NRHP reference No. 80001380; Added to NRHP November 24, 1980 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building. A second surface should confirm the number before anything is built on it."
+    },
+    {
+      "kind": "institution",
+      "url": "https://flwright.org/explore/willits-house",
+      "title": "Ward W. Willits House | Frank Lloyd Wright Trust",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Trust's own judgment, quoted: 'The Ward Willits house is widely considered the first of Wright's mature Prairie style designs.' It also states the address as 1445 Sheridan Road and reports the house is private."
+    },
+    {
+      "kind": "institution",
+      "url": "https://franklloydwright.org/site/ward-w-willits-house",
+      "title": "Ward W. Willits House - Frank Lloyd Wright Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States 'the full development of Wright's wood frame and stucco system of construction' and 'Four wings extend in a cross shape from a central brick fireplace'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey was found: the query '\"Ward W. Willits House\" OR \"Willits House\" Highland Park HABS IL loc.gov item hhh.il' returned the Ravinia Park Casino (HABS IL-1147) and no Willits record, and the Library's own list of Frank Lloyd Wright buildings recorded by HABS does not name it among its Illinois entries in the span that was returned. So this record carries locators and no survey block, which is the normal state for a living-style twentieth-century house. Worth carrying: BOTH institutional pages describe the plan as four wings from a central fireplace, which is prairie-school's own c05 in the owners' words rather than the corpus's."
+}

@@ -1,0 +1,60 @@
+{
+  "id": "wesleyan-grove",
+  "name": "Wesleyan Grove",
+  "aka": [
+    "Martha's Vineyard Campmeeting Association",
+    "Martha's Vineyard Campground",
+    "the Campgrounds",
+    "MVCMA"
+  ],
+  "location": {
+    "text": "Oak Bluffs, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1835",
+    "circa": false,
+    "note": "The 1978 National Register district record prints 'Built 1835', which is the founding of the camp meeting and not of the cottages. The National Historic Landmark nomination dates the surviving cottage form from the late 1850s and names 'the 1859 Mason-Lawton cottage (70 Trinity Park)' as the picturesque-cottage source. The register's date is recorded and the cottage date is stated beside it rather than substituted for it."
+  },
+  "nodes": [
+    "carpenter-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "05000458",
+      "url": "https://en.wikipedia.org/wiki/Wesleyan_Grove",
+      "title": "NRHP reference No. 05000458; added April 5, 2005; designated NHLD April 5, 2005; 80 Trinity Park, Oak Bluffs, MA 02557 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "nrhp",
+      "id": "78000439",
+      "url": "https://en.wikipedia.org/wiki/Wesleyan_Grove",
+      "title": "Martha's Vineyard Campground, NRHP reference No. 78000439; added December 14, 1978; architectural style Late Gothic Revival, Gothic, Gothic Revival (as the second Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The earlier and separate district listing of the same place under its other name; both numbers are recorded because both are real and a reader searching one will not find the other."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/80bfa700-ba47-4ace-9135-406513fb20cf",
+      "title": "WESLEYAN GROVE (Martha's Vineyard Camp Meeting Association Campground) -- National Historic Landmark Nomination",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "It counts the place: 'Number of Resources within Property Contributing 308 1 309 ... Noncontributing 15 buildings'. And it derives the cottage form: the cottages take 'from the picturesque cottage tradition (the vertical boarding and jigsaw trim) as seen on the 1859 Mason-Lawton cottage (70 Trinity Park); and from churches (the round-arched Romanesque styling or ogive-arched Gothic styling of most of the cottages).'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wesleyan_Grove",
+      "title": "Wesleyan Grove - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It is famous for its approximately 300 colorful cottages in a style now described as Carpenter Gothic.'"
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. THIS RECORD IS A DISTRICT AND NOT A BUILDING, which is unusual here and is stated so a reader does not take its date or its counts for one house: 308 contributing buildings on 34 acres, of which about 300 are cottages. It is carried because it is the largest surviving population of Carpenter Gothic in America and because the NHL nomination is the only source in this cluster that says where the form came from. NO HABS SURVEY: a loc.gov pictures search returned only Carol Highsmith colour photographs of the cottages, no survey item. No rights line: no Library item page was opened, and the Highsmith photographs are a different rights question from a HABS one."
+}

@@ -89,7 +89,7 @@ sheet and the browser sheet cannot disagree about where a compromise is.
 
 ## The rail
 
-`server/rail.py` runs an Anthropic tool loop over the 26 tools **loaded from
+`server/rail.py` runs an Anthropic tool loop over the 27 tools **loaded from
 `mcp_server/server.py` itself** — a stub `FastMCP` collects the decorated wrappers,
 so names, docstrings and signatures cannot drift (`server/tools.py`). Behaviour is
 enforced structurally:

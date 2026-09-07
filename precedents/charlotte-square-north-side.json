@@ -1,0 +1,182 @@
+{
+  "id": "charlotte-square-north-side",
+  "name": "Charlotte Square, north side",
+  "record_kind": "group",
+  "aka": [
+    "1-11 (inclusive nos) Charlotte Square with railings, lamp standards and boundary walls"
+  ],
+  "location": {
+    "text": "Edinburgh, Scotland",
+    "country": "United Kingdom",
+    "state": "City of Edinburgh",
+    "aliases": [
+      "Edinburgh New Town, Scotland"
+    ]
+  },
+  "dates": {
+    "built": "1793-1805",
+    "circa": false,
+    "altered": "Nos 5, 6 and 7 restored by the 4th Marquis of Bute; No 5 refitted in Adam revival manner in the early 20th century; a later 2-storey porch removed from the west elevation.",
+    "note": "THE SAME DESIGNATION RECORD GIVES TWO DATES AND THIS RECORD RESOLVES NEITHER. Its Description heading says 'Robert Adam, 1793-1805'; its own history paragraph, further down the same page, says 'The square was designed in 1791, and the first house completed in 1794'. Wikipedia's Charlotte Square article says 'Much of it was to the 1791 design of Robert Adam, who died in 1792, just as building began', and the Bute House infobox gives 'Completed 1805'. Adam's death in 1792 means the 1793-1805 range is the execution and not the design."
+  },
+  "nodes": [
+    "adam-style",
+    "english-georgian-townhouse",
+    "english-classical"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB28502",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28502",
+      "title": "1-11 (INCLUSIVE NOS) CHARLOTTE SQUARE WITH RAILINGS, LAMP STANDARDS AND BOUNDARY WALLS (LB28502)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. The reference is copied from the designation record's own title as the portal prints it; the record's Bibliography cites Bolton, THE ARCHITECTURE OF ROBERT AND JAMES ADAM (1927), A J Youngson, THE MAKING OF CLASSICAL EDINBURGH (1966) pp93-7, and Gifford, McWilliam and Walker, EDINBURGH (1988) pp293-7."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bute_House",
+      "title": "Bute House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the designation date, which neither extract of the HES record returned: its infobox prints 'Official name 1-11 (inclusive nos) Charlotte Square with railings, lamp standards and boundary wall, Designated 3 March 1966, Reference no. LB28502', and cites the HES portal record for it. No 6, Bute House, is one of the eleven houses this designation covers."
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "LB28503",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28503",
+      "title": "12-17 (INCLUSIVE NOS) CHARLOTTE SQUARE WITH 10-18 (EVEN NOS) RANDOLPH LANE, RAILINGS, LAMP STANDARDS AND BOUNDARY WALLS (LB28503)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried over 5 Sep 2026 from `charlotte-square`, merged into this record because both cited one designation."
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "LB28507",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28507",
+      "title": "40-46 (INCLUSIVE NOS) CHARLOTTE SQUARE AND 143 GEORGE STREET WITH RAILINGS AND LAMP STANDARDS (LB28507)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried over 5 Sep 2026 from `charlotte-square`, merged into this record because both cited one designation."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Charlotte_Square",
+      "title": "Charlotte Square - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the square as a Category A listed building of the New Town and states that Nos 5, 6 and 7 on the north side passed to the National Trust for Scotland. Carried over 5 Sep 2026 from `charlotte-square`, merged into this record because both cited one designation."
+    }
+  ],
+  "survey": {
+    "item": "LB28502",
+    "register": "historic-scotland",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505%3A300%3A%3A%3A%3A%3AVIEWTYPE%2CVIEWREF%3Adesignation%2CLB28502",
+    "prepared": "Historic Environment Scotland's listed building designation record. Neither extract returned a date-designated field; the Wikipedia infobox for Bute House gives 3 March 1966 for this reference, and that is where the date in this record comes from.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Robert Adam, 1793-1805. Symmetrical 3-storey basement and attic 27-bay neo-classical palace block consisting of 11 houses, 9 entered from front and 2 from ends.",
+        "page": "Designation record LB28502, Description, opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Polished cream sandstone ashlar. Rock-faced basement; V-jointed rustication at ground floor with impost course where appropriate; cill course to 1st and 2nd floors (excepting pavilions); cornice and blocking course.",
+        "page": "Designation record LB28502, Description, opening paragraph"
+      },
+      {
+        "field": "other",
+        "text": "The square was designed in 1791, and the first house completed in 1794.",
+        "page": "Designation record LB28502, history paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "W (GLENFINLAS STREET) ELEVATION: 5-bay; basement built out to provide full-width platt to ground floor. Doorway at centre as above (later 2-storey porch removed); all windows blind except to far left at ground and 3 alternating at 1st floor.",
+        "page": "Designation record LB28502, Description, W (GLENFINLAS STREET) ELEVATION"
+      },
+      {
+        "field": "bays",
+        "text": "E (NORTH CHARLOTTE STREET) ELEVATION: 3-bay; basement and door as above, with impost course at ground. Upper floors with corner pilasters and slightly projecting centrepiece; arcaded 1st floor with blind balustrading and fluted impost course; rosettes flank centre window at 2nd floor (1 glazed); balustrade and wallhead stack at centre. Large box dormer.",
+        "page": "Designation record LB28502, Description, E (NORTH CHARLOTTE STREET) ELEVATION"
+      },
+      {
+        "field": "other",
+        "text": "REAR ELEVATION: dressed rubble. Mostly regular with many cast-iron balconies at 1st floor; canted dormers to W, full attics to centre and E (with 1 exception). Various extensions at basement level.",
+        "page": "Designation record LB28502, Description, REAR ELEVATION"
+      },
+      {
+        "field": "openings",
+        "text": "Timber sash and case 12-pane windows; some plate glass to rear.",
+        "page": "Historic Environment Scotland listed building record LB28502, Description"
+      },
+      {
+        "field": "roof",
+        "text": "Grey slates, ashlar coped skews; corniced ashlar stacks.",
+        "page": "Historic Environment Scotland listed building record LB28502, Description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Symmetrical 3-storey basement and attic",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three storeys over a basement and under an attic, as the record punctuates it."
+    },
+    {
+      "name": "front_bay_count",
+      "as_printed": "27-bay neo-classical palace block",
+      "value": 27,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "house_count",
+      "as_printed": "consisting of 11 houses",
+      "value": 11,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "front_entered_house_count",
+      "as_printed": "9 entered from front and 2 from ends",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "end_entered_house_count",
+      "as_printed": "9 entered from front and 2 from ends",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "west_elevation_bay_count",
+      "as_printed": "W (GLENFINLAS STREET) ELEVATION: 5-bay",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "east_elevation_bay_count",
+      "as_printed": "E (NORTH CHARLOTTE STREET) ELEVATION: 3-bay",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "window_pane_count",
+      "as_printed": "Timber sash and case 12-pane windows",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 6
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. `record_kind: group` because one designation covers eleven houses built as one composition by different builders on separate plots -- the record is the palace block, and no single address is it. IT IS ALSO THE ONLY RECORD IN THIS CLUSTER FROM WHICH A BAY MODULE COULD BE DERIVED: 27 bays over 11 houses, 9 of them entered from the front. That arithmetic is not done here, because the record does not say the houses are equal and the end pavilions are described differently from the centre. Historic Environment Scotland's designation record is served in headed blocks; every run of whitespace in these quotes is the extractor's line break collapsed to one space and nothing else was changed. No rights line was read verbatim, so no `rights_evidence` is recorded. MERGED 5 Sep 2026: `charlotte-square` was written independently by a second cluster and is deprecated in favour of this record. Both records cite Historic Environment Scotland LB28502, which is 1-11 Charlotte Square -- Adam's north-side palace block. The superseded record's own note says it 'covers the north side, Adam's palace block', so the two describe one designation. The north-side id is kept because it names what LB28502 actually is; the other record's refs to LB28503 and LB28507 cover DIFFERENT sides of the square and are carried over labelled as such. Its evidence is folded in here: 3 ref(s), 2 quote(s), 1 measurement(s)."
+}

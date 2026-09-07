@@ -1,0 +1,59 @@
+{
+  "id": "penshurst-place-barons-hall",
+  "name": "Penshurst Place, Barons Hall",
+  "aka": [
+    "Penshurst Place"
+  ],
+  "location": {
+    "text": "Kent, England",
+    "country": "England",
+    "state": "Kent"
+  },
+  "dates": {
+    "built": "1341 (licence to crenellate)",
+    "circa": false,
+    "altered": "Further licence to crenellate 1392 produced the enclosing outer wall; mid-C15 Buckingham building to the west; the solar end 'much altered' with a stone external curved stair of mid C15.",
+    "note": "Historic England 1243169 dates the oldest part by John de Pulteney's licence to crenellate of 1341, which is also the node's exemplar year. No later single build date is stated for the hall."
+  },
+  "nodes": [
+    "english-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1243169",
+      "title": "Penshurst Place",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1243169",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The overview block printed by the search result reads 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1243169 ; Date first listed: 10-Sept-1954 ; List Entry Name: Penshurst Place.' -- field values from a search result, not running prose, and the extract returned the Details section without the header."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000153",
+      "title": "Penshurst Place - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000153",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The registered Park and/or Garden entry for the same site. Read from a search result only; not extracted."
+    }
+  ],
+  "survey": {
+    "item": "1243169",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1243169",
+    "prepared": "Date first listed: 10-Sept-1954, as the entry's overview block prints it; that field was read from the tavily-search result for this entry on 2026-09-05, because two extracts of the page returned the Details section and not the header.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "2. Large, rambling building of various periods built largely of sandstone in differing colours but with some brickwork and a little Kentish ragstone. Elevations mostly battlemented, but some steeply-pitched tiled roofs visible. The oldest part is hall house built by John de Pulteney, license to crenellate 1341. Very large hall with fine timber roof resting on figure corbels. Carved screen of late C16. Solar end much altered with stone external curved stair of mid C15. Undercroft below has piers running into arches without capitals. Further license to crenellate of 1392 produced enclosing outer wall with square side and angle towers. Only south central gate tower (qv) survives complete and western stretch of wall.",
+        "page": "Official list entry, Details, paragraph numbered 2 (the legacy list format)"
+      }
+    ]
+  },
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1243169",
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE EXEMPLAR NAMES A ROOM AND THIS RECORD IS THE HOUSE THAT CONTAINS IT: `oq/an-exemplar-that-is-not-one-whole-building`. Historic England lists Penshurst Place as one entry and its Details text describes the hall inside it; there is no separate list entry for the Barons Hall. The record's `name` is the exemplar's string exactly, as the join requires. The list entry states no dimension of any kind, so this record carries no measurements -- which is the commonest outcome of a European list entry and is recorded rather than filled."
+}

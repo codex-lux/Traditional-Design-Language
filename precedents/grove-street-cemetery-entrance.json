@@ -1,0 +1,155 @@
+{
+  "id": "grove-street-cemetery-entrance",
+  "name": "Grove Street Cemetery Gateway",
+  "location": {
+    "text": "New Haven, Connecticut",
+    "country": "United States",
+    "state": "Connecticut",
+    "aliases": [
+      "227 Grove Street, New Haven, Connecticut"
+    ]
+  },
+  "aka": [
+    "Grove Street Cemetery Entrance"
+  ],
+  "dates": {
+    "built": "1845-1848",
+    "circa": false,
+    "note": "The survey's own cover OCRs the design date as 'Designed by Henry Austin in 1815', which is impossible for this architect and this cemetery; its Part I says the structure has held the same title 'since its construction in 18U5-8', i.e. 1845-8, which is what the style node's exemplar already says. The cover figure is quoted as printed and is not corrected in place."
+  },
+  "nodes": [
+    "egyptian-revival"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CT-275",
+      "title": "Grove Street Cemetery Entrance, 227 Grove Street, New Haven, New Haven County, Connecticut",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0000/ct0065/data/ct0065data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data page's own header prints the older four-letter state form, 'HABS No. CONN-275'. Recorded here in the Library's normalised two-letter form, with the header's form stated so a reader who opens the PDF is not surprised."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ct0065",
+      "url": "http://www.loc.gov/pictures/item/ct0065.photos.023982p",
+      "title": "2. Historic American Buildings Survey Ned Goode ... SOUTH FACE - Grove Street Cemetery Entrance, 227 Grove Street, New Haven",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id is the 'ct0065' segment of the photograph's own loc.gov identifier, read off the search result."
+    },
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/GetAsset/a057a974-889c-438a-8aec-596c257bbc18",
+      "title": "GROVE STREET CEMETERY - National Register / National Historic Landmark nomination (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "No reference number was read off this asset, so none is recorded. The nomination states that the Grove Street gate 'introduced the use of massive masonry (the wooden Mount Auburn gate was later rebuilt in stone), was more three-dimensional than earlier designs, and used more nearly \"correct\" Egyptian detailing based upon contemporary archaeological knowledge.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://nhpt.org/grove-street-cemetery",
+      "title": "Grove Street Cemetery - The New Haven Preservation Trust",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ct0065",
+    "register": "loc-item",
+    "survey_no": "CT-275",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0000/ct0065/data/ct0065data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Detailed Description: 1. Overall dimensions: Structure measures kQ '-1\" x l8'-0\" with overall height of 25'-0\" from pavement to top of cornice. Portals measure l8'-0 M in height with pedestrian ways 5'5-l/V wide and center carriage-way 11'-9-1/2\".",
+        "page": "HABS No. CONN-275; the extract's nearest page marker reads 'GROVE STREET CEMETERY ENTRANCE HABS Mo, CONR-2T5 (Page k)'"
+      },
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: Noteworthy example of Egyptian Revival gate architecture of monumental pro-portions . 2. Condition of fabric: Good. Some of the sandstone and ornamental motifs have \"become weathered and spalled.",
+        "page": "HABS No. CONN-275, Part II.A; no page marker legible in the extract span"
+      },
+      {
+        "field": "finishes",
+        "text": "3. Decorative features and trim: The two sandstone columns on the south front are heavily decorated by reeding, and fluting interrupted by banding. Capitals are lotus bud type. The stone lintel on south face is incised in 7-1/2\" high letters with the following inscription: THE DEAD SHALL BE RAISED.",
+        "page": "HABS No. CONN-275, Part II.C.3; no page marker legible in the extract span"
+      },
+      {
+        "field": "roof",
+        "text": "5. Roof: a. Shape, covering: Low hipped roof covered with asphaltic material. Copper downspouts are fitted through the cornice at each side. b. Cornice: The battered walls terminate in a deep cavetto cornice.",
+        "page": "HABS No. CONN-275, Part II.B.5; no page marker legible in the extract span"
+      },
+      {
+        "field": "significance",
+        "text": "Present Use: Entrance to cemetery. Statement of Designed \"by Henry Austin in 1815; an outstanding Significance: example of Egyptian Revival architecture.",
+        "page": "HABS No. CONN-275, cover; no page marker printed on the cover"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "kQ '-1\"",
+      "value": 48.08,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR substitutes 'k' for 4 and 'Q' for 8; read as 48'-1\". A reading, marked as one -- and it is corroborated by the style node's own exemplar note, which already said 'about 48 ft wide by 25 ft high' before this record existed."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "l8'-0\"",
+      "value": 18.0,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR substitutes 'l' for 1."
+    },
+    {
+      "name": "overall_height_ft",
+      "as_printed": "overall height of 25'-0\"",
+      "value": 25.0,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Pavement to top of cornice."
+    },
+    {
+      "name": "portal_height_ft",
+      "as_printed": "l8'-0 M in height",
+      "value": 18.0,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR gives 'M' for the inch mark and 'l' for 1."
+    },
+    {
+      "name": "carriage_way_width_ft",
+      "as_printed": "center carriage-way 11'-9-1/2\"",
+      "value": 11.79,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "pedestrian_way_width_ft",
+      "as_printed": "pedestrian ways 5'5-l/V wide",
+      "from_quote": 0,
+      "note": "OCR defeats the fraction ('l/V'), so NO value is parsed. The figure is a little over 5'-5\" and the survey's own denominator cannot be read."
+    },
+    {
+      "name": "inscription_letter_height_in",
+      "as_printed": "7-1/2\" high letters",
+      "value": 7.5,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "column_count",
+      "as_printed": "The two sandstone columns on the south front",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. The best-dimensioned record in the egyptian-revival cluster, and the only one where the corpus's own prose can be checked against a survey figure: the node's exemplar said 'about 48 ft wide by 25 ft high' with no source, and the survey gives 48'-1\" x 18'-0\" x 25'-0\". The width and height are confirmed and the DEPTH -- 18 ft, which is a third of the width -- was never stated. The survey is also the cluster's best evidence for the style's grammar as this corpus states it: battered walls terminating in a deep cavetto cornice, lotus-bud capitals, a hipped roof hidden behind the lip."
+}

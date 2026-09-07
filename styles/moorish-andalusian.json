@@ -187,25 +187,64 @@
       "name": "Great Mosque of Cordoba",
       "location": "Cordoba, Spain",
       "year": 785,
-      "note": "Begun 785 under Abd al-Rahman I on reused Roman and Visigothic material; extended 833-988. The two-tier horseshoe arcade is the founding move of the tradition."
+      "note": "Begun 785 under Abd al-Rahman I on reused Roman and Visigothic material; extended 833-988. The two-tier horseshoe arcade is the founding move of the tradition.",
+      "precedent": "great-mosque-of-cordoba",
+      "standing": "icon",
+      "why": "UNESCO's own inscription text calls it 'the most emblematic monument of Islamic religious architecture' and rests criterion (i) on its dimensions and the boldness of its interior elevation, which is an institutional judgment and not this project's."
     },
     {
       "name": "Madinat al-Zahra",
       "location": "near Cordoba, Spain",
       "year": 936,
-      "note": "Caliphal palace city begun 936 and destroyed c. 1010; excavated and partly reconstructed. The clearest evidence of the terraced palace-and-court diagram."
+      "note": "Caliphal palace city begun 936 and destroyed c. 1010; excavated and partly reconstructed. The clearest evidence of the terraced palace-and-court diagram.",
+      "precedent": "madinat-al-zahra",
+      "standing": "canonical",
+      "why": "It is the one caliphal palace-city excavated as a whole rather than inhabited into the present, so its terraced court-and-range diagram can be read in plan; UNESCO inscribed it in 2018 for exactly that completeness, calling it 'This complete urban ensemble'."
     },
     {
       "name": "Aljaferia",
       "location": "Zaragoza, Spain",
       "year": 1065,
-      "note": "Built 1065-1081 for the Banu Hud; the surviving Taifa palace, and the direct bridge to Aragonese Mudejar."
+      "note": "Built 1065-1081 for the Banu Hud; the surviving Taifa palace, and the direct bridge to Aragonese Mudejar.",
+      "precedent": "aljaferia",
+      "standing": "canonical",
+      "why": "The Government of Aragon's own heritage register calls the Taifa palace 'una de las cimas del arte hispanomusulmán' and describes it as walled, square and courtyard-planned, which is the node's diagram stated by a register rather than by this project."
     },
     {
       "name": "Alhambra, Palacio de Comares and Palacio de los Leones",
       "location": "Granada, Spain",
       "year": 1391,
-      "note": "Built 1333-1391 under Yusuf I and Muhammad V; the fully developed Nasrid court sequence with the Court of the Myrtles and the Court of the Lions."
+      "note": "Built 1333-1391 under Yusuf I and Muhammad V; the fully developed Nasrid court sequence with the Court of the Myrtles and the Court of the Lions.",
+      "precedent": "alhambra-comares-and-lions-palaces",
+      "standing": "icon",
+      "why": "The building a fluent reader names first for this tradition; it is the only exemplar here whose court, pool and principal hall are all dimensioned in one source, which is why the node's own prose quotes its thirty-four-metre pool."
+    },
+    {
+      "name": "Giralda",
+      "location": "Seville, Spain",
+      "year": 1198,
+      "note": "1184-1198 under Ahmad ben Baso for the Almohad caliph Abu Yaqub Yusuf; the minaret of the Great Mosque of Seville, surviving as the cathedral's bell tower under a Renaissance belfry.",
+      "precedent": "giralda",
+      "standing": "icon",
+      "why": "Added by Tranche 3 because the node carried no Almohad exemplar at all while its own text makes the tall blind brick wall and the sebka panel central; it is a UNESCO component in its own right (383bis-001)."
+    },
+    {
+      "name": "Mosque of Cristo de la Luz",
+      "location": "Toledo, Spain",
+      "year": null,
+      "note": "Caliphal, converted to a chapel after 1186 with an apse added; a nine-bay brick building of about eight metres square.",
+      "precedent": "mosque-of-cristo-de-la-luz",
+      "standing": "documentary",
+      "why": "Added by Tranche 3 as the small measurable case: it is the only building in this node whose WHOLE envelope is stated in one sentence, where the palaces are dimensioned room by room."
+    },
+    {
+      "name": "Generalife",
+      "location": "Granada, Spain",
+      "year": null,
+      "note": "14th century; the Nasrid estate above the Alhambra, whose Patio de la Acequia is a court about four times as long as it is wide with a water channel down its axis.",
+      "precedent": "generalife",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 because it is the one exemplar in this cluster whose source states a court PROPORTION in words as well as in figures, which is the quantity this node's kit binds."
     }
   ],
   "sources": [

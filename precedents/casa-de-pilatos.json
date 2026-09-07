@@ -1,0 +1,114 @@
+{
+  "id": "casa-de-pilatos",
+  "name": "Casa de Pilatos",
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "1483-1539",
+    "circa": false,
+    "altered": "The main patio's windows turned into ajimeces in 1861, reusing and recutting columns of Catalina de Ribera's period; the grille door between the apeadero and the main patio made in 1861, demolishing a room to do it; a marble inscription slab set beside the door in 1960.",
+    "note": "The node's exemplars give 'Begun 1483, largely 1519-1539' and date the row 1539."
+  },
+  "nodes": [
+    "mudejar",
+    "andalusian-courtyard-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_Pilatos_(Sevilla)",
+      "title": "Casa de Pilatos (Sevilla) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Casa_de_Pilatos",
+      "title": "Casa de Pilatos - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Thinner than the Spanish article and carried for its account of the courtyard: 'The gate leads to a typical Andalusian courtyard with a fountain, and surrounded by twenty-four busts of Spanish kings, Roman emperors and other relevant characters collected from the ruins of the Roman colony of Italica distributed along the lower galleries of the courtyard.' NOTE that the twenty-four here are BUSTS, and the twenty-four in the Spanish article are COLUMNS; they are different things that happen to share a number, and neither is read as the other."
+    },
+    {
+      "kind": "institution",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_Pilatos_(Sevilla)",
+      "title": "Fundación Casa Ducal de Medinaceli - Casa de Pilatos (the owning foundation, as the English article's external-links list names it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "NO URL OF THE FOUNDATION'S OWN IS RECORDED: the external-links list gave the label without a resolvable address in the extract, and typing one would be the laundered locator this layer exists to prevent. NO BIC CODE IS RECORDED for the same reason -- neither extract printed one."
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-casa-de-pilatos",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Casa_de_Pilatos_(Sevilla)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "El patio quedó configurado con dos plantas con galerías en la planta baja y la planta alta, con arcos sostenidos en cada planta por 24 columnas de mármol de Génova con capiteles con capiteles de moñas.",
+        "page": "Spanish Wikipedia, section on the main patio. The doubled 'con capiteles con capiteles' is the article's own and is left as it stands."
+      },
+      {
+        "field": "finishes",
+        "text": "Los muros tienen zócalos de azulejos de más de tres metros de altura.",
+        "page": "Spanish Wikipedia, section on the main patio"
+      },
+      {
+        "field": "plan",
+        "text": "El apeadero es un patio de unos 270 metros cuadrados. Cuenta con dos galerías perpendiculares entre sí con columnas con capiteles de moñas. La galería que está detrás de la fachada es de una nave y la que separa el apeadero del patio principal es de dos naves.",
+        "page": "Spanish Wikipedia, section 'Apeadero'"
+      },
+      {
+        "field": "other",
+        "text": "La fuente central, de 4,03 metros, es de mármol y fue realizada en Génova en 1529.",
+        "page": "Spanish Wikipedia, section on the main patio; the figure is printed with a comma decimal separator"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "court_column_count",
+      "as_printed": "24 columnas de mármol de Génova",
+      "value": 24,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Per storey the arcade is carried on these; the sentence says 'con arcos sostenidos en cada planta por 24 columnas', so 24 is the count for each of the two galleries and not the total."
+    },
+    {
+      "name": "court_storey_count",
+      "as_printed": "dos plantas con galerías en la planta baja y la planta alta",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "tile_dado_height_in",
+      "as_printed": "zócalos de azulejos de más de tres metros de altura",
+      "value": 118.1,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "3 m converted at 39.3701 in/m. The article says 'más de tres metros' -- MORE than three -- so this is a LOWER bound and not the height. It is the tile-to-plaster transition the node's own description calls the first of the three strata."
+    },
+    {
+      "name": "court_area_sf",
+      "as_printed": "un patio de unos 270 metros cuadrados",
+      "from_quote": 2,
+      "note": "AN AREA, AND THE SCHEMA'S UNIT ENUM CANNOT EXPRESS ONE, so no `value` and no `unit` are recorded rather than carrying a square-foot number under a `ft` label a checker could pair with a linear kit parameter. 270 m2 is about 2,906 sf, and the figure is the apeadero -- the carriage court inside the street door -- not the main patio."
+    },
+    {
+      "name": "fountain_height_ft",
+      "as_printed": "de 4,03 metros",
+      "value": 13.2,
+      "unit": "ft",
+      "from_quote": 3,
+      "note": "Read as 4.03 m; the article prints a comma decimal separator and does not say whether the figure is the fountain's height or its diameter. Recorded as height because the sentence is about a standing marble object, and the ambiguity is stated here rather than resolved."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. SHARED BY TWO NODES at one location string: mudejar names it for its tile, plaster and artesonado beside Italian marble, and andalusian-courtyard-vernacular for the aristocratic upper limit of the patio type. One measurement carries a unit the schema cannot express and says so in its own note rather than being dropped or silently rescaled."
+}

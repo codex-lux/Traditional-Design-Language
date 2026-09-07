@@ -1,0 +1,46 @@
+{
+  "id": "wallabout-market",
+  "name": "Wallabout Market",
+  "location": {
+    "text": "Brooklyn, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": []
+  },
+  "dates": {
+    "built": "1894-1896",
+    "circa": false,
+    "altered": "DEMOLISHED. The Wallabout Industrial Historic District designation report: 'the market was demolished in 1941 when the navy needed the land for World War II expansion of the Navy Yard'. Wikipedia's Tubby table prints 'Demolished 1941 to build Navy Yard'; the Wallabout Market article says 'They were demolished during World War II'. NOTHING PHYSICAL SURVIVES TO MEASURE.",
+    "note": "The market as an institution dates from 1884; the Tubby buildings are 1894-96. The designation report: 'Brooklyn's primary food market ... was established in 1884 on the blocks just north of Flushing Avenue ... In 1894, prominent Brooklyn architect William Tubby designed a large, picturesque complex of Dutch-inspired market buildings, selling fresh produce, meat, fish, cheese, and other foodstuffs, which opened in 1896'. The node's exemplar year of 1896 is the opening."
+  },
+  "nodes": [
+    "dutch-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wallabout_Market",
+      "title": "Wallabout Market - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The halls were constructed in the Dutch Colonial Revival architecture by the architect William Tubby in 1894-1896. They were demolished during World War II'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_Tubby",
+      "title": "William Tubby - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The works table row reads: 'Wallabout Market | 1896 | Dutch Colonial Revival | 219 Flushing Avenue | Brooklyn, NY | Wholesale market | Demolished 1941 to build Navy Yard | None'. The article text instead calls it 'the Flemish Revival style Wallabout Market (demolished) which was once the second-largest market in the world' -- the same building under two style names in one article."
+    },
+    {
+      "kind": "other",
+      "url": "https://myrtleavenue.org/wp-content/uploads/2016/02/WallaboutIndustrialDistrictNominationReport.pdf",
+      "title": "Wallabout Industrial Historic District (designation report), on the Myrtle Avenue Brooklyn Partnership's site",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The neighbouring district's report, which describes the market because the market shaped the district: 'In 1894, prominent Brooklyn architect William Tubby designed a large, picturesque complex of Dutch-inspired market buildings ... which opened in 1896 (the market was demolished in 1941 when the navy needed the land for World War II expansion of the Navy Yard).' NOTE THE WORDING: 'Dutch-inspired', not 'Dutch Colonial Revival'."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. A DEMOLISHED BUILDING WITH NO SURVEY, kept because the node's own exemplar calls it 'the largest commitment ever made to the idiom' and because its street address (219 Flushing Avenue) and its dates are now on the record where a later pass can find photographs. Three sources, three style names: 'Dutch Colonial Revival' (Wikipedia's Tubby table), 'Flemish Revival' (the same article's prose) and 'Dutch-inspired' (the landmarks report). None is edited to agree with the others."
+}

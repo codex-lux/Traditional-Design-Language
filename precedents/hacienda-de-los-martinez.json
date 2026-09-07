@@ -1,0 +1,65 @@
+{
+  "id": "hacienda-de-los-martinez",
+  "name": "Hacienda de los Martínez",
+  "aka": [
+    "Martinez Hacienda",
+    "Severino Martinez House",
+    "Pascual Martinez House"
+  ],
+  "location": {
+    "text": "Taos, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1804",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1804' and the style node gives 1804. The Library's item is titled 'Pascual Martinez House' and its own note says 'recently discovered information indicates that the builder of this hacienda was Severino Martinez', which is the name the register uses."
+  },
+  "nodes": [
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-70",
+      "title": "Pascual Martinez House, Ranchito, Taos County, NM",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0022/data/nm0022data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The PDF at this address was read twice on 4 Sep 2026 and returned only its cover each time: 'PlfecmL MaRTl^ffiS HOUSE ... HABS No* NM~70 Kanchitb Taos Cotanty New Mexico ... REDUCED COPIES OF MEASURED DRAWINGS » Historic American Buildings Survey'. It is a measured-drawings record with no written description, so no `survey` block is recorded. The drawings themselves are where this house's room dimensions live and this container cannot open them."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0022",
+      "url": "https://www.loc.gov/pictures/item/nm0022",
+      "title": "Pascual Martinez House, Ranchito, Taos County, NM",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Martinez_Hacienda",
+      "title": "Martinez Hacienda - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73001153",
+      "url": "https://en.wikipedia.org/wiki/Martinez_Hacienda",
+      "title": "NRHP reference No. 73001153; added April 23, 1973; location '2 mi. from Taos Plaza, on the Lower Ranchitos Rd., Taos' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "202",
+      "url": "https://en.wikipedia.org/wiki/Martinez_Hacienda",
+      "title": "NMSRCP No. 202, designated September 25, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. The node's note ('no exterior windows on the ground floor', 'two-placita') is not checkable against the survey, which has no written data; it would be checkable against the drawings."
+}

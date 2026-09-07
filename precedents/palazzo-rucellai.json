@@ -1,0 +1,88 @@
+{
+  "id": "palazzo-rucellai",
+  "name": "Palazzo Rucellai",
+  "location": {
+    "text": "Via della Vigna Nuova, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "1455-1465",
+    "circa": false,
+    "note": "THE SOURCES DISAGREE AND NEITHER IS CHANGED. Museo Galileo's itinerary says Alberti's design, executed by Bernardo Rossellino, 'riusc fra il 1455 e il 1465' to unify the front; the node's own exemplar note says 'Traditionally 1446-1451'; the ISI Florence page read the same day says the facade was designed 'between 1446 and 1451'. A nine-year difference on the corpus's type specimen for the superimposed pilaster order."
+  },
+  "nodes": [
+    "italian-renaissance"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://brunelleschi.imss.fi.it/itinerari/luogo/PalazzoRucellai.html",
+      "title": "Palazzo Rucellai - Museo Galileo, Istituto e Museo di Storia della Scienza",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The page names its own author and revision date: 'Scheda a cura di Elena Fani', 'Data aggiornamento 16/apr/2009'. It also prints the coordinates 43.7711 - 11.2495."
+    },
+    {
+      "kind": "unesco",
+      "id": "174",
+      "url": "https://whc.unesco.org/en/list/174",
+      "title": "Historic Centre of Florence - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription. The Wikipedia list article read the same day prints the reference as '174bis' and the inscription as '1982 (6th Session)' with a 2015 extension; the list URL itself carries 174."
+    },
+    {
+      "kind": "institution",
+      "url": "https://mostre.sba.unifi.it/architecture-toscane/it/54/palazzo-rucellai-firenze-xxi-xxii.html",
+      "title": "Palazzo Rucellai, Firenze (XXI-XXII) - Architecture Toscane",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "University of Florence library exhibition on Grandjean de Montigny and Famin's 'Architecture Toscane', which calls the front 'una delle prime applicazioni della sovrapposizione degli ordini sviluppata nell'architettura antica'. Read in a search result."
+    }
+  ],
+  "survey": {
+    "item": "PalazzoRucellai",
+    "register": "other",
+    "data_url": "https://brunelleschi.imss.fi.it/itinerari/luogo/PalazzoRucellai.html",
+    "prepared": "Museo Galileo (Istituto e Museo di Storia della Scienza), itinerary record; 'Scheda a cura di Elena Fani', 'Data aggiornamento 16/apr/2009'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Giustamente noto come uno dei prototipi dell’architettura civile rinascimentale, Palazzo Rucellai  il risultato della fusione di otto case preesistenti. La resistenza dell’ultimo proprietario a vendere l’abitazione a Giovanni di Paolo Rucellai, il committente dell’opera, spiega l’incompiutezza del progetto chiaramente visibile sul lato destro.",
+        "page": "Museo Galileo itinerary, Palazzo Rucellai, opening paragraph. The extract drops accented characters -- 'Palazzo Rucellai  il risultato' is the page's 'è il risultato' -- and the text is carried as it was read."
+      },
+      {
+        "field": "walls",
+        "text": "Il progetto di Leon Battista Alberti, messo in opera da Bernardo Rossellino, riusc fra il 1455 e il 1465 a dare unitariet ad un contesto architettonico preesistente disomogeneo, mediante una facciata in pietra forte, nella quale trovano applicazione rigorosi criteri geometrici che scandiscono con marcapiani la facciata in tre ordini.",
+        "page": "Museo Galileo itinerary, Palazzo Rucellai, second paragraph. 'riusc' and 'unitariet' are the extract's rendering of 'riuscì' and 'unitarietà'."
+      },
+      {
+        "field": "openings",
+        "text": "Il prospetto  organizzato in una griglia rigorosa che inquadra le finestre quadrate del pian terreno, le bifore delimitate da blocchi in bugnato dei piani superiori e le lesene di tre diversi ordini che scandiscono verticalmente il ritmo della facciata. Ispirandosi ai canoni dell’architettura classica, l’Alberti non manca di citare i paramenti in opus reticulatum, chiaramente visibile nella fascia inferiore della facciata, oppure la tipologia dei capitelli corinzi del portale del Battistero fiorentino nell’androne del cortile.",
+        "page": "Museo Galileo itinerary, Palazzo Rucellai, third paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_order_count",
+      "as_printed": "lesene di tre diversi ordini",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three superimposed pilaster orders, which is the whole reason this node names the building; the same paragraph says the string courses divide the front 'in tre ordini'."
+    },
+    {
+      "name": "houses_merged_count",
+      "as_printed": "la fusione di otto case preesistenti",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Not a dimension: eight earlier houses behind one front. It matters because the node reads a Renaissance palazzo as a designed field of equal bays, and this front is a veneer over an accreted plan, unfinished at its right end because one owner would not sell."
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. THE REGISTER CONTRADICTS THE NODE'S OWN READING TWICE. The node's diagnostic tells say 'Every window on a facade is the same size and the same distance apart' and 'the composition is a field, terminated by quoins and a cornice'; the Museo Galileo record says this front is unfinished on its right side and is a unification of eight pre-existing houses. It also dates the work 1455-1465 against the node's 1446-1451."
+}

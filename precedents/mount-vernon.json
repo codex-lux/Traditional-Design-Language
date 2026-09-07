@@ -1,0 +1,69 @@
+{
+  "id": "mount-vernon",
+  "name": "Mount Vernon",
+  "location": {
+    "text": "Fairfax County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "completed by 1787",
+    "circa": true,
+    "altered": "The DHR entry: 'Through a series of alterations and remodelings, completed by 1787, Washington transformed a simple farmhouse built by his father into the mansion that it is today.'",
+    "note": "No single build date is stated by the sources read: the DHR gives 1754 as the date Washington became proprietor and 1787 as the completion of the remodellings; Wikipedia's categories place the house among '1757 establishments' and 'Houses completed in 1757'. The exemplar's year is the DHR's 1787 and says so."
+  },
+  "nodes": [
+    "georgian-colonial-american",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-505",
+      "url": "https://www.loc.gov/pictures/item/va0436",
+      "title": "Mount Vernon, 3200 Mount Vernon Memorial Highway, Mount Vernon, Fairfax County, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS VA-505 National Register of Historic Places NRIS Number: 66000833'. The data PDF fetched carries only a photograph-addendum cover sheet ('PHOTOGRAPHS COLOR TRANSPARENCIES HABS VA-505 ... ADDENDUM TO: MOUNT VERNON'), so no written data is quoted and this record carries no survey block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va0436",
+      "url": "https://www.loc.gov/pictures/item/va0436",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "http://www.loc.gov/pictures/collection/hh/item/va2098",
+      "title": "Mount Vernon, 3200 Mount Vernon Memorial Highway, Mount Vernon, Fairfax County, VA (HALS VA-25)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Historic American Landscapes Survey record for the estate; the search hit prints 'Survey number: HALS VA-25'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mount_Vernon",
+      "title": "Mount Vernon",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000833",
+      "url": "https://www.dhr.virginia.gov/historic-registers/029-0054",
+      "title": "NRHP reference no. 66000833; designated October 15, 1966 (as the Wikipedia infobox prints it; the DHR page prints the same number and NHL 12/19/1960)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "029-0054",
+      "url": "https://www.dhr.virginia.gov/historic-registers/029-0054",
+      "title": "Mount Vernon – DHR",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on georgian-colonial-american. HABS VA-505 carries photographs and no written data, so the archival references are what this record has. The new-england-georgian node's prose already names this house for its rusticated boards, which is a Northern trick on a Virginia house and the reason it stands for the parent rather than for tidewater-georgian."
+}

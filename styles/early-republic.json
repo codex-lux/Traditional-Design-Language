@@ -32,5 +32,70 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "First Harrison Gray Otis House",
+      "location": "141 Cambridge Street, Boston, Massachusetts",
+      "year": 1796,
+      "precedent": "first-harrison-gray-otis-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `federal-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Andalusia",
+      "location": "Bensalem Township, Bucks County, Pennsylvania",
+      "year": 1834,
+      "precedent": "andalusia",
+      "standing": "canonical",
+      "why": "Derived, not authored: `greek-revival-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Virginia State Capitol",
+      "location": "Richmond, Virginia",
+      "year": 1788,
+      "precedent": "virginia-state-capitol",
+      "standing": "canonical",
+      "why": "Derived, not authored: `jeffersonian-classicism`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Rose Hill Mansion",
+      "location": "Geneva (town of Fayette), Seneca County, New York",
+      "year": 1837,
+      "precedent": "rose-hill-mansion",
+      "standing": "canonical",
+      "why": "Derived, not authored: `greek-revival-northern`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Oak Alley",
+      "location": "Vacherie, St. James Parish, Louisiana",
+      "year": 1839,
+      "precedent": "oak-alley",
+      "standing": "canonical",
+      "why": "Derived, not authored: `greek-revival-southern-plantation`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Gardner-Pingree House",
+      "location": "128 Essex Street, Salem, Massachusetts",
+      "year": 1804,
+      "precedent": "gardner-pingree-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `new-england-federal`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Homewood",
+      "location": "3400 North Charles Street, Baltimore, Maryland",
+      "year": 1808,
+      "precedent": "homewood",
+      "standing": "canonical",
+      "why": "Derived, not authored: `southern-federal`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Kenneth Hafertepe and James F. O'Gorman (eds.), American Architects and Their Books to 1848 (2001)",
+    "W. Barksdale Maynard, Architecture in the United States, 1800-1850 (2002)",
+    "Talbot Hamlin, Greek Revival Architecture in America (1944)",
+    "William H. Pierson Jr., American Buildings and Their Architects: The Colonial and Neoclassical Styles (1970)",
+    "Roger G. Kennedy, Greek Revival America (1989)"
   ]
 }

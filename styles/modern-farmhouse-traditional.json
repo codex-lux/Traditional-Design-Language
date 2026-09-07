@@ -216,13 +216,46 @@
       "name": "Fixer Upper renovations",
       "location": "Waco, Texas",
       "year": 2013,
-      "note": "The 2013-2018 television series and the Magnolia brand that followed. Listed as the style's transmission event rather than as architectural authorship, because that is honestly what it is: the idiom has no canonical designed building, and saying so is more useful than inventing one."
+      "note": "The 2013-2018 television series and the Magnolia brand that followed. Listed as the style's transmission event rather than as architectural authorship, because that is honestly what it is: the idiom has no canonical designed building, and saying so is more useful than inventing one.",
+      "precedent": "fixer-upper-renovations",
+      "standing": "documentary",
+      "why": "The transmission event rather than a building, exactly as this exemplar's own note says -- and Waco's own tourism body names the style after the show, which is the plainest evidence there is for the claim."
     },
     {
       "name": "Serenbe, Selborne hamlet",
       "location": "Chattahoochee Hills, Georgia",
       "year": 2005,
-      "note": "Steve Nygren's New Urbanist community, first houses sold 2005 and built out since. The same farmhouse idiom under a form-based code that enforces porch depth, setback, and garage relegation — the control case showing what the style looks like when the five failing dimensions are regulated."
+      "note": "Steve Nygren's New Urbanist community, first houses sold 2005 and built out since. The same farmhouse idiom under a form-based code that enforces porch depth, setback, and garage relegation — the control case showing what the style looks like when the five failing dimensions are regulated.",
+      "precedent": "serenbe-selborne-hamlet",
+      "standing": "canonical",
+      "why": "The one place in these exemplars where the idiom is built to a plan somebody wrote down, though nothing located for `precedents/serenbe-selborne-hamlet.json` states the porch-depth or garage rule this note claims, and that record says so."
+    },
+    {
+      "name": "Gaines Farmhouse",
+      "location": "Crawford, Texas",
+      "year": 1895,
+      "note": "The 1,700-square-foot 1895 farmhouse on forty acres outside Waco that Chip and Joanna Gaines bought in 2012 and restored over about eighteen months, and that the first season of Fixer Upper made the most photographed image of the idiom. The building the market version is quoting is a nineteenth-century farmhouse with a nineteenth-century pitch, eave and porch; the five deviations this node names are deviations from THIS house.",
+      "precedent": "gaines-farmhouse",
+      "standing": "icon",
+      "why": "The building the style is transmitted by and effectively named after, on the evidence of the show's own first season and of the national magazines that have published it since."
+    },
+    {
+      "name": "Magnolia Market at the Silos",
+      "location": "Waco, Texas",
+      "year": 1950,
+      "note": "Two 120-foot cottonseed silos of 1949-50 built for the Brazos Valley Cotton Oil Company, bought in 2014 and opened as a retail complex over two downtown blocks in October 2015. Not a house and not in the style: it is the address the brand transmits from, and it is recorded so that a claim about transmission has a place a checker can resolve.",
+      "precedent": "magnolia-market-at-the-silos",
+      "standing": "documentary",
+      "why": "The brand's own built place rather than an example of the idiom, carried here for the same reason the television series is: this node's argument is about transmission, and transmission has to be locatable."
+    },
+    {
+      "name": "Southern Living Idea House 2023",
+      "location": "Leipers Fork, Tennessee",
+      "year": 2023,
+      "note": "A 5,600-square-foot show house near Nashville by Lake + Land Studio for Hatcliff Construction, published by Southern Living as a modern farmhouse. Its designer describes 'deeper and exaggerated bracketed overhangs on the front and back porches' -- the eave and the porch this node says the market version drops, restored deliberately, and justified by shade and rain rather than by shadow.",
+      "precedent": "southern-living-idea-house-2023",
+      "standing": "canonical",
+      "why": "The only new house among these exemplars designed, built, published and attributed as modern farmhouse -- the judgment that it is the idiom is Southern Living's and the designers' own -- though the only figure published for it is its floor area, so of the node's five dimensions it holds the eave in the designer's own words and none in numbers."
     }
   ],
   "sources": [

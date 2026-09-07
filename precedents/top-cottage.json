@@ -1,0 +1,55 @@
+{
+  "id": "top-cottage",
+  "name": "Top Cottage",
+  "aka": [
+    "Hill-Top Cottage"
+  ],
+  "location": {
+    "text": "Hyde Park, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1938-1939",
+    "circa": false,
+    "note": "The Wikipedia infobox: 'Built 1938-1939', 'Architect Henry Toombs and Franklin Delano Roosevelt', 'Architectural style Dutch Colonial Revival'. The National Park Service: 'Construction began later that summer [1938] and concluded in June 1939.' The house was designed by FDR with Margaret Suckley and detailed by Toombs, who 'prepared the detailed construction drawings and specifications'."
+  },
+  "nodes": [
+    "dutch-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "97001679",
+      "url": "https://en.wikipedia.org/wiki/Top_Cottage",
+      "title": "Top Cottage - Wikipedia (infobox: NRHP reference No. 97001679; Added to NRHP December 9, 1997; Designated NHL December 9, 1997)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the Wikipedia infobox and corroborated by a National Register mapping site returning 'Top Cottage - 97001679 ... added on December 9, 1997'; the National Register's own database was not opened."
+    },
+    {
+      "kind": "institution",
+      "url": "https://home.nps.gov/places/topcottage.htm",
+      "title": "Top Cottage (U.S. National Park Service)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Owner. THE DESCRIPTION VERBATIM, and the reason this record exists: 'Top Cottage recalls the massing, materials, and simple detailing of Dutch colonial architecture of the Hudson Valley. The house is a one-and-one-half story, random-coursed fieldstone building with steeply pitched gable roofs. The west facade of the house extends in a concave pitch over an open, full-width porch.' On the plan: 'With its primary spaces on a single floor and its ground-level exterior entries, the cottage plan accommodated the president's wheelchair.' And 'The primary interior space is the living room, which occupies the entire first floor of the central block and is organized around a large stone fireplace ... with a plastered cathedral ceiling, four large windows, and sliding glass doors that open onto the porch.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Top_Cottage",
+      "title": "Top Cottage - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.archives.gov/publications/prologue/2008/winter/architect.html",
+      "title": "FDR: The President and the High School | National Archives (Prologue, Winter 2008)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The programme this building belongs to, in the archive's own words: 'Buildings in the mid-Hudson Valley testify to Roosevelt's affinity for native fieldstone construction and colonial Dutch architecture. Between 1936 and 1940 he commissioned six new post offices in fieldstone and Dutch colonial style, including one in Hyde Park. Roosevelt's interest in architecture reached its fullest expression in the design and building of his retreat, Top Cottage'."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. Added by this pass, and it is the record that argues with its own node hardest. THE NODE SAYS THE GAMBREL IS A NECESSARY CONDITION -- 'Dutch Colonial Revival is a roof with a house under it. Its necessary condition is the gambrel' -- and the National Park Service describes the best-documented Dutch Colonial Revival house in the Hudson Valley, designed by a sitting president who was quoting Hudson Valley Dutch building on purpose, as a fieldstone building 'with steeply pitched gable roofs'. IT ALSO GETS THE THING THE NODE SAYS THE REVIVAL NEVER GOT: 'The west facade of the house extends in a concave pitch over an open, full-width porch' is the sprung eave carried on posts as a porch, described from the building, in a 1938 house. The node's prose says the revival 'shrinks the overhang' and 'never once managed it, because the curve was the whole thing'. Here is the counter-example, and it is a National Historic Landmark."
+}

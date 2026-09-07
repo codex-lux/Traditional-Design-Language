@@ -1,0 +1,58 @@
+{
+  "id": "new-mexico-building-panama-california-exposition",
+  "name": "New Mexico Building, Panama-California Exposition",
+  "aka": [
+    "Balboa Park Club",
+    "New Mexico State Building",
+    "Palace of Education (1935)"
+  ],
+  "location": {
+    "text": "Balboa Park, San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1915",
+    "circa": false,
+    "altered": "Sold by New Mexico to San Diego for $3,200 in 1917; redesigned by Richard Requa for the 1935-36 California Pacific International Exposition as the Palace of Education, with altered facades and interiors; the Park Department subdivided the auditorium and lower floor into cubicles in 1974 (San Diego History Center, Amero). The City's page says the 1935 remodelling enlarged it.",
+    "note": "The style node gives 1915. No register listing of the building's own was found; Balboa Park is a National Historic Landmark district (named in the NHL district lists read the same day) and no number for it was retrieved."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://sandiegohistory.org/archives/amero/newmex",
+      "title": "History of the Balboa Park Club / New Mexico Building in Balboa Park - San Diego History Center | San Diego, CA | Our City, Our Story",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Richard Amero's history. Its own sentence, worth carrying: Hewett 'chose Rapp to duplicate the design of the San Diego building for the Santa Fe Museum of Fine Arts, Rapp's third and final adaptation of the Pueblo-Mission churches of Acoma and Cochiti', and 'We now have a Balboa Park Club that on its exterior looks like the New Mexico Building.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.sandiego.gov/park-and-recreation/parks/regional/balboa/balboaparkclub",
+      "title": "Balboa Park Club | City of San Diego Official Website",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'first constructed for the 1915 Panama-California Exposition to house the state of New Mexico's exhibits ... later remodeled and enlarged for the 1935 California Pacific International Exposition'; address 2150 Pan American Road West."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Panama%E2%80%93California_Exposition",
+      "title": "Panama–California Exposition - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Its table of exposition buildings: 'New Mexico State Building (1915) | Palace of Education (1935) | now used by Balboa Park Club'. Two spellings of a Balboa Park Club article title answered 404."
+    },
+    {
+      "kind": "other",
+      "url": "https://sandiegohistory.org/archives/amero/balboapark/bp1915b",
+      "title": "Balboa Park History July-December 1915 - San Diego History Center",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Quotes the San Diego Union of August 8, 1915: 'The prototype of the building was the old mission on the rock at Acoma' and 'Lines are crude and blunt ... due, of course, to the faithful following of the Acoma model.'"
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. No HABS record of this building was found: the loc.gov search ('\"Balboa Park Club\" OR \"New Mexico Building\" Balboa Park San Diego HABS') returned the House of Hospitality (HABS CA-1963-D), whose data page mentions the Balboa Park Club only to distinguish it."
+}

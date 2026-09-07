@@ -1,0 +1,71 @@
+{
+  "id": "all-saints-margaret-street",
+  "name": "All Saints, Margaret Street",
+  "record_kind": "group",
+  "aka": [
+    "All Saints Church and Numbers 7 and 8: All Saints Church House and Vestry"
+  ],
+  "location": {
+    "text": "Margaret Street, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (City of Westminster)"
+  },
+  "dates": {
+    "built": "1849-59",
+    "note": "The list entry gives '1849-59'. The parish's own history page says the church was designed in 1850 and completed in 1859, and that the clergy house and choir school were built at the same time, between 1849 and 1853."
+  },
+  "nodes": [
+    "gothic-revival-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1239569",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1239569",
+      "title": "All Saints Church House and Vestry, Including Railings to Basement Area and Attached Pair of Lamp Standards - 1239569 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Overview block carries Grade 'I', List Entry Number '1239569', Date first listed '10-Sept-1954' and a statutory address covering 'ALL SAINTS CHURCH AND NUMBERS 7 AND 8'. The Details text prints the same date in the entry's own form, '10.9.54', under the reference '57/10'. One listing covers church, clergy house and vestry, which is why this record declares `record_kind: group`."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1273611",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1273611",
+      "title": "84, MARGARET STREET W1, Non Civil Parish - 1273611 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The former parish school and church house of 1868-70, opposite, also by Butterfield: its HISTORY section says the school 'completed the seminal group of buildings in Margaret Street, designed by Butterfield' and that the clergy house and choir school, built between 1849 and 1853, 'created a tough urban architecture of brick, with polychrome diaper decoration, and stone banding'. It is a separate listing and a separate building and is carried here only as corroboration of the group's date and manner."
+    },
+    {
+      "kind": "institution",
+      "url": "https://asms.uk/about/history",
+      "title": "History and Architecture | All Saints Margaret Street",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The parish's own history page. It records that the site was 100 feet square and had to hold a church, choir school and clergy house; that the church was built of brick where the Ecclesiologists had extolled rough stone; and that the pink brick Butterfield chose was more expensive than stone. Read as a search result and not extracted, so nothing is quoted from it as running prose."
+    }
+  ],
+  "survey": {
+    "item": "1239569",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1239569",
+    "prepared": "Date first listed: 10-Sept-1954, as the Overview block prints it; the Details text prints '10.9.54'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Church, clergy house and vestry with forecourt and screen wall. 1849-59 by William Butterfield. Red brick with vitreous brick diaper and banding, occasional stone dressings, slate roofs - a key High Victorian design and model church of the Camden Society, with innovative use of decoration. Bold, indeed 'Brutalist' Gothic.",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1239569)."
+      },
+      {
+        "field": "general_description",
+        "text": "The church set back with lofty broach spired tower with sheer brick walls, the porch in angle of forecourt at its foot. Marble clustered columns and polychrome brickwork internally. The clergy house and vestry flank the forecourt with similar brick banding and finialled gables, pointed arched doorways and 2 and 3 light sash windows under cambered heads with blind pointed arched patterned brick tympana",
+        "page": "Official list entry, Details section; the extracted span continues 'they are linked by low stone weather capped forecourt wall with'."
+      }
+    ]
+  },
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1239569",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. Added as a new exemplar of `gothic-revival-british`, and it is not a house: it is carried because the node's own prose rests a diagnostic on 'the structural polychromy of Butterfield and Street -- walls banded in different coloured bricks so that the pattern is the material rather than a coating on it', and this is the building that claim is about. Historic England says the same thing about it inside other Butterfield entries, where the boilerplate biography calls All Saints 'the great church of All Saints, Margaret Street in London, which broke new ground in terms of Victorian church-building, making use of brick for the facing and the use of extensive polychromy for the detailing' (entry 1294385, Church of St Mary Magdalene, read 5 Sep 2026). `record_kind` is `group` because one listing covers the church, the clergy house at No 7 and the vestry at No 8 as one composition round a forecourt; no single address is the record. No measurement is parsed: the entry states no dimension, storey count or bay count. The 100-feet-square site figure comes from the parish's own page and is deliberately NOT carried as a measurement, because a measurement must index a survey quote and that page was read as a search result rather than extracted."
+}

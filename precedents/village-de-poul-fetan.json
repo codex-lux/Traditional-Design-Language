@@ -1,0 +1,44 @@
+{
+  "id": "village-de-poul-fetan",
+  "name": "Village de Poul-Fetan",
+  "record_kind": "group",
+  "location": {
+    "text": "Quistinic, Morbihan, France",
+    "country": "France",
+    "state": "Morbihan, Bretagne"
+  },
+  "dates": {
+    "altered": "Acquired by the commune of Quistinic in 1977; restoration of the buildings began in 1979 and the village opened to the public in 1985, per the operator's own account.",
+    "note": "NO SOURCE READ HERE DATES THE BUILDINGS. The operator's own site says only that the restored hamlet presents Breton peasant life « en 1850 » and gives the acquisition, restoration and opening dates above. The node's exemplar note calls the longères « 16th-19th century », and nothing found supports the 16th-century end of that span; it is recorded as unresolved rather than repeated."
+  },
+  "nodes": [
+    "french-provincial-farmhouse"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.poul-fetan.bzh/renaissance-village/",
+      "title": "Un village, une renaissance | Poul-Fetan",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose. It says « Poul Fetan fut acquis par la commune de Quistinic en 1977 », « La restauration des bâtiments commença en 1979 et dès 1985 le village ouvre au public », and that « Le bâti exceptionnel du hameau, au premier rang desquelles les superbes chaumières, ont été restaurées à l'aide des matériaux et techniques originelles. »"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.poul-fetan.bzh/presentation-village/",
+      "title": "Parc Village de Poul-Fetan – Présentation 2024 | Poul-Fetan",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "« C'est un village de chaumières entièrement restauré, retraçant la vie quotidienne des paysans au XIX siècle. » The operator presents the site as an 1850 tableau, not as a dated building group."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.ouest-france.fr/bretagne/quistinic-56310/quistinic-hameau-abandonne-il-y-a-50-ans-la-resurrection-de-poul-fetan-depuis-1977-38a4b47a-3830-11ee-8a65-8765770d3c33",
+      "title": "Quistinic. Hameau abandonné il y a 50 ans, la résurrection de Poul-Fetan depuis 1977",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Corroborates the abandonment and the 1977 start of the recovery from a second surface."
+    }
+  ],
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. `record_kind: group` -- a named, documented set of buildings under one operator, which is what the node means by « preserved as a working ensemble ». No Base Mérimée notice was found for the hamlet or for any building in it, so there is no `survey` and no measurement. THE RECORD'S SHARPEST FINDING IS A NEGATIVE ONE: this is a hamlet restored to depict 1850, and the operator's own literature never dates its fabric; a reader who took the node's « 16th-19th century granite longeres » from the exemplar note would be repeating a claim the site itself does not make."
+}

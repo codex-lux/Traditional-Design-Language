@@ -1,0 +1,45 @@
+{
+  "id": "jonas-mcnair-house",
+  "name": "Jonas McNair House",
+  "location": {
+    "text": "Glendale, Arizona",
+    "country": "United States",
+    "state": "Arizona"
+  },
+  "dates": {
+    "built": "1897",
+    "circa": false,
+    "note": "The nomination says 'The house takes its name for Jonas McNair, who constructed the building in 1897'; the Wikipedia list of Maricopa County listings prints 'House built in 1897'."
+  },
+  "nodes": [
+    "folk-victorian"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "06000768",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Maricopa_County,_Arizona",
+      "title": "Jonas McNair House, September 6, 2006 (#06000768), 5919 W. Myrtle Ave., Glendale (as the Wikipedia county list prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Confirmed on a second surface the same day: the Federal Register notice of pending nominations prints 'ARIZONA Maricopa County ... McNair, Jonas, House, 5919 W. Myrtle Ave., Glendale, 06000768'."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/12c42078-7712-42be-87de-f7ba7d3fa42b",
+      "title": "McNair, Jonas, House, Maricopa County, AZ -- National Register of Historic Places Registration Form",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its description: 'The Jonas McNair House is a one-story wood framed Folk Victorian cottage. The house is near the center of downtown Glendale, Arizona in an established area of older homes. It exhibits a \"gable front and wing\" National Folk form accented with Victorian era turned porch posts. Originally a simple three-room dwelling with front and back porches, a rear addition constructed c. 1929 brought modern kitchen and bath functions to the house.' It also states the lot: 'The home occupies a 45 foot by 170 foot lot of the original Glendale townsite plat ... it is centered on the lot and set back approximately 40 feet from the street.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.federalregister.gov/documents/2006/08/08/E6-12822/national-register-of-historic-places-notification-of-pending-nominations-and-related-actions",
+      "title": "National Register of Historic Places; Notification of Pending Nominations and Related Actions",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The second surface for the reference number and the street address."
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY. Carried as the documentary case and the one that reaches outside the South: a three-room desert cottage whose own nomination says why it is filed under this style at all -- 'Classification of the home as \"Folk Victorian\" as opposed to the stylistically-neutral designation \"National Folk\" is based solely on the use of turned wooden porch posts and classically detailed door and window casings.' That sentence is the node's whole thesis written by a state reviewer, and it is the reason this house is here rather than a prettier one. The 45 x 170 ft lot and the 40 ft setback are the only site figures in the cluster. No rights line: NPGallery prints none."
+}

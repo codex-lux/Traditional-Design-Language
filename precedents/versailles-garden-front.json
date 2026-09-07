@@ -1,0 +1,75 @@
+{
+  "id": "versailles-garden-front",
+  "name": "Palace of Versailles, garden front",
+  "aka": [
+    "Château de Versailles",
+    "Domaine national de Versailles",
+    "façade sur les jardins"
+  ],
+  "location": {
+    "text": "Versailles, Yvelines, France",
+    "country": "France",
+    "state": "Yvelines, Île-de-France"
+  },
+  "dates": {
+    "built": "17e-18e siècle (as the Mérimée notice states the campaigns)",
+    "circa": true,
+    "note": "The node's exemplar dates this front precisely - 'Le Vau's envelope 1668-1670, extended by Jules Hardouin-Mansart from 1678; Galerie des Glaces 1678-1684'. The Mérimée notice states no year at all: it gives '17e siècle ; 18e siècle' and names Le Vau, Hardouin-Mansart, Gabriel, Le Brun and Le Nôtre without dating any of them. The corpus's dates are therefore uncorroborated from the register, not contradicted."
+  },
+  "nodes": [
+    "french-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00087673",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00087673",
+      "title": "Domaine national de Versailles - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Référence de la notice PA00087673', 'Date et niveau de protection de l'édifice 1906/10/31 : classé MH' and the precision 'Palais de Versailles et dépendances ; petit parc et dépendances ; palais et parc des deux Trianons et dépendances ; grand parc et dépendances : classement par arrêté du 31 octobre 1906'."
+    },
+    {
+      "kind": "merimee",
+      "id": "IA78000650",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/IA78000650",
+      "title": "parc du domaine national de Versailles",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Inventaire notice for the park, named among the associated notices on PA00087673 and carried as a locator only; it was not extracted."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Palace_of_Versailles",
+      "title": "Palace of Versailles - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "PA00087673",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00087673",
+    "prepared": "The notice's search result prints 'Date de création de la notice 23 juin 1993'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Auteur de l'édifice Le Vau Louis (architecte) ; Hardouin-Mansart Jules (architecte) ; Gabriel Jacques-Ange (architecte) ; Le Brun Charles (peintre) ; Le Nôtre André (architecte paysagiste)",
+        "page": "Notice Mérimée PA00087673, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Palais de Versailles et dépendances ; petit parc et dépendances ; palais et parc des deux Trianons et dépendances ; grand parc et dépendances : classement par arrêté du 31 octobre 1906",
+        "page": "Notice Mérimée PA00087673, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "general_description",
+        "text": "Siècle de campagne principale de construction 17e siècle ; 18e siècle",
+        "page": "Notice Mérimée PA00087673, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. As at the Louvre, the exemplar names a FRONT and the register lists a DOMAIN: one 1906 arrêté covers the palace, both Trianons, the small park and the great park together. The notice states no material, no bay count, no storey height and no dimension, so the corpus's 'roughly 400 m of facade held to a single three-part vertical division' is uncorroborated here. NO MEASUREMENT IS RECORDED, because the notice states no figure. `record_kind` is left at `building` for the same reason as louvre-colonnade: the vocabulary has no term for a named front. No rights line was read, so no `rights_evidence`."
+}

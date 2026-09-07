@@ -186,25 +186,73 @@
       "name": "Het Houten Huys, Begijnhof 34",
       "location": "Amsterdam, Netherlands",
       "year": 1528,
-      "note": "One of two surviving timber-fronted houses in Amsterdam; shows the wooden gable front that brick replaced after the fire ordinances."
+      "note": "One of two surviving timber-fronted houses in Amsterdam; shows the wooden gable front that brick replaced after the fire ordinances.",
+      "precedent": "het-houten-huys",
+      "standing": "documentary",
+      "why": "One of the two timber-fronted houses left in Amsterdam and therefore the surviving physical evidence for the wooden gable the fire ordinances replaced, a standing the Rijksmonumentenregister supports only in describing what it is -- 'Houten puntgevels op stenen voeten' -- while the count of two is Amsterdam Monumentenstad's."
     },
     {
       "name": "Huis Bartolotti, Herengracht 170-172",
       "location": "Amsterdam, Netherlands",
       "year": 1617,
-      "note": "Hendrick de Keyser; the fullest surviving Amsterdam Renaissance stepped gable, brick with sandstone speklagen."
+      "note": "Hendrick de Keyser; the fullest surviving Amsterdam Renaissance stepped gable, brick with sandstone speklagen.",
+      "precedent": "huis-bartolotti",
+      "standing": "icon",
+      "why": "The building a reader of the Amsterdam Renaissance names first after the Huis met de Hoofden, owned and shown as a museum house by Vereniging Hendrick de Keyser, whose ownership the Amsterdam Monumentenstad entry records; the judgment that it is the fullest surviving stepped gable is this corpus's own and the register does not make it."
     },
     {
       "name": "Huis met de Hoofden, Keizersgracht 123",
       "location": "Amsterdam, Netherlands",
       "year": 1622,
-      "note": "Attributed to Hendrick and Pieter de Keyser."
+      "note": "Attributed to Hendrick and Pieter de Keyser.",
+      "precedent": "huis-met-de-hoofden",
+      "standing": "icon",
+      "why": "On the Rijksdienst voor de Monumentenzorg's 1990 'Top 100' of Dutch monuments, as the Dutch Wikipedia article states, and the register's description of a rich stepped centre top with busts against the piers is the fullest account of an Amsterdam Renaissance front the register gives any house in this cluster."
     },
     {
       "name": "Herengracht 168",
       "location": "Amsterdam, Netherlands",
       "year": 1638,
-      "note": "Philips Vingboons; conventionally identified as the first neck gable (halsgevel)."
+      "note": "Philips Vingboons; conventionally identified as the first neck gable (halsgevel).",
+      "precedent": "herengracht-168",
+      "standing": "canonical",
+      "why": "The Amsterdam City Archive's own caption calls it the 'Oudste voorbeeld van haaksche hals- in plaats van trapgevel', which is the archive's judgment and not the register's, and the register independently states the date, the architect and the sandstone neck gable that the node's account of the halsgevel turns on."
+    },
+    {
+      "name": "In 't Aepjen, Zeedijk 1",
+      "location": "Amsterdam, Netherlands",
+      "year": 1550,
+      "note": "The second of the two surviving timber-fronted houses in Amsterdam. A dwarshuis -- long side to the street -- with a front that oversails once per storey; masonry side walls and rear wall behind the boards, and a Renaissance timber skeleton inside. Dated 'rond 1550' by Vereniging Hendrick de Keyser, 1560 by Amsterdam Monumentenstad and 'XVIb?' by the register itself.",
+      "precedent": "in-t-aepjen",
+      "standing": "documentary",
+      "why": "Cited as evidence rather than as architecture: it is the other half of the pair the Houten Huys note already asserts, and the Rijksmonumentenregister's description of a facade oversailing once per storey is the only statement of the Amsterdam jetty this cluster could source."
+    },
+    {
+      "name": "De Dolphijn, Singel 140-142",
+      "location": "Amsterdam, Netherlands",
+      "year": 1600,
+      "note": "Hendrick de Keyser's earliest surviving Amsterdam house, and one of the three early-seventeenth-century houses with a side annex that Amsterdam Monumentenstad names (with the Huis Bartolotti and the Huis met de Hoofden). Oneindig Noord-Holland records that the executed front is a simplification of De Keyser's own published design, the pilasters and cornices struck out.",
+      "precedent": "de-dolphijn",
+      "standing": "canonical",
+      "why": "A type specimen for the moment the node's prose is about -- classicism arriving as surface incident and being edited out again -- on the authority of Oneindig Noord-Holland's account of the design as published against the design as built."
+    },
+    {
+      "name": "Oude Hoogstraat 22",
+      "location": "Amsterdam, Netherlands",
+      "year": null,
+      "note": "The smallest house in Amsterdam, built on about ten square metres of ground left over when its neighbour was rebuilt in 1733. The Dutch Wikipedia article and I amsterdam both give 2.02 m of frontage and 5 m of depth; the register dates the house to the seventeenth or eighteenth century and its bell-shaped gable top to the nineteenth. The three sources disagree about the gable: klokgevel, tuitgevel, or a nineteenth-century klokvormig topje.",
+      "precedent": "oude-hoogstraat-22",
+      "standing": "documentary",
+      "why": "The limiting case of the node's own economic argument, cited for its published frontage rather than admired: the taxed-frontage logic produced a house 2.02 m wide, on figures that are I amsterdam's and Wikipedia's and are not in the register entry."
+    },
+    {
+      "name": "Trippenhuis, Kloveniersburgwal 29",
+      "location": "Amsterdam, Netherlands",
+      "year": 1662,
+      "note": "Justus Vingboons, 1660-1662. Seven windows wide, a carved sandstone pilaster front under a pediment, ten axes on the rear wall, two carved stacks. At about 22 m it is the widest house in the city; it carries no gable at all.",
+      "precedent": "trippenhuis",
+      "standing": "canonical",
+      "why": "The type specimen of what ENDS this style rather than of the style: the node's own prose says the pilaster order kills the gable within two generations, and the register's description of this front is that sentence in the register's words."
     }
   ],
   "sources": [

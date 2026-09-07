@@ -178,19 +178,46 @@
       "name": "Egyptian Building, Medical College of Virginia",
       "location": "Richmond, Virginia",
       "year": 1845,
-      "note": "Thomas S. Stewart. Battered walls, distyle in antis porticoes with palm capitals, flanking obelisks joined by a cast-iron fence with hermai. The finest surviving American example and still in university use."
+      "note": "Thomas S. Stewart. Battered walls, distyle in antis porticoes with palm capitals, flanking obelisks joined by a cast-iron fence with hermai. The finest surviving American example and still in university use.",
+      "precedent": "egyptian-building-medical-college-of-virginia",
+      "standing": "icon",
+      "why": "The building the American Egyptian Revival is known by and the one the node's own source list names; its HABS item is photographs only, so the icon is the least documented thing in the cluster."
     },
     {
       "name": "Grove Street Cemetery Gateway",
       "location": "New Haven, Connecticut",
       "year": 1848,
-      "note": "Henry Austin, 1845-48. Red sandstone, two battered pylons with torus framing and cavetto cornice, about 48 ft wide by 25 ft high."
+      "note": "Henry Austin, 1845-48. Red sandstone, two battered pylons with torus framing and cavetto cornice, about 48 ft wide by 25 ft high.",
+      "precedent": "grove-street-cemetery-entrance",
+      "standing": "canonical",
+      "why": "The type specimen this node can actually measure: HABS CT-275 gives 48'-1\" x 18'-0\" x 25'-0\" and the National Register nomination says this gate 'introduced the use of massive masonry' to the type."
     },
     {
       "name": "Downtown Presbyterian Church",
       "location": "Nashville, Tennessee",
       "year": 1851,
-      "note": "William Strickland, designed 1848, sanctuary completed 1851. Lotus columns, winged sun disk, and a fully Egyptianised interior; the rare ecclesiastical case."
+      "note": "William Strickland, designed 1848, sanctuary completed 1851. Lotus columns, winged sun disk, and a fully Egyptianised interior; the rare ecclesiastical case.",
+      "precedent": "downtown-presbyterian-church",
+      "standing": "canonical",
+      "why": "Its own survey's statement of significance calls it 'the largest and best preserved example of an Egyptian Revival church building in America', and the survey then dimensions it."
+    },
+    {
+      "name": "Old Whalers' Church (First Presbyterian Church)",
+      "location": "Sag Harbor, New York",
+      "year": 1844,
+      "note": "Minard Lafever, 1843-44. Its National Historic Landmark nomination calls it 'One of the most important buildings in the Egyptian Revival style to be found in the United States' and then describes a Greek Revival temple front carrying Egyptian, Indian, Chinese, Persian and Moresque motifs and a blubber-spade cornice -- the hybrid a revival makes when its sources documented no such building type.",
+      "precedent": "old-whalers-church",
+      "standing": "regional",
+      "why": "The whaling-port case, and the clearest instance in this node of its own claim that a revival can only supply the building types its source corpus documented: an Egyptian temple has no steeple, so this one borrowed a Greek front to get one."
+    },
+    {
+      "name": "Mount Auburn Cemetery Egyptian Revival Gateway",
+      "location": "Cambridge, Massachusetts",
+      "year": 1843,
+      "note": "Jacob Bigelow's design, built in wood dusted with sand in 1832 and rebuilt in Quincy granite in 1842-43 by Octavius T. Rogers. Bigelow said he took the design 'from some of the best examples in Denderah and Karnac'. The nomination's prose gives 4 ft square piers, a 4 ft central entrance and 24 ft of cornice -- nomination figures, not survey figures.",
+      "precedent": "mount-auburn-cemetery-gateway",
+      "standing": "canonical",
+      "why": "The first American cemetery gateway of the type and the one the Grove Street nomination measures itself against by name, so it is the specimen the node's own second exemplar is defined in contrast to."
     }
   ],
   "sources": [

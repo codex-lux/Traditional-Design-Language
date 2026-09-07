@@ -1,0 +1,90 @@
+{
+  "id": "erechtheion",
+  "name": "Erechtheion",
+  "location": {
+    "text": "Acropolis, Athens, Greece",
+    "country": "Greece",
+    "state": "Attica"
+  },
+  "dates": {
+    "built": "421-406 BC",
+    "circa": false
+  },
+  "nodes": [
+    "greek-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=973",
+      "title": "Ministry of Culture and Sports | Erechtheion",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Hellenic Ministry of Culture, Odysseus portal, monument record obj_id=973. The page names its author, Ioanna Venieri, archaeologist."
+    },
+    {
+      "kind": "unesco",
+      "id": "404",
+      "url": "https://whc.unesco.org/en/list/404",
+      "title": "Acropolis, Athens - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A monument within the inscribed property, named in the criterion (i) text as 'Erechtheion (421-406)'."
+    }
+  ],
+  "survey": {
+    "item": "973",
+    "register": "other",
+    "data_url": "http://odysseus.culture.gr/h/2/eh251.jsp?obj_id=973",
+    "prepared": "Hellenic Ministry of Culture and Sports, Odysseus portal, monument record obj_id=973; the page's own author line reads 'Ioanna Venieri, archaeologist'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The elegant building known as the Erechtheion, on the north side of the sacred rock of the Acropolis, was erected in 421-406 BC as a replacement of an earlier temple dedicated to Athena Polias, the so-called ''Old temple''.",
+        "page": "Odysseus record 973, DESCRIPTION section, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "The building owes its unusual shape to the irregularity of the terrain - there is a three-metre difference in height between the eastern and western parts - and the multiple cults it was designed to accommodate.",
+        "page": "Odysseus record 973, DESCRIPTION section, opening paragraph, continuing"
+      },
+      {
+        "field": "materials",
+        "text": "The temple was made of Pentelic marble, the frieze of Eleusinian grey stone with white relief figures attached to it and the foundations of Piraeus stone.",
+        "page": "Odysseus record 973, DESCRIPTION section, materials sentence"
+      },
+      {
+        "field": "porches",
+        "text": "Four Ionic columns on a high stylobate, with metal railings between them, adorned the west fa?ade. Finally, another door on the south facade of the western temple opened onto the porch of the Karyatides, a pi-shaped structure with six female statues instead of columns to support the roof.",
+        "page": "Odysseus record 973, DESCRIPTION section, west and south porch sentences. The portal's cedilla in 'facade' comes through the extract as a question mark and is carried as read."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "level_difference_east_to_west_ft",
+      "as_printed": "three-metre difference in height between the eastern and western parts",
+      "value": 9.84,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "3 m converted to feet; the unit vocabulary has no metre. The register states metres and the conversion is a reading."
+    },
+    {
+      "name": "west_facade_column_count",
+      "as_printed": "Four Ionic columns on a high stylobate",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "caryatid_count",
+      "as_printed": "six female statues instead of columns to support the roof",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The Erechtheion is the corpus's evidence for the node's own claim that Greek symmetry is per-elevation rather than per-building: the register describes four different porches at three different levels on one temple and states a three-metre fall across the plan."
+}

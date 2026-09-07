@@ -203,19 +203,46 @@
       "name": "Thornburg Village (Normandy Village)",
       "location": "1781-1851 Spruce Street, Berkeley, California",
       "year": 1927,
-      "note": "William Raymond Yelland for Jack Wood Thornburg. The West Coast case at its most theatrical - hand-adzed timbers, sagging ridges, carved corbels - and a Berkeley landmark."
+      "note": "William Raymond Yelland for Jack Wood Thornburg. The West Coast case at its most theatrical - hand-adzed timbers, sagging ridges, carved corbels - and a Berkeley landmark.",
+      "precedent": "thornburg-village",
+      "standing": "icon",
+      "why": "The West Coast case at its most theatrical and a City of Berkeley Landmark since 1983; it is the group photographed whenever this variant is illustrated, and its towers are what makes the style identifiable from a moving car."
     },
     {
       "name": "French Village",
       "location": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
       "year": 1928,
-      "note": "Robert Rodes McGoodwin for George Woodward, 1925-28. The East Coast case in Wissahickon schist, archaeological rather than theatrical."
+      "note": "Robert Rodes McGoodwin for George Woodward, 1925-28. The East Coast case in Wissahickon schist, archaeological rather than theatrical.",
+      "precedent": "french-village-chestnut-hill",
+      "standing": "icon",
+      "why": "The East Coast pole of the variant, and the node's own description says these two developments define its American realisation; SAH Archipedia's entry on it is the scholarly reference this style otherwise lacks."
     },
     {
       "name": "Oheka Castle",
       "location": "West Hills (Huntington), New York",
       "year": 1919,
-      "note": "Delano & Aldrich, 1914-19. Included as the grand French precedent from which the suburban Norman version is derived, with the same steep hipped roofs and tower motifs at estate scale."
+      "note": "Delano & Aldrich, 1914-19. Included as the grand French precedent from which the suburban Norman version is derived, with the same steep hipped roofs and tower motifs at estate scale.",
+      "precedent": "oheka-castle",
+      "standing": "canonical",
+      "why": "A well-documented specimen of the estate-scale French source - steep hipped roofs and tower motifs at 109,000 square feet - which is what the suburban Norman house is a reduction of, and not a specimen of the suburban house itself."
+    },
+    {
+      "name": "Laverock Farm (Arthur E. Newbold Jr. residence)",
+      "location": "Laverock, Pennsylvania",
+      "year": 1925,
+      "note": "Mellor, Meigs & Howe, 1919-25; demolished 1956. A house and a farm court built as one group, and the work that took the Architectural League of New York's 1925 Gold Medal for Excellence in Design. Meigs published it the same year as An American Country House.",
+      "precedent": "laverock-farm",
+      "standing": "canonical",
+      "why": "The type specimen of the firm's Neo-Norman manner, and the profession's own verdict on it is a medal; a demolished building with its own monograph is the right precedent for a style that was learned from published plates."
+    },
+    {
+      "name": "Oxmoor",
+      "location": "Whitemarsh, Pennsylvania",
+      "year": 1926,
+      "note": "Mellor, Meigs & Howe for Orville H. Bullitt, on Skippack Pike - the mature Neo-Norman manner repeated after Laverock Farm, on a building that is still standing.",
+      "precedent": "oxmoor",
+      "standing": "regional",
+      "why": "It survives where Laverock Farm does not, so the Philadelphia version of this manner can still be looked at; it is carried on a single reference and the record says so rather than dressing one citation as several."
     }
   ],
   "sources": [

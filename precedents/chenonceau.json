@@ -1,0 +1,72 @@
+{
+  "id": "chenonceau",
+  "name": "Chateau de Chenonceau",
+  "aka": [
+    "Château de Chenonceau",
+    "Domaine de Chenonceau"
+  ],
+  "location": {
+    "text": "Chenonceaux, Indre-et-Loire, France",
+    "country": "France",
+    "state": "Indre-et-Loire, Centre-Val de Loire"
+  },
+  "dates": {
+    "built": "1513-1521",
+    "circa": false,
+    "altered": "The bridge over the Cher was begun for Diane de Poitiers in 1555 to Philibert Delorme's design and carried up as a gallery by Catherine de Médicis; the Mérimée notice's campaign years are '1513 ; 1521 ; 1560'.",
+    "note": "The Mérimée notice prints 'Année(s) de(s) campagne(s) de construction 1513 ; 1521 ; 1560' and its historical paragraph puts Thomas Bohier's purchase in 1512 and the completion of the new building in 1521. fr.wikipedia's infobox prints 'Début construction XVe siècle', which is the retained fifteenth-century keep rather than the house. Both are recorded."
+  },
+  "nodes": [
+    "french-renaissance-chateau"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00097654",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00097654",
+      "title": "Domaine de Chenonceau - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Référence de la notice PA00097654' and 'Date et niveau de protection de l'édifice 1840 : classé MH ; 1962/11/07 : classé MH', with the precision 'Château : classement par liste de 1840'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Ch%C3%A2teau_de_Chenonceau",
+      "title": "Château de Chenonceau — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the protection history; its infobox prints 'Classé MH (1840, 1962)' and names Katherine Briçonnet, Philibert Delorme and Jean Bullant among the architects, where the Mérimée notice names Delorme alone."
+    }
+  ],
+  "survey": {
+    "item": "PA00097654",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00097654",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "En 1512, Thomas Bohier, receveur des finances, devient définitivement propriétaire du château qui appartenait à la famille de Marques. Il le fait raser et ne garde que la tour ronde du donjon (15e siècle). Sur l'emplacement d'un moulin, il fait édifier le nouveau bâtiment, qui s'achève en 1521. En 1555, Diane de Poitiers, favorite de Henri II et propriétaire du domaine, confie à Philibert Delorme la construction d'un pont sur le Cher. Catherine de Médicis, qui s'empare de Chenonceau au décès du roi, termine le pont en y faisant élever une galerie. La reine lègue le château à sa belle-fille, Louise de Lorraine, qui y vécut dans le deuil.",
+        "page": "Notice Mérimée PA00097654, section 'Historique de l'édifice', field 'Description historique'. In the extract this paragraph is followed immediately by a '£' character, which POP uses as a paragraph separator; the quote stops before it and joins nothing across it."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1513 ; 1521 ; 1560",
+        "page": "Notice Mérimée PA00097654, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "retained_keep_count",
+      "as_printed": "ne garde que la tour ronde du donjon",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The single round tower of the earlier castle that Bohier kept when he razed the rest - the survival that gives Chenonceau its one medieval mass."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The register describes ownership and campaign and states no dimension, no material and no storey count for this building; the famous fact about it - a house standing on a bridge over a river - is present only as 'la construction d'un pont sur le Cher'. Recorded as read. No rights line, so no `rights_evidence`."
+}

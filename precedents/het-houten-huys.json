@@ -1,0 +1,72 @@
+{
+  "id": "het-houten-huys",
+  "name": "Het Houten Huys, Begijnhof 34",
+  "aka": [
+    "Houten Huys",
+    "Het Houten Huis"
+  ],
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "1528 of kort daarna",
+    "circa": true,
+    "altered": "Refaced in the restoration of 1887-1888 (A.C. Bleys); the old front reconstructed 1953-1957 (Zantkuijl/Tholens); further work 1979, as the Amsterdam Monumentenstad database records.",
+    "note": "The sources do not agree and none is resolved here. Rijksmonumenten.nl prints 'Bouwjaar: 1528 of kort daarna'; the Rijksmonumentenregister's own description dates the house 'XV B' (the register's shorthand for the later fifteenth century); Amsterdam Monumentenstad gives 'ca. 1530' and adds that this is 'uit recent onderzoek'; ARCAM's guide heads the entry '1425'; and the popular guides (amsterdam.info, I amsterdam) print 'around 1420'. The style node's exemplar year of 1528 agrees with the register-linked figure and with the dendrochronology the Amsterdam guides report."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "371",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/371",
+      "title": "Begijnhof 34, 1012 WV te Amsterdam | Rijksdienst voor het Cultureel Erfgoed",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://rijksmonumenten.nl/monument/371/het-houten-huys/amsterdam",
+      "title": "Het Houten Huys in amsterdam (noord holland) | Monument - Rijksmonumenten.nl",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The page prints 'Bouwjaar: 1528 of kort daarna', 'Publicatie: 19700402' and 'Rijksmonument ID: 371'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.amsterdam-monumentenstad.nl/database/grachtenboek_objecten.php?id=2223",
+      "title": "Amsterdam Monumentenstad, database van de Amsterdamse grachtengordel -- Begijnhof 34",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The identification block prints 'Gebouwtype: Woonhuis / Geveltype: Puntgevel / Bouwstijl: Gotiek / Bouwjaar: ca. 1530' and, in its own text, 'Amsterdam heeft nog maar twee houten huizen: dit huis Begijnhof 34 (1530) en Zeedijk 1 (1560).'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://hetbegijnhof.nl/history/lorem-ipsum-dolor-sit-amet-3?lang=en",
+      "title": "Houten Huys - Het Begijnhof",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Begijnhof's own page: 'The Wooden House is one of the oldest houses in Amsterdam and is dated before 1452, the 2nd major city fire.' A fourth date, recorded and not resolved."
+    }
+  ],
+  "survey": {
+    "item": "371",
+    "register": "rijksmonument",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/371",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's own 'Inschrijving register' field came back blank in the extract; Amsterdam Monumentenstad's register tab prints 'Inschrijvingsdatum: 02-04-1970' and Rijksmonumenten.nl prints 'Publicatie: 19700402'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Hoekhuis (XV B) aan uitstulping van het Begijnhof. Houten puntgevels op stenen voeten aan voor- en achterzijde, overgebouwd boven de bovenverdieping. Gothisch houtskelet. Schot met geschilderde voorstelling van Maria en de Eenhoorn uit de bouwtijd.",
+        "page": "Rijksmonumentenregister, monument 371, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. The register entry is the survey block under WP-11.5. It corroborates two things the node's prose asserts: the front is a timber gable standing on masonry footings ('Houten puntgevels op stenen voeten'), and the upper storey oversails ('overgebouwd boven de bovenverdieping'), which is the Amsterdam form of the jetty. It says nothing about width, depth or pitch."
+}

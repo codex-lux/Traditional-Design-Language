@@ -1,0 +1,125 @@
+{
+  "id": "e-v-haughwout-building",
+  "name": "E. V. Haughwout Building, 488-492 Broadway",
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "aka": [
+    "E. V. Haughwout & Co. Store",
+    "Haughwout Emporium"
+  ],
+  "dates": {
+    "built": "1857",
+    "circa": false,
+    "note": "The survey's cover gives 1857 and the Wikipedia infobox the same; the Historic Districts Council page gives '1856-57'. Recorded as the survey states it, with the disagreement noted rather than resolved."
+  },
+  "nodes": [
+    "italianate-american",
+    "renaissance-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-5459",
+      "title": "E. V. Haughwout & Co. Store, 488-492 Broadway, New York, New York County, New York",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0300/ny0379/data/ny0379data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header, which OCRs as 'E. V. MUGHWOUT & CO. STORE HABS No. Nt-5459 (Page 5)' -- the building name and the state prefix are both corrupted and the number is not."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0379",
+      "url": "https://www.loc.gov/item/ny0379",
+      "title": "E. V. Haughwout & Company Building, 488-492 Broadway ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line reads 'Built in 1857, the E.V. Haughwout & Company Store is architecturally one of the most important of New York's cast iron buildings.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "73001218",
+      "url": "https://en.wikipedia.org/wiki/E._V._Haughwout_Building",
+      "title": "NRHP reference No. 73001218; added August 28, 1973; designated NYCL November 23, 1965 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. A second surface should confirm it before anything is built on the number."
+    },
+    {
+      "kind": "other",
+      "url": "https://hdc.org/buildings/e-v-haughwout-building",
+      "title": "E. V. Haughwout Building | HDC (Historic Districts Council)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Calls the style 'Anglo-Italianate' and the windows 'reminiscent of three of Sansovino's great library on the Piazetta in Venice'. That the same building is claimed by this corpus's Italianate and Renaissance Revival nodes at once is why the record carries both."
+    }
+  ],
+  "survey": {
+    "item": "ny0379",
+    "register": "loc-item",
+    "survey_no": "NY-5459",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0300/ny0379/data/ny0379data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Number of stories: Five stories. 2. Number of bays: The Broadway facade is nine bays wide and the Broome Street facade is fourteen bays wide. 3. Over-all dimensions: The Broadway facade measures approximately 63'-1\" and the Broome Street facade measures approximately 99'-10\". 4. Layout, shape: The building is rectangular in plan. 5. Wall construction, finish, and color: Cast iron, painted dark gray.",
+        "page": "HABS No. NY-5459 (Page 5)"
+      },
+      {
+        "field": "significance",
+        "text": "Built in 1857, the E. V. Haughwout & Co. Store is architecturally one of the most important of New York's cast iron buildings. The architect, John P. Gaynor, used cast iron in the design for an elegant and monumental structure for a firm selling china, crystal, and silver.",
+        "page": "HABS No. NY-5459, cover, Statement of Significance; no page marker legible in the extract span"
+      },
+      {
+        "field": "other",
+        "text": "Builder, suppliers: The cast iron components for the building were cast by Daniel Badger's Architectural Iron Works of New York.",
+        "page": "HABS No. NY-5459 (Page 2)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Five stories",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "nine bays wide",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The Broadway front. The survey states the Broome Street flank separately at fourteen; both facades are cast iron and either could be called the front."
+    },
+    {
+      "name": "flank_bay_count",
+      "as_printed": "fourteen bays wide",
+      "value": 14,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_width_ft",
+      "as_printed": "63'-1\"",
+      "value": 63.08,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The Broadway facade, which the survey names first."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "99'-10\"",
+      "value": 99.83,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The Broome Street facade."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. One record on two nodes, deliberately: the italianate-american node's own prose names 'a cast-iron commercial block on Broadway' and the renaissance-revival-american node's says 'cast iron let Daniel Badger and James Bogardus reproduce an entire palazzo elevation in bolted sections'. The survey names Badger's Architectural Iron Works as the founder, which is the second claim in the record rather than in a book. The building is also the corpus's cleanest measured instance of a repeated bay: 9 bays in 63'-1\" is a 7.0 ft module, 14 bays in 99'-10\" is 7.13 ft -- one catalogue, two fronts."
+}

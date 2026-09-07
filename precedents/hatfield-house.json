@@ -1,0 +1,138 @@
+{
+  "id": "hatfield-house",
+  "name": "Hatfield House",
+  "location": {
+    "text": "Hertfordshire, England",
+    "country": "England",
+    "state": "Hatfield Park, Hertfordshire"
+  },
+  "dates": {
+    "built": "between 1607 and 1612",
+    "circa": false,
+    "altered": "'The W wing was gutted by fire in 1835 and redecorated by the second marquess (d. 1868), who also did much decoration in other parts of the house.' The entry adds C19 steps in two flights to the north porch and a C19 balcony on the west canted bay.",
+    "note": "The register and the node agree on 1607-12."
+  },
+  "nodes": [
+    "jacobean",
+    "tudor-jacobean"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1173363",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1173363",
+      "title": "Hatfield House - 1173363 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The search result's own overview line printed 'List Entry Number: 1173363' and 'Date first listed: 06-Feb-1952'; the Details print the same date as '6.2.52'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1348152",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1348152",
+      "title": "The Palace (Grade I), Hatfield",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The surviving range of the medieval Bishop's Palace of c.1480 stands in the same park under its own number. Carried so that the Jacobean house is not confused with it -- the Wikipedia article's own infobox describes THE PALACE, not the house, and gives 'Built c.1480'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000343",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000343",
+      "title": "Hatfield House, Hatfield - 1000343 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, whose summary reads 'Hatfield House (1607-12, listed grade I) stands at the west edge of the park on a level plateau'."
+    }
+  ],
+  "survey": {
+    "item": "1173363",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1173363",
+    "prepared": "Date first listed: 06-Feb-1952, printed in the Details as '6.2.52'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "County house. Built for Robert Cecil, first Earl of Salisbury, between 1607 and 1612. Designed by Robert Liming or Lyminge, assisted by Robert Cecil, his friend Thomas Wilson, and probably by Simon Basyll and Inigo Jones. The W wing was gutted by fire in 1835 and redecorated by the second marquess (d. 1868), who also did much decoration in other parts of the house. Red brick with stone dressings. E-shape.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "3 storeys and attic over basement. Stone mullioned and transomed windows of 2 to 6 lights. N entrance elevation is 15 windows. Central 3-storey porch bay with arched, shell-headed door flanked by pairs of fluted Roman Doric columns. Strapwork to pedestals, frieze and overthrow. C19 steps in 2 flights. 4-window flanking walls have 2-storey canted window bays near 3-window end projections. End projections have 3 and a half storey tower projections, formerly with cupola domes.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "porches",
+        "text": "Main south front has a 9-window loggia in ashlar stone. The central feature is a 3-stage triumphal entrance with pairs of Doric, Ionic and Corinthian columns at each level. Double doors like those of N elevation.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "other",
+        "text": "End elevations of wings have square projecting turrets with leaded cupolas and strapwork parapets between them. Central 2-storey canted bay windows, that on W with C19 balcony and steps. E and W elevations are two part compositions. N parts have 3 canted 2- storey window bays with flat parapets. Recessed narrow gabled central bay. S part with two small gables. Rising from the centre of the house is a 3-stage wooden clock tower. The bottom stage has triplets of Doric columns at the angles and triplet arches between. Cube-shape middle stage has clocks N and S and pairs of Ionic columns at angles. Arched octagonal turret with leaded cupola. This part is possibly by Inigo Jones.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "finishes",
+        "text": "The Long Gallery has panelling in two tiers and divided by pilasters, the fireplaces and ceilings possibly C19. King James's Drawing Room on the E has a restored ceiling and a contemporary fireplace by Maximilian Colt. King James's Bedroom, adjoining, has a fireplace taken from the Summer Dining Room.",
+        "page": "Official list entry, Details, interior description; the same span ends with the entry's own sources, '(C.L. 11.8.1900; 28.6 and 5.7.1907; 14.12.1907; Pevsner (1977).'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys and attic over basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "window_count_north_front",
+      "as_printed": "N entrance elevation is 15 windows",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The register counts WINDOWS across the entrance elevation, not structural bays; on an E-plan front the two are not the same thing."
+    },
+    {
+      "name": "porch_storey_count",
+      "as_printed": "Central 3-storey porch bay",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "loggia_bay_count",
+      "as_printed": "Main south front has a 9-window loggia in ashlar stone",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "frontispiece_stage_count",
+      "as_printed": "a 3-stage triumphal entrance with pairs of Doric, Ionic and Corinthian columns at each level",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "clock_tower_stage_count",
+      "as_printed": "a 3-stage wooden clock tower",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "canted_bay_count_north_parts",
+      "as_printed": "N parts have 3 canted 2- storey window bays with flat parapets",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1173363",
+  "note": "Tranche 3, the Elizabethan and Jacobean prodigy house and the Scots tower, 5 Sep 2026. Extracted twice: the first pass returned both fronts and the clock tower, the second the interior and the entry's own sources. Line breaks collapsed to single spaces. The record supports jacobean.c03 exactly -- 'Red brick with stone dressings' -- and the south front's three-stage superimposed order is the node's own frontispiece rule at full scale. What it does NOT support is the node's exemplar note calling Lyminge 'chief craftsman': the register names him as the designer, 'Designed by Robert Liming or Lyminge', and spells the name two ways in one clause."
+}

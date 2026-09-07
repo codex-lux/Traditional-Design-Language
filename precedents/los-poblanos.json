@@ -1,0 +1,58 @@
+{
+  "id": "los-poblanos",
+  "name": "Los Poblanos",
+  "aka": [
+    "Los Poblanos Historic District",
+    "Los Poblanos Historic Inn & Organic Farm",
+    "Simms Residence"
+  ],
+  "location": {
+    "text": "Los Ranchos de Albuquerque, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1932-1934",
+    "circa": false,
+    "altered": "An adobe ranch house remodelled by Meem in 1932 for Albert and Ruth Hanna McCormick Simms, enclosing an L-plan into a full courtyard with a portal; La Quinta, a single-storey H-shaped entertaining pavilion, designed 1934 (Los Poblanos' own pages and the Meem works list).",
+    "note": "The Meem works list on Wikipedia prints '\"Los Poblanos\", Simms Residence ... Los Ranchos (1932)' and '\"La Quinta\" Pavilion at \"Los Poblanos\", Los Ranchos (1934)'. The exemplar year is 1934."
+  },
+  "nodes": [
+    "pueblo-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Los_Poblanos_Historic_Inn_%26_Organic_Farm",
+      "title": "Los Poblanos Historic Inn & Organic Farm - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Los Poblanos is listed on the New Mexico State Register of Cultural Properties and The National Register of Historic Places.' The plain title 'Los Poblanos' answered 404."
+    },
+    {
+      "kind": "nrhp",
+      "id": "82003321",
+      "url": "https://en.wikipedia.org/wiki/Los_Poblanos_Historic_Inn_%26_Organic_Farm",
+      "title": "Los Poblanos Historic District: NRHP reference No. 82003321; added May 27, 1982; architect John Gaw Meem (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://lospoblanos.com/about/history",
+      "title": "Los Poblanos agriculture & architecture history | Los Poblanos",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'In 1932, Ruth Hanna McCormick Simms commissioned architect John Gaw Meem ... to renovate the ranch house and create the La Quinta Cultural Center'; a companion page: 'The Meem renovation enclosed the formerly L-shaped home to create a full courtyard surrounded by a portal and added a large living room.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/John_Gaw_Meem",
+      "title": "John Gaw Meem - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The works list is the source for the two dates."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as Meem's domestic Pueblo Revival at its most complete -- a full placita house with portal, in adobe -- for a node whose four exemplars were all institutional. No HABS record was found."
+}

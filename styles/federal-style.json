@@ -216,25 +216,55 @@
       "name": "First Harrison Gray Otis House",
       "location": "141 Cambridge Street, Boston, Massachusetts",
       "year": 1796,
-      "note": "Charles Bulfinch. Three-storey brick, five bays, Palladian window over the entrance with a lunette above it; the canonical urban Federal front."
+      "note": "Charles Bulfinch. Three-storey brick, five bays, Palladian window over the entrance with a lunette above it; the canonical urban Federal front.",
+      "precedent": "first-harrison-gray-otis-house",
+      "standing": "icon",
+      "why": "The node's own note calls it 'the canonical urban Federal front', and the HABS data form records the five-bay, three-storey brick block by Bulfinch that every account of the style's town house begins from."
     },
     {
       "name": "Gore Place",
       "location": "52 Gore Street, Waltham, Massachusetts",
       "year": 1806,
-      "note": "Five-part plan roughly 190 feet long with bowed oval projections; the most fully realised Federal country house in New England."
+      "note": "Five-part plan roughly 190 feet long with bowed oval projections; the most fully realised Federal country house in New England.",
+      "precedent": "gore-place",
+      "standing": "canonical",
+      "why": "HABS MA-210 quotes the National Historic Landmark statement -- 'a noteworthy example of a five-part Federal house' -- for the country-house parti the node describes at roughly 190 feet with bowed projections."
     },
     {
       "name": "Nathaniel Russell House",
       "location": "51 Meeting Street, Charleston, South Carolina",
       "year": 1808,
-      "note": "Begun 1803. Free-flying cantilevered stair, rectangular, oval and square rooms stacked in one block, full-height polygonal bay on the garden front."
+      "note": "Begun 1803. Free-flying cantilevered stair, rectangular, oval and square rooms stacked in one block, full-height polygonal bay on the garden front.",
+      "precedent": "nathaniel-russell-house",
+      "standing": "icon",
+      "why": "The South Carolina register's nomination calls it 'an exercise in ellipses' and the National Trust 'one of America's most important neoclassical dwellings'; a National Historic Landmark with HABS SC-145 behind it."
     },
     {
       "name": "Homewood",
       "location": "3400 North Charles Street, Baltimore, Maryland",
       "year": 1808,
-      "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian parti with Adamesque detail throughout - the clearest demonstration that Federal is a surface treatment applied to an inherited plan."
+      "note": "Begun 1801 for Charles Carroll Jr.; five-part Palladian parti with Adamesque detail throughout - the clearest demonstration that Federal is a surface treatment applied to an inherited plan.",
+      "precedent": "homewood",
+      "standing": "canonical",
+      "why": "The node's own claim -- Federal as a surface on the inherited five-part parti -- and the 34 HABS sheets of MD-35, the most measured of the four, to test it against."
+    },
+    {
+      "name": "Gardner-Pingree House",
+      "location": "128 Essex Street, Salem, Massachusetts",
+      "year": 1804,
+      "note": "Samuel McIntire for John Gardner, 1804. The Salem front every account of the Federal style reaches for, and the house McIntire's own entry in the reference literature singles out for its interior; a National Historic Landmark. HABS recorded it as the Gardner-White-Pingree Place (MA-271) and the extractor returned only the survey's cover, so its figures are not yet on the record.",
+      "precedent": "gardner-pingree-house",
+      "standing": "icon",
+      "why": "The building Federal Salem is known by -- the node's own hearth is 'Boston and Salem' -- a National Historic Landmark, and the house Wikipedia's McIntire entry names among his best work."
+    },
+    {
+      "name": "The Octagon",
+      "location": "1799 New York Avenue NW, Washington, D.C.",
+      "year": 1800,
+      "note": "William Thornton for John Tayloe III, 1798-1800: the HABS data form's own inventory is an irregular hexagon with a projecting semicircular entrance bay, three storeys on a raised basement under a low hipped roof, a one-storey Ionic porch, a belt course, recessed panels between the floors and a fanlight over the door -- the Federal kit laid on a plan no Georgian builder drew. Served as the executive mansion after the White House burned in 1814.",
+      "precedent": "the-octagon",
+      "standing": "canonical",
+      "why": "A National Historic Landmark with 12 HABS sheets and a data form that itemises the Federal elements on a geometrically free plan -- the record that shows the style is a surface on any plan, which is the node's own claim about Homewood."
     }
   ],
   "sources": [

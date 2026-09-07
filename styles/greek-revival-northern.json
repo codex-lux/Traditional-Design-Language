@@ -187,25 +187,55 @@
       "name": "Rose Hill Mansion",
       "location": "Geneva (town of Fayette), Seneca County, New York",
       "year": 1837,
-      "note": "Hexastyle Ionic portico with a fully pedimented gable and Ionic colonnades on single-storey flanking wings; builders working from Lafever's plates. National Historic Landmark."
+      "note": "Hexastyle Ionic portico with a fully pedimented gable and Ionic colonnades on single-storey flanking wings; builders working from Lafever's plates. National Historic Landmark.",
+      "precedent": "rose-hill-mansion",
+      "standing": "icon",
+      "why": "The National Historic Landmark designation its Wikipedia infobox records, and Historic Geneva's own account of it as \"the 1839 Greek Revival Mansion\", are what rest the claim: a hexastyle Ionic portico on the Erie Canal corridor is the Northern variant at full professional strength, in the corridor the node names as its hearth."
     },
     {
       "name": "Merchant's House Museum (Seabury Tredwell House)",
       "location": "29 East Fourth Street, Manhattan, New York",
       "year": 1832,
-      "note": "Built 1831-32 by Joseph Brewster. Late-Federal brick street front over a thoroughly Greek Revival interior - double parlours with 14-foot ceilings, Ionic columns and Lafever-derived joinery. The only nineteenth-century Manhattan house with both exterior and interior intact."
+      "note": "Built 1831-32 by Joseph Brewster. Late-Federal brick street front over a thoroughly Greek Revival interior - double parlours with 14-foot ceilings, Ionic columns and Lafever-derived joinery. The only nineteenth-century Manhattan house with both exterior and interior intact.",
+      "precedent": "merchants-house-museum",
+      "standing": "canonical",
+      "why": "The museum's claim, repeated by its Wikipedia article, that it is the only nineteenth-century Manhattan residence with exterior and interior both intact, which makes it the type specimen for the variant's urban half -- and the 1936 survey states its materials and storeys and nothing whatever about the Grecian interior it is named for."
     },
     {
       "name": "Andalusia",
       "location": "Bensalem Township, Bucks County, Pennsylvania",
       "year": 1834,
-      "note": "Thomas Ustick Walter's Doric temple front on the river elevation; the professional high-style pole of the Northern variant, against which the carpenter version should be measured."
+      "note": "Thomas Ustick Walter's Doric temple front on the river elevation; the professional high-style pole of the Northern variant, against which the carpenter version should be measured.",
+      "precedent": "andalusia",
+      "standing": "icon",
+      "why": "Walter's Doric temple front on the river elevation is the professional pole of the Northern variant, and the judgment relied on is the National Historic Landmark designation of 13 November 1966 that its record carries from the Wikipedia infobox."
     },
     {
       "name": "Seeley Farmhouse",
       "location": "2 Freeman's Bridge Road, Glenville, Schenectady County, New York",
       "year": 1850,
-      "note": "A two-storey pedimented centre pavilion with one-and-a-half-storey flanking wings - the farm-scale, carpenter-built end of the variant, listed on the National Register in 1978."
+      "note": "A two-storey pedimented centre pavilion with one-and-a-half-storey flanking wings - the farm-scale, carpenter-built end of the variant, listed on the National Register in 1978.",
+      "precedent": "seeley-farmhouse",
+      "standing": "documentary",
+      "why": "One row in a county National Register table and no article of its own; carried because a variant this common needs a plain instance to measure against the temple fronts, and the judgment that the farm-scale upright-and-wing is where the variant actually lives is this corpus's own."
+    },
+    {
+      "name": "Avery-Downer House",
+      "location": "Granville, Licking County, Ohio",
+      "year": 1842,
+      "note": "Built 1838-1842 in the Western Reserve settlement belt the node describes, by the builder of Lafever's church down the street and with the Tower of the Winds copied for the entrance -- the pattern-book transmission stated by the owning museum rather than inferred. No HABS survey was found for it.",
+      "precedent": "avery-downer-house",
+      "standing": "regional",
+      "why": "The Ohio end of the migration the node is about, and the reason rests on the Robbins Hunter Museum's own account of the shared builder and the copied plate rather than on any survey, which is why it is regional and not canonical."
+    },
+    {
+      "name": "Wilcox-Cutts House",
+      "location": "Vermont Route 22A, Orwell, Addison County, Vermont",
+      "year": 1843,
+      "note": "An eighteenth-century farmhouse encased in 1843 by master-builder James Lamb of Shoreham -- the ell at the back is the original house -- and its temple front carries FIVE Ionic columns, an odd count that puts a column on the axis where the door should be. Both sources read report it; one of them describes a near-exact copy at Castleton rather than this house, and the record says so.",
+      "precedent": "wilcox-cutts-house",
+      "standing": "regional",
+      "why": "Vermont's own late-Greek high point on the National Register's 1974 judgment, and the clearest instance in the cluster of the node's actual mechanism -- an existing house re-clothed in boards rather than a new one built."
     }
   ],
   "sources": [

@@ -1,0 +1,61 @@
+{
+  "id": "richmond-riverside",
+  "name": "Richmond Riverside",
+  "location": {
+    "text": "Richmond upon Thames, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "1984-1988",
+    "circa": false,
+    "note": "Historic England's list entry for Brentwood Cathedral dates 'the Richmond riverside development (1984-1987)'; Wikipedia's New Classical architecture article lists 'Richmond Riverside, Richmond, England, 1988, by Quinlan Terry' and files the article under '1988 establishments in England'; the European Urban Renaissance article gives 1987-1992. The exemplar year is 1988."
+  },
+  "nodes": [
+    "new-classical"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Richmond_Riverside",
+      "title": "Richmond Riverside - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "A stub; its reference 14 is 'Richmond Riverside' on the Quinlan Terry Architects site, which a search of that domain did not surface."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/New_Classical_architecture",
+      "title": "New Classical architecture - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Lists Richmond Riverside first among its examples: 'Richmond Riverside, Richmond, England, 1988, by Quinlan Terry'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Quinlan_Terry",
+      "title": "Quinlan Terry - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Infobox 'Buildings' lists the 'Richmond Riverside Development'; the article: 'mixed use development Richmond Riverside'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1479422",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1479422",
+      "title": "Roman Catholic Cathedral Church of St Mary and St Helen including walls, railings and gates - 1479422 | Historic England",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Not Richmond Riverside's own entry (it is unlisted: 'None of Terry's other buildings have so far been listed'); cited for its dating of 'the Richmond riverside development (1984-1987)' in Terry's biography."
+    },
+    {
+      "kind": "institution",
+      "url": "http://www.qftarchitects.com",
+      "title": "Quinlan Terry | Classical Building Design & Architect Services",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Architect's site, home page only; the project page was not found."
+    }
+  ],
+  "note": "Written 4 Sep 2026. Unlisted and living. Three completion dates on the record from three sources."
+}

@@ -1,0 +1,50 @@
+{
+  "id": "carolands",
+  "name": "Carolands",
+  "aka": [
+    "Carolands Chateau",
+    "The Chateau"
+  ],
+  "location": {
+    "text": "Hillsborough, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1914-1916",
+    "circa": false,
+    "altered": "Two Bordeaux salons were removed and stored for nearly thirty years, and reinstalled by Countess Lillian Remillard Dandini in 1958 in the spaces Ernest Sanson had designed for them. The house passed through repeated ownership changes and near-demolition after 1973 and was restored from 1998.",
+    "note": "Wikipedia and the owning foundation both give a commission of 1913 and construction 1914-1916; a Gilded Age group's post read the same day says 'built between 1914 and 1916'. The room count does not agree with itself: the Wikipedia infobox says 98 rooms and 46,050 square feet, while the 1975 National Register inventory says the building contains '100 to 125 rooms'. Both are recorded."
+  },
+  "nodes": [
+    "french-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "75000478",
+      "url": "https://en.wikipedia.org/wiki/Carolands",
+      "title": "NRHP reference No. 75000478, added October 21, 1975; California Historical Landmark no. 886, designated 9 May 1975, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The same two numbers are printed on the owning foundation's own history page, read the same day, which is a second surface."
+    },
+    {
+      "kind": "nrhp",
+      "url": "https://npgallery.nps.gov/nrhp/GetAsset?assetID=fc3325cf-d6c5-41a2-a055-dd7a59485101",
+      "title": "The Carolands - National Register of Historic Places Inventory - Nomination Form (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination itself, at 565 Remillard Drive, Hillsborough, San Mateo County. Its description reads: 'The building itself is a large four and one-half story reinforced concrete, natural and artificial sandstone veneered residence with a copper roof, approximately 130 feet long by 120 feet wide by 100 feet high, containing 100 to 125 rooms. It is designed in the Beaux Arts style, drawing exclusively from French Renaissance sources and loosely modeled after Vaux le Vicomte'. It also says the design 'is not a \"copy\" of a specific chateau, as local legend has it (no respectable Beaux-Arts architect would merely copy), but is a composition of elements drawn from various sources', naming Le Vau's Vaux-le-Vicomte and Mansart's Maisons. No reference number is printed in the span read, so none is recorded on this ref."
+    },
+    {
+      "kind": "institution",
+      "url": "https://carolands.org/history",
+      "title": "Carolands Foundation - History",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner. Records that Ernest Sanson (1836-1918) entered the Ecole des Beaux-Arts at eighteen, that Carolands was his second and last American commission, taken in 1913, and that Willis Polk was the supervising architect."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to french-eclectic: the grand French end of the style, executed by a Paris architect rather than by an American reading plate books. NO MEASUREMENTS ARE RECORDED although the nomination states three, because the nomination is a Register form and not a HABS survey and this schema's `measurements` array indexes `survey.quotes`; the figures - approximately 130 x 120 x 100 feet - are in the ref's note where a reader can find them and a checker cannot mistake them for surveyed ones. Worth carrying: the Register calls it Beaux Arts 'drawing exclusively from French Renaissance sources', which is the corpus's beaux-arts-american and its french-eclectic pulling on the same building."
+}

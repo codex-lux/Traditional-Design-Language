@@ -197,7 +197,10 @@
             20
           ],
           "unit": "in",
-          "kind": "measured"
+          "kind": "measured",
+          "source": "precedents/mcintire-garrison-house#measurements[0]",
+          "confidence": "medium",
+          "note": "WP-11.4, Ruling A. HABS ME-9: 'The second story projects out beyond the lower all around approximately fourteen Inches.' The node's own exemplar, and the figure sits exactly on the band's floor. `overhang_max` 24 in is deliberately NOT sourced from it: fourteen inches is under that ceiling and a non-violation is not a source."
         },
         "overhang_hewn": {
           "range": [

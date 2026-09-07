@@ -1,0 +1,123 @@
+{
+  "id": "casa-soberanes",
+  "name": "Casa Soberanes",
+  "aka": [
+    "Soberanes Adobe",
+    "Estrada-Soberanes Adobe",
+    "House of the Blue Gate"
+  ],
+  "location": {
+    "text": "336 Pacific Street, Monterey, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "later 1830s",
+    "circa": true,
+    "altered": "An exterior wood stair from the south corner of the veranda has been removed and replaced with a wooden wall; the rear exterior wall has been sheathed in horizontal siding (survey). Restored by Jean Booth and Reuben Serrano in the 1920s-30s (Wikipedia).",
+    "note": "The survey says 'Built in the later 1830's by Jose Estrada' and cites Kirker's view that no two-storey adobe can date before about 1836; Wikipedia prints 'Built in 1842 by Custom House official Rafael Estrada'. Two dates and two given names on the record; neither changed. The exemplar year is the survey's decade, given as 1838 with this note."
+  },
+  "nodes": [
+    "monterey-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-1892",
+      "title": "Soberanes Adobe, 336 Pacific Street, Monterey, Monterey County, CA",
+      "url": "https://www.loc.gov/pictures/item/ca0402",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The data page's header prints 'HABS No. CAL-1892' and its running marker 'HA35 GAL-1892 Page 4'; the search result gives 'Photo(s): 15'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0402",
+      "url": "https://www.loc.gov/pictures/item/ca0402",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Casa_Soberanes",
+      "title": "Casa Soberanes - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'a roof made of both clay tiles and shingles -- an adaptation required because the second-floor balcony lacks posts to support heavy tiles beyond the thick adobe walls'."
+    },
+    {
+      "kind": "state-register",
+      "id": "712",
+      "url": "https://en.wikipedia.org/wiki/Casa_Soberanes",
+      "title": "California Historical Landmark No. 712 (Wikipedia; the survey prints 'state Historical Landmark No. 712')",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca0402",
+    "register": "loc-item",
+    "survey_no": "CA-1892",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0400/ca0402/data/ca0402data.pdf",
+    "prepared": "Historic American Buildings Survey, National Park Service, Western Office, Division of Design and Construction, 450 Golden Gate Avenue, San Francisco (as the cover reads); the report is a 'Photograph-Data Book Report'; no author or date legible in the extract, which cites a February 1964 periodical.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The Soberanes Adobe (technically Estrada-Soberanes) is one of the fine two-story adobe houses which constitute the chief domestic architectural glory of Monterey. Built in the later 1830's by Jose Estrada, it passed to the Soberanes family in i860; its present owner, Mrs. Mayo Hayes O'Donnell, has presented the house as an historic monument to the State of California (state Historical Landmark No. 712), retaining lifetime use.",
+        "page": "'ARCHITECTURAL AND HISTORICAL SIGNIFICANCE', page 1 of the report (headed 'CAL-1892 1'); two extract spans overlapped at 'one of the fine two-story adobe houses which constitute the' and are joined at the overlap."
+      },
+      {
+        "field": "general_description",
+        "text": "Characteristically, the house has the extremely thick walls, wood door and window frames and tile roof of most Monterey houses of the pre-American period; and like the Larkin house (proto- type of the area), it has a second story veranda.",
+        "page": "Page 1 of the report; no further marker in the span."
+      },
+      {
+        "field": "walls",
+        "text": "Typical of the more \"progressive\" adobes of the l830's (Kirker - California's Architectural Frontierj pp. 13-19 - feels that none of the two-story adobes can date before about 1836), the Estrada- Soberanes adobe is a long, low-slung building with wood balcony- veranda on the second story of its principal (east) elevation. Built of local adobe bricks, with thirty-three inch walls at the base, the house reflects those much older building traditions of Spanish and Mexican California which produced most of the structures prior to the American Period.",
+        "page": "'ARCHITECTURAL INFORMATION', printed after the marker 'HA35 GAL-1892 Page 4' (CAL-1892 Page 4)."
+      },
+      {
+        "field": "roof",
+        "text": "The main roof is canti- levered out over the veranda on rafter extentions without fascia or gutter; the overhang is roofed with shakes.",
+        "page": "Page 4 or after; no further marker in the span."
+      },
+      {
+        "field": "openings",
+        "text": "There are wood lintels over the, door openings, providing access to the second floor bedrooms from the veranda, Windows in the first floor are double-hung with eight panes in the upper sash and twelve in the lower. The door opening at the northeast has a wood lintel, but windows have plain moldings framing the glassed area.",
+        "page": "Page 4 or after; no further marker in the span."
+      },
+      {
+        "field": "plan",
+        "text": "The thick adobe walls occasion deeply splayed interior openings from room to room, with a two-step change of level from front reception rooms to rear dining room, kitchen, etc. The ceilings are of beams and boards on the first floor; the second floor ceilings are of painted wood boards.",
+        "page": "Page 4 or after; no further marker in the span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "thirty-three inch walls at the base",
+      "value": 33,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "two-story adobe houses",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "eight panes in the upper sash and twelve in the lower",
+      "value": 20,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Eight over twelve; the total per sash."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the surveyed plain example: the one Monterey adobe in this set whose survey states a wall thickness (33 in) and describes the roof cantilevered 'on rafter extensions' over a veranda that Wikipedia says has no posts -- the node's own definition of the type, on a house the node did not name."
+}

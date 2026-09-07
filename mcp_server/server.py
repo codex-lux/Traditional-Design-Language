@@ -8,7 +8,7 @@ Run:  python3 mcp_server/server.py            (stdio)
 Register with Claude Code:
       claude mcp add tdl -- python3 /abs/path/to/mcp_server/server.py
 
-The same 26 tools are also served over HTTP when the workbench mounts this module at
+The same 27 tools are also served over HTTP when the workbench mounts this module at
 /mcp — see docs/deployment.md. Nothing here knows which transport it is answering on.
 """
 import json, os, sys
@@ -20,7 +20,7 @@ mcp = MCPServer("traditional-design-language")
 J = lambda o: json.dumps(o, ensure_ascii=False, indent=1)
 
 # ---------------------------------------------------------------- metering hook
-# Five of the 26 tools reach heavy core functions; the rest are corpus lookups. Served
+# Five of the 27 tools reach heavy core functions; the rest are corpus lookups. Served
 # over HTTP those three want a cap, and over stdio they do not — one local agent driving
 # the CLI is not a shared resource. So the limiter is INJECTED rather than imported:
 # mcp_server must not depend on anything in workbench/, and the default of None keeps
@@ -70,6 +70,18 @@ def tdl_get_style(style_id: str, sections: list[str] | None = None) -> str:
     rather than pulling everything. Lineage includes the kit cascade — the ancestors this style
     inherits parts from, nearest first."""
     return J(core.get_style(style_id, sections))
+
+@mcp.tool()
+def tdl_precedents(style: str = "", precedent_id: str = "", query: str = "") -> str:
+    """The real buildings behind a style, with what locates them: HABS survey numbers, Library of
+    Congress item ids, National Register references, list entries, the owning institution -- and,
+    where the Historic American Buildings Survey wrote one, its written data quoted verbatim
+    (overall dimensions, walls, chimneys, roof, openings) with every figure carried as printed.
+    style= lists that node's exemplars with their records joined, walking the cascade and saying so
+    when the node has none of its own; precedent_id= returns one whole record; query= searches by
+    building name or style id. An exemplar whose precedent_record is null is a name nothing has
+    resolved yet. No record carries a licence: rights_evidence is quoted, never concluded."""
+    return J(core.precedents(query or None, style or None, precedent_id or None))
 
 @mcp.tool()
 def tdl_compare_styles(a: str, b: str) -> str:
@@ -261,10 +273,13 @@ def tdl_brief_schema() -> str:
 
 @mcp.tool()
 def tdl_list_partis(style: str = "", massing: str = "") -> str:
-    """The 12 canonical plan diagrams the composer seeds from — centre-passage double and single pile,
+    """The 21 canonical plan diagrams the composer seeds from — centre-passage double and single pile,
     hall-and-parlor, side-hall town house, Cape with central chimney, Foursquare, Charleston single with
-    piazza, Creole gallery, bungalow, tripartite ranch, five-part Palladian, gable-front-and-wing. Each
-    carries what it trades away and how it grows, which is the useful part."""
+    piazza, Creole gallery, bungalow, tripartite ranch, five-part Palladian, gable-front-and-wing, and
+    the nine WP-4.5 added (courtyard-and-portal, dogtrot, shotgun, octagon, tower villa, connected
+    farmstead, great-hall H-plan, living-hall picturesque, single-cell hall). Each carries what it
+    trades away and how it grows, which is the useful part. (This docstring said 12 from WP-4.5 until
+    WP-11.1, a hand-typed count in a place no checker reads.)"""
     return J(core.list_partis(style or None, massing or None))
 
 @mcp.tool()

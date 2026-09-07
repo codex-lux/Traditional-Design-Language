@@ -1,0 +1,49 @@
+{
+  "id": "susan-lawrence-dana-house",
+  "name": "Susan Lawrence Dana House",
+  "aka": [
+    "Dana-Thomas House",
+    "Dana Thomas House"
+  ],
+  "location": {
+    "text": "Springfield, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1904",
+    "circa": false,
+    "note": "The Library's item record gives both: 'Significance: The Susan Lawrence Dana House, designed by Frank Lloyd Wright and completed in 1904' and 'Building/structure dates: 1904 Initial Construction; after 1944 Subsequent Work'."
+  },
+  "nodes": [
+    "prairie-school"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "IL-1188",
+      "title": "Susan Lawrence Dana House, 301 East Lawrence Avenue, Springfield, Sangamon County, IL",
+      "url": "https://www.loc.gov/pictures/item/il0740",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item record states 'Survey number: HABS IL-1188'. The data page's own cover sheet prints the shelf number 'HABS ILL,84-SPRIF,3-' and, in the OCR, the survey number twice and differently: once as 'HAES MO. IL-1138' and once cleanly as 'HABS IL-1188'. The Library's normalised form is the one carried here."
+    },
+    {
+      "kind": "loc-item",
+      "id": "il0740",
+      "url": "https://www.loc.gov/pictures/item/il0740",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item record's significance line, quoted as far as the search result printed it: 'The Susan Lawrence Dana House, designed by Frank Lloyd Wright and completed in 1904, is an early and excellent example of Wright's mature Prairie'. The sentence is cut there by the result, not by the source."
+    },
+    {
+      "kind": "other",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/il/il0700/il0740/data/il0740data.pdf",
+      "title": "il0740data.pdf -- HABS IL-1188 data pages",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Fetched twice with different queries and both times returned only the transmittal cover sheets ('REDUCED COPIES OF DRAWINGS', 'PHOTOGRAPHS', 'ADDENDUM TO: SUSAN LAWRENCE DANA HOUSE (Dana-Thomas House)'). There is no Part II written description in what came back, so this record carries NO survey block. Absence of written data in an extract is not proof the sheet has none; it is what was read."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. The HABS item for this house is an addendum of drawings and photographs; the extract returned cover sheets only and no descriptive data, so there is no survey block here and no measurement. That is the honest state: a survey number that locates plates, and no prose to quote. The measured drawings themselves would answer prairie-school's ceiling questions -- the node states 6 ft 10 in to 7 ft 4 in at compression and 9 to 10 ft at release -- and this container cannot read a plate."
+}

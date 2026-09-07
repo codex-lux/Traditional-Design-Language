@@ -213,25 +213,55 @@
       "name": "Virginia State Capitol",
       "location": "Richmond, Virginia",
       "year": 1788,
-      "note": "Cornerstone 1785; occupied by the General Assembly 1788, finished later. Modelled on the Maison Carree at Nimes with Jefferson substituting Scamozzian Ionic for Corinthian. The first modern legislative building anywhere to take the form of a classical temple."
+      "note": "Cornerstone 1785; occupied by the General Assembly 1788, finished later. Modelled on the Maison Carree at Nimes with Jefferson substituting Scamozzian Ionic for Corinthian. The first modern legislative building anywhere to take the form of a classical temple.",
+      "precedent": "virginia-state-capitol",
+      "standing": "icon",
+      "why": "The building the style's whole argument rests on, and its eighty-eight-page HABS report is the judgment relied on -- it traces the Maison Carree, Clerisseau's reduction of the portico from three columns deep to two, and the substitution of Ionic for Corinthian, in the survey's own words."
     },
     {
       "name": "Monticello",
       "location": "Charlottesville, Virginia",
       "year": 1809,
-      "note": "Begun 1768, rebuilt from 1794 after Jefferson's return from France, substantially complete 1809. Octagonal dome, suppressed second storey, terraced L-shaped dependencies."
+      "note": "Begun 1768, rebuilt from 1794 after Jefferson's return from France, substantially complete 1809. Octagonal dome, suppressed second storey, terraced L-shaped dependencies.",
+      "precedent": "monticello",
+      "standing": "icon",
+      "why": "Wikipedia's statement that it is the only private home in the United States designated a UNESCO World Heritage Site is the judgment relied on, and the 1930s surveyor states the node's central trick as a description -- \"two stories disguised to look as one\"."
     },
     {
       "name": "Poplar Forest",
       "location": "Forest, Virginia",
       "year": 1823,
-      "note": "Begun 1806. Octagonal plan around a 20-foot cubic dining room lit by a skylight; probably the first octagonal house built in the United States."
+      "note": "Begun 1806. Octagonal plan around a 20-foot cubic dining room lit by a skylight; probably the first octagonal house built in the United States.",
+      "precedent": "poplar-forest",
+      "standing": "canonical",
+      "why": "A type specimen for the octagonal argument -- \"plan octagonal with two axial porticos\", \"a central salon, lighted from above surrounded by polygonal outside rooms\", in the survey's own words -- and the same survey says the porticos are TUSCAN and the skylit cupola was never rebuilt after the fire."
     },
     {
       "name": "The Rotunda and Academical Village, University of Virginia",
       "location": "Charlottesville, Virginia",
       "year": 1826,
-      "note": "Begun 1817. Ten pavilions each demonstrating a different correct order, joined by colonnades and terminated by a half-scale Pantheon housing the library rather than an altar."
+      "note": "Begun 1817. Ten pavilions each demonstrating a different correct order, joined by colonnades and terminated by a half-scale Pantheon housing the library rather than an altar.",
+      "precedent": "university-of-virginia-rotunda",
+      "standing": "icon",
+      "why": "The Virginia DHR calls it \"the single-most important architectural achievement of Thomas Jefferson\", and that is the judgment relied on; its own HABS item (VA-193-A) carries measured drawings and no written data, so the series' written reports are on the pavilions."
+    },
+    {
+      "name": "Bremo",
+      "location": "Fluvanna County, Virginia",
+      "year": 1819,
+      "note": "Two storeys of brick of about 1819, built by General John Hartwell Cocke, who lived in Bremo Recess on the same estate while raising it. THE 1930s SURVEY NAMES THOMAS JEFFERSON AS ARCHITECT FLATLY and no second source for that attribution was opened here, so it should not be hardened. The surveyor singles out \"its great stone barns and other outbuildings\" as what makes the place notable, on a style whose dependencies are supposed to be buried.",
+      "precedent": "bremo",
+      "standing": "canonical",
+      "why": "The circle rather than the man: a documented house by a member of Jefferson's own circle, and it is canonical on the survey's evidence of date, material and storeys rather than on its contested attribution."
+    },
+    {
+      "name": "Barboursville",
+      "location": "Orange County, Virginia",
+      "year": 1822,
+      "note": "Burned on Christmas Day 1884 with the exterior brick walls, the interior masonry partitions and the portico columns standing, so it can be compared against Jefferson's own drawings in a way no intact house here can. THE DOME WAS NEVER BUILT -- three sources say so -- so a reader taking it for a Monticello cousin on the strength of the drawings is reading a design and not a building. The Library holds it as a LANDSCAPES survey, HALS VA-67; no HABS survey was found.",
+      "precedent": "barboursville",
+      "standing": "documentary",
+      "why": "A ruin is a section drawing nobody had to make, and it is carried on the Virginia DHR's judgment that \"Even in its ruinous state, the house presents a romantic image of the Jeffersonian ideal, a compact but architecturally sophisticated classical villa\"."
     }
   ],
   "sources": [

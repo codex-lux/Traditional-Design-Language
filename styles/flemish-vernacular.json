@@ -184,25 +184,55 @@
       "name": "Vleeshuis (Butchers' Hall)",
       "location": "Antwerp, Belgium",
       "year": 1504,
-      "note": "Herman de Waghemakere; the fullest surviving demonstration of the banded brick-and-stone Flemish wall at civic scale."
+      "note": "Herman de Waghemakere; the fullest surviving demonstration of the banded brick-and-stone Flemish wall at civic scale.",
+      "precedent": "vleeshuis-antwerpen",
+      "standing": "icon",
+      "why": "Protected as a monument since 6 February 1936 for its archaeological, artistic and historical value, and the Flemish register's own description is the only account in this cluster that states the banded sandstone as both structural and decorative -- 'talrijke, regelmatige speklagen' -- which is the wall the node's prose is about."
     },
     {
       "name": "Groot Begijnhof",
       "location": "Leuven, Belgium",
       "year": null,
-      "note": "Founded 13th century; the surviving brick and sandstone houses are largely 16th-17th century. UNESCO World Heritage 1998. An intact street-scale sample of Brabantine domestic building."
+      "note": "Founded 13th century; the surviving brick and sandstone houses are largely 16th-17th century. UNESCO World Heritage 1998. An intact street-scale sample of Brabantine domestic building.",
+      "precedent": "groot-begijnhof-leuven",
+      "standing": "icon",
+      "why": "Inscribed as part of the Flemish Béguinages in 1998 (reference 855-011), which is UNESCO's judgment and not this corpus's; the register's description is also the evidence for the node's own reading of the stone, since it records limestone reserved for door and window frames rather than run in bands."
     },
     {
       "name": "Begijnhof",
       "location": "Lier, Belgium",
       "year": null,
-      "note": "Founded 13th century; houses mainly 17th century, with stepped gables and banded walls at cottage scale."
+      "note": "Founded 13th century; houses mainly 17th century, with stepped gables and banded walls at cottage scale.",
+      "precedent": "begijnhof-lier",
+      "standing": "canonical",
+      "why": "A type specimen of the stratenbegijnhof -- the Flemish register calls it 'een typisch voorbeeld' in those words -- and the corpus's only sourced instance of the walled, gated Flemish enclosure at quarter scale, about two hectares behind brick walls with four gates shut nightly at nine."
     },
     {
       "name": "Openluchtmuseum Bokrijk",
       "location": "Genk, Belgium",
       "year": null,
-      "note": "Relocated and reconstructed Flemish and Limburg farmsteads dating from the 16th to the 19th century, including vakwerk and langgevel types."
+      "note": "Relocated and reconstructed Flemish and Limburg farmsteads dating from the 16th to the 19th century, including vakwerk and langgevel types.",
+      "precedent": "openluchtmuseum-bokrijk",
+      "standing": "documentary",
+      "why": "A relocated collection rather than a building, carried as one: five sources read on one day give five counts of what it holds (148, more than 140, 120, over 100, some 100) and no heritage-register entry for it was resolved."
+    },
+    {
+      "name": "Vierkantshoeve, Vliegstraat 8",
+      "location": "Alken, Belgium",
+      "year": 1741,
+      "note": "A closed farm already drawn as one on the Ferraris map of 1771-77, its core dated 1741 by a gable stone reading ANNO/1741/MT. Ranges under pantiled saddle roofs round a rectangular yard; the dwelling of five bays and one and a half storeys to the north; the gate range and the cross-barn still whitewashed timber frame with clay infill, the western stables rebuilt in brick in 1914. Protected as a monument since 9 June 2004.",
+      "precedent": "vierkantshoeve-alken",
+      "standing": "canonical",
+      "why": "The corpus's one sourced Flemish square farm, and the specimen that lets the node's growth grammar be checked rather than asserted -- the Flemish register describes the four ranges, the gate and the dungheap, and puts the dungheap in the corner where the node's prose puts it in the middle."
+    },
+    {
+      "name": "Langgestrekte hoeve, E. Van Der Veldestraat 37",
+      "location": "Tremelo, Belgium",
+      "year": null,
+      "note": "Late nineteenth century, brick, one and a half storeys, standing at right angles to the road: four bays of dwelling, then a stable, then a barn, in one range under one roof, with cambered relieving arches, worked wall anchors and a steel lintel over the barn door. Inventoried (vastgesteld bouwkundig erfgoed) since 10 September 2024 rather than protected.",
+      "precedent": "langgestrekte-hoeve-tremelo",
+      "standing": "documentary",
+      "why": "Plain, late, sober and inventoried rather than protected, and cited for exactly that: the langgevelhoeve is the type the node's rural section is built on and the icons in this cluster are all civic halls and beguinages, so the register's flat description of a dwelling-stable-barn range is the only evidence the node has for its own commonest building."
     }
   ],
   "sources": [

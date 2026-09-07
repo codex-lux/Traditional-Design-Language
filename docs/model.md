@@ -6,8 +6,8 @@
 |---|---|---|---|
 | `tradition` | 5 | Civilizational trunk | Classical Mediterranean |
 | `family` | 27 | A grouping sharing a generative logic | English Classical |
-| `style` | 89 | The nameable thing a client selects | Georgian Colonial (American) |
-| `variant` | 43 | The regional or period expression at which a kit is actually buildable | Tidewater Georgian |
+| `style` | 90 | The nameable thing a client selects | Georgian Colonial (American) |
+| `variant` | 42 | The regional or period expression at which a kit is actually buildable | Tidewater Georgian |
 
 The variant level is where the operational value lives. "Georgian" is an abstraction. "Tidewater Georgian in brick, 1740–75" is something you can build, and it differs from New England Georgian in cladding, chimney position, roof pitch, window head, plan depth, and ceiling height — all of which are climatic and all of which are quantifiable.
 

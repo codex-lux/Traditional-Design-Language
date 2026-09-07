@@ -1,0 +1,109 @@
+{
+  "id": "great-mosque-of-cordoba",
+  "name": "Great Mosque of Cordoba",
+  "aka": [
+    "Mosque-Cathedral of Cordoba",
+    "Mezquita-Catedral de Cordoba",
+    "Cathedral of Our Lady of the Assumption"
+  ],
+  "location": {
+    "text": "Cordoba, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "785",
+    "circa": false,
+    "altered": "Extended by Abd ar-Rahman II between 833 and 848, by al-Hakam II and by Almanzor; converted to a cathedral in 1236 and the Renaissance capilla mayor cut through the middle of the prayer hall from 1523.",
+    "note": "The style node's exemplar gives 785 and '833-988' for the extensions. The Spanish Wikipedia infobox prints 'Fundacion 786' and 'Construccion Anos 780-siglo XVI'. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "moorish-andalusian",
+    "iberian-islamic"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "313",
+      "url": "https://whc.unesco.org/en/list/313",
+      "title": "Historic Centre of Cordoba - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The inscription is of the HISTORIC CENTRE and not of the mosque alone: the entry's Integrity section reads 'The Great Mosque of Cordoba was inscribed on the World Heritage List in 1984 and the property was extended in 1994 to include part of the Historic Centre'. The reference number therefore names a district, and this record is of one building inside it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mosque%E2%80%93Cathedral_of_C%C3%B3rdoba",
+      "title": "Mosque-Cathedral of Cordoba - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "bic",
+      "id": "RI-51-0000034",
+      "url": "https://es.wikipedia.org/wiki/Mezquita-catedral_de_C%C3%B3rdoba",
+      "title": "Mezquita-catedral de Cordoba - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Bien de Interes Cultural code and the declaration date '21 de noviembre de 1882' were read in the Spanish Wikipedia infobox as the search result rendered it, NOT in the Spanish register's own database, which was not reached from this container. The same infobox prints 'Longitud 178 metros', 'Anchura 125 metros' and 'Altura 54 metros', which disagree with the English article's 180 m x 130 m; neither is changed and no measurement below is taken from the infobox."
+    }
+  ],
+  "survey": {
+    "item": "en-wikipedia-mosque-cathedral-of-cordoba",
+    "register": "wikipedia",
+    "data_url": "https://en.wikipedia.org/wiki/Mosque%E2%80%93Cathedral_of_C%C3%B3rdoba",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER: Spain has no HABS and the Bien de Interes Cultural record for this building is an 1882 declaration with no descriptive text reachable from here, so the descriptive figures below are the English Wikipedia article's, read as continuous prose in an extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "After all of its historical expansions, the mosque-cathedral covers an area of 590 by 425 feet (180 m × 130 m). The building's original floor plan follows the overall form of some of the earliest mosques built from the very beginning of Islam.",
+        "page": "English Wikipedia, section 'Architecture'; the sentence following this span carries inline footnote markers rendered by the extractor as ': 161: 42' and the quote stops before them"
+      },
+      {
+        "field": "plan",
+        "text": "The original mosque had a roughly square floor plan measuring 74 or 79 meters per side, equally divided between a hypostyle prayer hall to the south and an open courtyard (sahn) to the north.",
+        "page": "English Wikipedia, section 'Architecture', subsection 'Original layout'; the extractor prints ': 40: 19' immediately after 'north.' and the quote stops before it"
+      },
+      {
+        "field": "plan",
+        "text": "This made the prayer hall 64 metres long from front to back.",
+        "page": "English Wikipedia, section on the expansion of Abd ar-Rahman II; the extractor prints ': 45' immediately after the full stop"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "590 by 425 feet",
+      "value": 590,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The article gives the pair as 590 by 425 feet (180 m x 130 m) and does not say which dimension is the front. The FIRST figure printed is taken as the width, per the schema's rule."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "590 by 425 feet",
+      "value": 425,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "Second of the printed pair; the front is unstated."
+    },
+    {
+      "name": "original_plan_side_ft",
+      "as_printed": "74 or 79 meters per side",
+      "from_quote": 1,
+      "note": "The article states two figures and does not choose between them, so no value is parsed. 74 m is 242.8 ft and 79 m is 259.2 ft."
+    },
+    {
+      "name": "prayer_hall_depth_ft",
+      "as_printed": "64 metres long from front to back",
+      "value": 210.0,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "64 m converted at 3.28084 ft/m and rounded to a tenth. The conversion is a reading; the metres are what the source prints."
+    }
+  ],
+  "note": "Tranche 3, Islamic and Christian Iberia and New Spain, 5 Sep 2026. There is no HABS in Europe and this building's own Spanish register entry is an 1882 monument declaration carrying no description; the survey block is therefore an encyclopedia article and says so in its own `prepared` field. The BIC code was read in a search result's rendering of the Spanish Wikipedia infobox and not in the register."
+}

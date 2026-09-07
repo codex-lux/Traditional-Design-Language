@@ -1,0 +1,51 @@
+{
+  "id": "locust-grove",
+  "name": "Locust Grove (Samuel F. B. Morse House)",
+  "location": {
+    "text": "Poughkeepsie, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": [
+      "2683 South Road, Poughkeepsie, New York"
+    ]
+  },
+  "aka": [
+    "Locust Grove Estate"
+  ],
+  "dates": {
+    "built": "1851-1852",
+    "circa": false,
+    "note": "The estate's own site says the villa was 'designed in 1850' and that 'Construction on the villa ... began in 1851 and was completed the following year'; the Hudson River Valley Heritage Area says Morse bought the property in 1847 and remodelled it with Davis. The house is a remodelling of an existing dwelling, not a new build, which is why the dates differ by what they count.",
+    "altered": "The estate records that the house 'was renovated and expanded for new owners William and Martha Young' about fifty years later; the mansion now has 25 rooms."
+  },
+  "nodes": [
+    "italianate-villa"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.lgny.org/historic-mansion",
+      "title": "Historic Mansion - Locust Grove Historic Site",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. States: 'The main house at Locust Grove is a villa in the Italianate style designed in 1850 for artist and inventor Samuel F. B. Morse by architect Alexander Jackson Davis.' It also records that Morse 'sketched towers, windows, and floor plans on scraps of paper to give to his architect' -- a client-driven villa, which is worth knowing before treating Davis's drawings as the design."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hudsonrivervalley.com/sites/Locust-Grove-Estate/details",
+      "title": "Locust Grove Estate | Historic Site | Maurice D. Hinchey Hudson River Valley National Heritage Area",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States that Morse, 'With the help of architect Alexander Jackson Davis, ... remodeled the house in the Tuscan style, adding a porte cochere, two wings, and a four-story tower.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://theclio.com/entry/18874",
+      "title": "Locust Grove Estate (Samuel F. B. Morse House) - Clio",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'The house was placed on the National Register of Historic Places in 1966 and was declared a National Historic Landmark two years earlier.' No reference number was read, so none is recorded."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The additive villa, stated as a process rather than as a picture: a porte cochere, two wings and a four-storey tower added to an existing house. That is exactly the italianate-villa node's claim that Downing praised the mode 'because it permitted a plan to grow by addition without embarrassment' -- and it is the only precedent in this cluster where the growth is documented as growth."
+}

@@ -1,0 +1,177 @@
+{
+  "id": "mark-twain-house",
+  "name": "Mark Twain House",
+  "aka": [
+    "Samuel Clemens House",
+    "Mark Twain House (Samuel Clemens House)"
+  ],
+  "location": {
+    "text": "Hartford, Connecticut",
+    "country": "United States",
+    "state": "Connecticut"
+  },
+  "dates": {
+    "built": "Completed in 1874",
+    "circa": false,
+    "altered": "The survey records a modern open-string stairway added to the west facade to serve a first-floor apartment in the Butler's Pantry, a later regrading that extended the coal-chute areaway, and a 1990 conservation assessment naming problems with the roof slates and ridges, the Conservatory windows and roof, and the servants' porch."
+  },
+  "nodes": [
+    "stick-style"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CT-359",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0300/ct0332/data/ct0332data.pdf",
+      "title": "MARK TWAIN HOUSE (Samuel Clemens House) HABS NO. CT-359",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running head ('MARK TWAIN HOUSE (Samuel Clemens House) HABS NO. CT-359 (page 18)'). The carriage house is a separate record, HABS CT-359-A, at Library item ct0640."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ct0332",
+      "url": "https://www.loc.gov/pictures/item/ct0332",
+      "title": "Mark Twain House, 351 Farmington Avenue (corrected from original address of 531 ...), Hartford, Hartford County, CT",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Call Number: HABS CONN,2-HARF,16- Completed in 1874, the Mark Twain house. Survey number: HABS CT-359'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ct0640",
+      "url": "https://www.loc.gov/resource/hhh.ct0640.photos?sp=3",
+      "title": "Mark Twain House, Carriage House, 351 Farmington Avenue ... Photos from Survey HABS CT-359-A",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The carriage house, a separate survey record; kept here so a reader does not take its drawings for the house's."
+    }
+  ],
+  "survey": {
+    "item": "ct0332",
+    "register": "loc-item",
+    "survey_no": "CT-359",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ct/ct0300/ct0332/data/ct0332data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Completed in 1874, the Mark Twain house is constructed of brick on a three-story, rectangular, center hall plan, with a two-story ell providing a semi-detached servants' wing. With its many gables, projecting bays, balconies, and covered porches, the structure's irregular configuration provides a stunning example of the Continental Picturesque style favored by the well-to-do from the late 1850s through the early 1870s.",
+        "page": "HABS No. CT-359, Part II.A.1; no page marker falls inside this span, the nearest legible in the document being 'MARK TWAIN HOUSE (Samuel Clemens House) HABS NO. CT-359 (page 18)'."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "plan of the main block of the house measures 68'4\" x 58' joined by a quarter-round section to a 22'9\" x 393\" kitchen and servants' wing. The house has irregular fenestration; the main house is nine bays wide on the first floor of the east facade and six bays wide on the second floor, and the servants' wing is three bays wide on the first floor of the east facade and two bays wide on the second floor. An appentice with three bays also appears on the east facade of the servants' wing. The main house is 42'-8\" tall from the foundation to the peak of the north-south gable, and the servants' wing is 3T-4\" tall from the foundation to the peak of the hipped roof.",
+        "page": "HABS No. CT-359, Part II.B.1; the extract's span begins mid-sentence (the preceding words, in another span, are 'The L-shaped plan of the main block of the house measures') and no page marker falls inside it."
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The foundations are made of Connecticut River Valley brownstone in random-range ashlar.",
+        "page": "HABS No. CT-359, Part II.B.2; same span as the dimensions, no page marker legible."
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: a. Main house: The main house presently has four chimneys and one stub chimney. They are all laid primarily in stretcher courses, and the surviving chimneys feature dramatic corbelling highlighted with black and vermillion paint.",
+        "page": "HABS No. CT-359, Part II.B.6.a; no page marker legible in this span."
+      },
+      {
+        "field": "porches",
+        "text": "b. Octagonal porches: Each of these three covered porches appears on top of a projecting polygonal bay. The porches have octagonal roofs, and the porch ceilings and soffits are lined with wide board planks. The exposed roof structure reveals scrolled rafters radiating from a central pendant out to the soffits. All of the octagonal porches feature decorative friezes that span between chamfered columns.",
+        "page": "HABS No. CT-359, Part II.B (Porches); no page marker legible in this span."
+      },
+      {
+        "field": "other",
+        "text": "put to use in the Mark Twain House. These included the semi-detached kitchen, Tudoresque corbeled chimneys, angular bays, and stickwork railings. Seemingly unique details on the Mark Twain House (like windows over the fireplaces and the elongated Ombra porch) were, in fact, part of Potter's repertoire.",
+        "page": "HABS No. CT-359; the span begins mid-sentence and the only marker printed near it is the bare page number '7'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "main_block_width_ft",
+      "as_printed": "68'4\"",
+      "value": 68.33,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey does not say which figure is the front; the first printed is taken as the width, per the schema. The plan is L-shaped, so this is a bounding figure for the main block only."
+    },
+    {
+      "name": "main_block_depth_ft",
+      "as_printed": "58'",
+      "value": 58,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Same caveat."
+    },
+    {
+      "name": "service_wing_width_ft",
+      "as_printed": "22'9\"",
+      "value": 22.75,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "service_wing_depth_ft",
+      "as_printed": "393\"",
+      "value": 39.25,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "OCR for 39'-3\"; a reading. Read as feet-and-inches because 393 inches is 32'-9\" and would make the wing longer than the sentence's own pairing allows on a sheet that prints every other figure feet-first."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "nine bays wide on the first floor of the east facade",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Of the main house, on the east facade. The survey calls the fenestration 'irregular', so this is a count of openings across, not a bay grid."
+    },
+    {
+      "name": "upper_storey_bay_count",
+      "as_printed": "six bays wide on the second floor",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "grade_to_ridge_ft",
+      "as_printed": "42'-8\"",
+      "value": 42.67,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "From the foundation to the peak of the north-south gable, as the survey words it."
+    },
+    {
+      "name": "service_wing_height_ft",
+      "as_printed": "3T-4\"",
+      "value": 37.33,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "OCR for 37'-4\"; a reading."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "three-story, rectangular, center hall plan",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four chimneys and one stub chimney",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Four full stacks; the stub is counted separately and is not included in the value."
+    },
+    {
+      "name": "octagonal_porch_count",
+      "as_printed": "these three covered porches",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "The survey calls this building 'a stunning example of the Continental Picturesque style' and never calls it Stick Style, which is a direct contradiction of the node that names it -- and a sharper one than the node's own caveat, which anticipates only High Victorian Gothic. What the survey DOES record on Potter's side of the argument is 'stickwork railings' and 'Tudoresque corbeled chimneys'. It is also the most measurable building in this cluster: a main block, a service wing, a bay count at two storeys, and a grade-to-ridge height, all printed. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

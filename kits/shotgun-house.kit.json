@@ -767,7 +767,10 @@
             5
           ],
           "unit": "count",
-          "kind": "measured"
+          "kind": "measured",
+          "source": "precedents/kuntz-shotgun-house#measurements[0]",
+          "confidence": "medium",
+          "note": "WP-11.4, Ruling A. HABS KY-119 on the Kuntz Shotgun House: 'having three rooms \"back-to-\"back perpendicular to the street, with a fourth over the rear third room'. Three rooms in the shotgun range proper, on the band's floor. The node's own exemplar and the only federal survey of a shotgun house this corpus could reach."
         }
       },
       "rule_append": "Concretely: depth is built by repeating an 11-14 ft square room module 3 to 5 times to a total depth of 40-70 ft (own typical_ratios); width is fixed at 12-16 ft overall (own hard constraint c02) and never absorbs a second pile.",

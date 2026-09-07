@@ -1,0 +1,104 @@
+{
+  "id": "convento-de-san-miguel-arcangel-huejotzingo",
+  "name": "Convento de San Miguel Arcangel",
+  "aka": [
+    "Convento de Huejotzingo",
+    "Ex convento franciscano de San Miguel Arcángel"
+  ],
+  "location": {
+    "text": "Huejotzingo, Puebla, Mexico",
+    "country": "Mexico",
+    "state": "Puebla"
+  },
+  "dates": {
+    "built": "1525-1570",
+    "circa": false,
+    "note": "'Se empezó a construir en 1525 siendo dirigidas las obras por fray Juan de Alameda y se terminó en 1570 por el arquitecto Toribio de Alcaraz.' The infobox prints 'Fundación 1524' and 'Construcción 1525-1570'."
+  },
+  "nodes": [
+    "mexican-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "702-013",
+      "url": "https://es.wikipedia.org/wiki/Convento_de_San_Miguel_Arc%C3%A1ngel_(Huejotzingo)",
+      "title": "Earliest 16th-Century Monasteries on the Slopes of Popocatepetl, component 702-013; property reference 702, inscribed 1994 (XVIII session), criteria ii and iv",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox prints 'Patrimonio de la Humanidad (parte de «Monasterios en las faldas del Popocatépetl», n.º ref. 702-013)' and, in the World Heritage block below it, 'Identificación 702' and 'Inscripción 1994 (XVIII sesión)'. The component number is recorded because it names THIS monastery; the property number names all fourteen."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Convento_de_San_Miguel_Arc%C3%A1ngel_(Huejotzingo)",
+      "title": "Convento de Huejotzingo - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-convento-de-san-miguel-arcangel-huejotzingo",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Convento_de_San_Miguel_Arc%C3%A1ngel_(Huejotzingo)",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Se empezó a construir en 1525 siendo dirigidas las obras por fray Juan de Alameda y se terminó en 1570 por el arquitecto Toribio de Alcaraz. Su estilo es plateresco, el atrio cubre una superficie de 14,400 metros cuadrados; con planta rectangular de aproximadamente 60 metros lineales de longitud. El estilo mudéjar se manifiesta sobre todo en la forma conopial del arco de la puerta mayor (como la quilla invertida de un barco vista al corte: arco combado primero y al final apuntado).",
+        "page": "Spanish Wikipedia, section 'Historia'"
+      },
+      {
+        "field": "plan",
+        "text": "El patio es de grandes dimensiones, en el centro hay una cruz de piedra y en sus cuatro ángulos se encuentran sus famosas capillas posas de 5.5 m de lado. Las capillas totalmente de piedra poseen dos arcos levemente rebajados. Sobre los muros del atrio, se pueden observar restos de un \"Vía Crucis\".",
+        "page": "Spanish Wikipedia, section 'Descripción'"
+      },
+      {
+        "field": "other",
+        "text": "Cada una de las capilla se encuentra dedicada a un santo: los apóstoles Pedro y Pablo, San Juan Bautista, Santiago y la Virgen de la Asunción. Sus fachadas están decoradas con doce ángeles esculpidos en bajorrelieve, en tres capillas, mientras que la decoración de la cuarta capilla fue destruida en 1910, por revolucionarios que se refugiaron en el convento.",
+        "page": "Spanish Wikipedia, section 'Descripción', continuing from the above"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "atrium_area_sf",
+      "as_printed": "una superficie de 14,400 metros cuadrados",
+      "from_quote": 0,
+      "note": "AN AREA, AND THE SCHEMA'S UNIT ENUM CANNOT EXPRESS ONE, so no `value` and no `unit` are recorded. 14,400 m2 is about 155,000 sf, or three and a half acres of walled outdoor room, which is the node's mass-conversion claim at full scale."
+    },
+    {
+      "name": "atrium_length_ft",
+      "as_printed": "aproximadamente 60 metros lineales de longitud",
+      "value": 196.9,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The article says the atrium is rectangular and about 60 m long. THAT DOES NOT RECONCILE WITH ITS OWN AREA: 14,400 m2 over a 60 m length needs a 240 m width, which no rectangle of 'grandes dimensiones' in a town centre plausibly is. The two figures are recorded as printed and neither is corrected; a reader should treat the pair as inconsistent."
+    },
+    {
+      "name": "posa_chapel_side_ft",
+      "as_printed": "capillas posas de 5.5 m de lado",
+      "value": 18.0,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Each of the four corner processional chapels is 5.5 m square. THIS IS THE ONLY DIMENSION OF A POSA CHAPEL ANYWHERE IN THIS CLUSTER, and the posa is one of the four elements the node names as having no European equivalent."
+    },
+    {
+      "name": "posa_chapel_count",
+      "as_printed": "en sus cuatro ángulos se encuentran sus famosas capillas posas",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "posa_chapel_arch_count",
+      "as_printed": "poseen dos arcos levemente rebajados",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Per chapel."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. It supplies the two figures the node's own founding claim needs and the corpus had neither of: the size of an atrio and the size of a posa chapel. IT ALSO CONTAINS AN ARITHMETIC INCONSISTENCY IN ITS OWN SOURCE -- a 14,400 m2 atrium said to be about 60 m long -- which is recorded in the measurement's note rather than silently repaired."
+}

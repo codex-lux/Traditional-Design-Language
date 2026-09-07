@@ -1,0 +1,53 @@
+{
+  "id": "lanterman-house",
+  "name": "Lanterman House",
+  "location": {
+    "text": "La Cañada Flintridge, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1915",
+    "circa": false,
+    "note": "Every source read gives 1915. The National Register nomination says the house was 'constructed in 1915'; the museum's own page says 'The reinforced concrete home was designed by architect Arthur Haley in 1915'; the Wikipedia infobox gives 'Built 1915' and 'Built by Arthur L. Haley'. The nomination and the museum disagree about whether Haley was the BUILDER or the ARCHITECT and that is not resolved here."
+  },
+  "nodes": [
+    "california-bungalow"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lanterman_House",
+      "title": "Lanterman House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the location as '4420 Encinas Dr., Tract #41,508, La Cañada Flintridge, California', the area as 1.4 acres, and the architectural style as 'Bungalow/American craftsman'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "94001504",
+      "url": "https://en.wikipedia.org/wiki/Lanterman_House",
+      "title": "NRHP reference No. 94001504; Added to NRHP December 29, 1994 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox. The nomination continuation sheet itself, read the same day at npgallery, is headed 'Lanterman House Los Angeles County, CA' and carries a 1994 Interagency Resources Division date stamp, which corroborates the year but not the number."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/573c19b5-589a-4ac8-87f8-9efdadc337cb",
+      "title": "National Register of Historic Places Continuation Sheet -- Lanterman House, Los Angeles County, CA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's own Summary Description, quoted: 'The Lanterman House is a one-and-two-story reinforced concrete, U- shaped craftsman bungalow constructed in 1915. The multi-gabled roof has deep overhangs, large brackets, and exposed rafters. The space within the \"U\" is a concrete patio, which originally had a fountain. A concrete terrace, or walkway, surrounds the house and is covered by a heavy wooden beamed trellis resting on concrete columns of large diameter covered'. The quoted span ends where the extract's chunk ends. This is a National Register nomination and NOT a Historic American Buildings Survey, so it is carried here as a ref and NOT as a `survey` block; the survey block in this schema means HABS written data and nothing else."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.lantermanhouse.org/lanterman-history",
+      "title": "Lanterman History -- Lanterman House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner's museum foundation. States the house 'features a U-shaped Mexican Colonial hacienda design with a fountain courtyard in the middle, pergolas with plantings on all sides of the house, and English Arts and Crafts design elements throughout', and that it opened as a museum in 1993."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey; the National Register nomination is the documentary source and is carried as a ref, not as a survey, because `survey` in this schema means HABS written data. Two things bear directly on california-bungalow's own claims. The nomination's stated reason for listing is the CLIMATE argument the node's long description makes: the house is 'an outstanding example of architecture meant to take advantage of the micro-climate for optimum air circulation and sun exposure in this inland valley area', and its siting 'to capture the maximum effects of natural heating and cooling is the epitome of the Craftsman philosophy of a closeness to nature.' And the plan is the node's own outdoor room built as a courtyard: a U about a concrete patio, ringed by a trellised terrace on concrete columns. The nomination itself flags that shape as borrowed -- 'Such central-patio oriented floorplans are more commonly found in the earlier Mission Revival style, and few have survived' -- which is a cross-style claim the corpus does not currently record anywhere."
+}

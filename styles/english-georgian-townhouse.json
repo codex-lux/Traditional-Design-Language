@@ -192,25 +192,55 @@
       "name": "Bedford Square",
       "location": "Bloomsbury, London, England",
       "year": 1783,
-      "note": "Built 1775-83 for the Bedford estate, probably by Thomas Leverton with the builders William Scott and Robert Grews. Each side treated as a palace front with a stuccoed pedimented centre; Coade stone doorcases throughout."
+      "note": "Built 1775-83 for the Bedford estate, probably by Thomas Leverton with the builders William Scott and Robert Grews. Each side treated as a palace front with a stuccoed pedimented centre; Coade stone doorcases throughout.",
+      "precedent": "bedford-square",
+      "standing": "icon",
+      "why": "Historic England's entry for the east side describes the estate product this node is about and refuses to name its author: ten houses built by a brickmaker and a carpenter for the Bedford Estate, three windows and three storeys each except a stuccoed centre house of five, and 'Built as a speculation, it is not clear who designed all the houses.'"
     },
     {
-      "name": "Charlotte Square",
+      "name": "Charlotte Square, north side",
       "location": "Edinburgh New Town, Scotland",
       "year": 1791,
-      "note": "Designed by Robert Adam in 1791 and built 1792-1820. The north side is a single palace-fronted composition in polished ashlar — the Georgian terrace at its most disciplined, and No. 7 survives as a furnished Georgian House museum."
+      "note": "Designed by Robert Adam in 1791 and built 1792-1820. The north side is a single palace-fronted composition in polished ashlar — the Georgian terrace at its most disciplined, and No. 7 survives as a furnished Georgian House museum.",
+      "precedent": "charlotte-square-north-side",
+      "standing": "icon",
+      "why": "Historic Environment Scotland's record for the north side states the palace front as an arithmetic: a symmetrical 3-storey basement and attic 27-bay block 'consisting of 11 houses, 9 entered from front and 2 from ends', so the composition is demonstrably not a multiple of one standard house."
     },
     {
       "name": "Fournier Street",
       "location": "Spitalfields, London, England",
       "year": 1728,
-      "note": "Built 1725-c.1730 for Huguenot silk masters. Early Georgian brick with wooden doorcases on carved brackets and long attic weavers' lofts glazed for north light — the type before its facades were fully regulated."
+      "note": "Built 1725-c.1730 for Huguenot silk masters. Early Georgian brick with wooden doorcases on carved brackets and long attic weavers' lofts glazed for north light — the type before its facades were fully regulated.",
+      "precedent": "fournier-street",
+      "standing": "regional",
+      "why": "The list entry for No. 17 records the early form this node's prose says the street shows -- three storeys under continuous mansard dormers, three windows with segmental arches and flush frames -- and its own group-value paragraph establishes the street as a group, Nos 1 to 39 odd and Nos 2 to 20 even."
     },
     {
       "name": "Merrion Square",
       "location": "Dublin, Ireland",
       "year": 1780,
-      "note": "Laid out from 1762 and built over four decades. Dublin brick with granite steps, wrought-iron railings and the finest radiating fanlights in the British Isles."
+      "note": "Laid out from 1762 and built over four decades. Dublin brick with granite steps, wrought-iron railings and the finest radiating fanlights in the British Isles.",
+      "precedent": "merrion-square",
+      "standing": "regional",
+      "why": "The NIAH's record for No. 29 states the Dublin section -- four storeys over a basement, three bays, Flemish-bond brick on a granite plinth, granite sills -- and says the window openings diminish in height to the upper floors, which is the one point where the inventory and this node's own prose about the tallest windows do not agree."
+    },
+    {
+      "name": "Royal Crescent",
+      "location": "Bath, England",
+      "year": 1775,
+      "note": "Built 1767-75 by John Wood the Younger. Thirty houses of three storeys over basements, mostly three windows wide, unified by a giant Ionic order and a continuous cornice and balustrade; the individual house is subordinated to the terrace absolutely.",
+      "precedent": "royal-crescent-bath",
+      "standing": "icon",
+      "why": "One Grade I entry covers all thirty houses and dimensions them together -- 'All houses comprise three storeys with attics and basements, and mostly with three-window fronts: Nos 14-17, to centre, have four-window fronts' -- which is this node's claim that the unit of composition is the terrace rather than the house, stated by the register."
+    },
+    {
+      "name": "Pallant House",
+      "location": "Chichester, England",
+      "year": 1712,
+      "note": "Built for Henry Peckham, a Chichester wine merchant. Red brick with brick quoins and carved and rubbed brick voussoirs, a Corinthian doorcase up nine steps, a stringcourse above the ground floor, a modillion cornice and a panelled parapet; now Pallant House Gallery.",
+      "precedent": "pallant-house",
+      "standing": "documentary",
+      "why": "A dated provincial town house carried for measurement: its entry states two storeys, seven windows, nine steps to the door and 'Tall sash windows with flush boxes in flat arches'. The flush box is the register's observation; that it is the practice the 1709 Act was written against is this node's own reading of the Acts, not the register's."
     }
   ],
   "sources": [

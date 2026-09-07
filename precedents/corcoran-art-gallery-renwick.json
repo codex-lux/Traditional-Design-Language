@@ -1,0 +1,101 @@
+{
+  "id": "corcoran-art-gallery-renwick",
+  "name": "Corcoran Art Gallery (Renwick Gallery)",
+  "location": {
+    "text": "Pennsylvania Avenue at Seventeenth Street NW, Washington, District of Columbia",
+    "country": "United States",
+    "state": "District of Columbia"
+  },
+  "aka": [
+    "Renwick Gallery",
+    "Old Corcoran Gallery"
+  ],
+  "dates": {
+    "built": "1859-1861",
+    "circa": false,
+    "note": "The survey's cover says the gallery 'was erected in 1859-61'; the Smithsonian American Art Museum's own page says the building was 'originally constructed between 1859 and 1864' and the DC Historic Sites entry repeats that. Both are recorded; neither is edited to agree with the other.",
+    "altered": "The survey states that crestings on the pavilions were removed in the early 1940s for scrap iron and that the interior floor plans were restored 'mainly to their 1861 arrangement'. The Smithsonian renamed the building the Renwick Gallery; its own page records further renovations in 1967-1970, 1985 and 2013-2015."
+  },
+  "nodes": [
+    "second-empire"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "DC-49",
+      "title": "Corcoran Art Gallery, Northeast corner of Seventeenth Street & Pennsylvania Avenue Northwest, Washington, District of Columbia",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0000/dc0071/data/dc0071data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('CORCORAN ART GALLERY HABS No. DC-49 (Page 5)'); the DC Historic Sites entry for the building independently lists 'HABS DC-49' among its related resources."
+    },
+    {
+      "kind": "loc-item",
+      "id": "dc0071",
+      "url": "https://www.loc.gov/pictures/item/dc0071",
+      "title": "Corcoran Art Gallery, Northeast corner of Seventeenth Street ...",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://americanart.si.edu/about/history/renwick-architecture",
+      "title": "Renwick Gallery Architectural History | Smithsonian American Art Museum",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its page calls the building 'the first built expressly as an art museum in the United States, and ... one of the first and finest examples of Second Empire architecture in America' -- an owner's claim, recorded as one."
+    },
+    {
+      "kind": "other",
+      "url": "https://historicsites.dcpreservation.org/items/show/503",
+      "title": "Renwick Gallery (Old Corcoran Gallery) | DC Historic Sites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'The relatively modest scale of this building, the date of its construction, and the excellence of its architectural detail give this building a seminal position in the development of the Second Empire style in the United States.'"
+    }
+  ],
+  "survey": {
+    "item": "dc0071",
+    "register": "loc-item",
+    "survey_no": "DC-49",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/dc/dc0000/dc0071/data/dc0071data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Description Brick with Brownstone trim. Height of building about same as the 5-storied Old State, War, and Navy Bldg., across the street on Penna., Ave. Consists of a central pavilion, with curtain on either side and flanked by two other pavilions, one on either corner. The central pavilion has vermiculated quoins which enclose a grand entrance door, with carved jamb and archway.",
+        "page": "HABS No. DC-49, cover description; no page marker legible in the extract span"
+      },
+      {
+        "field": "general_description",
+        "text": "PART II. PHYSICAL DESCRIPTION The building faces Pennsylvania Avenue and is rectangular in shape. Major features of this two-story structure are three pavilions, one on each corner.",
+        "page": "CORCORAN ART GALLERY HABS No. DC-49 (Page 5)"
+      },
+      {
+        "field": "condition",
+        "text": "pavilions in 1861, and connecting crestings erected in the 1880s, were removed in the early 1940 ,s for scrap iron for the war effort. These will be replaced at a later date by the Smithsonian Institution. The interior floor plans have been carefully restored, mainly to their 1861 arrangement (except for minor small rooms).",
+        "page": "HABS No. DC-49 (Page 5)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two-story structure",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two storeys, at about the height of the five-storeyed State, War and Navy Building opposite, per the cover -- which is a fact about Second Empire scale worth more than the count."
+    },
+    {
+      "name": "pavilion_count",
+      "as_printed": "three pavilions",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The two quotes do not agree. The cover says a central pavilion flanked by two corner pavilions; Part II says three pavilions 'one on each corner', which a rectangle cannot satisfy with three. Both are quoted as printed and neither is corrected."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. The building both this cluster and the corpus most want for the start of the American mansard, and its survey is thin -- a cover description and a two-paragraph Part II, with no overall dimensions at all. The one figure worth carrying is comparative rather than absolute: two storeys standing about as high as the five storeys of the State, War and Navy Building across the street, which is the same node's own other exemplar and the clearest statement in the cluster of what Second Empire storey heights are for."
+}

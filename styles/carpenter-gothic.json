@@ -187,19 +187,46 @@
       "name": "Roseland Cottage",
       "location": "Woodstock, Connecticut",
       "year": 1846,
-      "note": "Joseph Collins Wells for Henry Chandler Bowen. Board-and-batten, elaborate bargeboards, and the original saturated pink body colour."
+      "note": "Joseph Collins Wells for Henry Chandler Bowen. Board-and-batten, elaborate bargeboards, and the original saturated pink body colour.",
+      "precedent": "roseland-cottage",
+      "standing": "icon",
+      "why": "Its owner, Historic New England, says the house 'remains one of the nation's best preserved examples of Gothic Revival architecture', and the pink board-and-batten cottage is the picture that stands for the whole mode."
     },
     {
       "name": "Henry Delamater House",
       "location": "Rhinebeck, New York",
       "year": 1844,
-      "note": "Alexander Jackson Davis. Board-and-batten wood frame; an architect-designed cottage that became the template thousands of carpenters copied."
+      "note": "Alexander Jackson Davis. Board-and-batten wood frame; an architect-designed cottage that became the template thousands of carpenters copied.",
+      "precedent": "henry-delamater-house",
+      "standing": "canonical",
+      "why": "The National Historic Landmark nomination for the Rotch cottage names it as one of only three other Davis Gothic Revival cottages listed on the National Register, which makes it a documented type specimen rather than a local echo."
     },
     {
       "name": "American Gothic House (Dibble House)",
       "location": "Eldon, Iowa",
       "year": 1882,
-      "note": "Built 1881-82. A plain frame cottage with two Gothic sash in the gable, believed bought from a catalogue; the purest demonstration of ornament shipped by rail. Painted by Grant Wood in 1930."
+      "note": "Built 1881-82. A plain frame cottage with two Gothic sash in the gable, believed bought from a catalogue; the purest demonstration of ornament shipped by rail. Painted by Grant Wood in 1930.",
+      "precedent": "american-gothic-house",
+      "standing": "icon",
+      "why": "Grant Wood's 1930 painting made it the most reproduced building in the country, and Carpenter Gothic is the style word its Wikipedia infobox prints -- the register lists it only as the Dibble House."
+    },
+    {
+      "name": "Wedding Cake House (George W. Bourne House)",
+      "location": "Kennebunk, Maine",
+      "year": 1855,
+      "note": "A conventional late-Federal brick house of 1826 to which George W. Bourne, a Kennebunk shipbuilder, added the Gothic trim himself in 1855 with one apprentice ship's carpenter. HABS ME-74 records the main block as brick with a five-bay front, no dormers and no tower, and every Gothic thing on it as applied wood: corner buttresses at forty-five degrees with paneled offsets and crockets, and an ogee-arched entrance canopy on pinnacled buttresses.",
+      "precedent": "wedding-cake-house",
+      "standing": "icon",
+      "why": "The purest demonstration anywhere of this node's own rule that the style lives on the outer inch of the building, because HABS ME-74 records the building underneath it as a Federal brick box and dates the two events thirty years apart."
+    },
+    {
+      "name": "Wesleyan Grove",
+      "location": "Oak Bluffs, Massachusetts",
+      "year": 1835,
+      "note": "The Martha's Vineyard camp meeting, founded 1835, whose tent platforms became about three hundred cottages between the later 1850s and the 1880s. A National Historic Landmark District with 308 contributing buildings. Its NHL nomination derives the form from two sources at once -- 'the picturesque cottage tradition (the vertical boarding and jigsaw trim) as seen on the 1859 Mason-Lawton cottage (70 Trinity Park)' and the round- or ogive-arched styling of the mainland Methodist churches the campers came from.",
+      "precedent": "wesleyan-grove",
+      "standing": "regional",
+      "why": "The largest surviving population of the type in America and the New England camp-meeting expression of it, on the National Historic Landmark nomination's own count of 308 contributing buildings; it is a district and not a building, which is why it is regional and not icon."
     }
   ],
   "sources": [

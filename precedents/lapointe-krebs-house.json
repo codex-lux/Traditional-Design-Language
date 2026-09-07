@@ -1,0 +1,150 @@
+{
+  "id": "lapointe-krebs-house",
+  "name": "LaPointe-Krebs House",
+  "aka": [
+    "Old Spanish Fort",
+    "Old French Fort",
+    "De La Pointe-Krebs House"
+  ],
+  "location": {
+    "text": "Pascagoula, Mississippi",
+    "country": "United States",
+    "state": "Mississippi"
+  },
+  "dates": {
+    "built": "circa 1757",
+    "circa": true,
+    "altered": "The 1930s survey found it 'difficult to ascertain which sections are original and which are later', all first-floor wood floors new and the porches not original; the west room is a bousillage addition to an oyster-shell-concrete core.",
+    "note": "The Wikipedia infobox says circa 1757; the HABS data page 'Year of erection 1721 (?)', and the loc.gov catalogue 'ca. 1721'; the tDAR project record says 'built around 1772 of tabby'. Three readings across half a century, none edited."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MS-18",
+      "title": "Old French Fort, 4206 Fort Street, Pascagoula, Jackson County, MS",
+      "url": "https://www.loc.gov/pictures/item/ms0175",
+      "note": "The loc.gov item page prints 'Survey number: HABS MS-18' and the other names 'De La Pointe-Krebs House Old Spanish Fort'; the data page's running head prints 'MISS-18', recorded here in the Library's two-letter form.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ms0175",
+      "url": "https://www.loc.gov/pictures/item/ms0175",
+      "title": "Old French Fort, 4206 Fort Street, Pascagoula, Jackson County, MS",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000452",
+      "url": "https://en.wikipedia.org/wiki/Old_Spanish_Fort_(Pascagoula,_Mississippi)",
+      "title": "NRHP reference No. 71000452; added 1971; Mississippi Landmark (USMS No. 059-PAS-0001-NR-ML) January 5, 1984 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Old_Spanish_Fort_(Pascagoula,_Mississippi)",
+      "title": "Old Spanish Fort (Pascagoula, Mississippi) - Wikipedia",
+      "note": "The infobox is headed 'La Pointe-Krebs House'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/MS-02-GC44",
+      "title": "LAPOINTE-KREBS HOUSE (OLD SPANISH FORT) - SAH Archipedia",
+      "note": "'It is the oldest building in Mississippi, the sole above-ground structure remaining from Mississippi's French period, and the state's only known surviving tabby' structure.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://lapointekrebs.org",
+      "title": "LaPointe-Krebs House and Museum",
+      "note": "The museum's site, as the Visit Mississippi listing gives it; not opened, recorded from that listing.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ms0175",
+    "register": "loc-item",
+    "survey_no": "MS-18",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ms/ms0100/ms0175/data/ms0175data.pdf",
+    "prepared": "Not legible in the extracted spans (a Koch-era 'Physical Data' sheet; the present occupant at the time was the local American Legion post)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Description (present condition) Wall construction: 1. Oldest part; cypress and cedar frame filled in with oyster shell concrete; 2. West room; wood frame filled in with clay and moss (bousillage) SXze and form: Rectangular, 57'-5\" x 62-5 11. Number stories: One and attic. Porches: One story porch on three sides - north, south and west",
+        "page": "HABS MISS-18, page 1, 'Physical Data'; the marker 'MISS-18 ... Old French Fort 2' follows"
+      },
+      {
+        "field": "openings",
+        "text": "Exterior openings, windows: Modern, double-hung windows first floor, shutter pintle marks, no remaining shutters. Exterior openings, doors; Old wood batten door west wall, all others recent. Cornice: Exposed rafters projecting about 2-0\" beyond porch plate. Roofing: Trussed, gable, broken pitch south side. Wood shingles (not",
+        "page": "HABS MISS-18, page 1; the chunk ends mid-word at the page turn"
+      },
+      {
+        "field": "chimneys",
+        "text": "Chimneys: 2, brick, stuccoed above roof.",
+        "page": "HABS MISS-18, page 1-2"
+      },
+      {
+        "field": "other",
+        "text": "Historical Data Year of erection! 1721 (?) Built for (first owner): Sieur Joseph de la Pointe. Architect or designer: Not ascertained. Built by: Hot ascertained. Original intended use: Probably a house.",
+        "page": "HABS MISS-18, page 2 ('Old French Fort 2')"
+      },
+      {
+        "field": "condition",
+        "text": "Additions and alterations: Difficult to ascertain which sections are original and which are later. All wood floors first floor are new. Porches not original.",
+        "page": "HABS MISS-18, page 2"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "57'-5\" x 62-5 11",
+      "value": 57.42,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "57'-5\" x 62-5 11",
+      "value": 62.42,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 62'-5\"; the figures include the porches on three sides, which the same sheet says are not original. A reading."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "One and attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "eaves_projection_ft",
+      "as_printed": "Exposed rafters projecting about 2-0\" beyond porch plate",
+      "value": 2,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "2, brick, stuccoed above roof",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "nodes": [
+    "creole-cottage-vernacular",
+    "french-colonial-american"
+  ]
+}

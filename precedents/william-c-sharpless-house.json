@@ -1,0 +1,38 @@
+{
+  "id": "william-c-sharpless-house",
+  "name": "William C. Sharpless House",
+  "location": {
+    "text": "Germantown, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "c. 1886",
+    "circa": true,
+    "altered": "Wikipedia: 'A two-story addition was built during the early 1900s.'",
+    "note": "Wikipedia's infobox gives 'Built c. 1886' and names the architect 'Hewitt, G.W.'; the node's exemplar gives 1886 flat. The Hewitt attribution appears in the infobox and is not further sourced here."
+  },
+  "nodes": [
+    "queen-anne-patterned-masonry"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "83004249",
+      "url": "https://en.wikipedia.org/wiki/William_C._Sharpless_House",
+      "title": "NRHP reference No. 83004249; added to NRHP December 29, 1983; location 5446 Wayne Ave., Philadelphia (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_C._Sharpless_House",
+      "title": "William C. Sharpless House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its own words: 'Built circa 1886, this historic structure is a three-story, Wissahickon schist, clapboard, and shingle dwelling that was designed in the Queen Anne style. It features decorative quoining, gable, and hipped rooflines, and terra cotta decorative details. ... Also located on the property is a contributing brick stable with stone quoining.'"
+    }
+  ],
+  "note": "A masonry Queen Anne that is masonry only at the bottom: schist below, clapboard and shingle above, terra cotta for the ornament. That is the parent style's two-texture rule satisfied by STONE-then-wood rather than by the brick-throughout wall `queen-anne-patterned-masonry`'s own prose describes, and the node names it anyway -- a boundary case the node should be read as owning deliberately. No HABS record was found (query: '\"William C. Sharpless House\" Germantown Philadelphia 1886 National Register Wissahickon schist'). Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}
