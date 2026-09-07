@@ -277,11 +277,19 @@ def assign(n):
     """{shard index 0..n-1: [(kind, key), ...]} -- longest-processing-time-first packing.
 
     LPT because the makespan is bounded below by the single largest unit whatever we do
-    (tests/test_score.py is 431 s of the suite's 2,503), so the only thing a scheduler can
+    (tests/test_score.py is 422 s of the suite's 2,504), so the only thing a scheduler can
     win is the tail: place the big ones first and let the small ones fill in behind them.
-    That floor is why six shards is where the curve goes flat: 5 -> 507 s, 6 -> 432,
-    7 -> 432. `--list-units` re-derives it whenever anyone asks again -- and it MOVES: the
-    file was costed at 400 s from a per-file sweep and a one-file shard later measured 431.
+    That floor is why six shards is where the curve goes flat: 6, 7 and 8 all land 422 s.
+    `--list-units` re-derives it whenever anyone asks again.
+
+    THE COSTS ARE THE RUNNER'S NOW, AND THE FIRST SET WERE NOT. Measured on a 4-core
+    container, the table's TOTAL was right to 0.2% (2,503 against CI's 2,499) and its
+    DISTRIBUTION was wrong enough to cost four minutes: the first sharded CI run came back
+    306, 315, 346, 423, 465, 645 against a predicted flat 421. Two opposite measurement
+    errors cancelled in the sum -- the per-file sweep ran three files at a time, inflating
+    most of them (shards 4-6 came in at 0.73-0.82 of prediction), while the CP-SAT-bound
+    files are far slower on a smaller runner (shard 3 at 1.62). **An aggregate that agrees is
+    not evidence that the parts do**, and only the aggregate was ever checked.
     Ties break on the key so the partition is deterministic -- two shards computing this
     independently on two runners must agree, and a wall-clock-dependent split would be a
     race that shows up as a unit running twice.

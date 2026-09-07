@@ -2807,14 +2807,24 @@ person, and a faster validator choosing a different error would silently change 
 this corpus can produce. `raise_first()` is that same `best_match`, and the test holds the two
 against each other on real records with each required property removed in turn.
 
-**SECOND, SIX JOBS INSTEAD OF ONE.** `build/check_all.py --shard i/N` partitions 123 units -- the
+**SECOND, SIX JOBS INSTEAD OF ONE.** `build/check_all.py --shard i/N` partitions 126 units -- the
 `CHECKS` entries and a glob of `tests/test_*.py` -- longest-first onto N shards. `--shard 1/1` is
 `make check`, byte for byte. **SIX IS MEASURED AND NOT CHOSEN**: the makespan is bounded below by
-the largest INDIVISIBLE unit and `tests/test_score.py` is 431 s on its own, so 5 -> 507 s,
-**6 -> 432**, 7 -> 432. Six is also free -- 6 x (432 + ~30) is 46 runner
-minutes against the 41 the single job already spent -- so the wall clock falls sixfold and the
-bill barely moves. **The floor itself moved after the merge**: a per-file sweep costed that file
-at 400 s and a one-file shard measured 431, taking the flat spot from seven shards to six. `--list-units` prints the assignment, so the next person to ask whether seven
+the largest INDIVISIBLE unit and `tests/test_score.py` is **422 s** on its own, so six lands 422
+and a seventh buys nothing.
+
+**MEASURED ON THE FIRST SHARDED CI RUN (34162261372): 11 min 17 s against 39 min 32 s -- a 3.5x
+CUT AND NOT THE SIXFOLD THE LOCAL COSTS PREDICTED**, all ten jobs green including the aggregate
+gate. The six shards came back 306, 315, 346, 423, 465 and **645** s against a predicted flat 421.
+**THE COST TABLE'S TOTAL WAS RIGHT TO 0.2% AND ITS DISTRIBUTION WAS WRONG BY FOUR MINUTES, AND
+THAT IS THE FINDING**: 2,503 predicted against 2,499 measured, because TWO OPPOSITE ERRORS
+CANCELLED IN THE SUM -- the per-file sweep ran three files at a time and inflated most of them
+(shards 4-6 at 0.73-0.82 of prediction), while the CP-SAT-bound files are far slower on a smaller
+runner (shard 3 at 1.62). **An aggregate that agrees is not evidence that the parts do**, and only
+the aggregate was ever checked. `tests/test_score.py` is the one file whose CI cost is known
+exactly -- shard 1 held it alone -- at **422.37 s** against a local 431.50, so the floor was right
+and everything else was not. Re-costed from that run, six shards balance at 416-422 s, which
+should put the next run near 7.5 min: a PREDICTION, marked as one. `--list-units` prints the assignment, so the next person to ask whether seven
 would help can answer it rather than argue it.
 
 **THE SPLIT IS BY JOB AND THAT IS THE FINDING.** Six test files mutate repository data in place

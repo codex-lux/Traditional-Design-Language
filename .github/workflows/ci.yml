@@ -12,11 +12,17 @@ name: CI
 #
 # `build/check_all.py --shard i/N` partitions the work. SIX, and the number is measured
 # rather than chosen: the makespan is bounded below by the largest INDIVISIBLE unit, and
-# tests/test_score.py is 431 s on its own, so six shards land 432 s and a seventh buys nothing.
-# Six also costs what one did -- 6 x (432 s + ~30 s of setup) is 46 runner minutes against
-# the 41 the single job was already spending, so the wall clock falls sixfold and the bill
-# barely moves. That floor MOVED once already (a per-file sweep said 400, a one-file shard
-# said 431), which is why the instruction below is re-measure rather than re-read. Re-measure with `python3 build/check_all.py --list-units --shard 1/N`
+# tests/test_score.py is 422 s on its own (measured HERE, on a runner that held it alone),
+# so six shards land 422 s and a seventh buys nothing.
+#
+# MEASURED ON THE FIRST SHARDED RUN (34162261372): the whole run 11 min 17 s against the
+# single job's 39 min 32 s -- a 3.5x cut, not the sixfold the local costs predicted. The six
+# shards came back 306, 315, 346, 423, 465 and 645 s against a predicted flat 421, because
+# build/check_costs.json had been measured on a 4-core container: its TOTAL was right to
+# 0.2% and its DISTRIBUTION was not (see that file's header for the two errors that
+# cancelled). The costs are re-derived from this run, which should put the next one near
+# 7.5 min -- a PREDICTION until a run measures it, and the numbers above are what a run
+# measured. Re-measure with `python3 build/check_all.py --list-units --shard 1/N`
 # before changing it; the balance is a property of the corpus, not of the number.
 #
 # THE SPLIT IS BY JOB, WHICH IS THE POINT. Six test files mutate repository data in place and

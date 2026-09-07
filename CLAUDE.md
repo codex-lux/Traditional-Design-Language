@@ -798,17 +798,29 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   before anything was touched, which is the only reason the fix went where it did: **`pytest
   tests/` 2,070 s against 197 s for all 44 checkers**. Nothing in it was slow. 2,267 s of
   independent work was running on one core.
-  **`build/check_all.py --shard i/N`** partitions it -- 123 units, the CHECKS entries and a
+  **`build/check_all.py --shard i/N`** partitions it -- 126 units, the CHECKS entries and a
   glob of `tests/test_*.py`, packed longest-first onto N shards. `--shard 1/1` is what
   `make check` always did, byte for byte. **SIX is measured and not chosen**: the makespan is
-  bounded below by the largest INDIVISIBLE unit and `tests/test_score.py` is 431 s by itself,
-  so six lands 432 s and a seventh buys NOTHING. Six also costs what one did -- 45 runner
-  minutes against 41 -- so the wall clock falls sixfold and the bill does not move. **Re-measure
-  with `--list-units` before changing N**; the flat spot is a property of the corpus.
-  **AND THAT FLOOR MOVES, WHICH IS THE ARGUMENT FOR RE-MEASURING RATHER THAN QUOTING**: the
-  per-file sweep costed `test_score.py` at 400 s and a one-file shard later measured 431, which
-  moved the flat spot from seven shards to six. Both are real measurements of a machine under
-  different load; the schedule is a hint and neither number is a claim about the file.
+  bounded below by the largest INDIVISIBLE unit and `tests/test_score.py` is **422 s** by
+  itself, so six lands 422 s and a seventh buys NOTHING. **Re-measure with `--list-units`
+  before changing N**; the flat spot is a property of the corpus.
+  **MEASURED ON THE FIRST SHARDED CI RUN (34162261372): 11 min 17 s against 39 min 32 s, a
+  3.5x CUT AND NOT THE SIXFOLD THE LOCAL COSTS PREDICTED.** The six shards came back 306, 315,
+  346, 423, 465 and **645** s against a predicted flat 421.
+  **THE COST TABLE'S TOTAL WAS RIGHT TO 0.2% AND ITS DISTRIBUTION WAS WRONG BY FOUR MINUTES OF
+  WALL CLOCK, AND THAT IS THE FINDING** -- 2,503 s predicted against 2,499 measured, because
+  TWO OPPOSITE ERRORS CANCELLED IN THE SUM: the per-file sweep ran three files at a time, so
+  contention inflated most of them (shards 4-6 landed at 0.73-0.82 of prediction), while the
+  CP-SAT-bound files are far slower on a smaller runner (shard 3 at 1.62). **AN AGGREGATE THAT
+  AGREES IS NOT EVIDENCE THAT THE PARTS DO**, and only the aggregate had been checked. The
+  costs are re-derived from that run now and `check_costs.json`'s header states which figures
+  are per-unit CI measurements and which are a shard's group ratio spread over its files.
+  **The 7.5 min that re-costing should buy is a PREDICTION and is marked as one**; the numbers
+  above are what a run measured.
+  **AND THE STALE-KEY GUARD EARNED ITSELF ON THAT REFRESH**: the block a shard prints names
+  `build.py`, which FRAMES every shard and is not a schedulable unit, so pasting it back
+  wholesale added a key that is not a unit -- caught by
+  `test_the_cost_table_names_units_that_exist` on the first run after the paste.
   **THE SPLIT IS BY JOB AND THAT IS THE POINT.** Six test files mutate repository data in place
   and restore it in a `finally` (`test_kit_cascade`, `test_manifest_io`, `test_render_profile`,
   `test_ontology`, `test_constraints`, `test_open_question_ids`), so `pytest -n auto` in one
