@@ -426,7 +426,7 @@ proved by mutation. The sweep re-measured: fatal
 
 **Phase 11 -- the precedent bench -- is COMPLETE; EVERY BUILDABLE NODE AND EVERY FAMILY CARRIES A
 PRECEDENT AND EVERY NODE AT EVERY RANK CITES A SOURCE (WP-11.1 4 Sep; WP-11.2 through WP-11.6
-5 Sep; WP-11.7 7 Sep 2026).** Lucas asked where the
+5 Sep; WP-11.7 and its adversarial audit 7 Sep 2026).** Lucas asked where the
 research is thin, for the exemplars of each style researched into the most beautiful and iconic
 precedents with links, and for a reading of where deepening the bench would change what the machine
 does. **The corpus WAS templated on the surface** when WP-11.1 surveyed it: every buildable node carried
@@ -638,6 +638,55 @@ as `tile.loc.gov` behaves. The entry carries a stable numeric **List Entry Numbe
 `Date first listed` and a `Date of most recent amendment`, so it is dated and citable; the
 `refs[].kind` enum ALREADY carries `historic-england`, `cadw` and `historic-scotland` and no record
 uses them yet, and none of the three has an `ID_SHAPES` rule. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md`.
+
+**THE ADVERSARIAL AUDIT OF WP-11.7 FOUND THE DATA SOUND AND THE GUARD NOT (7 Sep 2026).** Three
+read-only auditors over the whole diff -- call chain and regressions, whether the new tests can
+fail, and data plus second-order risk -- with every figure the package published re-derived from the
+corpus rather than quoted. **The research survived**: all 156 strings pass an offline integrity
+sweep (no impossible year, no title-against-parenthesis contradiction, no intra-node duplicate),
+every published figure re-derives exactly, and the central claim -- one phantom unique minted and
+one fixed -- held under direct attack. **Every defect was in the guard built to make that research
+safe, or in a claim about the guard.** `build/family_source_hazard.py` opens by explaining that its
+first version read `shared_only` over the buildable half where `check_research` reads all 164;
+`shared_only()` was corrected and **`hazards()` was not**, and neither was the sweep built on it.
+**The sweep could not fail at any corpus state**: `hazards()` admits a string only when its sole
+citer is buildable, so a higher-rank node citing one pushes the count to 2 and the string leaves the
+set BEFORE the loop reads it -- `assert s not in haz` was `x not in (a set defined to exclude x)`.
+Injected, a real node falls into `shared_only`, `--strict` goes red on its ratchet, and the sweep
+says nothing. **The advisory list was also blind to the nodes the package had just authored** -- 38
+printed against a true 40, the two missing being exactly the two nodes that hold one work of their
+own, so the tool written to stop somebody reddening a ceiling would have called those two strings
+safe. **And a victim with TWO unique works was invisible to any per-string test at all**: cite both
+and it flips anyway, 44 buildable nodes of them. All four are one mistake, and one fix answers them
+-- `judge_list` no longer looks a string up in a table, it builds the corpus as it would be AFTER
+the write and re-runs `shared_only`, the function `check_research` agrees with, refusing if anyone
+is `shared_only` who was not before. The module's own first sentence, *"THE RULE IS A PROPERTY OF
+THE LIST, NOT OF A STRING"*, is finally what the code does. **AND `build.py`'s DOCSTRING NAMED AN
+OUTPUT IT NEVER WROTE**: `dist/taxonomy.html` is rendered by `render_html.py`, which is in no check,
+so a reader running the script `check_all` runs reasonably believed the plate was current -- it had
+drifted across the whole of Phase 11, still carrying the one string this package normalised away.
+`build.py` renders it now, at 0.2 s, so the third generated artifact gets its freshness the way
+`dist/taxonomy.json` does rather than by a 47th check. **Nine behaviours in that module had no test
+at all, and the one carrying the most confident comment was the one that could not fire** -- a green
+suite is evidence that nothing you tested is broken and says nothing whatever about what you did not
+test. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` §XIV.7.
+
+**THERE ARE TWO PHASE 11s, AND SEVEN WP NUMBERS NAME TWO PACKAGES EACH (measured 7 Sep 2026).**
+This entry is the PRECEDENT BENCH -- WP-11.1 through WP-11.7,
+`docs/reports/wp-11.1-the-bench-without-a-literature.md`. A parallel session opened its own Phase 11
+from the same base commit and it is the SHEET -- the massing element, the axis vocabulary, the
+facade as a result -- WP-11.1 through WP-11.11,
+`docs/reports/wp-11.1-the-sheet-says-what-the-placement-gave-up.md`, open as
+[PR #28](https://github.com/codex-lux/Traditional-Design-Language/pull/28). So 11.1 through 11.7
+each name two different packages, exactly as the two Phase 9s do. **CITE THE REPORT BY FILENAME.**
+The report SLUGS differ, so `check_ids.py`'s two-reports-one-slug rule does not fire and nothing in
+the tree will tell you: the NUMBER is what collides, and only somebody reading both branches sees
+it. **OQ 90 already rules the rest and nothing here is renumbered** -- whoever merges first keeps
+the numbers and it is never the side still on a branch, so merge order decides. **And both branches
+edit `CLAUDE.md`, `PLAN-OF-ACTION.md` and `build/check_all.py`**, so the merge WILL move the check
+total and the test count: the number this file records going wrong at exactly a merge five times,
+and the other branch has already hit it once at its own merge of main. Read the SECOND number, as
+the counts paragraph above says.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
@@ -1316,6 +1365,28 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   negative assertion whose selector broke, a `class="ch"` pin that stopped matching -- wearing
   the tester's own clothes. **Assert the mutation LANDED** (count the match, or read the value
   back) before believing the colour. Re-run anchored, the guard went red both ways.
+- **A MUTATION CAN LAND, GO RED, AND STILL PROVE THE WRONG PROPOSITION (WP-11.7's audit, 7 Sep
+  2026).** The companion to the bullet above and the harder half of it: that one is a mutation that
+  does not APPLY, this one applies perfectly and interrogates something else. A sweep asserting that
+  no higher-rank node cites a hazard string was reported as mutation-checked; the mutation SKIPPED
+  EVERY NODE and a `checked > 0` counter went red. That exercises the ITERATION and never the
+  ASSERTION -- and the assertion was a tautology, `x not in (a set defined to exclude x)`, unable to
+  fail at any corpus state. **Prefer a mutation that INJECTS THE DEFECT the guard claims to catch
+  over one that disables the guard**: injecting a real hazard string into a real node went red the
+  moment the rule was right and stayed silent while it was wrong, which is the proposition anybody
+  cares about. **And the first repair was no better** -- it put the corrected rule in a NEW test
+  while the sweep restated the old one, so reverting the scoping stayed GREEN in both. One function,
+  two callers, and both mutations pinned.
+  **THE SAME RUN DESTROYED AUTHORED RESEARCH IN THREE `styles/` FILES, TWICE.** `set_sources` took
+  an injectable `nodes` dict for every READ and derived its write path from module-level `ROOT`, so
+  mutating away the gates that keep the writer off the corpus pointed it AT the corpus. Restored
+  from git both times; the mechanism was a property of the shipped code, not of the test. **A writer
+  under mutation test needs its `root=` seam before the FIRST mutation, not after** -- and the write
+  is atomic now (tmp then `os.replace`, `build/build.py`'s own idiom and comment), because
+  `open(path, "w")` truncated hand-authored research AFTER the safety gate had passed.
+  `build/family_specimens.py` carried the same non-atomic write twice and is fixed with it. The
+  class was named in `build.py` in August and never generalised; it is three call sites and one
+  pattern.
 - **A FIGURE FROM A HYPOTHETICAL INPUT IS NOT A MEASUREMENT, AND THE CAVEAT FALLS OFF (WP-9.6).**
   The finding above was first published as "16 / 17 / 21 risers, 3.3 ft apart, because openings
   falls back to a hardcoded 9.0". **Every number in that was wrong.** The 17 came from feeding
