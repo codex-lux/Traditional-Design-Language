@@ -1,8 +1,41 @@
 # oq/the-proving-engine-cannot-place-a-second-massing-element — the tag that costs a plan its proof
 
-*Status: OPEN · Raised in: WP-11.9, the six layers that read one rectangle (6 September 2026)*
+*Status: CLOSED 7 September 2026 (WP-11.11) · Raised in: WP-11.9, the six layers that read one rectangle (6 September 2026)*
 
-**OPEN — `build/geometry_cp.py` builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`:
+**CLOSED. `geometry_cp` reads the room's own massing element now, in ONE coordinate space
+(`_element_boxes`), and either places every room inside its element or proves the brief cannot
+be housed and names the conflict. The three items below were ruled as the question itself framed
+them, and the third was measured rather than decided:**
+
+1. **One coordinate space, each room bounded by its own element's box** — the "direct reading"
+   named below. CP-SAT integer variables take negative lower bounds, so a west dependency at
+   x = −34 needs no shift and no second origin.
+2. **An element boundary is NOT downgradable.** It is stated as a plain `m.Add`, never a
+   `reqs.lit`, so it creates no assumption literal, cannot enter a conflict core and cannot be
+   relaxed by the ladder. `_RANK` is untouched.
+3. **Affordable, by a wide margin.** The three-element selftest fixture is proved OPTIMAL in
+   **0.47 s**; the tagged Tidewater is decided in **1.5 s**; both shipped plans keep their status
+   at the batch budget. One coordinate space rather than three is why — the model gains
+   constraints, not variables. And the model built for a one-rectangle house is BYTE-IDENTICAL,
+   pinned as four `CpModel` proto hashes in `tests/test_cp_elements.py`.
+
+**AND THE TAGS ON THE SHIPPED RECORD ARE STILL REFUSED, FOR A BETTER REASON.** With the prover
+available, `engine="cp"` proves the hand-tagged `tidewater-georgian-careful` INFEASIBLE with a
+minimized core of one door — *"Dining Room and Butler's Pantry share a door"* — while
+`engine="heuristic"` reports the same tagging as an IMPROVEMENT (fatal 8 → 6, serious 61 → 53).
+Exactly two of the sixteen ground-floor door pairs cross from the main block to the dependency
+without passing through the hyphen, and one of them is the door the butler's pantry exists for.
+Every boundary `blocks_for` can draw through this record cuts a declared door: that is
+`oq/the-parti-dissolved-its-own-dependencies` measured, and it is a finding about the record
+rather than about the engine. Report:
+`docs/reports/wp-11.11-the-prover-learns-the-massing.md`; new question:
+`oq/the-coverage-floor-is-an-exact-cover-per-element`.
+
+---
+
+*The question as it stood follows.*
+
+**`build/geometry_cp.py` builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`:
 one rectangle, one non-negative coordinate space. Handed a plan with a dependency it REFUSES,
 and `auto` falls back to the hill-climb naming the reason. So on any plan with a second massing
 element the engine that PROVES is unavailable and the engine that SEARCHES carries every

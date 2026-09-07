@@ -319,45 +319,65 @@ class TestASecondMassingElement:
             "inside the house if bounds were not passed")
 
 
-class TestCPRefusesASecondMassingElement:
-    """OQ 40, from the adversarial audit of the change that introduced blocks (3 Sep 2026).
+class TestCPPlacesASecondMassingElement:
+    """WP-11.11, and this class used to be `TestCPRefusesASecondMassingElement`.
 
-    geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`: one rectangle,
-    one non-negative coordinate space. Handed a plan with a dependency it did NOT fail -- it
-    placed the dependency's rooms inside the main block (the garage at x = 50 of a 0-70 block)
-    while `footprint.blocks` went on describing an element at x = 84-114. The record and the
-    drawing disagreed about where the house is.
+    The refusal was right when it was written and the reason is worth keeping: handed a tagged
+    plan, `geometry_cp` did not fail -- it placed the dependency's rooms INSIDE the main block
+    (a garage at x = 50 of a 0-70 block) while `footprint.blocks` went on describing an element
+    at x = 84-114, so the record and the drawing disagreed about where the house is. It also
+    FLATTERED the fatal count, because rooms crammed into one rectangle are all trivially
+    reachable. Refusing beat lying.
 
-    It also flattered a measurement: rooms crammed into one rectangle are all reachable, so the
-    fatal count read as a proof of the composition when it was a proof of something else. The
-    engine refuses now, and `auto` falls back with the reason stated."""
+    What changed is that every statement the model makes about "the block" is now made about the
+    element the room stands in. So the guard is the POSITIVE form of the same protection: CP
+    either places each room inside its own element, or it proves the brief cannot be housed and
+    names the conflict. What it may never do again is flatten.
+    """
 
     @staticmethod
     def _plan_with_a_dependency():
         return _tagged_dependency_plan(), None
 
-    def test_engine_cp_refuses_rather_than_flattening_the_dependency(self, geometry_module):
+    def test_engine_cp_no_longer_refuses_a_multi_element_plan(self, geometry_module):
         plan, C = self._plan_with_a_dependency()
         assert any(r.get("block") for lv in plan["levels"] for r in lv["rooms"]), \
             "the fixture must carry a dependency or this proves nothing"
         geometry_module._SOLVE_CACHE.clear()
         out = geometry_module.solve(plan, C, engine="cp")
-        assert out.get("error") and "massing element" in out["error"], (
-            "CP must refuse a multi-element plan, not place it in one rectangle")
-        assert out.get("unsolved") is True
+        assert not (out.get("error") and "massing element" in out["error"]), (
+            "the WP-11.9 refusal is still in the dispatcher")
 
-    def test_auto_falls_back_and_says_why(self, geometry_module):
+    def test_and_on_this_fixture_it_proves_the_brief_cannot_be_housed(self, geometry_module):
+        """THE FIXTURE IS INFEASIBLE AND THAT IS THE FINDING, not a failure of the model.
+        It tags the kitchen, pantry and breakfast room into a detached west dependency and
+        leaves the butler's pantry and the dining room in the main block -- and the record
+        declares a door between the dining room and the butler's pantry, and another between
+        the butler's pantry and the kitchen. Two rooms in two DETACHED masses cannot share a
+        wall. The heuristic draws this plan and reports the door `unplaced` afterwards; CP says
+        so before anything is drawn, with a MINIMIZED core naming one door."""
+        plan, C = self._plan_with_a_dependency()
+        geometry_module._SOLVE_CACHE.clear()
+        geometry_module.solve(plan, C, engine="cp")
+        inf = plan["geometry_report"].get("infeasible")
+        assert inf and inf["proven"] is True, "CP should prove this tagging unbuildable"
+        joined = " | ".join(inf["conflicts"])
+        assert "share a door" in joined, joined
+        assert "Butler's Pantry" in joined, joined
+
+    def test_auto_no_longer_falls_back_for_being_multi_element(self, geometry_module):
+        """`auto` still falls back here -- the brief is infeasible -- but the REASON must be
+        the proved conflict and not 'the CP model places every room in a single rectangle',
+        which is the sentence the plate used to print."""
         plan, C = self._plan_with_a_dependency()
         geometry_module._SOLVE_CACHE.clear()
         geometry_module.solve(plan, C, engine="auto")
         solver = plan["geometry_report"]["solver"]
-        assert solver["engine"] == "heuristic" and solver.get("fallback") == "engine"
-        assert "massing element" in solver["reason"], (
-            "the plate reads this reason; it must name the real cause, not 'budget'")
+        assert "massing element" not in (solver.get("reason") or ""), solver
+        assert solver.get("fallback") != "engine", solver
 
-    def test_and_the_fallback_actually_places_the_dependency_outside(self, geometry_module):
-        """The point of falling back rather than proceeding: the engine that runs must put the
-        dependency where the record says it is."""
+    def test_and_the_engine_that_runs_places_the_dependency_outside(self, geometry_module):
+        """Whichever engine draws it, the dependency's rooms must be where the record says."""
         plan, C = self._plan_with_a_dependency()
         geometry_module._SOLVE_CACHE.clear()
         geometry_module.solve(plan, C, engine="auto")
@@ -534,16 +554,19 @@ class TestTheAuditGapsInTheBlockWork:
         assert me["elements"] == 2
         assert set(me["element_aware"]) == {
             "openings", "structure", "vertical_score", "lot_cap", "plan_check.drawn", "export_ifc"}
-        assert me["not_element_aware"] == ["roof", "engine=cp", "composer"], (
+        # WP-11.11: `engine=cp` LEFT this list when the model learned about elements, and the
+        # disclosure had to shrink with it -- the same movement WP-11.9 made and for the same
+        # reason. A list that still named the prover would be this test's own subject: a
+        # disclosure asserting an unreliability the code no longer has.
+        assert me["not_element_aware"] == ["roof", "composer"], (
             "the shorter list is the deliverable: what a multi-element placement still cannot "
-            "judge is the roof (it spans the union), the proving engine (it refuses) and the "
-            "composer (it writes no tag)")
+            "judge is the roof (it spans the union) and the composer (it writes no tag)")
         assert me["built_extent_width_ft"] and me["union_bbox_ft"], (
             "ruling 1 and ruling 2 both live on this record -- the extent the lot is capped on "
             "and the union the roof spans, side by side and told apart")
-        assert "searched and not proved" in me["note"], (
-            "a reader of a multi-element placement must be told the engine that PROVES refused "
-            "it, because that is the one thing this package did not fix")
+        assert "proves the brief cannot be housed" in me["note"], (
+            "a reader of a multi-element placement must be told what the prover now does with "
+            "one, because WP-11.11 is exactly the thing WP-11.9 could not fix")
         assert "ignored_tags_above_ground" not in me
 
         # A tag the placer cannot read is named rather than silently dropped. The schema admits

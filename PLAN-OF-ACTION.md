@@ -1718,6 +1718,37 @@ term — not stepped around.
   keeps the three filters blind). Report:
   `docs/reports/wp-11.10-the-terrace-that-is-not-a-massing-element.md`.
 
+- **WP-11.11 — the prover learns the massing. Status: COMPLETE (7 Sep 2026).** Closes
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`, which WP-11.9 raised and which
+  gated the tags on the shipped record. All three of its items ruled as it framed them: **ONE
+  coordinate space**, each room bounded by its own element's box (CP-SAT integer variables take
+  negative lower bounds, so a west dependency at x = −34 needs no second origin — the shifted
+  space the question offered is not used); **an element boundary is NOT downgradable**, stated as
+  a plain `m.Add` so it creates no assumption literal and cannot enter a conflict core, `_RANK`
+  untouched; and **affordability MEASURED rather than assumed** — a three-element fixture proved
+  OPTIMAL in 0.47 s, the tagged Tidewater decided in 1.5 s, both shipped plans keeping their
+  status at the batch budget. Eight statements the model made about "the block" are made about
+  the room's own element now — containment, the coverage floor, a declared exterior wall, a
+  spanning room's through-axis, an exterior door reaching the envelope, the bay grid, the span
+  capacity and `_absorb`'s four growth limits. **The guarantee is that the MODEL for a
+  one-rectangle house is byte-identical**, pinned as four `CpModel` proto hashes, because CP
+  under a wall clock is not reproducible and pinning what it FINDS would pin the machine; the
+  corpus's placement, openings and findings are unmoved. **And the tags on the shipped record are
+  still refused, for a better reason than WP-11.9's**: `engine="cp"` proves the hand-tagged
+  Tidewater INFEASIBLE with a minimized core of ONE DOOR — *"Dining Room and Butler's Pantry
+  share a door"* — while `engine="heuristic"` reports the same tagging as an improvement (fatal
+  8 → 6, serious 61 → 53). Exactly 2 of the 16 ground-floor door pairs cross main-to-dependency
+  without passing through the hyphen, and one is the door the butler's pantry exists for: every
+  boundary `blocks_for` can draw through this record cuts a declared door, which is
+  `oq/the-parti-dissolved-its-own-dependencies` measured for the first time. **Three defects
+  found in the package's own work**, the sharpest being that the guard written to protect
+  byte-identity (`if ex:`) created the defect it was guarding against — five untagged rooms in no
+  element at all — and that **a measurement taken on the model with that bug reported a proof
+  that did not exist** (13.5 s "OPTIMAL", an artefact, one edit from being published as the
+  headline). `_absorb` undid a proof for the FOURTH time. Nine mutations, every one biting.
+  Report: `docs/reports/wp-11.11-the-prover-learns-the-massing.md` · new question:
+  `oq/the-coverage-floor-is-an-exact-cover-per-element`.
+
 ## 6. Parallelisation map
 
 ```

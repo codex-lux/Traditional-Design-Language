@@ -318,6 +318,8 @@ def test_the_disclosure_says_what_was_taught_rather_than_what_was_not():
     note = G.multi_element_disclosure(plan)
     assert set(note["element_aware"]) == {"openings", "structure", "vertical_score", "lot_cap",
                                           "plan_check.drawn", "export_ifc"}
-    assert note["not_element_aware"] == ["roof", "engine=cp", "composer"]
+    # WP-11.11 took `engine=cp` off this list: the CP model reads the room's own element
+    # now, so the engine that PROVES is available on a multi-element plan for the first time.
+    assert note["not_element_aware"] == ["roof", "composer"]
     assert note["built_extent_width_ft"] == 60.0
     assert note["union_bbox_ft"] == (-30.0, 0.0, 40.0, 40.0)

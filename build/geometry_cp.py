@@ -222,12 +222,69 @@ def _span_capacity(plan):
         return None       # catalogue unreadable: unjudged, so nothing is charged
 
 
+def _element_boxes(els, Wi, Hi):
+    """`{(level, room_id): (x, y, W, H)}` in integer units, and the global envelope.
+
+    WP-11.11. The CP model built every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`: one
+    rectangle, one non-negative coordinate space, and it REFUSED a plan with a second massing
+    element rather than flatten two into one (which flatters the fatal count -- rooms crammed
+    into one rectangle are all trivially reachable). Ruled 7 September 2026, taking
+    `oq/the-proving-engine-cannot-place-a-second-massing-element`'s own first reading: **each
+    room's coordinates are bounded by its OWN element's box**, in ONE coordinate space. CP-SAT
+    integer variables take negative lower bounds, so a west dependency at x = -28 needs no
+    shift and no second origin -- the alternative the question offered and this does not use.
+
+    Everything the model says about "the block" is read through this: containment, the coverage
+    floor, a declared exterior wall, a spanning room's through-axis, and an exterior door
+    reaching the envelope. Each of those is a fact about the element the room stands in.
+
+    The global envelope is returned beside it because the VARIABLE DOMAINS have to cover every
+    element while the CONSTRAINTS bound each room to its own. Bounding a domain to its element
+    would be tighter and is not done: it would put a room's `x` in a domain that excludes the
+    origin, and the hint pass (`_hint_heuristic`, `_hint_values`) feeds values from a heuristic
+    layout that may disagree by a foot -- a hint outside a domain is a silent model error, not
+    a rejected hint.
+    """
+    box, xs, ys = {}, [0, Wi], [0, Hi]
+    for lvl, elist in (els or {}).items():
+        for e in elist or []:
+            # INWARD to the grid, never outward. This model is integer at 1 ft (`U`) and a
+            # dependency's edges are not: `dependency_sizes` sizes the box from its rooms'
+            # own areas and lands on 4.6 or -3.7. Rounding to the NEAREST foot lets CP place a
+            # room up to half a foot outside the mass the record states, which is the record
+            # and the drawing disagreeing about where the house is -- the defect the refusal
+            # this package removes was put there to prevent. Ceiling the low edge and flooring
+            # the high one makes the integer box a SUBSET of the stated one, so anything proved
+            # inside it is really inside; `_absorb` afterwards works in float space against the
+            # element's true edges and grows the room back out to them. The main block is
+            # already integral (`_snap_fpd`), so this is the identity on every single-element
+            # plan in the corpus.
+            ex, ey = math.ceil(e["x"] * U), math.ceil(e["y"] * U)
+            eW = max(1, math.floor((e["x"] + e["W"]) * U) - ex)
+            eH = max(1, math.floor((e["y"] + e["H"]) * U) - ey)
+            xs += [ex, ex + eW]
+            ys += [ey, ey + eH]
+            for rid in e.get("rooms") or []:
+                box[(lvl, rid)] = (ex, ey, eW, eH)
+    return box, min(xs), min(ys), max(xs), max(ys)
+
+
 def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
            unproven=frozenset()):
     from ortools.sat.python import cp_model
     m = cp_model.CpModel()
     reqs = _Reqs(m)
     Wi, Hi = int(round(fpd["W"] * U)), int(round(fpd["H"] * U))
+    # WP-11.11. `els` is {level: [element, ...]} from `geometry.blocks_for` -- the massing
+    # elements this level's rooms are laid into. Absent, or one element, and every box below is
+    # `(0, 0, Wi, Hi)`, which is what this model read before the argument existed and is every
+    # plan in the shipped corpus.
+    # Computed here rather than threaded from `solve_cp`: `_build` has seven call sites in
+    # this file and `geometry.blocks_for` is the one reader of which element a room stands in,
+    # so a parameter would have been seven chances to pass a different answer.
+    els = {lvl: GEO.blocks_for(plan, fpd, prep, lvl) for lvl in (0, 1) if prep.get(lvl)}
+    ebox, gx0, gy0, gx1, gy1 = _element_boxes(els, Wi, Hi)
+    gW, gH = gx1 - gx0, gy1 - gy0
     bayU = max(1, int(round(fpd["bay"] * U)))
     tolU = max(1, int(round(fpd["tol"] * U)))
 
@@ -247,11 +304,14 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             # floor scales to the room's own programme — a 1.4 ft linen press is
             # real; clamping it to 3 ft manufactured an infeasibility
             lo_side = max(1, int(math.floor(0.6 * smin * U)))
-            x = m.NewIntVar(0, Wi, f"x{lvl}_{r['id']}")
-            y = m.NewIntVar(0, Hi, f"y{lvl}_{r['id']}")
-            w = m.NewIntVar(lo_side, Wi, f"w{lvl}_{r['id']}")
-            h = m.NewIntVar(lo_side, Hi, f"h{lvl}_{r['id']}")
-            a = m.NewIntVar(0, Wi * Hi, f"a{lvl}_{r['id']}")
+            # WP-11.11: the ROOM'S OWN element, not the block. `(0, 0, Wi, Hi)` on every
+            # single-element plan, which is the whole shipped corpus.
+            ex, ey, eW, eH = ebox.get((lvl, r["id"]), (0, 0, Wi, Hi))
+            x = m.NewIntVar(gx0, gx1, f"x{lvl}_{r['id']}")
+            y = m.NewIntVar(gy0, gy1, f"y{lvl}_{r['id']}")
+            w = m.NewIntVar(lo_side, max(lo_side, eW), f"w{lvl}_{r['id']}")
+            h = m.NewIntVar(lo_side, max(lo_side, eH), f"h{lvl}_{r['id']}")
+            a = m.NewIntVar(0, gW * gH, f"a{lvl}_{r['id']}")
             m.AddMultiplicationEquality(a, [w, h])
             # the room at roughly its program size — ONE requirement per room,
             # so a conflict names the room, not an anonymous inequality
@@ -261,15 +321,32 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                           kind="size")
             m.Add(a >= int(0.88 * areaU)).OnlyEnforceIf(pr)
             m.Add(a <= int(max(1.20, fill * 1.22) * areaU)).OnlyEnforceIf(pr)
-            m.Add(x + w <= Wi)
-            m.Add(y + h <= Hi)
+            # containment in the room's OWN element (WP-11.11). The lower bounds are
+            # constraints and not domains, for the hint reason in `_element_boxes`.
+            # THE LOWER BOUND IS A CONSTRAINT WHENEVER THE DOMAIN IS WIDER THAN THE ELEMENT,
+            # AND THE FIRST VERSION OF THIS TESTED `if ex:` INSTEAD. That read "on a
+            # one-rectangle house ex is 0 and `x >= 0` is already the domain" -- true of the OLD
+            # domain and false of the new one, because `gx0` is the leftmost element's edge and
+            # a west dependency puts it at -34. So every MAIN-BLOCK room got a domain reaching
+            # 34 ft west of the house and no constraint holding it back: measured on a
+            # hand-tagged Tidewater, FIVE untagged rooms were placed or absorbed at a negative
+            # x, in no element at all. The guard written to protect byte-identity created the
+            # defect it was guarding against. `gx0 < ex` is the honest test -- it is False on
+            # every single-element plan, so the model for the shipped corpus is unchanged, and
+            # True exactly when the domain really is wider than the box.
+            if gx0 < ex:
+                m.Add(x >= ex)
+            if gy0 < ey:
+                m.Add(y >= ey)
+            m.Add(x + w <= ex + eW)
+            m.Add(y + h <= ey + eH)
             # THE SHORT AND LONG SIDES, BUILT UNCONDITIONALLY (WP-11.7). They used to live
             # inside `if objective:` because only the soft aspect term read them -- and phase A
             # runs with `objective=False`, which is the phase that draws this plan
             # (`_finish_feasible` keeps "hard-only phase A" whenever the polish times out). A
             # shape rule that exists only in the objective is a shape rule this plan never sees.
-            mxs = m.NewIntVar(0, max(Wi, Hi), f"mx{lvl}_{r['id']}")
-            mns = m.NewIntVar(0, max(Wi, Hi), f"mn{lvl}_{r['id']}")
+            mxs = m.NewIntVar(0, max(gW, gH), f"mx{lvl}_{r['id']}")
+            mns = m.NewIntVar(0, max(gW, gH), f"mn{lvl}_{r['id']}")
             m.AddMaxEquality(mxs, [w, h])
             m.AddMinEquality(mns, [w, h])
 
@@ -329,13 +406,13 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # (10 x |got-want|/want) and aspect sanity (6 per ratio point
                 # past 2.6, linearized against the short side)
                 target = int(round(min(max(1.20, fill * 1.10), 1.22) * areaU))
-                dev = m.NewIntVar(0, Wi * Hi, "")
-                diff = m.NewIntVar(-Wi * Hi, Wi * Hi, "")
+                dev = m.NewIntVar(0, gW * gH, "")
+                diff = m.NewIntVar(-gW * gH, gW * gH, "")
                 m.Add(diff == a - target)
                 m.AddAbsEquality(dev, diff)
                 penalties.append((dev, max(1, int(round(10 * SCALE / max(areaU, 1))))))
                 mx, mn = mxs, mns      # built above, unconditionally (WP-11.7)
-                ov10 = m.NewIntVar(0, 10 * max(Wi, Hi), "")
+                ov10 = m.NewIntVar(0, 10 * max(gW, gH), "")
                 # THE `26` HERE WAS 2.6 x 10 -- THE SAME UNIVERSAL CONSTANT `level_score`
                 # CARRIED, SPELLED A SECOND TIME (WP-9.4). Correcting the heuristic alone
                 # would have fixed one of the two: `auto` sends 16 of 21 partis through this
@@ -354,11 +431,11 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # ground that only `kind == "wall"` literals are downgradable.
                 _floor = GEO.width_floor(r.get("type"))
                 if _floor and GEO.WIDTH_W:
-                    underw = m.NewIntVar(0, max(Wi, Hi), "")
+                    underw = m.NewIntVar(0, max(gW, gH), "")
                     m.Add(underw >= int(round(_floor * U)) - mn)
                     penalties.append((underw, max(1, int(round(GEO.WIDTH_W)))))
-            xiv.append(m.NewIntervalVar(x, w, m.NewIntVar(0, Wi, ""), f"xi{lvl}_{r['id']}"))
-            yiv.append(m.NewIntervalVar(y, h, m.NewIntVar(0, Hi, ""), f"yi{lvl}_{r['id']}"))
+            xiv.append(m.NewIntervalVar(x, w, m.NewIntVar(gx0, gx1, ""), f"xi{lvl}_{r['id']}"))
+            yiv.append(m.NewIntervalVar(y, h, m.NewIntVar(gy0, gy1, ""), f"yi{lvl}_{r['id']}"))
             rooms[(lvl, r["id"])] = {"x": x, "y": y, "w": w, "h": h, "a": a, "r": r,
                                      "maxside": max(dw, dl)}
         m.AddNoOverlap2D(xiv, yiv)
@@ -379,6 +456,18 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             void_area = sum(rooms[(0, v["id"])]["a"] for v in voids_below
                             if (0, v["id"]) in rooms)
             m.Add(100 * upper_area + c100 * void_area >= c100 * Wi * Hi)
+        elif len(els.get(lvl) or []) > 1:
+            # WP-11.11: PER ELEMENT. A coverage floor over the union would let a dependency
+            # sit half empty while the main block over-filled to make up the total, which is
+            # the "two elements flattened into one" reading this model refuses.
+            for _e in (els or {}).get(lvl, []):
+                _ids = [rid for rid in (_e.get("rooms") or []) if (lvl, rid) in rooms]
+                if not _ids:
+                    continue
+                _ex, _ey = int(round(_e["x"] * U)), int(round(_e["y"] * U))
+                _eW, _eH = int(round(_e["W"] * U)), int(round(_e["H"] * U))
+                m.Add(sum(rooms[(lvl, rid)]["a"] for rid in _ids)
+                      >= int(COVERAGE * _eW * _eH))
         else:
             m.Add(upper_area >= int(COVERAGE * Wi * Hi))
 
@@ -387,8 +476,12 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         for r in rs:
             v = rooms[(lvl, r["id"])]
             walls = list(r.get("exterior_walls") or [])
-            pins = {"S": v["y"] == 0, "N": v["y"] + v["h"] == Hi,
-                    "W": v["x"] == 0, "E": v["x"] + v["w"] == Wi}
+            _ex, _ey, _eW, _eH = ebox.get((lvl, r["id"]), (0, 0, Wi, Hi))
+            # WP-11.11, and it is WP-11.9's ruling 4 inside the solver: exterior is exterior.
+            # A face on the dependency's own boundary carries a window, a sill, a load and the
+            # weather, so a room's declared wall is a fact about ITS element.
+            pins = {"S": v["y"] == _ey, "N": v["y"] + v["h"] == _ey + _eH,
+                    "W": v["x"] == _ex, "E": v["x"] + v["w"] == _ex + _eW}
             diag_ok = [wl for wl in walls if wl in pins]
             if not diag_ok:
                 continue
@@ -494,10 +587,11 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         for r in _spines:
             walls = set(r.get("exterior_walls") or [])
             v = rooms[(lvl, r["id"])]
+            _ex, _ey, _eW, _eH = ebox.get((lvl, r["id"]), (0, 0, Wi, Hi))
             if {"S", "N"} <= walls:
-                span, ctr, ext = (v["y"], v["h"], Hi), (v["x"], v["w"], Wi), "N-S"
+                span, ctr, ext = (v["y"], v["h"], _eH), (v["x"], v["w"], _eW), "N-S"
             elif {"W", "E"} <= walls:
-                span, ctr, ext = (v["x"], v["w"], Wi), (v["y"], v["h"], Hi), "E-W"
+                span, ctr, ext = (v["x"], v["w"], _eW), (v["y"], v["h"], _eH), "E-W"
             else:
                 continue
             key = (lvl, r["id"])
@@ -545,8 +639,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                     lit = reqs.lit(f"{r.get('name') or r['id']} has a door to the exterior "
                                    f"— it must reach the building envelope", kind="door")
                     onb = []
-                    for cond in (v1["y"] == 0, v1["y"] + v1["h"] == Hi,
-                                 v1["x"] == 0, v1["x"] + v1["w"] == Wi):
+                    _ex, _ey, _eW, _eH = ebox.get((lvl, r["id"]), (0, 0, Wi, Hi))
+                    for cond in (v1["y"] == _ey, v1["y"] + v1["h"] == _ey + _eH,
+                                 v1["x"] == _ex, v1["x"] + v1["w"] == _ex + _eW):
                         b = m.NewBoolVar("")
                         m.Add(cond).OnlyEnforceIf(b)
                         onb.append(b)
@@ -589,21 +684,41 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         if objective:
             for r in rs:
                 v = rooms[(lvl, r["id"])]
-                for axis, span in (("x", Wi), ("y", Hi)):
+                # WP-11.11. The DOMAIN spans every element (a west dependency sits at a
+                # negative x, and `NewIntVar(0, span)` here would have made a SOFT term
+                # infeasible), and the top line the y edge may legitimately sit on is the
+                # room's OWN element's, not the main block's.
+                _ex, _ey, _eW, _eH = ebox.get((lvl, r["id"]), (0, 0, Wi, Hi))
+                for axis, dlo, dhi, top in (("x", gx0, gx1, None),
+                                            ("y", gy0, gy1, _ey + _eH)):
                     edges = (v["x"], (v["x"] + v["w"])) if axis == "x" \
                         else (v["y"], (v["y"] + v["h"]))
+                    span = max(1, dhi - dlo)
                     for e in edges:
-                        ev = m.NewIntVar(0, span, "")
+                        ev = m.NewIntVar(dlo, dhi, "")
                         m.Add(ev == e)
+                        # AddModuloEquality TRUNCATES toward zero, so a negative dividend
+                        # gives a negative remainder and `emod`'s [0, bay-1] domain would make
+                        # this SOFT term infeasible on a west dependency. The edge is shifted
+                        # by a whole number of bays first -- `dlo` floored to the module, so
+                        # the grid's own phase is untouched -- and the modulo sees a
+                        # non-negative number. Inert on every plan in the corpus, where
+                        # `dlo` is 0.
+                        base = (dlo // bayU) * bayU
+                        if base:
+                            evp = m.NewIntVar(0, max(1, dhi - base), "")
+                            m.Add(evp == ev - base)
+                        else:
+                            evp = ev          # every plan in the corpus; no extra variable
                         emod = m.NewIntVar(0, bayU - 1, "")
-                        m.AddModuloEquality(emod, ev, bayU)
+                        m.AddModuloEquality(emod, evp, bayU)
                         d = m.NewIntVar(0, bayU, "")
                         m.AddMinEquality(d, [emod, bayU - emod])
                         if axis == "y":
-                            # the top boundary Hi is a legitimate line even off-module
+                            # the element's own top edge is a legitimate line even off-module
                             dH = m.NewIntVar(0, span, "")
                             dfH = m.NewIntVar(-span, span, "")
-                            m.Add(dfH == ev - Hi)
+                            m.Add(dfH == ev - top)
                             m.AddAbsEquality(dH, dfH)
                             dmin = m.NewIntVar(0, span, "")
                             m.AddMinEquality(dmin, [d, dH])
@@ -859,14 +974,25 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 rs = prep.get(lvl) or []
                 if not rs:
                     continue
-                for axis, extent in (("x", Wi), ("y", Hi)):
-                    lines = list(range(0, extent + 1, bayU))
+                # WP-11.11: PER ELEMENT. A clear span is a run of floor inside ONE mass; a
+                # window of grid lines drawn across the gap between two detached elements is
+                # the defect WP-11.9 removed from `structure.wall_lines`, arriving here.
+                for _e in ((els or {}).get(lvl) or [{"id": "main", "x": 0, "y": 0,
+                                                     "W": Wi / float(U), "H": Hi / float(U),
+                                                     "rooms": [r["id"] for r in rs]}]):
+                  _ex, _ey = int(round(_e["x"] * U)), int(round(_e["y"] * U))
+                  _eW, _eH = int(round(_e["W"] * U)), int(round(_e["H"] * U))
+                  _ers = [r for r in rs if r["id"] in set(_e.get("rooms") or [])]
+                  if not _ers:
+                      continue
+                  for axis, lo0, extent in (("x", _ex, _ex + _eW), ("y", _ey, _ey + _eH)):
+                    lines = list(range(lo0, extent + 1, bayU))
                     if lines[-1] != extent:
                         lines.append(extent)
                     act = {}
                     for L in lines[1:-1]:
                         faces = []
-                        for r in rs:
+                        for r in _ers:
                             if (lvl, r["id"]) not in rooms:
                                 continue
                             v = rooms[(lvl, r["id"])]
@@ -952,7 +1078,7 @@ def _hint_values(model, rooms, values):
         model.AddHint(v["h"], h)
 
 
-def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
+def _absorb(rects, W, H, caps=None, keepout=(), ratios=None, bounds=None):
     """Grow rooms into the void the coverage floor allows, edges moving outward
     only — a pinned boundary edge is already at its boundary, and a shared edge
     stops exactly at its neighbour, so nothing hard can break. `caps` bounds
@@ -981,10 +1107,20 @@ def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
     cap above already makes and it is made the same way.
 
     A room whose pin was DOWNGRADED is deliberately absent from `ratios`: the record says its
-    band could not hold, so this pass has nothing to preserve for it."""
+    band could not hold, so this pass has nothing to preserve for it.
+
+    `bounds` is `{room_id: (x, y, W, H)}` -- the room's OWN massing element (WP-11.11), and the
+    FOURTH time this pass has been caught undoing what the solve proved. CP now holds every room
+    inside its element's box; this pass then grew one straight out of it, measured on a
+    hand-tagged `tidewater-georgian-careful`: the breakfast room was proved at y >= 4.95, the
+    west dependency's own south edge, and absorbed to y = 1.6 -- 3.35 ft of drawn floor outside
+    the mass it belongs to, in a record that looks exactly like a solved plan. The four `lim`
+    seeds below are the element's four faces now, and `(0, 0, W, H)` on a one-rectangle house,
+    which is every plan in this corpus."""
     ids = list(rects)
     caps = caps or {}
     ratios = ratios or {}
+    bounds = bounds or {}
 
     def _fits(rid, w, h):
         """Would this rectangle still sit inside the band the solve proved for it?"""
@@ -1002,7 +1138,8 @@ def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
         for rid in ids:
             x, y, w, h = rects[rid]
             cap = caps.get(rid, float("inf"))
-            lim = W
+            bx, by, bW, bH = bounds.get(rid, (0.0, 0.0, W, H))
+            lim = bx + bW
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and oy < y + h - 0.01 and y < oy + oh - 0.01 and ox >= x + w - 0.01:
                     lim = min(lim, ox)
@@ -1010,7 +1147,7 @@ def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
                 nw = min(lim - x, max(w, cap / max(h, 0.01)))
                 if nw - w > 0.01 and _fits(rid, nw, h):
                     w = nw; moved = True
-            lim = H
+            lim = by + bH
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and ox < x + w - 0.01 and x < ox + ow - 0.01 and oy >= y + h - 0.01:
                     lim = min(lim, oy)
@@ -1018,7 +1155,7 @@ def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
                 nh = min(lim - y, max(h, cap / max(w, 0.01)))
                 if nh - h > 0.01 and _fits(rid, w, nh):
                     h = nh; moved = True
-            lim = 0.0
+            lim = bx
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and oy < y + h - 0.01 and y < oy + oh - 0.01 and ox + ow <= x + 0.01:
                     lim = max(lim, ox + ow)
@@ -1026,7 +1163,7 @@ def _absorb(rects, W, H, caps=None, keepout=(), ratios=None):
                 nw = min(w + (x - lim), max(w, cap / max(h, 0.01)))
                 if nw - w > 0.01 and _fits(rid, nw, h):
                     x -= nw - w; w = nw; moved = True
-            lim = 0.0
+            lim = by
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and ox < x + w - 0.01 and x < ox + ow - 0.01 and oy + oh <= y + 0.01:
                     lim = max(lim, oy + oh)
@@ -1332,8 +1469,15 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                     v = gr.get("_void")
                     if isinstance(v, dict) and not v.get("roofed") and gr["id"] in below:
                         keepout.append(below[gr["id"]])
+            # WP-11.11: the room's OWN element bounds the growth. `None` on a one-rectangle
+            # house -- the whole shipped corpus -- so `_absorb` takes its `(0, 0, W, H)`
+            # default and every absorbed rectangle is unchanged.
+            _els = GEO.blocks_for(plan, fpd, prep, lvl)
+            _eb = ({rid: (e["x"], e["y"], e["W"], e["H"]) for e in _els for rid in e["rooms"]}
+                   if len(_els) > 1 else None)
             rects_by_level[lvl] = _absorb(rects_by_level[lvl], fpd["W"], fpd["H"],
-                                          caps=caps, keepout=keepout, ratios=ratios)
+                                          caps=caps, keepout=keepout, ratios=ratios,
+                                          bounds=_eb)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
                                    fpd["bay"], fpd["tol"])
         sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax)
@@ -1666,6 +1810,39 @@ def _feasible_fixture():
         ]}]}
 
 
+def _multi_element_fixture():
+    """Three massing elements -- a main block, a hyphen, a dependency -- whose door graph is
+    consistent with being three masses: every cross-element door goes THROUGH the hyphen, which
+    is the only room that touches both of its neighbours.
+
+    WP-11.11. This is the positive half of the acceptance surface: `_k5_fixture` proves the
+    model still refuses what cannot be built, and this proves it can now build what can. The
+    hand-tagged `tidewater-georgian-careful` is deliberately NOT this fixture -- that record
+    declares a door between a main-block dining room and a dependency butler's pantry, so CP
+    proves it unbuildable, which is a finding about the record and a bad acceptance test."""
+    return {
+        "id": "cp-selftest-multi-element", "name": "CP selftest, three massing elements",
+        "style": "georgian-colonial-american",
+        "context": {"entrance_faces": "S"},
+        "levels": [{"id": "ground", "index": 0, "floor_to_ceiling_ft": 9, "rooms": [
+            {"id": "porch", "type": "entry-porch", "width_ft": 6, "length_ft": 10,
+             "exterior_walls": ["S"], "doors": [{"to": "hall"}, {"to": "exterior"}]},
+            {"id": "hall", "type": "entrance-hall", "width_ft": 10, "length_ft": 14,
+             "exterior_walls": ["W"],
+             "doors": [{"to": "porch"}, {"to": "parlor"}, {"to": "link"}]},
+            {"id": "parlor", "type": "parlor", "width_ft": 14, "length_ft": 16,
+             "exterior_walls": ["S", "E"], "doors": [{"to": "hall"}]},
+            {"id": "link", "type": "gallery-corridor", "width_ft": 8, "length_ft": 12,
+             "block": "w-dep", "hyphen": True, "exterior_walls": ["N", "S"],
+             "doors": [{"to": "hall"}, {"to": "kitchen"}]},
+            {"id": "kitchen", "type": "kitchen", "width_ft": 14, "length_ft": 16,
+             "block": "w-dep", "exterior_walls": ["N", "S", "W"],
+             "doors": [{"to": "link"}, {"to": "pantry"}]},
+            {"id": "pantry", "type": "pantry", "width_ft": 6, "length_ft": 10,
+             "block": "w-dep", "exterior_walls": ["W"], "doors": [{"to": "kitchen"}]},
+        ]}]}
+
+
 def _k5_fixture():
     """Five rooms, every pair sharing a door: the door graph is K5, which is
     non-planar — no arrangement of touching rectangles can realize it. A TRUE
@@ -1733,6 +1910,39 @@ def selftest():
         else:
             print(f"  OK   K5 fixture: proven infeasible, {len(conflicts)} door "
                   f"conflict(s) named (a non-planar door graph cannot be a floor plan)")
+
+    # WP-11.11 -- the positive half: a plan with three massing elements is PLACED, and every
+    # room is inside its own element rather than flattened into the main block.
+    res = solve_cp(_multi_element_fixture(), time_limit_s=25)
+    if "best" not in res:
+        print(f"  FAIL multi-element fixture did not solve: {str(res)[:220]}")
+        failures += 1
+    else:
+        # through `_mod` and therefore through modcache -- CLAUDE.md's standing trap, with
+        # `tests/test_modcache.py` behind it, and it caught this line in the full suite
+        plan = _multi_element_fixture()
+        levels, prep = GEO.prep_rooms(plan)
+        els = GEO.blocks_for(plan, res["fpd"], prep, 0)
+        owner = {rid: e for e in els for rid in e["rooms"]}
+        probs = []
+        if len(els) != 3:
+            probs.append(f"the fixture makes {len(els)} element(s), not 3")
+        worst = 0.0
+        for rid, (x, y, w, h) in res["best"]["ground"].items():
+            e = owner.get(rid)
+            if not e:
+                probs.append(f"{rid} belongs to no element")
+                continue
+            worst = max(worst, e["x"] - x, e["y"] - y,
+                        (x + w) - (e["x"] + e["W"]), (y + h) - (e["y"] + e["H"]))
+        if worst > 0.01:
+            probs.append(f"a room is drawn {worst:.2f} ft outside its own element")
+        if probs:
+            print("  FAIL multi-element fixture: " + "; ".join(probs))
+            failures += 1
+        else:
+            print(f"  OK   multi-element fixture: 3 elements placed, every room inside its own "
+                  f"({res['solver']['status']}, {res['solver']['wall_time_s']}s)")
 
     if failures:
         print(f"\n{failures} selftest failure(s).")

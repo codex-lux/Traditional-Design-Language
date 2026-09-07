@@ -1197,9 +1197,12 @@ def is_block_tag(v):
     `string`. Anything else is ignored, which puts the room in the main block: the conservative
     answer, and the same one a record written before this field existed already gets.
 
-    It is a named function rather than an inline test because `solve()`'s CP refusal asks the
-    same question 800 lines away, and the two answering differently is how a plan comes to be
-    refused by the prover for a second element the placer does not build.
+    It is a named function rather than an inline test because two readers here ask the same
+    question -- `blocks_for` and `dependency_sizes` -- and the two answering differently is how
+    a room comes to be sized into one element and placed in another. A THIRD reader used to ask
+    it, `solve()`'s CP refusal, and WP-11.11 removed that refusal by teaching the model about
+    elements; the sentence naming it is corrected here rather than left, because a comment
+    pointing at a caller that no longer exists is the "until X lands" class (WP-6.4).
     """
     return isinstance(v, str) and bool(v.strip())
 
@@ -1670,12 +1673,15 @@ def multi_element_disclosure(plan):
       roof       spans the UNION bounding box, by ruling 1 -- an element has its own envelope
                  and the union is reported beside it. One gable over the whole union is a
                  stated approximation on a multi-element house, not a modelled roof.
-      engine=cp  `geometry_cp.py` builds every room as `x = NewIntVar(0, Wi)`: one rectangle,
-                 one non-negative coordinate space. It REFUSES a multi-element plan and `auto`
-                 falls back saying why, so on a plan with a dependency the engine that PROVES
-                 is unavailable and the engine that SEARCHES carries the findings.
       composer   writes no `block` on any room, so the only way to reach this state is still a
                  caller-supplied record or a hand-tagged one.
+
+    **`engine=cp` LEFT THIS LIST IN WP-11.11.** It built every room as `x = NewIntVar(0, Wi)`
+    and refused a multi-element plan outright, so the engine that PROVES was unavailable on
+    exactly the plans this disclosure is about. Every statement the model makes about "the
+    block" is made about the room's own element now (`geometry_cp._element_boxes`), in one
+    coordinate space, and the engine either places each room inside its element or proves the
+    brief cannot be housed and names the conflict.
     """
     fp = plan.get("footprint") or {}
     if len(fp.get("blocks") or []) < 2:
@@ -1684,13 +1690,14 @@ def multi_element_disclosure(plan):
         "elements": len(fp["blocks"]),
         "element_aware": ["openings", "structure", "vertical_score", "lot_cap",
                           "plan_check.drawn", "export_ifc"],
-        "not_element_aware": ["roof", "engine=cp", "composer"],
+        "not_element_aware": ["roof", "composer"],
         "note": ("The six layers that read footprint.width_ft/depth_ft as the whole building "
                  "were taught about massing elements in WP-11.9 and each has its own envelope "
-                 "now. What remains: the roof spans the UNION bounding box rather than being "
-                 "modelled per element, which is a stated approximation; the CP engine refuses "
-                 "a multi-element plan outright, so this placement was searched and not proved; "
-                 "and the composer writes no block tag, so this record was authored by hand."),
+                 "now, and the CP engine was taught in WP-11.11 -- it places each room inside "
+                 "its own element, or proves the brief cannot be housed and names the conflict. "
+                 "What remains: the roof spans the UNION bounding box rather than being "
+                 "modelled per element, which is a stated approximation; and the composer "
+                 "writes no block tag, so this record was authored by hand."),
     }
     _els = _elements().elements(plan)
     note["built_extent_width_ft"] = round(_elements().extent_width_ft(plan, _els), 2)
@@ -2423,36 +2430,19 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
             out["geometry_report"]["solver"] = {"engine": "heuristic", "reason": "requested"}
         return out
 
-    # CP-SAT CANNOT PLACE A SECOND MASSING ELEMENT, AND MUST SAY SO RATHER THAN PLACE IT WRONGLY
-    # (OQ 40, found by the adversarial audit of the change that made one placeable, 3 Sep 2026).
-    # geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi` -- one rectangle,
-    # one non-negative coordinate space -- and its tiling, `_absorb`, `_snap_fpd`, the hint and the
-    # objective all rest on that. Handed a plan with a dependency it did not fail; it placed the
-    # dependency's rooms INSIDE the main block (the garage at x = 50 of a 0-70 block) while
-    # `footprint.blocks` went on describing an element at x = 84-114. The record and the drawing
-    # then disagreed about where the house is, which is the one thing Phase 6 exists to prevent --
-    # and it silently flattered a published measurement, because rooms crammed into one rectangle
-    # are all reachable and the fatal count looked like a proof of the composition.
-    # Teaching CP about blocks is a package, not a patch. Until then this is a refusal, taken on
-    # the same path as a missing ortools: `auto` falls back to the hill-climb with the reason
-    # stated in `geometry_report.solver`, and the plate reads that rather than asserting a proof.
-    _blocked = any(is_block_tag(r.get("block"))
-                   for lv in plan.get("levels", []) for r in lv.get("rooms", []))
-    if _blocked:
-        if engine == "cp":
-            return {"error": "could not solve with CP-SAT: this plan has more than one massing "
-                             "element (a dependency), and the CP model places every room in a "
-                             "single rectangle. Use the hill-climb, which states the elements.",
-                    "unsolved": True}
-        out = solve_heuristic(plan, parti, candidates, seed)
-        if "error" not in out:
-            out["geometry_report"]["solver"] = {
-                "engine": "heuristic", "fallback": "engine",
-                "reason": "this plan has more than one massing element and the CP model places "
-                          "every room in a single rectangle; fell back to the hill-climb, which "
-                          "places each element in its own"}
-        return out
-
+    # CP-SAT PLACES A SECOND MASSING ELEMENT SINCE WP-11.11, AND THE REFUSAL THAT STOOD HERE IS
+    # GONE. The refusal was right when it was written and the reason is worth keeping: handed a
+    # tagged plan, `geometry_cp` did not fail -- it placed the dependency's rooms INSIDE the main
+    # block (a garage at x = 50 of a 0-70 block) while `footprint.blocks` went on describing an
+    # element at x = 84-114, so the record and the drawing disagreed about where the house is,
+    # and it FLATTERED the fatal count, because rooms crammed into one rectangle are all
+    # trivially reachable. Refusing beat lying. What changed is that every statement the model
+    # makes about "the block" -- containment, the coverage floor, a declared exterior wall, a
+    # spanning room's through-axis, an exterior door reaching the envelope, the bay grid and the
+    # span capacity -- is now made about the element the room stands in
+    # (`geometry_cp._element_boxes`), in ONE coordinate space, because CP-SAT integer variables
+    # take negative lower bounds and a west dependency needs no second origin.
+    #
     try:
         # probe the exact import the engine needs — a broken or partial
         # install where `import ortools` succeeds but the sat module is
