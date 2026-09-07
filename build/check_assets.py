@@ -77,7 +77,14 @@ def main():
         return 3
 
     doc = json.load(open(ASSETS))
-    schema = json.load(open(SCHEMA))
+    # COMPILED ONCE, NOT REBUILT 1,850 TIMES. `jsonschema.validate(a, schema)` in this loop
+    # was 36.1 s of check_all.py's 197 s -- 18% of the whole checker suite, spent building
+    # the same validator object once per asset record. Compiled: 0.35 s. See
+    # build/schema_validators.py, and CLAUDE.md's WP-10.1 entry for the same wrapper
+    # measured at 17.9% of /api/plan/evaluate.
+    sys.path.insert(0, os.path.join(ROOT, "build"))
+    import schema_validators
+    validator = schema_validators.compiled(SCHEMA)
     assets = doc.get("assets") or []
     errs = []
     EX = _exemplars()
@@ -85,7 +92,7 @@ def main():
     for a in assets:
         aid = a.get("id", "<no id>")
         try:
-            jsonschema.validate(a, schema)
+            schema_validators.raise_first(validator, a)
         except jsonschema.ValidationError as e:
             errs.append("%s: %s" % (aid, e.message))
             continue
