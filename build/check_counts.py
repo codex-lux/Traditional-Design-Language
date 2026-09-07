@@ -211,11 +211,13 @@ def computed():
     v["measured_unsourced"] = _rt["measured_unsourced"]
     v["measured_unsourced_read"] = _rt["measured_unsourced_read"]
     v["shared_only_nodes"] = len(_rt["shared_only_nodes"])
-    # WP-11.7's deliverable, and the reason it is here: it was PRINTED by check_research.py on
-    # every run and derived by nothing, which is exactly the shape WP-8.14 is about -- of the
-    # seven figures that layer published, the one nobody policed is the one that rotted. It is
-    # ratcheted tight at 0 in check_research.RATCHET and its prose is held here.
-    v["sourceless_nodes"] = len(_rt["sourceless_nodes"])
+    # WP-11.7's deliverable. THE VALUE WAS ALREADY COMPUTED HERE -- the line below predates the
+    # package -- and the first version of this comment said it had been "derived by nothing", which
+    # is false and is the very shape CLAUDE.md records as "the evaluator the question asked for had
+    # existed all along in two places", written inside the fix for that class. What was missing was
+    # never the derivation: it was a CLAIM reading it and a RATCHET holding it, and the figure was
+    # free to move in either direction with neither. Both exist now. (The correction also removed a
+    # duplicate assignment of this exact line, added directly above it without reading it.)
     v["sourceless_nodes"] = len(_rt["sourceless_nodes"])
     v["exemplars_with_precedent"] = _rt["exemplars_with_precedent"]
     v["read_slots"] = len(_rt["read_slots"])

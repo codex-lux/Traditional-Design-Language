@@ -120,6 +120,23 @@ def drift(nodes=None):
     return bad
 
 
+
+def _write_atomic(path, doc):
+    """Write a corpus record the way `build.py` writes a kit: beside it, then rename.
+
+    `open(path, "w")` TRUNCATES first, so a process killed mid-write leaves the record truncated on
+    disk. `build.py:54` fixed exactly this on 28 Aug 2026 -- "corpus data loss from a command whose
+    job is to regenerate, not to destroy" -- and the fix was never generalised, so both writers
+    added since carried it back in. These files are worse than the kits build.py was protecting:
+    a kit regenerates, an authored `precedents/` record does not. os.replace is atomic within a
+    filesystem."""
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(doc, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    os.replace(tmp, path)
+
+
 def apply(nodes=None):
     nodes = load_nodes() if nodes is None else nodes
     want = derive(nodes)
@@ -129,9 +146,7 @@ def apply(nodes=None):
         if (fam.get("exemplars") or []) == rows:
             continue
         fam["exemplars"] = rows
-        with open(path, "w", encoding="utf-8") as fh:
-            json.dump(fam, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
+        _write_atomic(path, fam)
         written += len(rows)
     added = 0
     for pid, fids in sorted(nodes_gained(nodes).items()):
@@ -142,9 +157,7 @@ def apply(nodes=None):
         if not new:
             continue
         rec["nodes"] = ns + new
-        with open(path, "w", encoding="utf-8") as fh:
-            json.dump(rec, fh, indent=2, ensure_ascii=False)
-            fh.write("\n")
+        _write_atomic(path, rec)
         added += len(new)
     return written, added
 

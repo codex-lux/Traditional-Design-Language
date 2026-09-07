@@ -71,6 +71,34 @@ node flips (`monterey-revival` 4 uniques → 3, `mid-century-traditional` keeps 
 24 before and 24 after, `distinct sources` 423 → 422. **The measurement came first and the edit
 second** — the same operation on any of the other 22 groups is the six-node regression above.
 
+## The split REPRODUCES under parallel authorship, which is new evidence for ruling it
+
+Found by the WP-11.7 audit, and it is the strongest argument yet that this needs a ruling rather
+than patience. Two higher-rank nodes authored **in the same commit, by two of six parallel agents**,
+cite one book two different ways:
+
+```
+  15 nodes  Oliver (ed.), Encyclopedia of Vernacular Architecture of the World
+              <- northern-european-vernacular took this form
+   2 nodes  Paul Oliver (ed.), Encyclopedia of Vernacular Architecture of the World (1997)
+              <- mediterranean-vernacular took this one
+```
+
+Neither string is new — the package minted no spelling — so its claim to have left only one phantom
+behind, and fixed it, still holds. What it did was **deepen a split it documents as an open question
+in the same commit**, and it did so because each agent independently reused the spelling nearest to
+hand. Five more of the 45 reused citations landed inside other documented clusters the same way
+(McAlester, Whiffen, Scully, Blunt).
+
+`northern-european-vernacular` took the form this entry names as the WORSE one — 15 nodes, no year,
+no forename, winning on count and losing on completeness — which is question 3 above, arriving as a
+live consequence rather than a hypothetical.
+
+**Deliberately not normalised**, on this entry's own terms: which spelling is canonical is exactly
+what is unruled, and picking one for two nodes because an audit noticed them would be answering the
+question by attrition. Measured, so the cost of deferring is known and small: making the two agree
+moves `distinct sources` by one and `shared_only` not at all.
+
 ## The instrument, and the false clean bill it first gave
 
 The first sweep for this class normalised years, punctuation, editorial marks and stopwords and

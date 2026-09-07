@@ -469,10 +469,14 @@
       }
     },
     "sources": {
+      "description": "Works establishing this node. A blank entry is refused because `sourceless_nodes` is a ratchet pinned tight at 0 and counts LIST LENGTH: a node citing [\"\"] validated, read as one source, and satisfied the ceiling, the new CLAIM and the test together. `uniqueItems` for the same reason one layer up -- a repeated string counts twice toward the works a node holds alone. The data already satisfied both; this is the validation catching up with a guarantee that became load-bearing in WP-11.7.",
       "type": "array",
       "items": {
-        "type": "string"
-      }
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "uniqueItems": true
     },
     "confidence": {
       "enum": [

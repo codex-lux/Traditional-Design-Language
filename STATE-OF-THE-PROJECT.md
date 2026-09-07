@@ -163,8 +163,9 @@ tranches).
 
 **TRANCHE 4 GAVE THE 32 HIGHER-RANK NODES A LITERATURE OF THEIR OWN (WP-11.7, 7 Sep 2026).** Every
 family and every tradition cited **nothing** — the one figure `check_research.py` printed on every
-run and ratcheted nowhere, which is the WP-8.14 shape. **156 sources written over all 32 -- 109 works new to the corpus, 45 strings reused
-verbatim -- and `sourceless_nodes` is 0 and pinned tight at 0**; ruled the same day that a
+run and ratcheted nowhere, which is the WP-8.14 shape. **156 sources written over all 32 -- 111 citations of works new to the corpus (109 DISTINCT
+works) and 45 reusing a string the corpus already held -- and `sourceless_nodes` is 0 and pinned
+tight at 0**; ruled the same day that a
 family's sources are AUTHORED (the works that establish the category, never the union of what its
 members cite), that the package covers sources only, and that the `shared_only` ceiling keeps its 24
 while the word is corrected. **The approved protocol was backwards and measuring it is what found
@@ -182,7 +183,10 @@ Beyond that, **23 works appear under 51 strings** (*A Field Guide to American Ho
 this corpus), so `cited_by` over-counts: normalising them takes distinct sources 422 → 394 and
 `shared_only` **24 → 30 — six nodes over a live ceiling, produced by making the data more correct**.
 `beaux-arts-american`'s only unique citation differs from `beaux-arts-french`'s by a comma. Nothing
-was normalised;
+was normalised **except the one phantom this package itself minted** -- `monterey-revival`, a
+buildable node, had `Hess, The Ranch House` rewritten to the fuller form after measuring that
+neither node flips; stating the rule flatly here while the report and the plan both record the
+exception was one commit publishing two different answers;
 `oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated` and
 `oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction` carry it.
 

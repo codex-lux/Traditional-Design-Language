@@ -1788,8 +1788,8 @@ from a proved-green baseline, each restored in a `finally`. Report: `docs/report
 **WP-11.7 Status: COMPLETE (7 Sep 2026) — TRANCHE 4, AND THE APPROVED PROTOCOL WAS BACKWARDS.**
 Every family and every tradition cited NOTHING: the one figure `check_research.py` printed on every
 run and ratcheted nowhere, which is exactly the shape WP-8.14 is about. **156 sources written over
-all 32 nodes — 28 carry five and four carry four — 109 of them new to the corpus, 45 strings reused
-verbatim; `distinct sources` 314 → 422 and `sourceless_nodes` 32 → 0, pinned tight at 0.**
+all 32 nodes — 28 carry five and four carry four — 111 citations of works new to the corpus (109
+DISTINCT works, two of them cited by two nodes apiece) and 45 reusing a string the corpus already held; `distinct sources` 314 → 422 and `sourceless_nodes` 32 → 0, pinned tight at 0.**
 Ruled 7 Sep: a family's sources are **AUTHORED**, the works that establish the category and never
 the union of what its members cite; **sources only**, no `distinguished_from` and no constraints at
 higher rank; and the `shared_only` ceiling **keeps its 24 while the WORD is corrected** to "another
@@ -1814,7 +1814,9 @@ not "corrected", and **pre-existing on five buildable nodes where it remains**;
 `american-arts-and-crafts` cited a monograph on its own member `prairie-school`, byte-identical to
 that node's citation, which is the brief's worked example instantiated; and
 `northern-european-vernacular` wrote a book this package had already written under a different
-subtitle. **Two audits reported COULD NOT EVALUATE on existence as their headline** — Tavily
+subtitle. **ONE audit reported COULD NOT EVALUATE on existence as its headline** (this line said "two", and
+so does `f7d2ee9`'s pushed commit message, which cannot be corrected; the second audit confirmed
+every work and recorded a limit on the strength of its YEAR evidence, which is not the same state) — Tavily
 answered HTTP 433 (pay-as-you-go limit) to every call in the package and the WebSearch budget went
 with it — and removed nothing, reasoning that dropping works they could not check converts
 *could-not-evaluate* into *evaluated-and-failed* on the strength of an exhausted quota.

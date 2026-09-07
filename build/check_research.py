@@ -76,15 +76,21 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #                                the instrument's figure is the one pinned.
 #   editorial_read 69            Editorial parameters on a read slot (the hand list said 55).
 #   shared_only_nodes 24         Nodes whose every source is shared with another node.
-#   sourceless_nodes 0           Nodes citing NO source at all. It was printed and unratcheted
-#                                from WP-11.1 until WP-11.7 -- computed, published every run, and
-#                                free to move in either direction, which is the shape WP-8.14 is
-#                                about. It was 32 when it was ratcheted, all of them the families
-#                                and the traditions; Tranche 4 authored 156 works over those 32
-#                                and it is PINNED TIGHT AT ZERO. It falls only by AUTHORING a work
-#                                that establishes the node as a category -- never by copying a
-#                                member's citation up -- and a node arriving here is a regression
-#                                at any rank.
+#   sourceless_nodes 32          Nodes citing NO source at all. 32 is this table's register -- the
+#                                4 Sep measurement, as every other row is -- and the PIN below is
+#                                0. (Written here first as "0", the CURRENT value, in a table
+#                                headed "measured 4 Sep", so the prose then had to say "it was 32
+#                                when it was ratcheted" to undo its own confusion. One register per
+#                                table.) It was printed and unratcheted from WP-11.1 until WP-11.7:
+#                                computed, published every run, free to move in either direction,
+#                                which is the shape WP-8.14 is about. All 32 were the families and
+#                                the traditions; Tranche 4 wrote 156 SOURCES over them (111
+#                                citations of 109 distinct new works, plus 45 reuses -- NOT "156
+#                                works", which is the two denominators the report published as a
+#                                partition) and the pin is TIGHT AT ZERO. It falls only by
+#                                AUTHORING a work that establishes the node as a category -- never
+#                                by copying a member's citation up -- and a node arriving here is a
+#                                regression at any rank.
 #   untested_nodes 3             Nodes with constraints and not one carrying a test.
 #   exemplars_with_precedent 171 A FLOOR: exemplars naming a `precedents/` record.
 #   nodes_with_a_precedent 27    A FLOOR.
