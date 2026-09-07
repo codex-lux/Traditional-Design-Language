@@ -478,6 +478,24 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE WP-11.6 FINDING DIGEST IS OVER EVERY FINDING, NOT ONLY THE DRAWN ONES, AND WP-11.9 SHIPPED
+  RED ON IT (found by the build, 6 Sep 2026).** `test_a_one_rectangle_plan_is_UNTOUCHED_finding_
+  for_finding` hashes `PC.check(q)["findings"]` ENTIRE, so a new ROOM-layer finding moves it just
+  as a drawn one does. WP-11.9 was committed at about 10% of the suite at a stop hook's request
+  and the run failed here **forty-nine minutes in**. **That is the mechanism working exactly as
+  this file records it**: a package that commits before its build finishes learns what it broke
+  from the build. Nothing was wrong with the change -- the pin's job is to make a movement
+  ACCOUNTED FOR rather than accepted. Tidewater `de953067f3b99ad2 -> 70be99010403c9f3` (192 -> 208
+  rows), spec Colonial `5c76fc98f526d55a -> b5b33adeb258e516` (225 -> 238), every row attributed
+  in the test's own docstring.
+  **TWO ROWS LEAVE BOTH PLANS AND THAT IS THE SHARPER HALF**: the two `centre-passage-core` rules
+  that GAINED a test stopped being handed to a reader, and on the Tidewater record both evaluate
+  and PASS, so they emit nothing at all.
+  **AND THE FIRST DIFF READ "+23 -7" AND LOOKED ALARMING.** Seven of those were the hand-off
+  REWORDED (`check by hand:` -> `check by hand (strong, no machine test):`), counted once as a
+  removal and once as an addition. **Normalise a rewording before reading a diff, or a real
+  removal hides inside the noise of a cosmetic one** -- two real removals survived the
+  normalisation and they are the two that matter.
 - **A PART VI IS ENUMERATION AND A PART II IS RESEARCH, AND ONLY ONE OF THEM CAN BE GENERATED
   (WP-11.11).** `build/parti_prose.py <parti-id> [--md] [--all]` reads a parti's own groupings,
   massing and room records and sorts every sentence into `executed` / `reported` / `by hand`, plus

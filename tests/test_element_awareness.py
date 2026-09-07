@@ -359,10 +359,49 @@ class TestTheCriticReadsTheRoomsOwnElement:
         **The element claim this test was written for is untouched**, which is the thing to check
         before accepting a new digest: `envelopes` still returns `{}` below two elements, so no
         element-aware reading moved. A digest that moved by MORE than the rows a change accounts
-        for is the failure this pin exists to catch, and the count is how you tell."""
+        for is the failure this pin exists to catch, and the count is how you tell.
+
+        **RE-PINNED AT WP-11.9, AND THIS PIN IS WHY THAT PACKAGE'S BUILD WAS RED.** WP-11.9 was
+        committed while `check_all.py` was still at about 10% of the suite -- a stop hook asked
+        for the commit -- and the run then failed here, forty-nine minutes in, on the Tidewater
+        digest. **That is the mechanism working exactly as CLAUDE.md records it**: a package that
+        commits before its build finishes learns what it broke from the build, and this pin is the
+        thing that told it. Nothing was wrong with the change; the pin's whole job is to make a
+        digest movement be ACCOUNTED FOR rather than accepted.
+
+          `tidewater-georgian-careful`  de953067f3b99ad2 -> 70be99010403c9f3, 192 -> 208 rows
+          `spec-builder-colonial`       5c76fc98f526d55a -> b5b33adeb258e516, 225 -> 238 rows
+
+        Counted before re-pinning, and **every row is attributed**. Two rows LEAVE both plans and
+        that is the sharper half of the movement:
+
+          -2 on each: `centre-passage-core`'s "both ends of the passage have doors" and "the
+             stair rises in the passage" stopped being handed to a reader because WP-11.9 gave
+             each a `test`. On the Tidewater record BOTH EVALUATE AND PASS, so they emit nothing
+             at all -- which is the package's own finding: the diagnosis's B4 is a defect of the
+             DRAWING and not of the record.
+          +9 / +5  aspect findings (6 unwanted + 3 avoided on the Tidewater plan; 4 + 1 on the
+             spec Colonial), from `daylight.aspect` and `build/compass.py`.
+          +1 / +1  the aspect census, which fires wherever any room was read.
+          +8 / +7  grouping rules that had been emitting NOTHING. The no-test branch read
+             `elif hard`, so every `strong` and `preferred` rule in the corpus was silent -- 28 of
+             86 -- and a rule nobody executes and nobody is told about reads exactly like a rule
+             that passed.
+          +2 on the spec Colonial only: the two new tests reporting COULD NOT EVALUATE, because
+             that record has an `entrance-hall` and no passage to measure. Not a pass.
+
+        **The hand-off was also REWORDED** (`check by hand:` -> `check by hand (strong, no machine
+        test):`), which moves seven more rows on each plan. Do not count those as removals: the
+        first diff of this change read "+23 -7" and looked alarming until the rewording was
+        normalised, and normalising it is what makes a REAL removal visible. Two real removals
+        survived that normalisation and they are the two named above.
+
+        **The element claim is STILL untouched.** No `element` key appears in any moved row and
+        `envelopes` still returns `{}` below two elements; every row above comes from the room and
+        grouping layers, which read no placement at all."""
         import hashlib
-        for name, want in (("tidewater-georgian-careful", "de953067f3b99ad2"),
-                           ("spec-builder-colonial", "5c76fc98f526d55a")):
+        for name, want in (("tidewater-georgian-careful", "70be99010403c9f3"),
+                           ("spec-builder-colonial", "b5b33adeb258e516")):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
