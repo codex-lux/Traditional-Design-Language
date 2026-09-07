@@ -279,12 +279,26 @@ def check_room(rep, path, room, u, room_ids):
             rep.warn(where, "daylight.orientation states an aspect in words and there is no "
                             "daylight.aspect beside it: the sentence is unread and this room's "
                             "aspect is unjudged (WP-11.9)")
+    elif not isinstance(asp, dict):
+        # THE GUARD MUST SURVIVE THE MALFORMATION IT EXISTS TO CATCH (audit, 7 Sep 2026).
+        # `check_room` runs UNCONDITIONALLY after schema validation -- the caller's loop gates
+        # only on id/function_class/privacy_rank -- so a record the schema would have rejected
+        # reached this block anyway, and `asp.get` on a string killed the whole checker process
+        # instead of printing the schema error beside the other 59 records. A checker that dies
+        # on bad data reports nothing about the good data either.
+        rep.err(where, f"daylight.aspect is not an object: {asp!r}")
     else:
-        if not orient:
-            rep.err(where, "daylight.aspect with no daylight.orientation to have read")
-        elif asp.get("basis") not in (orient or ""):
+        basis = asp.get("basis")
+        if not orient or not isinstance(orient, str):
+            rep.err(where, "daylight.aspect with no daylight.orientation prose to have read")
+        elif not isinstance(basis, str) or not basis:
+            # `None not in "some string"` is a TypeError, not a False. The schema requires
+            # `basis`; this branch is what happens when something reaches here that the schema
+            # did not see, and it must REPORT rather than raise.
+            rep.err(where, f"daylight.aspect states no basis to check against the prose: {basis!r}")
+        elif basis not in orient:
             rep.err(where, f"daylight.aspect.basis is not verbatim in daylight.orientation: "
-                           f"{asp.get('basis')!r}")
+                           f"{basis!r}")
         pref, avd = asp.get("prefer") or [], asp.get("avoid") or []
         if asp.get("applies"):
             if not (pref or avd):

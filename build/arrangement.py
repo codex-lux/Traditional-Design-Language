@@ -688,14 +688,32 @@ def grouping_vars(plan, C=None, placed=None, footprint=None):
     if passages:
         counts = []
         for rid in passages:
-            n = 0
+            # DISTINCT REACHES, NOT DOORS, AND A THRESHOLD ROOM MUST ITSELF REACH OUTDOORS
+            # (audit, 7 Sep 2026). The first version counted qualifying DOORS against a rule
+            # whose own `measures.quantity` is `passage_ends_reached`, so two doors into the
+            # same porch scored 2, and any door into a threshold-class room scored whether or
+            # not that room had a way out -- a passage opening into a mid-run vestibule and an
+            # entrance hall passed a HARD rule with neither end doored. Both were false passes
+            # on the flattering side, which is the OQ 52 family this function's own comment
+            # commits against, committed in the sentence making the commitment.
+            #
+            # WHAT IT MEASURES IS A NECESSARY CONDITION AND NOT A SUFFICIENT ONE, and the
+            # distinction is a property of the LAYER rather than a shortcut. A door's `wall`
+            # and `position_ft` are solver output; only its `to` is authored. So the declared
+            # record can say that a passage reaches the outdoors by two independent routes and
+            # cannot say that those routes are at its two ENDS. Two reaches is what a doored
+            # pair of ends implies; the ends themselves are the ALIGNMENT half, which was split
+            # out of this rule at WP-11.9, carries no test, and is named to the reader for
+            # exactly this reason.
+            reaches = set()
             for d in (rooms[rid].get("doors") or []):
                 to = d.get("to")
                 if to == "exterior":
-                    n += 1
+                    reaches.add("exterior")
                 elif to in rooms and _fclass(C, rooms[to]) == "threshold":
-                    n += 1
-            counts.append(n)
+                    if any(dd.get("to") == "exterior" for dd in (rooms[to].get("doors") or [])):
+                        reaches.add(to)
+            counts.append(len(reaches))
         m["passage_ends_with_a_door"] = float(min(counts))
         # The stair rises in the passage, or in a hall opening off it. The FIRST half is true by
         # construction in this model -- `openings.stair_pass` will only put a stair in a room of
@@ -705,13 +723,26 @@ def grouping_vars(plan, C=None, placed=None, footprint=None):
         halls = [rid for rid, r in rooms.items()
                  if r.get("type") == "stair-hall" and level_of.get(rid) == 0]
         if halls:
-            reach = 0.0
-            for h in halls:
-                tos = {d.get("to") for d in (rooms[h].get("doors") or [])}
-                for pid in passages:
-                    if pid in tos or h in {d.get("to") for d in (rooms[pid].get("doors") or [])}:
-                        reach = 1.0
-            m["stair_hall_opens_off_the_passage"] = reach
+            # SEVERAL STAIR HALLS THAT DISAGREE ARE COULD-NOT-EVALUATE, NOT THE BEST OF THEM
+            # (audit, 7 Sep 2026). The first version set `reach = 1.0` on ANY hall reaching a
+            # passage -- the flattering reading, ten lines below the comment explaining why the
+            # statement above it takes the worst -- so a principal stair off the passage
+            # excused a second hall reached only from the dining room, on a HARD rule.
+            #
+            # AND `min` IS NOT THE FIX EITHER, which is why this is a third state rather than a
+            # corrected second one. This model has no way to tell a principal stair from a
+            # service stair: both are type `stair-hall`, and a service stair that does NOT open
+            # off the passage is correct in a house of this kind. Taking the worst would convict
+            # a right building; taking the best acquits a wrong one. Where the ground-floor
+            # stair halls disagree the variable is WITHHELD, and `plan_check` reports the rule
+            # unjudged naming the variable it could not get -- which is the honest thing the
+            # corpus can say with the facts it has.
+            reached = [any(pid in {d.get("to") for d in (rooms[h].get("doors") or [])}
+                           or h in {d.get("to") for d in (rooms[pid].get("doors") or [])}
+                           for pid in passages)
+                       for h in halls]
+            if all(reached) or not any(reached):
+                m["stair_hall_opens_off_the_passage"] = 1.0 if all(reached) else 0.0
 
     # --- placement-dependent (absent unless the drawn layer passes a placement in)
     if placed and footprint:

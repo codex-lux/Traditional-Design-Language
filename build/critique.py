@@ -182,10 +182,24 @@ def _intended_move(plan, f):
                           "is on the wrong side of the plan, which is an arrangement decision, or "
                           "the record's preference is being traded for something the plan wants "
                           "more; both are the architect's")
-        if k == "aspect-unstated":
-            return None, ("the room type's record has not had its orientation prose read into "
-                          "tokens; this is a corpus gap, not a defect of the plan")
-        return None, "the depth rule does not govern this room type"
+        # AND A BRANCH FOR `aspect-unstated` WAS DEAD CODE AND IS REMOVED (audit, 7 Sep 2026).
+        # `classify` returns every `info` finding into `could_not_evaluate` and never calls this
+        # function for one; `aspect-unstated` and `aspect-census` are emitted at `info` only, so
+        # the branch could not run and its removal changes no output. It was worth more than a
+        # deletion, though, because it hid the shape of the original defect: a kind this
+        # function does not know about falls through to a sentence about the DEPTH rule, which
+        # is how the aspect kinds came to carry the wrong refusal in the first place. The
+        # fall-through now names the kind rather than asserting a rule, so the next kind added
+        # to this layer gets an honest refusal on the day it is added rather than a true
+        # sentence about someone else's rule.
+        # AND THE FALL-THROUGH'S OWN SENTENCE WAS UNREACHABLE-AS-CORRECT. It said "the depth
+        # rule does not govern this room type", which is `depth-not-governed`'s reason -- and
+        # THAT kind is emitted at `info` too, so the sentence never once reached the finding it
+        # was written for and only ever reached findings it was wrong about. It names the kind
+        # now, so the next kind added to this layer gets an honest refusal on the day it is
+        # added instead of a true sentence about someone else's rule.
+        return None, (f"no move is registered for a '{k}' finding in the daylight layer, and "
+                      f"none of this layer's stated refusals covers it")
     if layer == "style":
         if k == "variant-forbidden":
             if f.get("canonical"):

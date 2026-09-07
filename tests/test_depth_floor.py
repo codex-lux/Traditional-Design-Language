@@ -125,23 +125,73 @@ class TestTheThirdSpellingAgrees:
                 disagree.append((sid, mine, theirs))
         assert disagree == [], f"the third spelling has drifted: {disagree[:5]}"
 
-    def test_it_reproduces_the_between_branch(self):
-        # The first version of the reading dropped `direction == "between"` entirely, and that is
-        # half of why it returned None where structure returned 8.0. Driven, because a style
-        # using `between` may not exist tomorrow and the branch must still be guarded.
-        found = [sid for sid in (os.path.basename(p)[:-5]
-                                 for p in sorted(glob.glob(f"{ROOT}/styles/*.json")))
-                 if any((c.get("test") or {}).get("expression") == "roof_pitch_rise_per_12"
-                        and (c.get("test") or {}).get("direction") == "between"
-                        for c in (json.loads(open(f"{ROOT}/styles/{sid}.json").read())
-                                  .get("constraints") or []))]
-        if not found:
-            pytest.skip("no style in the corpus states its pitch as a band today")
-        for sid in found:
-            assert DF.style_roof_pitch(sid) == ST._style_roof_pitch(sid)[0]
+    def test_it_reproduces_the_between_branch(self, tmp_path, monkeypatch):
+        """The `between` midpoint, DRIVEN and against an ORACLE (audit, 7 Sep 2026).
 
-    def test_the_foundation_constant_matches_structures(self):
-        assert DF.DEFAULT_GRADE_TO_FIRST_FLOOR_FT == ST.DEFAULT_GRADE_TO_FIRST_FLOOR_FT
+        The first version of the reading dropped `direction == "between"` entirely, and that is
+        half of why it returned None where `structure` returned 8.0. The first version of this
+        TEST said it was driven and was not: it globbed the shipped corpus, `pytest.skip`ped if
+        no style used `between` -- a skip is a silent pass -- and then asserted agreement with
+        `structure`, which `test_the_pitch_reading_matches_structures_on_every_style` above
+        already asserts over all 164 styles. It could not fail in a way that test would not.
+
+        Two things are different here. It writes its own style record, so the branch is
+        exercised whatever the corpus does; and it asserts the ARITHMETIC (`between 6 and 10` is
+        8.0) rather than agreement, so both spellings dropping the branch together would be
+        caught. Agreement proves consistency; only an oracle proves correctness.
+        """
+        sid = "zz-driven-band-pitch"
+        d = tmp_path / "styles"
+        d.mkdir()
+        (d / f"{sid}.json").write_text(json.dumps({
+            "id": sid, "name": "Driven",
+            "constraints": [{"id": "c1", "kind": "roof", "statement": "A band, not a figure.",
+                             "test": {"expression": "roof_pitch_rise_per_12",
+                                      "direction": "between", "threshold": 6, "upper": 10}}]}))
+        monkeypatch.setattr(DF, "ROOT", str(tmp_path))
+        assert DF.style_roof_pitch(sid) == 8.0, (
+            "a pitch stated as a band must read as the midpoint of the band; None here is the "
+            "branch dropped, and a wrong number is the midpoint computed wrongly")
+
+    def test_the_foundation_cancels_out_of_the_denominator(self):
+        """The identity `wall_height_ft` rests on, run rather than asserted about a constant.
+
+        This test replaced one that compared `depth_floor.DEFAULT_GRADE_TO_FIRST_FLOOR_FT` with
+        `structure`'s. Both were 2.0 and the comparison was green -- and NOTHING IN
+        `depth_floor` READ ITS COPY, because the foundation cancels: `structure.roof_heights`
+        adds it to the storey heights and `elevation.py` subtracts the ground storey's
+        `grade_to_floor_ft`, which is the same number. The transcription could not drift into a
+        wrong answer because it was not in an answer. What CAN drift is the cancellation -- a
+        foundation that stopped being the same on both sides would move this file's denominator
+        with nothing comparing two 2.0s to notice.
+
+        So: build the storeys and the roof heights the way `structure` does, subtract the way
+        `elevation` does, and hold the result against `wall_height_ft`. Mutation-checked --
+        changing either side of the subtraction turns this red.
+        """
+        plan = json.loads(open(f"{ROOT}/plans/tidewater-georgian-careful.json").read())
+        storeys = ST.storey_heights(plan)
+        fp = plan.get("footprint") or {}
+        heights = ST.roof_heights(plan, storeys,
+                                  {"width_ft": fp.get("width_ft") or 40.0,
+                                   "depth_ft": fp.get("depth_ft") or 30.0})
+        # build_section's own datum loop (structure.py:549-553), which is where a storey gets
+        # its `grade_to_floor_ft` -- `storey_heights` does not carry one.
+        running = ST.DEFAULT_GRADE_TO_FIRST_FLOOR_FT
+        for st in sorted([x for x in storeys if (x.get("index") or 0) >= 0],
+                         key=lambda x: x["index"]):
+            st["grade_to_floor_ft"] = round(running, 3)
+            if st.get("storey_height_ft") is not None:
+                running += st["storey_height_ft"]
+        # elevation.py:1796's own subtraction, in feet.
+        elevation_wall_ft = heights["grade_to_eave_ft"] - storeys[0]["grade_to_floor_ft"]
+        got, why = DF.wall_height_ft(plan)
+        assert got is not None, why
+        assert got == pytest.approx(elevation_wall_ft, abs=0.02), (
+            f"the foundation no longer cancels: structure/elevation give {elevation_wall_ft} ft "
+            f"of wall and depth_floor derives {got} ft, so the fault's denominator and this "
+            f"file's inversion are measuring two different walls")
+        assert got == pytest.approx(sum(s["storey_height_ft"] for s in storeys), abs=0.02)
 
 
 # ------------------------------------------------------- the inversion agrees with the forward rule
@@ -154,7 +204,8 @@ class TestTheInversionAgreesWithTheFault:
         whose `bounds_test` REPLACES the primary. The floor was right about the primary and the
         primary was not the rule in force.
         """
-        agree = disagree = unjudged = 0
+        agree = unjudged = 0
+        disagree = []
         for name, d in _plans():
             q = json.loads(json.dumps(d))
             GEO._SOLVE_CACHE.clear()
@@ -170,12 +221,19 @@ class TestTheInversionAgreesWithTheFault:
                 unjudged += 1
                 continue
             expect = (v["verdict"] == "below")
-            assert expect == convicted, (
-                f"{name}: the floor says {v['verdict']} and the fault says "
-                f"{'CONVICTS' if convicted else 'clear'} -- the inversion and the forward rule "
-                f"disagree, which means one of them is not the rule the corpus states")
-            agree += 1
-        assert (agree, disagree) == (2, 0)
+            # COLLECTED, NOT RAISED IN THE LOOP (audit, 7 Sep 2026). This asserted inside the
+            # loop, so `disagree` could never be incremented and `(agree, disagree) == (2, 0)`
+            # was half a tautology -- and worse, the first disagreement stopped the sweep, so a
+            # reader learned about one plan where the point of the sweep is how many.
+            if expect != convicted:
+                disagree.append(
+                    f"{name}: the floor says {v['verdict']} and the fault says "
+                    f"{'CONVICTS' if convicted else 'clear'} -- the inversion and the forward "
+                    f"rule disagree, so one of them is not the rule the corpus states")
+            else:
+                agree += 1
+        assert disagree == [], "\n".join(disagree)
+        assert agree == 2
         assert unjudged == 14, "the judged/unjudged split moved; re-measure and say what changed"
 
     def test_a_substituted_bounds_test_is_unjudged_and_not_ok(self):
@@ -224,17 +282,53 @@ class TestTheDenominator:
 
 # ------------------------------------------------------------------ it is REPORTED, not enforced
 class TestItIsNotEnforced:
-    def test_the_placer_does_not_read_it(self):
-        # The refusal is the package. A source guard, because there is no behaviour to observe:
-        # nothing in the placer may import this module, or the disclosure has become a cap
-        # without anyone deciding it should.
-        for f in ("geometry.py", "geometry_cp.py", "compose.py"):
-            src = open(f"{ROOT}/build/{f}").read()
-            assert "depth_floor" not in src, (
-                f"build/{f} now reads depth_floor. That makes an unenforced diagnostic into a "
-                f"constraint on the placer, which "
-                f"oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced refuses until the "
-                f"licence question is ruled.")
+    def test_the_placer_does_not_read_it_even_transitively(self):
+        """The refusal is the package, so the guard must cover the whole reach of a solve.
+
+        **THE FIRST VERSION OF THIS GUARD READ THREE FILES' SOURCE AND WAS EVADABLE TWO WAYS**,
+        found by an adversarial audit of this session's own work. `build/geometry.py` loads
+        `plan_check.py`, `openings.py`, `check_openings.py`, `structure.py` and `geometry_cp.py`;
+        NONE of those was in the guarded triple, so `import depth_floor` inside `structure.py`
+        called from `roof_heights` would cap the placer with this test still green -- which is
+        exactly what the open question refuses. And a rename of `build/depth_floor.py` silently
+        defused the whole thing, because a negative substring assertion over a name that no
+        longer exists cannot fail.
+
+        So it runs a solve and asks what was actually LOADED. That catches a transitive import, a
+        rename, and any spelling of the import -- `importlib`, `_mod`, `from . import` alike.
+        """
+        import sys as _sys
+        MC = _load("modcache", f"{ROOT}/build/modcache.py")
+        for mod in list(_sys.modules):
+            if "depth_floor" in mod:
+                del _sys.modules[mod]
+        cache = getattr(MC, "_CACHE", None)
+        if isinstance(cache, dict):
+            for k in [k for k in cache if "depth_floor" in str(k)]:
+                cache.pop(k)
+        q = json.loads(open(f"{ROOT}/plans/tidewater-georgian-careful.json").read())
+        GEO._SOLVE_CACHE.clear()
+        GEO.solve(q, engine="heuristic")
+        PC.check(q)
+        loaded = [m for m in _sys.modules if "depth_floor" in m]
+        cached = ([k for k in cache if "depth_floor" in str(k)] if isinstance(cache, dict) else [])
+        assert not loaded and not cached, (
+            f"a solve loaded depth_floor ({loaded or cached}). That makes an unenforced "
+            f"diagnostic into a constraint on the placer, which "
+            f"oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced refuses until the "
+            f"licence question is ruled.")
+
+    def test_no_build_module_but_the_instrument_names_it(self):
+        """The source half, kept beside the behavioural one because they fail on different
+        mutations: an import added but not yet exercised on this plan is invisible to a solve and
+        visible here. The allow-list is the two files entitled to read it."""
+        import glob as _glob
+        allowed = {"depth_floor.py", "diagnose_sheet.py"}
+        offenders = [os.path.basename(f) for f in sorted(_glob.glob(f"{ROOT}/build/*.py"))
+                     if os.path.basename(f) not in allowed
+                     and "depth_floor" in open(f).read()]
+        assert offenders == [], (
+            f"{offenders} name depth_floor. Only the module itself and the instrument may.")
 
     def test_the_footprint_is_byte_identical_with_the_module_present(self):
         # The complement of the source guard: the numbers, not the imports.

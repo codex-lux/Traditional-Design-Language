@@ -268,8 +268,25 @@ def _axis_canon(res, plan):
     of = max(of, len(per_rule)) + len(loose)
     if not of: return {"share": None, "of": 0, "unjudged": unjudged}
     kept = sum(per_rule.values()) + sum(loose) + max(0, of - len(loose) - len(per_rule))
+    # `unjudged` AND `of` ARE COUNTED ON DIFFERENT GRAINS, AND THE CARD NOW SAYS SO (audit,
+    # 7 Sep 2026). `of` counts each GROUPING as one opportunity; the info findings counted into
+    # `unjudged` are one per internal RULE, and a grouping carries up to 86 of them between
+    # them. So the field read "23 could not be evaluated" beside "of: 10" -- 23 of 10 -- and at
+    # `share: 1.0`, which reads as full marks on a fraction whose unjudged count exceeds its
+    # own denominator. WP-11.9 made it visible (28 silent grouping rules began to speak, taking
+    # tidewater 15 -> 23 and spec-builder 12 -> 19) and did not cause it: the mismatch is as old
+    # as the docstring above, which says "per RULE" about a denominator counted per grouping.
+    #
+    # THE SCORE IS DELIBERATELY NOT TOUCHED HERE. Recounting `of` per rule would change `share`
+    # on every candidate and re-rank the shipped briefs, which is a scoring decision and not an
+    # audit's to take; clamping `unjudged` to `of` would make the number look right by throwing
+    # away the count. So the number is published with the population it was counted over, and
+    # the grain question is written down: `oq/the-canon-axis-counts-two-grains-as-one`.
     return {"share": max(0.0, min(1.0, kept / of)), "of": of, "clean": round(kept, 2),
             "flagged": len(per_rule) + len(loose), "unjudged": unjudged,
+            "unjudged_of": ("canon-layer findings that could not be evaluated, counted per "
+                            "RULE and per constraint -- a different population from `of`, "
+                            "which counts each grouping once"),
             "denominator": "declared slots, groupings, evaluated constraints and the massing"}
 
 

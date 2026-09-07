@@ -254,9 +254,14 @@ def roof_depth_floor(plan):
     fp = plan.get("footprint") or {}
     w, dp = fp.get("width_ft"), fp.get("depth_ft")
     span = min(w, dp) if (w and dp) else None
+    # THE `try` WRAPPED THE IMPORT AS WELL AS THE CALL (audit, 7 Sep 2026), so an ImportError or
+    # a SyntaxError in `structure.py` -- a broken module, an environment fault -- was reported on
+    # the sheet as "the exterior wall thickness could not be read", a soft COULD NOT EVALUATE
+    # about this plan. That is a dependency problem laundered as a data judgment, which is OQ 35's
+    # own complaint. The import is outside now and raises; only the reading of a plan is caught.
+    ST = _mod("structure", f"{ROOT}/build/structure.py")
     t = 0.0
     try:
-        ST = _mod("structure", f"{ROOT}/build/structure.py")
         t = (ST.wall_thickness(plan) or {}).get("exterior_in") or 0.0
     except Exception as exc:                      # noqa: BLE001 -- reported, never swallowed
         return {"verdict": "unjudged",

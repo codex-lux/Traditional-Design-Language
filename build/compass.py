@@ -65,6 +65,18 @@ def plan_north(plan):
     site = plan.get("site") or {}
     ctx = plan.get("context") or {}
     b = site.get("street_bearing_deg")
+    if (b is not None and not isinstance(b, (int, float))) or isinstance(b, bool):
+        # A BEARING THAT IS NOT A NUMBER IS NOT AN ABSENT BEARING (audit, 7 Sep 2026).
+        # `float(b)` raised straight out through `plan_check.check()`, aborting every layer of
+        # the critic on a record the schema types `number` -- and `check()` is called as a
+        # LIBRARY on unvalidated records from `critique.py` and `compose.py`, which validate
+        # nothing. Falling back to the true-N assumption instead would be worse than the crash:
+        # a record that tried to state a bearing and stated it wrongly would be silently drawn
+        # as though it had stated none. Could-not-evaluate, and say what was there.
+        return {"bearing_deg": None, "stated": True,
+                "why": f"site.street_bearing_deg is {b!r}, which is not a bearing in degrees, so "
+                       f"the rotation cannot be computed and every aspect on this plan is "
+                       f"unjudged. Not a pass"}
     if b is None:
         return {"bearing_deg": 0.0, "stated": False,
                 "why": "plan-N is read as true-N: this record states no site.street_bearing_deg, "
@@ -120,9 +132,19 @@ def lit_faces(room):
     where the record put them is a DIFFERENT question and `plan_check`'s drawn layer already
     answers it (`drawn-window-off-the-placed-wall`).
     """
+    wins = room.get("windows")
+    if not isinstance(wins, list):
+        # `windows: true` or a bare string raised TypeError/AttributeError out through the room
+        # layer. The schema types this an array, and `plan_check.check()` is reached by callers
+        # that never validate; a shape this reader cannot read yields NO lit face, which the
+        # caller already treats as could-not-evaluate rather than as a clear.
+        return []
     out = []
-    for w in (room.get("windows") or []):
-        f = (w.get("wall") or "").upper()
+    for w in wins:
+        if not isinstance(w, dict):
+            continue
+        wall = w.get("wall")
+        f = wall.upper() if isinstance(wall, str) else ""
         if f in FACES and f not in out:
             out.append(f)
     return out
@@ -142,13 +164,25 @@ def read(aspect, faces, north):
       unwanted        no window sits on any aspect the record names as wanted.
       satisfied       evaluated and clear.
     """
-    if not aspect:
+    if not aspect or not isinstance(aspect, dict):
         return {"verdict": "unstated",
                 "reason": "this room type's record states no daylight.aspect, so its prose has "
                           "not been read into tokens. Unjudged, not passed"}
+    # THE RECORD'S OWN QUOTATION IS READ WITH `.get`, NOT BY SUBSCRIPT (audit, 7 Sep 2026).
+    # `aspect["basis"]` was subscripted on all four judged paths. The schema requires the field,
+    # so no corpus record can be missing it -- but this function is reached from
+    # `plan_check.check()`, which `critique.py` and `compose.py` call on records nobody
+    # validated, and one absent key would have aborted the validation of EVERY plan using that
+    # room type, inside a per-candidate compose loop whose own comment records that it has no
+    # guard. The block's "KeyError rather than `.get` ON PURPOSE" note one layer up is about the
+    # CENSUS, where a verdict this file grew and the caller did not know about must be loud; it
+    # is not about a data field that a schema already polices.
+    basis = aspect.get("basis") or ""
     if not aspect.get("applies"):
         return {"verdict": "not_applicable",
-                "reason": aspect.get("note") or f"the record answers with \"{aspect['basis']}\"",
+                "reason": aspect.get("note") or (f"the record answers with \"{basis}\"" if basis
+                                                 else "the record declines the question and says "
+                                                      "nothing about why"),
                 "basis": aspect.get("basis")}
     if north.get("bearing_deg") is None:
         return {"verdict": "unjudged", "reason": north["why"]}
@@ -156,17 +190,58 @@ def read(aspect, faces, north):
         return {"verdict": "unjudged",
                 "reason": "this room declares no window on any exterior wall, so it states no "
                           "aspect to be held to"}
+    prefer, avoid_t = aspect.get("prefer") or [], aspect.get("avoid") or []
+    if not isinstance(prefer, list) or not isinstance(avoid_t, list):
+        # A STRING HERE IS NOT A ONE-TOKEN LIST. `"NE"` iterates as `N`, `E` -- both points of
+        # the compass -- so a mis-typed record would have been read as wanting north AND east
+        # and would have passed every check below without a word.
+        return {"verdict": "unjudged",
+                "reason": "this room type's record states its preferred or avoided aspects as "
+                          "something other than a list of tokens. Unjudged, not passed"}
+    unknown = sorted({t for t in list(prefer) + list(avoid_t)
+                      if not isinstance(t, str) or t not in POINTS}, key=repr)
+    if unknown:
+        # A TOKEN THIS FILE CANNOT PLACE ON THE COMPASS REFUSES THE WHOLE READING, and it
+        # refuses in BOTH directions on purpose. Dropping an unplaceable token would silently
+        # weaken an `avoid` (flattering) and silently strengthen a `prefer` (convicting), from
+        # one bad character in a record. The schema enums these eight; this is what happens to
+        # a caller who reached here without it.
+        return {"verdict": "unjudged",
+                "reason": f"this room type's record names aspect(s) that are not points of the "
+                          f"compass: {', '.join(repr(t) for t in unknown)}. Unjudged, not passed"}
+    if not prefer and not avoid_t:
+        # `applies: true` naming neither a wanted nor an avoided aspect is a pass wearing a
+        # verdict. `check_rooms.py` refuses it, so no corpus record is in this state; reaching
+        # `satisfied` from it -- which the first version did -- would have made an empty reading
+        # indistinguishable from a room that really does take the light its record asks for.
+        return {"verdict": "unjudged",
+                "reason": "this room type's record says an aspect applies and then names neither "
+                          "a preferred nor an avoided one. Unjudged, not passed"}
     tokens = {f: face_token(f, north) for f in faces}
-    avoid = [f for f in faces if any(matches(f, t, north) for t in (aspect.get("avoid") or []))]
-    prefer = aspect.get("prefer") or []
+    avoid = [f for f in faces if any(matches(f, t, north) for t in avoid_t)]
     wanted = [f for f in faces if any(matches(f, t, north) for t in prefer)]
+    both = sorted(set(avoid) & set(wanted))
+    if both:
+        # A FACE ON A SECTOR BOUNDARY SATISFIES TWO ADJACENT TOKENS AT ONCE, and `matches` uses
+        # `<=` at both ends, so a plan turned exactly 22.5 degrees puts a face in a wanted
+        # sector and an avoided one together. Resolving that by branch order -- `avoid` first,
+        # as the first version did -- would convict a house on a coincidence of the tolerance
+        # rather than on anything the record says. It is could-not-evaluate, and the reason
+        # names the tolerance so a reader can see the instrument rather than the house.
+        # Unreachable from this corpus: 0 of 16 plans state a bearing at all, let alone a
+        # fractional one, so `tests/test_compass.py` drives it.
+        return {"verdict": "unjudged",
+                "reason": f"plan face(s) {'/'.join(both)} lie on the boundary between an aspect "
+                          f"this record wants and one it avoids, within the editorial "
+                          f"{SECTOR_TOL_DEG:g}-degree sector tolerance: the reading is the "
+                          f"instrument's, not the record's. Unjudged, not passed"}
     if avoid:
         return {"verdict": "avoided", "faces": avoid, "tokens": tokens,
-                "avoid": aspect.get("avoid"), "basis": aspect["basis"],
+                "avoid": aspect.get("avoid"), "basis": basis,
                 "strength": aspect.get("strength") or "preferred"}
     if prefer and not wanted:
         return {"verdict": "unwanted", "faces": faces, "tokens": tokens,
-                "prefer": prefer, "basis": aspect["basis"],
+                "prefer": prefer, "basis": basis,
                 "strength": aspect.get("strength") or "preferred"}
     return {"verdict": "satisfied", "faces": faces, "tokens": tokens,
-            "basis": aspect["basis"], "strength": aspect.get("strength") or "preferred"}
+            "basis": basis, "strength": aspect.get("strength") or "preferred"}

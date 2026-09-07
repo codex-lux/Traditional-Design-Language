@@ -239,6 +239,7 @@ def test_invalidate_clears_every_cache_that_exists_and_not_only_the_named_ones()
     citations._constraint_ids()
     core._kit_graph()
     core._resolved_kit("tidewater-georgian")
+    core.validator("plan")
     primed = [n for n, c in caches if c.cache_info().currsize > 0]
     assert len(primed) == len(caches), (
         f"could not prime {sorted(set(n for n, _ in caches) - set(primed))}; an unprimed "

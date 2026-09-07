@@ -317,6 +317,26 @@ class Findings:
     # bug with extra steps.
     _ID_LIKE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$")
 
+    # AND `kind` IS PART OF THE IDENTITY, WHICH IT WAS NOT (audit, 7 Sep 2026).
+    #
+    # The docstring above says a finding's identity is WHAT IT IS ABOUT. `kind` is the field
+    # that says what it is about, in one machine-readable token, and `add()` was the one reader
+    # in the tree that did not look at it -- so two findings of DIFFERENT kinds about one room
+    # in one layer were separated only by the order they happened to be minted in, and an
+    # ordinal is not an identity.
+    #
+    # MEASURED, because the cost was live rather than theoretical. Shrink `backhall` on the
+    # Tidewater record until its depth finding clears and the aspect finding beneath it -- which
+    # did not change at all -- moved from `daylight:backhall#1` to `daylight:backhall`. The
+    # bench diffs on `f.id` (`PlanWorkbench.jsx`, "N findings new since the last evaluation"),
+    # so it reported a finding cleared and a new one opened for a row nothing had touched. The
+    # same mechanism churned six ids at the merge of WP-11.9, for findings whose statements were
+    # byte-identical either side.
+    #
+    # This CHURNS every id carrying a kind, once, and that is the right trade: the ids are
+    # per-process and per-plan by construction (the docstring says so -- two plans may mint the
+    # same id and that is a feature), nothing on disk holds one, and the alternative is a
+    # namespace that reshuffles itself every time a layer grows a finding.
     def add(self, severity, layer, statement, **kw):
         parts = [layer, str(kw.get("room") or "")]
         for key in ("rule", "constraint", "fault"):
@@ -324,6 +344,9 @@ class Findings:
             if isinstance(v, str) and self._ID_LIKE.match(v):
                 parts.append(v)
                 break
+        kind = kw.get("kind")
+        if isinstance(kind, str) and self._ID_LIKE.match(kind):
+            parts.append(kind)
         base = ":".join(p for p in parts if p)
         n = self._seq[base]
         self._seq[base] += 1
@@ -1866,10 +1889,18 @@ def check(plan, C=None, strict=False):
     _north = _CMP.plan_north(plan)
     _assume = _CMP.assumption(_north)
     _aspect_census = {"satisfied": 0, "avoided": 0, "unwanted": 0,
-                      "not_applicable": 0, "unstated": 0, "unjudged": 0}
+                      "not_applicable": 0, "unstated": 0, "unjudged": 0, "no_record": 0}
     for rid, r in rooms.items():
         rt = C["rooms"].get(r["type"])
         if not rt:
+            # A ROOM WITH NO CATALOGUE RECORD LEFT THE CENSUS ALTOGETHER (audit, 7 Sep 2026),
+            # through the very door the comment eight lines below says this block refuses: the
+            # `continue` shrank the denominator silently, so a plan carrying an unknown room
+            # type printed a census one room short with nothing saying so. The unknown type is
+            # separately fatal at the room layer, so this needs no second finding -- but it is
+            # counted and named, because the census's whole job is that a reader can tell a
+            # clear from a question nobody asked.
+            _aspect_census["no_record"] += 1
             continue
         label = r.get("name") or rt["name"]
         v = _CMP.read((rt.get("daylight") or {}).get("aspect"), _CMP.lit_faces(r), _north)
@@ -1885,6 +1916,14 @@ def check(plan, C=None, strict=False):
             continue
         if v["verdict"] in ("not_applicable", "unjudged"):
             continue
+        # `strength: hard` HERE IS NOT `severity: hard` AT LINE 15, and the two mappings are
+        # deliberate rather than an oversight (audit, 7 Sep 2026). `STRENGTH_SEV` maps a
+        # GROUPING rule's severity, where hard means the diagram does not hold. A room record's
+        # aspect strength is the force of a preference about light -- `rooms/larder.json`'s
+        # "NORTH, and it is not a preference" is the strongest thing any of the sixty records
+        # says, and a north larder is still a buildable house. Fatal would disqualify the
+        # candidate outright in `compose.SEV_CREDIT`; WP-11.9 measured that serious and fatal
+        # are unmoved on both shipped plans and that was the intent, not an accident.
         sev = "serious" if v.get("strength") == "hard" else "minor"
         tok = ", ".join(f"plan-{f} is {v['tokens'][f]}" for f in sorted(v.get("faces") or []))
         if v["verdict"] == "avoided":
@@ -1915,13 +1954,18 @@ def check(plan, C=None, strict=False):
     # gated it on `unjudged or not_applicable`, which would have let a plan whose rooms were all
     # judged show two convictions and no denominator -- the reader cannot then tell three
     # satisfied from three never asked, which is the whole distinction this block exists to keep.
-    if sum(_aspect_census.values()):
+    # IT FIRES ON EVERY PLAN THAT HAS ROOMS AT ALL, gated on `rooms` and not on the census
+    # total: gating on the total meant a plan whose every room was outside the catalogue -- the
+    # census then all zeroes -- printed nothing, which is again "clear" and "nothing was asked"
+    # wearing one face.
+    if rooms:
         F.add("info", "daylight",
               f"Aspect: {_aspect_census['satisfied']} satisfied, "
               f"{_aspect_census['avoided'] + _aspect_census['unwanted']} against the record, "
               f"{_aspect_census['not_applicable']} room(s) whose record answers with something "
               f"that is not a compass, {_aspect_census['unjudged']} that could not be evaluated, "
-              f"{_aspect_census['unstated']} unstated. {_assume}",
+              f"{_aspect_census['unstated']} unstated, "
+              f"{_aspect_census['no_record']} whose type has no room record to read. {_assume}",
               kind="aspect-census")
 
     # ============================================================ GROUPING LAYER
@@ -1947,11 +1991,12 @@ def check(plan, C=None, strict=False):
             # rule=gid: without it the finding names no rule, and a consumer keyed by rule
             # (compose.py's canon axis) credits the grouping as clean while still counting it.
             F.add("serious", "grouping", f"Unknown grouping '{gid}'.", rule=gid,
-                  fix="Use an id from groupings/.")
+                  kind="grouping-unknown", fix="Use an id from groupings/.")
             continue
         sv = next((v for v in g.get("style_variation", []) if v["style"] in chain), None)
         if sv and sv.get("present") is False:
-            F.add("serious", "grouping", f"The plan declares {g['name']}, which {style} does not have: {sv['note']}", rule=gid)
+            F.add("serious", "grouping", f"The plan declares {g['name']}, which {style} does not have: {sv['note']}", rule=gid,
+                  kind="grouping-absent-in-style")
         for want in g["rooms"]:
             # satisfied_by(), not a raw membership test. Every other layer in this file asks
             # the substitution table whether something the plan HAS would answer the rule
@@ -1961,21 +2006,25 @@ def check(plan, C=None, strict=False):
             # this file already carries and already trusts everywhere else.
             if want["role"] in ("primary",) and not (satisfied_by(want["room"]) & types_present):
                 F.add("serious", "grouping",
-                      f"{g['name']} requires a {want['room'].replace('-', ' ')} and the plan has none.", rule=gid)
+                      f"{g['name']} requires a {want['room'].replace('-', ' ')} and the plan has none.", rule=gid,
+                      kind="grouping-room-missing")
         if plan.get("massing"):
             att = next((a for a in g["attaches_to"] if a["massing"] == plan["massing"]), None)
             if att and att.get("fit") == "forbidden":
                 F.add("serious", "grouping",
-                      f"{g['name']} is marked forbidden in a {plan['massing'].replace('-', ' ')}: {att.get('note','')}", rule=gid)
+                      f"{g['name']} is marked forbidden in a {plan['massing'].replace('-', ' ')}: {att.get('note','')}", rule=gid,
+                      kind="grouping-forbidden-in-massing")
             elif not att:
-                F.add("info", "grouping", f"{g['name']} has no recorded fit for massing '{plan['massing']}'.", rule=gid)
+                F.add("info", "grouping", f"{g['name']} has no recorded fit for massing '{plan['massing']}'.", rule=gid,
+                      kind="grouping-massing-fit-unrecorded")
         span = g.get("privacy_span")
         if span:
             ranks = [C["rooms"][rooms[x]["type"]]["privacy_rank"] for x in rooms
                      if rooms[x]["type"] in {y["room"] for y in g["rooms"]} and rooms[x]["type"] in C["rooms"]]
             if ranks and (min(ranks) < span[0] or max(ranks) > span[1]):
                 F.add("minor", "grouping",
-                      f"{g['name']} spans privacy ranks {min(ranks)}-{max(ranks)}; the grouping is defined for {span[0]}-{span[1]}.", rule=gid)
+                      f"{g['name']} spans privacy ranks {min(ranks)}-{max(ranks)}; the grouping is defined for {span[0]}-{span[1]}.", rule=gid,
+                      kind="grouping-privacy-span")
         # THE RULES THAT CARRY A TEST WERE THE ONES BEING SKIPPED (WP-9.1).
         #
         # This loop read `if severity == "hard" and not ir.get("test")` and emitted an info
@@ -2007,7 +2056,7 @@ def check(plan, C=None, strict=False):
                     F.add("info", "grouping",
                           f"[{g['name']}] REPORTED, not required — {ir['statement']} "
                           + (f"Observed band {band[0]}–{band[1]}, advisory. " if band else "")
-                          + f"Measured by {rep}.", rule=gid)
+                          + f"Measured by {rep}.", rule=gid, kind="grouping-rule-reported")
                 else:
                     # AND THE BRANCH USED TO READ `elif hard`, WHICH LEFT 28 OF 86 RULES SILENT
                     # (WP-11.9). 28 carry a test, 29 hard ones were handed to a human by name,
@@ -2019,31 +2068,35 @@ def check(plan, C=None, strict=False):
                     # know how hard to look.
                     F.add("info", "grouping",
                           f"[{g['name']}] check by hand ({ir.get('severity', 'strong')}, no "
-                          f"machine test): {ir['statement']}", rule=gid)
+                          f"machine test): {ir['statement']}", rule=gid,
+                          kind="grouping-rule-by-hand")
                 continue
             parsed = ARR.parse_rule_test(test) if ARR else None
             if not parsed:
                 F.add("info", "grouping",
                       f"[{g['name']}] could not evaluate: this rule's test is not in a form "
-                      f"the reader knows — \"{test}\". Checked by hand or not at all.", rule=gid)
+                      f"the reader knows — \"{test}\". Checked by hand or not at all.", rule=gid,
+                      kind="grouping-rule-unparsed")
                 continue
             row = core._eval_test(parsed, gvars)
             if not row or row.get("status") == "need_measurements":
                 miss = ", ".join((row or {}).get("missing") or ["?"])
                 F.add("info", "grouping",
                       f"[{g['name']}] could not evaluate \"{test}\": this plan supplies no "
-                      f"{miss}. Not a pass — the rule is unjudged.", rule=gid)
+                      f"{miss}. Not a pass — the rule is unjudged.", rule=gid,
+                      kind="grouping-rule-needs-measurements")
                 continue
             if row.get("status") != "evaluated":
                 F.add("info", "grouping",
                       f"[{g['name']}] could not evaluate \"{test}\": "
-                      f"{row.get('detail') or row.get('status')}.", rule=gid)
+                      f"{row.get('detail') or row.get('status')}.", rule=gid,
+                      kind="grouping-rule-unevaluable")
                 continue
             if row.get("passes") is False:
                 sev = "serious" if hard else "minor"
                 F.add(sev, "grouping",
                       f"[{g['name']}] {ir['statement']} — measured {row.get('value')} "
-                      f"against {row.get('required')}.", rule=gid)
+                      f"against {row.get('required')}.", rule=gid, kind="grouping-rule-failed")
 
     # ============================================================ CODE LAYER (advisory)
     juris = (plan.get("context") or {}).get("jurisdiction")
@@ -2287,12 +2340,25 @@ def check(plan, C=None, strict=False):
     # It sits AFTER the elevation block's own except handler rather than inside it, so that an
     # elevation that could not be derived does not also silence the arrangement measurements --
     # they share nothing but a measurements dict.
+    #
+    # AND NEVER SILENT, which this block was (audit, 7 Sep 2026). It carried a bare
+    # `except Exception: pass` -- the construct the elevation block sixty lines above condemns
+    # in as many words: "the old `except Exception: pass` turned an elevation that could not be
+    # derived into an absence indistinguishable from a style outside the generator's scope."
+    # The elevation block was rewritten to emit an `info` on every failure path and this one was
+    # left as it was. It supplies the plan-arrangement variables that 28 faults read, so a throw
+    # here turned 28 faults into unjudged-for-missing-measurements with nothing anywhere saying
+    # the measurement layer had fallen over -- a real failure wearing the face of a corpus gap.
     try:
         for k, v in (ARR.declared(plan, C) if ARR else {}).items():
             if v is None: continue
             meas.setdefault(k, v)
-    except Exception:
-        pass
+    except Exception as exc:                      # noqa: BLE001 -- reported, never swallowed
+        F.add("info", "plan",
+              f"The plan-arrangement measurements could not be derived ({type(exc).__name__}: "
+              f"{str(exc)[:160]}). Every fault reading one is UNJUDGED for want of a "
+              f"measurement below, and the reason is this failure rather than a gap in the "
+              f"record. Not a pass.", kind="arrangement-measurements-unavailable")
     # limit lifted from the API default of 40: faults_present was never truncated, and the
     # could_not_judge list (surfaced as fault_unjudged below) has to be the whole list or
     # "unjudged is not passed" degrades into "the first forty unjudged are not passed".

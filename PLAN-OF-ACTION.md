@@ -2290,6 +2290,38 @@ time from `partis/*.json`'s own `exemplars`, each producing a Part II table in
 `docs/reports/precedents-<parti-id>.md` and a Part VI list of that parti's prose rules without
 tests. Twenty-one, not one hundred and sixty-four.
 
+### The adversarial audit of WP-11.9, WP-11.10 and WP-11.11
+
+**Status: COMPLETE (7 September 2026).** Report:
+`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md` · two new open
+questions: `oq/the-composer-ranks-on-an-assumed-bearing`,
+`oq/the-canon-axis-counts-two-grains-as-one`.
+
+Four read-only auditors, none of them the agent that wrote the code, over the session's whole
+diff: edge cases and every consumer; whether each new test would fail with its fix reverted;
+second-order risk; and second occurrences of each pattern elsewhere. **Thirty-eight findings,
+twenty-four fixed, fourteen deferred with a reason apiece.**
+
+**Two blocked, and both were crashes in code written to guard against the malformation that
+crashed it** — `check_rooms.py`'s verbatim-quote check (`None not in "str"` is a TypeError, on a
+checker that runs unconditionally after schema validation) and `compass.read`'s `aspect["basis"]`
+(escaping through `plan_check.check`, which `critique` and `compose` call unvalidated). Fuzzing
+found 30 unhandled exceptions across the three new entry points; all 30 return a verdict now.
+
+**The finding of the pass is that WP-11.9 changed the composer's fitness function and its report
+does not contain the word `score`.** Measured: −3.00 of 18 on the cleanest shipped plan, and on a
+real compose the order below the winner moves on both briefs. Not reverted; put to a ruling.
+**And its first measurement read 0.00 everywhere**, because the harness patched a `compass`
+reached through a second `modcache` instance — a zero delta is indistinguishable from an inert
+term, which is why the suppression is now asserted before any delta is read.
+
+Also: both new passage variables read the flattering way on `hard` rules; a finding's id did not
+include its `kind`, so identity moved when a sibling cleared; and the pre-existing item larger
+than everything above — `core.check_plan` rebuilt the jsonschema validator on every call, so
+`/api/plan/evaluate` validated the same document twice, 4.2 ms compiled and then **79.1 ms
+uncompiled, 23% of the whole server's measured bound.** Eleven tests could not fail, including
+the one whose docstring claimed to catch the `elif hard` revert.
+
 ### Questions for Lucas — ALL FIVE RULED, 4 September 2026
 
 **Lucas took every recommendation.** Each answer is recorded below beside the question it settles;

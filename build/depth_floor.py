@@ -72,11 +72,19 @@ def _storeys():
     spec.loader.exec_module(m)
     return m
 
-# structure.py's own constant, TRANSCRIBED, and the transcription is guarded:
-# tests/test_depth_floor.py holds it against `structure.DEFAULT_GRADE_TO_FIRST_FLOOR_FT` so the
-# two cannot drift. It is transcribed rather than imported because importing `structure` from a
-# module `geometry` reads would close the cycle this file exists outside of.
-DEFAULT_GRADE_TO_FIRST_FLOOR_FT = 2.0
+# THE FOUNDATION CONSTANT IS NOT TRANSCRIBED HERE, AND THE TEST GUARDING THE TRANSCRIPTION WAS
+# GUARDING NOTHING (audit, 7 Sep 2026). This file carried `DEFAULT_GRADE_TO_FIRST_FLOOR_FT = 2.0`
+# under a comment saying the transcription was held against `structure`'s -- and nothing in the
+# module read it, BECAUSE THE CONSTANT CANCELS: `structure.roof_heights` builds grade-to-eave as
+# `constant + sum(storey heights)` and `elevation.py` subtracts the ground storey's
+# `grade_to_floor_ft`, which is that same constant. A green test on a value that decides nothing
+# is a check that is not happening wearing the clothes of one that is.
+#
+# What this module actually rests on is that IDENTITY, and it is guarded instead:
+# `tests/test_depth_floor.py::test_the_foundation_cancels_out_of_the_denominator` runs
+# `structure.roof_heights` and `elevation`'s own subtraction and holds their difference against
+# `wall_height_ft`. A foundation that stopped cancelling would break this file's denominator
+# silently, and no comparison of two 2.0s would have noticed.
 
 _FAULT = os.path.join(ROOT, "faults", "truss-flattened-pitch.json")
 

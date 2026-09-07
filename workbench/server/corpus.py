@@ -614,5 +614,9 @@ def invalidate():
     # walks core's own module dict instead of naming them, so a fourth cannot be missed.
     core._kit_graph.cache_clear()
     core._resolved_kit.cache_clear()
+    core.validator.cache_clear()       # the COMPILED plan/brief validators, which hold the
+                                       # schema dicts cleared two lines above: clearing the
+                                       # parse and not the validator built from it would leave
+                                       # a reload validating against the pre-edit schema.
     reset_search_index()
     return {"reloaded": True}

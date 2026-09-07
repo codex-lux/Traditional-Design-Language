@@ -398,10 +398,36 @@ class TestTheCriticReadsTheRoomsOwnElement:
 
         **The element claim is STILL untouched.** No `element` key appears in any moved row and
         `envelopes` still returns `{}` below two elements; every row above comes from the room and
-        grouping layers, which read no placement at all."""
+        grouping layers, which read no placement at all.
+
+        **AND THE ACCOUNTING ABOVE IS NOW ASSERTED, NOT MERELY WRITTEN (audit, 7 Sep 2026).**
+        A hash pin is a change detector and not a correctness proof: it cannot tell "the 16 rows
+        I accounted for" from "14 I accounted for plus 2 I did not", and every number in the
+        paragraphs above used to be prose beside an opaque digest. The row TOTAL and the
+        per-layer histogram are pinned beside it now, so a movement names itself. In particular
+        the `info` half -- the `elif hard` widening, +8 and +7 -- was pinned by no count anywhere
+        in the suite and was visible only to the hash.
+
+        **RE-PINNED ONCE MORE IN THAT SAME AUDIT, AND THE ROW COUNT IS WHY IT WAS SAFE.**
+
+          `tidewater-georgian-careful`  70be99010403c9f3 -> 9da22729316445d4, 208 rows UNMOVED
+          `spec-builder-colonial`       b5b33adeb258e516 -> 67e42551e7ffc356, 238 rows UNMOVED
+
+        Two changes, both to fields inside existing rows and neither adding or removing one:
+        the twelve grouping `F.add` calls gained a `kind` (18 rows on the Tidewater plan, 17 on
+        the spec Colonial), so that a finding's id stops reshuffling when its layer grows a
+        sibling; and the aspect census gained a clause naming rooms whose type has no record
+        (1 row each). PROVED rather than asserted: undoing exactly those two edits on the live
+        output -- clearing every `grouping-*` kind and stripping the census clause -- reproduces
+        70be99010403c9f3 and b5b33adeb258e516 BYTE FOR BYTE on both plans, so nothing else moved.
+        That reconstruction is the only reason a digest change was accepted here at all."""
         import hashlib
-        for name, want in (("tidewater-georgian-careful", "70be99010403c9f3"),
-                           ("spec-builder-colonial", "b5b33adeb258e516")):
+        import collections as _c
+        for name, want, rows, hist in (
+                ("tidewater-georgian-careful", "9da22729316445d4", 208,
+                 {"daylight": 13, "grouping": 18}),
+                ("spec-builder-colonial", "67e42551e7ffc356", 238,
+                 {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
@@ -409,6 +435,13 @@ class TestTheCriticReadsTheRoomsOwnElement:
             got = hashlib.sha256(json.dumps(
                 sorted((f.get("kind", ""), f.get("room", ""), f.get("statement", ""))
                        for f in c["findings"]), sort_keys=True).encode()).hexdigest()[:16]
+            counts = _c.Counter(f["layer"] for f in c["findings"])
+            assert len(c["findings"]) == rows, (
+                f"{name}: {len(c['findings'])} findings against a pinned {rows}. The digest "
+                f"below would have said only that SOMETHING moved; this says how many.")
+            assert {k: counts[k] for k in hist} == hist, (
+                f"{name}: the two layers this package moved now read "
+                f"{ {k: counts[k] for k in hist} } against {hist}")
             assert got == want, (
                 f"{name}: the drawn layer's findings moved on a ONE-RECTANGLE plan. "
                 f"`envelopes` returns {{}} below two elements, so nothing here may change; "

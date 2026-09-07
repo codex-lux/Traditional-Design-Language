@@ -264,7 +264,22 @@ def span_check(bearing_walls, W, H, style, floor_catalog, origin=(0.0, 0.0)):
             span_ft = round(hi - lo, 2)
             if span_ft <= 0.1: continue
             if timber_framed:
-                cap = 20.0   # proportions/modules/timber-bay.json: module.default_size_in range tops out at 240 in = 20 ft
+                # 20 ft, AND THE COMMENT THAT USED TO BE HERE WAS FALSE (audit, 7 Sep 2026).
+                # It said "module.default_size_in range tops out at 240 in", and
+                # `proportions/modules/timber-bay.json` states `default_size_in: 192.0` and no
+                # range as data at all. The 240 exists in ONE place in that record: inside the
+                # text of an invariant, `"module.default_size_in >= 192.0 and
+                # module.default_size_in <= 240.0"`. So the cap deciding whether every
+                # timber-framed floor span in this corpus passes is a number lifted out of an
+                # expression string, described as reading a field that does not exist.
+                #
+                # It is still transcribed rather than read: parsing a bound out of an invariant
+                # would be a second expression reader beside `proportion_engine`'s, which is the
+                # duplication this corpus refuses. What has changed is that the transcription is
+                # GUARDED -- `tests/test_structure.py::test_the_timber_span_cap_matches_the_
+                # invariant_it_is_lifted_from` reads that invariant and fails if the pack's
+                # upper bound moves, which is the whole of what a comment could never do.
+                cap = 20.0
                 member = "hewn joist on the bay module"
                 ok = span_ft <= cap
                 cap_span = cap

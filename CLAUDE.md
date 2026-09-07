@@ -193,7 +193,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,879 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,895 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -617,6 +617,24 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   that a split rule's untested half was named, which came back empty**, and the guard is a COUNT of
   all three states rather than an assertion about one rule -- WP-11.7's own lesson, where a removed
   serious and an added duplicate cancelled and 63 stayed 63.
+- **BOTH PASSAGE VARIABLES READ THE FLATTERING WAY, IN THE FUNCTION WHOSE OWN COMMENT FORBIDS IT
+  (audit, 7 Sep 2026).** `passage_ends_with_a_door` counted qualifying DOORS against a rule whose
+  `measures.quantity` is `passage_ends_reached`, and accepted any threshold-class room whether or
+  not it had a way out: **two doors into one porch scored 2.0, and a porch plus a LANDLOCKED
+  vestibule scored 2.0** — false passes on a `hard` rule, three statements below the comment
+  saying *"reporting the best would be the flattering direction, which is the OQ 52 family"*. It
+  counts DISTINCT reaches now and a threshold room must itself door the outside; both driven cases
+  read 1.0 and the shipped record is unmoved at 2.0. **And what it measures is a NECESSARY and not
+  a sufficient condition, which is a property of the LAYER**: a door's `wall` and `position_ft` are
+  solver output and only its `to` is authored, so the declared record can say a passage reaches
+  outdoors twice and cannot say those reaches are at its two ENDS — which is the alignment half,
+  split out at WP-11.9, untested, and named to the reader.
+  **`stair_hall_opens_off_the_passage` was the same error with the opposite fix**: it took the BEST
+  of several halls, so a principal stair off the passage excused a service hall reached only from
+  the dining room. **`min` is not the answer either** — a service stair that does not open off the
+  passage is correct in a house of this kind, and this model cannot tell one from the other. Where
+  the ground-floor stair halls DISAGREE the variable is withheld and `plan_check` reports the rule
+  unjudged naming the variable it could not get. Three states, not a corrected second one.
 - **THE PASSAGE RULES PASS ON THE TIDEWATER RECORD, AND THAT IS THE FINDING (WP-11.9).** The
   diagnosis's B4 -- *a centre passage whose rear door read as a window* -- is a defect of the
   DRAWING: `passage_ends_with_a_door` is 2.0 and `stair_hall_opens_off_the_passage` is 1.0. A
@@ -629,6 +647,42 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   only in its SECOND half: `openings.stair_pass` puts a stair in a `stair-hall` and nowhere else,
   so the first half is true by construction and a test of it would be an instrument that cannot
   fail.
+- **A CHECKER'S FINDINGS ENTER THE COMPOSER'S FITNESS FUNCTION THE DAY THEY STOP BEING `info`, AND
+  WP-11.9'S REPORT DOES NOT CONTAIN THE WORD `score` (audit, 7 Sep 2026).** The aspect findings are
+  `serious`/`minor`; `compose.SCORE_LAYERS` already maps `daylight` to the 18-point `rooms` axis;
+  so the composer began ranking houses on the compass the day that layer landed. **Measured: the
+  rooms axis moves −3.00 of 18 on `good-05-lobby-gallery-mansion`, −2.16 on the Tidewater plan and
+  0.00 on six of the sixteen** — and on a real compose at 8 candidates the WINNER is unchanged on
+  both shipped briefs while the ORDER BELOW IT MOVES (`family-georgian` swaps positions 3 and 4,
+  `bungalow-small` reshuffles 4 through 7). **The penalty lands hardest on the cleanest candidate**,
+  because `_axis_from_layers` takes `min(per_room, credit)` and a room already carrying a finding
+  absorbs the aspect finding free. Not reverted, and the argument is in
+  `oq/the-composer-ranks-on-an-assumed-bearing`: it reads the DECLARED record, every candidate is
+  judged under the same north, and plan-N-is-true-N is a ruling. What is unruled is that the ruling
+  was taken about a CHECKER, which reports, and this is a fitness function, which decides — on a
+  site fact 0 of 16 records state. **When a layer's findings are not `info`, say what they do to
+  the score in the report that adds them.**
+- **AND THE FIRST MEASUREMENT OF THAT SAID 0.00 EVERYWHERE, BECAUSE THE SUPPRESSION NEVER LANDED
+  (audit, 7 Sep 2026).** `plan_check` reaches `compass` through its own `_load`, which delegates to
+  a `modcache` imported inside that function; a harness that loads `modcache` with raw `importlib`
+  gets a SECOND cache and a second module object, so monkeypatching `compass.read` there patched
+  nothing and every delta read zero — indistinguishable from an inert term, and believed once.
+  **Patch what the code under test is actually holding** (`PC._load("compass", ...)`), and assert
+  the suppression bit before reading any delta: `tests/test_compass.py` asserts the finding count
+  falls to 0 first, for exactly this reason. This is the repo's own *a mutation that silently does
+  not apply looks exactly like a guard that works*, met in a measurement rather than a test.
+- **A FINDING'S ID DID NOT INCLUDE ITS `kind`, SO A FINDING'S IDENTITY MOVED WHEN A SIBLING CLEARED
+  (audit, 7 Sep 2026).** `Findings.add`'s own docstring says identity is WHAT IT IS ABOUT and it
+  was the one reader in the tree not looking at `kind` — two findings of different kinds about one
+  room in one layer were separated by an insertion ORDINAL. Driven: shrink `backhall` until its
+  depth finding clears and the aspect finding beneath it, unchanged, moved
+  `daylight:backhall#1` → `daylight:backhall`, so the bench (`PlanWorkbench.jsx` diffs on `f.id`)
+  reported a row cleared and a new one opened for a finding nothing had touched. The same
+  mechanism churned six ids at WP-11.9's merge with byte-identical statements. `kind` is in the
+  key now and the twelve grouping `F.add` calls gained one; ordinal-suffixed ids **472 → 395**,
+  longest id 66 characters, 0 collisions. **It churns every id carrying a kind, once**, which is
+  the right trade: the ids are per-process and per-plan by construction and nothing on disk holds
+  one.
 - **A NEW FINDING KIND COSTS MORE THAN ITS CHECK, AND THE COST LANDED IN `critique._intended_move`
   (WP-11.9).** All nine aspect findings reached the critique as `architect` -- the right class,
   since rotating a house is not a move -- **carrying "the depth rule does not govern this room
@@ -679,6 +733,18 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   an English rule. **RULE I IS CORRUPT IN THE ONLY REACHABLE TEXT** (*"add the Length 1 Bo Height of
   the Room together"*), so the DEPTH keeps its two anchors and the constant records that the rule
   behind them is UNRECOVERED rather than absent -- a third state, not a gap.
+- **THE ONE GATE THAT WAS COMPILED WAS THE CHEAP ONE, AND THE ROUTE VALIDATED TWICE (audit,
+  7 Sep 2026; pre-existing since WP-10.1).** `app._plan_validator` compiled the plan validator at
+  the door and recorded in its own docstring that `jsonschema.validate(instance, schema)` rebuilds
+  it on every call — *"the `copy_json` lesson in the other direction"*. The lesson stopped at the
+  door: `core.check_plan`, `core.critique_plan` and `core.revise_plan` each still called the
+  uncompiled form, so **`/api/plan/evaluate` paid 4.2 ms at the gate and then 79.1 ms again inside
+  `check_plan`, on the same document — 23% of the whole server's measured 338 ms bound, spent
+  re-deriving a verdict it already had.** `core.validator(name)` is the one compiled spelling now
+  (`_schema_error` is its reader, three call sites), `app._plan_validator` delegates to it, and
+  `corpus.invalidate()` clears it — **which `test_invalidate_clears_every_cache_that_exists_and_
+  not_only_the_named_ones` demanded on the first run, naming the new cache**: that guard walks
+  `core`'s module dict rather than listing caches, and it is the fourth time it has earned itself.
 - **AN ABSENT OPTIONAL DEPENDENCY WAS REPORTED AS A FAILURE, AND IT HAD BEEN MASKING REAL ONES
   (found 4 Sep 2026).** Three `workbench/server/tests` asserted through packages this machine does
   not have -- two import `anthropic` (not in `requirements.txt`) and one posts to an ingest route
@@ -2398,8 +2464,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **143 entries, of which 57 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
+  run `build/gen_open_questions.py`. It holds **146 entries, of which 60 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-finding-citation-cannot-name-a-finding, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

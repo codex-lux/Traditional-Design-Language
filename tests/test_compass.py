@@ -149,8 +149,15 @@ def _plan(room_type, walls, **kw):
     return p
 
 
+# THE TWO KINDS BY NAME, NOT BY PREFIX (audit, 7 Sep 2026). This read
+# `str(kind).startswith("room-o")`, which happens to select exactly these two today and is a
+# prefix over an OPEN namespace: `room-without-a-hearth` misses by one letter and any future
+# `room-over-*` kind would silently join every count in `TestTheCheck`.
+ASPECT_KINDS = ("room-off-the-aspect-its-record-wants", "room-on-an-aspect-its-record-avoids")
+
+
 def _kinds(plan):
-    return [f for f in PC.check(plan)["findings"] if str(f.get("kind", "")).startswith("room-o")]
+    return [f for f in PC.check(plan)["findings"] if f.get("kind") in ASPECT_KINDS]
 
 
 class TestTheCheck:
@@ -162,7 +169,18 @@ class TestTheCheck:
         assert "plan-S is S" in f[0]["statement"]
 
     def test_a_north_library_is_clear(self):
-        assert _kinds(_plan("library", ["N"])) == []
+        """AND THE CENSUS IS READ, because `== []` alone cannot fail (audit, 7 Sep 2026).
+
+        Every mutation that silences the aspect block yields `[]` for every plan, so a bare
+        empty-list assertion passes on the checker being deleted. Three of the four `== []`
+        tests in this class carry a positive assertion beside them; this one did not. The
+        census is the positive half: it says the room WAS read and came back satisfied, which
+        is a different fact from nothing having been asked.
+        """
+        plan = _plan("library", ["N"])
+        assert _kinds(plan) == []
+        cen = [f for f in PC.check(plan)["findings"] if f.get("kind") == "aspect-census"][0]
+        assert "1 satisfied" in cen["statement"], cen["statement"]
 
     def test_a_north_east_library_is_clear_because_the_record_names_it(self):
         # A window's `wall` enum is N/E/S/W, so NE is not sayable on a wall -- it is reachable
@@ -244,6 +262,7 @@ class TestTheCorpusReading:
         tot = {"room-off-the-aspect-its-record-wants": 0,
                "room-on-an-aspect-its-record-avoids": 0}
         serious = 0
+        serious_at = []
         for p in sorted(glob.glob(f"{ROOT}/plans/**/*.json", recursive=True)):
             d = json.loads(open(p).read())
             if "levels" not in d:
@@ -252,11 +271,20 @@ class TestTheCorpusReading:
                 if f.get("kind") in tot:
                     tot[f["kind"]] += 1
                     serious += f["severity"] == "serious"
+                    if f["severity"] == "serious":
+                        serious_at.append((os.path.basename(p)[:-5], f.get("room")))
         assert tot == {"room-off-the-aspect-its-record-wants": 40,
                        "room-on-an-aspect-its-record-avoids": 23}
         # ONE hard conviction in the whole corpus, and it is true: good-04's enclosed porch is a
         # north sunroom, which rooms/sunroom.json calls a cold glass box unusable in January.
+        #
+        # ITS IDENTITY IS ASSERTED AND NOT ONLY ITS COUNT (audit, 7 Sep 2026). `serious == 1`
+        # was justified in this comment by naming a plan and a room and then checked neither, so
+        # any regression that made a different room hard-serious while good-04's stopped firing
+        # kept it green -- a verdict asserted and its reason not, which is the shape this file
+        # is otherwise careful about.
         assert serious == 1
+        assert serious_at == [("good-04-rambling-porch-farmhouse", "enclosed-porch")], serious_at
 
 
 # ------------------------------------------------- the two grouping rules given a test (WP-11.9)
@@ -269,7 +297,10 @@ class TestTheCorpusReading:
 ARR = _load("arrangement", f"{ROOT}/build/arrangement.py")
 
 
-def _passage_plan(passage_doors, stair_doors=("passage",), rooms=("centre-passage", "stair-hall")):
+# `rooms=` REMOVED (audit, 7 Sep 2026): it was never referenced in the body, so a future test
+# passing it to vary the room types would have got the default fixture and a green result for
+# the wrong reason -- the "fixture never enters the code under test" shape, pre-loaded.
+def _passage_plan(passage_doors, stair_doors=("passage",)):
     rs = [{"id": "passage", "type": "centre-passage", "name": "Passage",
            "width_ft": 10, "length_ft": 40,
            "doors": [{"to": t, "width_ft": 3.5} for t in passage_doors]},
@@ -331,14 +362,35 @@ class TestTheTwoGroupingRules:
         assert len(f) == 1 and f[0]["severity"] == "info"
         assert "Not a pass" in f[0]["statement"]
 
-    def test_both_shipped_plans_still_read_as_measured(self):
-        # The Tidewater record PASSES both, and that is the finding: the diagnosis's B4 -- "a
-        # centre passage whose rear door read as a window" -- is a defect of the DRAWING, not of
-        # the record, which states doors at both ends and a stair hall opening off the passage.
-        d = json.loads(open(f"{ROOT}/plans/tidewater-georgian-careful.json").read())
-        v = ARR.grouping_vars(d)
-        assert v["passage_ends_with_a_door"] == 2.0
-        assert v["stair_hall_opens_off_the_passage"] == 1.0
+    def test_every_shipped_plan_still_reads_as_measured(self):
+        """The Tidewater record PASSES both, and that is the finding: the diagnosis's B4 -- "a
+        centre passage whose rear door read as a window" -- is a defect of the DRAWING, not of
+        the record, which states doors at both ends and a stair hall opening off the passage.
+
+        RENAMED AND WIDENED (audit, 7 Sep 2026). It was called `test_both_shipped_plans_...`
+        and read ONE, so a reader auditing coverage from the name would conclude the spec
+        Colonial was pinned. It is not, and it cannot be by this rule: it carries no passage.
+        The sweep says so explicitly rather than leaving the absence to be inferred -- one of
+        the sixteen records carries a passage at all, which is the fact that makes every other
+        test in this class a DRIVEN one.
+        """
+        speaks, silent = {}, []
+        for p in sorted(glob.glob(f"{ROOT}/plans/**/*.json", recursive=True)):
+            d = json.loads(open(p).read())
+            if "levels" not in d:
+                continue
+            v = ARR.grouping_vars(d)
+            name = os.path.basename(p)[:-5]
+            if "passage_ends_with_a_door" in v:
+                speaks[name] = (v["passage_ends_with_a_door"],
+                                v.get("stair_hall_opens_off_the_passage"))
+            else:
+                silent.append(name)
+        assert speaks == {"tidewater-georgian-careful": (2.0, 1.0)}, speaks
+        assert len(silent) == 15, (
+            f"{len(silent)} of the plan records carry no ground-floor passage for this rule to "
+            f"read. If that changed, the new record is now the second thing this rule speaks "
+            f"on and belongs in the dict above rather than in a count")
 
     def test_the_alignment_half_is_named_and_not_silently_passed(self):
         # Splitting the rule left an untested half. A rule with no test and no `reported_by` gets
@@ -357,13 +409,21 @@ class TestTheTwoGroupingRules:
         # handed over from a preference handed over.
         assert "(strong, no machine test)" in f[0]["statement"]
 
-    def test_every_grouping_rule_speaks(self):
-        # 28 of 86 carry a test, 1 reports, and the other 57 are handed to a human BY NAME. None
-        # is silent. Deleting the widened branch sends 28 of them quiet again and this is what
-        # notices -- a count, so that a rule losing its test cannot be paid for by a rule gaining
-        # one (WP-11.7's own lesson, where a removed serious and an added duplicate cancelled and
-        # 63 stayed 63).
-        n = {"test": 0, "reported": 0, "by_hand": 0, "silent": 0}
+    def test_the_corpus_holds_28_tested_1_reported_and_57_by_hand(self):
+        """The census of the DATA. It is not a test of the checker and no longer claims to be.
+
+        This assertion used to live inside `test_every_grouping_rule_speaks` under a docstring
+        saying "deleting the widened branch sends 28 of them quiet again and this is what
+        notices". IT DID NOT NOTICE (audit, 7 Sep 2026). Every count here is read out of
+        `groupings/*.json` and is independent of `build/plan_check.py`, so reverting `else:` to
+        `elif hard:` changed none of them; the `"silent": 0` key was never incremented on any
+        path, a literal tautology on the word the test was named after; and the source-substring
+        assert beside it passes with the f-string intact and the branch reverted -- on exactly
+        the mutation it was written to catch.
+
+        The census is worth keeping, as a census. The behavioural half is the test below.
+        """
+        n = {"test": 0, "reported": 0, "by_hand": 0}
         for gp in sorted(glob.glob(f"{ROOT}/groupings/*.json")):
             for r in (json.loads(open(gp).read()).get("internal_rules") or []):
                 if r.get("test"):
@@ -372,9 +432,42 @@ class TestTheTwoGroupingRules:
                     n["reported"] += 1
                 else:
                     n["by_hand"] += 1
-        assert n == {"test": 28, "reported": 1, "by_hand": 57, "silent": 0}
-        src = open(f"{ROOT}/build/plan_check.py").read()
-        assert "check by hand ({ir.get('severity', 'strong')}, no " in src
+        assert n == {"test": 28, "reported": 1, "by_hand": 57}
+
+    def test_every_grouping_rule_speaks(self):
+        """EVERY testless rule of every grouping a plan names is EMITTED, counted off the run.
+
+        The count is of hand-offs the checker actually produced, held against the rules the
+        named groupings actually carry -- so a rule losing its test cannot be paid for by a rule
+        gaining one (WP-11.7's lesson, where a removed serious and an added duplicate cancelled
+        and 63 stayed 63), and reverting the branch fails this by the number of `strong` and
+        `preferred` rules in the groupings under test rather than by nothing at all.
+
+        Mutation-checked: `else:` -> `elif hard:` in `plan_check.py`'s grouping loop turns this
+        red naming the shortfall.
+        """
+        plan = _passage_plan(["porch", "exterior"])
+        C = PC.load_corpus()
+        want, hard_want = 0, 0
+        for gid in plan.get("groupings", []):
+            for r in C["groupings"][gid]["internal_rules"]:
+                if r.get("test") or (r.get("measures") or {}).get("reported_by"):
+                    continue
+                want += 1
+                hard_want += r.get("severity") == "hard"
+        assert want > 0 and hard_want < want, (
+            f"the fixture names groupings with {want} testless rules of which {hard_want} are "
+            f"hard; with no non-hard rule among them the `elif hard` revert would be invisible "
+            f"here and this test would prove nothing")
+        got = [f for f in PC.check(plan)["findings"]
+               if f.get("kind") == "grouping-rule-by-hand"]
+        assert len(got) == want, (
+            f"{len(got)} of {want} testless rules were handed to a reader; the rest emitted "
+            f"nothing at all, which reads exactly like a rule that passed")
+        # And the severity is IN the sentence, so a reader can tell a hard rule handed over
+        # from a preference handed over. Asserted on the emitted text, not on the source.
+        assert any("(strong, no machine test)" in f["statement"] for f in got)
+        assert all("no machine test" in f["statement"] for f in got)
 
     def test_the_worst_passage_is_taken_and_not_the_best(self):
         # Reporting the best would be the flattering direction -- the OQ 52 family. Driven,
@@ -420,3 +513,165 @@ class TestWhereTheAspectFindingsGoInTheCritique:
         assert all("depth rule" not in str(i.get("why")) for i in hits)
         assert all("aspect" in str(i.get("why")) or "light its record asks for" in str(i.get("why"))
                    for i in hits)
+
+
+# ---------------------------------------------- the CHECKER, driven, not the corpus it happens to pass
+#
+# **THE VALIDATOR IN `build/check_rooms.py` HAD NO TEST AND ITS WHOLE 44-LINE BLOCK COULD BE
+# DELETED WITH THE SUITE GREEN** — found by an adversarial audit of this session's own work, and
+# reproduced before it was fixed: `check_rooms.py` came back `OK errors=0` and `test_compass.py`
+# stayed green with the block removed.
+#
+# The reason is worth more than the fix. The four tests above (`test_every_basis_is_verbatim...`,
+# `test_a_refusal_carries_its_reason...`, `test_prefer_and_avoid_never_name_the_same_aspect`,
+# `test_a_declining_record_carries_no_reading`) assert those rules DIRECTLY over `rooms/*.json`.
+# They guard the CORPUS and they are worth having — but a checker is guarded only by being made
+# to fire, and on a clean corpus a deleted checker and a working one emit exactly the same
+# nothing. **Assert what the checker DOES, not what the data happens to be.**
+CR = _load("check_rooms", f"{ROOT}/build/check_rooms.py")
+
+
+def _room_fixture(**aspect):
+    """A minimal room record the checker will accept, with the aspect under test spliced in.
+
+    DRIVEN, never a shipped record: a fixture that is the corpus makes every assertion below a
+    statement about this tree rather than about the rule (WP-8.11, and it has bitten twice).
+    """
+    return {
+        "id": "workshop", "name": "Workshop", "function_class": "work", "privacy_rank": 3,
+        "confidence": "high", "description": "x", "dimensions": {"area_sf": [100, 200]},
+        "daylight": {"depth_multiplier": 2.25, "sides_lit": 1,
+                     "orientation": "North for even light on a bench",
+                     "aspect": dict(aspect) if aspect else None},
+        "adjacency": {}, "servicing": {},
+    }
+
+
+def _run_checker(room):
+    rep = CR.Report()
+    u = CR.build_universe()
+    CR.check_room(rep, f"{ROOT}/rooms/workshop.json", room, u, {"workshop"})
+    return rep
+
+
+class TestTheCheckerFires:
+    def test_a_basis_that_is_not_in_the_prose_is_an_error(self):
+        r = _run_checker(_room_fixture(applies=True, strength="preferred", prefer=["N"],
+                                       basis="North for even light on a workbench",
+                                       judgment=True))
+        assert any("not verbatim" in m for _w, m in r.errors), r.errors
+
+    def test_a_verbatim_basis_is_accepted(self):
+        # The control. Without it the test above passes on a checker that errors on everything.
+        r = _run_checker(_room_fixture(applies=True, strength="preferred", prefer=["N"],
+                                       basis="North for even light on a bench", judgment=True))
+        assert not [m for _w, m in r.errors if "aspect" in m], r.errors
+
+    def test_prefer_and_avoid_naming_the_same_aspect_is_an_error(self):
+        r = _run_checker(_room_fixture(applies=True, strength="preferred", prefer=["N"],
+                                       avoid=["N"], basis="North for even light on a bench",
+                                       judgment=True))
+        assert any("wants and avoids" in m for _w, m in r.errors), r.errors
+
+    def test_applies_true_with_no_reading_is_an_error(self):
+        # "a pass wearing a verdict": applies says the room is held to an aspect and then names none
+        r = _run_checker(_room_fixture(applies=True, strength="preferred",
+                                       basis="North for even light on a bench", judgment=True))
+        assert any("neither a preferred nor an avoided" in m for _w, m in r.errors), r.errors
+
+    def test_applies_false_carrying_a_reading_is_an_error(self):
+        r = _run_checker(_room_fixture(applies=False, prefer=["N"],
+                                       basis="North for even light on a bench",
+                                       note="x", judgment=True))
+        assert any("carries a reading" in m for _w, m in r.errors), r.errors
+
+    def test_a_refusal_with_no_note_is_an_error(self):
+        r = _run_checker(_room_fixture(applies=False, basis="North for even light on a bench",
+                                       judgment=True))
+        assert any("gives no note" in m for _w, m in r.errors), r.errors
+
+    def test_judgment_must_be_true(self):
+        # Asserted by NOTHING before this: translating a sentence into tokens is a reading, and a
+        # reading that does not say it is one is the laundering this corpus names first.
+        r = _run_checker(_room_fixture(applies=True, strength="preferred", prefer=["N"],
+                                       basis="North for even light on a bench", judgment=False))
+        assert any("judgment: true" in m for _w, m in r.errors), r.errors
+
+    def test_orientation_prose_with_no_aspect_beside_it_is_a_warning(self):
+        room = _room_fixture()
+        room["daylight"].pop("aspect")
+        r = _run_checker(room)
+        assert any("unread" in m for _w, m in r.warnings), r.warnings
+
+    def test_an_aspect_with_no_orientation_to_have_read_is_an_error(self):
+        room = _room_fixture(applies=True, strength="preferred", prefer=["N"],
+                             basis="anything", judgment=True)
+        room["daylight"].pop("orientation")
+        r = _run_checker(room)
+        assert any("no daylight.orientation" in m for _w, m in r.errors), r.errors
+
+
+# ------------------------------------------------------- the term that entered the scored key
+class TestTheAspectIsInTheScoredKey:
+    """WP-11.9 changed `compose`'s fitness function and its report does not say so.
+
+    The aspect findings are `serious`/`minor`, not `info`; `compose.SCORE_LAYERS` maps
+    `daylight` to the 18-point `rooms` axis; so the day that layer shipped, the composer began
+    ranking candidates on it. Measured by the audit of 7 Sep 2026: the rooms axis moves by up to
+    3.00 of 18 points on the shipped plans, and on a real compose at 8 candidates the ORDER below
+    the winner changes on both shipped briefs. `oq/the-composer-ranks-on-an-assumed-bearing`
+    carries the question and the numbers.
+
+    THESE TESTS DO NOT PIN THE DELTAS. They are properties of 16 plan records and would go red
+    on any authoring change, which is WP-9.6's rule about ratcheting a number that drifts. What
+    is pinned is the two facts a reader of the register needs to still be true: that the layer is
+    IN the key, and that removing it MOVES the key -- so the day someone excludes it, or the day
+    it goes inert, this says so instead of the open question quietly becoming false.
+    """
+
+    def _axis(self, CO, plan):
+        res = PC.check(plan)
+        n = sum(len(lv["rooms"]) for lv in plan["levels"])
+        a = CO._axis_from_layers(res, "rooms", n)
+        return a["share"] if isinstance(a, dict) else a
+
+    def test_the_daylight_layer_is_mapped_to_a_scored_axis(self):
+        CO = _load("compose", f"{ROOT}/build/compose.py")
+        assert CO.SCORE_LAYERS.get("daylight") == "rooms", (
+            "the aspect findings stopped feeding the score. If that was deliberate, close "
+            "oq/the-composer-ranks-on-an-assumed-bearing rather than leaving it saying they do")
+
+    def test_the_aspect_findings_are_not_info_and_so_reach_the_key(self):
+        plan = json.loads(open(f"{ROOT}/plans/tidewater-georgian-careful.json").read())
+        sev = {f["severity"] for f in PC.check(plan)["findings"]
+               if str(f.get("kind") or "").startswith("room-o")}
+        assert sev and sev <= {"serious", "minor"}, sev
+
+    def test_suppressing_the_aspect_reading_moves_the_rooms_axis(self):
+        """The measurement, driven -- and the guard against the way it was first got wrong.
+
+        The first attempt patched a `compass` reached through a SECOND modcache instance, so the
+        suppression never landed and every delta read 0.00, which is indistinguishable from an
+        inert term. The `assert after == 0` below is what makes the comparison mean anything:
+        it proves the patch reached the module the checker is using before any delta is read.
+        """
+        CO = _load("compose", f"{ROOT}/build/compose.py")
+        plan = json.loads(open(f"{ROOT}/plans/tidewater-georgian-careful.json").read())
+        live = PC._load("compass", f"{ROOT}/build/compass.py")   # the checker's OWN object
+        real = live.read
+        before_share = self._axis(CO, plan)
+        before_n = sum(1 for f in PC.check(plan)["findings"]
+                       if str(f.get("kind") or "").startswith("room-o"))
+        try:
+            live.read = lambda *a, **k: {"verdict": "unstated", "reason": "suppressed"}
+            after_n = sum(1 for f in PC.check(plan)["findings"]
+                          if str(f.get("kind") or "").startswith("room-o"))
+            assert before_n > 0 and after_n == 0, (
+                f"the suppression did not reach the checker's compass ({before_n} -> {after_n}); "
+                f"the comparison below would be vacuous")
+            after_share = self._axis(CO, plan)
+        finally:
+            live.read = real
+        assert after_share > before_share, (
+            f"suppressing every aspect verdict left the rooms axis at {before_share}; the layer "
+            f"has gone inert in the score and the open question no longer describes the code")
