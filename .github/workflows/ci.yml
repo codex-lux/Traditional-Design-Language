@@ -6,15 +6,17 @@ name: CI
 #
 # THE CORPUS SUITE IS A MATRIX AND WAS ONE STEP UNTIL 7 SEP 2026 (WP-11.12). It had reached
 # 39 min 32 s -- measured on run 33908079938, against eight minutes for the workbench job and
-# one for the image, so it WAS the wall-clock of a pull request. Measured before it was
-# split: `pytest tests/` 2,070 s, the 44 checkers 197 s. Nothing in it is slow; 2,267 s of
-# independent work was running on one core.
+# one for the image, so it WAS the wall-clock of a pull request, and Phase 11 then took it
+# past 41. Measured before it was split: `pytest tests/` 2,070 s against 197 s for the 44
+# checkers. Nothing in it is slow; 2,267 s of independent work was running on one core.
 #
-# `build/check_all.py --shard i/N` partitions the work; five shards land a makespan of about
-# 440 s. FIVE and not more because the makespan is bounded below by the largest indivisible
-# unit -- tests/test_score.py is 400 s on its own -- so a sixth runner buys 40 s and a ninth
-# buys nothing. Five also costs about what one did: 5 x (440 s + ~30 s of setup) is 39 runner
-# minutes against the 40 the single job was already spending.
+# `build/check_all.py --shard i/N` partitions the work. SIX, and the number is measured
+# rather than chosen: the makespan is bounded below by the largest INDIVISIBLE unit, and
+# tests/test_score.py is 400 s on its own, so six shards land 415 s and a seventh buys 15.
+# Six also costs what one did -- 6 x (415 s + ~30 s of setup) is 45 runner minutes against
+# the 41 the single job was already spending, so the wall clock falls sixfold and the bill
+# does not move. Re-measure with `python3 build/check_all.py --list-units --shard 1/N`
+# before changing it; the balance is a property of the corpus, not of the number.
 #
 # THE SPLIT IS BY JOB, WHICH IS THE POINT. Six test files mutate repository data in place and
 # restore it in a `finally`; a thread- or xdist-parallel suite in one checkout would let one
@@ -32,7 +34,7 @@ on:
 
 jobs:
   # Its own job rather than a step inside the matrix: it needs both refs and it answers the
-  # same for all five shards, so running it five times would be five chances to hit GitHub's
+  # same for every shard, so running it six times would be six chances to hit GitHub's
   # rate limit for one answer.
   ids:
     name: open-question ids
@@ -44,15 +46,15 @@ jobs:
         run: bash .github/scripts/oq_ids_do_not_collide.sh "${{ github.base_ref }}"
 
   shard:
-    name: corpus shard ${{ matrix.shard }}/5
+    name: corpus shard ${{ matrix.shard }}/6
     runs-on: ubuntu-latest
     strategy:
-      # Every shard runs even when one fails. A red shard that cancelled the other four
+      # Every shard runs even when one fails. A red shard that cancelled the other five
       # would hide any second failure -- the same reason check_all.py runs everything after
       # a failure rather than stopping at the first one.
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4, 5]
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -81,7 +83,7 @@ jobs:
         # workbench job below does install ortools, but runs only the server suite.
         # Costs an install and about two minutes of solver tests. Ruled worth it.
         run: pip install jsonschema pytest ortools
-      - name: check_all.py --shard ${{ matrix.shard }}/5
+      - name: check_all.py --shard ${{ matrix.shard }}/6
         # Reports the workbench server suite as N/EV here — fastapi is deliberately not
         # installed in this job, and the workbench job below runs it properly. Only ONE
         # shard holds that unit, so only one shard's log carries the line.
@@ -107,7 +109,7 @@ jobs:
         # workbench job, which installs them. Run once, not twice — the suite is minutes.
         run: |
           set -o pipefail
-          python3 build/check_all.py --shard ${{ matrix.shard }}/5 2>&1 | tee /tmp/ca.log
+          python3 build/check_all.py --shard ${{ matrix.shard }}/6 2>&1 | tee /tmp/ca.log
           allowed='export_dxf.py selftest|export_ifc.py selftest|pytest workbench/server/tests'
           if grep '^  N/EV' /tmp/ca.log | grep -Ev "$allowed"; then
             echo "::error::a check reported COULD NOT EVALUATE that this job expects to judge."

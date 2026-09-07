@@ -4,7 +4,7 @@ behaviour-test suite (tests/, pytest), then the workbench server suite.
 
     python3 build/check_all.py            # the whole thing, serially, as it always was
     make check                            # same thing
-    python3 build/check_all.py --shard 2/5    # one fifth of it, for a CI runner
+    python3 build/check_all.py --shard 2/6    # one sixth of it, for a CI runner
     python3 build/check_all.py --list-units   # what the work is, and what it is thought to cost
 
 Exits nonzero if anything fails. Runs everything even after a failure so one
@@ -21,7 +21,10 @@ Measured before anything was changed:
     the 44 checkers        197 s    8%
 
 So the suite is not slow because any one thing is slow; it is slow because 2,267 s of
-independent work runs on one core. `--shard i/N` splits it across N runners.
+independent work runs on one core. `--shard i/N` splits it across N runners. (Those are the
+figures the problem was raised on. Merging Phase 11 took the total to 2,490 s and the checkers
+to 45 -- which is the point: the number only ever goes up, and it went up 10% in the three days
+this took to write.)
 
 THE SPLIT IS BY PROCESS, AND THAT IS THE POINT RATHER THAN AN IMPLEMENTATION DETAIL.
 Six test files mutate repository data in place and restore it in a `finally`
@@ -223,7 +226,8 @@ BUILD = ("build.py", [])
 # A HINT AND NOT A CLAIM. Measured seconds per unit, used only to decide which shard a unit
 # lands in. A stale entry makes one shard finish later than another; it cannot make a unit
 # run twice or not at all, because `assign()` is total over `units()` whatever the costs say.
-# Refresh it from the `--list-units --measure` line any shard prints. Deliberately NOT
+# Refresh it from the `--- measured ... (paste into build/check_costs.json) ---` block every
+# run prints at the end. Deliberately NOT
 # policed by check_counts.py: that checker guards numbers DERIVED FROM THE CORPUS, and a
 # wall-clock second on one machine is not one.
 COSTS_PATH = ROOT / "build" / "check_costs.json"
@@ -261,8 +265,10 @@ def assign(n):
     """{shard index 0..n-1: [(kind, key), ...]} -- longest-processing-time-first packing.
 
     LPT because the makespan is bounded below by the single largest unit whatever we do
-    (tests/test_score.py is 400 s of the suite's 2,070), so the only thing a scheduler can
+    (tests/test_score.py is 400 s of the suite's 2,490), so the only thing a scheduler can
     win is the tail: place the big ones first and let the small ones fill in behind them.
+    That floor is why six shards is where the curve goes flat: 4 -> 623 s, 5 -> 498,
+    6 -> 415, 7 -> 400, 8 -> 400. `--list-units` re-derives it whenever anyone asks again.
     Ties break on the key so the partition is deterministic -- two shards computing this
     independently on two runners must agree, and a wall-clock-dependent split would be a
     race that shows up as a unit running twice.
@@ -277,14 +283,37 @@ def assign(n):
     return out
 
 
+def pytest_target(my_files):
+    """(argv-tail, label) for a shard's pytest invocation.
+
+    A PURE FUNCTION AND NOT THREE LINES INSIDE run(), because it got this wrong once and
+    nothing could see it. `my_files` arrives from `assign()` in longest-first order, so at
+    1/1 -- which holds every file -- `my_files == test_files()` was FALSE, the whole-suite
+    branch never fired, and the unsharded run invoked pytest with 78 explicit paths in cost
+    order rather than `tests/`. It ran all 1,923 tests and passed. What it was not was the
+    run this script did before it could shard, which is what the module docstring promises.
+    The only surface that said so was the label in the log ("pytest tests/ (78 of 78
+    files)"), and a claim whose only witness is a line of output nobody diffs is not guarded.
+
+    Sorting is not tidiness either: alphabetical is the order `pytest tests/` collects in,
+    and every claim this suite makes about order-independence was measured against it.
+    """
+    files = sorted(my_files)
+    if not files:
+        return [], None
+    if files == test_files():
+        return ["tests/"], "pytest tests/"
+    return files, f"pytest tests/ ({len(files)} of {len(test_files())} files)"
+
+
 def parse_shard(text):
     """"i/n" -> (i, n), 1-based and inclusive. Refuses anything else rather than guessing:
-    a mistyped shard that silently ran everything would report a green build for a third
-    of the work."""
+    a mistyped shard that silently ran everything, or ran nothing, would report a green
+    build for a fraction of the work -- six times over, once per runner."""
     try:
         i, n = (int(p) for p in str(text).split("/"))
     except ValueError:
-        raise SystemExit(f"--shard wants i/n (e.g. 2/5), not {text!r}")
+        raise SystemExit(f"--shard wants i/n (e.g. 2/6), not {text!r}")
     if not (1 <= i <= n) or n < 1:
         raise SystemExit(f"--shard {text}: i must be between 1 and n, and n at least 1")
     return i, n
@@ -370,10 +399,7 @@ def run(shard_i, shard_n, my_checks, my_files, my_suites):
         # A shard holding every file runs `pytest tests/` verbatim, so the unsharded run is
         # byte-identical to what this script did before it could shard -- the degenerate case
         # reproduces the old behaviour rather than approximating it.
-        every = my_files == test_files()
-        target = ["tests/"] if every else my_files
-        label = "pytest tests/" if every else (
-            f"pytest tests/ ({len(my_files)} of {len(test_files())} files)")
+        target, label = pytest_target(my_files)
         # `sys.executable -m pytest`, not the bare `pytest` on PATH. Every checker above already
         # runs under this interpreter, and a `pytest` from somewhere else runs the suite against a
         # different set of installed packages. Two sessions found this independently and it is worth
@@ -386,8 +412,15 @@ def run(shard_i, shard_n, my_checks, my_files, my_suites):
         t = time.time()
         rc = subprocess.run([sys.executable, "-m", "pytest"] + target, cwd=str(ROOT)).returncode
         elapsed = time.time() - t
-        for f in my_files:                       # split evenly; a per-file figure would need a
-            timings[f] = elapsed / len(my_files)  # second run, and this is a hint (see COSTS_PATH)
+        # ONE PYTEST RUN MEASURES ONE PYTEST RUN. The first version of this divided `elapsed`
+        # evenly across the shard's files and wrote that into the refreshable block -- so a
+        # paste-back from an unsharded run would have flattened all 78 per-file figures to
+        # their mean and destroyed the very balance the table exists to provide, while looking
+        # exactly like a measurement. That is inventing a number and calling it measured, in
+        # the file that says not to. A per-file figure needs a per-file run, so the block
+        # carries one only when the shard held exactly one file, and says so otherwise.
+        if len(my_files) == 1:
+            timings[my_files[0]] = elapsed
         # normalized: pytest's own exit 3 means "internal error", not our
         # could-not-evaluate protocol — only the build/ checks speak that code
         results.append((label, 0 if rc == 0 else 1))
@@ -482,12 +515,20 @@ def run(shard_i, shard_n, my_checks, my_files, my_suites):
               file=sys.stderr)
         sys.exit(1)
 
-    # The line a cost-table refresh is pasted from. Printed on every run, in the shape
+    # The block a cost-table refresh is pasted from. Printed on every run, in the shape
     # build/check_costs.json wants, because a table nobody can regenerate is a table that
-    # rots into an imbalance nobody can explain.
+    # rots into an imbalance nobody can explain. Only real measurements go in it: a shard
+    # that ran many test files in one pytest process measured that process, not its files.
+    unmeasured = [f for f in my_files if f not in timings]
     print(f"\n--- measured, {time.time() - t0:.0f}s in this shard "
-          f"(paste into build/check_costs.json) ---")
+          f"(merge into build/check_costs.json's \"seconds\") ---")
     print(json.dumps({k: round(v, 2) for k, v in sorted(timings.items())}, indent=1))
+    if unmeasured:
+        print(f"    {len(unmeasured)} test file(s) ran inside one pytest process and carry no "
+              f"figure of their own here.\n"
+              f"    For those: python3 -m pytest <file> -q, one at a time. An even split of "
+              f"the run would look\n"
+              f"    like a measurement and would flatten the table it was pasted into.")
 
     if failed:
         print(f"\n{len(failed)} of {len(results)} checks failed.")

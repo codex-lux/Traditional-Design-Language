@@ -201,22 +201,30 @@ def test_section_one_names_open_questions_and_work_packages_as_ids():
 # "No open-question id on this branch collides" for the one case it exists to catch, and
 # `grep -rn ci.yml tests/` returned nothing. A guard nobody runs is a comment.
 #
-# These two tests extract the step's own shell out of `.github/workflows/ci.yml` and run
-# it against stub registers, stubbing ONLY the two git reads. The pair is the point: one
-# proves it fires on a collision, the other that it stays quiet without one, and neither
-# passes alone -- `exit 1` unconditionally satisfies the first, `exit 0` the second.
+# These two tests read the gate's own shell and run it against stub registers, stubbing
+# ONLY the two git reads. The pair is the point: one proves it fires on a collision, the
+# other that it stays quiet without one, and neither passes alone -- `exit 1`
+# unconditionally satisfies the first, `exit 0` the second.
+#
+# IT MOVED, AND THIS TEST IS WHAT NOTICED (WP-11.12). The shell used to be an inline
+# `run:` block in `.github/workflows/ci.yml` and this function sliced it out of the YAML
+# by string index. When the corpus job became a six-way matrix the step was lifted into
+# `.github/scripts/oq_ids_do_not_collide.sh` -- it answers the same for every shard and
+# running it six times would be six chances at a rate limit -- and `text.index(...)`
+# raised `ValueError: substring not found`. A test that reads a guard out of the file it
+# happens to live in is coupled to that file; this one is now coupled to the SCRIPT,
+# which is the thing CI actually runs, and `test_the_workflow_calls_the_gate_script`
+# below holds the workflow to calling it.
+
+GATE = os.path.join(ROOT, ".github", "scripts", "oq_ids_do_not_collide.sh")
+
 
 def _gate_script():
-    """The gate step's shell, with `files()` restubbed to read two fixture files."""
-    ci_yml = os.path.join(ROOT, ".github", "workflows", "ci.yml")
-    with open(ci_yml, encoding="utf-8") as fh:
+    """The gate's own shell, with `files()` restubbed to read two fixture files."""
+    with open(GATE, encoding="utf-8") as fh:
         text = fh.read()
-    start = text.index("      - name: open-question ids do not collide with the base branch")
-    body = text[start:text.index("      - name: ", start + 10)]
-    run = body[body.index("run: |") + len("run: |"):]
-    lines = [ln[10:] if ln.startswith(" " * 10) else ln for ln in run.splitlines()]
     out = []
-    for ln in lines:
+    for ln in text.splitlines():
         if ln.strip().startswith("git fetch"):
             continue                                   # no network in a test
         if ln.strip().startswith("files ()"):          # the one stubbed read
@@ -224,7 +232,7 @@ def _gate_script():
                        'else cat "$FIX/head.txt"; fi | sort; }')
             continue
         out.append(ln)
-    script = "\n".join(out).replace("${{ github.base_ref }}", "main")
+    script = "\n".join(out)
     assert "comm -12" in script, "the gate must walk the INTERSECTION, not the difference"
     return script
 
@@ -234,8 +242,21 @@ def _run_gate(tmp_path, base, head):
     (tmp_path / "base.txt").write_text("\n".join(base) + "\n", encoding="utf-8")
     (tmp_path / "head.txt").write_text("\n".join(head) + "\n", encoding="utf-8")
     env = dict(os.environ, FIX=str(tmp_path))
-    return subprocess.run(["bash", "-c", _gate_script()], capture_output=True,
+    # "main" as $1: the script takes the base ref as an argument now rather than having it
+    # interpolated into it by Actions, which is the only edit the lift made.
+    return subprocess.run(["bash", "-c", _gate_script(), "gate", "main"], capture_output=True,
                           text=True, env=env, cwd=str(tmp_path))
+
+
+def test_the_workflow_calls_the_gate_script():
+    """The two tests above prove the SCRIPT is right. This proves CI still runs it -- a
+    guard that is correct and unreferenced is the shape this file's own header describes."""
+    ci = open(os.path.join(ROOT, ".github", "workflows", "ci.yml"), encoding="utf-8").read()
+    assert "oq_ids_do_not_collide.sh" in ci, (
+        "ci.yml no longer invokes the open-question id gate. It is the only place a "
+        "cross-branch collision is detectable before it costs a renumber.")
+    assert os.access(GATE, os.X_OK) or "bash .github/scripts/oq_ids_do_not_collide.sh" in ci, (
+        "the gate script is neither executable nor invoked through bash")
 
 
 CLEAN = ["docs/open-questions/001-a.md", "docs/open-questions/099-atlas.md"]

@@ -22,7 +22,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4**, **8.6**, **8.7**, **8.8**, **8.9**, **8.10**, **8.11**, **8.12**, **8.13**, **8.14** *(no 8.5 — see the note in CLAUDE.md; it shipped as `6f9e7c7` before the numbering existed)* | **8.1-8.4, 8.6 complete (28 Aug 2026); 8.7-8.14 complete (2-4 Sep); OQ 51's delivery half FINISHED and AUDITED** — **WP-8.8** made the baked-snapshot class knowable (135 judged, 0 stale, 8 unjudgeable for want of a recorded binding) and found the evaluator the question asked for had existed in two places all along. **WP-8.9** measured OQ 51's flip before building it and found the ruling had been taken on `unendorsed` — a count of ROLE GAPS — where the thing a gate stops is DELIVERIES: 2,899 slots, not ~223, a factor of thirteen. Put back with the numbers, Lucas ruled *stage it pack by pack* and *a separate field*; the `--stranding` meter and the `delivery: opt-in` / `inherits_packs` mechanism shipped inert. **WP-8.10** landed the first flip and built the loudness the ruling required: `trim-classical` is opt-in, six vouched nodes admit it, 10 slots over 10 nodes are stranded, and every stranded slot in the corpus (2,889 of 2,889) now NAMES the pack withheld and why. It found the meter's gate and the mechanism's gate were different predicates (10 against 15, one of the five a shipped reference plan), that `measure()` could not see a flip at all, and that the flip was sold on a corpus-level writer count that described no node — the same wrong-grain error as WP-8.9's, one package later. — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` **WP-8.11** flipped `facade-gable` (32 slots over 29 nodes, 29 of them `cornice_return`, whose only writer in the corpus is that pack) and found that BOTH suites drove the opt-in gate through the very pack about to be flipped -- a counterfactual that becomes the status quo, stays green and stops testing anything. **WP-8.12** flipped `sash-light` (70 slots over 34 nodes) and falsified WP-8.11's own two-point claim that the refill is roughly proportional: 4 gaps from a 10-slot flip, 13 from a 32-slot one, 10 from a 70-slot one. The refill is now landing ENTIRELY on the five packs whose `applies_to` arms a live gate (3 of 13, then 10 of 10), which follows from the staging order rather than chance and is worth a ruling before the remaining flips. `judged` is 249 after all three flips and 136 withheld arrivals: zero cases read. Reports: `docs/reports/wp-8.1{0,1,2}-*.md`. **AND THE THREE-FLIP FIGURES ABOVE ARE THAT MOMENT'S, NOT THIS TREE'S** -- WP-8.13 and WP-8.14 flipped the remaining five, and the live meter on the merged tree reads role_gaps **222**, inherited_packs **2,762**, unendorsed **180**, `judged` **250** and **396** withheld arrivals over all eight flipped packs. The row's own status cell said 8.7-8.14 complete while its narrative stopped at 8.12; re-measured at the 7 Sep merge rather than left to be read as current. |
 | **9 — Arrangement** | **WP-9.1, 9.5, 9.6, 9.7** complete · **9.2 text half done, image half waiting on Lucas's download** · **9.3 part built** · **9.4 COMPLETE AND ITS OWN PREMISE REFUSED** (`docs/reports/wp-9.4-the-unit-was-not-the-problem.md` — cite the FILENAME, two WP-9.4s exist) | **In progress (1 Sep 2026; this row was corrected on 3 Sep, having said "9.2, 9.3, 9.4, 9.5 not started" while four of those five had moved and two more packages had shipped with no section of their own — see `docs/reports/project-review-2026-09-03.md` §VII. The 9.4 cell in that same correction still said NOT STARTED and was itself wrong — the package had run on 1 Sep and refused `parti_slice` with its measurement, a probe taking fatals 3 to 8. Corrected again hours later; see that review's §IX, which is about this exact line)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
 | **10 — The second massing element** | **WP-10.1** | **Complete, and two of its three packages withdrawn by its own audit (3 Sep 2026)** — OQ 40 ruled a dependency a second massing element and the machinery ships and is DORMANT: the block placer, `exterior_score(bounds=)`, plan schema 0.5.0, both reference plans byte-identical. The service strip and the hyphen-as-a-room were WITHDRAWN when the audit found eight blocking defects, five of which reduce to **six layers below the placer reading the main block as the whole building** — a garage window drawn 14 ft from the garage, a span manufactured across the hyphen gap, a house reporting `lot_capped: true` at 34 ft wider than its lot. CP-SAT refuses a multi-element plan rather than flattening it (which had also flattered a number this session published); `geometry_report.multi_element` discloses the six. Report: `docs/reports/wp-10.1-the-audit-of-the-dependency.md` · new question: `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` |
-| **11 — The house the sheet should have drawn** | **WP-11.1 through 11.9 and 11.11 COMPLETE · 11.10 PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · then the adversarial audit of 11.9-11.11** | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each |
+| **11 — The house the sheet should have drawn** | **WP-11.1 through 11.9, 11.11 and 11.12 COMPLETE · 11.10 PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · then the adversarial audit of 11.9-11.11** | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -135,6 +135,8 @@ python3 build/build.py
 ```
 
 After Phase 0, `make check` (or `python3 build/check_all.py`) runs all of this plus `pytest`.
+
+**It shards since WP-11.12 and CI runs six of them.** `python3 build/check_all.py --shard 2/6` is one sixth of the same work and `--list-units --shard 1/6` prints the assignment; a bare `check_all.py` is `--shard 1/1` and is the run it always was. Run the bare one before declaring a package done -- a shard is green about its own sixth, and the operating rule above is about the suite.
 
 ---
 
@@ -2469,6 +2471,89 @@ so, exactly as `storey-graduation`'s 7.5 in riser divisor does.
    measurement it was taken on and the two things it does NOT rule — whether the budget should
    simply be larger, and whether a placement that set aside sixteen declared facts should be drawn
    at all.
+
+
+### WP-11.12 The suite that ran on one core
+
+**Status: COMPLETE (7 September 2026).** Report:
+`docs/reports/wp-11.12-the-suite-that-ran-on-one-core.md`. No new open question.
+
+**Raised by Lucas against a screenshot of the corpus job**: *"the corpus check has ballooned to
+now taking upwards of 40 mins per PR... is there any way to consolidate this?"* -- and the first
+finding is that consolidation was the wrong shape for the problem, which only became visible by
+measuring. Job by job on run `33908079938`: the corpus step **39 min 32 s**, the workbench job
+8 min 17 s, the image 55 s. So the corpus job WAS the wall-clock of a pull request. Inside it,
+reproduced locally within 5% of the runner: **`pytest tests/` 2,070 s against 197 s for all 44
+checkers.** Nothing in the suite is slow -- the worst checker is 49 s and the average test is
+1.3 s. 2,267 s of independent work was running on one core, and had been since `check_all.py`
+was written, when the whole thing took three minutes. There was nothing to merge; there were two
+things to do.
+
+**FIRST, 46 SECONDS THAT WERE A CONVENIENCE WRAPPER.** `jsonschema.validate(instance, schema)`
+rebuilds the validator on every call, and five checkers called it in a loop. `check_assets.py`
+was **18% of the whole checker suite** and every second of it was construction: 1,850 records,
+**35.70 s -> 0.59 s**; validate.py 5.93 -> 0.40, check_kits 6.25 -> 1.93, check_orders
+2.27 -> 0.38, check_constraints 0.78 -> 0.18. `build/schema_validators.py` is the one spelling.
+**The defect was already in CLAUDE.md** -- WP-10.1 measured this same wrapper at 60.5 ms a call
+and 17.9% of `/api/plan/evaluate` -- and the companion to that entry's *measure what you add to
+the hot path* is **then go and look for the shape somewhere else**: a grep would have found all
+five on any day in the past year. The risk was never the speed but the MESSAGE: `validate()`
+raises `best_match(iter_errors(...))`, every one of these checkers puts `e.message` in front of a
+person, and a faster validator choosing a different error would silently change every failure
+this corpus can produce. `raise_first()` is that same `best_match`, and the test holds the two
+against each other on real records with each required property removed in turn.
+
+**SECOND, SIX JOBS INSTEAD OF ONE.** `build/check_all.py --shard i/N` partitions 123 units -- the
+`CHECKS` entries and a glob of `tests/test_*.py` -- longest-first onto N shards. `--shard 1/1` is
+`make check`, byte for byte. **SIX IS MEASURED AND NOT CHOSEN**: the makespan is bounded below by
+the largest INDIVISIBLE unit and `tests/test_score.py` is 400 s on its own, so 4 -> 623 s,
+5 -> 498, **6 -> 415**, 7 -> 400, 8 -> 400. Six is also free -- 6 x (415 + ~30) is 45 runner
+minutes against the 41 the single job already spent -- so the wall clock falls sixfold and the
+bill does not move. `--list-units` prints the assignment, so the next person to ask whether seven
+would help can answer it rather than argue it.
+
+**THE SPLIT IS BY JOB AND THAT IS THE FINDING.** Six test files mutate repository data in place
+and restore it in a `finally` -- `test_kit_cascade`, `test_manifest_io`, `test_render_profile`,
+`test_ontology`, `test_constraints`, `test_open_question_ids`. `pytest -n auto` in one checkout
+would let one worker read `assets/manifest.json` while another has it truncated: intermittent,
+and blamed on the reader. Separate runners have separate checkouts and each shard is still one
+serial pytest process, which is why this package edits no existing test.
+
+**AND THE FAILURE IT COULD HAVE INTRODUCED IS THIS REPOSITORY'S OWN**: a unit in no shard runs
+nowhere and reports success. Nothing is enumerated -- `units()` globs and `assign()` is total onto
+`0..N-1`, so a unit is in exactly one shard by construction. `tests/test_check_all_shards.py`
+holds it anyway and was mutation-checked four ways, each mutation asserted to have LANDED before
+the colour was believed. The guard worth knowing: **`ci.yml`'s matrix against `ci.yml`'s own
+`--shard i/N`**, two numbers in one file that nothing else compares, where `[1..5]` against `/6`
+runs five sixths of the suite behind five green ticks. Empirically: six isolated checkouts
+collected **1,923 tests** between them, exactly the single run's total, with the three permitted
+N/EV states landing one each in shards 2, 3 and 6.
+
+**AND THE SUITE CAUGHT THE ONE THING THIS PACKAGE BROKE.** The id gate was lifted out of `ci.yml`
+into `.github/scripts/oq_ids_do_not_collide.sh` -- it answers the same for every shard and running
+it six times is six chances at a rate limit -- and `tests/test_open_question_ids.py` sliced that
+shell OUT OF THE YAML by string index in order to run it against stub registers, so it raised
+`ValueError: substring not found` on a guard whose own header records that it exists because
+*"a guard nobody runs is a comment."* It reads the script now, which is the thing CI executes, and
+a new assertion holds `ci.yml` to still calling it.
+
+**AND THE ONE THING THIS PACKAGE SHIPPED BROKEN IS THE ONE WORTH KNOWING.** `--shard 1/1` is meant
+to be `pytest tests/` verbatim; it was not. `assign()` hands a shard its files LONGEST-FIRST and
+the branch compared that against a SORTED list, so at 1/1 the comparison was False and the
+unsharded run passed pytest 78 explicit paths in cost order. All 1,923 tests ran and passed, every
+guard was green, and **the only witness was a line of output** -- `=== pytest tests/ (78 of 78
+files) ===` in a forty-minute log. The decision is a pure function now (`pytest_target()`) with
+three tests over it, one of which refuses to run if `assign()` ever starts returning sorted files,
+because it could then no longer tell the two apart and would be green without being about
+anything.
+
+**Kept deliberately**: the aggregate job is still named `corpus - check_all.py` (with the em
+dash the file uses), because branch protection and Railway's gate are configured against that
+string and a required check that stops existing stops being required. **Refused deliberately**:
+caching `compose()`, which is ~60% of the suite's cost and would take it under ten minutes on one
+core -- it would make `test_composing_one_brief_does_not_change_another_s_result` pass TRIVIALLY,
+and that test's own docstring records an audit having already proved it vacuous once. Three
+unfailable guards is not a price worth paying for time six runners buy for nothing.
 
 
 ## 6. Parallelisation map

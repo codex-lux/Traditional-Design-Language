@@ -143,16 +143,67 @@ def test_the_cost_table_names_units_that_exist():
     # would make adding a test file a two-step operation for no correctness gain.
 
 
+def test_the_refresh_block_never_invents_a_per_file_figure():
+    """A shard that runs many test files in ONE pytest process has measured that process, not
+    its files. The first version divided the elapsed time evenly and printed the result into
+    the block the file's own comment says to paste back -- so a paste-back from an unsharded
+    run would have flattened all 78 per-file figures to their mean and wrecked the balance the
+    table exists to give, while looking exactly like a measurement. Inventing a number and
+    calling it measured, in the repository whose first rule is not to."""
+    body = open(os.path.join(ROOT, "build", "check_all.py"), encoding="utf-8").read()
+    assert "elapsed / len(my_files)" not in body, (
+        "the per-file timing is an even split of one pytest run again; pasting that back "
+        "flattens build/check_costs.json to a single value per test file")
+    assert "if len(my_files) == 1:" in body, (
+        "a per-file figure must only be recorded when the shard held exactly one file")
+
+
 def test_the_shard_holds_itself_to_what_it_was_assigned():
     """`run()` counts what it reported against what it was given, the same way the whole
     run counts itself against TOTAL_CHECKS. Source-read, like test_counts_guard.py's own
-    guard on that arithmetic, because the alternative is running five shards in a test."""
+    guard on that arithmetic, because the alternative is running six shards in a test."""
     body = open(os.path.join(ROOT, "build", "check_all.py"), encoding="utf-8").read()
     assert "expected = 2 + len(my_checks)" in body, (
         "run() no longer derives what the shard was assigned; a unit dropped between "
         "assign() and run() would go unreported")
     assert re.search(r"len\(results\) != expected:\s*\n(?:.*\n)*?\s*sys\.exit\(1\)", body), (
         "the shard mismatch is detected but does not fail the run")
+
+
+def test_the_unsharded_run_is_pytest_tests_verbatim():
+    """THE BUG THIS TEST EXISTS FOR SHIPPED AND PASSED. `assign()` returns a shard's files in
+    longest-first order, and the whole-suite branch compared that list against a SORTED one --
+    so at 1/1, which holds every file, it was False, and the unsharded run invoked pytest with
+    78 explicit paths in cost order rather than `tests/`. All 1,923 tests ran and passed; what
+    it was not was the run `make check` did before this script could shard, which the module
+    docstring promises. The only witness was the label in the log, and a claim whose only
+    witness is a line of output nobody diffs is not guarded at all."""
+    m = _check_all()
+    every = [k for kind, k in m.assign(1)[0] if kind == "testfile"]
+    assert every != sorted(every), (
+        "assign() now returns files already sorted, so this test can no longer tell a sorted "
+        "comparison from an unsorted one -- it has gone vacuous, not green")
+    target, label = m.pytest_target(every)
+    assert target == ["tests/"], (
+        f"the unsharded run invokes pytest with {len(target)} argument(s) instead of `tests/`; "
+        f"it is no longer the run it was before sharding")
+    assert label == "pytest tests/"
+
+
+def test_a_partial_shard_names_pytest_with_its_own_files_in_order():
+    m = _check_all()
+    some = [k for kind, k in m.assign(6)[0] if kind == "testfile"]
+    target, label = m.pytest_target(some)
+    assert target == sorted(some), "a shard must collect in the order `pytest tests/` would"
+    assert target != ["tests/"]
+    assert label.startswith("pytest tests/ (") and f"of {len(m.test_files())} files" in label
+
+
+def test_a_shard_with_no_test_files_runs_no_pytest():
+    """Not an empty `pytest` invocation, which collects the whole rootdir and would run the
+    suite a seventh time."""
+    m = _check_all()
+    assert m.pytest_target([]) == ([], None)
 
 
 @pytest.mark.parametrize("bad", ["6/5", "0/5", "oops", "5", "-1/5", "1/0"])

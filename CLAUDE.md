@@ -53,6 +53,18 @@ covers only the tooling above the data. `check_all.py` runs the suite as `sys.ex
 pytest` rather than the bare `pytest`: WP-2.3 found those were different interpreters here, and
 sixteen tests were skipping while the run reported success.
 
+**IT SHARDS SINCE WP-11.12, AND CI RUNS SIX OF THEM** — `python3 build/check_all.py --shard 2/6`
+is one sixth of the same work, `--list-units --shard 1/6` prints the assignment and what each
+unit is thought to cost, and a bare `check_all.py` is `--shard 1/1` and is byte-for-byte the run
+it always was (a shard holding every test file runs `pytest tests/` verbatim rather than a file
+list). **The split is by JOB and that is the point, not an implementation detail**: six test
+files mutate repository data in place and restore it in a `finally`, so a thread- or
+xdist-parallel suite in one checkout would let one worker read `assets/manifest.json` while
+another has it truncated. Each shard is its own runner with its own checkout, and inside a shard
+the tests run serially in one pytest process exactly as before. `build/check_costs.json` is a
+HINT and not a claim — a stale second costs balance and can cost nothing else, because
+`assign()` is total over `units()` whatever the table says.
+
 Individual pieces: `build/validate.py`, `build/check_kits.py`, `build/check_constraints.py`,
 `build/check_pack_bindings.py --strict`, `build/check_rooms.py`, `build/check_partis.py`,
 `build/check_faults.py`, `build/check_addresses.py` compares what two co-binding packs MEAN at one address, using each rule's
@@ -193,7 +205,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,897 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **48 checks, 1,927 tests**
 (plus the workbench app suite, **78** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -202,11 +214,19 @@ sentence, for the same reason** — the 27 Aug merge resolved the conflict here 
 appends after it (`pytest tests/`, `pytest workbench/server/tests`, `node --test
 workbench/app`). The number to read is the runner's own `len(results)`, printed as "All N checks
 passed"; the app-suite figure is the `# tests` line from `node --test`. **And there is a trap in
-the line CI actually prints, and it is an IDENTITY rather than a coincidence**: with the CAD
-libraries and fastapi absent, exactly three checks are unjudged there (`export_dxf` and
+the line a WHOLE run prints, and it is an IDENTITY rather than a coincidence**: with the CAD
+libraries and fastapi absent, exactly three checks are unjudged (`export_dxf` and
 `export_ifc` selftests, `pytest workbench/server/tests`), and `TOTAL_CHECKS` is `len(CHECKS)`
-plus the three appended suites -- so the PASS count the corpus job prints is
-`TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time. It read "32 of 35 checks passed" on
+plus the three appended suites -- so the PASS count is
+`TOTAL - 3 = len(CHECKS)`, ARITHMETICALLY, every time.
+**THAT SENTENCE SAID "the line CI actually prints" UNTIL WP-11.12 AND WOULD HAVE BEEN FALSE THE
+MOMENT THE CORPUS JOB BECAME SIX JOBS.** CI prints six lines now -- `All 12 checks passed in
+shard 1/6`, and the three unjudged land in whichever shards `build/check_costs.json` sends them
+to, so no shard's line satisfies the identity and their pass counts do not sum to it either
+(each shard reports its own two `build.py` framings). The identity is still exactly true of
+`make check` and of `--shard 1/1`, which is where it is now stated. Corrected in the same commit
+that falsified it, which is the whole of WP-6.4's rule and is the reason to look for this
+paragraph before changing how anything runs. It read "32 of 35 checks passed" on
 27 Aug against a `len(CHECKS)` of 32, read "34 of 37 checks passed" earlier on 28 Aug against a
 `len(CHECKS)` of 34, read "39 of 42 checks passed" after WP-4.4's asset checker against a
 `len(CHECKS)` of 39, read "40 of 43 checks passed" after WP-9.1's critic-suspect meter against a
@@ -215,7 +235,8 @@ a `len(CHECKS)` of 41, read "43 of 46 checks passed" after WP-9.7's
 grouping-rule checker met PR #19's move-registry check at the merge, against a `len(CHECKS)` of
 43, read "44 of 47 checks passed" after WP-8.9's stranding sweep against a `len(CHECKS)` of 44,
 and reads "45 of 48 checks passed" after WP-11.2's plan-against-parti check, against a
-`len(CHECKS)` of 45. **Two sessions each added a check and each published 44**, which is the fifth time
+`len(CHECKS)` of 45 -- that last one from `make check`, because as of WP-11.12 CI no longer
+emits the line at all. **Two sessions each added a check and each published 44**, which is the fifth time
 this number has gone wrong at exactly a merge; the guard caught it here too.
 An earlier version of this sentence called that a coincidence, which told the next reader it
 probably would not happen to them; it happens at every check ever added. **Read the SECOND
@@ -478,6 +499,61 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE CHECK SUITE IS SIX PARALLEL JOBS NOW, AND THE SLOWEST THING IN IT WAS A CONVENIENCE
+  WRAPPER (WP-11.12, 7 Sep 2026).** The `corpus` job had reached **39 min 32 s** and was the
+  entire wall-clock of a pull request; the other two jobs are eight minutes and one. Measured
+  before anything was touched, which is the only reason the fix went where it did: **`pytest
+  tests/` 2,070 s against 197 s for all 44 checkers**. Nothing in it was slow. 2,267 s of
+  independent work was running on one core.
+  **`build/check_all.py --shard i/N`** partitions it -- 123 units, the CHECKS entries and a
+  glob of `tests/test_*.py`, packed longest-first onto N shards. `--shard 1/1` is what
+  `make check` always did, byte for byte. **SIX is measured and not chosen**: the makespan is
+  bounded below by the largest INDIVISIBLE unit and `tests/test_score.py` is 400 s by itself,
+  so six lands 415 s and a seventh buys fifteen. Six also costs what one did -- 45 runner
+  minutes against 41 -- so the wall clock falls sixfold and the bill does not move. **Re-measure
+  with `--list-units` before changing N**; the flat spot is a property of the corpus.
+  **THE SPLIT IS BY JOB AND THAT IS THE POINT.** Six test files mutate repository data in place
+  and restore it in a `finally` (`test_kit_cascade`, `test_manifest_io`, `test_render_profile`,
+  `test_ontology`, `test_constraints`, `test_open_question_ids`), so `pytest -n auto` in one
+  checkout would let one worker read `assets/manifest.json` while another has it truncated --
+  intermittently, and blamed on the reader. Separate runners have separate checkouts and each
+  shard is still one serial pytest process. **Do not "improve" this into xdist.**
+  **AND THE HAZARD DEMONSTRATED ITSELF BY ACCIDENT**, which is why it is stated this strongly:
+  the verification harness copied the tree with `rsync`, which this container does not have, so
+  every `cd` into a shard failed and all six ran in the ONE live checkout. Four `build.py`
+  processes raced on each other's `kits/*.tmp` and one shard's test failed on a corpus file
+  another shard had mid-mutation -- and **neither failure named its cause**: one reads as a
+  corrupt kit, the other as a composer regression. The `finally` restores held (`git status` was
+  clean afterwards); what did not hold was everything reading while they ran.
+  **AND THE FAILURE IT COULD HAVE INTRODUCED IS THIS REPOSITORY'S OWN**: a unit in no shard
+  runs nowhere and reports success. So nothing is enumerated by hand -- `units()` globs, and
+  `assign()` is total onto `0..N-1`, so a unit lands in exactly one shard by construction.
+  `tests/test_check_all_shards.py` holds it as a partition for every N and is mutation-checked
+  four ways; the guard worth knowing about is **`ci.yml`'s matrix against `ci.yml`'s own
+  `--shard i/N`** -- two numbers in one file that nothing else compares, where `[1..5]` against
+  `/6` runs five sixths of the suite behind five green ticks.
+  **THE 46 SECONDS THAT WERE A WRAPPER: `jsonschema.validate(instance, schema)` REBUILDS THE
+  VALIDATOR ON EVERY CALL**, and five checkers called it in a loop. `check_assets.py` spent
+  **36.1 s of the suite's 197** constructing the same validator 1,850 times; compiled once it is
+  **0.35 s**, and validate/check_kits/check_constraints/check_orders came 5.95→0.19, 5.35→0.72,
+  1.79→0.08, 1.89→0.38. `build/schema_validators.py` is the one spelling, and `raise_first()`
+  reproduces `validate()`'s own `best_match` choice EXACTLY -- a faster validator reporting a
+  *different* error would silently change every failure this corpus can produce, which is why
+  the test holds the two against each other on real records rather than timing them.
+  **This defect was already in this file**, as WP-10.1's plan gate at 60.5 ms a call and 17.9%
+  of `/api/plan/evaluate`. What that entry did not say is that the same wrapper was being paid
+  about 2,400 times a build one directory over. **MEASURE WHAT YOU ADD TO THE HOT PATH has a
+  companion: then go and look for the shape somewhere else.**
+  **AND THE ONE THING THIS PACKAGE SHIPPED BROKEN IS THE ONE WORTH KNOWING**: `--shard 1/1` is
+  supposed to be `pytest tests/` verbatim, and it was not -- `assign()` hands a shard its files
+  LONGEST-FIRST and the branch compared that against a SORTED list, so at 1/1 the comparison was
+  False and the unsharded run passed pytest 78 explicit paths in cost order. All 1,923 tests ran
+  and passed; every guard was green; **the only witness was a line of output** --
+  `=== pytest tests/ (78 of 78 files) ===` in a forty-minute log. The decision is a pure function
+  now (`pytest_target()`) with three tests over it, one of which refuses to run if `assign()` ever
+  starts returning sorted files, because it could then no longer tell the two apart and would be
+  green without being about anything.
+  Report: `docs/reports/wp-11.12-the-suite-that-ran-on-one-core.md`.
 - **THE DEPTH A ROOF NEEDS IS DERIVABLE FROM THE FAULT'S OWN RULE, AND DERIVING IT IS WHAT SHOWS
   IT CANNOT BE ENFORCED (WP-11.10).** `derive_footprint` bounds depth from ABOVE
   (`H <= depth_for(W) * 1.18`) and from below by NOTHING, so moving a programme into a wing makes
