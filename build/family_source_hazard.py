@@ -116,6 +116,50 @@ def judge_list(node_id, proposed, nodes=None):
     return ("unsafe" if bad or not own else "ok"), why
 
 
+def set_sources(node_id, proposed, nodes=None):
+    """Write a higher-rank node's `sources`, REFUSING an unsafe list rather than landing it.
+
+    The writer enforces the guard on purpose. Tranche 4 is authored by parallel agents, and a rule
+    that lives only in a prompt is a rule six agents can each read differently; a rule in the one
+    function that writes the field is a rule none of them can get past. Returns (written, verdict,
+    reasons).
+
+    `sources` is placed directly after `exemplars`, which is where a buildable node carries it, and
+    every other key keeps its position so the diff is the field and nothing else."""
+    nodes = load_nodes() if nodes is None else nodes
+    n = nodes.get(node_id)
+    if n is None:
+        return False, "could-not-judge", ["no such node: %s" % node_id]
+    if n.get("rank") not in HIGHER:
+        return False, "could-not-judge", [
+            "%s is rank %r; this writer is for families and traditions. A buildable node's sources "
+            "are authored with its own research, not here." % (node_id, n.get("rank"))]
+    srcs = [s.strip() for s in proposed if s and s.strip()]
+    if len(set(srcs)) != len(srcs):
+        return False, "unsafe", ["the list repeats a source; each work is named once"]
+
+    verdict, why = judge_list(node_id, srcs, nodes)
+    if verdict != "ok":
+        return False, verdict, why
+
+    path = os.path.join(ROOT, "styles", "%s.json" % node_id)
+    doc = json.load(open(path, encoding="utf-8"))
+    out, placed = {}, False
+    for k, v in doc.items():
+        if k == "sources":
+            continue
+        out[k] = v
+        if k == "exemplars":
+            out["sources"] = srcs
+            placed = True
+    if not placed:
+        out["sources"] = srcs
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(out, fh, indent=2, ensure_ascii=False)
+        fh.write("\n")
+    return True, verdict, why
+
+
 def main(argv=None):
     a = argparse.ArgumentParser(description=__doc__.split("\n")[1])
     a.add_argument("--check", metavar="NODE", help="judge this node's sources as they stand")
