@@ -30,6 +30,17 @@ Two example plans ship with it. One is a deliberately ordinary production Coloni
 
 The four fatals on the first are the powder-room door off the dining room, the primary bedroom over the garage, a half-width shutter at 0.33 where the corpus wants 0.48, and — since the elevation layer began supplying a window height (WP-3.2) — a window squarer than Colonial Revival permits.
 
+**Since 0.9.0 (WP-11.10) it holds `appendages`, the terrace at grade.** An at-grade appendage is
+the one thing this corpus draws that stands outside the block and is NOT a massing element: no
+walls, no storey, no roof plane, and not in the built extent the lot cap is measured on. It is
+written by `build/appendages.py` after the solve, on `threshold`'s precedent, and its room keeps
+`geometry` ABSENT — which is what keeps `structure.wall_lines`, this file's own `rooms_unplaced`
+and `geometry`'s block sizing blind to it by construction rather than by six more readers being
+taught. Every figure comes off the room record; anything the record does not state is an
+`unplaced` entry with a reason from a closed set. The consequence, stated because it is a real
+cost: the drawn rectangle is held against no band, since this file's drawn layer reads
+`room.geometry` — `oq/an-at-grade-appendage-is-drawn-and-not-judged`.
+
 ## Seven layers, and one of them reads the drawing
 
 **Room** — dimension bands, ceiling minimums, **furniture fit with real clearances**, daylight depth against window head. The furniture check is the one most plans have never had run on them: a dining table for eight plus chair pull plus passage needs 12 ft 4 in across, so an 11 ft 6 in dining room fails before anything is drawn.

@@ -1676,9 +1676,47 @@ term — not stepped around.
   plan, so it would trade a proved reference plan for a searched one —
   `oq/the-proving-engine-cannot-place-a-second-massing-element`. Report:
   `docs/reports/wp-11.9-the-six-layers-that-read-one-rectangle.md`.
-- **WP-11.10 — the terrace at grade**, after WP-11.9's first ruling (taken: per-element
-  envelope, union beside it). Gated on the same CP fact as the tags —
-  `oq/the-proving-engine-cannot-place-a-second-massing-element`.
+- **WP-11.10 — the terrace at grade. Status: COMPLETE (7 Sep 2026).** **The gate did not
+  apply, and finding that out was the package's first act.** It was written here as gated on
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`, on the assumption stated in
+  the plan file's Part IV.B5 that an at-grade unroofed thing on the wall of the room it serves
+  is a third massing ROLE. The CP refusal keys on the room's `block` TAG (`geometry.py:2399`,
+  `is_block_tag`), so a pass that writes no tag never reaches it. **Ruled 7 Sep 2026: an
+  at-grade unroofed appendage is NOT a massing element** — it is a plan-level record on
+  `plan.threshold`'s precedent, and the question stays open and untouched, still gating the
+  shipped-record dependency tags. `build/appendages.py` is a LEAF taking `elements.py`'s two
+  readers as arguments; it runs BEFORE the level loop, because `_place_interior` is the first
+  pass in it and could not otherwise seat the door the terrace exists for. Plan schema
+  **0.9.0**. Three rules, all `reading`, their bases checked through
+  `check_openings.check_basis` rather than a 51st checker — `TOTAL_CHECKS` does not move.
+  **`exterior_walls` means two different things on an outdoor room** (one record declares three
+  free faces, four declare the side of the house) and neither reading resolves the six on its
+  own, so the face is the INTERSECTION — a wall declared whose opposite is not — which is
+  WP-11.4's "three statements of one depth" rule a layer up. **4 placed, 2 refused by name**
+  (`wood-deck-w` declares no door; `wood-deck-e` serves two rooms and leaves E and N both
+  admissible) and neither refusal patched into a placement. **The corpus PLACEMENT is
+  byte-identical (`151126d0269bbc61`) and the OPENINGS move on purpose** — the inverse of
+  WP-11.9's guarantee. **A placed at-grade appendage is OUTSIDE for the reachability walk**:
+  one fatal cleared on the Tidewater plan and **27 created — `good-02` 7, `good-04` 10,
+  `good-07` 10 — because those three have no placed exterior door at all** and the walk had
+  nowhere to start — three COULD-NOT-EVALUATE verdicts became judged, and the single cause is
+  named once beside them (`outside-is-only-an-appendage`). fatal 136 → 162, serious 681 → 685,
+  info 167 → 164, refused doors 243 → 236. **The door was seated and the sheet said it could
+  not be drawn**: `derive_openings` builds its lookup from rooms carrying `geometry` and an
+  appendage's room deliberately carries none, so both plates printed a placed door as
+  undrawable (`FAMILY–TERRACE` by name); both spellings take an `appendages` argument now
+  and the plates read 14 → 13 and 6 → 5. Found by looking at the sheet.
+  **Two guards that already existed caught the package, both fifty minutes into the full
+  suite**: `test_ingest.py`'s schema-version pin caught the 0.9.0 bump a seventh time, and
+  `test_modcache.py` caught a local by-path loader in the new module's `main()` — removed
+  rather than routed, because no other leaf in `build/` carries a CLI.
+  Three of the new guards could not fire on the first
+  mutation pass — every one a branch the shipped corpus cannot reach — and each was given a
+  fixture that proves it bites rather than being deleted. New question:
+  `oq/an-at-grade-appendage-is-drawn-and-not-judged` (the drawn rectangle is held against no
+  band, because the drawn layer reads `room.geometry` and there is none — which is exactly what
+  keeps the three filters blind). Report:
+  `docs/reports/wp-11.10-the-terrace-that-is-not-a-massing-element.md`.
 
 ## 6. Parallelisation map
 

@@ -94,7 +94,7 @@ def required_wall_ft(width_ft):
 # wall at all until 0.3.0, so on a door `wall` is placement output. That distinction cost
 # one round-trip failure to find (WP-6.2) and is worth the two constants.
 PLACEMENT_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report",
-                       "threshold", "hearths")
+                       "threshold", "hearths", "appendages")
 PLACEMENT_ROOM_KEYS = ("geometry", "fixture_layout", "furniture_layout")
 PLACEMENT_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
 PLACEMENT_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
@@ -173,6 +173,17 @@ def _shared(a, b, tol=0.4):
 _OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
 
+_APPD = None
+
+
+def _appd():
+    """build/appendages.py -- the terrace at grade (WP-11.10). A LEAF; see its header."""
+    global _APPD
+    if _APPD is None:
+        _APPD = _mod("appendages", os.path.join(ROOT, "build", "appendages.py"))
+    return _APPD
+
+
 def _boundary_walls(rect, bounds, tol=0.6):
     """Which of a room's own walls lie on ITS OWN ELEMENT's boundary, with their runs.
 
@@ -240,7 +251,22 @@ def _door_pairs(level_rooms):
     return out
 
 
-def _place_interior(level_rooms, occupied, report):
+def _place_interior(level_rooms, occupied, report, appendages=None):
+    """Every door between two rooms on one level.
+
+    WP-11.10. `appendages` is `{room_id: (x, y, w, h)}` for the at-grade appendages
+    `build/appendages.py` placed OUTSIDE the block -- a terrace, today, and nothing else in
+    this corpus. It is threaded in rather than read off `room.geometry` on purpose: an
+    appendage takes no rectangle in the footprint, and writing one onto the room would make
+    `structure.wall_lines`, `plan_check`'s `rooms_unplaced` and `geometry._record_prep` all
+    see a room the placer never placed. This is the ONE reader that needs the rectangle, and
+    it is the only one that gets it. `_rect` is deliberately unchanged; six other call sites
+    read it and every one of them must go on seeing a terrace as unplaced."""
+    appendages = appendages or {}
+
+    def _r(x):
+        return _rect(x) or appendages.get(x.get("id"))
+
     for a, da, b, db in _door_pairs(level_rooms):
         width = da.get("width_ft") or (db and db.get("width_ft")) or 3.0
         if b is None:
@@ -248,7 +274,7 @@ def _place_interior(level_rooms, occupied, report):
             da["unplaced"] = note
             report["unplaced"].append({"pair": [a["id"], da["to"]], **note})
             continue
-        ra, rb = _rect(a), _rect(b)
+        ra, rb = _r(a), _r(b)
         if not ra or not rb:
             note = {"reason": "one of the two rooms is not placed on this level"}
             da["unplaced"] = note
@@ -836,17 +862,27 @@ def place(plan, C=None):
               "fixtures_placed": 0, "fixtures_unplaced": 0,
               "furniture_placed": 0, "furniture_unplaced": 0, "furniture_skipped": {},
               "threshold_steps": 0, "threshold_unplaced": 0,
-              "stacks_placed": 0, "stacks_unplaced": 0}
+              "stacks_placed": 0, "stacks_unplaced": 0,
+              "appendages_placed": 0, "appendages_unplaced": 0}
     if not W or not H:
         report["note"] = ("no footprint on this record — openings are placed against the "
                           "block the solver produced, and this plan has not been placed")
         plan["opening_report"] = report
         return plan
+    # WP-11.10. THE APPENDAGE PASS RUNS BEFORE THE LEVEL LOOP, AND THAT IS FORCED RATHER THAN
+    # TIDY: `_place_interior` is the first pass inside it, so a terrace derived afterwards
+    # could never seat the door it exists for. `entrance_pass` runs LAST for the opposite
+    # reason -- it reads placed doors. Nothing here touches a room's `geometry`, so every
+    # placement in this corpus is byte-identical across the package; what moves is the
+    # openings on the five plans that declare a terrace, which is the deliverable.
+    apx = _appd().appendage_pass(plan, C["rooms"], report,
+                                 _elem().bounds_index, _elem().boundary_walls)
     holds = []
-    for lv in plan["levels"]:
+    for _li, lv in enumerate(plan["levels"]):
         rooms = [r for r in lv["rooms"]]
         occupied = {}
-        _place_interior(rooms, occupied, report)
+        _place_interior(rooms, occupied, report,
+                        appendages=apx.get(lv.get("index", _li)) or {})
         # WP-11.9: which massing element each room stands in, computed ONCE per level and
         # threaded down. On every plan in this corpus there is one element and this maps every
         # placed room to `(0, 0, W, H)`, which is what the two passes read before -- so the

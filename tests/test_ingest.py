@@ -199,7 +199,14 @@ def test_provenance_validates_and_gates_method():
     # schema and so a minor. IT CAUGHT THE BUMP A SIXTH TIME, and this time it caught it AFTER
     # the package had shipped -- the bump went in, every checker was run, and this assertion
     # was the only thing in the corpus that noticed, in the full suite, forty-five minutes in.
-    assert schema["version"] == "0.8.0"
+    # 0.9.0 (WP-11.10, 7 Sep 2026): `appendages` -- the terrace at grade. Additive, written by
+    # openings.place and stripped by `strip_placement` with the threshold and the hearths. What is
+    # worth carrying is what the field does NOT do: an at-grade appendage takes no rectangle in the
+    # footprint and its ROOM keeps `geometry` absent, which is what leaves `structure.wall_lines`,
+    # `plan_check`'s `rooms_unplaced` and `geometry`'s block sizing blind to it BY CONSTRUCTION
+    # rather than by six more readers being taught. IT CAUGHT THE BUMP A SEVENTH TIME, again in
+    # the full suite and again after every checker had already been run green.
+    assert schema["version"] == "0.9.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

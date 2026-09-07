@@ -138,8 +138,12 @@ def bounds_index(plan, level_rooms):
     return out
 
 
-def _union_measure(intervals):
-    """Total length of a union of closed intervals — the 'gap excluded' of ruling 2."""
+def union_measure(intervals):
+    """Total length of a union of closed intervals — the 'gap excluded' of ruling 2.
+
+    Public since WP-11.10: `geometry._disclose_at_grade` measures the ground an at-grade
+    appendage covers beside the built extent, and it is the same union with the appendages'
+    intervals added. A second spelling of an interval union is a second spelling."""
     xs = sorted((a, b) for a, b in intervals if b > a)
     if not xs:
         return 0.0
@@ -166,7 +170,7 @@ def extent_width_ft(plan, els=None):
     60 alone.
     """
     els = els if els is not None else elements(plan)
-    return _union_measure([(e["x"], e["x"] + e["W"]) for e in els])
+    return union_measure([(e["x"], e["x"] + e["W"]) for e in els])
 
 
 def extent_depth_ft(plan, els=None):
@@ -174,7 +178,7 @@ def extent_depth_ft(plan, els=None):
     is the deepest element rather than a sum; it is computed the same way so that a future
     layout which stacks them north-south needs no second rule."""
     els = els if els is not None else elements(plan)
-    return _union_measure([(e["y"], e["y"] + e["H"]) for e in els])
+    return union_measure([(e["y"], e["y"] + e["H"]) for e in els])
 
 
 def union_bbox(plan, els=None):

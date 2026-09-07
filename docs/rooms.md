@@ -45,5 +45,16 @@ A room with no `void` block is treated as `within_footprint: false` and stays ou
 That default is deliberate: it is the behaviour before OQ 55, and a room nobody has judged must
 not be silently promoted into the footprint.
 
+**`within_footprint: false` no longer means "drawn nowhere" (WP-11.10).** It means *not in the
+block*, which is what it always said, and `build/appendages.py` now places such a room OUTSIDE the
+block as an at-grade appendage: a terrace, today, and nothing else in this corpus. It is **not** a
+massing element — no walls, no storey, no roof plane, not in the built extent the lot cap is
+measured on — and, decisively, its room keeps `geometry` ABSENT, which is what keeps
+`structure.wall_lines`, `plan_check`'s `rooms_unplaced` and `geometry`'s block sizing blind to it
+by construction. The rectangle lives on `plan.appendages`, on `plan.threshold`'s precedent, and
+both renderers draw it open. The default above is unaffected: a room with no `void` block at all
+is still not promoted, in either direction — `is_at_grade_appendage` requires the field, not its
+default.
+
 This is **not** a second classification axis and it is not the `void` function_class OQ 55
 rejected. `function_class` is untouched; the block is descriptive.

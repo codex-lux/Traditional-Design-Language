@@ -233,8 +233,15 @@ function placedAt(d) {
   return { wall: d.wall, pos: Number(d.position_ft) };
 }
 
-export function doors(rooms, W, H, tol = 0.6) {
+/* WP-11.10. `appendages` is `[{id, x, y, w, h}]` for the at-grade appendages placed OUTSIDE
+   the block on this level -- a terrace, today. Their rooms carry no geometry (that is the whole
+   mechanism of the ruling; see build/appendages.py), so the lookup below found nothing and
+   called a door the record says is SEATED "the other room is not placed on this level": the
+   record and the sheet holding two answers about one door, which is WP-6.1's own finding.
+   `build/render_plan.py::derive_openings` takes the same argument in the same place. */
+export function doors(rooms, W, H, tol = 0.6, appendages = null) {
   const idx = new Map(rooms.map((r) => [r.id, r]));
+  for (const a of appendages || []) if (!idx.has(a.id)) idx.set(a.id, a);
   const handled = new Set();
   const interior = [];
   const exterior = [];

@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.8.0",
-  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.\n\n0.8.0 (WP-11.6) splits one field's two duties. `stacks_over` had read 'room id on the level below, for plumbing and structure' since it was written, and a shipped record used it for a room on its OWN level -- the plumbing meaning, which the structural readers cannot answer and all three of them dropped with a bare `continue` and no note. `stacks_over` is STRUCTURAL and cross-level now; `wet_stack_with` is SERVICING and takes any level including the claimant's own. A claim a reader cannot judge is reported as unjudged with its reason (`geometry_report.stacking`, `plan_check`'s `stack-unjudged`), never skipped, and `build/check_stacking.py` fails the build on a record that makes one.",
+  "version": "0.9.0",
+  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.\n\n0.8.0 (WP-11.6) splits one field's two duties. `stacks_over` had read 'room id on the level below, for plumbing and structure' since it was written, and a shipped record used it for a room on its OWN level -- the plumbing meaning, which the structural readers cannot answer and all three of them dropped with a bare `continue` and no note. `stacks_over` is STRUCTURAL and cross-level now; `wet_stack_with` is SERVICING and takes any level including the claimant's own. A claim a reader cannot judge is reported as unjudged with its reason (`geometry_report.stacking`, `plan_check`'s `stack-unjudged`), never skipped, and `build/check_stacking.py` fails the build on a record that makes one.\n\n0.9.0 (WP-11.10) admits `appendages`, the terrace at grade. An at-grade appendage is NOT a massing element and takes no rectangle in the footprint: it is written by build/appendages.py after the solve, on `threshold`'s own precedent, drawn outside the block by both renderers, and read by no structural layer. Its room keeps `geometry` ABSENT, which is what keeps structure.wall_lines, plan_check's `rooms_unplaced` and geometry's block sizing blind to it BY CONSTRUCTION rather than by six more readers being taught. Every figure comes off the room record; anything the record does not state is an `unplaced` entry with a reason from a closed set, never a band midpoint.",
   "type": "object",
   "required": [
     "id",
@@ -699,6 +699,39 @@
         "supports": {"type": "array", "items": {"type": "object"}},
         "unplaced": {"type": "array", "items": {"type": "object"}},
         "figures": {"type": "object"}
+      }
+    },
+    "appendages": {
+      "type": "object",
+      "description": "0.9.0 (WP-11.10). The at-grade appendages -- a terrace, today, and nothing else in this corpus. Written by build/appendages.py::appendage_pass from the room record alone, before the openings so the door it exists for can be seated, and derived by no renderer. `placed` is what the record determined; `unplaced` is everything it did not, each carrying a `code` from build/appendages.py::REFUSALS with the reason spelled out -- unjudged is not passed, and an appendage that is not placed is named here and drawn nowhere. The rectangle is in the same frame as `room.geometry` and abuts the block edge, which is the wall's INSIDE face (WP-11.1): so its depth is a clear extent measured exactly as every room figure on this sheet is. NOT a massing element -- no walls, no storey, no roof plane, and not in the built extent the lot cap is measured on; `geometry_report.lot_extent.at_grade` carries the ground it covers beside that cap. Its drawn size is therefore held against no band, which is the stated cost of that ruling: oq/an-at-grade-appendage-is-drawn-and-not-judged.",
+      "properties": {
+        "placed": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "room": {"type": "string"},
+              "type": {"type": "string"},
+              "name": {"type": "string"},
+              "level": {"type": "integer"},
+              "serves": {"type": "array", "items": {"type": "string"},
+                         "description": "the room ids this appendage declares a door to. It hangs on their shared face, and the door is what says which room it is appended to."},
+              "wall": {"enum": ["N", "S", "E", "W"],
+                       "description": "the face OF THE SERVED ROOM the appendage stands against -- the one wall the appendage's own `exterior_walls` admit under BOTH readings of that field, intersected with the faces the placement put on the outside of the served room's own massing element."},
+              "at_grade": {"type": "boolean"},
+              "roofed": {"type": "boolean"},
+              "rect": {"$ref": "#/$defs/threshold_rect"},
+              "figures": {"type": "object",
+                          "description": "each figure beside the rule that chose it and that rule's GRADE, with a `clamped` block carrying need/have wherever the record asked for more run than the element's face has."},
+              "rule": {"type": "string"},
+              "grade": {"type": "string"}
+            }
+          }
+        },
+        "unplaced": {"type": "array", "items": {"type": "object"}},
+        "rules": {"type": "array", "items": {"type": "object"},
+                  "description": "the readings this pass executed, each with a `basis` quoting the record it read -- verified by tests/test_appendages.py through build/check_openings.py::check_basis rather than by a second copy of that machinery."},
+        "note": {"type": "string"}
       }
     },
     "hearths": {

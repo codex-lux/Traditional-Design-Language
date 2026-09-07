@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,675 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,698 tests**
 (plus the workbench app suite, **81** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -337,7 +337,7 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
-**Phase 11 — the drawn sheet — is COMPLETE through WP-11.9 (6 Sep 2026).** The A line (the
+**Phase 11 — the drawn sheet — is COMPLETE through WP-11.10 (7 Sep 2026).** The A line (the
 drawing) is finished: WP-11.1 and WP-11.2 put the sheet in Graphic Standard No. 1 with the wall
 as a body, WP-11.3 the furniture, WP-11.4 the threshold and the stacks, WP-11.5 the embedded
 face. **The B line — the placement — is WP-11.6 through WP-11.9.** WP-11.6 is a record edit that
@@ -346,10 +346,13 @@ claims its own parti had always made); **WP-11.7** made the room's own proportio
 downgradable CP pin outranking the record's `exterior_walls`; **WP-11.8** made the band the first
 key of the SEARCH's candidate acceptance, in both directions; **WP-11.9** taught the six layers
 below the placer about massing elements, on four rulings, with the whole shipped corpus
-byte-identical. Reports: `docs/reports/wp-11.{6,7,8,9}-*.md`. **WP-11.10, the terrace at grade,
-is gated on `oq/the-proving-engine-cannot-place-a-second-massing-element`** — the CP engine
-refuses a multi-element plan, so any package that tags a shipped record trades a proof for a
-search.
+byte-identical; **WP-11.10** placed the terrace at grade. Reports:
+`docs/reports/wp-11.{6,7,8,9,10}-*.md`. **This heading said WP-11.10 "is gated on
+`oq/the-proving-engine-cannot-place-a-second-massing-element`" and it was not** — that gate
+applied only to reading a terrace as a third massing ROLE, and the CP refusal keys on the room's
+`block` TAG, which an appendage does not write. The question is still open and still gates the
+shipped-record dependency tags, which is the sentence that was true all along and got attached to
+the wrong package.
 
 **Phase 8: WP-8.1 THROUGH 8.4 AND 8.6 COMPLETE (28 Aug 2026); WP-8.7 IS THE BACKLOG ITSELF AND IS
 IN PROGRESS (2 Sep)** — the register, the refusal half of OQ 51, the forbidden
@@ -461,6 +464,90 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 `build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
+
+- **A PACKAGE'S OWN GATE CAN BE A CONSEQUENCE OF A READING NOBODY RE-EXAMINED (WP-11.10).**
+  `PLAN-OF-ACTION.md` gated the terrace on
+  `oq/the-proving-engine-cannot-place-a-second-massing-element` because the plan file called an
+  at-grade appendage *"a third massing role"*. The CP refusal keys on the room's `block` TAG
+  (`geometry.py:2399`, `is_block_tag`), not on `footprint.blocks`, so a pass that writes no tag
+  never reaches it. **Ruled 7 Sep 2026: an at-grade unroofed appendage is NOT a massing element**
+  — it is a plan-level record on `plan.threshold`'s precedent, the question stays open and still
+  gates the dependency tags, and the gate cost nothing because it was read before it was obeyed.
+- **THE ROOM KEEPS NO `geometry`, AND THAT IS THE WHOLE MECHANISM (WP-11.10).** `build/
+  appendages.py` places the terrace OUTSIDE the block and writes the rectangle to
+  `plan.appendages`, never to the room. Three filters already in the tree then stay blind BY
+  CONSTRUCTION — `structure.wall_lines` filters `r.get("geometry")`, `plan_check`'s
+  `rooms_unplaced` filters `takes_a_rectangle`, `geometry._record_prep` filters `is_placed` — so
+  WP-11.9's six taught layers are not reopened for one rectangle. **Writing the rectangle onto the
+  room would be invisible: the drawing would look identical**, and a test mutating it red is the
+  only thing that catches it. The stated cost is that the drawn rectangle is held against no band:
+  `oq/an-at-grade-appendage-is-drawn-and-not-judged`.
+- **THE DOOR WAS SEATED AND THE SHEET SAID IT COULD NOT BE DRAWN (WP-11.10).** With the terrace
+  placed and the door in the record carrying a wall, a position and a hinge, BOTH plates went on
+  printing it under *"N DECLARED DOOR(S) WITHOUT A DRAWABLE OPENING"* — `good-02`'s schedule named
+  `FAMILY–TERRACE` outright. `render_plan.derive_openings` builds `idx` from rooms carrying
+  `geometry`, and an appendage's room deliberately carries none, so the lookup missed and fell into
+  *"the other room is not placed on this level"*. **The record said seated and the drawing said
+  undrawable** — WP-6.1's own finding, arriving through the door this package had just opened. Both
+  spellings take an `appendages` argument now (`derive_openings` and `derive.js::doors`, same
+  position), and the plates read 14 → 13 and 6 → 5. **Guarded by a HAND-BUILT pair in each language
+  rather than through `tests/fixtures/sheet_symbols/`**, because that fixture's generator re-solves
+  on `auto` (its own README) and regenerating it for this branch is eight hundred lines of solver
+  noise round two rectangles. **And the first guard could not fail**: a test reading
+  `derive_openings` directly stayed green with `render()`'s call site reverted, so it reads the
+  rendered plate's schedule instead — the number a person actually sees. **Nothing in the suite
+  could have caught it and looking at the sheet did**; that is six packages running.
+- **THE PASS RUNS FIRST, BECAUSE `_place_interior` DOES (WP-11.10).** `entrance_pass` (WP-11.4)
+  runs LAST because it reads placed doors; the appendage pass runs BEFORE the level loop because
+  `_place_interior` is the first pass inside it and an appendage derived afterwards could never
+  seat the door it exists for. Two at-grade passes, opposite ends of `place()`, for opposite
+  reasons. `_rect` is deliberately unchanged and the rectangle is threaded into that ONE reader on
+  WP-11.9's `bounds=` precedent — six other call sites must go on seeing a terrace as unplaced.
+- **`exterior_walls` MEANS TWO DIFFERENT THINGS ON AN OUTDOOR ROOM, AND THE FIGURE IS THE
+  INTERSECTION (WP-11.10).** `tidewater-georgian-careful`'s terrace declares E, N and S, which can
+  only be *the free faces* — a rectangle cannot be attached on three sides. `good-02`, `good-04`
+  and `good-07` each declare exactly one, which reads as *the side of the house it is on*.
+  **Neither reading resolves the six records on its own**: the free-face reading turns one declared
+  wall into three candidates and the side-of-the-house reading turns three into three. Both admit
+  `w` exactly when `w` is declared and `OPPOSITE(w)` is not, and that one line is what is taken —
+  WP-11.4's *"three statements of one depth, the figure is the intersection and never an average"*
+  one layer up. Intersected then with the faces the placement put outside (`elements.
+  boundary_walls`); unique, or UNJUDGED. **4 placed, 2 refused by name and neither patched.**
+- **ONE FATAL CLEARED, TWENTY-SEVEN CREATED, AND THE 27 WERE ALREADY TRUE (WP-11.10).** Seeding the
+  reachability walk's `outside` from a placed, at-grade, unroofed appendage clears
+  `drawn:breakfast` on the Tidewater plan (its own `unreachable` count 9 → 8) and turns **three
+  COULD-NOT-EVALUATE verdicts into 27 `unreachable` fatals** — `good-02` 7, `good-04` 10,
+  `good-07` 10 — because **those three plans have NO placed exterior door at all** and the walk had
+  nowhere to start. Their whole report of that was one `info` line. fatal 136 → **162**, serious
+  681 → 685, info 167 → 164, refused doors 243 → 236: **27 created against 1 cleared, which is the
+  net +26**, and both halves are quoted because the net alone hides which way either went.
+  **Read it as three plans becoming judgeable, not as 27 new defects**; and because ten fatals with
+  one cause is a report a reader has to reconstruct, the cause gets its own finding beside them
+  (`outside-is-only-an-appendage`), on those three plans and not on the Tidewater plan, which has a
+  front door as well.
+- **THE TIDEWATER FATAL HAS TWO CAUSES AND THE TERRACE IS ONE (WP-11.10).** `breakfast` declares
+  two doors and both were refused: the kitchen one for want of a shared wall (the placer's, at
+  x 0–20 against x 47.5–60, untouched here) and the terrace one because the terrace had no
+  rectangle. **Placing the terrace removes the second reason only.** Any report saying this package
+  cleared that fatal by seating a door is wrong; it was cleared by the reachability ruling above.
+- **TWO EXISTING GUARDS CAUGHT THIS PACKAGE, BOTH FIFTY MINUTES INTO THE FULL SUITE
+  (WP-11.10).** Neither appeared in a checker, in the package's own test file or in the app
+  suite. `test_ingest.py::test_provenance_validates_and_gates_method` pins the CURRENT plan
+  schema version and **caught the bump a seventh time** — its own comment records the sixth in
+  the same words. And `test_modcache.py::test_no_new_by_path_loader_outside_modcache` caught a
+  local `spec_from_file_location` inside `build/appendages.py`'s `main()`, which is this file's
+  own standing trap with a test behind it; **the `main()` was removed rather than routed through
+  `modcache`**, because every other leaf in `build/` carries no CLI at all and the pass's whole
+  output is already on the record. **Run `check_all` whole, not the parts you think you touched.**
+- **THREE NEW GUARDS COULD NOT FIRE, AND ALL THREE WERE BRANCHES THE CORPUS CANNOT REACH
+  (WP-11.10).** The `roofed` refusal (no record says `within_footprint: false` AND `roofed: true`),
+  the `no-depth`/`no-run` refusals (every terrace record states both figures) and the run clamp
+  (none of the four asks for more run than its face has). Each is a real guard against a record
+  this corpus does not yet have, so each got a synthetic fixture proving it bites — deleting them
+  would have been the other honest answer and leaving them green is not. **Nineteen mutations were
+  run and every one now bites.** A fourth assertion was written wrong and died on its own first
+  run: a whole-file check that `render_plan.py` never mentions `exterior_walls`, which it
+  legitimately does for the openings it derives — a guard that could only ever be deleted.
 
 - **SIX LAYERS READ THE MAIN BLOCK AS THE WHOLE BUILDING, AND ALL SIX ARE TAUGHT NOW
   (WP-11.9).** `build/elements.py` is the ONE reader of which massing element a room stands in —
@@ -2172,8 +2259,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **142 entries, of which 59 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-proving-engine-cannot-place-a-second-massing-element, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **143 entries, of which 60 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-proving-engine-cannot-place-a-second-massing-element, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

@@ -305,7 +305,13 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const parts = partitions(rooms, W, H, 0.6, wall.partition_ft);
   // doors first, then windows into what the doors have left: an opening may not be drawn
   // over another opening, and on this sheet the door is the one that keeps its place
-  const drs = doors(rooms, W, H);
+  // WP-11.10 — the at-grade appendages on THIS level, as bare rectangles for the door
+  // lookup. An appendage's room carries no geometry, so without this a door the record says
+  // is seated comes back "the other room is not placed on this level".
+  const appendages = ((placement?.appendages?.placed) || [])
+    .filter((a) => (a.level ?? 0) === levelIndex);
+  const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({
+    id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft })));
   const wins = windows(rooms, W, H, 0.6, drs.exterior);
   const diverged = divergence(rooms);
   const divergedIds = new Set(diverged.map((d) => d.id));
@@ -330,6 +336,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const thRects = [
     ...((placement?.threshold?.steps) || []).flatMap((st) => [st.platform, st.flight].filter(Boolean)),
     ...((placement?.hearths?.stacks) || []),
+    /* WP-11.10. An at-grade appendage stands OUTSIDE the block by its whole depth — fourteen
+       feet of terrace east of a sixty-foot house — so the plate has to hold it or it leaves
+       the sheet with no error anywhere. `build/render_plan.py::appendage_rects` is the same
+       reckoning in the same list. */
+    ...appendages.map((a) => a.rect),
   ];
   const outL = Math.max(0, ...thRects.map((r) => -r.x_ft));
   const outR = Math.max(0, ...thRects.map((r) => r.x_ft + r.width_ft - W));
@@ -604,6 +615,35 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             style={POCHE.masonry} vectorEffect="non-scaling-stroke">
             <title>{`chimney stack, ${sk.stack_plan_in} in square, ${sk.side} to the ${sk.wall} gable end`}</title>
           </rect>
+        ))}
+        {/* WP-11.10 — the terrace at grade, from plan.appendages and from nothing else. Drawn
+            OPEN: an edge in the fine pen and a name, no poche and no wash, because an at-grade
+            appendage is a FLOOR and not a mass. Giving it the wall's body would say the house
+            is that shape, which is the one thing `rooms/terrace.json`'s own note denies.
+            `appendages` is already filtered to THIS level, so there is no `levelIndex === 0`
+            guard here: an appendage is drawn on the level it stands on, and hard-coding the
+            ground would hide a future one rather than refuse it. */}
+        {appendages.map((ap, i) => (
+          <g key={'ap' + i} data-appendage={ap.room} data-appendage-wall={ap.wall}>
+            <rect x={ap.rect.x_ft} y={-ap.rect.y_ft - ap.rect.depth_ft}
+              width={ap.rect.width_ft} height={ap.rect.depth_ft}
+              style={PEN.fine} vectorEffect="non-scaling-stroke">
+              <title>{`at grade, unroofed, appended to ${(ap.serves || []).join(', ')} on its ${ap.wall} face`}</title>
+            </rect>
+            {/* the name in the room voice, sized in model feet like every other room label
+                on this plate, and drawn only where it fits across the appendage. There is no
+                fitter here on purpose: an appendage is one rectangle with one short name, and
+                a second call into `layLabel` would be a second spelling of a fit this plate
+                already does for rooms that have geometry. */}
+            {ap.rect.width_ft > 0.62 * ((ap.name || ap.room).length + 2) && (
+              <text x={ap.rect.x_ft + ap.rect.width_ft / 2}
+                y={-ap.rect.y_ft - ap.rect.depth_ft / 2}
+                fontSize="1.1" fontFamily="var(--serif)" letterSpacing="0.3"
+                fill="var(--ink)" textAnchor="middle" dominantBaseline="middle">
+                {(ap.name || ap.room).toUpperCase()}
+              </text>
+            )}
+          </g>
         ))}
         {levelIndex === 0 && ((placement?.threshold?.steps) || []).map((st, i) => (
           <g key={'th' + i} data-threshold={st.room}>

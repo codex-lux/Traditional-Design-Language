@@ -264,7 +264,14 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 # --------------------------------------------------------------- the guarantee
 
 CORPUS_PLACEMENT_SHA = "151126d0269bbc61"
-CORPUS_OPENINGS_SHA = "f7c7430ec31dae3c"
+# WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
+# `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
+# record has always declared from a room to its terrace is seated instead of refused, on the
+# five plans that declare one. `CORPUS_PLACEMENT_SHA` below is UNCHANGED across it, which is
+# that package's own guarantee and the inverse of this one's -- WP-11.9 held both because it
+# taught six layers a concept no plan exercises; WP-11.10 holds the placement and moves the
+# openings because seating a refused door is the whole deliverable.
+CORPUS_OPENINGS_SHA = "770a886c7387f3ab"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

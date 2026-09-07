@@ -552,6 +552,35 @@ def drawn_layer(plan, rooms, level_of, C, F):
             if t in ok_edges:
                 ok_edges[rid].add(t)
                 ok_edges[t].add(rid)
+    # WP-11.10. **A PLACED AT-GRADE APPENDAGE IS OUTSIDE.** `outside` was seeded from placed
+    # `to: "exterior"` doors alone, so a room whose only realised door opens onto a terrace was
+    # convicted of not being reachable from outside the house -- while a person standing on that
+    # terrace is, in the plainest sense, outside it. The guard is narrow and every clause of it
+    # is read off the record `build/appendages.py` wrote: the appendage must be in `placed`
+    # (a refused one mints no edge and no way in), `at_grade`, and NOT `roofed` -- a roofed
+    # appended mass is a massing element and this layer must not quietly let one in as a garden.
+    # Measured over the sixteen plans, and the number is not small -- see the block below it.
+    _from_appendage = set()
+    for _ap in ((plan.get("appendages") or {}).get("placed") or []):
+        if _ap.get("at_grade") and not _ap.get("roofed") and _ap.get("room") in ok_edges:
+            outside.add(_ap["room"])
+            _from_appendage.add(_ap["room"])
+    # AND THE ROOT CAUSE IS NAMED ONCE BESIDE THE ROOMS IT STRANDS. Measured on the sixteen
+    # plans: seeding `outside` from a terrace clears one fatal on `tidewater-georgian-careful`
+    # and turns three COULD-NOT-EVALUATE verdicts into 27 `unreachable` fatals -- `good-02` 7,
+    # `good-04` 10, `good-07` 10 -- which is `unjudged is not passed` working, because those three
+    # plans have NO placed exterior door at all and the walk had nowhere to start. Every one of
+    # the 27 is true of the drawing. But ten fatals whose single cause is one missing front
+    # door is a report a reader has to reconstruct, so the cause gets its own line: the finding
+    # below is the sentence, and the fatals are the consequence.
+    if _from_appendage and outside == _from_appendage:
+        _add("serious", "drawn",
+             "The only way into this house on the drawing is a door onto "
+             + ", ".join(sorted(rooms.get(a, {}).get("name") or a for a in _from_appendage))
+             + ": not one declared exterior door was placed. Every `unreachable` finding "
+               "below has that one cause.",
+             kind="outside-is-only-an-appendage",
+             rooms=sorted(_from_appendage))
     out["unplaced_openings"] = len(unplaced_pairs)
     # a stair connects its two levels: a landing over a stair is a way up, and without it
     # every upper room reads as unreachable on a house whose only link between floors is

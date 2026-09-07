@@ -423,14 +423,30 @@ def _style_block(register):
         # the reader must not have to learn a second convention for a second brick.
         f'.st{{fill:{SS.POCHE["masonry"]};stroke:{L["coal"]};stroke-width:{W_["cut"]};stroke-linejoin:miter}}'
         f'.ns{{stroke:{L["ink"]};stroke-width:{W_["medium"]};fill:none}}'
+        # WP-11.10. An at-grade appendage is a FLOOR and not a mass: the paper is the terrace,
+        # exactly as the paper is every room, and its edge is drawn in the fine pen rather
+        # than as a cut. Giving it the wall's body would say the house is that shape, which is
+        # the one thing `rooms/terrace.json`'s own note is at pains to deny.
+        f'.ap{{stroke:{L["ink2"]};stroke-width:{W_["fine"]};fill:none}}'
         f'</style>')
+
+
+def appendage_rects(plan):
+    """Every rectangle WP-11.10 puts outside the block, in the `room.geometry` shape.
+
+    An at-grade appendage is NOT a massing element and takes no rectangle in the footprint,
+    so it reaches the plate through this list and through nothing else -- `lv["rooms"]` has
+    no geometry for it and must not grow any. Read from `plan["appendages"]`, which
+    `build/appendages.py` wrote; derived here from nothing."""
+    return [dict(a["rect"], area_sf=round(a["rect"]["width_ft"] * a["rect"]["depth_ft"]))
+            for a in ((plan.get("appendages") or {}).get("placed") or [])]
 
 
 def threshold_rects(plan):
     """Every rectangle WP-11.4 puts outside the block, in the `room.geometry` shape, so the
     plate's own extent code can hold them without knowing what they are. Read from the record
     and derived from nothing: build/threshold.py placed them and this file draws them."""
-    out = []
+    out = appendage_rects(plan)
     th = plan.get("threshold") or {}
     for st in (th.get("steps") or []):
         for k in ("platform", "flight"):
@@ -477,7 +493,15 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     draw_W = (max([g["x_ft"] + g["width_ft"] for g in _pts] + [W]) if _pts else W) + ext_ft - draw_x0
     draw_H = (max([g["y_ft"] + g["depth_ft"] for g in _pts] + [H]) if _pts else H) + ext_ft - draw_y0
 
-    level_openings = [derive_openings(lv["rooms"], W, H) for lv in levels]
+    # WP-11.10. The appendages, keyed by the level they stand on, so a placed terrace door is
+    # drawn instead of being reported undrawable. Keyed on the level's own `index` and not on
+    # its position in `levels`, which is FILTERED to the levels carrying geometry.
+    _apx = {}
+    for _a in ((plan.get("appendages") or {}).get("placed") or []):
+        _apx.setdefault(_a.get("level", 0), {})[_a["room"]] = _a["rect"]
+    level_openings = [derive_openings(lv["rooms"], W, H,
+                                      appendages=_apx.get(lv.get("index", i)))
+                      for i, lv in enumerate(levels)]
     all_undrawable = [u for op in level_openings for u in op["undrawable"]]
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
     all_diverged.sort(key=lambda d: -abs(d["pct"]))
@@ -733,6 +757,30 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                      f'y="{Y(sk["y_ft"] + sk["depth_ft"]):.1f}" '
                      f'width="{sk["width_ft"]*scale:.1f}" height="{sk["depth_ft"]*scale:.1f}">'
                      f'<title>{_esc("chimney stack, %s in square, %s to the %s gable end" % (sk["stack_plan_in"], sk["side"], sk["wall"]))}</title></rect>')
+        # ------------------------------------------------- the terrace at grade (WP-11.10)
+        # Drawn OPEN -- an edge and a name, no poché and no wash -- which is what OQ 55's
+        # reserved voids already do and what all four exemplar plans do with a terrace. On the
+        # level the appendage's own record names, NOT hard-coded to the ground: every appendage
+        # in this corpus is at grade and a hard-coded plate would HIDE a future one rather than
+        # refuse it, which is the silent third state this repository keeps abolishing.
+        for ap in [a for a in ((plan.get("appendages") or {}).get("placed") or [])
+                   if a.get("level", 0) == lv.get("index", i)]:
+            r_ = ap["rect"]
+            s.append(f'<g data-appendage="{_esc(ap["room"])}" '
+                     f'data-appendage-wall="{_esc(ap["wall"])}">')
+            why = ("at grade, unroofed, appended to %s on its %s face"
+                   % (", ".join(ap["serves"]), ap["wall"]))
+            s.append(f'<rect class="ap" x="{X(r_["x_ft"]):.1f}" '
+                     f'y="{Y(r_["y_ft"] + r_["depth_ft"]):.1f}" '
+                     f'width="{r_["width_ft"]*scale:.1f}" '
+                     f'height="{r_["depth_ft"]*scale:.1f}">'
+                     f'<title>{_esc(why)}</title></rect>')
+            nm_ = (ap.get("name") or ap["room"]).upper()
+            if r_["width_ft"] * scale > 8.5 * len(nm_) and r_["depth_ft"] * scale > 16:
+                s.append(f'<text class="nm" text-anchor="middle" '
+                         f'x="{X(r_["x_ft"] + r_["width_ft"]/2):.1f}" '
+                         f'y="{Y(r_["y_ft"] + r_["depth_ft"]/2) + 4:.1f}">{_esc(nm_)}</text>')
+            s.append('</g>')
         if i == 0:
             for st in ((plan.get("threshold") or {}).get("steps") or []):
                 # `data-threshold` names the ROOM, as it does in the browser sheet, so a
@@ -1193,7 +1241,7 @@ def _placed_at(d, r, W, H):
     return wall, float(pos)
 
 
-def derive_openings(rooms, W, H, tol=0.6):
+def derive_openings(rooms, W, H, tol=0.6, appendages=None):
     """Every opening of one level, resolved to where it is drawn -- and every declared
     opening that CANNOT be drawn, with the reason. The second half is the point: a door
     with no drawable shared wall used to be `continue`d over in silence by this renderer
@@ -1204,8 +1252,22 @@ def derive_openings(rooms, W, H, tol=0.6):
     not, the position is invented as it always was and `inferred_positions` counts it, so
     the sheet can say which kind of drawing the reader is looking at.
 
-    `rooms` is a list of the level's room records, each carrying `geometry`."""
+    `rooms` is a list of the level's room records, each carrying `geometry`.
+
+    WP-11.10. `appendages` is `{room_id: rect}` for the at-grade appendages placed OUTSIDE the
+    block on this level -- a terrace, today. An appendage's room carries no `geometry` (that is
+    the whole mechanism of the ruling; see `build/appendages.py`), so the lookup below found no
+    room and called the placed door *"the other room is not placed on this level"*: the record
+    said the door was seated and the sheet said it could not be drawn. Two records of one door,
+    which is WP-6.1's own finding. The rectangle is needed for the lookup and for the swing
+    direction and for nothing else. `workbench/app/src/sheet/derive.js::doors` takes the same
+    argument in the same place; the two are held to one answer by
+    `tests/fixtures/sheet_symbols/`, and to this branch by a hand-built pair --
+    `tests/test_appendages.py` and `derive.test.mjs` -- because the frozen fixture predates the
+    pass and regenerating it would be eight hundred lines of solver noise (its own README)."""
     idx = {r["id"]: r for r in rooms if r.get("geometry")}
+    for _rid, _rect in (appendages or {}).items():
+        idx.setdefault(_rid, {"id": _rid, "geometry": dict(_rect)})
     interior, exterior, undrawable = [], [], []
     inferred_widths = 0
     inferred_positions = 0

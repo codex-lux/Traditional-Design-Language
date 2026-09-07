@@ -2272,6 +2272,45 @@ def _disclose(plan):
         rep["multi_element"] = _me
 
 
+def _disclose_at_grade(plan):
+    """What the at-grade appendages add to the ground the building covers (WP-11.10).
+
+    NOT in `_disclose`, and the reason is an ordering fact worth stating rather than
+    discovering: `_disclose` runs inside each record writer, BEFORE `openings.place()`, and
+    `plan["appendages"]` does not exist until that pass has run. So this is a second
+    disclosure call, made once in `solve()` immediately after the openings, and it writes
+    into the row `_disclose` already built.
+
+    WP-11.9 ruled the lot cap is on the BUILT EXTENT, elements only. An at-grade appendage is
+    NOT an element -- it has no walls, no storey and no roof -- so it does not enter that
+    figure and `fits_lot` is unchanged by it. It does cover ground, and a terrace fourteen
+    feet past the east wall while `fits_lot` reads green is the OQ 52 family wearing the
+    safe-looking sign, so the number is published BESIDE the cap rather than folded into it
+    or left out. Which of the two a lot line should be held against is a question for
+    whoever writes a site plan; this states both.
+    """
+    row = ((plan.get("geometry_report") or {}).get("lot_extent"))
+    aps = ((plan.get("appendages") or {}).get("placed") or [])
+    if not isinstance(row, dict):
+        return
+    if not aps:
+        row.pop("at_grade", None)
+        return
+    els = _elements().elements(plan)
+    ivals = [(e["x"], e["x"] + e["W"]) for e in els] + \
+            [(a["rect"]["x_ft"], a["rect"]["x_ft"] + a["rect"]["width_ft"]) for a in aps]
+    covered = _elements().union_measure(ivals)
+    row["at_grade"] = {
+        "appendages": len(aps),
+        "covered_width_ft": round(covered, 2),
+        "in_the_built_extent": False,
+        "note": ("An at-grade appendage covers ground and is not built extent: it has no "
+                 "walls, no storey and no roof plane, so `built_extent_width_ft` and "
+                 "`fits_lot` above are measured WITHOUT it and this figure is measured with "
+                 "it. Two questions, two numbers; say which one a lot line is being held "
+                 "against.")}
+
+
 _SOLVE_CACHE = {}
 # A plan larger than this is solved and returned but never cached — see solve(). 1 MB is ~40x
 # the largest record in plans/ and small enough that 64 of them cannot matter.
@@ -2354,6 +2393,7 @@ def solve(plan, parti=None, candidates=250, seed=7, engine="auto",
         try:
             OP = _mod("openings", f"{ROOT}/build/openings.py")
             OP.place(out, C)
+            _disclose_at_grade(out)
         except Exception as exc:                       # never lose a good placement to it
             out.setdefault("geometry_report", {})["openings_error"] = (
                 f"could not place openings: {exc.__class__.__name__}: {exc}")

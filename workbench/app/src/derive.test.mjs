@@ -41,6 +41,37 @@ test('there are fixtures to check against', () => {
   assert.ok(fixtures.length > 0, 'no sheet-symbol fixtures found');
 });
 
+/* WP-11.10 — the at-grade appendage in the door lookup. HAND-BUILT rather than driven off the
+   frozen fixture, and the reason is on the record: the fixture predates the appendage pass, and
+   `tests/fixtures/sheet_symbols/README.md` says regenerating it re-solves the placement (its own
+   generator calls the live solver on `auto`), which is eight hundred lines of solver noise for a
+   branch two hand-built rectangles prove. `tests/test_appendages.py::
+   test_derive_openings_draws_a_door_to_an_appendage_and_refuses_it_without_one` is the same
+   numbers on the Python side; if either renderer stops taking the argument these two disagree. */
+test('a door to an at-grade appendage is drawn once the appendage is passed in', () => {
+  const rects = [{
+    id: 'kit', type: 'kitchen', name: 'Kitchen', x: 0, y: 0, w: 20, h: 20,
+    windows: [], exterior_walls: ['E'],
+    doors: [{ to: 'yard', width_ft: 3, wall: 'E', position_ft: 10 }],
+  }];
+  const yard = [{ id: 'yard', x: 20, y: 4, w: 12, h: 12 }];
+
+  const without = doors(rects, 20, 20);
+  assert.equal(without.interior.length, 0);
+  assert.equal(without.undrawable.length, 1);
+  assert.equal(without.undrawable[0].reason, 'the other room is not placed on this level',
+    'the record says this door is seated and the sheet must not invent a second answer');
+
+  const withIt = doors(rects, 20, 20, 0.6, yard);
+  assert.equal(withIt.undrawable.length, 0);
+  assert.equal(withIt.interior.length, 1);
+  const d = withIt.interior[0];
+  assert.equal(d.horiz, false, 'a door on an E wall is a vertical opening');
+  assert.equal(d.x, 20, 'the leaf sits on the shared face');
+  assert.equal(d.y, 10);
+  assert.equal(d.swingRight, true, 'the swing reads the appendage rectangle, so it opens out');
+});
+
 for (const fx of fixtures) {
   const W = fx.footprint.width_ft, H = fx.footprint.depth_ft;
 
