@@ -189,10 +189,40 @@ def test_the_bay_modulo_is_shifted_so_a_negative_edge_stays_feasible():
 def test_the_coverage_floor_is_per_element():
     """A floor over the union would let a dependency sit half empty while the main block
     over-filled to make up the total, which is the "two elements flattened into one" reading
-    this model refuses."""
-    src = (ROOT / "build" / "geometry_cp.py").read_text()
-    assert 'elif len(els.get(lvl) or []) > 1:' in src
-    assert ">= int(COVERAGE * _eW * _eH)" in src
+    this model refuses.
+
+    WP-11.13 RE-CUT THIS FROM A SOURCE GREP TO THE BEHAVIOUR. It asserted the literal
+    `">= int(COVERAGE * _eW * _eH)"` and so broke on the fix to the defect it was guarding --
+    that expression rounded the element's box a SECOND way, `int(round(...))` where containment
+    used `ceil`/`floor`, and the model then demanded 97% of the larger be packed inside the
+    smaller. A guard that reads a selector rather than a property goes blind on the next edit,
+    and this one went red on the right edit instead, which is the same fault wearing the other
+    sign: it can neither survive a rewording nor tell a fix from a regression.
+
+    The property is that EVERY element is full of its own rooms, not that the total is.
+    """
+    res = _solved_fixture()
+    assert "best" in res, f"the multi-element fixture did not solve: {str(res)[:200]}"
+    plan = CP._multi_element_fixture()
+    _levels, prep = GEO.prep_rooms(plan)
+    els = GEO.blocks_for(plan, res["fpd"], prep, 0)
+    placed = res["best"]["ground"]
+    seen = 0
+    for e in els:
+        ids = [rid for rid in e["rooms"] if rid in placed]
+        if not ids:
+            continue
+        seen += 1
+        got = sum(placed[rid][2] * placed[rid][3] for rid in ids)
+        box = e["W"] * e["H"]
+        # the floor a non-main element is held to is stated against its rooms' OWN declared
+        # area (WP-11.13), so read the guarantee the same way the model states it
+        want = (box if e["role"] == "main"
+                else sum(r["_area"] for r in prep[0] if r["id"] in ids))
+        assert got >= CP.COVERAGE * want - 1.0, (
+            f"{e['id']} ({e['role']}) is drawn {got:.0f} sf against {want:.0f} -- an element "
+            "sitting half empty while another over-fills is the union floor's own defect")
+    assert seen == 3, f"expected all three elements to hold rooms, judged {seen}"
 
 
 def test_every_block_fact_in_the_model_reads_the_rooms_own_element():

@@ -259,9 +259,11 @@ def _element_boxes(els, Wi, Hi):
             # element's true edges and grows the room back out to them. The main block is
             # already integral (`_snap_fpd`), so this is the identity on every single-element
             # plan in the corpus.
-            ex, ey = math.ceil(e["x"] * U), math.ceil(e["y"] * U)
-            eW = max(1, math.floor((e["x"] + e["W"]) * U) - ex)
-            eH = max(1, math.floor((e["y"] + e["H"]) * U) - ey)
+            # WP-11.13: the rule itself lives in `build/elements.py`, the leaf both this
+            # model and `geometry.multi_element_disclosure` load, because the disclosure has
+            # to report the box the model works in and a second transcription of an inward
+            # rounding is exactly what this package found wrong one screen down.
+            ex, ey, eW, eH = GEO._elements().integer_box(e["x"], e["y"], e["W"], e["H"], U)
             xs += [ex, ex + eW]
             ys += [ey, ey + eH]
             for rid in e.get("rooms") or []:
@@ -460,14 +462,41 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             # WP-11.11: PER ELEMENT. A coverage floor over the union would let a dependency
             # sit half empty while the main block over-filled to make up the total, which is
             # the "two elements flattened into one" reading this model refuses.
+            #
+            # WP-11.13 FOUND TWO DEFECTS IN THAT LOOP AND BOTH ARE FIXED HERE.
+            #
+            # ONE BOX, NOT TWO. It computed the element's box with `int(round(...))` while
+            # CONTAINMENT above bounds every room to `_element_boxes`' box, which ceils the low
+            # edge and floors the high one. Two roundings of one quantity, and the model then
+            # demanded 97% of the LARGER be packed inside the SMALLER: on the hand-tagged
+            # Tidewater the hyphen's floor asked for 108.6 sf inside a box holding 105 --
+            # infeasible by construction, before a single declared fact was read, and the
+            # conflict core duly blamed the tiling. `ebox` is the one spelling now.
+            #
+            # AND WHAT THE FLOOR IS STATED AGAINST DEPENDS ON HOW THE BOX WAS DERIVED. The main
+            # block's box is derived INDEPENDENTLY of its rooms -- `derive_footprint` grows it
+            # until the programme fits -- so "fill 97% of your box" is a real question about
+            # the rooms. A dependency's box is derived FROM its rooms by `dependency_sizes`, so
+            # asking whether those rooms fill it is asking the box about itself, and the
+            # quantised answer cannot even be made to land: the floor needs the box within 3%
+            # of the rooms' area and one foot of a 30 ft dependency is 5%. For such an element
+            # the floor is stated against the rooms' OWN DECLARED AREA, which is the guarantee
+            # the floor was for -- rooms may not shrink and leave the element half empty --
+            # expressed in a way the grid cannot falsify. Roles are `elements.py`'s.
             for _e in (els or {}).get(lvl, []):
                 _ids = [rid for rid in (_e.get("rooms") or []) if (lvl, rid) in rooms]
                 if not _ids:
                     continue
-                _ex, _ey = int(round(_e["x"] * U)), int(round(_e["y"] * U))
-                _eW, _eH = int(round(_e["W"] * U)), int(round(_e["H"] * U))
-                m.Add(sum(rooms[(lvl, rid)]["a"] for rid in _ids)
-                      >= int(COVERAGE * _eW * _eH))
+                _got = sum(rooms[(lvl, rid)]["a"] for rid in _ids)
+                if _e.get("role") == "main":
+                    _bx = ebox.get((lvl, _ids[0]))
+                    if _bx is None:
+                        continue
+                    m.Add(_got >= int(COVERAGE * _bx[2] * _bx[3]))
+                else:
+                    _declared = sum(int(round(rooms[(lvl, rid)]["r"]["_area"] * U * U))
+                                    for rid in _ids)
+                    m.Add(_got >= int(COVERAGE * _declared))
         else:
             m.Add(upper_area >= int(COVERAGE * Wi * Hi))
 

@@ -1793,6 +1793,61 @@ term — not stepped around.
   cannot load `structure.py`, which it can and does, lazily inside a try, in the elevation block,
   since WP-3.2 — the comment in `plan_check` said the same. No new checker; `TOTAL_CHECKS` does
   not move. Report: `docs/reports/wp-11.12-the-span-nobody-was-told-about.md`.
+- **WP-11.13 — the box that could not hold its own rooms. Status: COMPLETE (7 Sep 2026).**
+  Closes `oq/the-coverage-floor-is-an-exact-cover-per-element`, **by measurement and without
+  changing the number it asked about**. `dependency_sizes` sized a non-main element's box to
+  EXACTLY its rooms' declared area (`H = need / W`, zero slack by construction) and
+  `geometry_cp._element_boxes` then rounded it INWARD — WP-11.11's deliberate ruling, so nothing
+  CP proves sits outside the stated mass — and `blocks_for` centres a dependency on the main
+  block's axis, so its origin is a half-foot and BOTH roundings bite. Measured on the hand-tagged
+  Tidewater against a floor of 0.97: **dependency 690 sf of box for 701 sf of rooms (1.016),
+  hyphen 105 for 112 (1.067)** — the rooms could not fit at all, at any floor. **And the coverage
+  floor rounded the same box a SECOND way** (`int(round(...))` against containment's
+  `ceil`/`floor`), so the model demanded 97% of the larger be packed inside the smaller: 108.6 sf
+  into a box holding 105, infeasible by construction, which is why every tagging of that record
+  returned *"the rooms cannot tile any footprint this parti and lot allow, even with every
+  declared requirement dropped"*. `elements.integer_box` is the one spelling now, in the leaf both
+  the model and the disclosure load; `grid_allowance_ft()` is two quanta per axis, DERIVED by
+  solving `(W − 2g)(H − 2g) ≥ need` rather than chosen, and the hyphen takes it in DEPTH only
+  because its width is the gap between two masses. **What a floor is stated against depends on how
+  the box was derived**: the main block's is grown independently by `derive_footprint`, so the box
+  floor is a real question about its rooms; a dependency's is derived FROM its rooms, and the
+  quantised answer cannot land (the floor needs the box within 3% of the rooms' area and one foot
+  of a 30 ft dependency is 5%), so its floor is stated against the rooms' own declared area.
+  **`COVERAGE` is unchanged at 0.97.** `geometry_report.multi_element.element_capacity` puts all
+  of it on the record, per element, with `elements_too_small_for_their_own_rooms` beside it.
+  **What it bought: the hand-tagged Tidewater — service programme in a west dependency joined by
+  the back hall as a hyphen — is proved OPTIMAL in 12.3 s with zero pins downgraded**, which is
+  Part I.A item 4 of the Phase 11 diagnosis and the first multi-element house this corpus has
+  proved outside a selftest fixture. **The corpus is BYTE-IDENTICAL** (placement
+  `151126d0269bbc61`, openings `770a886c7387f3ab`, the four `CpModel` proto hashes) and
+  structurally so: 0 of 16 records carry a `block` tag, asserted rather than assumed.
+  **The corpus said where the butler's pantry goes a fortnight before anyone tagged it** —
+  `rooms/butlers-pantry.json`'s OQ 59 `via` clause, *"in a Tidewater plantation house … the pantry
+  is in the block"* — so WP-11.11's refusal was right and its TAGGING was wrong; the two crossings
+  are not equivalent (`must_adjoin dining-room` is hard with no `via`, `must_adjoin kitchen` is
+  hard with one the plan already carries in full). **The shipped record is still NOT tagged**: it
+  is a record edit moving a shipped placement, and a package that does two things can only be
+  reasoned about as one — `oq/the-parti-dissolved-its-own-dependencies`.
+  **WP-11.11's published "2 of 16 crossing pairs" is 1**, corrected beside the original: the
+  second was `breakfast ↔ terrace`, and a terrace takes no rectangle, so it is in no element and
+  cannot cross — and the first instrument written here read *no element* as *the main block*,
+  reproducing WP-11.9's own defect inside the package auditing WP-11.11. Three existing guards
+  were re-cut against the behaviour they name and none bumped, among them a **source grep for the
+  very expression that carried the bug**, which went red on the fix. Six mutations, each asserted
+  to have landed, all biting — and one bites only the arithmetic test, which the test file says in
+  its own words. `capacity_report` reported unjudged as passed twice before it was right (a
+  `fits: true` on an empty sum, on a record whose blocks carry no room list; and the main block
+  judged on a grid `_snap_fpd` removes), both found by running it. No new checker; `TOTAL_CHECKS`
+  does not move. **And rendering the proved sheet found a SEVENTH layer reading one rectangle**:
+  both renderers draw an exterior door, its sill and its swing on the FOOTPRINT's wall rather than
+  on its own element's, so the tagged sheet puts two doors in open space north of the building
+  (`backhall` at 42.0 ft against its own face at 30.0; `kitchen` at 42.0 against 33.02). The
+  interior branch three lines above is already right. Named rather than fixed, because the honest
+  form adds a key to `derive_openings`' output in both spellings and the frozen sheet-symbols
+  fixture holds them to one contract —
+  `oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms`. Report:
+  `docs/reports/wp-11.13-the-box-that-could-not-hold-its-own-rooms.md`.
 
 ## 6. Parallelisation map
 

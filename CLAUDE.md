@@ -179,7 +179,7 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,720 tests**
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,732 tests**
 (plus the workbench app suite, **82** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
@@ -337,7 +337,7 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
-**Phase 11 — the drawn sheet — is COMPLETE through WP-11.12 (7 Sep 2026).** The A line (the
+**Phase 11 — the drawn sheet — is COMPLETE through WP-11.13 (7 Sep 2026).** The A line (the
 drawing) is finished: WP-11.1 and WP-11.2 put the sheet in Graphic Standard No. 1 with the wall
 as a body, WP-11.3 the furniture, WP-11.4 the threshold and the stacks, WP-11.5 the embedded
 face. **The B line — the placement — is WP-11.6 through WP-11.9.** WP-11.6 is a record edit that
@@ -349,8 +349,9 @@ below the placer about massing elements, on four rulings, with the whole shipped
 byte-identical; **WP-11.10** placed the terrace at grade; **WP-11.11** taught the PROVER about
 massing elements and closed
 `oq/the-proving-engine-cannot-place-a-second-massing-element`; **WP-11.12** gave the critic a span
-finding, which is OQ 98's reporting half. Reports:
-`docs/reports/wp-11.{6,7,8,9,10,11,12}-*.md`. **This heading said WP-11.10 "is gated on
+finding, which is OQ 98's reporting half; **WP-11.13** fixed the element box that could not hold
+its own rooms, closing `oq/the-coverage-floor-is-an-exact-cover-per-element` — and the tagged
+Tidewater is PROVED. Reports: `docs/reports/wp-11.{6,7,8,9,10,11,12,13}-*.md`. **This heading said WP-11.10 "is gated on
 `oq/the-proving-engine-cannot-place-a-second-massing-element`" and it was not** — that gate
 applied only to reading a terrace as a third massing ROLE, and the CP refusal keys on the room's
 `block` TAG, which an appendage does not write. The question is still open and still gates the
@@ -468,6 +469,94 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **AN EXTERIOR DOOR IS DRAWN ON THE FOOTPRINT'S WALL AND NOT ITS ROOM'S, AND THAT IS A SEVENTH
+  LAYER (WP-11.13).** `render_plan.render()` has
+  `px, py = (p_, 0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W, p_)` — `W` and
+  `H` being the FOOTPRINT's — and `_frame` twenty lines above carries the same two expressions,
+  which is why the sill and the glazing float with the leaf. `derive.js` has it too and its own
+  docstring states it as intended: *"exterior doors as openings on the footprint edge."* On the
+  proved hand-tagged Tidewater that draws **two doors in open space north of the whole building**
+  — `backhall` at 42.0 ft against its own face at 30.0, `kitchen` at 42.0 against 33.02. The
+  record is right and `openings.place` seated both on their own element's boundary; the drawing
+  throws it away, and **the INTERIOR branch three lines up is already correct** and is the model.
+  On a one-rectangle house the two lines coincide, so nothing shipped moves.
+  `oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms`. **Found by rendering
+  the sheet and looking at it — six packages running.** Not fixed in WP-11.13 because the honest
+  form adds a key to `derive_openings`' output in BOTH spellings and
+  `tests/fixtures/sheet_symbols/` holds them to one contract against a fixture its own generator
+  re-solves on `auto`.
+- **AN ELEMENT'S BOX WAS SIZED TO EXACTLY ITS ROOMS AND THEN ROUNDED INWARD, SO IT COULD NOT
+  HOLD THEM (WP-11.13).** `dependency_sizes` set `H = need / W` — zero slack by construction —
+  and `geometry_cp._element_boxes` then `ceil`s the low edge and `floor`s the high one, which is
+  WP-11.11's deliberate ruling so nothing CP proves sits outside the stated mass. `blocks_for`
+  centres a dependency on the main block's axis, so its origin is a half-foot and BOTH roundings
+  bite. Measured on the hand-tagged Tidewater against a floor of 0.97: **dependency 690 sf of box
+  for 701 sf of rooms (1.016), hyphen 105 for 112 (1.067)** — the rooms could not fit AT ALL, at
+  any floor. `grid_allowance_ft()` is two quanta per axis, one per inward-rounded edge, DERIVED by
+  solving `(W − 2g)(H − 2g) ≥ need` rather than chosen. **The hyphen takes it in DEPTH only**: its
+  width is the gap between two masses, a real dimension of the house, and its origin is integral.
+- **AND THE COVERAGE FLOOR ROUNDED THE SAME BOX A SECOND WAY (WP-11.13).** The floor computed the
+  element's box with `int(round(...))` while containment used `_element_boxes` — one quantity,
+  two roundings, so the model demanded 97% of the LARGER be packed inside the SMALLER. On the
+  hyphen that is **108.6 sf into a box holding 105: infeasible by construction**, before a single
+  declared fact was read, which is exactly why every tagging of that record came back with
+  *"the rooms cannot tile any footprint this parti and lot allow, even with every declared
+  requirement dropped"*. The engine was right and it was answering a question about arithmetic.
+  `elements.integer_box` is the one spelling now, in the leaf both the model and the disclosure
+  load. **A conflict core that blames the tiling is the shape this defect makes** — read it as an
+  instrument reading before reading it as a fact about the brief.
+- **WHAT A COVERAGE FLOOR IS STATED AGAINST DEPENDS ON HOW THE BOX WAS DERIVED (WP-11.13).** The
+  main block's box is grown independently by `derive_footprint` until the programme fits, so
+  "fill 97% of your box" is a real question about the rooms. A dependency's box is derived FROM
+  its rooms, so asking whether they fill it is asking the box about itself — and **the quantised
+  answer cannot be made to land: the floor needs the box within 3% of the rooms' area and one
+  foot of a 30 ft dependency is 5%.** For a non-main element the floor is stated against the
+  rooms' OWN DECLARED AREA, which is the guarantee it was for (rooms may not shrink and leave the
+  element half empty) in a form the grid cannot falsify. **`COVERAGE` is unchanged at 0.97**, and
+  the question that asked whether 0.97 was the right number for a dependency was aimed one layer
+  above the cause.
+- **THE CORPUS SAID WHERE THE BUTLER'S PANTRY GOES A FORTNIGHT BEFORE ANYONE TAGGED IT
+  (WP-11.13).** WP-11.11 tagged it into the dependency and CP refused; **the refusal was right
+  and the tagging was wrong.** `rooms/butlers-pantry.json`'s `must_adjoin kitchen` has carried
+  `via: [back-hall, gallery-corridor]` since OQ 59 (24 Aug) with a note saying that in *"a
+  Tidewater plantation house … the pantry is in the block and the kitchen is in another
+  building"*. **The two crossings are not equivalent and that decides it**: `must_adjoin
+  dining-room` is hard with NO `via`, so a pantry in the dependency must cross and cannot;
+  `must_adjoin kitchen` is hard WITH one, and the plan already carries `butlers → backhall →
+  kitchen` in full. The ladder is the deliverable — butlers in the dependency cores on the dining
+  door, butlers in the block cores on the kitchen door, that redundant door dropped proves
+  **OPTIMAL in 12.3 s with zero pins downgraded**. **The shipped record is still NOT tagged**:
+  that is a record edit moving a shipped placement, and a package doing two things can only be
+  reasoned about as one. `oq/the-parti-dissolved-its-own-dependencies`.
+- **WP-11.11's "2 OF 16 CROSSING PAIRS" IS 1, AND THE FIRST INSTRUMENT HERE REPRODUCED THE VERY
+  DEFECT IT WAS AUDITING (WP-11.13).** The second pair was `breakfast ↔ terrace`, and a terrace
+  takes no rectangle (WP-11.10), so it stands in NO element and cannot cross a boundary. The
+  sweep written to check this read *no element* as *the main block* — WP-11.9's own rule, broken
+  inside the package auditing WP-11.11 — and was corrected by filtering on
+  `stacking.takes_a_rectangle`, the way every other reader does, before the number was believed.
+- **`capacity_report` REPORTED UNJUDGED AS PASSED TWICE BEFORE IT WAS RIGHT, IN A PACKAGE ABOUT
+  DISCLOSURE (WP-11.13).** It returned `fits: true` on an EMPTY SUM — and that was not
+  hypothetical: `footprint.blocks` on a placed record carries no room list, so the disclosure's
+  first run called every element `rooms: 0, fits: true`. Membership is the geometric join
+  (`elements.element_of`) now and an element with no members is `null`. And it judged the MAIN
+  BLOCK on the integer grid, convicting it on every heuristic placement — `_snap_fpd` makes the
+  footprint integral before any element is built, so a grid figure from an unsnapped record
+  describes a box CP never uses. **Both were found by running it, not by reading it.**
+- **A GUARD CAN GO RED ON THE RIGHT EDIT, WHICH IS THE SELECTOR FAULT WEARING THE OTHER SIGN
+  (WP-11.13).** `test_the_coverage_floor_is_per_element` asserted the literal source string
+  `">= int(COVERAGE * _eW * _eH)"` — the very expression carrying the second rounding — so it
+  broke on the fix to the defect it was guarding. A guard that reads a selector rather than a
+  property can neither survive a rewording nor tell a fix from a regression. Two more in the same
+  package pinned a dependency's exact DEPTH as a proxy for the pile rule and for an unplaced
+  terrace's area; all three are re-cut against the property they name, none bumped.
+- **A MUTATION CAN BITE ONE GUARD AND NOT THE OTHER, AND THE WEAKER ONE MUST SAY SO
+  (WP-11.13).** Deleting the depth term from `dependency_sizes` leaves the WIDTH half of the
+  allowance in place, and on the tagged Tidewater the actual rounding then loses less than the
+  worst case — so the per-plan row still fits and only the arithmetic test
+  (`(W − g)(H − g) ≥ need`, the guarantee) goes red. One asserts the guarantee and one asserts
+  one plan's luck; both are kept because they fail on different mutations, and the test file
+  names which is which so a green row is not read as the arithmetic being proved.
+
 - **THE SEARCH CHARGED A SPAN FOR TWO PHASES AND THE CRITIC HAD NO FINDING FOR IT (WP-11.12).**
   `structure.span_check` has measured the clear span between bearing lines since WP-3.1 and
   `geometry` has CHARGED it since WP-7.4 (`SPAN_W = 20`, mirrored soft in CP) — and `plan_check`
@@ -558,9 +647,16 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 - **THE SEARCH REWARDS A TAGGING THE PROVER REFUSES, AND ONE DOOR DECIDES IT (WP-11.11).** On the
   hand-tagged `tidewater-georgian-careful`, `engine="heuristic"` reports an IMPROVEMENT (fatal
   8 → 6, serious 61 → 53) and `engine="cp"` proves it INFEASIBLE in 1.5 s with a minimized core
-  of one door — *"Dining Room and Butler's Pantry share a door"*. Exactly **2 of the 16**
-  ground-floor door pairs cross main-to-dependency without passing through the hyphen, and one is
-  the door the butler's pantry exists for. **Every boundary `blocks_for` can draw through this
+  of one door — *"Dining Room and Butler's Pantry share a door"*. **That count was published as
+  2 of the 16 ground-floor door pairs and it is 1** (corrected by WP-11.13): the second pair was
+  `breakfast ↔ terrace`, and a terrace takes no rectangle (WP-11.10) so it stands in no element
+  and cannot cross a boundary — the instrument had read *no element* as *the main block*, which
+  is the defect the whole of WP-11.9 exists to remove. **And the one real crossing was the
+  TAGGING's fault rather than the record's**: `rooms/butlers-pantry.json` has said since OQ 59
+  (24 Aug) that in *"a Tidewater plantation house … the pantry is in the block and the kitchen is
+  in another building"*. Put where its own record says, the core moves to
+  `butlers ↔ kitchen` — whose `must_adjoin` carries `via: [back-hall, gallery-corridor]`, a route
+  the plan already holds in full — and dropping that redundant direct door proves OPTIMAL. **Every boundary `blocks_for` can draw through this
   record cuts a declared door**, which is `oq/the-parti-dissolved-its-own-dependencies` measured
   for the first time: a finding about the RECORD, not the engine. So the shipped tags are still
   not authored, and the reason has changed from *the prover cannot look* to *the prover says no*.
@@ -2374,8 +2470,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **144 entries, of which 60 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-coverage-floor-is-an-exact-cover-per-element, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **145 entries, of which 60 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the three HALF CLOSED entries (18, 68, 98) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

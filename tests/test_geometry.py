@@ -509,11 +509,19 @@ class TestTheAuditGapsInTheBlockWork:
                      "exterior_walls": ["W"]}]}
         blocks = g.blocks_for({"levels": []}, fp, prep, 0)
         dep = next(b for b in blocks if b["role"] == "dependency")
-        assert (dep["W"], dep["H"]) == (20.0, 20.0), (
+        # WP-11.13: THE DISCRIMINATOR IS THE WIDTH, and the depth follows from it. This read
+        # `(W, H) == (20.0, 20.0)` and so pinned the depth derivation as well as the pile rule
+        # it is about -- it failed when `dependency_sizes` began carrying the grid allowance its
+        # integer box needs, on a change that has nothing to do with which pile is read. Under
+        # the single-pile rule 400 sf is 2 bays of 20; under the main block's 36 ft it is ONE
+        # bay of 10, and that 10 is the splinter the rule exists to prevent.
+        assert dep["W"] == 20.0, (
             f"400 sf of dependency came out {dep['W']} x {dep['H']} ft. Against a single-pile "
-            f"depth of {g.PILE['single-pile']} it is 20 x 20; against the main block's "
-            f"{fp['target_depth']} ft it is a 10 x 40 splinter, which is the defect this rule "
+            f"depth of {g.PILE['single-pile']} it is 2 bays of 20; against the main block's "
+            f"{fp['target_depth']} ft it is a 10 ft splinter, which is the defect this rule "
             "was written to fix.")
+        assert dep["W"] * dep["H"] >= 400.0, (
+            f"{dep['W']} x {dep['H']} ft cannot hold the 400 sf of room it was sized for")
 
         # And the solver really uses it, on a real plan.
         plan, _C = self._dep_plan()
@@ -626,9 +634,21 @@ class TestTheAuditGapsInTheBlockWork:
             f"the record says the dependency is {dep['width_ft']} x {dep['depth_ft']} ft and the "
             f"slicer cut it {sliced['W']} x {sliced['H']} -- the record describes a rectangle no "
             "room occupies")
-        assert dep["width_ft"] == 20.0 and dep["depth_ft"] == 22.0, (
-            f"{dep['width_ft']} x {dep['depth_ft']} ft: the unplaced terrace's 600 sf is being "
-            "counted into the element's area")
+        # WP-11.13 RE-CUT THIS AGAINST THE BEHAVIOUR IT NAMES. It read `depth_ft == 22.0`,
+        # which is the garage's own 440 sf over a 20 ft width EXACTLY -- a literal pin on a
+        # sizing the placer is free to change, and it duly failed when `dependency_sizes` began
+        # carrying the grid allowance its integer box needs. The property under test is that the
+        # terrace's 600 sf is not counted, and that is a question about which AREA the box was
+        # sized for, not about one number. Sized for the garage the box is a little over 440 sf;
+        # sized for both it would be a little over 1040.
+        placed_sf, with_terrace_sf = 20 * 22, 20 * 22 + 30 * 20
+        box_sf = dep["width_ft"] * dep["depth_ft"]
+        assert dep["width_ft"] == 20.0, (
+            f"{dep['width_ft']} ft wide: the width comes from the placed rooms' area alone")
+        assert placed_sf <= box_sf < with_terrace_sf, (
+            f"{dep['width_ft']} x {dep['depth_ft']} = {box_sf} sf, against {placed_sf} sf of "
+            f"placed room: below it the box cannot hold the garage, and at {with_terrace_sf} sf "
+            "the unplaced terrace is being counted into the element's area")
 
     def test_a_second_west_element_does_not_stack_its_hyphen_on_the_first(self, geometry_module):
         """Gap #7. `hx = 0.0 - gap` was a hardcoded origin where the east branch three lines down

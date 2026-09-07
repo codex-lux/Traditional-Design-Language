@@ -1165,8 +1165,14 @@ def lot_usable_width_ft(plan):
 def prep_rooms(plan):
     """Rooms per level index, each carrying the `_area` its own record declares. Shared by the
     heuristic search below and the CP-SAT engine (WP-2.3, build/geometry_cp.py) so the two
-    engines place exactly the same room set. Returns (prep, levels), or (None, levels) when
+    engines place exactly the same room set. Returns **(levels, prep)**, or (levels, None) when
     there is no ground level.
+
+    That order is the one every caller reads and the comment above the `return` explains why it
+    is not the other branch's; this line said `(prep, levels)` until WP-11.13, which is the
+    order of the branch that did NOT survive the 25 Aug merge. Nothing reads a docstring, so
+    nothing caught it -- WP-6.4's own class, in the one function both engines call to agree
+    about the room set.
 
     Since OQ 55 this is no longer only indoor rooms: reserved voids (outdoor rooms whose own
     record says they sit within the block -- a courtyard, a piazza, a loggia) are placed too,
@@ -1226,6 +1232,36 @@ HYPHEN_DEFAULT_FT = 14.0   # dependency-and-hyphen.json bands hyphen_length_ft 1
                            # midpoint, which is 16 -- an earlier comment here said so and was wrong;
                            # used only until a hyphen room is placed and states its own width.
 
+# WP-11.13. THE QUANTUM THE PROVING MODEL ROUNDS A NON-MAIN ELEMENT'S BOX TO, in feet.
+#
+# `geometry_cp._element_boxes` makes a room's integer box a SUBSET of its element's stated box
+# -- `ceil` the low edge, `floor` the high one -- deliberately, so nothing CP proves is outside
+# the mass the record states. The main block is snapped integral (`_snap_fpd`) so that is the
+# identity on it. A dependency is not: its edges land on 23.37 and its origin on a half-foot,
+# and BOTH roundings bite, so the integer box is up to two quanta shorter than the stated one
+# in each axis.
+#
+# `dependency_sizes` below sized the stated box to EXACTLY its rooms' declared area, so the two
+# composed into a box provably smaller than the rooms it had to hold -- measured on the
+# hand-tagged Tidewater at coverage 1.016 needed for the dependency and 1.067 for the hyphen,
+# against a floor of 0.97. Not a tolerance and not a taste: the allowance is two quanta per
+# axis because two edges are rounded inward, and it is derived from that rule rather than
+# chosen. `tests/test_element_capacity.py` holds this against `geometry_cp.U`, which is its
+# reciprocal and the only other place the grid is spelled.
+ELEMENT_GRID_FT = 1.0
+
+
+def grid_allowance_ft():
+    """The depth a non-main element's box must carry beyond its contents, in feet.
+
+    Two quanta, because `geometry_cp._element_boxes` rounds BOTH edges of an axis inward --
+    `ceil` the low one, `floor` the high one -- and a dependency's origin is a half-foot
+    (`blocks_for` centres it on the main block's axis) so both roundings bite. One function
+    because two sizings need it, `dependency_sizes`' depth and `blocks_for`'s hyphen, and this
+    repository's standing lesson is that the second transcription is the one that drifts.
+    """
+    return 2.0 * ELEMENT_GRID_FT
+
 def is_block_tag(v):
     """Is this `block` field a massing-element id? One rule, read in both places that ask.
 
@@ -1279,7 +1315,16 @@ def dependency_sizes(rooms, bay):
         need_body = sum(r["_area"] for r in body) or sum(r["_area"] for r in rs)
         bays = max(1, round((need_body / PILE["single-pile"]) / bay))
         W = round(bays * bay, 2)
-        H = round(need_body / W, 2) if W else 0.0
+        # WP-11.13: THE DEPTH IS SIZED SO THE INTEGER BOX STILL HOLDS THE ROOMS, not so the
+        # STATED box exactly equals their area. `H = need/W` made the two identical, and
+        # `geometry_cp._element_boxes` then floors the box inward by up to `ELEMENT_GRID_FT` at
+        # each of the two edges in each axis -- so the box the proving model actually works in
+        # was smaller than its own contents and the plan was infeasible before any declared
+        # fact was read. Solving `(W - 2g)(H - 2g) >= need` for H is the whole derivation; there
+        # is no tolerance in it and no chosen constant.
+        g = grid_allowance_ft()
+        usable_w = max(ELEMENT_GRID_FT, W - g)
+        H = round(need_body / usable_w + g, 2) if W else 0.0
         out.append((bid, gap, W, H, body, hyph))
     return out
 
@@ -1343,7 +1388,13 @@ def blocks_for(plan, fp, prep, level=0):
         if hyph:
             # The hyphen is its own element, in the gap, lower and shallower than both -- which
             # is dependency-and-hyphen.json's own rule about it.
-            hh = min(H, float(hyph[0].get("length_ft") or H))
+            # WP-11.13: the hyphen's box takes the same grid allowance as the dependency's,
+            # and for the same reason -- it is centred on the main block's axis, so its `y` is a
+            # half-foot and `_element_boxes` floors a whole one off its depth. Its room declared
+            # 7 x 16 = 112 sf and the integer box held 105, which the coverage floor then asked
+            # for 108.6 of. The WIDTH takes no allowance: that is the gap between two masses, a
+            # real dimension of the house, and its origin is integral by construction.
+            hh = min(H, float(hyph[0].get("length_ft") or H)) + grid_allowance_ft()
             out.append({"id": bid + "-hyphen", "role": "hyphen", "x": round(hx, 2),
                         "y": round((fp["H"] - hh) / 2.0, 2), "W": round(gap, 2), "H": round(hh, 2),
                         "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
@@ -1739,6 +1790,39 @@ def multi_element_disclosure(plan):
                  "writes no block tag, so this record was authored by hand."),
     }
     _els = _elements().elements(plan)
+    # WP-11.13: PER-ELEMENT CAPACITY, on the record. `dependency_sizes` sized a non-main
+    # element's box to exactly its rooms' declared area and the proving model then rounded that
+    # box inward, so the box CP worked in was smaller than its own contents -- and the only
+    # surface that ever said so was an infeasibility whose core blamed the tiling. The box the
+    # MODEL uses is the one reported, through `elements.integer_box`, because the stated box was
+    # never the rectangle at issue.
+    # Membership is the GEOMETRIC join -- `elements.element_of`, the same one WP-11.9 uses --
+    # because `footprint.blocks` carries no room list. A room in NO element is left out of every
+    # element's members rather than assigned to element zero, which is that package's own rule:
+    # defaulting a room into the main block is the defect, not the fallback.
+    _members = {e.get("id"): {} for e in _els}
+    for _lv in plan.get("levels") or []:
+        if (_lv.get("index") or 0) != 0:
+            continue
+        for _r in _lv.get("rooms") or []:
+            _own = _elements().element_of(plan, _r, _els)
+            if not _own or _own.get("id") not in _members:
+                continue
+            _w, _l = _r.get("width_ft"), _r.get("length_ft")
+            _members[_own["id"]][_r["id"]] = (float(_w) * float(_l)) if (_w and _l) else None
+    _cap = _elements().capacity_report(_els, _members, ELEMENT_GRID_FT)
+    note["element_capacity"] = _cap
+    _short = [c["id"] for c in _cap
+              if c.get("fits_stated") is False or c.get("fits_on_the_proving_grid") is False]
+    _unj = [c["id"] for c in _cap if c.get("fits_stated") is None]
+    if _short:
+        note["elements_too_small_for_their_own_rooms"] = _short
+        note["note"] += (f" And {len(_short)} element(s) are sized smaller than the rooms they "
+                         "hold, so no placement of them can satisfy the coverage floor: "
+                         + ", ".join(_short) + ".")
+    if _unj:
+        # unjudged is not a fit
+        note["element_capacity_unjudged"] = _unj
     note["built_extent_width_ft"] = round(_elements().extent_width_ft(plan, _els), 2)
     note["union_bbox_ft"] = _elements().union_bbox(plan, _els)
     across = _elements().faces_across_a_gap(plan, _els)

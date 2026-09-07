@@ -57,6 +57,8 @@ TOL = 0.5   # ft. Rooms tile their element exactly; this absorbs the record's 2 
 
 # The roles `blocks_for` writes today. Named rather than matched loosely, so a role added
 # later has to be considered here rather than silently counted as a dependency.
+import math
+
 ROLES = ("main", "dependency", "hyphen")
 
 
@@ -111,6 +113,102 @@ def element_of(plan, room, els=None):
         if _contains(el, g):
             return el
     return None
+
+
+def integer_box(x, y, W, H, grid=1.0):
+    """An element's box rounded INWARD to a grid: `(x, y, W, H)` in grid units.
+
+    WP-11.13 moved this here from `geometry_cp._element_boxes`, which is still its only
+    solver-side caller, so that `geometry.multi_element_disclosure` can report the box the
+    PROVING MODEL actually works in rather than the one the record states. Those are not the
+    same rectangle and the difference is the whole of that package: a dependency's edges land
+    on 23.37 and its origin on a half-foot, so both roundings bite.
+
+    INWARD, never outward, and that is WP-11.11's ruling rather than a convenience: the model
+    is integer at this grid and a room proved inside a box that is a SUBSET of the stated mass
+    is really inside it. Rounding to the nearest instead let CP place a room half a foot
+    outside the mass the record states, which is the record and the drawing disagreeing about
+    where the house is.
+
+    A second transcription of this rule is what WP-11.13 found: the coverage floor computed the
+    same box with `int(round(...))` while containment used this one, so the model demanded 97%
+    of the larger be packed inside the smaller -- infeasible before any declared fact was read,
+    with a conflict core that blamed the tiling. One spelling, in the leaf both readers load.
+    """
+    ex, ey = math.ceil(x * grid), math.ceil(y * grid)
+    eW = max(1, math.floor((x + W) * grid) - ex)
+    eH = max(1, math.floor((y + H) * grid) - ey)
+    return ex, ey, eW, eH
+
+
+def capacity_report(els, members, grid=1.0):
+    """Per element: its box, its rooms' own declared area, and whether they fit.
+    `members` is `{element id: {room id: declared sf or None}}`.
+
+    WP-11.13. `geometry.dependency_sizes` sized a non-main element's box to EXACTLY its rooms'
+    declared area and `integer_box` above then rounds it inward, so the box the PROVING MODEL
+    works in was provably smaller than its own contents -- 1.016 needed on the hand-tagged
+    Tidewater's dependency and 1.067 on its hyphen, against a coverage floor of 0.97. It
+    surfaced only as a CP infeasibility whose conflict core talked about tiling, on a plan
+    nobody had tagged. It is on the record now, per element, for the reason every other count in
+    this file is: a number nobody publishes is a number nobody can check.
+
+    TWO BOXES, AND THE MAIN BLOCK HAS ONLY ONE OF THEM. `stated_*` is the mass the record
+    claims. `grid_*` is what the proving model rounds that to -- reported for a DEPENDENCY and a
+    HYPHEN, whose boxes `blocks_for` centres on a half-foot and never snaps, and deliberately
+    NOT for the main block, because `geometry_cp._snap_fpd` makes the footprint integral before
+    any element is built, so a grid figure computed from an unsnapped record describes a box CP
+    never uses. Reporting one anyway convicted the main block of not holding its own rooms on
+    every heuristic placement -- a first version of this function did exactly that.
+
+    UNJUDGED IS NOT A FIT, in the three ways this got wrong before it got right: an element the
+    caller lists no members for reports `fits: null`, NOT `true` on an empty sum (the placed
+    record's blocks carry no room list, so every element read `rooms: 0, fits: true`); an
+    element holding a room whose area nothing states reports `fits: null` and names it; and the
+    main block reports `fits_on_the_proving_grid: null` with the reason above.
+    """
+    out = []
+    for e in els or []:
+        eid, role = e.get("id"), e.get("role")
+        mem = members.get(eid)
+        stated_sf = e["W"] * e["H"]
+        row = {"id": eid, "role": role, "stated_box_sf": round(stated_sf, 1)}
+        snapped = (role == "main")
+        if snapped:
+            row["grid_box_sf"] = None
+            row["grid_unjudged_because"] = ("the proving engine snaps the footprint integral "
+                                            "before it builds elements, so the rounded box is "
+                                            "not one it ever works in")
+        else:
+            _x, _y, bW, bH = integer_box(e["x"], e["y"], e["W"], e["H"], grid)
+            row["grid_box_sf"] = round((bW / grid) * (bH / grid), 1)
+        if mem is None or not mem:
+            row.update({"rooms": (0 if mem == {} else None), "rooms_declared_sf": None,
+                        "fits_stated": None, "fits_on_the_proving_grid": None,
+                        "unjudged_because": ("no room stands in it" if mem == {}
+                                             else "no room membership was supplied")})
+            out.append(row)
+            continue
+        unread = sorted(rid for rid, sf in mem.items() if sf is None)
+        area = sum(sf for sf in mem.values() if sf is not None)
+        row["rooms"] = len(mem)
+        row["rooms_declared_sf"] = round(area, 1)
+        if unread:
+            row.update({"fits_stated": None, "fits_on_the_proving_grid": None,
+                        "area_not_stated_for": unread,
+                        "unjudged_because": "a room in it states no width_ft x length_ft"})
+            out.append(row)
+            continue
+        row["coverage_needed_stated"] = round(area / stated_sf, 3) if stated_sf else None
+        row["fits_stated"] = bool(stated_sf and area <= stated_sf)
+        gb = row.get("grid_box_sf")
+        if snapped or not gb:
+            row["fits_on_the_proving_grid"] = None
+        else:
+            row["coverage_needed_on_the_proving_grid"] = round(area / gb, 3)
+            row["fits_on_the_proving_grid"] = bool(area <= gb)
+        out.append(row)
+    return out
 
 
 def bounds_of(el):
