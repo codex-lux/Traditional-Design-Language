@@ -510,6 +510,56 @@ def drawn_layer(plan, rooms, level_of, C, F):
               room=e["room"], kind="room-not-placed", level=e["level"],
               fix="Place it, or say on the record why it takes no rectangle.")
 
+    # ---- CLEAR SPAN AGAINST THE FRAMING CAPACITY (WP-11.12, OQ 98's reporting half)
+    #
+    # `build/structure.py::span_check` has measured this since WP-3.1 and `geometry` has
+    # CHARGED it since WP-7.4, and this file had no span finding of any kind -- so a 60 ft
+    # unsupported joist run on the Tidewater upper floor reached no sheet, no critique and no
+    # `revision_report`. WP-11.8 took the corpus figure from 11 to 23 by ranking room shape
+    # above the score, and the only reason anyone saw that was two tests that happened to pin
+    # one plan; had they been written against any other, it would have been invisible.
+    #
+    # READ OFF THE RECORD, NOT RECOMPUTED -- and the first version of this comment said "this
+    # layer cannot load structure.py", which is FALSE and was caught by its own test: the
+    # elevation block at the foot of this file loads it, lazily and inside a try, and has since
+    # WP-3.2. The real reasons are better ones. These spans are the ones the SEARCH scored and
+    # `geometry.SPAN_W` charged, so a second computation here could convict a placement on
+    # numbers it was not chosen by; `span_check` is called from exactly one place in
+    # `build/geometry.py`; and the drawn layer's licence is to read the placement the record
+    # carries (OQ 54), which is what `geometry._disclose_spans` wrote.
+    #
+    # SERIOUS RATHER THAN FATAL, and the reason is the corpus's own words: `span_check`'s note
+    # says such a run "needs an intermediate bearing support or an engineered member outside
+    # this catalog". That is a floor that has to be framed differently, not a plan that cannot
+    # be walked -- and `fatal` in this layer means unreachable, a broken must-adjoin or a
+    # duplicate id. A defect one bearing wall answers is not the same kind of thing.
+    _sc = ((plan.get("geometry_report") or {}).get("span_capacity") or {})
+    _over = _sc.get("over_capacity")
+    if _over is None:
+        _add("info", "drawn",
+             "Clear span against framing capacity COULD NOT BE EVALUATED: the construction "
+             "catalogue was unreadable when this plan was placed, so no span was checked and "
+             "none is claimed clear.", kind="span-unjudged")
+    else:
+        out["spans_over_capacity"] = _over
+        for m in (_sc.get("marks") or []):
+            _add("serious", "drawn",
+                 f"A {m['span_ft']:g} ft clear span on level {m['level']} runs "
+                 f"{'east–west' if m['axis'] == 'x' else 'north–south'} from {m['from_ft']:g} to "
+                 f"{m['to_ft']:g} ft with no bearing line in it, against the "
+                 + (f"{m['max_span_ft']:g} ft this framing tradition states for a "
+                    f"{m['member']}. " if m.get("member") else
+                    # `span_check` returns member=None when NO member in the catalogue covers
+                    # the run, and its `max_span_ft` is then the largest one there is. That is
+                    # a different sentence, and interpolating the None was the first version.
+                    f"{m['max_span_ft']:g} ft of the largest member this catalogue holds — "
+                    f"none of them covers it. ")
+                 + (_sc.get("understated") or ""),
+                 kind="span-over-capacity", axis=m["axis"], level=m["level"],
+                 need_ft=m["max_span_ft"], have_ft=m["span_ft"],
+                 fix=("Put a bearing wall in the run — the placer only creates one by cutting "
+                      "on the line — or state a member that spans it."))
+
     # The envelope the rooms were placed in. Taken from the plan's own footprint where it
     # states one, and otherwise from the union of the placed rectangles — which IS the
     # envelope, because the slicer tiles the block exactly. Used only to say which boundary

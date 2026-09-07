@@ -361,6 +361,13 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // PLANNED' is one unbreakable word and the plate clips whatever does not fit
   const interpunct = interpunctTitle(title);
   const relax = placement?.geometry_report?.relaxations;
+  /* WP-11.12 (OQ 98's reporting half). build/structure.py has measured the clear span since
+     WP-3.1 and the search has CHARGED it since WP-7.4, and no plate had ever printed it -- the
+     Tidewater upper floor is drawn with a 60 ft run and no bearing line in it. The count is a
+     FLOOR and the sentence says so: `span_check` credits a bearing wall across the whole plate
+     however short it runs, which is that question's unruled measurement half.
+     build/render_plan.py prints the same two states in its margin schedule. */
+  const spanCap = placement?.geometry_report?.span_capacity;
   const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H);
   /* WHICH ENGINE PLACED THIS, on the PLATE (WP-6.4). WP-6.3 put the disclosure in the page
      prose beside the drawing, which is the one place it cannot travel: a plate that is
@@ -833,6 +840,15 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             : ''}
           {rxMarks.unlocated.length
             ? `${rxMarks.unlocated.length} cut(s) the solver located on no wall of this level \u2014 counted, not drawn. `
+            : ''}
+          {spanCap && spanCap.over_capacity == null
+            ? 'Clear span not evaluated \u2014 the construction catalogue could not be read; no span is claimed clear. '
+            : ''}
+          {spanCap && spanCap.over_capacity
+            ? `${spanCap.over_capacity} clear span(s) over the framing capacity, worst ${spanCap.worst_span_ft} ft \u2014 at least that many: a bearing line is credited across the whole plate however short the wall runs. `
+            : ''}
+          {spanCap && spanCap.over_capacity === 0
+            ? '0 clear span(s) over the framing capacity \u2014 at least none found: a bearing line is credited across the whole plate however short the wall runs. '
             : ''}
           {drs.undrawable.length
             ? `${drs.undrawable.length} declared door(s) without a drawable opening — in the record, not the linework: `

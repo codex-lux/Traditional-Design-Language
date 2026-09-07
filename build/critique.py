@@ -240,7 +240,9 @@ def _is_placement(plan, f):
     is the engine's and the proving engine's is the record's, because a proof that could not
     seat a declared door has shown the declaration cannot be built as written -- and then
     the door move or the conflict set is the answer. Whether that reading is right for every
-    kind is `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds`."""
+    kind is `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds` -- which
+    WP-11.12 made a SIXTH kind, `span-over-capacity`, and it is the first one the record
+    declares nothing about at all. See the comment on it below."""
     if f["layer"] != "drawn":
         return False
     k = f.get("kind")
@@ -262,6 +264,22 @@ def _is_placement(plan, f):
     if k == "room-not-placed":
         # The placer's own two-level ceiling, which is neither engine's judgment of this record.
         return False
+    if k == "span-over-capacity":
+        # WP-11.12, AND IT STRETCHES THIS FUNCTION'S OWN DEFINITION, which is said here rather
+        # than left for a reader to notice. Every other kind above is decided against something
+        # the record DECLARES -- a door, a stack, a size, a passage width. A plan record states
+        # no wall positions at all, so there is nothing declared for a clear span to disagree
+        # with. It is classed `placement` on the other half of the definition: an engine setting
+        # really does change it, and demonstrably -- WP-11.8 took the corpus figure from 11 to
+        # 23 by changing what the search ranks first (deterministic, `engine="heuristic"`; the
+        # pair that package published was an unlabelled `auto` reading and its BEFORE was 13),
+        # and both engines already CHARGE the span
+        # (`geometry.SPAN_W`, and CP's soft mirror). Under CP-SAT `_lever` then says there is no
+        # setting left, which is the honest answer: the record declares nothing here, so a
+        # proved placement's spans are what the brief yields.
+        # `oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds` is where this
+        # reading belongs, and it is recorded there as the sixth kind.
+        return True
     if k == "stack-broken":
         return engine != "cp-sat"
     if k == "stair-not-drawn":

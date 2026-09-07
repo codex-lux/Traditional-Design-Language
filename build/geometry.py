@@ -956,9 +956,12 @@ def multi_level_disclosure(plan):
 SPAN_W = 20.0
 
 
-def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog, elements=None):
-    """Over-capacity clear spans, charged, using structure.py's own check rather than a
-    restatement of it.
+def over_capacity_spans(rects_by_level, prep, W, H, bay, style, floor_catalog, elements=None):
+    """Over-capacity clear spans, using structure.py's own check rather than a restatement.
+
+    Returns the span records themselves -- `{axis, from_ft, to_ft, span_ft, member,
+    max_span_ft, note, level}` -- because WP-11.12 puts them on the record so the critic can
+    name each one. `_span_charge` below sums this; nothing recomputes it.
 
     Deliberately NOT re-spelled here. There are already two `wall_lines` in this tree
     (this file's, over raw rects, and structure's, over placed room records) and the
@@ -967,17 +970,12 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog, elements
     if floor_catalog is None:
         # the catalogue could not be read: the span cannot be evaluated, so it is not scored
         # and not reported as clear either. A zero here would read as "no span exceeds
-        # capacity", which is the OQ 52 lie in the cheapest possible place.
-        return 0.0, None
-    ST = _mod("structure", f"{ROOT}/build/structure.py")
-    charge, over = 0.0, 0
+        # capacity", which is the OQ 52 lie in the cheapest possible place. `_span_charge`
+        # turns this empty list back into the None the record carries.
+        return []
+    rooms_by_level = {}
     for idx, rects in rects_by_level.items():
         if not rects: continue
-        # WP-11.9: this level's own elements, or None for one rectangle. Keyed by LEVEL and not
-        # taken plan-wide, because the placer lays every upper room into the main block (that is
-        # `multi_level`'s own disclosure) -- handing level 1 a dependency envelope with no rooms
-        # inside it would manufacture exactly the phantom span this package removes.
-        _els = (elements or {}).get(idx)
         rs = []
         for r in prep.get(idx, []):
             v = rects.get(r["id"])
@@ -989,7 +987,31 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog, elements
             if isinstance(vd, dict):
                 g["void"] = {"heated": False, "roofed": bool(vd.get("roofed"))}
             rs.append({"id": r["id"], "geometry": g})
+        if rs:
+            rooms_by_level[idx] = rs
+    return spans_over_capacity(rooms_by_level, W, H, bay, style, floor_catalog,
+                               elements=elements)
+
+
+def spans_over_capacity(rooms_by_level, W, H, bay, style, floor_catalog, elements=None):
+    """The same check over PLACED ROOM RECORDS, which is the shape a solved plan already has.
+
+    Two callers with two shapes and ONE arithmetic: the search holds rectangles and a prep
+    list, and a finished record holds rooms with a `geometry` block. `over_capacity_spans`
+    above converts the first into the second and this does the work. A second loop over the
+    same `span_check` results is exactly the third-spelling defect this file refuses.
+    """
+    if floor_catalog is None:
+        return []
+    ST = _mod("structure", f"{ROOT}/build/structure.py")
+    out = []
+    for idx, rs in rooms_by_level.items():
         if not rs: continue
+        # WP-11.9: this level's own elements, or None for one rectangle. Keyed by LEVEL and not
+        # taken plan-wide, because the placer lays every upper room into the main block (that is
+        # `multi_level`'s own disclosure) -- handing level 1 a dependency envelope with no rooms
+        # inside it would manufacture exactly the phantom span that package removes.
+        _els = (elements or {}).get(idx)
         # WP-11.9, ruling 1: the envelope is per ELEMENT. Without this a dependency's
         # partitions became bearing lines out beyond the main block and `span_check`
         # manufactured a clear span across the hyphen gap between two buildings, while the
@@ -999,9 +1021,26 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog, elements
         bearing = ST.bearing_lines(ST.wall_lines(rs, W, H, elements=_els), bay)
         for sp in ST.span_check(bearing, W, H, style, floor_catalog):
             if sp["ok"] or not sp.get("max_span_ft"): continue
-            over += 1
-            charge += SPAN_W * (sp["span_ft"] / sp["max_span_ft"])
-    return charge, over
+            out.append(dict(sp, level=idx))
+    return out
+
+
+def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog, elements=None):
+    """The charge and the count, summed from `over_capacity_spans` rather than recomputed.
+
+    WP-11.12 split the list out of this function so a record writer can name the spans
+    individually -- `plan_check` had no span finding of any kind, so an over-capacity run
+    reached no sheet, no critique and no revision report (OQ 98's reporting half). The
+    arithmetic is unchanged and this is deliberately the ONLY summing of it; the alternative
+    was a second loop over the same `span_check` results, which is the third-spelling defect
+    this file's own `_span_charge` docstring exists to refuse.
+    """
+    if floor_catalog is None:
+        return 0.0, None
+    spans = over_capacity_spans(rects_by_level, prep, W, H, bay, style, floor_catalog,
+                                elements=elements)
+    charge = sum(SPAN_W * (sp["span_ft"] / sp["max_span_ft"]) for sp in spans)
+    return charge, len(spans)
 
 
 def vertical_score(g, u, groundrooms, upperrooms, plan):
@@ -2277,6 +2316,65 @@ def _disclose(plan):
     _me = multi_element_disclosure(plan)
     if _me:
         rep["multi_element"] = _me
+    _disclose_spans(plan)
+
+
+def _disclose_spans(plan):
+    """Name each over-capacity clear span on the record (WP-11.12, OQ 98's reporting half).
+
+    `geometry_report.span_capacity` has carried a COUNT and a CHARGE since WP-7.4 and nothing
+    else, and `plan_check` has never had a span finding of any kind -- so a 60 ft unsupported
+    joist run reached no sheet, no critique and no `revision_report`, and the corpus's own
+    measurement of it lived in one report. WP-11.8 moved the corpus figure from 11 to 23 by
+    ranking room shape above the score, and the only reason anyone saw that was two tests in
+    `tests/test_structure.py` that happened to pin one plan.
+
+    `marks` is the key name `relaxations` already uses one block above, and for the identical
+    reason stated there: *counted AND locatable*. `plan_check.drawn` reads these rather than
+    recomputing them -- it may not load `structure.py` (that file loads this one) and the drawn
+    layer's rule is that it reads the placement off the record.
+
+    In `_disclose`, so BOTH record writers carry it. OQ 40's own disclosure shipped in
+    `write_record` alone for two phases, which is the defect that convention exists to stop.
+    """
+    rep = plan.get("geometry_report") or {}
+    row = rep.get("span_capacity")
+    # A COUNT OF ZERO IS WRITTEN TOO, and that is not tidiness. The understatement note below
+    # matters MOST on a plan reported clear: "no span exceeds capacity" is precisely the claim
+    # a bearing line credited across the whole plate can make falsely. `relaxations` one block
+    # above prints its own zero for the same reason.
+    if not isinstance(row, dict) or row.get("over_capacity") is None:
+        return
+    fp = plan.get("footprint") or {}
+    W, H = fp.get("width_ft"), fp.get("depth_ft")
+    if not W or not H:
+        return
+    try:
+        floor = _mod("structure", f"{ROOT}/build/structure.py").load_construction()["floor"]
+    except Exception:
+        return
+    rooms_by_level = {}
+    for i, lv in enumerate(plan.get("levels") or []):
+        idx = lv.get("index", i)
+        rs = [r for r in (lv.get("rooms") or []) if r.get("geometry")]
+        if rs:
+            rooms_by_level[idx] = rs
+    _els = _elements().elements(plan)
+    els = ({idx: [(e["x"], e["y"], e["W"], e["H"]) for e in _els]
+            for idx in rooms_by_level} if len(_els) > 1 else None)
+    marks = spans_over_capacity(rooms_by_level, W, H, fp.get("bay_module_ft") or 10.0,
+                                plan.get("style"), floor, elements=els)
+    row["marks"] = marks
+    row["worst_span_ft"] = max((m["span_ft"] for m in marks), default=0.0)
+    # THE FIGURE IS A FLOOR AND NOT A CEILING, AND THE RECORD SAYS SO. `structure.span_check`
+    # credits a bearing wall across the whole plate however short it actually runs -- it reads
+    # each wall's `position_ft` and never the `lo_ft`/`hi_ft` extent `wall_lines` computes
+    # beside it. That is OQ 98's measurement half, unruled, and it under-reports in the
+    # direction that looks safe. Publishing this count without saying so would be the OQ 52
+    # family in a new place.
+    row["understated"] = ("A bearing line is credited across the whole plate however short the "
+                          "wall actually runs (OQ 98), so this count is a floor and not a "
+                          "ceiling.")
 
 
 def _disclose_at_grade(plan):

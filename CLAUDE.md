@@ -179,8 +179,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,710 tests**
-(plus the workbench app suite, **81** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,720 tests**
+(plus the workbench app suite, **82** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -337,7 +337,7 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
-**Phase 11 — the drawn sheet — is COMPLETE through WP-11.11 (7 Sep 2026).** The A line (the
+**Phase 11 — the drawn sheet — is COMPLETE through WP-11.12 (7 Sep 2026).** The A line (the
 drawing) is finished: WP-11.1 and WP-11.2 put the sheet in Graphic Standard No. 1 with the wall
 as a body, WP-11.3 the furniture, WP-11.4 the threshold and the stacks, WP-11.5 the embedded
 face. **The B line — the placement — is WP-11.6 through WP-11.9.** WP-11.6 is a record edit that
@@ -348,8 +348,9 @@ key of the SEARCH's candidate acceptance, in both directions; **WP-11.9** taught
 below the placer about massing elements, on four rulings, with the whole shipped corpus
 byte-identical; **WP-11.10** placed the terrace at grade; **WP-11.11** taught the PROVER about
 massing elements and closed
-`oq/the-proving-engine-cannot-place-a-second-massing-element`. Reports:
-`docs/reports/wp-11.{6,7,8,9,10,11}-*.md`. **This heading said WP-11.10 "is gated on
+`oq/the-proving-engine-cannot-place-a-second-massing-element`; **WP-11.12** gave the critic a span
+finding, which is OQ 98's reporting half. Reports:
+`docs/reports/wp-11.{6,7,8,9,10,11,12}-*.md`. **This heading said WP-11.10 "is gated on
 `oq/the-proving-engine-cannot-place-a-second-massing-element`" and it was not** — that gate
 applied only to reading a terrace as a third massing ROLE, and the CP refusal keys on the room's
 `block` TAG, which an appendage does not write. The question is still open and still gates the
@@ -466,6 +467,57 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 `build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
+
+- **THE SEARCH CHARGED A SPAN FOR TWO PHASES AND THE CRITIC HAD NO FINDING FOR IT (WP-11.12).**
+  `structure.span_check` has measured the clear span between bearing lines since WP-3.1 and
+  `geometry` has CHARGED it since WP-7.4 (`SPAN_W = 20`, mirrored soft in CP) — and `plan_check`
+  emitted nothing, so a **60 ft clear run with no bearing line in it** on the Tidewater upper
+  floor, against the 20 ft its framing tradition states, got a clean verdict from the validator
+  the bench shows, the fidelity score the composer ranks on, the critique and every
+  `revision_report`. A quantity a SCORE knows about and a CHECKER does not is invisible in
+  exactly the surfaces a person reads. **The finding READS `geometry_report.span_capacity.marks`
+  and does not recompute**: these are the spans `SPAN_W` charged, and a second computation could
+  convict a placement on numbers it was not chosen by. *Serious rather than fatal* on the
+  corpus's own words — `span_check`'s note asks for an intermediate support or an engineered
+  member, which is a floor framed differently, not a plan that cannot be walked. Corpus serious
+  **685 → 708**, exactly the 23 spans over 13 plans; placement and openings byte-identical.
+- **EVERY SPAN COUNT IN THIS CORPUS IS A FLOOR, AND THE COUNT SAYS SO IN FOUR PLACES (WP-11.12).**
+  `span_check` reads each wall's `position_ft` and never the `lo_ft`/`hi_ft` extent `wall_lines`
+  computes beside it, so a bearing line is credited across the whole plate however short the wall
+  runs — the Tidewater upper y-wall at 30.0 runs **20 of the 60 ft** it is credited across. That
+  is OQ 98's measurement half, HALF CLOSED and still wanting the ruling it asks for. Publishing
+  the reporting half without the caveat would be the OQ 52 family in a new place, so
+  `span_capacity.understated` is on the record, inside every finding's own statement, and on both
+  plates. **And both plates print the ZERO too**, because *"no span exceeds capacity"* is exactly
+  the claim the understatement can make falsely.
+- **A `placement` CLASS THAT STRETCHES ITS OWN DEFINITION, SAID IN THE CODE (WP-11.12).**
+  `critique._is_placement`'s other five kinds are each decided against something the record
+  DECLARES — a door, a stack, a size, a passage width. **A plan record states no wall positions
+  at all**, so a clear span has nothing declared to disagree with; it is classed on the other
+  half of the definition, that an engine setting really does change it (WP-11.8 roughly doubled
+  the count by making rooms squarer, because the only way this slicer creates a bearing line is
+  to cut on one), and under CP-SAT `_lever` then honestly says there is no setting left. No move
+  answers a span: a move edits the record and cannot ask for a cut.
+- **AN UNLABELLED `auto` FIGURE COSTS TWO NUMBERS AND SITS BESIDE A THIRD THAT IS RIGHT
+  (WP-11.12).** WP-11.8 published *"over-capacity clear spans 13 → 25 and the worst 40.0 →
+  60.0 ft"*. Re-derived on `git archive` checkouts of the commit before it and of it, the
+  deterministic pair is **11 → 23** and the worst-span pair was right; `auto` gives 28 on one run
+  of the current tree. This file's own standing rule is RATCHET THE DETERMINISTIC FIGURES ONLY,
+  and the correction is written beside the original with the engines named rather than into
+  WP-11.8's report, which is left as written.
+- **A CALL-SITE COUNT THAT READS TEXT COUNTS DOCSTRINGS (WP-11.12).** The guard holding
+  `span_check` to one call site in the tree — the point of the one-arithmetic-two-adapters split
+  — first counted the string and found three, two of them PROSE in `render_section.py`'s
+  docstrings describing what the function does. It walks the AST for real `Call` nodes now. The
+  same class as *"a guard that reads a selector rather than a property"*, one layer down: read
+  the structure, not the characters.
+- **AN ASSERTION CAN STATE A FALSE REASON AND STILL PASS, AND ITS OWN FIRST RUN CAUGHT THIS ONE
+  (WP-11.12).** A new test said `plan_check` cannot load `structure.py`; it can and does, lazily
+  and inside a try, in the elevation block at the foot of the file, and has since WP-3.2 — and
+  the comment in `plan_check` said the same. The reasons the finding reads the record are that
+  there is one spelling of the arithmetic and that these are the spans the search was chosen by;
+  both are better than the false one. **A test that passes for a reason that is not true teaches
+  the next reader the untrue thing.**
 
 - **THE PROVER PLACES A SECOND MASSING ELEMENT NOW, AND THE GUARANTEE IS THE MODEL RATHER THAN
   THE PLACEMENT (WP-11.11).** `geometry_cp` built every room as `x = NewIntVar(0, Wi)` and
@@ -700,7 +752,12 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   the BASELINE as well as the intermediate. The intermediate is kept in the code comment because
   it is a correct measurement of a wrong key, and anyone deleting the area half reproduces it.
 - **AND THE SAME GEOMETRY HAS A STRUCTURAL PRICE NO CRITIC LAYER REPORTS (WP-11.8).**
-  Over-capacity clear spans **13 → 25 and the worst 40.0 → 60.0 ft**; relaxations 64 → 86. A
+  Over-capacity clear spans **11 → 23 and the worst 40.0 → 60.0 ft**; relaxations 64 → 86.
+  (**The pair published at the time was "13 → 25" and it was an unlabelled `auto` reading.**
+  Re-derived by WP-11.12 on `git archive` checkouts of the commit before WP-11.8 and of WP-11.8
+  itself, `engine="heuristic"`, the deterministic pair is 11 → 23; `auto` gave 28 on one run.
+  The worst-span pair is right. This file's own rule is RATCHET THE DETERMINISTIC FIGURES ONLY,
+  and this is what an unlabelled one costs.) A
   squarer room puts fewer cuts on the bay module, and **the only way this slicer creates a bearing
   line is to cut on it** — which is WP-7.4's own mechanism running backwards (its span term pulled
   cuts ONTO the grid and took relaxations 9 → 7). The 20 ft capacity and `bearing_lines`' 0.75 ft
@@ -2319,7 +2376,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
   run `build/gen_open_questions.py`. It holds **144 entries, of which 60 are open**
   (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-coverage-floor-is-an-exact-cover-per-element, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
-  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
+  The tally counts the three HALF CLOSED entries (18, 68, 98) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
   which reads `build/check_ids.py`'s own reader rather than re-parsing anything -- the
@@ -2341,7 +2398,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   id an add/add conflict git REFUSES instead of a text conflict it merges by juxtaposition; the
   slug makes the id underivable from the working tree in the first place. The fifth collision --
   two different WP-8.1s and two different OQ 99s, 28 Aug -- landed between them.
-  The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed question
+  The tally counts the three HALF CLOSED entries (18, 68, 98) as open, because a half-closed question
   is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
   which reads `build/check_ids.py`'s own reader rather than re-parsing anything — the status

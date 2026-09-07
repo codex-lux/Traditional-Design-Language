@@ -60,7 +60,7 @@ Awaiting a ruling. This is the list to read first.
 | **93** | OPEN | [every door is hinged `low` and no rule decides the hand](open-questions/093-every-door-hinged-low-rule-decides-hand.md) |
 | **94** | OPEN | [the reference plan cannot satisfy its own style's hard constraint, and only a person can say who fixes it](open-questions/094-reference-plan-cannot-satisfy-own-style-s-hard.md) |
 | **96** | OPEN | [`_shared`'s first-match-wins ordering can report a corner kiss as a shared edge](open-questions/096-shared-s-first-match-wins-ordering-report-corner-kiss-sha.md) |
-| **98** | OPEN | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
+| **98** | HALF CLOSED — the reporting half built in WP-11.12 (7 September 2026); the measurement half is open and wants a ruling | [`span_check` credits a bearing wall across the whole floor plate however short it is, and the validator never mentions span capacity at all](open-questions/098-span-check-credits-bearing-wall-across-whole-floor-plate.md) |
 | **oq/a-baked-pack-value-is-a-second-delivery-path** | OPEN | [a scope on a rule cannot reach the copy of it in a kit](open-questions/oq-a-baked-pack-value-is-a-second-delivery-path.md) |
 | **oq/a-child-band-replaces-an-ancestor-derivation** | OPEN | [224 figures where a band stands over an expression](open-questions/oq-a-child-band-replaces-an-ancestor-derivation.md) |
 | **oq/a-daily-route-is-an-editorial-model** | OPEN | [four fault tests ask who walks where, and a door graph cannot answer](open-questions/oq-a-daily-route-is-an-editorial-model.md) |

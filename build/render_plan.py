@@ -560,6 +560,26 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             schedule.append((L["brick"], f'INFEASIBLE AS DECLARED — {len(inf.get("conflicts", []))} '
                              f'CONFLICT(S) PROVEN; THIS DRAWING IS THE LEAST-BAD RELAXATION '
                              f'(SEE GEOMETRY_REPORT.INFEASIBLE)'))
+        # WP-11.12 (OQ 98's reporting half). `structure.py` has measured the clear span since
+        # WP-3.1 and the search has CHARGED it since WP-7.4, and no plate had ever printed it:
+        # the Tidewater upper floor is drawn with a 60 ft run and no bearing line in it. The
+        # count is a FLOOR and the line says so, because `span_check` credits a bearing wall
+        # across the whole plate however short it runs (OQ 98's measurement half, unruled).
+        _sp = gr.get("span_capacity") or {}
+        if _sp.get("over_capacity") is None:
+            schedule.append((L["salmon_deep"], "CLEAR SPAN NOT EVALUATED — THE CONSTRUCTION "
+                             "CATALOGUE COULD NOT BE READ; NO SPAN IS CLAIMED CLEAR"))
+        elif _sp.get("over_capacity"):
+            schedule.append((L["brick"], f'{_sp["over_capacity"]} CLEAR SPAN(S) OVER THE FRAMING '
+                             f'CAPACITY, WORST {_sp.get("worst_span_ft", 0):g} FT — AT LEAST '
+                             f'THAT MANY: A BEARING LINE IS CREDITED ACROSS THE WHOLE PLATE '
+                             f'HOWEVER SHORT THE WALL RUNS'))
+        elif _sp:
+            # the zero is printed, and with the same caveat, because "no span exceeds capacity"
+            # is exactly the claim the credited-across-the-plate reading can make falsely
+            schedule.append((L["green_deep"], "0 CLEAR SPAN(S) OVER THE FRAMING CAPACITY — "
+                             "AT LEAST NONE FOUND: A BEARING LINE IS CREDITED ACROSS THE WHOLE "
+                             "PLATE HOWEVER SHORT THE WALL RUNS"))
     if all_undrawable:
         names = ", ".join(f'{u["from"]}–{u["to"]}' for u in all_undrawable[:6])
         more = f" (+{len(all_undrawable)-6} MORE)" if len(all_undrawable) > 6 else ""

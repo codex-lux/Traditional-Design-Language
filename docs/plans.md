@@ -66,6 +66,18 @@ It exists because the split it crosses was hiding real defects. OQ 54 ruled in A
 - **Passage clear width** against `rooms/centre-passage.json`'s own two right answers and the dead zone between them.
 - **Wet-room fixtures** that will not fit together on real walls, from `room.fixture_layout`.
 
+**Clear span against the framing capacity (WP-11.12).** `build/structure.py::span_check` has
+measured the clear run between bearing lines since WP-3.1 and the search has CHARGED it since
+WP-7.4, and this file had **no span finding of any kind** — so the Tidewater upper floor, drawn
+with a 60 ft run and no bearing line in it, got a clean verdict on every surface a person reads
+(OQ 98's reporting half). The drawn layer reads `geometry_report.span_capacity.marks` off the
+record rather than recomputing: those are the spans the search scored and `geometry.SPAN_W`
+charged, and a second computation here could convict a placement on numbers it was not chosen
+by. One `serious` finding per over-capacity run, with `need_ft`/`have_ft` beside the prose;
+`info` where the construction catalogue could not be read, which is a third state and not a
+pass. **Every count says it is a floor**: `span_check` credits a bearing wall across the whole
+plate however short it actually runs, which is OQ 98's measurement half and is unruled.
+
 ## Absence is not failure
 
 A plan record that does not model closets is coarse, not wrong. Those findings go to a separate `completeness` layer at `minor`; `--strict` promotes them. Getting this wrong buried the findings that mattered under sixty that did not.

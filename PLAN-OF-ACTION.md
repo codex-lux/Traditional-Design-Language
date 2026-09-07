@@ -1749,6 +1749,51 @@ term — not stepped around.
   Report: `docs/reports/wp-11.11-the-prover-learns-the-massing.md` · new question:
   `oq/the-coverage-floor-is-an-exact-cover-per-element`.
 
+- **WP-11.12 — the span nobody was told about. Status: COMPLETE (7 Sep 2026).** OQ 98's
+  REPORTING half, and the half that needed no ruling. `structure.span_check` has measured the
+  clear span between bearing lines since WP-3.1 and `geometry` has CHARGED it since WP-7.4
+  (`SPAN_W = 20`, mirrored soft in CP) — **and `plan_check` had no span or capacity finding of
+  any kind**, so the Tidewater upper floor's **60 ft clear run with no bearing line in it**,
+  against the 20 ft its framing tradition states, got a clean verdict from the validator the
+  bench shows, the fidelity score the composer ranks on, the critique and every
+  `revision_report`. `geometry._disclose_spans` writes `geometry_report.span_capacity.marks`
+  — `{axis, from_ft, to_ft, span_ft, member, max_span_ft, note, level}` per run, `relaxations`'
+  own *counted AND locatable* shape — from `_disclose`, so **both** record writers carry it
+  (OQ 40's disclosure shipped in `write_record` alone for two phases). **One arithmetic, two
+  adapters**: `over_capacity_spans` (rectangles, what the search holds) converts into
+  `spans_over_capacity` (placed records, what a finished plan holds) and `_span_charge` sums the
+  first; `span_check` is called from exactly one place and an `ast`-reading test holds it there
+  — the first version of that test counted two docstring mentions in `render_section.py` as
+  calls. `plan_check.drawn` emits one `serious` per mark with `need_ft`/`have_ft`/`axis`/`level`
+  and an `info` `span-unjudged` where the catalogue could not be read, and **reads the record
+  rather than recomputing**, because these are the spans `SPAN_W` charged and a second
+  computation could convict a placement on numbers it was not chosen by. *Serious rather than
+  fatal* on the corpus's own words — `span_check`'s note asks for an intermediate support or an
+  engineered member, which is a floor framed differently, not a plan that cannot be walked.
+  Both plates print the count **and the zero**, because *"no span exceeds capacity"* is exactly
+  the claim the understatement can make falsely. **Every count is a floor and says so**
+  (`span_capacity.understated`, in each finding's own statement and on both plates): the
+  measurement half of OQ 98 is that a bearing line is credited across the whole plate however
+  short the wall runs — the Tidewater upper y-wall runs 20 of the 60 ft it is credited across —
+  which under-reports in the direction that looks safe. Measured, `heuristic`, sixteen plans:
+  **serious 685 → 708**, exactly the 23 spans on 13 plans, worst **60.0 ft**; fatal, minor, info
+  and advisory unchanged; placement `151126d0269bbc61` and openings `770a886c7387f3ab`
+  unchanged; solve 0.385 → 0.366 s. **`critique` classes it `placement` and the code says that
+  stretches the definition** — every other kind there is decided against something the record
+  DECLARES and a plan record states no wall positions at all, so it is classed on the other half
+  (an engine setting really does change it), and under CP-SAT `_lever` then says there is none
+  left. **WP-11.8's published pair `13 → 25` was an unlabelled `auto` reading**: re-derived on
+  `git archive` checkouts, the deterministic pair is **11 → 23** and the worst-span pair
+  `40.0 → 60.0` was right; `auto` gives 28 and is not reproducible. Corrected in CLAUDE.md
+  beside the original, with the engines named, rather than in WP-11.8's report, which is left as
+  written. **One of the ten mutations did not bite on the first pass** and it was the familiar
+  shape — `member: None`, where no catalogue member covers the run, a branch no plan in this
+  corpus takes and whose prose interpolated the None; it has a fixture, not a deletion. **And
+  one new assertion stated a false reason and its own first run caught it**: it said `plan_check`
+  cannot load `structure.py`, which it can and does, lazily inside a try, in the elevation block,
+  since WP-3.2 — the comment in `plan_check` said the same. No new checker; `TOTAL_CHECKS` does
+  not move. Report: `docs/reports/wp-11.12-the-span-nobody-was-told-about.md`.
+
 ## 6. Parallelisation map
 
 ```
