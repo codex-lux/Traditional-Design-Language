@@ -82,6 +82,19 @@
     "depth_multiplier": 1.8,
     "sides_lit": 1,
     "orientation": "West and south porches are the ones people use, because the porch is an evening room; a north porch is a wet cold slab from November to April and an east porch is empty after ten in the morning. In the Deep South the calculation inverts and the south-west porch is a shading device first.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "W",
+        "S"
+      ],
+      "avoid": [
+        "N"
+      ],
+      "basis": "West and south porches are the ones people use",
+      "judgment": true
+    },
     "note": "THE PORCH TAX. This is the one entry in this catalogue where the depth_multiplier describes what the room does to its NEIGHBOUR. An 8 ft porch under a low eave drops the daylight multiplier of the room behind it from 2.25 to about 1.8 - a fifth of its usable depth. On a 9 ft storey with a 7 ft head that is 15 ft 9 in of daylit depth without the porch and 12 ft 7 in with it: three feet two inches of room, gone, and gone from the front room, which is the one that mattered. The historic answer was not to shorten the porch but to raise the storey until the head cleared the porch ceiling, which is why porched vernacular houses in the same region have taller ceilings than unporched ones and why lowering a porched house's ceiling is a mistake felt long before it is understood. The modern answer - recessed cans in the room behind - lights the room and does not restore the view out, which is the thing that was actually lost."
   },
   "adjacency": {

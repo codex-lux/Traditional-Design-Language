@@ -330,6 +330,14 @@ class TestTheRoofIsOnTheSheet:
     Nothing caught it because every roof test asked the RECORD for the ridge height, and the
     record had it right. Only the profile was wrong, and only the drawing consumed the profile."""
 
+    # `section=`, NOT POSITIONAL, and the keyword is the whole of a defect WP-11.2 exposed.
+    # `build_roof(plan, parti=None, section=None)` binds a positional second argument to
+    # PARTI, so `build_roof(plan, st.build_section(plan))` handed the section in as the parti
+    # and build_roof then derived a SECOND section of its own from it. Two buildings, one
+    # test -- WP-6.4's finding inside a test written after it. It was invisible for as long as
+    # nothing in a parti reached the footprint: both sections came out identical. WP-11.2 made
+    # the parti's bay module reach `derive_footprint`, and the roof was then built over a
+    # 70.0 x 34.4 ft house while the assertions read the footprint of a 63.0 x 38.2 one.
     def _profiles(self):
         rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
         st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
@@ -339,7 +347,7 @@ class TestTheRoofIsOnTheSheet:
 
     def test_a_side_gable_front_reaches_the_ridge(self):
         rf, st, plan = self._profiles()
-        roof = rf.build_roof(plan, st.build_section(plan))
+        roof = rf.build_roof(plan, section=st.build_section(plan))
         ridge_ft = max(h for _, h in roof["elevation_profiles"]["E"])   # the gable end knows it
         front = roof["elevation_profiles"]["S"]
         assert max(h for _, h in front) == pytest.approx(ridge_ft, abs=0.01), (
@@ -356,7 +364,7 @@ class TestTheRoofIsOnTheSheet:
         rf, st, plan = self._profiles()
         hip = copy.deepcopy(plan)
         hip["declared"]["roof_form"] = "hip"
-        roof = rf.build_roof(hip, st.build_section(hip))
+        roof = rf.build_roof(hip, section=st.build_section(hip))
         front = roof["elevation_profiles"]["S"]
         top = max(h for _, h in front)
         at_ridge = [x for x, h in front if abs(h - top) < 1e-6]
@@ -367,7 +375,7 @@ class TestTheRoofIsOnTheSheet:
 
     def test_the_gable_end_is_still_a_triangle(self):
         rf, st, plan = self._profiles()
-        roof = rf.build_roof(plan, st.build_section(plan))
+        roof = rf.build_roof(plan, section=st.build_section(plan))
         end = roof["elevation_profiles"]["E"]
         top = max(h for _, h in end)
         assert len([x for x, h in end if abs(h - top) < 1e-6]) == 1, "a gable end peaks at a point"
@@ -492,7 +500,22 @@ class TestNoOpeningIsDrawnWhereAStackStands:
         for f in ("E", "W"):
             kinds = rec["faces"][f]["kinds"]
             assert kinds == ["window", "blind", "window"], f"{f}: {kinds}"
-            assert rec["faces"][f]["blind_bay_centres_ft"] == [21.33]
+            # 20.375, moved from 21.33 by WP-11.2: the stack stands on the gable end's own
+            # centre line, and that depth moved when the plan began taking its parti's bay
+            # module (40.75 ft outside, from 42.66). The NUMBER is not the subject here --
+            # the subject is that the blind bay's centre and the stack's axis are still ONE
+            # number, which is what OQ 85 closed. So this reads the roof's own stack axis
+            # rather than a literal, and cannot go stale again with the footprint.
+            rf = modcache.load("roof", os.path.join(ROOT, "build", "roof.py"))
+            st = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
+            import json as _j2
+            _plan = _j2.load(open(os.path.join(ROOT, "plans",
+                                               "tidewater-georgian-careful.json")))
+            _roof = rf.build_roof(_plan, section=st.build_section(_plan))
+            axes = sorted({round(c["y_ft"], 3) for c in _roof["chimneys"]["positions"]
+                           if c.get("y_ft") is not None})
+            assert axes, "the fixture is blind: this roof places no stack with an axis"
+            assert rec["faces"][f]["blind_bay_centres_ft"] == [pytest.approx(axes[0], abs=0.01)]
             assert rec["faces"][f].get("blind_bay_reason")
 
     def test_the_long_faces_lose_nothing(self):

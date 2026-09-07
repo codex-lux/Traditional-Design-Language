@@ -490,9 +490,6 @@ def _plan(body):
     return plan
 
 
-_PLAN_VALIDATOR = []
-
-
 def _plan_validator():
     """The COMPILED plan validator, built once. `None` where jsonschema is absent.
 
@@ -506,17 +503,14 @@ def _plan_validator():
     The schema dict comes from `core.schema`, which is cached and SHARED; a validator holds a
     reference to it and neither mutates it.
     """
-    if _PLAN_VALIDATOR:
-        return _PLAN_VALIDATOR[0]
-    try:
-        import jsonschema
-    except ImportError:
-        _PLAN_VALIDATOR.append(None)
-        return None
-    schema = corpus.core.schema("plan")
-    cls = jsonschema.validators.validator_for(schema)
-    _PLAN_VALIDATOR.append(cls(schema))
-    return _PLAN_VALIDATOR[0]
+    # ONE SPELLING, IN `core` (audit, 7 Sep 2026). This function built its own compiled
+    # validator and cached it in a module-level list, while `core.check_plan`,
+    # `core.critique_plan` and `core.revise_plan` each rebuilt an UNCOMPILED one -- so
+    # /api/plan/evaluate paid 4 ms at the gate and then 79 ms again inside `check_plan`, on the
+    # same document, and `/api/dev/reload` could not clear this copy at all. `core.validator`
+    # is an lru_cache, which is what `corpus.invalidate()` and its walk-the-module guard
+    # already know how to clear.
+    return corpus.core.validator("plan")
 
 
 def _candidates(body, default=250, cap=None):

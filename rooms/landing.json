@@ -43,6 +43,15 @@
   "depth_multiplier": 2.0,
   "sides_lit": 1,
   "orientation": "North is fine and often best — the light is even and the stair is not a room you linger in for warmth.",
+  "aspect": {
+    "applies": true,
+    "strength": "preferred",
+    "prefer": [
+      "N"
+    ],
+    "basis": "North is fine and often best",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.15,
    0.4

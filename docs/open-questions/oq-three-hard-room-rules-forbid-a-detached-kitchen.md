@@ -1,0 +1,231 @@
+# oq/three-hard-room-rules-forbid-a-detached-kitchen — the room records assume one rectangle
+
+*Status: RULED 5 Sep 2026 · Raised in: WP-11.6, re-authoring `centre-passage-double-pile` (5 September 2026)*
+
+**Lucas's ruling, 5 September 2026, on both halves.**
+
+**1. YES — an element boundary IS a thing a hard `must_adjoin` may cross, THROUGH A HYPHEN.** A
+hard `must_adjoin` may be satisfied through a hyphen room rather than only by a direct shared wall.
+That is one field on the rule and it settles all three refusals at once, and it is the reading the
+corpus already half-states: `rooms/breezeway.json`'s own exception names *"the Palladian hyphen,
+whose two sides are the main block and the dependency"*.
+
+**The ruling is a widening and says so.** Every `must_adjoin` in this corpus was authored before
+the model could say a kitchen is in a separate building, so the field must be AUTHORED per rule and
+never inferred — a blanket "any must_adjoin may cross any hyphen" would licence a stair hall
+reached through a breezeway, which is not what any of these records mean. The three rules this
+question names are the three to author it on; the rest of the corpus keeps the reading it has.
+
+**And the trap, which is this ruling's own version of the one the facade ruling walks toward**: a
+door satisfied through a hyphen is a door the drawn layer must still be able to PLACE. The
+measurement in this entry is that a cross-element door is unplaceable unless the rooms abut, 5 of 5
+— so a rule satisfied through a link and a leaf that cannot be drawn is a hard fact passing on
+paper. `geometry.flank_slice` is what makes the link's own rooms abut, and it is stated rather than
+searched for; where it cannot, the opening must be `unplaced` with its reason and the rule must NOT
+report satisfied.
+
+**Options 2 and 3 were refused, with their reasons.** Retyping the butler's pantry AS the hyphen is
+cheaper and touches no rule, but it makes a circulation room carry a service room's fixtures and it
+settles this one parti rather than the class. Leaving the rules alone and keeping one rectangle
+costs the measured 17 → 10 fatal improvement and leaves `five-part-palladian` passing for the wrong
+reason — because nothing reads its composition — which is a green tick on a diagram nobody checked.
+
+**2. YES — `compose.score_candidate` must see massing elements, AND IT IS ITS OWN PACKAGE.** It
+rates the better house seven points worse (73.5 → 66.5) while the critic's fatal count nearly
+halves. Recorded as `oq/the-candidate-score-cannot-see-a-massing-element` and built after the parti
+lands, so the parti change is measured on the critic's key rather than on a score known to be blind
+to the thing that changed. **The parti is NOT blocked on it**, and the cost of that is stated:
+until that package ships the composer will rank a materially better house lower, so a brief that
+could take a five-part scheme may come back with a one-rectangle one and no reader will be told
+why.
+
+## MEASURED 6 Sep 2026: the ruling's widening is NOT NEEDED, and item 3 is blocked on the ROOF
+
+**The corpus already names the answer and WP-11.6 tried the two types it does not name.**
+`butlers-pantry`'s kitchen rule carries `via: ["back-hall", "gallery-corridor"]` — added 24 Aug
+2026 by OQ 59, for exactly this case, its own `why` saying *"in a plan whose kitchen is in a
+dependency … the pantry is in the block and the kitchen is in another building, and the connecting
+gallery is the connection."* WP-11.6 tried a `gallery-corridor` hyphen (whose own hard rule wants a
+stair hall) and a `breezeway` (not in the via list). **It did not try `back-hall`, which the list
+names FIRST**, and which requires only a direct door to the kitchen — a door the hyphen abuts.
+
+With the service in a `service-dependency` reached through a **`back-hall` hyphen**, the pantry
+staying in the main block beside the dining room:
+
+* `build/check_partis.py` **passes**, exit 0, no rule loosened and no field added;
+* `build/validate.py` passes with the parti schema as WP-11.6 left it;
+* placed directly, `geometry.solve` lays **three elements** — main 0–45 ft, hyphen 45–50, dependency
+  50–86 — and **places all 27 rooms** with **0 unplaced doors**.
+
+**So the ruling's widening is not needed for this parti.** That does not retract the ruling — it is
+the right answer to the question asked — but the cheapest execution of it turns out to be authoring
+the arrangement the records already permit, which is better than adding a field.
+
+**AND ITEM 3 IS STILL BLOCKED, ON SOMETHING ELSE.** Composed through `compose.py` the re-authored
+diagram picks up **one fatal finding: `truss-flattened-pitch`, "The Truss Default: 0.4066 against
+at-least 0.45"** — `roof_height_eave_to_ridge / wall_height_grade_to_eave`. Moving the service out
+shrinks the main block (63 ft wide to 45), **and the roof is still derived for the MAIN BLOCK ALONE
+with no stated ridge relation per element** — which is ruling 1's second half in
+`oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, recorded there as unbuilt.
+A smaller block at the same eave rule gives a lower ridge and the ratio falls under the fault's
+floor.
+
+**The consequence is mechanical and it is why this cannot simply be committed**: that one fatal
+drops the candidate from **rank 1 of 12 to rank 9**, because `compose`'s sort key is
+`(fatal, -score, demerits, parti)` — fatal FIRST — and the placement-and-revision budget is spent
+in rank order, so at rank 9 the candidate is never reached and comes back **with no geometry at
+all**. Its demerits go 102 → 210 for that reason and not because the house is worse.
+
+Like for like on the composer's own `counts`, the same parti before and after:
+
+| | shipped (one rectangle) | re-authored (dependency) |
+|---|---|---|
+| rank | **1** of 12 | **9** of 12 |
+| fatal / serious / minor | 0 / 20 / 82 | **1** / 21 / 82 |
+| score | 73.5 | 73.1 |
+| demerits | 102.0 | 210.0 |
+| rooms placed by the composer | 27 | **0** |
+
+**The earlier figures in this entry (17 → 10 fatal) are NOT this measurement and must not be quoted
+against it**: they were taken with `plan_check` on the placed record, a different instrument from
+the composer's own count, which this corpus warns about by name.
+
+**AND THE PER-ELEMENT ROOF WOULD NOT FIX IT — MEASURED 6 Sep 2026, AFTER THAT WAS RULED.** The
+fatal is on the MAIN block's own roof, not on a wing's, so a per-element ridge relation never
+reaches it. The numbers say what does:
+
+| | shipped (one rectangle) | re-authored (dependency) |
+|---|---|---|
+| main block | 63 × **38.17** ft | 45 × **28.89** ft |
+| its massing's own `depth_rooms` | `double-pile` | `double-pile` |
+| `PILE["double-pile"]` target | **36.0 ft** | **36.0 ft** |
+| roof pitch / ridge | 8/12 · 35.93 ft | 8/12 · 35.93 ft |
+
+**The main block comes out seven feet shallower than its own massing's stated pile.** A side-gable
+roof's rise is half the DEPTH times the pitch, so a 28.89 ft block gives 9.6 ft of roof over 26 ft
+of wall — 0.4066 against the fault's 0.45 floor. The truss fault is TRUE and is reporting a real
+thing: **a `centre-passage-double-pile` whose main block is 28.89 ft deep has stopped being a
+double pile.** Fixing the roof to agree with it would be making the checker green about a house
+that is wrong.
+
+**The mechanism is `derive_footprint` having no depth FLOOR.** It sets `W = bays × module` and
+`H = need / W`, and its growth loop's exit condition is `H <= depth_for(W) * 1.18` — an upper bound
+on depth with nothing below. Moving the service out cut `need`, so `H` fell, and nothing in the
+derivation knows that `double-pile` states 36 ft. On one rectangle the areas happened to give 38.17
+and the absence never showed. It is `wp-9.2-what-the-tradition-actually-does.md`'s own diagnosis
+arriving in a new place — *area was satisfiable at any shape, so area is what the generator
+satisfied* — and the diagnosis's Part IV asks the composer to *"size from the type's commitments
+(Part V) rather than from area"* for this reason.
+
+**So item 3 is blocked on a DEPTH FLOOR in `derive_footprint`, not on the roof.** The per-element
+roof remains worth building — it is ruling 1's second half and `wing_step_down` currently returns
+`applicable: false` on this very plan because it gates on a grouping the parti does not carry —
+but it is not what clears this fatal, and building it first would leave item 3 exactly where it is.
+
+**`wing_step_down`'s own docstring is now false and is the "until X lands" class.** It says this
+corpus's geometry layer *"solves a single rectangular footprint and has never placed a real second
+volume, so there is no actual wing footprint to measure"*, and its `ok: None` rests on that. The
+placement above lays three elements and measures the dependency at 36 × 21.27 ft. The verdict is
+still honestly unjudged for a plan with no blocks; on a plan with them there is now something to
+measure.
+
+**So the order was: the per-element roof, then item 3.** Building item 3 first would ship a diagram
+that composes to a fatal, ranks ninth and is never placed — a materially better house the generator
+would never choose.
+
+## What is now to be built (WP-11.6 item 3, unblocked BY THE RULING and blocked ON THE ROOF)
+
+The field on the rule; the three `butlers-pantry` / `gallery-corridor` rules authored with it; the
+re-authored `centre-passage-double-pile`; `check_partis.py` green on it; and the drawn-layer
+guard that a rule satisfied through a link whose door cannot be placed does not report satisfied.
+Measured against the 17 → 10 in the table below, which is this entry's own baseline.
+
+**The corpus refused the same diagram three times, in three different arrangements, and each
+refusal was a HARD rule of a room record. A parti cannot state a service dependency while the
+room records assume every room is in one rectangle.**
+
+WP-11.6's own package text asks for `centre-passage-double-pile` to be re-authored: *"four
+principal rooms and a passage in the main block … and the six service rooms in a dependency
+reached through a hyphen room (`breezeway` or `gallery-corridor`, by style)"*. It was authored
+three ways and `build/check_partis.py` — which composes each parti against its own first native
+style and fails on a fatal — refused all three.
+
+| arrangement | the rule that refused it |
+|---|---|
+| all six service rooms in the dependency | *"Butler's Pantry does not reach a dining room through a direct door"* — `rooms/butlers-pantry.json`, hard |
+| butler's pantry back in the main block, hyphen typed `gallery-corridor`, dooring only to the pantry and the kitchen | *"Hyphen does not reach a stair hall through a direct door"* — `rooms/gallery-corridor.json`, hard, `via: [entrance-hall, centre-passage, vestibule]` |
+| the same, hyphen typed `breezeway` | *"Butler's Pantry does not reach a kitchen through a direct door"* — hard |
+
+**The three rules are jointly unsatisfiable once the elements are stated.** The butler's pantry
+must directly door BOTH the dining room and the kitchen; a detached kitchen puts an element
+boundary between them, and **a door between two elements cannot be placed unless the two rooms
+abut** — measured, 5 of 5 unplaced with the same reason, *"the placement leaves these two rooms no
+shared wall"*, against a same-element control that placed with 15.82 ft of shared run. Any
+boundary between the dining room and the kitchen cuts one of the two hard doors.
+
+**`partis/five-part-palladian.json` appears to do this correctly and only appears to.** Its west
+hyphen doors `passage`, `butlers` and `kitchen`, and its own note explains the arrangement at
+length. It satisfies every rule because **nothing reads its composition**: no parti carried a
+`block` until WP-11.6, so its "dependency" is placed inside one rectangle like everything else.
+The rules were never tested against a diagram whose elements are real.
+
+## What the measurement showed the change is worth
+
+It is worth doing. On the `family-georgian` brief, with the service rooms in a dependency reached
+through a hyphen and the placer laying the hyphen's house-side room against the shared face:
+
+| | shipped parti, one rectangle | re-authored, elements stated |
+|---|---|---|
+| **fatal findings** | **17** | **10** |
+| serious | 76 | 72 |
+| cross-element doors unplaced | — | **0 of 1** |
+| composer's candidate score | 73.5 | 66.5 |
+
+The rooms that stop being unreachable are exactly the service block — `backhall`, `butlers`,
+`kitchen`, `powder`, `garage`, `garage-mudroom` — plus `stair` and `landing`. **And the composer's
+own score moves the other way**, which is its own question: the critic's fatal count halves while
+`compose.score_candidate` rates the diagram seven points worse, so the composer would rank a
+materially better house lower.
+
+**The centre passage is not available as the hyphen's house-side room, and that was swept rather
+than argued.** Copying five-part-palladian's `passage` door asks the CENTRE passage to sit on the
+block's flank: over 250, 1,000 and 2,000 candidates on two seeds it abuts the shared face at none
+of them, correctly. Stating it as a strip anyway put the passage **5.85 ft outside the main block**
+and took the house from 11 fatal findings to 14.
+
+## What was put, and how it was answered (kept as asked, 5 Sep 2026)
+
+Items 1 and 4 are RULED above. **Items 2 and 3 fall out rather than being answered**: option 2
+was the alternative to item 1 and was refused with its reason, and item 3 — what type a service
+hyphen is — no longer decides anything, because a `must_adjoin` satisfied through a link does not
+care which type the link is. `gallery-corridor`'s own hard rule is one of the three being
+authored, so both types remain available and the parti picks by style, which is what WP-11.6's
+package text asked for.
+
+1. **Does a hard `must_adjoin` hold across a massing element?** The honest reading of
+   `butlers-pantry`'s two rules is that they were written about rooms in one house, before the
+   corpus could say a kitchen is in a separate building — which is what a five-part house IS, and
+   what `rooms/breezeway.json`'s own exception already names (*"the Palladian hyphen, whose two
+   sides are the main block and the dependency"*). If a `must_adjoin` may be satisfied THROUGH a
+   hyphen, that is one field on the rule and it settles all three refusals at once.
+2. **Or is the butler's pantry the hyphen?** In a real five-part house the link often IS the
+   service passage. That is a typing question about one room, not a rule change, and it is
+   cheaper — but it makes a circulation room carry a service room's fixtures.
+3. **What type is a service hyphen?** `gallery-corridor` hard-requires a stair hall (via the
+   passage) and states `must_not_adjoin: kitchen`; `breezeway` carries the Palladian-hyphen
+   exception but is open at both ends by its own `critical_dimension` while being modelled as a
+   heated solid — which `oq/the-parti-dissolved-its-own-dependencies` already records.
+4. **Does the composer's candidate score need to see elements?** It rates the better house worse.
+
+**Do not settle this by deleting a rule to make a checker green.** Each of the three has a stated
+reason in its own record and each is right about a house in one rectangle. The question is whether
+an element boundary is a thing a `must_adjoin` may cross, and that is a ruling about the model.
+
+## What shipped anyway, and why it is separable
+
+The PLACER's half is built and guarded, because it is a prerequisite for any answer above: a parti
+room may carry `block` and `hyphen` (parti schema), `build/compose.py` copies both onto the plan
+record, `geometry.hyphen_anchors` reads the door graph for crossings **through a link**, and
+`geometry.flank_slice` lays those rooms against the shared face as a stated strip — which is
+`courtyard_slice`'s own move and its own reason: *"the search is good at slicing a range and has no
+way to know which of its edges matters."* The parti itself is reverted until this is ruled.

@@ -82,6 +82,18 @@
   "depth_multiplier": 2.25,
   "sides_lit": 1,
   "orientation": "South or the courtyard face in the English examples, which is what makes it usable in winter. A north gallery is a cold corridor with a view.",
+  "aspect": {
+    "applies": true,
+    "strength": "preferred",
+    "prefer": [
+      "S"
+    ],
+    "avoid": [
+      "N"
+    ],
+    "basis": "South or the courtyard face in the English examples, which is what makes it usable in winter.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.3,
    0.7

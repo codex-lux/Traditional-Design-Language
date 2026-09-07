@@ -172,7 +172,16 @@ def test_provenance_validates_and_gates_method():
     # carries an optional `block`, and `footprint` an optional `blocks` -- both additive, so the
     # footprint scalars still describe the main block and every existing reader is untouched. This
     # pin did its job and caught the bump, which is the whole reason it names the current version.
-    assert schema["version"] == "0.5.0"
+    # 0.6.0 (WP-11.2, 4 Sep 2026): a plan may name the PARTI it is an instance of, as an id and
+    # never a record. It is what lets the diagram's own bay module reach the placement, and what
+    # build/check_plans.py holds a hand-authored record to. Additive; every existing plan
+    # validates unchanged. Caught by this pin again, which is twice in two days.
+    # 0.7.0 (WP-11.4, 4 Sep 2026): a plan room may carry `hearth`, an ARRAY of authored fires --
+    # wall, position, opening width, flue. Additive; every existing plan validates unchanged.
+    # **Caught by this pin for the third time in two days, and this time it was missed at the
+    # push**: WP-11.4 bumped the schema and did not run this suite, so the commit went out with
+    # the pin red. The pin is not the problem.
+    assert schema["version"] == "0.7.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

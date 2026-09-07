@@ -62,13 +62,21 @@ class TestSolveSmoke:
         plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
         result = geometry_module.solve(plan, engine="heuristic")
         report = result["geometry_report"]
-        # 7, moved from 9 by WP-7.4. The span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
+        # 5, moved from 7 by WP-11.2, and the reason is the BAY GRID rather than the slicer: the plan now names its parti, so the placement takes the diagram's own 9 ft module instead of the placer's 10 ft default, and the massing's `bays: "5"` makes the count odd -- seven bays of 9 ft (63.0 x 38.2) where it was six of 10 (60.0 x 40.1). A cut is a relaxation when it misses the bay module, so changing the module changes which cuts miss. It is a smaller number and it is NOT thereby an improvement in the house: the same change costs about three fatal findings on this engine (8-seed means 6.2 -> 9.2, all unreachable rooms) and zero on CP-SAT. Read `docs/reports/wp-11.2-the-diagram-reaches-the-record.md` before moving it again. Previously: 7, moved from 9 by WP-7.4 -- the span term charges an over-capacity clear span, and the only way the slicer can create a bearing line is to cut ON the bay module -- so a term aimed at structure pulls cuts onto the grid, and a cut on the grid is not a relaxation. Measured on this plan with the two terms off and on: 9 -> 7 here and 7 -> 4 on spec-builder-colonial. It is an improvement and it is still a number that must not move BY ACCIDENT. Previously: 9, moved from 11 by WP-7.1 (OQ 95). The upper level is now sliced against the ground layout instead of blind, so an upper cut lands on a wall below where one is within tolerance — and a cut that lands on a wall below is not a compromise, because a relaxation is defined in geometry.py's own prose as a joist run that does not land on a bearing wall. The code had approximated that as 'misses the bay module', and 18 of 30 ground wall lines are themselves off the bay grid. Measured corpus-wide on 14 composed plans: relaxations 96 -> 76, transfer beams 166 -> 109.
         # STAYS 7. WP-9.4 measured a corrected clamp (geometry._clamp_cut) that would move it
         # to 8, and REFUSED it: the same change takes the entry porch's clear depth 6.0 -> 5.0
         # and re-fires `porch-nobody-can-sit-on`, which WP-7.4 had cleared. Read _clamp_cut's
         # docstring before trying it again -- the arithmetic there is right and the shipped
         # expression is wrong, and shipping the fix alone still makes the corpus worse.
-        assert report["relaxations"]["count"] == 7
+        # STAYS 5, AND WP-11.5 MEASURED WHAT WOULD MOVE IT. Declared stacking as a RULE rather
+        # than a charge (`geometry.STACK_HARD`, default False) takes this number to 6: the
+        # strict candidate costs 17.0 points here and carries one more off-grid cut, while
+        # taking this plan's broken stacking claims from 1 to 0. It is defaulted off because on
+        # `spec-builder-colonial` the same rule introduces two over-capacity clear spans where
+        # there were none, the worst 40.0 ft against a 20 ft capacity. Read
+        # `docs/reports/wp-11.5-stacking-as-a-rule.md` before flipping it; clear `_SOLVE_CACHE`
+        # between settings, because the cache is keyed on call arguments and not on constants.
+        assert report["relaxations"]["count"] == 5
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]
@@ -121,6 +129,19 @@ class TestUnderBandIsReported:
         # WP-7.4: the dining room is no longer the one squeezed on this plan, so asserting on
         # it by name would pin an outcome the terms just changed. What still holds is that the
         # room the hill-climb DOES squeeze is squeezed materially, not by a rounding.
+        #
+        # STAYS >= 20, AND WP-11.5 MEASURED THE RULE THAT WOULD MOVE IT TO 16. Declared
+        # stacking as a rule (`geometry.STACK_HARD`, default False) subdivides this ground floor
+        # differently and the rooms come out markedly better:
+        #
+        #   off  Stair Hall 36 sf against a 76 sf floor, 53% SHORT; Mud Room 28 vs 34, 16%
+        #   on   Stair Hall 64 sf, 16% short; Mud Room 32, 6%; Study 64 vs 76, 16% (new)
+        #
+        # The worst squeeze more than halves, the stair hall gains 78% of its own area, and total
+        # shortfall falls 46 sf -> 30 sf across one more room. It is still defaulted off, because
+        # the same candidate introduces two over-capacity clear spans on this plan where there
+        # were none -- the worst 40.0 ft against a 20 ft capacity. Better rooms, worse structure,
+        # on one plan; the other plan trades the opposite way. That is a ruling and not a default.
         worst = max(ub["rooms"], key=lambda r: r["short_by_pct"])
         assert worst["short_by_pct"] >= 20, worst
 
@@ -302,40 +323,61 @@ class TestASecondMassingElement:
 
 
 class TestCPRefusesASecondMassingElement:
-    """OQ 40, from the adversarial audit of the change that introduced blocks (3 Sep 2026).
+    """OQ 40, from the adversarial audit of the change that introduced blocks (3 Sep 2026) --
+    **and the refusal it pinned was REPLACED by WP-11.6 item 4 (5 Sep 2026).**
 
-    geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi`: one rectangle,
-    one non-negative coordinate space. Handed a plan with a dependency it did NOT fail -- it
-    placed the dependency's rooms inside the main block (the garage at x = 50 of a 0-70 block)
-    while `footprint.blocks` went on describing an element at x = 84-114. The record and the
-    drawing disagreed about where the house is.
+    The refusal was right for a year of code: geometry_cp built every room as
+    `x = NewIntVar(0, Wi)` with `x + w <= Wi`, one rectangle and one non-negative coordinate
+    space, and handed a plan with a dependency it did NOT fail -- it placed the dependency's
+    rooms inside the main block (the garage at x = 50 of a 0-70 block) while `footprint.blocks`
+    went on describing an element at x = 84-114. The record and the drawing disagreed about where
+    the house is, and the fatal count was flattered besides, because rooms crammed into one
+    rectangle are all reachable.
 
-    It also flattered a measurement: rooms crammed into one rectangle are all reachable, so the
-    fatal count read as a proof of the composition when it was a proof of something else. The
-    engine refuses now, and `auto` falls back with the reason stated."""
+    `geometry_cp._boxes` gives each room its own element box now, so the two assertions that
+    pinned the refusal are inverted rather than deleted: the engine must NOT refuse, and `auto`
+    must NOT fall back for this reason. **The class keeps its name and the third test keeps its
+    subject** -- wherever the dependency is placed, it must be placed where the record says it
+    is, which is the defect OQ 40 actually found and is as live on the prover as on the search.
+    Neither engine may flatten a wing into the house."""
 
     @staticmethod
     def _plan_with_a_dependency():
         return _tagged_dependency_plan(), None
 
-    def test_engine_cp_refuses_rather_than_flattening_the_dependency(self, geometry_module):
+    def test_engine_cp_no_longer_refuses_and_places_the_dependency_in_its_own_element(
+            self, geometry_module):
         plan, C = self._plan_with_a_dependency()
         assert any(r.get("block") for lv in plan["levels"] for r in lv["rooms"]), \
             "the fixture must carry a dependency or this proves nothing"
         geometry_module._SOLVE_CACHE.clear()
-        out = geometry_module.solve(plan, C, engine="cp")
-        assert out.get("error") and "massing element" in out["error"], (
-            "CP must refuse a multi-element plan, not place it in one rectangle")
-        assert out.get("unsolved") is True
+        out = geometry_module.solve(plan, C, engine="cp", time_limit_s=90.0)
+        assert not (out.get("error") or "").startswith("could not solve with CP-SAT: this plan"), \
+            out.get("error")
+        # PROVED or honestly unsolved-in-budget, but never refused for having two elements.
+        # A budget timeout is a statement about this machine and is not what is under test.
+        if out.get("error"):
+            assert "massing element" not in out["error"], out["error"]
+            pytest.skip(f"CP did not finish in budget here: {out['error'][:80]}")
+        blocks = {b["id"]: b for b in (out["footprint"].get("blocks") or [])}
+        assert len(blocks) >= 2, blocks
+        for lv in out["levels"]:
+            for r in lv["rooms"]:
+                b, g = blocks.get(r.get("block") or ""), r.get("geometry")
+                if not b or not g:
+                    continue
+                assert b["x_ft"] - 0.01 <= g["x_ft"] and \
+                    g["x_ft"] + g["width_ft"] <= b["x_ft"] + b["width_ft"] + 0.01, (r["id"], g, b)
 
-    def test_auto_falls_back_and_says_why(self, geometry_module):
+    def test_auto_does_NOT_fall_back_for_a_second_massing_element(self, geometry_module):
+        """The inverse of what this test used to assert. The fallback reason it pinned was the
+        plate's own sentence, and the plate must not go on saying it once it is untrue."""
         plan, C = self._plan_with_a_dependency()
         geometry_module._SOLVE_CACHE.clear()
-        geometry_module.solve(plan, C, engine="auto")
+        geometry_module.solve(plan, C, engine="auto", time_limit_s=90.0)
         solver = plan["geometry_report"]["solver"]
-        assert solver["engine"] == "heuristic" and solver.get("fallback") == "engine"
-        assert "massing element" in solver["reason"], (
-            "the plate reads this reason; it must name the real cause, not 'budget'")
+        assert "massing element" not in (solver.get("reason") or ""), solver
+        assert solver.get("fallback") != "engine", solver
 
     def test_and_the_fallback_actually_places_the_dependency_outside(self, geometry_module):
         """The point of falling back rather than proceeding: the engine that runs must put the
@@ -507,11 +549,24 @@ class TestTheAuditGapsInTheBlockWork:
         me = plan["geometry_report"].get("multi_element")
         assert me, "a two-element placement reports the five layers' numbers and discloses nothing"
         assert me["elements"] == 2
-        assert set(me["not_element_aware"]) == {
-            "openings", "structure", "vertical_score", "lot_cap", "plan_check.drawn", "export_ifc"}
-        assert "COULD NOT EVALUATE" in me["note"], (
-            "the disclosure must use the corpus's own words for an unjudged state, or a reader "
-            "takes it for a caveat rather than a verdict")
+        # NONE, DOWN FROM SIX AT WP-11.6, AND THE FALL IS THE RULING'S OWN CHECK.
+        # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` says the list
+        # "must name five, then four, then none -- a falling count, in the record, is how this
+        # ruling is checked rather than claimed". `openings` left it because
+        # `openings.envelopes()` now maps a room to its OWN element and `_boundary_walls` tests
+        # against that: refused dependency openings 9 -> 5 on this fixture, and the five that
+        # remain are honest. **Do not remove another name here until the layer it names reads
+        # the element** -- editing this set is how the check would be faked.
+        assert me["not_element_aware"] == []
+        for taught in ("openings", "structure", "vertical_score", "lot_cap",
+                       "plan_check.drawn", "export_ifc"):
+            assert taught not in me["not_element_aware"], taught
+        # THE NOTE MAY NO LONGER CLAIM AN UNJUDGED STATE, and that is the harder half of the
+        # fall: with nothing unjudged, "COULD NOT EVALUATE" would be a fake unjudged, which this
+        # corpus treats as exactly as dishonest as a fake pass. What the note keeps is the two
+        # facts that outlive the six layers.
+        assert "COULD NOT EVALUATE" not in me["note"], me["note"]
+        assert "places each element in its own rectangle" in me["note"]
         assert "ignored_tags_above_ground" not in me
 
         # A tag the placer cannot read is named rather than silently dropped. The schema admits

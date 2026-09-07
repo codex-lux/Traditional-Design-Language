@@ -97,9 +97,19 @@ class TestStoreyWindowSizing:
 
 
 class TestBayLayout:
-    def test_tidewater_front_gets_five_bays(self, elevation_module):
+    def test_tidewater_front_gets_seven_bays(self, elevation_module):
+        """SEVEN, moved from five by WP-11.2, and the move revealed that these two layers had
+        been DISAGREEING. The elevation derives its own odd bay count from `facade-classical`'s
+        window-grouping rule against the face's actual width; the plan derives its own from the
+        area and (now) the massing. Before WP-11.2 the elevation said five and the footprint
+        said six and no test compared them. The face is 63 ft now and both say seven, which
+        `styles/tidewater-georgian.json` admits in its own words -- *"Five or seven bays,
+        unaccented, the centre marked only by the doorway"*. That the two agree here is a
+        coincidence of one plan and not a mechanism: nothing holds them to each other, which is
+        worth knowing before trusting either. """ + \
+        ""
         plan, elev = _tidewater_elevation(elevation_module)
-        assert elev["front"]["count"] == 5
+        assert elev["front"]["count"] == 7
 
     def test_door_bay_is_centred(self, elevation_module):
         plan, elev = _tidewater_elevation(elevation_module)

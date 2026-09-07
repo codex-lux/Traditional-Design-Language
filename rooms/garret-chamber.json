@@ -81,6 +81,12 @@
     "depth_multiplier": 1.6,
     "sides_lit": 1,
     "orientation": "Whatever the roof gives. The real choice is between a gable window, which gives good light to a narrow band, and a dormer, which gives light where the room actually is.",
+    "aspect": {
+      "applies": false,
+      "basis": "Whatever the roof gives.",
+      "note": "Answered by the roof, and the record's own real choice is between a gable window and a dormer.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.06,
       0.12

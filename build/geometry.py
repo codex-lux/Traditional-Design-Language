@@ -28,7 +28,7 @@ building; a slightly larger house is just a slightly larger house.
   python3 build/geometry.py plans/<id>.json [--out plans/<id>.geo.json] [--svg dist/<id>.svg]
 """
 from __future__ import annotations
-import json, os, math, random, argparse, importlib.util, copy, hashlib
+import json, os, math, random, argparse, importlib.util, copy, hashlib, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _mod(n, p):
@@ -385,6 +385,128 @@ def courtyard_slice(rooms, W, H, module, tol, rng, out, relax, sides=4):
         else:               wx, wy, ww, wh = x, y, strip, h;             rx, ry, rw, rh = x + strip, y, w - strip, h
         out[walk["id"]] = (round(wx, 2), round(wy, 2), round(ww, 2), round(wh, 2))
         slice_rect(copy.deepcopy(rest), rx, ry, rw, rh, module, tol, rng, out, relax)
+    return True
+
+
+def hyphen_anchors(plan, blocks, level=0):
+    """`{element_id: {face: [room_ids]}}` -- for each element, the rooms of that element which
+    an AUTHORED DOOR joins to a room in the element beyond that face (WP-11.6).
+
+    A DOOR BETWEEN TWO ELEMENTS CANNOT BE PLACED UNLESS THE TWO ROOMS SHARE A WALL, and nothing
+    made them. Measured on a re-authored `centre-passage-double-pile`: 5 of 5 cross-element doors
+    unplaced, every one with the same reason -- *"the placement leaves these two rooms no shared
+    wall"* -- while `hyphen -> kitchen`, whose rooms abut inside one element with 15.82 ft of
+    shared run, placed. One cause, and it is the seventh defect
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` records under item 3.
+
+    THE SEARCH CANNOT FIND IT, AND THAT WAS SWEPT RATHER THAN ASSUMED. `adjacency_score` already
+    charges every non-touching door pair, so the placement pays for this at every candidate. At
+    the shipped 250 the butler's pantry never reaches the block's shared face on either seed; at
+    1,000 it does on both, at 2,000 it does on one. **Four packages have now measured a placement
+    rule whose verdict is a property of the candidate pool** --
+    `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford` -- and this is the sharpest,
+    because here the pool decides whether the house is drawn connected at all.
+
+    So the strip is STATED rather than searched for, which is `courtyard_slice`'s own move and
+    its own reason: *"the search is good at slicing a range and has no way to know which of its
+    edges matters."*
+
+    `{}` on a one-element plan, and on any plan whose elements are joined by no authored door."""
+    if len(blocks or []) < 2:
+        return {}
+    rect = {b["id"]: (b["x"], b["y"], b["x"] + b["W"], b["y"] + b["H"]) for b in blocks}
+    of = {rid: b["id"] for b in blocks for rid in b["rooms"]}
+    rooms = {}
+    for lv in plan.get("levels", []):
+        if (lv.get("index") or 0) != level:
+            continue
+        for r in lv.get("rooms", []):
+            rooms[r["id"]] = r
+
+    def face_toward(a, b, tol=0.6):
+        """Which face of element `a` element `b` lies beyond, or None where it lies beyond none
+        -- the diagonal case, which the ruling refuses rather than models."""
+        ax0, ay0, ax1, ay1 = rect[a]
+        bx0, by0, bx1, by1 = rect[b]
+        if min(by1, ay1) - max(by0, ay0) > tol:
+            if bx0 >= ax1 - tol: return "E"
+            if bx1 <= ax0 + tol: return "W"
+        if min(bx1, ax1) - max(bx0, ax0) > tol:
+            if by0 >= ay1 - tol: return "N"
+            if by1 <= ay0 + tol: return "S"
+        return None
+
+    # ONLY WHERE THE CROSSING GOES THROUGH THE LINK. A door between two elements with open ground
+    # between them cannot be placed however the rooms are laid -- a detached dependency IS
+    # detached, and drawing that door would be the lie -- so pulling a room to the face for it
+    # buys nothing and moves the placement for no gain. Measured: scoping this to a hyphen
+    # element restores the package's own fixture byte-identically (it has no hyphen room) while
+    # keeping every gain on the fixture that has one.
+    role = {b["id"]: b.get("role") for b in blocks}
+    out = {}
+    for rid, r in rooms.items():
+        ea = of.get(rid)
+        if ea is None:
+            continue
+        for d in (r.get("doors") or []):
+            to = d.get("to") if isinstance(d, dict) else d
+            if not to or to == "exterior":
+                continue
+            eb = of.get(to)
+            if eb is None or eb == ea:
+                continue
+            if role.get(ea) != "hyphen" and role.get(eb) != "hyphen":
+                continue
+            f = face_toward(ea, eb)
+            if f is None:
+                continue
+            lst = out.setdefault(ea, {}).setdefault(f, [])
+            if rid not in lst:
+                lst.append(rid)
+    return out
+
+
+def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax):
+    """Lay `anchor_ids` as a strip against `face` of this element, then slice the rest.
+
+    The same statement `courtyard_slice` makes about a corredor, at one element's scale: a room
+    that must touch a particular edge is placed against it rather than left to a guillotine that
+    does not know the edge matters. Returns False and places nothing when the strip cannot be cut
+    -- an anchor list that is the whole element, or a strip that would leave the remainder below a
+    module -- so the caller falls back to the ordinary slice and the refusal is a fall-back rather
+    than a malformed plan."""
+    want = set(anchor_ids)
+    along = h if face in ("E", "W") else w
+    across = w if face in ("E", "W") else h
+    # ONLY WHAT FITS, SMALLEST FIRST, AND THE REST IS REFUSED RATHER THAN CRUSHED IN. A first
+    # version took every anchor: on the re-authored `centre-passage-double-pile` that is the
+    # CENTRE PASSAGE and a butler's pantry, and stating a strip for both put the passage 5.85 ft
+    # OUTSIDE the main block and took the composed house from 11 fatal findings to 14. A centre
+    # passage is in the centre -- swept over 250, 1,000 and 2,000 candidates on two seeds, it
+    # abuts the shared face at none of them, correctly -- so a rule that asks it to sit on the
+    # flank is a rule the diagram cannot keep, and the honest answer is to lay the rooms that fit
+    # and leave the door that cannot be drawn saying so.
+    cap = across * 0.6
+    keep, acc = [], 0.0
+    for r in sorted((r for r in rooms if r["id"] in want), key=lambda r: r["_area"]):
+        if (acc + r["_area"]) / max(along, 1.0) > cap:
+            continue
+        keep.append(r); acc += r["_area"]
+    kept = {r["id"] for r in keep}
+    rest = [r for r in rooms if r["id"] not in kept]
+    if not keep or not rest:
+        return False
+    strip = max(module * 0.55, min(cap, acc / max(along, 1.0)))
+    if across - strip < module * 0.55:
+        return False
+    if face == "E":   sx, sy, sw, sh = x + w - strip, y, strip, h; rx, ry, rw, rh = x, y, w - strip, h
+    elif face == "W": sx, sy, sw, sh = x, y, strip, h;             rx, ry, rw, rh = x + strip, y, w - strip, h
+    elif face == "N": sx, sy, sw, sh = x, y + h - strip, w, strip; rx, ry, rw, rh = x, y, w, h - strip
+    else:             sx, sy, sw, sh = x, y, w, strip;             rx, ry, rw, rh = x, y + strip, w, h - strip
+    slice_rect(copy.deepcopy(keep), round(sx, 2), round(sy, 2), round(sw, 2), round(sh, 2),
+               module, tol, rng, out, relax)
+    slice_rect(copy.deepcopy(rest), round(rx, 2), round(ry, 2), round(rw, 2), round(rh, 2),
+               module, tol, rng, out, relax)
     return True
 
 
@@ -876,6 +998,27 @@ def centre_hall_symmetry_score(rects, rooms, W, H, tol_frac=0.18):
 # this one carries a name so the sweep that set it can be re-run against it.
 STACK_W = 40.0
 
+# DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). A named switch, not a literal
+# threaded through the loop, for the reason WP-7.4 records: `_SOLVE_CACHE` is keyed on call
+# ARGUMENTS, so a sweep over a module constant silently measures the first value unless the
+# cache is cleared -- and a sweep that cannot be run is a rule nobody can refuse. Clear
+# `_SOLVE_CACHE` between settings.
+#
+# **DEFAULT OFF, AND THE NUMBER THAT DECIDED IT IS A 40 FT CLEAR SPAN.** The rule works: broken
+# claims 4 -> 1 on the spec Colonial and 8 -> 2 on the Tidewater at the shipped 250 candidates,
+# and 4 -> 0 and 3 -> 0 at 1,000. It also more than halves the spec Colonial's worst squeezed
+# room (Stair Hall 53% short -> 16%, total shortfall 46 sf -> 30 sf). But at 250 candidates the
+# strict candidate on that same plan introduces **two over-capacity clear spans where there were
+# none, the worst 40.0 ft against a 20 ft capacity** -- a structural defect on a shipped
+# reference plan, traded for a waste stack. On the Tidewater plan the same trade goes the other
+# way: 2 spans -> 4, but the worst falls 53.9 ft -> 36.0.
+#
+# Two shipped plans, opposite structural verdicts, at a pool size the infrastructure audit says
+# is already the server's bound and at which the rule is NOT free. That is a ruling, not a
+# default: `oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford`. The mechanism is
+# built, guarded and measured both ways; flipping it is one line.
+STACK_HARD = False
+
 # WP-7.4 (OQ 97). The span charge, and both halves of its form were chosen by sweep.
 #
 # OQ 97 asked whether span capacity should be a search term "and at what force", and answered
@@ -938,6 +1081,95 @@ def _span_charge(rects_by_level, prep, W, H, bay, style, floor_catalog):
     return charge, over
 
 
+def element_of(plan, groundrooms):
+    """`{ground_room_id: element_id}`, or `{}` on a one-element plan (WP-11.6, layer 3).
+
+    The join is the room's own `block` tag and NOT `footprint.blocks`, and the reason is an
+    ordering one that cost a first attempt: `blocks_record` writes that list inside
+    `write_record`, AFTER the search loop this runs in, so a map built from it is empty exactly
+    where the charge is decided. The tag is what `blocks_for` itself groups on
+    (`is_block_tag(r.get("block"))`), so reading it here is the same spelling one step earlier.
+
+    `{}` on a plan where no ground room carries a tag, which is every plan in this corpus."""
+    tagged = {r["id"]: r["block"] for r in (groundrooms or []) if is_block_tag(r.get("block"))}
+    if not tagged:
+        return {}
+    return {r["id"]: tagged.get(r["id"], "main") for r in groundrooms}
+
+
+def declared_stack_breaks(g, u, upperrooms, elements=None):
+    """Every `stacks_over` claim the placement BREAKS, in ONE place (WP-11.5).
+
+    Strict positive rectangle intersection -- plan_check's drawn layer's own rule, so the
+    search, the charge and the critic cannot convict and acquit the same house. It was spelled
+    once inside `vertical_score` and is now spelled once here, because WP-11.5 needs the same
+    test at CANDIDATE-REJECTION time and a second transcription is the
+    `openings.required_wall_ft` error (an arbiter carrying its own copy of a rule) in a new
+    place.
+
+    A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS NOT A BREAK AND IS NOT RETURNED. The
+    generator cannot answer it; counting it as broken would convict a placement of something
+    nobody could have placed, and counting it as satisfied would be a fake pass. It is neither,
+    and `declared_stack_census` below is what says how many there are."""
+    ut = {r["id"]: r for r in upperrooms}
+    out = []
+    for rid, (x, y, w, h) in u.items():
+        so = (ut.get(rid, {}) or {}).get("stacks_over")
+        if not so:
+            continue
+        t = g.get(so)
+        if not t:
+            continue
+        # A CLAIM ACROSS TWO MASSING ELEMENTS IS UNJUDGED, NOT BROKEN (WP-11.6, layer 3 of 6).
+        # The placer lays only level 0 into elements, so every upper room is inside the main
+        # block and a dependency is entirely outside it -- 14 ft away at the closest on the
+        # reference fixture, the hyphen's own default gap. No placement this engine can produce
+        # puts an upper room over a dependency room, so charging STACK_W for the failure
+        # convicts the record of something the generator cannot do. Measured: an upper bath
+        # declaring `stacks_over` a kitchen tagged into a west dependency was charged 40 points
+        # and told "is drawn clear of it", which reads as a placement gone wrong rather than a
+        # claim nobody could keep. That is the OQ 52 family.
+        #
+        # It is returned as `unjudged` rather than dropped, so a caller counting breaks and a
+        # caller reporting them see the same three states the rest of this corpus uses.
+        if (elements or {}).get(so, "main") != "main":
+            out.append({"room": rid, "over": so, "name": ut[rid].get("name") or rid,
+                        "unjudged": f"in the {elements[so]} element"})
+            continue
+        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
+                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
+            out.append({"room": rid, "over": so,
+                        "name": ut[rid].get("name") or rid})
+    return out
+
+
+def stack_breaks_only(g, u, upperrooms, elements=None):
+    """The BROKEN claims alone -- what a charge and a rejection may act on. An unjudged claim is
+    neither, and a caller that treated the full list as breaks would charge for one."""
+    return [b for b in declared_stack_breaks(g, u, upperrooms, elements)
+            if not b.get("unjudged")]
+
+
+def declared_stack_census(g, u, upperrooms):
+    """`{claimed, judged, broken, unjudged}` for a placement's declared stacking.
+
+    THREE STATES, because two would lie: `unjudged` counts a claim whose target is not on the
+    level below or whose own room was not placed, and `judged` is the denominator any rate
+    should be read against. A placement that satisfies zero of zero claims is not a placement
+    that stacks."""
+    ut = {r["id"]: r for r in upperrooms}
+    claimed = judged = 0
+    for r in upperrooms:
+        if not r.get("stacks_over"):
+            continue
+        claimed += 1
+        if r["id"] in u and g.get(r["stacks_over"]):
+            judged += 1
+    broken = len(declared_stack_breaks(g, u, upperrooms))
+    return {"claimed": claimed, "judged": judged, "broken": broken,
+            "satisfied": judged - broken, "unjudged": claimed - judged}
+
+
 def vertical_score(g, u, groundrooms, upperrooms, plan):
     """The reason both levels are solved together: bearing lines, stacks, and the stair."""
     if not u: return 0.0, []
@@ -994,16 +1226,19 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     #
     # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
     # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
-    for rid, (x, y, w, h) in u.items():
-        so = (ut.get(rid, {}) or {}).get("stacks_over")
-        if not so: continue
-        t = g.get(so)
-        if not t: continue
-        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
-                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
-            s += STACK_W
-            notes.append(f"{ut[rid].get('name') or rid} declares it stacks over "
-                         f"{gt.get(so, {}).get('name') or so} and is drawn clear of it.")
+    _els = element_of(plan, groundrooms)
+    for br in declared_stack_breaks(g, u, upperrooms, _els):
+        if br.get("unjudged"):
+            notes.append(f"{br['name']} declares it stacks over "
+                         f"{gt.get(br['over'], {}).get('name') or br['over']}, which is "
+                         f"{br['unjudged']} — COULD NOT EVALUATE: this placer lays only the "
+                         f"ground level into elements, so no upper room can be placed over a "
+                         f"dependency and the claim can neither hold nor be broken here.")
+            continue
+        s += STACK_W
+        notes.append(f"{br['name']} declares it stacks over "
+                     f"{gt.get(br['over'], {}).get('name') or br['over']} and is drawn clear "
+                     f"of it.")
 
     # OQ 55: nothing may sit over an UNROOFED reserved void. A courtyard is open to the sky --
     # a room placed above it has no floor and no bearing, and the roof plane it would need is
@@ -1122,6 +1357,75 @@ def is_block_tag(v):
     return isinstance(v, str) and bool(v.strip())
 
 
+def flank_sizes(prep, bay, level=0):
+    """Every flanking element's side, hyphen gap, width and depth -- the ONE spelling, read twice.
+
+    `blocks_for` lays these out; `derive_footprint` asks how much roofed ground they take beside
+    the main block, because the lot cap is on the BUILT EXTENT (WP-11.6 layer 4). It has to be one
+    function: a second transcription of the sizing rule would let the cap and the placement
+    disagree about how wide the house is, which is the very defect the cap exists to catch,
+    arriving one layer up.
+
+    THE SIZES DO NOT DEPEND ON THE MAIN BLOCK, and that is what makes the cap computable before
+    the main block's bay count is chosen rather than after it. A dependency's width comes from its
+    own rooms' declared areas over a single-pile depth and its gap from the hyphen room's own
+    width; neither reads `fp["W"]`. Only the x positions and the y centring do, and those stay in
+    `blocks_for`.
+
+    Returns an ordered list of `{id, side, gap, W, H, hyph, body}` -- empty on every plan in this
+    corpus, all sixteen of which are one rectangle."""
+    rooms = (prep or {}).get(level) or []
+    by_id, order = {}, []
+    for r in rooms:
+        if not is_block_tag(r.get("block")):
+            continue
+        by_id.setdefault(r["block"], []).append(r)
+        if r["block"] not in order: order.append(r["block"])
+    out = []
+    for bid in order:
+        rs = by_id[bid]
+        need = sum(r["_area"] for r in rs)
+        # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
+        walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
+        side = "E" if ("E" in walls and "W" not in walls) else "W"
+        # A hyphen room tagged into this element states the gap; otherwise the grouping's own
+        # band midpoint stands in and says so. This is the whole reason the hyphen is a ROOM:
+        # `hyphen_length_ft` is a machine-tested rule in both hyphen groupings and it had never
+        # been evaluated on any plan, because the only hyphen this composer produced was a local
+        # variable inside two f-strings.
+        hyph = [r for r in rs if C["rooms"].get(r["type"], {}).get("function_class") == "circulation"
+                and r.get("hyphen")]
+        gap = float(hyph[0].get("width_ft") or HYPHEN_DEFAULT_FT) if hyph else HYPHEN_DEFAULT_FT
+        body = [r for r in rs if r not in hyph]
+        need_body = sum(r["_area"] for r in body) or need
+        # A dependency is sized against a SINGLE-PILE depth, not the main block's own pile.
+        # Using the main block's produced a 10 x 50 ft splinter off a 70 ft house: the target
+        # depth for a double-pile main block is 36 ft, and dividing a small service programme by
+        # it leaves one bay of width and all the area in depth. The massing catalogue states the
+        # relation in its own prose -- five-part-palladian is "2-2.5 main / 1-1.5 wings" -- and a
+        # wing one room deep is what that describes.
+        dep_depth = PILE["single-pile"]
+        bays = max(1, round((need_body / dep_depth) / bay))
+        W = round(bays * bay, 2)
+        H = round(need_body / W, 2) if W else 0.0
+        out.append({"id": bid, "side": side, "gap": gap, "W": W, "H": H,
+                    "hyph": hyph, "body": body})
+    return out
+
+
+def flanking_extent_ft(prep, bay, level=0):
+    """The roofed ground the flanking elements take beside the main block, in feet.
+
+    THE HYPHEN IS COUNTED, and that is the ruling and not an implementation choice:
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2, ruled 4 Sep
+    2026 -- *"the hyphen is roofed ground; a building whose covered area overruns its lot has
+    overrun it"*. So the sum is `gap + width` per element and never width alone.
+
+    0.0 on every plan in this corpus, which is what keeps the lot cap byte-identical for the
+    sixteen one-rectangle records by construction rather than by a branch."""
+    return round(sum(e["gap"] + e["W"] for e in flank_sizes(prep, bay, level)), 2)
+
+
 def blocks_for(plan, fp, prep, level=0):
     """The massing elements this level's rooms are laid into, main block first.
 
@@ -1151,39 +1455,14 @@ def blocks_for(plan, fp, prep, level=0):
         return [main]
 
     bay = fp["bay"]
-    by_id, order = {}, []
-    for r in tagged:
-        by_id.setdefault(r["block"], []).append(r)
-        if r["block"] not in order: order.append(r["block"])
-
     out = [main]
     west_edge, east_edge = 0.0, fp["W"]
-    for bid in order:
-        rs = by_id[bid]
-        need = sum(r["_area"] for r in rs)
-        # Side from the rooms' own exterior_walls; a tie or a silence goes west, and says so.
-        walls = {d for r in rs for d in (r.get("exterior_walls") or [])}
-        side = "E" if ("E" in walls and "W" not in walls) else "W"
-        # A hyphen room tagged into this element states the gap; otherwise the grouping's own
-        # band midpoint stands in and says so. This is the whole reason the hyphen is a ROOM:
-        # `hyphen_length_ft` is a machine-tested rule in both hyphen groupings and it had never
-        # been evaluated on any plan, because the only hyphen this composer produced was a local
-        # variable inside two f-strings.
-        hyph = [r for r in rs if C["rooms"].get(r["type"], {}).get("function_class") == "circulation"
-                and r.get("hyphen")]
-        gap = float(hyph[0].get("width_ft") or HYPHEN_DEFAULT_FT) if hyph else HYPHEN_DEFAULT_FT
-        body = [r for r in rs if r not in hyph]
-        need_body = sum(r["_area"] for r in body) or need
-        # A dependency is sized against a SINGLE-PILE depth, not the main block's own pile.
-        # Using the main block's produced a 10 x 50 ft splinter off a 70 ft house: the target
-        # depth for a double-pile main block is 36 ft, and dividing a small service programme by
-        # it leaves one bay of width and all the area in depth. The massing catalogue states the
-        # relation in its own prose -- five-part-palladian is "2-2.5 main / 1-1.5 wings" -- and a
-        # wing one room deep is what that describes.
-        dep_depth = PILE["single-pile"]
-        bays = max(1, round((need_body / dep_depth) / bay))
-        W = round(bays * bay, 2)
-        H = round(need_body / W, 2) if W else 0.0
+    # The sizing moved to `flank_sizes` at WP-11.6 layer 4 so the lot cap could read it without a
+    # second transcription. What is left here is what actually needs the main block: where each
+    # element sits along x, and the y centring on the main block's axis.
+    for el in flank_sizes(prep, bay, level):
+        bid, side, gap, W, H = el["id"], el["side"], el["gap"], el["W"], el["H"]
+        hyph = el["hyph"]
         if side == "W":
             # `west_edge`, not a hardcoded 0.0. The east branch three lines down reads
             # `east_edge` correctly, and the asymmetry was the tell: a SECOND west element put
@@ -1205,9 +1484,83 @@ def blocks_for(plan, fp, prep, level=0):
                         "rooms": [r["id"] for r in hyph], "attached_to": "main", "side": side})
         out.append({"id": bid, "role": "dependency", "x": round(x, 2),
                     "y": round((fp["H"] - H) / 2.0, 2),   # centred on the main block's axis
-                    "W": W, "H": H, "rooms": [r["id"] for r in body],
+                    "W": W, "H": H, "rooms": [r["id"] for r in el["body"]],
                     "attached_to": "main", "side": side})
     return out
+
+
+def parti_for(plan, parti=None):
+    """The parti this placement is of: the one the caller passed, else the one the RECORD names.
+
+    A plan record may name its parti since WP-11.2 (`plan.parti`, an id and never a record --
+    WP-9.4's rule, because a caller-supplied parti RECORD reached `bay_module_ft` unchecked and
+    put 114 bays of half a foot on a house). Until then the diagram's own bay module could not
+    reach the placement at all: `centre-passage-double-pile` states 9 ft and every sheet of it
+    was drawn on this function's 10 ft default, because the only route in was a caller who
+    happened to pass the parti separately, and the CLI, the bench's drawing route and the
+    shipped reference plans all did not.
+
+    The id becomes a path in exactly ONE place in this repository -- `core.load_parti` -- and
+    this is not a fourth copy of that join: it calls it. Loaded lazily, because `core` loads
+    THIS module and an import at module scope would close the cycle."""
+    if parti:
+        return parti
+    pid = plan.get("parti")
+    if not pid or not isinstance(pid, str):
+        return None
+    core = _mod("tdlcore", os.path.join(ROOT, "mcp_server", "core.py"))
+    return core.load_parti(pid)
+
+
+def massing_bays(massing):
+    """What the massing states about its own bay count, read CONSERVATIVELY.
+
+    `bays` is prose across the catalogue -- "5", "3-5", "variable", "irregular", "5-7 main",
+    "3 (narrow end to street)", "1 per face" -- so this reads only the two forms it can be sure
+    of, a bare integer and a bare range, and reports every other as UNREADABLE rather than
+    guessing. "5-7 main" is refused deliberately: the word `main` is doing work (the count is of
+    the main block of a multi-element house) and a reader that dropped it would state a fact
+    about the wrong thing.
+
+    Returns {"min", "max", "stated", "readable"}; `readable` False means the massing said
+    something this function may not act on, which is not the same as the massing saying nothing.
+    """
+    stated = (massing or {}).get("bays")
+    out = {"stated": stated, "readable": False, "min": None, "max": None}
+    if not isinstance(stated, str):
+        return out
+    t = stated.strip()
+    m = re.fullmatch(r"(\d+)", t)
+    if m:
+        out.update(readable=True, min=int(m.group(1)), max=int(m.group(1)))
+        return out
+    m = re.fullmatch(r"(\d+)\s*[-–]\s*(\d+)", t)
+    if m:
+        lo, hi = int(m.group(1)), int(m.group(2))
+        if lo <= hi:
+            out.update(readable=True, min=lo, max=hi)
+    return out
+
+
+def wants_a_centre_bay(plan, parti, massing):
+    """Whether this diagram needs an ODD bay count, and why, stated rather than assumed.
+
+    A five-bay Georgian's one non-negotiable move is the door in the middle bay with two
+    windows either side, and an even count has no middle bay -- so a diagram whose entrance is
+    on the axis of a through-passage cannot be drawn on six bays however good the placement is.
+    The corpus states this twice and neither statement had a reader: `four-over-four` says
+    `bays: "5"` and *"Facade symmetry is a hard constraint, not a preference"*, and
+    `centre-passage-core`'s own description says the passage *"makes the facade symmetrical
+    because the door is now genuinely in the middle."*
+
+    Two signals, and the massing's own stated count is the stronger: it is a fact about this
+    record's massing rather than an inference from its circulation type. Returns (bool, why)."""
+    mb = massing_bays(massing)
+    if mb["readable"] and mb["min"] == mb["max"] and mb["min"] % 2 == 1:
+        return True, f'the massing states {mb["stated"]} bays'
+    if (parti or {}).get("circulation_parti") == "center-hall":
+        return True, "a centre-hall diagram puts its door in the middle bay"
+    return False, None
 
 
 def derive_footprint(plan, parti=None, prep=None):
@@ -1221,6 +1574,7 @@ def derive_footprint(plan, parti=None, prep=None):
 
     Returns a dict of footprint facts, or one carrying `error` when the lot cannot hold
     even the minimum two bays."""
+    parti = parti_for(plan, parti)
     bay = ((parti or {}).get("scaling") or {}).get("bay_module_ft") or 10.0
     catalog_maxbay = ((parti or {}).get("scaling") or {}).get("max_bay_count") or 7
     maxbay = catalog_maxbay
@@ -1233,12 +1587,40 @@ def derive_footprint(plan, parti=None, prep=None):
     # which the growth loop below is already allowed to exceed by up to 3 bays rather than
     # leave a room too deep -- the lot is a physical fact, not a diagram convention, so it
     # bounds that growth loop too (see growth_ceiling below), not just the starting guess.
+    # WP-11.6 LAYER 4: THE CAP IS ON THE BUILT EXTENT, HYPHEN INCLUDED. Ruled 4 Sep 2026,
+    # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2 -- "the hyphen
+    # is roofed ground; a building whose covered area overruns its lot has overrun it". Until this
+    # the cap was on the MAIN BLOCK alone, so the flanking elements were free: measured on the
+    # Tidewater plan with its service rooms tagged into a west dependency, an 80 ft lot got a
+    # 104 ft built extent -- 24 ft over -- and the record said `lot_capped: false`, which is the
+    # placer asserting the lot did not constrain a house that overruns it.
+    #
+    # The flank is computable HERE, before the main block's bay count is chosen, because a
+    # dependency is sized from its own rooms and its gap from its own hyphen; see `flank_sizes`,
+    # which is the one spelling both this and `blocks_for` read.
+    if prep is None:
+        _, prep = prep_rooms(plan)
+    flank = flanking_extent_ft(prep, bay)
     lot_usable = lot_usable_width_ft(plan)
     lot_maxbay = None
     if lot_usable is not None:
-        lot_maxbay = max(1, int(lot_usable // bay))
-        maxbay = min(maxbay, lot_maxbay)
+        for_main = lot_usable - flank
+        # `int(x // bay)` where the old line said `max(1, int(lot_usable // bay))`: with no flank
+        # the two agree wherever the answer is 2 or more, and both take the refusal below where it
+        # is less, so the sixteen one-rectangle plans are untouched. Where they differ is a lot the
+        # flank has already eaten, and there 0 is honest where 1 is a lie about a house that has
+        # no room for even one bay.
+        lot_maxbay = int(for_main // bay) if for_main > 0 else 0
+        maxbay = min(maxbay, max(1, lot_maxbay))
         if lot_maxbay < 2:
+            if flank:
+                return {"error": f"lot too narrow for the built extent: {lot_usable:.0f} ft usable "
+                                  f"width after side setbacks, of which the flanking element(s) and "
+                                  f"their hyphen(s) take {flank:.0f} ft, leaves {for_main:.0f} ft "
+                                  f"for the main block -- not this diagram's minimum 2 bays "
+                                  f"({2*bay:.0f} ft) at its {bay:.0f} ft bay module. The cap is on "
+                                  f"the built extent, hyphen included, and no bay count for the "
+                                  f"main block makes this house fit this lot."}
             return {"error": f"lot too narrow: {lot_usable:.0f} ft usable width after side setbacks "
                               f"cannot hold even this diagram's minimum 2 bays ({2*bay:.0f} ft) at its "
                               f"{bay:.0f} ft bay module."}
@@ -1247,11 +1629,23 @@ def derive_footprint(plan, parti=None, prep=None):
     # returning None for prep; that could not survive the (levels, prep) signature the CP
     # engine needs, so it is an explicit check here instead. PILE stays at module scope --
     # main's side redeclared it locally and the two copies were identical.
-    if prep is None:
-        _, prep = prep_rooms(plan)
+    # `prep` is resolved above the lot block now (the flank needs it); this is the check alone.
     if 0 not in prep or not prep[0]:
         return {"error": "no ground level"}
-    a0 = sum(r["_area"] for r in prep[0])
+    # THE MAIN BLOCK IS SIZED FROM THE MAIN BLOCK'S OWN PROGRAMME (WP-11.6 item 4). This read
+    # the WHOLE ground programme, dependencies included, while `flank_sizes` sizes each
+    # dependency from its own rooms and lays it BESIDE the main block -- so a wing's area was
+    # counted twice and the main block came out that much too large. The hill-climb absorbed it
+    # silently as empty floor (measured 2,405 sf of main block for 1,863 sf of main-block rooms
+    # on this package's own fixture, 29% over) and CP-SAT, which has a coverage floor, correctly
+    # reported the house INFEASIBLE at every bay count with every declared requirement dropped:
+    # "the rooms cannot tile any footprint this parti and lot allow". A search that tolerates an
+    # over-size and a prover that refuses it are the same defect read twice.
+    #
+    # `au` is deliberately the whole upper programme: `blocks_for` lays only level 0 into
+    # elements, so every upper room IS in the main block. With one element -- every plan in this
+    # corpus -- `a0` is the sum it always was.
+    a0 = sum(r["_area"] for r in prep[0] if not is_block_tag(r.get("block")))
     au = sum(r["_area"] for r in prep.get(1, []))
     m = C["massings"].get(plan.get("massing") or "", {})
     target_depth = PILE.get(m.get("depth_rooms"), 32.0)
@@ -1273,7 +1667,35 @@ def derive_footprint(plan, parti=None, prep=None):
     else:
         void_ranges = None
         def depth_for(width): return target_depth
-    grown, bays = [], max(2, min(maxbay, round((need / target_depth) / bay)))
+    # WP-11.2. THE MASSING'S OWN BAY COUNT IS THE STARTING POINT, AND ITS PARITY SURVIVES
+    # GROWTH. Until this the count came only from the area arithmetic below, so
+    # `four-over-four`'s `bays: "5"` had no reader and the shipped Tidewater sheet was drawn
+    # SIX bays wide under a title that says five -- and an even count has no middle bay, which
+    # is where a Georgian door goes. The growth loop steps by TWO on a diagram that wants a
+    # centre bay, so a five-bay house that will not fit becomes seven and never six.
+    odd_wanted, odd_why = wants_a_centre_bay(plan, parti, m)
+    mb = massing_bays(m)
+    step = 2 if odd_wanted else 1
+    from_area = max(2, min(maxbay, round((need / target_depth) / bay)))
+    start = from_area
+    if mb["readable"]:
+        # the massing's stated minimum is a floor on the diagram, not a target for the area:
+        # a house with more program than five bays hold grows, and one with less does not
+        # shrink below the count its own massing names.
+        start = max(mb["min"], from_area)
+        if mb["max"] is not None:
+            start = min(start, max(mb["max"], from_area))
+    if odd_wanted and start % 2 == 0:
+        # THE BUMP MAY NOT CROSS THE LOT (WP-11.6 layer 4). It used to, and that is one of the two
+        # ways the cap was bypassed: on a lot holding six bays this line made a seven-bay house,
+        # 3 ft over, on a ONE-RECTANGLE plan -- so the bypass was never about massing elements at
+        # all. And `bay_count_forced_even` twenty lines below says "today the only way here is a
+        # lot too narrow to hold the odd count", which was unreachable for exactly this reason:
+        # the bump made the count odd whatever the lot said, so the lot could never force an even
+        # one. A refusal that cannot fire, with a comment naming the case it cannot fire in.
+        if lot_maxbay is None or start + 1 <= lot_maxbay:
+            start += 1
+    grown, bays = [], max(2, start)
     growth_ceiling = catalog_maxbay + 3
     if lot_maxbay is not None: growth_ceiling = min(growth_ceiling, lot_maxbay)
     while True:
@@ -1283,10 +1705,12 @@ def derive_footprint(plan, parti=None, prep=None):
         # `depth_for(W)` rather than the bare `target_depth` main's side used: on a ring massing
         # the pile describes the RANGE and the block's target is ranges x pile PLUS the void
         # band (OQ 55), so a fixed target shrinks a courtyard block to a light well.
-        if H <= depth_for(W) * 1.18 or bays >= growth_ceiling: break
-        bays += 1; grown.append(bays)
-    while bays > 2 and need / ((bays - 1) * bay) <= depth_for((bays - 1) * bay) * 1.18:
-        bays -= 1
+        if H <= depth_for(W) * 1.18 or bays + step > growth_ceiling: break
+        bays += step; grown.append(bays)
+    floor_bays = max(2, mb["min"] if mb["readable"] else 2)
+    while bays - step >= floor_bays and \
+            need / ((bays - step) * bay) <= depth_for((bays - step) * bay) * 1.18:
+        bays -= step
     # OQ 55: on a ring massing the bay count decides the COURT's proportion, not just the
     # block's, and the court's proportion is the number the diagram turns on --
     # rooms/courtyard.json says so at length ("below about 0.8 the court is a light well...
@@ -1318,9 +1742,17 @@ def derive_footprint(plan, parti=None, prep=None):
     W = round(bays * bay, 2); H = round(need / W, 2)
     # `tol` is carried in the dict (main's side) so solve_heuristic and geometry_cp read one
     # relaxation allowance rather than each recomputing it. The void keys are OQ 55's.
+    # A diagram that wanted a centre bay and did not get one is a REFUSAL, named -- not a
+    # silent six. Today the only way here is a lot too narrow to hold the odd count.
+    forced_even = bool(odd_wanted and bays % 2 == 0)
     return {"bay": bay, "tol": tol, "bays": bays, "W": W, "H": H,
+            "wants_centre_bay": odd_wanted, "centre_bay_why": odd_why,
+            "bay_count_forced_even": forced_even,
+            "massing_bays": mb["stated"], "massing_bays_readable": mb["readable"],
+            "massing_min_bays": mb["min"] if mb["readable"] else None,
             "slack": (W * H) - max(a0, au),
             "grown": grown, "lot_usable": lot_usable, "lot_maxbay": lot_maxbay,
+            "flank": flank, "built_extent": round(W + flank, 2),
             "catalog_maxbay": catalog_maxbay, "growth_ceiling": growth_ceiling,
             "target_depth": round(depth_for(W), 2), "range_depth": target_depth,
             "void_ranges": void_ranges, "void_sf": round(void_sf), "need": need}
@@ -1337,6 +1769,56 @@ def derive_footprint(plan, parti=None, prep=None):
 DEMERIT_NOTE = ("The score is a DEMERIT TOTAL: lower is better, no ceiling, and the best "
                 "placement is the smallest number. It is not the candidate score compose.py "
                 "publishes, which is out of 100 and runs the other way. ")
+
+def _lot_block(fp):
+    """What the lot did to this placement, measured on the BUILT EXTENT (WP-11.6 layer 4).
+
+    Written once because both engines must say the same thing -- `_over_band_block`'s own reason,
+    one function up.
+
+    THE EXTENT IS THE ROOFED GROUND, HYPHEN INCLUDED, which is the ruling of 4 Sep 2026 on
+    `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` item 2 and not an
+    implementation choice. Until this the record carried `lot_capped` alone, which is a claim
+    about the MAIN BLOCK'S BAY COUNT, and it was published as `false` -- "the lot did not
+    constrain this house" -- over a built extent 24 ft wider than the lot it names. A boolean
+    about one rectangle cannot answer a question about a building.
+
+    THREE STATES, NEVER TWO: a plan that states no lot width gets COULD NOT EVALUATE and is not
+    told it fits."""
+    usable = fp.get("lot_usable")
+    flank = fp.get("flank") or 0.0
+    extent = fp.get("built_extent")
+    if extent is None: extent = fp.get("W")
+    made_of = (f" ({fp.get('W'):.1f} ft of main block and {flank:.1f} ft of flanking element(s) "
+               f"and hyphen(s))") if flank else ""
+    out = {"usable_width_ft": usable, "built_extent_ft": extent, "flanking_ft": flank,
+           "main_block_ft": fp.get("W")}
+    if usable is None:
+        out["over_ft"] = None
+        out["note"] = ("COULD NOT EVALUATE: this plan states no lot width, so the built extent is "
+                       "reported, nothing is capped, and nothing is claimed to fit.")
+        return out
+    over = round(extent - usable, 2)
+    out["over_ft"] = max(0.0, over)
+    if over <= 0:
+        out["note"] = (f"The built extent is {extent:.1f} ft{made_of} within {usable:.1f} ft of "
+                       f"usable lot width.")
+        return out
+    # THE RESIDUE IS NAMED RATHER THAN LEFT AS A NUMBER. The cap bounds the growth loop and the
+    # centre-bay parity bump; it does NOT overrule the massing's own stated minimum bay count,
+    # because nobody has ruled that a lot outranks a diagram's floor and silently shrinking below
+    # it would compromise the diagram to save the site -- decision #11's ordering in reverse.
+    mmin, bays, lmb = fp.get("massing_min_bays"), fp.get("bays"), fp.get("lot_maxbay")
+    why = ""
+    if mmin and bays is not None and bays <= mmin and lmb is not None and lmb < mmin:
+        why = (f" The main block is at its massing's own stated minimum of {mmin} bays and the lot "
+               f"holds {lmb}: the cap bounds the growth loop and the parity bump and does not "
+               f"overrule the diagram's floor. Whether it should is "
+               f"oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count.")
+    out["note"] = (f"OVER THE LOT BY {over:.1f} ft: a built extent of {extent:.1f} ft{made_of} on "
+                   f"{usable:.1f} ft of usable lot width.{why}")
+    return out
+
 
 def _over_band_block(ob):
     """The report block, written once because both engines must say the same thing."""
@@ -1509,42 +1991,147 @@ def multi_element_disclosure(plan):
     """What a multi-element placement does NOT yet judge, stated on the record (OQ 40).
 
     The block machinery places a dependency beside the house and both renderers draw it there.
-    FIVE layers below it still read `footprint.width_ft/depth_ft` as though it were the whole
-    building, and each is wrong in its own direction on a dependency room -- measured, not
-    supposed, by an adversarial audit of the change that introduced blocks:
+    SIX layers below it read `footprint.width_ft/depth_ft` as though it were the whole building
+    when this block was written, and WP-11.6 taught all six -- `openings`, `structure`,
+    `vertical_score`, the lot cap, `plan_check`'s drawn layer and `export_ifc`. Each was wrong in
+    its own direction on a dependency room, measured rather than supposed by an adversarial audit
+    of the change that introduced blocks, and each entry below is kept as the record and marked.
+    **The count is written out in words here and the list below it is the record; the WORD said
+    FIVE for two commits while the list held three**, which is why the machine-readable answer is
+    `not_element_aware` and never this sentence:
 
-      openings   `_boundary_walls` gets the MAIN block's W and H, so a garage at x 84-105 on a
-                 70 ft block reports its east face as a footprint boundary; both renderers and
-                 the DXF exporter then draw the window at x = W, fourteen feet from the room.
-      structure  `wall_lines` sweeps every placed room into one envelope, so a dependency
-                 partition on the bay grid becomes a bearing line beyond W and manufactures a
-                 clear span across the gap between the house and the dependency.
-      vertical   `vertical_score` counts a dependency wall as support for an upper wall above
-                 the main block, where there is no upper floor at all.
-      lot        `derive_footprint` caps the MAIN block at `lot_usable_width_ft`; nothing caps
-                 the built extent, so a capped house can still be wider than its lot.
-      critic     `plan_check`'s drawn layer measures `touches` against the main block, so a
-                 dependency room with windows is convicted of reaching no exterior wall.
-      export_ifc `export_ifc` sizes the floor slab `W + 2*t_ext` centred on the main block, so a
-                 dependency's IfcSpaces float clear of the slab under them.
+      openings   TAUGHT AT WP-11.6 and no longer in the list. It got the MAIN block's W and H,
+                 so on the reference fixture a dependency at x -41..-14 touched no boundary at
+                 all and NINE of fourteen declared openings came back `unplaced` saying "the
+                 placement puts this room on no such boundary wall" -- a refusal produced by the
+                 instrument rather than by the house. `envelopes()` maps a room to its own
+                 element by the `block` tag the placer itself groups on.
+      structure  TAUGHT AT WP-11.6 and no longer in the list. `wall_lines` swept every placed
+                 room into one envelope, so a dependency partition became a bearing line beyond
+                 W and the gap between the elements could be spanned; the dependency itself got
+                 no envelope walls at all (measured 0 of 2). `build_section` runs the three
+                 structure functions once per element now, at the element's own origin.
+      vertical   TAUGHT AT WP-11.6, and the entry's own description of it was half wrong. The
+                 support-credit it named is UNREACHABLE (the upper level is always inside the
+                 main block and dependency lines always outside it, 14 ft away at the closest
+                 against a 0.75 ft tolerance). What was real is the other sign: a `stacks_over`
+                 claim naming a room in another element was charged 40 points for a failure no
+                 placement could avoid. Unjudged now, with its reason.
+      lot        TAUGHT AT WP-11.6, and the bypass turned out not to be about elements at all.
+                 The cap is on the BUILT EXTENT now, hyphen included (the ruling's item 2), and
+                 `flank_sizes` is the one spelling this and `blocks_for` both read. But the probe
+                 that measured 24 ft over an 80 ft lot found TWO bypasses and the second is on
+                 every plan: the centre-bay parity bump ignored the cap, so a lot holding six bays
+                 got a seven-bay ONE-RECTANGLE house. `geometry_report.lot` reports the extent,
+                 the flank and the overrun in three states.
+      critic     TAUGHT AT WP-11.6. The drawn layer's four `touches` tests read the room's own
+                 element (`openings.envelopes`, layer 1's map, not a second spelling), and where
+                 a wall of that element looks across the gap at another element the finding SAYS
+                 SO -- exterior to the weather, interior to the view, which is ruling 4's second
+                 half and a sentence rather than a severity. Measured on the fixture: two
+                 dependency rooms read `[]` against the main block and `['S','W']` / `['S','E']`
+                 against their own, while `chamber2` and `stair` read `[]` on both.
+      export_ifc TAUGHT AT WP-11.6, and the last of the six. It sized ONE floor slab per storey
+                 `W + 2*t_ext` centred on the main block while every `IfcSpace` is placed from
+                 its room's own ABSOLUTE rectangle, so a dependency's spaces floated clear of
+                 every slab in the model -- measured, 3 of them. `slab_boxes` is one slab per
+                 storey AND per element, and it is PURE ARITHMETIC so it can be measured where
+                 ifcopenshell is absent, which is here and in CI.
 
-    None of that is fixed here and none of it is claimed to be. It is DISCLOSED, because the
-    alternative is a record that reports numbers from five instruments pointed at one rectangle
-    while describing two -- and the composer emits no `block` today, so the only way to reach
-    this state is a caller-supplied record, which is exactly the reader who cannot know.
+    All six are fixed now (WP-11.6, layers 1-6) and their entries above are kept as the record.
+    THE BLOCK ITSELF STAYS, and its `not_element_aware` list is empty rather than gone. It used
+    to give TWO reasons and now gives ONE, because item 4 removed the other: `engine="cp"` no
+    longer refuses a multi-element plan. `geometry_cp._boxes` gives each room its own element
+    box and the prover places the tagged fixture -- so the engine that PROVES is available here,
+    and this note may no longer say it is not.
+    What survives is that the ROOF is still derived for the main block alone, with no stated
+    ridge relation per element (ruling 1's second half, unbuilt), and that the abutment between
+    two ADJACENT elements is still nobody's rule: CP refuses a door across a gap and states why,
+    which is honest and is not the same thing as knowing when two elements ought to touch.
+    A `block` reaches a room only from a parti that states one, and no shipped parti does, so
+    the way into this state is still a caller-supplied record.
     """
     fp = plan.get("footprint") or {}
     if len(fp.get("blocks") or []) < 2:
         return None
     note = {
         "elements": len(fp["blocks"]),
-        "not_element_aware": ["openings", "structure", "vertical_score", "lot_cap",
-                              "plan_check.drawn", "export_ifc"],
-        "note": ("COULD NOT EVALUATE for these layers: this placement has more than one massing "
-                 "element and each of the layers named reads footprint.width_ft/depth_ft as the "
-                 "whole building. Openings on a dependency wall, spans across the gap, upper-wall "
-                 "support, the lot cap and the drawn exterior-wall test are all unreliable here. "
-                 "Teaching them about elements is a package of its own."),
+        # FIVE, DOWN FROM SIX (WP-11.6). `openings` is taught: `openings.envelopes()` maps each
+        # room to its OWN element's rectangle and `_boundary_walls` tests against that instead of
+        # the main block. Measured on the reference fixture, dependency openings refused fell
+        # 9 -> 5, and the five that remain are honest -- a kitchen whose north edge is 23.72
+        # against its element's 29.12 really does not reach that face.
+        #
+        # **THE FALLING COUNT IS THE RULING'S OWN CHECK** ("must name five, then four, then none
+        # -- a falling count, in the record, is how this ruling is checked rather than claimed").
+        # Do not remove a name here until the layer it names reads the element. The order is
+        # ruled and it is not arbitrary: openings first, because it makes the dependency's
+        # windows real and therefore turns `structure`'s missing envelope into a DRAWN collision
+        # rather than a silent absence.
+        # FOUR, down from five (WP-11.6 layer 2). `structure` is taught: `build_section` runs
+        # `wall_lines`/`bearing_lines`/`span_check` ONCE PER ELEMENT over that element's own
+        # rooms, with the element's own origin. Measured on the reference fixture: the main
+        # element's wall set no longer carries the dependency's partition (an x line at -23.3 on
+        # a 0-63 block), the dependency has its own two envelope walls where it had 0 of 2, and
+        # no span is computed across the gap. **The dependency's own structure is judged for the
+        # first time and immediately fails**: 27.0 ft and 20.07 ft against a 20 ft hand-framed
+        # capacity. That is the shield lesson arriving as the ruling predicted -- teaching
+        # openings made its windows real, teaching structure makes its spans real.
+        # THREE, down from six (WP-11.6 layers 1-3). `vertical_score` is taught, and ONE HALF OF
+        # WHAT THE ENTRY SAID ABOUT IT WAS NEVER REACHABLE, which is worth more than the fix.
+        #
+        # The entry's claim -- "an upper wall within 0.75 ft of a dependency wall line scores as
+        # continues to a wall below, where there is no upper floor at all" -- CANNOT FIRE with
+        # this placer. `blocks_for` lays only level 0 into elements, so every upper room is
+        # inside the main block and every dependency line is outside it; on the reference
+        # fixture the nearest dependency face is 14 ft away, which is the hyphen's own default
+        # gap against a 0.75 ft tolerance. Measured, not reasoned: 0 upper edges within
+        # tolerance of any of -41.0, -23.3, -14.0.
+        #
+        # What WAS reachable is the opposite sign: a `stacks_over` claim naming a room in
+        # another element was CHARGED 40 points and told "is drawn clear of it", when no
+        # placement this engine can produce could satisfy it. It is COULD NOT EVALUATE now, with
+        # its reason. Measured on the fixture: vertical_score 114 -> 74.
+        #
+        # The wet-stack test needed no change and that was measured too: an upper bath over a
+        # kitchen that has moved into a detached dependency really does sit over no wet room.
+        # TWO, down from six (WP-11.6 layers 1-4). The lot cap is on the built extent now, and
+        # the finding that came with it is that ITS BYPASS WAS NEVER ABOUT ELEMENTS: the
+        # centre-bay parity bump crossed the cap on a one-rectangle plan (a lot holding six bays,
+        # a seven-bay house, 3 ft over), and `bay_count_forced_even` -- the refusal whose own
+        # comment says "today the only way here is a lot too narrow to hold the odd count" --
+        # could not fire, because the bump made the count odd whatever the lot said.
+        #
+        # A residue is DISCLOSED rather than capped: the massing's own stated minimum bay count
+        # still outranks the lot, so a five-bay diagram on a lot holding four is 9 ft over and
+        # `geometry_report.lot.note` says exactly that and names the question.
+        # ONE, down from six (WP-11.6 layers 1-5). `plan_check`'s drawn layer is taught, and
+        # the finding that came with it was recorded two layers earlier: teaching `openings` had
+        # made this layer's SYMPTOM vanish (landlocked findings 2 -> 0) without touching its
+        # arithmetic, so a meter watching the finding would have crossed this name off at layer 1.
+        # Driving the condition -- stripping the placement from the dependency's windows -- is
+        # what kept it honest, and it is what the guard does now.
+        # NONE, down from six (WP-11.6 layers 1-6). `export_ifc` gets a slab per element, and its
+        # geometry is `export_ifc.slab_boxes` -- PURE ARITHMETIC, because ifcopenshell is optional
+        # and absent here, so a slab rule written inside the writer would have been "fixed"
+        # against a check that never ran. Measured: 3 placed rooms over no slab -> 0.
+        #
+        # THE LIST BEING EMPTY IS NOT THE QUESTION BEING CLOSED. The ruling's own check was a
+        # falling count and it has fallen; two of its four items are still unbuilt -- the
+        # per-element ROOF with its stated ridge relation (item 1's second half) and the
+        # abutment between adjacent elements (item 3's seventh defect). This block stays, because
+        # the two facts below it are true whatever the list holds.
+        "not_element_aware": [],
+        "note": ("This placement has more than one massing element. Every layer below the placer "
+                 "that used to read footprint.width_ft/depth_ft as the whole building now reads "
+                 "the room's own element (WP-11.6): openings, structure, vertical_score, the lot "
+                 "cap, plan_check's drawn layer and export_ifc's slabs -- and `engine=\"cp\"` "
+                 "places each element in its own rectangle rather than refusing the plan, so the "
+                 "engine that PROVES is available here. TWO THINGS ARE STILL TRUE and neither is "
+                 "a layer: the roof is derived for the main block alone, with no stated ridge "
+                 "relation per element; and the abutment between two adjacent elements is "
+                 "nobody's rule -- a door across a gap is refused with its reason on both "
+                 "engines, which is not the same as knowing when two elements ought to touch."),
     }
     off = sorted({r["id"] for lv in plan.get("levels", [])
                   if (lv.get("index") or 0) != 0
@@ -1678,7 +2265,20 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     # wing's walls and not against the main block's. One element -> every room maps to 0,0,W,H,
     # which is exactly what the function did before it took this argument.
     gbounds = {rid: (b["x"], b["y"], b["W"], b["H"]) for b in gblocks for rid in b["rooms"]}
+    # Computed once per solve rather than once per candidate: it walks the door graph and the
+    # element rectangles, neither of which a candidate moves.
+    _anchors = hyphen_anchors(plan, gblocks, 0)
     best = None
+    # DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). Two incumbents: the best
+    # candidate overall, and the best that breaks NO claim its own author wrote. The strict one
+    # wins if it exists.
+    #
+    # IT IS NOT A `continue`, AND THAT IS THE WHOLE DESIGN. Rejecting a breaking candidate
+    # outright empties the pool on any plan whose claims the slicing tree cannot satisfy, and an
+    # empty pool is a placement failure where the corpus wants a stated compromise. When no
+    # strict candidate exists the search SAYS SO on the record and falls back to the charge it
+    # has always paid -- a silent fallback would be a hard rule that is not one.
+    best_strict = None
     for _ in range(candidates):
         gr, grelax = {}, []
         drew = False
@@ -1692,7 +2292,20 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
             # own order, so this is the same single call with the same rng draws it always was.
             for _b in gblocks:
                 _rs = [r for r in prep[0] if r["id"] in set(_b["rooms"])]
-                if _rs:
+                if not _rs:
+                    continue
+                # WP-11.6: where an AUTHORED door crosses into the element beyond a face, the
+                # rooms it joins are laid against that face as a strip rather than left to the
+                # guillotine. `hyphen_anchors` says why, with the pool sweep that refused the
+                # search. One element -> `_anchors` is `{}` and this is the same single call
+                # with the same rng draws it always was.
+                _laid = False
+                for _f, _ids in sorted((_anchors.get(_b["id"]) or {}).items()):
+                    _laid = flank_slice(_rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids,
+                                        bay, tol, rng, gr, grelax)
+                    if _laid:
+                        break
+                if not _laid:
                     slice_rect(copy.deepcopy(_rs), _b["x"], _b["y"], _b["W"], _b["H"],
                                bay, tol, rng, gr, grelax)
         sg = (level_score(gr, prep[0]) + exterior_score(gr, prep[0], W, H, bounds=gbounds) + adjacency_score(gr, prep[0], levels[0]["rooms"])
@@ -1718,6 +2331,8 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                   + centre_hall_symmetry_score(ur, prep[1], W, H))
         else: su = 0.0
         vs, vnotes = vertical_score(gr, ur, prep[0], prep.get(1, []), plan)
+        _breaks = len(stack_breaks_only(gr, ur, prep.get(1, []),
+                                        element_of(plan, prep[0]))) if (ur and STACK_HARD) else 0
         # WP-7.4 (OQ 97): the structural check the corpus already runs, run here too. See
         # _span_charge -- this is structure.span_check itself and not a proxy.
         #
@@ -1745,8 +2360,13 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         # rounding nudged the incumbent up: 40.06 stores as 40.1, and a 40.08 challenger
         # satisfies 40.08 < 40.1. The error is bounded at 0.05, but it meant a
         # 250-candidate search did not reliably return its own argmin.
-        if best is None or tot < best["_raw"]:
-            best = {"_raw": tot,
+        # ONE ROW, TWO INCUMBENTS (WP-11.5). Built once and shared by reference: an earlier
+        # draft built it twice and the two copies are a second transcription waiting to drift.
+        # Nothing downstream mutates a row.
+        _row = None
+        if ((best is None or tot < best["_raw"])
+                or (_breaks == 0 and (best_strict is None or tot < best_strict["_raw"]))):
+            _row = {"_raw": tot, "_breaks": _breaks,
                     "score": round(tot, 1), "ground": gr, "upper": ur, "vnotes": vnotes,
                     # Level stamped as the two lists merge — slice_rect does not know which
                     # storey it is slicing, and a mark has to know which plan it belongs on (OQ 33).
@@ -1754,6 +2374,40 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                                     + [dict(r, level=1) for r in urelax]),
                     "sg": round(sg, 1), "su": round(su, 1), "sv": round(vs, 1),
                     "span_charge": round(spc, 1), "spans_over_capacity": sp_over}
+        if _row is not None and (best is None or tot < best["_raw"]):
+            best = _row
+        if _row is not None and _breaks == 0 and (best_strict is None
+                                                  or tot < best_strict["_raw"]):
+            best_strict = _row
+
+    # THE STRICT WINNER TAKES IT IF ONE EXISTS (WP-11.5), and the record says which happened.
+    # `declared` is the denominator: a plan with no `stacks_over` claim at all takes this branch
+    # with `claimed: 0` and the rule is vacuous on it, which is stated rather than implied.
+    _claimed = (sum(1 for r in prep.get(1, []) if r.get("stacks_over"))
+                if STACK_HARD else 0)
+    _stacking = {"claimed": _claimed,
+                 "rule": "hard" if (_claimed and best_strict is not None) else "charge"}
+    if _claimed and best_strict is not None:
+        if best_strict is not best:
+            _stacking["cost_points"] = round(best_strict["_raw"] - best["_raw"], 1)
+            _stacking["note"] = (
+                f"A candidate satisfying all {_claimed} declared stacking claim(s) was preferred "
+                f"over a cheaper one that broke "
+                f"{best['_breaks']}, at {_stacking['cost_points']} points.")
+        else:
+            _stacking["note"] = (f"The best candidate overall already satisfied all {_claimed} "
+                                 f"declared stacking claim(s); the rule cost nothing.")
+        best = best_strict
+    elif _claimed:
+        # NOT A SILENT FALLBACK. No candidate in the pool satisfied every claim, so the search
+        # is paying STACK_W instead and the sheet must be able to say so -- a hard rule that
+        # quietly becomes a charge is worse than the charge, because a reader then believes the
+        # claims were honoured.
+        _stacking["note"] = (
+            f"NO CANDIDATE of {candidates} satisfied all {_claimed} declared stacking claim(s); "
+            f"the best breaks {best['_breaks']} and is charged {STACK_W:g} points for each. The "
+            f"rule fell back to the charge and this note is the disclosure.")
+        _stacking["broken"] = best["_breaks"]
 
     # --- write coordinates back into the plan (write_record does it, below)
     rel = best["relaxations"]
@@ -1761,6 +2415,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
         "score": best["score"], "ground_score": best["sg"], "upper_score": best["su"], "vertical_score": best["sv"],
         "bays_grown": fp["grown"],
         "lot_capped": (fp["lot_maxbay"] is not None and fp["lot_maxbay"] < fp["catalog_maxbay"]),
+        "lot": _lot_block(fp),
         "relaxations": {"count": len(rel),
                         "max_off_grid_ft": round(max(r["off_ft"] for r in rel), 2) if rel else 0,
                         # P7: counted AND locatable. Each mark carries the axis it cuts across,
@@ -1771,6 +2426,7 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                                  "does not land on a bearing line and a window bay that will not centre." if rel
                                  else "Every cut landed on a bay line.")},
         "vertical": best["vnotes"] or ["Every upper wall continues to a wall below and every stack lands."],
+        "stacking": _stacking,
         "reading": (DEMERIT_NOTE +
                     "Ground and upper were solved together and scored as a pair, so an upper "
                     "layout that would score LOWER alone is rejected when it leaves walls "
@@ -1883,6 +2539,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "bays_grown": fpd.get("grown"),
         "lot_capped": (fpd.get("lot_maxbay") is not None
                        and fpd["lot_maxbay"] < fpd.get("catalog_maxbay", 10 ** 9)),
+        "lot": _lot_block(fpd),
         "relaxations": {
             "count": len(rel),
             "max_off_grid_ft": round(max(r["off_ft"] for r in rel), 2) if rel else 0,
@@ -1913,6 +2570,14 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
         "note": ("Rooms placed below the floor of their own catalogue band (OQ 54)." if ub
                  else "Every room was placed at or above the floor of its own catalogue band.")}
     plan["geometry_report"]["voids"] = voids_report(_rects, _prep, ring=None)
+    # ...AND SO MUST THE MULTI-ELEMENT DISCLOSURE (WP-11.6 item 4). It was attached in
+    # `write_record` only, which the heuristic uses and this path does not, so the very engine
+    # the refusal above sent every multi-element plan AWAY from was the only one that disclosed
+    # anything about them. Teaching CP to place them made that visible: the first proved
+    # dependency placement came back with `multi_element: null` on a record carrying two blocks.
+    _me = multi_element_disclosure(plan)
+    if _me:
+        plan["geometry_report"]["multi_element"] = _me
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
@@ -2008,36 +2673,26 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
             out["geometry_report"]["solver"] = {"engine": "heuristic", "reason": "requested"}
         return out
 
-    # CP-SAT CANNOT PLACE A SECOND MASSING ELEMENT, AND MUST SAY SO RATHER THAN PLACE IT WRONGLY
-    # (OQ 40, found by the adversarial audit of the change that made one placeable, 3 Sep 2026).
-    # geometry_cp builds every room as `x = NewIntVar(0, Wi)` with `x + w <= Wi` -- one rectangle,
-    # one non-negative coordinate space -- and its tiling, `_absorb`, `_snap_fpd`, the hint and the
-    # objective all rest on that. Handed a plan with a dependency it did not fail; it placed the
-    # dependency's rooms INSIDE the main block (the garage at x = 50 of a 0-70 block) while
-    # `footprint.blocks` went on describing an element at x = 84-114. The record and the drawing
-    # then disagreed about where the house is, which is the one thing Phase 6 exists to prevent --
-    # and it silently flattered a published measurement, because rooms crammed into one rectangle
-    # are all reachable and the fatal count looked like a proof of the composition.
-    # Teaching CP about blocks is a package, not a patch. Until then this is a refusal, taken on
-    # the same path as a missing ortools: `auto` falls back to the hill-climb with the reason
-    # stated in `geometry_report.solver`, and the plate reads that rather than asserting a proof.
-    _blocked = any(is_block_tag(r.get("block"))
-                   for lv in plan.get("levels", []) for r in lv.get("rooms", []))
-    if _blocked:
-        if engine == "cp":
-            return {"error": "could not solve with CP-SAT: this plan has more than one massing "
-                             "element (a dependency), and the CP model places every room in a "
-                             "single rectangle. Use the hill-climb, which states the elements.",
-                    "unsolved": True}
-        out = solve_heuristic(plan, parti, candidates, seed)
-        if "error" not in out:
-            out["geometry_report"]["solver"] = {
-                "engine": "heuristic", "fallback": "engine",
-                "reason": "this plan has more than one massing element and the CP model places "
-                          "every room in a single rectangle; fell back to the hill-climb, which "
-                          "places each element in its own"}
-        return out
-
+    # CP-SAT PLACES PER ELEMENT NOW (WP-11.6 item 4), AND THIS IS WHERE ITS REFUSAL STOOD.
+    # Until 5 Sep 2026 a plan with a dependency was refused here and `auto` fell back to the
+    # hill-climb, because `geometry_cp._build` gave every room the bounds `NewIntVar(0, Wi)` and
+    # `x + w <= Wi` -- one rectangle, one non-negative coordinate space. Handed a dependency it
+    # did not fail: it placed the wing's rooms INSIDE the main block while `footprint.blocks`
+    # went on describing an element at x = 84-114, so the record and the drawing disagreed about
+    # where the house is. The refusal was the honest answer and it cost the engine that PROVES
+    # on exactly the plans that most need proving.
+    #
+    # `geometry_cp._boxes` gives each room its own element box, read from `blocks_for` -- this
+    # module's own function, so the two engines cannot come to disagree about where an element
+    # is. WITH ONE ELEMENT every room maps to (0, 0, Wi, Hi), which is what the model spelled
+    # inline, so the sixteen one-rectangle records take the same path unchanged.
+    #
+    # The hyphen's abutment needed no new constraint and that is the finding: the door rule was
+    # ALREADY a hard abutment (`a.x + a.w == b.x`), vacuous while every room shared one
+    # rectangle and real the moment the elements are. What it needed was the other half -- a
+    # door between elements that do NOT touch is not the model's fact, stated, because a
+    # detached dependency is detached and proving a buildable house impossible is the one thing
+    # a hard constraint here must never do.
     try:
         # probe the exact import the engine needs — a broken or partial
         # install where `import ortools` succeeds but the sat module is
@@ -2101,7 +2756,79 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
                 "reason": f"CP-SAT returned no solution in {time_limit_s:.0f}s "
                           f"({status}); fell back to the hill-climb"}
         return out
-    return _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
+    out = _finish(plan, res["best"], res["fpd"], res["levels"], solver=res["solver"])
+    _offer_the_alternative(out, plan, parti, candidates, seed)
+    return out
+
+
+def _offer_the_alternative(out, plan, parti, candidates, seed):
+    """Where the CP objective did not run, record the SEARCH's placement beside the proof.
+
+    WP-11.8, executing `oq/a-proof-of-feasibility-is-not-a-proof-of-composition` (ruled 4 Sep
+    2026): *"a CP-SAT placement outranks a hill-climb placement on FEASIBILITY and on nothing
+    else. Where the compositional objective did not run, the bench draws both and labels both,
+    and the plate says which it drew and why."*
+
+    Phase A proves the hard set; phase B carries every compositional term the corpus has. When B
+    times out, `objective` is null and the drawn house is whatever CP-SAT reached first — no term
+    for the front, the axis, the mirror pair or the stack was evaluated on it. The hill-climb runs
+    all of them on every candidate it looks at, so its placement is the composed one, and a reader
+    is entitled to see it.
+
+    **IT RECORDS TWO NUMBERS AND THE SECOND ONE IS WHY.** The ruling says to offer the search
+    "with its demerit score", and the demerit score ALONE would mislead in the search's favour --
+    measured, on `spec-builder-colonial`: the search scores **592.3** against the proof's
+    **789.3**, 197 points better, and it buys that by violating **SIXTEEN hard facts the proof
+    honours** (0 against 16, judged against the same downgrade list). `hard_fact_violations`'
+    own docstring says exactly this: *"when the hill-climb 'outscores' the constrained optimum,
+    this is the number that says what the cheaper score actually bought."* So both travel
+    together, and the plate may not print one without the other.
+
+    Costs a heuristic solve (~0.3 s measured) and ONLY on the branch where the objective is null;
+    a proof whose objective ran has nothing to be offered against it and this returns without
+    solving anything."""
+    if "error" in out:
+        return
+    sv = (out.get("geometry_report") or {}).get("solver") or {}
+    if sv.get("engine") != "cp-sat" or sv.get("objective") is not None:
+        return
+    alt = solve_heuristic(copy.deepcopy(plan), parti, candidates, seed)
+    if "error" in alt:
+        # stated, never swallowed: a reader told nothing is offered must know whether that is
+        # because there is nothing to offer or because the offer could not be computed
+        sv["alternative"] = {"verdict": "could-not-evaluate", "why": alt["error"]}
+        return
+    try:
+        GC = _mod("geometry_cp", f"{ROOT}/build/geometry_cp.py")
+        pins = sv.get("downgraded_wall_pins") or []
+        # JUDGED AGAINST THE SAME FACTS. A heuristic record carries no downgrade list of its own,
+        # and charging it for pins CP-SAT PROVED impossible would rig the comparison in the
+        # proof's favour -- `hard_fact_violations` takes `extra_downgraded` for this reason and
+        # the honest comparison is the whole point of the ruling.
+        alt_v = GC.hard_fact_violations(alt, alt, extra_downgraded=pins)
+        drawn_v = GC.hard_fact_violations(out, out)
+    except Exception as e:
+        sv["alternative"] = {"verdict": "could-not-evaluate",
+                             "why": f"the two placements could not be compared "
+                                    f"({type(e).__name__}: {e})"}
+        return
+    sv["alternative"] = {
+        "verdict": "offered", "engine": "heuristic",
+        "score": alt["geometry_report"].get("score"),
+        "hard_fact_violations": alt_v,
+        "drawn_score": out["geometry_report"].get("score"),
+        "drawn_hard_fact_violations": drawn_v,
+        "why": ("The compositional objective did not run on the drawn placement, so no term for "
+                "the front, the axis or the stack was evaluated on it. The hill-climb runs all of "
+                "them. Its placement is offered here with BOTH numbers: a lower demerit score is "
+                "not on its own a better house, because the search trades away hard facts the "
+                "proof holds and this comparison is judged against the same downgrade list "
+                "(oq/a-proof-of-feasibility-is-not-a-proof-of-composition)."),
+        "geometry": {"footprint": alt.get("footprint"),
+                     "levels": [{"index": lv.get("index", 0),
+                                 "rooms": [{"id": r["id"], "geometry": r.get("geometry")}
+                                           for r in lv.get("rooms", [])]}
+                                for lv in alt.get("levels", [])]}}
 
 # ---------------------------------------------------------------- cli
 def main():

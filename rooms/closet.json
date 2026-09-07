@@ -85,6 +85,12 @@
     "depth_multiplier": 0,
     "sides_lit": 0,
     "orientation": "None. A closet on an exterior wall is a bay of the elevation spent on a cupboard.",
+    "aspect": {
+      "applies": false,
+      "basis": "None. A closet on an exterior wall is a bay of the elevation spent on a cupboard.",
+      "note": "The record refuses the question: a closet should not be on an exterior wall at all.",
+      "judgment": true
+    },
     "note": "A closet needs no daylight and should never be given a window, but it must be lit - a single fixture at the front of the closet, over the standing position, so the light falls on the faces of the garments and not on their shoulders. A fixture at the back throws every garment into its own shadow. IRC E4003.12 governs what may hang in a clothes closet: no pendant, no exposed lamp, and a minimum clearance from the storage space, which rules out the bare bulb on a chain that half the housing stock has."
   },
   "adjacency": {

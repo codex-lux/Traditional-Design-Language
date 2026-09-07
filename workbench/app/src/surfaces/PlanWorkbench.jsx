@@ -341,6 +341,18 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
      that is the case worth saying out loud. */
   const solver = placement?.geometry_report?.solver;
   const proved = solver?.engine === 'cp-sat';
+  /* WP-11.8 (`oq/a-proof-of-feasibility-is-not-a-proof-of-composition`, ruled 4 Sep 2026): a
+     CP-SAT placement outranks a hill-climb placement on FEASIBILITY and on nothing else. Phase A
+     proves the hard set; phase B carries every compositional term the corpus has, and when it
+     times out `objective` is null and the drawn house is whatever the solver reached first — no
+     term for the front, the axis, the mirror pair or the stack was evaluated on it. This
+     paragraph said "proved, not searched" over exactly that placement, which is the bench half of
+     the diagnosis's J2. `alternative` carries the search's placement with BOTH its numbers: its
+     demerit score AND the count of declared facts it breaks, judged against the same downgrade
+     list, because a lower score alone reads as a better house and on `spec-builder-colonial` is
+     bought with sixteen broken facts. */
+  const objectiveRan = !(proved && (solver?.objective === null || solver?.objective === undefined));
+  const alternative = solver?.alternative;
   const fellBack = solver?.engine === 'heuristic' && solver?.reason
     && solver.reason !== 'requested';
   // OQ 54. The search may place a room below the floor of its own catalogue band, charging
@@ -349,6 +361,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
   // is the surface that shows it. The CP engine refuses the trade outright, so proving a
   // placement is the fix as well as the diagnosis.
   const underBand = placement?.geometry_report?.under_band;
+  /* WP-11.1 — WHAT THE PLACEMENT GAVE UP, computed in build/disclosures.py and rendered here
+     rather than re-derived. The paragraph under the sheet used to tell a reader that where a
+     set of the record's declared facts could not all hold, "the ones it had to give up are
+     named above rather than dropped" — and nothing above named them. On the shipped Tidewater
+     plan that is sixteen declared exterior walls, both ends of the centre passage among them,
+     with the compositional objective never evaluated. The list is the server's; this surface
+     may not compute its own, or the two spellings drift the way the citation grammar's three
+     did. */
+  const disclosures = placement?.disclosures || [];
+  const gaveUp = disclosures.filter((d) => d.id !== 'engine' && d.id !== 'relaxations');
+  const TONE = { iron: 'var(--sev-fatal)', copper: 'var(--sepia)', verd: 'var(--verd)' };
   const levelIndices = (plan.levels || []).map((l) => l.index ?? 0);
   const declared = plan.adjacencies || [];
 
@@ -612,6 +635,22 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               </p>
             </div>
           )}
+          {gaveUp.length > 0 && (
+            <div style={{ maxWidth: 1000, border: '1px solid var(--rule)',
+              borderLeft: '3px solid var(--sev-fatal)', padding: '10px 14px', margin: '0 0 14px' }}>
+              <Eyebrow tone="secondary">what this placement gave up</Eyebrow>
+              <ul style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-2)',
+                margin: '6px 0 0', paddingLeft: 18 }}>
+                {gaveUp.map((d) => (
+                  <li key={d.id} style={{ color: TONE[d.tone] || 'var(--ink-2)' }}>{d.text}</li>
+                ))}
+              </ul>
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '8px 0 0' }}>
+                Each line is a count the placement record already carried and no surface read.
+                A proof against a relaxed hard set is a proof of a different question.
+              </p>
+            </div>
+          )}
           {underBand?.count > 0 && (
             <div style={{ maxWidth: 1000, border: '1px solid var(--rule)',
               borderLeft: '3px solid var(--sepia)', padding: '10px 14px', margin: '0 0 14px' }}>
@@ -715,11 +754,28 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
           <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
             margin: '16px 0 0', maxWidth: '76ch' }}>
             {proved
-              ? <>This placement was <strong>proved</strong>, not searched: CP-SAT held the record's
-                own declared facts as hard constraints and returned {solver.status
-                  ? solver.status.split('—')[0].trim().toLowerCase() : 'a solution'}. Where a set of
-                them could not all hold, the ones it had to give up are named above rather than
-                dropped. <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
+              ? <>This placement was <strong>proved feasible</strong>, not searched: CP-SAT held
+                the record's own declared facts as hard constraints and returned {solver.status
+                  ? solver.status.split('—')[0].trim().toLowerCase() : 'a solution'}.{' '}
+                {!objectiveRan
+                  ? <><strong>Its composition was not evaluated.</strong> The proof ran out of
+                    budget before the compositional objective, so no term for the front, the axis
+                    or the stack was scored on this drawing — it is the first feasible placement,
+                    not the best one.{alternative?.verdict === 'offered'
+                      ? <> The fast search places the same house at <strong>{alternative.score}</strong> demerits
+                        against this drawing's {alternative.drawn_score}, and breaks{' '}
+                        <strong>{alternative.hard_fact_violations}</strong> declared fact(s) this
+                        one holds ({alternative.drawn_hard_fact_violations}). A lower score is not
+                        on its own a better house: choosing the search is choosing a better
+                        composition over a proved feasibility, and that is the choice. </>
+                      : ' '}</>
+                  : ' '}
+                {gaveUp.length
+                  ? <>Where a set of them could not all hold, the ones it had to give up are named
+                    in <em>what this placement gave up</em> above — until WP-11.1 this sentence
+                    claimed they were named and no surface named them. </>
+                  : 'It gave nothing up. '}
+                <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
               : <>This placement came from the <strong>fast search</strong>, which is a hill-climb and
                 not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws
                 asserts that feasibility was proved.{fellBack

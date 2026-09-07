@@ -103,6 +103,12 @@
   "depth_multiplier": 1.7,
   "sides_lit": 1,
   "orientation": "Follows the front door and has no say. The consequence is that a north-facing entrance hall is dim at every hour and needs its transom, its sidelights and its rear axis all working; a south-facing one needs none of them and gets them anyway.",
+  "aspect": {
+    "applies": false,
+    "basis": "Follows the front door and has no say.",
+    "note": "The record says in so many words that this room has no say: its aspect is the front door's.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.08,
    0.25

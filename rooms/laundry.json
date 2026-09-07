@@ -123,6 +123,12 @@
     "depth_multiplier": 1.8,
     "sides_lit": 1,
     "orientation": "Any, and a window that opens is worth having because the room produces heat and moisture. Historically the wash house faced the drying yard, which faced south and the prevailing wind.",
+    "aspect": {
+      "applies": false,
+      "basis": "Any, and a window that opens is worth having",
+      "note": "The record answers \"Any\". What it does state is that a window should OPEN, which is a ventilation rule and not an aspect.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.05,
       0.12

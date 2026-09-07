@@ -79,6 +79,15 @@
     "depth_multiplier": 1.2,
     "sides_lit": 0,
     "orientation": "North or whatever is left. The back hall historically took the elevation nobody looked at, which is exactly why it should get the one window it can have: a borrowed light or a glazed back door at the end of the run.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N"
+      ],
+      "basis": "North or whatever is left.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.12

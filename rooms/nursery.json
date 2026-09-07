@@ -81,6 +81,19 @@
     "depth_multiplier": 2.0,
     "sides_lit": 1,
     "orientation": "North or east, and the reason is the opposite of every other bedroom: a nursery is used for DAYTIME sleep and wants to be darkenable, so an aspect that does not need heavy blackout is worth having. A west-facing nursery in summer is a room a child will not nap in.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N",
+        "E"
+      ],
+      "avoid": [
+        "W"
+      ],
+      "basis": "North or east, and the reason is the opposite of every other bedroom",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.08,
       0.13

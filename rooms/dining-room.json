@@ -85,6 +85,17 @@
     "depth_multiplier": 2.0,
     "sides_lit": 1,
     "orientation": "East or south-east for a breakfast-doubling room; west where the room is used at night and the low sun is wanted on the table. Avoid a window directly behind the head of the table.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E",
+        "SE",
+        "W"
+      ],
+      "basis": "East or south-east for a breakfast-doubling room; west where the room is used at night and the low sun is wanted on the table.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.18
