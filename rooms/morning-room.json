@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "writing table or davenport",
+      "kind": "object",
       "footprint_in": [
         48,
         26
@@ -48,6 +49,7 @@
     },
     {
       "item": "chair at the table",
+      "kind": "object",
       "footprint_in": [
         20,
         22
@@ -57,6 +59,7 @@
     },
     {
       "item": "two easy chairs and a small sofa",
+      "kind": "object",
       "footprint_in": [
         60,
         32
@@ -66,6 +69,7 @@
     },
     {
       "item": "work table for sewing or accounts",
+      "kind": "object",
       "footprint_in": [
         30,
         20
@@ -76,6 +80,7 @@
     },
     {
       "item": "bell pull or, later, the house telephone",
+      "kind": "object",
       "footprint_in": [
         6,
         3
@@ -86,6 +91,7 @@
     },
     {
       "item": "plants at the window",
+      "kind": "object",
       "footprint_in": [
         36,
         14

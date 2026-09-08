@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "large sectional or two facing sofas",
+      "kind": "object",
       "footprint_in": [
         120,
         96
@@ -47,6 +48,7 @@
     },
     {
       "item": "television, 65 to 85 in",
+      "kind": "object",
       "footprint_in": [
         75,
         4
@@ -57,6 +59,7 @@
     },
     {
       "item": "dining table for eight",
+      "kind": "object",
       "footprint_in": [
         40,
         96
@@ -67,6 +70,7 @@
     },
     {
       "item": "kitchen island with seating",
+      "kind": "object",
       "footprint_in": [
         42,
         96
@@ -77,6 +81,7 @@
     },
     {
       "item": "rug, large",
+      "kind": "covering",
       "footprint_in": [
         144,
         180
@@ -87,6 +92,7 @@
     },
     {
       "item": "clear circulation ring",
+      "kind": "reservation",
       "footprint_in": [
         42,
         480

@@ -22,6 +22,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4**, **8.6**, **8.7**, **8.8**, **8.9**, **8.10**, **8.11**, **8.12**, **8.13**, **8.14** *(no 8.5 — see the note in CLAUDE.md; it shipped as `6f9e7c7` before the numbering existed)* | **8.1-8.4, 8.6 complete (28 Aug 2026); 8.7-8.14 complete (2-4 Sep); OQ 51's delivery half FINISHED and AUDITED** — **WP-8.8** made the baked-snapshot class knowable (135 judged, 0 stale, 8 unjudgeable for want of a recorded binding) and found the evaluator the question asked for had existed in two places all along. **WP-8.9** measured OQ 51's flip before building it and found the ruling had been taken on `unendorsed` — a count of ROLE GAPS — where the thing a gate stops is DELIVERIES: 2,899 slots, not ~223, a factor of thirteen. Put back with the numbers, Lucas ruled *stage it pack by pack* and *a separate field*; the `--stranding` meter and the `delivery: opt-in` / `inherits_packs` mechanism shipped inert. **WP-8.10** landed the first flip and built the loudness the ruling required: `trim-classical` is opt-in, six vouched nodes admit it, 10 slots over 10 nodes are stranded, and every stranded slot in the corpus (2,889 of 2,889) now NAMES the pack withheld and why. It found the meter's gate and the mechanism's gate were different predicates (10 against 15, one of the five a shipped reference plan), that `measure()` could not see a flip at all, and that the flip was sold on a corpus-level writer count that described no node — the same wrong-grain error as WP-8.9's, one package later. — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` **WP-8.11** flipped `facade-gable` (32 slots over 29 nodes, 29 of them `cornice_return`, whose only writer in the corpus is that pack) and found that BOTH suites drove the opt-in gate through the very pack about to be flipped -- a counterfactual that becomes the status quo, stays green and stops testing anything. **WP-8.12** flipped `sash-light` (70 slots over 34 nodes) and falsified WP-8.11's own two-point claim that the refill is roughly proportional: 4 gaps from a 10-slot flip, 13 from a 32-slot one, 10 from a 70-slot one. The refill is now landing ENTIRELY on the five packs whose `applies_to` arms a live gate (3 of 13, then 10 of 10), which follows from the staging order rather than chance and is worth a ruling before the remaining flips. `judged` is 249 after all three flips and 136 withheld arrivals: zero cases read. Reports: `docs/reports/wp-8.1{0,1,2}-*.md`. **AND THE THREE-FLIP FIGURES ABOVE ARE THAT MOMENT'S, NOT THIS TREE'S** -- WP-8.13 and WP-8.14 flipped the remaining five, and the live meter on the merged tree reads role_gaps **222**, inherited_packs **2,762**, unendorsed **180**, `judged` **250** and **396** withheld arrivals over all eight flipped packs. The row's own status cell said 8.7-8.14 complete while its narrative stopped at 8.12; re-measured at the 7 Sep merge rather than left to be read as current. |
 | **9 — Arrangement** | **WP-9.1, 9.5, 9.6, 9.7** complete · **9.2 text half done, image half waiting on Lucas's download** · **9.3 part built** · **9.4 COMPLETE AND ITS OWN PREMISE REFUSED** (`docs/reports/wp-9.4-the-unit-was-not-the-problem.md` — cite the FILENAME, two WP-9.4s exist) | **In progress (1 Sep 2026; this row was corrected on 3 Sep, having said "9.2, 9.3, 9.4, 9.5 not started" while four of those five had moved and two more packages had shipped with no section of their own — see `docs/reports/project-review-2026-09-03.md` §VII. The 9.4 cell in that same correction still said NOT STARTED and was itself wrong — the package had run on 1 Sep and refused `parti_slice` with its measurement, a probe taking fatals 3 to 8. Corrected again hours later; see that review's §IX, which is about this exact line)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
 | **10 — The second massing element** | **WP-10.1** | **Complete, and two of its three packages withdrawn by its own audit (3 Sep 2026)** — OQ 40 ruled a dependency a second massing element and the machinery ships and is DORMANT: the block placer, `exterior_score(bounds=)`, plan schema 0.5.0, both reference plans byte-identical. The service strip and the hyphen-as-a-room were WITHDRAWN when the audit found eight blocking defects, five of which reduce to **six layers below the placer reading the main block as the whole building** — a garage window drawn 14 ft from the garage, a span manufactured across the hyphen gap, a house reporting `lot_capped: true` at 34 ft wider than its lot. CP-SAT refuses a multi-element plan rather than flattening it (which had also flattered a number this session published); `geometry_report.multi_element` discloses the six. Report: `docs/reports/wp-10.1-the-audit-of-the-dependency.md` · new question: `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` |
+| **11 — The drawn sheet** | **WP-11.1 … WP-11.8** · the rest planned | **WP-11.1 complete (4 Sep 2026)** — raised by Lucas against a rendered sheet set beside four exemplar plans, and diagnosed before he said what was wrong. The finding that organises it: **the instrument already owned a written graphic standard and the plan sheet did not obey it** — `tokens.css` has carried Graphic Standard No. 1 verbatim since WP-5.2 while `render_plan.py` drew in a dark instrument palette that `svg_theme.py` translated on the way to the browser, so the sheet had the standard's COLOURS and none of its GRAMMAR. `build/sheet_style.py` is the one spelling (52 hex literals in the four renderers → 0, all ten sheets byte-identical across the move); the wall is a BODY at the three thicknesses `structure.wall_thickness` has computed since WP-3.1 and no drawing had ever read, so the sheet now says which walls CARRY; an opening is a hole cut from `derive_openings`' own spans; the room washes are gone and the paper is the room; and the six banner lines are a margin schedule below a ruled border. **Two registers, ruled by Lucas 4 Sep**: `presentation` for a reader, `working` for the marks, one renderer, the plate saying which. **Three existing guards had selectors this package retired and all three would have passed vacuously**, and widening the fourth opened a hole a mutation found — `LIGHT` vouched for itself. Reports: `docs/reports/wp-11.1-the-sheet-in-its-own-standard.md` and `docs/reports/wp-11.2-the-pen-ladder-and-the-wall-the-record-states.md` · new question: `oq/the-placement-carries-no-wall-bands`. **WP-11.2** put the workbench's own sheet on the same ladder (19 inline stroke widths → 0) and gave both renderers ONE wall to read — `footprint.wall`, plan schema 0.5.1, from `build/assemblies.py`, a leaf on `storeys.py`'s precedent. **The browser walk ran for the first time in a session on this branch** and caught a defect 81 unit tests and a clean build both missed |
 | **11 — The house the sheet should have drawn** | **WP-11.1 through 11.9, 11.11 and 11.12 COMPLETE · 11.10 PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · then the adversarial audit of 11.9-11.11** | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
 
@@ -1546,6 +1547,527 @@ must be ruled first. `hyphen_length_ft` remains could-not-evaluate and C3's clai
 it is retracted. 21 HARD fault rules inert via prose `exceptions` (47 of 51 lists fully inert) is
 recorded as pre-existing and at scale, and is not this package's.
 
+## Phase 11 — The drawn sheet, and the house under it
+
+> **MERGED WITH THE OTHER PHASE 11 ON 8 SEPTEMBER 2026.** This board and the precedent bench's
+> board below it both stand, neither renumbered, exactly as the two Phase 9 boards do. The
+> reconciliation is not a work package and has no WP number; its record is
+> `docs/reports/the-merge-of-the-two-phase-11s-2026-09-08.md`, and **it is the one to read before
+> quoting a figure either line published**, because almost every pin either side held is now a
+> third value belonging to neither parent. Two open questions came out of it —
+> `oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either` (the one real cost, worse
+> than either parent on one axis) and
+> `oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted`.
+
+*Raised 4 September 2026 by Lucas, against the rendered `tidewater-georgian-careful` sheet set
+beside four exemplar plans (one pen-and-ink, three tan-poché). He asked for the diagnosis first and
+for the directive second, and then ruled three things on it: the editorial furniture pass is in;
+the programme covers BOTH the drawing and the placement under it; and the sheet has two registers.*
+
+**The diagnosis splits the way WP-6.1's did, and that split is what makes a programme possible
+rather than one enormous change.** Ten of the twenty-eight items are the PLACEMENT — the passage
+west of centre, the kitchen "dependency" and back hall "hyphen" as rooms of one flat rectangle,
+twenty-three of twenty-five rooms drawn at a size the record does not declare, nothing stacking,
+the terrace never placed. Eighteen are the DRAWING — no poché, room washes doing the work walls
+should do, windows as coloured bars, three typefaces, the diagnostics in the drawing field, no
+border, no furniture, no chimneys, no steps, no compass, a scale bar of one line.
+
+### WP-11.1 — the sheet in its own standard
+
+**Status: COMPLETE (4 September 2026).** Report:
+`docs/reports/wp-11.1-the-sheet-in-its-own-standard.md`. `build/sheet_style.py`, the wall as a
+body, openings as holes, the two registers, the margin schedule, the ruled border, the compass
+rose, the graphic scale, the bay grid extended past the walls, and room names in the standard's own
+letterspaced capitals. New question: `oq/the-placement-carries-no-wall-bands`.
+
+### WP-11.2 — the pen ladder, and the wall the record states
+
+**Status: COMPLETE (4 September 2026).** Report:
+`docs/reports/wp-11.2-the-pen-ladder-and-the-wall-the-record-states.md`. `sheet/pen.js` (19 inline
+stroke widths in `Sheet.jsx` → 0, and the standard's five weights in use for the first time);
+`build/assemblies.py`, a LEAF on `build/storeys.py`'s precedent, so the drawing can read the wall
+without closing an import cycle through `structure.py`; `footprint.wall` on the record at plan
+schema **0.5.1**, so both renderers read one number instead of two literals matching no assembly
+in the catalogue. **The browser walk ran for the first time in a session on this branch** — green
+pristine, red on the change, on a defect 81 unit tests and a clean build both missed. OQ 64 is
+not closed and is made closable.
+
+### The rest of the A line — the drawing
+- **WP-11.3 — furniture. COMPLETE (4 Sep 2026).** `build/furniture.py` (a LEAF, holding the packer
+  MOVED out of `fixture_pass` — fixture output byte-identical over all sixteen plans),
+  `furniture/grammar.json`, `furniture/symbols.json`, `build/check_furniture.py`. **540 items
+  placed, 125 refused with reasons, 216 skipped by kind; 181 rooms furnished where 5 had
+  fixtures.** Every rule declares a GRADE — `reading` where the record gives both the rule and the
+  figure, `editorial-from-prose` where it gives the rule in words, `editorial` where it says
+  nothing — and three rules the corpus states in prose are named STATED AND NOT EXECUTED, which is
+  where OQ 92 drew the line. `kind` authored on all 278 items and required by `check_rooms.py`, on
+  `placement`'s own WP-7.2 precedent: **a regex over these strings is provably wrong in both
+  directions**, and the sweep that proved it returned one hit, a false positive, while missing the
+  real one. **The finding that names the report: `rooms/library.json` authored its table
+  `against-wall` while its own note says the table is in the MIDDLE of a library and against a wall
+  in a study, "and that difference is what distinguishes the two rooms"** — the study's answer, on
+  the library's record. Corrected from that sentence, which moved the drawn-furniture ratchet
+  86 → 88 with the placement byte-identical. The marks go ON THE RECORD (WP-6.2's rule a layer up),
+  so both renderers draw and neither derives. Three defects the guards caught that reading did not:
+  a piano arc that left its room 13 times in 1,078 marks while every item rectangle stayed inside,
+  a desk drawn as a bed because "bedroom" contains "bed", and a refusal that did not name the rule
+  refusing it. **Two of the package's own new guards could not fail and mutation found both.**
+  Report: `docs/reports/wp-11.3-the-record-said-against-the-wall-and-its-own-note-said-otherwise.md`
+  · new question: `oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`.
+- **WP-11.4 — threshold and stacks. COMPLETE (4 Sep 2026).** `build/threshold.py`,
+  `threshold/grammar.json`, `build/check_threshold.py`, plan schema **0.7.0**, checks 48 → **49**.
+  The stoop's flight at the entrance door and the two gable-end stacks are drawn, in the wall's own
+  poché, from the record and from nothing else. **The columns are REFUSED and that refusal is the
+  package**: `portico_bays` resolves to 1 on `tidewater-georgian`, and the first clause of its own
+  slot rule carries the condition — *"WHERE A PORTICO OCCURS it is one bay wide"* — which that node
+  does not meet, its `porch_type` making `stoop-only` canonical and calling the entry portico
+  ATYPICAL. Read literally, the instruction above puts a portico on **5 of the 8 nodes that resolve
+  a `portico_bays`**, one of them a shipped reference plan. And on the 23 nodes where a portico IS
+  canonical the column has no width: **exactly 1 node in 164 states a diameter in inches, and it
+  states no bay count** — the intersection of the three facts a drawn column needs is EMPTY.
+  **The stack's hardest question was answered by a different slot from the one it was asked of**:
+  `chimney` makes both a paired-INTERIOR and an EXTERIOR gable-end stack canonical, and
+  `hearth_position`'s own note says why it is the one to ask — *"the ontology separates the roof
+  expression from the plan fact"*. `SIDE_OF` and `MASSING_HEARTH` are CLOSED tables proved total by
+  the new checker, which **failed on its first run** on twelve massing values in a second
+  vocabulary, seven of the forty massings stating a DISJUNCTION their own `hearth` field never
+  resolves. Which rooms take a hearth is RAISED, not read. Two of the fourteen reference plans had
+  been failing their own plan schema since OQ 55 and nothing had noticed. Report:
+  `docs/reports/wp-11.4-the-parameter-whose-condition-nobody-read.md` · new questions:
+  `oq/which-rooms-take-the-hearth`, `oq/a-child-band-replaces-an-ancestor-derivation`,
+  `oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it`.
+- **WP-11.5 — the face. COMPLETE (5 Sep 2026).** `build/gen_sheet_font.py`, a committed subset
+  under `assets/generated/`, and `sheet_style.font_face_rule()` / `face_status()` /
+  `advance_widths()`. Graphic Standard No. 1 names one serif voice; every plate had asked for it
+  in a stack and carried no font, so an exported SVG was set in Georgia and could not say so.
+  **EB Garamond 1.003, printable ASCII plus a named extras list, 127 glyphs, 15,016 bytes WOFF /
+  20,024 base64**, carried in each sheet's own `<style>` with the SIL OFL beside it — the
+  Tidewater plate goes **43,141 → 63,555 bytes, +47%**, and that is the whole cost. The margin
+  now prints `FACE EMBEDDED — EB GARAMOND VERSION 1.003 …`, or `FALLBACK` with the reason, which
+  is what "the title block must say so" asked for. **The fitter measures the face it draws in
+  for the first time**: `_adv` read a five-branch estimate — one number, 0.66 em, for every
+  capital — against a face whose `I` is 0.34 and whose `W` is 0.916, and **34 room labels across
+  10 of the 16 plans change size** on the real metrics. **THE ONE FINDING: `∗`, the divergence
+  mark the sheet defines in its own margin, is in NEITHER face the sheet names** — not EB
+  Garamond (2,091 cmap entries) and not Courier Prime (383) — and renders only because a browser
+  falls past both stacks into a system font. Not changed, because the symbol is the standard's:
+  `oq/the-divergence-mark-is-in-neither-face-the-sheet-names`. **`recalcTimestamp=False` is the
+  whole of why the artefact can be verified**: fontTools writes the save time into `head.modified`
+  by default, so two builds of one font differed and `--check` would have been a command that
+  always says FAIL. Report: `docs/reports/wp-11.5-the-face-the-sheet-had-always-asked-for.md`.
+
+### The B line — the house under the drawing
+
+Three facts govern it, all measured and on record, and each is a reason a scoring change will not
+work: **the declaration reaches both engines as a scalar AREA** (`level_score` reads `r["_area"]`;
+CP's only hard side bound is `0.6 × declared short side`; `WIDTH_W` ships at 0.0 with a sweep behind
+it); **CP's relaxation ladder harvests only `kind == "wall"`**, so any other hard fact is
+unrelaxable by construction, and OQ 95's closure names the designed way past it — a downgradable pin
+with its own `kind`, ranked below declared walls; and **on the Tidewater plan the CP objective
+cannot reach the drawing at all**, because `_finish_feasible` keeps the unoptimised feasibility
+placement. WP-9.4 §1 refused a stated tree that centred the passage, at 100 points and five fatals,
+and that refusal is to be ANSWERED — the objective that priced it has no shape term and no axis
+term — not stepped around.
+
+- **WP-11.6 — the record says what it means. COMPLETE (5 Sep 2026).** `stacks_over` on the upper
+  passage and the landing, which the parti declares and the plan does not; no engine change.
+  *The two lines of JSON the package asked for are in, and reading the code before writing them
+  turned up four findings.* **`stacks_over` had seven readers and four definitions of "below",
+  and every one declined in silence** — the shipped Tidewater record's ground-level powder room
+  naming a ground-level cellar stair was dropped by three of them with a bare `continue`, so the
+  plan carried four claims of which three were judged and nothing said which three. Plan schema
+  **0.8.0** splits the field's two duties: `stacks_over` is STRUCTURAL (one level below, judged
+  by rectangle overlap), `wet_stack_with` SERVICING (any level, target need not be wet — a stack
+  needs a chase and a stair shaft is one). `build/stacking.py` is the one spelling, a LEAF on
+  `storeys.py`'s precedent because `geometry.py` loads `plan_check.py`; `geometry_report.stacking`
+  carries `claims == kept + broken + unjudged` with a reason from a closed set on every unjudged
+  entry; `build/check_stacking.py` is the 50th check. **Measured, `heuristic`: claims 3 → 5, kept
+  1 → 3, serious 62 → 55, fatal 3 → 4, relaxations 7 → 9** — `geometry.bias()` reads the field to
+  steer CANDIDATE GENERATION, so a record edit moves the placement with no engine change, and the
+  upper floor stops being slivers (the landing 6.0 × 15.4 ft → 12.1 × 13.5). The new fatal is
+  `unreachable: chamber3` and is **named, not absorbed** — clearing it means authoring a door
+  from a bedroom into a closet. **On `auto` the claims buy nothing**: CP keeps hard-only phase A,
+  its objective never runs, and 5 of 5 are broken — Part IV.B's fact (iii) measured on this plan
+  for the first time, and the evidence WP-11.7 rests on. **The largest finding is not about
+  stacking**: both engines place two levels, `bad-03` declares three, and its level-2 Gameroom
+  came back with no geometry, no finding and no note while the sheet drew the house without its
+  top floor. Disclosed on `multi_element`'s precedent — and writing that turned up a fifth:
+  `multi_element_disclosure` was wired into `write_record` and not into `_finish`, so every
+  CP-produced multi-element placement has shipped without it since OQ 40. Report:
+  `docs/reports/wp-11.6-the-claim-nobody-could-judge.md` · new questions:
+  `oq/the-placer-places-two-levels-and-says-nothing-about-the-third`,
+  `oq/a-plan-does-not-name-the-parti-it-was-built-from`,
+  `oq/the-frozen-fixture-is-regenerated-by-solving`.
+- **WP-11.7 — the shape band and the ranked ladder. COMPLETE (5 Sep 2026).** Planned as per-room
+  side bounds at an authored tolerance τ; **built as the room record's OWN `dimensions.proportion`
+  band instead**, because the corpus already states the shape rule and τ would have been a number
+  nobody could source — measured first, all 23 dimensioned rooms on the Tidewater record declare a
+  shape INSIDE their own band, so the pin contradicts no authored record, and it is the band the
+  drawn layer already convicts a room for leaving. **The band and the record's `exterior_walls`
+  cannot both be hard**: with the band held and all 22 wall pins released the model is OPTIMAL,
+  with the pins held it is INFEASIBLE at every footprint to ten bays, and the ladder gives up 14
+  or 15 of the 15 shape pins at every coverage floor from 0.97 to 0.60 — so coverage and packing
+  are not the blocker and `oq/the-placement-carries-no-wall-bands` is not what is in the way.
+  **Ruled by Lucas: the band outranks the pins**, which is what CLAUDE.md has said since WP-2.2
+  (*"exterior_walls are aspirations, not rectangle edges … do not promote them to constraints"*)
+  and what this engine had never done. `_RANK = ("wall", "axis", "shape")`, released lowest
+  first, whole rank at a round (the narrow version needs eight rounds and the intermediate states
+  go UNKNOWN at any bench-sized budget; `_reinstate` wins back what holds). **Measured on `auto`:
+  serious 79 → 56, stacks kept 0 → 3 of 5, every room inside its own band where the worst had
+  been a 13 × 16 ft bedroom drawn 45 × 7, and the passage 22 × 19 → 9 × 40, spanning again.**
+  `_absorb` had grown three rooms straight back out of the band CP had just proved — the third
+  time that pass has undone a proof — and takes `ratios` now. **The axis pin states the spanning
+  half and REFUSES the centring**: `2x + w == W` is INFEASIBLE in 0.9 s with every wall released,
+  because the passage centred on a 60 ft front leaves two strips holding 2,000 sf of programme in
+  1,992 sf of floor. Cost: `spec-builder-colonial` needs 29.6 s against a 25 s budget and falls
+  back to the search, losing its proof —
+  `oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five`. Report:
+  `docs/reports/wp-11.7-the-band-the-corpus-already-stated.md`.
+- **WP-11.8 — the heuristic follows. COMPLETE (5 Sep 2026).** It follows by RANKING, not by
+  refusing: the proportion band a room's own record states is the FIRST key of the candidate
+  acceptance and the score is the second. Ruled by Lucas over a sweep and a demotion. Measured
+  first, and it is why rejection was never on the table: **zero of 250 candidates conform** on
+  the Tidewater ground floor (the distribution runs 3 to 10 out of band, best 3), so "hard"
+  cannot mean "refuse" in an engine with no conflict set. **The key counts the band in BOTH
+  directions** — the proportion ceiling and the room's own area floor — and the second half was
+  forced by a WP-7.4 guard rather than designed: ranked on the ceiling alone this took under-band
+  rooms 15 → 21 and put `spec-builder-colonial`'s dining room back below its own floor, which is
+  one term winning rather than the room's own record. Corpus-wide, `heuristic`: **rooms drawn
+  outside their own band 77 of 219 → 30**, under their own floor 15 → **13**, serious 745 → 681,
+  minor 1031 → 992, **fatal 113 → 136**. Every one of the twenty-three new fatals is
+  `unreachable` — a squarer room shares less wall, so its declared doors lose their run — and
+  **a door-seating count built to rank above the band, to protect the more serious fact, measured
+  WORSE on every axis at once** (68 out of band, 131 fatal, 780 serious) because it is a proxy for
+  the drawn layer's rule and not the rule; it was deleted rather than reported. **What settled the
+  trade is the move registry**: all 81 `unreachable` fatals carry `adjacent_placed`, so
+  `add-the-grammar-door` answers every one and the revision loop runs by default, while a room
+  outside its band has NO move at all — 49 defects nothing can fix traded for 23 the loop is built
+  to clear. `geometry_report.shape_band`
+  discloses the residual from `_disclose`, so both engines report it. **The budget is split**
+  (`BUDGET_BATCH_S = 40.0`, `BUDGET_INTERACTIVE_S = 25.0` passed by name by the bench evaluate
+  and `place_plan`) and `spec-builder-colonial` is CP-solved again with 0 rooms outside its band.
+  Pins: relaxations 9 → 8, furniture 86/70 → **65/65** — the first of that file's three moves
+  that is an IMPROVEMENT, and it is Lucas's own Phase 9 complaint answered; rooms drawn a tenth or
+  more off their declared area 164 → **148 of 231**. **The cost the critic cannot see**:
+  over-capacity clear spans 13 → **25**, worst 40.0 → **60.0 ft**, relaxations 64 → 86 — a squarer
+  room puts fewer cuts on the bay module, and cutting on it is the only way this slicer makes a
+  bearing line. **The full suite refused the package seven times over two runs and not one was a
+  pin to bump**: a furniture rectangle judged at full precision and
+  written rounded (one drawn collision, latent since the pass was written), the WP-7.4 guard that
+  forced the second half of the key, and three guards pinning an OUTCOME the placer is free to
+  change (including two requiring `spec-builder-colonial` to flag an over-capacity span, which it
+  no longer does) — each rewritten against the behaviour instead, with the capacity and the
+  bearing tolerance untouched. Report:
+  `docs/reports/wp-11.8-the-search-ranks-what-it-used-to-price.md` · closed:
+  `oq/a-shipped-plan-needs-thirty-seconds-and-the-budget-is-twenty-five`,
+  `oq/the-frozen-fixture-is-regenerated-by-solving`.
+- **WP-11.9 — the dependency. COMPLETE (6 Sep 2026), and its last item REFUSED with a number.**
+  All four rulings taken before any code (per-element envelope with the union beside it; the lot
+  cap on the built extent, gap excluded; a hyphen is an element and abutment is a constraint;
+  `touches` against the room's own element's face), then all six layers taught in the stated
+  order with a measurement after each. `build/elements.py` is the one reader, a LEAF.
+  **The whole shipped corpus is byte-identical** — placement, footprint, openings, fixtures,
+  furniture and findings — because every plan here is one rectangle, and that is the guarantee
+  the package is read against; `tests/test_elements.py` pins both digests. Measured on a
+  hand-tagged Tidewater: outward openings placed on their own element's real faces **18 → 23**
+  with refusals 11 → 6 (five authored windows recovered); exterior walls **4 → 12** on the ground
+  and 4 upstairs; unsupported upper wall lines **20 → 27** on one record with only the instrument
+  changed (seven had been credited to walls under no upper floor); built extent **97 → 77 ft**,
+  because the main block had been sized for rooms that go in the dependency; rooms reaching no
+  exterior wall **8 → 1**; one IFC slab per element per storey. **The abutment constraint is
+  INERT on everything the placer produces and the test says so in its own name** — tried at five
+  hyphen depths and on a composed five-part with five elements, the count is zero, because
+  `blocks_for` clamps the hyphen's depth and centres all three on one axis. **The tags are NOT
+  authored on the shipped record**, and the reason is one measured fact: tagging is now an
+  improvement on every axis (fatal 9 → 6, serious 61 → 53, rooms out of band 6 → 2, where
+  WP-10.1 measured the same tags trebling the fatals) but `engine="cp"` REFUSES a multi-element
+  plan, so it would trade a proved reference plan for a searched one —
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`. Report:
+  `docs/reports/wp-11.9-the-six-layers-that-read-one-rectangle.md`.
+- **WP-11.10 — the terrace at grade. Status: COMPLETE (7 Sep 2026).** **The gate did not
+  apply, and finding that out was the package's first act.** It was written here as gated on
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`, on the assumption stated in
+  the plan file's Part IV.B5 that an at-grade unroofed thing on the wall of the room it serves
+  is a third massing ROLE. The CP refusal keys on the room's `block` TAG (`geometry.py:2399`,
+  `is_block_tag`), so a pass that writes no tag never reaches it. **Ruled 7 Sep 2026: an
+  at-grade unroofed appendage is NOT a massing element** — it is a plan-level record on
+  `plan.threshold`'s precedent, and the question stays open and untouched, still gating the
+  shipped-record dependency tags. `build/appendages.py` is a LEAF taking `elements.py`'s two
+  readers as arguments; it runs BEFORE the level loop, because `_place_interior` is the first
+  pass in it and could not otherwise seat the door the terrace exists for. Plan schema
+  **0.9.0**. Three rules, all `reading`, their bases checked through
+  `check_openings.check_basis` rather than a 51st checker — `TOTAL_CHECKS` does not move.
+  **`exterior_walls` means two different things on an outdoor room** (one record declares three
+  free faces, four declare the side of the house) and neither reading resolves the six on its
+  own, so the face is the INTERSECTION — a wall declared whose opposite is not — which is
+  WP-11.4's "three statements of one depth" rule a layer up. **4 placed, 2 refused by name**
+  (`wood-deck-w` declares no door; `wood-deck-e` serves two rooms and leaves E and N both
+  admissible) and neither refusal patched into a placement. **The corpus PLACEMENT is
+  byte-identical (`151126d0269bbc61`) and the OPENINGS move on purpose** — the inverse of
+  WP-11.9's guarantee. **A placed at-grade appendage is OUTSIDE for the reachability walk**:
+  one fatal cleared on the Tidewater plan and **27 created — `good-02` 7, `good-04` 10,
+  `good-07` 10 — because those three have no placed exterior door at all** and the walk had
+  nowhere to start — three COULD-NOT-EVALUATE verdicts became judged, and the single cause is
+  named once beside them (`outside-is-only-an-appendage`). fatal 136 → 162, serious 681 → 685,
+  info 167 → 164, refused doors 243 → 236. **The door was seated and the sheet said it could
+  not be drawn**: `derive_openings` builds its lookup from rooms carrying `geometry` and an
+  appendage's room deliberately carries none, so both plates printed a placed door as
+  undrawable (`FAMILY–TERRACE` by name); both spellings take an `appendages` argument now
+  and the plates read 14 → 13 and 6 → 5. Found by looking at the sheet.
+  **Two guards that already existed caught the package, both fifty minutes into the full
+  suite**: `test_ingest.py`'s schema-version pin caught the 0.9.0 bump a seventh time, and
+  `test_modcache.py` caught a local by-path loader in the new module's `main()` — removed
+  rather than routed, because no other leaf in `build/` carries a CLI.
+  Three of the new guards could not fire on the first
+  mutation pass — every one a branch the shipped corpus cannot reach — and each was given a
+  fixture that proves it bites rather than being deleted. New question:
+  `oq/an-at-grade-appendage-is-drawn-and-not-judged` (the drawn rectangle is held against no
+  band, because the drawn layer reads `room.geometry` and there is none — which is exactly what
+  keeps the three filters blind). Report:
+  `docs/reports/wp-11.10-the-terrace-that-is-not-a-massing-element.md`.
+
+- **WP-11.11 — the prover learns the massing. Status: COMPLETE (7 Sep 2026).** Closes
+  `oq/the-proving-engine-cannot-place-a-second-massing-element`, which WP-11.9 raised and which
+  gated the tags on the shipped record. All three of its items ruled as it framed them: **ONE
+  coordinate space**, each room bounded by its own element's box (CP-SAT integer variables take
+  negative lower bounds, so a west dependency at x = −34 needs no second origin — the shifted
+  space the question offered is not used); **an element boundary is NOT downgradable**, stated as
+  a plain `m.Add` so it creates no assumption literal and cannot enter a conflict core, `_RANK`
+  untouched; and **affordability MEASURED rather than assumed** — a three-element fixture proved
+  OPTIMAL in 0.47 s, the tagged Tidewater decided in 1.5 s, both shipped plans keeping their
+  status at the batch budget. Eight statements the model made about "the block" are made about
+  the room's own element now — containment, the coverage floor, a declared exterior wall, a
+  spanning room's through-axis, an exterior door reaching the envelope, the bay grid, the span
+  capacity and `_absorb`'s four growth limits. **The guarantee is that the MODEL for a
+  one-rectangle house is byte-identical**, pinned as four `CpModel` proto hashes, because CP
+  under a wall clock is not reproducible and pinning what it FINDS would pin the machine; the
+  corpus's placement, openings and findings are unmoved. **And the tags on the shipped record are
+  still refused, for a better reason than WP-11.9's**: `engine="cp"` proves the hand-tagged
+  Tidewater INFEASIBLE with a minimized core of ONE DOOR — *"Dining Room and Butler's Pantry
+  share a door"* — while `engine="heuristic"` reports the same tagging as an improvement (fatal
+  8 → 6, serious 61 → 53). Exactly 2 of the 16 ground-floor door pairs cross main-to-dependency
+  without passing through the hyphen, and one is the door the butler's pantry exists for: every
+  boundary `blocks_for` can draw through this record cuts a declared door, which is
+  `oq/the-parti-dissolved-its-own-dependencies` measured for the first time. **Three defects
+  found in the package's own work**, the sharpest being that the guard written to protect
+  byte-identity (`if ex:`) created the defect it was guarding against — five untagged rooms in no
+  element at all — and that **a measurement taken on the model with that bug reported a proof
+  that did not exist** (13.5 s "OPTIMAL", an artefact, one edit from being published as the
+  headline). `_absorb` undid a proof for the FOURTH time. Nine mutations, every one biting.
+  Report: `docs/reports/wp-11.11-the-prover-learns-the-massing.md` · new question:
+  `oq/the-coverage-floor-is-an-exact-cover-per-element`.
+
+- **WP-11.12 — the span nobody was told about. Status: COMPLETE (7 Sep 2026).** OQ 98's
+  REPORTING half, and the half that needed no ruling. `structure.span_check` has measured the
+  clear span between bearing lines since WP-3.1 and `geometry` has CHARGED it since WP-7.4
+  (`SPAN_W = 20`, mirrored soft in CP) — **and `plan_check` had no span or capacity finding of
+  any kind**, so the Tidewater upper floor's **60 ft clear run with no bearing line in it**,
+  against the 20 ft its framing tradition states, got a clean verdict from the validator the
+  bench shows, the fidelity score the composer ranks on, the critique and every
+  `revision_report`. `geometry._disclose_spans` writes `geometry_report.span_capacity.marks`
+  — `{axis, from_ft, to_ft, span_ft, member, max_span_ft, note, level}` per run, `relaxations`'
+  own *counted AND locatable* shape — from `_disclose`, so **both** record writers carry it
+  (OQ 40's disclosure shipped in `write_record` alone for two phases). **One arithmetic, two
+  adapters**: `over_capacity_spans` (rectangles, what the search holds) converts into
+  `spans_over_capacity` (placed records, what a finished plan holds) and `_span_charge` sums the
+  first; `span_check` is called from exactly one place and an `ast`-reading test holds it there
+  — the first version of that test counted two docstring mentions in `render_section.py` as
+  calls. `plan_check.drawn` emits one `serious` per mark with `need_ft`/`have_ft`/`axis`/`level`
+  and an `info` `span-unjudged` where the catalogue could not be read, and **reads the record
+  rather than recomputing**, because these are the spans `SPAN_W` charged and a second
+  computation could convict a placement on numbers it was not chosen by. *Serious rather than
+  fatal* on the corpus's own words — `span_check`'s note asks for an intermediate support or an
+  engineered member, which is a floor framed differently, not a plan that cannot be walked.
+  Both plates print the count **and the zero**, because *"no span exceeds capacity"* is exactly
+  the claim the understatement can make falsely. **Every count is a floor and says so**
+  (`span_capacity.understated`, in each finding's own statement and on both plates): the
+  measurement half of OQ 98 is that a bearing line is credited across the whole plate however
+  short the wall runs — the Tidewater upper y-wall runs 20 of the 60 ft it is credited across —
+  which under-reports in the direction that looks safe. Measured, `heuristic`, sixteen plans:
+  **serious 685 → 708**, exactly the 23 spans on 13 plans, worst **60.0 ft**; fatal, minor, info
+  and advisory unchanged; placement `151126d0269bbc61` and openings `770a886c7387f3ab`
+  unchanged; solve 0.385 → 0.366 s. **`critique` classes it `placement` and the code says that
+  stretches the definition** — every other kind there is decided against something the record
+  DECLARES and a plan record states no wall positions at all, so it is classed on the other half
+  (an engine setting really does change it), and under CP-SAT `_lever` then says there is none
+  left. **WP-11.8's published pair `13 → 25` was an unlabelled `auto` reading**: re-derived on
+  `git archive` checkouts, the deterministic pair is **11 → 23** and the worst-span pair
+  `40.0 → 60.0` was right; `auto` gives 28 and is not reproducible. Corrected in CLAUDE.md
+  beside the original, with the engines named, rather than in WP-11.8's report, which is left as
+  written. **One of the ten mutations did not bite on the first pass** and it was the familiar
+  shape — `member: None`, where no catalogue member covers the run, a branch no plan in this
+  corpus takes and whose prose interpolated the None; it has a fixture, not a deletion. **And
+  one new assertion stated a false reason and its own first run caught it**: it said `plan_check`
+  cannot load `structure.py`, which it can and does, lazily inside a try, in the elevation block,
+  since WP-3.2 — the comment in `plan_check` said the same. No new checker; `TOTAL_CHECKS` does
+  not move. Report: `docs/reports/wp-11.12-the-span-nobody-was-told-about.md`.
+- **WP-11.13 — the box that could not hold its own rooms. Status: COMPLETE (7 Sep 2026).**
+  Closes `oq/the-coverage-floor-is-an-exact-cover-per-element`, **by measurement and without
+  changing the number it asked about**. `dependency_sizes` sized a non-main element's box to
+  EXACTLY its rooms' declared area (`H = need / W`, zero slack by construction) and
+  `geometry_cp._element_boxes` then rounded it INWARD — WP-11.11's deliberate ruling, so nothing
+  CP proves sits outside the stated mass — and `blocks_for` centres a dependency on the main
+  block's axis, so its origin is a half-foot and BOTH roundings bite. Measured on the hand-tagged
+  Tidewater against a floor of 0.97: **dependency 690 sf of box for 701 sf of rooms (1.016),
+  hyphen 105 for 112 (1.067)** — the rooms could not fit at all, at any floor. **And the coverage
+  floor rounded the same box a SECOND way** (`int(round(...))` against containment's
+  `ceil`/`floor`), so the model demanded 97% of the larger be packed inside the smaller: 108.6 sf
+  into a box holding 105, infeasible by construction, which is why every tagging of that record
+  returned *"the rooms cannot tile any footprint this parti and lot allow, even with every
+  declared requirement dropped"*. `elements.integer_box` is the one spelling now, in the leaf both
+  the model and the disclosure load; `grid_allowance_ft()` is two quanta per axis, DERIVED by
+  solving `(W − 2g)(H − 2g) ≥ need` rather than chosen, and the hyphen takes it in DEPTH only
+  because its width is the gap between two masses. **What a floor is stated against depends on how
+  the box was derived**: the main block's is grown independently by `derive_footprint`, so the box
+  floor is a real question about its rooms; a dependency's is derived FROM its rooms, and the
+  quantised answer cannot land (the floor needs the box within 3% of the rooms' area and one foot
+  of a 30 ft dependency is 5%), so its floor is stated against the rooms' own declared area.
+  **`COVERAGE` is unchanged at 0.97.** `geometry_report.multi_element.element_capacity` puts all
+  of it on the record, per element, with `elements_too_small_for_their_own_rooms` beside it.
+  **What it bought: the hand-tagged Tidewater — service programme in a west dependency joined by
+  the back hall as a hyphen — is proved OPTIMAL in 12.3 s with zero pins downgraded**, which is
+  Part I.A item 4 of the Phase 11 diagnosis and the first multi-element house this corpus has
+  proved outside a selftest fixture. **The corpus is BYTE-IDENTICAL** (placement
+  `151126d0269bbc61`, openings `770a886c7387f3ab`, the four `CpModel` proto hashes) and
+  structurally so: 0 of 16 records carry a `block` tag, asserted rather than assumed.
+  **The corpus said where the butler's pantry goes a fortnight before anyone tagged it** —
+  `rooms/butlers-pantry.json`'s OQ 59 `via` clause, *"in a Tidewater plantation house … the pantry
+  is in the block"* — so WP-11.11's refusal was right and its TAGGING was wrong; the two crossings
+  are not equivalent (`must_adjoin dining-room` is hard with no `via`, `must_adjoin kitchen` is
+  hard with one the plan already carries in full). **The shipped record is still NOT tagged**: it
+  is a record edit moving a shipped placement, and a package that does two things can only be
+  reasoned about as one — `oq/the-parti-dissolved-its-own-dependencies`.
+  **WP-11.11's published "2 of 16 crossing pairs" is 1**, corrected beside the original: the
+  second was `breakfast ↔ terrace`, and a terrace takes no rectangle, so it is in no element and
+  cannot cross — and the first instrument written here read *no element* as *the main block*,
+  reproducing WP-11.9's own defect inside the package auditing WP-11.11. Three existing guards
+  were re-cut against the behaviour they name and none bumped, among them a **source grep for the
+  very expression that carried the bug**, which went red on the fix. Six mutations, each asserted
+  to have landed, all biting — and one bites only the arithmetic test, which the test file says in
+  its own words. `capacity_report` reported unjudged as passed twice before it was right (a
+  `fits: true` on an empty sum, on a record whose blocks carry no room list; and the main block
+  judged on a grid `_snap_fpd` removes), both found by running it. No new checker; `TOTAL_CHECKS`
+  does not move. **And rendering the proved sheet found a SEVENTH layer reading one rectangle**:
+  both renderers draw an exterior door, its sill and its swing on the FOOTPRINT's wall rather than
+  on its own element's, so the tagged sheet puts two doors in open space north of the building
+  (`backhall` at 42.0 ft against its own face at 30.0; `kitchen` at 42.0 against 33.02). The
+  interior branch three lines above is already right. Named rather than fixed, because the honest
+  form adds a key to `derive_openings`' output in both spellings and the frozen sheet-symbols
+  fixture holds them to one contract —
+  `oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms`. Report:
+  `docs/reports/wp-11.13-the-box-that-could-not-hold-its-own-rooms.md`.
+
+- **WP-11.14 — the seventh layer. Status: COMPLETE (8 Sep 2026).** WP-11.9 taught six layers
+  below the placer about massing elements and **the DRAWING was not one of them**: both plan
+  renderers put every exterior opening at `0`/`W`/`H`, the FOOTPRINT's edges. Measured on the
+  hand-tagged Tidewater — **2 exterior doors drawn in open space** (by 12.00 and 8.98 ft, with
+  their sills and swings) and **5 windows standing on their own element's face dropped as
+  "off-footprint"**. `_boundary_wall` / `boundaryWall` take the room's own element box from
+  `elements.bounds_index`, the same reader `openings.py` has used since WP-11.9, so the placer
+  and the drawing answer "which of this room's walls are exterior" with ONE function; and every
+  exterior entry carries `edge_ft`, the coordinate ACROSS the wall, which had nowhere to live
+  because `at_ft` already means the perpendicular on an INTERIOR entry and the position ALONG
+  the wall on an exterior one. **Its fallback is the ROOM's own face and never the footprint's**,
+  which is why the package is the IDENTITY on a one-rectangle house: all sixteen shipped sheets
+  hash `4cfba3a0885ddccb` before and after, measured on a `git archive HEAD` checkout. Doors
+  **2 → 0**, windows drawn **7 → 11**, refusals **16 → 11** — and that 16 was **5 defects and 11
+  CORRECT refusals** (the placement put those rooms inland), a split published rather than a
+  total, because 16 would have been three times the true figure in the flattering direction.
+  **The obstacle WP-11.13 named was not one.** It refused this work because changing
+  `derive_openings`' output shape needs the frozen `sheet_symbols` `expected` rewritten and
+  regenerating re-solves on `auto` (825 insertions / 804 deletions on the pristine tree with no
+  code change). But `freeze()` re-solves only to obtain the ROOMS; `expected` is derived FROM
+  them and the rooms are already committed as contract INPUT. `generate.py --expected-only`
+  re-derives it with no solver — **verified as a byte-for-byte NO-OP against the pristine
+  renderer before it was used**, and it produced **39 insertions, 0 deletions** here. That is
+  available to every later package that changes a renderer's output shape.
+  **The frozen fixtures cannot hold a multi-element case** (no plan carries a `block` tag), so
+  `tests/test_exterior_faces.py` and `workbench/app/src/derive.test.mjs` assert the same three
+  numbers on the same two hand-built rectangles, on WP-11.10's precedent.
+  **Six mutations; five bit at once and the sixth was the one that mattered** — *the drawing
+  ignores `edge_ft`*, the line that put the doors in mid-air, passed every test in the file
+  because every assertion read the DERIVATION and none read the DRAWING (WP-11.10's finding, one
+  package later, in the same file). The replacement was blind too, stripping both keys at once
+  so the windows alone moved the plate; it strips one at a time now. **And the code was really
+  wrong in the way the mutation exposed**: `_frame` and `_door` each read the face separately,
+  so reverting either still moved the other — one opening has one face, computed once. The
+  **And a THIRD guard pinned a literal signature**:
+  `test_both_renderers_read_the_record_and_derive_nothing` asserted the whole `derive_openings`
+  signature verbatim, so adding an argument after `appendages` broke a guard about appendages
+  with a change about elements; its own comment already named the property ("in the same argument
+  position") and it reads the parameter ORDER now, mutation-checked by swapping the last two.
+  The question is HALF CLOSED: doors and windows are swept, the other exterior marks (the stoop,
+  the stacks, the elevation's) are not. Report:
+  `docs/reports/wp-11.14-the-seventh-layer.md`.
+
+- **WP-11.15 — the phantom storey the disclosure invented. Status: COMPLETE (8 Sep 2026).**
+  Found while COSTING WP-11.16, by tagging the shipped record in a scratch copy and reading what
+  came out: `geometry._disclose_spans` published a **30 ft clear span on the upper floor of a
+  single-storey wing**, at x −37..−7 where that wing has no rooms. It built its element map as
+  `{idx: [every element] for idx in rooms_by_level}` — every level, every element — while
+  `spans_over_capacity` takes that map keyed by level *precisely* so this cannot happen and says
+  so in its own comment. WP-11.9 had established the rule three packages earlier and
+  `structure.build_section` and `export_ifc` both obeyed it: **four spellings, the one written
+  last was wrong.** `elements.elements_on_level` is the one spelling now and all three read it;
+  the search keeps its own map deliberately, being a different input shape (raw blocks, before a
+  record exists, keyed to level 0 because the placer reads a `block` tag on the ground alone).
+  **THE COUNT NEVER MOVED**: the phantom REPLACED a real 29.9 ft run rather than adding to one,
+  so `over_capacity` 4, `len(marks)` 4 and `worst_span_ft` 40.0 ft read identically either way —
+  a ratchet on the count could not have failed, and every guard here asserts WHERE a mark is.
+  It falsified WP-11.12's own promise that the marks are the spans `SPAN_W` charged:
+  `published == charged` measured **False**, `charged == per-level` **True**. **The shipped
+  corpus is BYTE-IDENTICAL** — 23 marks over 13 plans, digest `10c5577097b5ec0e`, measured on
+  the pristine tree and again after, and provably so because `len(_els) > 1` is false on all
+  sixteen. Guards are hand-built two-element records on WP-11.10's precedent, the dependency at
+  negative x on purpose; four mutations, each asserted to have landed, all four bite. No new
+  checker; `TOTAL_CHECKS` does not move.
+  **The full suite came back `1 of 50 checks failed` and the failure was NOT this package's**:
+  `test_shape_pins`'s band guard fails about one run in four on `engine="auto"`, measured at
+  **2 of 8 on the PRISTINE tree and 2 of 8 on the working tree**, alternating to control for
+  machine load. The discriminator is the solver status — it passes on `FEASIBLE — kept polish`
+  and fails on `OPTIMAL (hard-only)`, where a room is drawn 51% over its declared area and
+  outside its band while `downgraded_shape_pins` is EMPTY. Raised with the measurement as
+  `oq/a-held-shape-pin-is-not-held-on-the-hard-only-path` and deliberately not fixed here: every
+  plausible fix moves a placement, and this package's guarantee is that nothing shipped moves.
+  Report: `docs/reports/wp-11.15-the-phantom-storey-the-disclosure-invented.md`.
+
+### WP-11.16 — the record edit (NEXT, and it is a record edit only)
+
+**Tag `plans/tidewater-georgian-careful.json`.** WP-11.13 ruled this "a record edit and its own
+package" and WP-11.9's lesson is that a package which teaches a layer *and* moves a shipped
+placement has done two things. Everything below the placer now knows about massing elements
+(seven layers, WP-11.14) and the last false measurement is gone (WP-11.15), so what remains is
+the edit.
+
+**The tagging, established by WP-11.13's ladder and re-derived here:** `kitchen`, `pantry`,
+`breakfast`, `powder`, `cellarstair` → `block: "service"` (617 sf); `backhall` →
+`block: "service"`, `hyphen: true` (112 sf); **`butlers` stays in the BLOCK**, which
+`rooms/butlers-pantry.json` has said since OQ 59 — *"in a Tidewater plantation house … the
+pantry is in the block"* — and the redundant **direct `butlers↔kitchen` door is dropped on both
+sides**, its `must_adjoin kitchen` being satisfied `via` the back hall, which the plan already
+carries in full.
+
+**Measured while costing, and to be RE-DERIVED rather than quoted** (WP-11.13's own published
+"zero pins downgraded" did not reproduce): `engine="cp"` goes **FEASIBLE at the 40 s budget →
+OPTIMAL in 8.9 s**, objective 541.2 → 407.8, wall pins 9 → 7, shape pins **0 → 1** (the Centre
+Passage's own proportion band, which is the price). `engine="heuristic"`: fatal **8 → 7**,
+serious **65 → 54**, minor 83 → 82.
+
+**A PRECONDITION FOUND BY WP-11.15's AUDIT, and it will fail the suite on day one:**
+`geometry_cp._score` calls `_span_charge` with no `elements=`, so a CP placement computes
+`over_capacity` footprint-wide while `span_capacity.marks` is per element (3 against 4 on a
+two-element fixture; on the tagged Tidewater the CP charge invents a 30 ft span across the
+hyphen gap). `tests/test_span_findings.py` asserts `len(findings) == over_capacity`, so it goes
+RED the moment a tagged plan is CP-solved. Settle it first; it is a placement change, because
+the charge is in the prover's objective.
+
+**What that package must answer rather than absorb**, all three found while costing:
+one NEW fatal `unreachable: butlers`; a **severed entrance sequence** (`Entrance Portico joins
+no other room on the drawing`); and the main block shrinking to 40 × 42 ft at 4 bays, which is
+correct — the service programme left it — but moves every drawn room. It also fires
+`test_the_fixture_really_exercises_the_multi_element_branch`, deliberately, and touches the
+frozen `sheet_symbols` fixture, whose ROOMS change: `--expected-only` does NOT cover that case
+and the README's 825/804 full regeneration does apply. Cost it before starting.
 ## Phase 11 — The house the sheet should have drawn
 
 *Raised by Lucas on 4 September 2026 against the workbench's own plan sheet for

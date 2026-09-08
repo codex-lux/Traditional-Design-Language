@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "clear passing route along the open side",
+      "kind": "reservation",
       "footprint_in": [
         42,
         120
@@ -48,6 +49,7 @@
     },
     {
       "item": "guard to the open side",
+      "kind": "object",
       "footprint_in": [
         5,
         120
@@ -58,6 +60,7 @@
     },
     {
       "item": "bookcase or chest against the closed wall",
+      "kind": "object",
       "footprint_in": [
         14,
         48

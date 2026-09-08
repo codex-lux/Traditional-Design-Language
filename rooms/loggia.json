@@ -43,6 +43,7 @@
  "furniture": [
   {
    "item": "outdoor dining table for six",
+   "kind": "object",
    "footprint_in": [
     36,
     72
@@ -53,6 +54,7 @@
   },
   {
    "item": "two lounge chairs and a low table",
+   "kind": "object",
    "footprint_in": [
     84,
     40
@@ -63,6 +65,7 @@
   },
   {
    "item": "long table or bench against the house wall",
+   "kind": "object",
    "footprint_in": [
     72,
     20
@@ -73,6 +76,7 @@
   },
   {
    "item": "clear route along the loggia",
+   "kind": "reservation",
    "footprint_in": [
     42,
     240

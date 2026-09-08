@@ -492,7 +492,18 @@ class TestTheSchemaAdmitsIt:
             jsonschema.validate(p, self._schema())
 
     def test_the_version_was_raised_with_the_field(self):
-        assert self._schema()["version"] == "0.7.0"
+        """RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). This pinned the exact version
+        the `hearth` field landed at, 0.7.0, so it convicted every later bump of the schema --
+        and both branches bumped it (this one to 0.8.0 for `wet_stack_with`, the merge to
+        0.10.0). The PROPERTY is that the field cannot be admitted without the version moving
+        with it, so what is asserted is that the version is at or above the one it landed at
+        AND that the field is really in the schema. A version that goes backwards, or a field
+        added at a version already published, still fails."""
+        ver = self._schema()["version"]
+        parts = tuple(int(x) for x in ver.split("."))
+        assert parts >= (0, 7, 0), f"the schema version went backwards past the hearth: {ver}"
+        room = self._schema()["properties"]["levels"]["items"]["properties"]["rooms"]["items"]
+        assert "hearth" in room["properties"], "the field this version was raised for is gone"
 
 
 # ------------------------------------------------------------------ the critic and the plate

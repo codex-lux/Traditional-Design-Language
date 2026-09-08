@@ -103,7 +103,7 @@ class TestTheRuleWhenItIsOn:
             p = GEO.solve(plan(name), engine="heuristic")
             st = p["geometry_report"]["stacking"]
             assert st["claimed"] == claims and st["rule"] == "hard", (name, st)
-            assert "broken" not in st, (
+            assert "broken_at_selection" not in st, (
                 f"{name}: a strict candidate was found, so nothing may be reported broken")
 
     def test_it_is_NOT_free_and_the_record_says_what_it_cost(self, hard):
@@ -112,7 +112,25 @@ class TestTheRuleWhenItIsOn:
         hard(True)
         p = GEO.solve(plan("spec-builder-colonial"), engine="heuristic")
         st = p["geometry_report"]["stacking"]
-        assert st.get("cost_points", 0) > 0 and "points" in st["note"]
+        # TWO FIGURES, POINTS AND BANDS, ruled at the merge of the two Phase 11s (8 Sep
+        # 2026). This asserted `cost_points > 0` on the premise that the search ranks on
+        # ONE number, which was true when it was written. The other branch's WP-11.8 made
+        # the key LEXICOGRAPHIC -- the room's own proportion band first, the score second
+        # -- so the preferred candidate can be worse on bands and BETTER on points, and
+        # the scalar goes negative (-72.8 here) while the rule plainly cost something.
+        # A negative points figure is not a cheaper house; it is one number describing two
+        # keys. What the rule cost is now reported as both, signed the same way, and the
+        # invariant is that it cost something ON AT LEAST ONE OF THEM.
+        _pts, _band = st.get("cost_points", 0), st.get("cost_band", 0)
+        assert _pts > 0 or _band > 0, (
+            f"the rule preferred a different candidate, so it cost something on one of the "
+            f"two keys: points={_pts}, bands={_band} -- {st}")
+        # The RULE's note lives under `rule_note` after the merge: the stacking leaf also
+        # writes a `note` (its claims arithmetic) and `_disclose` keeps both rather than
+        # letting one overwrite the other.
+        _rn = st.get("rule_note") or st["note"]
+        assert "points" in _rn and "band" in _rn, (
+            f"the note must state BOTH, because neither sums into the other: {_rn}")
 
     def test_THE_COST_THAT_DECIDED_THE_DEFAULT_a_forty_foot_span(self, hard):
         """The measurement that keeps this rule off: on `spec-builder-colonial` the strict
@@ -124,9 +142,41 @@ class TestTheRuleWhenItIsOn:
         hard(True)
         on = [s for lv in ST.build_section(plan("spec-builder-colonial"))["levels"]
               for s in lv["spans_exceeding_capacity"]]
-        assert off == [], "the shipped plan flags none with the rule off"
+        # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND THE BASELINE IS WHAT MOVED
+        # RATHER THAN THE RULE. With the rule OFF this plan flagged NO over-capacity span on
+        # either parent -- measured directly on `git archive` checkouts of both -- and flags four
+        # on the merged tree, because the other branch's WP-11.8 makes the room's own proportion
+        # band the first key of the candidate acceptance and a squarer room puts fewer cuts on
+        # the bay module (that report measured the same trade: spans 11 -> 23). Ruled 8 Sep 2026:
+        # ACCEPT AND RECORD. The 20 ft capacity and `bearing_lines`' 0.75 ft tolerance are
+        # untouched, which CLAUDE.md forbids moving in as many words.
+        #
+        # So the absolute cleanliness is retired -- it was the baseline, not the finding -- and
+        # what this test is FOR is pinned instead: turning the rule ON must still cost something
+        # structural on this plan, which is the measurement that keeps it off by default.
         assert on, "the rule's structural cost on this plan has gone; re-read WP-11.5's report"
-        assert max(s["span_ft"] for s in on) >= 35, on
+        # 35 WAS MAIN'S MEASUREMENT AND THE MERGED WORST IS 30.75 ft. Re-derived, not
+        # bumped: what this line is for is that the rule costs something STRUCTURAL, and
+        # a span over the 20 ft capacity is that. The magnitude is one plan's figure under
+        # one candidate generator and both changed at the merge, so it is asserted as
+        # over-capacity rather than pinned at a number that describes neither parent.
+        assert max(s["span_ft"] for s in on) > 20, on
+        # AND THE TRADE HAS INVERTED, WHICH IS RECORDED HERE AND NOT ACTED ON. Main measured
+        # this rule INTRODUCING over-capacity spans on this plan (0 with it off, 2 with it on)
+        # and defaulted `STACK_HARD` off for exactly that reason. On the merged tree the same
+        # measurement runs the other way: 4 spans with the rule OFF and 2 with it ON, because
+        # the baseline moved (see above) rather than because the rule changed. So the argument
+        # that keeps the rule off no longer holds on this plan.
+        #
+        # THE DEFAULT IS NOT FLIPPED HERE. That is a ruling, it belongs to whoever owns the
+        # rule, and a merge is the wrong place to make it -- flipping a placement default while
+        # reconciling two branches would be a third change hidden inside a second one. The
+        # numbers are asserted in the direction they now run so the inversion cannot go quiet,
+        # and `oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted` carries it.
+        assert len(on) <= len(off), (
+            f"the inversion recorded at the merge has reverted: off={len(off)} on={len(on)} -- "
+            f"if the rule introduces spans again, main's original default argument is live and "
+            f"the open question should be closed in its favour")
 
     def test_and_the_benefit_it_buys_on_the_rooms(self, hard):
         """The other half of the same trade, pinned so neither side can quietly vanish: the
@@ -137,11 +187,29 @@ class TestTheRuleWhenItIsOn:
         hard(True)
         on = GEO.solve(plan("spec-builder-colonial"),
                        engine="heuristic")["geometry_report"]["under_band"]
-        assert max(r["short_by_pct"] for r in off["rooms"]) >= 50
-        assert max(r["short_by_pct"] for r in on["rooms"]) <= 20
-        assert (sum(r["band_floor_sf"] - r["placed_sf"] for r in on["rooms"])
-                < sum(r["band_floor_sf"] - r["placed_sf"] for r in off["rooms"])), (
-            "total shortfall was 46 sf with the rule off and 30 sf with it on")
+        # Both sides guarded against an EMPTY list at the merge: with the band ranking as the
+        # first key this plan can have no under-band room at all, and `max()` of nothing raises
+        # rather than passing. A plan with none is the engine behaving; the ceiling still binds
+        # wherever there is a shortfall to measure.
+        if off["rooms"]:
+            assert max(r["short_by_pct"] for r in off["rooms"]) >= 50
+        if on["rooms"]:
+            assert max(r["short_by_pct"] for r in on["rooms"]) <= 20
+        # AND THE BENEFIT IS UNMEASURABLE ON THIS PLAN AFTER THE MERGE, which is stated rather
+        # than asserted away. With the proportion band as the first key of the acceptance the
+        # spec Colonial has NO under-band room with the rule off OR on, so the shortfall is 0 sf
+        # both ways and "less than" is false for the honest reason that there is nothing left to
+        # improve. Asserting a strict decrease here would fail on a placement that had got
+        # better, which is the guard-pins-an-outcome shape this corpus keeps re-cutting.
+        _off_sf = sum(r["band_floor_sf"] - r["placed_sf"] for r in off["rooms"])
+        _on_sf = sum(r["band_floor_sf"] - r["placed_sf"] for r in on["rooms"])
+        if _off_sf:
+            assert _on_sf < _off_sf, (
+                f"the rule must not make the rooms worse: off={_off_sf} sf, on={_on_sf} sf")
+        else:
+            assert _on_sf == 0, (
+                f"with nothing under band to improve, the rule must not create a shortfall: "
+                f"{_on_sf} sf")
 
     def test_THE_FALLBACK_IS_NOT_SILENT_AND_NOTHING_IN_THE_CORPUS_DRIVES_IT(self, hard):
         """THE ONE BLIND GUARD OF THIS PACKAGE, found by mutation and fixed the way WP-8.11
@@ -158,8 +226,12 @@ class TestTheRuleWhenItIsOn:
         st = p["geometry_report"]["stacking"]
         assert st["rule"] == "charge", "one candidate cannot be expected to satisfy five claims"
         assert st["claimed"] == 5
-        assert st["broken"] == 4, st
-        assert "NO CANDIDATE of 1" in st["note"] and "fell back to the charge" in st["note"]
+        # `broken_at_selection`, the CANDIDATE's count, which is main's quantity. The leaf's
+        # `broken` is beside it and measures the PLACED RECORD after the post-solve passes; they
+        # are different questions and the merge keeps both under their own names.
+        assert st["broken_at_selection"] == 4, st
+        _rn = st.get("rule_note") or st["note"]
+        assert "NO CANDIDATE of 1" in _rn and "fell back to the charge" in _rn, _rn
         assert "cost_points" not in st, "nothing was preferred, so nothing was paid for"
 
     def test_and_at_the_shipped_pool_that_fallback_does_NOT_fire(self, hard):
@@ -168,7 +240,7 @@ class TestTheRuleWhenItIsOn:
         hard(True)
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
             st = GEO.solve(plan(name), engine="heuristic")["geometry_report"]["stacking"]
-            assert st["rule"] == "hard" and "broken" not in st, (name, st)
+            assert st["rule"] == "hard" and "broken_at_selection" not in st, (name, st)
 
     def test_a_plan_with_no_claims_is_vacuous_and_says_so(self, hard):
         hard(True)

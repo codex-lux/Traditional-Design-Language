@@ -39,6 +39,7 @@
  "furniture": [
   {
    "item": "hall table or console",
+   "kind": "object",
    "footprint_in": [
     42,
     18
@@ -49,6 +50,7 @@
   },
   {
    "item": "mirror over the table",
+   "kind": "object",
    "footprint_in": [
     30,
     3
@@ -59,6 +61,7 @@
   },
   {
    "item": "two hall chairs",
+   "kind": "object",
    "footprint_in": [
     20,
     20
@@ -70,6 +73,7 @@
   },
   {
    "item": "coat closet",
+   "kind": "object",
    "footprint_in": [
     60,
     26
@@ -80,6 +84,7 @@
   },
   {
    "item": "umbrella stand",
+   "kind": "object",
    "footprint_in": [
     14,
     14
@@ -90,6 +95,7 @@
   },
   {
    "item": "clear arrival floor",
+   "kind": "reservation",
    "footprint_in": [
     60,
     60

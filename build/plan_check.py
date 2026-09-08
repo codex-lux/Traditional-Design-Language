@@ -33,6 +33,16 @@ def _load(name, path):
     import modcache as _mc
     return _mc.load(name, path)
 
+# WP-11.6. `build/stacking.py` is a LEAF and this file may load it: geometry.py loads THIS
+# file, so this file may never load geometry.py, and the stacking verdict has to be one
+# spelling that both can reach. Same shape as build/storeys.py and build/assemblies.py.
+STACKING = _load("stacking", os.path.join(ROOT, "build", "stacking.py"))
+# WP-11.9. Which massing element a room stands in. A LEAF -- it imports nothing from build/ --
+# which is what lets this file, `geometry.py` and `structure.py` all read one answer despite
+# sitting on three different rungs of the import ladder.
+ELEMENTS = _load("elements", os.path.join(ROOT, "build", "elements.py"))
+
+
 # SUBSTITUTION, and it runs in one direction (OQ 43, ruled 24 Aug 2026).
 #
 # This was a list of flat sets and `_alias` treated membership as mutual: if a primary bathroom
@@ -441,7 +451,9 @@ def drawn_layer(plan, rooms, level_of, C, F):
         room whose declared doors the placement could not realise produced none either --
         which is how a chamber bath with no way in shipped on a reference sheet.
       · The drawn size against the declared one, in both directions.
-      · The landing over its own stair, which `stacks_over` has never been read for.
+      · The landing over its own stair. That line read "which `stacks_over` has never been
+        read for" until WP-11.6, when `plans/tidewater-georgian-careful.json` declared the
+        claim its own parti had always made and the check fired for the first time.
       · Passage clear width against groupings/centre-passage-core.json's own band.
       · Wet-room fixtures that will not fit together on real walls.
     """
@@ -489,6 +501,83 @@ def drawn_layer(plan, rooms, level_of, C, F):
     out = {"evaluated": True, "rooms_placed": len(placed), "unreachable": [],
            "diverged": [], "unplaced_openings": 0}
 
+    # WP-11.6. A ROOM THE PLACER NEVER REACHED, WHICH NOTHING HAD EVER REPORTED. Measured on
+    # `plans/reference/bad-03-narrow-lot-townhome.json`: it declares three levels, both engines
+    # are written against level 0 and level 1, and its one level-2 room -- the Gameroom -- came
+    # back with no geometry, no finding and no note anywhere. Every finding naming it was a
+    # DECLARED-layer finding, so the record was judged and the drawing simply left a storey out.
+    #
+    # The discriminator is `geometry.is_placed` and it already exists and is exact: a terrace
+    # whose own record puts it outside the footprint is `is_placed == False` and correctly has
+    # no rectangle, while a great room is `is_placed == True` and its absence is a defect. This
+    # layer cannot load geometry.py (that file loads this one), so the type is tested against
+    # the corpus the same way the rest of this layer does.
+    _unplaced = []
+    for lvl, lvl_rooms in sorted(STACKING.rooms_by_level(plan).items()):
+        for rid, r in sorted(lvl_rooms.items()):
+            if rid in placed or not STACKING.takes_a_rectangle(r.get("type"), C["rooms"]):
+                continue
+            _unplaced.append({"room": rid, "type": r.get("type"), "level": lvl})
+    out["rooms_unplaced"] = _unplaced
+    for e in _unplaced:
+        nm = rooms.get(e["room"], {}).get("name") or e["room"]
+        _add("serious", "drawn",
+              f"{nm} is declared and NOT DRAWN: the placement gives it no rectangle, so every "
+              f"drawn judgment about it — its size, its openings, its reachability, any stack "
+              f"claimed onto it — could not be evaluated.",
+              room=e["room"], kind="room-not-placed", level=e["level"],
+              fix="Place it, or say on the record why it takes no rectangle.")
+
+    # ---- CLEAR SPAN AGAINST THE FRAMING CAPACITY (WP-11.12, OQ 98's reporting half)
+    #
+    # `build/structure.py::span_check` has measured this since WP-3.1 and `geometry` has
+    # CHARGED it since WP-7.4, and this file had no span finding of any kind -- so a 60 ft
+    # unsupported joist run on the Tidewater upper floor reached no sheet, no critique and no
+    # `revision_report`. WP-11.8 took the corpus figure from 11 to 23 by ranking room shape
+    # above the score, and the only reason anyone saw that was two tests that happened to pin
+    # one plan; had they been written against any other, it would have been invisible.
+    #
+    # READ OFF THE RECORD, NOT RECOMPUTED -- and the first version of this comment said "this
+    # layer cannot load structure.py", which is FALSE and was caught by its own test: the
+    # elevation block at the foot of this file loads it, lazily and inside a try, and has since
+    # WP-3.2. The real reasons are better ones. These spans are the ones the SEARCH scored and
+    # `geometry.SPAN_W` charged, so a second computation here could convict a placement on
+    # numbers it was not chosen by; `span_check` is called from exactly one place in
+    # `build/geometry.py`; and the drawn layer's licence is to read the placement the record
+    # carries (OQ 54), which is what `geometry._disclose_spans` wrote.
+    #
+    # SERIOUS RATHER THAN FATAL, and the reason is the corpus's own words: `span_check`'s note
+    # says such a run "needs an intermediate bearing support or an engineered member outside
+    # this catalog". That is a floor that has to be framed differently, not a plan that cannot
+    # be walked -- and `fatal` in this layer means unreachable, a broken must-adjoin or a
+    # duplicate id. A defect one bearing wall answers is not the same kind of thing.
+    _sc = ((plan.get("geometry_report") or {}).get("span_capacity") or {})
+    _over = _sc.get("over_capacity")
+    if _over is None:
+        _add("info", "drawn",
+             "Clear span against framing capacity COULD NOT BE EVALUATED: the construction "
+             "catalogue was unreadable when this plan was placed, so no span was checked and "
+             "none is claimed clear.", kind="span-unjudged")
+    else:
+        out["spans_over_capacity"] = _over
+        for m in (_sc.get("marks") or []):
+            _add("serious", "drawn",
+                 f"A {m['span_ft']:g} ft clear span on level {m['level']} runs "
+                 f"{'east–west' if m['axis'] == 'x' else 'north–south'} from {m['from_ft']:g} to "
+                 f"{m['to_ft']:g} ft with no bearing line in it, against the "
+                 + (f"{m['max_span_ft']:g} ft this framing tradition states for a "
+                    f"{m['member']}. " if m.get("member") else
+                    # `span_check` returns member=None when NO member in the catalogue covers
+                    # the run, and its `max_span_ft` is then the largest one there is. That is
+                    # a different sentence, and interpolating the None was the first version.
+                    f"{m['max_span_ft']:g} ft of the largest member this catalogue holds — "
+                    f"none of them covers it. ")
+                 + (_sc.get("understated") or ""),
+                 kind="span-over-capacity", axis=m["axis"], level=m["level"],
+                 need_ft=m["max_span_ft"], have_ft=m["span_ft"],
+                 fix=("Put a bearing wall in the run — the placer only creates one by cutting "
+                      "on the line — or state a member that spans it."))
+
     # The envelope the rooms were placed in. Taken from the plan's own footprint where it
     # states one, and otherwise from the union of the placed rectangles — which IS the
     # envelope, because the slicer tiles the block exactly. Used only to say which boundary
@@ -496,7 +585,16 @@ def drawn_layer(plan, rooms, level_of, C, F):
     _fp = plan.get("footprint") or {}
     fp_w = _fp.get("width_ft") or max((g["x_ft"] + g["width_ft"] for g in placed.values()), default=0.0)
     fp_h = _fp.get("depth_ft") or max((g["y_ft"] + g["depth_ft"] for g in placed.values()), default=0.0)
-
+    # WP-11.9, ruling 4, 5 Sep 2026: **`touches` is measured against the room's OWN element.**
+    # This layer read the MAIN BLOCK for every room, so a dependency room with authored windows
+    # was convicted of *"drawn in the middle of the house: it reaches no exterior wall on any
+    # side"* while both renderers drew that same wall as an exterior envelope -- the critic and
+    # the drawing wrong in OPPOSITE directions about one wall. Exterior is exterior: a face on
+    # the dependency's own boundary carries a window, a sill, a load and the weather. A face
+    # that looks across the hyphen gap at the house is exterior too and is counted separately
+    # as `faces_across_a_gap`, so a later ruling has the number without this one baking an
+    # answer in. `bounds_index` maps every placed room to `(0, 0, fp_w, fp_h)` on a
+    # one-rectangle house, which is every plan in this corpus.
     # WP-11.6 LAYER 5: THE ENVELOPE IS THE ROOM'S OWN MASSING ELEMENT, NOT THE MAIN BLOCK.
     # Ruling 4 of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`. The four
     # `touches` tests below read the main block's scalars until this, so a kitchen sitting on its
@@ -542,6 +640,35 @@ def drawn_layer(plan, rooms, level_of, C, F):
             if t in ok_edges:
                 ok_edges[rid].add(t)
                 ok_edges[t].add(rid)
+    # WP-11.10. **A PLACED AT-GRADE APPENDAGE IS OUTSIDE.** `outside` was seeded from placed
+    # `to: "exterior"` doors alone, so a room whose only realised door opens onto a terrace was
+    # convicted of not being reachable from outside the house -- while a person standing on that
+    # terrace is, in the plainest sense, outside it. The guard is narrow and every clause of it
+    # is read off the record `build/appendages.py` wrote: the appendage must be in `placed`
+    # (a refused one mints no edge and no way in), `at_grade`, and NOT `roofed` -- a roofed
+    # appended mass is a massing element and this layer must not quietly let one in as a garden.
+    # Measured over the sixteen plans, and the number is not small -- see the block below it.
+    _from_appendage = set()
+    for _ap in ((plan.get("appendages") or {}).get("placed") or []):
+        if _ap.get("at_grade") and not _ap.get("roofed") and _ap.get("room") in ok_edges:
+            outside.add(_ap["room"])
+            _from_appendage.add(_ap["room"])
+    # AND THE ROOT CAUSE IS NAMED ONCE BESIDE THE ROOMS IT STRANDS. Measured on the sixteen
+    # plans: seeding `outside` from a terrace clears one fatal on `tidewater-georgian-careful`
+    # and turns three COULD-NOT-EVALUATE verdicts into 27 `unreachable` fatals -- `good-02` 7,
+    # `good-04` 10, `good-07` 10 -- which is `unjudged is not passed` working, because those three
+    # plans have NO placed exterior door at all and the walk had nowhere to start. Every one of
+    # the 27 is true of the drawing. But ten fatals whose single cause is one missing front
+    # door is a report a reader has to reconstruct, so the cause gets its own line: the finding
+    # below is the sentence, and the fatals are the consequence.
+    if _from_appendage and outside == _from_appendage:
+        _add("serious", "drawn",
+             "The only way into this house on the drawing is a door onto "
+             + ", ".join(sorted(rooms.get(a, {}).get("name") or a for a in _from_appendage))
+             + ": not one declared exterior door was placed. Every `unreachable` finding "
+               "below has that one cause.",
+             kind="outside-is-only-an-appendage",
+             rooms=sorted(_from_appendage))
     out["unplaced_openings"] = len(unplaced_pairs)
     # a stair connects its two levels: a landing over a stair is a way up, and without it
     # every upper room reads as unreachable on a house whose only link between floors is
@@ -549,7 +676,12 @@ def drawn_layer(plan, rooms, level_of, C, F):
     st = plan.get("stair")
     if st and st.get("room") in ok_edges:
         for rid, r in rooms.items():
-            if r.get("stacks_over") == st["room"]:
+            # WP-11.6: `stacks_over` is a claim about the level ONE BELOW, and this reader had
+            # no level test at all -- so a same-level claim naming the stair's own room would
+            # have minted a way UP between two rooms on one floor. Inert on the shipped corpus
+            # (the one same-level claim named a back hall) and wrong the moment it was not.
+            if (r.get("stacks_over") == st["room"]
+                    and level_of.get(rid, 0) - level_of.get(st["room"], 0) == 1):
                 ok_edges[rid].add(st["room"])
                 ok_edges[st["room"]].add(rid)
     for a in plan.get("adjacencies", []):
@@ -667,8 +799,9 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # THREE PUBLISHED REFUSALS DIED ON THE WAY HERE AND THE ORDER MATTERS. WP-6.3 built a
     # charge, measured byte-identical output at 100x and 10,000x, and concluded "the search
     # can only re-rank candidates produced blind"; that charge keyed on landing-over-stair,
-    # a pair neither shipped plan declares. WP-7.1 made the generator level-aware, moved
-    # transfer beams 166 -> 109 corpus-wide and left broken stacks flat at 26/47 -> 27/47,
+    # a pair neither shipped plan declared until WP-11.6 authored it. WP-7.1 made the
+    # generator level-aware, moved transfer beams 166 -> 109 corpus-wide and left broken
+    # stacks flat at 26/47 -> 27/47,
     # and wrote that no generator change fixes stacking -- true, and not an argument against
     # a score term. WP-7.4 found the actual cause: the charge was being measured against a
     # 250-candidate pool too thin to contain the alternative, and over 2,000 candidates the
@@ -679,54 +812,82 @@ def drawn_layer(plan, rooms, level_of, C, F):
     #
     # Re-measure before quoting any figure here; an earlier draft of this comment said
     # "two", measured on a placement two packages out of date.
-    out["stacks_broken"] = []
-    for rid, r in rooms.items():
-        so = r.get("stacks_over")
-        if not so:
-            continue
-        g = placed.get(rid)
-        below = placed.get(so)
-        name = r.get("name") or rid
-        if not g:
-            continue
-        if not below:
+    # WP-11.6: the sort into kept / broken / unjudged is `build/stacking.py`'s, not a second
+    # transcription here. That module is a LEAF for this exact reason -- geometry.py loads this
+    # file, so this file cannot load geometry.py, and the two must agree about what a stack is.
+    #
+    # THE `continue` THIS REPLACES IS THE FINDING. It read
+    # `if level_of.get(rid) == level_of.get(so): continue  # a same-level claim is not a stack`
+    # -- true, and silent, so the shipped Tidewater record's ground-level powder room naming a
+    # ground-level cellar stair was dropped here, in `vertical_score`, and in `geometry_cp`,
+    # three times with no note. The record carried four claims and three were judged, and no
+    # surface said which three. Unjudged is not passed.
+    _kept, _broken, _unjudged = STACKING.judge(plan)
+    out["stacks_broken"] = [e["room"] for e in _broken]
+    out["stacks_kept"] = [e["room"] for e in _kept]
+    out["stacks_unjudged"] = _unjudged
+    for e in _broken:
+        rid, so = e["room"], e["over"]
+        name = rooms.get(rid, {}).get("name") or rid
+        _add("serious", "drawn",
+              f"{name} declares it stacks over '{so}' and is drawn clear of it "
+              f"entirely — a stack with nothing under it.",
+              room=rid,
+              fix="Place the two together, or drop the stacks_over claim.",
+              kind="stack-broken", over=so)
+    # TWO KINDS, AND THE SPLIT IS NOT COSMETIC. `stack-unplaced` is what this layer has always
+    # emitted for a claim whose rooms the PLACEMENT did not place, and `build/critique.py`
+    # classes it as a placement outcome (`_is_placement` returns True for it) -- so it keeps
+    # its name and its exact meaning. The states WP-11.6 added are errors in the RECORD, not
+    # outcomes of a solve: no such room, a target on this room's own level, a target more than
+    # one level below. No move can fix those and no re-place will change them, so they are a
+    # different kind, `stack-unjudged`, carrying the reason. Retiring `stack-unplaced` into it
+    # would have made a downstream reader silently mis-class every one of them.
+    for e in _unjudged:
+        rid, so = e["room"], e["over"]
+        name = rooms.get(rid, {}).get("name") or rid
+        if e["reason"] in STACKING.PLACEMENT_REASONS:
             _add("info", "drawn",
                   f"{name} declares it stacks over '{so}', which this placement does not "
                   f"place — the claim could not be evaluated.", room=rid,
-                  kind="stack-unplaced", over=so)
+                  kind="stack-unplaced", over=so, reason=e["reason"])
+        else:
+            _add("info", "drawn",
+                  f"{name} declares it stacks over '{so}' and the claim COULD NOT BE EVALUATED: "
+                  f"{e['reason']}." + (f" {e['remedy']}" if e.get("remedy") else ""),
+                  room=rid, kind="stack-unjudged", over=so, reason=e["reason"])
+    # A LANDING OVER ITS OWN STAIR, WHICH NOTHING HAD EVER DECLARED UNTIL WP-11.6. This branch
+    # runs only where a room's `stacks_over` names the stair's own room; no plan in the corpus
+    # said so, so it had never fired. `plans/tidewater-georgian-careful.json` says it now, and
+    # it fires on the first run -- CLAUDE.md's rule that the moment a record can finally state
+    # a thing, every rule that presupposed it runs on it.
+    #
+    # It hangs off the KEPT list on purpose: a landing drawn clear of the stair hall entirely
+    # is already a `stack-broken`, and telling its author about the well as well would be two
+    # findings for one defect.
+    for e in _kept:
+        rid, so = e["room"], e["over"]
+        g = placed.get(rid)
+        if not (st and g and so == st.get("room") and st.get("well")):
             continue
-        if level_of.get(rid) == level_of.get(so):
-            continue                      # a same-level claim is not a stack
-        ox = min(g["x_ft"] + g["width_ft"], below["x_ft"] + below["width_ft"]) \
-            - max(g["x_ft"], below["x_ft"])
-        oy = min(g["y_ft"] + g["depth_ft"], below["y_ft"] + below["depth_ft"]) \
-            - max(g["y_ft"], below["y_ft"])
-        if ox <= 0 or oy <= 0:
-            out["stacks_broken"].append(rid)
-            _add("serious", "drawn",
-                  f"{name} declares it stacks over '{so}' and is drawn clear of it "
-                  f"entirely — a stack with nothing under it.",
-                  room=rid,
-                  fix="Place the two together, or drop the stacks_over claim.",
-                  kind="stack-broken", over=so)
-        elif st and so == st.get("room") and st.get("well"):
-            # the landing's own rule is about the WELL, not the room that holds it: a
-            # landing may sit squarely inside the stair hall and still miss the opening the
-            # flight arrives at. Measured against the room, this check passed on a landing
-            # that overlapped the well by nothing at all.
-            w = st["well"]
-            wx = min(g["x_ft"] + g["width_ft"], w["x_ft"] + w["width_ft"]) \
-                - max(g["x_ft"], w["x_ft"])
-            wy = min(g["y_ft"] + g["depth_ft"], w["y_ft"] + w["depth_ft"]) \
-                - max(g["y_ft"], w["y_ft"])
-            got = max(0.0, wx) * max(0.0, wy)
-            if got < (st.get("width_ft") or 3.0) ** 2:
-                _add("minor", "drawn",
-                      f"{name} overlaps the stair well by only {got:.0f} sf; a landing not "
-                      f"less than the stair's own width is "
-                      f"groupings/stair-and-landing-core.json's hard rule.",
-                      room=rid, kind="landing-off-well", over=so,
-                      overlap_sf=round(got, 1), need_sf=round((st.get("width_ft") or 3.0) ** 2, 1))
+        # the landing's own rule is about the WELL, not the room that holds it: a
+        # landing may sit squarely inside the stair hall and still miss the opening the
+        # flight arrives at. Measured against the room, this check passed on a landing
+        # that overlapped the well by nothing at all.
+        name = rooms.get(rid, {}).get("name") or rid
+        w = st["well"]
+        wx = min(g["x_ft"] + g["width_ft"], w["x_ft"] + w["width_ft"]) \
+            - max(g["x_ft"], w["x_ft"])
+        wy = min(g["y_ft"] + g["depth_ft"], w["y_ft"] + w["depth_ft"]) \
+            - max(g["y_ft"], w["y_ft"])
+        got = max(0.0, wx) * max(0.0, wy)
+        if got < (st.get("width_ft") or 3.0) ** 2:
+            _add("minor", "drawn",
+                  f"{name} overlaps the stair well by only {got:.0f} sf; a landing not "
+                  f"less than the stair's own width is "
+                  f"groupings/stair-and-landing-core.json's hard rule.",
+                  room=rid, kind="landing-off-well", over=so,
+                  overlap_sf=round(got, 1), need_sf=round((st.get("width_ft") or 3.0) ** 2, 1))
     if st and st.get("unplaced"):
         _add("serious", "drawn",
               f"The stair is not drawn: {st['unplaced']['reason']}",
@@ -1857,7 +2018,14 @@ def check(plan, C=None, strict=False):
            if set(r.get("fixtures") or []) & {"wc", "lavatory", "tub", "shower", "sink", "washer", "dishwasher"}]
     for rid in wet:
         r = rooms[rid]
-        near = any(x in wet for x in adj[rid]) or (r.get("stacks_over") in wet)
+        # WP-11.6. THIS is the reader whose duty `wet_stack_with` takes over, and it is the
+        # one reader that was right to be level-blind: a shared waste stack is a shared waste
+        # stack whether the two rooms sit on one floor or two. It reads BOTH fields, because a
+        # bath over a bath is genuinely both a structural stack and a plumbing one, so no
+        # verdict on the shipped corpus moves -- what changes is that the same-level case now
+        # has a field that can carry it instead of borrowing the structural one.
+        near = (any(x in wet for x in adj[rid])
+                or (r.get("stacks_over") in wet) or (r.get("wet_stack_with") in wet))
         if not near and len(wet) > 1:
             F.add("minor", "servicing",
                   f"{r.get('name') or rid} is a wet room with no other wet room adjacent or below it.",

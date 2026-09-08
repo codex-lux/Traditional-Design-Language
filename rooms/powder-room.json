@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "water closet",
+      "kind": "object",
       "footprint_in": [
         20,
         28
@@ -48,6 +49,7 @@
     },
     {
       "item": "small basin, wall-hung or console",
+      "kind": "object",
       "footprint_in": [
         24,
         18
@@ -58,6 +60,7 @@
     },
     {
       "item": "door swing",
+      "kind": "placed-elsewhere",
       "footprint_in": [
         30,
         30
@@ -68,6 +71,7 @@
     },
     {
       "item": "a mirror, a light and a towel",
+      "kind": "object",
       "footprint_in": [
         24,
         4

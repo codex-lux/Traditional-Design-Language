@@ -221,8 +221,24 @@ class TestStructureIsPerElement:
         el = next(b for b in placed["footprint"]["blocks"] if b["id"] != "main")
         over = [s for lv in sec["levels"] for s in lv["spans_exceeding_capacity"]
                 if s.get("element") == el["id"]]
-        assert over, "the dependency's structure is unmodelled again"
-        assert max(s["span_ft"] for s in over) > 20.0
+        # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND THE SHIELD LESSON SURVIVES
+        # IT. Main's point is that the dependency's structure stopped being a SILENCE -- its
+        # walls, its bearing lines and its spans are computed against its own envelope. That
+        # still holds and is asserted below. What no longer holds is that they FAIL: the other
+        # branch's WP-11.13 gives a non-main element's box a derived grid allowance (its rooms
+        # could not fit the inward-rounded box without one), which changes the dependency's depth
+        # and takes its worst span inside the 20 ft cap.
+        #
+        # "It is over capacity" was the finding at the time and is not the invariant. Asserting
+        # it would fail on a placement that had got better, which is the guard-pins-an-outcome
+        # shape this corpus keeps re-cutting -- and it would also mean a dependency could only
+        # pass this suite by being badly framed.
+        walls = [w for lv in sec["levels"] for w in lv["walls"] if w.get("element") == el["id"]]
+        spans = [s for lv in sec["levels"] for s in lv["spans"] if s.get("element") == el["id"]]
+        assert walls, "the dependency has no walls of its own: its structure is unmodelled again"
+        assert spans, "the dependency has walls but no spans: it is modelled and not judged"
+        if over:
+            assert max(s["span_ft"] for s in over) > 20.0
 
     def test_a_one_element_plan_carries_no_element_tag_at_all(self):
         """The byte-identity guard. Sixteen records have never needed one and must not grow one."""
@@ -232,7 +248,11 @@ class TestStructureIsPerElement:
         assert all("element" not in s for lv in sec["levels"] for s in lv["spans"])
         # and the numbers this plan has always reported
         over = [s for lv in sec["levels"] for s in lv["spans_exceeding_capacity"]]
-        assert round(max(s["span_ft"] for s in over), 2) == 53.94
+        # RE-DERIVED AT THE MERGE (8 Sep 2026): 53.94 -> 35.5 ft. Both branches changed the
+        # placement, so the worst span on this fixture is neither parent's. What the line
+        # is for -- the span is OVER the 20 ft capacity and therefore judged -- is
+        # unchanged, and the capacity itself is untouched.
+        assert round(max(s["span_ft"] for s in over), 2) == 35.5
 
 
 def _forced(placed):
@@ -288,7 +308,16 @@ class TestTheCriticReadsTheRoomsOwnElement:
         what a smaller and honestly-sized block does. `stair` still is, on both readings."""
         c = PC.check(_forced(placed))
         still = {f["room"] for f in c["findings"] if f.get("kind") == "drawn-landlocked"}
-        assert "stair" in still, still
+        # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026): the convicted room is
+        # `chamber2` here, not `stair`. This docstring already records the set changing once for
+        # exactly this reason -- "it was two rooms and is one ... because it is not landlocked,
+        # which is what a smaller and honestly-sized block does" -- and the merged placement,
+        # which is neither parent's, moves it again. NAMING A ROOM PINNED AN ACCIDENT; the two
+        # properties this control exists for are unchanged and are what is asserted: a genuinely
+        # interior room still carries the finding, and no dependency room does. Without the
+        # first, the fix is a loosening.
+        assert still, "no room is landlocked at all: the finding the dependency rooms lost has "\
+                      "gone from every room, which is a loosening rather than a fix"
         assert not (still & dep_rooms(placed)), still
 
     def test_the_finding_it_takes_instead_NAMES_the_element(self, placed):
@@ -430,9 +459,14 @@ class TestTheCriticReadsTheRoomsOwnElement:
         import hashlib
         import collections as _c
         for name, want, rows, hist in (
-                ("tidewater-georgian-careful", "9da22729316445d4", 208,
+                # RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). Both branches
+                # changed the placement, so the findings this corpus produces are neither
+                # parent's: 208 -> 210 rows and 238 -> 243, with the per-layer histogram
+                # UNMOVED (13/18 and 11/17), which is what says the movement is placement and
+                # not a layer going quiet. Old digests: 9da22729316445d4 / 67e42551e7ffc356.
+                ("tidewater-georgian-careful", "b8faf56908995542", 210,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "67e42551e7ffc356", 238,
+                ("spec-builder-colonial", "024fa784786c2469", 243,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
@@ -667,9 +701,17 @@ class TestTheLotCapIsOnTheBuiltExtent:
     def test_a_one_rectangle_plan_is_UNTOUCHED_by_all_of_it(self):
         """The regression discipline. Both shipped plans place identically -- and one of them,
         `spec-builder-colonial`, is lot-capped as shipped, so the cap itself is exercised."""
+        # RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), NOT BUMPED. This pinned
+        # main's guarantee that teaching the layers about elements moved NO shipped
+        # placement -- and it held for every package that made it. What arrived is the
+        # OTHER Phase 11, which changed the placement itself (a band-first candidate key,
+        # a span charge) exactly as this one did (its parti bay module, its stacking rule,
+        # its candidate row). Two placement changes meeting cannot leave the placement
+        # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
+        # the same reason in the same commit. Old values: 685.3 / 592.3.
         for name, score, width, capped in (
-                ("tidewater-georgian-careful", 685.3, 63, False),
-                ("spec-builder-colonial", 592.3, 50.0, True)):
+                ("tidewater-georgian-careful", 775.2, 63, False),
+                ("spec-builder-colonial", 830.1, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
@@ -835,6 +877,25 @@ def _hyphen_fixture(with_hyphen=True):
 
 
 def _cross_doors(p):
+    """Doors between two massing ELEMENTS, and a room that takes no rectangle is in none.
+
+    CORRECTED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), by the other branch's own
+    correction of the identical mistake. Its WP-11.11 published "2 of 16 crossing pairs" and its
+    WP-11.13 found the number is 1: the second pair was `breakfast <-> terrace`, and a TERRACE
+    TAKES NO RECTANGLE -- it is an at-grade appendage placed outside the block, its room keeps no
+    `geometry` by construction -- so it stands in no element and cannot cross a boundary between
+    two. That branch recorded the instrument reading "no element" as "the main block" as the very
+    defect its element work exists to remove.
+
+    This instrument had the same flaw, and it surfaced here as `('breakfast', 'terrace'): False`
+    -- a door correctly PLACED by the appendage pass being counted as a cross-element door that
+    should have been refused. `stacking.takes_a_rectangle` is the filter both branches use.
+    """
+    _STK = modcache.load("stacking", os.path.join(ROOT, "build", "stacking.py"))
+    _PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
+    _CAT = (_PC.load_corpus() or {}).get("rooms") or {}
+    takes = {r["id"]: _STK.takes_a_rectangle(r.get("type"), _CAT)
+             for lv in p["levels"] for r in lv["rooms"]}
     els = {r["id"]: (r.get("block") or "main") for lv in p["levels"] for r in lv["rooms"]}
     out = {}
     for lv in p["levels"]:
@@ -843,6 +904,8 @@ def _cross_doors(p):
                 to = d.get("to")
                 if not to or to == "exterior" or els.get(r["id"]) == els.get(to):
                     continue
+                if not takes.get(r["id"], True) or not takes.get(to, True):
+                    continue        # an appendage is in no element and crosses no boundary
                 k = tuple(sorted((r["id"], to)))
                 out[k] = out.get(k, False) or bool(d.get("unplaced"))
     return out
@@ -947,8 +1010,16 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
     def test_a_one_rectangle_plan_gets_NO_ANCHORS_and_places_identically(self):
         """The regression. `hyphen_anchors` is `{}` below two elements, so the ordinary slice runs
         with the same rng draws it always did."""
-        for name, score, w in (("tidewater-georgian-careful", 685.3, 63),
-                               ("spec-builder-colonial", 592.3, 50.0)):
+        # RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), NOT BUMPED. This pinned
+        # main's guarantee that teaching the layers about elements moved NO shipped
+        # placement -- and it held for every package that made it. What arrived is the
+        # OTHER Phase 11, which changed the placement itself (a band-first candidate key,
+        # a span charge) exactly as this one did (its parti bay module, its stacking rule,
+        # its candidate row). Two placement changes meeting cannot leave the placement
+        # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
+        # the same reason in the same commit. Old values: 685.3 / 592.3.
+        for name, score, w in (("tidewater-georgian-careful", 775.2, 63),
+                               ("spec-builder-colonial", 830.1, 50.0)):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             _, prep = GEO.prep_rooms(q)
@@ -1325,11 +1396,21 @@ class TestTheDisclosureIsOnBOTHEngines:
         """It was attached in `write_record` only — which the heuristic uses and the CP path
         does not — so the one engine every multi-element plan was sent away from was the only
         one that disclosed anything about them."""
+        # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). Main attached the disclosure
+        # in BOTH record writers and counted two call sites; the other branch hit the identical
+        # defect ("a disclosure wired into one record writer and not the other is no
+        # disclosure") and fixed it by routing both writers through ONE `_disclose(plan)`, so a
+        # third writer cannot be added and forgotten. Counting call sites now reads 1 and would
+        # convict the stronger arrangement. The PROPERTY is what both fixes were for: the block
+        # is on the record whichever writer produced it, so it is asserted that way -- and the
+        # one-call-site consolidation is asserted too, so it cannot silently become two again.
         src = open(os.path.join(ROOT, "build", "geometry.py")).read()
         calls = [ln for ln in src.splitlines()
                  if "multi_element_disclosure(plan)" in ln and not ln.lstrip().startswith("def ")]
-        assert len(calls) == 2, (calls,
-            "both record writers must attach it; a guarantee that holds on one engine is not one")
+        assert len(calls) == 1, (calls, "there is one _disclose(); do not re-add a second writer")
+        assert src.count("_disclose(plan)") >= 2, (
+            "both record writers must route through _disclose(); a guarantee that holds on one "
+            "engine is not one")
 
     def test_the_note_no_longer_says_the_prover_refuses_a_multi_element_plan(self):
         """With the refusal gone, that sentence would be a false statement about the engine —
@@ -1542,7 +1623,16 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
             "the wing's slack and the building's coincide — the fixture cannot tell them apart")
         # the wing is sized from its own rooms, so its slack is close to 1.0 and its rooms take
         # the floor of the cap; the building's ratio would hand them a fifth as much again
-        assert 0.9 <= fills[wing_box] <= 1.1, fills[wing_box]
+        # 1.146 AT THE MERGE, AND THE CEILING MOVED FOR A STATED REASON (8 Sep 2026). The
+        # other branch's WP-11.13 found a non-main element's box was sized to EXACTLY its
+        # rooms' area (`H = need / W`, zero slack) while `_element_boxes` rounds both edges
+        # of each axis INWARD, so the box the proving model works in was smaller than its
+        # own contents and the plan was infeasible before a declared fact was read. The
+        # allowance it added is DERIVED by solving `(W - 2g)(H - 2g) >= need`, not chosen,
+        # and it is exactly what lifts this wing's fill from ~1.0 to 1.146. What the guard
+        # is for is unchanged: the fill is the ELEMENT's own slack and not the building's,
+        # which on this fixture is about 1.9 -- so the ceiling still separates them.
+        assert 0.9 <= fills[wing_box] <= 1.25, fills[wing_box]
 
     def test_a_ONE_element_plan_gets_ONE_fill_and_it_is_the_buildings(self):
         """The control, and the byte-identity claim in its own right: with one element the

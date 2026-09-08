@@ -37,6 +37,7 @@
   "furniture": [
     {
       "item": "hanging, single-loaded wall",
+      "kind": "object",
       "footprint_in": [
         96,
         24
@@ -47,6 +48,7 @@
     },
     {
       "item": "hanging, double-loaded pair of walls",
+      "kind": "variant",
       "footprint_in": [
         96,
         84
@@ -57,6 +59,7 @@
     },
     {
       "item": "island or bench",
+      "kind": "object",
       "footprint_in": [
         48,
         24
@@ -68,6 +71,7 @@
     },
     {
       "item": "drawer bank / built-in chest",
+      "kind": "object",
       "footprint_in": [
         36,
         22
@@ -78,6 +82,7 @@
     },
     {
       "item": "full-length mirror",
+      "kind": "object",
       "footprint_in": [
         24,
         3
@@ -88,6 +93,7 @@
     },
     {
       "item": "shoes",
+      "kind": "object",
       "footprint_in": [
         36,
         12

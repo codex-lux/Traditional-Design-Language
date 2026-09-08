@@ -146,25 +146,72 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-DRAWN_SHORT_CEILING = 86
-# 74, RAISED FROM 69 BY WP-11.2, AND THE RAISE IS THE PACKAGE'S COST RATHER THAN A TIDY-UP.
-# The plan now names its parti, so the placement takes the diagram's own 9 ft bay module and the
-# massing's odd bay count: seven bays of 9 ft where it was six of 10, 63.0 x 38.2 ft where it was
-# 60.0 x 40.1. Five more placed rooms fail an essential item ALONG their length in that footprint;
-# ACROSS is unmoved at 86. The same change costs about three fatal findings on this engine (8-seed
-# means 6.2 -> 9.2, every one an unreachable room) and ZERO on CP-SAT, where serious goes 73 -> 67
-# and transfer beams 30 -> 17.
+DRAWN_SHORT_CEILING = 68   # 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN ORDER: the first is
+# WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
+# WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
+# both ways over all sixteen plans: the two extra shortfalls are the library table in
+# `good-02-portico-library-house` and `good-05-lobby-gallery-mansion`, and they appear because
+# the CATALOGUE was corrected, not because the drawing changed. `rooms/library.json` authored
+# that table `against-wall` while its own note reads "the table is in the MIDDLE of a library
+# and against a wall in a study, and that difference is what distinguishes the two rooms" --
+# the study's answer, on the library's record. Corrected to `freestanding` on the strength of
+# that sentence, the fit check charges clearance on two sides instead of one (6.83 ft -> 10.33)
+# and two libraries that had passed now fail. The conviction is right and the ceiling is raised
+# rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
+# byte-identical across the whole package, which is how the cause was isolated.
+DRAWN_LONG_CEILING = 82
+# WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
+# MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
+# record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it
+# stops choosing candidates that draw a room long, or squeeze one small, to score well; and a
+# squarer room takes its furniture across BOTH ways. Twenty-one shortfalls on the short axis and
+# five on the long one simply stop existing.
 #
-# It was taken anyway, and the reason is in `docs/reports/wp-11.2-the-diagram-reaches-the-record.md`:
-# a house with a centre bay and more findings from a search that cannot realise doors is closer to
-# the type than a house with NO CENTRE BAY, which is where a Georgian door goes. The findings are
-# the critic telling the truth about a hill-climb result on a program known to be wrong for its
-# container (`oq/the-parti-dissolved-its-own-dependencies`, ruled and unbuilt).
+# The two halves of that key landed in one package and the short ceiling moved with each: 86 ->
+# 70 on the proportion ceiling alone, 70 -> 65 when the area floor joined it. Only the second
+# figure is pinned, because only the second is what the code does.
 #
-# THE DIRECTION IS RECORDED SO THE NEXT READER CAN SEE IT: 69 was the WP-9.6 measurement and this
-# is the first time either number has gone UP. If it goes up again, read this comment and the two
-# reports before adding a third line to it.
-DRAWN_LONG_CEILING = 74
+# Which is the point Lucas raised the whole of Phase 9 about: "the breakfast room is drawn
+# 7.0 x 27.0 and cannot take its table". The fix was never a furniture fix.
+# WP-11.6 MOVED BOTH, IN OPPOSITE DIRECTIONS, AND THIS TIME IT WAS THE PLACEMENT -- which is
+# the whole reason the previous paragraph exists. 88/69 -> 86/70. The catalogue is byte-
+# identical across the package; `plans/tidewater-georgian-careful.json` gained the two
+# `stacks_over` claims its own parti has always declared, `geometry.bias()` reads that field to
+# steer CANDIDATE GENERATION rather than only the ranking, and the upper floor of that one plan
+# is laid out differently as a result. Two rooms stop failing across and one starts failing
+# along.
+#
+# **WHEN A RATCHET MOVES, RE-DERIVE WHICH LAYER MOVED IT.** WP-11.3 isolated its own 86 -> 88
+# by proving the placement byte-identical; this package isolated 88 -> 86/70 the other way, by
+# proving the catalogue untouched and diffing the placed rectangles. The two moves look
+# identical in this file and have nothing in common, and a reader who assumes the last cause
+# was the cause will be wrong half the time.
+
+
+# THE MERGE OF THE TWO PHASE 11s MOVED BOTH, AND FOR THE FIRST TIME THE RESULT IS WORSE THAN
+# EITHER PARENT ON ONE AXIS (8 Sep 2026). 65/65 -> 68/82. Measured on `git archive` checkouts of
+# both parents and on the merged tree, `engine="heuristic"`, deterministic:
+#
+#     this branch   65 short / 65 long
+#     main          86 short / 74 long
+#     merged        68 short / 82 long
+#
+# **Fourteen of the sixteen plans are byte-identical to this branch's figures.** The whole
+# movement is the two SHIPPED plans, which are the only two whose footprint main's WP-11.2
+# resizes -- the massing's own bay count and its parity take `spec-builder-colonial` from
+# 40.0 x 38.44 to 50.0 x 30.75 and `tidewater-georgian-careful` from 60.0 x 40.08 to 63 x 38.17.
+# Per plan, long axis: spec 6 (ours) / 10 (main) / **18** (merged); tidewater 6 / 8 / **11**.
+#
+# THE TWO PACKAGES INTERACT AND THE INTERACTION IS THE COST. `derive_footprint` is
+# area-neutral in the bay count (CLAUDE.md records the measurement), so a house that gains bays
+# loses DEPTH at constant area -- and this branch's WP-11.8 then ranks each room's own
+# proportion band above the search's score, drawing rooms SQUARER inside a shallower box. A
+# squarer room in a 30.75 ft pile is a shorter room, and the long axis is what furniture like a
+# dining table and a kitchen island needs. Neither package is wrong and neither is undone here:
+# undoing one at a merge is a third change hidden inside a second one.
+# `oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either` carries it, with what must
+# be ruled. RE-BASELINED UPWARD, in public, with the parents' own numbers beside it -- because a
+# ceiling quietly raised is a regression absorbed.
 
 
 def test_drawn_furniture_shortfalls_are_ratcheted():

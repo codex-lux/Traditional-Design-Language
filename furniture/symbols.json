@@ -1,0 +1,94 @@
+{
+  "id": "furniture-symbols",
+  "version": "0.1.0",
+  "name": "The furniture symbols",
+  "kind": "editorial",
+  "judgment": true,
+  "description": "How a placed furniture item is drawn: a few primitives in UNIT space, which each renderer maps into the item's own rectangle. Nothing here is a construction — it is a square of line work and an affine map — which is exactly why both renderers may do the mapping. build/profiles.py is the opposite case and its rule stands: a cyma is CONSTRUCTED in Python and JavaScript must not re-derive it. What must not happen twice is the SHAPE, so it is stated once here and read by both.",
+  "note": "EDITORIAL, AND NO SOURCE IS RECORDED. No record in this corpus says what a sofa looks like in plan. These are the conventional marks of an architectural floor plan, cut to what reads at 13 px per foot, and a reader who thinks a bed's pillow band is wrong is disagreeing with a judgment rather than with a citation. The matcher is a keyword table on build/openings.py::_FIXTURE_ALIASES's own precedent: 188 distinct leading names cover 219 drawn items, so an exact table would be mostly misses and a wrong symbol is worse than a plain outline. Anything that matches nothing is drawn as `block`, its own rectangle, which is what every fixture is drawn as today.",
+  "units": "Each primitive is stated in a unit square: x and y run 0 to 1 across the item's own width and depth, with 0,0 at the corner nearest the wall the item is seated against. A renderer scales and offsets; it computes nothing else. THREE PRIMITIVES: `rect`, `line`, `circle`. There is no `arc` -- one was tried for a grand piano's bent side and swept outside the item on an upright, and a vocabulary no symbol uses is an unreachable branch in two renderers.",
+  "order": ["bed", "piano", "table-round", "seat", "sofa", "case", "counter", "appliance", "table", "block"],
+  "symbols": {
+    "block": {
+      "match": [],
+      "note": "The default, and the honest one: the item's own rectangle and nothing invented.",
+      "primitives": [{"rect": [0, 0, 1, 1]}]
+    },
+    "bed": {
+      "match": ["bed", "bedstead", "cot", "crib", "cradle"],
+      "note": "Outline, a pillow band across the head, and the turn-down line a plan uses to say which end is which.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"rect": [0.08, 0.02, 0.84, 0.16]},
+        {"line": [0, 0.34, 1, 0.34]}
+      ]
+    },
+    "sofa": {
+      "match": ["sofa", "settee", "sectional", "couch", "davenport"],
+      "note": "Back along the wall edge, two arms, and a seat line.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"line": [0, 0.28, 1, 0.28]},
+        {"line": [0.14, 0.28, 0.14, 1]},
+        {"line": [0.86, 0.28, 0.86, 1]}
+      ]
+    },
+    "seat": {
+      "match": ["chair", "armchair", "stool", "bench", "seat", "seating", "rocker", "glider", "pew"],
+      "note": "One back line. A chair at plan scale is a square with a back and nothing more.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"line": [0.06, 0.22, 0.94, 0.22]}
+      ]
+    },
+    "table-round": {
+      "match": ["round table", "tea table", "card table", "centre table", "center table"],
+      "note": "Inscribed circle. A round table is the one piece of furniture whose plan is unmistakable.",
+      "primitives": [{"circle": [0.5, 0.5, 0.48]}]
+    },
+    "table": {
+      "match": ["table", "desk", "bureau", "escritoire", "trestle"],
+      "note": "A table in plan IS its outline; the inset line reads as the top over the frame.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"rect": [0.05, 0.05, 0.9, 0.9]}
+      ]
+    },
+    "case": {
+      "match": ["bookcase", "bookshelf", "shelf", "shelving", "cupboard", "press", "chest",
+                "dresser", "wardrobe", "armoire", "cabinet", "sideboard", "hanging", "linen",
+                "drawer", "storage", "locker", "rack"],
+      "note": "A case piece is drawn as its carcase with the shelf line inside it.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"line": [0.04, 0.72, 0.96, 0.72]}
+      ]
+    },
+    "counter": {
+      "match": ["counter", "island", "worktop", "run", "vanity", "buffet"],
+      "note": "Outline with the front nosing line.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"line": [0, 0.88, 1, 0.88]}
+      ]
+    },
+    "appliance": {
+      "match": ["range", "cooker", "stove", "refrigerator", "fridge", "washer", "dryer",
+                "dishwasher", "oven", "freezer", "boiler", "cylinder", "furnace"],
+      "note": "Outline and a diagonal, the drafting convention for a fitted appliance.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"line": [0, 0, 1, 1]}
+      ]
+    },
+    "piano": {
+      "match": ["piano", "organ", "harpsichord", "spinet"],
+      "note": "The case and the keyboard band. The first draft drew a grand's curved bent side as an arc, and MEASURED over the sixteen plans that arc left its room 13 times out of 1078 marks -- its radius scaled off the item's short side, so on an upright it swept straight through the wall. The rectangle check could not see it, because the item's rectangle was inside the room the whole time and only the arc was not. The curve is withdrawn rather than clamped: the corpus states no grand-versus-upright fact, `arc` is now used by no symbol, and drawing a bent side on an upright would be inventing one.",
+      "primitives": [
+        {"rect": [0, 0, 1, 1]},
+        {"rect": [0, 0, 1, 0.16]},
+        {"line": [0, 0.16, 1, 0.16]}
+      ]
+    }
+  }
+}

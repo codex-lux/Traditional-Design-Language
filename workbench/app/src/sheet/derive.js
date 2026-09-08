@@ -23,8 +23,40 @@
    wall by rule: doors take their position first, windows are distributed into what is
    left, and a window with nowhere to go is reported rather than drawn on top. */
 
-export const WALL_T = 0.75;      // exterior wall thickness drawn (poché band)
-export const PART_T = 0.42;      // partition thickness drawn
+/* THE WALL COMES FROM THE RECORD, AND THESE TWO ARE WHAT IT REPLACED.
+
+   `WALL_T = 0.75` and `PART_T = 0.42` were literals — 9 in of envelope and 5 in of
+   partition, a house convention rather than a reading, and matching NO assembly in
+   `construction/wall-assemblies.json`. The Tidewater plan declares `solid-masonry-two-wythe`,
+   which is 15.5 in and 4.5 in; the spec Colonial declares nothing and takes platform frame's
+   8 in and 4.5 in, which the sheet has to SAY rather than assume.
+
+   `build/openings.py::place` writes `footprint.wall` (plan schema 0.5.1) from
+   `build/assemblies.py::wall_thickness`, which reads the plan's own
+   `declared.construction_type`. `wallOf()` below is the one reader.
+
+   The fallback is kept and is NOT silent: a record placed before 0.5.1 carries no assembly,
+   and a sheet that quietly drew 9 in on it would be inventing the thing this change removed.
+   `wallOf` returns `stated: false` and the plate says so. */
+export const WALL_FALLBACK = { exterior_ft: 0.75, bearing_ft: 0.55, partition_ft: 0.42 };
+
+export function wallOf(footprint) {
+  const w = (footprint || {}).wall;
+  if (!w || !(w.exterior_in > 0)) return { ...WALL_FALLBACK, stated: false, note: null };
+  return {
+    exterior_ft: w.exterior_in / 12,
+    bearing_ft: (w.bearing_interior_in || w.exterior_in) / 12,
+    partition_ft: (w.partition_in || w.exterior_in) / 12,
+    stated: true,
+    type: w.construction_type,
+    note: w.note || null,
+  };
+}
+
+/* Kept so a caller that has no placement still has a number, and so `partitions()` keeps its
+   old signature. Every DRAWN thickness goes through `wallOf`. */
+export const WALL_T = WALL_FALLBACK.exterior_ft;
+export const PART_T = WALL_FALLBACK.partition_ft;
 
 /* The reveal either side of a leaf. A door is not its leaf: it is the leaf, the jambs it
    hangs in and the lining round them, and a wall run that cannot hold all three cannot
@@ -80,6 +112,7 @@ export function levelRooms(plan, placement, levelIndex) {
         windows: p.windows || r.windows || [],
         doors: p.doors || r.doors || [],
         fixture_layout: p.fixture_layout || r.fixture_layout || [],
+        furniture_layout: p.furniture_layout || r.furniture_layout || [],
         exterior_walls: r.exterior_walls || [],
         window_head_ft: r.window_head_ft,
         declared_width_ft: r.width_ft, declared_length_ft: r.length_ft,
@@ -107,7 +140,7 @@ export function sharedEdge(a, b, tol = 0.4) {
 
 /* Interior partition segments: each room edge not on the footprint boundary, deduped.
    Returned as rects (model feet) centred on the shared line. */
-export function partitions(rooms, W, H, tol = 0.6) {
+export function partitions(rooms, W, H, tol = 0.6, t = PART_T) {
   const segs = [];
   const seen = new Set();
   const key = (x0, y0, x1, y1) =>
@@ -125,20 +158,46 @@ export function partitions(rooms, W, H, tol = 0.6) {
       if (seen.has(k)) continue;
       seen.add(k);
       segs.push(e.horiz
-        ? { x: e.x0, y: e.y0 - PART_T / 2, w: e.x1 - e.x0, h: PART_T }
-        : { x: e.x0 - PART_T / 2, y: e.y0, w: PART_T, h: e.y1 - e.y0 });
+        ? { x: e.x0, y: e.y0 - t / 2, w: e.x1 - e.x0, h: t }
+        : { x: e.x0 - t / 2, y: e.y0, w: t, h: e.y1 - e.y0 });
     }
   }
   return segs;
 }
 
 /* Which boundary wall of the footprint a room's edge lies on, for the walls it declares. */
-function boundaryWall(r, wall, W, H, tol) {
-  if (wall === 'S' && r.y <= tol) return { wall: 'S', lo: r.x, hi: r.x + r.w, at: 0 };
-  if (wall === 'N' && r.y + r.h >= H - tol) return { wall: 'N', lo: r.x, hi: r.x + r.w, at: H };
-  if (wall === 'W' && r.x <= tol) return { wall: 'W', lo: r.y, hi: r.y + r.h, at: 0 };
-  if (wall === 'E' && r.x + r.w >= W - tol) return { wall: 'E', lo: r.y, hi: r.y + r.h, at: W };
+/* WP-11.14. `box` is [x, y, W, H] of the massing element this room stands in; without one the
+   footprint is the element, which is what every plan in the corpus is. `at` is the coordinate
+   ACROSS the wall and it has always been returned here -- both callers below ignored it and
+   recomputed `0`/`W`/`H` inline, so an opening on a dependency's face was drawn on the main
+   block's. build/render_plan.py::_boundary_wall is the twin and takes `box` in the same place. */
+function boundaryWall(r, wall, W, H, tol, box) {
+  const [bx, by, bW, bH] = box || [0, 0, W, H];
+  if (wall === 'S' && r.y <= by + tol) return { wall: 'S', lo: r.x, hi: r.x + r.w, at: by };
+  if (wall === 'N' && r.y + r.h >= by + bH - tol) return { wall: 'N', lo: r.x, hi: r.x + r.w, at: by + bH };
+  if (wall === 'W' && r.x <= bx + tol) return { wall: 'W', lo: r.y, hi: r.y + r.h, at: bx };
+  if (wall === 'E' && r.x + r.w >= bx + bW - tol) return { wall: 'E', lo: r.y, hi: r.y + r.h, at: bx + bW };
   return null;
+}
+
+/* Where an EXTERIOR opening in this room's wall is drawn across the wall: the element's own
+   face where the element is known, the room's otherwise. The twin of _edge_of in
+   build/render_plan.py, and the same ordering for the same reason -- the exterior wall is
+   drawn outward from the element's edge, and a boundary room may sit a tolerance inside it. */
+// ROUNDED TO 3 dp, BECAUSE THE PYTHON SPELLING IS. `render_plan.py` writes every `edge_ft`
+// through `round(edge, 3)` and this file wrote the raw float, so a room set back a non-binary
+// fraction from its element face gave 32.6 in one renderer and 32.599999999999994 in the other
+// -- two answers to the question WP-11.14 exists to make them answer once. Found by a guard
+// written for a different gap, in the audit of that package. On every shipped plan the edge is
+// 0/W/H exactly and this is the identity.
+function edge3(v) { return Math.round(v * 1000) / 1000; }
+
+function edgeOf(r, wall, box) {
+  if (box) {
+    const [bx, by, bW, bH] = box;
+    return wall === 'S' ? by : wall === 'N' ? by + bH : wall === 'W' ? bx : bx + bW;
+  }
+  return wall === 'S' ? r.y : wall === 'N' ? r.y + r.h : wall === 'W' ? r.x : r.x + r.w;
 }
 
 /* Subtract the blocked spans from [lo, hi]. */
@@ -200,8 +259,15 @@ function placedAt(d) {
   return { wall: d.wall, pos: Number(d.position_ft) };
 }
 
-export function doors(rooms, W, H, tol = 0.6) {
+/* WP-11.10. `appendages` is `[{id, x, y, w, h}]` for the at-grade appendages placed OUTSIDE
+   the block on this level -- a terrace, today. Their rooms carry no geometry (that is the whole
+   mechanism of the ruling; see build/appendages.py), so the lookup below found nothing and
+   called a door the record says is SEATED "the other room is not placed on this level": the
+   record and the sheet holding two answers about one door, which is WP-6.1's own finding.
+   `build/render_plan.py::derive_openings` takes the same argument in the same place. */
+export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) {
   const idx = new Map(rooms.map((r) => [r.id, r]));
+  for (const a of appendages || []) if (!idx.has(a.id)) idx.set(a.id, a);
   const handled = new Set();
   const interior = [];
   const exterior = [];
@@ -231,12 +297,16 @@ export function doors(rooms, W, H, tol = 0.6) {
       const seat = placedAt(d);
       if (isExt && seat) {
         usedWalls.add(seat.wall);
+        // WP-11.14: across the wall from the ROOM's own element, not from the footprint. The
+        // interior branch below has always taken its `at` from the room's rectangle; this one
+        // took `0`/`W`/`H`, and on a plan with a dependency it drew the door in open space.
+        const edge = edgeOf(r, seat.wall, (bounds || {})[r.id]);
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: false,
-          inferredWidth: declaredW == null,
+          inferredWidth: declaredW == null, edge_ft: edge3(edge),
           span: [seat.pos - width / 2, seat.pos + width / 2],
-          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : seat.pos,
-          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : seat.pos,
+          x: seat.wall === 'W' || seat.wall === 'E' ? edge : seat.pos,
+          y: seat.wall === 'S' || seat.wall === 'N' ? edge : seat.pos,
         });
         continue;
       }
@@ -273,22 +343,23 @@ export function doors(rooms, W, H, tol = 0.6) {
         let seat = null;
         for (const wl of walls) {
           if (usedWalls.has(wl)) continue;
-          const b = boundaryWall(r, wl, W, H, tol);
+          const b = boundaryWall(r, wl, W, H, tol, (bounds || {})[r.id]);
           if (b) { seat = b; break; }
         }
         if (!seat) {
           undrawable.push({ from: r.id, to: 'exterior', width_ft: width, type,
-            reason: 'no declared exterior wall of this room is on the footprint boundary here' });
+            reason: 'no declared exterior wall of this room is on its own '
+              + "massing element's boundary here" });
           continue;
         }
         usedWalls.add(seat.wall);
         const mid = (seat.lo + seat.hi) / 2;
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: true,
-          inferredWidth: declaredW == null,
+          inferredWidth: declaredW == null, edge_ft: edge3(seat.at),
           span: [mid - width / 2, mid + width / 2],
-          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : mid,
-          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : mid,
+          x: seat.wall === 'W' || seat.wall === 'E' ? seat.at : mid,
+          y: seat.wall === 'S' || seat.wall === 'N' ? seat.at : mid,
         });
         continue;
       }
@@ -329,7 +400,7 @@ export function doors(rooms, W, H, tol = 0.6) {
 /* Windows from the record, distributed along the room's exterior wall into the run the
    doors have left. `extDoors` is doors().exterior — pass it, or the two passes will put
    an opening in the same masonry twice (which is exactly what used to happen). */
-export function windows(rooms, W, H, tol = 0.6, extDoors = []) {
+export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
   const out = [];
   let offFootprint = 0;      // the solver put this room on no such boundary wall
   let crowded = 0;           // the wall has no clear run left beside its doors
@@ -344,7 +415,7 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = []) {
     for (const win of r.windows) {
       const n = win.count || 1;
       const wallW = win.width_ft || 3;
-      const seat = boundaryWall(r, win.wall, W, H, tol);
+      const seat = boundaryWall(r, win.wall, W, H, tol, (bounds || {})[r.id]);
       if (!seat) { offFootprint += n; continue; }
       let pos;
       if (win.positions_ft && win.positions_ft.length) {
@@ -358,9 +429,11 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = []) {
       }
       for (const p of pos) {
         out.push({
-          wall: seat.wall, w: wallW, room: r.id,
-          x: seat.wall === 'W' ? 0 : seat.wall === 'E' ? W : p,
-          y: seat.wall === 'S' ? 0 : seat.wall === 'N' ? H : p,
+          // WP-11.14: `seat.at` is the room's own element's face. It was already being
+          // returned and both callers here threw it away for `0`/`W`/`H`.
+          wall: seat.wall, w: wallW, room: r.id, edge_ft: edge3(seat.at),
+          x: seat.wall === 'W' || seat.wall === 'E' ? seat.at : p,
+          y: seat.wall === 'S' || seat.wall === 'N' ? seat.at : p,
         });
       }
     }
@@ -374,11 +447,13 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = []) {
 /* Which of a room's declared window-walls the placement actually put on the footprint
    boundary — the daylight overlay must agree with the DRAWN windows, not the declared
    list, or the overlay and the drawing contradict each other on the same sheet. */
-export function litWalls(r, W, H, tol = 0.6) {
+export function litWalls(r, W, H, tol = 0.6, box = null) {
   const walls = new Set((r.windows || []).map((w) => w.wall));
   const out = [];
   for (const wl of ['S', 'N', 'W', 'E']) {
-    if (walls.has(wl) && boundaryWall(r, wl, W, H, tol)) out.push(wl);
+    // WP-11.14: the room's own element, so the overlay agrees with the drawn windows on a
+    // multi-element plan too -- which is the reason this function reads `boundaryWall` at all.
+    if (walls.has(wl) && boundaryWall(r, wl, W, H, tol, box)) out.push(wl);
   }
   return out;
 }

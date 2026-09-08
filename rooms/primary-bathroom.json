@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "double vanity",
+      "kind": "object",
       "footprint_in": [
         72,
         21
@@ -48,6 +49,7 @@
     },
     {
       "item": "freestanding tub",
+      "kind": "object",
       "footprint_in": [
         66,
         32
@@ -58,6 +60,7 @@
     },
     {
       "item": "shower with bench",
+      "kind": "object",
       "footprint_in": [
         42,
         60
@@ -68,6 +71,7 @@
     },
     {
       "item": "water closet compartment",
+      "kind": "object",
       "footprint_in": [
         36,
         66
@@ -78,6 +82,7 @@
     },
     {
       "item": "linen store",
+      "kind": "object",
       "footprint_in": [
         24,
         14
@@ -89,6 +94,7 @@
     },
     {
       "item": "a place to sit and a place to put a towel down",
+      "kind": "reservation",
       "footprint_in": [
         36,
         18

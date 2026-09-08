@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "boot tray",
+      "kind": "object",
       "footprint_in": [
         30,
         18
@@ -50,6 +51,7 @@
     },
     {
       "item": "umbrella stand",
+      "kind": "object",
       "footprint_in": [
         12,
         12
@@ -60,6 +62,7 @@
     },
     {
       "item": "hook rail for two wet coats",
+      "kind": "object",
       "footprint_in": [
         30,
         10
@@ -70,6 +73,7 @@
     },
     {
       "item": "bench, if the vestibule is asked to do the mudroom's job",
+      "kind": "object",
       "footprint_in": [
         42,
         18

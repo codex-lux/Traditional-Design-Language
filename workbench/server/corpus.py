@@ -409,10 +409,19 @@ def _placed(plan, parti=None, candidates=250):
     return out
 
 
-def drawing(kind, plan, parti=None, face=None, candidates=250):
+def drawing(kind, plan, parti=None, face=None, candidates=250, register="presentation"):
     """Run the build/ pipeline for one drawing and return its SVG, re-tokenized to
     the Drawn Language. Everything is generated from the record — the same modules
-    the CLI drives, to a tempfile, read back, recoloured, never redrawn."""
+    the CLI drives, to a tempfile, read back, recoloured, never redrawn.
+
+    THE PLAN SHEET DEFAULTS TO THE PRESENTATION REGISTER HERE AND TO THE WORKING ONE IN
+    `render_plan.render`, AND THE SPLIT IS DELIBERATE. `render()`'s default is the
+    conservative direction for a machine: a caller that does not choose keeps every
+    disclosure it had, so no count and no mark can vanish through a default argument. This
+    is the surface a PERSON reads, and the reader's sheet is the clean one -- the drawing
+    and its names, with the disclosures set in the title block below the border where a
+    draughtsman puts a note. A caller asks for `working` to get the dimension strings, the
+    divergence marks and the relaxation triangles back onto the field."""
     import os as _os
     import tempfile
 
@@ -443,7 +452,7 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
             if "error" in solved:
                 return {"error": solved["error"]}
             rp = core._mod("render_plan", f"{B}/render_plan.py")
-            rp.render(solved, out_path)
+            rp.render(solved, out_path, register=register)
             # the solver's own account travels with the drawing: a sheet a reader may print
             # has to be able to say whether its placement was proved or searched
             meta = {"relaxations": solved["geometry_report"].get("relaxations"),
@@ -495,6 +504,8 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
             _os.unlink(out_path)
         except OSError:
             pass
+    if kind == "plan":
+        meta["register"] = register
     return {"kind": kind, "svg": svg_theme.retokenize(svg), **meta}
 
 

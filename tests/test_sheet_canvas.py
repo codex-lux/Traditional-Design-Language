@@ -45,8 +45,11 @@ RP = _mod("build/render_plan.py", "render_plan_canvas")
 
 CANVAS = re.compile(r'<svg[^>]*width="([\d.]+)" height="([\d.]+)"')
 RECT = re.compile(r'<rect x="([-\d.]+)" y="([-\d.]+)" width="([\d.]+)" height="([\d.]+)"')
-PLATE = re.compile(r'<rect x="([-\d.]+)" y="([-\d.]+)" width="([\d.]+)" height="([\d.]+)" '
-                   r'fill="#0F2536"')
+# The plate's own stated top edge. This used to select the paper-ground rect by its dark
+# hex, which the Drawn Language pass removed along with the ground itself -- the room is the
+# paper now, and a sheet with no fill to select would have made this guard pass over an empty
+# list. Selecting a colour was the weakness; the plate states its origin instead.
+PLATE = re.compile(r'<text class="lb" data-plate="[^"]*" data-plate-top="([-\d.]+)"')
 
 
 def _sheet(name, tmp_path):
@@ -98,7 +101,7 @@ def test_every_level_plate_shares_one_top_edge(tmp_path):
             svg = _sheet(name, tmp_path)
         except SystemExit:
             continue
-        tops = sorted({round(float(y), 1) for _x, y, _w, _h in PLATE.findall(svg)})
+        tops = sorted({round(float(y), 1) for y in PLATE.findall(svg)})
         if len(PLATE.findall(svg)) < 2:
             continue
         multi += 1
@@ -222,22 +225,56 @@ class TestADependencyIsDrawnInsideItsOwnPanel:
             rp.render(plan, str(out))
             svg = out.read_text()
             canvas_w = float(re.search(r'viewBox="0 0 ([\d.]+) ', svg).group(1))
-            wl = [(float(x), float(w)) for x, w in
-                  re.findall(r'<rect class="wl" x="([-\d.]+)"[^>]*width="([\d.]+)"[^>]*/>', svg)]
-            assert wl, "no perimeter rects in the sheet -- the selector has gone stale"
+            # READ THE ENVELOPE BANDS, WHICH IS WHAT AN OUTLINE IS NOW. The building used to be
+            # outlined by a stroked `.wl` rect per element; the Drawn Language pass made the
+            # wall a BODY, so each element's envelope is four poche bands carrying that
+            # element's index. Selecting on `data-block` also drops the scale derivation this
+            # test used to do -- it divided the widest drawn rect by the widest declared block
+            # to recover px-per-foot, which is circular the moment the drawn rect includes the
+            # wall thickness. Grouping by element states the property directly instead.
+            # PER PLATE, and the first version of this was not -- it unioned each element's
+            # bands over the WHOLE sheet, so block 0's envelope on the ground plate and its
+            # envelope on the upper plate merged into one span 163 ft wide and the assertion
+            # fired on a sheet that was drawing correctly. The levels are side by side; a
+            # question about one house's outline is a question about one plate.
+            plates = re.split(r'(?=<text class="lb" data-plate=")', svg)[1:]
+            assert plates, "no plate markers in the sheet -- the selector has gone stale"
+            # `[^>]*?` between the class and the id: the band also states WHICH of the three
+            # walls it is (`data-wall`), and a selector that assumed the attribute order went
+            # stale the moment that was added -- it matched nothing and the test failed loudly,
+            # which is the good outcome, but an over-specified selector is one edit from being
+            # the silent kind instead.
+            band_re = re.compile(
+                r'<rect class="pm"[^>]*? data-block="(\d+)" x="([-\d.]+)" y="[-\d.]+" '
+                r'width="([\d.]+)" height="([\d.]+)"')
+            bands = [m for plate in plates for m in band_re.findall(plate)]
+            assert bands, "no envelope bands in the sheet -- the selector has gone stale"
+            got = {int(b_) for b_, _x, _w, _h in bands}
+            assert got == set(range(len(blocks))), (
+                f"[{side}] the sheet draws envelopes for elements {sorted(got)} against "
+                f"{len(blocks)} in the record")
 
-            # The widest outline drawn must be an ELEMENT's width, never the extent that spans
-            # the hyphen. Compared in model feet via the widths the record itself states.
-            widest_px = max(w for _x, w in wl)
-            scale = widest_px / max(b["width_ft"] for b in blocks)
-            extent = max(b["x_ft"] + b["width_ft"] for b in blocks) - min(b["x_ft"] for b in blocks)
-            assert widest_px < (extent - 1.0) * scale, (
-                f"[{side}] the widest outline is {widest_px/scale:.1f} ft against a two-element "
-                f"extent of {extent:.1f} ft -- the gap between the blocks is being drawn as "
-                "building")
-            for x, w in wl:
+            spans = {}
+            for pi, plate in enumerate(plates):
+                for b_, x, w, _h in band_re.findall(plate):
+                    x, w = float(x), float(w)
+                    lo, hi = spans.get((pi, int(b_)), (x, x + w))
+                    spans[(pi, int(b_))] = (min(lo, x), max(hi, x + w))
+            # No element's envelope may reach across the gap into another's. Two elements whose
+            # drawn spans overlap are one rectangle with the hyphen inside it, which is the
+            # defect: a 70 ft house beside a 20 ft dependency outlined as one 104 ft building.
+            ordered = sorted(spans.values())
+            assert len(ordered) >= 2, (
+                f"[{side}] only {len(ordered)} envelope(s) drawn -- a two-element plan whose "
+                "elements are not both drawn cannot exercise this guard at all")
+            for (lo1, hi1), (lo2, _hi2) in zip(ordered, ordered[1:]):
+                assert hi1 < lo2 + 0.5, (
+                    f"[{side}] two elements' envelopes run {lo1:.0f}-{hi1:.0f} and from "
+                    f"{lo2:.0f} -- the gap between the blocks is being drawn as building")
+            for _b, x, w, _h in bands:
+                x, w = float(x), float(w)
                 assert x >= -0.5 and x + w <= canvas_w + 0.5, (
-                    f"[{side}] an outline runs from {x:.0f} to {x+w:.0f} on a {canvas_w:.0f} px "
+                    f"[{side}] a band runs from {x:.0f} to {x+w:.0f} on a {canvas_w:.0f} px "
                     "canvas -- it is drawn off the sheet")
 
     def test_a_one_block_sheet_is_unchanged_by_the_drawn_extent(self, geometry_module):

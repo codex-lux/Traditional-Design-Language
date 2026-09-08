@@ -33,6 +33,7 @@
   "furniture": [
     {
       "item": "car",
+      "kind": "object",
       "footprint_in": [
         72,
         192
@@ -43,6 +44,7 @@
     },
     {
       "item": "refuse bins",
+      "kind": "object",
       "footprint_in": [
         30,
         60

@@ -252,7 +252,14 @@ check('magnified, the plate can be panned', canPanNow);
 // that would have caught BUTLER'S PANTRY drawn eleven feet long in a seven-foot room.
 const measureLabels = () => page.evaluate(() => {
   const out = { rooms: 0, labelled: 0, over: [] };
-  for (const g of document.querySelectorAll('svg g')) {
+  // A ROOM IS `[data-room]`, NOT "a group whose first child is a title and which holds a
+  // rect". That heuristic was the population this check measured until WP-11.3, and it was
+  // never a description of a room -- it was a description of the markup a room HAPPENED to
+  // have. The moment furniture arrived, drawn as <g data-furniture><title/><rect/></g>, the
+  // room count went 13 -> 44 and the check failed for counting chairs as rooms. Fifth
+  // instance in this file of a guard selecting on incidental shape rather than on identity,
+  // and the third repaired in this package.
+  for (const g of document.querySelectorAll('svg g[data-room]')) {
     const ttl = g.firstElementChild;
     if (!ttl || ttl.tagName !== 'title') continue;
     const rect = g.querySelector('rect');
@@ -383,12 +390,59 @@ check(`the plate title is whole ("${flat.slice(0, 48)}")`,
 const built = await page.evaluate(() => ({
   stair: document.querySelectorAll('[data-stair]').length,
   refused: !!document.querySelector('[data-stair="refused"]'),
-  fixtures: [...document.querySelectorAll('svg rect')]
-    .filter((r) => (r.getAttribute('stroke-dasharray') || '').startsWith('1.4')).length,
+  // WP-11.3: BY WHAT IT IS, not by the dash it happens to be drawn with. This counted
+  // `svg rect` whose stroke-dasharray ATTRIBUTE started "1.4" -- a selector that the pen
+  // ladder would have emptied the moment the dash moved into `style`, and that furniture
+  // drawn with any similar dash would have silently inflated. It asserts `> 0`, so either
+  // failure reads as a pass. Fourth instance of the class in this file.
+  fixtures: document.querySelectorAll('[data-fixture]').length,
+  furniture: document.querySelectorAll('[data-furniture]').length,
+  furnitureSymbols: new Set([...document.querySelectorAll('[data-furniture]')]
+    .map((g) => g.getAttribute('data-furniture'))).size,
+  // WP-11.4. The stoop and the gable-end stacks. Counted by what they ARE and measured
+  // against the PLATE, because the failure this catches is not a missing mark: it is a mark
+  // drawn outside the viewBox, where nothing errors and nothing is seen.
+  stacks: [...document.querySelectorAll('[data-stack]')].map((r) => ({
+    x: +r.getAttribute('x'), w: +r.getAttribute('width'), wall: r.getAttribute('data-stack'),
+  })),
+  stoops: [...document.querySelectorAll('[data-threshold] rect')].map((r) => ({
+    x: +r.getAttribute('x'), y: +r.getAttribute('y'),
+    w: +r.getAttribute('width'), h: +r.getAttribute('height'),
+  })),
+  vb: (document.querySelector('svg[role="img"]') || document.querySelector('svg'))
+    ?.getAttribute('viewBox'),
 }));
 check(`the stair is drawn or its absence is stated (${built.stair} mark(s), refused=${built.refused})`,
   built.stair > 0);
 check(`wet-room fixtures are drawn from the record (${built.fixtures})`, built.fixtures > 0);
+// WP-11.3 — the dry rooms are furnished, from the record's own marks and from nothing else.
+// The count and the SYMBOL VARIETY are both asserted: a sheet that drew every item as the
+// default outline would satisfy a bare count while saying nothing, which is the vacuous-pass
+// shape this file has been caught by four times.
+check(`dry-room furniture is drawn from the record (${built.furniture} items, `
+      + `${built.furnitureSymbols} distinct symbols)`,
+  built.furniture > 10 && built.furnitureSymbols > 2);
+// WP-11.4 — the stoop and the stacks, from plan.threshold and plan.hearths. Both stand
+// OUTSIDE the block, so the plate has to have grown for them; a stack drawn at x = -3.1 on a
+// viewBox starting at -11 is invisible and raises nothing, which is why the extent is
+// asserted here and not only the count.
+{
+  const vb = (built.vb || '').split(/\s+/).map(Number);
+  const inside = built.stacks.length > 0 && built.stacks.every(
+    (s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
+  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length}, `
+        + `walls ${built.stacks.map((s) => s.wall).join('/')}, viewBox ${built.vb})`,
+    built.stacks.length === 2 && inside);
+  // COUNTED AS A PROPERTY AND NOT AS A NUMBER. The first version asserted exactly one, and
+  // the walk answered TWO: on CP-SAT the placement puts the KITCHEN's exterior door on the
+  // entrance front as well, so the count is the engine's and not the record's. What must hold
+  // on any engine is that every mark of the flight lies on the plate.
+  const onPlate = built.stoops.length > 0 && built.stoops.every(
+    (r) => r.x >= vb[0] && r.x + r.w <= vb[0] + vb[2]
+        && r.y >= vb[1] && r.y + r.h <= vb[1] + vb[3]);
+  check(`the entrance stoop is drawn from the record and lies on the plate `
+        + `(${built.stoops.length} mark(s))`, onPlate);
+}
 
 // the loupe's scroller, and one room's drawn dimensions, read the same way twice
 const scrollPos = () => page.evaluate(() => {
@@ -455,9 +509,25 @@ const handleLive = await (async () => {
   await page.mouse.move(h.x, h.y);
   await page.mouse.down();
   await page.mouse.move(h.x + 30, h.y, { steps: 6 });
-  const preview = await page.evaluate(() => [...document.querySelectorAll('line')]
-    .filter((l) => (l.getAttribute('stroke') || '').includes('gilt')
-      && l.getAttribute('stroke-dasharray')).length);
+  // COMPUTED STYLE, NOT THE ATTRIBUTE. The sheet's stroke widths moved onto the pen ladder
+  // (`sheet/pen.js`), and `var(--lw-cut)` does not resolve inside an SVG presentation
+  // attribute -- so every mark states its weight and its ink in `style=` now and
+  // `getAttribute('stroke')` returns null on all of them. Reading the attribute here would
+  // have made this check count zero previews on a working drag: a guard that reads a
+  // selector rather than a property is this repository's most-repeated way of going blind,
+  // and the pen check thirty lines below carries the same lesson in its own comment.
+  const preview = await page.evaluate(() => {
+    const toRGB = (hex) => {
+      const h = hex.replace('#', '');
+      const n = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+      return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+    };
+    const gilt = toRGB(getComputedStyle(document.documentElement)
+      .getPropertyValue('--gilt-deep').trim());
+    return [...document.querySelectorAll('line')]
+      .filter((l) => getComputedStyle(l).stroke === gilt
+        && l.getAttribute('stroke-dasharray')).length;
+  });
   const panned = await scrollPos();
   await page.mouse.move(h.x, h.y, { steps: 4 });
   await page.mouse.up();

@@ -8,11 +8,25 @@ in `roof["outline"]`, `roof["chimneys"]`, and `roof["main"]`).
 """
 import os
 
-# Palette duplicated from build/render_plan.py / build/render_section.py rather than imported --
-# every build/*.py module in this corpus is loaded standalone via importlib, so importing
-# another renderer for one colour dict is not worth the coupling.
-PAL = {"ground": "#0B1B29", "paper": "#0F2536", "rule": "#24455E", "ink": "#EDE7DA", "ink2": "#9FB3C2",
-       "ink3": "#63808F", "brass": "#D8B26A", "verd": "#7FB3A3", "copper": "#C4734A", "iron": "#C4553A"}
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+def _mod(n, p):
+    # Delegates to build/modcache.py so a module is executed once per process rather than
+    # once per call (OQ 28). Loaded by path because this file is itself usually loaded by
+    # path, so `build/` is not necessarily on sys.path yet.
+    import sys as _sys
+    _b = os.path.join(ROOT, "build")
+    if _b not in _sys.path:
+        _sys.path.insert(0, _b)
+    import modcache as _mc
+    return _mc.load(n, p)
+SS = _mod("sheet_style", f"{ROOT}/build/sheet_style.py")
+
+# The palette is build/sheet_style.py's now -- ONE spelling, not four. It carried a verbatim
+# copy of the same ten-key dict, under a comment saying the duplication was the price of every
+# build/*.py module being loadable standalone; modcache.load answers that, and the copies were
+# the reason a colour could be changed in one renderer and not in its neighbours. `DARK` is
+# byte-for-byte what stood here, proved over all ten sheets corpus.drawing() produces.
+PAL = SS.DARK
 
 LINE_CLASS = {"eave": "ev", "ridge": "rg", "hip": "hp", "gambrel-break": "gb", "cross-ridge": "cr"}
 
