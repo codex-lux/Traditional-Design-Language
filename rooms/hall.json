@@ -98,6 +98,12 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "The high end takes the best light - the oriel or bay window at the dais end is the room's one good window and it exists to light the lord, which is a lighting decision made for social reasons and is worth recognising as such.",
+    "aspect": {
+      "applies": false,
+      "basis": "The high end takes the best light",
+      "note": "A rule about WHICH END of this room gets the good window, which is a rule inside the room rather than an aspect for the room.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.08,
       0.3

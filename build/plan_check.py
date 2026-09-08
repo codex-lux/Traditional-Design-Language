@@ -327,6 +327,24 @@ class Findings:
     # bug with extra steps.
     _ID_LIKE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,39}$")
 
+    # `kind` IS NOT IN THE KEY, AND AN AUDIT PUT IT THERE AND TOOK IT BACK OUT (7 Sep 2026).
+    #
+    # THE DEFECT IS REAL AND IS MEASURED: two findings of different kinds about one room in one
+    # layer are separated only by the ORDER they were minted in. Shrink `backhall` on the
+    # Tidewater record until its depth finding clears, and the aspect finding beneath it --
+    # unchanged in every respect -- moves from `daylight:backhall#1` to `daylight:backhall`, so
+    # the bench (`PlanWorkbench.jsx` diffs on `f.id`) reports a row cleared and a new one opened
+    # for a finding nothing touched. That falsifies the docstring above, which says the ordinal
+    # is "stable for a given plan and a given checker, which is what a diff between two
+    # evaluations of the same record needs".
+    #
+    # IT IS NOT FIXED HERE, because `tests/test_critique.py::test_the_finding_id_is_unchanged_
+    # by_the_evidence_it_carries` states the opposite contract in as many words, citing OQ 32:
+    # evidence "must never enter" the id, and that test lists `kind` among the evidence. Putting
+    # it in churned every id carrying one and took the finding ids expressible as a
+    # `finding:<id>` CITATION from 55 to 12 of 1,620. Changing a pinned contract on one
+    # session's reading is the move this audit criticised WP-11.9 for making to the score.
+    # `oq/a-findings-ordinal-is-not-an-identity` carries the measurement and the two ways out.
     def add(self, severity, layer, statement, **kw):
         parts = [layer, str(kw.get("room") or "")]
         for key in ("rule", "constraint", "fault"):
@@ -577,12 +595,32 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # as `faces_across_a_gap`, so a later ruling has the number without this one baking an
     # answer in. `bounds_index` maps every placed room to `(0, 0, fp_w, fp_h)` on a
     # one-rectangle house, which is every plan in this corpus.
-    _ebounds = {}
-    try:
-        _ebounds = ELEMENTS.bounds_index(plan, [r for lv in plan.get("levels") or []
-                                                for r in lv.get("rooms") or []])
-    except Exception:
-        _ebounds = {}
+    # WP-11.6 LAYER 5: THE ENVELOPE IS THE ROOM'S OWN MASSING ELEMENT, NOT THE MAIN BLOCK.
+    # Ruling 4 of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`. The four
+    # `touches` tests below read the main block's scalars until this, so a kitchen sitting on its
+    # own dependency's south and west faces was convicted of being "drawn in the middle of the
+    # house": the critic and the renderer wrong in OPPOSITE directions about the same wall.
+    # Measured on the reference fixture, with the dependency's windows forced unplaced so the test
+    # is reached at all -- main-block read `[]` for both dependency rooms, element read `['S','W']`
+    # and `['S','E']`, while the two genuine interior rooms (`chamber2`, `stair`) read `[]` on
+    # both. The control is what makes it a fix rather than a loosening.
+    #
+    # `envelopes` is `openings`' -- layer 1's own map, not a second spelling of the `block`-tag
+    # join -- and it returns `{}` below two elements, so all sixteen one-rectangle plans fall back
+    # to the main block by construction rather than by a branch.
+    _OP = _load("openings", f"{ROOT}/build/openings.py")
+    _envs = _OP.envelopes(plan)
+
+    def _envelope(rid):
+        return _envs.get(rid) or (0.0, 0.0, fp_w, fp_h)
+
+    # Which element a room is in, for the finding to NAME. The predicate is `geometry`'s own
+    # `is_block_tag` and not an inline truth test -- that function exists precisely because three
+    # places ask this question and two of them answering differently is how a plan comes to be
+    # refused by one layer for an element another layer does not build.
+    _GEOM = _load("geometry", f"{ROOT}/build/geometry.py")
+    _element_of = {r["id"]: r["block"] for lv in plan.get("levels", [])
+                   for r in lv.get("rooms", []) if _GEOM.is_block_tag(r.get("block"))}
 
     # --- reachability over the openings that were actually PLACED
     ok_edges = {rid: set() for rid in rooms}
@@ -1091,31 +1129,48 @@ def drawn_layer(plan, rooms, level_of, C, F):
         # "directly in the middle of the house". A room that touches a boundary but not the
         # one its record names could be lit tomorrow by moving the window. Both are serious;
         # only the first is a plan that cannot work.
-        _bx, _by, _bw, _bh = _ebounds.get(rid, (0.0, 0.0, fp_w, fp_h))
+        env = _envelope(rid)
+        ex0, ey0, ex1, ey1 = env
         touches = []
-        if abs(g["y_ft"] - _by) < 0.6: touches.append("S")
-        if abs(g["y_ft"] + g["depth_ft"] - (_by + _bh)) < 0.6: touches.append("N")
-        if abs(g["x_ft"] - _bx) < 0.6: touches.append("W")
-        if abs(g["x_ft"] + g["width_ft"] - (_bx + _bw)) < 0.6: touches.append("E")
+        if abs(g["y_ft"] - ey0) < 0.6: touches.append("S")
+        if abs(g["y_ft"] + g["depth_ft"] - ey1) < 0.6: touches.append("N")
+        if abs(g["x_ft"] - ex0) < 0.6: touches.append("W")
+        if abs(g["x_ft"] + g["width_ft"] - ex1) < 0.6: touches.append("E")
         units = sum(int(w.get("count") or 1) for w in wins)
+        # Which of those walls take the weather and still look at the side of the house. Empty on
+        # a one-rectangle plan, so the sentence below is unchanged for every plan in this corpus.
+        across = _OP.faces_across_a_gap(plan, env) if _envs else {}
+        el = _element_of.get(rid)
+        where = f" of the {el} element" if el and el != "main" else ""
         if not touches:
             _add("serious", "drawn",
-                  f"{name} is drawn in the middle of the house: it reaches no exterior wall "
-                  f"on any side, so none of the {units} window(s) the record declares "
+                  f"{name} is drawn in the middle of the house{where}: it reaches no exterior "
+                  f"wall on any side, so none of the {units} window(s) the record declares "
                   f"could be placed. rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
                   room=rid, kind="drawn-landlocked", have=0, need=dl["sides_lit"],
+                  element=el,
                   fix="Place the room on the perimeter, or accept it as an interior room and "
                       "take the windows out of the record.")
         else:
             why = next((w["unplaced"].get("reason") for w in wins if w.get("unplaced")), "unplaced")
+            # RULING 4'S SECOND HALF, AND IT IS A SENTENCE RATHER THAN A SEVERITY. A wall facing
+            # the gap is a real exterior wall -- it takes the weather and it can hold a window --
+            # and it is also the wall that stares at the side of the house. Saying only "exterior"
+            # loses the half a reader needs to judge the window.
+            gap = [d for d in touches if d in across]
+            note = ("" if not gap else
+                    f" Its {'/'.join(gap)} wall(s) are exterior to the weather and interior to "
+                    f"the view: they look across the gap at the "
+                    f"{'/'.join(sorted({across[d] for d in gap}))} element.")
             _add("serious", "drawn",
                   f"{name} is drawn with no window: it stands on the "
-                  f"{'/'.join(touches)} wall(s) and the record declares its {units} "
+                  f"{'/'.join(touches)} wall(s){where} and the record declares its {units} "
                   f"unit(s) of glass on "
                   f"{'/'.join(sorted({w.get('wall') or '?' for w in wins}))} — {why}. "
-                  f"rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.",
+                  f"rooms/{r['type']}.json wants {dl['sides_lit']} side(s) lit.{note}",
                   room=rid, kind="drawn-window-off-the-placed-wall",
                   lit_walls=sorted(touches), need=dl["sides_lit"],
+                  element=el, walls_across_a_gap=sorted(gap),
                   fix="Move the windows to the wall the placement actually gave the room.")
 
     # --- THE DOOR YOU COME IN BY, AND THE AXIS IT IS SUPPOSED TO BE ON (WP-9.1)
@@ -1332,6 +1387,185 @@ def drawn_layer(plan, rooms, level_of, C, F):
     # says which. This is the same discipline as `fault_not_applicable` -- the question did
     # not arise is a fourth state, not a pass.
     out["entrance_axis"] = axis_census
+
+    # --- THE CENTRE LINE, THE BAY THE DOOR STANDS IN, AND THE MIRROR (WP-11.3)
+    #
+    # The block above asks whether the front door lines up with the passage it opens into.
+    # This asks the questions one level out, which nothing has ever asked: is the "centre
+    # passage" in the CENTRE, is the door in the middle BAY, is the front mirrored about the
+    # axis, and does an upper opening stand over a lower one. `docs/reports/
+    # tidewater-layout-diagnosis-2026-09-04.md` B1: the sheet's centre passage was the whole
+    # WEST bay of a six-bay house, and the one executable rule the corpus has about a passage
+    # -- its width as a share of the facade -- PASSED it at 11/60 = 0.183, because that rule
+    # measures the passage's width and not its place.
+    #
+    # `build/axis.py` is the vocabulary and this is its only critic reader. It binds where the
+    # DIAGRAM asks for a centre bay (`geometry.wants_a_centre_bay`, from the massing's own
+    # stated bay count or the parti's circulation type), so a Charleston single house entered
+    # sideways off a piazza is not judged by it -- that is the corpus's own exception, in
+    # rooms/centre-passage.json, and it is why this does not simply fire on every plan.
+    AX = _load("axis", f"{ROOT}/build/axis.py")
+    GEOM = _load("geometry", f"{ROOT}/build/geometry.py")
+    ax_census = {"wants_centre_bay": False, "spine": None, "door": None,
+                 "mirror": None, "alignment": None}
+    try:
+        _parti = GEOM.parti_for(plan)
+        _massing = (C.get("massings") or {}).get(plan.get("massing") or "") or {}
+        _wants, _why = GEOM.wants_a_centre_bay(plan, _parti, _massing)
+    except Exception:
+        _wants, _why = False, None
+    ax_census["wants_centre_bay"] = bool(_wants)
+    ax_census["why"] = _why
+    if _wants:
+        sp = AX.spine(plan, 0, C)
+        ax_census["spine"] = sp["verdict"]
+        if sp["verdict"] == "off-centre":
+            _add("serious", "drawn",
+                 f'{sp["name"]} is drawn {sp["off_ft"]} ft off the footprint\'s own centre '
+                 f'line, which is more than the {sp["tol_ft"]} ft this diagram allows — '
+                 f'{_why}, and groupings/centre-passage-core.json says the passage "makes the '
+                 f'facade symmetrical because the door is now genuinely in the middle". A '
+                 f'passage that is not in the middle cannot do that.',
+                 room=sp["room"], kind="drawn-passage-off-centre",
+                 off_ft=sp["off_ft"], need_ft=sp["tol_ft"],
+                 fix="Place the through-passage on the footprint's centre line; the period's "
+                     "own off-centre passages (Westover, Wilton) move the ROOMS either side, "
+                     "not the passage.")
+
+        dr = AX.door_bay(plan)
+        ax_census["door"] = dr["verdict"]
+        if dr["verdict"] == "off-the-centre-bay":
+            _add("serious", "drawn",
+                 f'The front door stands in bay {dr["bay"] + 1} of {dr["bays"]}, not the '
+                 f'middle bay ({dr["centre_bay"] + 1}). {_why}, and a centre-door front is '
+                 f'the one move this type cannot do without: two windows either side of the '
+                 f'door is what makes the elevation read.',
+                 room=dr.get("room"), kind="drawn-door-off-the-centre-bay",
+                 fix="Bring the entrance to the middle bay, or state a diagram that does not "
+                     "put its door in the centre.")
+        elif dr["verdict"] == "could-not-evaluate" and "even count" in (dr.get("why") or ""):
+            # NOT a pass, and the loudest of the three states here: a house with an even bay
+            # count has no middle bay for any door to stand in, so the question does not
+            # arise -- because the answer was made impossible before the door was placed.
+            _add("serious", "drawn",
+                 f'This diagram wants a door in its middle bay and the front has '
+                 f'{dr.get("bays")} bays, an EVEN count with no middle bay at all. {_why}. '
+                 f'Nothing about the door can be judged: the placement removed the question.',
+                 kind="drawn-no-centre-bay",
+                 fix="An odd bay count. build/geometry.py grows by two on a diagram that wants "
+                     "a centre bay; an even count here means the lot or the program forced it.")
+
+        # SYMMETRY AND ALIGNMENT ARE JUDGED ONLY ON A COMPLETE FRONT, and that is a refusal
+        # rather than a gap. A facade missing seven of its eleven declared units is not the
+        # facade the record describes, and convicting it of asymmetry would charge the house
+        # twice for one cause -- the undrawn windows are already a disclosure of their own
+        # (WP-11.1). The census says how many plans went unjudged and why, so a check that
+        # cannot fire cannot read as a check that passed (WP-8.6).
+        mi = AX.mirror(plan, 0)
+        al = AX.alignment(plan)
+        incomplete = (mi.get("declared_but_unplaced") or 0)
+        if mi["verdict"] == "could-not-evaluate" or incomplete:
+            ax_census["mirror"] = "could-not-evaluate"
+            _add("info", "drawn",
+                 f'Facade symmetry could not be judged: {incomplete or "no"} declared window '
+                 f'unit(s) on the entrance front were not drawn, so the drawn front is not the '
+                 f'one the record describes. massings/catalog.json calls symmetry "a hard '
+                 f'constraint, not a preference" and this is a refusal to judge it on an '
+                 f'incomplete elevation, not a pass.',
+                 kind="drawn-facade-symmetry-unjudged")
+        else:
+            ax_census["mirror"] = mi["verdict"]
+            if mi["verdict"] == "not-mirrored":
+                _add("serious", "drawn",
+                     f'{len(mi["unmatched"])} of {mi["openings"]} opening(s) on the entrance '
+                     f'front have no partner reflected about the centre line. '
+                     f'massings/catalog.json: "Facade symmetry is a hard constraint, not a '
+                     f'preference."',
+                     kind="drawn-facade-unmirrored")
+        if al["verdict"] == "could-not-evaluate" or incomplete:
+            ax_census["alignment"] = "could-not-evaluate"
+        else:
+            ax_census["alignment"] = al["verdict"]
+            if al["verdict"] == "not-aligned":
+                _add("serious", "drawn",
+                     f'{al["unaligned"]} upper opening(s) on the entrance front stand over no '
+                     f'opening below. massings/catalog.json: "Window bays must align '
+                     f'vertically; a misaligned upper window is a structural admission that '
+                     f'the plan is not really Georgian."',
+                     kind="drawn-windows-unaligned")
+    out["axis"] = ax_census
+
+    # THE FIRE IS **NOT** JUDGED HERE, AND THE FIRST DRAFT PUT IT HERE (WP-11.4). It reads a
+    # room's authored `hearth`, the massing's `hearth` and the room type's `servicing.heat`, and
+    # NOT ONE of those is a placement. Sitting in this layer it fell behind the early return at
+    # the top of the function, so on an unplaced record it produced no finding, no census and no
+    # reason -- a check that could not fire reading exactly like a check that passed, in the
+    # package written to stop that. It runs in `check()` with the other declared-record layers;
+    # `hearths.breast` and `hearths.stack_axes` DO read placement and are the renderer's and the
+    # roof's, not this layer's. If a placed hearth check is ever wanted -- a breast overlapping a
+    # door, a fixture, or the room's own furniture run -- it belongs here and this one stays
+    # where it is.
+    # ---- THE FACADE AS A RESULT (WP-11.7, oq/the-facade-is-a-result-not-an-input).
+    #
+    # It belongs in THIS layer and the reason is WP-11.4's rule -- ask what a check READS, not
+    # what it is about. Every one of these reads the PLACEMENT: `front_openings` walks the placed
+    # openings on the entrance front, `room_front_bays` reads each room's placed rectangle, and
+    # the passage's share is measured off its placed width. The derived RHYTHM is a statement
+    # about the record (`footprint.bays`), but nothing here judges it alone.
+    #
+    # AND EVERY FINDING IS A REPORT, NEVER AN INSTRUCTION. The ruling's own trap: "a derived
+    # facade is a facade the generator can be WRONG about with confidence ... the window that
+    # gets invented to complete a rhythm is this ruling's version of the invented measurement
+    # OQ 52 swept out of the elevation." So an empty bay is stated as empty; a declared window
+    # count is never overwritten with a derived one (WP-6.2's rule stands); and where the plan
+    # names no parti -- FIFTEEN of the sixteen records in this tree -- the whole block is one
+    # `info` naming the reason, which is not a pass.
+    try:
+        FA = _load("facade", f"{ROOT}/build/facade.py")
+        fac = {"rhythm": FA.rhythm(plan, C)}
+        if fac["rhythm"]["verdict"] != "derived":
+            # `_add`, NEVER `F.add`. Every finding of this layer is a finding about a
+            # placement and must carry the engine that produced it -- WP-9.1 set it once and
+            # passed it through one wrapper "so no call site can omit it", and this call site
+            # omitted it. `test_evaluate_matches_cli` caught it: a drawn finding with no engine
+            # breaks the bench-versus-CLI parity that exists so a fatal appearing mid-drag does
+            # not read as the house changing.
+            _add("info", "drawn",
+                 f'The front\'s bay rhythm could not be derived: {fac["rhythm"]["why"]} '
+                 f'(oq/the-facade-is-a-result-not-an-input). Not a pass -- this house\'s '
+                 f'facade is unjudged.', kind="facade-rhythm-unjudged")
+        else:
+            for lvl in sorted({(lv.get("index") or 0) for lv in plan.get("levels", [])}):
+                cmp_ = FA.compare(plan, lvl, C)
+                fac[f"level_{lvl}"] = {k: v for k, v in cmp_.items() if k != "findings"}
+                for f_ in cmp_["findings"]:
+                    # A bay with no opening is MINOR and the door off its centre bay is SERIOUS,
+                    # and the split is the ruling's: the rhythm is a consequence to be reported,
+                    # while the door standing somewhere other than the plan's own middle bay is
+                    # the organising move itself not landing.
+                    sev = "serious" if f_["kind"] == "front-door-off-the-centre-bay" else "minor"
+                    _add(sev, "drawn", f_["statement"], room=f_.get("room"), kind=f_["kind"])
+                rfb = FA.room_front_bays(plan, lvl, C)
+                fac[f"level_{lvl}"]["front_rooms"] = len(rfb["rooms"])
+                fac[f"level_{lvl}"]["window_count_disagreements"] = len(rfb["disagreements"])
+                for d in rfb["disagreements"]:
+                    _add("minor", "drawn",
+                         f'{d["room"]} spans {len(d["bays"])} bay(s) of the front and declares '
+                         f'{d["declares"]} window(s) there, where the rhythm the plan\'s own '
+                         f'bays imply wants {d["wants"]}. REPORTED, not corrected: the declared '
+                         f'count is the author\'s and is never overwritten (WP-6.2).',
+                         room=d["room"], kind="front-window-count-against-the-bays")
+            fac["share"] = FA.facade_share(plan, C)
+        out["facade"] = fac
+    except Exception as e:
+        # Stated, never swallowed -- `roof.py` wrapped its own hearth reconciliation in a bare
+        # `except: pass` and then asserted there was nothing to stand over (WP-11.4).
+        out["facade"] = {"verdict": "could-not-evaluate",
+                         "why": f"{type(e).__name__}: {e}"}
+        _add("info", "drawn",
+             f"The facade layer could not be read ({type(e).__name__}: {e}). Not a pass.",
+             kind="facade-unreadable")
+
     out["unreachable_count"] = len(out["unreachable"])
     out["diverged_count"] = len(out["diverged"])
     return out
@@ -1797,6 +2031,106 @@ def check(plan, C=None, strict=False):
                   f"{r.get('name') or rid} is a wet room with no other wet room adjacent or below it.",
                   room=rid, fix="Stack or pair wet rooms. An isolated bath on the far side of a plan is the most expensive plumbing decision most clients make without knowing it.")
 
+    # ---- THE ASPECT, WHICH SIXTY RECORDS STATE AND NOTHING HAS EVER READ (WP-11.9)
+    #
+    # Part VI of the Tidewater diagnosis lists four compass rules the corpus states and cannot
+    # execute -- the library's north, the kitchen's east, the drawing room's south and west, the
+    # closet's north or east. Reading them found that all SIXTY room records answer the
+    # orientation question and nothing in the tree read a single one; `build/compass.py` and the
+    # authored `daylight.aspect` beside each sentence are that reading.
+    #
+    # THE LAYER IS CHOSEN BY WHAT IT READS (WP-11.4's rule). A window's `wall` is AUTHORED and a
+    # door's is solver output, so this is a fact of the declared record and belongs here rather
+    # than in the drawn layer -- which is also why it can speak on all sixteen plan records
+    # instead of the two that carry a placement. Whether the placement could SEAT those windows
+    # where the author put them is a different question and `drawn-window-off-the-placed-wall`
+    # already answers it.
+    #
+    # PLAN-N IS TRUE-N UNLESS A BEARING SAYS OTHERWISE, ruled 5 Sep 2026, and the ruling's stated
+    # cost is that the assumption is printed in every finding rather than merely held.
+    _CMP = _load("compass", f"{ROOT}/build/compass.py")
+    _north = _CMP.plan_north(plan)
+    _assume = _CMP.assumption(_north)
+    _aspect_census = {"satisfied": 0, "avoided": 0, "unwanted": 0,
+                      "not_applicable": 0, "unstated": 0, "unjudged": 0, "no_record": 0}
+    for rid, r in rooms.items():
+        rt = C["rooms"].get(r["type"])
+        if not rt:
+            # A ROOM WITH NO CATALOGUE RECORD LEFT THE CENSUS ALTOGETHER (audit, 7 Sep 2026),
+            # through the very door the comment eight lines below says this block refuses: the
+            # `continue` shrank the denominator silently, so a plan carrying an unknown room
+            # type printed a census one room short with nothing saying so. The unknown type is
+            # separately fatal at the room layer, so this needs no second finding -- but it is
+            # counted and named, because the census's whole job is that a reader can tell a
+            # clear from a question nobody asked.
+            _aspect_census["no_record"] += 1
+            continue
+        label = r.get("name") or rt["name"]
+        v = _CMP.read((rt.get("daylight") or {}).get("aspect"), _CMP.lit_faces(r), _north)
+        # KeyError rather than `.get(..., 0)` ON PURPOSE: a verdict `compass.read` grows and this
+        # block does not know about would be counted into a key the message never prints, and a
+        # room would vanish from its own census. Loud is the only safe direction here.
+        _aspect_census[v["verdict"]] += 1
+        if v["verdict"] == "unstated":
+            F.add("info", "daylight",
+                  f"{label}: rooms/{r['type']}.json states no daylight.aspect, so its orientation "
+                  f"prose has not been read into tokens and this room's aspect is UNJUDGED. "
+                  f"Not a pass.", room=rid, kind="aspect-unstated")
+            continue
+        if v["verdict"] in ("not_applicable", "unjudged"):
+            continue
+        # `strength: hard` HERE IS NOT `severity: hard` AT LINE 15, and the two mappings are
+        # deliberate rather than an oversight (audit, 7 Sep 2026). `STRENGTH_SEV` maps a
+        # GROUPING rule's severity, where hard means the diagram does not hold. A room record's
+        # aspect strength is the force of a preference about light -- `rooms/larder.json`'s
+        # "NORTH, and it is not a preference" is the strongest thing any of the sixty records
+        # says, and a north larder is still a buildable house. Fatal would disqualify the
+        # candidate outright in `compose.SEV_CREDIT`; WP-11.9 measured that serious and fatal
+        # are unmoved on both shipped plans and that was the intent, not an accident.
+        sev = "serious" if v.get("strength") == "hard" else "minor"
+        tok = ", ".join(f"plan-{f} is {v['tokens'][f]}" for f in sorted(v.get("faces") or []))
+        if v["verdict"] == "avoided":
+            F.add(sev, "daylight",
+                  f"{label} is glazed on an aspect its own record rules out: {tok}, and "
+                  f"rooms/{r['type']}.json avoids {'/'.join(v['avoid'])} — \"{v['basis']}\" "
+                  f"({v['strength']}). {_assume}",
+                  room=rid, kind="room-on-an-aspect-its-record-avoids",
+                  aspect_faces=sorted(v["faces"]), aspect_avoid=v["avoid"],
+                  plan_north_stated=_north["stated"],
+                  fix="Move the room to a wall the record admits, or move its glass to another "
+                      "wall of the same room.")
+        elif v["verdict"] == "unwanted":
+            F.add(sev, "daylight",
+                  f"{label} takes none of the light its record asks for: {tok}, and "
+                  f"rooms/{r['type']}.json wants {'/'.join(v['prefer'])} — \"{v['basis']}\" "
+                  f"({v['strength']}). {_assume}",
+                  room=rid, kind="room-off-the-aspect-its-record-wants",
+                  aspect_faces=sorted(v["faces"]), aspect_prefer=v["prefer"],
+                  plan_north_stated=_north["stated"],
+                  fix="Give the room a window on one of the walls the record names, or accept "
+                      "the aspect and say so on the record.")
+    # THE CENSUS IS THE DELIVERABLE AS MUCH AS THE FINDINGS ARE. Twenty-five of the sixty records
+    # answer the orientation question with something that is not a compass, and a reader who sees
+    # no aspect finding on a plan must be able to tell "clear" from "nothing was asked".
+    #
+    # IT FIRES WHENEVER ANY ROOM WAS READ, not only where something was unjudged. A first version
+    # gated it on `unjudged or not_applicable`, which would have let a plan whose rooms were all
+    # judged show two convictions and no denominator -- the reader cannot then tell three
+    # satisfied from three never asked, which is the whole distinction this block exists to keep.
+    # IT FIRES ON EVERY PLAN THAT HAS ROOMS AT ALL, gated on `rooms` and not on the census
+    # total: gating on the total meant a plan whose every room was outside the catalogue -- the
+    # census then all zeroes -- printed nothing, which is again "clear" and "nothing was asked"
+    # wearing one face.
+    if rooms:
+        F.add("info", "daylight",
+              f"Aspect: {_aspect_census['satisfied']} satisfied, "
+              f"{_aspect_census['avoided'] + _aspect_census['unwanted']} against the record, "
+              f"{_aspect_census['not_applicable']} room(s) whose record answers with something "
+              f"that is not a compass, {_aspect_census['unjudged']} that could not be evaluated, "
+              f"{_aspect_census['unstated']} unstated, "
+              f"{_aspect_census['no_record']} whose type has no room record to read. {_assume}",
+              kind="aspect-census")
+
     # ============================================================ GROUPING LAYER
     # The variables the groupings' own tests name. The placement is passed in where there is
     # one, because a handful of these rules (the passage against its facade, above all) are
@@ -1820,11 +2154,12 @@ def check(plan, C=None, strict=False):
             # rule=gid: without it the finding names no rule, and a consumer keyed by rule
             # (compose.py's canon axis) credits the grouping as clean while still counting it.
             F.add("serious", "grouping", f"Unknown grouping '{gid}'.", rule=gid,
-                  fix="Use an id from groupings/.")
+                  kind="grouping-unknown", fix="Use an id from groupings/.")
             continue
         sv = next((v for v in g.get("style_variation", []) if v["style"] in chain), None)
         if sv and sv.get("present") is False:
-            F.add("serious", "grouping", f"The plan declares {g['name']}, which {style} does not have: {sv['note']}", rule=gid)
+            F.add("serious", "grouping", f"The plan declares {g['name']}, which {style} does not have: {sv['note']}", rule=gid,
+                  kind="grouping-absent-in-style")
         for want in g["rooms"]:
             # satisfied_by(), not a raw membership test. Every other layer in this file asks
             # the substitution table whether something the plan HAS would answer the rule
@@ -1834,21 +2169,25 @@ def check(plan, C=None, strict=False):
             # this file already carries and already trusts everywhere else.
             if want["role"] in ("primary",) and not (satisfied_by(want["room"]) & types_present):
                 F.add("serious", "grouping",
-                      f"{g['name']} requires a {want['room'].replace('-', ' ')} and the plan has none.", rule=gid)
+                      f"{g['name']} requires a {want['room'].replace('-', ' ')} and the plan has none.", rule=gid,
+                      kind="grouping-room-missing")
         if plan.get("massing"):
             att = next((a for a in g["attaches_to"] if a["massing"] == plan["massing"]), None)
             if att and att.get("fit") == "forbidden":
                 F.add("serious", "grouping",
-                      f"{g['name']} is marked forbidden in a {plan['massing'].replace('-', ' ')}: {att.get('note','')}", rule=gid)
+                      f"{g['name']} is marked forbidden in a {plan['massing'].replace('-', ' ')}: {att.get('note','')}", rule=gid,
+                      kind="grouping-forbidden-in-massing")
             elif not att:
-                F.add("info", "grouping", f"{g['name']} has no recorded fit for massing '{plan['massing']}'.", rule=gid)
+                F.add("info", "grouping", f"{g['name']} has no recorded fit for massing '{plan['massing']}'.", rule=gid,
+                      kind="grouping-massing-fit-unrecorded")
         span = g.get("privacy_span")
         if span:
             ranks = [C["rooms"][rooms[x]["type"]]["privacy_rank"] for x in rooms
                      if rooms[x]["type"] in {y["room"] for y in g["rooms"]} and rooms[x]["type"] in C["rooms"]]
             if ranks and (min(ranks) < span[0] or max(ranks) > span[1]):
                 F.add("minor", "grouping",
-                      f"{g['name']} spans privacy ranks {min(ranks)}-{max(ranks)}; the grouping is defined for {span[0]}-{span[1]}.", rule=gid)
+                      f"{g['name']} spans privacy ranks {min(ranks)}-{max(ranks)}; the grouping is defined for {span[0]}-{span[1]}.", rule=gid,
+                      kind="grouping-privacy-span")
         # THE RULES THAT CARRY A TEST WERE THE ONES BEING SKIPPED (WP-9.1).
         #
         # This loop read `if severity == "hard" and not ir.get("test")` and emitted an info
@@ -1866,32 +2205,61 @@ def check(plan, C=None, strict=False):
             hard = ir.get("severity") == "hard"
             test = ir.get("test")
             if not test:
-                if hard:
-                    F.add("info", "grouping", f"[{g['name']}] check by hand: {ir['statement']}", rule=gid)
+                # A RULE THAT REPORTS IS NOT A RULE NOBODY EXECUTES, AND MUST NOT READ LIKE ONE.
+                # `measures.reported_by` exists for exactly this (WP-11.7, when
+                # `centre-passage-core`'s facade-share test became a report) and the schema's own
+                # description says so -- and the first version of that change wired the field
+                # nowhere, so the rule went SILENT in this layer: no evaluation, no unjudged note,
+                # nothing. `test_arrangement.py::test_a_hard_grouping_rule_with_a_test_is_
+                # evaluated_not_skipped` caught it, which is the guard doing its job on a rule
+                # that had stopped being a rule.
+                rep = (ir.get("measures") or {}).get("reported_by")
+                if rep:
+                    band = (ir.get("measures") or {}).get("advisory_band")
+                    F.add("info", "grouping",
+                          f"[{g['name']}] REPORTED, not required — {ir['statement']} "
+                          + (f"Observed band {band[0]}–{band[1]}, advisory. " if band else "")
+                          + f"Measured by {rep}.", rule=gid, kind="grouping-rule-reported")
+                else:
+                    # AND THE BRANCH USED TO READ `elif hard`, WHICH LEFT 28 OF 86 RULES SILENT
+                    # (WP-11.9). 28 carry a test, 29 hard ones were handed to a human by name,
+                    # one reports -- and the remaining 28, every `strong` and `preferred` rule in
+                    # the corpus, emitted NOTHING: no evaluation, no note, no hand-off. A rule
+                    # nobody executes and nobody is told about reads exactly like a rule that
+                    # passed, which is the same defect `measures.reported_by` was added for one
+                    # rule at a time. The severity is named because it is what a reader needs to
+                    # know how hard to look.
+                    F.add("info", "grouping",
+                          f"[{g['name']}] check by hand ({ir.get('severity', 'strong')}, no "
+                          f"machine test): {ir['statement']}", rule=gid,
+                          kind="grouping-rule-by-hand")
                 continue
             parsed = ARR.parse_rule_test(test) if ARR else None
             if not parsed:
                 F.add("info", "grouping",
                       f"[{g['name']}] could not evaluate: this rule's test is not in a form "
-                      f"the reader knows — \"{test}\". Checked by hand or not at all.", rule=gid)
+                      f"the reader knows — \"{test}\". Checked by hand or not at all.", rule=gid,
+                      kind="grouping-rule-unparsed")
                 continue
             row = core._eval_test(parsed, gvars)
             if not row or row.get("status") == "need_measurements":
                 miss = ", ".join((row or {}).get("missing") or ["?"])
                 F.add("info", "grouping",
                       f"[{g['name']}] could not evaluate \"{test}\": this plan supplies no "
-                      f"{miss}. Not a pass — the rule is unjudged.", rule=gid)
+                      f"{miss}. Not a pass — the rule is unjudged.", rule=gid,
+                      kind="grouping-rule-needs-measurements")
                 continue
             if row.get("status") != "evaluated":
                 F.add("info", "grouping",
                       f"[{g['name']}] could not evaluate \"{test}\": "
-                      f"{row.get('detail') or row.get('status')}.", rule=gid)
+                      f"{row.get('detail') or row.get('status')}.", rule=gid,
+                      kind="grouping-rule-unevaluable")
                 continue
             if row.get("passes") is False:
                 sev = "serious" if hard else "minor"
                 F.add(sev, "grouping",
                       f"[{g['name']}] {ir['statement']} — measured {row.get('value')} "
-                      f"against {row.get('required')}.", rule=gid)
+                      f"against {row.get('required')}.", rule=gid, kind="grouping-rule-failed")
 
     # ============================================================ CODE LAYER (advisory)
     juris = (plan.get("context") or {}).get("jurisdiction")
@@ -2135,12 +2503,25 @@ def check(plan, C=None, strict=False):
     # It sits AFTER the elevation block's own except handler rather than inside it, so that an
     # elevation that could not be derived does not also silence the arrangement measurements --
     # they share nothing but a measurements dict.
+    #
+    # AND NEVER SILENT, which this block was (audit, 7 Sep 2026). It carried a bare
+    # `except Exception: pass` -- the construct the elevation block sixty lines above condemns
+    # in as many words: "the old `except Exception: pass` turned an elevation that could not be
+    # derived into an absence indistinguishable from a style outside the generator's scope."
+    # The elevation block was rewritten to emit an `info` on every failure path and this one was
+    # left as it was. It supplies the plan-arrangement variables that 28 faults read, so a throw
+    # here turned 28 faults into unjudged-for-missing-measurements with nothing anywhere saying
+    # the measurement layer had fallen over -- a real failure wearing the face of a corpus gap.
     try:
         for k, v in (ARR.declared(plan, C) if ARR else {}).items():
             if v is None: continue
             meas.setdefault(k, v)
-    except Exception:
-        pass
+    except Exception as exc:                      # noqa: BLE001 -- reported, never swallowed
+        F.add("info", "plan",
+              f"The plan-arrangement measurements could not be derived ({type(exc).__name__}: "
+              f"{str(exc)[:160]}). Every fault reading one is UNJUDGED for want of a "
+              f"measurement below, and the reason is this failure rather than a gap in the "
+              f"record. Not a pass.", kind="arrangement-measurements-unavailable")
     # limit lifted from the API default of 40: faults_present was never truncated, and the
     # could_not_judge list (surfaced as fault_unjudged below) has to be the whole list or
     # "unjudged is not passed" degrades into "the first forty unjudged are not passed".
@@ -2192,11 +2573,49 @@ def check(plan, C=None, strict=False):
     # stair, a room drawn at 63% of its declared area, and a bathroom no door reaches all
     # produced no finding at all. Each of those is now a finding, and a record with no
     # placement gets a single `info` saying the layer could not evaluate — never a pass.
+
+    # --- THE FIRE (WP-11.4), a DECLARED-record layer
+    #
+    # `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` D1: there was no fireplace anywhere
+    # in the plan layer, while `massings/catalog.json` said `hearth: gable-end-paired` and "Paired
+    # end chimneys serve four fireplaces per floor" and `roof.py` drew the stacks. This reads what
+    # the massing states and what the ROOM TYPE's own `servicing.heat` states, and reports where
+    # they and the record disagree. It never infers a hearth: `rooms/bedchamber.json` says an
+    # unheated chamber is historically normal and "should be said out loud rather than quietly
+    # given a register", so a checker that demanded a fire wherever a type usually has one would
+    # be inventing exactly what that sentence forbids.
+    HE = _load("hearths", f"{ROOT}/build/hearths.py")
+    hr = HE.hearth_report(plan, C)
+    hearth_summary = {"massing": hr["massing_hearth"], "readable": hr["readable"],
+                      "walls": hr["walls"], "census": hr["census"], "why": hr["why"]}
+    for row in hr["rooms"]:
+        if row["state"] == "absent":
+            F.add("minor", "hearth",
+                 f'{row["name"]} has no hearth in the record and rooms/{row["type"]}.json says '
+                 f'this room has one: "{(row.get("quote") or "")[:120]}". The massing states '
+                 f'{hr["massing_hearth"]!r}, so there is a stack for it to vent into.',
+                 room=row["room"], kind="room-without-a-hearth",
+                 fix="State the hearth on the room, or say in the record that this one is "
+                     "unheated — the corpus asks for the choice to be made out loud.")
+        elif row.get("off_the_stack_wall"):
+            F.add("minor", "hearth",
+                 f'{row["name"]} states a hearth on '
+                 f'{"/".join(row["off_the_stack_wall"])} and this massing puts its stacks on '
+                 f'{"/".join(hr["walls"] or [])}. Both may be right — rooms/dining-room.json '
+                 f'puts the dining fire on "the interior wall opposite the sideboard" whatever '
+                 f'the massing pairs — and the disagreement is reported rather than resolved.',
+                 room=row["room"], kind="hearth-off-the-stack-wall")
+
     drawn = drawn_layer(plan, rooms, level_of, C, F)
 
     counts = {}
     for f in F.items: counts[f["severity"]] = counts.get(f["severity"], 0) + 1
     return {"plan": plan["id"], "style": style, "rooms": len(rooms), "drawn_summary": drawn,
+            # The hearth census is NOT under drawn_summary and that is deliberate: it reads the
+            # authored record, the massing and the room type, never a placement, so it is
+            # published beside the other declared-record summaries and is present on an unplaced
+            # record. See the note where drawn_layer's fire block used to be.
+            "hearth_summary": hearth_summary,
             "elevation_summary": elevation_summary,
             "counts": counts, "fault_summary": fr.get("summary"), "constraint_summary": constraint_summary,
             # The could-not-judge detail, not just its count. fault_summary already counts

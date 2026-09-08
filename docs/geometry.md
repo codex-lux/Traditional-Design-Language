@@ -98,6 +98,18 @@ list is refused by a source-reading test.
 
 **SOFT — the WP-2.2 compositional terms**, now weighted objectives rather than search preferences: bay snapping (relaxations stay counted, never forbidden), zoning, ceremonial depth, wet-over-wet stacking, symmetry-adjacent nudges, plus the level-score terms (area error, aspect sanity) mirrored term for term.
 
+**A house may be more than one rectangle, and both engines place it that way.** `blocks_for`
+lays each massing element the record's `block` tags name — a dependency beside the house, a hyphen
+in the gap — and it is the ONE spelling of where an element sits. The hill-climb slices each
+element separately, stating the strip against a shared face where an authored door crosses through
+a link (the search cannot find that); CP-SAT gives each room its own element box, so every bound,
+pin, interval end, coverage floor and bay-grid origin is that element's own. With one element every
+room maps to `(0, 0, W, H)` and both engines take the path they always did. A door between elements
+that do NOT touch is drawn `unplaced` with a reason on the search and stated as outside the model
+on the prover — never made an infeasibility, because a detached dependency is detached. What is
+still the main block's alone is the ROOF: there is no stated ridge relation per element, and
+`geometry_report.multi_element` says so on any placement carrying two.
+
 **On infeasibility** the caller gets both halves of the ruling: a **plain-language minimal conflict set** (CP-SAT's assumption cores, iterated to a fixpoint then greedily minimized within a budget — a set that ran out of minimization budget says so) *and* the heuristic's least-bad drawing, labelled `INFEASIBLE AS DECLARED` on the sheet itself. The footprint grows a bay before any requirement is blamed. A non-planar door graph — five rooms all pairwise doored — is the canonical true refusal: no arrangement of touching rectangles can realize K5, and the conflict set names the door pairs.
 
 Solving is two-phase: a hard-only pass finds or refutes a placement fast, then the weighted objective polishes it, hinted both by the full heuristic search (soft-optimized, hard-repairable) and by the hard-only placement; every hard-valid result is scored with the heuristic's own scorers and the best is kept, the status saying which. Determinism: one worker, fixed seed — the same record yields the same drawing (exact reproducibility holds when the solve reaches OPTIMAL; a wall-clock-limited polish can land differently under different machine load, and the status says when that is the case).

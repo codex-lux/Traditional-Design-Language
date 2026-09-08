@@ -1,0 +1,126 @@
+{
+  "id": "green-meldrim-house",
+  "name": "Green-Meldrim House",
+  "aka": [
+    "Sherman's Headquarters",
+    "Charles Green House"
+  ],
+  "location": {
+    "text": "Savannah, Georgia",
+    "country": "United States",
+    "state": "Georgia"
+  },
+  "dates": {
+    "built": "1853-1861",
+    "circa": false,
+    "altered": "The survey's own alterations line reads 'Stucco removed after 1934.'; the Library's item record adds 'after 1943 Subsequent Work'.",
+    "note": "The survey form prints 'begun 1853, finished 1861' and the Library's item record '1853-1861 Initial Construction'; the Wikipedia infobox prints 'Built 1853'. The survey names the architect 'John S. Harris (?)', with its own question mark; Wikipedia gives John S. Norris. Both are recorded and neither is resolved -- this is a 1934 inventory form and its attribution is explicitly uncertain."
+  },
+  "nodes": [
+    "gothic-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "GA-222",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ga/ga0100/ga0144/data/ga0144data.pdf",
+      "title": "Green-Meldrim House, 327 Bull Street, Savannah, Chatham County, GA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the inventory form itself ('GREEN-MELDRIM HOUSE HABS NO. GA-222') and confirmed by the Library's item record. The form is the 1934 district-officer inventory shape, not the later Part I/Part II outline, so its fields are headings in capitals rather than numbered paragraphs."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ga0144",
+      "url": "https://www.loc.gov/pictures/item/ga0144/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "74000664",
+      "url": "https://www.loc.gov/pictures/item/ga0144/",
+      "title": "National Register of Historic Places NRIS Number 74000664 (as the Library's item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia infobox gives the same number, with 'Added to NRHP January 21, 1974' and 'Designated NHL May 11, 1976'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Green-Meldrim_House",
+      "title": "Green-Meldrim House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ga0144",
+    "register": "loc-item",
+    "survey_no": "GA-222",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ga/ga0100/ga0144/data/ga0144data.pdf",
+    "prepared": "The form's 'Other Existing Records' line reads 'Records by P. Thornton Matyfie, District Officer HABS 1934.' (OCR).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "SHAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) Two stories, rectangular with service wing on west, 641' x 56'. Central hall plan.",
+        "page": "HABS No. GA-222; the 1934 district inventory form prints no page numbers and none was legible in either extract span. The form's own heading reads '(INCLUDE SOURCE FOR NAME) GREEN-MELDRIM HOUSE HABS NO. GA-222'."
+      },
+      {
+        "field": "general_description",
+        "text": "EXTERIOR FEATURES OF NOTE Flat roof with crenallated parapet, four end chimneys flush with exterior walls, cast iron entrance porch, cast iron verandas, bay window with crenallated parapet, cast iron oriel windows over east veranda, entrance doorway with paired arched doors with arched sidelights set within recessed Tudor arch.",
+        "page": "HABS No. GA-222; the 1934 district inventory form prints no page numbers and none was legible in either extract span. The form's own heading reads '(INCLUDE SOURCE FOR NAME) GREEN-MELDRIM HOUSE HABS NO. GA-222'."
+      },
+      {
+        "field": "walls",
+        "text": "MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Brick with StUCCO, Stone trim, m",
+        "page": "HABS No. GA-222; the 1934 district inventory form prints no page numbers and none was legible in either extract span. The form's own heading reads '(INCLUDE SOURCE FOR NAME) GREEN-MELDRIM HOUSE HABS NO. GA-222'."
+      },
+      {
+        "field": "significance",
+        "text": "Additional Data: Designed after English Abbey showing Gothic in- fluence is characterized by oriel windows. Built by Chas. Green, grand- father of Julian Green, the French American novelist. Was Sherman's headquarters while occupying Savannah.",
+        "page": "HABS No. GA-222; the 1934 district inventory form prints no page numbers and none was legible in either extract span. The form's own heading reads '(INCLUDE SOURCE FOR NAME) GREEN-MELDRIM HOUSE HABS NO. GA-222'."
+      },
+      {
+        "field": "stairways",
+        "text": "Curved stairway to left of central hall between front and back rooms with marble treads and risers,",
+        "page": "HABS No. GA-222; the 1934 district inventory form prints no page numbers and none was legible in either extract span. The form's own heading reads '(INCLUDE SOURCE FOR NAME) GREEN-MELDRIM HOUSE HABS NO. GA-222'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_dimensions_as_printed",
+      "as_printed": "641' x 56'",
+      "from_quote": 0,
+      "note": "Recorded as printed and deliberately NOT parsed into a width. A 641 ft front beside a 56 ft depth is not a two-storey Savannah town house on a Madison Square trust lot, so the leading digit is OCR noise of some kind; which digit is wrong cannot be told from this page, and guessing 64 would be an inference wearing a quotation."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "56'",
+      "value": 56,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The second figure printed. The survey does not say which face is the front; the first figure is unparseable (above), so this one is recorded alone and is a depth only on the schema's first-figure-is-width convention."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "four end chimneys flush with exterior walls",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ga0144/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Added to gothic-revival-american as the southern masonry case, which is the half of the style the node's four wooden Hudson Valley exemplars did not carry. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

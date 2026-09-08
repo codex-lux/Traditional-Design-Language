@@ -1,0 +1,49 @@
+{
+  "id": "redwood-bar-harbor",
+  "name": "Redwood",
+  "aka": [
+    "Redwood Cottage",
+    "C. J. Morrill House"
+  ],
+  "location": {
+    "text": "Bar Harbor, Maine",
+    "country": "United States",
+    "state": "Maine"
+  },
+  "dates": {
+    "built": "1879",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1879'; the nomination: 'designed by William Ralph Emerson in 1879'."
+  },
+  "nodes": [
+    "shingle-style"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "78000166",
+      "url": "https://en.wikipedia.org/wiki/Redwood_(Bar_Harbor,_Maine)",
+      "title": "NRHP reference No. 78000166; added April 3, 1978 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. Location as the infobox prints it: 10 Barberry Lane, Bar Harbor."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Redwood_(Bar_Harbor,_Maine)",
+      "title": "Redwood (Bar Harbor, Maine) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'it was the first Shingle style house built in Bar Harbor, and is one of the oldest of the style in the nation'."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/b7284ae5-5e3f-4fdb-9bb5-8d694b405e88",
+      "title": "[PDF] DATA JHFIL - NPGallery",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The National Register nomination, as the search result titles it. Its own words: '\"Redwood\", otherwise known as the C. J. Morrill House, was designed by William Ralph Emerson in 1879 and is recognized as one of the first, if not the earliest'."
+    }
+  ],
+  "note": "The Bar Harbor survivor: the node's geography lists the Maine resorts and most of Bar Harbor's cottages burned in 1947, which is why this one and not a grander one is here. No HABS survey was sought for it beyond the combined query; none appeared. Seeded 4 Sep 2026."
+}

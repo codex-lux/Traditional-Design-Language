@@ -1,0 +1,98 @@
+{
+  "id": "san-jose-de-gracia-church",
+  "name": "San José de Gracia Church",
+  "aka": [
+    "San Jose de Gracia Church, Trampas",
+    "Las Trampas Church"
+  ],
+  "location": {
+    "text": "Las Trampas, Taos County, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "after 1760 to 1776",
+    "circa": true,
+    "altered": "Restored 1931-32 with John Gaw Meem (the Meem works list on Wikipedia, read the same day). The survey says the adobe walls 'must be constantly replastered' and the earth-covered roofs partially replaced, and that the church has not been 'modernized' as most of the area's churches have.",
+    "note": "The survey: 'Construction of the church began sometime after 1760 and had been finished, save for a few minor details such as the railing of the choir loft, by April of 1776' (OCR '17&0', '177^'). The exemplar year is 1776."
+  },
+  "nodes": [
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-61",
+      "title": "San Jose de Gracia Church, Trampas, Taos County, NM",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0015/data/nm0015data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's running markers print '-4- HABS No. HM-61' and '-5- HABS No. HM-61' (OCR for NM-61) and its last sheet 'HABS No. NM-61'; the Wikipedia external-links line gives '13 photos, 1 color transparency, 5 measured drawings, 6 data pages, 2 photo caption pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0015",
+      "url": "http://loc.gov/pictures/item/nm0015",
+      "title": "San Jose de Gracia Church, Trampas, Taos County, NM",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/San_Jos%C3%A9_de_Gracia_Church",
+      "title": "San José de Gracia Church - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000415",
+      "url": "https://en.wikipedia.org/wiki/San_Jos%C3%A9_de_Gracia_Church",
+      "title": "NRHP reference No. 70000415; added April 15, 1970; designated NHL April 15, 1970; contributing property of the Las Trampas Historic District (ID67000007), designated May 28, 1967 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "nm0015",
+    "register": "loc-item",
+    "survey_no": "NM-61",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0015/data/nm0015data.pdf",
+    "prepared": "Prepared by Bainbridge Bunting, Assoc. Prof. of Architectural History, University of New Mexico, December 1961; approved by Charles S. Pope, Supervising Architect, Historic Structures, Western Office, National Park Service (as printed).",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "ARCHITECTURAL INFORMATION Desc:ri£itioti^ A single nave plan | QQfeot long by ^,. feet wideband constructed of adobe walls as great as six feet in thickness, the church has also transepts and a projecting apse. A small chapel to the right of the entrance (Epistle side) serves as the baptistry.",
+        "page": "No page marker legible in the extract span; the markers elsewhere read '-4- HABS No. HM-61' and '-5- HABS No. HM-61'. The nave's length and width are printed but lost to OCR and are NOT read into a measurement."
+      },
+      {
+        "field": "other",
+        "text": "HISTORICAL INFORMATION Physical History,: Construction of the church began sometime after 17&0 \"andMiad been finished, save for a few minor details such as the railing of the choir loft, hy April of 177^• No exact information exists on the point, but one can assume that the work was done gradually over the fifteen year period by Spanish settlers of the village. Constructed of adobe, the most fugitive of building materials, and covered by a wooden roof overlaid with a thick layer of clay, the structure has been necessarily subject to constant upkeep.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "finishes",
+        "text": "Approached by a simple ladder, the wood-floored balcony above the main entrance serves as choir loft. The under side of the flooring here is decorated with simple painted designs - an unusual feature in Hew Mexico. Another unusual feature of Trampas is the wood floor of the nave. This is made of hand-hewn slabs of wood set in rough frames five feet by two feet.",
+        "page": "Precedes '-4- HABS No. HM-61'."
+      },
+      {
+        "field": "significance",
+        "text": "Until the 1920's the Trampas area remained so iso- lated and its economy so retarded that it was unaffected by Yankee fashions of the late nineteenth century- It is to this cultural and economic isolation that the remarkable preservation of the church is due.",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "wall_thickness_in",
+      "as_printed": "adobe walls as great as six feet in thickness",
+      "value": 72,
+      "unit": "in",
+      "from_quote": 0,
+      "note": "A maximum, as Bunting states it."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the village church with the best written data in the set (Bunting, 1961). Its six-foot walls are twice the node's own 24-36 in domestic band and are a church's, not a house's; the record keeps them for what they show about what adobe was asked to carry."
+}

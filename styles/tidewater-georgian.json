@@ -211,25 +211,55 @@
       "name": "Westover",
       "location": "Charles City County, Virginia",
       "year": 1750,
-      "note": "Built by William Byrd III shortly after the 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Segmental window heads, ogee brick water table, steep hipped roof, tall paired chimneys; the Portland stone doorways were added c. 1767."
+      "note": "Built by William Byrd III shortly after the 1749 fire destroyed the earlier house — a correction to the long-standing attribution to William Byrd II. Segmental window heads, ogee brick water table, steep hipped roof, tall paired chimneys; the Portland stone doorways were added c. 1767.",
+      "precedent": "westover",
+      "standing": "icon",
+      "why": "The node's own record calls its segmental heads and ogee water table 'the standard by which the rest is judged', and the 1939 survey records the seven-bay Flemish-bond front with two stacks at each end that every Tidewater description begins from."
     },
     {
       "name": "Stratford Hall",
       "location": "Westmoreland County, Virginia",
       "year": 1738,
-      "note": "Built c. 1725–38. H-plan of two three-bay hip-roofed end blocks about a central great hall, raised on a high basement, with two clusters of chimney stacks joined by arches and rails; floor levels distinguished by brick of different colours and sizes in Flemish bond."
+      "note": "Built c. 1725–38. H-plan of two three-bay hip-roofed end blocks about a central great hall, raised on a high basement, with two clusters of chimney stacks joined by arches and rails; floor levels distinguished by brick of different colours and sizes in Flemish bond.",
+      "precedent": "stratford-hall",
+      "standing": "icon",
+      "why": "The node's own prose names it for the clustered stacks 'joined with arches and rails', and the 1969 survey measures the recipe behind them -- 92'-6\" by 62'-8\", walls 19 in above a 7 1/2 in water table, eight chimneys in two clusters."
     },
     {
       "name": "Carter's Grove",
       "location": "James City County, Virginia",
       "year": 1755,
-      "note": "Built 1750–55 for Carter Burwell; among the finest surviving colonial Virginia interior joinery, and a legible five-part composition before its twentieth-century alteration."
+      "note": "Built 1750–55 for Carter Burwell; among the finest surviving colonial Virginia interior joinery, and a legible five-part composition before its twentieth-century alteration.",
+      "precedent": "carters-grove",
+      "standing": "canonical",
+      "why": "The survey records the brick vocabulary the node's prose calls the region's achievement -- torus water table, four-course belt, rubbed jambs and gauged flat arches, nine-over-nine sash -- on a house whose roof was raised eleven feet in 1928, so what it is held against is the surveyor's 'formerly'."
     },
     {
       "name": "Gunston Hall",
       "location": "Mason Neck, Fairfax County, Virginia",
       "year": 1759,
-      "note": "Built 1755–59 for George Mason; the interiors are William Buckland's first American work, and the Palladian and Chinese Chippendale rooms are directly traceable to imported pattern books."
+      "note": "Built 1755–59 for George Mason; the interiors are William Buckland's first American work, and the Palladian and Chinese Chippendale rooms are directly traceable to imported pattern books.",
+      "precedent": "gunston-hall",
+      "standing": "canonical",
+      "why": "The best-documented of the four -- 30 HABS sheets and 56 data pages -- and the house whose six enclosed ground rooms the centre-passage parti's own count is measured against (wp-9.2-the-parti-is-not-the-type.md)."
+    },
+    {
+      "name": "Shirley Plantation",
+      "location": "Charles City County, Virginia",
+      "year": 1738,
+      "note": "Built ca. 1738 for John Carter and Elizabeth Hill (the DHR's date; the 1930s survey says c. 1765 and Wikipedia c. 1723) and remodelled in the 1770s. Flemish bond, almost square in plan, two full storeys under a mansard the surveyor disliked, with superimposed Tuscan porticoes on both main fronts and a pair of interior stacks flanking a pineapple finial. Twelve-over-twelve sash throughout.",
+      "precedent": "shirley-plantation",
+      "standing": "regional",
+      "why": "A James River seat whose survey says its plan 'resembles no other Virginia building' and whose stacks sit at the apex rather than the gables -- right for the river-plantation region the node's hearth names, and a specimen of the recipe in nothing but its brick."
+    },
+    {
+      "name": "Mount Airy",
+      "location": "Warsaw, Richmond County, Virginia",
+      "year": 1758,
+      "note": "Built 1758 (the survey's date; the DHR says 1748-58, the Library 1764) for John Tayloe II, attributed to John Ariss, in stone: a five-part plan of two-storey seven-bay main house, one-storey passageways and two-storey three-bay dependencies, with rusticated three-bay pedimented pavilions on both fronts and a recessed loggia in each. Interior gutted by fire in 1844.",
+      "precedent": "mount-airy",
+      "standing": "canonical",
+      "why": "The survey's own form calls it 'the earliest known full Palladian villa constructed in the American colonies', and it is the five-part composition the node's prose says Virginia and Maryland have more surviving examples of than any other region -- a type specimen of the arrangement, in a stone the node's brick recipe does not cover."
     }
   ],
   "sources": [
@@ -279,6 +309,9 @@
     }
   ],
   "inherits_packs": [
+    "facade-classical",
+    "gibbs-ionic",
+    "opening-proportion",
     "trim-classical"
   ]
 }

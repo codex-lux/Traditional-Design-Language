@@ -31,6 +31,10 @@ def _rk():
     return modcache.load("resolve_kit", os.path.join(ROOT, "build", "resolve_kit.py"))
 
 
+def _ci():
+    return modcache.load("check_inheritance", os.path.join(ROOT, "build", "check_inheritance.py"))
+
+
 def _cpb():
     return modcache.load("check_pack_bindings",
                          os.path.join(ROOT, "build", "check_pack_bindings.py"))
@@ -50,16 +54,21 @@ def test_exactly_the_flipped_packs_are_flipped_and_they_are_named_here(graph):
     whole discipline is that a flip is a deliberate one-pack edit with its stranding re-pinned in
     the same commit.
 
-    The order is ascending stranded count, which is what Lucas ruled on 3 Sep when he closed
+    The order was ascending stranded count, which is what Lucas ruled on 3 Sep when he closed
     `oq/a-pack-can-be-the-only-writer-a-node-has`: `trim-classical` 10, then `facade-gable` 32,
     then `sash-light` 70, with the five packs whose `applies_to` arms a live behavioural gate
-    last. Neither flipped pack is one of those five."""
+    last. **THE PROGRAMME IS FINISHED.** Lucas ruled on 4 Sep that the last five go together
+    rather than one per package, because the refill had moved entirely onto them -- 3 of 13 new
+    gaps at the second flip, 10 of 10 at the third -- so staging them singly would have spread
+    over five packages the one decision that mattered. All eight packs the programme ever named
+    are flipped and the other 49 are on `cascade` because nothing plans to move them."""
     flipped = sorted(p for p, v in graph["_packs"].items() if v["delivery"] == "opt-in")
-    assert flipped == ["facade-gable", "trim-classical"], (
+    assert flipped == ["facade-classical", "facade-gable", "gibbs-ionic", "opening-proportion",
+                       "sash-light", "storey-graduation", "timber-bay", "trim-classical"], (
         flipped, "a pack has been flipped or unflipped — re-pin the stranding counts and say "
                  "which, in the same commit")
     deliveries = collections.Counter(v["delivery"] for v in graph["_packs"].values())
-    assert deliveries["cascade"] == 55 and len(graph["_packs"]) == 57, deliveries
+    assert deliveries["cascade"] == 49 and len(graph["_packs"]) == 57, deliveries
 
 
 def test_the_pack_index_covers_every_pack_so_a_stale_build_is_loud(graph):
@@ -87,7 +96,9 @@ def flipped(graph):
     MOVED IN WP-8.11, and the reason generalises: this was `facade-gable`, chosen in WP-8.10
     because the corpus left it on `cascade`. Flipping it for real would have made every assertion
     below a statement about the shipped corpus instead of about the gate -- green, and vacuous.
-    A driven fixture must name a pack nobody has flipped; check that before flipping the next."""
+    A driven fixture must name a pack nobody has flipped -- which, since WP-8.13 emptied the
+    schedule, means one nobody PLANS to flip; the sentence here used to say "check that before
+    flipping the next" and there is no next. The assert below is what holds it."""
     import copy
     g = copy.deepcopy(graph)
     assert g["_packs"][PACK]["delivery"] == "cascade", (
@@ -213,14 +224,64 @@ def test_the_whole_corpus_passes_the_opt_in_check(graph):
     # now exercised against real records rather than against an empty loop. Named, not counted --
     # each is a node the pack's own `applies_to` vouches for AND which receives it by descent,
     # and authoring them is what kept the flip's cost at the measured 10 instead of 15.
-    assert carrying == 8, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
-                           "stranding counts in the same commit" % carrying)
+    assert carrying == 24, ("%d node(s) opt in — a flip has landed or been withdrawn; re-pin the "
+                            "stranding counts in the same commit" % carrying)
     opted = sorted(json.load(open(f, encoding="utf-8"))["id"]
                    for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json")))
                    if json.load(open(f, encoding="utf-8")).get("inherits_packs"))
-    # Six from `trim-classical`, two from `facade-gable`. Every one is a node the pack's own
-    # `applies_to` vouches for AND which receives it by descent -- the two conditions that make an
-    # opt-in a translation of an existing judgment rather than a new one.
-    assert opted == ["charleston-georgian", "charleston-single-house", "folk-victorian",
-                     "gothic-revival-american", "mid-atlantic-georgian", "new-england-georgian",
-                     "queen-anne-british", "tidewater-georgian"], opted
+    # 41 ENTRIES OVER 24 NODES. `mid-atlantic-georgian` opts into six packs, `charleston-georgian`
+    # and `new-england-georgian` five apiece, `tidewater-georgian` four: the Georgian cluster sits
+    # deep in a chain that delivered most of what got flipped. A node's `inherits_packs` is a list
+    # and later flips APPEND to it -- WP-8.12's authoring script asserted the key was ABSENT and
+    # stopped half way through its seven, having already written one.
+    #
+    # AN OPT-IN NEEDS BOTH CONDITIONS AND WP-8.13 FIRST WROTE ONLY ONE. The list was derived from
+    # each pack's `applies_to` minus the nodes that bind or decline it -- 40 entries -- and
+    # `check_opt_ins` refused 14 of them, because `applies_to` says the pack is FOR this style and
+    # says nothing about whether the cascade DELIVERS it there. The two are independent. All 14
+    # were no-ops: removing them left `dimensioned_before`, `stranded`, `rehoused`, `unreached`
+    # and `nodes_touched` byte-identical, which is what proves they admitted nothing -- and is
+    # also why nothing but this check would ever have reported them.
+    assert len(opted) == 24 and opted[0] == "american-farmhouse-vernacular", opted
+    for n in ("mid-atlantic-georgian", "tidewater-georgian", "charleston-georgian",
+              "new-england-georgian", "queen-anne-british", "octagon-house"):
+        assert n in opted, (n, opted)
+    entries = sum(len(json.load(open(f, encoding="utf-8")).get("inherits_packs") or [])
+                  for f in sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))))
+    assert entries == 41, entries
+
+
+def test_the_flip_moved_judged_and_the_code_said_it_could_not():
+    """`measure()`'s own comment said the withhold branch MUST NOT MOVE `judged`. WP-8.13 moved
+    it, 249 -> 250, with no case adjudicated and no `declined_packs` entry written.
+
+    THE ROUTE IS `endorsed`, NOT `declined`, WHICH IS THE HALF THE COMMENT DID NOT CONSIDER.
+    Withholding a pack VACATES the role it filled and the role re-attributes to the next
+    ancestor -- the same non-monotonicity that made `unendorsed` a work list rather than a
+    score. Where that next pack both ARRIVES (the node opted into it) and VOUCHES (its
+    `applies_to` names the node), the re-attributed gap lands in `endorsed`.
+
+    Exactly one instance at this flip, and it is pinned by name because a count could not tell
+    this from an adjudication: `american-farmhouse-vernacular` / role `opening`, vacated by
+    `opening-proportion` (which that node does not opt into) and landing on `sash-light`, which
+    it opted into in WP-8.12 and whose `applies_to` names it.
+
+    THE FLOOR IS NOT VIOLATED -- it forbids only going DOWN -- and the classification is not
+    wrong: an author really did vouch for that pack on that node. What died is the READING three
+    packages rested on, that `judged` is the one number telling a flip from an adjudication."""
+    ci = _ci()
+    g = ci.load()
+    applies = ci.applies_to_index()
+    _build, gaps, _inh, _dec = ci.measure(g)
+    endorsed = {(nid, role, pack) for nid, role, _anc, pack in gaps
+                if nid in applies.get(pack, ())}
+    assert ("american-farmhouse-vernacular", "opening", "sash-light") in endorsed, sorted(
+        x for x in endorsed if x[0] == "american-farmhouse-vernacular")
+    # The two conditions that put it there, asserted separately so a change to either is named.
+    node = g["nodes"]["american-farmhouse-vernacular"]
+    assert "sash-light" in (node.get("inherits_packs") or []), node.get("inherits_packs")
+    assert g["_packs"]["sash-light"]["delivery"] == "opt-in"
+    assert g["_packs"]["opening-proportion"]["delivery"] == "opt-in"
+    assert ci.RATCHET_FLOOR["judged"] == 250, (
+        "judged moved 249 -> 250 on the five-pack flip with nothing adjudicated; if this floor "
+        "moves again, establish whether a case was READ before treating it as progress")

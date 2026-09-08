@@ -1,0 +1,62 @@
+{
+  "id": "santa-maria-la-blanca-toledo",
+  "name": "Santa Maria la Blanca",
+  "aka": [
+    "Sinagoga de Santa María la Blanca",
+    "Sinagoga Mayor de Toledo"
+  ],
+  "location": {
+    "text": "Toledo, Spain",
+    "country": "Spain",
+    "state": "Castile-La Mancha"
+  },
+  "dates": {
+    "built": "c. 1180-1200",
+    "circa": true,
+    "altered": "Converted to a church in the early 15th century; later a barracks and a store, restored in the 19th and 20th centuries.",
+    "note": "The date is the node's exemplar's own; the Spanish article extracted here states no foundation year in the spans returned, so nothing narrower is claimed."
+  },
+  "nodes": [
+    "mudejar",
+    "iberian-islamic"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0000346",
+      "url": "https://es.wikipedia.org/wiki/Sinagoga_de_Santa_Mar%C3%ADa_la_Blanca",
+      "title": "Santa María la Blanca (Toledo) - Wikipedia, la enciclopedia libre; BIC RI-51-0000346",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The code was read in the article's own authority-control block, which also prints 'Catálogo de Patrimonio Cultural de Castilla-La Mancha: sinagoga-de-santa-maria-la-blanca'. No declaration date was printed and none is claimed."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Sinagoga_de_Santa_Mar%C3%ADa_la_Blanca",
+      "title": "Santa María la Blanca (Toledo) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-sinagoga-de-santa-maria-la-blanca",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Sinagoga_de_Santa_Mar%C3%ADa_la_Blanca",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the Castilla-La Mancha catalogue entry the article's authority block names was not reached from this container.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Se trata de una construcción mudéjar, creada por canteros musulmanes. Sus elementos de arquitectura incluyen paredes blancas y lisas, hechas de ladrillo, arcos de herradura y pilares octogonales, decoración geométrica en los frisos y vegetal en los capiteles de los pilares.",
+        "page": "Spanish Wikipedia, section 'Estilo'"
+      },
+      {
+        "field": "plan",
+        "text": "Todas estas características y la distribución de los espacios, con sus naves formadas por la sucesión de arcos de herradura soportados por pilares, tienden a recordar la tipología propia de una mezquita.",
+        "page": "Spanish Wikipedia, section 'Estilo', the sentence following the above; the extractor prints a footnote marker '(' between the two and no word is joined across it"
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026. NO DIMENSION IS RECORDED: neither extract of this article returned one, and the building's five naves of horseshoe arcading are described in words only. That silence is the ordinary answer in this cluster and is left as one rather than filled from a secondary work."
+}

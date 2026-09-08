@@ -3,6 +3,7 @@
   "name": "Tidewater Georgian, five bays, carefully planned",
   "style": "tidewater-georgian",
   "massing": "four-over-four",
+  "parti": "centre-passage-double-pile",
   "groupings": [
     "centre-passage-core",
     "georgian-service-core",
@@ -140,6 +141,14 @@
             "S",
             "W"
           ],
+          "hearth": [
+            {
+              "wall": "W",
+              "width_in": 42.8,
+              "flue": "west-stack",
+              "note": "rooms/drawing-room.json: \"One chimneypiece, and it is the room's compositional centre\". Opening is Morris 1734 Lecture VI Rule II EXECUTED at this level's stated 11 ft ceiling -- sqrt(18+22+11)/2 ft -- and is therefore judgment, not measured. An earlier version of this record interpolated between two rows of the table Morris calculated FROM that rule and read 46.3 in; the rule is the source and the table is its arithmetic. See build/hearths.py."
+            }
+          ],
           "windows": [
             {
               "wall": "S",
@@ -177,6 +186,14 @@
           "exterior_walls": [
             "N",
             "W"
+          ],
+          "hearth": [
+            {
+              "wall": "W",
+              "width_in": 41.1,
+              "flue": "west-stack",
+              "note": "On the gable, with the massing's paired end stacks. rooms/dining-room.json says \"Historically a fireplace on the interior wall opposite the sideboard\", which this record does NOT follow. NOTHING COMPARES THE TWO. build/hearths.py holds a stated hearth against the MASSING's stack walls and against nothing else, so W passes: W is where gable-end-paired puts its stacks. An earlier version of this note claimed the disagreement was reported, which was a claim about a check that does not exist -- oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it."
+            }
           ],
           "windows": [
             {
@@ -219,6 +236,14 @@
           "exterior_walls": [
             "S",
             "E"
+          ],
+          "hearth": [
+            {
+              "wall": "E",
+              "width_in": 39.8,
+              "flue": "east-stack",
+              "note": "rooms/library.json: \"A fireplace in a library is historic and correct, but the shelving must be clear of the chimney breast\". Opening is Morris 1734 Lecture VI Rule II executed at the stated 11 ft ceiling; judgment, not measured. It read 41.8 in when it was interpolated off the table rather than computed from the rule."
+            }
           ],
           "windows": [
             {
@@ -519,6 +544,7 @@
           "exterior_walls": [
             "N"
           ],
+          "stacks_over": "stair",
           "windows": [
             {
               "wall": "N",
@@ -547,6 +573,7 @@
           "exterior_walls": [
             "S"
           ],
+          "stacks_over": "passage",
           "windows": [
             {
               "wall": "S",

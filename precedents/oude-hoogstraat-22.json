@@ -1,0 +1,63 @@
+{
+  "id": "oude-hoogstraat-22",
+  "name": "Oude Hoogstraat 22",
+  "aka": [
+    "Kleinste huis van Amsterdam",
+    "Het smalste huis van Europa"
+  ],
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "XVII of XVIII",
+    "circa": true,
+    "note": "The register dates it only to the seventeenth or eighteenth century ('XVII of XVIII') and dates the bell-shaped top of the gable to the nineteenth. The Dutch Wikipedia article says the plot was taken over by the city after 1733 and that the little house is first recorded in 1738, with the present upper storeys and attic added between 1768 and 1787."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "2010",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2010",
+      "title": "Oude Hoogstraat 22, 1012 CE te Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://nl.wikipedia.org/wiki/Kleinste_huis_van_Amsterdam",
+      "title": "Kleinste huis van Amsterdam - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose in an extract, not as a search snippet. The article states: 'Het huisje, door sommigen ook het ‘Kleinste huis van Europa’ genoemd, is 2,02 meter breed en 5 meter diep.' It also disagrees with the register and with I amsterdam about the gable, calling it a tuitgevel (spout gable) where the register says a nineteenth-century bell-shaped top and I amsterdam says 'een typisch Amsterdamse klokgevel'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.iamsterdam.com/uit/agenda/attracties-en-bezienswaardigheden/attracties/het-smalste-huis",
+      "title": "Het smalste huis | I amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The city's own visitor body. Read as continuous prose: 'Het smalste huis van Europa is te vinden op nummer 22 in de Oude Hoogstraat: een piepklein huisje met een typisch Amsterdamse klokgevel. De gevel is slechts 2.02 meter breed. Het huis zelf is vijf meter diep.'"
+    }
+  ],
+  "survey": {
+    "item": "2010",
+    "register": "rijksmonument",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2010",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's own 'Inschrijving register' field came back blank in the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Zeer klein huisje (XVII of XVIII), waarvan de gevel met 19e eeuws klokvormige topje gedeeltelijk op de links ervan staande poort naar de Walenkerk is gebouwd.",
+        "page": "Rijksmonumentenregister, monument 2010, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. Added as the documentary limiting case of the node's own economic argument -- frontage was the taxed commodity, so the market produced a house 2.02 m wide. THE FIGURES ARE NOT IN THE REGISTER AND ARE THEREFORE NOT CARRIED AS MEASUREMENTS. The register entry, which is this record's survey block, states no dimension at all; the 2.02 m by 5 m comes from the Dutch Wikipedia article and from I amsterdam, both read as continuous prose in extracts and both quoted verbatim in their refs. Under this corpus's rules a measurement indexes a survey quote, and neither of those is a survey, so the width and depth stay in the refs where a reader can see whose figures they are. Note also that a 2.02 by 5 m plot gives a frontage-to-depth ratio of about 0.40, far outside the node's own kit band of 0.125 to 0.25: this is an infill scrap of about ten square metres between two other buildings, not a canal lot, and it is evidence about the tax and not about the lot geometry."
+}

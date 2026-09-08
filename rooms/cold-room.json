@@ -98,6 +98,15 @@
     "depth_multiplier": 0,
     "sides_lit": 0,
     "orientation": "North or below grade, and always outside the conditioned envelope. Under a porch slab, under an entry landing, or in the north-east corner of a basement with an exterior wall.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N"
+      ],
+      "basis": "North or below grade, and always outside the conditioned envelope.",
+      "judgment": true
+    },
     "note": "NO DAYLIGHT AT ALL, and this is functional rather than incidental: light greens potatoes (solanine) and sprouts onions. Any window is blacked out or, better, absent, and the fixture is switched from outside and used briefly."
   },
   "adjacency": {

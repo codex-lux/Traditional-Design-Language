@@ -1,0 +1,58 @@
+{
+  "id": "glensheen",
+  "name": "Glensheen",
+  "aka": [
+    "Chester and Clara Congdon Estate",
+    "Glensheen Historic Estate",
+    "Glensheen Mansion"
+  ],
+  "location": {
+    "text": "Duluth, Minnesota",
+    "country": "United States",
+    "state": "Minnesota"
+  },
+  "dates": {
+    "built": "1905-1908",
+    "circa": false,
+    "note": "Every source read agrees: construction began in 1905 and was completed in 1908. The National Register infobox prints 'Built 1905-08'."
+  },
+  "nodes": [
+    "jacobethan-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "91001057",
+      "url": "https://en.wikipedia.org/wiki/Glensheen_Historic_Estate",
+      "title": "Chester and Clara Congdon Estate; NRHP reference No. 91001057, added August 15, 1991; architectural style 'Jacobean Revival' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The listing name is the family's, not the house's; the house's own name is Glensheen and that is what the style node's exemplar prints."
+    },
+    {
+      "kind": "institution",
+      "url": "https://glensheen.d.umn.edu/learn/history-glensheen",
+      "title": "History of Glensheen | Glensheen | University of Minnesota Duluth",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own account: 'Glensheen Mansion was built between 1905-1908, a 39-room mansion resting on a 12-acre estate along the shore of Lake Superior. ... The mansion was designed in the Jacobian Revival style by Clarence H. Johnston Sr., a well known architect in Minnesota during that time along with the help of interior designer William A. French who designed the home in a mix of styles, including Arts and Crafts, Art Nouveau, late Victorian, and Federal styles'. The spelling 'Jacobian' is the source's."
+    },
+    {
+      "kind": "institution",
+      "url": "https://libguides.d.umn.edu/glensheen",
+      "title": "Introduction - Historic Glensheen Estate and the Congdon Family - Research Guides at University of Minnesota Duluth",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'this 7.6-acre expanse of wooded land enfolds the 39-room Jacobean Revival mansion that is Minnesota's premier historic house museum. The interiors of the mansion have endured, boasting nearly all of the same furnishings and decor that graced the rooms when estate was completed in 1908.' Note that the acreage here (7.6) disagrees with the same institution's history page (12); both are recorded and neither is corrected."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Glensheen_Historic_Estate",
+      "title": "Glensheen Historic Estate - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Glensheen, the Historic Congdon Estate is a 20,000 square foot mansion in Duluth, Minnesota ... has 39 rooms and is built in the Jacobean architectural tradition, inspired by the Beaux-Arts styles of the era. ... The home cost a total of $854,000'. Landscape by 'the Charles Wellford Leavitt firm out of New York'."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 and added because the node's four inherited exemplars were three estates that also belong to the parent style and one re-erected English house, so nothing on the list was UNAMBIGUOUSLY of this variant and nothing was outside the Detroit-Akron-Richmond triangle. Glensheen is called Jacobean Revival by the National Register, by the university that owns it and by its own guides, and its interiors survive nearly intact with their 1910 published photographs -- which makes it the one building on this node against which an interior figure could later be checked. No HABS survey was found."
+}

@@ -218,6 +218,72 @@
     "depth_governs": {
      "type": "boolean",
      "description": "Whether the depth-against-window-head rule applies to this room at all. Defaults to true. False marks a room the rule was never written for -- a garage is deeper than any window can light and is not thereby defective. This is JUDGED-WHERE-THE-JUDGMENT-DOES-NOT-APPLY, which is a different claim from 'unjudged' (could not evaluate) and from 'passed' (evaluated and clear); a checker must not collapse it into either. Ruled as OQ 31."
+    },
+    "aspect": {
+     "type": "object",
+     "additionalProperties": false,
+     "description": "The compass reading of `orientation`, authored beside the prose rather than parsed out of it (WP-11.9). Every one of the sixty room records states an aspect in words and nothing in the tree read one; a regex over that prose would be the move build/hearths.py was forbidden to make, because four different jobs share one syntax there -- a governing aspect, a conditional one, a statement about a DOOR axis, and a positive refusal. This object says which, in tokens, and quotes the sentence it read. FOUR STATES, and `applies: false` is the one a two-state reader loses: a record answering \"Any\" or \"Whatever the roof gives\" has ANSWERED, and hunting it for an aspect invents what that sentence refuses. The field absent altogether is the fourth -- unstated, and unjudged.",
+     "required": [
+      "applies",
+      "basis"
+     ],
+     "properties": {
+      "applies": {
+       "type": "boolean",
+       "description": "True where `orientation` names a compass aspect this room is to be held to. False where it answers the question with something that is not a compass -- \"Any\", \"None\", \"Follows the front door and has no say\" -- or where what it names is an axis of DOORS or of the site rather than of glass. False is a judged verdict and not a gap; `note` says which of those it is."
+      },
+      "strength": {
+       "enum": [
+        "hard",
+        "preferred"
+       ],
+       "description": "`hard` only where the record's own words make it one -- \"NORTH, and it is not a preference\", \"HARD CONSTRAINT: within 45 degrees of south-west\", \"EAST TO SOUTH-EAST, HARD\". Everything else is preferred, INCLUDING a capitalised preference: the library's NORTH is shouted and then licensed two sentences later (\"Where the room must face south or west, the books go on the wall the sun cannot reach\"), which is a preference however it is typeset."
+      },
+      "prefer": {
+       "type": "array",
+       "items": {
+        "enum": [
+         "N",
+         "NE",
+         "E",
+         "SE",
+         "S",
+         "SW",
+         "W",
+         "NW"
+        ]
+       },
+       "description": "The aspects the record names as wanted. May be empty where the record names only aspects to avoid (`pantry`: \"None needed; away from west if there is a choice\")."
+      },
+      "avoid": {
+       "type": "array",
+       "items": {
+        "enum": [
+         "N",
+         "NE",
+         "E",
+         "SE",
+         "S",
+         "SW",
+         "W",
+         "NW"
+        ]
+       },
+       "description": "The aspects the record names as wrong. NOT the complement of `prefer`: a record that wants north and says nothing against east has an empty `avoid`, and filling it in by complement would be authoring a rule nobody wrote."
+      },
+      "basis": {
+       "type": "string",
+       "description": "The sentence of `daylight.orientation` this reading was taken from, VERBATIM. build/check_rooms.py holds it against that field, so a reading whose citation cannot be checked is a guess wearing a citation -- openings/grammar.json's rule, one layer over."
+      },
+      "note": {
+       "type": "string",
+       "description": "Why `applies` is false where the record plainly names a compass point anyway -- a breezeway's ends, a terrace's climate condition, a courtyard's ranges. The refusal's value is its reason."
+      },
+      "judgment": {
+       "type": "boolean",
+       "description": "Always true. Translating a sentence into tokens is a reading, and the reading is editorial even where the sentence it reads carries a source."
+      }
+     }
     }
    }
   },

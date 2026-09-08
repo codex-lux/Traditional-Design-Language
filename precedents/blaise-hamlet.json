@@ -1,0 +1,126 @@
+{
+  "id": "blaise-hamlet",
+  "name": "Blaise Hamlet",
+  "record_kind": "group",
+  "location": {
+    "text": "Henbury, Bristol, England",
+    "country": "England",
+    "state": "Bristol"
+  },
+  "dates": {
+    "built": "1812",
+    "circa": false,
+    "note": "THE DATE IS ON RECORD THREE WAYS AND NONE IS RESOLVED. Both list entries read here open 'Cottage. 1812. By John Nash and George Repton. For JS Harford.' The node's exemplar gives 1811, the Wikipedia article says the hamlet 'was built around 1811', the National Trust page says 'built in 1811', and a heritage guide read the same day says Nash designed it 'in 1809'. The list entries are the only sources here that state a year without hedging, and they say 1812."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1202262",
+      "title": "Blaise Hamlet, Circular Cottage, Non Civil Parish - 1202262 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1202262",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The record's survey block. A search result the same day printed its Official list entry field values as 'Grade: I ; List Entry Number: 1202262 ; Date first listed: 08-Jan-1959 ; List Entry Name: Blaise Hamlet, Circular Cottage'. The entry's Sources block cites 'Temple, N, John Nash and the Village Picturesque, (1979)' and 'Pevsner, N, The Buildings of England: North Somerset and Bristol, (1958), 468'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1282285",
+      "title": "Blaise Hamlet, Diamond Cottage, Non Civil Parish - Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1282285",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A second cottage, read as continuous prose in an extract, AND IT CONTRADICTS THE NODE. Its statutory address is 'BLAISE HAMLET, DIAMOND COTTAGE, 2, HALLEN ROAD' and its description reads 'Cottage. 1812. By John Nash and George Repton. For JS Harford. Random rubble with brick lateral stacks and a stone-tiled hipped roof. Single-depth plan. Picturesque style. Single-storey and attic; 1-window range.' The node's exemplar says the nine cottages each have 'a different thatch'; this one is roofed in stone tiles and not thatched at all. The Wikipedia article agrees with the entry rather than the node: 'The cottages are each unique and have brick chimneys and dormer windows, with some having thatched roofs.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Blaise_Hamlet",
+      "title": "Blaise Hamlet - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read as a search result. It states that the hamlet is 'a group of nine small cottages around a green in Henbury' and that 'All the cottages, and the sundial on the green, are Grade I listed buildings.' A further Historic England reference exists for the sundial, 1202264, 'Sundial to the Middle of the Green at Blaise Hamlet', which was seen in a search result and not extracted."
+    }
+  ],
+  "survey": {
+    "item": "1202262",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1202262",
+    "prepared": "Date first listed: 08-Jan-1959. NOT READ IN AN EXTRACT: the extract returned the Details prose and the Sources and Legacy blocks and not the Official list entry block, so this is the field value a Tavily search result printed for this entry on the same day.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Cottage. 1812. By John Nash and George Repton. For JS Harford.",
+        "page": "Official list entry, Details, opening sentences"
+      },
+      {
+        "field": "materials",
+        "text": "Random rubble, brick gable stacks and a thatch hipped roof. Single-depth plan. Picturesque style.",
+        "page": "Official list entry, Details, materials and plan sentences"
+      },
+      {
+        "field": "storeys",
+        "text": "Single-storey and attic; 1-window range.",
+        "page": "Official list entry, Details, sentence following the plan sentence"
+      },
+      {
+        "field": "porches",
+        "text": "A bow-ended cottage with a pent on brackets extending round 3 sides, over a left-hand gabled open porch to a plank door, and a front bench.",
+        "page": "Official list entry, Details, description of the cottage"
+      },
+      {
+        "field": "openings",
+        "text": "Paired lattice casements, to the sides and front, and half-dormers to the left and front. Paired diagonally-set rear stacks. C20 tiled rear extension.",
+        "page": "Official list entry, Details, description continued"
+      },
+      {
+        "field": "plan",
+        "text": "INTERIOR not inspected, but reported as having a winder stair flight, sitting room and pantry.",
+        "page": "Official list entry, Details, interior"
+      },
+      {
+        "field": "significance",
+        "text": "Arranged by Harford for his retired employees. Part of an irregular composition forming '...the nec plus ultra of picturesque layout and design,' (Pevsner). The cottages are laid out around an open green, and were modernised c1975.",
+        "page": "Official list entry, Details, close of the description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Single-storey and attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The same reading as the real cottages in this cluster -- Hardy's Cottage, Anne Hathaway's Cottage and Selworthy Green all read one storey and an attic. The picturesque copy keeps the height of the thing it copies."
+    },
+    {
+      "name": "window_range_count",
+      "as_printed": "1-window range",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "One window bay to the front. Diamond Cottage's entry states the same, quoted in that reference's note."
+    },
+    {
+      "name": "pent_roof_side_count",
+      "as_printed": "a pent on brackets extending round 3 sides",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The deep sheltering eave the node's own constraint calls a 'good hat'. It is the one place in this cluster where an entry states how far round a building an overhang runs, and it still gives no dimension."
+    },
+    {
+      "name": "interior_room_count",
+      "as_printed": "a winder stair flight, sitting room and pantry",
+      "from_quote": 5,
+      "note": "NO COUNT IS PARSED. The entry names a winder stair, a sitting room and a pantry and says plainly that the interior was NOT inspected and that this is reported rather than seen, so counting rooms from it would be an inference wearing a survey's authority. It is carried because the winder stair behind the fire is the node's own lobby-entry description, arriving in a picturesque cottage of 1812."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1202262",
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. RECORD KIND `group`: nine separately listed cottages round a green, no one of which is the place. The survey block is Circular Cottage because a group record may carry one survey item and quoting several under one number would be uncheckable; Diamond Cottage is quoted in its own reference note, where it contradicts the node's claim that every cottage is thatched."
+}

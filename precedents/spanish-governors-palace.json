@@ -1,0 +1,79 @@
+{
+  "id": "spanish-governors-palace",
+  "name": "Spanish Governor's Palace",
+  "aka": [
+    "Comandancia of the Presidio San Antonio de Béxar"
+  ],
+  "location": {
+    "text": "105 Plaza de Armas, San Antonio, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "c. 1749",
+    "circa": true,
+    "note": "The Wikipedia infobox prints 'Built 1749'; the city's archaeology report says 'circa 1749 based on the date carved in the keystone found above the main entrance'. Restored 1930-31 (the report quotes the restoration architect, Smith, in 1931). The Library's HABS record is measured drawings and field records; its data PDF carries no date.",
+    "altered": "Restored 1930-31; the restoration architect located stone footings behind the building and added rooms at the rear on them (the city's archaeology report, quoting Smith, 1931)."
+  },
+  "nodes": [
+    "spanish-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TX-3540",
+      "title": "Spanish Governor's Palace, 105 Plaza de Armas, San Antonio, Bexar County, TX",
+      "url": "https://www.loc.gov/pictures/item/tx1093",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own line: 'Call Number: HABS TX-3540'. The data PDF at tile.loc.gov/.../tx/tx1000/tx1093/data/tx1093data.pdf was read twice on 4 Sep 2026 and returned only its cover each time: 'SPANISH GOVERNOR'S PALACE HABS TX-3540 105 Plaza de Armas TX-3540 San Antonio Bexar Texas REDUCED COPIES OF MEASURED DRAWINGS FIELD RECORDS HISTORIC AMERICAN BUILDINGS SURVEY ...'. A drawings-and-field-records record with no written description, so no `survey` block is recorded."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tx1093",
+      "url": "https://www.loc.gov/pictures/item/tx1093",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Spanish_Governor%27s_Palace",
+      "title": "Spanish Governor's Palace - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000741",
+      "url": "https://en.wikipedia.org/wiki/Spanish_Governor%27s_Palace",
+      "title": "NRHP reference No. 70000741; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/places/spanish-governor-s-palace.htm",
+      "title": "Spanish Governor's Palace (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The complex includes a one-story masonry and stucco structure with ten rooms, a well-manicured courtyard, and a fountain'; 'Also known as the Comandancia, or command headquarters, the building was part of the presidio'; 'Only one acting governor ever lived there'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.sanantonio.gov/portals/0/Files/HistoricPreservation/arc_reports/Spanish_Governors_Palace_Archeology_Report.pdf",
+      "title": "Restoration and Previous Archaeology At the Spanish Governor's Palace, San Antonio, Bexar County, Texas (Kristi M. Ulrich, Center for Archaeological Research, UTSA)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The structure is believed to have been constructed circa 1749 based on the date carved in the keystone found above the main entrance'; quotes the 1931 restoration architect (Smith) on locating stone footings of the rooms 'we added in the rear'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.spanishgovernorspalace.org/History-Culture",
+      "title": "History & Culture (Spanish Governor's Palace, City of San Antonio World Heritage Office)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. Adina De Zavala in 1915 'called it the Spanish Governor's Palace, even though it had actually been the home and office of the local presidio' commander."
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the Texas province's domestic-scale building in stone, for a node whose regions list Texas and whose exemplars named none. The loc.gov search also surfaced HABS TX-222 (San Antonio City Hall), whose record mentions the 'Old Spanish Governor's Palace' in passing; not opened."
+}

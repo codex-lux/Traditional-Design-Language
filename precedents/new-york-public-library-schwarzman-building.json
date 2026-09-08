@@ -1,0 +1,58 @@
+{
+  "id": "new-york-public-library-schwarzman-building",
+  "name": "New York Public Library, Stephen A. Schwarzman Building",
+  "aka": [
+    "New York Public Library Main Branch",
+    "the 42nd Street Library"
+  ],
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1897-1911",
+    "circa": false,
+    "altered": "The Rose Main Reading Room and Public Catalog Room were separately designated a New York City interior landmark in 2017 after their ceiling was repaired; the Midtown Campus renovation is current work.",
+    "note": "The style node's exemplar gives 1911 and its note '1897-1911'. Wikipedia gives 'Built 1897-1911' and an opening to the public of May 23, 1911. No disagreement."
+  },
+  "nodes": [
+    "beaux-arts-american"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/New_York_Public_Library_Main_Branch",
+      "title": "New York Public Library Main Branch - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the address as 476 Fifth Avenue, the architects as Carrere and Hastings, the style as 'Beaux-Arts', and the four separate landmark designations."
+    },
+    {
+      "kind": "nhl",
+      "id": "66000546",
+      "url": "https://en.wikipedia.org/wiki/New_York_Public_Library_Main_Branch",
+      "title": "National Historic Landmark designated December 21, 1965, reference no. 66000546; listed on the National Register October 15, 1966 under the same number, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database. The landmark designation precedes the Register listing by ten months, which is why one number carries two dates."
+    },
+    {
+      "kind": "state-register",
+      "id": "06101.000079",
+      "url": "https://en.wikipedia.org/wiki/New_York_Public_Library_Main_Branch",
+      "title": "New York State Register of Historic Places, designated June 23, 1980, reference no. 06101.000079",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.mecanoo.nl/Projects/project/204/Stephen-A-Schwarzman-Building",
+      "title": "Stephen A. Schwarzman Building - Mecanoo",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The architects of the current Midtown Campus renovation; cited for the building's present name and status, not for its history."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. The building the style node names for the Ecole plan method applied to a public programme; no HABS survey was found for it, which is normal for a building that has never been threatened."
+}

@@ -1,0 +1,63 @@
+{
+  "id": "southwest-museum",
+  "name": "Southwest Museum",
+  "aka": [
+    "Southwest Museum of the American Indian",
+    "Casa de Adobe (separate building on the same site)"
+  ],
+  "location": {
+    "text": "234 Museum Drive, Los Angeles, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1912-1914",
+    "circa": false,
+    "note": "Wikipedia's infobox prints 'Built 1912–1914'; the Los Angeles Conservancy and the National Trust both date the building to 1914; the National Register nomination says 'Constructed in the Spanish Colonial Revival style between 1912 and 1914'."
+  },
+  "nodes": [
+    "mission-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Southwest_Museum_of_the_American_Indian",
+      "title": "Southwest Museum of the American Indian - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "92001270",
+      "url": "https://en.wikipedia.org/wiki/Southwest_Museum_of_the_American_Indian",
+      "title": "NRHP reference No. 92001270; Los Angeles Historic-Cultural Monument No. 283; architectural style 'Mission/Spanish Revival' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/34bc3788-cb5d-4b93-ae79-261870314e57",
+      "title": "National Register of Historic Places Registration Form, Southwest Museum (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination's own description: 'The Museum is Spanish Colonial Revival in style, constructed of reinforced concrete covered with off-white stucco, with a red tile roof. Irregularly massed, the Museum has a prominent tower at the easterly corner and a squat tower on the westerly side.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.laconservancy.org/learn/historic-places/southwest-museum",
+      "title": "Southwest Museum - LA Conservancy",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Designed by Sumner Hunt and Silas Burns in the Mission Revival style, the Southwest Museum building opened in 1914.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://savingplaces.org/places/southwest-museum-site",
+      "title": "Southwest Museum Site | National Trust for Historic Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'the 1914 Mission Revival-style Southwest Museum building'; architects given as Sumner P. Hunt & Silas Burns; declared a National Treasure in 2015."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. THE STYLE ATTRIBUTION IS CONTESTED IN THE SOURCES AND BOTH READINGS ARE RECORDED: the National Register nomination calls the building 'Spanish Colonial Revival' twice and credits Sumner Hunt alone, while the Los Angeles Conservancy and the National Trust for Historic Preservation both call it Mission Revival and credit Hunt with Silas Burns. It is filed on `mission-revival` on the two preservation bodies' reading; a reader who follows the nomination would file it one node over, and this note is here so that reader is not surprised. No HABS survey was found."
+}

@@ -265,6 +265,64 @@ def check_room(rep, path, room, u, room_ids):
             and "borrow" not in json.dumps(dl).lower():
         rep.warn(where, f"depth_multiplier {dm} is below 2.0 but daylight.note gives no shading reason")
 
+    # --- the aspect, held against the sentence it claims to have read (WP-11.9) ---------
+    #
+    # `daylight.aspect` is a READING of `daylight.orientation`, and a reading whose citation
+    # cannot be checked is a guess wearing a citation -- openings/grammar.json's own rule, one
+    # layer over, where every editorial rule quotes the room prose it reads and
+    # build/check_openings.py verifies the quote against the record it names. Same discipline,
+    # same mechanism, and it is what makes an authored token list falsifiable at all.
+    asp = dl.get("aspect")
+    orient = dl.get("orientation")
+    if asp is None:
+        if orient:
+            rep.warn(where, "daylight.orientation states an aspect in words and there is no "
+                            "daylight.aspect beside it: the sentence is unread and this room's "
+                            "aspect is unjudged (WP-11.9)")
+    elif not isinstance(asp, dict):
+        # THE GUARD MUST SURVIVE THE MALFORMATION IT EXISTS TO CATCH (audit, 7 Sep 2026).
+        # `check_room` runs UNCONDITIONALLY after schema validation -- the caller's loop gates
+        # only on id/function_class/privacy_rank -- so a record the schema would have rejected
+        # reached this block anyway, and `asp.get` on a string killed the whole checker process
+        # instead of printing the schema error beside the other 59 records. A checker that dies
+        # on bad data reports nothing about the good data either.
+        rep.err(where, f"daylight.aspect is not an object: {asp!r}")
+    else:
+        basis = asp.get("basis")
+        if not orient or not isinstance(orient, str):
+            rep.err(where, "daylight.aspect with no daylight.orientation prose to have read")
+        elif not isinstance(basis, str) or not basis:
+            # `None not in "some string"` is a TypeError, not a False. The schema requires
+            # `basis`; this branch is what happens when something reaches here that the schema
+            # did not see, and it must REPORT rather than raise.
+            rep.err(where, f"daylight.aspect states no basis to check against the prose: {basis!r}")
+        elif basis not in orient:
+            rep.err(where, f"daylight.aspect.basis is not verbatim in daylight.orientation: "
+                           f"{basis!r}")
+        pref, avd = asp.get("prefer") or [], asp.get("avoid") or []
+        if asp.get("applies"):
+            if not (pref or avd):
+                rep.err(where, "daylight.aspect.applies is true and the reading names neither a "
+                               "preferred nor an avoided aspect, which is a pass wearing a verdict")
+            both = sorted(set(pref) & set(avd))
+            if both:
+                rep.err(where, f"daylight.aspect wants and avoids the same aspect(s): {both}")
+        else:
+            if pref or avd or asp.get("strength"):
+                rep.err(where, "daylight.aspect.applies is false and yet carries a reading")
+            if not asp.get("note"):
+                # A REFUSAL'S VALUE IS ITS REASON (WP-11.4), with no exemption for the short ones.
+                # The first version of this check exempted records whose basis begins "Any" or
+                # "None" as self-explaining, and it was a bad instrument for the reason this file
+                # keeps meeting: the exemption was a LIST OF FIVE LITERAL STRINGS, so it fitted
+                # the corpus that existed rather than stating a rule. Every declining record says
+                # what it answered with instead; five had to be written to make that true.
+                rep.err(where, "daylight.aspect.applies is false and gives no note saying what "
+                               "the record answered with instead")
+        if asp.get("judgment") is not True:
+            rep.err(where, "daylight.aspect must carry judgment: true -- translating a sentence "
+                           "into tokens is a reading, however well sourced the sentence is")
+
     # --- furniture ------------------------------------------------------------
     for f in room.get("furniture", []):
         # WP-7.2: `placement` decides whether an item needs clearance on one side or two, and

@@ -1,17 +1,72 @@
 name: CI
 
-# Two jobs because they fail for different reasons and at different speeds. The corpus
-# suite is the slow, authoritative one (~3 min); the workbench job is fast feedback on
-# the things a deploy can break. Railway's "Wait for CI" gate watches both.
+# Three kinds of job because they fail for different reasons and at different speeds. The
+# corpus suite is the slow, authoritative one; the workbench job is fast feedback on the
+# things a deploy can break. Railway's "Wait for CI" gate watches both.
+#
+# THE CORPUS SUITE IS A MATRIX AND WAS ONE STEP UNTIL 7 SEP 2026 (WP-11.12). It had reached
+# 39 min 32 s -- measured on run 33908079938, against eight minutes for the workbench job and
+# one for the image, so it WAS the wall-clock of a pull request, and Phase 11 then took it
+# past 41. Measured before it was split: `pytest tests/` 2,070 s against 197 s for the 44
+# checkers. Nothing in it is slow; 2,267 s of independent work was running on one core.
+#
+# `build/check_all.py --shard i/N` partitions the work. SIX, and the number is measured
+# rather than chosen: the makespan is bounded below by the largest INDIVISIBLE unit, and
+# tests/test_score.py is 422 s on its own (measured HERE, on a runner that held it alone),
+# so six shards land 422 s and a seventh buys nothing.
+#
+# MEASURED, TWICE. Run 34162261372: the whole run 11 min 17 s against the single job's
+# 39 min 32 s -- a 3.5x cut, not the sixfold the local costs predicted, because
+# build/check_costs.json had been measured on a 4-core container and its TOTAL was right to
+# 0.2% while its DISTRIBUTION was four minutes wrong. Re-costed from that run, and run
+# 34163342215 then measured the re-costing: 10 min 3 s against a predicted 7.5, makespan
+# 571 s against 421. THE SECOND INSTRUMENT HAD THE FIRST'S DEFECT ONE LEVEL DOWN -- scaling
+# every file by its shard's measured/predicted ratio makes each shard's TOTAL right BY
+# CONSTRUCTION and leaves the shape inside it as assumed as before (shard 1, one unit and an
+# exact figure: +4%; shard 3, whose largest file carried a spread one: +37%). The figures are
+# pytest's own now, per file, via --junitxml; see per_file_seconds() and the report's §VI-b.
+# The same work also summed 2,499 s then 2,675 s on two runs, so no table is right to better
+# than 7% and the flat spot is a band. Re-measure with
+# `python3 build/check_all.py --list-units --shard 1/N` before changing N; the balance is a
+# property of the corpus, not of the number.
+#
+# THE SPLIT IS BY JOB, WHICH IS THE POINT. Six test files mutate repository data in place and
+# restore it in a `finally`; a thread- or xdist-parallel suite in one checkout would let one
+# worker read `assets/manifest.json` while another has it truncated. Each shard is its own
+# runner with its own checkout, and inside a shard the tests run serially in one pytest
+# process exactly as before, so nothing about the suite's isolation changes.
+#
+# `corpus — check_all.py` still exists, as an aggregate that needs every shard. The name is
+# kept deliberately: it is what a branch-protection rule or Railway's gate is configured
+# against, and renaming a required check silently stops requiring it.
 on:
   push:
     branches: [main]
   pull_request:
 
 jobs:
-  corpus:
-    name: corpus — check_all.py
+  # Its own job rather than a step inside the matrix: it needs both refs and it answers the
+  # same for every shard, so running it six times would be six chances to hit GitHub's
+  # rate limit for one answer.
+  ids:
+    name: open-question ids
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: open-question ids do not collide with the base branch
+        run: bash .github/scripts/oq_ids_do_not_collide.sh "${{ github.base_ref }}"
+
+  shard:
+    name: corpus shard ${{ matrix.shard }}/6
+    runs-on: ubuntu-latest
+    strategy:
+      # Every shard runs even when one fails. A red shard that cancelled the other five
+      # would hide any second failure -- the same reason check_all.py runs everything after
+      # a failure rather than stopping at the first one.
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4, 5, 6]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -40,55 +95,10 @@ jobs:
         # workbench job below does install ortools, but runs only the server suite.
         # Costs an install and about two minutes of solver tests. Ruled worth it.
         run: pip install jsonschema pytest ortools
-      # THE ONLY PLACE A CROSS-BRANCH ID COLLISION IS DETECTABLE BEFORE IT COSTS A RENUMBER.
-      # Four collisions in four days, every one found at the merge and paid for afterwards with
-      # a sweep of ~1,500 references. `pull_request` gives us both refs, so the SECOND pull
-      # request to issue an id can be failed before it lands rather than renumbered after.
-      #
-      # The register being a directory is most of the fix, but not all of it: two sessions
-      # issuing id 99 with DIFFERENT slugs create two different PATHS, so git merges both
-      # without a conflict and the register carries two entries numbered 99. check_ids.py
-      # catches that within one tree; this catches it across two.
-      - name: open-question ids do not collide with the base branch
-        if: github.event_name == 'pull_request'
-        run: |
-          set -o pipefail
-          git fetch --no-tags --depth=1 origin "${{ github.base_ref }}"
-          BASE="origin/${{ github.base_ref }}"
-          files () { git ls-tree -r --name-only "$1" -- docs/open-questions/ 2>/dev/null | sort; }
-          ids () { files "$1" | sed -n 's#.*/\([0-9][0-9][0-9]\)-.*\.md#\1#p' | sort -u; }
-          # THE SET TO WALK IS THE INTERSECTION, NOT THE DIFFERENCE. The first version of this
-          # step walked ids this branch ADDED (base \ head reversed) and then asked for the
-          # BASE's file for that id -- non-empty only when the id is already in base, which is
-          # exactly what `added` excludes. Unsatisfiable on every iteration; the gate could not
-          # fire, and said "no collision" for the one case it exists to catch. A collision is
-          # an id BOTH sides carry under DIFFERENT filenames, so the population is `comm -12`.
-          # This also holds on a `pull_request` checkout, which is the MERGE commit: HEAD then
-          # carries both files, the id is in both sets, and the filename lists differ.
-          both=$(comm -12 <(ids "$BASE") <(ids HEAD))
-          collide=""
-          for id in $both; do
-            b=$(files "$BASE" | grep -E "/${id}-" || true)
-            h=$(files HEAD   | grep -E "/${id}-" || true)
-            if [ "$b" != "$h" ]; then collide="$collide $id"; fi
-          done
-          if [ -n "$collide" ]; then
-            echo "::error::open-question id(s)$collide exist on ${{ github.base_ref }} under a"
-            echo "different filename. Another session issued them first. Reissue this branch's"
-            echo "under a NAMED id (docs/open-questions/oq-<slug>.md) and add a row to"
-            echo "docs/open-questions/README.md's conversion table. PLAN-OF-ACTION.md §1: ids"
-            echo "are never reused, and the side that merged first keeps its numbers."
-            exit 1
-          fi
-          # The named namespace needs no comparison of its own: filename IS the id, so two
-          # sessions raising `oq-<slug>.md` have derived the same slug from the same subject
-          # and the conflict git refuses to auto-merge is the one you want. That is the whole
-          # point of freezing the numbers -- see docs/open-questions/oq-two-id-namespaces.md.
-          echo "No open-question id on this branch collides with ${{ github.base_ref }}."
-
-      - name: check_all.py
+      - name: check_all.py --shard ${{ matrix.shard }}/6
         # Reports the workbench server suite as N/EV here — fastapi is deliberately not
-        # installed in this job, and the workbench job below runs it properly.
+        # installed in this job, and the workbench job below runs it properly. Only ONE
+        # shard holds that unit, so only one shard's log carries the line.
         #
         # AND NOTHING OUTSIDE THE ALLOWLIST MAY BE N/EV. check_all reports COULD NOT
         # EVALUATE distinctly and does not fail on it, which is right: an absent optional
@@ -103,12 +113,15 @@ jobs:
         # — a legitimate absence appearing while a real one disappears keeps the total the
         # same. Naming them says which absences this job accepts and why, and anything else
         # reporting unjudged is a checker that did not run behind a tick claiming it had.
+        # A LIST SURVIVES SHARDING AND A COUNT WOULD NOT: which of the three lands in this
+        # shard depends on the cost table, so "at most three" would have to be re-derived
+        # per shard from a hint.
         #
         # The two CAD libraries stay out on purpose: their selftests are exercised in the
         # workbench job, which installs them. Run once, not twice — the suite is minutes.
         run: |
           set -o pipefail
-          python3 build/check_all.py 2>&1 | tee /tmp/ca.log
+          python3 build/check_all.py --shard ${{ matrix.shard }}/6 2>&1 | tee /tmp/ca.log
           allowed='export_dxf.py selftest|export_ifc.py selftest|pytest workbench/server/tests'
           if grep '^  N/EV' /tmp/ca.log | grep -Ev "$allowed"; then
             echo "::error::a check reported COULD NOT EVALUATE that this job expects to judge."
@@ -116,6 +129,25 @@ jobs:
             exit 1
           fi
           echo "Every check outside the allowlist was judged."
+
+  # THE NAME IS LOAD-BEARING. Branch protection and Railway's "Wait for CI" gate are
+  # configured against `corpus — check_all.py`, and a required check that stops existing
+  # stops being required — silently, which is this repository's whole catalogue of defects
+  # in one sentence. So the matrix runs under a different name and this aggregates it.
+  #
+  # `needs` alone is not enough: a needed job that FAILS skips this one, and a skipped job
+  # is not a failed one to a protection rule. The `if: always()` plus the explicit result
+  # test is what makes a red shard a red gate.
+  corpus:
+    name: corpus — check_all.py
+    runs-on: ubuntu-latest
+    needs: shard
+    if: always()
+    steps:
+      - name: every shard was green
+        run: |
+          echo "shard job result: ${{ needs.shard.result }}"
+          test "${{ needs.shard.result }}" = "success"
 
   workbench:
     name: workbench — server tests + app build

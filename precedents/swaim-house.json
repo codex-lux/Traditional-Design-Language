@@ -1,0 +1,46 @@
+{
+  "id": "swaim-house",
+  "name": "Swaim House",
+  "location": {
+    "text": "Chapel Hill, Marshall County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1840s",
+    "circa": true,
+    "altered": "The nomination's condition line reads 'good' and 'altered'. Wikipedia records a rear shed added circa 1945 and a garage in 1982.",
+    "note": "The Wikipedia infobox prints 'Built 1845'; the nomination's specific-dates line OCRs as '] 349' 5' and its text says only 'This locally early house of the 1840's' and 'the house was built in the 1840's for a doctor'. The node's exemplar gives 1845 and 'Circa 1840s'. Recorded as the decade the nomination states, with the 1845 kept in the refs."
+  },
+  "nodes": [
+    "greek-revival-upland-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "84003613",
+      "url": "https://en.wikipedia.org/wiki/Swaim_House_(Chapel_Hill,_Tennessee)",
+      "title": "NRHP reference No. 84003613; added to NRHP July 12, 1984 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox summary returned by the search, not from the National Register's own database. The county listing table, read the same day, prints the same number and gives the address as '200 N. Horton Pkwy'."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/44f333d0-e2ba-4167-b56a-1b5bc3639b54",
+      "title": "National Register of Historic Places Inventory-Nomination Form for the Swaim House, Chapel Hill, Tennessee",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The nomination itself; the source of every description quoted in this record's note."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Swaim_House_(Chapel_Hill,_Tennessee)",
+      "title": "Swaim House (Chapel Hill, Tennessee) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its text: 'It belonged to James Fulton, E. G. Forrest, William Turner and J.F. Brittain until J. M. Swain purchased it in 1893' -- note that Wikipedia spells the purchaser 'Swain' while the nomination spells him 'J.M. Swaim'; neither is corrected."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. NO HABS SURVEY FOUND, and the search is stated so a later reader can better it: the query 'loc.gov HABS \"Swaim House\" Chapel Hill Marshall County Tennessee Historic American Buildings Survey survey number' returned no Library of Congress item for this building. IT DID RETURN A TRAP WORTH NAMING -- the Dearing House at 2111 Fourteenth Street, Tuscaloosa, Alabama (HABS AL-228) carries the other title 'Dearing-Swaim House', and a careless reader would attach that survey number to this house. This record carries no `survey` block; the National Register nomination is quoted here instead, because a survey block in this schema means the Historic American Buildings Survey's own written data. The nomination, verbatim: 'The front of the house faces west to Main Street; this elevation is three bays wide, with a parlor and dining room to the sides of a central hall. From the center extends a one- story pedimented portico supported by two square paneled antae columns with molded capitals. The heavy entablature of the porch, supported by small scroll brackets, is carried across the entire front of the house. At the center, recessed-panel double-leaf doors with oblong moldings are set in an elegant frame, with two operating sidelights over dado panels set off by pilasters and topped with corner lights, a transom, and a heavy molded architrave. At either side of the front, 1/1 sash windows are located in the original window frames, topped with a flat wooden beam lintel with corner blocks.' TWO THINGS SIT AGAINST THE NODE'S PROSE. The node says the house underneath is 'two storeys tall, one room deep'; this one is a ONE-STOREY BRICK COTTAGE -- 'the oldest brick structure in Chapel Hill', 'a rare example in Marshall County and the surrounding area of a brick Greek Revival cottage', and the nomination's own point is that 'While frame Greek Revival cottages are not uncommon in the region, small brick residences in this style are rare.' And the node says 'There is no portico on the ordinary example, because a portico costs columns'; this one has a pedimented Doric portico on square antae, which the nomination names first among its 'Exceptional architectural features'. The record is here because the node's own tell -- a courthouse-scale doorway on a farmhouse-scale building -- is what the nomination spends its longest sentence on."
+}

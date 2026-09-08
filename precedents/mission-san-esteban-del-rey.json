@@ -1,0 +1,107 @@
+{
+  "id": "mission-san-esteban-del-rey",
+  "name": "Mission San Esteban del Rey",
+  "aka": [
+    "San Estevan del Rey Mission Church",
+    "San Estevan de Acoma"
+  ],
+  "location": {
+    "text": "Acoma Pueblo, New Mexico",
+    "country": "United States",
+    "state": "New Mexico"
+  },
+  "dates": {
+    "built": "1629-1641",
+    "circa": false,
+    "altered": "The survey reads an inscription dated 1710 as evidence of a remodelling and suggests a restoration c. 1700 under Padre Antonio Miranda; the church was restored about 1902 and again in 1927 by the Society for the Restoration and Preservation of New Mexico Mission Churches, which restored walls and towers and put a new composition roof on the church.",
+    "note": "The 1930s survey prints 'Between 1629 and l64?' beside two other datings it cites (1626 from index cards, 1629 from Hallenbeck); the Wikipedia infobox prints 1629-1641; both style nodes give 1641 as the year. Recorded as the survey and infobox agree."
+  },
+  "nodes": [
+    "spanish-colonial-american",
+    "new-mexico-adobe"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NM-5",
+      "title": "San Esteban del Rey Mission, Acoma Pueblo, Cibola County, NM",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0067/data/nm0067data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's own header prints 'HABS Ho, 36-HH-5' -- the OCR of the 1930s district-numbered form 36-NM-5 -- and the Library's photograph pages print 'Photos from Survey HABS NM-5'. The header locates the pueblo in Valencia County; the Library's title says Cibola County, which was carved from it later."
+    },
+    {
+      "kind": "loc-item",
+      "id": "nm0067",
+      "url": "https://www.loc.gov/resource/hhh.nm0067.photos?st=gallery",
+      "title": "San Esteban del Rey Mission, Acoma Pueblo, Cibola County, NM",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/San_Estevan_del_Rey_Mission_Church",
+      "title": "San Estévan del Rey Mission Church - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000417",
+      "url": "https://en.wikipedia.org/wiki/San_Estevan_del_Rey_Mission_Church",
+      "title": "NRHP reference No. 70000417; added April 15, 1970; designated NHL April 15, 1970; contributing property of Acoma Pueblo (ID66000500) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "habs",
+      "id": "NM-6",
+      "url": "https://en.wikipedia.org/wiki/Acoma_Pueblo",
+      "title": "Historic American Buildings Survey (HABS) No. NM-6, \"Pueblo of Acoma, Casa Blanca vicinity, Acoma Pueblo, Cibola County, NM\", 87 photos, 86 measured drawings, 10 data pages, 1 photo caption page (as the Wikipedia external-links line prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The PUEBLO's survey, not the church's; recorded because the two nodes' prose reads the church and the pueblo together. Its data page was not opened."
+    }
+  ],
+  "survey": {
+    "item": "nm0067",
+    "register": "loc-item",
+    "survey_no": "NM-5",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/nm/nm0000/nm0067/data/nm0067data.pdf",
+    "prepared": "District No. 36, Utah, Colorado and New Mexico; A. Leicester Hyde, District Officer (as the header reads; no date legible in the extract).",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SAN ESTEBAN DEL KEY MISSION or San Estevan de Acoma Acorns Pueblo Valencia County New Mexico Ovmer: Acoma Indians. I3§A£. ££ Irect.ipn% Between 1629 and l64?(eee following pages); 1626 \"lindtoc cards); 1629 (Hallenbeck l)t Adiitoei: Builder; Padre Juan Ramirez Present Conditions Fair Nujnber of Stories: One, Jfeterifls of 0 on struction: Adobe and stone,",
+        "page": "The header printed immediately before it reads 'HABS Ho, 36-HH-5 Page 1.' (36-NM-5, Page 1)."
+      },
+      {
+        "field": "other",
+        "text": "!h/ery stisv of timber had to be laboriously carried to the top of the rock over a loose sandy trail and rock stqjs, in the hands or on the backs of men. Tvery grain of sand, which was of a poor quality yh.en procured, he.6. to be searched for, often not no'e than a sack or two in a pocket, and then had to be carried two miles in the pack saddle /£ 31 - f\\ t.6f of a \"burro. -\"-11 water that was used had to \"be carried by women and men a distance of about three hundred yards and sometimes a full quarter mile over a difficult rocky foot trail.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "condition",
+        "text": "About 1902 the Church was again restored. In 1927 the Society for the Restoration and .Preservation of JTew Mexico hission Churches undertook a rather extensive restoration program for the building. At this time they restored the walls and towers and put on a new composi- ■ tion roof over the church.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "other",
+        "text": "an inscription dated 1710 which points that probably the Church was remodelled about this time, The beautifully curved beans and doors varying in size can he found in dwellings throughout the entire Jueblo. These, froi;- fheir workmanship, show that they are not. of Indian construction. They are clearly the work of artisans with suitable tools for their work. It is very .rrobe.ble that the original Church was re- stored circa 1700 under the direction of Padre Antonio i.'iranda.",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Nujnber of Stories: One,",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Seeded 4 Sep 2026 for the spanish-colonial-american and new-mexico-adobe nodes. Both nodes' exemplar notes say the adobe walls reach nine feet thick; the two extract spans read from the written data state NO wall thickness at all, so the survey is silent on that figure rather than confirming it. The survey does corroborate the nodes' timber-carrying story in its own words."
+}

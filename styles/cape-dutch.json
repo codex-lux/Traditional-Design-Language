@@ -213,25 +213,73 @@
       "name": "Groot Constantia",
       "location": "Constantia, Cape Town, South Africa",
       "year": 1685,
-      "note": "Granted to Simon van der Stel 1685; manor house substantially remodelled for Hendrik Cloete in the 1790s, with the wine cellar pediment by Anton Anreith, 1791."
+      "note": "Granted to Simon van der Stel 1685; manor house substantially remodelled for Hendrik Cloete in the 1790s, with the wine cellar pediment by Anton Anreith, 1791.",
+      "precedent": "groot-constantia",
+      "standing": "icon",
+      "why": "The SAHRA site description itself calls it the best known of the Cape Dutch houses -- 'Here we find some of the best examples of Cape Dutch architecture, and the best known of them is Groot Constantia' -- which makes the standing the register's judgment rather than this corpus's."
     },
     {
       "name": "Meerlust",
       "location": "Stellenbosch, South Africa",
       "year": 1776,
-      "note": "Homestead gable dated 1776; one of the least-altered surviving H-plan werf ensembles."
+      "note": "Homestead gable dated 1776; one of the least-altered surviving H-plan werf ensembles.",
+      "precedent": "meerlust",
+      "standing": "canonical",
+      "why": "The Stellenbosch Heritage Foundation calls it 'the oldest surviving grand farmhouse in the Stellenbosch district' and 'a truly outstanding example of a Cape Dutch homestead', and Pearse's measured drawings of its pigeon house and bell tower exist in print, which is what makes it a specimen figures could be held against rather than only a picture."
     },
     {
       "name": "Boschendal Manor House",
       "location": "Franschhoek, South Africa",
       "year": 1812,
-      "note": "Built on a Huguenot grant of 1685; the surviving H-plan manor with holbol gables is dated 1812."
+      "note": "Built on a Huguenot grant of 1685; the surviving H-plan manor with holbol gables is dated 1812.",
+      "precedent": "boschendal-manor-house",
+      "standing": "icon",
+      "why": "One of the small set of Cape Dutch houses a general reader can name, and the only claim this record's own sources support is the SAHRA row's plain chronology -- a 1685 Huguenot grant and a manor of 1812 -- so the icon standing rests on this corpus's judgment and is marked as such."
     },
     {
       "name": "Groote Schuur",
       "location": "Rondebosch, Cape Town, South Africa",
       "year": 1893,
-      "note": "Herbert Baker's rebuilding for Cecil Rhodes — the origin point of the Cape Dutch Revival, and therefore the hinge between the living tradition and its later national use."
+      "note": "Herbert Baker's rebuilding for Cecil Rhodes — the origin point of the Cape Dutch Revival, and therefore the hinge between the living tradition and its later national use.",
+      "precedent": "groote-schuur",
+      "standing": "documentary",
+      "why": "Cited as evidence for the hinge the node's own note describes and not as a specimen of the type: it is Herbert Baker's rebuilding after the 1896 fire, and the English Wikipedia article records that the thatch the node makes structural to Cape Dutch was replaced there with Welsh slate."
+    },
+    {
+      "name": "Vergelegen",
+      "location": "Somerset West, South Africa",
+      "year": 1700,
+      "note": "Granted to Governor Willem Adriaan van der Stel in 1700 and confiscated in 1706. What stands is largely Percy Walgate's restoration and extension for Lady Florence Phillips from 1922 -- 195 sketches between November 1922 and September 1923, two added wings, and an east gable copied from the old Pastorie at Paarl.",
+      "precedent": "vergelegen",
+      "standing": "documentary",
+      "why": "Cited with its restoration history attached rather than as a specimen: the Heritage Portal's republished Restorica account establishes that the present east gable is a copy of another building's, so a figure measured from this facade is a figure measured from the Paarl parsonage."
+    },
+    {
+      "name": "Morgenster",
+      "location": "Somerset West, South Africa",
+      "year": 1786,
+      "note": "Part of Vergelegen until the estate was divided in four after Van der Stel's recall; bought by Jacques Malan. H-plan with six gables, the front one dated 1786 and described by the register as holbol at its finest, the convex edge mouldings carried onto the gable face and ending in fully developed scrolls.",
+      "precedent": "morgenster",
+      "standing": "canonical",
+      "why": "The South African Heritage Resources Agency's own description is the only one read in this cluster that states a plan letter, a gable count and a moulding profile in one sentence, so the node's holbol claim can be held against a register statement rather than against a photograph."
+    },
+    {
+      "name": "Nova Constantia",
+      "location": "Constantia, Cape Town, South Africa",
+      "year": null,
+      "note": "Originally part of the Groot Constantia estate; the register dates the house only to the first quarter of the nineteenth century. U-plan, and regarded by the register as one of the finest Cape Dutch houses mainly for its gables and its setting.",
+      "precedent": "nova-constantia",
+      "standing": "regional",
+      "why": "Carried for the plan letter the node's growth grammar needs and had no sourced specimen of -- 'The homestead is U-shaped' is the register's flat statement -- while its date is the register's own hedge, 'probably ... the first quarter of the 19th century'."
+    },
+    {
+      "name": "Joostenberg",
+      "location": "Muldersvlei, Paarl District, South Africa",
+      "year": 1756,
+      "note": "An Old Cape farmhouse in the angle of the Stellenbosch-Malmesbury and Cape Town-Paarl roads. The front gable bears the date 1756 and the register believes it to be the oldest Old Cape gable still standing and probably the only surviving gable of its type.",
+      "precedent": "joostenberg",
+      "standing": "documentary",
+      "why": "Cited for a dated piece of fabric rather than for beauty: the superlative is the register's, hedged twice in its own words ('as far as is known', 'probably'), and it is the earliest fixed point in the gable chronology this cluster could source."
     }
   ],
   "sources": [

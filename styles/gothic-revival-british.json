@@ -199,25 +199,64 @@
       "name": "Strawberry Hill",
       "location": "Twickenham, London, England",
       "year": 1776,
-      "note": "Built by Horace Walpole in phases between 1749 and 1776 with his 'Committee of Taste'. Gothick at its purest: chimneypieces copied from medieval tombs, papier-mache fan vaulting, and a wholly Georgian house behind it."
+      "note": "Built by Horace Walpole in phases between 1749 and 1776 with his 'Committee of Taste'. Gothick at its purest: chimneypieces copied from medieval tombs, papier-mache fan vaulting, and a wholly Georgian house behind it.",
+      "precedent": "strawberry-hill",
+      "standing": "icon",
+      "why": "Horace Walpole's own house is where this node's first phase begins, and Historic England's entry 1261987 records exactly the combination the node calls Gothick -- trefoil-headed ogee windows, a fan-vaulted Gallery and battlemented parapets throughout over a stuccoed carcass of two to three storeys; the ranking as icon is this project's reading of the node's own prose."
     },
     {
       "name": "Palace of Westminster",
       "location": "London, England",
       "year": 1870,
-      "note": "Built 1840-70 by Charles Barry with A. W. N. Pugin responsible for all Gothic detail and fittings. A rigorously symmetrical classical plan clothed in Perpendicular detail — the contradiction that Pugin himself acknowledged bitterly."
+      "note": "Built 1840-70 by Charles Barry with A. W. N. Pugin responsible for all Gothic detail and fittings. A rigorously symmetrical classical plan clothed in Perpendicular detail — the contradiction that Pugin himself acknowledged bitterly.",
+      "precedent": "palace-of-westminster",
+      "standing": "icon",
+      "why": "Historic England's entry 1226284 states the contradiction the node makes diagnostic, in the register's own words -- Barry's massing 'combines symmetry on the river front terrace with the asymmetry of the major vertical accents' -- and calls Pugin's interiors here 'the best preserved and most complete example' of his secular decoration."
     },
     {
       "name": "The Grange",
       "location": "Ramsgate, Kent, England",
       "year": 1844,
-      "note": "Built 1843-44 by Pugin for himself beside his own church. The first house planned entirely from the inside out on his stated principles, and the direct ancestor of every asymmetrical, plan-driven English house that followed."
+      "note": "Built 1843-44 by Pugin for himself beside his own church. The first house planned entirely from the inside out on his stated principles, and the direct ancestor of every asymmetrical, plan-driven English house that followed.",
+      "precedent": "the-grange-ramsgate",
+      "standing": "icon",
+      "why": "Historic England's entry 1203285 reads the house as 'Irregular and picturesquely massed facades, illustrating Pugin's belief in expression of plan and function on elevation', which is the designating authority stating this node's founding claim about this building rather than this project asserting it."
     },
     {
       "name": "Tyntesfield",
       "location": "Wraxall, Somerset, England",
       "year": 1865,
-      "note": "Remodelled 1863-65 by John Norton for William Gibbs on a guano fortune. A complete High Victorian Gothic country house with its chapel, service wing, fittings and collections intact — the style in full domestic operation."
+      "note": "Remodelled 1863-65 by John Norton for William Gibbs on a guano fortune. A complete High Victorian Gothic country house with its chapel, service wing, fittings and collections intact — the style in full domestic operation.",
+      "precedent": "tyntesfield",
+      "standing": "canonical",
+      "why": "A complete High Victorian Gothic country house whose entry 1129053 states materials, storeys, stacks and window rhythms front by front -- 1:4:1, 2:4:2, 1:3:1 -- so the node's figures have something to be held against; Historic England classes it 'Irregular and asymmetrical in the High Victorian Gothic Revival style'."
+    },
+    {
+      "name": "Knightshayes Court",
+      "location": "Bolham, Tiverton, Devon, England",
+      "year": 1874,
+      "note": "Built 1869-74 by William Burges for Sir John Heathcoat-Amory, who dismissed him in 1874 and had the interiors finished by J. D. Crace. Early French Gothic in red Hensley stone: a U-plan double-pile house with the hall in the centre and a vista from the garden front down to the client's own factory.",
+      "precedent": "knightshayes-court",
+      "standing": "canonical",
+      "why": "The one exemplar in this node whose entry states a plan -- Historic England 1384684 gives 'Overall U-plan, double-depth, with hall in the centre' with the reception rooms along the south -- so it is the type specimen a plan generator can be held against; Pevsner, quoted in the building's Wikipedia article, calls it 'an eloquent expression of High Victorian ideals in a country house of moderate size'."
+    },
+    {
+      "name": "Scarisbrick Hall",
+      "location": "Scarisbrick, Lancashire, England",
+      "year": 1845,
+      "note": "A. W. N. Pugin's largest secular commission, 1836-45 over an older seat, with the east wing and its extravagantly tall tower added for Anne Scarisbrick by Edward Welby Pugin in the 1860s and 1870s. A school since the twentieth century and on Historic England's Heritage at Risk register.",
+      "precedent": "scarisbrick-hall",
+      "standing": "documentary",
+      "why": "Carried as a plain surveyed case rather than an admired one: Historic England 1038565 describes a succession of campaigns whose ornament grows 'more flamboyant and fanciful in the progression from east to west', and the same body's Heritage at Risk register records the building in poor condition, which is the honest state of much of this style's domestic work."
+    },
+    {
+      "name": "All Saints, Margaret Street",
+      "location": "Margaret Street, London, England",
+      "year": 1859,
+      "note": "Butterfield's church, clergy house and vestry of 1849-59 round a forecourt on a site about a hundred feet square. Not a house: carried because the node's own diagnostic about structural polychromy is a claim about this building.",
+      "precedent": "all-saints-margaret-street",
+      "standing": "icon",
+      "why": "The node rests a diagnostic on 'the structural polychromy of Butterfield and Street' and this is the building that claim is about: Historic England's own entry 1239569 calls it 'a key High Victorian design and model church of the Camden Society, with innovative use of decoration', and the standard Butterfield biography the register repeats in its other entries says All Saints broke new ground in facing with brick and in extensive polychromy."
     }
   ],
   "sources": [
@@ -307,5 +346,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by roman-classical at cascade depth 8 with no direct lineage edge. Governs 7 slots; all seven fall through to chambers-doric (english-georgian) and 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: chambers-doric is another classical order and will carry the identical contradiction to the same seven addresses, so this decline stops THIS order and does not de-classicise the node. chambers-doric on this node is the next adjudication and this pass does not make it."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

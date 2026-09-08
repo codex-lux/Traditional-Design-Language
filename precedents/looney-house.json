@@ -1,0 +1,57 @@
+{
+  "id": "looney-house",
+  "name": "Looney House",
+  "aka": [
+    "John Looney House",
+    "John Looney Pioneer House Museum"
+  ],
+  "location": {
+    "text": "Ashville vicinity, St. Clair County, Alabama",
+    "country": "United States",
+    "state": "Alabama"
+  },
+  "dates": {
+    "built": "1818",
+    "circa": true,
+    "altered": "Moved further up the hill along the creek in 1820, according to Wikipedia, because of mosquitoes; at some point sheathed in siding; restored by the St. Clair Historical Society in 1972; the stair that stood in the breezeway was moved into the right-hand pen. Heavily damaged by fire on 6 August 2022 and closed to the public.",
+    "note": "Wikipedia gives 1818 and names Henry Looney and his father John as the builders; the Encyclopedia of Alabama and the 1978 Alabama Historical Association marker both give 'circa 1820'. The land patent was granted in 1822 and the family homesteaded in 1817. Both dates recorded."
+  },
+  "nodes": [
+    "dogtrot-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74002179",
+      "url": "https://en.wikipedia.org/wiki/Looney_House",
+      "title": "NRHP reference No. 74002179; added December 31, 1974 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Looney_House",
+      "title": "Looney House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://encyclopediaofalabama.org/article/john-looney-pioneer-house-museum",
+      "title": "John Looney Pioneer House Museum -- Encyclopedia of Alabama",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The fullest description found: 'The two story log structure rests on piers. There is a slope to the roof that hangs above the front porch and is supported by four wooden columns. Logs are secured at the corners of the home with dovetail notching for support. One unique feature of the house's structure is that the logs decrease in size by one-half inch (height wise) from the foundation upwards. The house is flanked on either side by chimneys made from local brick.' It also records, from the 1974 NRHP survey, that the breezeway stair 'had been moved to the interior of the right half ... for security'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=24066",
+      "title": "John Looney House Historical Marker (Alabama Historical Association, 1978) -- The Historical Marker Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Marker text: 'The two story log house with double dog-trot is a rare example of pioneer architecture in Alabama.'"
+    }
+  ],
+  "note": "Carried because it is two storeys. Every other dogtrot in this cluster is one storey or one-and-a-half, and the corpus's dogtrot prose describes the type as pens plus a gap plus one roof without saying what happens when the pens are stacked -- here the breezeway runs the full two-storey height and the stair that once stood in it has been moved out. The half-inch-per-course diminution of the logs, recorded by the Encyclopedia of Alabama, is a proportioning rule nothing in the corpus's log kits carries."
+}

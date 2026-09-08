@@ -1,0 +1,69 @@
+{
+  "id": "casa-de-los-pinelo",
+  "name": "Casa de los Pinelo",
+  "aka": [
+    "Casa de los Pinelo (Sevilla)"
+  ],
+  "location": {
+    "text": "Seville, Spain",
+    "country": "Spain",
+    "state": "Andalusia"
+  },
+  "dates": {
+    "built": "16th century",
+    "circa": true,
+    "note": "The article's infobox prints 'Construcción Siglo XVI -' with the end left open, and 'Estilo Renacentista'. No year is claimed."
+  },
+  "nodes": [
+    "andalusian-courtyard-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "bic",
+      "id": "RI-51-0001244",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_los_Pinelo",
+      "title": "Casa de los Pinelo (Sevilla) - Wikipedia, la enciclopedia libre; BIC RI-51-0001244, declared 05-02-1954",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox prints 'Categoría Monumento', 'Código RI-51-0001244' and 'Declaración 05-02-1954'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_los_Pinelo",
+      "title": "Casa de los Pinelo (Sevilla) - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-casa-de-los-pinelo",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Casa_de_los_Pinelo",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "La fachada es de gran simplicidad, posee una amplia portada de piedra sin decoración situada en la esquina del edificio.",
+        "page": "Spanish Wikipedia, section 'Exterior'"
+      },
+      {
+        "field": "openings",
+        "text": "En la primera planta puede verse un balcón con guardapolvo de pizarra. En la segunda planta un bello mirador con arquerías sostenidas por columnas de mármol y un antepecho de tracería gótica calada.",
+        "page": "Spanish Wikipedia, section 'Exterior'. The extractor leaves wikilink titles inline in this passage -- 'guardapolvo \"Guardapolvo (arquitectura)\")' and 'tracería gótica' -- and they have been removed without changing a word; the footnote markers rendered as stray '(' are likewise dropped."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "En la segunda planta",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "A READING AND A RISKY ONE. Spanish counts the ground floor as the planta baja and numbers upward from the first floor above it, so a building with a 'segunda planta' has three levels. The article never states a storey count; if its numbering is the English one instead, the answer is two. Recorded with the ambiguity rather than silently."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche as the plain merchant-scale case between the palace and the corral. IT IS THE NODE'S OWN CLAIM PHOTOGRAPHED: 'La fachada es de gran simplicidad' with an undecorated stone doorway at the corner, and everything the building has inside its patio. No dimension of the patio was printed in the extract."
+}

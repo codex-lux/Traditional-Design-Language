@@ -209,19 +209,55 @@
       "name": "Casa del Herrero",
       "location": "Montecito, California",
       "year": 1925,
-      "note": "George Washington Smith, with gardens by Ralph Stevens and Lockwood de Forest; among the most intact Andalusian-mode houses in the United States, and a National Historic Landmark."
+      "note": "George Washington Smith, with gardens by Ralph Stevens and Lockwood de Forest; among the most intact Andalusian-mode houses in the United States, and a National Historic Landmark.",
+      "precedent": "casa-del-herrero",
+      "standing": "icon",
+      "why": "The Casa del Herrero foundation's own words -- 'one of the finest standing examples of Spanish Colonial Revival Architecture in America' -- and the National Historic Landmark designation of 2009. It is the foundation's own page, and not the designation, that ties the two together: it says the house 'maintains National Historic Landmark status, partly due to its eclectic mix of Country Place Era and Moorish-inspired gardens'."
     },
     {
       "name": "Santa Barbara County Courthouse",
       "location": "Santa Barbara, California",
       "year": 1929,
-      "note": "William Mooser III. Civic rather than domestic, and more elaborate than the domestic mode, but the building that fixed the city's post-earthquake idiom."
+      "note": "William Mooser III. Civic rather than domestic, and more elaborate than the domestic mode, but the building that fixed the city's post-earthquake idiom.",
+      "precedent": "santa-barbara-county-courthouse",
+      "standing": "regional",
+      "why": "It is the building Santa Barbara's own post-earthquake idiom is measured against, which is a claim about one city rather than about the Andalusian mode wherever it went -- the node's own exemplar note already says it is civic and more elaborate than the domestic case."
     },
     {
       "name": "Jackling House",
       "location": "Woodside, California",
       "year": 1926,
-      "note": "George Washington Smith. Demolished in 2011; documented photographically and worth citing as evidence rather than as a visitable building."
+      "note": "George Washington Smith. Demolished in 2011; documented photographically and worth citing as evidence rather than as a visitable building.",
+      "precedent": "jackling-house",
+      "standing": "documentary",
+      "why": "Demolished in 2011 and surviving only in photographs and the periodical record the Pacific Coast Architecture Database lists, so it can be read as evidence and never visited or measured."
+    },
+    {
+      "name": "Heberton House",
+      "location": "Montecito, California",
+      "year": 1917,
+      "note": "George Washington Smith's own first house, built after his move from Paris in 1916 and, in the UCSB archive's words, 'designed to resemble the Spanish farmhouses he had seen in Europe'. Published as La Casa Dracaena in Architectural Record in October 1920, and as Craig Heberton's house in the Western Architect of 1922 -- the sources disagree about both the date and the client and the precedent record carries both.",
+      "precedent": "heberton-house",
+      "standing": "canonical",
+      "why": "The University of California Santa Barbara's Architecture and Design Collection, which holds Smith's drawings, credits this house with bringing him 'national attention' in 1920 and with turning him from a painter into an architect -- the mode's starting point on its own archive's judgment."
+    },
+    {
+      "name": "The Andalusia",
+      "location": "1471-1475 Havenhurst Drive, Los Angeles, California",
+      "year": 1926,
+      "note": "Arthur and Nina Zwebell, designed round a planted court. The Andalusian mode as rented urban housing rather than as a country house, and the reason it reached a city rather than a hillside; National Register-listed in 2003 and a Los Angeles Historic-Cultural Monument since 1989.",
+      "precedent": "the-andalusia",
+      "standing": "canonical",
+      "why": "National Register-listed on its own merits rather than as part of a district, with the encyclopaedia's own description naming the material set -- exposed and cantilevered beams, wrought iron, terracotta tile, buff stucco -- which makes it a type specimen for the courtyard case."
+    },
+    {
+      "name": "Lobero Theatre",
+      "location": "33 East Canon Perdido Street, Santa Barbara, California",
+      "year": 1924,
+      "note": "George Washington Smith with Lutah Maria Riggs, opened August 1924 on the site of the 1873 opera house. The mode on a public street a year before the earthquake, and the encyclopaedia ties its reopening to the city's first Old Spanish Days Fiesta and to 'the city's emerging Spanish Colonial Revival identity'.",
+      "precedent": "lobero-theatre",
+      "standing": "regional",
+      "why": "A California Historical Landmark that matters as the moment Santa Barbara adopted the manner publicly, which is a fact about that city and that year rather than about the domestic mode wherever it was built."
     }
   ],
   "sources": [

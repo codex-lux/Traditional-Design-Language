@@ -1,0 +1,34 @@
+{
+  "id": "mas-de-la-pyramide",
+  "name": "Mas de la Pyramide",
+  "location": {
+    "text": "Saint-Remy-de-Provence, Bouches-du-Rhone, France",
+    "country": "France",
+    "state": "Bouches-du-Rhône, Provence-Alpes-Côte d'Azur"
+  },
+  "dates": {
+    "note": "No construction date is recorded, because no source read here states one. The commune's own page dates neither the mas nor the caves; the museum literature says the site gathers « plus de trois siècles de vie et de métiers agricoles », which is a span of occupation and not a date of building."
+  },
+  "nodes": [
+    "french-provincial-farmhouse"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.mairie-saintremydeprovence.com/reportage-de-france-3-sur-le-mas-de-la-pyramide",
+      "title": "Reportage de France 3 sur le Mas de la pyramide – Ville de Saint-Rémy-de-Provence",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The commune's own page, read as continuous prose. It says the mas is « à la fois musée rural dans des grottes et en même temps une incroyable ferme troglodytique toujours habitée », that the « pyramide » is « en fait une colonne naturelle de pierre dressée à plus de 20 m de hauteur, qui témoigne du travail de taille », and that the owner Lolo Mauron « vient d'en faire don à la commune de Saint-Rémy-de-Provence » -- so ownership has changed since the node's exemplar was written."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.cityzeum.com/musee-agraire-du-mas-de-la-pyramide",
+      "title": "Musée Agraire du Mas de la Pyramide à Saint-Rémy de Provence: guide, avis, infos pratiques, plan",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A tourism guide, carried only as a second surface for the identification of the site between Glanum and Saint-Paul-de-Mausole. Not an authority for anything architectural."
+    }
+  ],
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. NO SURVEY AND NO MEASUREMENTS, and the reason is worth stating: repeated searches of the Base Mérimée found no notice for this building. It is not a monument historique and it has not been studied by the regional Inventaire under a name this cluster could find, so the only locators are the commune's own page and tourism literature. The node names it for the clearest demonstration that a Provençal farm is built out of, and into, its own quarry; that reading is the node's and is not sourced by anything quoted here."
+}

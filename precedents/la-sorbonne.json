@@ -1,0 +1,78 @@
+{
+  "id": "la-sorbonne",
+  "name": "La Sorbonne (Nenot rebuilding)",
+  "aka": [
+    "La Sorbonne",
+    "Sorbonne (La)",
+    "Nouvelle Sorbonne"
+  ],
+  "location": {
+    "text": "Paris, France",
+    "country": "France",
+    "state": "Paris, Île-de-France"
+  },
+  "dates": {
+    "built": "1881-1901 (the two later campaign years the Mérimée notice prints, which are Nénot's)",
+    "circa": true,
+    "altered": "The notice's campaign years are '1821 ; 1824 ; 1881 ; 1901' and its centuries '17e siècle ; 19e siècle ; 20e siècle': Lemercier's seventeenth-century chapel stands inside a nineteenth-century rebuilding.",
+    "note": "READING 1881 AND 1901 AS NÉNOT'S CAMPAIGN IS THIS RECORD'S INFERENCE FROM THE NOTICE'S OWN AUTHOR SENTENCE, WHICH ASSIGNS THE 'grand vestibule ; escalier d'honneur ; grand amphithéâtre ; salle des Autorités et grand salon du rectorat' to the '2e quart 19e siècle, 1er quart 20e siècle, par NENOT'. The notice does not itself pair the years with the men, and the '2e quart 19e siècle' in that sentence sits oddly beside an architect born in 1853. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "beaux-arts-french"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00088485",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088485",
+      "title": "Sorbonne (La) - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice prints 'Nature de la protection de l'édifice classé MH partiellement ; inscrit MH partiellement ; protection partielle' and 'Date et niveau de protection de l'édifice 1887/02/10 : classé MH ; 1975/09/30 : classé MH ; 1975/09/30 : inscrit MH'. The reference was read from the fr.wikipedia list of monuments historiques of the 5th arrondissement, which prints 'Sorbonne | 45-47 rue des Écoles ... | « PA00088485 » | Classé | 1887 1975'."
+    }
+  ],
+  "survey": {
+    "item": "PA00088485",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00088485",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1992' and its legal note is signed '© Monuments historiques, 1992'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Chapelle de la Sorbonne : 17e siècle, par Jacques LEMERCIER ; Ensemble des bâtiments : du 17e siècle au 20e siècle ; Grand vestibule ; escalier d'honneur ; grand amphithéâtre ; salle des Autorités et grand salon du rectorat : 2e quart 19e siècle, 1er quart 20e siècle, par NENOT",
+        "page": "Notice Mérimée PA00088485, section 'Historique de l'édifice', field 'Description historique'. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1821 ; 1824 ; 1881 ; 1901",
+        "page": "Notice Mérimée PA00088485, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Chapelle de la Sorbonne : classement par arrêté du 10 février 1887 ; Grand vestibule ; escalier d'honneur ; Grand Amphithéâtre ; salle des Autorités ; grand salon du rectorat ainsi que les deux petits salons qui l'encadrent : classement par arrêté du 30 septembre 1975 ; Façades et toitures sur rues et sur cour de l'ensemble des bâtiments : inscription par arrêté du 30 septembre 1975",
+        "page": "Notice Mérimée PA00088485, section 'Statut juridique, intérêt, protection et label', field 'Précision sur la protection'."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "classed_ceremonial_room_count",
+      "as_printed": "Grand vestibule ; escalier d'honneur ; Grand Amphithéâtre ; salle des Autorités ; grand salon du rectorat",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Five ceremonial spaces classed in their own right by the 1975 arrêté, beside the two small salons the same sentence adds. It is the register's own ranking of the interior, and it is exactly what this node means by marche: what the state protects here is the SEQUENCE - vestibule, stair, amphitheatre, reception rooms - and not a single principal room."
+    },
+    {
+      "name": "street_frontage_protection_grade_count",
+      "as_printed": "Façades et toitures sur rues et sur cour de l'ensemble des bâtiments : inscription par arrêté du 30 septembre 1975",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "One grade, and the LOWER one: the ceremonial rooms are 'classés' and the whole envelope only 'inscrit'. Carried as a count of one because the enum has no categorical unit and the fact worth recording is that the register grades the inside above the outside on this building."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026, ADDED BY THIS TRANCHE as the node's only French Beaux-Arts building that is neither a theatre nor an exhibition hall nor a station - the academic type, by Henri-Paul Nénot, wrapped round Lemercier's seventeenth-century chapel. THE REGISTER'S PROTECTION STRUCTURE IS ITSELF THE EVIDENCE FOR THE NODE'S CENTRAL DOCTRINE: five ceremonial circulation spaces are classed individually while the whole envelope is merely inscribed, which is the state agreeing with the corpus that in a Beaux-Arts public building 'the most important room is usually the one you pass through'. The notice states no material, no dimension, no bay count and no order. No rights line was read, so no `rights_evidence`."
+}

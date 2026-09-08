@@ -1,0 +1,50 @@
+{
+  "id": "vanderbilt-mansion-hyde-park",
+  "name": "Vanderbilt Mansion",
+  "aka": [
+    "Hyde Park",
+    "Vanderbilt Mansion National Historic Site"
+  ],
+  "location": {
+    "text": "Hyde Park, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1896-1899",
+    "circa": false,
+    "altered": "A National Historic Site since December 18, 1940 and operated by the National Park Service with the original furnishings in place; the Vanderbilt Pavilion beside it, also by McKim, Mead & White, housed the family during construction.",
+    "note": "Wikipedia gives 'Built 1896-99'; a conservation firm's project page read the same day says 'built from 1896 to 1899' and an architects' page says 'constructed in 1897'. The last is a single year inside the range and is not treated as a disagreement."
+  },
+  "nodes": [
+    "beaux-arts-american"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Vanderbilt_Mansion_National_Historic_Site",
+      "title": "Vanderbilt Mansion National Historic Site - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the architects as 'McKim, Mead & White, Robert H. Robertson', the style as 'Beaux-Arts', the area as 211 acres and the National Historic Site designation of December 18, 1940."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000059",
+      "url": "https://en.wikipedia.org/wiki/Vanderbilt_Mansion_National_Historic_Site",
+      "title": "NRHP reference No. 66000059; added and designated a historic district October 15, 1966; New York State Register reference no. 02707.000015, as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox. The listing is of the district, so the number names the site rather than the house alone."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.bcausa.com/vanderbilt-mansion",
+      "title": "Vanderbilt Mansion - Building Conservation Associates",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The conservators' own project page: 'The grand Beaux-Arts estate has 54 rooms and is constructed of of Indiana Limestone.' A room count from a consultant, recorded as one."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to beaux-arts-american: the smallest of the great Vanderbilt houses, kept as a museum by the National Park Service since 1940, which is what makes its fabric described rather than remembered. No HABS survey was found for it."
+}

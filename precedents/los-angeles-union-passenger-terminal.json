@@ -1,0 +1,70 @@
+{
+  "id": "los-angeles-union-passenger-terminal",
+  "name": "Los Angeles Union Passenger Terminal",
+  "aka": [
+    "Los Angeles Union Station",
+    "Union Station"
+  ],
+  "location": {
+    "text": "800 North Alameda Street, Los Angeles, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1939",
+    "circa": false,
+    "note": "Wikipedia's infobox prints 'Built 1939' and the station opened in May 1939; the terminal was commissioned in 1933."
+  },
+  "nodes": [
+    "spanish-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Los_Angeles_Union_Station",
+      "title": "Los Angeles Union Station - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "80000811",
+      "url": "https://en.wikipedia.org/wiki/Los_Angeles_Union_Station",
+      "title": "NRHP reference No. 80000811; added to the National Register 13 November 1980; architect John and Donald Parkinson; built by Robert E. McKee Inc. (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "id": "101",
+      "url": "https://en.wikipedia.org/wiki/Los_Angeles_Union_Station",
+      "title": "Los Angeles Historic-Cultural Monument No. 101, designated 2 August 1972 (a city designation, not a state register file)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/ca1312",
+      "title": "Los Angeles Union Passenger Terminal, Tracks & Shed, 800 North Alameda Street, Los Angeles, Los Angeles County, CA; Call Number: HABS CAL,19-LOSAN,64-A-",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "This item is the TRACKS AND SHED (sub-record A), not the terminal building. It is recorded as evidence that a HABS group exists under the geographic call number CAL,19-LOSAN,64; the item for the terminal itself was NOT resolved and no survey number is asserted for it. Deliberately filed as `other` rather than `loc-item` so that nothing reads it as this building's own Library item."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/c72efa93-90ca-40ba-9ca6-ae3d3515cf37",
+      "title": "National Register of Historic Places Inventory — Nomination Form, Los Angeles Union Passenger Terminal, Los Angeles County, California (NPGallery)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://unionstationla.com/history",
+      "title": "History - Union Station Los Angeles",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The operator's own words: 'an innovative blend of Spanish Colonial, Mission Revival and Art Deco architecture now commonly referred to as Mission Moderne', completed 1939 'for a reported $11 million'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. NO survey block: the Library item that surfaced is the terminal's tracks and shed, a different structure in the same HABS group, and building a survey record on it would have attributed a shed's description to a station. The style attribution is itself contested in the sources and both readings are carried: Wikipedia's infobox says 'Moderne, Art Deco, Mission/Spanish Revival' and the operator calls it 'Mission Moderne'."
+}

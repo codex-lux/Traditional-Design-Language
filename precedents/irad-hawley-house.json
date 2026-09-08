@@ -1,0 +1,48 @@
+{
+  "id": "irad-hawley-house",
+  "name": "Irad Hawley House (Salmagundi Club), 47 Fifth Avenue",
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "aka": [
+    "Salmagundi Club"
+  ],
+  "dates": {
+    "built": "1852-1853",
+    "circa": false,
+    "note": "The Salmagundi Club's Wikipedia entry says the club bought 'Irad and Sarah Hawley's 1853 Italianate-style brownstone townhouse'; Village Preservation says it 'was originally built as a mansion for railroad and coal magnate Irad Hawley in 1852-53'. The style node says 1853. Both are recorded."
+  },
+  "nodes": [
+    "italianate-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74001275",
+      "url": "https://en.wikipedia.org/wiki/New_York_Sketch_Club",
+      "title": "NRHP reference No. 74001275; added July 25, 1974; NYCL No. 0009; architectural style Italianate (as the Wikipedia infobox for the Salmagundi Club prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox on the article the search returned under the title 'Salmagundi Club', whose URL is the New York Sketch Club redirect. Not read from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://salmagundi.org/the-hawley-residence-salmagundi-club",
+      "title": "The Hawley Residence : Salmagundi Club",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. The club has occupied the house since 1917, which it bought from the estate of William G. Park for $75,000."
+    },
+    {
+      "kind": "other",
+      "url": "http://daytoninmanhattan.blogspot.com/2020/02/the-irad-hawley-house-salmagundi-club.html",
+      "title": "The Irad Hawley House (Salmagundi Club) - 47 Fifth Avenue (Daytonian in Manhattan)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States the house is 'At nearly 40-feet wide'. A blog's figure, unsourced there, recorded as prose and NOT parsed into a measurement -- 40 ft would be roughly twice the party-wall width the italianate-townhouse node is built on, so it is exactly the sort of number that must not be laundered."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. Note what this building is not: the node's whole argument is a repeated 20-to-25 ft party-wall unit producing a coherent street, and this is a single-family MANSION on Fifth Avenue reported at nearly forty feet wide. It is the type's grandest and least typical instance, which is why the cluster also carries a district record and a plain house."
+}

@@ -1,0 +1,47 @@
+{
+  "id": "hansel-and-gretel-cottages",
+  "name": "Hansel and Gretel Cottages",
+  "aka": [
+    "the Comstock doll houses"
+  ],
+  "location": {
+    "text": "Torres Street, Carmel-by-the-Sea, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1924-1925",
+    "circa": false,
+    "note": "Hansel 1924, Gretel 1925, agreed by every source read. The style node's exemplar gives 1924 for the pair and says so."
+  },
+  "nodes": [
+    "storybook-style"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.carmelgardeninn.com/carmels-fairy-tale-cottages",
+      "title": "Carmel's Fairy Tale Cottages - The Carmel Garden Inn",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carries the dated list of Comstock's buildings -- 'Hansel (1924), the original Doll House', 'Hugh Comstock House (1925) aka Obers', 'Gretel (1925)', 'Guest House (1926)', 'Tuck Box (1926)', 'Snow White's Summer Place (1926)', 'Marchen Haus house (1926)' and on to 1928 -- and records that Comstock 'designed the first Carmel Doll House' at his wife Mayotta's suggestion, built 'with unique features like pine needles in the uneven plaster'."
+    },
+    {
+      "kind": "other",
+      "url": "https://thevalemagazine.com/2018/11/27/hugh-comstock-carmel-cottages-california",
+      "title": "Hugh Comstock's Dreamy Cottages in Carmel - The Vale Magazine",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In 1924, Hugh Comstock traveled to Carmel-by-the-Sea to visit his sister and her husband. ... Even though Comstock had no practical experience, he decided to build a showroom for his wife's dolls. The storybook cottage he finally made was named \"Hansel\". His whimsical, rustic creation which was inspired by the illustrations of Arthur Rackham soon became the talk of the town.' It also states that twenty-one of Comstock's buildings still stand."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.carmelcalifornia.com/carmel-fairytale-cottages",
+      "title": "Carmel-by-the-Sea Fairytale Cottages Walking Tour",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The town's own walking tour, which numbers the Comstock and Murphy buildings and dates each; it is the surface on which 'Marchen Haus, Hugh Comstock 1926, Corner of Dolores and 11th' and 'The Hobby House, Hugh Comstock 1926, Dolores between Ocean and 7th' are located."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. TWO RECORDS NOW OVERLAP AND THE OVERLAP IS DELIBERATE AND UNRESOLVED, and it is put here rather than left for a checker to find. `precedents/hansel-cottage-carmel.json` already exists, written in the same tranche for `cotswold-cottage-revival` as its BOUNDARY case; it is named 'Hansel cottage' and covers Hansel alone. This record covers the PAIR, because storybook-style's exemplar is named 'Hansel and Gretel Cottages' and located at 'Torres Street, Carmel-by-the-Sea, California'. The two could not be merged: `check_precedents.py` requires a record's `name` to equal the exemplar's exactly on every node that names it, a record has one `name`, and the WP-11.2 protocol forbids renaming an existing exemplar because `check_assets.py` reads name and location as join keys -- so one record cannot satisfy both nodes. Neither carries an archival identity, so nothing here is a duplicate id; the normalised names differ, so the one-building-one-record name check will not raise it either. It is a decision for the sweep, and the two options are to give one of the two nodes an aliased second exemplar or to admit a per-node name on the record."
+}

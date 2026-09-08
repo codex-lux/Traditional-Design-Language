@@ -1,0 +1,210 @@
+{
+  "id": "pitot-house",
+  "name": "Pitot House",
+  "aka": [
+    "Michel-Pitot House"
+  ],
+  "location": {
+    "text": "1440 Moss Street, New Orleans, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1799",
+    "circa": false,
+    "altered": "Moved about 150 yards to 1440 Moss Street in 1964 by the Louisiana Landmarks Society, which restored it; the first-floor side portico had been enclosed and the original stair replaced before the 1964 survey (HABS LA-1116).",
+    "note": "The Louisiana Landmarks Society and neworleans.com say built 1799 on Bayou St. John by Bartholemé Bosque; the 1964 HABS report's history was not reached in the extract. HABS holds two numbers: LA-1116 for the house at 1370 Moss Street before the move, LA-1229 for it at 1440."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1116",
+      "title": "Michel-Pitot House, 1370 Moss Street (moved to 1440 Moss Street), New Orleans, Orleans Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0061/data/la0061data.pdf",
+      "note": "The data page's running head prints 'MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)'; the loc.gov item page prints the call number 'HABS LA,36-NEWOR,64-'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "habs",
+      "id": "LA-1229",
+      "title": "Pitot House, 1440 Moss Street, New Orleans, Orleans Parish, LA",
+      "url": "https://www.loc.gov/pictures/item/la0328",
+      "note": "The second survey, of the house on its present site; its data PDF (la0328) carries only the cover 'HABS No. LA-1229 REDUCED COPIES OF MEASURED DRAWINGS'. Wikipedia's external link calls it '13 measured drawings and floor plans'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0061",
+      "url": "https://www.loc.gov/pictures/item/la0061",
+      "title": "Michel-Pitot House, 1370 Moss Street (moved to 1440 Moss Street), New Orleans, Orleans Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0328",
+      "url": "https://www.loc.gov/pictures/item/la0328",
+      "title": "Pitot House, 1440 Moss Street, New Orleans, Orleans Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000360",
+      "url": "https://en.wikipedia.org/wiki/Pitot_House",
+      "title": "NRHP reference No. 71000360; added September 28, 1971 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Pitot_House",
+      "title": "Pitot House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.louisianalandmarks.org/pitot-house",
+      "title": "Pitot House — Louisiana Landmarks Society",
+      "note": "Owner. Its page calls it 'the only Creole colonial country house that is open to the public in New Orleans'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "la0061",
+    "register": "loc-item",
+    "survey_no": "LA-1116",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0061/data/la0061data.pdf",
+    "prepared": "Prepared by Samuel Wilson, Jr., FAIA, New Orleans, Louisiana, Summer 1964 (as the page reads); with a later addendum reproducing Richard Koch's photo mount cards",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: The original portion of the house is of a plan type common for the period in this region. The broad hipped roof and the colonnaded por- ticoes and balconies were also typical for southern Louisiana. 2. Condition of fabric: Fair.",
+        "page": "HABS No. LA-1116, Part II.A, page 6-7; the marker 'MICHEL-PIIOT HOUSE HABS No. IA-1116 (Page 7)' follows"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Number of stories and bays, over-all dimensions, layout: Two stories; seven bays (front) by four bays; 39!-4n x 60'-8\" over-all dimensions; rectangular shape.",
+        "page": "HABS No. LA-1116, Part II.B.1; immediately before the '(Page 7)' marker"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Probably brick.",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Solid brick masonry with stucco on first floor; brick between timber posts on second floor 1 (two sides stuccoed and two sides with modern horizontal siding). Entire exterior painted white,",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system, framing: Masonry bearing walls with wooden joists framing first and second floor ceilings. Hipped roof framed with wooden rafters (note sheet No. 4, HABS drawing for cross section indicating portion of original roof framing contained within more recent framing system). Original and recent roof sheathing is of wood.",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches: Stuccoed brick columns of first floor support second-floor porch on two sides. Second-floor porch has wooden framing, floor, and turned wooden columns. Open portico on first floor side later enclosed (see plan).",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: No chimneys appear either in attic or on roof.",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings; Windows, doorways and doors: Original windows had wooden sash, six-over-six lights, and exterior wooden louvered shutters. Second-floor windows have segmental heads. Original doors occur in pairs, with three or four lights over a wooden panel, and small glass transoms. Second-floor doors are segmental headed. All shutters are exterior.",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof; shape, covering: Hipped roof, covered with asbestos shingles and clay ridge tiles. Two dormer windows in front, one in rear. Original roof probably wooden shin- gles.",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7)"
+      },
+      {
+        "field": "plan",
+        "text": "G. Description of Interior: 1. Floor plans: Two stories, each with five rooms. Recent additions and enclosures are indicated on HABS drawings. (Note first floor where portions of original walls have been demolished). 2. Stairways: Original location of stair shown on HABS drawings. Stair that now is in use is a modern addition and is located in recently constructed enclosure.",
+        "page": "MICHEL-PITOT HOUSE HABS No. LA-1116 (Page 7-8); the '(Page 8)' marker follows"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "39!-4n x 60'-8\"",
+      "value": 39.33,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "OCR for 39'-4\"; the seven-bay front is the 60 ft side. A reading."
+    },
+    {
+      "name": "overall_width_ft",
+      "as_printed": "39!-4n x 60'-8\"",
+      "value": 60.67,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "seven bays (front) by four bays",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "side_bay_count",
+      "as_printed": "seven bays (front) by four bays",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "No chimneys appear either in attic or on roof.",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "As found in 1964, before restoration: a measured zero, not an absence of modelling."
+    },
+    {
+      "name": "window_sash_lights",
+      "as_printed": "six-over-six lights",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 7,
+      "note": "Six over six; recorded as the total per sash."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "Two dormer windows in front, one in rear",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 8
+    },
+    {
+      "name": "rooms_per_storey",
+      "as_printed": "Two stories, each with five rooms",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 9
+    }
+  ],
+  "nodes": [
+    "raised-creole-plantation"
+  ]
+}

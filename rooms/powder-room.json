@@ -85,6 +85,12 @@
     "depth_multiplier": 1.6,
     "sides_lit": 1,
     "orientation": "Any. A small obscured or high window in a powder room is worth more than the fan, because it ventilates passively, all the time, without anyone deciding to switch it on.",
+    "aspect": {
+      "applies": false,
+      "basis": "Any.",
+      "note": "The record answers \"Any\". Its own point is that a small window beats a fan, which is about ventilation rather than about which way the room faces.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.03,
       0.1

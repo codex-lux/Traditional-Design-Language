@@ -1,0 +1,46 @@
+{
+  "id": "tipton-place",
+  "name": "Tipton Place",
+  "location": {
+    "text": "Cades Cove, Great Smoky Mountains National Park, Blount County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1870s",
+    "circa": true,
+    "altered": "The National Park Service removed the framed springhouse and apple-drying house, the framed additions to the cabin and a post-1900 barn 'to maintain a sense of historical continuity and preserve a specific era of life in the cove' (NPS). The homestead now stands on 2.2 acres.",
+    "note": "The NPS place page says Colonel Hamp Tipton 'built the two-story cabin in the 1870s'; no more precise year was resolved."
+  },
+  "nodes": [
+    "appalachian-log-house"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/places/tipton-place.htm",
+      "title": "Tipton Place (U.S. National Park Service)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The park's own description of the plan, quoted in this record's note. It is prose about a building the Park Service owns, not a measured survey."
+    },
+    {
+      "kind": "other",
+      "url": "https://npshistory.com/publications/grsm/tipton-oliver-homestead-cli.pdf",
+      "title": "Tipton-Oliver Homestead, Cultural Landscapes Inventory, Great Smoky Mountains NP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Lists the contributing features by their List of Classified Structures names and numbers -- 'Tipton Oliver House MMS-181', corn crib MMS-182, smokehouse MMS-296 -- and places the homestead 'approximately two miles east of the Cable Mill'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "77000111",
+      "url": "https://en.wikipedia.org/wiki/Cades_Cove",
+      "title": "Cades Cove Historic District, NRHP reference No. 77000111 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing, not an individual one."
+    }
+  ],
+  "note": "Carried for the PLAN rather than for the fabric, and the NPS description is the reason: 'The lefthand door on the front of the house leads into the living room with three paned windows and a fireplace. To the left of the fireplace are stairs to the sleeping loft on the second floor. The righthand door leads into the main bedroom, which has two, small paned windows. The back room of the house was once the kitchen.' Two front doors on a two-storey log house, one per pen, with the loft stair inside one of them -- the double-pen move of the node's own expansion grammar, drawn from life. No survey: HABS did not record this house."
+}

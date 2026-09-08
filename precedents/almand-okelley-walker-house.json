@@ -1,0 +1,37 @@
+{
+  "id": "almand-okelley-walker-house",
+  "name": "Almand-O'Kelley-Walker House",
+  "location": {
+    "text": "Conyers, Georgia",
+    "country": "United States",
+    "state": "Georgia"
+  },
+  "dates": {
+    "built": "1870",
+    "circa": false,
+    "note": "The nomination says twice: 'The Almand-O'Kelley-Walker House was built in the City of Conyers in 1870' and 'At the time, ca. 1870, when the house was built'. Its own two sentences differ by a 'ca.'; recorded as 1870."
+  },
+  "nodes": [
+    "folk-victorian"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "97001647",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/97001647_text",
+      "title": "Almand-O'Kelley-Walker House, Rockdale County, Georgia -- National Register of Historic Places Registration Form",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The reference number is the asset's own path segment on NPGallery, read off a URL that was actually fetched; the National Register's database was not opened. Its significance section: 'The Almand-O'Kelley-Walker House is significant in architecture because it is a good and very intact example of a Reconstruction-era Folk Victorian-style Cottage with a large amount of original exterior and interior materials surviving. Among these are the wrap-around porch and its chamfered columns with decorative brackets, as well as decorative brackets in the end gables and at the roof line. On the interior there are six original fireplaces, four original chimneys, and original floors, high ceilings and plaster walls. The original room configuration survives also.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NRHP/97001647_text",
+      "title": "Georgia's own definition of the type, as the same nomination states it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Quoted because it is a state preservation office defining the node's own subject: 'However, the Folk Victorian house is so common and widespread that it demands a category of its own. The style was very common in all parts of the state, both urban and rural, from the 1870s to the 1910s. The basis for a Folk Victorian house is a folk house type, such as a gabled ell, central hallway, or l-house. Decorative details are added to the house on the porch, in the gables, and around the window and door openings. These details are usually turned or jigsawn woodwork such as brackets, spindle work, turned porch posts, and other bric-a-brac and gingerbread.'"
+    }
+  ],
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. NO HABS SURVEY. THE MOST USEFUL THING IN THIS RECORD IS A ROOM SCHEDULE AND IT IS DELIBERATELY NOT IN `measurements`: the nomination reproduces a floor plan drawn by the owner in 1994, marked 'Scale: Not to scale', whose room labels read LIVING ROOM 24X14, FAMILY ROOM 15X17, BEDROOM 15X15, BEDROOM 15X13, BEDROOM 15X12.5, KITCHEN 12X12, SITTING ROOM 7X15, LIBRARY 4X14, PANTRY 12X4, and HALL 9' WIDE. Those are the only room dimensions any source in this cluster gives, and they belong in a survey block that this schema reserves for HABS written data, so they are recorded here in prose. A nine-foot central hall and a 24 x 14 ft living room in an 1870 Georgia cottage is a figure a later pass could hold `rooms/passage.json` and `rooms/parlor.json` against -- from an owner's undimensioned sketch, which is why nobody should hold anything against it yet. No rights line: NPGallery prints none."
+}

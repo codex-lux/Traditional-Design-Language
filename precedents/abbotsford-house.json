@@ -1,0 +1,97 @@
+{
+  "id": "abbotsford-house",
+  "name": "Abbotsford House",
+  "location": {
+    "text": "Melrose, Scottish Borders, Scotland",
+    "country": "Scotland",
+    "state": "Scottish Borders"
+  },
+  "dates": {
+    "built": "1816-18 and 1822-24",
+    "circa": false,
+    "altered": "'William Burn, 1850-5 additions (possibly including earlier fabric) to SW' -- a two-storey courtyard wing with a secondary entrance and an oriel, in a Tudor style the record distinguishes from the Baronial of the earlier work. Gate lodge and boundary wall dated 1858.",
+    "note": "The HES record gives the house two build campaigns, 1816-18 and 1822-24; the node's exemplar prints 'Built 1817-24' with a year of 1824, and the Wikipedia infobox prints 'Renovated 1817-1825'. Three spans, all recorded, none resolved. The record names TWO architects for the early work, 'William Atkinson and Edward Blore', where the node names Atkinson alone."
+  },
+  "nodes": [
+    "scottish-baronial",
+    "british-picturesque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-scotland",
+      "id": "LB15104",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB15104",
+      "title": "ABBOTSFORD INCLUDING HOUSE, WALLED GARDENS AND COURTYARDS, CONSERVATORY, BOTHIES, GAME LARDER, ICE HOUSE, TERRACES, GATE LODGE, BOUNDARY WALLS, GARDENER'S COTTAGE, STABLE BLOCK, GARDEN STATUARY AND ALL OTHER ANCILLARY STRUCTURES (LB15104)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Category A. The statutory address is a GROUP listing covering the house and every ancillary structure; this precedent record is the HOUSE, and the record's own description separates it from the gate lodge and the stable block. The direct portal path /designation/LB15104 could not be fetched from this container and the apex path above could, with the colons unencoded."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Abbotsford,_Scottish_Borders",
+      "title": "Abbotsford, Scottish Borders - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its infobox prints 'Reference no. LB15104' and 'Designated 16 March 1971', and its citation names the listing as 'Category A Listed Building LB15104'. This is how the reference was found; the description below was then read on HES's own record."
+    },
+    {
+      "kind": "historic-scotland",
+      "id": "GDL00001",
+      "url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,GDL00001",
+      "title": "Abbotsford (GDL00001)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Inventory of Gardens and Designed Landscapes entry for the setting, cited on the Wikipedia article. A different designation over the same place; not read by extract."
+    }
+  ],
+  "survey": {
+    "item": "LB15104",
+    "register": "historic-scotland",
+    "data_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB15104",
+    "prepared": "Category A. The Wikipedia infobox gives 'Designated 16 March 1971'; no listing date was returned inside the extracted spans of the HES record itself, so the date is carried on the reference that printed it and not asserted here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "William Atkinson and Edward Blore 1816-18 and 1822-24; William Burn, 1850-5 additions (possibly including earlier fabric) to SW. Predominantly 2-storey, basement and attic with 2-storey courtyard wing to SW. Irregular-plan Baronial Revival country house with 1855 Tudor-style additions: central 1816-18 crowstep-gabled section with square tower; large 1822-4 wing to NE with entrance porch, crowstepped gables, corner tower, machicolation, bartizans, balconies and dormers; 1855 courtyard wing to SW with secondary entrance and oriel window to SE elevation.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "materials",
+        "text": "Squared, coursed sandstone with sandstone ashlar dressings; sandstone ashlar to 1855 chapel and entrance block. Base course, intermittent eaves course, parapet. Long and short quoins and window margins; hoodmoulds to most ground and 1st floor windows; predominantly bipartite and tripartite windows; stone mullions to 1855 additions; timber mullions to earlier parts. Fenestration arranged in bays.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      },
+      {
+        "field": "significance",
+        "text": "Abbotsford is one of the most important 19th century buildings in Scotland. It was built for Sir Walter Scott, one of Scotland's greatest authors, and has great architectural and historical importance as it was the first Baronial Revival house where a conscious effort was made to re-create an authentic Scottish castle, using vernacular details (such as crowstepped gables), elements copied from earlier buildings (for example the entrance porch is based on the entrance to Linlithgow Palace), and pieces of old stonework and other fixtures from earlier buildings that were being demolished at that time (the door at 1st-floor level on the SW return of the 1822 entrance block was the Gaol door from the old Edinburgh Tolbooth, which was demolished in 1817).",
+        "page": "Listed building record, NOTES / Statement of Special Interest section. An HES designation record is not paginated."
+      },
+      {
+        "field": "dependencies",
+        "text": "GATE LODGE AND BOUNDARY WALL: Probably William Burn or John Smith of Darnick, dated 1858. 2-storey, roughly T-plan gate lodge with projecting crowstepped gables to NE, SE and SW elevations, and lean-to addition to NW elevation. Roughly coursed rubble with sandstone ashlar dressings.",
+        "page": "Listed building record, Description section. An HES designation record is not paginated and carries no HABS-style outline numbering; the section heading is the marker."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Predominantly 2-storey, basement and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "'Predominantly' is the register hedging its own figure on an irregular-plan house; the value is carried with that word in the printed string."
+    },
+    {
+      "name": "gate_lodge_storey_count",
+      "as_printed": "2-storey, roughly T-plan gate lodge",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "rights_evidence": "The legal part of the listing is the address/name of site which is known as the statutory address. Other than the name or address of a listed building, further details are provided for information purposes only. Historic Environment Scotland does not accept any liability for any loss or damage suffered as a consequence of inaccuracies in the information provided.",
+  "rights_evidence_url": "https://portal.historicenvironment.scot/apex/f?p=1505:300:::::VIEWTYPE,VIEWREF:designation,LB15104",
+  "note": "Tranche 3, the Elizabethan and Jacobean prodigy house and the Scots tower, 5 Sep 2026. Extracted twice with different queries: the first pass returned the description and the gate lodge, the second the materials paragraph and the statement of special interest. Hard line breaks inside the quoted spans have been collapsed to single spaces and nothing else was changed. HES'S OWN JUDGMENT IS THE ONE THE NODE RESTS ON and it is quoted here in full rather than paraphrased: 'the first Baronial Revival house where a conscious effort was made to re-create an authentic Scottish castle'. Two things qualify the node: the record names Edward Blore beside Atkinson, and it describes the 1855 additions as TUDOR rather than Baronial, so the building the node calls the founding case of the style is, by its own designation, partly not in it."
+}

@@ -1,0 +1,130 @@
+{
+  "id": "bramshill-house",
+  "name": "Bramshill House",
+  "location": {
+    "text": "Bramshill, Hampshire, England",
+    "country": "England",
+    "state": "Bramshill, Hart, Hampshire"
+  },
+  "dates": {
+    "built": "1605-1612",
+    "circa": false,
+    "altered": "The entrance front's flanking wings are dated 1703 by the entry. Sash windows have been introduced at ground-floor level on the west elevation.",
+    "note": "THE REGISTER DISAGREES WITH ITSELF: the listing 1340025 prints '1605-1612' and Historic England's own Parks and Gardens entry 1000165 prints 'The house was built between 1605 and 1625 by Lord Zouche'. Both are recorded; neither is changed."
+  },
+  "nodes": [
+    "jacobean"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1340025",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1340025",
+      "title": "Bramshill House - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Overview block prints 'List Entry Number: 1340025' and 'Date first listed: 08-Jul-1952'. 'Listing NGR: SP7589159641'; 'Legacy System number: 136386', 'Legacy System: LBS'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000165",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000165",
+      "title": "Bramshill Park, Bramshill - 1000165 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, 'Date first listed: 31-May-1984', 'Date of most recent amendment: 27-Sept-2017'. It cross-refers to the house as '(listed Grade I, NHLE: 1340025)' and is the source of the 1605-1625 span recorded in dates.note."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1091938",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1091938",
+      "title": "Gateway to Bramshill House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The separately listed Grade I gateway on the axis of the north front, described in a Wessex Archaeology walkover survey read in search as 'Early 17th century... A triple-arched design in stone.'"
+    }
+  ],
+  "survey": {
+    "item": "1340025",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1340025",
+    "prepared": "Date first listed: 08-Jul-1952 (the entry prints no amendment date)",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1605-1612. A great Jacobean palace, having symmetrical elevations facing outwards but with a narrow interior court; the long east and west sides end in projecting wings. 2 storeys to north and east, 3 to the south and 3 above cellars to the west, all arranged below a single roof line. Red tile roofing, generally hipped but with large gables on the west side; grouped diagonal flues on rectangular chimney stacks. Walling is in red brickwork (English bond) with stone dressings, including a pierced stone balustrade parapet on the 3 main fronts, weathering bands, mullion and transom windows, arcaded openings to each end of the eastern terrace and an elaborate entrance feature.",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "porches",
+        "text": "The entrance (south) front of 3 storeys has flanking wings of 3 windows (of 1703), a recessed centre of 2 steps (each of 1 window) and projecting porch of 3 storeys in stone. This is surmounted by a circle framing Prince of Wales feathers and a crown; below this the 3 levels are marked by an Orderly Treatment with coupled pila- sters on each side, a pilaster between round-headed windows at the 2nd floor, an oriel at the 1st floor, and at the ground floor an arched entrance flanked by arched pavilions (in line with the porch and forward of the recesses).",
+        "page": "Official list entry, Details. The entry is in the legacy continuous-prose format, which carries no MATERIALS/PLAN/EXTERIOR headings and no page numbering; this is the span the first extract returned."
+      },
+      {
+        "field": "bays",
+        "text": "The east front has 4 full-height angular bays with 2 windows between, the upper side walls of each wing are blank above 2 arches framed within a rectangular panel (and treated with classical details), the wings also have full-height bays.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "bays",
+        "text": "The north front has 3 angular bays widely spaced, with 1 window between each, above the centre is a Dutch gable with a figure in a niche, flanked by small obelisks. The ground floor of the centre bay is an arched doorway. The west elevation has continuous gables, and there are sash windows at the ground floor (above cellar) level.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      },
+      {
+        "field": "plan",
+        "text": "Within, the house is notable for the rich period decoration of its principal rooms, which include a long gallery, a great drawing room, a chapel (former chapel) drawing room, a dining room, staircase, bedrooms and entrance hall.",
+        "page": "Official list entry, Details, continuation of the same description. No section heading and no page marker: a list entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2 storeys to north and east, 3 to the south and 3 above cellars to the west, all arranged below a single roof line",
+      "from_quote": 0,
+      "note": "No single value is parsed. The register states a different storey count on each of the four fronts of one block, held under one eaves line -- a fact about a house on a falling site, and the reason a scalar storey_count would be a false reading here."
+    },
+    {
+      "name": "porch_storey_count",
+      "as_printed": "projecting porch of 3 storeys in stone",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "porch_stage_count",
+      "as_printed": "the 3 levels are marked by an Orderly Treatment with coupled pila- sters on each side",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The OCR of the register's own page breaks 'pilasters' across a hyphen; the string is carried as printed."
+    },
+    {
+      "name": "bay_count_east_front",
+      "as_printed": "The east front has 4 full-height angular bays with 2 windows between",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "bay_count_north_front",
+      "as_printed": "The north front has 3 angular bays widely spaced, with 1 window between each",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "shaped_gable_count_north_front",
+      "as_printed": "above the centre is a Dutch gable with a figure in a niche, flanked by small obelisks",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "ONE Dutch gable, centred, on a front the same sentence describes as otherwise made of three widely spaced angular bays. This is the case jacobean.c01 calls a Victorian move, on a house of 1605-1612 the register calls 'A great Jacobean palace'."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1340025",
+  "note": "Tranche 3, 5 Sep 2026, and a NEW exemplar. Extracted twice: the first pass returned the north front, the west elevation and the interior list, the second the general description, the entrance front and the Overview and Legacy blocks. Line breaks collapsed to single spaces. IT IS HERE BECAUSE IT FALSIFIES A HARD CONSTRAINT jacobean STATES, which is worth more to the corpus than another house that obeys it: the north front carries a single central Dutch gable, and jacobean.c01 says at hard severity that a single shaped gable on an otherwise plain front is a Victorian move. The record also gives the node's brick rule its bond -- 'red brickwork (English bond) with stone dressings' -- which no other entry in this cluster names."
+}

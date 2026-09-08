@@ -1,0 +1,52 @@
+{
+  "id": "palazzo-strozzi",
+  "name": "Palazzo Strozzi",
+  "location": {
+    "text": "Piazza Strozzi, Florence, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "begun 6 August 1489",
+    "circa": false,
+    "note": "The Fondazione's own history page gives the start to the day. It names 'Giuliano da Sangallo e Simone del Pollaiolo detto il Cronaca' as the architects of record and does NOT name Benedetto da Maiano, to whom the design is usually given; the disagreement is recorded and not resolved."
+  },
+  "nodes": [
+    "italian-renaissance"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.palazzostrozzi.org/storia-palazzo-strozzi",
+      "title": "Storia di Palazzo Strozzi - Fondazione Palazzo Strozzi",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Fondazione Palazzo Strozzi occupies the building; the page records that since 2024 the palace itself belongs to the Comune di Firenze under the cultural-federalism procedure."
+    },
+    {
+      "kind": "unesco",
+      "id": "174",
+      "url": "https://whc.unesco.org/en/list/174",
+      "title": "Historic Centre of Florence - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Inside the inscribed property, not a separate inscription. The Wikipedia list article read the same day prints the reference as '174bis' and the inscription as '1982 (6th Session)' with a 2015 extension; the list URL itself carries 174."
+    }
+  ],
+  "survey": {
+    "item": "storia-palazzo-strozzi",
+    "register": "other",
+    "data_url": "https://www.palazzostrozzi.org/storia-palazzo-strozzi",
+    "prepared": "Fondazione Palazzo Strozzi, 'Storia di Palazzo Strozzi'; no author line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "La costruzione di Palazzo Strozzi iniziò il 6 agosto 1489, all’alba, sotto il segno del Leone, dopo un lungo processo di acquisizione dei lotti “nel più comodo e più bel sito della città”, all’incrocio tra le attuali via Tornabuoni e via Strozzi. Il cantiere, documentato nei Libri della muraglia, coinvolse architetti di primo piano come Giuliano da Sangallo e Simone del Pollaiolo detto il Cronaca, che definirono un progetto esemplare di dimora signorile rinascimentale.",
+        "page": "Fondazione Palazzo Strozzi, 'Storia di Palazzo Strozzi', 'Il Palazzo rinascimentale' section, opening paragraph"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche. NO DIMENSION AND NO ELEVATION DESCRIPTION was found in the building's own institutional text -- the Fondazione's history is about the family, the site purchase and the Libri della muraglia, which is a documentary richness of a kind this corpus has no field for. The famous unfinished cornice is described in a scholarly PDF read in a search result and is deliberately not quoted here."
+}

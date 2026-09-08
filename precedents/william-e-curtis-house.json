@@ -1,0 +1,37 @@
+{
+  "id": "william-e-curtis-house",
+  "name": "William E. Curtis House",
+  "location": {
+    "text": "808 East Curtis Street, Seminole Heights, Tampa, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "c. 1905-1906",
+    "circa": true,
+    "note": "Wikipedia: 'Built around 1905 - 1906, the house is one of the oldest residential' buildings in the area; the node's exemplar year of 1906 is kept. Listed on the National Register 27 August 1987.",
+    "altered": "The nomination: the east porch shown in photographs of about 1907 'was enlarged in the 1920s and enclosed to make a \"sun porch\"'; the kitchen lean-to was enlarged with a breakfast room and a first-floor bathroom 'sometime in the 1920s'; a rear screened porch was added at the same time; the wood shingle roof was replaced with composition shingles in the 1920s."
+  },
+  "nodes": [
+    "dutch-colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/5eaaa6a1-bf9d-426a-a452-aff10a7ef81c",
+      "title": "National Register of Historic Places Inventory - Nomination Form (the scanned nomination for the Curtis House, Tampa, Florida)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE DESCRIPTION VERBATIM, and the reason this record exists: 'The Curtis House is a Colonial Revival style two-story, wood frame structure with a gambrel roof. The plan of the original house was almost square with a central hall flanked by rooms of equal size (about 12 ft. X 20 ft.) on both floors. ... The interior brick chimney is }ust off.center to the lett. The Itreet facade is symmetrically arranged with three bays. The house rests on brick piers and is clad with drop siding. The main (south) facade features a centered, projecting one-story porch with a flat roof. The Tuscan columns which support the roof were originally spaced across the front.' And on the roof: 'The qambrel roof of the Dutch Colonial Revival style house features three dormers. The central dormer is gabled, while those flanking it are shed roofed.' A National Register nomination and not a Historic American Buildings Survey, so it is carried here and NOT in a `survey` block."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/William_E._Curtis_House",
+      "title": "William E. Curtis House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'On August 27, 1987, it was added to the U.S. National Register of Historic Places. Built around 1905 - 1906, the house is one of the oldest residential' buildings in the area. NO EIGHT-DIGIT REFERENCE NUMBER was read from any source opened here, so no `nrhp` id is recorded."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. THIS RECORD CONTRADICTS THE NODE'S PROSE ON ITS CENTRAL CLAIM, and it is worth stating plainly. The node says the revival house is defined by 'the lower slope pierced by a long shed dormer or a row of gabled ones' and calls the '24-foot shed dormer' the revival's characteristic falsification of the Dutch roof. The nomination describes THREE separate dormers, the middle one gabled and the two flanking it shed-roofed -- neither a full-width shed nor a row of gables, but a hybrid, on a house the node itself names as its example of the style travelling. Two other figures worth keeping: the rooms are 'about 12 ft. X 20 ft.' each side of a central hall, and the chimney is INTERIOR and off centre."
+}

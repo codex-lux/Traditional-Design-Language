@@ -191,25 +191,55 @@
       "name": "Chateau de Maisons (Maisons-Laffitte)",
       "location": "Maisons-Laffitte, Yvelines, France",
       "year": 1630,
-      "note": "Francois Mansart, 1630-1651. The purest statement of the style before Versailles: three pavilions, a flat wall, superimposed correct orders, and stone cut to a tolerance that has never been bettered in France."
+      "note": "Francois Mansart, 1630-1651. The purest statement of the style before Versailles: three pavilions, a flat wall, superimposed correct orders, and stone cut to a tolerance that has never been bettered in France.",
+      "precedent": "chateau-de-maisons",
+      "standing": "canonical",
+      "why": "The corpus's own type specimen for the style before Versailles, and the one building in this node whose register entry states real fabric - calcaire and pierre de taille under slate, a symmetrical U plan, one full storey and two attic storeys - though it dates the work to the third quarter of the century, not the corpus's 1630."
     },
     {
       "name": "Chateau de Vaux-le-Vicomte",
       "location": "Maincy, Seine-et-Marne, France",
       "year": 1658,
-      "note": "Built 1658-1661 for Nicolas Fouquet; Louis Le Vau architect, Charles Le Brun decorator, Andre Le Notre gardens. The first complete integration of building, interior and landscape on one axis - and the template Louis XIV then took to Versailles by hiring the same three men."
+      "note": "Built 1658-1661 for Nicolas Fouquet; Louis Le Vau architect, Charles Le Brun decorator, Andre Le Notre gardens. The first complete integration of building, interior and landscape on one axis - and the template Louis XIV then took to Versailles by hiring the same three men.",
+      "precedent": "vaux-le-vicomte",
+      "standing": "icon",
+      "why": "The building this node's own prose walks up to along the axis, and the judgment is the corpus's alone: the Mérimée notice names Fouquet, Le Vau, Le Brun and Le Nôtre and describes no part of the architecture."
     },
     {
       "name": "Louvre east front (Colonnade)",
       "location": "Paris, France",
       "year": 1667,
-      "note": "1667-1674; Claude Perrault with Louis Le Vau and Charles Le Brun, after Bernini's Roman Baroque scheme was rejected in 1665. Coupled Corinthian columns on a rusticated base - the manifesto of the flat French wall."
+      "note": "1667-1674; Claude Perrault with Louis Le Vau and Charles Le Brun, after Bernini's Roman Baroque scheme was rejected in 1665. Coupled Corinthian columns on a rusticated base - the manifesto of the flat French wall.",
+      "precedent": "louvre-colonnade",
+      "standing": "icon",
+      "why": "This corpus's judgment that Perrault's east front is the manifesto of the flat French wall; no heritage-register entry read here describes the front at all, so the standing rests on the corpus and the 183 m length rests on an encyclopedia."
     },
     {
       "name": "Palace of Versailles, garden front",
       "location": "Versailles, Yvelines, France",
       "year": 1678,
-      "note": "Le Vau's envelope 1668-1670, extended by Jules Hardouin-Mansart from 1678; Galerie des Glaces 1678-1684. Roughly 400 m of facade held to a single three-part vertical division."
+      "note": "Le Vau's envelope 1668-1670, extended by Jules Hardouin-Mansart from 1678; Galerie des Glaces 1678-1684. Roughly 400 m of facade held to a single three-part vertical division.",
+      "precedent": "versailles-garden-front",
+      "standing": "icon",
+      "why": "The style at full size and as an instrument of state, on this corpus's reading; the domaine national notice names five authors, gives two centuries and states nothing about the front, so the 400 m the node quotes is unsourced here."
+    },
+    {
+      "name": "Eglise du Dome, Hotel des Invalides",
+      "location": "Paris, France",
+      "year": 1677,
+      "note": "Jules Hardouin-Mansart's domed church at the south end of Liberal Bruant's hospital. fr.wikipedia gives the Hotel 1670-1679 and the dome 107 m to its summit; a Google Arts and Culture page for the church gives 'Between 1677 and 1706'. The Merimee notice gives centuries only and names both architects.",
+      "precedent": "dome-des-invalides",
+      "standing": "icon",
+      "why": "The Parisian dome the style is known by, on this corpus's judgment; the register describes it only by enumerating which parts of the Hotel are classed, and states no dimension, no order and nothing about the dome itself."
+    },
+    {
+      "name": "Val-de-Grace",
+      "location": "Paris, France",
+      "year": 1645,
+      "note": "Begun for Anne of Austria, designed by Francois Mansart and carried out by Jacques Lemercier, with Pierre Le Muet and Gabriel Le Duc after them; the Merimee notice gives campaign years 1623, 1645, 1655 and 1666. The middle term between the Sorbonne church and the Dome des Invalides.",
+      "precedent": "val-de-grace",
+      "standing": "documentary",
+      "why": "Carried to locate the Parisian domed-church sequence this node's account of the Invalides depends on, and documentary rather than canonical because the register gives four campaign years and six names and no architecture at all - it is useful to find and not yet to measure."
     }
   ],
   "sources": [

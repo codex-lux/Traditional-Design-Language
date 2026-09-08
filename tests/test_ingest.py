@@ -206,7 +206,12 @@ def test_provenance_validates_and_gates_method():
     # `plan_check`'s `rooms_unplaced` and `geometry`'s block sizing blind to it BY CONSTRUCTION
     # rather than by six more readers being taught. IT CAUGHT THE BUMP A SEVENTH TIME, again in
     # the full suite and again after every checker had already been run green.
-    assert schema["version"] == "0.9.0"
+    # 0.10.0 (the merge of the two Phase 11s, 8 Sep 2026): a version bump and not a field.
+    # Both branches edited this schema -- one to 0.9.0 (`wet_stack_with`, `appendages`), the
+    # other to 0.7.0 (`block`/`hyphen`, `footprint.wall`, `parti`) -- and the merged schema
+    # carries every one of those fields, so it is neither. THIS TRIPWIRE HAS NOW CAUGHT A
+    # SCHEMA CHANGE EIGHT TIMES and this is the first where the change was a merge.
+    assert schema["version"] == "0.10.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

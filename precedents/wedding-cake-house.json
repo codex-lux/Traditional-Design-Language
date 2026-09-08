@@ -1,0 +1,135 @@
+{
+  "id": "wedding-cake-house",
+  "name": "Wedding Cake House (George W. Bourne House)",
+  "aka": [
+    "The Wedding Cake House",
+    "Bourne, George W., House"
+  ],
+  "location": {
+    "text": "Kennebunk, Maine",
+    "country": "United States",
+    "state": "Maine"
+  },
+  "dates": {
+    "built": "1826-1829",
+    "circa": false,
+    "altered": "1855",
+    "note": "The Library's item record prints '1826- 1829 Initial Construction' and '1855 Subsequent Work', and its significance note says 'The conventional late Federal style brick house was built in 1826 for George W. Bourne, a shipbuilder at a Kennebunk River shipyard. In 1855, Bourne designed and added the elaborate Gothic Revival trim.' The Wikipedia infobox instead prints 'Construction started 1825, 1852' and 'Completed 1825, 1856', and the article says the barn burned in 1852 and was rebuilt in the Gothic manner. Both are recorded; neither is resolved. The node's exemplar carries 1855, the date of the Gothic work, because that is the event the style node is about."
+  },
+  "nodes": [
+    "carpenter-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "ME-74",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0169/data/me0169data.pdf",
+      "title": "\"The Wedding Cake House\" (Bourne, George W., House), 104 Summer Street, Kennebunk, York County, ME",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('\"THE WEDDING CAKE HOUSE\" (Bourne, George W., House) HABS No. ME-74 (Page 3)'), OCR'd once as 'HABS No. ME-7 1' on the cover and once as 'HABS No. HE-74' on the photogrammetric sheet. The Library's item record confirms 'HABS ME-74'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "me0169",
+      "url": "https://www.loc.gov/pictures/item/me0169/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wedding_Cake_House_(Kennebunk,_Maine)",
+      "title": "Wedding Cake House (Kennebunk, Maine) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its infobox gives the style as 'Federal with Carpenter Gothic trim' and the structural system as 'two-story brick house (painted yellow) with wooden trim, attached wooden shed and barn'. No National Register listing appears for the house itself; none was found and none is recorded."
+    }
+  ],
+  "survey": {
+    "item": "me0169",
+    "register": "loc-item",
+    "survey_no": "ME-74",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0169/data/me0169data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "Location: 104 Sunmer Street (State Rte. 35), north side, approximately 1.2 miles east of Main Street (U.S. Rte. 1), Kennebunk, York County, Maine.",
+        "page": "HABS No. ME-74, cover sheet; no numbered page marker was legible in this extract span"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Overall dimensions: Dimensions undetermined. Five-bay front is approximately 35'-40' wide. Main block is rectangular, two stories, with two-story rear ell. One-and-a-half story wing runs east from rear ell to connect house with two-story rectangular barn.",
+        "page": "HABS No. ME-74, Part II.B.1; no page marker was legible inside this span -- the nearest marker printed in the extract, '\"THE WEDDING CAKE HOUSE\" (Bourne, George W., House) HABS No. ME-74 (Page 3)', heads the span that follows it, so this text is on page 2"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Granite blocks.",
+        "page": "HABS No. ME-74, Part II.B.2; same span as the dimensions, so on page 2 by the same reading"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Brick main block; rear ell, connecting wing, and barn are frame, clapboarded except for front and sides of barn and front of wing, which are sheathed in board and batten cladding.",
+        "page": "HABS No. ME-74, Part II.B.3; same span as the dimensions, so on page 2 by the same reading"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches: Front entrance was sheltered by arched lattice- work metal-roofed canopy fronted by pinnacled buttresses H^ supporting elaborate ogee arch",
+        "page": "HABS No. ME-74 (Page 3)"
+      },
+      {
+        "field": "dormers",
+        "text": "c. Dormers, cupolas, towers: None",
+        "page": "HABS No. ME-74 (Page 3)"
+      },
+      {
+        "field": "other",
+        "text": "9. Decorative features and trim.; Front and sides of main M£ block are ornamented by wooden corner buttresses, set at IU-KE/vfl$V forty-five degree angle, with paneled offsets and crocketed",
+        "page": "HABS No. ME-74 (Page 4)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "front_width_ft",
+      "as_printed": "approximately 35'-40' wide",
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "A band, and the same sentence opens 'Dimensions undetermined.' No single value is parsed; this is the survey declining to measure, recorded as such."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "Five-bay front",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Main block is rectangular, two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "c. Dormers, cupolas, towers: None",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "A measured zero: the survey states there are none. Not an absent measurement."
+    },
+    {
+      "name": "corner_buttress_angle_deg",
+      "as_printed": "forty-five degree angle",
+      "value": 45,
+      "unit": "deg",
+      "from_quote": 6
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/me0169/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Added to carpenter-gothic as the sharpest specimen of that node's own thesis -- the survey records a brick Federal main block and puts every Gothic thing on the outer inch of it. The data page was extracted twice with different queries; the second pass returned the cover, the porch and the decorative trim, which the first did not. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

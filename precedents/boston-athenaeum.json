@@ -1,0 +1,48 @@
+{
+  "id": "boston-athenaeum",
+  "name": "Boston Athenaeum, 10 1/2 Beacon Street",
+  "location": {
+    "text": "Boston, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "aka": [
+    "Boston Athenæum"
+  ],
+  "dates": {
+    "built": "1847-1849",
+    "circa": false,
+    "altered": "The Athenaeum's own history states: 'The fourth and fifth floors were added in 1913-1914 in a major renovation designed by Henry Forbes Bigelow.' The style node's exemplar says 'enlarged 1913-14 by Bigelow and Wadsworth'; the institution names Bigelow alone. Both are recorded."
+  },
+  "nodes": [
+    "renaissance-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "nhl",
+      "id": "66000132",
+      "url": "https://en.wikipedia.org/wiki/Boston_Athen%C3%A6um",
+      "title": "NRHP reference No. 66000132; added October 15, 1966; designated NHL December 21, 1965; part of the Beacon Hill Historic District (ID66000130); architectural style Neoclassical, Renaissance Revival (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://bostonathenaeum.org/about",
+      "title": "About - Boston Athenaeum",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. States: 'Construction on the Athenaeum's present home on Beacon Street began in 1847. Designed by Edward Clarke Cabot, the building opened in 1849, with a sculpture gallery on the first floor, the book collection on the second, and a painting gallery on the skylit third floor.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Boston_Athen%C3%A6um",
+      "title": "Boston Athenæum - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'In 1849, the Athenæum opened in its current location at 10½ Beacon Street. It was the first space designed for the Boston Athenæum's specific needs. The first floor held the sculpture gallery; the second, the library; and the third, the paintings gallery.'"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The one useful thing both the owner and the encyclopaedia state independently is the SECTION, floor by floor: sculpture on the ground, books on the second, paintings under a skylight on the third. That is a piano nobile named by its use rather than by its height, and it is the second precedent in this node (with the Athenaeum of Philadelphia) to put the principal room on the second floor. Two storeys were added on top in 1913-14, so the present building's proportion is not the 1849 building's."
+}

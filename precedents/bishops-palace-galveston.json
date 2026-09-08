@@ -1,0 +1,156 @@
+{
+  "id": "bishops-palace-galveston",
+  "name": "Bishop's Palace",
+  "aka": [
+    "Colonel Walter Gresham House",
+    "Gresham's Castle",
+    "1892 Bishop's Palace"
+  ],
+  "location": {
+    "text": "1402 Broadway, Galveston, Texas",
+    "country": "United States",
+    "state": "Texas"
+  },
+  "dates": {
+    "built": "1887-1892",
+    "circa": false,
+    "altered": "Bought by the Roman Catholic Diocese of Galveston in 1923 and used as the bishop's residence, hence the name; a museum from the 1950s; acquired by the Galveston Historical Foundation in 2013.",
+    "note": "THREE BUILD PERIODS ARE ON THE RECORD. The Wikipedia infobox gives '1887-1892'; the Texas State Historical Association's entry on the architect gives 'the Gresham House, Galveston, also known as the Bishop's Palace (1885-92)'; Humanities Texas says 'built from 1886 to 1892'. All three agree on 1892 and none of them is corrected here."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TX-2103",
+      "title": "Colonel Walter Gresham House, 1402 Broadway, Galveston, Galveston County, TX",
+      "url": "https://www.loc.gov/pictures/item/tx0074",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's item page carries 'Survey number: HABS TX-2103' and the line 'Nicholas Clayton, the architect, was Texas' outstanding professional during that period.' The survey number is also printed in the data page's own running header, read by extract the same day ('COLONEL WALTER GRESHAM HOUSE (Bishop's Palace) EABS No. TX-2103' on the cover, where 'EABS' is OCR, and 'HABS No. TX-2103 (Page 5)' as a running header)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tx0074",
+      "url": "https://www.loc.gov/pictures/item/tx0074",
+      "title": "Colonel Walter Gresham House, 1402 Broadway ... | Library of Congress",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000746",
+      "url": "https://en.wikipedia.org/wiki/Bishop%27s_Palace_(Galveston,_Texas)",
+      "title": "Bishop's Palace; NRHP reference No. 70000746, added August 25, 1970; RTHL No. 139 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "An INDIVIDUAL listing, 70000746. The same infobox also records the building as part of the East End Historic Dist. of Galveston, ID 75001979, which is a separate group listing and is deliberately not written as a ref here: a group reference names many buildings and is not an identity for one. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.jkoa.net/bishops-palace",
+      "title": "Bishop's Palace -- Joseph K. Oppermann-Architect, P.A.",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The restoration architect's own account, and the one that gives this record its place on this node: 'Lavishly designed in the Chateauesque style by Nicholas J. Clayton, a leading Southern architect of the late nineteenth century, the Bishop's Palace of Galveston is recognized as one of the finest residences in Texas.' It also records that laser scanning was used 'to first map the complex contours of the richly detailed building', so a modern measured record exists and is not public."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.tshaonline.org/handbook/entries/clayton-nicholas-joseph",
+      "title": "Clayton, Nicholas Joseph | Handbook of Texas (Texas State Historical Association)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Clayton was a High Victorian architect. His buildings were exuberant in shape, color, texture, and detail. He excelled at decorative brick and iron work. His High Victorian predilections were evident not only in his buildings of the 1870s, but in those influenced by the Queen Anne movement of the 1880s, the Richardsonian Romanesque movement of the late 1880s and 1890s, and the revival of Renaissance classicism after 1890.' The state's own reference work does not use the word Chateauesque of this building."
+    }
+  ],
+  "survey": {
+    "item": "tx0074",
+    "register": "loc-item",
+    "survey_no": "TX-2103",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tx/tx0000/tx0074/data/tx0074data.pdf",
+    "prepared": "The cover sheet reads 'PHOTOGRAPHS & HISTORICAL AND DESCRIPTIVE DATA / Historic American Buildings Survey / Heritage Conservation and Recreation Service / Department of the Interior / Washington, D.C. 20243'; the extract's first legible span begins '15, 1967', which is a fragment of a date and is not read as one here. No author's name was legible in either extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural Character: The \"building is a three story masonry block of typical Victorian-era asymmetry. The entrance facade is \\£lanked on the east \"by a round tower and on the west by a pbl-ygonal\"\"tower. The whole is elaborately decorated and heavily fenestrated. It is Romanesque in style; the ground floor elevated as a \"piano nobile\".",
+        "page": "HABS No. TX-2103, Part II.A.1; the running header 'COLOITSL WALTER GRESHAM HOUSE HABS No. TX-2103 (Page h)' prints immediately before this span, 'h' being OCR for 4"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Overall dimensions: The three story dwelling on a raised basement measures 88' x 2.0k ' in overall dimensions.",
+        "page": "HABS No. TX-2103 (Page h), Part II.B.1; same extract span as the architectural character"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Random work granite and stone; stone and polished granite trimmings. H. Structural systems: Walls are load bearing masonry; floor and ceiling supports timber. Verandas are iron skeleton construction.",
+        "page": "HABS No. TX-2103 (Page h), Parts II.B.3 and II.B.4; the 'H.' is OCR for 4"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches: The main veranda is a one story cast iron porch that extends across the front entrance around the circular east tower to the east side facade. A small cast iron porch is provided on the west facade and a conservatory, also of cast iron frame, projects on the east side facade, being an extension of the dining room. The verandas are supported by paired cast iron columns and have a cast railing both at the floor level and on the veranda roof, which is flat. Veranda floors and roof are tiled. The conservatory is apse shaped, the pitched roof corresponding. It is glassed in.",
+        "page": "HABS No. TX-2103 (Page h), Part II.B.5"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: Two chimneys, one on the east facade, one on the west are opposite each other on the central block. Another chimney is located on the north wall on the west parlor extension, one on the north wall of the kitchen ell and one on the east gable of the dining room extension.",
+        "page": "HABS No. TX-2103, Part II.B.6; the running header 'COLOPTEL WALTER GRESHAM HOUSE HABS No. TX-2103 (Page 5)' prints immediately after this span"
+      },
+      {
+        "field": "openings",
+        "text": "7 Openings: a. Doorways and doors: Double entrance doors are ornate with characteristic panels and moldings. \"b. Windows: Ground and second floor: Double-hung single light windows, often to the floor. Transom panels above vary - some decorated and opaque; some with lights. Openings formed by lintels.",
+        "page": "HABS No. TX-2103 (Page 5), Part II.B.7"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: In all cases, a high pitch and covered with green-glazed tiles. Each articulated section separately roofed, hence a complex intersecting system.",
+        "page": "HABS No. TX-2103 (Page 5), Part II.B.8; read in a second extract of the same PDF under a different query"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor Plan: A typical Victorian plan An entrance hall leads to a central rotunda. All rooms open onto the hall-rotunda area. At the southeast corner is the library with its curved alcove; adjoining to the north is the dining room which leads, again to the north, to a butler's pantry and kitchen. At the southwest corner is the front parlor and to the north adjoining is the back parlor. The upstairs plan follows the lower.",
+        "page": "HABS No. TX-2103 (Page 5), Part II.C.1; read in a second extract of the same PDF"
+      },
+      {
+        "field": "significance",
+        "text": "This building was erected for Walter Gresham, a prominent historical figure of Galveston, a noted lawyer, Texas legislator and representative of the 53rd Congress. The building itself is architecturally outstanding. It is",
+        "page": "HABS No. TX-2103, cover sheet; the span ends mid-sentence in the extract and is not completed here"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "88'",
+      "value": 88,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey prints two plan figures and does not say which is the front, so the FIRST printed is taken as the width per the schema's rule."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "2.0k '",
+      "from_quote": 1,
+      "note": "NO VALUE IS PARSED. The OCR reads '2.0k' and this record will not guess: '104', '204' and '20 4' are all reachable from those characters by the substitutions this survey demonstrably makes elsewhere on the same page ('h' for 4, 'H.' for '4.'), and the difference between them is a factor of two on the footprint of the building. A figure recovered by picking the plausible one is an inference wearing a quotation."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "three story dwelling on a raised basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Three storeys above a raised basement, agreeing with the architectural-character quote's 'three story masonry block'."
+    },
+    {
+      "name": "chimney_stack_count_central_block",
+      "as_printed": "Two chimneys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The two on the central block only. The same quote then enumerates three more -- on the west parlor extension, on the kitchen ell and on the east gable of the dining room extension -- which would make FIVE in all; that five is a count assembled by adding up a sentence and it is therefore stated here and not as an `as_printed` figure."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. THIS IS THE ONLY BUILDING ON THIS NODE WITH A MEASURED SURVEY, and the survey disagrees with the node about what the building is: the 1967 surveyor writes 'It is Romanesque in style', the Texas State Historical Association calls Clayton a High Victorian architect working through Queen Anne and Richardsonian Romanesque, and the restoration architect who laser-scanned the house in the 2010s calls it 'Lavishly designed in the Chateauesque style'. It is on the node under `standing: documentary` for exactly that reason -- it is here to be measured, not to settle a label. Two survey statements bear directly on chateauesque's kit. The roof is 'In all cases, a high pitch' with NO figure, so it is silent on the kit's 14:12 floor rather than agreeing with it. The walls are 'load bearing masonry' with 'floor and ceiling supports timber', which is the node's own necessary condition -- 'a wall of load-bearing ashlar with real carved detail' -- confirmed by a surveyor for the first time in this corpus."
+}

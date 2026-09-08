@@ -518,7 +518,7 @@ function openPanel(id){
 
   if(n.ex?.length){
     h += `<h3 class="sec">Exemplars</h3><ul class="tight">`;
-    n.ex.forEach(e=>{ h += `<li><b style="color:var(--ink)">${esc(e.name)}</b>${e.location?`, ${esc(e.location)}`:''}${e.year?` (${e.year})`:''}${e.note?`<br><span style="color:var(--ink-3);font-size:11.6px">${esc(e.note)}</span>`:''}</li>`; });
+    n.ex.forEach(e=>{ h += `<li><b style="color:var(--ink)">${esc(e.name)}</b>${e.location?`, ${esc(e.location)}`:''}${e.year?` (${e.year})`:''}${e.standing?` <span style="font-size:10.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);border:1px solid var(--line);border-radius:3px;padding:0 4px">${esc(e.standing)}</span>`:''}${e.note?`<br><span style="color:var(--ink-3);font-size:11.6px">${esc(e.note)}</span>`:''}${e.why?`<br><span style="color:var(--ink-3);font-size:11.6px;font-style:italic">${esc(e.why)}</span>`:''}${(e.refs&&e.refs.length)?`<br><span style="font-size:11.4px">${e.refs.map(r=>`<a href="${esc(r.url)}" target="_blank" rel="noreferrer">${esc(r.kind)}${r.id?' '+esc(r.id):''}</a>`).join(' · ')}${e.survey?' · <span style="color:var(--ink-3)">HABS written data on the record</span>':''}</span>`:''}</li>`; });
     h += `</ul>`;
   }
   if(n.src?.length){ h += `<h3 class="sec">Sources</h3><ul class="tight">${n.src.map(s=>`<li style="font-size:11.8px;color:var(--ink-3)">${esc(s)}</li>`).join('')}</ul>`; }

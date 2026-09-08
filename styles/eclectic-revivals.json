@@ -32,5 +32,174 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Marble House",
+      "location": "Newport, Rhode Island",
+      "year": 1892,
+      "precedent": "marble-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `beaux-arts-american`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Biltmore House",
+      "location": "Asheville, North Carolina",
+      "year": 1895,
+      "precedent": "biltmore-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `chateauesque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "H. A. C. Taylor House",
+      "location": "Newport, Rhode Island",
+      "year": 1885,
+      "precedent": "h-a-c-taylor-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `colonial-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Oheka Castle",
+      "location": "West Hills (Huntington), New York",
+      "year": 1919,
+      "precedent": "oheka-castle",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-eclectic`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Villard Houses",
+      "location": "451 Madison Avenue, New York, New York",
+      "year": 1884,
+      "precedent": "villard-houses",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italian-renaissance-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Vizcaya",
+      "location": "Miami, Florida",
+      "year": 1916,
+      "precedent": "vizcaya",
+      "standing": "canonical",
+      "why": "Derived, not authored: `mediterranean-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "California Building, World's Columbian Exposition",
+      "location": "Chicago, Illinois",
+      "year": 1893,
+      "precedent": "california-building-worlds-columbian-exposition",
+      "standing": "canonical",
+      "why": "Derived, not authored: `mission-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Whitehall (Henry M. Flagler House)",
+      "location": "Palm Beach, Florida",
+      "year": 1902,
+      "precedent": "whitehall-flagler-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `neoclassical-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "New Mexico Museum of Art (Museum of Fine Arts)",
+      "location": "Santa Fe, New Mexico",
+      "year": 1917,
+      "precedent": "new-mexico-museum-of-art",
+      "standing": "canonical",
+      "why": "Derived, not authored: `pueblo-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "California Quadrangle, Panama-California Exposition",
+      "location": "Balboa Park, San Diego, California",
+      "year": 1915,
+      "precedent": "california-quadrangle-balboa-park",
+      "standing": "canonical",
+      "why": "Derived, not authored: `spanish-colonial-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Spadena House (the Witch's House)",
+      "location": "Beverly Hills, California",
+      "year": 1921,
+      "precedent": "spadena-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `storybook-style`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Stan Hywet Hall",
+      "location": "Akron, Ohio",
+      "year": 1915,
+      "precedent": "stan-hywet-hall",
+      "standing": "canonical",
+      "why": "Derived, not authored: `tudor-revival`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Casa del Herrero",
+      "location": "Montecito, California",
+      "year": 1925,
+      "precedent": "casa-del-herrero",
+      "standing": "canonical",
+      "why": "Derived, not authored: `andalusian-spanish-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Royal Barry Wills House",
+      "location": "59 Oakland Street, Melrose, Massachusetts",
+      "year": 1929,
+      "precedent": "royal-barry-wills-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `cape-cod-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Edsel and Eleanor Ford House",
+      "location": "Grosse Pointe Shores, Michigan",
+      "year": 1929,
+      "precedent": "edsel-and-eleanor-ford-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `cotswold-cottage-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "West End Collegiate Church and School",
+      "location": "West End Avenue at 77th Street, New York, New York",
+      "year": 1892,
+      "precedent": "west-end-collegiate-church-and-school",
+      "standing": "canonical",
+      "why": "Derived, not authored: `dutch-colonial-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Thornburg Village (Normandy Village)",
+      "location": "1781-1851 Spruce Street, Berkeley, California",
+      "year": 1927,
+      "precedent": "thornburg-village",
+      "standing": "canonical",
+      "why": "Derived, not authored: `french-normandy-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Whitemarsh Hall",
+      "location": "Wyndmoor, Springfield Township, Pennsylvania",
+      "year": 1921,
+      "precedent": "whitemarsh-hall",
+      "standing": "canonical",
+      "why": "Derived, not authored: `georgian-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Salisbury House",
+      "location": "Des Moines, Iowa",
+      "year": 1928,
+      "precedent": "salisbury-house-des-moines",
+      "standing": "canonical",
+      "why": "Derived, not authored: `jacobethan-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Larkin House",
+      "location": "Monterey, California",
+      "year": 1835,
+      "precedent": "larkin-house",
+      "standing": "canonical",
+      "why": "Derived, not authored: `monterey-revival`, a variant of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Mark Alan Hewitt, The Architect and the American Country House, 1890-1940 (1990)",
+    "Alan Gowans, Styles and Types of North American Architecture: Social Function and Cultural Expression (1992)",
+    "Richard Guy Wilson, The American Renaissance 1876-1917 (1979)",
+    "William B. Rhoads, The Colonial Revival (1977)",
+    "The White Pine Series of Architectural Monographs (1915-1940)"
   ]
 }

@@ -1,0 +1,43 @@
+{
+  "id": "lady-pepperrell-house",
+  "name": "Lady Pepperrell House",
+  "location": {
+    "text": "Kittery Point, Maine",
+    "country": "United States",
+    "state": "Maine"
+  },
+  "dates": {
+    "built": "1760",
+    "circa": false
+  },
+  "nodes": [
+    "new-england-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lady_Pepperrell_House",
+      "title": "Lady Pepperrell House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000094",
+      "url": "https://en.wikipedia.org/wiki/Lady_Pepperrell_House",
+      "title": "NRHP reference No. 66000094; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the Register's own database. The article says the house is privately owned under preservation restrictions held by Historic New England."
+    },
+    {
+      "kind": "other",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/me/me0100/me0179/data/me0179data.pdf",
+      "title": "William Pepperrell House, State Route 103, Kittery Point, York County, ME (HABS ME-128) -- NOT this house",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Carried so the next reader does not attach it: every loc.gov search for 'Lady Pepperrell House' returns only HABS ME-128, 'William Pepperrell House, State Route 103, Kittery Point', and that survey's own data page describes 'a two story wood frame house ... near Fort McClary, the Bray House, Sparhawk Hall, Congregational Church and the Lady Pepperreil mansion', dated 'ca. 1682-1683' with a gambrel roof and shingled walls. It is the earlier Pepperrell house next door. No HABS record for the Lady Pepperrell House itself was found."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the new-england-georgian node already carried were kept exactly. No HABS survey was found for this house; the one the searches return is its neighbour, and the ref says so."
+}

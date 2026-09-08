@@ -40,6 +40,12 @@
     "depth_multiplier": 1.0,
     "sides_lit": 1,
     "orientation": "Wherever grade falls. A walk-out is worth more than any amount of area.",
+    "aspect": {
+      "applies": false,
+      "basis": "Wherever grade falls.",
+      "note": "Answered by the site's fall, not by the compass.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.08

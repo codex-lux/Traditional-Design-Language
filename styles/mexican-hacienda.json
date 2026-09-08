@@ -213,25 +213,55 @@
       "name": "Hacienda de Santa Maria Regla",
       "location": "Huasca de Ocampo, Hidalgo, Mexico",
       "year": 1774,
-      "note": "c. 1762-1774; the silver-refining hacienda of Pedro Romero de Terreros, Conde de Regla, with courts of patio arches built for amalgamation work — the industrial hacienda at its largest."
+      "note": "c. 1762-1774; the silver-refining hacienda of Pedro Romero de Terreros, Conde de Regla, with courts of patio arches built for amalgamation work — the industrial hacienda at its largest.",
+      "precedent": "hacienda-de-santa-maria-regla",
+      "standing": "icon",
+      "why": "The silver-refining hacienda of the Conde de Regla, and the building this node's own description of the industrial casco is drawn from; its record also reports that no source read here states one dimension of it."
     },
     {
       "name": "Hacienda San Gabriel de Barrera",
       "location": "Guanajuato, Mexico",
       "year": null,
-      "note": "Late 17th to early 18th century; a mining hacienda with an intact casa grande, chapel and hacienda de beneficio."
+      "note": "Late 17th to early 18th century; a mining hacienda with an intact casa grande, chapel and hacienda de beneficio.",
+      "precedent": "hacienda-san-gabriel-de-barrera",
+      "standing": "canonical",
+      "why": "Its own source states the type rather than the building -- 'la traza típica de las haciendas de beneficio: casa grande con patios y galerías, espacios de servicio (trojes, caballerizas y áreas de trabajo)' -- which is what makes it a specimen and not just an example."
     },
     {
       "name": "Hacienda Yaxcopoil",
       "location": "Yucatan, Mexico",
       "year": null,
-      "note": "Founded in the 17th century; the surviving buildings are largely of the 19th-century henequen era, including the machine house. The clearest surviving example of the industrialised late hacienda."
+      "note": "Founded in the 17th century; the surviving buildings are largely of the 19th-century henequen era, including the machine house. The clearest surviving example of the industrialised late hacienda.",
+      "precedent": "hacienda-yaxcopoil",
+      "standing": "canonical",
+      "why": "The henequen estate at its full extent and after it: 12,000 hectares reduced to under three per cent, with the casa grande's 'espaciosos corredores' described and never measured, which is this node's evidence problem in one sentence."
     },
     {
       "name": "Hacienda de Jaral de Berrio",
       "location": "San Felipe, Guanajuato, Mexico",
       "year": null,
-      "note": "18th century; one of the largest cascos in Mexico, with a fortified perimeter, a domed chapel and a Porfirian remodelling of the casa grande."
+      "note": "18th century; one of the largest cascos in Mexico, with a fortified perimeter, a domed chapel and a Porfirian remodelling of the casa grande.",
+      "precedent": "hacienda-de-jaral-de-berrio",
+      "standing": "regional",
+      "why": "One of the largest cascos in Mexico and the worst-sourced building in this cluster -- no Spanish encyclopedia article and no register page -- so its standing is regional on the strength of a local festival site and a travel page, and the record says so."
+    },
+    {
+      "name": "Hacienda de San Miguel Regla",
+      "location": "Huasca de Ocampo, Hidalgo, Mexico",
+      "year": null,
+      "note": "18th century; the other silver-refining hacienda of Pedro Romero de Terreros, Conde de Regla, keeping its casco, chapel, the arcades of its patios and the furnaces in which the silver was extracted.",
+      "precedent": "hacienda-de-san-miguel-regla",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 because it is the only exemplar here whose CHAPEL is described member by member while its casa grande is not described at all -- this node's claim that the ornament budget goes to the gate and the chapel, standing up in a source."
+    },
+    {
+      "name": "Museo Ex Hacienda El Lencero",
+      "location": "Emiliano Zapata, Veracruz, Mexico",
+      "year": null,
+      "note": "A two-storey colonial-type building with a chapel, a lake and gardens on the eight hectares the state of Veracruz bought in 1981; the estate held 3,737 hectares in 1930 and was expropriated in stages from 1923.",
+      "precedent": "museo-ex-hacienda-el-lencero",
+      "standing": "documentary",
+      "why": "Added by Tranche 3 as the case where the land record survives in dated figures and the architecture does not; its own source also reports the restoration being called 'historically aberrant', which is worth knowing before anyone measures a photograph of it."
     }
   ],
   "sources": [

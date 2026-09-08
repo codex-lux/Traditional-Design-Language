@@ -1,0 +1,201 @@
+{
+  "id": "magnolia-mound-plantation-house",
+  "name": "Magnolia Mound Plantation House",
+  "aka": [
+    "Magnolia Mound"
+  ],
+  "location": {
+    "text": "Baton Rouge, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1790s",
+    "circa": true,
+    "altered": "Enlarged and embellished between 1815 and 1820, when the outer cypress posts were replaced by brick piers and the rear gallery added; restored 1971-1975 (HABS LA-1130).",
+    "note": "The HABS report says 'a 1790s frame plantation house'; the Wikipedia article's text says 'constructed in 1791' while its infobox prints 'Built 1786'. Recorded as the survey states it, with both Wikipedia figures noted."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-1130",
+      "title": "Magnolia Mound, 2161 Nicholson Drive, Baton Rouge, East Baton Rouge Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0075/data/la0075data.pdf",
+      "note": "The data page's running head prints 'MAGNOLIA MOUND HABS No. LA-1130 (Page 12)'. The loc.gov sheet read by search carries 'HABS LA,17-BATRO,14- (sheet 1 of 5)'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0075",
+      "url": "https://hdl.loc.gov/loc.pnp/hhh.la0075",
+      "title": "Magnolia Mound, 2161 Nicholson Drive, Baton Rouge, East Baton Rouge Parish, LA",
+      "note": "The search returned the handle URL; the item id is its final segment.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000549",
+      "url": "https://en.wikipedia.org/wiki/Magnolia_Mound_Plantation_House",
+      "title": "NRHP reference No. 72000549; added September 7, 1972 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Magnolia_Mound_Plantation_House",
+      "title": "Magnolia Mound Plantation House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "la0075",
+    "register": "loc-item",
+    "survey_no": "LA-1130",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0075/data/la0075data.pdf",
+    "prepared": "Sibyl McCormac Groff, Project Supervisor, Historic American Buildings Survey, Summer 1978 (as the page reads; a HABS-City of Baton Rouge project at the LSU Department of Architecture)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: Magnolia Mound is significant as a surviving example of . 1790s frame plantation house which was enlarged and embellished between 1815 and 1820.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130, Part II.A; the marker '(Page 12)' follows immediately"
+      },
+      {
+        "field": "walls",
+        "text": "The house exhibits early cypress framing with notched and pegged members and an infill of mud and Spanish moss, plastered over, called bousillage. The interior moldings, cove ceiling, fireplace mantels and overmantels are elaborate examples of the Federal style in the Mississippi Valley. 2. Condition of fabric: Good. Restored 1971-1975.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 12)"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "72'0\" by 56'-l\" including the front and back galleries, or 72'-0\" x 35'-7\" not including the galleries. The house has a seven-bay front including the north gallery. 2. Foundations: four feet high brick and cypress piers. Originally the foundations were all cypress posts but the outer piers were replaced with brick in the 1815-1820 period. The brick piers have been renewed several times. Lattice work surrounds the inner piers. 3. Wall construction, finish and color: Cypress sills and members which are notched and pegged with an infill of bousillage. The clapboard is painted white and the shutters a blue-green, based on paint samples. The front (west) facade is plastered and painted white. 4. Structural system: cypress framing, notched and pegged.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 12), Part II.B.1-4; the span opens with the repeat of the dimensions line from the chunk boundary"
+      },
+      {
+        "field": "porches",
+        "text": "The gallery has the same balustrade construction, with eight chamfered box columns on the main facade and a plank ceiling with raised panels at the roof line. Where the gallery joins the house, on the north and south, there are two Doric pilasters. Project!ng from the rear (east) is a similar gallery with the same balustrade and box column treatment. Added in the 1815-1820 period, this gallery is only five bays wide. The present gallery is a reconstruction.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 13)"
+      },
+      {
+        "field": "stairways",
+        "text": "5. Porches, stoops, bulkheads: The front (west) entrance facing the Mississippi River has ten risers leading to the raised gallery with a beaded handrail and base, plain square balusters and newel posts with chamfered sides and topped with knob s.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 12-13); the '(Page 13)' marker follows"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: An inner brick chimney on the southwest slope of the hipped roof has a corbelled top. An additional brick chimney on the northeast side was added in the early nineteenth century and is not vi sible from the front.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 13)"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings : a. Doorways and doors: The front (west) facade has center double doors with eight lights above recessed panels. There are similar doors on the front facade, one to the north and two to the south of the main entrance. Another door facing onto the front gallery leads to the northeast room. The rear (east) facade has center double doors with ten lights, and two double doors with eight lights. All the doors have shutters, some of which have elongated slats at the top for ventilation.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 13)"
+      },
+      {
+        "field": "openings",
+        "text": "b. Windows and shutters: All of the windows have nine-over-six-light double hung sashes. The windows have shutters and plain cornices and trims.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 13-14); the '(Page 14)' marker follows"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering: The hipped roof covered with cypress shakes has flared eaves with an overhang, supported by curved brackets. The roof of the east gallery is hipped and covered with turned metal. b. Do ners: There are two gable dormers with triangular pediments on the front facade.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 14)"
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior: 1. Floor plans: The original three rooms are now two bedrooms flanking the higher style parlor. Extending across the rear is the dining room with the museum1s shop to the north and the offices on the south.",
+        "page": "MAGNOLIA MOUND HABS No. LA-1130 (Page 14)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "72'-0\" x 35'-7\" not including the galleries",
+      "value": 72.0,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "72'-0\" x 35'-7\" not including the galleries",
+      "value": 35.58,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The body of the house without its galleries."
+    },
+    {
+      "name": "overall_depth_with_galleries_ft",
+      "as_printed": "72'0\" by 56'-l\" including the front and back galleries",
+      "value": 56.08,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "OCR for 56'-1\"; a reading. The two galleries together add 20'-6\" of depth, about 10 ft each."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "seven-bay front",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "pier_height_ft",
+      "as_printed": "four feet high brick and cypress piers",
+      "value": 4,
+      "unit": "ft",
+      "from_quote": 2
+    },
+    {
+      "name": "gallery_column_count",
+      "as_printed": "eight chamfered box columns on the main facade",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "rear_gallery_bay_count",
+      "as_printed": "this gallery is only five bays wide",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "front_stair_riser_count",
+      "as_printed": "ten risers leading to the raised gallery",
+      "value": 10,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "window_sash_lights",
+      "as_printed": "nine-over-six-light double hung sashes",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 7,
+      "note": "Nine over six; recorded as the total per sash."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "two gable dormers with triangular pediments on the front facade",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 8
+    },
+    {
+      "name": "original_room_count",
+      "as_printed": "The original three rooms",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 9
+    }
+  ],
+  "nodes": [
+    "raised-creole-plantation"
+  ],
+  "note": "Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): a chimney_stack_count 2 measurement was removed: its as_printed joined two spans with an ellipsis, so it was a count inferred from the prose rather than a figure the survey printed (the two spans are still in the quotes)."
+}

@@ -63,6 +63,18 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "East. The room's whole argument is morning light, and a north-facing breakfast room has lost its reason to exist.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E"
+      ],
+      "avoid": [
+        "N"
+      ],
+      "basis": "East. The room's whole argument is morning light, and a north-facing breakfast room has lost its reason to exist.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.15,
       0.3

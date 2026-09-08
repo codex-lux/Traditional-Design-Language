@@ -33,5 +33,22 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Villa Medicea di Cafaggiolo",
+      "location": "Barberino di Mugello, Florence, Italy",
+      "year": 1452,
+      "precedent": "villa-medicea-di-cafaggiolo",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italian-villa-vernacular`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Giuseppe Barbieri and Lucio Gambi (eds.), La casa rurale in Italia (1970)",
+    "Giuseppe Pagano and Guarniero Daniel, Architettura rurale italiana (1936)",
+    "Enrico Guidoni, L'architettura popolare italiana (1980)",
+    "Myron Goldfinger, Villages in the Sun: Mediterranean Community Architecture (1969)",
+    "Paul Oliver (ed.), Encyclopedia of Vernacular Architecture of the World (1997)"
   ]
 }

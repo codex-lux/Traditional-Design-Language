@@ -1,0 +1,77 @@
+{
+  "id": "colonel-john-stuart-house",
+  "name": "Colonel John Stuart House",
+  "aka": [
+    "Col. John Stuart House"
+  ],
+  "location": {
+    "text": "104-106 Tradd Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1772",
+    "circa": false
+  },
+  "nodes": [
+    "charleston-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-156",
+      "url": "https://www.loc.gov/pictures/item/sc0226",
+      "title": "Colonel John Stuart House, 106 Tradd Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS SC-156; National Register of Historic Places NRIS Number'. The survey number is also printed on the data page ('RABS No. SC-156', OCR for HABS; 'Addendum to: Colonel John Stuart House ... HABS No. SC-156')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0226",
+      "url": "https://www.loc.gov/pictures/item/sc0226",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Col._John_Stuart_House",
+      "title": "Colonel John Stuart House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000578",
+      "url": "https://en.wikipedia.org/wiki/Col._John_Stuart_House",
+      "title": "NRHP reference No. 70000578; added October 22, 1970; designated NHL November 7, 1973; contributing to the Charleston Historic District (ID66000964) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710027",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710027/index.htm",
+      "title": "National Register Properties in South Carolina -- Colonel John Stuart House, Charleston County (104-106 Tradd St., Charleston)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "sc0226",
+    "register": "loc-item",
+    "survey_no": "SC-156",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0200/sc0226/data/sc0226data.pdf",
+    "prepared": "'District of South Carolina Historic American Buildings Survey- Prepared at Washington Office' (as the 1930s sheet reads)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "Colonel Stuart House 10k Tradd Street Charleston Charleston County South Carolina Historical Data: John Stuart, \"born in England in 1700, came through Charleston with General James Oglethorpe, founder of Georgia, in 1733 thirty years later, he was appointed the British general agent for Indian affairs in the South.",
+        "page": "HABS No. SC-156, 1930s sheet 'Prepared at Washington Office'; no page number printed. The sheet carries historical data only and no description of the fabric."
+      }
+    ]
+  },
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-georgian node already carried were kept exactly. The survey's written data is a paragraph about the owner; the photographs (C. O. Greene, Charles N. Bayless) are the record of the building."
+}

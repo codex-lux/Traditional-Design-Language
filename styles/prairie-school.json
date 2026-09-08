@@ -194,19 +194,55 @@
       "name": "Frederick C. Robie House",
       "location": "Chicago, Illinois",
       "year": 1910,
-      "note": "Frank Lloyd Wright, designed 1908-09 and completed 1910. The style's limit case: cantilevered roof planes, a continuous glass band, and an entry hidden behind the chimney mass."
+      "note": "Frank Lloyd Wright, designed 1908-09 and completed 1910. The style's limit case: cantilevered roof planes, a continuous glass band, and an entry hidden behind the chimney mass.",
+      "precedent": "frederick-c-robie-house",
+      "standing": "icon",
+      "why": "The building the style is known by, on the Library of Congress's own statement that it 'has the distinction of being the most frequently requested structure in the HABS and HAER collections' and on the Chicago landmark citation the survey quotes, which credits it with 'the creation of the Prairie House'."
     },
     {
       "name": "Ward W. Willits House",
       "location": "Highland Park, Illinois",
       "year": 1902,
-      "note": "Wright's first fully resolved Prairie house; the cruciform pinwheel about a central hearth in its clearest form."
+      "note": "Wright's first fully resolved Prairie house; the cruciform pinwheel about a central hearth in its clearest form.",
+      "precedent": "ward-w-willits-house",
+      "standing": "canonical",
+      "why": "The type specimen for the cruciform pinwheel about a central hearth, on the Frank Lloyd Wright Trust's own judgment that it 'is widely considered the first of Wright's mature Prairie style designs'."
     },
     {
       "name": "Purcell-Cutts House",
       "location": "Minneapolis, Minnesota",
       "year": 1913,
-      "note": "Purcell and Elmslie. Demonstrates that the style was a school rather than one man, and carries Elmslie's Sullivanian ornament."
+      "note": "Purcell and Elmslie. Demonstrates that the style was a school rather than one man, and carries Elmslie's Sullivanian ornament.",
+      "precedent": "purcell-cutts-house",
+      "standing": "regional",
+      "why": "The Upper Midwestern expression by the school's other office, which is what the node's own exemplar note asks it to prove; the Minneapolis Institute of Art, its owner, calls it 'the most complete embodiment of Purcell and Elmslie's architectural philosophy' -- an owner's claim, and recorded as one."
+    },
+    {
+      "name": "Frank Lloyd Wright Home and Studio",
+      "location": "Oak Park, Illinois",
+      "year": null,
+      "note": "House 1889, studio added at the end of the 1890s. The building the style was worked out inside, and not a specimen of it: the HABS survey records 'The house roof is a steep gable' and the studio as 'several levels of flat roofs', neither of which this node's own hipped 3:12-4:12 rule admits.",
+      "precedent": "frank-lloyd-wright-home-and-studio",
+      "standing": "documentary",
+      "why": "Plain in the sense that matters here -- fully surveyed by HABS (IL-1099) and useful precisely because its measurements CONTRADICT the node's rules, which is how the corpus can tell an origin from a type specimen; the year is null because no date was read verbatim off the data page."
+    },
+    {
+      "name": "Susan Lawrence Dana House",
+      "location": "Springfield, Illinois",
+      "year": 1904,
+      "note": "Frank Lloyd Wright, completed 1904. The style at its most lavish, and the one exemplar here whose HABS item is plates without prose: the data pages returned cover sheets only, so the corpus has its survey number and none of its words.",
+      "precedent": "susan-lawrence-dana-house",
+      "standing": "canonical",
+      "why": "A documented type specimen on the Library of Congress's own significance line -- 'an early and excellent example of Wright's mature Prairie' -- recorded by HABS as IL-1188, though its written data could not be read from here."
+    },
+    {
+      "name": "Darwin D. Martin House",
+      "location": "Buffalo, New York",
+      "year": 1904,
+      "note": "Frank Lloyd Wright, 1904. The largest of the Prairie houses and the only one in this node with a measured envelope: the survey gives 150 by 72 ft, on a Latin cross, with an axis running approximately 150 ft out to the end of the pergola.",
+      "precedent": "darwin-d-martin-house",
+      "standing": "canonical",
+      "why": "A type specimen the node's own figures can be held against, because its HABS survey (NY-5611) states an over-all dimension and describes 'The low hipped roofs set on steel frames have deep overhanging eaves' -- the judgment is the Survey's, which calls it 'This enlarged version of the Prairie house'."
     }
   ],
   "sources": [
@@ -305,5 +341,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots: --impact reports 'Declining it changes no dimension on this node.' No slot loses dimensioning and no live gate is armed either way."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

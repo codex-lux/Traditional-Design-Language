@@ -235,25 +235,82 @@
       "name": "New Mexico Building, Panama-California Exposition",
       "location": "Balboa Park, San Diego, California",
       "year": 1915,
-      "note": "Rapp & Rapp, modelled on the mission church of San Esteban del Rey at Acoma Pueblo. The founding building of the style; survives as the Balboa Park Club."
+      "note": "Rapp & Rapp, modelled on the mission church of San Esteban del Rey at Acoma Pueblo. The founding building of the style; survives as the Balboa Park Club.",
+      "precedent": "new-mexico-building-panama-california-exposition",
+      "standing": "canonical",
+      "why": "The node's own 'founding building of the style', and the San Diego Union of August 1915 said of it what the node says of the style: 'The prototype of the building was the old mission on the rock at Acoma' and 'Lines are crude and blunt ... due, of course, to the faithful following of the Acoma model' (San Diego History Center, Amero)."
     },
     {
       "name": "New Mexico Museum of Art (Museum of Fine Arts)",
       "location": "Santa Fe, New Mexico",
       "year": 1917,
-      "note": "Rapp, Rapp & Hendrickson, 1915-17. The permanent version of the exposition building, drawing additionally on Laguna, Cochiti, San Felipe, Santa Ana and Pecos. It fixed Santa Fe Style for the century."
+      "note": "Rapp, Rapp & Hendrickson, 1915-17. The permanent version of the exposition building, drawing additionally on Laguna, Cochiti, San Felipe, Santa Ana and Pecos. It fixed Santa Fe Style for the century.",
+      "precedent": "new-mexico-museum-of-art",
+      "standing": "icon",
+      "why": "The node's own prose: 'That building fixed the style.' Amero's history of its San Diego twin says Hewett chose Rapp 'to duplicate the design of the San Diego building for the Santa Fe Museum of Fine Arts' and sends San Diegans to Santa Fe to see 'its twin ... in unblemished splendor'."
     },
     {
       "name": "La Fonda on the Plaza",
       "location": "Santa Fe, New Mexico",
       "year": 1922,
-      "note": "Rapp & Rapp; substantially remodelled and enlarged by John Gaw Meem from 1929. The commercial and touristic centre of the style."
+      "note": "Rapp & Rapp; substantially remodelled and enlarged by John Gaw Meem from 1929. The commercial and touristic centre of the style.",
+      "precedent": "la-fonda-on-the-plaza",
+      "standing": "canonical",
+      "why": "The node's own 'commercial and touristic centre of the style', and the hotel's own timeline names the three hands -- Rapp, Colter, Meem -- that made it the style's most-visited building; no register number was found for it."
     },
     {
       "name": "Zimmerman Library, University of New Mexico",
       "location": "Albuquerque, New Mexico",
       "year": 1938,
-      "note": "John Gaw Meem, 1936-38. Pueblo Revival at institutional scale and at its highest level of design control."
+      "note": "John Gaw Meem, 1936-38. Pueblo Revival at institutional scale and at its highest level of design control.",
+      "precedent": "zimmerman-library",
+      "standing": "canonical",
+      "why": "The node's own 'Pueblo Revival at institutional scale and at its highest level of design control', listed on the National Register in 2016 under Meem's name; the register entry is the reason and it carries no measurement."
+    },
+    {
+      "name": "Carlos Vierra House",
+      "location": "1002 Old Pecos Trail, Santa Fe, New Mexico",
+      "year": 1922,
+      "note": "The painter Carlos Vierra designed and built his own house between 1918 and 1922 (the Nordfeldt House nomination): 'terraced forms' after Pueblo prototypes, in the nomination's words -- and, as the same nomination notes, 'a typical suburban home of the era, complete with a two-car garage, four baths, a concrete basement housing modern utilities' behind them. The first houses Meem designed in 1925-26 are said to show a clear debt to it. National Register, 1979.",
+      "precedent": "carlos-vierra-house",
+      "standing": "canonical",
+      "why": "The style's first domestic statement, by a member of the committee the node's own prose describes, and the register nomination that names it is candid that the Puebloan terraces stand over a suburban plan -- the appropriation-and-invention story the node tells, at house scale."
+    },
+    {
+      "name": "Los Poblanos",
+      "location": "Los Ranchos de Albuquerque, New Mexico",
+      "year": 1934,
+      "note": "John Gaw Meem's remodelling of an adobe ranch house for Albert and Ruth Hanna McCormick Simms in 1932, closing an L-plan into a full placita ringed by a portal, and La Quinta, the single-storey H-plan pavilion he designed beside it in 1934: the revival's placita house done in real adobe with vigas, deep-set windows and a sala grande. National Register historic district, 1982.",
+      "precedent": "los-poblanos",
+      "standing": "regional",
+      "why": "Meem's domestic Pueblo Revival at its most complete and in Albuquerque's North Valley rather than Santa Fe -- the register lists it as a district under his name -- for a node whose four exemplars were all institutional buildings."
+    },
+    {
+      "name": "Cristo Rey Church",
+      "location": "1120 Canyon Road, Santa Fe, New Mexico",
+      "year": 1940,
+      "note": "Meem's parish church of 1939-40 on Canyon Road, built for the Coronado quatercentenary and to house the 1761 stone reredos from La Castrense: on Wikipedia's account the largest adobe building in the United States, of 150,000 to 200,000 adobes, with corbelled vigas and a clerestory over the altar -- carried on a hidden steel frame. The mission-church type at a scale the tradition never built.",
+      "precedent": "cristo-rey-church",
+      "standing": "canonical",
+      "why": "The revival's largest work in real adobe and its clearest borrowing of the mission-church type -- and the steel frame inside it is the 'stucco over ... wood frame' half of the node's own vocabulary, so it is a type specimen of the revival's method rather than of the tradition's."
+    },
+    {
+      "name": "Laboratory of Anthropology (Museum of Indian Arts and Culture)",
+      "location": "Santa Fe, New Mexico",
+      "year": 1931,
+      "note": "Meem's 1931 building for the Laboratory of Anthropology, in what the register calls the Spanish Pueblo Revival -- the institutional type between Rapp's Museum of Fine Arts and Meem's own Zimmerman Library, and now the Museum of Indian Arts and Culture. National Register, 1983; State Register, 1982.",
+      "precedent": "laboratory-of-anthropology",
+      "standing": "canonical",
+      "why": "Meem's first large Santa Fe commission in the style, listed on the National Register under his name; a type specimen of the institutional Pueblo Revival between Rapp's museum and Meem's own library."
+    },
+    {
+      "name": "Painted Desert Inn",
+      "location": "Petrified Forest National Park, Apache County, Arizona",
+      "year": 1940,
+      "note": "Lyle E. Bennett's National Park Service inn of 1937-40 over the rim of the Painted Desert, built by the CCC round the basalt-and-petrified-wood walls of Herbert Lore's earlier inn, with Mary Colter's 1947 redecoration and Fred Kabotie's murals. The survey (HABS AZ-161) reproduces a 1974 Park Service judgment that most Pueblo Revival is frame with fake vigas and that this one is 'purer' because every viga and savino carries the roof. National Historic Landmark.",
+      "precedent": "painted-desert-inn",
+      "standing": "documentary",
+      "why": "The surveyed example: HABS AZ-161 is the one written record on this node, and it states the distinction the node's own vocabulary admits without ranking -- stone walls and structural vigas against 'wood frame construction with plastered exteriors faking adobe'."
     }
   ],
   "sources": [

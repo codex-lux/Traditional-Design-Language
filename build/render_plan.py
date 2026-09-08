@@ -17,6 +17,26 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 C = _mod("plan_check", f"{ROOT}/build/plan_check.py").load_corpus()
+DISC = _mod("disclosures", f"{ROOT}/build/disclosures.py")
+HEARTH = _mod("hearths", f"{ROOT}/build/hearths.py")
+
+_PARTIS = None
+def _partis():
+    """The parti records, by id, read once -- `disclosures.style_disagreement` uses them to
+    ask whether the parti a plan names lists the style it is being judged as. Read lazily and
+    cached because most sheets never carry a `parti` and a glob per render is a glob per
+    render."""
+    global _PARTIS
+    if _PARTIS is None:
+        import glob as _glob
+        _PARTIS = {}
+        for f in sorted(_glob.glob(f"{ROOT}/partis/*.json")):
+            try:
+                rec = json.load(open(f))
+                _PARTIS[rec["id"]] = rec
+            except Exception:
+                continue
+    return _PARTIS
 
 SS = _mod("sheet_style", f"{ROOT}/build/sheet_style.py")
 
@@ -144,6 +164,12 @@ def _fit_lines(text, max_w, max_h, preferred, floor, lead=1.2, max_lines=3, trac
         if size >= preferred - 1e-6: break
     if best is None: return None
     return best[0], max(floor, best[1])
+
+# One column of the record table, in sheet pixels. A floor rather than a share of the width:
+# the widest row is a room name plus two dimension pairs and a percentage, and three columns of
+# a narrow plate would run them into each other.
+TABLE_COL_W = 260.0
+
 
 def _fmt(x):
     ft = int(x); inch = round((x-ft)*12)
@@ -512,6 +538,24 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
     all_diverged.sort(key=lambda d: -abs(d["pct"]))
     diverged_ids = {d["id"] for d in all_diverged}
+    # WHAT THE RECORD ASKED FOR -- MAIN'S WP-11.1 TABLE, PORTED AT THE MERGE OF THE TWO
+    # PHASE 11s (8 Sep 2026). It was lost when this file took this branch's side of the sheet,
+    # and `tests/test_sheet_disclosures.py` -- main's own guard -- is what said so. The plate
+    # prints the DRAWN figure, which it must: it is what was drawn. Without the table the
+    # declaration it departed from appears only as a `∗` and a count in the margin schedule, so
+    # a reader cannot tell a room the PLACEMENT ruined from a room the AUTHOR drew small -- and
+    # on the shipped Tidewater plan that is most of the rooms. A TABLE under the plates rather
+    # than a second line inside each room, deliberately: the label fitter reserves space for
+    # every line it draws, so a per-room record line would shrink names until they dropped out,
+    # and a room that loses its name to gain a disclosure has traded one silence for another.
+    _decl_pair = {r["id"]: (r["width_ft"], r["length_ft"])
+                  for lv in levels for r in lv["rooms"]
+                  if r.get("width_ft") and r.get("length_ft")}
+    _drawn_pair = {r["id"]: (r["geometry"]["width_ft"], r["geometry"]["depth_ft"])
+                   for lv in levels for r in lv["rooms"] if r.get("geometry")}
+    _name_unique = {}
+    for _d in all_diverged:
+        _name_unique[_d["name"]] = _name_unique.get(_d["name"], 0) + 1
     _rx_all = (plan.get("geometry_report", {}).get("relaxations", {}) or {}).get("marks", [])
     level_marks = [relaxation_marks(_rx_all, i, W, H) for i in range(len(levels))]
     all_unlocated = [m for _d, un in level_marks for m in un]
@@ -693,8 +737,14 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         wrapped.append((ink, cur))
     schedule = wrapped
     sched_h = 14.0 * len(schedule) + 14.0
+    # THE TABLE'S HEIGHT IS COMPUTED, NEVER A FIXED ALLOWANCE. A fixed one under the plates is
+    # how a third of an upper floor came to be drawn outside this canvas (WP-9.6), and the
+    # table is the last thing on the sheet, so anything it overruns is simply not drawn.
+    _table_cols = max(1, int((total_w - 2 * (M + BP)) // TABLE_COL_W))
+    _table_rows = -(-len(all_diverged) // _table_cols) if all_diverged else 0
+    table_h = (18.0 + 11.0 * _table_rows) if all_diverged else 0.0
     top = M + BP + head_h + grid_h
-    total_h = top + extra_top + ph + extra_bottom + foot_h + sched_h + BP + M
+    total_h = top + extra_top + ph + extra_bottom + foot_h + sched_h + table_h + BP + M
 
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
          f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{L["paper"]}">']
@@ -774,7 +824,16 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         for bd in level_bands[i]:
             cls = "pm" if bd["kind"] == "masonry" else "pp"
             blk = f' data-block="{bd["block"]}"' if bd.get("block") is not None else ""
-            s.append(f'<rect class="{cls}" data-wall="{bd["wall"]}"{blk} x="{X(bd["x_ft"]):.1f}" '
+            # `data-t` IS THE THICKNESS, IN INCHES, AND THE RECTANGLE DOES NOT CARRY IT.
+            # `wall_bands` says why twenty lines into its own body: a pier between two windows
+            # is a run SHORTER than the wall is thick, so the short side of the rectangle is its
+            # LENGTH. Until this the sheet published the rectangle and nothing else, and the one
+            # guard over the thicknesses read `min(width, height)` -- which held while every run
+            # was longer than it was thick and convicted the drawing the moment the merge's
+            # placement produced a 0.365 ft masonry stub, reporting a bearing wall drawn thinner
+            # than a partition. The band knew the answer and the plate had nowhere to put it.
+            s.append(f'<rect class="{cls}" data-wall="{bd["wall"]}" '
+                     f'data-t="{bd["t_ft"] * 12.0:.1f}"{blk} x="{X(bd["x_ft"]):.1f}" '
                      f'y="{Y(bd["y_ft"] + bd["depth_ft"]):.1f}" width="{bd["width_ft"]*scale:.1f}" '
                      f'height="{bd["depth_ft"]*scale:.1f}"><title>{_esc(bd["why"])}</title></rect>')
 
@@ -916,6 +975,54 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                          f'style="font-size:{tsize:.2f}px;fill:{L["ink3"]}" '
                          f'text-anchor="middle">{_esc(tail)}</text>')
             s.append('</g>')
+
+        # ------------------------------------------------------------- the fire
+        # PORTED FROM MAIN AT THE MERGE (its WP-11.4), into this branch's sheet standard.
+        # Main added a drawn fireplace against the renderer WP-11.1 replaced, so its own colours
+        # (`PAL["rule"]`, `PAL["ink"]`, `PAL["copper"]`) name a palette this file no longer has.
+        # The MARK is main's and the INK is Graphic Standard No. 1's: a chimney breast is
+        # masonry, so it is drawn in the masonry poche class rather than as a thin outline,
+        # which would make it read as a cupboard. Dropping it would have been a silent loss of
+        # a feature the other branch shipped, which is what a merge must not do.
+        #
+        # Drawn BEFORE the openings so a window tick reads over the breast rather than under it.
+        # A hearth the record states on an `interior` wall is NOT DRAWN and is counted instead:
+        # the record names the wall it is opposite and this renderer does not know which of four
+        # sides that is, and putting it on a plausible one is the invention this layer exists
+        # to stop.
+        for r in lv["rooms"]:
+            for h in (r.get("hearth") or []):
+                b = HEARTH.breast(r, h)
+                if not b or b.get("undrawable"):
+                    continue
+                bx, by = X(b["x_ft"]), Y(b["y_ft"] + b["depth_ft"])
+                bw, bh = b["width_ft"] * scale, b["depth_ft"] * scale
+                s.append(f'<rect class="pm" x="{bx:.1f}" y="{by:.1f}" '
+                         f'width="{bw:.1f}" height="{bh:.1f}">'
+                         f'<title>{_esc(r.get("name") or r["id"])}: fireplace, '
+                         f'{h.get("width_in", "?")} in opening, breast '
+                         # THE ATTRIBUTION IS PART OF THE FIGURE, and the first port of this
+                         # block dropped it -- `— judgment` where main wrote
+                         # `— Morris 1734, judgment`. A judgment with no basis named is exactly
+                         # what this corpus's own rule forbids one line further than a figure
+                         # with no source: `build/arrangement.py` states the basis in as many
+                         # words ("its projection is Morris 1734 ... carrying judgment: true"),
+                         # and the tooltip a reader hovers is where they meet it.
+                         f'{b["projection_in"]} in — Morris 1734, judgment</title></rect>')
+                # the opening itself, as a gap in the face of the breast
+                _ow = (h.get("width_in") or 36) / 12.0
+                if b["wall"] in ("E", "W"):
+                    oy0 = Y(b["y_ft"] + b["depth_ft"] - (b["depth_ft"] - _ow) / 2.0)
+                    ox = X(b["x_ft"] + (b["width_ft"] if b["wall"] == "W" else 0))
+                    s.append(f'<line x1="{ox:.1f}" y1="{oy0:.1f}" x2="{ox:.1f}" '
+                             f'y2="{oy0 + _ow * scale:.1f}" stroke="{L["salmon_deep"]}" '
+                             f'stroke-width="{SS.LW["medium"]}"/>')
+                else:
+                    ox0 = X(b["x_ft"] + (b["width_ft"] - _ow) / 2.0)
+                    oy = Y(b["y_ft"] + (b["depth_ft"] if b["wall"] == "S" else 0))
+                    s.append(f'<line x1="{ox0:.1f}" y1="{oy:.1f}" '
+                             f'x2="{ox0 + _ow * scale:.1f}" y2="{oy:.1f}" '
+                             f'stroke="{L["salmon_deep"]}" stroke-width="{SS.LW["medium"]}"/>')
 
         # ---------------------------------------------------------- openings
         # A WINDOW IS A BREAK IN THE WALL, NOT A BAR LAID ON IT. Until this package a window
@@ -1178,6 +1285,30 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                  f'L {M+BP:.1f} {ly+3.0:.1f} Z"/>')
         s.append(f'<text class="lb" x="{M+BP+16:.1f}" y="{ly+3:.1f}">'
                  f'A CUT OFF THE BAY LINE — NO BEARING WALL UNDER IT</text>')
+
+    # ------------------------------------------------------------- what the record asked for
+    # Drawn in BOTH registers, and that is the ruling this port carries rather than an
+    # oversight: the `∗` on the field is a working mark and this table is what the mark MEANS.
+    # A presentation sheet that keeps the mark and drops its explanation is the state WP-6.1
+    # found the relaxation triangle in -- a symbol a drawing uses with nothing to read it by.
+    if all_diverged:
+        ty = top + extra_top + ph + extra_bottom + foot_h + sched_h + 4.0
+        s.append(f'<text class="lb" x="{M+BP:.1f}" y="{ty:.0f}" style="fill:{L["salmon_deep"]}">'
+                 f'WHAT THE RECORD ASKED FOR — ∗ ROOMS, DRAWN AGAINST DECLARED</text>')
+        for n, d in enumerate(all_diverged):
+            cx0 = M + BP + (n // max(1, _table_rows)) * TABLE_COL_W
+            cy0 = ty + 15 + (n % max(1, _table_rows)) * 11
+            g = _decl_pair.get(d["id"])
+            asked = f'{_fmt(min(g))} x {_fmt(max(g))}' if g else "—"
+            drew = _drawn_pair.get(d["id"])
+            got = f'{_fmt(min(drew))} x {_fmt(max(drew))}' if drew else "—"
+            # THE ID WHERE THE NAME IS NOT UNIQUE. Two rooms called "Closet" produced two rows
+            # a reader could not tell apart, differing only in figures nobody could attribute.
+            label = d["name"] if _name_unique.get(d["name"], 0) == 1 \
+                else f'{d["name"]} ({d["id"]})'
+            s.append(f'<text class="dm" x="{cx0:.1f}" y="{cy0:.1f}">'
+                     f'{_esc(label)}: drawn {got}, record {asked} '
+                     f'({"+" if d["pct"] > 0 else ""}{d["pct"]:.0f}%)</text>')
     s.append('</svg>')
     open(path, "w").write("\n".join(s))
     return path
@@ -1494,6 +1625,28 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
             "windows": windows, "windows_off_footprint": off_footprint,
             "windows_crowded": crowded, "inferred_widths": inferred_widths,
             "inferred_positions": inferred_positions}
+
+# The `.lb` face is monospaced at 8.5px with .14em of letter-spacing, so one character costs
+# 8.5*0.60 + 8.5*0.14 px. A banner line longer than the plate is a disclosure the sheet does not
+# make: the first WP-11.1 draft ran the undrawn-window line 160 characters and the canvas cut it
+# mid-word, which is this repository's oldest class of defect (a mark inside no viewBox) wearing
+# the clothes of the package sent to fix it. Wrapping, never truncating -- a disclosure that does
+# not fit is still owed.
+LB_ADVANCE_PX = 8.5 * (0.60 + 0.14)
+
+def _wrap_banner(text, width_px):
+    if width_px <= 0: return [text]
+    per_row = max(20, int(width_px // LB_ADVANCE_PX))
+    if len(text) <= per_row: return [text]
+    rows, line = [], ""
+    for word in text.split(" "):
+        trial = f"{line} {word}".strip()
+        if len(trial) > per_row and line:
+            rows.append(line); line = "  " + word     # the continuation is indented, not flush
+        else:
+            line = trial
+    if line: rows.append(line)
+    return rows
 
 def declared_divergence(rooms, tol_ft=0.5):
     """Rooms DRAWN at a size their own record does not declare. The sheet prints the placed

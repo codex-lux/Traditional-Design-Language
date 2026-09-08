@@ -85,6 +85,12 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "Across the building, which means across the prevailing wind, which is why it works as a ventilation device and why it is the direct precedent for the dogtrot and the breezeway.",
+    "aspect": {
+      "applies": false,
+      "basis": "Across the building, which means across the prevailing wind",
+      "note": "An axis of the passage and its doors against the wind, not an aspect for glass -- the same reading as the breezeway, which the record names as its descendant.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.02,
       0.1

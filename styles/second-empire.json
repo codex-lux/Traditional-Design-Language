@@ -202,19 +202,55 @@
       "name": "Terrace Hill",
       "location": "Des Moines, Iowa",
       "year": 1869,
-      "note": "William W. Boyington, 1866-69, for Benjamin F. Allen. Mansard roof, paired narrow windows, bracketed eaves, and a tower; now the Iowa governor's residence."
+      "note": "William W. Boyington, 1866-69, for Benjamin F. Allen. Mansard roof, paired narrow windows, bracketed eaves, and a tower; now the Iowa governor's residence.",
+      "precedent": "terrace-hill",
+      "standing": "canonical",
+      "why": "A documented type specimen for the domestic case: the National Historic Landmark nomination describes the house and its carriage house as two contributing resources and names Boyington, and the state's own history places it among his three important residential Second Empire designs outside Chicago."
     },
     {
       "name": "Eisenhower Executive Office Building (State, War and Navy Building)",
       "location": "Washington, District of Columbia",
       "year": 1888,
-      "note": "Alfred B. Mullett, 1871-88. Granite, ten acres of floor, and the most complete institutional Second Empire building in the United States."
+      "note": "Alfred B. Mullett, 1871-88. Granite, ten acres of floor, and the most complete institutional Second Empire building in the United States.",
+      "precedent": "eisenhower-executive-office-building",
+      "standing": "icon",
+      "why": "The building the American style is known by, and its own custodian says so -- the GSA calls it 'A major example of French Second Empire style architecture' and gives its architectural style as 'French Second Empire' in the same page's own fact list."
     },
     {
       "name": "Philadelphia City Hall",
       "location": "Philadelphia, Pennsylvania",
       "year": 1901,
-      "note": "John McArthur Jr., 1871-1901. The largest masonry load-bearing building in the country and the late civic apotheosis of the style."
+      "note": "John McArthur Jr., 1871-1901. The largest masonry load-bearing building in the country and the late civic apotheosis of the style.",
+      "precedent": "philadelphia-city-hall",
+      "standing": "icon",
+      "why": "Its National Register nomination calls it 'the greatest monument of the worldwide Second Empire style', measured against the city halls of Boston, Baltimore, Pittsburgh, Detroit, Paris, Montreal and Sydney by name."
+    },
+    {
+      "name": "Lockwood-Mathews Mansion",
+      "location": "Norwalk, Connecticut",
+      "year": null,
+      "note": "Detlef Lienau for LeGrand Lockwood, at Elm Park. The survey refuses a firm date -- 'the sources are contradictory and the Lienau drawings at Avery Library are undated' -- and reasons to a start in spring 1864 or 1865, so no year is stated here. Its 1874 sale advertisement dimensions the whole estate: a stable for eight horses, a farm stable 35 by 56 ft, an ice-house 30 by 45 ft.",
+      "precedent": "lockwood-mathews-mansion",
+      "standing": "canonical",
+      "why": "The type specimen for the Second Empire country house, and its survey names the French borrowings one by one -- mansard roofs, dormers immediately above the cornice line, corner quoining, tall banded chimneys -- which is this node's own diagnostic list written by a surveyor."
+    },
+    {
+      "name": "Corcoran Art Gallery (Renwick Gallery)",
+      "location": "Pennsylvania Avenue at Seventeenth Street NW, Washington, District of Columbia",
+      "year": 1861,
+      "note": "James Renwick Jr., begun 1859. Its own HABS cover states the scale fact this node most needs: two storeys standing at about the height of the five-storeyed State, War and Navy Building across the street. Crestings removed in the early 1940s for scrap iron. The Smithsonian dates completion to 1864 where the survey says 1859-61.",
+      "precedent": "corcoran-art-gallery-renwick",
+      "standing": "canonical",
+      "why": "DC Historic Sites puts it plainly: 'The relatively modest scale of this building, the date of its construction, and the excellence of its architectural detail give this building a seminal position in the development of the Second Empire style in the United States.'"
+    },
+    {
+      "name": "Old City Hall, 45 School Street",
+      "location": "Boston, Massachusetts",
+      "year": 1865,
+      "note": "Gridley J. F. Bryant and Arthur Gilman, 1862-65. HABS MA-860 states the pavilion system as a bay count: nine bays across the main front, six along the sides, a three-bay centre pavilion one bay deep rising a storey above the mansard under a square convex 'dome'. Round-headed windows on the principal floors, segmental on the third.",
+      "precedent": "old-city-hall-boston",
+      "standing": "canonical",
+      "why": "Its own survey calls it 'one of the first monumental examples of this style in America and ... indeed of considerable influence in encouraging the French fashion in this country', and it is the only building on this node whose bays are counted in a survey."
     }
   ],
   "sources": [

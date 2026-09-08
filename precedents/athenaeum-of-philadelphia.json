@@ -1,0 +1,69 @@
+{
+  "id": "athenaeum-of-philadelphia",
+  "name": "Athenaeum of Philadelphia",
+  "location": {
+    "text": "Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania",
+    "aliases": [
+      "219 South Sixth Street (East Washington Square), Philadelphia, Pennsylvania"
+    ]
+  },
+  "aka": [
+    "Philadelphia Athenaeum"
+  ],
+  "dates": {
+    "built": "1845-1847",
+    "circa": false,
+    "note": "The Encyclopedia of Greater Philadelphia says 'Constructed from 1845-47'; the style node says designed 1845, completed 1847."
+  },
+  "nodes": [
+    "renaissance-revival-american",
+    "romantic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1389",
+      "title": "Philadelphia Athenaeum, 219 South Sixth Street (East Washington Square), Philadelphia, Philadelphia County, Pennsylvania",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1000/pa1092/data/pa1092data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed on the data page's own cover. THE DATA FILE IS A COVER SHEET ONLY: its whole legible content reads 'Philadelphia Athenaeum HABS No. PA-1389 219 South Sixth Street (East Washington Square) Philadelphia Philadelphia County Pennsylvania ... PHOTOGRAPHS REDUCED COPIES OF MEASURED DRAWINGS'. There is no written historical and descriptive data to quote, which is why this record carries no `survey` block. The figures are on the measured drawings, which this container cannot read."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa1092",
+      "url": "https://www.loc.gov/resource/hhh.pa1092.photos?st=grid",
+      "title": "Philadelphia Athenaeum, 219 South Sixth Street (East Washington Square), Philadelphia, Philadelphia County, PA - Photos from Survey HABS PA-",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's title truncates the survey number after 'HABS PA-'; the number itself is read from the data page, above."
+    },
+    {
+      "kind": "other",
+      "url": "https://philadelphiaencyclopedia.org/essays/athenaeum-of-philadelphia",
+      "title": "Athenaeum of Philadelphia - Encyclopedia of Greater Philadelphia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'Architect John Notman developed a three-story brownstone Italianate Renaissance Revival building designed to hold the Athenaeum's collections on the second floor.' Note the compound label -- the piano nobile is stated, which is the one fact the renaissance-revival-american kit's own `piano_nobile_min_ratio` depends on."
+    },
+    {
+      "kind": "institution",
+      "url": "https://philaathenaeum.org/hours-and-location",
+      "title": "Visit - The Athenaeum of Philadelphia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Gives the address as 219 S. 6th Street, 'East side of Washington Square below Walnut St.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://hiddencityphila.org/2023/03/the-athenaeum-of-philadelphia-refreshed-with-facade-renovation",
+      "title": "The Athenaeum of Philadelphia Refreshed With Facade Renovation - Hidden City Philadelphia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records that the National Register listed the Athenaeum in 1972 and that it was designated a National Historic Landmark four years later, and that it is a contributing structure in the Society Hill Historic District. No reference number is given there, so none is recorded."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. A HABS survey EXISTS for this building and has no words in it: PA-1389 is photographs and reduced copies of measured drawings, and its data file is one cover sheet. That is a different gap from 'no survey', and the distinction matters to anyone costing this work -- the figures the corpus wants are drawn, digitised, and unreadable from this container. The Encyclopedia of Greater Philadelphia supplies the one thing the kit needs in words: three storeys with the collections, and therefore the tall room, on the SECOND floor."
+}

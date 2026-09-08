@@ -427,10 +427,19 @@ def test_the_ground_an_appendage_covers_is_beside_the_built_extent_and_not_in_it
     safe-looking sign. Two questions, two numbers."""
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     row = sol["geometry_report"]["lot_extent"]
-    assert row["built_extent_width_ft"] == 60.0
+    # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). This pinned the literal 60.0 and
+    # 74.0, and main's WP-11.2 -- the massing's own bay count and its parity -- made this house
+    # 63 ft wide, which is that package working rather than this one breaking. The property the
+    # test is about is that the built extent is the ELEMENTS and the appendage is BESIDE it, so
+    # it reads the footprint and asserts the relation; a literal here could only ever be bumped.
+    fw = float(sol["footprint"]["width_ft"])
+    assert row["built_extent_width_ft"] == fw
     ag = row["at_grade"]
     assert ag["appendages"] == 1 and ag["in_the_built_extent"] is False
-    assert ag["covered_width_ft"] == 74.0, "the terrace's 14 ft is not in the covered figure"
+    assert ag["covered_width_ft"] == fw + 14.0, (
+        "the terrace's 14 ft is outside the built extent and inside the covered figure")
+    assert ag["covered_width_ft"] > row["built_extent_width_ft"], (
+        "two questions, two numbers -- a covered figure equal to the built extent has lost one")
     # and a plan with no appendage carries no such row
     sol2 = _solved(str(ROOT / "plans" / "spec-builder-colonial.json"))
     assert "at_grade" not in sol2["geometry_report"]["lot_extent"]
@@ -562,7 +571,11 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
     RP = _mod("render_plan")
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     rects = RP.appendage_rects(sol)
-    assert len(rects) == 1 and rects[0]["x_ft"] == 60.0 and rects[0]["width_ft"] == 14.0
+    # `x_ft` is the block's own east face, read rather than pinned -- see the built-extent test
+    # above for why the literal 60.0 that stood here is now the footprint's width.
+    assert len(rects) == 1
+    assert rects[0]["x_ft"] == float(sol["footprint"]["width_ft"])
+    assert rects[0]["width_ft"] == 14.0
     assert rects[0]["area_sf"] == round(rects[0]["width_ft"] * rects[0]["depth_ft"])
     # AND THE DRAWN MARK IS ON THE PLATE, which is the question `appendage_rects` exists to
     # answer. Reading the function's return would pass with the call removed from `_pts`.
@@ -592,7 +605,15 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
 
 # --------------------------------------------------------------- the guarantee
 
-CORPUS_PLACEMENT_SHA = "151126d0269bbc61"
+# RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), and it moved for a reason that is
+# neither branch's alone. Measured on `git archive` checkouts of both parents and on the merged
+# tree: this branch alone 151126d0269bbc61, main alone f9581168be01a1b5, merged
+# 68b102ff6a724e47 -- a third value, because the FOOTPRINTS are main's (WP-11.2's massing bay
+# count and centre-bay parity: the Tidewater 60.0 x 40.08 -> 63 x 38.17 on all sixteen plans)
+# and the ROOM RECTANGLES inside them are this branch's (WP-11.7/11.8's proportion band as the
+# first key of the candidate acceptance). Both are ruled packages and both compose; a merged
+# digest equal to either parent's would have meant one side had been silently dropped.
+CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
 
 
 def test_placing_the_terrace_moved_no_shipped_placement():

@@ -1,0 +1,56 @@
+{
+  "id": "house-of-the-vettii",
+  "name": "House of the Vettii",
+  "aka": [
+    "Casa dei Vettii"
+  ],
+  "location": {
+    "text": "Pompeii, Italy",
+    "country": "Italy",
+    "state": "Campania"
+  },
+  "dates": {
+    "built": "Augustan remodelling, 1st century BC",
+    "altered": "The park's record gives the excavation date as 1894-1895; the node's exemplar note describes the final form after the earthquake of AD 62.",
+    "note": "The park's own record dates the surviving arrangement to 'la ristrutturazione di età augustea (I sec. a.C.)' and does not date the original house; the node's exemplar note gives 'Final form after the earthquake of AD 62, buried AD 79'. Both are recorded."
+  },
+  "nodes": [
+    "roman-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://pompeiisites.org/sito_archeologico/casa-dei-vettii",
+      "title": "Casa dei Vettii - Pompeii Sites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Parco Archeologico di Pompei's own building record (pompei.info@cultura.gov.it). Extracted twice with different queries: the first pass returned only the Augustan-remodelling paragraph and the second returned the opening sentence, exactly the behaviour the tile.loc.gov route shows."
+    }
+  ],
+  "survey": {
+    "item": "casa-dei-vettii",
+    "register": "other",
+    "data_url": "https://pompeiisites.org/sito_archeologico/casa-dei-vettii",
+    "prepared": "Parco Archeologico di Pompei, institutional portal, building record 'Casa dei Vettii'; the record prints its own excavation date and no author",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "La casa, tra le più ricche e famose di Pompei, è posta sotto la protezione di Priapo dio della prosperità, dipinto a destra della porta, che simboleggia la prosperità economica dei proprietari, i fratelli _AulusVettiusRestitutus_ e _AulusVettius Conviva_, liberti, divenuti ricchi grazie al commercio.",
+        "page": "Casa dei Vettii record, opening paragraph. The underscores are the extract's rendering of the page's italics and the run-together names are as the extract prints them."
+      },
+      {
+        "field": "plan",
+        "text": "Nella ristrutturazione di età augustea (I sec. a.C.) viene cambiato l’aspetto della casa rispetto allo schema tradizionale che caratterizza altre abitazioni come quelle del Fauno e di Sallustio, eliminando anche il _tablinum_, per ottenere più spazio per il grande giardino, ricco di statue con zampilli d’acqua, che costituisce il perno della dimora. Le stanze più riccamente decorate si affacciano sul peristilio, tra queste il salone con il fregio di Amorini che svolgono le principali attività produttive dell’epoca, dalla vendita del vino alla pulitura delle vesti, dalla coltivazione dei fiori alla vendemmia, dall'oreficeria alla creazione di profumi.",
+        "page": "Casa dei Vettii record, second paragraph"
+      },
+      {
+        "field": "other",
+        "text": "Nella zona della cucina è il larario dipinto; nella stanza adiacente, decorata con una serie di quadretti erotici, svolgeva la sua attività la prostituta _Eutychis_, schiava che si offriva per due assi, come racconta un graffito all'ingresso della casa.",
+        "page": "Casa dei Vettii record, third paragraph, immediately before 'Data di scavo: 1894-1895.'"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. No dimension is stated and none is carried. The record's real value to this corpus is a NEGATIVE one that the park states plainly: this house is the atrium-and-peristyle domus with the tablinum DELETED, 'eliminando anche il tablinum', to enlarge the garden -- so the node's 'best-preserved atrium-and-peristyle domus' is preserved and is not canonical in plan, and the corpus's own room grammar would look for a room this house does not have. No UNESCO reference is written: the inscription number for the Pompeii property was not read from a UNESCO page in this session, and an id typed from memory is exactly how a wrong citation gets laundered."
+}

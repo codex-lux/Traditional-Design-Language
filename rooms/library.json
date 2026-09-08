@@ -107,6 +107,20 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "NORTH, AND FOR TWO REASONS THAT POINT THE SAME WAY. Direct sun bleaches bindings and cloth measurably within a few years and degrades paper; and reading needs light on the page without glare or a moving bar of sunlight across it. A north or north-east library is the historic preference and the correct one. Where the room must face south or west, the books go on the wall the sun cannot reach and the window gets a blind that is actually used.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N",
+        "NE"
+      ],
+      "avoid": [
+        "S",
+        "W"
+      ],
+      "basis": "A north or north-east library is the historic preference and the correct one.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.2

@@ -1,0 +1,113 @@
+{
+  "id": "pieter-wyckoff-house",
+  "name": "Pieter Wyckoff House",
+  "aka": [
+    "Peter Wyckoff House",
+    "Wyckoff House",
+    "Wyckoff Farmhouse Museum"
+  ],
+  "location": {
+    "text": "Flatlands, Brooklyn, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "c. 1652 (the node's own figure and the Wikipedia infobox, 'dated via dendrochronology')",
+    "circa": true,
+    "note": "THE SURVEY DISAGREES WITH THE NODE, and by nearly a century: the 1930s data page states 'Date of Erection: About 1739', and its historical discussion (quoting Van Wyck, Keskachauge, 1924) argues from the 1719 land division that the Wyckoffs probably did not build before April 1739. Wikipedia's infobox gives 1652, 'dated via dendrochronology', and its text 'It is estimated to have been built before 1641 ... Pieter Claesen Wyckoff's family moved in around 1652'. Neither figure is edited to agree with the other; the exemplar's 1652 is the museum's and the dendrochronological reading, the survey's 1739 is a 1930s documentary argument about a house whose fabric is mostly later.",
+    "altered": "The node's own note says most of the standing fabric is later and the small kitchen wing preserves the earliest work; the survey found the house 'very bad' in the 1930s under owners who had given it no attention for ten years."
+  },
+  "nodes": [
+    "dutch-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-4-28",
+      "title": "Peter Wyckoff House, 5902 Canarsie Lane, Brooklyn, Kings County, NY",
+      "url": "https://www.loc.gov/pictures/item/ny0257",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's item line reads 'Call Number: HABS NY,24-BROK,32- Survey number: HABS ...'; the number NY-4-28 is printed in the data page's own header ('HABS No, 4-28', district No. 4), read by extract the same day, and appears again inside the Lefferts House data page as 'H.A.B.S. survey No. NY4-28'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0257",
+      "url": "https://www.loc.gov/pictures/item/ny0257",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "67000013",
+      "url": "https://en.wikipedia.org/wiki/Wyckoff_House",
+      "title": "Wyckoff House - Wikipedia (infobox: NRHP reference No. 67000013; Added to NRHP December 24, 1967; Designated NHL December 24, 1967; NYCL No. 0001)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Wyckoff_House",
+      "title": "Wyckoff House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0257",
+    "register": "loc-item",
+    "survey_no": "NY-4-28",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0257/data/ny0257data.pdf",
+    "prepared": "Historic American Buildings Survey, District No. 4, Southern New York State; the cover reads 'Wm. Dewey Foster, District Officer, 25 West 45th Street, New York City' (OCR: '7, rm. Dewey Foster')",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "THE WYCKOFE HOUSE 32-Brooklyn, New York. Date of Erection: About 1739 o",
+        "page": "HABS No. 4-28, Page 1; the extract prints 'HABS No, 4-28' and 'Page 1. HA8S-S' immediately above this line"
+      },
+      {
+        "field": "condition",
+        "text": "Present Condition: The present condition of the house is very-bad, the present owners not having given any attention to preservation during their ownership covering the last ten years. The house looks as though it had not received the care and attention it so well deserves. The roof of the main portion which originally was shingle, is covered with a tar and felt slate surfaced roofing paper and this portion is the only tight roof on the house and because of this the interior of the main portion is in fairly good condition although brutally marred by the present occupants through the application of hideous colors of paint to the interior. Number of Stories: One and one-half.",
+        "page": "HABS No. 4-28; no page marker legible in the extract span"
+      },
+      {
+        "field": "structural_system",
+        "text": "the con-struction is a framework of hand-hewn oak timbers fastened together with wooden pins or handmade nails. The construction of the frame is interest-ing in that sturdy oak posts carry up thru the building and tie into and form part of the bracing and framing in the attic for the roof construction. All this is clearly shown on the measured drawings. The floors are of oak planking varying from one and one-half inches to two inches in thickness and in widths up to seventeen inches, these are shimmed up from the tops of the oak timbers support-ing them so that tops of planks are level.",
+        "page": "HABS No. 4-28; no page marker legible in the extract span"
+      },
+      {
+        "field": "walls",
+        "text": "Another interesting feature of construction is the filling of the walls with brick and mud, the latter being of a yellowish color and having mixed with it a certain percentage of grass. The walls under the main excavated portion of the house are of heavy field stone laid up in mortar, while those under the unexcavated portions are of stone and laid up dry. The stonework of the chimney appearing on the exterior, above grade, is a selected stone brownish in color and laid up in a white cement mortar. The exterior walls of the main portion of the house are of hand-made shingles, unpainted",
+        "page": "HABS No. 4-28; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of Stories: One and one-half.",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "floor_plank_thickness_in",
+      "as_printed": "one and one-half inches to two inches in thickness",
+      "value": 2,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "The upper end of the stated range; the range itself is in the quote."
+    },
+    {
+      "name": "floor_plank_width_in",
+      "as_printed": "widths up to seventeen inches",
+      "value": 17,
+      "unit": "in",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. The survey is an early district form and gives no overall dimensions; what it does give is the FRAME, which is what this style node says it transmits -- 'sturdy oak posts carry up thru the building and tie into and form part of the bracing and framing in the attic'. Worth carrying: the survey's date of erection (about 1739) is nearly a century later than the node's 1652, and the two are recorded side by side rather than reconciled."
+}

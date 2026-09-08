@@ -1,0 +1,54 @@
+{
+  "id": "sulgrave-manor-house-chestnut-hill",
+  "name": "Sulgrave Manor house, 200 West Willow Grove Avenue",
+  "location": {
+    "text": "Chestnut Hill, Philadelphia, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1925-1927",
+    "circa": true,
+    "altered": "Built to receive the interiors of the Sulgrave Manor replica shown at the 1926 Sesquicentennial International Exposition in South Philadelphia, which Woodward bought when the fair closed.",
+    "note": "THE SOURCES DISAGREE AND BOTH ARE KEPT. The style node's exemplar gives 1927. A property listing read the same day says the house at 200 W Willow Grove Ave was 'built in 1925'. The replica whose interiors it holds was an exhibit at the 1926 exposition, which is the fixed point between the two; neither figure is edited."
+  },
+  "nodes": [
+    "cotswold-cottage-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/H._Louis_Duhring_Jr.",
+      "title": "H. Louis Duhring Jr. - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'A replica of Sulgrave Manor, the English ancestral home of George Washington, was an attraction at the 1926 Sesquicentennial Exposition in Philadelphia. Woodward bought its interiors, and had them installed in his own replica, designed by Duhring, that stands at 200 West Willow Grove Avenue in Chestnut Hill.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://chconservancy.pastperfectonline.com/Library/07B1502A-1714-11DB-87AE-024762882120",
+      "title": "Chestnut Hill Conservancy library record: '\"Sulgrave Manor\" 200 Willow Grove Ave., Louis Duhring, arch.'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The local archive's own catalogue entry, which describes it as the ancestral home of George Washington in Sulgrave, England, and connects it to the Sesquicentennial exhibition."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.philadelphiabuildings.org/pab/app/ar_display_projects.cfm/22482",
+      "title": "Duhring, Herman Louis, Jr. (1874-1953) -- project list, Philadelphia Architects and Buildings",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Athenaeum of Philadelphia's index lists 'PA (Chestnut Hill) W WILLOW GROVE AVE Philadelphia, PA \"Sulgrave Manor\" dwelling' with 24 total holdings of drawings, photographs and papers."
+    },
+    {
+      "kind": "nrhp",
+      "id": "85001334",
+      "url": "https://en.wikipedia.org/wiki/Chestnut_Hill_Historic_District_(Philadelphia)",
+      "title": "Chestnut Hill Historic District, NRHP reference No. 85001334, added June 20, 1985",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing, not an identity for this house."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. The oddest object in the cluster and worth keeping for that: a 1920s Philadelphia house built as a replica of a Northamptonshire manor, furnished with the interiors of ANOTHER replica of the same manor shown at a world's fair. It is a precedent for the style's own logic - the English cottage manner in America is a copy of a copy, and here that is literally true - rather than a measured specimen; no dimensions are recorded because none was found."
+}

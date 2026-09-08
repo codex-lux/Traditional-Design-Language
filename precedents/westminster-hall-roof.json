@@ -1,0 +1,128 @@
+{
+  "id": "westminster-hall-roof",
+  "name": "Westminster Hall roof",
+  "aka": [
+    "Westminster Hall",
+    "Palace of Westminster"
+  ],
+  "location": {
+    "text": "London, England",
+    "country": "England",
+    "state": "City of Westminster, London"
+  },
+  "dates": {
+    "built": "Roof commissioned 1393; the hall beneath it built 1097-99",
+    "circa": false,
+    "altered": "Historic England 1226284 dates the remodelling 1394-1401; UK Parliament's own page says the lanterns were completed 1397-98 and that work stopped in 1401 with the tracery not quite complete.",
+    "note": "THE SOURCES DISAGREE ABOUT THE ROOF'S DATE AND BOTH ARE RECORDED. Historic England 1226284 says Westminster Hall 'was remodelled 1394-1401 by Henry Yevele with Hugh Herland (carpenter)'; UK Parliament says the roof 'was commissioned in 1393 by Richard II'. The node's exemplar note gives 1393-99 and a year of 1399. Nothing is resolved here."
+  },
+  "nodes": [
+    "english-gothic"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1226284",
+      "title": "Houses of Parliament and The Palace of Westminster, Non Civil Parish - 1226284 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1226284",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I, Date first listed 05-Feb-1970. Its Details section reads, as continuous prose: 'The surviving parts of the Palace of Westminster, and the Houses of Parliament are formed of two main phases, starting with Westminster Hall 1097-99, which was remodelled 1394-1401 by Henry Yevele with Hugh Herland (carpenter). The interior of the hall has a vast hammerbeam roof of an exceptionally early date and scale, and has an outstanding late C14 figure sculpture flanking the dais arch.' The entry covers the whole palace, which is why it is not this record's survey block."
+    },
+    {
+      "kind": "institution",
+      "title": "The hammer-beam roof - UK Parliament",
+      "url": "https://www.parliament.uk/about/living-heritage/building/palace/westminsterhall/architecture/the-hammer-beam-roof-",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "title": "Early history - UK Parliament",
+      "url": "https://www.parliament.uk/about/living-heritage/building/palace/westminsterhall/architecture/early-history",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THIS PAGE CONTRADICTS ITS OWN SIBLING BY ONE FOOT AND CARRIES A WALL THICKNESS THE OTHER DOES NOT. Read by extract as continuous prose: 'But the Hall was indeed by far the largest hall in England, and probably in Europe at that time. Measuring 73 by 20 metres (240 by 67 feet), it had a floor area covering 1,547 square metres (about 17,000 square feet), with a length of almost four cricket pitches end-to-end.' and 'The Hall was enclosed with stone walls fully two metres, or six feet thick; these largely remain today, though heightened and refaced.' The hammer-beam page prints 68 feet for the same dimension. Neither figure is changed."
+    },
+    {
+      "kind": "unesco",
+      "id": "426",
+      "title": "Palace of Westminster, Westminster Abbey, and St Margaret's Church",
+      "url": "https://en.wikipedia.org/wiki/Palace_of_Westminster",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The inscription reference number as the Wikipedia infobox prints it in a search result ('Reference no. | 426', 'Designated | 1987 (11th session)'). An infobox field value, not prose, and not read on UNESCO's own site from here."
+    }
+  ],
+  "survey": {
+    "item": "westminsterhall-architecture-the-hammer-beam-roof",
+    "register": "other",
+    "data_url": "https://www.parliament.uk/about/living-heritage/building/palace/westminsterhall/architecture/the-hammer-beam-roof-",
+    "prepared": "UK Parliament, Living Heritage: The building & its collections / The Palace of Westminster / Westminster Hall / Architecture / The hammer-beam roof. No author or date is printed on the page.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The magnificent hammer-beam roof of Westminster Hall is the largest medieval timber roof in Northern Europe. Measuring 20.7 by 73.2 metres (68 by 240 feet), the roof was commissioned in 1393 by Richard II, and is a masterpiece of design.",
+        "page": "UK Parliament, Living Heritage, 'The hammer-beam roof', opening paragraph under the page heading"
+      },
+      {
+        "field": "structural_system",
+        "text": "In redesigning the roof, Herland fashioned great oak beams to serve as horizontal supports fixed to the walls (which Yevele strengthened by massive buttresses). Wooden arches joined to the top of these beams met centrally in a span of 18 metres (60 feet) or more.",
+        "page": "UK Parliament, 'The hammer-beam roof', section 'The roof's features', first paragraph"
+      },
+      {
+        "field": "structural_system",
+        "text": "The construction of the roof was an exceedingly complex and dangerous operation, given the size and weight of the timber and the great heights they had to be lifted to (about 28 metres, or 92 feet). But the result, as we see it after nearly 600 years, is a vast, clear space unobstructed by a single column.",
+        "page": "UK Parliament, 'The hammer-beam roof', section 'Complex and dangerous'"
+      },
+      {
+        "field": "roof",
+        "text": "Two great lanterns on the ridge of the roof (to let smoke out and light and air in) were completed in 1397-98. The process of finishing the roof, including the decorative tracery, took somewhat longer, and was not quite complete when work stopped in 1401.",
+        "page": "UK Parliament, 'The hammer-beam roof', section 'Lanterns on the roof'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "(68 by 240 feet)",
+      "value": 68,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The narrower dimension. The sentence prints the metric pair first in the same order (20.7 by 73.2 metres), so 68 ft is 20.7 m. UK Parliament's own 'Early history' page prints 67 feet for this dimension; see that ref's note. Neither was changed."
+    },
+    {
+      "name": "overall_length_ft",
+      "as_printed": "(68 by 240 feet)",
+      "value": 240,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "roof_clear_span_ft",
+      "as_printed": "a span of 18 metres (60 feet) or more",
+      "value": 60,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "'or more' is the page's own hedge and is kept. This is the span of the wooden arches at the centre of the truss, not the clear width of the hall, which the same site gives as 68 or 67 ft."
+    },
+    {
+      "name": "roof_timber_lift_height_ft",
+      "as_printed": "(about 28 metres, or 92 feet)",
+      "value": 92,
+      "unit": "ft",
+      "from_quote": 2,
+      "note": "The height the timbers had to be lifted to, stated as an approximation. It is NOT stated as the height of the roof or of the hall, and must not be read as one."
+    },
+    {
+      "name": "roof_lantern_count",
+      "as_printed": "Two great lanterns on the ridge of the roof",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE SURVEY BLOCK HERE IS AN INSTITUTIONAL DESCRIPTION PAGE AND NOT A HERITAGE REGISTER ENTRY, WHICH IS A DEVIATION AND IS DECLARED. WP-11.5 admits a national heritage list entry as the survey; Historic England's entry 1226284 covers the entire Palace of Westminster and states no dimension, while UK Parliament's own page for this roof states five figures. The exemplar is the ROOF, so the roof's own institution is the survey and the list entry is a ref. `survey_no` is absent because there is no HABS number. The exemplar names a component of a building -- `oq/an-exemplar-that-is-not-one-whole-building`."
+}

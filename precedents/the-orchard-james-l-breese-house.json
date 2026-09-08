@@ -1,0 +1,59 @@
+{
+  "id": "the-orchard-james-l-breese-house",
+  "name": "The Orchard (James L. Breese House)",
+  "aka": [
+    "The Orchard",
+    "James L. Breese House",
+    "Whitefield condominiums"
+  ],
+  "location": {
+    "text": "Southampton, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1897-1906",
+    "circa": false,
+    "altered": "An 1858 house on the site was incorporated into the structure (Wikipedia); converted to the Whitefield condominiums (Library of Congress Johnston collection note).",
+    "note": "The Wikipedia infobox prints 'Built 1898' and its text 'designed as a summer residence between 1897 and 1906'. The span is recorded and 1898 taken as the exemplar year."
+  },
+  "nodes": [
+    "colonial-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "80002778",
+      "url": "https://en.wikipedia.org/wiki/James_L._Breese_House",
+      "title": "NRHP reference No. 80002778; added April 18, 1980 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/James_L._Breese_House",
+      "title": "James L. Breese House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'It is two and one half stories high and clad with white painted wood shingles. Its two-story portico is' (the sentence is cut in the extract). Location given as 155 Hill Street."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/collection/fbj/item/2008675603",
+      "title": "[\"The Orchard,\" James Lawrence Breese house, 151 Hill Street, Southampton, New York] -- Frances Benjamin Johnston collection, Library of Congress",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Today: House, converted to Whitefield condominiums, is on the National Register of Historic Places.' The Johnston record prints 151 Hill Street where Wikipedia prints 155."
+    },
+    {
+      "kind": "other",
+      "url": "https://theclio.com/entry/135700",
+      "title": "James L. Breese House/ The Orchard - Clio",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The sprawling, U-shaped house was designed as a summer home and built between 1897 and 1906 on a 30-acre tract.'"
+    }
+  ],
+  "note": "Written 4 Sep 2026. No HABS. Two street numbers on the record (151 and 155 Hill Street) from two sources; neither is corrected."
+}

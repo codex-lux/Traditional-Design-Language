@@ -1,0 +1,45 @@
+{
+  "id": "troxell-steckel-house",
+  "name": "Troxell-Steckel House",
+  "location": {
+    "text": "4229 Reliance Street, Egypt, Whitehall Township, Lehigh County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1756",
+    "circa": false,
+    "altered": "Given with the property to the Lehigh County Historical Society in 1942; restored over about thirty years and dedicated as a museum in June 1972; added to the National Register in 1980.",
+    "note": "A stone inset on the second storey carries the date and, in German, the names of Johan Peter Trochsel and Maria Magdala. Wikipedia states the 1980 listing without printing a reference number, so none is recorded."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Troxell-Steckel_House",
+      "title": "Troxell-Steckel House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Built in 1756 by Johannes Peter Troxell (1719-1799), the historic structure is a 2+1/2-story, fieldstone dwelling with a high-pitched gable roof. Designed in the Pennsylvania-German style, it measures 48 feet (14.6 m) long and 35 feet (10.6 m) wide.' Also on the property: a contributing stone spring house and a late-nineteenth-century barn."
+    },
+    {
+      "kind": "other",
+      "url": "https://pamarkers.blogspot.com/2024/04/troxell-steckel-house-whitehall-lehigh.html",
+      "title": "Troxell-Steckel House, Whitehall, Lehigh County -- MarkerQuest",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A marker-hunting blog, recorded as one, but the only source read that gives the siting: Troxell 'purchased a plot of land adjacent to an excellent spring, and in 1756, his work was completed. It's a two-and-a-half story stone house in the German medieval style of architecture; it's made from local fieldstone and timber, measuring 48 feet long and 35 feet wide.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.discoverlehighvalley.com/blog/lehigh-county-treasure-trail",
+      "title": "Lehigh County Treasure Trail -- Discover Lehigh Valley (Lehigh County Historical Society property)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Its location along Coplay Creek and a natural spring made it ideal for farming, with a springhouse used for fresh water and food storage. Once among the largest homes on the frontier.'"
+    }
+  ],
+  "note": "The plain measurable one. No HABS survey was found under any name tried, so the 48 x 35 ft figure reaches this record through Wikipedia and a marker blog rather than through a survey, and it is recorded as a SECONDARY figure. It is carried because that ratio -- 1.37 -- is the widest in this cluster against the Hans Herr House's 1.22 and the Golden Plough Tavern's 1.20, and because the springhouse is a separate building here where at Fort Zeller and the Hager House the spring runs under the dwelling. That contrast is the whole argument of the bank-house node, drawn between two buildings forty miles apart."
+}

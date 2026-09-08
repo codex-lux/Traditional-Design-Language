@@ -1,0 +1,83 @@
+{
+  "id": "mission-san-luis-rey-de-francia",
+  "name": "Mission San Luis Rey de Francia",
+  "aka": [
+    "San Luis Rey Mission",
+    "King of the Missions",
+    "Old Mission San Luis Rey"
+  ],
+  "location": {
+    "text": "Oceanside, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "Mission Road, Oceanside, San Diego County, California",
+      "4050 Mission Avenue, Oceanside, California"
+    ]
+  },
+  "dates": {
+    "built": "1811-1815",
+    "circa": false,
+    "altered": "The survey records repairs begun 1892 under Father O'Keefe with rededication in 1893, new padres' quarters and dormitories of 1898, and the church dome rebuilt in 1930 to designs by Lescher & Mahony of Tucson, 'of a different design than the original'.",
+    "note": "The survey dates the present church 1811-1815 with the crossing dome added by 1829 and sacristy additions in 1832; the mission itself was founded 1798, which is the year the style node's exemplar carries. Foundation and completion, not founding, are what `built` records here."
+  },
+  "nodes": [
+    "california-mission-colonial",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "url": "https://www.loc.gov/pictures/collection/hh/item/ca0578",
+      "title": "Mission San Luis Rey de Francia, Mission Road, Oceanside, San Diego County, CA. Photo(s): 24 Measured Drawing(s): 26. Call Number: HABS CAL,37-OCSI.V,1-",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "NO SURVEY NUMBER IS ASSERTED. The Library prints only the 1930s geographic call number 'HABS CAL,37-OCSI.V,1-', which is not of the normalised XX-nnn form, and the data page returned by extract carried no header bearing a number. Recording a modern number here would be inventing one, so this ref carries a url and a title and no id."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0578",
+      "url": "https://www.loc.gov/pictures/collection/hh/item/ca0578",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://californiamissionsfoundation.org/mission-san-luis-rey",
+      "title": "San Luis Rey de Francía – California Missions Foundation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives 'California Historic Landmark #239', the address 4050 Mission Avenue, and the founding date 13 June 1798 by Father Lasuén."
+    }
+  ],
+  "survey": {
+    "item": "ca0578",
+    "register": "loc-item",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0578/data/ca0578data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Mission Road, Oceanside, San Diego County, California Owner: Roman Catholic Bishop, Diocese of San Diego, 152$ Fourth Avenue, San Diego, California. Date...of ■..erection; Foundation of the present church was laid in 1811, building completed in 1815. By 1829 a dome over the crossing had been added and wall and ceiling decorations completed. Written reports show additions to the -sacristry and church to have been made in 1832. Architect; Builder: Indians and Mission soldiers under direction of Padre Antonio Peyri.",
+        "page": "No page marker was legible in the extract span, and no header bearing a HABS number was returned; the span identifies the building by its own address line and, further on, by 'San Luis Rey de Francia was founded in 1798 and became the 18th in the chain of 21 established in California.'"
+      },
+      {
+        "field": "condition",
+        "text": "Present Condition: Church is well preserved and cared for, .is about as originally built except that the dome and lantern over the crossing of the nave have been rebuilt and is of a different design than- the original„",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "walls",
+        "text": "Materials of construction: Field stone foundation laid probably in \"lime mortar. Walls of adobe, though much burned brick was used for the pilasters, mouldings, the belfry, dome over the mortuary chapel, the alters and arches, all of which were plastered. Roof is of wood construction tile covered. Restoration work has been carried on since 1893.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "plan",
+        "text": "As with the other Missions the general plan was much the same, the church, the Padres quarters, shops, store houses, grainery etc, planned around a large open court but in this case upon a larger scale snc more pretent-ious than any of the others except possibly that at Capis-trano. Only the church, a certain number of cloister brick arches and the ruins\" of a few walls now remain.",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "note": "Seeded 5 Sep 2026. The survey states NO dimension at all — no overall size, no wall thickness, no storey count — so this record carries no measurements. What it does settle is construction: adobe walls with fired brick reserved for pilasters, mouldings, belfry, dome, altars and arches, all plastered, under a tile-covered timber roof. That is the node's own account of the mission fabric in a surveyor's words. The 1930s data page was written before HABS normalised its survey numbers and none is asserted."
+}

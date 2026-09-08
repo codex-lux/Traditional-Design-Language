@@ -1,0 +1,148 @@
+{
+  "id": "drayton-hall",
+  "name": "Drayton Hall",
+  "location": {
+    "text": "Ashley River, Charleston County, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1738-1742",
+    "circa": false,
+    "note": "The survey's cover and the South Carolina register give 1738-42; the Wikipedia infobox gives 1747-1752; the National Trust's page gives neither. Recorded as the survey states it, with the disagreement noted rather than resolved."
+  },
+  "nodes": [
+    "charleston-georgian",
+    "georgian-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-377",
+      "title": "Drayton Hall, Ashley River Road (State Route 61), Charleston, Charleston County, SC",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0132/data/sc0132data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('DRAYTON HALL HABS No. SC-377 (Page 8)'). The Wikipedia external-links section, read the same day, gives the item as '12 photos, 14 measured drawings, 19 data pages, 1 photo caption page'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0132",
+      "url": "https://www.loc.gov/pictures/item/sc0132",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page refuses extraction from here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Drayton_Hall",
+      "title": "Drayton Hall - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000701",
+      "url": "https://en.wikipedia.org/wiki/Drayton_Hall",
+      "title": "NRHP reference No. 66000701; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building. A second surface should confirm it before anything is built on the number."
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710005",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710005/index.htm",
+      "title": "Drayton Hall, Charleston County (S.C. Hwy. 61, Charleston vicinity) – South Carolina Department of Archives and History",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/places/drayton-hall",
+      "title": "Drayton Hall | National Trust for Historic Preservation",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. Its page calls the house 'the nation's finest and earliest example of fully executed Palladian architecture' and its double portico 'the first of its kind in the world' -- an owner's claim, recorded as one."
+    }
+  ],
+  "survey": {
+    "item": "sc0132",
+    "register": "loc-item",
+    "survey_no": "SC-377",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0132/data/sc0132data.pdf",
+    "prepared": "Prepared by Woodrow W. Wilkins, revised and edited by Druscilla J. Null, July 1984 (per wp-9.2-the-parti-is-not-the-type.md's reading of the same document)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: Rectangular, with projecting portico on the southwest (land) facade; 70'-5\" x 52'-2\", excluding portico; 7-bay front; 2 stories plus raised basement.",
+        "page": "HABS No. SC-377; the extract prints this under a heading reading 'B. Description of Interior:' where the survey outline has Exterior -- quoted as printed; nearest page marker '(Page 10)' precedes it"
+      },
+      {
+        "field": "walls",
+        "text": "2. Walls: The red brick bearing walls are laid in Flemish Bond, articulated by string courses over the lintels of the basement and first floor windows. These consist of three courses with an additional moulded brick beneath on the northeast and southwest walls.",
+        "page": "HABS No. SC-377, same span as the dimensions"
+      },
+      {
+        "field": "plan",
+        "text": "On the opposite side of the Great Hall, two doors lead to a square chamber and to the rectangular dining room which are connected by a passage, thus completing the symmetry of the first floor.",
+        "page": "HABS No. SC-377 (Page 8)"
+      },
+      {
+        "field": "openings",
+        "text": "5. Openings: a. Doorways and doors: The typical interior door is wood, six-paneled, 2,-9-l/4\" x 6'-ll 1/4\" x 1-3/4\". Bolection moulding, projecting approximately 2\" from the stiles of the wall paneling, is universally used to trim door and window openings.",
+        "page": "HABS No. SC-377 (Page 10)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "70'-5\"",
+      "value": 70.42,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "52'-2\"",
+      "value": 52.17,
+      "unit": "ft",
+      "from_quote": 0
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "7-bay front",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2 stories plus raised basement",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Two storeys above a raised basement."
+    },
+    {
+      "name": "interior_door_width_in",
+      "as_printed": "2,-9-l/4\"",
+      "value": 33.25,
+      "unit": "in",
+      "from_quote": 3,
+      "note": "OCR for 2'-9 1/4\"; a reading."
+    },
+    {
+      "name": "interior_door_height_in",
+      "as_printed": "6'-ll 1/4\"",
+      "value": 83.25,
+      "unit": "in",
+      "from_quote": 3,
+      "note": "OCR for 6'-11 1/4\"; a reading."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026 from the WP-11.1 pilot. The overall dimensions are the ones wp-9.2-the-parti-is-not-the-type.md measured the centre-passage-double-pile parti against; this record is where that figure now lives with its quote."
+}

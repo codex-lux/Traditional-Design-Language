@@ -1,0 +1,128 @@
+{
+  "id": "the-priests-house-muchelney",
+  "name": "The Priest's House",
+  "location": {
+    "text": "Muchelney, Somerset, England",
+    "country": "England",
+    "state": "Somerset"
+  },
+  "dates": {
+    "built": "C14 and later",
+    "circa": true,
+    "note": "THE ENTRY DOES STATE 1308 AND A FIRST PASS OF THIS RECORD SAID IT DID NOT. The Details section's closing paragraph, returned only by a second extract with a different query, reads 'the house first mentioned 1308, said to be \"ruinous' in 1608' -- which is exactly the year the node's exemplar carries and exactly the sense in which the node carries it ('First recorded in 1308'). The entry's own dating of the FABRIC remains 'C14 and later', with features dated late C15, possibly C14 and probably C17. One extract returns one span, and reporting 'the entry does not say' after one query is the error this layer keeps meeting."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1056574",
+      "title": "The Priest's House, Muchelney - 1056574 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1056574",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details prose opens with the legacy header 'MUCHELNEY CP ST42SW - 8/225 The Priest's house 17.4.59' followed by 'GV I'. A search result the same day printed the Official list entry field value 'Date first listed: 17-Apr-1959', which matches the header. THE GRADE IS RECORDED TWO WAYS BY DIFFERENT SOURCES AND NEITHER IS RESOLVED: the Details prose reads 'GV I' and the Wikipedia article says 'grade I listed building', while a Facebook post read the same day says 'Grade II* listed building'. The entry's own text is followed here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Priest%27s_House,_Muchelney",
+      "title": "The Priest's House, Muchelney - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE ONLY OVERALL DIMENSION ANY SOURCE IN THIS CLUSTER STATES, and it is here rather than in `measurements` because `measurements[]` indexes `survey.quotes[]` and the survey block is the list entry, which states no dimension. Read as continuous prose in an extract: 'The two-storey thatched hall house is made of local stone with hamstone dressings. Externally the house measures 51 feet (16 m) by 22 feet (6.7 m) wide. It has four bays along the south front which incorporates original Gothic doorway and tracery windows.' The four bays and the two storeys agree with the list entry exactly; the 51 by 22 ft is uncorroborated here and carries no citation on the Wikipedia page as extracted."
+    }
+  ],
+  "survey": {
+    "item": "1056574",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1056574",
+    "prepared": "The Details section's legacy header prints '8/225 The Priest's house 17.4.59'; a search result the same day printed the Official list entry field value 'Date first listed: 17-Apr-1959'. No amendment date was returned.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Priest's Lodging, C14 and later.",
+        "page": "Official list entry, Details, opening sentence after the legacy header and 'GV I'"
+      },
+      {
+        "field": "materials",
+        "text": "Local lias stone roughly cut and squared, Ham stone dressings; thatched roof with stepped coped gable to west, half hipped to east; brick chimney stacks.",
+        "page": "Official list entry, Details, materials sentence"
+      },
+      {
+        "field": "bays",
+        "text": "Two storeys, 4-bay south elevation.",
+        "page": "Official list entry, Details, sentence following the materials sentence"
+      },
+      {
+        "field": "openings",
+        "text": "Bay 1 has 3-light chamfered mullioned windows, possibly C19, with flat heads, and square labels; bay 2 has moulded pointed arched doorway with arched label, old boarded and studded door, with covermoulds to joints; bay 3 has a 4-light full-height mullioned and transomed solar type window, with 4-centre arched lights below transome and cinquefoil cusped lights above, with quatrefoils in tracery, late C15 probably, all under square label",
+        "page": "Official list entry, Details, description of the south elevation bay by bay"
+      },
+      {
+        "field": "openings",
+        "text": "mullioned window with 4-centre arched lights having some early external ferramenta, under square label; above a small 2-light window with trefoil cusped lights and incised spandrils, possibly C14, this last cut into thatch: all windows leaded, bay 1 with rectangular panes, the remainder with diamond panes.",
+        "page": "Official list entry, Details, south elevation continued; this span opens a block of the extract whose opening words repeat the close of the block before ('bay 4 has a 4-light hollow chamfered'), and the span is begun at the block boundary rather than joined across it"
+      },
+      {
+        "field": "plan",
+        "text": "Internally, cross passage layout, with solid walls to cross-passage; west room has small plain fireplace with chamfered and cambered timber lintol with scroll stops, and this and ceiling beams suggest C17 reshaping at this end",
+        "page": "Official list entry, Details, interior; the sentence continues past the end of the extract's block and is cut here rather than joined across the break"
+      },
+      {
+        "field": "structural_system",
+        "text": "Roof frame incorporates raised crucks, except at west end.",
+        "page": "Official list entry, Details, interior; read in a second extract with a different query"
+      },
+      {
+        "field": "significance",
+        "text": "The original form and subsequent alteration of house much discussed: the house first mentioned 1308, said to be \"ruinous' in 1608; it was used by the vicar or curate until c1840, when the house was used as a cellar and later as a school, and in late C19 was rented by a farmer. Acquired by the National Trust in 1911.",
+        "page": "Official list entry, Details, close of the description; read in a second extract with a different query. The mismatched quotation marks around 'ruinous' are as the page prints them"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "CONTRADICTS the node's own short description, which says the type is 'one and a half storeys'. This is the type's upper end -- a priest's lodging rather than a labourer's cottage -- and the node's own exemplar note calls it 'the small late-medieval house in near-complete survival'."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "4-bay south elevation",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Corroborated by the Wikipedia article's 'It has four bays along the south front', quoted in that reference's note."
+    },
+    {
+      "name": "window_light_count_bay1",
+      "as_printed": "3-light chamfered mullioned windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "window_light_count_solar",
+      "as_printed": "4-light full-height mullioned and transomed solar type window",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The hall's display window. The node's kit bands opening_width at 2.0 to 3.3 ft, which is a single small casement; a four-light full-height transomed window is a different order of opening and belongs to the wealthy end of the type."
+    },
+    {
+      "name": "attic_window_light_count",
+      "as_printed": "a small 2-light window with trefoil cusped lights",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "'this last cut into thatch' -- the entry's own phrase for what the node calls the eyebrow or swept dormer, the detail that follows from thatch being an unbroken surface."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. The list entry states no dimension; a Wikipedia sentence does, and it is carried in that reference's note rather than in `measurements` because the survey block admits one source and this record's is the list entry. The entry independently confirms the two details the node's exemplar note already claimed -- lias stone with Ham stone dressings, and a thatched roof 'with stepped coped gable to west, half hipped to east' -- and adds the window cut into the thatch. A QUOTE THAT STRADDLED TWO EXTRACT CHUNKS WAS FOUND BY RE-EXTRACTING THE PAGE WITH A DIFFERENT QUERY AND WAS SPLIT RATHER THAN JOINED. The chunker returns the same boundaries on every query and each block repeats the tail of the one before, so the text is demonstrably continuous -- but a span crossing the boundary was never READ as one contiguous run, and this record does not print one as though it had been."
+}

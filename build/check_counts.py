@@ -46,6 +46,35 @@ def computed():
     buildable = [n for n in nodes if n.get("rank") in ("style", "variant")]
     v["nodes"] = len(nodes)
     v["buildable"] = len(buildable)
+    # WP-11.1. docs/model.md's rank table said 89 styles / 43 variants against 90 / 42 for as long
+    # as the table existed; nothing computed a per-rank value. And "482 exemplars" was published
+    # in STATE-OF-THE-PROJECT.md with no claim on it while gen_readme_counts.py computed the
+    # figure and never rendered it -- WP-8.14's class, the one figure nobody polices.
+    for rank in ("tradition", "family", "style", "variant"):
+        v["rank_%s" % rank] = sum(1 for n in nodes if n.get("rank") == rank)
+    v["exemplars"] = sum(len(n.get("exemplars") or []) for n in nodes)
+    # WP-11.5. The exemplar TOTAL was policed and the three figures published beside it -- the
+    # per-node range and the five-or-more count -- were not, so "693 exemplars, 3 to 9 a node,
+    # 85 of 132 carrying five or more" rotted in CLAUDE.md and docs/precedents.md while the total
+    # was corrected everywhere it was claimed. That is WP-8.14's shape: the figure nobody derives
+    # is the one that goes wrong. All four are derived here now.
+    _ex = [len(n.get("exemplars") or []) for n in buildable]
+    # WP-11.6. BUILDABLE AND TOTAL ARE DIFFERENT NUMBERS NOW and three sentences say "exemplars"
+    # meaning the first. Ruling B gave the 27 families 121 DERIVED type specimens, so `exemplars`
+    # is 921 and the corpus a reader is told about -- "800 exemplars, 4 to 9 a node, 131 of 132
+    # buildable nodes carrying five or more" -- is the 800. Pointing those claims at the total
+    # would have let `--fix` write 921 into a sentence whose other two figures are over buildable
+    # nodes, which is the third time this session that `--fix` would have corrected a number and
+    # falsified the prose around it.
+    v["exemplars_buildable"] = sum(_ex)
+    v["exemplars_min"] = min(_ex) if _ex else 0
+    v["exemplars_max"] = max(_ex) if _ex else 0
+    v["exemplars_five_plus"] = sum(1 for c in _ex if c >= 5)
+    v["precedents"] = len(sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))))
+    # The tool count was pinned in four tests and hand-typed in fourteen prose places, none of
+    # them claimed. gen_readme_counts.py:97 counts the decorators the same way for README only.
+    _srv = open(os.path.join(ROOT, "mcp_server", "server.py"), encoding="utf-8").read()
+    v["mcp_tools"] = len(re.findall(r"@mcp\.tool\(\)", _srv))
     v["bound"] = sum(1 for n in buildable if n.get("proportion_packs"))
     for role in ("opening", "facade", "interior"):
         v["no_%s_role" % role] = sum(
@@ -109,6 +138,19 @@ def computed():
         v["endorsed"] = len(_gaps) - len(_un)
         v["declined"] = len(_dec)
         v["judged"] = v["endorsed"] + v["declined"]
+        # THE SEVENTH OQ 51 VALUE, ADDED IN WP-8.14 BECAUSE IT IS THE ONE THAT ROTTED.
+        # The six above are derived from the corpus here; `unreached` was not, and CLAUDE.md
+        # carried 111 for three flips after it stopped being true (179 -> 111 -> 96 -> 47) while
+        # `tests/test_stranding.py` was re-pinned at every one. A number corrected in the test
+        # and not in its prose neighbour -- WP-9.5's second-commonest shape, inside the entry
+        # that documents it.
+        #
+        # READ FROM THE PIN RATHER THAN RE-SWEPT, and that is a deliberate weaker link: the
+        # `--stranding` sweep costs ~6.5 s and `check_counts` runs on every build. The chain is
+        # still complete -- the prose is held to `STRANDING["unreached"]` here, and that constant
+        # is held to the corpus by `check_inheritance.py --stranding --strict` in `check_all`,
+        # which fails on any drift because its check is generic over `STRANDING.items()`.
+        v["unreached"] = ci.STRANDING["unreached"]
 
     apath = os.path.join(ROOT, "assets", "manifest.json")
     if os.path.exists(apath):
@@ -163,6 +205,22 @@ def computed():
     v["baked_judged"] = _st["baked_judged"]
     v["baked_unjudged"] = _st["baked_unjudged"]
     v["baked_snapshots"] = _st["baked_judged"] + _st["baked_unjudged"]
+    # WP-11.1. The research meter's headline figures, read from the checker that owns them.
+    _cr = modcache.load("check_research", os.path.join(ROOT, "build", "check_research.py"))
+    _rt = _cr.measure()["totals"]
+    v["measured_unsourced"] = _rt["measured_unsourced"]
+    v["measured_unsourced_read"] = _rt["measured_unsourced_read"]
+    v["shared_only_nodes"] = len(_rt["shared_only_nodes"])
+    # WP-11.7's deliverable. THE VALUE WAS ALREADY COMPUTED HERE -- the line below predates the
+    # package -- and the first version of this comment said it had been "derived by nothing", which
+    # is false and is the very shape CLAUDE.md records as "the evaluator the question asked for had
+    # existed all along in two places", written inside the fix for that class. What was missing was
+    # never the derivation: it was a CLAIM reading it and a RATCHET holding it, and the figure was
+    # free to move in either direction with neither. Both exist now. (The correction also removed a
+    # duplicate assignment of this exact line, added directly above it without reading it.)
+    v["sourceless_nodes"] = len(_rt["sourceless_nodes"])
+    v["exemplars_with_precedent"] = _rt["exemplars_with_precedent"]
+    v["read_slots"] = len(_rt["read_slots"])
     return v
 
 
@@ -265,6 +323,7 @@ CLAIMS = [
     ("CLAUDE.md",              "inherited_packs", r"\*\*([\d,]+) inherited_packs\*\*"),
     ("CLAUDE.md",              "unendorsed",      r"\*\*(\d+) unendorsed\*\* -- and one FLOOR"),
     ("CLAUDE.md",              "judged",          r"\*\*judged (\d+)\*\* \(endorsed \+ declined\)"),
+    ("CLAUDE.md",              "unreached",       r"slots that survive a flip whatever it does is (\d+)\*\*"),
     ("CLAUDE.md",              "inherited_packs", r"is the one with ([\d,]+) instances"),
     ("STATE-OF-THE-PROJECT.md", "role_gaps",      r"Measured: \*\*(\d+) \(node, role\) pairs\*\*"),
     ("STATE-OF-THE-PROJECT.md", "unendorsed",     r"of which \*\*(\d+) involve a pack whose own"),
@@ -288,6 +347,50 @@ CLAIMS = [
     ("CLAUDE.md",              "unendorsed",      r"the live backlog is \*\*(\d+) unjudged\*\* gaps"),
     # The sentence the plan named and the first pass pointed a claim at a DIFFERENT file instead.
     ("CLAUDE.md",              "image_never_harvestable", r"still wanted, and (\d+) of those can never be harvested"),
+    # WP-11.1. The rank table that said 89/43 against 90/42, the exemplar count nobody claimed, the
+    # tool count typed by hand in fourteen places, and the research meter's own figures.
+    ("docs/model.md",          "rank_style",     r"^\| `style` \| (\d+) \|"),
+    ("docs/model.md",          "rank_variant",   r"^\| `variant` \| (\d+) \|"),
+    ("docs/model.md",          "rank_family",    r"^\| `family` \| (\d+) \|"),
+    ("docs/model.md",          "rank_tradition", r"^\| `tradition` \| (\d+) \|"),
+    ("STATE-OF-THE-PROJECT.md", "exemplars",     r"enforceable constraints, (\d+) exemplars,"),
+    ("CLAUDE.md",              "mcp_tools",      r"· (\d+) MCP tools ·"),
+    ("STATE-OF-THE-PROJECT.md", "mcp_tools",     r"\(`mcp_server/`, (\d+) tools\)"),
+    ("STATE-OF-THE-PROJECT.md", "mcp_tools",     r"\*\*The MCP server\.\*\* (\d+) tools registered"),
+    ("STATE-OF-THE-PROJECT.md", "mcp_tools",     r"\| Interface \| `mcp_server/` \| (\d+) tools \|"),
+    ("mcp_server/README.md",   "mcp_tools",      r"^(\d+) tools that let an AI consult"),
+    ("CLAUDE.md",              "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
+    ("CLAUDE.md",              "measured_unsourced_read", r"cite no source\*\* on the parameter or its slot, (\d+) of them on one of the"),
+    # WP-11.4. STATE carried its OWN copy of this figure and nothing policed it, so the moment
+    # Ruling A sourced six parameters CLAUDE.md fell to 536 and STATE stayed at 542 with the build
+    # green. The same number guarded in one file and unguarded in its neighbour is WP-8.14's shape
+    # exactly -- "name the surface the checker does not read" -- and the remedy is the same: read it.
+    ("STATE-OF-THE-PROJECT.md", "measured_unsourced",      r"\*\*(\d+) `measured` kit parameters cite no source\*\*"),
+    ("CLAUDE.md",              "read_slots",              r"of them on one of the (\d+) generator-read slots"),
+    # WP-11.7 corrected the WORD from "a sibling" to "ANOTHER NODE" (the counter is corpus-wide).
+    # THIS REGEX IS WHY THAT SWEEP MATTERED: a CLAIM pattern carries the prose it polices, so
+    # rewording the sentence without it turns a live guard into "0 patterns not found" -- which
+    # check_counts itself treats as a failure, and rightly.
+    ("CLAUDE.md",              "shared_only_nodes",       r"(\d+) buildable nodes cite only works ANOTHER NODE also cites"),
+    ("CLAUDE.md",              "sourceless_nodes",        r"\*\*(\d+) nodes cite nothing, down from 32\*\*"),
+    ("CLAUDE.md",              "exemplars_with_precedent", r"(\d+) of \d+ exemplars carry a `precedent`"),
+    ("CLAUDE.md",              "exemplars",                r"\d+ of (\d+) exemplars carry a `precedent`"),
+    # WP-11.5. The three figures published beside the exemplar total, in the two files that
+    # publish them. Neither file was claimed before and both carried the Tranche 2 numbers.
+    ("CLAUDE.md",              "exemplars_buildable",      r"-- (\d+) exemplars now, \d+ to \d+ a"),
+    ("CLAUDE.md",              "exemplars_min",            r"-- \d+ exemplars now, (\d+) to \d+ a"),
+    ("CLAUDE.md",              "exemplars_max",            r"-- \d+ exemplars now, \d+ to (\d+) a"),
+    ("CLAUDE.md",              "exemplars_five_plus",      r"(\d+) of 132 buildable nodes carrying five or more"),
+    ("docs/precedents.md",     "exemplars_buildable",      r"\((\d+) exemplars, \d+ to \d+ a node\)"),
+    # And the same sentence in STATE-OF-THE-PROJECT.md, which carried an UNPOLICED copy of the
+    # figure -- the shape WP-8.14 is about, found again by adding the key its neighbours needed.
+    ("STATE-OF-THE-PROJECT.md", "exemplars_buildable",      r"took the corpus to (\d+) exemplars, \d+ to \d+ a node"),
+    ("STATE-OF-THE-PROJECT.md", "exemplars_min",            r"took the corpus to \d+ exemplars, (\d+) to \d+ a node"),
+    ("STATE-OF-THE-PROJECT.md", "exemplars_max",            r"took the corpus to \d+ exemplars, \d+ to (\d+) a node"),
+    ("docs/precedents.md",     "exemplars_min",            r"\(\d+ exemplars, (\d+) to \d+ a node\)"),
+    ("docs/precedents.md",     "exemplars_max",            r"\(\d+ exemplars, \d+ to (\d+) a node\)"),
+    ("CLAUDE.md",              "precedents",               r"\*\*(\d+) precedent records\*\*"),
+    ("STATE-OF-THE-PROJECT.md", "precedents",              r"\| Evidence \| `precedents/` \| \*\*(\d+) records\*\*"),
 ]
 
 

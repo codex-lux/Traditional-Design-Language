@@ -190,25 +190,46 @@
       "name": "Manoir de Coupesarte",
       "location": "Mezidon Vallee d'Auge, Calvados, France",
       "year": null,
-      "note": "15th-16th century; moated timber-framed manor with overhanging turrets, and the best-known demonstration of Auge close studding at any scale. Classe monument historique."
+      "note": "15th-16th century; moated timber-framed manor with overhanging turrets, and the best-known demonstration of Auge close studding at any scale. Classe monument historique.",
+      "precedent": "manoir-de-coupesarte",
+      "standing": "icon",
+      "why": "The French Wikipedia article says the manor « n'a pas été remanié au fil du temps et a conservé son ossature bois » and possesses « une unité architecturale exceptionnelle en pays d'Auge »; that unremodelled frame is what this node's ranking rests on, and the same article describes three corbelled turrets « sur étais » rather than the four on brackets a reader of this node's prose would expect."
     },
     {
       "name": "Aitre Saint-Maclou",
       "location": "Rouen, France",
       "year": 1533,
-      "note": "Built 1526-1533 as a plague ossuary; a timber-framed courtyard with carved galleries, showing the urban end of the same carpentry."
+      "note": "Built 1526-1533 as a plague ossuary; a timber-framed courtyard with carved galleries, showing the urban end of the same carpentry.",
+      "precedent": "aitre-saint-maclou",
+      "standing": "regional",
+      "why": "The register classes it as a cimetière listed by the 1862 list and prints no description at all, so it is carried here for the carpentry alone -- the urban gallery frame on a stone base -- which is this project's reading and not a claim the notice makes."
     },
     {
       "name": "Manoir de Bellou",
       "location": "Livarot-Pays-d'Auge, Calvados, France",
       "year": null,
-      "note": "16th century; a colombage manor and its farm ensemble, largely unaltered."
+      "note": "16th century; a colombage manor and its farm ensemble, largely unaltered.",
+      "precedent": "manoir-de-bellou",
+      "standing": "canonical",
+      "why": "Its Mérimée notice dimensions the PRESSOIR -- seven bays, two levels, long-post construction -- and says nothing dimensional about the logis at all, which is the clearest register evidence found in this cluster for this node's claim that a Norman farm is a scatter of separate single-purpose buildings."
     },
     {
       "name": "Beuvron-en-Auge",
       "location": "Calvados, France",
       "year": null,
-      "note": "A village of 16th-18th century colombage houses retained substantially intact; useful as an ensemble rather than a single object."
+      "note": "A village of 16th-18th century colombage houses retained substantially intact; useful as an ensemble rather than a single object.",
+      "precedent": "beuvron-en-auge",
+      "standing": "documentary",
+      "why": "Its ensemble standing is a private association's label (Les Plus Beaux Villages de France) rather than a statutory area listing, and the node's own exemplar note already says it is « useful as an ensemble rather than a single object », so it is carried as a set of ordinary colombage houses to look at and not as an authority on any one of them."
+    },
+    {
+      "name": "Chateau de Crevecoeur-en-Auge",
+      "location": "Crevecoeur-en-Auge, Calvados, France",
+      "year": null,
+      "note": "The 15th-century timber-framed ferme, square colombier and grange standing loose in the basse-cour of a moated seigneurie, with the logis above also framed in pans de bois over a stone base. Ancien manoir inscrit monument historique (facades et toitures 1928, chapelle 1954). The entrance poterne was moved here from Beuvillers near Lisieux and re-erected in 1973, so one building on the site is not native to it.",
+      "precedent": "chateau-de-crevecoeur-en-auge",
+      "standing": "regional",
+      "why": "Carried for the basse-cour and not for the fortification above it: the ferme, the square colombier « de 1 500 boulins » and the grange are the timber-framed working group this node names, and this record's Wikipedia reference states them. That they are representative of regional pan-de-bois building is this project's reading and not the register's -- Mérimée PA00111263 carries no description at all. An earlier version of this sentence attributed « représentatif des constructions régionales à pan de bois » to the owning Fondation Musée Schlumberger's own site; on re-reading 5 Sep 2026 that sentence is a third party's and the attribution is withdrawn."
     }
   ],
   "sources": [

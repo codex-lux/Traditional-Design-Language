@@ -1,0 +1,124 @@
+{
+  "id": "fairfax-house",
+  "name": "Fairfax House",
+  "location": {
+    "text": "Castlegate, York, England",
+    "country": "England",
+    "state": "City of York"
+  },
+  "dates": {
+    "built": "c1744",
+    "circa": true,
+    "altered": "No.27 remodelled 1760-62, possibly by John Carr for the 9th Viscount Fairfax of Emley; both houses amalgamated and remodelled as a cinema and ballroom in 1920; restored as two houses 1982-84 by Francis Johnson for the York Civic Trust.",
+    "note": "The node's exemplar gives 1762 and 'Remodelled 1755-62 by John Carr'. The list entry prints 'No.27 c1744, remodelled 1760-62' and attributes the remodelling only as 'possibly by John Carr'. Wikipedia prints 'c. 1744 (No. 27)' and '1760-1762 (No. 27 remodelled)'. All are recorded; none is resolved, and the attribution is not strengthened here."
+  },
+  "nodes": [
+    "english-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1259337",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1259337",
+      "title": "Fairfax House, Non Civil Parish - 1259337 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. Statutory address FAIRFAX HOUSE, 25 AND 27, CASTLEGATE."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fairfax_House",
+      "title": "Fairfax House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Cites the same list entry number, 1259337, and gives the address as 25 and 27 Castlegate."
+    }
+  ],
+  "survey": {
+    "item": "1259337",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1259337",
+    "prepared": "The entry's own Details header prints the listing date 14/06/54. Two extracts with different queries returned the Details and the header but never the Overview block, so the 'Date first listed' as that block renders it is not recorded here.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "other",
+        "text": "YORK SE6051NW CASTLEGATE 1112-1/28/141 (North East side) 14/06/54 Nos.25 AND 27 Fairfax House",
+        "page": "Official list entry 1259337, Details, entry header"
+      },
+      {
+        "field": "general_description",
+        "text": "Two houses, now amalgamated. No.27 c1744, remodelled 1760-62; No.25 probably early C19. Both houses amalgamated and remodelled as cinema and ballroom in 1920; restored as two houses 1982-84. No.27 remodelled in C18 possibly by John Carr for the 9th Viscount Fairfax of Emley: C20 restoration by Francis Johnson for the York Civic Trust.",
+        "page": "Official list entry 1259337, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "MATERIALS: No.27 of orange brick in Flemish bond on stepped plinth of painted stone; painted stone doorcase, quoins and dressings. Rear rebuilt in C19 clamp bricks in English bond. Brick stacks at each side of hipped slate roof.",
+        "page": "Official list entry 1259337, Details, MATERIALS paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "EXTERIOR: both fronts are 2-storeyed with attics. No.25 has 3 bays; No.27 5 bays, 3 centre bays breaking forward beneath closed pediment.",
+        "page": "Official list entry 1259337, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Ground floor windows are 12-pane sashes in quoined surrounds with flat arches of stepped voussoirs, over sill band. On first floor, similar windows in plain architraves over sunk panels, have pulvinated friezes, moulded cornices and projecting sills extending as flat sill band. Attic windows are squat 6-pane sashes in plain surrounds with sills.",
+        "page": "Official list entry 1259337, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "cornice",
+        "text": "Flat band at first floor; moulded cornices beneath attic storey, and to eaves and pediment, beneath plain parapet. Pediment tympanum filled by radial-glazed oculus enclosed in renewed cartouche surround carved with palm fronds.",
+        "page": "Official list entry 1259337, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "No.27 has central pedimented doorcase of attached Doric columns on tall stepped pedestals. Double doors of fielded panels beneath radial fanlight, approached by steps, are recessed in round-arched architrave with moulded impost band.",
+        "page": "Official list entry 1259337, Details, EXTERIOR paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "both fronts are 2-storeyed with attics",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Two main storeys with an attic above; the entry names the attic separately and the attic windows are described as squat 6-pane sashes."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "No.27 5 bays",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "No.27 is the Georgian house of the pair. No.25, probably early C19, has 3 bays."
+    },
+    {
+      "name": "centre_projection_bay_count",
+      "as_printed": "3 centre bays breaking forward beneath closed pediment",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "window_pane_count_ground",
+      "as_printed": "Ground floor windows are 12-pane sashes",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "window_pane_count_attic",
+      "as_printed": "Attic windows are squat 6-pane sashes",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1259337",
+  "note": "Tranche 3, 5 Sep 2026. Three extracts with different queries were needed: the first returned the MATERIALS and EXTERIOR paragraphs, the second only the boilerplate about curtilage, the third the entry header carrying the listing date. Quotes are the entry's own text with line-wrapping whitespace collapsed and nothing else changed."
+}

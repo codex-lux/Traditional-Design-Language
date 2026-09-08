@@ -1,0 +1,56 @@
+{
+  "id": "rieck-haus",
+  "name": "Rieck Haus",
+  "aka": [
+    "Rieck-Haus",
+    "Vierländer Freilichtmuseum"
+  ],
+  "location": {
+    "text": "Hamburg-Curslack, Germany",
+    "country": "Germany",
+    "state": "Hamburg, Bergedorf"
+  },
+  "dates": {
+    "built": "um 1532",
+    "circa": true,
+    "altered": "Rebuilding or repair phases dendrochronologically dated to 1545 and 1565; a large extension in 1633, whose ownership inscriptions were cut into the lintel of the side door and into a yard beam ('Carsten und Catrina Timm, geb. Eggers'). Farmed until about 1940, when Hamburg's monuments authority took the buildings over; the main house systematically renovated from 1949; museum operation from 1954 as an outstation of the Altonaer Museum.",
+    "note": "THREE DATES ARE IN THE SOURCES. The German Wikipedia article says 'Dendrologische Untersuchungen legen nahe, dass das Kerngerüst des Fachhallenhauses bereits um 1532 errichtet wurde'; NDR and whichmuseum.de both print 1533 flatly; the written record of the farm begins in 1633. The node has no exemplar for this building before this tranche, so nothing had to be reconciled -- the exemplar added here carries 1533 in its `year` because that is the round figure the popular sources publish, and this note is where the dendrochronology is."
+  },
+  "nodes": [
+    "north-german-hall-house"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Rieck-Haus",
+      "title": "Rieck-Haus – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.bergedorfer-museumslandschaft.de/ueber-uns/rieck-haus",
+      "title": "Rieck Haus | Über uns | Bergedorfer Museumslandschaft",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The operating museum. Its own page heads the building 'KULTURDENKMAL RIECK HAUS' and says 'Das Freilichtmuseum Rieck Haus in Curslack zählt zu den ältesten erhaltenen Bauernhäusern Norddeutschlands. Hier leben und arbeiten damals zwei bis drei Generationen einer Bauernfamilie, Gesinde und Vieh unter einem großen Dach.' Address: Curslacker Deich 284, 21039 Hamburg."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.ndr.de/ratgeber/reise/hamburg/Freilichtmuseum-Rieck-Haus-Ausflug-in-Hamburgs-Vierlande,rieckhaus116.html",
+      "title": "Freilichtmuseum Rieck Haus: Ausflug in Hamburgs Vierlande | ndr.de",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The regional public broadcaster: 'Erbaut 1533 und danach mehrfach restauriert, ist das Rieck Haus das letzte erhaltene niederdeutsche Fachhallenhaus in den Vierlanden.' THE LAST SURVIVING ONE IN ITS REGION -- a claim about scarcity, made by NDR and not corroborated elsewhere here."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.museum.de/museen/rieck-haus-vierl%C3%A4nder-freilichtmuseum",
+      "title": "Rieck-Haus / Vierländer Freilichtmuseum @museum.de",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A museum directory that repeats the dendrochronology ('ein Kerngerüst aus rund 1532', repairs 1545 and 1565) and adds the detail this record cares about most: 'der Wohlstand der Betreiber zeigt sich an reich verzierten Ziegelausfachungen des Haupthauses' -- the wealth shows in the decorated BRICK INFILL panels."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. Added by this tranche, and added because it is the one building in the node that is still standing where it was built. Two of the node's four existing exemplars turn out to have been moved (Dat ole Huus from Hanstedt, the Hof der Heidmark from Kolk) and a third is a museum village of relocated buildings; the Best farm is in the Netherlands. This is a hall house on its own ground, on its own hufe between the drainage ditches, with its barns, bakehouse and drainage mill round it.\n\nNO SURVEY BLOCK: nothing read for it is a register description or an encyclopedia article's fabric account, so no quote is carried in the survey field and no measurement is parsed. The refs carry what the sources say, verbatim, with each source named."
+}

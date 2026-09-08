@@ -1,0 +1,66 @@
+{
+  "id": "manoir-de-coupesarte",
+  "name": "Manoir de Coupesarte",
+  "location": {
+    "text": "Mezidon Vallee d'Auge, Calvados, France",
+    "country": "France",
+    "state": "Calvados, Normandie"
+  },
+  "dates": {
+    "built": "16e siècle ; 17e siècle ; 18e siècle",
+    "circa": true,
+    "note": "The Mérimée notice gives « 16e siècle ; 17e siècle ; 18e siècle »; the French Wikipedia article says « de la fin du XVe ou du XVIe siècle »; the Journées européennes du patrimoine listing says « daté des XVe et XVIIe siècles »; the node's own exemplar says « 15th-16th century ». All four are recorded and none is resolved."
+  },
+  "nodes": [
+    "french-manoir",
+    "norman-vernacular",
+    "french-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "PA00111246",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00111246",
+      "title": "Manoir - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The notice is titled simply « Manoir »; its Localisation field « Normandie ; Calvados (14) ; Coupesarte ; C.G.C. 47 » is what identifies it. It carries no Description historique."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Manoir_de_Coupesarte",
+      "title": "Manoir de Coupesarte — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as continuous prose in an extract. Its Description reads: « Le petit manoir, transformé en ferme, qui se dresse sur un terre-plein entouré d'eau, se compose de deux btiments à pans de bois en équerre flanqués de trois poivrières sur étais, du même matériau, en encorbellement dans les angles des façades extérieures. » It also says the manor « n'a pas été remanié au fil du temps et a conservé son ossature bois, et possède « une unité architecturale exceptionnelle en pays d'Auge » ». Three turrets, on struts -- not the four on brackets a reader might assume."
+    }
+  ],
+  "survey": {
+    "item": "PA00111246",
+    "register": "merimee",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/PA00111246",
+    "prepared": "Date de dernière modification de la notice 24 juillet 2026",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "dependencies",
+        "text": "Précision sur la protection Manoir et ses dépendances (granges, écuries) et ses douves (cad. 40, 39) : classement par arrêté du 21 octobre 1947",
+        "page": "Notice Mérimée PA00111246, section « Statut juridique, intérêt, protection et label »"
+      },
+      {
+        "field": "other",
+        "text": "Siècle de campagne principale de construction 16e siècle ; 17e siècle ; 18e siècle",
+        "page": "Notice Mérimée PA00111246, section « Historique de l'édifice »"
+      },
+      {
+        "field": "other",
+        "text": "Localisation Normandie ; Calvados (14) ; Coupesarte ; C.G.C. 47",
+        "page": "Notice Mérimée PA00111246, section « Localisation au moment de la protection ou de l'étude »"
+      }
+    ]
+  },
+  "rights_evidence": "(c) Monuments historiques. Cette notice reprend intégralement les termes de l’arrêté de protection au titre des Monuments historiques. Elle répond à l’obligation réglementaire du ministère de la Culture d’établir la liste générale des immeubles protégés (art. R. 621-80 du Code du patrimoine). Elle est donc opposable et fait foi juridiquement. Aucune copie numérique ou papier ne sera fournie par courrier ni courriel. Le dossier de protection complet et l’arrêté sont consultables uniquement sur place, dans la salle de lecture de la Médiathèque du patrimoine et de la photographie (MPP), à Charenton-le-Pont (Val-de-Marne).",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/PA00111246",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. Shared by two nodes at one location string: french-manoir names it for the timber-framed variant of the seigneurial type, norman-vernacular for the carpentry. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned. This Mérimée notice carries NO Description historique -- the survey block is the protection and dating fields only, which is thin and is the honest extent of what the register prints. The building's description is in the Wikipedia ref's note, where it is prose no checker reads."
+}

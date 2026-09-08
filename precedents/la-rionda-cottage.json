@@ -1,0 +1,122 @@
+{
+  "id": "la-rionda-cottage",
+  "name": "La Rionda Cottage",
+  "location": {
+    "text": "1218-1220 Burgundy Street, New Orleans, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1811",
+    "circa": false,
+    "altered": "Completely restored by the city in 1940 under Richard Koch: an enclosed rear porch removed and the rear rebuilt on the pattern of the cottage at 931-933 St. Philip Street; the kitchen replaced by a second cabinet and the open side of the loggia given two arches with a central column (HABS LA-192).",
+    "note": "The loc.gov item page says 'Built in 1811 by Antonio La Rionda'."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-192",
+      "title": "La Rionda Cottage, 1218-1220 Burgundy Street, New Orleans, Orleans Parish, LA",
+      "url": "https://www.loc.gov/pictures/item/la0040",
+      "note": "The loc.gov item page prints 'Survey number: HABS LA-192'; the data page prints 'La Rionda HABS No La#192 Cottage Descriptive Data' (OCR 'IToLa#192').",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0040",
+      "url": "https://www.loc.gov/pictures/item/la0040",
+      "title": "La Rionda Cottage, 1218-1220 Burgundy Street, New Orleans, Orleans Parish, LA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/articles/000/habs-catalog-cards.htm",
+      "title": "From the HABS/HAER/HALS Collection: Catalog Cards (U.S. National Park Service)",
+      "note": "Lists 'La Rionda Cottage (HABS LA-192)' among the illustrated Louisiana catalogue cards of 1937-40, 'all but one of these surveys include a full-sized set of measured drawings'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "la0040",
+    "register": "loc-item",
+    "survey_no": "LA-192",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0040/data/la0040data.pdf",
+    "prepared": "Prepared by Georgia Bertha Drennan, New Orleans, Louisiana, June 1958 (as the page reads; the OCR prints '195&')",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "La Rionda HABS IToLa#192 Cottage Descriptive Data This is a one-story, brick cemented cottage.as it was before restoration The dimensions are 29f-0\"X 40-9n and it has four rooms arranged in a square There was an open loggia",
+        "page": "HABS No. La-192, 'Descriptive Data'; no page number legible in the extract span; the chunk ends mid-sentence and its continuation is the next quote, kept separate"
+      },
+      {
+        "field": "plan",
+        "text": "four rooms arranged in a square There was an open loggia across the rear,with a„small cabinet at one end and a kitchen at the other end In the restoration, the kitchen was replaced by a small cabinet, to match the existing one, and the loggia on the open side was suppli- ed with two arches with a central column The house faces north-west, on the south-east side of Burgundy St This is a typical small cottage of the \"Vieux Carre, The front wall is directly on the property line, and each of the two front rooms has a door and a window opening on the sidewalk All doors and windows have wooden shutters, and all hardward is handmade",
+        "page": "HABS No. La-192, 'Descriptive Data'; no page number legible in the extract span"
+      },
+      {
+        "field": "chimneys",
+        "text": "There are no dormers on this cottage, either now or before the restoration There are two chimneys on the cen- tral wall going from front to back, each givinga fire- place to two rooms There is a gable roof with a sidewalk overhang, the gables being at each side of the cottage",
+        "page": "HABS No. La-192, 'Descriptive Data'; no page number legible in the extract span"
+      },
+      {
+        "field": "condition",
+        "text": "The cottage was completely restored by the city in 1940, under the supervision of Richard Koch An enclosed porch had been added to the rear of the cottage; this WQS removed, and the rear rebuilt in accordance with the rea£ of the cottage at 93l->33 St. Philip St.,HABS No, La.L6Gt which according to the Census of 1805, was then occupied by Louis Dolliole.",
+        "page": "HABS No. La-192, historical data; no page number legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "29f-0\"X 40-9n",
+      "value": 29.0,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 29'-0\"; the front on Burgundy Street. A reading."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "29f-0\"X 40-9n",
+      "value": 40.75,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 40'-9\"; a reading."
+    },
+    {
+      "name": "principal_room_count",
+      "as_printed": "four rooms arranged in a square",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "two chimneys on the cen- tral wall going from front to back",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "There are no dormers on this cottage",
+      "value": 0,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "front_door_count",
+      "as_printed": "each of the two front rooms has a door and a window opening on the sidewalk",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "nodes": [
+    "creole-cottage-vernacular"
+  ]
+}

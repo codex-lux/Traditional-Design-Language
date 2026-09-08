@@ -1,0 +1,57 @@
+{
+  "id": "riordan-mansion",
+  "name": "Riordan Mansion",
+  "aka": [
+    "Riordan Mansion State Historic Park",
+    "Kinlichi Knoll Estate"
+  ],
+  "location": {
+    "text": "Flagstaff, Arizona",
+    "country": "United States",
+    "state": "Arizona"
+  },
+  "dates": {
+    "built": "1904",
+    "circa": false,
+    "note": "Every source read gives 1904 for the completed house. SAH Archipedia says the two houses were 'built in 1904'; Arizona State Parks says 'Built in 1904 for two Riordan families'; a Northern Arizona University account says the brothers had the money by 1903 and moved in during 1904 and that 'Construction only took nine months.'"
+  },
+  "nodes": [
+    "arts-and-crafts-american"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/AZ-01-005-0072",
+      "title": "Riordan Mansion | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Society of Architectural Historians' own entry, and the strongest source read for this building. Its judgment, quoted: 'Kinlichi Knoll is among the best examples of Craftsman architecture in Arizona and it has many of the stylistic hallmarks of this American version of the Arts and Crafts movement.' It describes the construction as 'full-dimension, two-by-six frame construction covered by log slab, wood shiplap, and shingle siding; hand-split shake roofing on wood-plank sheathing supported by wooden beams and logs; and hardwood (maple) floors.'"
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q7335419",
+      "url": "https://www.wikidata.org/wiki/Q7335419",
+      "title": "Riordan Mansion State Historic Park (Wikidata)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States 'NRHP reference number 79000416'. Read from Wikidata, not from the National Register's own database; a second surface should confirm it before anything is built on the number."
+    },
+    {
+      "kind": "nrhp",
+      "id": "79000416",
+      "url": "https://www.wikidata.org/wiki/Q7335419",
+      "title": "NRHP reference number 79000416 (as Wikidata states it, sourced there to the National Register)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://azstateparks.com/riordan-mansion",
+      "title": "Riordan Mansion State Historic Park | Arizona",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Describes 'a rustic exterior of log-slab siding, volcanic stone arches, and hand-split wooden shingles' and states 'forty rooms, over 13,000 square-feet of living area, and servants' quarters'."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey was found; the building is a state historic park and its documentation is the park's. Included on arts-and-crafts-american as the movement OUTSIDE its two hearths, and SAH Archipedia makes the chronological point the node's own long description does not: 'Significantly, Whittlesey's design predates by four years Charles and Henry Greene's Gamble House (1908) in Pasadena, which is considered the epitome of Arts and Crafts architecture in America.' The 13,000 sq ft figure is the OWNER's and covers a duplex of two near-mirror houses plus a shared central room, so it is not a house area a kit may read; it is recorded as prose in the ref's note and deliberately not as a measurement."
+}

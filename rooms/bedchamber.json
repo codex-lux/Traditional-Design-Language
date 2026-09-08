@@ -95,6 +95,16 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "East for the morning, and in an unheated house a south or east chamber was materially warmer than a north one - which is why in a five-bay Georgian the best chamber is over the parlour and on the sunny end, and why the north-east chamber is the one the children got.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E",
+        "S"
+      ],
+      "basis": "East for the morning, and in an unheated house a south or east chamber was materially warmer than a north one",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.16

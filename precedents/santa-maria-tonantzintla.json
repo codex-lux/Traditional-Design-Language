@@ -1,0 +1,65 @@
+{
+  "id": "santa-maria-tonantzintla",
+  "name": "Santa Maria Tonantzintla",
+  "aka": [
+    "Templo de Santa María Tonantzintla",
+    "Church of Santa María Tonantzintla"
+  ],
+  "location": {
+    "text": "Cholula, Puebla, Mexico",
+    "country": "Mexico",
+    "state": "Puebla"
+  },
+  "dates": {
+    "built": "1730-1790",
+    "circa": true,
+    "note": "'construida entre 1730 y 1790', per the Columbia University course page quoted below. The English Wikipedia article is a stub whose description section returned nothing in either extract, so no second date was found."
+  },
+  "nodes": [
+    "mexican-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "http://www.columbia.edu/cu/spanish/courses/spanish3349/07crisisimperio/arte_tonantzintla.html",
+      "title": "Arquitectura barroca en México: Iglesia de Santa María Tonantzintla - Columbia University, Department of Latin American and Iberian Cultures, course page for Spanish 3349",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A UNIVERSITY TEACHING PAGE, NOT A REGISTER AND NOT A SURVEY. It carries no author line and no date. It is used here because it is the only source read in this session that describes the building in continuous prose; the English Wikipedia article is a stub carrying an 'Articles needing additional references from December 2018' maintenance category, and it returned no description text at all in two extracts."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Church_of_Santa_Mar%C3%ADa_Tonantzintla",
+      "title": "Church of Santa María Tonantzintla - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Carried for the location and coordinates only. Two extracts with different queries returned the infobox, the navigation and the category list and not one sentence of its 'Description and history' section."
+    }
+  ],
+  "survey": {
+    "item": "columbia-spanish3349-arte-tonantzintla",
+    "register": "other",
+    "data_url": "http://www.columbia.edu/cu/spanish/courses/spanish3349/07crisisimperio/arte_tonantzintla.html",
+    "prepared": "Columbia University course page; no author and no date are printed on it. NOT A REGISTER AND NOT A SURVEY -- see the ref note.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Un ejemplo sobresaliente del Barroco en las Américas es la Iglesia de Santa María Tonantzintla (construida entre 1730 y 1790), en Puebla, México.",
+        "page": "Columbia University, Spanish 3349 course page, opening paragraph"
+      },
+      {
+        "field": "finishes",
+        "text": "Aunque el exterior llama la atención por su alegre colorido y el uso de los típicos azulejos de la zona como motivo ornamental, es el interior lo que le confiere su fama. Todas las superficies del interior están recubiertas de intrincadas esculturas en yesería —desde la cúpula y techo hasta el púlpito del sacerdote—. Las decoraciones son motivos vegetales que envuelven figuras humanas y angelicales.",
+        "page": "Columbia University, Spanish 3349 course page, second paragraph"
+      },
+      {
+        "field": "significance",
+        "text": "Habría que señalar también que los artesanos que trabajaron en la construcción y ornamentación de la iglesia habrían sido en su mayoría indígenas y mestizos.",
+        "page": "Columbia University, Spanish 3349 course page, third paragraph. NOTE THE CONDITIONAL: 'habrían sido' -- would have been -- so the page hedges the attribution rather than stating it."
+      }
+    ]
+  },
+  "note": "Tranche 3, 5 Sep 2026, added by this tranche. The node's own prose names Tonantzintla twice as the clearest case of indigenous-built and indigenous-decorated work, and the corpus held no record of it. THE EVIDENCE IS THE WEAKEST IN THIS CLUSTER and the record says so in three places: a university course page rather than a register, an English Wikipedia stub that returned no prose in two extracts, no dimension of any kind, and a source that hedges the indigenous attribution in the conditional where the node states it flatly."
+}

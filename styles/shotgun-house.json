@@ -197,19 +197,55 @@
       "name": "Elvis Presley Birthplace",
       "location": "306 Elvis Presley Drive, Tupelo, Mississippi",
       "year": 1934,
-      "note": "Built by Vernon Presley; a two-room wood-frame shotgun with a hipped roof and a front porch on thin wooden posts. The irreducible minimum version of the type, and precisely dated."
+      "note": "Built by Vernon Presley; a two-room wood-frame shotgun with a hipped roof and a front porch on thin wooden posts. The irreducible minimum version of the type, and precisely dated.",
+      "precedent": "elvis-presley-birthplace",
+      "standing": "icon",
+      "why": "The one any reader names first, standing on its original site; and the only example in this node whose construction is precisely dated, by the $180 Vernon Presley borrowed for materials in 1934 on the owner's own account. CORRECTED 5 Sep 2026 by the cluster audit: this had said 'dated to the day', and no source read dates the building to a day -- the loan dates it to a year; and 'the most visited two-room shotgun in the world' was withdrawn, since no page in the record counts visitors."
     },
     {
       "name": "Shotgun House (Santa Monica Conservancy Preservation Resource Center)",
       "location": "2712 Second Street (original site), Ocean Park, Santa Monica, California",
       "year": 1897,
-      "note": "Three rooms in line, board-and-batten, front porch, with Queen Anne shingling on the street gable - evidence of the type's migration to the Pacific Coast as worker and resort housing. Relocated 2014, opened as a preservation centre 2016."
+      "note": "Three rooms in line, board-and-batten, front porch, with Queen Anne shingling on the street gable - evidence of the type's migration to the Pacific Coast as worker and resort housing. Relocated 2014, opened as a preservation centre 2016.",
+      "precedent": "santa-monica-shotgun-house",
+      "standing": "regional",
+      "why": "The Pacific Coast expression, and the case that tests the node's own account of the type: built in 1897 as a seaside vacation cottage 'just two blocks from the Santa Fe railroad depot in Ocean Park', which is neither the Southern rental history nor the industrial one, and which is the Conservancy's own history page. The 468 sq ft is the Santa Monica Daily Press's figure, not the Conservancy's, and is the only floor area anyone has published for the building. CORRECTED 5 Sep 2026 by the cluster audit, which found the area and the history attributed to one page that carries only the history."
     },
     {
       "name": "Faubourg Marigny and Bywater shotgun rows",
       "location": "New Orleans, Louisiana",
       "year": 1890,
-      "note": "The densest surviving concentration of the type, mostly 1880s-1890s, single and double shotguns and camelbacks with Italianate and Eastlake millwork on the street gables. Cited as a district because the individually documented early examples largely did not survive."
+      "note": "The densest surviving concentration of the type, mostly 1880s-1890s, single and double shotguns and camelbacks with Italianate and Eastlake millwork on the street gables. Cited as a district because the individually documented early examples largely did not survive.",
+      "precedent": "faubourg-marigny-and-bywater-shotgun-rows",
+      "standing": "documentary",
+      "why": "Cited as a district because the National Register nomination for Bywater counts the type instead of admiring it - 61% of the district's building stock is shotgun houses, 3% camelbacks, and 47% of the shotguns are singles - which is the only quantitative statement about the type in this corpus."
+    },
+    {
+      "name": "Kuntz Shotgun House",
+      "location": "1401 East Washington Street, Louisville, Jefferson County, Kentucky",
+      "year": 1889,
+      "note": "A brick camelback of 1889-91 with three rooms back to back perpendicular to the street and a fourth over the rear one, recorded by HABS with reduced copies of measured drawings. Its data form's SHAPE AND DIMENSIONS field is blank, so the survey states the room count and no dimension at all.",
+      "precedent": "kuntz-shotgun-house",
+      "standing": "canonical",
+      "why": "The only measured federal record of a shotgun house this cluster could reach, and the survey types it itself - 'This is a typical \"shotgun\" house' - which is what makes it a specimen rather than an illustration."
+    },
+    {
+      "name": "1812 West Muhammad Ali Boulevard (House)",
+      "location": "1812 West Muhammad Ali Boulevard, Russell National Register District, Louisville, Jefferson County, Kentucky",
+      "year": null,
+      "note": "A single-storey brick Italianate single shotgun in the Russell district, its facade later faced in form stone, with segmentally arched hoods over a two-bay front and a sawn wood Gothic bargeboard cornice. HABS dates the type and not the house - 'the late 19th and early 20th centuries' - so the year is left null.",
+      "precedent": "1812-west-muhammad-ali-boulevard-house",
+      "standing": "documentary",
+      "why": "Plain, surveyed and useful because it is ordinary: a federal survey stating that the type was 'routinely built for the common man as worker housing' and that the ornament of the day was applied to it, which is this node's argument about the street gable in a government document."
+    },
+    {
+      "name": "Project Row Houses",
+      "location": "Third Ward, Houston, Texas",
+      "year": 1930,
+      "note": "Twenty-two derelict shotgun houses of about 1930 at Holman and Live Oak, bought in 1993 by Rick Lowe and six other artists rather than let the city clear them; now five blocks and some thirty-nine buildings. The founder's own account names John Biggers and the West African-Caribbean derivation of the plan as the reason.",
+      "precedent": "project-row-houses",
+      "standing": "icon",
+      "why": "The group by which the type's African and Caribbean ancestry entered public consciousness, and the reason the shotgun is now argued about rather than cleared; the judgment rests on the founder's own statement of why these houses and not others were saved."
     }
   ],
   "sources": [

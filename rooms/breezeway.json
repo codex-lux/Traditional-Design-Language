@@ -87,6 +87,12 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "The passage runs ACROSS the prevailing summer breeze - in the Upland South that means the open ends face roughly south-west and north-east. Get this wrong and the building is two cabins with a gap.",
+    "aspect": {
+      "applies": false,
+      "basis": "The passage runs ACROSS the prevailing summer breeze",
+      "note": "An axis of the open ENDS -- doors -- against the prevailing breeze, and stated for the Upland South. It is not an aspect for glass, and reading it as one would hold a breezeway's windows to a rule written about its through-draught.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.05

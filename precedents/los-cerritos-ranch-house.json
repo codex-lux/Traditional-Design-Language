@@ -1,0 +1,66 @@
+{
+  "id": "los-cerritos-ranch-house",
+  "name": "Los Cerritos Ranch House",
+  "aka": [
+    "Rancho Los Cerritos",
+    "Rancho Los Cerritos Historic Site"
+  ],
+  "location": {
+    "text": "4600 Virginia Road, Long Beach, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1844",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1844'.",
+    "altered": "The site's own collection notes record a 1930s remodel of the adobe (contractors C.T. McGrew & Sons, architect Kenneth Wing, landscape designer Ralph D. Cornell) and an 1872 photograph in which the south wing still had its flat roof."
+  },
+  "nodes": [
+    "monterey-colonial",
+    "monterey-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Los_Cerritos_Ranch_House",
+      "title": "Los Cerritos Ranch House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The land-grant article 'Rancho Los Cerritos' reads 'For the adobe, see Los Cerritos Ranch House', which is why the record is named for the house."
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000135",
+      "url": "https://en.wikipedia.org/wiki/Los_Cerritos_Ranch_House",
+      "title": "NRHP reference No. 70000135; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "978",
+      "url": "https://en.wikipedia.org/wiki/Los_Cerritos_Ranch_House",
+      "title": "California Historical Landmark No. 978, designated Aug. 23, 1988 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.rancholoscerritos.org/collections",
+      "title": "Collections - Rancho Los Cerritos",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'The adobe house that serves as a National Historic Landmark was built by John Temple in 1844 as a headquarters for his large-scale cattle operation'; 'The flat roof is a feature of Spanish Colonial architecture while the two-story structure draws on the Monterey Colonial style'; an 1872 photograph in which 'the South Wing of the adobe still retains its flat roof'; a 1930s remodel by contractors C.T. McGrew & Sons, architect Kenneth Wing and landscape designer Ralph D. Cornell."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.rancholoscerritos.org/fun-facts-about-1844",
+      "title": "Fun Facts about 1844 - Rancho Los Cerritos",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Massachusetts-born John Temple constructed the present two-story Monterey-style adobe here on-site in 1844 as headquarters for his large-scale cattle operation.'"
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the Los Angeles-basin example, for a node whose geography lists 'Los Angeles and Santa Barbara' and whose exemplars were all north of Salinas. The owner's pages are the source for the building's form ('two-story Monterey-style adobe', flat-roofed wings). No HABS record was found: the search '\"Los Cerritos\" ranch house Long Beach HABS loc.gov pictures item' over loc.gov returned only a HAER record of the Henry Ford Bridge over Cerritos Channel. Nothing here states a dimension. CROSS-LINKED 5 Sep 2026: monterey-revival now names this building too, at the same location string. It matters more to the revival node than to the colonial one, because the revival's hearth is 'Monterey and Los Angeles' and this is the southern original the Los Angeles designers had actually seen."
+}

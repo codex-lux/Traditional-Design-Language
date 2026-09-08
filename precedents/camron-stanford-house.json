@@ -1,0 +1,48 @@
+{
+  "id": "camron-stanford-house",
+  "name": "Camron-Stanford House",
+  "location": {
+    "text": "Oakland, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "1426 Lakeside Drive, Oakland, California"
+    ]
+  },
+  "dates": {
+    "built": "1876",
+    "circa": false,
+    "note": "The house museum's own site says 1876 and 'has stood on the edge of Lake Merritt for 150 years'; the Wikipedia infobox says 'Built 1871'. Both are recorded and neither is edited to agree with the other."
+  },
+  "nodes": [
+    "italianate-american"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "72000213",
+      "url": "https://en.wikipedia.org/wiki/Camron-Stanford_House",
+      "title": "NRHP reference No. 72000213; Oakland Designated Landmark No. 2; architectural style Italianate (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.cshouse.org",
+      "title": "Camron-Stanford House",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its page states the house 'is one of 14 grand Victorian estates that were developed by Samuel Merritt along Lake Merritt and today it is the only one that remains', and that it became Oakland's first museum in 1907."
+    },
+    {
+      "kind": "other",
+      "url": "https://localwiki.org/oakland/Camron-Stanford_House",
+      "title": "Camron-Stanford House - Oakland (LocalWiki)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records the National Register listing in 1972 and the Oakland Landmark designation of 7 January 1975."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. Carried for the italianate-american node's own geography, which claims California and had no Californian exemplar. The building's real value to this corpus is negative evidence about survival: its owner's page says fourteen such houses were built round one lake and this is the only one left, so the West Coast Italianate the node claims is a population of one in the record, not a type with a range."
+}

@@ -1,0 +1,78 @@
+{
+  "id": "huis-met-de-hoofden",
+  "name": "Huis met de Hoofden, Keizersgracht 123",
+  "location": {
+    "text": "Amsterdam, Netherlands",
+    "country": "Netherlands",
+    "state": "Noord-Holland"
+  },
+  "dates": {
+    "built": "1622",
+    "circa": false,
+    "altered": "Restored by the city of Amsterdam in 1908-1909, when the cross-mullioned windows of the front were reconstructed from building evidence; restored again in the early 1980s, when the rear building was demolished; further restoration 2019.",
+    "note": "The register says 'voltooid in 1622' (completed in 1622) and Amsterdam Monumentenstad prints 'Bouwjaar: 1622, 1907'. The attribution is unsettled in the sources themselves: Hendrick de Keyser died in 1621 and the register hedges, 'in de trant, en misschien naar ontwerp van Hendrik de Keyser'."
+  },
+  "nodes": [
+    "dutch-urban-gable-house"
+  ],
+  "refs": [
+    {
+      "kind": "rijksmonument",
+      "id": "2249",
+      "url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2249",
+      "title": "Keizersgracht 123, 1015 CJ te Amsterdam",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.amsterdam-monumentenstad.nl/database/grachtenboek_objecten.php?id=1466",
+      "title": "Amsterdam Monumentenstad, database van de Amsterdamse grachtengordel -- Keizersgracht 123",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The identification block prints 'Huisnaam: Huis met de Hoofden / Gebouwtype: Woonhuis (dubbel huis) / Geveltype: Trapgevel / Bouwstijl: Amsterdamse Renaissance / Bouwjaar: 1622, 1907 / Architect: Pieter de Keyser ? / Opdrachtgever: Nicolaas Sohier (1622)'. Its own text names the three surviving early-seventeenth-century Amsterdam houses with a side annex: this house, Singel 140-142 and Herengracht 170-172."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://nl.wikipedia.org/wiki/Huis_met_de_Hoofden",
+      "title": "Huis met de Hoofden - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The infobox prints 'Monumentnummer 2249' and 'Monumentstatus Rijksmonument (5 juni 1970)', and the article says the house is on the Rijksdienst voor de Monumentenzorg's 1990 'Top 100'."
+    }
+  ],
+  "survey": {
+    "item": "2249",
+    "register": "rijksmonument",
+    "data_url": "https://monumentenregister.cultureelerfgoed.nl/monumenten/2249",
+    "prepared": "Rijksdienst voor het Cultureel Erfgoed. The entry's 'Inschrijving register' field came back blank in the extract; the Dutch Wikipedia infobox prints the listing date as 5 juni 1970.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Dubbel huis met voorgevel in de trant, en misschien naar ontwerp van Hendrik de Keyser, voltooid in 1622, voorzien van een rijke middentop met grote trappen en borstbeelden tegen de muurdammen en een achtergevel, versierd met grote boogblokken, voorzien van twee toppen; naast de voorgevel een poortje met verdieping in dezelfde stijl. Inwendig in het voorhuis een stenen portiek en enige houten portieken uit de bouwtijd.",
+        "page": "Rijksmonumentenregister, monument 2249, section 'Omschrijving'. A register entry is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "rear_gable_top_count",
+      "as_printed": "voorzien van twee toppen",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Of the REAR wall ('een achtergevel ... voorzien van twee toppen'). The front carries one central top ('een rijke middentop met grote trappen'), so the house has three gable tops in all, on two walls. The register does not use the word trapgevel; 'middentop met grote trappen' is a centre top with large steps."
+    },
+    {
+      "name": "front_gable_top_count",
+      "as_printed": "een rijke middentop met grote trappen",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "One centre top on the front wall, stepped."
+    }
+  ],
+  "note": "Tranche 3, Low Countries cluster, 5 September 2026. This is the register entry serving as the survey block (WP-11.5). It is a double house on a double lot and therefore the WRONG specimen for the node's frontage arithmetic, which is about the narrow single lot; it is right for the gable as a free-standing decorated screen, which the register describes exactly -- a rich stepped centre top on the front and two more on the back."
+}

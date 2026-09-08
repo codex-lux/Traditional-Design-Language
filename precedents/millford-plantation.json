@@ -1,0 +1,197 @@
+{
+  "id": "millford-plantation",
+  "name": "Millford Plantation",
+  "aka": [
+    "Milford",
+    "Milford Plantation",
+    "Gov. John L. Manning House",
+    "Manning's Folly"
+  ],
+  "location": {
+    "text": "Pinewood, Sumter County, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1839-1841",
+    "circa": false,
+    "altered": "House restored 1960 (survey).",
+    "note": "Wikipedia: built between 1839 and 1841, infobox 'Completed in 1841', built by Nathaniel F. Potter of Providence; the South Carolina register says 'ca. 1839'. HABS and the state register spell the name Milford; Wikipedia and the Jenrette Foundation spell it Millford, and the exemplar follows them."
+  },
+  "nodes": [
+    "greek-revival-american",
+    "greek-revival-southern-plantation"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-257",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0000/sc0095/data/sc0095data.pdf",
+      "title": "Milford, Wedgefield-Rimini Road, Pinewood, Sumter County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's running head ('\"MLFORD,\" GOVERNOR JOHN L. MANNING PLANTATION HABS No. SC-257 (Page 3)' in OCR). The spring house and water tower are separate items (sc0091, sc0089)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0095",
+      "url": "http://www.loc.gov/pictures/item/sc0095",
+      "title": "Milford, Wedgefield-Rimini Road, Pinewood, Sumter County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search summary read 'Photo(s): 20 Color. Call Number: HABS SC,43-PINWO.V,1-'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000808",
+      "url": "https://en.wikipedia.org/wiki/Millford_Plantation",
+      "title": "NRHP reference No. 71000808; added November 19, 1971; designated NHL November 7, 1973 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817743012",
+      "url": "http://www.nationalregister.sc.gov/sumter/S10817743012/index.htm",
+      "title": "Milford Plantation, Sumter County (S.C. Hwy. 261, Pinewood vicinity) – South Carolina Department of Archives and History",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'considered one of the most outstanding Greek Revival plantation homes in the South'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Millford_Plantation",
+      "title": "Millford Plantation - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.jenrette.org/millford",
+      "title": "Millford - Richard Hampton Jenrette Foundation",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner. 'one of the outstanding and best-preserved examples of Greek Revival architecture in North America'."
+    }
+  ],
+  "survey": {
+    "item": "sc0095",
+    "register": "loc-item",
+    "survey_no": "SC-257",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0000/sc0095/data/sc0095data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: One of the most important Greek Revival country mansions of South Carolina, \"Miiford\" is notable for its fine design, excellent materials, and construction, as v/eli as its heating and plumbing arrangements. 2. Condition of fabric: Excellent.",
+        "page": "HABS No. SC-257, Part II.A; the marker '(Page 3)' follows two items later"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "B. Detailed Description of Exterior: 1. Over-all dimensions: Three-story center section with two-story wings; five bays on front, five bays on side; 45' x 70', plus wings (about 20' x 20' each); layout- rectangle plus flanking wings.",
+        "page": "HABS No. SC-257 (Page 3), the marker immediately following"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Stuccoed brick.",
+        "page": "HABS No. SC-257 (Page 3)"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Stuccoed brick (which were burned at the site) coursed to simulate ashlar masonry and painted white.",
+        "page": "HABS No. SC-257 (Page 3)"
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system: Brick bearing walls, wood framing.",
+        "page": "HABS No. SC-257 (Page 3)"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches: Garden front—impressive parapeted, hexastyle, prostyle portico with Corinthian columns across front; fluted wooden columns; dentil cornice; palmettes at center of parapet; cut granite base and floor paved with gray and white marble tiles; columns painted white and capitals gray; capitals are freely interpreted with Greek detail, including rosettes and palmettes. Rear—simple, one-story porch across rear and apse (curving with apse); square sunken panel columns; simple cornice; and cut granite steps.",
+        "page": "HABS No. SC-257 (Page 3)"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: Four plain, brick chimneys.",
+        "page": "HABS No. SC-257 (Page 3)"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings: a. Doorways and doors: Front door—heavy, recessed, double, four-paneled doors of mahogany with side lights and transom; elaborate entablature with dentil cornice and flaring palmette supported by two Corinthian columns in antis. Rear door—pair of heavy, curved, mahogany, four-paneled doors in the apse; simple trim, b. Windows and shutters: (1) Windows: First floor (front and rear)—large, floor-length windows; double-hung wooden sash slide up into wall at top; sash are six-over- nine lights. First floor (side) and second floor—windows have double-hung wooden sash with six-over-six lights. Third floor—small, one-pane windows within entablature surrounded by wreath-like scrolls. (2) Shutters: Wooden slatted (operable) shutters on first- and second-story windows,",
+        "page": "HABS No. SC-257, Part II.B.7; no page marker in the span (page 3 or 4)"
+      },
+      {
+        "field": "roof",
+        "text": "3. Roof: a. Shape, covering: Flat-type",
+        "page": "HABS No. SC-257, Part II.B.8 (the item number OCRs as '3.'); the span is cut after 'Flat-type'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "45'",
+      "value": 45,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey prints '45' x 70'' and 'five bays on front, five bays on side' without saying which figure is the front; 45 is recorded as the width and 70 as the depth on the reading that the five-bay front is the shorter dimension, which the survey does not state."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "70'",
+      "value": 70,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "See overall_width_ft: the survey does not say which axis is which."
+    },
+    {
+      "name": "wing_width_ft",
+      "as_printed": "about 20' x 20' each",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "Two wings, each about 20 by 20."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "five bays on front",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Three-story center section with two-story wings",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Centre section; the wings are two."
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "hexastyle, prostyle portico with Corinthian columns",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "Four plain, brick chimneys",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 6
+    },
+    {
+      "name": "sash_lights_ground_front",
+      "as_printed": "six-over- nine lights",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 7,
+      "note": "Ground-floor front and rear windows; the side and upper windows are six-over-six."
+    }
+  ],
+  "note": "Written 4 Sep 2026. The surveyor's own dimensions, bays, portico, chimneys, sash and shutters are all here; the roof entry is cut in the extract after 'Flat-type'. A Corinthian hexastyle rather than the node's Doric -- the node's prose names Doric as the substitution and this house is the other order."
+}

@@ -1,0 +1,176 @@
+{
+  "id": "hammond-harwood-house",
+  "name": "Hammond-Harwood House",
+  "location": {
+    "text": "19 Maryland Avenue, Annapolis, Maryland",
+    "country": "United States",
+    "state": "Maryland",
+    "aliases": [
+      "Annapolis, Maryland"
+    ]
+  },
+  "dates": {
+    "built": "1774",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 1774 and the MHT entry 'c. 1774'; the survey's own chain of title records the house 'remained empty until 1784', which is about occupation and not construction."
+  },
+  "nodes": [
+    "mid-atlantic-georgian",
+    "georgian-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MD-251",
+      "url": "https://www.loc.gov/pictures/item/md0035",
+      "title": "Hammond-Harwood House, 19 Maryland Avenue & King George Street, Annapolis, Anne Arundel County, MD",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS MD-251'. The survey number is also printed in the data page's own running header ('HAMMOND-HARWOOD HOUSE HABS NO. MD-251 Data Page Four')."
+    },
+    {
+      "kind": "loc-item",
+      "id": "md0035",
+      "url": "https://www.loc.gov/pictures/item/md0035",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hammond-Harwood_House",
+      "title": "Hammond–Harwood House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000384",
+      "url": "https://en.wikipedia.org/wiki/Hammond-Harwood_House",
+      "title": "NRHP reference No. 66000384; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox; the MHT page prints the same listing dates against Inventory No. AA-626."
+    },
+    {
+      "kind": "state-register",
+      "id": "AA-626",
+      "url": "https://apps.mht.maryland.gov/nr/NRDetail.aspx?NRID=3",
+      "title": "National Register Properties in Maryland",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Maryland Historical Trust: 'Hammond-Harwood House Inventory No.: AA-626 Date Listed: 10/15/1966 Location: 19 Maryland Avenue, Annapolis, Anne Arundel County ... Period/Date of Construction: c. 1774 Architect/Builder: Architect: William Buckland NHL Date: 10/9/1960'."
+    }
+  ],
+  "survey": {
+    "item": "md0035",
+    "register": "loc-item",
+    "survey_no": "MD-251",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/md/md0000/md0035/data/md0035data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: The Harwood-Hammond House has been called one of the most beautiful houses in America. The symmetrical Georgian structure consists of a central section with two story end wings connected by enclosed passages. 2. Condition of fabric: The building has always been well maintained, and in recent years has been put In excellent condition.",
+        "page": "HABS No. MD-251, Part II.A; no page marker legible in the extract span (the next marker reads 'Data Page Four')"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior: 1. Over-all dimensions: The two-story main block is approximately 44x42', the end wings are about 34' xl8, and the connecting links are 18 long.",
+        "page": "HABS No. MD-251; the marker 'HAMMOND-HARWOOD HOUSE HABS NO. MD-251 Data Page Four' immediately follows the span"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: Brick, laid in English bond, with a two-course molded water table. The foundations of the wings and connecting links are about 2 high and those of the main block are about 3' high.",
+        "page": "HABS No. MD-251, Data Page Four"
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: Exterior walls are brick, laid in Flemish bond. High flat arches of rubbed brick span the window openings, and a projecting stringcourse marks the second floor level. A pedimented three bay central pavilion projects slightly on the street facade of the main block.",
+        "page": "HABS No. MD-251, Data Page Four"
+      },
+      {
+        "field": "stairways",
+        "text": "The stair is an open well, 10 risers to the first landing, 3 to the second landing and 10 to the second floor.",
+        "page": "HABS No. MD-251, Part II.C; no page marker legible in the extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "The two-story main block",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "main_block_width_ft",
+      "as_printed": "approximately 44x42'",
+      "value": 44,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "'Approximately', and low: the house's own institution gives 49 ft wide (wp-9.2-the-parti-is-not-the-type.md), which is why the survey's figure is not the one that report measured the parti against."
+    },
+    {
+      "name": "main_block_depth_ft",
+      "as_printed": "approximately 44x42'",
+      "value": 42,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "'Approximately'."
+    },
+    {
+      "name": "wing_width_ft",
+      "as_printed": "the end wings are about 34' xl8",
+      "value": 34,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "wing_depth_ft",
+      "as_printed": "the end wings are about 34' xl8",
+      "value": 18,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "OCR 'xl8' for 'x 18'; a reading."
+    },
+    {
+      "name": "hyphen_length_ft",
+      "as_printed": "the connecting links are 18 long",
+      "value": 18,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "water_table_courses",
+      "as_printed": "a two-course molded water table",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "foundation_height_main_block_in",
+      "as_printed": "those of the main block are about 3' high",
+      "value": 36,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "pavilion_bay_count",
+      "as_printed": "A pedimented three bay central pavilion",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "risers_per_storey",
+      "as_printed": "10 risers to the first landing, 3 to the second landing and 10 to the second floor",
+      "value": 23,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "The sum of the three flights as the survey lists them."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. This building is named by TWO nodes with two different location strings -- georgian-colonial-american says 'Annapolis, Maryland' and mid-atlantic-georgian says '19 Maryland Avenue, Annapolis, Maryland' -- and a record's location must equal the exemplar's exactly on every node that names it, while an existing exemplar's location may not be renamed (check_assets.py reads it as a join key). So this record serves mid-atlantic-georgian only, and the georgian-colonial-american exemplar stands without a precedent until someone rules which string is right."
+}

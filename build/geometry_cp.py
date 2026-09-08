@@ -222,6 +222,84 @@ def _span_capacity(plan):
         return None       # catalogue unreadable: unjudged, so nothing is charged
 
 
+def _boxes(plan, prep, fpd):
+    """`({(level, room_id): (x0, y0, x1, y1)}, main_box)` in integer units — MAIN'S SPELLING,
+    DERIVED FROM THIS BRANCH'S `_element_boxes` AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026).
+
+    Both branches built this map. Main's returned CORNERS and was the name its own tests and
+    five call sites read; this branch's `_element_boxes` returns `(x, y, W, H)` and carries the
+    inward rounding WP-11.13's coverage floor is stated against. Keeping both would be two maps
+    of one fact, which is how the model and the disclosure come to disagree about a box — so
+    there is ONE arithmetic and this is the corner VIEW of it.
+    """
+    Wi, Hi = int(round(fpd["W"] * U)), int(round(fpd["H"] * U))
+    # LEVEL 0 ONLY BUILDS ELEMENTS, AND THIS FILE SAID SO IN THREE OTHER PLACES WHILE DOING
+    # OTHERWISE HERE. `geometry.py` states the rule three times -- "the placer lays only
+    # level 0 into elements, so every upper room is inside the main block" -- and
+    # `multi_element` DISCLOSES any room above the ground whose `block` tag the placer does
+    # not read. Calling `blocks_for` for level 1 built elements from those unread tags, so
+    # an upper room carrying one was bounded by a WING box: measured on the other branch's
+    # fixture, a landing at (-86, 8, -14, 33) where every upper room belongs in the main
+    # block. Both Phase 11s agree on the rule; only this line disagreed with it.
+    els = {lvl: (GEO.blocks_for(plan, fpd, prep, lvl) if lvl == 0
+                 else [{"id": "main", "role": "main", "x": 0, "y": 0,
+                        "W": fpd["W"], "H": fpd["H"],
+                        "rooms": [r["id"] for r in prep.get(lvl) or []]}])
+           for lvl in (0, 1) if prep.get(lvl)}
+    ebox, gx0, gy0, gx1, gy1 = _element_boxes(els, Wi, Hi)
+    # THE SECOND RETURN IS THE MAIN BLOCK'S OWN BOX, NOT THE GLOBAL ENVELOPE, and the difference
+    # is the defect this branch's WP-11.11 measured. Bounding a main-block room by the union lets
+    # it roam the whole extent: that package found "every MAIN-BLOCK room then had a domain
+    # reaching 34 ft west of the house and nothing holding it back -- five untagged rooms placed
+    # or absorbed in no element at all". Main's callers read this value as "the box everyone who
+    # is not in a wing gets", which is the main block, so the tighter reading is also the one
+    # they expect.
+    _mains = [e for e in (els.get(0) or []) if e.get("role") == "main"] or (els.get(0) or [])
+    if _mains:
+        e = _mains[0]
+        mx, my, mW, mH = GEO._elements().integer_box(e["x"], e["y"], e["W"], e["H"], U)
+        _mb = (mx, my, mx + mW, my + mH)
+    else:
+        _mb = (gx0, gy0, gx1, gy1)
+    return ({k: (x, y, x + W, y + H) for k, (x, y, W, H) in ebox.items()}, _mb)
+
+
+def _element_fills(boxes, rs, lvl):
+    """Each element's own slack: its floor area over the programme its own rooms declare.
+
+    `fill` sets every room's area CEILING (`max(1.20, fill * 1.22)`), and it was the WHOLE
+    building's ratio (WP-11.6 item 4). A dependency measured that way is licensed to grow by a
+    share of floor that is not in its element -- the cap stops meaning "roughly its program
+    size" and starts meaning "roughly its program size, plus a share of the main block". Lifted
+    out of `_build` so it can be read: inline, a mutation putting the building's ratio back left
+    the whole suite green."""
+    out = {}
+    for bx in {boxes[(lvl, r["id"])] for r in rs}:
+        rs_b = [r for r in rs if boxes[(lvl, r["id"])] == bx]
+        area = ((bx[2] - bx[0]) / U) * ((bx[3] - bx[1]) / U)
+        out[bx] = area / max(1.0, sum(r["_area"] for r in rs_b))
+    return out
+
+
+def _abuts(a, b):
+    """Do two element boxes share a face? (WP-11.6 item 4.)
+
+    Overlapping on one axis and touching on the other. A shared CORNER is not an abutment and
+    the strict inequalities say so: no door leaf fits in a point, which is the same reading
+    `openings.faces_across_a_gap` takes for the same reason at layer 5. Identical boxes — the
+    one-element case, where every room is in the same box — abut, which is what makes the
+    door constraint below the one it always was."""
+    if a == b:
+        return True
+    ax0, ay0, ax1, ay1 = a
+    bx0, by0, bx1, by1 = b
+    if ax1 == bx0 or bx1 == ax0:
+        return min(ay1, by1) - max(ay0, by0) > 0
+    if ay1 == by0 or by1 == ay0:
+        return min(ax1, bx1) - max(ax0, bx0) > 0
+    return False
+
+
 def _element_boxes(els, Wi, Hi):
     """`{(level, room_id): (x, y, W, H)}` in integer units, and the global envelope.
 
@@ -284,11 +362,49 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
     # Computed here rather than threaded from `solve_cp`: `_build` has seven call sites in
     # this file and `geometry.blocks_for` is the one reader of which element a room stands in,
     # so a parameter would have been seven chances to pass a different answer.
-    els = {lvl: GEO.blocks_for(plan, fpd, prep, lvl) for lvl in (0, 1) if prep.get(lvl)}
+    # LEVEL 0 ONLY BUILDS ELEMENTS, AND THIS FILE SAID SO IN THREE OTHER PLACES WHILE DOING
+    # OTHERWISE HERE. `geometry.py` states the rule three times -- "the placer lays only
+    # level 0 into elements, so every upper room is inside the main block" -- and
+    # `multi_element` DISCLOSES any room above the ground whose `block` tag the placer does
+    # not read. Calling `blocks_for` for level 1 built elements from those unread tags, so
+    # an upper room carrying one was bounded by a WING box: measured on the other branch's
+    # fixture, a landing at (-86, 8, -14, 33) where every upper room belongs in the main
+    # block. Both Phase 11s agree on the rule; only this line disagreed with it.
+    els = {lvl: (GEO.blocks_for(plan, fpd, prep, lvl) if lvl == 0
+                 else [{"id": "main", "role": "main", "x": 0, "y": 0,
+                        "W": fpd["W"], "H": fpd["H"],
+                        "rooms": [r["id"] for r in prep.get(lvl) or []]}])
+           for lvl in (0, 1) if prep.get(lvl)}
     ebox, gx0, gy0, gx1, gy1 = _element_boxes(els, Wi, Hi)
     gW, gH = gx1 - gx0, gy1 - gy0
     bayU = max(1, int(round(fpd["bay"] * U)))
     tolU = max(1, int(round(fpd["tol"] * U)))
+    # BOTH BRANCHES BUILT THIS MAP AND THE MERGE KEEPS ONE OF THEM. `_element_boxes`
+    # (this branch, WP-11.11/11.13) returns `(x, y, W, H)` per room in integer units and
+    # carries the inward rounding the coverage floor is stated against; main's `_boxes`
+    # returned CORNERS. Main's consumers below are written against corners, so the corner
+    # form is DERIVED from the one map rather than computed a second time -- two maps of
+    # one fact is how the model and the disclosure come to disagree about a box.
+    boxes = {k: (x, y, x + W, y + H) for k, (x, y, W, H) in ebox.items()}
+    _main_box = (gx0, gy0, gx1, gy1)
+    # The widest coordinate any element reaches, so the BUILDING-WIDE soft terms further down
+    # can be given honest variable domains. A west wing's x is NEGATIVE, and a domain of
+    # [0, span] on a distance-to-the-front is not a worse model, it is an infeasible one.
+    _EXT = max([abs(c) for b in boxes.values() for c in b] + [Wi, Hi]) * 2 + 1
+    _multi = any(b != _main_box for b in boxes.values())
+
+    def _wide(lo, hi):
+        """The domain a building-wide soft term needs, WIDENED ONLY WHERE IT HAS TO BE.
+
+        One element -> exactly the bounds the term always carried, so the sixteen one-rectangle
+        records serialise to the same model and take the same presolve. A first version widened
+        unconditionally, on the argument that a looser domain cannot change an answer -- and it
+        moved the OBJECTIVE proto on seven of the sixteen. A domain is an input to presolve, not
+        a comment. More than one element and the widening is not optional: these terms measure
+        against the MAIN block in both engines (`entrance_score` and the zoning scorers do, so
+        changing the frame in one engine only is how the two come to disagree about one house),
+        and a wing's distance to that frame is negative."""
+        return (-_EXT, _EXT) if _multi else (lo, hi)
 
     rooms = {}      # (level, id) -> dict of vars
     penalties = []  # (bool_or_int_expr, weight_x10)
@@ -297,9 +413,12 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         rs = prep.get(lvl) or []
         if not rs:
             continue
-        fill = (fpd["W"] * fpd["H"]) / max(1.0, sum(r["_area"] for r in rs))
+        _fills = _element_fills(boxes, rs, lvl)   # the ELEMENT's slack, not the building's
         xiv, yiv = [], []
         for r in rs:
+            bx0, by0, bx1, by1 = boxes[(lvl, r["id"])]
+            bwU, bhU = bx1 - bx0, by1 - by0
+            fill = _fills[(bx0, by0, bx1, by1)]
             dw = (r.get("width_ft") or 10)
             dl = (r.get("length_ft") or 12)
             smin = min(dw, dl)
@@ -440,6 +559,11 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             yiv.append(m.NewIntervalVar(y, h, m.NewIntVar(gy0, gy1, ""), f"yi{lvl}_{r['id']}"))
             rooms[(lvl, r["id"])] = {"x": x, "y": y, "w": w, "h": h, "a": a, "r": r,
                                      "maxside": max(dw, dl)}
+        # ONE NoOverlap2D over the whole level, elements included. Two elements are disjoint
+        # rectangles, so every cross-element pair is satisfied trivially and this costs nothing
+        # — but it is what makes a HYPHEN real: the link's rooms and the rooms on either side of
+        # it stand in the same non-overlap relation as any two rooms, so the door constraint
+        # below can ask them to share a face and get a true answer rather than a vacuous one.
         m.AddNoOverlap2D(xiv, yiv)
         # coverage floor: no-overlap + containment + this bounds the void the
         # absorb pass must grow rooms into (the guillotine heuristic tiles exactly)
@@ -498,7 +622,14 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                                     for rid in _ids)
                     m.Add(_got >= int(COVERAGE * _declared))
         else:
-            m.Add(upper_area >= int(COVERAGE * Wi * Hi))
+            # PER ELEMENT (WP-11.6 item 4). Against the whole building's floor area this floor
+            # is either unsatisfiable — a dependency's rooms cannot cover the main block — or
+            # vacuous. With one element the loop runs once, over every room in `rs`, against
+            # `Wi * Hi`: the line it replaces.
+            for _bx in sorted({boxes[(lvl, r["id"])] for r in rs}):
+                _area_b = sum(rooms[(lvl, r["id"])]["a"] for r in rs
+                              if boxes[(lvl, r["id"])] == _bx)
+                m.Add(_area_b >= int(COVERAGE * (_bx[2] - _bx[0]) * (_bx[3] - _bx[1])))
 
         # ---- declared exterior walls
         contested = _contested_corners(rs)
@@ -682,6 +813,24 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 if key in seen:
                     continue
                 seen.add(key)
+                # A DOOR ACROSS OPEN GROUND IS NOT THIS MODEL'S FACT EITHER, AND MAKING IT ONE
+                # WOULD PROVE A BUILDABLE HOUSE IMPOSSIBLE (WP-11.6 item 4). The constraint
+                # below is a hard abutment — `a["x"] + a["w"] == b["x"]` — which is exactly what
+                # a hyphen buys and exactly what a detached dependency cannot give: the elements
+                # are laid by `blocks_for` with a gap between them, and no placement of rooms
+                # inside two separated rectangles can put a leaf across the gap. The heuristic
+                # charges such a door and draws it `unplaced` with a reason (measured 5 of 5 on
+                # this package's own fixture); the prover must say the same thing rather than
+                # return INFEASIBLE, or a diagram whose service block is genuinely detached
+                # would come back as a brief that cannot be built.
+                if not _abuts(boxes[(lvl, r["id"])], boxes[(lvl, to)]):
+                    reqs.notes.append(
+                        f"{r.get('name') or r['id']} and {idx[to].get('name') or to} declare a "
+                        f"door and stand in massing elements that do not touch — no placement "
+                        f"of rooms inside two separated rectangles can put a leaf across the "
+                        f"gap, so this door is left to the drawn layer to report unplaced "
+                        f"rather than made an infeasibility of the house")
+                    continue
                 v2 = rooms[(lvl, to)]
                 ovr = _door_overlap(d, v1, v2)
                 lit = reqs.lit(f"{r.get('name') or r['id']} and {idx[to].get('name') or to} "
@@ -827,8 +976,15 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
             if _cls(r["type"]) != "threshold" or (0, r["id"]) not in rooms:
                 continue
             v = rooms[(0, r["id"])]
-            pins = {"S": v["y"] == 0, "N": v["y"] + v["h"] == Hi0,
-                    "W": v["x"] == 0, "E": v["x"] + v["w"] == Wi0}
+            # THE HARD PIN IS ON THE ROOM'S OWN ELEMENT (WP-11.6 item 4). A wing has its own
+            # front, and pinning an entry that stands in one to the MAIN block's boundary would
+            # prove a buildable house impossible — the one thing a hard constraint here must
+            # never do. The SOFT mirrors below keep the main block's frame deliberately, because
+            # `entrance_score` and the zoning scorers measure there in BOTH engines and a frame
+            # changed in one engine only is how the two come to disagree about one house.
+            _p0x, _p0y, _p1x, _p1y = boxes[(0, r["id"])]
+            pins = {"S": v["y"] == _p0y, "N": v["y"] + v["h"] == _p1y,
+                    "W": v["x"] == _p0x, "E": v["x"] + v["w"] == _p1x}
             opens_out = any(d.get("to") == "exterior" for d in (r.get("doors") or []))
             onb = []
             for wl in ewalls:
@@ -876,7 +1032,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 elif wl == "N": exprs.append(Hi0 - (v["y"] + v["h"]))
                 elif wl == "W": exprs.append(v["x"])
                 elif wl == "E": exprs.append(Wi0 - (v["x"] + v["w"]))
-            dv = m.NewIntVar(0, max(Wi0, Hi0), "")
+            dv = m.NewIntVar(*_wide(0, max(Wi0, Hi0)), name="")
             m.AddMinEquality(dv, exprs)
             return dv
 
@@ -904,7 +1060,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                     elif wl == "W": rd_exprs.append(v["x"])
                     elif wl == "E": rd_exprs.append(Wi0 - (v["x"] + v["w"]))
                 if rd_exprs:
-                    rd = m.NewIntVar(0, max(Wi0, Hi0), "")
+                    rd = m.NewIntVar(*_wide(0, max(Wi0, Hi0)), name="")
                     m.AddMinEquality(rd, rd_exprs)
                     p = m.NewBoolVar("")
                     m.Add(rd <= 1).OnlyEnforceIf(p.Not())
@@ -928,9 +1084,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         for r in ground:
             if "centre" in (r["type"] or "") or "center" in (r["type"] or ""):
                 v = rooms[(0, r["id"])]
-                cd = m.NewIntVar(-Wi0 * 2, Wi0 * 2, "")
+                cd = m.NewIntVar(*_wide(-Wi0 * 2, Wi0 * 2), name="")
                 m.Add(cd == 2 * v["x"] + v["w"] - Wi0)
-                cda = m.NewIntVar(0, Wi0 * 2, "")
+                cda = m.NewIntVar(*_wide(0, Wi0 * 2), name="")
                 m.AddAbsEquality(cda, cd)
                 penalties.append((cda, 1))
 
@@ -1107,7 +1263,8 @@ def _hint_values(model, rooms, values):
         model.AddHint(v["h"], h)
 
 
-def _absorb(rects, W, H, caps=None, keepout=(), ratios=None, bounds=None):
+def _absorb(rects, W, H, caps=None, keepout=(), ratios=None, bounds=None,
+            x0=0.0, y0=0.0):
     """Grow rooms into the void the coverage floor allows, edges moving outward
     only — a pinned boundary edge is already at its boundary, and a shared edge
     stops exactly at its neighbour, so nothing hard can break. `caps` bounds
@@ -1167,7 +1324,13 @@ def _absorb(rects, W, H, caps=None, keepout=(), ratios=None, bounds=None):
         for rid in ids:
             x, y, w, h = rects[rid]
             cap = caps.get(rid, float("inf"))
-            bx, by, bW, bH = bounds.get(rid, (0.0, 0.0, W, H))
+            # `(x0, y0, W, H)` IS MAIN'S SPELLING OF THE SAME CLAMP AND IT IS THE DEFAULT.
+            # Both branches stopped this pass growing a room out of its element: main by
+            # calling it once PER ELEMENT with that element's origin, this branch by a
+            # per-room `bounds` map. They compose -- a room the map does not cover takes
+            # the element rectangle the caller passed -- so both call styles are exact,
+            # and `(0.0, 0.0, W, H)` is still what a one-rectangle house gets.
+            bx, by, bW, bH = bounds.get(rid, (x0, y0, W, H))
             lim = bx + bW
             for o, (ox, oy, ow, oh) in rects.items():
                 if o != rid and oy < y + h - 0.01 and y < oy + oh - 0.01 and ox >= x + w - 0.01:
@@ -1217,27 +1380,35 @@ def _merge_runs(spans, gap=0.05):
     return [[round(lo, 2), round(hi, 2)] for lo, hi in out]
 
 
-def _count_relaxations(rects_by_level, W, H, bay, tol):
+def _count_relaxations(rects_by_level, W, H, bay, tol, boxes_ft=None):
     """Interior wall lines off the bay grid — the heuristic's own definition of
-    a compromise — counted from the solved placement (per unique line, per axis)."""
+    a compromise — counted from the solved placement (per unique line, per axis).
+
+    `boxes_ft` maps (level, room id) to its own massing element as (x0, y0, x1, y1) in FEET
+    (WP-11.6 item 4). An element boundary is not an interior wall and its own bay grid starts
+    at its own origin, so a west wing counted in the main block's frame reported every one of
+    its walls as a compromise and its own two flanks as interior lines. Absent — and on a
+    one-element plan, where every room maps to (0, 0, W, H) — this is the frame it always
+    used."""
     relax = []
+    boxes_ft = boxes_ft or {}
     for lvl, rects in rects_by_level.items():
         for axis in ("x", "y"):
             edges = {}
-            for (x, y, w, h) in rects.values():
+            for rid, (x, y, w, h) in rects.items():
+                bx0, by0, bx1, by1 = boxes_ft.get((lvl, rid)) or (0.0, 0.0, W, H)
                 if axis == "x":
-                    edges.setdefault(round(x, 1), []).append((y, y + h))
-                    edges.setdefault(round(x + w, 1), []).append((y, y + h))
+                    edges.setdefault((round(x, 1), bx0, bx1), []).append((y, y + h))
+                    edges.setdefault((round(x + w, 1), bx0, bx1), []).append((y, y + h))
                 else:
-                    edges.setdefault(round(y, 1), []).append((x, x + w))
-                    edges.setdefault(round(y + h, 1), []).append((x, x + w))
-            span = W if axis == "x" else H
-            for e, spans in edges.items():
-                if e <= 0.05 or e >= span - 0.05:
+                    edges.setdefault((round(y, 1), by0, by1), []).append((x, x + w))
+                    edges.setdefault((round(y + h, 1), by0, by1), []).append((x, x + w))
+            for (e, lo, hi), spans in edges.items():
+                if e <= lo + 0.05 or e >= hi - 0.05:
                     continue
-                d = abs(e - round(e / bay) * bay)
+                d = abs((e - lo) - round((e - lo) / bay) * bay)
                 if axis == "y":
-                    d = min(d, abs(e - H))
+                    d = min(d, abs(e - hi))
                 if d > tol:
                     # Positioned, like the heuristic's (OQ 33). This counter already knew where
                     # the line was -- `e` is the edge coordinate and the level is the loop key --
@@ -1261,13 +1432,20 @@ def _count_relaxations(rects_by_level, W, H, bay, tol):
     return relax
 
 
-def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax):
+def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
     """The heuristic's OWN scoring of this placement, term for term, so the
-    acceptance comparison is apples to apples."""
+    acceptance comparison is apples to apples.
+
+    `bounds` is `solve_heuristic`'s own `gbounds` — room id to its element's rectangle — and its
+    absence here was a real parity gap, not a stylistic one (WP-11.6 item 4): the hill-climb has
+    passed it to `exterior_score` since layer 4, so a wing room's declared walls were charged
+    against the WING there and against the main block here. Two engines scoring one house by
+    two rules is what this function's first sentence exists to forbid. The other scorers take no
+    bounds in EITHER engine — they measure the main block — and are left alone deliberately."""
     W, H = fpd["W"], fpd["H"]
     gr = rects_by_level.get(0, {})
     ur = rects_by_level.get(1, {})
-    sg = (GEO.level_score(gr, prep[0]) + GEO.exterior_score(gr, prep[0], W, H)
+    sg = (GEO.level_score(gr, prep[0]) + GEO.exterior_score(gr, prep[0], W, H, bounds=bounds)
           + GEO.adjacency_score(gr, prep[0], levels[0]["rooms"])
           + GEO.entrance_score(gr, prep[0], W, H, ewalls)
           + GEO.principal_and_service_score(gr, prep[0], W, H, ewalls)
@@ -1476,6 +1654,17 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
         rects_by_level = {}
         for (lvl, rid), (x, y, w, h) in vals.items():
             rects_by_level.setdefault(lvl, {})[rid] = (x / U, y / U, w / U, h / U)
+        _els2 = {lv: GEO.blocks_for(plan, fpd, prep, lv) for lv in (0, 1) if prep.get(lv)}
+        _eb2, _g0x, _g0y, _g1x, _g1y = _element_boxes(_els2, int(round(fpd['W'] * U)),
+                                                     int(round(fpd['H'] * U)))
+        boxes = {k: (x, y, x + W, y + H) for k, (x, y, W, H) in _eb2.items()}
+        _mb = (_g0x, _g0y, _g1x, _g1y)
+        # KEYED BY (level, id) for the relaxation counter and by id for the score, because
+        # `solve_heuristic`'s `gbounds` is by id and this has to be the same argument. Two
+        # levels can carry one room id; the score's map takes the GROUND element, which is
+        # where the elements are, and the counter never conflates the two at all.
+        boxes_ft = {k: tuple(c / U for c in b) for k, b in boxes.items()}
+        bounds_ft = {rid: v for (lvl, rid), v in boxes_ft.items() if lvl == 0}
         # SORTED, so the ground is absorbed before the storey that must avoid its holes.
         for lvl in sorted(rects_by_level):
             rs = prep.get(lvl) or []
@@ -1508,8 +1697,9 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                                           caps=caps, keepout=keepout, ratios=ratios,
                                           bounds=_eb)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
-                                   fpd["bay"], fpd["tol"])
-        sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax)
+                                   fpd["bay"], fpd["tol"], boxes_ft=boxes_ft)
+        sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax,
+                    bounds=bounds_ft)
         return rects_by_level, relax, sc
 
     def _polish(fpd, hint, budget, tag):

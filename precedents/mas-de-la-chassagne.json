@@ -1,0 +1,93 @@
+{
+  "id": "mas-de-la-chassagne",
+  "name": "Mas de la Chassagne",
+  "location": {
+    "text": "Arles, Bouches-du-Rhone, France",
+    "country": "France",
+    "state": "Bouches-du-Rhône, Provence-Alpes-Côte d'Azur"
+  },
+  "dates": {
+    "note": "The Inventaire notice's construction-century field was not returned in either extract span read here, so no construction date is recorded. An absent date is left absent."
+  },
+  "nodes": [
+    "french-provincial-farmhouse"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "IA13001253",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/IA13001253",
+      "title": "ferme dite Mas de la Chassagne - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "An Inventaire général notice (IA), not a protection record: this building is documented by the regional Inventaire and is not a monument historique. Its « Rédacteur de la notice » field prints « Poulin Yvan ; Simar Pierre » and its Mentions légales « © Inventaire général, Région Provence-Alpes-Côte d'Azur »."
+    }
+  ],
+  "survey": {
+    "item": "IA13001253",
+    "register": "merimee",
+    "data_url": "https://pop.culture.gouv.fr/notice/merimee/IA13001253",
+    "prepared": "Rédacteur de la notice Poulin Yvan ; Simar Pierre",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Ce mas est situé sur une propriété de 350 hectares, au nord de l'étang du Vaccarès. Logis à élévation à travées, apparemment construit en moellons enduits, prolongé par des remises agricoles. Ecurie érigée en pierre de taille (grand appareil enduit) parallèlement au logis, auquel elle est relié par deux petits corps de bâtiment. Toits à longs pans à couvertures de tuiles creuses (pignons couverts). Façade principale donnant au sud sur une cour ouverte. Grande bergerie de plan allongé, en pierre de taille (grand appareil de pierre de Fontvieille) , construite à l'écart des autres bâtiments. Murs gouttereaux très bas, renforcés par de petits contreforts. Grands pignons découverts. Toit à longs pans à forte pente avec une couverture de tuiles plates mécaniques.",
+        "page": "Notice Mérimée IA13001253, Commentaire descriptif de l'édifice; the extract continues « Vaisseau couvert d'une » and the quote stops where the extract's continuous span ends"
+      },
+      {
+        "field": "storeys",
+        "text": "Description de l'élévation intérieure rez-de-chaussée ; 1 étage carré ; en rez-de-chaussée ; 1 vaisseau",
+        "page": "Notice Mérimée IA13001253, section « Description de l'édifice »"
+      },
+      {
+        "field": "plan",
+        "text": "Typologie de plan plan allongé",
+        "page": "Notice Mérimée IA13001253, section « Description de l'édifice »"
+      },
+      {
+        "field": "roof",
+        "text": "Typologie du couvrement charpente en bois apparente Partie d'élévation extérieure élévation à travées Typologie de la couverture toit à longs pans ; pignon couvert ; pignon découvert",
+        "page": "Notice Mérimée IA13001253, section « Description de l'édifice »"
+      },
+      {
+        "field": "stairways",
+        "text": "Emplacement, forme et structure de l'escalier escalier intérieur ; escalier droit",
+        "page": "Notice Mérimée IA13001253, section « Description de l'édifice »"
+      },
+      {
+        "field": "dependencies",
+        "text": "Partie constituante non étudiée logis ; écurie ; remise agricole ; cour ; étable à vaches ; enclos ; bergerie ; restaurant",
+        "page": "Notice Mérimée IA13001253, section « Localisation au moment de la protection ou de l'étude »"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "squared_storey_count",
+      "as_printed": "1 étage carré",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The logis is a ground floor and one full storey. The same field's later terms -- « en rez-de-chaussée ; 1 vaisseau » -- describe the bergerie, which is single-storey and single-aisled."
+    },
+    {
+      "name": "linking_range_count",
+      "as_printed": "deux petits corps de bâtiment",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The two small ranges that tie the stable to the logis, which is how this mas grows: end to end and round a yard, exactly as the node's additive-growth clause states."
+    },
+    {
+      "name": "estate_area_ha",
+      "as_printed": "une propriété de 350 hectares",
+      "from_quote": 0,
+      "note": "NO PARSED VALUE: the schema's unit enum has no hectare and the figure is the holding, not the building. Carried as printed so a later reader can use it without re-reading the notice."
+    }
+  ],
+  "rights_evidence": "© Inventaire général, Région Provence-Alpes-Côte d'Azur",
+  "rights_evidence_url": "https://pop.culture.gouv.fr/notice/merimee/IA13001253",
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. New exemplar, and the only PLAIN one in this cluster: an ordinary Camargue mas nobody would call beautiful, documented field by field by the regional Inventaire. It is here because it is the one record that states the node's own climatic rule as a fact about a real building -- « Façade principale donnant au sud sur une cour ouverte » -- and states the canal-tile roof (« tuiles creuses ») in the same breath. Quotes are transcribed from a tavily-extract of the POP notice read 5 Sep 2026. The extract prints each notice field as a label on one line and its value on another; runs of whitespace are normalised to one space in the quote text and nothing else is changed. Where the tier dropped a circumflex the loss is transcribed as returned."
+}

@@ -239,6 +239,7 @@ def test_invalidate_clears_every_cache_that_exists_and_not_only_the_named_ones()
     citations._constraint_ids()
     core._kit_graph()
     core._resolved_kit("tidewater-georgian")
+    core.validator("plan")
     primed = [n for n, c in caches if c.cache_info().currsize > 0]
     assert len(primed) == len(caches), (
         f"could not prime {sorted(set(n for n, _ in caches) - set(primed))}; an unprimed "
@@ -256,6 +257,15 @@ def test_the_anthropic_client_is_pooled(monkeypatch):
     """It was constructed per turn, and every anthropic.Anthropic() builds its own
     httpx.Client with its own connection pool — a fresh TCP handshake and TLS negotiation
     before the first token of every turn."""
+    # AN ABSENT OPTIONAL DEPENDENCY IS UNJUDGED, NOT FAILED (fixed 4 Sep 2026). `rail._client()`
+    # imports `anthropic`, which is not in `requirements.txt` and is absent on this machine, so
+    # this test raised ModuleNotFoundError and `check_all.py` reported FAIL. That is the
+    # direction this corpus names as the dangerous one, and it had a cost: the workbench suite
+    # was red for a reason that has nothing to do with the code, which is exactly the noise that
+    # made two REAL failures elsewhere in the same build harder to see. Every sibling that needs
+    # an optional package already does this -- `test_export_cad.py` for ezdxf and ifcopenshell,
+    # `conftest.py` for fastapi.
+    pytest.importorskip("anthropic")
     from workbench.server import rail
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-test-not-a-real-key")
     rail._POOLED.clear()
@@ -266,6 +276,15 @@ def test_the_anthropic_client_is_pooled(monkeypatch):
 def test_a_rotated_key_gets_a_new_client(monkeypatch):
     """Pooling must not become the one reader that disagrees with the rest: key() is read
     from the environment at call time everywhere else in rail.py, deliberately."""
+    # AN ABSENT OPTIONAL DEPENDENCY IS UNJUDGED, NOT FAILED (fixed 4 Sep 2026). `rail._client()`
+    # imports `anthropic`, which is not in `requirements.txt` and is absent on this machine, so
+    # this test raised ModuleNotFoundError and `check_all.py` reported FAIL. That is the
+    # direction this corpus names as the dangerous one, and it had a cost: the workbench suite
+    # was red for a reason that has nothing to do with the code, which is exactly the noise that
+    # made two REAL failures elsewhere in the same build harder to see. Every sibling that needs
+    # an optional package already does this -- `test_export_cad.py` for ezdxf and ifcopenshell,
+    # `conftest.py` for fastapi.
+    pytest.importorskip("anthropic")
     from workbench.server import rail
     rail._POOLED.clear()
     monkeypatch.setattr(rail, "_client_factory", None)

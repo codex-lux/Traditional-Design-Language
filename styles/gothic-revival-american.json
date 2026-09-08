@@ -212,25 +212,55 @@
       "name": "Lyndhurst",
       "location": "Tarrytown, New York",
       "year": 1838,
-      "note": "Alexander Jackson Davis for William Paulding, 1838; nearly doubled for George Merritt in 1864-65, also by Davis. Marble, not wood, and therefore atypical, but it is the style's intellectual origin in America."
+      "note": "Alexander Jackson Davis for William Paulding, 1838; nearly doubled for George Merritt in 1864-65, also by Davis. Marble, not wood, and therefore atypical, but it is the style's intellectual origin in America.",
+      "precedent": "lyndhurst",
+      "standing": "icon",
+      "why": "A National Historic Landmark since 1966 and the house Davis is known by; Wikipedia calls it 'One of the best-preserved examples of 19th-century American decorative arts, architecture, and landscaping'."
     },
     {
       "name": "Kingscote",
       "location": "Newport, Rhode Island",
       "year": 1839,
-      "note": "Richard Upjohn. A wooden Gothic cottage-villa; the 1880-81 dining room addition by Stanford White for McKim, Mead & White is a separate and later event."
+      "note": "Richard Upjohn. A wooden Gothic cottage-villa; the 1880-81 dining room addition by Stanford White for McKim, Mead & White is a separate and later event.",
+      "precedent": "kingscote",
+      "standing": "canonical",
+      "why": "Its own HABS survey opens 'A key example of Gothic Revival domestic architecture in America, the house is an important work of Richard Upjohn', and eleven data pages describe the fabric that judgment rests on."
     },
     {
       "name": "Roseland Cottage",
       "location": "Woodstock, Connecticut",
       "year": 1846,
-      "note": "Joseph Collins Wells for Henry Chandler Bowen. Board-and-batten, still painted a saturated pink, which is itself evidence for Downing's colour argument."
+      "note": "Joseph Collins Wells for Henry Chandler Bowen. Board-and-batten, still painted a saturated pink, which is itself evidence for Downing's colour argument.",
+      "precedent": "roseland-cottage",
+      "standing": "icon",
+      "why": "The National Historic Landmark nomination, quoting Mardges Bacon's 1976 National Register text, treats it as the demonstration piece of the Downing programme, colour included."
     },
     {
       "name": "William J. Rotch Gothic Cottage",
       "location": "New Bedford, Massachusetts",
       "year": 1846,
-      "note": "A. J. Davis. Published by Downing in The Architecture of Country Houses as Design XXIV, A Cottage-Villa in the Rural Gothic Style, and thereby copied nationwide."
+      "note": "A. J. Davis. Published by Downing in The Architecture of Country Houses as Design XXIV, A Cottage-Villa in the Rural Gothic Style, and thereby copied nationwide.",
+      "precedent": "william-j-rotch-gothic-cottage",
+      "standing": "icon",
+      "why": "Downing printed its front elevation and plans in The Architecture of Country Houses, 1850, pp. 296-297, which is why a fluent reader names it and why the Library holds the plate."
+    },
+    {
+      "name": "Green-Meldrim House",
+      "location": "Savannah, Georgia",
+      "year": 1853,
+      "note": "Begun 1853 and finished 1861, brick with stucco and stone trim, two storeys and a central hall. HABS GA-222's 1934 inventory sheet records a flat roof with a crenellated parapet, four end chimneys flush with the exterior walls, cast-iron entrance porch and verandas, cast-iron oriel windows over the east veranda, and a Tudor-arched recessed entrance. Sherman's headquarters, December 1864 to February 1865.",
+      "precedent": "green-meldrim-house",
+      "standing": "regional",
+      "why": "The southern masonry case, which none of the node's four wooden Hudson Valley and New England exemplars carried; a National Historic Landmark since 1976 and the only house here whose Gothic is cast iron and stucco rather than sawn plank."
+    },
+    {
+      "name": "Henry Delamater House",
+      "location": "Rhinebeck, New York",
+      "year": 1844,
+      "note": "Alexander Jackson Davis, board-and-batten wood frame. HABS NY-5638 photographed it in thirteen views and wrote no descriptive data. The Rotch cottage's National Historic Landmark nomination names it as one of only three other Davis Gothic Revival cottages on the National Register, alongside Cottage Lawn and the John B. Angier House.",
+      "precedent": "henry-delamater-house",
+      "standing": "canonical",
+      "why": "One of the three surviving Davis Gothic cottages the Rotch nomination itself names, which makes it a documented type specimen for the architect-designed end of this node rather than a local instance."
     }
   ],
   "sources": [

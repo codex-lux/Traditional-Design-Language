@@ -1,0 +1,53 @@
+{
+  "id": "santa-monica-shotgun-house",
+  "name": "Shotgun House (Santa Monica Conservancy Preservation Resource Center)",
+  "location": {
+    "text": "2712 Second Street (original site), Ocean Park, Santa Monica, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1897",
+    "circa": true,
+    "altered": "Occupied as a residence until 1996; moved from 2712 Second Street in 2002 to escape demolition, then to the Santa Monica Airport, then to a storage site beside Memorial Park, then in 2014 to the parking lot opposite Norman Place and the Ocean Park Library; rehabilitated and opened as the Conservancy's Preservation Resource Center in January 2016. Its present address is 2520 Second Street.",
+    "note": "The Conservancy's history page says 'built in 1897 at 2712 Second Street in Ocean Park'. The Historical Marker Database entry, as returned by search, reads 'This extremely narrow cottage, built sometime between 1895 and' -- the snippet is cut there and the closing year was not read. Both are recorded; the 1897 is the owner's own figure and is what the node's exemplar carries."
+  },
+  "nodes": [
+    "shotgun-house"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://smconservancy.org/explore-santa-monica/history-of-the-shotgun-house",
+      "title": "History of the Shotgun House | Santa Monica Conservancy",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner and steward. 'In Ocean Park's first phase of development, shotgun houses were built or brought in by rail to serve as vacation cottages near the beach. This house was originally located just two blocks from the Santa Fe railroad depot in Ocean Park.' A relocation and resort-cottage history, not the Southern rental history the type is usually told through."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.smdp.com/historic-shotgun-house-closer-to-finding-a-home",
+      "title": "Historic Shotgun House closer to finding a home -- Santa Monica Daily Press",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The only floor-area figure found from any source: 'the 468-square-foot structure is a classic \"shotgun\" house'. A newspaper's figure, not a survey's."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=119666",
+      "title": "Shotgun House -- The Historical Marker Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It was moved from its original location at 2712 Second Street in 2002, and rehabilitated in 2014.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://pcad.lib.washington.edu/building/11111",
+      "title": "2712 Second Street House, Ocean Park, Santa Monica, CA -- Pacific Coast Architecture Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'This shotgun house dated from the 1890s' and records the two moves to storage."
+    }
+  ],
+  "note": "The type at the far end of its reach, and the record that best tests the corpus's account of it: 468 sf, three rooms in line, board-and-batten, and built as a seaside VACATION COTTAGE two blocks from a railroad depot rather than as rental housing for a Black urban community. The node's prose derives the plan from the Yoruba two-room house by way of Haiti and New Orleans and then follows it into industrial cities; Ocean Park in the 1890s is neither, and the plan arrived anyway. No survey: this is a landmark of a city, not of the federal government."
+}

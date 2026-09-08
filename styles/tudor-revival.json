@@ -224,25 +224,55 @@
       "name": "Stan Hywet Hall",
       "location": "Akron, Ohio",
       "year": 1915,
-      "note": "Charles Sumner Schneider with George B. Post & Sons. Composed after a 1912 study tour of Compton Wynyates, Ockwells Manor and Haddon Hall, and explicitly designed to suggest growth across centuries."
+      "note": "Charles Sumner Schneider with George B. Post & Sons. Composed after a 1912 study tour of Compton Wynyates, Ockwells Manor and Haddon Hall, and explicitly designed to suggest growth across centuries.",
+      "precedent": "stan-hywet-hall",
+      "standing": "icon",
+      "why": "The HABS surveyor's own words on the data sheet -- 'one of the finest examples of Tudor Revival architecture in America' -- and the Library's item summary calls it one of the most outstanding in the United States, so the judgment is the federal surveyor's and not this corpus's."
     },
     {
       "name": "Meadow Brook Hall",
       "location": "Rochester Hills, Michigan",
       "year": 1929,
-      "note": "William Kapp of Smith, Hinchman & Grylls. 88,000 sq ft; the late estate version at full budget, with genuinely varied stonework and a chimney programme of unusual quality."
+      "note": "William Kapp of Smith, Hinchman & Grylls. 88,000 sq ft; the late estate version at full budget, with genuinely varied stonework and a chimney programme of unusual quality.",
+      "precedent": "meadow-brook-hall",
+      "standing": "canonical",
+      "why": "A National Historic Landmark whose owner publishes its own figures -- 110 rooms, 24 fireplaces, 88,000 sq ft, built 1926-29 for $4 million -- which makes it the one house on this node whose programme can be held against a generated one, on the owner's authority rather than a survey's."
     },
     {
       "name": "Cranbrook House",
       "location": "Bloomfield Hills, Michigan",
       "year": 1908,
-      "note": "Albert Kahn. Early and restrained; shows the Arts and Crafts descent more plainly than the Tudor reference."
+      "note": "Albert Kahn. Early and restrained; shows the Arts and Crafts descent more plainly than the Tudor reference.",
+      "precedent": "cranbrook-house",
+      "standing": "regional",
+      "why": "Its own institution calls it 'the oldest surviving manor home in metro Detroit' and describes it as English Arts and Crafts rather than Tudor, which is precisely the descent this node's description claims and the reason the house is here."
     },
     {
       "name": "Agecroft Hall",
       "location": "Richmond, Virginia",
       "year": 1928,
-      "note": "A genuine fifteenth-century Lancashire house dismantled, shipped and reassembled with substantial new work. Instructive as the limit case: the revival's ambition made literal."
+      "note": "A genuine fifteenth-century Lancashire house dismantled, shipped and reassembled with substantial new work. Instructive as the limit case: the revival's ambition made literal.",
+      "precedent": "agecroft-hall",
+      "standing": "documentary",
+      "why": "The 1978 National Register nomination states that 'Between the exposed timbers i s rough-cast stucco which conceals a s t e e l frame', so the genuine Tudor house is the one place where the revival's veneer logic can be read against real fifteenth-century fabric in the same wall."
+    },
+    {
+      "name": "Virginia House",
+      "location": "Richmond, Virginia",
+      "year": 1928,
+      "note": "Henry Grant Morse for Alexander and Virginia Weddell, built 1925-28 from the fabric of Warwick Priory and two other English houses. It shares a property line with Agecroft Hall: the same move, four years later, on the adjoining lot. The nomination calls it 'a historical composite' spanning Anglo-Norman to Flemish, and a 1945 classical loggia by William Lawrence Bottomley was added later still.",
+      "precedent": "virginia-house",
+      "standing": "canonical",
+      "why": "The National Register nomination itemises the three English buildings it is assembled from and names the architect's own infill between them, which makes it the documented case of what this style does when it has real fabric to work with -- the state's own description, not this corpus's reading."
+    },
+    {
+      "name": "Greystone Mansion",
+      "location": "Beverly Hills, California",
+      "year": 1928,
+      "note": "Gordon Kaufmann for Edward L. Doheny Jr., 46,000 sq ft, reportedly the most expensive house built in California to that date. A city park since 1971 and one of the most filmed houses in America, which is why photographs of it are everywhere and measured drawings of it are nowhere.",
+      "precedent": "greystone-mansion",
+      "standing": "regional",
+      "why": "The register listing's style field reads Tudor Revival as the Wikipedia infobox prints it, and at 46,000 sq ft it is the same programme as Meadow Brook Hall on the other coast and in the same two years, which matters because this node's own `geography.hearth` names only the Northeast and Midwest and the style plainly did not stop there. It said 'the largest western example' until the audit of 5 September 2026 asked for the source: no source the record carries states it, and a search that day found none. The precedent record's own note still says 'the largest Tudor Revival house in California', and that is unfixed."
     }
   ],
   "sources": [
@@ -340,5 +370,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by roman-classical at cascade depth 12 with no direct lineage edge. --impact: governs cornice, door_surround and frieze, all three of which fall to benjamin-ionic (federal-style); 0 slots lose all dimensioning. The successor is a RICHER classical order than the one declined, so this decline stops a wrong pack and leaves a worse-suited one behind it -- OQ 58's stated limit, and worth a human's eye if a run of these accumulates on one node."
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

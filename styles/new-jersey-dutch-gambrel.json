@@ -196,19 +196,55 @@
       "name": "Steuben House (Zabriskie House)",
       "location": "Historic New Bridge Landing, River Edge, New Jersey",
       "year": 1752,
-      "note": "Kinderkamack Ridge sandstone, dressed on the two road-facing sides and coursed rubble elsewhere; enlarged c. 1765 when the fashionable gambrel roof was added."
+      "note": "Kinderkamack Ridge sandstone, dressed on the two road-facing sides and coursed rubble elsewhere; enlarged c. 1765 when the fashionable gambrel roof was added.",
+      "precedent": "steuben-house",
+      "standing": "icon",
+      "why": "The house the variant is known by, and the survey confirms every headline term of it -- sandstone walls, brick gables, gambrel roof of wood shingles -- with the enlargement's mechanism recorded: the original ridge became the gable plate of the new gambrel."
     },
     {
       "name": "Hopper-Goetschius House",
       "location": "363 East Saddle River Road, Upper Saddle River, New Jersey",
       "year": 1739,
-      "note": "Listed on the National Register within the Early Stone Houses of Bergen County multiple property submission — the single best documentary group for this variant."
+      "note": "Listed on the National Register within the Early Stone Houses of Bergen County multiple property submission — the single best documentary group for this variant.",
+      "precedent": "hopper-goetschius-house",
+      "standing": "regional",
+      "why": "The node's own note is right that the Bergen County multiple-property listing is the best documentary group for this variant, and this house is one of its members (National Register 83001523); regional because it stands for the Saddle River group rather than for the type as a whole."
     },
     {
       "name": "Dyckman Farmhouse",
       "location": "4881 Broadway, Manhattan, New York",
       "year": 1784,
-      "note": "Just outside New Jersey but structurally of this family: fieldstone below, frame above, gambrel with a sprung eave carried on posts."
+      "note": "Just outside New Jersey but structurally of this family: fieldstone below, frame above, gambrel with a sprung eave carried on posts.",
+      "precedent": "dyckman-farmhouse",
+      "standing": "regional",
+      "why": "Structurally of this family and just outside the state, as the node's own exemplar note says; the surveyed 20-inch stone lower storey with frame and clapboard above under a curved gambrel is the Bergen section built in Manhattan."
+    },
+    {
+      "name": "Campbell-Christie House",
+      "location": "Historic New Bridge Landing, River Edge, New Jersey",
+      "year": 1774,
+      "note": "30 by 40 ft, one and a half storeys, five-bay centre hall two rooms deep, dressed sandstone blocks with the best work on the front and coarser work elsewhere -- the node's own account of graded masonry, measured. Moved from New Milford in 1977; its gambrel was taken off for the move and its nineteenth-century dormers were not put back.",
+      "precedent": "campbell-christie-house",
+      "standing": "canonical",
+      "why": "The type specimen with numbers on it: the National Register nomination measures it at 30 by 40 ft, one and a half storeys, 'a five-bay center hall plan, two rooms deep on both sides', 'neatly dressed blocks all around with the best work on the front' and a gambrel roof."
+    },
+    {
+      "name": "Guyon-Lake-Tysen House",
+      "location": "Historic Richmond Town, Staten Island, New York",
+      "year": 1740,
+      "note": "Staten Island, and a frame house rather than a stone one: bent-system framing with mud-and-straw nogging under plaster, a gambrel roof and, on the kitchen wing, a wide spring eave named as such by the museum that owns it. Moved from Oakwood in 1962.",
+      "precedent": "guyon-lake-tysen-house",
+      "standing": "icon",
+      "why": "Historic Richmond Town, which owns it, calls it one of the few surviving eighteenth-century gambrel-roof houses on Staten Island and describes the spring eave by name; the Historic Districts Council calls it 'a fine example of a Dutch Colonial-style farmhouse with gambrel roof and spring eaves'."
+    },
+    {
+      "name": "John Ackerman House",
+      "location": "River Road, Teaneck, Bergen County, New Jersey",
+      "year": 1800,
+      "note": "An ordinary Bergen sandstone gambrel of about 1800, surveyed in the 1930s on the same form and by the same district officer as the Steuben House: sandstone foundation and walls, gable siding, inside brick chimneys, gambrel roof of wood shingles.",
+      "precedent": "john-ackerman-house",
+      "standing": "documentary",
+      "why": "Plain and surveyed rather than admired: HABS NJ-298 records an ordinary Bergen sandstone gambrel on the same form and by the same district officer as the Steuben House, so the two can be read against each other without adjusting for the surveyor."
     }
   ],
   "sources": [

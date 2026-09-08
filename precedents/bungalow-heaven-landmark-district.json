@@ -1,0 +1,53 @@
+{
+  "id": "bungalow-heaven-landmark-district",
+  "name": "Bungalow Heaven Landmark District",
+  "record_kind": "district",
+  "aka": [
+    "Bungalow Heaven Historic District",
+    "Bungalow Heaven"
+  ],
+  "location": {
+    "text": "Pasadena, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "c. 1900-1930",
+    "circa": true,
+    "note": "A district, not a building. The node's exemplar says c. 1900-1930 and Wikipedia says 'from 1900 to 1930'; the California OHP listing says the sixteen-block area 'was developed primarily between 1888 and 1929'. Designated a City of Pasadena landmark district in 1989 (Wikipedia) and listed on the National Register 10 April 2008 (OHP). Neither range is edited to agree with the other."
+  },
+  "nodes": [
+    "craftsman-bungalow",
+    "craftsman",
+    "california-bungalow",
+    "american-arts-and-crafts"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "08000260",
+      "url": "https://en.wikipedia.org/wiki/National_Register_of_Historic_Places_listings_in_Pasadena,_California",
+      "title": "National Register of Historic Places listings in Pasadena, California - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The county list's own row: 'Bungalow Heaven Historic District | April 10, 2008 (#08000260) | Roughly bounded by N. Mentor Ave., E. Orange Grove Blvd., E. Washington Blvd., N. Michigan & N. Chester Aves.' Read from the list, not from the National Register's own database."
+    },
+    {
+      "kind": "state-register",
+      "id": "N2405",
+      "url": "https://ohp.parks.ca.gov/ListedResources/Detail/N2405",
+      "title": "BUNGALOW HEAVEN HISTORIC DISTRICT",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "California Office of Historic Preservation listed-resource page. Its own words: 'The district includes 522 contributing and 164 non-contributing buildings' and 'the largest intact grouping of working class housing constructed during the late nineteenth and early twentieth centuries reflecting the influences of the Arts and Crafts movement in Pasadena'; 'Registration Date: 4/10/2008'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bungalow_Heaven,_Pasadena,_California",
+      "title": "Bungalow Heaven, Pasadena, California - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "The exemplar names a DISTRICT rather than a building, and this record is the district's: it carries the register numbers a district has and no survey block, because no member of it was found in the Historic American Buildings Survey (query: 'Pasadena bungalow Historic American Buildings Survey HABS CA data pages Craftsman 1910', restricted to loc.gov, returned Fresno and Los Angeles houses and nothing in Pasadena). The exemplar's name keeps the city's 1989 'Landmark District' designation; the 2008 National Register listing is 'Bungalow Heaven Historic District', recorded under aka. WP-11.3, Tranche 2 (5 Sep 2026): california-bungalow names this district at 'Pasadena, California' and now carries the precedent key; the sentence that stood here said it named it WITHOUT one. Seeded 4 Sep 2026."
+}

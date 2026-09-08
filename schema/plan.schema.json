@@ -2,8 +2,8 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://traditional-design-language.org/schema/plan.schema.json",
   "title": "Plan",
-  "version": "0.9.0",
-  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.\n\n0.8.0 (WP-11.6) splits one field's two duties. `stacks_over` had read 'room id on the level below, for plumbing and structure' since it was written, and a shipped record used it for a room on its OWN level -- the plumbing meaning, which the structural readers cannot answer and all three of them dropped with a bare `continue` and no note. `stacks_over` is STRUCTURAL and cross-level now; `wet_stack_with` is SERVICING and takes any level including the claimant's own. A claim a reader cannot judge is reported as unjudged with its reason (`geometry_report.stacking`, `plan_check`'s `stack-unjudged`), never skipped, and `build/check_stacking.py` fails the build on a record that makes one.\n\n0.9.0 (WP-11.10) admits `appendages`, the terrace at grade. An at-grade appendage is NOT a massing element and takes no rectangle in the footprint: it is written by build/appendages.py after the solve, on `threshold`'s own precedent, drawn outside the block by both renderers, and read by no structural layer. Its room keeps `geometry` ABSENT, which is what keeps structure.wall_lines, plan_check's `rooms_unplaced` and geometry's block sizing blind to it BY CONSTRUCTION rather than by six more readers being taught. Every figure comes off the room record; anything the record does not state is an `unplaced` entry with a reason from a closed set, never a band midpoint.",
+  "version": "0.10.0",
+  "description": "A plan as a topology plus approximate dimensions — enough to check, not enough to build. Deliberately hand-authorable: you should be able to type a sketch into this in five minutes and find out whether the rules are right. It is also the natural export target for a CAD reader later, and the natural output of a composer.\n\n0.3.0 (WP-6.2) admits the PLACED plan as a record rather than as something carried beside one. Until now `additionalProperties: false` here forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled out-of-band — which is why `build/plan_check.py` never read it and why a room drawn at 63% of its declared area, a landing that misses its own stair, and a room no door reaches produced no finding at all. Openings gain the fields that let a door BE somewhere: a wall, a position along it, a hand, a leaf height, a rank. Every addition is optional; a 0.2.0 record validates unchanged and reports COULD NOT EVALUATE on the checks that need placement, never a pass.\n\n0.8.0 (WP-11.6) splits one field's two duties. `stacks_over` had read 'room id on the level below, for plumbing and structure' since it was written, and a shipped record used it for a room on its OWN level -- the plumbing meaning, which the structural readers cannot answer and all three of them dropped with a bare `continue` and no note. `stacks_over` is STRUCTURAL and cross-level now; `wet_stack_with` is SERVICING and takes any level including the claimant's own. A claim a reader cannot judge is reported as unjudged with its reason (`geometry_report.stacking`, `plan_check`'s `stack-unjudged`), never skipped, and `build/check_stacking.py` fails the build on a record that makes one.\n\n0.9.0 (WP-11.10) admits `appendages`, the terrace at grade. An at-grade appendage is NOT a massing element and takes no rectangle in the footprint: it is written by build/appendages.py after the solve, on `threshold`'s own precedent, drawn outside the block by both renderers, and read by no structural layer. Its room keeps `geometry` ABSENT, which is what keeps structure.wall_lines, plan_check's `rooms_unplaced` and geometry's block sizing blind to it BY CONSTRUCTION rather than by six more readers being taught. Every figure comes off the room record; anything the record does not state is an `unplaced` entry with a reason from a closed set, never a band midpoint.\n\n0.10.0 (the merge of the two Phase 11s, 8 Sep 2026) is a VERSION BUMP AND NOT A FIELD. Two branches numbered their own Phase 11 and both edited this schema: one reached 0.9.0 by way of `stacks_over`/`wet_stack_with` (0.8.0) and `appendages` (0.9.0), the other reached 0.7.0 by way of `block`/`hyphen` (0.5.0), `footprint.wall` (0.5.1) and `parti` (0.6.0). The merged schema carries EVERY one of those fields, so it is neither 0.9.0 nor 0.7.0 and saying so is the point: a record validating against this one is validating against both lineages. No property is removed and no existing plan is invalidated.",
   "type": "object",
   "required": [
     "id",
@@ -27,6 +27,10 @@
     "massing": {
       "type": "string",
       "description": "massing id, where the plan is meant to sit in a known skeleton."
+    },
+    "parti": {
+      "type": "string",
+      "description": "THE DIAGRAM THIS PLAN IS AN INSTANCE OF, as an id and never a record (WP-11.2). An id, because a caller-supplied parti RECORD reached geometry.py's `bay_module_ft` unchecked and put 114 bays of half a foot on a house (WP-9.4); an id becomes a path in exactly one place in this repository, `core.load_parti`. Naming it is what lets the diagram's own bay module reach the placement: `centre-passage-double-pile` states a 9 ft module and every sheet of it was drawn on the placer's 10 ft default, because the only route in was a caller passing the parti separately and the CLI, the bench's drawing route and both shipped reference plans all did not. It is also what build/check_plans.py holds a hand-authored record to -- the shipped Tidewater plan dropped two of its parti's five stacks_over claims, passage over passage and landing over stair, the two that organise the floor, and nothing could notice: the composer copies them and nothing checked a plan the composer did not write."
     },
     "groupings": {
       "type": "array",
@@ -324,21 +328,58 @@
                   "description": "0.6.0 (WP-11.3). Where this room's furniture was arranged, written by build/openings.py::furniture_pass from the room CATALOGUE's own `furniture` array after the openings, the stair and the wet fixtures have taken their runs. Solver output, stripped by openings.strip_placement exactly as `fixture_layout` is, so the DXF round trip still returns the authored record. Every entry names the grammar rule that seated it and that rule's GRADE, because furniture/grammar.json grades each rule by how much of it the corpus states: `reading` where the record gives both the rule and the figure, `editorial-from-prose` where it gives the rule in words and we supply the number, `editorial` where it says nothing and the judgment is ours. An item that could not be seated is `unplaced` with a reason and is never dropped. This layer NEVER sizes a room -- OQ 92, ruled 27 Aug 2026, and docs/model.md: authority runs from the programme to the furniture and not back.",
                   "items": {
                     "type": "object",
-                    "required": ["item"],
+                    "required": [
+                      "item"
+                    ],
                     "additionalProperties": false,
                     "properties": {
-                      "item": {"type": "string"},
-                      "rule": {"type": "string", "description": "The furniture/grammar.json rule that seated it."},
-                      "grade": {"enum": ["reading", "editorial-from-prose", "editorial"]},
-      "marks": {"type": "array", "items": {"type": "object"},
-                "description": "What to DRAW, in model feet: this item's symbol from furniture/symbols.json mapped into its own rectangle by build/furniture.py::marks_for, ONCE, at placement time. Both renderers draw these and derive nothing -- WP-6.2 measured that handing the renderers one position and letting each re-derive the geometry from it put them 0.7 in apart on the first plan it was tried on, and a symbol id beside a rectangle is exactly that invitation. Three primitives: `rect` [x, y, w, d], `line` [x1, y1, x2, y2], `circle` [cx, cy, r]."},
-                      "symbol": {"type": "string"},
-                      "wall": {"enum": ["N", "S", "E", "W"]},
-                      "x_ft": {"type": "number"},
-                      "y_ft": {"type": "number"},
-                      "width_ft": {"type": "number"},
-                      "depth_ft": {"type": "number"},
-                      "unplaced": {"type": "object"}
+                      "item": {
+                        "type": "string"
+                      },
+                      "rule": {
+                        "type": "string",
+                        "description": "The furniture/grammar.json rule that seated it."
+                      },
+                      "grade": {
+                        "enum": [
+                          "reading",
+                          "editorial-from-prose",
+                          "editorial"
+                        ]
+                      },
+                      "marks": {
+                        "type": "array",
+                        "items": {
+                          "type": "object"
+                        },
+                        "description": "What to DRAW, in model feet: this item's symbol from furniture/symbols.json mapped into its own rectangle by build/furniture.py::marks_for, ONCE, at placement time. Both renderers draw these and derive nothing -- WP-6.2 measured that handing the renderers one position and letting each re-derive the geometry from it put them 0.7 in apart on the first plan it was tried on, and a symbol id beside a rectangle is exactly that invitation. Three primitives: `rect` [x, y, w, d], `line` [x1, y1, x2, y2], `circle` [cx, cy, r]."
+                      },
+                      "symbol": {
+                        "type": "string"
+                      },
+                      "wall": {
+                        "enum": [
+                          "N",
+                          "S",
+                          "E",
+                          "W"
+                        ]
+                      },
+                      "x_ft": {
+                        "type": "number"
+                      },
+                      "y_ft": {
+                        "type": "number"
+                      },
+                      "width_ft": {
+                        "type": "number"
+                      },
+                      "depth_ft": {
+                        "type": "number"
+                      },
+                      "unplaced": {
+                        "type": "object"
+                      }
                     }
                   }
                 },
@@ -377,6 +418,44 @@
                       },
                       "unplaced": {
                         "$ref": "#/$defs/unplaced"
+                      }
+                    }
+                  }
+                },
+                "hearth": {
+                  "type": "array",
+                  "description": "THE FIRES IN THIS ROOM, AUTHORED AND NEVER INFERRED (WP-11.4, plan schema 0.7.0). Until this the plan layer had no fireplace at all -- not a field, not a placer reservation, not a line on the plate -- while massings/catalog.json said `hearth: gable-end-paired` and `Paired end chimneys serve four fireplaces per floor`, and roof.py and elevation.py drew the stacks over rooms that contained no fire. Two records of one house, which is OQ 85's shape one layer down. It is a LIST because a keeping room can have two, and it is AUTHORED because the corpus says a room's fire is a decision: rooms/bedchamber.json states `A corner or gable-end fireplace with a 30-36 in opening, or none at all: unheated chambers are historically normal and should be said out loud rather than quietly given a register`. A generator that gave every room of a type a fireplace would be inventing exactly what that sentence forbids.",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "wall"
+                    ],
+                    "properties": {
+                      "wall": {
+                        "enum": [
+                          "N",
+                          "S",
+                          "E",
+                          "W",
+                          "interior"
+                        ],
+                        "description": "Which wall the breast stands in. `interior` is a real answer and rooms/dining-room.json is why: `Historically a fireplace on the interior wall opposite the sideboard`, which is not a gable end however the massing pairs its stacks."
+                      },
+                      "position_ft": {
+                        "type": "number",
+                        "description": "Along that wall from its west or south end. Absent means the centre of the wall, which is what a room composed about its fire does."
+                      },
+                      "width_in": {
+                        "type": "number",
+                        "description": "The opening. The room record's own figure where it states one (bedchamber's 30-36 in); otherwise build/hearths.py executes Morris 1734 Lecture VI Rule II -- `sqrt(length + breadth + height) / 2` in feet, on the level's own stated `floor_to_ceiling_ft` -- and marks the result `judgment: true`, because a London figure in an English treatise may not be published as a measurement of an American room and no facsimile has been read here."
+                      },
+                      "flue": {
+                        "type": "string",
+                        "description": "Which stack this fire vents into, so two fires on one flue are one stack in the roof. Free-form id, matched only against other hearths in the same plan."
+                      },
+                      "note": {
+                        "type": "string"
                       }
                     }
                   }
@@ -673,32 +752,81 @@
           "items": {
             "type": "object",
             "properties": {
-              "room": {"type": "string"},
-              "wall": {"enum": ["N", "S", "E", "W"]},
-              "door_position_ft": {"type": "number"},
-              "riser_count": {"type": "integer"},
-              "riser_height_in": {"type": "number"},
-              "tread_depth_in": {"type": "number"},
-              "flight_width_ft": {"type": "number"},
+              "room": {
+                "type": "string"
+              },
+              "wall": {
+                "enum": [
+                  "N",
+                  "S",
+                  "E",
+                  "W"
+                ]
+              },
+              "door_position_ft": {
+                "type": "number"
+              },
+              "riser_count": {
+                "type": "integer"
+              },
+              "riser_height_in": {
+                "type": "number"
+              },
+              "tread_depth_in": {
+                "type": "number"
+              },
+              "flight_width_ft": {
+                "type": "number"
+              },
               "platform_is_the_room": {
                 "type": "boolean",
                 "description": "true where the entrance door is carried by a room typed `entry-porch`: that room IS the raised platform, already placed and dimensioned, so only the flight is drawn outside the block and `platform` is absent."
               },
-              "platform": {"$ref": "#/$defs/threshold_rect"},
-              "flight": {"$ref": "#/$defs/threshold_rect"},
+              "platform": {
+                "$ref": "#/$defs/threshold_rect"
+              },
+              "flight": {
+                "$ref": "#/$defs/threshold_rect"
+              },
               "nosings": {
                 "type": "array",
                 "description": "the nosing lines INSIDE the flight -- treads minus one of them, because the flight rectangle's own edges are the top and bottom nosings. Each is {\"line\": [x1, y1, x2, y2]} in model feet, the SAME primitive vocabulary furniture/symbols.json uses and build/furniture.py::marks_for emits, so both renderers draw a nosing with the code they already have for a furniture mark.",
-                "items": {"type": "object", "properties": {"line": {"type": "array", "items": {"type": "number"}}}}
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "line": {
+                      "type": "array",
+                      "items": {
+                        "type": "number"
+                      }
+                    }
+                  }
+                }
               },
-              "rule": {"type": "string"},
-              "grade": {"type": "string"}
+              "rule": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "string"
+              }
             }
           }
         },
-        "supports": {"type": "array", "items": {"type": "object"}},
-        "unplaced": {"type": "array", "items": {"type": "object"}},
-        "figures": {"type": "object"}
+        "supports": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "unplaced": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "figures": {
+          "type": "object"
+        }
       }
     },
     "appendages": {
@@ -710,28 +838,72 @@
           "items": {
             "type": "object",
             "properties": {
-              "room": {"type": "string"},
-              "type": {"type": "string"},
-              "name": {"type": "string"},
-              "level": {"type": "integer"},
-              "serves": {"type": "array", "items": {"type": "string"},
-                         "description": "the room ids this appendage declares a door to. It hangs on their shared face, and the door is what says which room it is appended to."},
-              "wall": {"enum": ["N", "S", "E", "W"],
-                       "description": "the face OF THE SERVED ROOM the appendage stands against -- the one wall the appendage's own `exterior_walls` admit under BOTH readings of that field, intersected with the faces the placement put on the outside of the served room's own massing element."},
-              "at_grade": {"type": "boolean"},
-              "roofed": {"type": "boolean"},
-              "rect": {"$ref": "#/$defs/threshold_rect"},
-              "figures": {"type": "object",
-                          "description": "each figure beside the rule that chose it and that rule's GRADE, with a `clamped` block carrying need/have wherever the record asked for more run than the element's face has."},
-              "rule": {"type": "string"},
-              "grade": {"type": "string"}
+              "room": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "level": {
+                "type": "integer"
+              },
+              "serves": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "the room ids this appendage declares a door to. It hangs on their shared face, and the door is what says which room it is appended to."
+              },
+              "wall": {
+                "enum": [
+                  "N",
+                  "S",
+                  "E",
+                  "W"
+                ],
+                "description": "the face OF THE SERVED ROOM the appendage stands against -- the one wall the appendage's own `exterior_walls` admit under BOTH readings of that field, intersected with the faces the placement put on the outside of the served room's own massing element."
+              },
+              "at_grade": {
+                "type": "boolean"
+              },
+              "roofed": {
+                "type": "boolean"
+              },
+              "rect": {
+                "$ref": "#/$defs/threshold_rect"
+              },
+              "figures": {
+                "type": "object",
+                "description": "each figure beside the rule that chose it and that rule's GRADE, with a `clamped` block carrying need/have wherever the record asked for more run than the element's face has."
+              },
+              "rule": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "string"
+              }
             }
           }
         },
-        "unplaced": {"type": "array", "items": {"type": "object"}},
-        "rules": {"type": "array", "items": {"type": "object"},
-                  "description": "the readings this pass executed, each with a `basis` quoting the record it read -- verified by tests/test_appendages.py through build/check_openings.py::check_basis rather than by a second copy of that machinery."},
-        "note": {"type": "string"}
+        "unplaced": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          },
+          "description": "the readings this pass executed, each with a `basis` quoting the record it read -- verified by tests/test_appendages.py through build/check_openings.py::check_basis rather than by a second copy of that machinery."
+        },
+        "note": {
+          "type": "string"
+        }
       }
     },
     "hearths": {
@@ -743,24 +915,71 @@
           "items": {
             "type": "object",
             "properties": {
-              "wall": {"enum": ["N", "S", "E", "W"]},
-              "side": {"enum": ["exterior", "interior"]},
-              "stack_plan_in": {"type": "number"},
-              "source": {"type": "string"},
-              "x_ft": {"type": "number"},
-              "y_ft": {"type": "number"},
-              "width_ft": {"type": "number"},
-              "depth_ft": {"type": "number"},
-              "rule": {"type": "string"},
-              "grade": {"type": "string"}
+              "wall": {
+                "enum": [
+                  "N",
+                  "S",
+                  "E",
+                  "W"
+                ]
+              },
+              "side": {
+                "enum": [
+                  "exterior",
+                  "interior"
+                ]
+              },
+              "stack_plan_in": {
+                "type": "number"
+              },
+              "source": {
+                "type": "string"
+              },
+              "x_ft": {
+                "type": "number"
+              },
+              "y_ft": {
+                "type": "number"
+              },
+              "width_ft": {
+                "type": "number"
+              },
+              "depth_ft": {
+                "type": "number"
+              },
+              "rule": {
+                "type": "string"
+              },
+              "grade": {
+                "type": "string"
+              }
             }
           }
         },
-        "unplaced": {"type": "array", "items": {"type": "object"}},
-        "source": {"type": ["string", "null"]},
-        "side": {"type": ["string", "null"]},
-        "hearth_rooms": {"type": "null"},
-        "hearth_rooms_note": {"type": "string"}
+        "unplaced": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "side": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hearth_rooms": {
+          "type": "null"
+        },
+        "hearth_rooms_note": {
+          "type": "string"
+        }
       }
     },
     "stair": {
@@ -989,12 +1208,25 @@
       "type": "object",
       "description": "0.7.0. A rectangle in MODEL FEET, in the same frame as room.geometry -- so it may sit OUTSIDE the block, at a negative coordinate, which a stoop and an exterior stack both do. The block edge is the wall's INSIDE face (WP-11.1), so anything outside the house begins one wall thickness beyond it.",
       "properties": {
-        "x_ft": {"type": "number"},
-        "y_ft": {"type": "number"},
-        "width_ft": {"type": "number"},
-        "depth_ft": {"type": "number"}
+        "x_ft": {
+          "type": "number"
+        },
+        "y_ft": {
+          "type": "number"
+        },
+        "width_ft": {
+          "type": "number"
+        },
+        "depth_ft": {
+          "type": "number"
+        }
       },
-      "required": ["x_ft", "y_ft", "width_ft", "depth_ft"]
+      "required": [
+        "x_ft",
+        "y_ft",
+        "width_ft",
+        "depth_ft"
+      ]
     },
     "geometry": {
       "type": "object",

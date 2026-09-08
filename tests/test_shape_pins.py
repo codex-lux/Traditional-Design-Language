@@ -197,7 +197,18 @@ def test_the_band_is_the_first_key_of_the_searchs_acceptance():
     CLAUDE.md records as "the search will place a room below the floor of its own band and say
     nothing". Ranking, not weighting, is what a search with no conflict set can do."""
     src = (ROOT / "build" / "geometry.py").read_text()
-    assert "(viol, tot) < (best[\"_viol\"], best[\"_raw\"])" in src, (
+    # RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). This pinned the literal
+    # `(viol, tot) < (best["_viol"], best["_raw"])`, and the merge had to interleave that key
+    # with main's strict-stacking incumbent -- the comparison is spelled `_key < _bk` over two
+    # named tuples now, and the guard failed on a rewording of the code it was written to
+    # protect. **The property is that BAND CONFORMANCE IS THE FIRST ELEMENT AND THE SCORE THE
+    # SECOND**, so that is what is read: the key is a pair whose first term is `viol`, and the
+    # comparison is `<` against the incumbent's pair. Pinning the characters is the failure
+    # mode this repository has now met in five packages running.
+    assert '_key = (viol, tot)' in src, (
+        "the candidate acceptance's key is no longer (band violations, score) -- band "
+        "conformance must be the FIRST element and the score the second")
+    assert '_bk = (best["_viol"], best["_raw"])' in src and "_key < _bk" in src, (
         "the candidate acceptance no longer ranks band conformance above the score")
     # the span-charge prune must stay INSIDE a violation tier, or the first key is not a key
     assert "under_band({0: gr, 1: ur} if ur else {0: gr}, prep)" in src, (

@@ -107,6 +107,20 @@
     "depth_multiplier": 1.8,
     "sides_lit": 1,
     "orientation": "North or east if it is glazed at all, because south and west sun fades textiles - the reason historic presses and wardrobes are solid-fronted.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N",
+        "E"
+      ],
+      "avoid": [
+        "S",
+        "W"
+      ],
+      "basis": "North or east if it is glazed at all, because south and west sun fades textiles",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.02,
       0.06

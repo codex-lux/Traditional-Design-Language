@@ -1,0 +1,55 @@
+{
+  "id": "royal-barry-wills-house",
+  "name": "Royal Barry Wills House",
+  "location": {
+    "text": "59 Oakland Street, Melrose, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1929",
+    "circa": false,
+    "altered": "The node's own exemplar says the house was later extended to the rear, and a broker's listing history for the address calls it an 'Expanded Cape ... originally built for the famous architect himself'. A listing is not a source for fabric and is recorded only as corroboration of the address and of the fact that the house was enlarged.",
+    "note": "Two independent surfaces give 1929: SAH Archipedia's entry, which opens '1929, Royal Barry Wills. 59 Oakland St.', and a Massachusetts Historical Commission Form B for a house in Belmont, which cites 'Wills's own house at 59 Oakland Street in Melrose (MEL.266, 1929)'."
+  },
+  "nodes": [
+    "cape-cod-revival",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://sah-archipedia.org/buildings/MA-01-MR6",
+      "title": "Royal Barry Wills House | SAH ARCHIPEDIA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A SEARCH SUMMARY, NOT A QUOTATION, and this note previously ran two of its fragments together as though they were one sentence: 'The residence of Royal Barry Wills is a classic New England Cape Cod, The one-and-a-half-story dwelling sits askew on a residential street behind a white'. The capital T after a comma is the tell. A second search on 5 Sep returned the SAME first fragment followed by a DIFFERENT continuation ('Born in Melrose on August 21, 1895,'), which proves the summary is a concatenation of discontinuous spans rather than running prose. What is established is the summary line '1929, Royal Barry Wills. 59 Oakland St.' and that the entry opens 'The residence of Royal Barry Wills is a classic New England Cape Cod,'; what follows it on the page has not been read here. SAH Archipedia is one of the hosts this container cannot open and an extract call against this URL returned 'Failed to fetch url'."
+    },
+    {
+      "kind": "state-register",
+      "id": "MEL.266",
+      "url": "https://www.belmont-ma.gov/DocumentCenter/View/4822/24-Ross-Road-PDF",
+      "title": "Form B – Building, Massachusetts Historical Commission (24 Ross Road, Belmont), which reads 'The Massachusetts Historical Commission MACRIS database includes a number of Capes including Wills's own house at 59 Oakland Street in Melrose (MEL.266, 1929).'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The MACRIS inventory number is read from ANOTHER town's inventory form quoting it, not from MACRIS, which is not reachable from here. Recorded with that provenance rather than as a direct read."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Royal_Barry_Wills",
+      "title": "Royal Barry Wills - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The article for the architect, and the source of the office standards this node's own long description quotes: 'They were low to the ground, with eaves just above the windows, and surmounted by an outsized central chimney (a Wills hallmark). The roof pitch ranged from 8 to 10 inches (200 to 250 mm), vertically, in a 12-inch (300 mm) run. The sash was made up from 24 to 36 individual lights, and clapboards graduated from a 2 3/4-inch exposure at the foundation'. It also gives Melrose as Wills's birthplace and 1925 as the year he opened his Boston office."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.oneillbowes.com/perspectives/royal-barry-wills-richard-wills-and-the-architecture-that-helps-define-cape-cod",
+      "title": "Royal Barry Wills, Richard Wills, and the Architecture That Helps Define Cape Cod",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A Cape Cod builder's essay, recorded only because it restates the same office standards independently of the encyclopaedia article: 'low to the ground, eaves sitting just above the windows, an oversized central chimney anchoring the facade, a roof pitch between eight and ten inches in a twelve inch run, and clapboards graduating from a narrow exposure at the foundation to a wider one at the eave'. Trade copy, not scholarship."
+    }
+  ],
+  "note": "No HABS survey and no National Register listing were found for the architect's own house; it is inventoried by the state and written up by SAH Archipedia, and that is the whole archival record reachable from here. The value of the record to this node is that the office standards the node states as its own figures -- 8:12 to 10:12, eaves just above the window heads, 24 to 36 lights, graduated clapboards -- are attached to a building with an address rather than to a book, and this is the building."
+}

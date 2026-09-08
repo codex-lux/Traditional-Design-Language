@@ -1,0 +1,113 @@
+{
+  "id": "chateau-de-maisons",
+  "name": "Chateau de Maisons (Maisons-Laffitte)",
+  "aka": [
+    "Château de Maisons",
+    "Château de Maisons-Laffitte"
+  ],
+  "location": {
+    "text": "Maisons-Laffitte, Yvelines, France",
+    "country": "France",
+    "state": "Yvelines, Île-de-France"
+  },
+  "dates": {
+    "built": "3e quart 17e siècle (as the Inventaire notice states the principal campaign), with the date 1646 borne on the fabric",
+    "circa": true,
+    "altered": "The Inventaire notice names Bélanger and Peyre among later authors and gives '4e quart 18e siècle ; 3e quart 19e siècle' as secondary campaigns; it also records 'Remploi remploi provenant de : 80, Mailly'.",
+    "note": "THE REGISTER AND THE CORPUS DISAGREE ABOUT WHEN THIS WAS BUILT AND NEITHER IS CHANGED. The node's exemplar says 'François Mansart, 1630-1651'. The Inventaire notice IA00064664 prints 'Année(s) de(s) campagne(s) de construction 1646' with the comment 'porte la date', and gives the principal campaign as '3e quart 17e siècle' - the third quarter, i.e. 1650-1675 - which places nothing at all in 1630. A search-result summary read the same day repeated the corpus's '1630 to 1651'; that is a summary and is not quoted here."
+  },
+  "nodes": [
+    "french-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "merimee",
+      "id": "IA00064664",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/IA00064664",
+      "title": "Château de Maisons - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Inventaire général notice, and the survey block below: it is the only source read here that states the fabric, the plan type, the storeys and the roof forms."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://commons.wikimedia.org/wiki/File:Ch%C3%A2teau_de_Maisons-Laffitte_001.jpg",
+      "title": "File:Château de Maisons-Laffitte 001.jpg - Wikimedia Commons",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried only as the corroboration that the building is 'classé au titre des monuments historiques de la France' and indexed in the Base Mérimée; the file page's own Mérimée number was not printed in the result and no number is typed here from memory."
+    }
+  ],
+  "survey": {
+    "item": "IA00064664",
+    "register": "merimee",
+    "data_url": "https://www.pop.culture.gouv.fr/notice/merimee/IA00064664",
+    "prepared": "The notice prints 'Date de rédaction de la notice 1990' and is signed '© Inventaire général'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Matériaux du gros-œuvre calcaire ; pierre de taille ; meulière ; enduit",
+        "page": "Notice Mérimée IA00064664, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "roof",
+        "text": "Matériaux de la couverture ardoise",
+        "page": "Notice Mérimée IA00064664, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "plan",
+        "text": "Typologie de plan plan symétrique en U",
+        "page": "Notice Mérimée IA00064664, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "storeys",
+        "text": "Description de l'élévation intérieure étage de soubassement ; 1 étage carré ; 2 étages de comble",
+        "page": "Notice Mérimée IA00064664, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "roof",
+        "text": "Typologie de la couverture toit en pavillon ; toit à longs pans ; croupe ; terrasse ; lanterneau",
+        "page": "Notice Mérimée IA00064664, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "stairways",
+        "text": "Emplacement, forme et structure de l'escalier escalier de distribution extérieur ; escalier droit ; en maçonnerie ; escalier dans-oeuvre ; escalier droit ; escalier en équerre ; escalier en vis sans jour ; escalier tournant à retours sans jour ; en maçonnerie",
+        "page": "Notice Mérimée IA00064664, section 'Description de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "Année(s) de(s) campagne(s) de construction 1646",
+        "page": "Notice Mérimée IA00064664, section 'Historique de l'édifice'. The field label and its value stand on consecutive lines of the notice's table; the line break between them is rendered here as one space, and nothing else was changed. A Mérimée notice is not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "full_storey_count",
+      "as_printed": "1 étage carré",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "An 'étage carré' is a full storey above the ground floor in the Inventaire's vocabulary, so the notice describes a basement storey, ONE full upper storey and two attic storeys. It is not a total storey count and is not read as one."
+    },
+    {
+      "name": "attic_storey_count",
+      "as_printed": "2 étages de comble",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "TWO habitable attic storeys inside the roof. This is the figure that matters to this node: the corpus's own prose says Mansart's generation kept 'the habitable attic French building needed while cutting the silhouette's height nearly in half', and the register says the attic is two storeys deep."
+    },
+    {
+      "name": "roof_covering_material_count",
+      "as_printed": "ardoise",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Slate, and only slate; carried as a count of one because the enum has no categorical unit and the fact worth recording is that the register names a single covering."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The richest register description in this cluster and the model for what an Inventaire (IA) notice can do that a protection (PA) notice cannot: materials, plan type, storey composition, roof forms and stair types, in the register's own controlled vocabulary. It states no dimension. No rights line was read, so no `rights_evidence`."
+}

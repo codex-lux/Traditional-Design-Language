@@ -34,5 +34,22 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Rathaus",
+      "location": "Alsfeld, Germany",
+      "year": 1516,
+      "precedent": "rathaus-alsfeld",
+      "standing": "canonical",
+      "why": "Derived, not authored: `german-fachwerk`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Karl Baumgarten, Das deutsche Bauernhaus (1980)",
+    "Verband Deutscher Architekten- und Ingenieur-Vereine, Das Bauernhaus im Deutschen Reiche und in seinen Grenzgebieten (1905-1906)",
+    "G. Ulrich Grossmann, Der Fachwerkbau in Deutschland: das historische Fachwerkhaus, seine Entstehung, Farbgebung, Nutzung und Restaurierung (1998)",
+    "Hans-Gunther Griep, Kleine Kunstgeschichte des deutschen Burgerhauses (1985)",
+    "William Woys Weaver, 'The Pennsylvania German House: European Antecedents and New World Forms', Winterthur Portfolio 21 (1986)"
   ]
 }

@@ -1,0 +1,110 @@
+{
+  "id": "nathaniel-russell-house",
+  "name": "Nathaniel Russell House",
+  "location": {
+    "text": "51 Meeting Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1803-1808",
+    "circa": false,
+    "note": "The node says begun 1803 and gives 1808; the Wikipedia infobox prints 'Built 1803-1808'; the 1930s HABS form prints 'Date of erec.tlo.nt c. 1811' and its historical note 'built in 1811'. Recorded as the node and the infobox agree, with the survey's later date kept in its own quote."
+  },
+  "nodes": [
+    "federal-style",
+    "southern-federal"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-145",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0171/data/sc0171data.pdf",
+      "title": "Nathaniel Russell House, 51 Meeting Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The addendum cover prints 'HABS No. SC-145'; the 1930s form beneath it prints 'HABS No. SC-104' and its header OCRs as 'HABS NO. SO-1U5'. Wikipedia's external links, read the same day, give '11 photos, 3 data pages, 1 photo caption page' and a separate SC-145-A for the dependencies."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0171",
+      "url": "https://www.loc.gov/pictures/item/sc0171",
+      "title": "Nathaniel Russell House, 51 Meeting Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000750",
+      "url": "https://en.wikipedia.org/wiki/Nathaniel_Russell_House",
+      "title": "NRHP reference No. 71000750; added August 19, 1971; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building."
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710039",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710039/index.htm",
+      "title": "Nathaniel Russell House, Charleston County (51 Meeting St., Charleston) – South Carolina Department of Archives and History",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Its text: 'an excellent example of the Adam style of architecture' and 'has been called an exercise in ellipses'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Nathaniel_Russell_House",
+      "title": "Nathaniel Russell House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historiccharleston.org/news/test-nathaniel-russell-house-post",
+      "title": "Nathaniel Russell House: A Brief History (Historic Charleston Foundation)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Owner."
+    },
+    {
+      "kind": "other",
+      "url": "https://savingplaces.org/distinctive-destinations/nathaniel-russell-house-museum",
+      "title": "Nathaniel Russell House Museum | National Trust for Historic Preservation",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'widely recognized as one of America’s most important neoclassical dwellings' and 'a magnificent, three-story, free-flying staircase' -- a promoter's claim, recorded as one."
+    }
+  ],
+  "survey": {
+    "item": "sc0171",
+    "register": "loc-item",
+    "survey_no": "SC-145",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0171/data/sc0171data.pdf",
+    "prepared": "1930s form 'Prepared at Washington Office', 'Prepared by Junior Architect James L. Burnett, Jr.', District of South Carolina; a later addendum cover carries the SC-145 number",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Owner: Mrs, F. J, Pelzer Date of erec.tlo.nt c. 1811 Builder: Nathaniel Russell Present condition; Excellent Description; Brick; four stories; rectangular plan with half octagon on south side; larp;e oval rooms each floor.",
+        "page": "1930s form headed 'HABS No. SC-104' (renumbered SC-145 on the addendum cover); the form prints no page number"
+      },
+      {
+        "field": "significance",
+        "text": "Historical Data: The Nathaniel Russell House was built in 1811 and is noted for its beautiful architecture. The initials N R are worked into the ?.ToU£ht-iron balcony over the doorway. The house is famous for its circular stairway.",
+        "page": "1930s form, same sheet; no page number"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "four stories",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The 1930s surveyor's count as printed. The node, the South Carolina register and the National Trust describe three storeys (the Trust: 'three-story, free-flying staircase'); whether the form counts a raised basement is not stated. A contradiction, recorded and not resolved."
+    }
+  ],
+  "note": "Written 4 Sep 2026. The only descriptive text the Library serves is the 1930s index-card form; the 1990s addendum in the same PDF is a cover for drawings and field records. `southern-federal` also names this building; see the Otis House note."
+}

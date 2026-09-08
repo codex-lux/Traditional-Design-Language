@@ -215,25 +215,55 @@
       "name": "Gamble House",
       "location": "Pasadena, California",
       "year": 1908,
-      "note": "Greene and Greene, 1908-09. The style's upper limit, where the Japanese parent is most visible in the shaped beam ends and layered roofs."
+      "note": "Greene and Greene, 1908-09. The style's upper limit, where the Japanese parent is most visible in the shaped beam ends and layered roofs.",
+      "precedent": "gamble-house",
+      "standing": "icon",
+      "why": "The HABS data page's own significance statement: 'the most complete and best preserved example of the work of Architects Greene and Greene ... one of the finest examples of the American Craftsman Movement', and the node's exemplar calls it the style's upper limit."
     },
     {
       "name": "Robert R. Blacker House",
       "location": "Pasadena, California",
       "year": 1907,
-      "note": "Greene and Greene. Larger and earlier than the Gamble, with the timber grammar at its most explicitly Japanese."
+      "note": "Greene and Greene. Larger and earlier than the Gamble, with the timber grammar at its most explicitly Japanese.",
+      "precedent": "robert-r-blacker-house",
+      "standing": "canonical",
+      "why": "Larger and earlier than the Gamble (the node's own note), and Wikipedia's Greene and Greene article counts it among the 'ultimate bungalows' whose every element was custom made -- the fully-worked case, without a HABS survey to measure it by."
     },
     {
       "name": "Craftsman Farms (the Log House)",
       "location": "Parsippany-Troy Hills, New Jersey",
       "year": 1911,
-      "note": "Gustav Stickley's own house, 1908-1911 — the publisher of the style building outside its Californian idiom."
+      "note": "Gustav Stickley's own house, 1908-1911 — the publisher of the style building outside its Californian idiom.",
+      "precedent": "craftsman-farms",
+      "standing": "canonical",
+      "why": "The publisher of the style building his own house in hewn chestnut and fieldstone (the National Register form's words), which is the node's own reason for naming it: the style outside its Californian idiom."
     },
     {
       "name": "Bungalow Heaven Landmark District",
       "location": "Pasadena, California",
       "year": 1900,
-      "note": "More than 800 modest Craftsman houses built c. 1900-1930; designated 1989. The style as it was actually inhabited, at plan-book scale."
+      "note": "More than 800 modest Craftsman houses built c. 1900-1930; designated 1989. The style as it was actually inhabited, at plan-book scale.",
+      "precedent": "bungalow-heaven-landmark-district",
+      "standing": "canonical",
+      "why": "'The style as it was actually inhabited, at plan-book scale' is the node's own reason, and the OHP listing's 522 contributing buildings are the count behind it."
+    },
+    {
+      "name": "Thorsen House",
+      "location": "Berkeley, California",
+      "year": 1909,
+      "note": "Greene and Greene, 1909, for William R. Thorsen -- the last of the five 'ultimate bungalows' and the one built outside Pasadena, on Piedmont Avenue in Berkeley. National Register 1978; Berkeley Landmark no. 4.",
+      "precedent": "thorsen-house",
+      "standing": "regional",
+      "why": "Wikipedia records it as 'the last of five so-called \"ultimate bungalows\"' by the Greenes and the only one in the Bay Area, which is the node's hearth extended north."
+    },
+    {
+      "name": "Ivan Carter McIndoo House",
+      "location": "310 North Fulton Street, Fresno, California",
+      "year": 1913,
+      "note": "A two-and-a-half storey side-gabled shingle house of c. 1913 in Fresno's North Park tract, two bays wide and three deep on a pier-and-beam foundation, with a cantilevered sleeping porch and one interior brick chimney; moved one block to save it from a freeway in 1992 and recorded by HABS then. The surveyor's own word for the scale is 'bungaloid'.",
+      "precedent": "ivan-carter-mcindoo-house",
+      "standing": "documentary",
+      "why": "The HABS data page (CA-2885) describes it as 'the aesthetics of a natural Craftsman bungalow, as applied to larger dwellings ca. 1913', which is a full Part II description of the style at the scale the node's own prose describes."
     }
   ],
   "sources": [
@@ -327,5 +357,8 @@
       "decided": "2026-09-02",
       "note": "Arrives from english-palladian at cascade depth 9 with no direct lineage edge. Governs 0 slots -- --impact reports 'Declining it changes no dimension on this node.' -- so no slot loses dimensioning and the meter is the only thing that moves."
     }
+  ],
+  "inherits_packs": [
+    "sash-light"
   ]
 }

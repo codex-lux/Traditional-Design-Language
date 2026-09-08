@@ -1,0 +1,40 @@
+{
+  "id": "thomas-crane-public-library",
+  "name": "Thomas Crane Public Library",
+  "aka": [
+    "Crane Memorial Library"
+  ],
+  "location": {
+    "text": "Quincy, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "1881",
+    "circa": false,
+    "note": "The Wikipedia infobox's 'Built' field says 1881; the caption on the same page says 'The original building (1882), front view, architect H. H. Richardson', and a Wikimedia Commons file page read the same day says 'The original building (1882) was designed by H. H. Richardson.' Two dates from one source; neither is edited."
+  },
+  "nodes": [
+    "richardsonian-romanesque"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Thomas_Crane_Public_Library",
+      "title": "Thomas Crane Public Library - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Its own judgment, quoted: 'The Thomas Crane Public Library was designated a National Historic Landmark in 1987, recognizing it as one of Richardson's finest library buildings.' It also records that the building 'was funded by the Crane family as a memorial to Thomas Crane, a wealthy stone contractor who got his start in the Quincy quarries.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000143",
+      "url": "https://en.wikipedia.org/wiki/Thomas_Crane_Public_Library",
+      "title": "NRHP reference No. 72000143; Added to NRHP October 18, 1972; Designated NHL December 23, 1987 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database. A Wikimedia Commons file page found by an independent search the same day gives the same number."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. No HABS survey was found (see the ames-gate-lodge record's note for the query that failed for both). Included because it is the small, cheap, PUBLIC end of the style -- a town library rather than a courthouse or a millionaire's house -- and because the client is the point: the money came from the family of a Quincy stone contractor, in the town whose granite quarries supplied the trade the style depends on. richardsonian-romanesque's own long description makes the availability of skilled stonecutters the style's enabling condition and its death; this building is that argument with a name attached."
+}

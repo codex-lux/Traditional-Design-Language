@@ -217,19 +217,55 @@
       "name": "Edward King House",
       "location": "Newport, Rhode Island",
       "year": 1847,
-      "note": "Richard Upjohn, 1845-47. Downing published it in The Architecture of Country Houses as one of the most successful specimens of the Italian style in the United States, which made it the national template."
+      "note": "Richard Upjohn, 1845-47. Downing published it in The Architecture of Country Houses as one of the most successful specimens of the Italian style in the United States, which made it the national template.",
+      "precedent": "edward-king-house",
+      "standing": "icon",
+      "why": "Downing reprinted it in The Architecture of Country Houses as 'one of the most successful specimens of the Italian style in the United States', and the Rhode Island nomination quotes him doing so, so the icon status rests on the period source that made it one."
     },
     {
       "name": "Morse-Libby House (Victoria Mansion)",
       "location": "Portland, Maine",
       "year": 1860,
-      "note": "Henry Austin, 1858-60. Brownstone Italianate villa with a tower and an intact Gustave Herter interior; the most completely preserved American example."
+      "note": "Henry Austin, 1858-60. Brownstone Italianate villa with a tower and an intact Gustave Herter interior; the most completely preserved American example.",
+      "precedent": "morse-libby-house",
+      "standing": "canonical",
+      "why": "A type specimen rather than a symbol: the National Historic Landmark case, as Wikipedia summarises it, is architectural significance 'as a particularly well-preserved Italianate mansion', which is what makes it worth measuring."
     },
     {
       "name": "Litchfield Villa",
       "location": "Prospect Park, Brooklyn, New York",
       "year": 1857,
-      "note": "Alexander Jackson Davis, 1854-57. Davis's most ambitious Italianate villa, and a demonstration that the same architect drove both branches of the picturesque."
+      "note": "Alexander Jackson Davis, 1854-57. Davis's most ambitious Italianate villa, and a demonstration that the same architect drove both branches of the picturesque.",
+      "precedent": "litchfield-villa",
+      "standing": "canonical",
+      "why": "Davis's most ambitious villa and the one whose interior is documented room by room, so it is the specimen against which this node's plan claims can be checked -- and it refuses them; the judgment is this corpus's own reading of the room-by-room description Wikipedia publishes, which is the only plan description the record carries."
+    },
+    {
+      "name": "Rensselaer Russell House",
+      "location": "Waterloo, Black Hawk County, Iowa",
+      "year": 1861,
+      "note": "A dry-goods merchant's house in a railroad town, hipped and cupolaed, its survey calling the wide bracketed frieze 'its most striking decorative feature'. Irregular in plan: HABS gives a bounding rectangle of about 50 by 53 ft and says the shape is not one.",
+      "precedent": "rensselaer-russell-house",
+      "standing": "documentary",
+      "why": "Plain, surveyed and useful to measure rather than to admire -- the only house on this node whose written HABS data states dimensions, storeys and porch, and the judgment is the survey's own tone as much as this corpus's."
+    },
+    {
+      "name": "E. V. Haughwout Building, 488-492 Broadway",
+      "location": "New York, New York",
+      "year": 1857,
+      "note": "John P. Gaynor, 1857, with both cast-iron fronts cast by Daniel Badger's Architectural Iron Works. Nine bays in 63'-1\" on Broadway and fourteen in 99'-10\" on Broome: one ordered catalogue, two elevations, a 7 ft module. Shared with renaissance-revival-american, which claims the same building for the palazzo elevation in bolted sections.",
+      "precedent": "e-v-haughwout-building",
+      "standing": "icon",
+      "why": "The commercial branch this node's own prose names -- 'a cast-iron commercial block on Broadway' -- and its HABS survey calls it 'architecturally one of the most important of New York's cast iron buildings'."
+    },
+    {
+      "name": "Camron-Stanford House",
+      "location": "Oakland, California",
+      "year": 1876,
+      "note": "The last of fourteen Victorian houses built round Lake Merritt and the only survivor, per its own museum; Oakland's first museum from 1907. Its Wikipedia infobox dates it 1871 against the museum's 1876, and neither is corrected here.",
+      "precedent": "camron-stanford-house",
+      "standing": "regional",
+      "why": "The Californian expression this node's geography claims and had no exemplar for, and it is a population of one: the owner's own page says the other thirteen are gone."
     }
   ],
   "sources": [

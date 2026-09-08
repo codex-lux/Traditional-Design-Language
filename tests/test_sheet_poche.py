@@ -34,6 +34,9 @@ ST = _mod("structure")
 
 BAND = re.compile(r'<rect class="(pm|pp)" data-wall="(\w+)"[^>]*? x="([-\d.]+)" y="([-\d.]+)" '
                   r'width="([\d.]+)" height="([\d.]+)"')
+# The band's own stated thickness, in inches. See `_thicknesses` below for why the rectangle
+# cannot answer this and why reading it from the rectangle was wrong.
+BAND_T = re.compile(r'<rect class="(?:pm|pp)" data-wall="(\w+)" data-t="([\d.]+)"')
 
 
 def _solved(name="tidewater-georgian-careful", **over):
@@ -167,15 +170,60 @@ def test_the_envelope_is_drawn_outside_the_rooms_it_wraps(sheet):
             "it wraps rather than outside them")
 
 
+def _thicknesses(svg, name):
+    """The stated thickness, in inches, of every band of one wall class.
+
+    RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). This read `min(width, height)` off
+    the drawn rectangle, and `render_plan.wall_bands` says in its own body why that is a proxy
+    and not the property: *"a pier between two windows is a run SHORTER than the wall is thick,
+    so the short side of the rectangle is its length and not its thickness."* It held while
+    every run was longer than it was thick. The merged placement (63 ft on 7 bays of 9, main's
+    WP-11.2) produced a **0.365 ft masonry stub** between two openings, and the guard duly
+    reported a load-bearing wall drawn thinner than a partition -- a false conviction of the
+    drawing, from an instrument measuring the wrong quantity. The band has carried `t_ft` all
+    along; the plate publishes it as `data-t` now and this reads that."""
+    return {float(t) for n, t in BAND_T.findall(svg) if n == name}
+
+
 def test_a_partition_is_drawn_thinner_than_the_wall_that_carries_it(sheet):
     """The drawing says which walls CARRY -- a fact the record has held since WP-3.1 and no
     plate had ever shown. If the two are drawn alike the reader cannot tell a partition from a
     bearing line, which is the whole reason the corpus tags them."""
     _out, svg = sheet
-    bands = _bands(svg)
-    pm = {round(min(w, h), 1) for _k, n, _x, _y, w, h in bands if n == "bearing"}
-    pp = {round(min(w, h), 1) for _k, n, _x, _y, w, h in bands if n == "partition"}
+    pm = _thicknesses(svg, "bearing")
+    pp = _thicknesses(svg, "partition")
     assert pm and pp, "the sheet draws only one kind of interior wall body"
     assert max(pp) < min(pm), (
-        f"partitions are drawn {sorted(pp)} px and load-bearing walls {sorted(pm)} px -- a "
+        f"partitions are drawn {sorted(pp)} in and load-bearing walls {sorted(pm)} in -- a "
         "reader cannot tell them apart")
+    # AND THE STATED THICKNESS IS THE ASSEMBLY'S, not whatever the rectangle happens to be.
+    # Without this the plate could publish a `data-t` of its own invention and the test above
+    # would still pass, which is the failure mode the attribute was added to remove.
+    out, _svg = sheet
+    wall = ST.wall_thickness(out)
+    assert pm == {round(wall["bearing_interior_in"], 1)}, (
+        f"the plate states {sorted(pm)} in of bearing wall against the assembly's "
+        f"{wall['bearing_interior_in']}")
+    assert pp == {round(wall["partition_in"], 1)}
+
+
+def test_the_stated_thickness_is_not_recoverable_from_the_rectangle(sheet):
+    """THE REASON THE ATTRIBUTE EXISTS, asserted rather than left in a comment. At least one
+    band on this sheet is drawn SHORTER than it is thick, so `min(width, height)` reads its
+    length; a guard using that proxy convicts the drawing. If this ever stops being true the
+    proxy would start working again -- and the attribute would still be the right answer, so
+    the test says COULD NOT EVALUATE rather than passing on the absence of the case."""
+    out, svg = sheet
+    bands = _bands(svg)
+    stated = {n: t for n, t in ((n, float(t)) for n, t in BAND_T.findall(svg))}
+    scale = None
+    for _k, n, _x, _y, w, h in bands:
+        if n in stated and stated[n]:
+            scale = min(w, h) / (stated[n] / 12.0) if min(w, h) else None
+            break
+    stubs = [(n, round(min(w, h), 2)) for _k, n, _x, _y, w, h in bands
+             if scale and min(w, h) < (stated.get(n, 0) / 12.0) * scale - 0.05]
+    if not stubs:
+        pytest.skip("COULD NOT EVALUATE: no run on this sheet is shorter than its wall is "
+                    "thick, so the proxy this attribute replaces cannot be shown wrong here")
+    assert stubs, stubs

@@ -1,0 +1,119 @@
+{
+  "id": "owlpen-manor",
+  "name": "Owlpen Manor",
+  "location": {
+    "text": "Uley, Gloucestershire, England",
+    "country": "England",
+    "state": "Gloucestershire"
+  },
+  "dates": {
+    "built": "C15 with mid C16 hall; west wing dated 1616",
+    "circa": true,
+    "altered": "The entry records 'internal remodelling in east wing 1719-1722' and 'Restored by Norman Jewson 1925-26', and dates the east wing's sash fenestration and the side parapets of its gable to the early C18.",
+    "note": "The node's exemplar gives the year 1616 and says the house was 'developed between roughly 1450 and 1616 around a medieval hall'. The entry says 'C15 with mid C16 hall' -- the hall is mid-sixteenth-century to Historic England and medieval to the node's own note. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "cotswold-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1152317",
+      "title": "Owlpen Manor, Owlpen - 1152317 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1152317",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read twice with different queries. The first extract returned the Details prose; the second returned only the boilerplate about curtilage and did NOT return the Official list entry block, so the grade and dates below are the search result's rendering of that block's field values: 'Heritage Category: Listed Building ; Grade: I ; List Entry Number: 1152317 ; Date first listed: 23-Jun-1952 ; Date of most recent amendment: 24-Mar-1988'."
+    }
+  ],
+  "survey": {
+    "item": "1152317",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1152317",
+    "prepared": "Date first listed: 23-Jun-1952; Date of most recent amendment: 24-Mar-1988. THESE TWO DATES WERE NOT READ IN AN EXTRACT: two extracts of the page returned the Details prose and the curtilage boilerplate and not the Official list entry block, so they are the field values a Tavily search result printed for this entry on the same day, recorded as field values rather than as the page's own prose.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Manor house. C15 with mid C16 hall. West wing dated 1616 for T.D. (Thomas Daunt); internal remodelling in east wing 1719-1722. Restored by Norman Jewson 1925-26.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Random rubble and dressed limestone, partly roughcast rendered; ashlar and artificial stone rebuilt chimneys; stone slate roof.",
+        "page": "Official list entry, Details, materials sentence following the dating paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Two-storey with attic; accumulation results in L-plan. South front: 3 gables of different dates.",
+        "page": "Official list entry, Details, sentence following the materials sentence"
+      },
+      {
+        "field": "openings",
+        "text": "Full central gable with moulded coping and finial has recessed cavetto mullioned fenestration, off- centre 6-light to ground floor, central upper floor 4-light flanked by 2 single-light casements",
+        "page": "Official list entry, Details, description of the south front; 'off- centre' is printed with the space, a line break in the source carried into the extract. Official list entry, Details; the span is CUT where the extract's block ends and is deliberately not joined to the block that follows, whose opening words repeat it."
+      },
+      {
+        "field": "openings",
+        "text": "4-light flanked by 2 single-light casements and carved arms panel above; 2-light to attic, all casements with hoodmoulds and leaded lights. This gable roughcast rendered.",
+        "page": "Official list entry, Details, south front continued; this span opens the extract's second block, which repeats the closing words of the first"
+      },
+      {
+        "field": "openings",
+        "text": "Projecting forward to left is early C17 addition, moulded coping to parapet gable having finials. Three- storey canted bay window with mullioned casements reduces in width above upper floor window, narrower attic part having 3-light front face; 4-light to floors below; crenellated parapet. Date panel below attic window 'TD 1616'.",
+        "page": "Official list entry, Details, description of the south front continued; 'Three- storey' carries a line-break space as extracted"
+      },
+      {
+        "field": "chimneys",
+        "text": "Ridge-mounted chimney at junction with hall has cluster of 5 diagonal-set shafts with moulded caps.",
+        "page": "Official list entry, Details, close of the south front description"
+      },
+      {
+        "field": "openings",
+        "text": "West end: 2 parapet gables with finials to 1616 wing, fenestration arranged in line with gables to upper floor and attic, 3-light to upper floor, 2-light to attic; one off-centre 3-light to ground floor. Continuous dripmoulds. Projecting stone rainwater chutes between gables.",
+        "page": "Official list entry, Details, description of the west end"
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: remarkable for number and range of period features, this mainly due to the building's lowly status in Cl9. Hall has timber beamed compartment ceiling, moulded Tudor arched fireplace and on north wall painted coat-of-arms of Daunt quartering Ollepen.",
+        "page": "Official list entry, Details, interior; 'Cl9' is printed with a letter l for the digit 1"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two-storey with attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The attic is habitable and lit -- the same sentence group gives the attic its own 2-light windows -- and the entry does not count it as a storey."
+    },
+    {
+      "name": "gable_count_front",
+      "as_printed": "3 gables of different dates",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "South front only; the west end carries two more."
+    },
+    {
+      "name": "window_light_count_ground",
+      "as_printed": "6-light to ground floor",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The central gable's ground-floor window. This is the LARGEST light count in this record and it sits above the node's own kit band of 2 to 5 lights; the same gable's upper floor is 4-light and its attic 2-light, so the diminishing course of lights up a gable is stated by the entry itself."
+    },
+    {
+      "name": "chimney_shaft_count",
+      "as_printed": "cluster of 5 diagonal-set shafts",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "One stack; five shafts."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. The entry states no dimension. It is the richest of this cluster's records on the WINDOW, which is the node's own diagnostic: cavetto and ovolo mullions, hoodmoulds, leaded lights, and light counts falling 6 - 4 - 2 as the gable rises. A QUOTE THAT STRADDLED TWO EXTRACT CHUNKS WAS FOUND BY RE-EXTRACTING THE PAGE WITH A DIFFERENT QUERY AND WAS SPLIT RATHER THAN JOINED. The chunker returns the same boundaries on every query and each block repeats the tail of the one before, so the text is demonstrably continuous -- but a span crossing the boundary was never READ as one contiguous run, and this record does not print one as though it had been."
+}

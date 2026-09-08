@@ -183,19 +183,46 @@
       "name": "Bungalow Heaven Landmark District",
       "location": "Pasadena, California",
       "year": 1900,
-      "note": "More than 800 modest bungalows built c. 1900-1930 and designated a landmark district in 1989 — the type at neighbourhood scale, largely from published plans."
+      "note": "More than 800 modest bungalows built c. 1900-1930 and designated a landmark district in 1989 — the type at neighbourhood scale, largely from published plans.",
+      "precedent": "bungalow-heaven-landmark-district",
+      "standing": "icon",
+      "why": "The node's own prose says the type 'is defined by its distribution channel rather than by a place', and the California OHP listing calls this sixteen-block district of 522 contributing buildings 'the largest intact grouping of working class housing' of the Arts and Crafts period in Pasadena -- the type at the scale it was actually built."
     },
     {
       "name": "Sears Modern Homes",
       "location": "United States, shipped nationally from Chicago",
       "year": 1908,
-      "note": "The precut kit programme, 1908-1940, which sold roughly 70,000 houses; surviving examples are documented in most Midwestern and Eastern states. Listed here as a product line rather than a single building because that is what the node actually is."
+      "note": "The precut kit programme, 1908-1940, which sold roughly 70,000 houses; surviving examples are documented in most Midwestern and Eastern states. Listed here as a product line rather than a single building because that is what the node actually is.",
+      "precedent": "sears-modern-homes",
+      "standing": "documentary",
+      "why": "A product line and not a building, kept because the node's own prose calls the precut kit 'the first fully specified traditional kit of parts in history'; the standing is documentary because the record can cite only the programme, no surveyed member having been found."
     },
     {
       "name": "Craftsman Farms (the Log House)",
       "location": "Parsippany-Troy Hills, New Jersey",
       "year": 1911,
-      "note": "Stickley's own house, whose published plans and derivatives seeded the plan-book trade this variant runs on."
+      "note": "Stickley's own house, whose published plans and derivatives seeded the plan-book trade this variant runs on.",
+      "precedent": "craftsman-farms",
+      "standing": "documentary",
+      "why": "Stickley's own house is the source of the plans this variant runs on (the node's exemplar note), not a bungalow itself; the National Register form records the log-and-fieldstone house he built to demonstrate them."
+    },
+    {
+      "name": "Bowen Court",
+      "location": "539 E. Villa Street, Pasadena, California",
+      "year": 1910,
+      "note": "Arthur and Alfred Heineman, 1910-12: twenty-three bungalows on an L-shaped court, the oldest surviving bungalow court in Pasadena and built at $1,253 a unit against a $1,750 median for a single-family house of the period. The type multiplied on one lot, which is the node's economy stated as a site plan.",
+      "precedent": "bowen-court",
+      "standing": "canonical",
+      "why": "The Pasadena bungalow-courts nomination calls it 'the most well known extant bungalow court in Pasadena, and perhaps in the larger Los Angeles region as well', and one of the two oldest to survive."
+    },
+    {
+      "name": "Major Harry E. Kunkel House",
+      "location": "1542 North McCadden Place, Los Angeles, California",
+      "year": 1910,
+      "note": "A one-storey Los Angeles bungalow of 1910, architect unknown, measured by HABS: about 31 ft wide, 52 ft deep and 15 ft tall, 1,088 sq ft, side-gabled at a low pitch with a shed dormer, exposed rafter tails, a recessed porch and no chimney at all. The plain case, with figures.",
+      "precedent": "major-harry-e-kunkel-house",
+      "standing": "documentary",
+      "why": "The HABS data page (CA-2969) calls it 'a typical example of a Craftsman bungalow' and states its overall dimensions, which none of the node's other exemplars can offer."
     }
   ],
   "sources": [
@@ -294,5 +321,8 @@
       "decided": "2026-09-02",
       "note": "Arrives from english-palladian at cascade depth 10 with no direct lineage edge. Governs 0 slots on this node, so declining changes no dimension and nothing loses dimensioning -- a meter move only. Same field and same reasoning as the node's existing chambers-doric decline, one order over."
     }
+  ],
+  "inherits_packs": [
+    "sash-light"
   ]
 }

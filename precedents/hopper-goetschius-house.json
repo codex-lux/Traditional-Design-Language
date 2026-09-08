@@ -1,0 +1,48 @@
+{
+  "id": "hopper-goetschius-house",
+  "name": "Hopper-Goetschius House",
+  "aka": [
+    "Hopper–Goetschius House",
+    "Hopper-Goetschius Museum"
+  ],
+  "location": {
+    "text": "363 East Saddle River Road, Upper Saddle River, New Jersey",
+    "country": "United States",
+    "state": "New Jersey"
+  },
+  "dates": {
+    "built": "c. 1739",
+    "circa": true,
+    "note": "The Wikipedia infobox gives 'Built c. 1739' and names Abraham Hopper as architect; Journey Through Jersey says 'Built by the Hopper family in 1739 ... the oldest remaining home in Upper Saddle River'. The node's exemplar year of 1739 is kept."
+  },
+  "nodes": [
+    "new-jersey-dutch-gambrel"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "83001523",
+      "url": "https://npgallery.nps.gov/AssetDetail/NRIS/83001523",
+      "title": "NPGallery Asset Detail: Hopper-Goetschius House; National Register Information System ID: 83001523; Multiple Listing: Stone Houses of Bergen County TR",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Wikipedia infobox prints the same number with NJRHP No. 711, added to the National Register 10 January 1983 and designated to the New Jersey register 3 October 1980. NOTE A DISAGREEMENT IN THE NAME OF THE MULTIPLE-PROPERTY GROUP: NPGallery and the Wikipedia infobox say 'Stone Houses of Bergen County TR'; the Wikipedia article text and this node's own exemplar note say 'Early Stone Houses of Bergen County Multiple Property Submission'. Recorded as both print it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hopper%E2%80%93Goetschius_House",
+      "title": "Hopper-Goetschius House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.journeythroughjersey.com/sites/hopper-goetschius-museum",
+      "title": "Hopper-Goetschius Museum | Journey Through Jersey",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Dutch sandstone home features artifacts from the Goetschius family who owned the house for 150 years ... The house has been maintained and preserved by the Upper Saddle River Historical Society since 1985. The site features an out-kitchen building with its original beehive oven, an outhouse, and a Dutch colonial Van Riper Tice Barn that was moved to the site.'"
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. NO SURVEY BLOCK, AND THE ABSENCE IS A FINDING RATHER THAN A GAP. Two searches -- 'Hopper-Goetschius House Upper Saddle River New Jersey National Register Early Stone Houses Bergen County' and the Bergen-wide 'Bergen County New Jersey Dutch sandstone house HABS survey gambrel \"Historic American Buildings Survey\" Demarest Ackerman Campbell-Christie' -- returned National Register material for this house and HABS numbers for its Bergen neighbours (NJ-155 David Ackerman-Naugle, NJ-298 John Ackerman) but nothing for this one. The nomination's own text was not opened: NPGallery's asset detail page was reached, the scanned nomination for reference 83001523 was not. A later pass with the scan should be able to state the dimensions this record cannot."
+}

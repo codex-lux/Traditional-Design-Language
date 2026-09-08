@@ -1,0 +1,76 @@
+{
+  "id": "leopoldine-farmhouses-of-the-val-di-chiana",
+  "name": "Leopoldine farmhouses of the Val di Chiana",
+  "record_kind": "type-model",
+  "location": {
+    "text": "Val di Chiana, Arezzo and Siena provinces, Tuscany, Italy",
+    "country": "Italy",
+    "state": "Tuscany"
+  },
+  "dates": {
+    "built": "from the 1770s",
+    "circa": true,
+    "note": "The Region's own rule dates the type 'codificata a partire dal XVIII secolo dagli architetti dello Scrittoio' and gives no year. The node's own exemplar entry gives 1780 and says 'Built from the 1770s onward'."
+  },
+  "nodes": [
+    "tuscan-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "id": "P4_______005",
+      "url": "https://www.regione.toscana.it/documents/10180/24873486/Report_Minerva_VAS_leopoldine_scenario_definitivo.pdf/57f117a4-ac86-7f8b-cbb7-e1f1ac04dd06?version=1.0&t=1588166346627&download=true",
+      "title": "VAS - Valutazione Ambientale Strategica - Piani Regionali. Scenario 4: PROGETTO DI PAESAGGIO REGIONALE LE LEOPOLDINE della VAL DI CHIANA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Region of Tuscany's own landscape project for the Leopoldine, published on regione.toscana.it as part of the strategic environmental assessment of regional plans. The id carried is the document's own 'CODICE NORMA: P4_______005', which labels Article 5; the article quoted for the building type is Article 14. The page prints 'Stato: Avvio', so this was the opening stage of the project, and no date of adoption was found on the document itself."
+    },
+    {
+      "kind": "other",
+      "url": "https://webthesis.biblio.polito.it/23999/1/tesi.pdf",
+      "title": "Lorenza Vieri, Le \"Leopoldine in Valdichiana\": studio per la conoscenza e il restauro di un patrimonio in stato di emergenza (Politecnico di Torino, Corso di Laurea Architettura per il restauro e Valorizzazione del Patrimonio, A.A. 2021/2022, sessione di laurea settembre 2022; relatore Cesare Tocci)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "A master's dissertation, not a state record, and carried as one. It is cited here because it is the only source read in this pass that measures a Leopoldina; its case study is Podere Primo di Brolio, which has its own record in this directory."
+    }
+  ],
+  "survey": {
+    "item": "P4_______005",
+    "register": "institution",
+    "data_url": "https://www.regione.toscana.it/documents/10180/24873486/Report_Minerva_VAS_leopoldine_scenario_definitivo.pdf/57f117a4-ac86-7f8b-cbb7-e1f1ac04dd06?version=1.0&t=1588166346627&download=true",
+    "prepared": "Regione Toscana, Progetto di Paesaggio regionale 'Le Leopoldine della Val di Chiana', valutazione delle norme di tutela; the document prints 'Stato: Avvio' and no author or date of adoption. The file was served from regione.toscana.it with a timestamp parameter of 1588166346627 in its URL, which is not read here as a date of publication.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Con il termine “Leopoldina” viene inteso una tipologia di casa colonica che presenta caratteristiche tipologiche e architettoniche ricorrenti (edificio a blocco isolato, tetto a padiglione, portico, loggia e colombaia, rustico al piano terreno e abitazione al primo) e prevalente localizzazione di pianura.",
+        "page": "ART.14 PATRIMONIO EDILIZIO ESISTENTE DELLE LEOPOLDINE E DELLE LORO PERTINENZE, DESCRIZIONE, paragraph 1. The document is a set of numbered articles and prints no page number in the extract."
+      },
+      {
+        "field": "plan",
+        "text": "Gli edifici principali, detti Leopoldine, di cui alle lett. a) e c) del comma1, sono sottoarticolati nelle seguenti due macro tipologie: a) La tipologia A individuabile come edificio a pianta quadra (A1) o pianta rettangolare (A2) con torre colombaia posta in posizione centrale o sul fronte dell’edificio principale. Nel caso della tipologia A2, con pianta rettangolare, è possibile la presenza di una doppia torre colombaia.",
+        "page": "ART.14, DESCRIZIONE, paragraph 3; the same span in the extract runs on to 'b) La tipologia B a' and was cut there."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "rustico al piano terreno e abitazione al primo",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "A READING: the rule states a working ground floor and a dwelling on the first, which is two storeys, and states no height for either. The dovecote tower rises above both and is not counted."
+    },
+    {
+      "name": "colombaia_count_max",
+      "as_printed": "è possibile la presenza di una doppia torre colombaia",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The maximum the rule admits, and only on the rectangular A2 variant; the ordinary case the same sentence describes is one tower, centrally placed or on the front."
+    }
+  ],
+  "note": "Tranche 3, Italian rural vernacular cluster, 5 September 2026. `record_kind` is `type-model`: the exemplar names a repeated model built under one eighteenth-century reform programme across a whole valley, several hundred of which survive, and no single address is it. That is not a loosening -- the type IS the thing the Region legislates about, and the survey quoted here is a rule defining the type by its parts rather than a description of one house. What the record does NOT have is any dimension: the Region's rule names a block, a hipped roof, a portico, a loggia and a dovecote and dimensions none of them."
+}

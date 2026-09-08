@@ -1,0 +1,57 @@
+{
+  "id": "henderson-place-historic-district",
+  "name": "Henderson Place Historic District",
+  "record_kind": "district",
+  "aka": [
+    "Henderson Place"
+  ],
+  "location": {
+    "text": "Yorkville, Manhattan, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1880-1882",
+    "circa": false,
+    "note": "Wikipedia's infobox gives 'Built 1880-1882'; the Trust for Architectural Easements says the architects 'were hired by the land owner, John C. Henderson, in 1880, and construction was essentially complete by 1882'; the Historic Districts Council dates it 1882 and Friends of the Upper East Side '1881-82'. All are 1880-82 read four ways and none is edited."
+  },
+  "nodes": [
+    "queen-anne-patterned-masonry"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "74001271",
+      "url": "https://en.wikipedia.org/wiki/Henderson_Place_Historic_District",
+      "title": "NRHP reference No. 74001271; added to NRHP June 20, 1974; NYC Landmark No. 0454, designated February 11, 1969; architectural style 'Elizabethan-Flemish' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT listing covering 24 attached houses, not one building's identity. The infobox's style word is 'Elizabethan-Flemish' while the article's own text and every other source read here say Queen Anne; both are recorded."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Henderson_Place_Historic_District",
+      "title": "Henderson Place Historic District - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'It includes 24 attached brick rowhouses, all designed by Lamb and Rich in the Queen Anne style. The houses were built by the developer John C. Henderson for moderate-income residents.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://hdc.org/buildings/henderson-place-historic-district",
+      "title": "Henderson Place Historic District | Historic Districts Council -- ARCHITECT Lamb & Rich, DATE 1882, STYLE Queen Anne",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'Twenty-four of the original thirty-two Queen Anne houses designed by Lamb & Rich for John C. Henderson make up this district. In Henderson's words, the two-story, brick and rough stone homes were built in this cul-de-sac for \"persons of moderate means.\" Completed in 1882, the structures are set back from the street with front yards and basement areaways separated from the sidewalk by low stonewalls.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://friends-ues.org/about/henderson-place-hd",
+      "title": "Henderson Place Historic District - Friends of the Upper East Side",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'The use of features such as wide arched entryways, terra cotta plaques, windows divided into tiny square panes, and projecting bays and oriels produced an enclave of buildings that were of a high level of design, although they were intended to house people of moderate means.' It also says 'Of the 32 houses originally built in 1881-82 ... 24 survive.'"
+    }
+  ],
+  "note": "A DISTRICT rather than a single building, admitted for the same reason the corpus already holds Bungalow Heaven: twenty-four houses by one firm for one developer in one campaign are a single design decision, and the district listing is the only reference number such a thing has. It carries the node's own vocabulary as a set rather than as a specimen -- brick and rough stone, terra cotta plaques, tiny-paned sash, oriels -- and it does so at TWO STOREYS on a Manhattan cul-de-sac, which is the smallest patterned-masonry Queen Anne in this cluster and the only attached one. The district reference is deliberately NOT an identity for the guard that catches duplicate records, and the ref's note says so. No HABS record was found. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

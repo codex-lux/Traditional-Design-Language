@@ -1,0 +1,130 @@
+{
+  "id": "hans-herr-house",
+  "name": "Hans Herr House (1719 Museum)",
+  "aka": [
+    "Hans Herr House",
+    "Christian Herr House"
+  ],
+  "location": {
+    "text": "West Lampeter Township, Lancaster County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1719",
+    "circa": false,
+    "altered": "'Restored to its 1719 appearance 1972-73' (survey). The survey adds that the windows were 'originally small', so the present openings are a restoration decision.",
+    "note": "The survey's builder line reads 'Builder Christian Herr; possibly also Hans Herr father of Christian' -- the house is named for the father and attributed to the son. The date is carried on the front door lintel with the builder's initials, which is why every source agrees on it."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-371",
+      "title": "Hans Herr House, 1851 Hans Herr Drive, West Lampeter Township, Willow Street, Lancaster County, PA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0536/data/pa0536data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header ('Hans Herr House ... HABS No. PA-371'); the ARCHITECTURAL DATA FORM field below it OCRs as 'HABS NO. PA-m'. Wikipedia's external-links section, read the same day, gives the item as '3 photos, 1 data page, 1 photo caption page'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0536",
+      "url": "https://www.loc.gov/pictures/item/pa0536",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The landing page's title line was read in a search result; the page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000708",
+      "url": "https://en.wikipedia.org/wiki/Hans_Herr_House",
+      "title": "NRHP reference No. 71000708; added May 3, 1971 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hans_Herr_House",
+      "title": "Hans Herr House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "pa0536",
+    "register": "loc-item",
+    "survey_no": "PA-371",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0500/pa0536/data/pa0536data.pdf",
+    "prepared": "Compiled by Susan McCown, HABS historian, 26 September 1984, on NPS Architectural Data Form 10-980 (June 1983)",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "MATERIAL OF CONSTRUCTION (INCLUDE STRUCTURAL SYSTEMS) Random sandstone rubble with corner quoins. Sandstone foundations SHAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) 37'-9\" (three bays) X 30-10\" (two bays). One-and-a-half stories with",
+        "page": "HABS No. PA-371, ARCHITECTURAL DATA FORM; no page number is printed on the one-page form and the header reads 'Hans Herr House ... HABS No. PA-371'. The span ends where the extractor's chunk ends."
+      },
+      {
+        "field": "plan",
+        "text": "One-and-a-half stories with lofts. Floor plans: root cellar, ground floor (originally four rooms with central f i-repl RHP} two lofts. EXTERIOR FEATURES OF NOTE Steep gable roof with projecting rafter ends with scalloped pattern; date and initials on front door lintel; windows originally small",
+        "page": "HABS No. PA-371, ARCHITECTURAL DATA FORM; a second extractor chunk overlapping the first"
+      },
+      {
+        "field": "significance",
+        "text": "SIGNIFICANCE (ARCHITECTURAL AND HISTORICAL, INCLUDE ORIGINAL USE OF STRUCTURE) The house is the oldest dwelling house in Lancaster County. It also enjoys the distinction of being the first Mennonite meetinghouse in America. (Hans Herr was a Mennonite Bishop). Architecturally, the house is important for its Germanic design.",
+        "page": "HABS No. PA-371, ARCHITECTURAL DATA FORM, 'SIGNIFICANCE'"
+      },
+      {
+        "field": "finishes",
+        "text": "NTERIOR FEATURES OF NOTE (DESCRIBE FLOOR PLANS, IF NOT SKETCHED) Vertical posts filled with paling on walls and ceilings; original hewed log stair. MAJOR ALTERATIONS AND ADDITIONS WITH DATES Restored to its 1719 appearance 1972-73.",
+        "page": "HABS No. PA-371, ARCHITECTURAL DATA FORM, 'INTERIOR FEATURES OF NOTE' (the leading I is lost to OCR)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "37'-9\"",
+      "value": 37.75,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The three-bay face; the survey states the bay count beside each figure, so the front is not in doubt here."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "30-10\"",
+      "value": 30.83,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "OCR for 30'-10\"; a reading, marked as one."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "(three bays)",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "One-and-a-half stories",
+      "value": 1.5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "ground_floor_room_count",
+      "as_printed": "originally four rooms",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "FOUR, not three. The node's prose makes the Flurkuchenhaus a THREE-room plan -- Kuche, Stube, Kammer -- and its own exemplar note for this house says 'three-room plan'. The survey says four rooms with a central fireplace. Recorded as the survey states it."
+    }
+  ],
+  "note": "The canonical American Flurkuchenhaus, and the survey disagrees with the node about it: 'originally four rooms with central fireplace' against the node's own 'three-room plan'. Both are common readings of the type -- a Kreuzhaus is a three-room plan with a partition thrown across the Kuche, which yields four -- and the disagreement is recorded rather than resolved. The proportion is worth carrying: 37'-9\" x 30'-10\" is 1.22, and three bays by two."
+}

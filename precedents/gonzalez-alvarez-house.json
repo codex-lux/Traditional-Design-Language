@@ -1,0 +1,154 @@
+{
+  "id": "gonzalez-alvarez-house",
+  "name": "González-Alvarez House ('The Oldest House')",
+  "aka": [
+    "The Oldest House",
+    "Gonzalez-Alvarez House"
+  ],
+  "location": {
+    "text": "St. Augustine, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "c. 1723",
+    "circa": true,
+    "altered": "Wood-frame second storey added after 1774 by Major Joseph Peavett, who also glazed openings previously shuttered; a two-storey coquina wing added by Geronimo Alvarez; restored 1959-60 by the St. Augustine Historical Society to its presumed late eighteenth-century appearance (survey and Wikipedia agree on the outline).",
+    "note": "The Wikipedia infobox prints 'circa 1723, 1775–1786, 1790'; the survey's first documentary record of the house is a 1727 burial entry; the style node gives 1723. Nothing edited to agree."
+  },
+  "nodes": [
+    "spanish-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "FL-138",
+      "title": "Gonzalez-Alvarez House (\"The Oldest House\"), 14 St. Francis Street, St. Augustine, St. Johns County, Florida",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0200/fl0209/data/fl0209data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The data page prints the number both as 'HABS No. FLA-138' (the older state abbreviation) and 'HABS No. FL-138'; recorded in the form the checker admits."
+    },
+    {
+      "kind": "loc-item",
+      "id": "fl0209",
+      "url": "https://www.loc.gov/pictures/item/fl0209",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page itself was not opened. Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Gonz%C3%A1lez%E2%80%93Alvarez_House",
+      "title": "González–Álvarez House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000845",
+      "url": "https://en.wikipedia.org/wiki/Gonz%C3%A1lez%E2%80%93Alvarez_House",
+      "title": "NRHP reference No. 70000845; added April 15, 1970; designated NHL April 15, 1970; contributing property of the St. Augustine Town Plan Historic District (ID70000847); location 14 St. Francis St. (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "fl0209",
+    "register": "loc-item",
+    "survey_no": "FL-138",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/fl/fl0200/fl0209/data/fl0209data.pdf",
+    "prepared": "The history 'was compiled by the St. Augustine Historical Society in 1962' (as Part I says); the architectural description carries no author line in the extract; a later chronology in the same PDF cites Gjessing and Waterbury.",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "A. General Statement: 1. Architectural character: The Gonzalez-Alvarez House, one of the earliest surviving domestic structures in Spanish Florida, was restored in 1959-60 after extensive archival and archaeological research. The restoration returned the house to its presumed late eighteenth-century appearance, 2. Condition of fabric: Restored; well maintained.",
+        "page": "No page marker legible in the extract span (Part II.A); the nearest marker elsewhere in the extract reads 'HABS No, FL-138 ... Page 29'."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "B. Description of Exterior 1. Number of stories: Two stories. Over-all dimensions: Approximately 56' (five-bay front) x 32'. Rectangular shape.",
+        "page": "Part II.B.1; no page marker legible in the extract span."
+      },
+      {
+        "field": "walls",
+        "text": "2. Foundations: Coquina (local shellstone) blocks. 3- Wall construction: Coquina rubble; plastered inside and out. Upper story is part wood framed with clapboarding.",
+        "page": "Part II.B.2-3; no page marker legible in the extract span."
+      },
+      {
+        "field": "porches",
+        "text": "4. Porches: Wooden porch on east elevation, second level; covered loggia at north elevation.",
+        "page": "Part II.B.4; no page marker legible in the extract span."
+      },
+      {
+        "field": "chimneys",
+        "text": "5. Chimneys: T#o coquina chimneys.",
+        "page": "Part II.B.5; no page marker legible in the extract span."
+      },
+      {
+        "field": "openings",
+        "text": "6. Openings: a. Doorways and doors; Unmolded wooden paneled doors of random design, and some are board and batten. b. Windows and shutters: Six-over-six-light, double- hung (upper sash fixed); one eight-over-eight-light double-hung sash, second floor; casement sash lower east elevation.",
+        "page": "Part II.B.6; no page marker legible in the extract span."
+      },
+      {
+        "field": "roof",
+        "text": "7. Roof: a. Shape, covering: Gable roof with wooden shingles. b. Eaves: Marrow open eaves.",
+        "page": "Part II.B.7; no page marker legible in the extract span."
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior 1. Plans: Basically this two-story structure had a two- room plan; this has been extensively added to, and could be considered a variation of the \"St. Augustine Plan\" (rear loggia) discussed by Albert Manucy In his book, The Houses of St. Augustine (St. Augustine, Florida: St. Augustine Historical Society, 1962).",
+        "page": "Part II.C.1; no page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "Approximately 56' (five-bay front)",
+      "value": 56,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "x 32'",
+      "value": 32,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "five-bay front",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two stories",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "T#o coquina chimneys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "'T#o' is OCR for Two; a reading."
+    },
+    {
+      "name": "sash_lights",
+      "as_printed": "Six-over-six-light",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 5,
+      "note": "Six over six; the total per sash, as the Westover record counts it."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. The survey says the coquina ground storey carries a PART wood-framed upper storey with clapboarding, which is the node's own description; it also records a gable roof of wooden shingles and narrow open eaves, which the node's prose about the borderlands (flat azoteas or 3:12-5:12 tile) does not cover for the Florida branch."
+}

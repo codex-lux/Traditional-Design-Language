@@ -110,6 +110,16 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "South and west, and the reason is the hour: the drawing room is occupied from late afternoon into the evening, so it wants the low sun and it wants a view of the garden at dusk. In the English country house the drawing room is on the garden front, always, and the dining room takes the cooler and less desirable aspect - which is a use of orientation as social ranking and worth noticing.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "S",
+        "W"
+      ],
+      "basis": "South and west, and the reason is the hour",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.18,
       0.35

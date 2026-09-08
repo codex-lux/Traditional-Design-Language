@@ -699,7 +699,17 @@ class TestACompromiseAppearsOnTheDrawingAtItsLocation:
         # cleared. Read _clamp_cut's docstring before trying it again -- the arithmetic there
         # is right and the shipped expression is wrong, and shipping the fix alone still makes
         # the corpus worse. The refusal stands; only the baseline it is measured against moved.
-        assert out["geometry_report"]["relaxations"]["count"] == 8
+        # 7 AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND IT IS A THIRD VALUE RATHER
+        # THAN EITHER SIDE'S. Measured on `git archive` checkouts of both parents and on the
+        # merged tree, `engine="heuristic"`, deterministic on repeat: this branch 8, main 5,
+        # merged 7. Main's WP-11.2 resizes this house from 60.0 x 40.08 to 63 x 38.17 (the
+        # massing's own bay count and its parity) and this branch's WP-11.8 then ranks each
+        # room's own proportion band above the search's score, so the cuts land differently
+        # from either -- a relaxation is a joist run that does not land on a bearing wall, and
+        # both packages move where the cuts are. The refusal recorded above still stands and
+        # only the baseline it is measured against moved, which is the same sentence one merge
+        # later.
+        assert out["geometry_report"]["relaxations"]["count"] == 7
 
     def test_the_renderer_draws_one_mark_per_relaxation(self, geometry_module):
         """P6 and P7 together: the drawing is a render of the data, so the number of marks on

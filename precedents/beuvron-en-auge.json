@@ -1,0 +1,44 @@
+{
+  "id": "beuvron-en-auge",
+  "name": "Beuvron-en-Auge",
+  "record_kind": "district",
+  "location": {
+    "text": "Calvados, France",
+    "country": "France",
+    "state": "Calvados, Normandie"
+  },
+  "dates": {
+    "note": "No single construction date applies: the record is a village. Its individual protected buildings carry their own dates -- the manoir at 1 avenue de la Gare is inscrit MH by arrêté of 27 January 1989, the manoir du Lieu Hocquart by arrêté of 6 October 1977 and the manoir de la Hogue by arrêté of 4 October 2007."
+  },
+  "nodes": [
+    "norman-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Beuvron-en-Auge",
+      "title": "Beuvron-en-Auge — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The commune article's lead prints « La commune est labellisée parmi les Les Plus Beaux Villages de France. » -- the doubled « les Les » is the page's own template artefact and is transcribed as printed; an earlier version of this note quoted it with one « les », which is a token silently corrected, and it is restored here (re-read 5 Sep 2026). Its Localisation section says « La commune se situe dans le pays d'Auge, à égale distance entre Caen et Lisieux (30 kilomètres). »"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.les-plus-beaux-villages-de-france.org/fr/nos-villages/beuvron-en-auge",
+      "title": "Découvrez Beuvron-en-Auge, l'un des Beaux Villages de France en Normandie",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The association's own village page. Les Plus Beaux Villages de France is a private association's LABEL and not a statutory heritage listing; it is recorded as the designation that covers the whole village because no statutory area designation was found for it."
+    },
+    {
+      "kind": "merimee",
+      "id": "PA00111090",
+      "url": "https://pop.culture.gouv.fr/notice/merimee/PA00111090",
+      "title": "Manoir - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "One contributing building: the Vieux Manoir, 1 avenue de la Gare. The notice's protection line reads « Façade orientale et pan de toiture correspondant (cad. AA 79) : inscription par arrêté du 27 janvier 1989 » and its « Intérêt de l'œuvre » field reads « Façade à pans de bois. » It describes that building and NOT the village, which is why this record carries no `survey`."
+    }
+  ],
+  "note": "Tranche 3, French manoir and provincial farmhouse cluster, 5 Sep 2026. `record_kind: district` because the node's own exemplar says so in as many words -- « useful as an ensemble rather than a single object » -- and no single address is it. NO `survey` BLOCK IS CARRIED, deliberately: the only register notice that describes anything here describes one contributing manoir, and quoting it under a record named for the village would tell a reader the register had surveyed the village. The area designation is an association's label rather than a statutory listing, and the ref note says so."
+}

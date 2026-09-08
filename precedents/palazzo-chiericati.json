@@ -1,0 +1,60 @@
+{
+  "id": "palazzo-chiericati",
+  "name": "Palazzo Chiericati",
+  "location": {
+    "text": "Piazza Matteotti, Vicenza, Italy",
+    "country": "Italy",
+    "state": "Veneto"
+  },
+  "dates": {
+    "built": "designed 1550",
+    "circa": false,
+    "altered": "Bought by the city in 1838-39, restored, and opened as a museum in 1855.",
+    "note": "The consortium's page dates the design: 'of 1550, the year Palladio gave the designs to Girolamo Chiericati'. The node's exemplar note gives 'Begun 1550, completed only in 1680'; nothing read here bears on the completion date."
+  },
+  "nodes": [
+    "palladian"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
+      "title": "What to see in Vicenza - opening times of museums and monuments in Vicenza area - Consorzio Turistico Vicenzae",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "unesco",
+      "id": "712",
+      "url": "https://whc.unesco.org/en/list/712",
+      "title": "City of Vicenza and the Palladian Villas of the Veneto - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inside the inscribed city of Vicenza, one of 'its twenty-three buildings attributed to Palladio'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.museicivicivicenza.it/it",
+      "title": "Musei Civici Vicenza",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The civic museums service that occupies the palace; the Comune di Vicenza's own page describes the group as including 'il Museo civico di Palazzo Chiericati'. Neither page was opened."
+    }
+  ],
+  "survey": {
+    "item": "vicenzae-what-to-see-chiericati",
+    "register": "other",
+    "data_url": "https://www.vicenzae.org/en/tourism/vicenza-palladio-and-the-villas/what-to-see-in-vicenza-opening-times-of-museums-and-monuments-in-vicenza-area",
+    "prepared": "Consorzio Turistico Vicenzae, 'What to see in Vicenza', the Palazzo Chiericati entry",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "significance",
+        "text": "The piece of architecture which adds dignity to the Piazza is the Palazzo Chiericati, of 1550, the year Palladio gave the designs to Girolamo Chiericati. It is the most spectacular civilian residence designed by Palladio, today seat of the Vicenza Town Museum. It was purchased in 1838-39, then renovated and finally turned into a museum and opened in 1855.",
+        "page": "Vicenzae, 'What to see in Vicenza', Palazzo Chiericati entry"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The register calls it 'the most spectacular civilian residence designed by Palladio' and says nothing whatever about the two-storey open loggia across the whole front, which is the ONLY reason this node names the building. Its own text is one paragraph long; the survey is that paragraph."
+}

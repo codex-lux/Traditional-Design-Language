@@ -1,0 +1,52 @@
+{
+  "id": "litchfield-villa",
+  "name": "Litchfield Villa",
+  "location": {
+    "text": "Prospect Park, Brooklyn, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": [
+      "Prospect Park West and 5th Street, Brooklyn, New York City"
+    ]
+  },
+  "aka": [
+    "Grace Hill"
+  ],
+  "dates": {
+    "built": "1854-1857",
+    "circa": false,
+    "note": "The Wikipedia infobox and the Prospect Park Alliance both say 1854-1857; Urban Archive says 'between 1855 and 1857'. Recorded as the two agreeing sources state it, with the third noted."
+  },
+  "nodes": [
+    "italianate-american",
+    "italianate-villa"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "77000946",
+      "url": "https://en.wikipedia.org/wiki/Litchfield_Villa",
+      "title": "NRHP reference No. 77000946; added September 14, 1977; NYSRHP 04701.000017; NYCL 0153, designated March 15, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Litchfield_Villa",
+      "title": "Litchfield Villa - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Describes the interior: 'On the first floor inside the octagon, there is a rotunda that is lit by a skylight. A double staircase branches off the south end of the rotunda ... Past the rotunda and the drawing room there is a reception room that is also shaped like an octagon, and behind that is a dining room. The first floor also contains a circular library, a map room inside the western turret'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nyctourism.com/places/prospect-park-litchfield-villa",
+      "title": "Prospect Park Litchfield Villa | Venues (New York City Tourism & Conventions)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Records that the villa 'was condemned to make way for the construction of Prospect Park' in 1868 and now houses the Prospect Park Alliance's offices."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The record worth keeping is the PLAN, which no other villa in the cluster documents: a skylit rotunda inside an octagon, a second octagonal reception room, a circular library and a map room in the western turret. The italianate-villa node's compositional argument is an L with a tower in the reentrant angle; this house, by the same architect the node names, is not that at all, and a generator taught only the L would refuse its own second exemplar."
+}

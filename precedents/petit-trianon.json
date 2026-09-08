@@ -1,0 +1,94 @@
+{
+  "id": "petit-trianon",
+  "name": "Petit Trianon",
+  "aka": [
+    "Le Petit Trianon"
+  ],
+  "location": {
+    "text": "Versailles, Yvelines, France",
+    "country": "France",
+    "state": "Yvelines, Île-de-France"
+  },
+  "dates": {
+    "built": "1762-1768",
+    "circa": false,
+    "note": "THE START YEAR IS NOT AGREED. en.wikipedia says 'built between 1762 and 1768' and its infobox prints 'Construction started 1762'; the Versailles tourist office says 'The Petit Trianon was built between 1763 and 1768 by the architect Gabriel'. The node's exemplar gives 1762-1768. The château's own page, quoted in the survey below, states no year at all. All are recorded and none is changed."
+  },
+  "nodes": [
+    "french-neoclassical",
+    "continental-baroque-neoclassical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.chateauversailles.fr/decouvrir/domaine/domaine-trianon/petit-trianon",
+      "title": "Le Petit Trianon | Château de Versailles",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Établissement public du château, du musée et du domaine national de Versailles - the state body that owns and runs the building - and its own architectural description, which is the survey block below."
+    },
+    {
+      "kind": "merimee",
+      "id": "PA00087673",
+      "url": "https://www.pop.culture.gouv.fr/notice/merimee/PA00087673",
+      "title": "Domaine national de Versailles - POP",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Petit Trianon carries no separate Mérimée notice found by the queries run here; it is covered by the Versailles domain listing, whose 'Précision sur la protection' reads 'Palais de Versailles et dépendances ; petit parc et dépendances ; palais et parc des deux Trianons et dépendances ; grand parc et dépendances : classement par arrêté du 31 octobre 1906'. This record and versailles-garden-front therefore share one Mérimée id; the one-building-one-record rule names habs, haer, nrhp, nhl and loc-item and not merimee, and the sharing is real rather than a duplicate."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Petit_Trianon",
+      "title": "Petit Trianon - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read for the infobox, which prints 'Construction started 1762', 'Completed 1768', 'Material Limestone', 'Floor count 3' and 'Architect Ange-Jacques Gabriel'."
+    }
+  ],
+  "survey": {
+    "item": "chateauversailles-petit-trianon",
+    "register": "other",
+    "data_url": "https://www.chateauversailles.fr/decouvrir/domaine/domaine-trianon/petit-trianon",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "L’architecture générale du bâtiment adopte une forme cubique extrêmement simple ; sa toiture plate est dissimulée par une balustrade. Gabriel a su éviter la monotonie en variant le traitement réservé à chacune des façades du château. La façade méridionale, sur la cour d’honneur, est sobrement ornée de quatre pilastres soulignant une légère saillie des trois travées centrales ; à l’opposé, la façade nord reprend ce traitement mais avec un étage en moins à cause de la différence de niveau du jardin ; la façade est, qui donnait sur le jardin potager de Louis XV, est la plus sobre ; en revanche, la façade occidentale, donnant sur le Jardin français, a reçu un traitement plus important et est savamment mise en valeur par un léger avant-corps duquel se détachent quatre majestueuses colonnes",
+        "page": "Château de Versailles, 'Le Petit Trianon', the paragraph on the architecture. The page is not paginated. The extract breaks the sentence at 'quatre majestueuses colonnes' and continues it in a separate span; the quote stops at the break rather than joining the two."
+      },
+      {
+        "field": "other",
+        "text": "duquel se détachent quatre majestueuses colonnes corinthiennes et par le jeu subtil des escaliers et des terrasses qui descendent au jardin. Les proportions de l’ensemble en font un chef-d’œuvre d’harmonie et d’élégance.",
+        "page": "Château de Versailles, 'Le Petit Trianon'. This is the continuation of the sentence above, returned as its own span by the extract; it is quoted separately for that reason and the two are not joined."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "west_front_column_count",
+      "as_printed": "quatre majestueuses colonnes corinthiennes",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The four free-standing Corinthian columns of the west front. This node's defining characteristics call for 'Free-standing columns carrying a real entablature in preference to engaged columns and pilasters', and this is the steward's own count on the building the node's prose stands in front of."
+    },
+    {
+      "name": "south_front_pilaster_count",
+      "as_printed": "quatre pilastres",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The four pilasters of the entrance front, against the four free-standing columns of the garden front - the pair of figures that makes the corpus's 'four differently articulated faces' claim checkable."
+    },
+    {
+      "name": "centre_projection_bay_count",
+      "as_printed": "des trois travées centrales",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Three central bays carried on a slight projection. The node's bay_rhythm says the centre is marked 'by a projection of one to three bays with no change in the spacing itself'; this is at the top of that band."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. THE SURVEY BLOCK IS THE STEWARD'S OWN PAGE AND NOT A REGISTER ENTRY, STATED SO THAT AN AUDITOR SEES THE DECISION. The Petit Trianon has no Mérimée notice of its own; it is listed inside the Versailles domain, whose notice describes nothing. THE FIGURE THE CORPUS MOST NEEDS IS THE ONE NOBODY AUTHORITATIVE STATES. `french-neoclassical`'s proportional_system prints 'Petit Trianon is 23 m square' and its description repeats 'a stone cube about twenty-three metres on a side'. The château's own page says only 'une forme cubique extrêmement simple' and gives no dimension; en.wikipedia gives none; the only '23 metres' read anywhere was on a personal blog (paris1972-versailles2003.com, 'Of a square plane of 23 meters each side'), which is not a source this corpus may cite. THE 23 M IS THEREFORE UNCORROBORATED AND NO MEASUREMENT IS WRITTEN FOR IT. No rights line was read, so no `rights_evidence`."
+}

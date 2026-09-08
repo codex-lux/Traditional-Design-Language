@@ -1,0 +1,48 @@
+{
+  "id": "buttolph-williams-house",
+  "name": "Buttolph-Williams House",
+  "aka": [
+    "Older Williams House"
+  ],
+  "location": {
+    "text": "Wethersfield, Connecticut",
+    "country": "United States",
+    "state": "Connecticut"
+  },
+  "dates": {
+    "built": "1711",
+    "circa": false,
+    "note": "The Wikipedia infobox says 1711; the Webb-Deane-Stevens Museum, which operates it, says 1715 on its own article. Neither is edited."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Buttolph%E2%80%93Williams_House",
+      "title": "Buttolph–Williams House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "68000048",
+      "url": "https://en.wikipedia.org/wiki/Buttolph%E2%80%93Williams_House",
+      "title": "NRHP reference No. 68000048; added and designated NHL November 24, 1968 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "habs",
+      "id": "CT-390",
+      "url": "https://en.wikipedia.org/wiki/Buttolph%E2%80%93Williams_House",
+      "title": "Historic American Buildings Survey (HABS) No. CT-390, 'Older Williams House, Wethersfield, Hartford County, CT', 1 photo, supplemental material (as the Wikipedia external link reads)",
+      "note": "The loc.gov item was not found by search ('\"Williams House\" Wethersfield HABS CT-390' returned unrelated items), so the number is read from Wikipedia's external-links line only and no item id or data page is recorded.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "One photograph and supplemental material only in HABS; there is no written data page to quote.",
+  "nodes": [
+    "new-england-colonial"
+  ]
+}

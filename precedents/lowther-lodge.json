@@ -1,0 +1,103 @@
+{
+  "id": "lowther-lodge",
+  "name": "Lowther Lodge",
+  "aka": [
+    "Royal Geographical Society",
+    "No 1 Kensington Gore"
+  ],
+  "location": {
+    "text": "Kensington Gore, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London (City of Westminster)"
+  },
+  "dates": {
+    "built": "1874-5",
+    "altered": "Extension of 1928-30 by G. L. Kennedy and F. B. Nightingale for the Royal Geographical Society, with a large lecture room and a Soanian-style ambulatory.",
+    "note": "The list entry gives '1874-5'. The node's exemplar note says 'Built 1873-75' and the Wikipedia article says the house was built 'between approximately 1872 and 1875'. Three spans, three start years; none is resolved."
+  },
+  "nodes": [
+    "queen-anne-british"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1217774",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1217774",
+      "title": "Royal Geographical Society, Non Civil Parish - 1217774 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Overview block carries List Entry Number '1217774' and Date first listed '14-Jan-1970'; the Details text opens 'This list entry was subject to a Minor Amendment on 01/10/2012' and prints '14.1.70' under the reference '85/20'. The entry as read prints the grade as 'II' while the Wikipedia article calls the building Grade II*; the disagreement is recorded and not resolved. The entry ends 'Listing NGR: TQ2675979634' and carries the legacy system number 412995. Re-read the same day at the `?section=official-list-entry` URL: the Overview block prints Grade 'II' twice, on the summary and on the official entry, so the register's own answer is II and the Wikipedia claim of II* is unsupported by anything read here."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Lowther_Lodge",
+      "title": "Lowther Lodge - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "It names Richard Norman Shaw as architect, William Lowther as client, gives the building to the Royal Geographical Society from 1912, and calls it 'an important example of Victorian Queen Anne architecture, with gothic influences' and a Grade II* listed building."
+    }
+  ],
+  "survey": {
+    "item": "1217774",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1217774",
+    "prepared": "Date first listed: 14-Jan-1970, as the Overview block prints it. Date of most recent amendment: the Details text opens 'This list entry was subject to a Minor Amendment on 01/10/2012'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "materials",
+        "text": "Mansion, now headquarters of learned society. 1874-5, by Richard Norman Shaw for William and Alice Lowther; extension of 1928-30 by G. L. Kennedy and F. B. Nightingale for Royal Geographical Society. Red brick with gauged and rubbed brick dressings; gabled and hipped plain tile roofs; tall fluted brick stacks. Complex half-H plan with porch to right of central hall and former",
+        "page": "Official list entry, Details section, opening paragraph (List Entry Number 1217774). The extracted span ends here mid-sentence; the words completing it ('stable range projecting from wing to left') were read in a separate span and are not joined to this one."
+      },
+      {
+        "field": "bays",
+        "text": "Queen Anne style. Complex facade of 2 storeys and attic, with 3 main bays to centre flanked by wings with hipped roofs. Segmental arches and second-floor flat arches over cross windows with leaded lights. Two pedimented bays to centre, breaking through coved cornice; wing to right has semi-circular arched doorway, and first-floor balcony with rendered coving from which tall pedimented dormer breaks through coved cornice of hipped roof; wing to left dominated by tall stacks breaking through cover cornice of hipped roof.",
+        "page": "Official list entry, Details section, front elevation paragraph; returned by the second extract, whose span opens 'stable range projecting from wing to left.'"
+      },
+      {
+        "field": "dormers",
+        "text": "Rear and side elevations in similar style, with tall pedimented dormers surmounting canted bay windows and lateral stack to recessed bay of rear elevation.",
+        "page": "Official list entry, Details section, rear and side elevations."
+      },
+      {
+        "field": "finishes",
+        "text": "Interior: fine Queen Anne interiors with moulded cornices, classical fireplaces and panelled doors set in eared and pedimented architraves. Principal rooms include Hall with panelled dado, walnut-beamed ceiling and bolection-panelled overmantle over classical fireplace with tiles painted with coats of arms of Lowther family",
+        "page": "Official list entry, Details section, interior paragraph; the extracted span ends here and continues 'by Alice Lowther' in a separate span."
+      },
+      {
+        "field": "significance",
+        "text": "Lowther Lodge was one of the earliest and most influential works in the Queen Anne style, being hailed as an 'artistic landmark' in the Building News of 1875.",
+        "page": "Official list entry, Details section, closing paragraph, above the citation of Girouard, Saint and the Survey of London."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Complex facade of 2 storeys and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two storeys and an attic on the entrance front."
+    },
+    {
+      "name": "centre_bay_count",
+      "as_printed": "3 main bays to centre",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The centre only; the entry states no total for the facade, which is flanked by two wings."
+    },
+    {
+      "name": "pedimented_bay_count",
+      "as_printed": "Two pedimented bays to centre",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1217774",
+  "note": "Tranche 3, British picturesque and Arts and Crafts cluster, 5 Sep 2026. The list entry's own closing sentence is the source of this exemplar's standing and its `why`: the register, not this project, says Lowther Lodge 'was one of the earliest and most influential works in the Queen Anne style'. The entry also names the two books the node already cites in its `sources` -- Girouard's Sweetness and Light (1977) and Saint's Richard Norman Shaw (1976) -- which is the first place in this cluster where the corpus's reading list and the register's agree."
+}

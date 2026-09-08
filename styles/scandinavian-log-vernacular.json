@@ -204,7 +204,10 @@
       "name": "C. A. Nothnagle Log House",
       "location": "Gibbstown, New Jersey, USA",
       "year": null,
-      "note": "Traditionally dated c. 1638-1643 and associated with Finnish settlers of New Sweden; the dating is genuinely contested and later dates have been proposed. Cited as the evidence for the Delaware transmission, not as a securely dated building."
+      "note": "Traditionally dated c. 1638-1643 and associated with Finnish settlers of New Sweden; the dating is genuinely contested and later dates have been proposed. Cited as the evidence for the Delaware transmission, not as a securely dated building.",
+      "precedent": "c-a-nothnagle-log-house",
+      "standing": "documentary",
+      "why": "It is cited here as the evidence for the Delaware transmission rather than as a dated building: the record's own `dates` carry the traditional 1638-1643 and say nothing read settles it, and a building whose date is contested cannot be a type specimen."
     }
   ],
   "sources": [

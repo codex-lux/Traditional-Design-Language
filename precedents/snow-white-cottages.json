@@ -1,0 +1,55 @@
+{
+  "id": "snow-white-cottages",
+  "name": "Snow White Cottages",
+  "aka": [
+    "House of the Seven Dwarves"
+  ],
+  "location": {
+    "text": "Griffith Park Boulevard, Los Angeles, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1931",
+    "circa": false,
+    "note": "Every source read gives 1931. The name is later than the buildings: a Southern California landmarks account says 'the development was dubbed the \"Snow White Cottages\" decades after the film's 1937 release'."
+  },
+  "nodes": [
+    "storybook-style"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.atlasobscura.com/places/snow-white-cottages",
+      "title": "Snow White Cottages in Los Angeles - Atlas Obscura",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Built in 1931 by Ben Sherwood, this complex of eight cottages was a likely inspiration for Disney's Snow White and the Seven Dwarfs. With cragged thatched roofs, black timber framing and random patches of rusticated masonry, the cottages are a prime exemplar of the so-called storybook style-a minor phenomenon in Los Angeles architecture of the 1920s and 1930s. The Spadena House in Beverly Hills and the famous Tam O'Shanter Inn restaurant are two other such examples of L.A.'s fairytale craze.' It locates them 'at the 2900 block of Griffith Park Boulevard in Los Feliz'."
+    },
+    {
+      "kind": "other",
+      "url": "https://socallandmarks.com/index.php/2026/02/12/snow-white-cottages",
+      "title": "Snow White Cottages in Los Angeles - SoCal Landmarks",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The clearest description of the ARRANGEMENT, which no other source gives: 'In 1931, local architect and developer Ben Sherwood built eight cottages in a bungalow court-style arrangement of four duplexes with individualized architectural details in the Los Feliz area of Los Angeles.' It names the Disney artists who lived there during production -- 'Claude Coats, Ham Luske, Fred Moore, and Dick Lundy' -- and says the 1976 owner 'championed the designation of the cottages as a Los Angeles Historic-Cultural Monument'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.losfelizliving.com/culture/snow-white-cottages-los-feliz",
+      "title": "Snow White Cottages: the storybook corner of Los Feliz",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "CONTRADICTS the landmark claim above, flatly: 'The Snow White Cottages are eight half-timbered storybook cottages built in 1931 on Griffith Park Boulevard in Los Feliz, designed and built by Ben W. Sherwood. Locals call the courtyard cluster the House of the Seven Dwarves. Disney animators lived there in the 1930s, and the cottages are not a designated Los Angeles landmark.' It also situates them in a group: 'the corner of Griffith Park Boulevard and Rowena Avenue, a stretch local historians call the Storybook Corner, where several of Sherwood's houses still stand within a short walk of each other.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://thelosangelesbeat.com/2013/02/offbeat-l-a-storybook-architecture-in-los-angeles",
+      "title": "Offbeat L.A.: Storybook Architecture in Los Angeles | The LA Beat",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Snow White Cottages (2900 block of Griffith Park Blvd, Los Angeles, CA 90027) Designed and built in 1931 by architect Ben Sherwood, these 8 craggy roofed cottages and old European-style tower housed animators at Walt Disney's original' -- the span ends there."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. THE DESIGNATION IS CONTRADICTED BETWEEN TWO SOURCES READ THE SAME DAY and neither is resolved here: SoCal Landmarks labels the group 'Los Angeles Historic-Cultural Monument' and says the 1976 owner championed the designation, and Los Feliz Living says flatly that 'the cottages are not a designated Los Angeles landmark'. No monument number was found on any surface, so no ref of a register kind is written; the claim is quoted on the ref that makes it. The group is on the node because it is the LAST of the style -- 1931, a decade after the Spadena House and at the far end of the node's own floruit -- and because it is speculative rental housing rather than a set, a shop or a restaurant, which is the only ordinary domestic case on this node's list."
+}

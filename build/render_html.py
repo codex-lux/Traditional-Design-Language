@@ -37,6 +37,18 @@ for t in TRAD_ORDER:
 placed={r["id"] for r in rows}
 orphans=[i for i in nodes if i not in placed]
 
+# WP-11.1. The precedent record's refs ride on the exemplar so the static atlas can link them,
+# read from precedents/ directly (a directory, like rooms/; never dist/).
+_PRECEDENTS={}
+for _f in sorted(glob.glob(os.path.join(ROOT,"precedents","*.json"))):
+    _r=json.load(open(_f,encoding="utf-8")); _PRECEDENTS[_r["id"]]=_r
+def _ex_with_refs(e):
+    out=dict(e); r=_PRECEDENTS.get(e.get("precedent"))
+    if r:
+        out["refs"]=[{k:v for k,v in ref.items() if k in ("kind","id","url")} for ref in r.get("refs",[]) if ref.get("url")]
+        out["survey"]=bool(r.get("survey"))
+    return out
+
 out=[]
 for i,n in nodes.items():
     out.append({
@@ -49,7 +61,7 @@ for i,n in nodes.items():
       "dc":n.get("defining_characteristics",[]),"dt":n.get("diagnostic_tells",[]),
       "df":n.get("distinguished_from",[]),"ps":n.get("proportional_system",{}),
       "ma":n.get("massing_affinities",[]),"cn":n.get("constraints",[]),
-      "ex":n.get("exemplars",[]),"src":n.get("sources",[]),"conf":n.get("confidence","medium"),
+      "ex":[_ex_with_refs(e) for e in n.get("exemplars",[])],"src":n.get("sources",[]),"conf":n.get("confidence","medium"),
       "casc":cascade(i)
     })
 

@@ -1,0 +1,93 @@
+{
+  "id": "villa-emo",
+  "name": "Villa Emo",
+  "location": {
+    "text": "Fanzolo di Vedelago, Treviso, Veneto, Italy",
+    "country": "Italy",
+    "state": "Veneto"
+  },
+  "dates": {
+    "built": "frescoed 1561-1565",
+    "circa": true,
+    "note": "The villa's own architecture page dates the frescoes rather than the fabric: 'the work of Battista Zelotti between 1561 and 1565'. It also records a pastoral visit of 1567 at which the oratory was consecrated, and cites Donata Battilotti's inference that at the previous visit of 1564 'the sacred building was not yet built or finished'. No construction date is stated by the institution and none is invented here."
+  },
+  "nodes": [
+    "palladian"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://villaemo.eu/en/l-architettura",
+      "title": "The Architecture - Villa Emo",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The villa's own site. Extracted TWICE with different queries: the first pass returned the central-body and Bertotti Scamozzi paragraphs, the second the dovecote towers and the barchesse -- two disjoint spans of one page."
+    },
+    {
+      "kind": "unesco",
+      "id": "712",
+      "url": "https://whc.unesco.org/en/list/712",
+      "title": "City of Vicenza and the Palladian Villas of the Veneto - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The English Wikipedia article read the same day says the villa 'has been conserved as part of the UNESCO World Heritage Site' since 1996, which is the 1996 extension the inscription text describes: 'Twenty-one villas located in several provinces were later included in the 1996 site extension.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Villa_Emo",
+      "title": "Villa Emo - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the ownership history the institution does not state: the villa 'remained in the hands of the Emo family until it was sold in 2004'."
+    }
+  ],
+  "survey": {
+    "item": "villaemo-l-architettura",
+    "register": "other",
+    "data_url": "https://villaemo.eu/en/l-architettura",
+    "prepared": "Villa Emo, official site, 'The Architecture' page, English version; no author or date line is printed",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "plan",
+        "text": "The central body of Villa Emo is, as usual in Palladian villas, divided into three floors, based on the operational functions of the Venetian villa. On the ground floor there were the kitchens, now replaced by modern kitchens once used for the catering service of the disused hotel, now usable for events in the villa. On the main floor there are the rooms in which the noble lord, his family and guests lived, completely decorated with frescoes, the work of Battista Zelotti between 1561 and 1565. The spaces are divided according to the precise geometric rules set by Palladio , in which a basic module, appropriately replicated in half or in full, generates perfect environments in harmonious relationship with each other.",
+        "page": "villaemo.eu, 'The Architecture', section 'The central body'. The stray space before the comma after 'Palladio' is the page's own."
+      },
+      {
+        "field": "dependencies",
+        "text": "At the lateral limits of the two barchesse, in a slightly further back position, there are two dovecote towers, inside which pigeons were raised by farmers for food or for sale. The entrance oculi for the birds remain visible from the ancient use of the dovecotes, which were blocked between the eighteenth and nineteenth centuries following the change of intended use.",
+        "page": "villaemo.eu, 'The Architecture', barchesse section"
+      },
+      {
+        "field": "significance",
+        "text": "This graceful building, although the proportions practiced by its architect are altered, is characterized by an elegance and a non-ordinary beauty; because there is a correspondence between the parts and the Whole, and such grace that the Experts remain satisfied: which can serve as a rule for Architects to be able to deviate from the rules prescribed by the great Masters at times, without however departing from certain certain boundaries established by reason and common sense.",
+        "page": "villaemo.eu, 'The Architecture', the page's own pull-quote, attributed on the page to 'Bartolomeo Bertotti Scamozzi'. The doubled 'certain certain' is the page's own, and so is the forename: the eighteenth-century surveyor of Palladio's buildings is Ottavio Bertotti Scamozzi, whose name the same page prints correctly under two images."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "divided into three floors",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "barchessa_count",
+      "as_printed": "the two barchesse",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "dovecote_tower_count",
+      "as_printed": "two dovecote towers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. Added as an exemplar by this tranche and it is the ONE BUILDING IN THIS CLUSTER WHOSE REGISTER STATES THE NODE'S GENERATIVE RULE IN WORDS: 'The spaces are divided according to the precise geometric rules set by Palladio, in which a basic module, appropriately replicated in half or in full, generates perfect environments in harmonious relationship with each other.' That is the node's own governing_logic, and it is stated with no number attached -- no module, no room ratio, no dimension. The pull-quote is also the closest thing in the cluster to a period judgment on a Palladian proportion, and it says the proportions AS BUILT are altered from the architect's."
+}

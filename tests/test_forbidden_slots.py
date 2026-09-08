@@ -235,7 +235,7 @@ def test_the_forbidden_meter_is_still_ratcheted_apart_from_the_backlog():
     # pairs went with `trim-classical` and thirty-eight with `facade-gable`: a pack rule cannot
     # land on a forbidden slot it no longer reaches. The corpus is fifty-three pairs SMALLER, not
     # fifty-three pairs better -- the same caution the ratchet dict itself now carries.
-    assert ci.FORBIDDEN_RATCHET == 723
+    assert ci.FORBIDDEN_RATCHET == 712
     assert ci.FORBIDDEN_RATCHET not in ci.RATCHET.values()
 
 
@@ -333,12 +333,22 @@ def test_the_pack_resolution_summary_puts_every_slot_in_a_bucket(resolve_kit_mod
     head = re.search(r"PACK RESOLUTION\s+\((\d+) of \d+ slots", p.stdout)
     body = re.search(r"(\d+) resolved by an explicit ruling, (\d+) still unresolved, "
                      r"(\d+) REFUSED", p.stdout)
+    # A FOURTH BUCKET ARRIVED WITH THE FLIP AND THIS TEST FOUND IT (WP-8.13). `resolve_kit`
+    # prints "N WITHHELD because the pack requires an opt-in" beside the other three; the test
+    # read three and reported 77 covered against 75 accounted for, which is exactly the arithmetic
+    # it exists to do. The bucket is real and the summary was right -- the reader had not caught
+    # up. Parsed with a DEFAULT of zero rather than made required, because a node with nothing
+    # withheld does not print the clause and must still pass.
+    wh = re.search(r"(\d+) WITHHELD because the pack requires an opt-in", p.stdout)
     assert head and body, f"the summary lines changed shape:\n{p.stdout[:800]}"
     covered = int(head.group(1))
     ruled, unruled, refused = (int(body.group(i)) for i in (1, 2, 3))
+    withheld = int(wh.group(1)) if wh else 0
     assert refused > 0, "no refused slots on this node -- re-pin this test on one that has some"
-    assert ruled + unruled + refused == covered, (
-        f"{covered} slots covered but only {ruled + unruled + refused} accounted for")
+    assert withheld > 0, ("no withheld slots on this node -- the fourth bucket is untested here; "
+                          "re-pin on a node a flipped pack reaches")
+    assert ruled + unruled + refused + withheld == covered, (
+        f"{covered} slots covered but only {ruled + unruled + refused + withheld} accounted for")
     assert "! " not in p.stdout.split("PACK RESOLUTION")[1][:400] or "in NO bucket" not in p.stdout
 
 

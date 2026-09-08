@@ -97,6 +97,12 @@
   "depth_multiplier": 2.25,
   "sides_lit": 2,
   "orientation": "The passage runs whatever way the house faces, but the type wants the two ends on OPPOSITE PRESSURE FACES - which in the Chesapeake and the Deep South means the long axis across the prevailing summer breeze, not along it.",
+  "aspect": {
+    "applies": false,
+    "basis": "The passage runs whatever way the house faces",
+    "note": "What follows in the record is a rule about the two ENDS being on opposite pressure faces -- a door axis across the summer breeze, and regional. Not an aspect for glass.",
+    "judgment": true
+  },
   "glazing_fraction": [
    0.08,
    0.2

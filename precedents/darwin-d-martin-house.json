@@ -1,0 +1,124 @@
+{
+  "id": "darwin-d-martin-house",
+  "name": "Darwin D. Martin House",
+  "location": {
+    "text": "Buffalo, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1904",
+    "circa": false,
+    "note": "The Library's item record gives 'The Prairie house designed by Frank Lloyd Wright in 1904'; the search result cut the sentence there. The complex was built out over several years and the survey covers the house."
+  },
+  "nodes": [
+    "prairie-school"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-5611",
+      "title": "Darwin D. Martin House, 125 Jewett Parkway, Buffalo, Erie County, NY",
+      "url": "https://www.loc.gov/pictures/item/ny0203",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Search result: 'Photos from Survey HABS NY-5611'. The data page's own running header prints 'DARWIN D. MARTIN HOUSE HABS No. NY-5611'. Shelf number HABS NY,15-BUF,5-."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0203",
+      "url": "https://www.loc.gov/pictures/item/ny0203",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0203",
+    "register": "loc-item",
+    "survey_no": "NY-5611",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0200/ny0203/data/ny0203data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: This enlarged version of the Prairie house illustrates Wright's early concept of living space.",
+        "page": "DARWIN D. MARTIN HOUSE HABS No. NY-5611 (Page 7) -- the marker printed immediately before this field in the extract."
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: The two-story house, 150 feet by 72 feet, has an open plan in the shape of a Latin cross.",
+        "page": "HABS No. NY-5611, Part II.B.1; the nearest marker following it in the extract reads '(Page 9)'."
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations; A projecting stone water table is set out over the stone foundation walls.",
+        "page": "HABS No. NY-5611, Part II.B.2; same extract span as the dimensions."
+      },
+      {
+        "field": "walls",
+        "text": "3. Wall construction: The pale, orange-brown Roman brick, with raked horizontal mortar joints and vertical ground joints, is backed by common brick. All wooden trim is painted turquoise green. Stone string courses serve as window sills and lintels. All exterior corners are marked by paired brick piers set at right angles.",
+        "page": "HABS No. NY-5611, Part II.B.3; the marker 'DARWIN D. MARTIN HOUSE HABS No. NY-5611 (Page 9)' follows immediately."
+      },
+      {
+        "field": "structural_system",
+        "text": "4. Structural system: A system of brick piers supports floors of reinforced concrete.",
+        "page": "DARWIN D. MARTIN HOUSE HABS No. NY-5611 (Page 9)"
+      },
+      {
+        "field": "openings",
+        "text": "Other single casement windows on the first floor, south facade, are arranged in a continuous band. All second-floor windows of varying widths are arranged in groups or bands with painted stone mul-lions. Originally all banded casement and stationary windows throughout the house were filled with stained glass in various patterns based on a geometric abstraction of a sheaf of wheat.",
+        "page": "HABS No. NY-5611, Part II.B.7; the marker 'DARWIN D. MARTIN HOUSE HABS No. NY-5611 (Page 10)' follows immediately."
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: The low hipped roofs set on steel frames have deep overhanging eaves with stucco soffits. Double gutters have been replaced by conventional half-round gutters.",
+        "page": "DARWIN D. MARTIN HOUSE HABS No. NY-5611 (Page 10)"
+      },
+      {
+        "field": "plan",
+        "text": "1. Floor plan: As with most of Wright's Prairie houses, the plan is open, yet brick piers screen openings and direct the traffic flow. Therefore, from the narrow, enclosed space of the vestibule, one turns to the right to see the large, flowing indoor-outdoor space of the living or unit room with its opening to the east porch and the library to the south.",
+        "page": "HABS No. NY-5611, Part II.C.1; no page marker legible in this span."
+      },
+      {
+        "field": "dependencies",
+        "text": "The access between the kitchen and the dining room crosses the hall just south of the entrance to the pergola. Originally this entrance opened to a dominant axis which continued approximately 150 feet to the northern end of the pergola.",
+        "page": "HABS No. NY-5611, Part II.C.1, continued; no page marker legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "150 feet by 72 feet",
+      "value": 150,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The FIRST figure printed. The survey does not say which dimension is the front."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "150 feet by 72 feet",
+      "value": 72,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The second figure printed; the front is unstated."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "The two-story house",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "pergola_axis_length_ft",
+      "as_printed": "approximately 150 feet",
+      "value": 150,
+      "unit": "ft",
+      "from_quote": 8,
+      "note": "The axis from the pergola entrance to the pergola's northern end, as the survey states it -- not a dimension of the house."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for WP-11.3, Tranche 2. This is the largest measured envelope any prairie-school precedent now carries -- 150 x 72 ft -- and the survey's own qualifier is worth keeping beside it: 'This enlarged version of the Prairie house'. The roof line reads directly on the node's kit: 'The low hipped roofs set on steel frames have deep overhanging eaves', which is the node's hipped rule and its deep-eave rule in one sentence, with no pitch and no projection figure. STEEL again, as at the Robie House, and nothing in this corpus records that the Prairie eave is a steel cantilever."
+}

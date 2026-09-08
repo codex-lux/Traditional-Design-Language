@@ -1,0 +1,33 @@
+{
+  "id": "hoxie-house",
+  "name": "Hoxie House",
+  "aka": [
+    "Smith-Hoxie House"
+  ],
+  "location": {
+    "text": "Sandwich, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "c. 1675",
+    "circa": true,
+    "altered": "Restored 1959 after the town of Sandwich acquired it; re-shingled in cedar in 2008 (Wikipedia).",
+    "note": "The Wikipedia infobox prints 'Completed c. 1675 (MACRIS)', which the node's exemplar shares. Wikipedia's text says the house was built in the mid-seventeenth century and occupied around 1675 by the Rev. John Smith."
+  },
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hoxie_House",
+      "title": "Hoxie House - Wikipedia",
+      "note": "The infobox describes it as 'a 2.5-story half house with an integral rear lean-to' at 16 Water Street and carries no NRHP block, so no register reference is recorded.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "No HABS survey was found: the loc.gov search '\"Hoxie House\" Sandwich HABS MA Water Street' returned unrelated items. No register reference was found either; the Wikipedia article cites MACRIS, which was not opened.",
+  "nodes": [
+    "saltbox-colonial",
+    "american-colonial"
+  ]
+}

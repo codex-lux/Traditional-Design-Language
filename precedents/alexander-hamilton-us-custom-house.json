@@ -1,0 +1,48 @@
+{
+  "id": "alexander-hamilton-us-custom-house",
+  "name": "Alexander Hamilton U.S. Custom House",
+  "aka": [
+    "New York Custom House"
+  ],
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1901-1907",
+    "circa": false,
+    "altered": "The Customs Service left in 1971; restored and rehabilitated after a 1978 competition, and the George Gustav Heye Center of the National Museum of the American Indian opened in it in 1994.",
+    "note": "Wikipedia's infobox says 'Built 1901-1907' and its text 'erected from 1902 to 1907'; the General Services Administration, which owns the building, prints 'Construction Dates: 1900-1907' and a timeline reading '1899: Cass Gilbert wins design competition ... 1900-1907: The U.S. Custom House is constructed.' Three start years across two sources; none is edited."
+  },
+  "nodes": [
+    "beaux-arts-american"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.gsa.gov/real-estate/explore-historic-buildings/find-a-historic-federal-building/alexander-hamilton-us-custom-house-new-york-ny",
+      "title": "Alexander Hamilton U.S. Custom House, New York, NY - U.S. General Services Administration",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner. Its building-facts block gives 'Architectural Style: Beaux Arts', 'Architect: Cass Gilbert', 'Primary Materials: Granite Exterior Marble interior' and the GSA building number NY0131ZZ, and names Daniel Chester French's Four Continents at the base. It describes the building as 'a steel-framed, seven-story structure on the south side of Bowling Green at the foot of Broadway' deliberately facing the green rather than the harbour."
+    },
+    {
+      "kind": "nrhp",
+      "id": "72000889",
+      "url": "https://en.wikipedia.org/wiki/Alexander_Hamilton_U.S._Custom_House",
+      "title": "NRHP reference No. 72000889, added January 31, 1972; designated NHL December 8, 1976; NYSRHP no. 06101.000049; contributing property of the Wall Street Historic District (ID07000063), as the Wikipedia infobox prints it",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Alexander_Hamilton_U.S._Custom_House",
+      "title": "Alexander Hamilton U.S. Custom House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 as an addition to beaux-arts-american. Chosen as the documentary case because its owner is a federal agency that publishes the construction dates, materials, authorship and storey count on a stable page, so the record can be cited rather than characterised - and because the three start years the two sources give between them are exactly the sort of small disagreement an exemplar with no locator used to hide."
+}

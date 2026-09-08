@@ -44,11 +44,24 @@ EL = _mod("elements")
 
 # --------------------------------------------------------------- the guarantee
 
+# RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND THE MODEL BUILDER DID NOT MOVE.
+# All four hashes changed, and the assertion below says any movement here is a defect -- so the
+# discriminating measurement was run before the numbers were touched. Handed THIS BRANCH's own
+# `derive_footprint` output, the MERGED `geometry_cp._build` reproduces all four of the previous
+# hashes exactly (b51561f2924f1720 / 6d5a6779e293f7a2 / dc3527d9347b96e6 / 947589fc1c88444d).
+# So the whole movement is the FOOTPRINT and none of it is the model: main's WP-11.2 reads the
+# massing's own bay count and its parity, which takes the Tidewater from 6 bays of 10 ft to 7 of
+# 9 (60.0 x 40.0 -> 63 x 38.0) and the spec Colonial from 4 to 5 (40.0 x 38.0 -> 50.0 x 31.0).
+#
+# AND THE FIRST CONTROL WAS NOT A CONTROL, which is worth carrying: overriding `W` and `H` in
+# main's fpd dict and leaving the rest reproduced three of the four hashes and not the fourth,
+# because `bay` stayed at main's 9 and the span term lays its grid lines on the BAY MODULE. A
+# derived dict's keys are derived together; substitute the whole dict or none of it.
 MODEL_SHAS = {
-    ("tidewater-georgian-careful", False): "b51561f2924f1720",
-    ("tidewater-georgian-careful", True): "6d5a6779e293f7a2",
-    ("spec-builder-colonial", False): "dc3527d9347b96e6",
-    ("spec-builder-colonial", True): "947589fc1c88444d",
+    ("tidewater-georgian-careful", False): "fc35a5f9e2048703",
+    ("tidewater-georgian-careful", True): "24d6bf0453c84db8",
+    ("spec-builder-colonial", False): "6ad5fa0d6ee72ffd",
+    ("spec-builder-colonial", True): "db49b3bc8d7c8fda",
 }
 
 
@@ -75,10 +88,23 @@ def test_the_model_for_a_one_rectangle_house_is_byte_identical():
 
 
 def test_the_refusal_is_gone_from_the_dispatcher():
+    """RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). The third assertion pinned this
+    branch's own sentence, `CP-SAT PLACES A SECOND MASSING ELEMENT SINCE WP-11.11`, and the
+    merge kept MAIN's wording of the same paragraph -- so a guard about a refusal failed on a
+    change of prose. That is the pinned-literal failure this repository has now met in four
+    packages running: it fails loudly on an unrelated edit where a stale SELECTOR goes quietly
+    blind, and neither is the property.
+
+    The property is that a multi-element plan reaches CP-SAT rather than being turned away, and
+    it is asserted by RUNNING one. The two source checks are kept because they are negative --
+    they say the old refusal's own names are gone, which no behavioural test can say."""
     src = (ROOT / "build" / "geometry.py").read_text()
     assert "CP model places every room in a\n" not in src
     assert "_blocked" not in src, "the WP-11.9 multi-element refusal is still in solve()"
-    assert "CP-SAT PLACES A SECOND MASSING ELEMENT SINCE WP-11.11" in src
+    res = CP.solve_cp(CP._multi_element_fixture(), time_limit_s=25)
+    assert "error" not in res, (
+        f"the dispatcher's CP engine turned a multi-element plan away: {str(res)[:200]}")
+    assert "best" in res, f"a multi-element plan reached CP-SAT and got no placement: {res}"
 
 
 # --------------------------------------------------------------- what it can now do

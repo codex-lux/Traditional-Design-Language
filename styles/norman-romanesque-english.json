@@ -166,25 +166,55 @@
       "name": "Boothby Manor House (Boothby Pagnell Manor House)",
       "location": "Boothby Pagnell, Lincolnshire, England",
       "year": 1180,
-      "note": "Historic England dates it late twelfth century. The most complete surviving Norman domestic first-floor hall in England: two-chamber vaulted undercroft, hall above with a round-backed fireplace under a massive ashlar hood."
+      "note": "Historic England dates it late twelfth century. The most complete surviving Norman domestic first-floor hall in England: two-chamber vaulted undercroft, hall above with a round-backed fireplace under a massive ashlar hood.",
+      "precedent": "boothby-manor-house",
+      "standing": "canonical",
+      "why": "Historic England 1360056 calls it 'a rare survival of a Norman Manor House' and states this node's whole security diagram in one sentence -- 'The first floor hall and solar set above a vaulted 2 chambered undercroft. 2 storey with garret, 3 bay front having external stairs to first floor hall door'."
     },
     {
       "name": "The Jew's House",
       "location": "Steep Hill, Lincoln, England",
       "year": 1170,
-      "note": "A twelfth-century stone town house standing in the street line, its ground-floor doorway carrying the chimney of the hall above — one of the oldest inhabited houses in Europe."
+      "note": "A twelfth-century stone town house standing in the street line, its ground-floor doorway carrying the chimney of the hall above — one of the oldest inhabited houses in Europe.",
+      "precedent": "the-jews-house",
+      "standing": "icon",
+      "why": "Historic England 1388810 calls it 'an exceptionally important example of C12 domestic architecture' and records the off-centre C12 doorway with 'a shallow chimney breast to the hall' directly above it, which is the detail this exemplar's own note turns on; the judgment is the register's."
     },
     {
       "name": "Oakham Castle Great Hall",
       "location": "Oakham, Rutland, England",
       "year": 1185,
-      "note": "A late-Norman aisled hall with carved capitals of exceptional quality, and the rare case of a domestic hall of this date surviving substantially intact."
+      "note": "A late-Norman aisled hall with carved capitals of exceptional quality, and the rare case of a domestic hall of this date surviving substantially intact.",
+      "precedent": "oakham-castle-great-hall",
+      "standing": "icon",
+      "why": "Historic England 1073277 describes a 'fine arcaded Hall in transitional style' of four bays with 'Circular piers and crocketed capitals like those in the chancel at Canterbury'; the comparison with Canterbury is the register's own, and the entry states a pair of plan figures (65 ft by 44 ft) whose subject its own sentence does not name."
     },
     {
       "name": "Durham Cathedral nave",
       "location": "Durham, England",
       "year": 1133,
-      "note": "Not domestic, but the fullest statement of the structural and ornamental logic — chevron-cut piers, the first large-scale ribbed high vault in Europe — that the domestic work abbreviates."
+      "note": "Not domestic, but the fullest statement of the structural and ornamental logic — chevron-cut piers, the first large-scale ribbed high vault in Europe — that the domestic work abbreviates.",
+      "precedent": "durham-cathedral-nave",
+      "standing": "documentary",
+      "why": "Historic England 1161023 dates the main body 1093-1130 and describes a 'tall 7-bay nave' that is 'Rib-vaulted throughout, many ribs enriched'; the building is not domestic, as this exemplar's own note says, so it stands as the fullest statement of the structural logic and not as a house to measure."
+    },
+    {
+      "name": "The White Tower, Tower of London",
+      "location": "Tower of London, London, England",
+      "year": 1078,
+      "note": "Historic England 1260258 dates the keep 'c.1078-1100 for William I and William II, probably to designs of Gundulf, Bishop of Rochester'; the scheduled-monument entry 1002061 says it is 'dateable to 1075-1100' and gives it as 'rectangular in plan, 36m by 32.5m' and 'three storeys high, except for the four five storey turrets'. The first floor's west compartment is the former great hall. The year here is the earlier end of 1260258's range.",
+      "precedent": "white-tower-tower-of-london",
+      "standing": "icon",
+      "why": "Historic England's scheduled-monument entry 1002061 gives the keep's plan as '36m by 32.5m' and 'three storeys high', and its listed-building entry 1260258 names the first-floor west compartment the 'former great hall'; the register supplies both the fabric and the figures, and the judgment that it is this style's icon is this project's."
+    },
+    {
+      "name": "Moyse's Hall",
+      "location": "Bury St Edmunds, Suffolk, England",
+      "year": null,
+      "note": "Historic England 1076931: a 'Merchant house' of the late twelfth century in flint and stone, 'considerably restored and altered in 1858', with a 'stone groin-vaulted ground storey' on 'massive circular piers with simple square capitals' and 'The hall and solar ... on the 1st storey'. The entry gives no year; the Wikipedia infobox prints ca. 1180. Bury St Edmunds is one of the four towns this node's own long description names for surviving twelfth-century stone houses, and it carried no exemplar there.",
+      "precedent": "moyses-hall",
+      "standing": "regional",
+      "why": "Historic England 1076931 says 'The hall and solar are on the 1st storey' over a 'stone groin-vaulted ground storey', which is this node's first-floor-hall plan stated by a register in a town the node's own description names; that it stands for the surviving urban group rather than for the style entire is this project's judgment."
     }
   ],
   "sources": [

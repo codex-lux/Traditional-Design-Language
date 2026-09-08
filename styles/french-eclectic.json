@@ -214,25 +214,55 @@
       "name": "Oheka Castle",
       "location": "West Hills (Huntington), New York",
       "year": 1919,
-      "note": "Delano & Aldrich for Otto Kahn; begun 1914. French chateau parti executed in fireproof steel and concrete - the grand end from which the suburban version is reduced."
+      "note": "Delano & Aldrich for Otto Kahn; begun 1914. French chateau parti executed in fireproof steel and concrete - the grand end from which the suburban version is reduced.",
+      "precedent": "oheka-castle",
+      "standing": "icon",
+      "why": "The building this style is known by at the grand end, listed on the National Register in 2004 and, on the Town of Huntington's own figures, the second largest private house in the United States - though the Register classifies it Chateauesque, which this corpus keeps distinct."
     },
     {
       "name": "Nemours",
       "location": "Wilmington, Delaware",
       "year": 1910,
-      "note": "Carrere & Hastings for Alfred I. du Pont, in the Louis XVI manner with gardens after the Petit Trianon. Precedes the suburban floruit and defines its formal subtype."
+      "note": "Carrere & Hastings for Alfred I. du Pont, in the Louis XVI manner with gardens after the Petit Trianon. Precedes the suburban floruit and defines its formal subtype.",
+      "precedent": "nemours",
+      "standing": "canonical",
+      "why": "The HABS survey DE-283 describes the house as 'in the eighteenth-century French style, as interpreted by Carrere and Hastings', which is this node's formal subtype stated by a surveyor rather than by a critic."
     },
     {
       "name": "The Elms",
       "location": "Newport, Rhode Island",
       "year": 1901,
-      "note": "Horace Trumbauer, after the Chateau d'Asnieres. Included as the academic French model that the interwar suburban style domesticates."
+      "note": "Horace Trumbauer, after the Chateau d'Asnieres. Included as the academic French model that the interwar suburban style domesticates.",
+      "precedent": "the-elms",
+      "standing": "canonical",
+      "why": "HABS RI-344 gives it a 120 by 60 foot rectangle, nine bays and three storeys, so the academic French model the suburban style domesticates is the one building here whose dimensions come from a survey rather than from a nomination."
     },
     {
       "name": "French Village",
       "location": "Chestnut Hill / Mount Airy, Philadelphia, Pennsylvania",
       "year": 1928,
-      "note": "Robert Rodes McGoodwin, 1925-1928. A whole development of French provincial houses; the point at which the style becomes a suburban product. See also french-normandy-revival."
+      "note": "Robert Rodes McGoodwin, 1925-1928. A whole development of French provincial houses; the point at which the style becomes a suburban product. See also french-normandy-revival.",
+      "precedent": "french-village-chestnut-hill",
+      "standing": "canonical",
+      "why": "SAH Archipedia describes it as a cluster of local stone houses 'unified by high French roofs and rough but lively carving', which is a scholarly reference work stating exactly the roof-first identity this node rests on."
+    },
+    {
+      "name": "Carolands",
+      "location": "Hillsborough, California",
+      "year": 1916,
+      "note": "Ernest Sanson of Paris, with Willis Polk supervising, 1914-16 for Harriett Pullman Carolan. The Register's inventory measures it at approximately 130 by 120 feet and 100 feet high, with 100 to 125 rooms, and insists the design is a composition from Vaux-le-Vicomte and Maisons rather than a copy of either.",
+      "precedent": "carolands",
+      "standing": "canonical",
+      "why": "One of only two American houses by a first-rank Paris architect, and its 1975 nomination states the overall dimensions and names the French sources, so the academic end of this style has an entry that is measured rather than described."
+    },
+    {
+      "name": "Pittock Mansion",
+      "location": "Portland, Oregon",
+      "year": 1914,
+      "note": "Edward T. Foulkes, trained at MIT and at the Ecole, for the publisher of the Oregonian. Forty-six rooms in Tenino sandstone under a steep hipped roof with dormers - the French academic mode on the Pacific coast a decade before the suburban wave.",
+      "precedent": "pittock-mansion",
+      "standing": "regional",
+      "why": "The node's stated hearth is the Philadelphia Main Line and the Long Island North Shore; this is the same manner 2,500 miles west of it, by an architect who took it from the Ecole rather than from a Normandy sketchbook."
     }
   ],
   "sources": [

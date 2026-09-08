@@ -1,0 +1,51 @@
+{
+  "id": "new-daleville",
+  "name": "New Daleville",
+  "location": {
+    "text": "Londonderry Township, Chester County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "circa": false,
+    "note": "No year is stated because none was found. Rybczynski followed the project for five years and published Last Harvest in 2007; the Wharton Real Estate Review piece says 'Houses are currently being marketed and built'; Arcadia Land Company's own portfolio page says only 'Status: Complete'. A first-occupancy year would have to come from a source not read here."
+  },
+  "nodes": [
+    "neo-eclectic"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.arcadialand.com/portfolio/new-daleville",
+      "title": "New Daleville - Arcadia Land Company",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Arcadia Land Company, in partnership with Cornerstone Communities, developed New Daleville, a traditional neighborhood development (TND) of 125 single-family homes and commercial space ... Developer: Daleville Associates, LP, a joint venture of Arcadia Land Company and Cornerstone Communities. Builder: Ryan Homes.' And the developer's own statement of the rules: 'New Daleville has strict architectural guidelines to promote classic regional styles and to preserve property values over time. Deep front porches, recessed garages, and a prohibition on \"cookie cutter\" house design ensure that New Daleville is among the most attractive new neighborhoods in Chester County.' A developer's marketing copy, recorded as one -- it names the three moves without giving one dimension."
+    },
+    {
+      "kind": "other",
+      "url": "https://realestate.wharton.upenn.edu/wp-content/uploads/2017/03/580.pdf",
+      "title": "Witold Rybczynski, 'Lessons from New Daleville', Wharton Real Estate Review",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE ONLY DIMENSIONED STATEMENT FOUND FOR THIS NODE ANYWHERE: 'While typical residential subdivision lots in Londonderry are between one-half and one acre, lots at New Daleville are about an eighth of an acre (50 to 60 feet wide); some smart growth communities have lots as small as one-tenth of an acre (40 feet wide). With lots this narrow, a two-car garage would take up most of the lot frontage, and would not create a pleasant, walkable street. The common solution is to place the garage at the back of the lot, accessed by a rear lane.' Also: 'The project, called New Daleville, is a small, 125-lot residential subdivision ... The exurban ninety-acre site of New Daleville is in Londonderry Township' and 'The bulk of the lots at New Daleville have been bought by two large production builders, Ryan Homes and NV Homes, both divisions of NVR.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Londonderry_Township,_Chester_County,_Pennsylvania",
+      "title": "Londonderry Township, Chester County, Pennsylvania - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The township was profiled in a 2007 book, Last Harvest: How a Cornfield Became New Daleville by Witold Rybczynski, who divided the population into four types: farmers, who made up only 10 percent of the population; large wealthy landowners ... old suburbanites; and new suburbanites.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://montgomeryplanning.org/blog-design/2012/01/books-of-the-month-last-harvest",
+      "title": "Book(s) of the Month: Last Harvest - The Third Place, Montgomery Planning",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'New Daleville was ultimately built out by Ryan Homes with homes ranging from the low to high $200,000s ... models such as the Savoy, the Melville, and the Austin' and the developer's description, 'Reminiscent of old-time neighborhoods, this lovely neo-traditional community has a central boulevard lined with picket fences leading you into tree-lined streets and alley ways.' The planner's own closing note is the useful half: 'Of course, there is not a store or office within walking distance….'"
+    }
+  ],
+  "note": "THE ONE CASE IN THIS NODE WHERE THE PROCEDURE WAS WATCHED FROM INSIDE. Rybczynski's Last Harvest -- already a source on this node -- follows one 125-lot subdivision from cornfield to occupancy, and the Wharton summary supplies the only numbers the node's exemplars carry anywhere: 90 acres, 125 lots, about an eighth of an acre each, 50 to 60 feet of frontage, garages on rear lanes because a two-car door will not fit in front of a 50-foot lot. That last is the node's seventh failure mode arriving as an arithmetic fact rather than as an opinion. It is also a QUALIFIED example: named models from Ryan Homes and NV Homes on a plan drawn by new urbanists, so the plan and the elevations are decoupled here as everywhere, but by two firms who agree they should not be. Recorded `documentary` for that reason."
+}

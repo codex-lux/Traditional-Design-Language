@@ -1,0 +1,105 @@
+{
+  "id": "mission-la-purisima-concepcion",
+  "name": "Mission La Purísima Concepción",
+  "aka": [
+    "La Purisima Mission",
+    "Mission La Purisima Concepcion",
+    "La Purísima Mission State Historic Park"
+  ],
+  "location": {
+    "text": "Lompoc, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "Lompoc, Santa Barbara County, California",
+      "2295 Purisima Road, Lompoc, California"
+    ]
+  },
+  "dates": {
+    "built": "1812-1830",
+    "circa": true,
+    "note": "The survey's own words: 'Buildings on the original ait© between 1783 and 1812. Structures on the new and present site built 1812 to possibly 1830'. Because the survey itself will not fix a completion year, the style node's exemplar carries no year rather than an invented one. The buildings standing today are largely a 1930s Civilian Conservation Corps reconstruction, which the survey describes as 'New construction ... of the same materials as original buildings' with concrete foundations and concrete columns and bond beams built into the adobe walls."
+  },
+  "nodes": [
+    "california-mission-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-211",
+      "url": "https://www.loc.gov/pictures/item/ca0885",
+      "title": "Mission La Purisima Concepcion, Lompoc, Santa Barbara County, CA — Survey number: HABS CA-211; See also HALS CA-79 for additional documentation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data page's own header prints the older form 'HABS.Qal. 211' ('Qal' is OCR of 'Cal'), and again as 'B. Cal. 2X1'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0885",
+      "url": "https://www.loc.gov/pictures/item/ca0885",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.parks.ca.gov/lapurisimamission",
+      "title": "La Purísima Mission State Historic Park",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owning body is California State Parks, which the survey already records as owner: 'Owner: State of California'."
+    }
+  ],
+  "survey": {
+    "item": "ca0885",
+    "register": "loc-item",
+    "survey_no": "CA-211",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0800/ca0885/data/ca0885data.pdf",
+    "prepared": "District of California #3, Historic American Buildings Survey, Henry F. Withey, District Officer, 407 South Western Avenue, Los Angeles, California (as the header reads; no date legible in the extract).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Owner: State of California (-Bats of erection; Buildings on the original ait© between 1783 and 1812. Structures on the new and present site built 1812 to possibly 1830, (This report has to do only witn the buildings on the present site.)",
+        "page": "No page marker legible in the extract span; the header immediately above reads 'HABS.Qal. 211 CAL, sion La Purisima Concepcion, .Lompoc, Santa Barbafca County, California'."
+      },
+      {
+        "field": "storeys",
+        "text": "Number of stories; Residence Building, one story with a loft space over certain sections.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "walls",
+        "text": "Mat erials of ...const :ruct io&: foundation of the larger buildings were of sand-stone, cut and squared for use. Walls were of adobe brick, laid in adobe mortar, plastered with lime or adobe mortar and white-washed.",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "finishes",
+        "text": "soring was of 10\" x 10\" x 3\" brick tile, or adobe brick, or redwood planks. New construction is of the same materials as original buildings, except that concrete has been used for such new foundations as has been necess-ary, and a system of reinforced concrete columns and bond beams have been built in;;q the adobe walls cf the Residence Building, to save the structure from damage or destruction oy any e&rtfetuake of the future.",
+        "page": "No page marker legible in the extract span. 'soring' is OCR, most likely of 'flooring'; the reading is not adopted and the string is left as printed."
+      },
+      {
+        "field": "dependencies",
+        "text": "remain, of which about ten have been recently uncovered. These include, in the Mission group, three utility buildings, a blacksmith shop, palisada building, three neophyte buildings, a warehouse building and an infirmary. Also included in the rcis9ion water system are two circular res-ervoirs, a vaulted reservoir or spring house, two earth dams, three masonry distribution boxes, tile and open ditch water supply lines.",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Residence Building, one story with a loft space over certain sections",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "floor_tile_size_in",
+      "as_printed": "10\" x 10\" x 3\" brick tile",
+      "unit": "in",
+      "from_quote": 3,
+      "note": "Three dimensions in one printed figure, so no single `value` is recorded. The word before it is OCR-damaged and the surface it paves is not certain from this span."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026 as the node's DOCUMENTARY case — the most completely reconstructed mission, state-owned, with the survey stating plainly what was original and what was rebuilt. THE SURVEY STATES NO OVERALL DIMENSION, which is the pattern across every 1930s California mission sheet read for this cluster: they record ownership, dates, materials and condition, and leave the sizes to the measured drawings. The one storey with a loft over parts of the Residence Building is the only count it gives."
+}

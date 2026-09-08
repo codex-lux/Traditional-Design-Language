@@ -75,6 +75,12 @@
     "depth_multiplier": 0,
     "sides_lit": 0,
     "orientation": "Irrelevant, but keep it off a cold exterior wall: a linen closet in an uninsulated exterior wall pocket is where mildew starts.",
+    "aspect": {
+      "applies": false,
+      "basis": "Irrelevant, but keep it off a cold exterior wall",
+      "note": "The record says irrelevant. What it does state is a construction rule about the wall, not an aspect.",
+      "judgment": true
+    },
     "note": "No window. One fixture, and in a 14 in deep closet a surface fixture on the ceiling clears the storage space comfortably, which the 24 in version does not."
   },
   "adjacency": {

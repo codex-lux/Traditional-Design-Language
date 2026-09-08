@@ -202,25 +202,55 @@
       "name": "Salisbury House",
       "location": "Des Moines, Iowa",
       "year": 1928,
-      "note": "Built 1923-28 for Carl Weeks, modelled on the King's House at Salisbury, England. Tudor, Gothic and Carolean elements; incorporates salvaged English fabric."
+      "note": "Built 1923-28 for Carl Weeks, modelled on the King's House at Salisbury, England. Tudor, Gothic and Carolean elements; incorporates salvaged English fabric.",
+      "precedent": "salisbury-house-des-moines",
+      "standing": "icon",
+      "why": "The National Register's own style field for this building reads 'Tudor Revival, Jacobethan Revival' -- an outside authority naming this node and its parent together on the house the node names first."
     },
     {
       "name": "Cranbrook House",
       "location": "Bloomfield Hills, Michigan",
       "year": 1908,
-      "note": "Albert Kahn for George Booth. English Arts and Crafts inflected, and the beginning of the Cranbrook campus programme in the same register."
+      "note": "Albert Kahn for George Booth. English Arts and Crafts inflected, and the beginning of the Cranbrook campus programme in the same register.",
+      "precedent": "cranbrook-house",
+      "standing": "regional",
+      "why": "Its own institution calls it English Arts and Crafts and only its art museum adds 'English-Tudor', so it sits at the soft edge of a variant whose subject is the formal masonry prodigy house, and it is on the list as that edge rather than as a specimen."
     },
     {
       "name": "Stan Hywet Hall",
       "location": "Akron, Ohio",
       "year": 1915,
-      "note": "Charles Sumner Schneider. Straddles this variant and picturesque Tudor Revival - its Haddon Hall long gallery and mullioned window walls belong here, its timbered ranges to the parent style."
+      "note": "Charles Sumner Schneider. Straddles this variant and picturesque Tudor Revival - its Haddon Hall long gallery and mullioned window walls belong here, its timbered ranges to the parent style.",
+      "precedent": "stan-hywet-hall",
+      "standing": "canonical",
+      "why": "The HABS survey records windows 'filled with diamond shaped panes of leaded glass' in sandstone surrounds and a Jacobean register running through the music room, dining room, library and grand staircase, which is this variant's detail culture documented by a federal surveyor inside a house the parent style also claims."
     },
     {
       "name": "Agecroft Hall",
       "location": "Richmond, Virginia",
       "year": 1928,
-      "note": "A genuine late-medieval and Tudor Lancashire house dismantled, shipped and reassembled with new work; the limit case for the variant's ambitions."
+      "note": "A genuine late-medieval and Tudor Lancashire house dismantled, shipped and reassembled with new work; the limit case for the variant's ambitions.",
+      "precedent": "agecroft-hall",
+      "standing": "documentary",
+      "why": "The 1978 nomination dates most of its fragments to 'the l a t e 16th and 17th centuries' -- the exact band this variant imitates -- so it is the one place where the revival's model and the revival stand in the same wall and can be told apart."
+    },
+    {
+      "name": "Glensheen",
+      "location": "Duluth, Minnesota",
+      "year": 1908,
+      "note": "Clarence H. Johnston Sr. for Chester and Clara Congdon, built 1905-08; 39 rooms, about 20,000 sq ft, $854,000. The interiors survive nearly intact and were published in Western Architect in April 1910, so there is a contemporary photographic record to check a reading against.",
+      "precedent": "glensheen",
+      "standing": "canonical",
+      "why": "The National Register, the University of Minnesota Duluth which owns it and the house's own guides all call it Jacobean Revival without qualification, which no other building on this node manages, and its interiors are documented from within two years of completion."
+    },
+    {
+      "name": "Blair Hall, Princeton University",
+      "location": "Princeton, New Jersey",
+      "year": 1897,
+      "note": "Cope & Stewardson, the gift of John Insley Blair. Called by a federal nomination 'one of the first Collegiate Gothic buildings in America' and by Princeton's own history 'their masterpiece'. It is here as the campus half of this node's argument, and every source read calls it Collegiate or Tudor Gothic rather than Jacobethan -- which is the fact the node's claim about shared masons and detail books has to survive.",
+      "precedent": "blair-hall-princeton-university",
+      "standing": "regional",
+      "why": "This node's own description calls the campus market 'more consequential' than the estate market and then named four estates; Blair is the building the campus register starts from, and its usual label is Collegiate Gothic, which is the disagreement rather than a reason to leave it off."
     }
   ],
   "sources": [

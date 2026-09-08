@@ -1,0 +1,117 @@
+{
+  "id": "ivan-carter-mcindoo-house",
+  "name": "Ivan Carter McIndoo House",
+  "aka": [
+    "McIndoo-Phillips Home"
+  ],
+  "location": {
+    "text": "310 North Fulton Street, Fresno, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "ca. 1913",
+    "circa": true,
+    "altered": "Moved from 410 North Van Ness Avenue to 310 North Fulton Street; the survey dates the relocation 'ca. 1992' and records a one-storey room addition on the northwest facade 'likely added after' it.",
+    "note": "The survey: 'Date of erection: ca. 1913', 'Architect: Unknown'."
+  },
+  "nodes": [
+    "craftsman",
+    "california-bungalow"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-2885",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca3900/ca3973/data/ca3973data.pdf",
+      "title": "IVAN CARTER MCINDOO HOUSE HABS CA-2885 310 North Fulton Street (Moved from 410 North Van Ness Avenue) Fresno Fresno County California",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is read from the data page's own header and running heads ('IVAN CARTER MCINDOO HOUSE HABS No. CA-2885 (Page 13)'). The data page also records that the house 'was determined eligible for inclusion in the National Register of Historic Places through consensus determination' and is on the City of Fresno local register as 'the McIndoo-Phillips Home (H.P. #204)'; no National Register number exists to record."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca3973",
+      "url": "https://www.loc.gov/pictures/item/ca3973",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the data PDF actually fetched; the landing page itself was not opened."
+    }
+  ],
+  "survey": {
+    "item": "ca3973",
+    "register": "loc-item",
+    "survey_no": "CA-2885",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca3900/ca3973/data/ca3973data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural Character: The Ivan Carter McIndoo house was constructed near the end of North Park‘s residential development, and near the end of the Arts and Crafts movement that had inspired its distinctive creation of place. The house represents the aesthetics of a natural Craftsman bungalow, as applied to larger dwellings ca. 1913 and often called the ―bungaloid‖ form.",
+        "page": "HABS No. CA-2885 (Page 10), Part II.A.1"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Overall dimensions: The two-and-a-half story, side-gable house has a simple rectangular ground plan with a less-than-room-sized irregular projection in the southeast corner of the house. The house is two bays wide and three bays deep.",
+        "page": "HABS No. CA-2885, Part II.B.1; between the '(Page 10)' and '(Page 12)' markers, no nearer one legible"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundation: The house has a vented pier and beam foundation. No sill treatment is visible because shingling extends to the ground‘s edge.",
+        "page": "HABS No. CA-2885, Part II.B.2; same span"
+      },
+      {
+        "field": "porches",
+        "text": "There is a cantilevered screened-in sleeping porch on the north façade‘s second story. The sleeping porch is supported by wood board piers and a wood knee bracket.",
+        "page": "HABS No. CA-2885, Part II.B.5; same span"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys: There is one interior brick chimney centered on the east slope of the roof. The remnants of an exterior brick chimney located in the southwest corner of the roof‘s west slope are apparent, but it no longer exists.",
+        "page": "HABS No. CA-2885, Part II.B.6; the marker '(Page 12)' follows"
+      },
+      {
+        "field": "roof",
+        "text": "a. Shape, covering: The side-gable roof is moderately pitched, and is sheathed in composite shingles. The porch roof appears as an offset cross gable on the west façade.",
+        "page": "HABS No. CA-2885, Part II.B.8; the marker '(Page 13)' follows"
+      },
+      {
+        "field": "cornice",
+        "text": "b. Cornice, eaves: There is a moderate eave overhang, with the exception of the shallow, rectangular bay window",
+        "page": "HABS No. CA-2885 (Page 13); the extract's chunk ends mid-sentence here"
+      },
+      {
+        "field": "other",
+        "text": "1. Date of erection: ca. 1913 2. Architect: Unknown 3. Original owner:1 Ivan Carter McIndoo",
+        "page": "HABS No. CA-2885 (Page 2), Part I.A"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two-and-a-half story",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "two bays wide and three bays deep",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The front; the survey gives three bays on the depth."
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "one interior brick chimney",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "One standing; the survey records the remnants of a second, exterior, that 'no longer exists'."
+    }
+  ],
+  "note": "A HABS-documented plain example, chosen because its data page is a full Part II description of a Craftsman house at the larger ('bungaloid') scale the craftsman node itself describes, and because the survey's language -- 'moderate eave overhang', 'moderately pitched' -- gives a kit words but not inches: it states no dimension for the eave the node's own hard constraint c01 bands at 24-36 in. Seeded 4 Sep 2026. WP-11.3, Tranche 2 (5 Sep 2026): california-bungalow gained an exemplar naming this building, spelled exactly as this record spells it, and linked to it: Fresno is the Central Valley the node's own long description names as the type's inland reach, and the survey's 'moderate eave overhang' is silent on that node's own 8-12 ft porch and 3:12-5:12 pitch too."
+}

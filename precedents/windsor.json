@@ -1,0 +1,68 @@
+{
+  "id": "windsor",
+  "name": "Windsor",
+  "location": {
+    "text": "Vero Beach, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "Founded 1989; Town Hall by Leon Krier 1999",
+    "circa": false,
+    "note": "DPZ's project page: '1989 Designed', client Galen and Hilary Weston, 416 ac., 350 units; DPZ's 2025 newsletter: 'commissioned DPZ in 1989 to master plan and code the oceanfront village'. The 1999 Town Hall date is the node's; Windsor's own page and Merrill, Pastor & Michael's page attribute the hall to Krier without a year in the extracted text."
+  },
+  "nodes": [
+    "new-urbanist-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://www.dpz.com/projects/windsor",
+      "title": "Windsor (DPZ CoDesign project page)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Planner. 'The Architectural Regulations mandate the vernacular architecture of the region, with masonry at the first floor, wood construction above, and porches, balconies, and roof overhangs. With the exception of the Poundbury Code, this is the most precise small town code designed by DPZ.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.windsorflorida.com",
+      "title": "Windsor | Luxury Residential Waterfront Property | Vero Beach, Florida",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Developer. 'Andrés Duany and Elizabeth Plater-Zyberk, the renowned architects behind Windsor’s iconic New Urbanism master plan and its signature Anglo-Caribbean design code'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.windsorflorida.com/amenities/arts-culture",
+      "title": "Windsor Amenities | Arts & Culture",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'Architectural and urban theorist Léon Krier ... designed Windsor's Town Hall'."
+    },
+    {
+      "kind": "other",
+      "url": "https://merrillpastor.com/windsor-town-hall",
+      "title": "Windsor Town Hall – Merrill, Pastor & Michael",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Architect of record's account of Krier's hall, including that 'a civil engineer re-located the axially sited building by fully seven feet'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.dpz.com/dpz-summer-newsletter-2025",
+      "title": "DPZ Summer Newsletter 2025",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'they commissioned DPZ in 1989 to master plan and code the oceanfront village ... an intentional response to the Neo-Mediterranean excesses of 1980s Florida development'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Windsor,_Indian_River_County,_Florida",
+      "title": "Windsor, Indian River County, Florida - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The census-designated place (population 330 in 2020); says nothing about the plan."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A village. Its Wikipedia article is a census stub, so the planner's and developer's pages carry the record."
+}

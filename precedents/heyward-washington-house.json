@@ -1,0 +1,97 @@
+{
+  "id": "heyward-washington-house",
+  "name": "Heyward-Washington House",
+  "aka": [
+    "Thomas Heyward, Jr. House",
+    "Heyward House"
+  ],
+  "location": {
+    "text": "87 Church Street, Charleston, South Carolina",
+    "country": "United States",
+    "state": "South Carolina"
+  },
+  "dates": {
+    "built": "1770-71",
+    "circa": false,
+    "altered": "The 1930s survey's historical sheet: 'Formerly double verandas adorned the three-story brick structure' (OCR 'Fn~merly couble verandas'). Its data sheet: 'Old kitchen re-stored.'",
+    "note": "Three dates are on the record because three sources give them: the SC register says 'Built in 1770-71 and acquired by Thomas Heyward, Jr. from his father in 1777'; the 1930s survey sheet prints 'Date of erection: 1750 Builder: Thomas Heyward'; the Wikipedia infobox and the node's exemplar say 1772. Recorded as the state register states it, with the others noted rather than resolved."
+  },
+  "nodes": [
+    "charleston-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "SC-64",
+      "url": "http://www.loc.gov/pictures/resource/hhh.sc0148.photos.147044p",
+      "title": "2. Historic American Buildings Survey, C.O. Greene, Photographer - Thomas Heyward, Jr. House, 87 Church Street, Charleston, Charleston County, SC",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Library titles the item 'Thomas Heyward, Jr. House'; reproduction number HABS SC,10-CHAR,103-. The survey number is read from the data page's own header ('HABS No. SC-64 ... HEYWARD-WASHINGTON HOUSE'). The kitchen building is a separate item, sc0066 (HABS SC,10-CHAR,103A-)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "sc0148",
+      "url": "https://www.loc.gov/pictures/item/sc0148",
+      "retrieved": "2026-09-04",
+      "via": "manual",
+      "note": "The item id is the path segment of the photo resource the search returned and of the data PDF actually fetched; the landing page itself was not opened. Recorded as `manual` for that reason."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Heyward-Washington_House",
+      "title": "Heyward-Washington House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000576",
+      "url": "https://en.wikipedia.org/wiki/Heyward-Washington_House",
+      "title": "NRHP reference No. 70000576; added April 15, 1970; designated NHL April 15, 1970; contributing to the Charleston Historic District (ID66000964) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "S10817710014",
+      "url": "http://www.nationalregister.sc.gov/charleston/S10817710014/index.htm",
+      "title": "National Register Properties in South Carolina -- Heyward-Washington House, Charleston County (87 Church St., Charleston)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "'The Heyward-Washington House is a very fine three-story brick Charleston “double house” ... The house presents a massive block appearance since it is nearly square in' (the search snippet ends there)."
+    }
+  ],
+  "survey": {
+    "item": "sc0148",
+    "register": "loc-item",
+    "survey_no": "SC-64",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/sc/sc0100/sc0148/data/sc0148data.pdf",
+    "prepared": "'Prepared at Washington Office for Southeast Unit', District of South Carolina; the data sheet names 'Junior Architect James L. Burnett, Jr.' (OCR 'Jarr.es')",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "HEYWARD-WASHINGTON HOUSE Charleston, Charleston County, South Carolina Owner: Board of Trustees, Charleston Museum 83 Church Street Date of erection: 1750 -------Builder: Thomas Heyward Present condition: Very good Description: Brick; two and a half stories and basement. Several out-buildings in fair condition. Additional data: Now a museum. Has original furnlture. Old kitchen re-stored. Washington entertained here in 1791.",
+        "page": "HABS No. SC-64, 1930s data sheet 'Prepared at Washington Office for Southeast Unit'; no page number printed"
+      },
+      {
+        "field": "significance",
+        "text": "HistoricRl Data: Judge Thomas Heyward 1 s house on the west side of Church Street just north of Tradd was at one time considered one of the most splendid houses in Charleston. Although not so lar~e, this house h<1.s many features in common with the Brewton House. Fn~merly couble verandas adorned the t.hree-story brick structure.",
+        "page": "HABS No. SC-64, 'Historical Data' sheet; no page number printed"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "two and a half stories and basement",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The same survey's historical sheet calls it a 'three-story brick structure' and the SC register a 'three-story brick Charleston double house'. Both as printed; neither reconciled here."
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass. The exemplar name and location the charleston-georgian node already carried were kept exactly. Worth carrying: the survey's two sheets disagree with each other about the storey count, and the survey's 1750 is twenty years off the register's 1770-71. Audited 4 Sep 2026 (the Tranche 1 adversarial re-resolution): quote 1 had one OCR token silently corrected ('Historical' for the page's 'HistoricRl'); restored, because a quote is verbatim or it is not a quote."
+}

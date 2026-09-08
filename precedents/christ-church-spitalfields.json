@@ -1,0 +1,61 @@
+{
+  "id": "christ-church-spitalfields",
+  "name": "Christ Church, Spitalfields",
+  "location": {
+    "text": "Spitalfields, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "1723-1729",
+    "circa": false,
+    "note": "The list entry says '1723-29 Architect Nicholas Hawksmoor'. The Wikipedia infobox for the same building prints 'Consecrated July 1729' and gives the build as 1714-1729. Both are recorded and neither is resolved."
+  },
+  "nodes": [
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1357795",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1357795",
+      "title": "Christ Church (Including Gatepiers and Gates to Vergers Yard) , Non Civil Parish - 1357795 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section's own header prints the list date '29.12.50.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Christ_Church,_Spitalfields",
+      "title": "Christ Church, Spitalfields - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried because it dates the building 1714-1729 and its consecration to July 1729 where the list entry says 1723-29, and because it records that services returned to the partially restored building in 1987 -- which the list entry, still saying the interior is 'now closed for restoration', does not."
+    }
+  ],
+  "survey": {
+    "item": "1357795",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1357795",
+    "prepared": "Historic England's National Heritage List entry, generated from a legacy data system; the Details header prints 'TQ 3381 NE 14A/365 29.12.50.'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1723-29 Architect Nicholas Hawksmoor. White ashlar tower and spire dominate the Spitalfields area. Western portico of 4 giant Tuscan columns. Central semi-circular arch, a theme repeated in the facade below tower. Steps. Interior (apart from crypt) now closed for restoration.",
+        "page": "Official list entry 1357795, Details, paragraph 2"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "portico_column_count",
+      "as_printed": "Western portico of 4 giant Tuscan columns",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. A CHURCH, AND IT IS HERE BECAUSE THIS NODE'S OWN PROSE MAKES THE CITY CHURCHES THE STYLE'S ORIGIN; that placement is editorial and the register does not make it. TWO WORDS ABOUT WHAT A LEGACY LIST ENTRY IS WORTH: its whole description is six short sentences for one of the three or four most-discussed buildings of the English Baroque -- re-counted against the page on 5 Sep 2026, where an earlier reading of this record said four -- and its last sentence -- 'Interior (apart from crypt) now closed for restoration' -- has been out of date since services returned in 1987. A list entry states a condition as of the year it was written, and nothing on the page says which year that description is from. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was returned by any extract of THIS entry, so no `rights_evidence` is recorded rather than one borrowed from a sibling entry; Historic England does print one in the footer of the official-list-entry view, read verbatim on 5 Sep 2026 on entry 1253989 and recorded there."
+}

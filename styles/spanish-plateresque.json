@@ -184,25 +184,55 @@
       "name": "Hospital de Santa Cruz",
       "location": "Toledo, Spain",
       "year": 1515,
-      "note": "1504-1515, Enrique Egas; the transitional building, with a Gothic cross plan, a Plateresque portada and a Renaissance patio."
+      "note": "1504-1515, Enrique Egas; the transitional building, with a Gothic cross plan, a Plateresque portada and a Renaissance patio.",
+      "precedent": "hospital-de-santa-cruz-toledo",
+      "standing": "canonical",
+      "why": "The Spanish article's own periodisation separates the vaulting from the front -- the facade, main patio and zaguan doors built 1515-1535 on a building begun before 1514 -- which is the transitional case the node's exemplar note claims, stated by a source rather than asserted."
     },
     {
       "name": "Universidad de Salamanca, principal facade",
       "location": "Salamanca, Spain",
       "year": 1529,
-      "note": "c. 1512-1529; the canonical retablo facade, three registers of villamayor sandstone against a plain wall, with the medallion of the Catholic Monarchs at its centre."
+      "note": "c. 1512-1529; the canonical retablo facade, three registers of villamayor sandstone against a plain wall, with the medallion of the Catholic Monarchs at its centre.",
+      "precedent": "universidad-de-salamanca-facade",
+      "standing": "icon",
+      "why": "'Para muchos, esta fachada es la obra maestra del plateresco español' -- an attribution the article makes to many readers rather than to itself, and the same article states the three cuerpos this node's own description depends on."
     },
     {
       "name": "Convento de San Esteban",
       "location": "Salamanca, Spain",
       "year": null,
-      "note": "Facade begun 1524 by Juan de Alava, completed 1610; a Plateresque portada at cathedral scale under a Gothic-vaulted church."
+      "note": "Facade begun 1524 by Juan de Alava, completed 1610; a Plateresque portada at cathedral scale under a Gothic-vaulted church.",
+      "precedent": "convento-de-san-esteban-salamanca",
+      "standing": "canonical",
+      "why": "Its own source says the front 'se concibió como un gigantesco retablo', which is this node's central thesis -- that a plateresque facade is altarpiece proportion and not classical proportion -- stated of a real building by somebody else."
     },
     {
       "name": "Ayuntamiento de Sevilla",
       "location": "Seville, Spain",
       "year": 1564,
-      "note": "1527-1564, Diego de Riano; the fullest civic application, with grotesque pilasters and medallion friezes over the Plaza de San Francisco front."
+      "note": "1527-1564, Diego de Riano; the fullest civic application, with grotesque pilasters and medallion friezes over the Plaza de San Francisco front.",
+      "precedent": "ayuntamiento-de-sevilla",
+      "standing": "regional",
+      "why": "The fullest civic application, and the one exemplar whose source describes plateresque relief covering two whole storeys rather than a bounded portada; that is the node's own claim running the other way, and the record says so."
+    },
+    {
+      "name": "Palacio de Monterrey",
+      "location": "Salamanca, Spain",
+      "year": 1539,
+      "note": "Begun 18 January 1539 to plans by Rodrigo Gil de Hontanon and fray Martin de Santiago, executed by Pedro de Ibarra and Pedro de Miguel y Aguirre; never finished, the standing building being a fragment of a much larger project. BIC RI-51-0000332, 6 May 1929.",
+      "precedent": "palacio-de-monterrey",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 as the plateresque PALACE beside three institutional fronts, and because its register reference is the firmest in this cluster -- a code and a declaration date printed twice on one page."
+    },
+    {
+      "name": "Casa de las Conchas",
+      "location": "Salamanca, Spain",
+      "year": 1517,
+      "note": "1493-1517; a late-gothic urban palace with plateresque elements, its street wall studded with carved shells and its courtyard of about 18.8 by 16.8 m carrying mixtilinear arches on Carrara marble columns.",
+      "precedent": "casa-de-las-conchas",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 because it is the only building in this node whose source states a LINEAR dimension -- the other five records in this node carry counts or nothing -- and the dimension is of the courtyard rather than of the portada -- which is the evidence gap this cluster kept meeting, and is better recorded than left implicit."
     }
   ],
   "sources": [

@@ -185,25 +185,55 @@
       "name": "Hatfield House",
       "location": "Hertfordshire, England",
       "year": 1612,
-      "note": "Built 1607-12 for Robert Cecil, first Earl of Salisbury, with Robert Lyminge as chief craftsman. Brick with stone dressings, a stone-faced centre with a two-order loggia and clock tower, and the finest surviving Jacobean stair."
+      "note": "Built 1607-12 for Robert Cecil, first Earl of Salisbury, with Robert Lyminge as chief craftsman. Brick with stone dressings, a stone-faced centre with a two-order loggia and clock tower, and the finest surviving Jacobean stair.",
+      "precedent": "hatfield-house",
+      "standing": "icon",
+      "why": "The building this node's own description.long names first, and Historic England's entry carries every trait the node's defining characteristics list: 'Red brick with stone dressings. E-shape', a nine-window ashlar loggia, and 'a 3-stage triumphal entrance with pairs of Doric, Ionic and Corinthian columns at each level'."
     },
     {
       "name": "Blickling Hall",
       "location": "Norfolk, England",
       "year": 1627,
-      "note": "Built 1616-27 by Robert Lyminge for Sir Henry Hobart. Red brick with shaped gables and corner turrets, and a 37 m long gallery with a Jacobean plaster ceiling of exceptional density."
+      "note": "Built 1616-27 by Robert Lyminge for Sir Henry Hobart. Red brick with shaped gables and corner turrets, and a 37 m long gallery with a Jacobean plaster ceiling of exceptional density.",
+      "precedent": "blickling-hall",
+      "standing": "canonical",
+      "why": "The type specimen for this node's own hard rule about repeated shaped gables: the list entry puts them on bays 2, 4 and 6 of a seven-bay south front and again on bays 4, 7 and 10 of the west."
     },
     {
       "name": "Audley End House",
       "location": "Saffron Walden, Essex, England",
       "year": 1614,
-      "note": "Built 1605-14 for Thomas Howard, first Earl of Suffolk, and originally of two great courts; reduced in the eighteenth century to roughly a third of its size. The scale that broke its builder."
+      "note": "Built 1605-14 for Thomas Howard, first Earl of Suffolk, and originally of two great courts; reduced in the eighteenth century to roughly a third of its size. The scale that broke its builder.",
+      "precedent": "audley-end-house",
+      "standing": "canonical",
+      "why": "The one that falsifies this node's storey ratio, which is what earns it canonical standing here: Historic England records '3 storeys with principal first floor the tallest', where the node's typical_ratios expect roughly equal storeys or a taller ground floor. An earlier version of this sentence opened 'The largest of the prodigy houses'; no page this record cites states that superlative -- the register says only 'Part of a palatial country house' and, of the C18 work, 'Reduced in size' -- so the claim is withdrawn rather than sourced."
     },
     {
       "name": "Chastleton House",
       "location": "Oxfordshire, England",
       "year": 1612,
-      "note": "Built 1607-12 for Walter Jones, a wool merchant's grandson. Cotswold limestone rather than brick, with a compact symmetrical plan around a small court, and interiors — panelling, plaster, long gallery barrel ceiling — almost untouched since."
+      "note": "Built 1607-12 for Walter Jones, a wool merchant's grandson. Cotswold limestone rather than brick, with a compact symmetrical plan around a small court, and interiors — panelling, plaster, long gallery barrel ceiling — almost untouched since.",
+      "precedent": "chastleton-house",
+      "standing": "regional",
+      "why": "The Cotswold version, in marl stone rubble with STEPPED rather than scrolled gables, which is why it is regional here rather than canonical: it lacks both the brick-and-stone colour signature and the Netherlandish gable the node names as its most recognisable move."
+    },
+    {
+      "name": "Bramshill House",
+      "location": "Bramshill, Hampshire, England",
+      "year": 1612,
+      "note": "Built 1605-1612 for Edward, Lord Zouche, in red brickwork in English bond with stone dressings. Symmetrical elevations facing outwards round a narrow interior court, with a three-storey stone entrance porch carrying a coupled-pilaster order at each of its three levels.",
+      "precedent": "bramshill-house",
+      "standing": "canonical",
+      "why": "Historic England calls it 'A great Jacobean palace' and its entry is the only one in this node's set to name the brick bond; it is also the counter-example this node needs, since its north front carries a single central Dutch gable, which jacobean.c01 declares a Victorian move."
+    },
+    {
+      "name": "Charlton House",
+      "location": "Charlton, Greenwich, London, England",
+      "year": 1612,
+      "note": "Built 1612 for Sir Adam Newton, tutor to Prince Henry, with additions of 1659 for Sir William Ducie. Three storeys on an H-shaped plan in red brick with stone dressings and stone bands at floor levels; five-storey square towers on the north and south elevations.",
+      "precedent": "charlton-house",
+      "standing": "regional",
+      "why": "Regional because it is the compact suburban version of the great-house vocabulary rather than a prodigy house: Historic England's description -- 'Red brick with stone dressings and stone bands at floor levels and mullion windows' on a three-storey H-plan -- is this node's material rule at the scale a merchant or a courtier's servant could build."
     }
   ],
   "sources": [

@@ -108,6 +108,15 @@
     "depth_multiplier": 2.0,
     "sides_lit": 1,
     "orientation": "East. This room is used at 6 am, in the dark, half the year, and a window on the morning side is worth more than any lighting scheme in it.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E"
+      ],
+      "basis": "East. This room is used at 6 am",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.06,
       0.12

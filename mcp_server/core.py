@@ -54,10 +54,41 @@ def _data():
         r = json.load(open(f)); rooms[r["id"]] = r
     for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
         g = json.load(open(f)); groupings[g["id"]] = g
+    # WP-11.1. The building behind an exemplar, one record per building, shared by every node
+    # that names it. Read like rooms/: a directory, never dist/.
+    precedents = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "precedents", "*.json"))):
+        r = json.load(open(f)); precedents[r["id"]] = r
     return {"styles": styles, "faults": faults, "slots": slots, "groups": groups,
             "massings": massings, "assets": assets, "kits": kits,
-            "rooms": rooms, "groupings": groupings,
+            "rooms": rooms, "groupings": groupings, "precedents": precedents,
             "ontology_version": sd["version"], "engine": _load_engine()}
+
+_PARTIS_CACHE = None
+
+
+def _disclosures():
+    return _mod("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
+
+
+def _partis():
+    """The parti records by id. `_data()` does not carry them — it is the STYLE-side corpus —
+    and `load_parti` reads one by id from a caller-supplied string, which is deliberately the
+    only path that joins a caller's value to a path (see its docstring). This is the read-all
+    accessor, cached, used by the disclosure that asks whether the parti a plan names lists the
+    style the sheet judged it as."""
+    global _PARTIS_CACHE
+    if _PARTIS_CACHE is None:
+        out = {}
+        for f in sorted(glob.glob(os.path.join(ROOT, "partis", "*.json"))):
+            try:
+                rec = json.load(open(f))
+                out[rec["id"]] = rec
+            except Exception:
+                continue
+        _PARTIS_CACHE = out
+    return _PARTIS_CACHE
+
 
 def _yr(v):
     if v is None: return "?"
@@ -198,10 +229,103 @@ def get_style(style_id, sections=None):
         out["massing_affinities"] = [m | {"massing_name": D["massings"].get(m["massing"], {}).get("name")}
                                      for m in n.get("massing_affinities", [])]
     if "constraints" in sec: out["constraints"] = n.get("constraints", [])
-    if "exemplars" in sec: out["exemplars"] = n.get("exemplars", [])
+    if "exemplars" in sec: out["exemplars"] = [_exemplar_with_record(e) for e in n.get("exemplars", [])]
     if "sources" in sec: out["sources"] = n.get("sources", [])
     out["kit"] = f"tdl_resolve_kit('{style_id}')" if style_id in D["kits"] else "no kit directory"
     return out
+
+def _precedent_card(r):
+    """The smallest thing that answers: where the building is, what locates it, whether the
+    survey's written data is on the record. The full record is one call away by id."""
+    return {"id": r["id"], "name": r.get("name"), "location": (r.get("location") or {}).get("text"),
+            "built": (r.get("dates") or {}).get("built"), "nodes": r.get("nodes", []),
+            "refs": [{k: v for k, v in ref.items() if k in ("kind", "id", "url", "title")}
+                     for ref in r.get("refs", [])],
+            "has_survey": bool(r.get("survey")),
+            "survey_fields": sorted({q.get("field") for q in (r.get("survey") or {}).get("quotes", [])}),
+            "measurements": [m.get("name") for m in r.get("measurements", [])]}
+
+def _exemplar_with_record(e):
+    """An exemplar as the node states it, plus its precedent record's card when it names one --
+    so a reader of tdl_get_style sees the locators without a second call, and an exemplar with
+    no `precedent` says so in a field rather than by silence."""
+    D = _data()
+    out = dict(e)
+    pid = e.get("precedent")
+    if pid:
+        r = D["precedents"].get(pid)
+        out["precedent_record"] = _precedent_card(r) if r else {"error": f"precedents/{pid}.json does not exist"}
+    else:
+        out["precedent_record"] = None
+    return out
+
+def precedents(query=None, style=None, precedent_id=None):
+    """WP-11.1. The real buildings behind a style, with what locates them.
+
+    By id: the whole record. By style: that node's exemplars with their records joined; where
+    the node names none, walk the kit cascade and say which ancestor answered -- an agent asking
+    for a family's precedents gets its children's, labelled, rather than an empty list. By
+    query: a substring over precedent names, aka and the nodes they stand for."""
+    D = _data(); P = D["precedents"]
+    if precedent_id:
+        r = P.get(precedent_id)
+        if not r:
+            return {"error": f"no precedent '{precedent_id}'",
+                    "did_you_mean": [k for k in P if precedent_id.lower() in k][:6],
+                    "hint": "tdl_precedents(style=...) lists a style's, tdl_precedents(query=...) searches"}
+        return r
+    if style:
+        n = D["styles"].get(style)
+        if not n:
+            return {"error": f"no style '{style}'", "did_you_mean": [s for s in D["styles"] if style.lower() in s][:6]}
+        exs = [dict(e, node=style) for e in n.get("exemplars") or []]
+        answered_by, walked = [style], [style]
+        if not exs:
+            # A family or a tradition records no exemplars of its own (32 nodes, every one by
+            # convention). Walk DOWN the membership tree breadth-first and answer with the
+            # nearest level that has any, every node at that level, icons first -- a reading,
+            # labelled as one, and not a fact about the node.
+            level = [style]; seen = {style}; answered_by = []
+            while level and not exs:
+                nxt = [m["id"] for m in D["styles"].values()
+                       if m.get("member_of") in level and m["id"] not in seen]
+                nxt = sorted(nxt); seen.update(nxt); walked.extend(nxt)
+                for cid in nxt:
+                    for e in D["styles"][cid].get("exemplars") or []:
+                        exs.append(dict(e, node=cid))
+                    if D["styles"][cid].get("exemplars"):
+                        answered_by.append(cid)
+                level = nxt
+            rank = {"icon": 0, "canonical": 1, "regional": 2, "documentary": 3}
+            exs.sort(key=lambda e: (rank.get(e.get("standing"), 4), 0 if e.get("precedent") else 1, e["node"], e["name"]))
+        total = len(exs)
+        shown = exs[:12] if answered_by != [style] else exs
+        out = {"style": style, "answered_by": answered_by, "walked": walked,
+               "exemplars": [_exemplar_with_record(e) for e in shown],
+               "with_precedent": sum(1 for e in exs if e.get("precedent")), "total": total,
+               "shown": len(shown)}
+        if answered_by != [style]:
+            # WP-11.6, Ruling B (5 Sep 2026). The question IS ruled now, and the answer differs by
+            # rank, so the note must too. A FAMILY carries derived type specimens of its own and no
+            # longer reaches this branch at all; the five TRADITIONS carry none BY RULING, so the
+            # honest note for one says that rather than that nobody has decided. Leaving the old
+            # sentence would have been "until X lands is a lie the moment X lands" on a surface a
+            # user reads through an MCP tool.
+            out["note"] = (f"'{style}' records no exemplars of its own; these are its members' "
+                           f"({', '.join(answered_by) or 'none found'}), reached by walking the membership "
+                           f"tree {len(walked) - 1} node(s) down, icons first, {len(shown)} of {total} shown. "
+                           f"Ruling B (5 Sep 2026) gives a FAMILY type specimens derived from its "
+                           f"members' icons and leaves the five TRADITIONS empty, so a walk is the "
+                           f"answer here rather than a gap -- but it is still a reading: what stands "
+                           f"for a member does not automatically stand for everything above it.")
+        return out
+    q = (query or "").lower().strip()
+    hits = [r for r in P.values() if not q or q in r.get("name", "").lower()
+            or any(q in a.lower() for a in r.get("aka", []))
+            or any(q in nid for nid in r.get("nodes", []))]
+    return {"query": q, "count": len(hits), "precedents": [_precedent_card(r) for r in hits[:40]],
+            "note": ("An exemplar with no record is a name a reader can find and a checker cannot resolve; "
+                     "tdl_get_style(..., sections=['exemplars']) lists those too, with precedent_record null.")}
 
 def _cascade(i, seen=None):
     """The kit cascade, DELEGATED to `build/resolve_kit.chain_for` rather than re-walked.
@@ -859,22 +983,42 @@ def check_style_constraints(style, measurements):
     returns for faults, so a caller can ask 'does this style's roof-pitch rule pass at 9:12'
     without building a whole plan record for tdl_check_plan.
 
-    Only 140 of the corpus's ~660 constraints carry a test as of WP-1.1's worked example
-    (docs/constraints.md); the rest, and every scope: judgment constraint, come back under
-    judgment_only rather than silently ignored."""
+    365 of the corpus's 660 live constraints carry a test; 170 more are hard with none and come
+    back under `judgment_only`. **THE REMAINING 125 -- 98 `soft` and 27 `advisory` -- USED TO
+    VANISH, AND THIS DOCSTRING SAID THEY DID NOT.** It read "the rest ... come back under
+    judgment_only rather than silently ignored", which was false for every one of them: the loop
+    below appended a testless constraint only when its severity was `hard`, so a soft or advisory
+    one landed in no list, in no summary count, and in nothing a caller could see. Measured on
+    `garrison-revival`: 5 live constraints, 3 accounted for, 2 gone.
+
+    That is the same narrowing WP-11.9 removed from `plan_check.py`'s grouping loop one layer up
+    (`elif hard` there, `if severity == "hard"` here) -- a rule nobody executes and nobody is told
+    about reads exactly like a rule that passed. Found by an adversarial audit of that fix, which
+    swept for second occurrences of the pattern; the number was re-derived here before it was
+    believed.
+
+    They come back under `not_migrated` now -- a FIFTH list rather than a widened
+    `judgment_only`, because that key is documented as hard-with-no-test and quietly changing what
+    it contains would move the meaning of a field callers already read."""
     D = _data()
     n = D["styles"].get(style)
     if not n:
         near = [s for s in D["styles"] if style.lower() in s][:6]
         return {"error": f"unknown style '{style}'", "did_you_mean": near}
-    present, clear, needed, judgment_only = [], [], [], []
+    present, clear, needed, judgment_only, not_migrated = [], [], [], [], []
     for c in n.get("constraints", []):
         if c.get("deprecated_in_favour_of"):
             continue
         test = c.get("test")
         if not test:
+            row = {"id": c.get("id"), "kind": c["kind"], "statement": c["statement"],
+                   "severity": c.get("severity")}
+            # `if/else`, never `if hard: ... continue`. See the docstring: the narrowed form
+            # dropped 125 of 660 constraints and the docstring asserted it did not.
             if c.get("severity") == "hard":
-                judgment_only.append({"id": c.get("id"), "kind": c["kind"], "statement": c["statement"]})
+                judgment_only.append(row)
+            else:
+                not_migrated.append(row)
             continue
         row = {"id": c["id"], "kind": c["kind"], "severity": c.get("severity"), "statement": c["statement"]}
         r = _eval_test(test, measurements)
@@ -891,10 +1035,17 @@ def check_style_constraints(style, measurements):
     return {"style": style, "measurements_given": sorted(measurements),
             "constraints_present": present, "constraints_clear": clear,
             "could_not_judge": needed, "judgment_only": judgment_only,
-            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed)},
+            "not_migrated": not_migrated,
+            "summary": {"present": len(present), "clear": len(clear), "unjudged": len(needed),
+                        "judgment_only": len(judgment_only),
+                        "not_migrated": len(not_migrated)},
             "note": ("A constraint only counts as present (violated) when a test actually failed. "
-                     "could_not_judge is unknown, not passed. judgment_only lists hard constraints "
-                     "with no test at all -- scope: judgment, or simply not yet migrated.")}
+                     "could_not_judge is unknown, not passed. judgment_only lists HARD constraints "
+                     "with no test at all -- scope: judgment, or simply not yet migrated. "
+                     "not_migrated lists the soft and advisory ones with no test, which this "
+                     "function used to drop entirely while claiming it did not: every live "
+                     "constraint on the style now appears in exactly one of the five lists, and "
+                     "the summary counts all five.")}
 
 def check_measurements(measurements, style=None, slot=None, include_needed=True, limit=40,
                        context=None):
@@ -1279,19 +1430,64 @@ def check_plan(plan, strict=False):
     """Validate a plan record across five layers: rooms, groupings, faults, code, style."""
     pc = _load_plan_checker()
     try:
-        import jsonschema
+        detail = _schema_error("plan", plan)
     except ImportError:
         # An absent validator is an environment fact, not a verdict about the plan.
         # Collapsing it into "does not match the schema" was OQ 35's exact complaint:
         # a dependency problem laundered as a data judgment.
         return {"error": "could not validate: the jsonschema package is not installed",
                 "detail": "pip install jsonschema", "unvalidated": True}
-    try:
-        jsonschema.validate(plan, schema("plan"))
-    except Exception as e:
-        return {"error": "plan does not match the plan schema", "detail": str(e)[:400],
+    if detail:
+        return {"error": "plan does not match the plan schema", "detail": detail[:400],
                 "hint": "see schema/plan.schema.json; the minimum is id, name, style and one level with rooms"}
     return pc.check(plan, strict=strict)
+
+@functools.lru_cache(maxsize=2)
+def validator(name):
+    """The COMPILED validator for schema/<name>.schema.json, built once per process.
+
+    `jsonschema.validate(instance, schema)` REBUILDS the validator on every call, and three of
+    this module's callers -- `check_plan`, `critique_plan`, `revise_plan` -- sat on the route
+    the infrastructure audit measured as the whole server's bound. `workbench/server/app.py`
+    learned this at WP-10.1 and compiled the validator at the door; the lesson stopped there,
+    so `/api/plan/evaluate` ran a compiled validation at the gate and then an UNCOMPILED one
+    inside `check_plan`, on the same document, one of them at 4 ms and the other at 79.
+
+    Measured here, same interpreter, on the record `evaluate()` actually passes (32,389 B, the
+    SOLVED plan rather than the declared one):
+
+        jsonschema.validate(plan, schema("plan"))      79.1 ms   -- 23% of the 338 ms budget
+        validator("plan").iter_errors(plan)             4.2 ms
+
+    Returns None where jsonschema is absent, which every caller already has a branch for: an
+    absent validator is an environment fact and not a verdict about the plan (OQ 35).
+
+    The schema dict comes from `schema()`, which is cached and SHARED. A validator holds a
+    reference to it and neither mutates it. Both caches are cleared together by
+    `workbench/server/corpus.invalidate()`, which `test_reload_clears_every_cache` enforces by
+    walking this module rather than by naming them.
+    """
+    try:
+        import jsonschema
+    except ImportError:
+        return None
+    sch = schema(name)
+    return jsonschema.validators.validator_for(sch)(sch)
+
+
+def _schema_error(name, doc):
+    """The first schema error in `doc`, as a string, or None. Raises ImportError with no
+    jsonschema, which is a different thing from a plan that does not validate and is why the
+    callers catch it separately."""
+    v = validator(name)
+    if v is None:
+        raise ImportError("jsonschema")
+    err = next(iter(sorted(v.iter_errors(doc), key=lambda e: list(e.absolute_path))), None)
+    if err is None:
+        return None
+    at = "/" + "/".join(str(x) for x in err.absolute_path)
+    return f"{err.message} (at {at})"
+
 
 @functools.lru_cache(maxsize=8)
 def schema(name):
@@ -1456,6 +1652,14 @@ def placement_summary(out):
     # it already held. The stair and the fixture layout are here for the same reason: they
     # are placement facts, and there is nowhere else for a reader to get them.
     return {"footprint": out["footprint"], "geometry_report": out["geometry_report"],
+            # WP-11.1: what this placement GAVE UP, computed once in build/disclosures.py and
+            # rendered by both surfaces -- the printed plate draws these lines and the bench
+            # shows the same list, so the two cannot drift the way the citation grammar's three
+            # spellings did. Before this the bench's own paragraph told a reader that the walls
+            # a proof had to give up "are named above rather than dropped", and nothing above
+            # named them: `downgraded_wall_pins` had no reader on any surface.
+            "disclosures": _disclosures().banner(out, styles=_data()["styles"],
+                                                 partis=_partis()),
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),
                        "geometry": r.get("geometry"),
                        "doors": r.get("doors"), "windows": r.get("windows"),
@@ -1522,12 +1726,13 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
     counts are returned beside them and the check itself is omitted to spare the caller's
     context -- tdl_check_plan returns it."""
     try:
-        import jsonschema
-        jsonschema.validate(plan, schema("plan"))
+        _bad = _schema_error("plan", plan)
     except ImportError:
         return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
     except Exception as e:
-        return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+        return {"error": "the plan schema could not be compiled", "detail": str(e)[:400]}
+    if _bad:
+        return {"error": "plan does not match the plan schema", "detail": _bad[:400]}
     if parti is not None and not isinstance(parti, str):
         # an ID, resolved through load_parti -- the one confined path from a caller's string
         # to a file. A caller-supplied parti RECORD would become the template geometry reads
@@ -1555,12 +1760,13 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
     was refused and why) and, with include_plan, the revised record carrying the same report
     as `revision_report`."""
     try:
-        import jsonschema
-        jsonschema.validate(plan, schema("plan"))
+        _bad = _schema_error("plan", plan)
     except ImportError:
         return {"error": "could not validate: the jsonschema package is not installed", "unvalidated": True}
     except Exception as e:
-        return {"error": "plan does not match the plan schema", "detail": str(e)[:400]}
+        return {"error": "the plan schema could not be compiled", "detail": str(e)[:400]}
+    if _bad:
+        return {"error": "plan does not match the plan schema", "detail": _bad[:400]}
     if parti is not None and not isinstance(parti, str):
         return {"error": "parti must be a parti id, not a record", "detail": type(parti).__name__}
     bounded = []

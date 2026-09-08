@@ -72,17 +72,30 @@ def _mod(name, path):
 # name in this dict is filtered out of the returned measurements, so the fault it belongs
 # to reports COULD NOT EVALUATE -- which is the honest answer and is not a pass.
 NOT_DERIVABLE = {
-    # OQ 52's exact class. roof.py places stacks in ELEVATION space and no record in this
-    # corpus carries a chimney PLAN dimension; `elevation.NOT_MODELLED` already refuses the
-    # four elevation spellings of this on the ground that the only figure available
-    # (brick-course's 22 in) is flagged `judgment: true`. Re-deriving it here from the same
-    # unavailable fact, under a plan-shaped name, would be that defect wearing a new hat.
+    # OQ 52's exact class. roof.py places stacks in ELEVATION space and the only figure
+    # available for a breast (brick-course's 22 in) is flagged `judgment: true`;
+    # `elevation.NOT_MODELLED` already refuses the four elevation spellings on that ground.
+    # Re-deriving it here under a plan-shaped name would be that defect wearing a new hat.
+    #
+    # THE REASONS BELOW WERE REWRITTEN BY WP-11.4 AND THE OLD ONES ARE WHY. They said "no
+    # record carries a chimney PLAN dimension" and "the plan has no chimney footprint", and
+    # both stopped being true the moment `hearth` landed on a plan room (schema 0.7.0):
+    # `build/hearths.py::breast` returns a rectangle in model feet and `render_plan.py` draws
+    # it. **The entries STAY, and the distinction is the point.** The projection exists and is
+    # Morris 1734's depth column interpolated, carrying `judgment: true` — and this corpus's
+    # rule is that a judgment figure may be DRAWN but never published as a MEASUREMENT (the
+    # chimney's 22 in is the standing precedent). So the refusal is unchanged and its GROUND
+    # has moved from "there is no such thing in the plan" to "there is, and it is a judgment".
+    # Leaving the old wording would have been WP-6.4's finding exactly: a comment asserting a
+    # state of the world that the package one directory over had just falsified.
     "chimney_breast_projection_or_wall_thickness_in":
-        "no record carries a chimney plan dimension; the one figure that exists is flagged judgment",
+        "the plan carries a chimney breast since WP-11.4, but its projection is Morris 1734 "
+        "interpolated and flagged judgment; a judgment figure may be drawn and not measured",
     "central_chimney_base_dimension_ft":
-        "as chimney_breast_projection_or_wall_thickness_in -- the plan has no chimney footprint",
+        "as chimney_breast_projection_or_wall_thickness_in -- a hearth states its wall and "
+        "opening, and nothing in the corpus states a central stack's base in plan",
     "firebox_depth_in":
-        "no firebox is modelled in plan",
+        "a hearth states its opening width, never its depth; no firebox is modelled in plan",
     "wall_thickness_in":
         "the plan record states no wall thickness; construction_type says what a wall is OF, not how thick",
     # No HVAC model exists anywhere in this corpus -- no slot, no kit parameter, no line in
@@ -648,6 +661,88 @@ def grouping_vars(plan, C=None, placed=None, footprint=None):
     if sleeping > 0 and suite > 0:
         m["suite_area_sf"] = round(suite, 1)
         m["sleeping_floor_area_sf"] = round(sleeping, 1)
+
+    # --- BOTH ENDS OF THE PASSAGE, AND THE STAIR THAT OPENS OFF IT (WP-11.9)
+    #
+    # Two of the twenty prose rules the Tidewater diagnosis's Part VI lists. Both are DECLARED
+    # facts -- a door's `to` is authored even though its `wall` is solver output -- so they are
+    # answerable on all sixteen plan records rather than on the two that carry a placement.
+    #
+    # An end of the passage counts as doored where the door reaches outdoors, DIRECTLY or through
+    # a threshold room. That second clause is not a loosening: the Tidewater passage's front door
+    # is `to: porch`, because the porch is a room in this model and the front door is between the
+    # two, so a reader counting only `to: exterior` would find one end where the record states
+    # two -- and would report the diagnosis's own B4 against a record that does not commit it.
+    #
+    # LEVEL 0 ONLY, and the type is preferred rather than pooled. The Tidewater record carries a
+    # second `centre-passage` on the floor above, which is the landing corridor and has no ends to
+    # door; and where a record ever carries a `centre-passage` AND a `cross-passage` on the ground
+    # floor, the grouping is about the first and the second is likely a service run. Among several
+    # of ONE type the WORST is taken, not the best: reporting the best would be the flattering
+    # direction, which is the OQ 52 family. One of the sixteen records carries a passage at all,
+    # and it carries exactly one, so neither clause is exercised by this corpus -- both are driven
+    # in `tests/test_compass.py`.
+    ground = [rid for rid, r in rooms.items() if level_of.get(rid) == 0]
+    passages = [rid for rid in ground if rooms[rid].get("type") == "centre-passage"] \
+        or [rid for rid in ground if rooms[rid].get("type") == "cross-passage"]
+    if passages:
+        counts = []
+        for rid in passages:
+            # DISTINCT REACHES, NOT DOORS, AND A THRESHOLD ROOM MUST ITSELF REACH OUTDOORS
+            # (audit, 7 Sep 2026). The first version counted qualifying DOORS against a rule
+            # whose own `measures.quantity` is `passage_ends_reached`, so two doors into the
+            # same porch scored 2, and any door into a threshold-class room scored whether or
+            # not that room had a way out -- a passage opening into a mid-run vestibule and an
+            # entrance hall passed a HARD rule with neither end doored. Both were false passes
+            # on the flattering side, which is the OQ 52 family this function's own comment
+            # commits against, committed in the sentence making the commitment.
+            #
+            # WHAT IT MEASURES IS A NECESSARY CONDITION AND NOT A SUFFICIENT ONE, and the
+            # distinction is a property of the LAYER rather than a shortcut. A door's `wall`
+            # and `position_ft` are solver output; only its `to` is authored. So the declared
+            # record can say that a passage reaches the outdoors by two independent routes and
+            # cannot say that those routes are at its two ENDS. Two reaches is what a doored
+            # pair of ends implies; the ends themselves are the ALIGNMENT half, which was split
+            # out of this rule at WP-11.9, carries no test, and is named to the reader for
+            # exactly this reason.
+            reaches = set()
+            for d in (rooms[rid].get("doors") or []):
+                to = d.get("to")
+                if to == "exterior":
+                    reaches.add("exterior")
+                elif to in rooms and _fclass(C, rooms[to]) == "threshold":
+                    if any(dd.get("to") == "exterior" for dd in (rooms[to].get("doors") or [])):
+                        reaches.add(to)
+            counts.append(len(reaches))
+        m["passage_ends_with_a_door"] = float(min(counts))
+        # The stair rises in the passage, or in a hall opening off it. The FIRST half is true by
+        # construction in this model -- `openings.stair_pass` will only put a stair in a room of
+        # type `stair-hall` -- so a test of it would be an instrument that cannot fail, which
+        # this corpus rates worse than a test that cannot fail. What is failable is the SECOND
+        # half: a stair hall reached from a room rather than from the passage.
+        halls = [rid for rid, r in rooms.items()
+                 if r.get("type") == "stair-hall" and level_of.get(rid) == 0]
+        if halls:
+            # SEVERAL STAIR HALLS THAT DISAGREE ARE COULD-NOT-EVALUATE, NOT THE BEST OF THEM
+            # (audit, 7 Sep 2026). The first version set `reach = 1.0` on ANY hall reaching a
+            # passage -- the flattering reading, ten lines below the comment explaining why the
+            # statement above it takes the worst -- so a principal stair off the passage
+            # excused a second hall reached only from the dining room, on a HARD rule.
+            #
+            # AND `min` IS NOT THE FIX EITHER, which is why this is a third state rather than a
+            # corrected second one. This model has no way to tell a principal stair from a
+            # service stair: both are type `stair-hall`, and a service stair that does NOT open
+            # off the passage is correct in a house of this kind. Taking the worst would convict
+            # a right building; taking the best acquits a wrong one. Where the ground-floor
+            # stair halls disagree the variable is WITHHELD, and `plan_check` reports the rule
+            # unjudged naming the variable it could not get -- which is the honest thing the
+            # corpus can say with the facts it has.
+            reached = [any(pid in {d.get("to") for d in (rooms[h].get("doors") or [])}
+                           or h in {d.get("to") for d in (rooms[pid].get("doors") or [])}
+                           for pid in passages)
+                       for h in halls]
+            if all(reached) or not any(reached):
+                m["stair_hall_opens_off_the_passage"] = 1.0 if all(reached) else 0.0
 
     # --- placement-dependent (absent unless the drawn layer passes a placement in)
     if placed and footprint:

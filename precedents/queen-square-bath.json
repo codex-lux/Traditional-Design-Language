@@ -1,0 +1,113 @@
+{
+  "id": "queen-square-bath",
+  "name": "Queen Square",
+  "location": {
+    "text": "Bath, England",
+    "country": "England",
+    "state": "Bath and North East Somerset"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "1729-1736",
+    "circa": false,
+    "altered": "No.21 was finished in 1736, burnt down in 1747 and was rebuilt in 1749, as the entry states.",
+    "note": "The node's exemplar gives 1736 and 'Built 1728-36'. The list entry prints '1729-1736' for the north side and adds that Wood leased the site from 1728 and that the houses are first recorded as occupied in 1734. Both are recorded; neither is resolved."
+  },
+  "nodes": [
+    "english-georgian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1394567",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1394567",
+      "title": "21-27, QUEEN SQUARE, Non Civil Parish - 1394567 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The entry covers the seven houses of the north side, which is the palace front the node's exemplar names."
+    }
+  ],
+  "survey": {
+    "item": "1394567",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1394567",
+    "prepared": "Neither extract returned the Overview block, so the 'Date first listed' is not recorded here; the Details text quoted below is what was read.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Includes: Bath and County Club QUEEN'S PARADE. Seven symmetrical terrace houses to north side of Queen Square forming part of a Palladian palace-fronted terrace. 1729-1736. By John Wood the Elder.",
+        "page": "Official list entry 1394567, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "MATERIALS: Limestone ashlar, rendered right return, double pitched slate mansard roofs with moulded stacks to coped party walls.",
+        "page": "Official list entry 1394567, Details, MATERIALS paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "PLAN: Double depth plans.",
+        "page": "Official list entry 1394567, Details, PLAN paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "EXTERIOR: Three storeys with attics and basement, twenty-three-window front made up of three-bay houses, with a five-bay house to centre.",
+        "page": "Official list entry 1394567, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "Ground floor of terrace has moulded base to two courses of chamfered rustication with radial voussoirs reaching platband, stepped forward over equal openings to set back windows and doors. Doorways deliberately understated to help create impression of `palace' entity.",
+        "page": "Official list entry 1394567, Details, EXTERIOR paragraph"
+      },
+      {
+        "field": "significance",
+        "text": "Queen Square is of exceptional importance as the first large-scale instance of town planning to arrive at Bath.",
+        "page": "Official list entry 1394567, Details, history and significance paragraph"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "Seven symmetrical terrace houses to north side of Queen Square",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Three storeys with attics and basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Three main storeys, with the attic and the basement named separately."
+    },
+    {
+      "name": "bay_count",
+      "as_printed": "twenty-three-window front",
+      "value": 23,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The bay count of the whole north side read as one composition. 'Window' is the list entry's word for a bay."
+    },
+    {
+      "name": "bay_count_per_house",
+      "as_printed": "made up of three-bay houses",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "centre_house_bay_count",
+      "as_printed": "with a five-bay house to centre",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Seven houses at three bays plus a centre house at five would be 23, which is the front the entry states; the arithmetic is a reading and the printed figure is the one carried."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1394567",
+  "note": "Tranche 3, 5 Sep 2026. A group record: Queen Square is four ranges and Historic England lists them in several entries, so the survey block is the north side, which is what the node's exemplar describes. The entry prints 'PLAN: Double depth plans. .' with a stray full stop; the quote takes the sentence and not the stray mark. Quotes are the entry's own text with line-wrapping whitespace collapsed and nothing else changed."
+}

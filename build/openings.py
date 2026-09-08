@@ -173,6 +173,80 @@ def _shared(a, b, tol=0.4):
 _OPPOSITE = {"N": "S", "S": "N", "E": "W", "W": "E"}
 
 
+def envelopes(plan):
+    """`{room_id: (x0, y0, x1, y1)}` -- the rectangle each room's OWN massing element occupies
+    (WP-11.6, ruling 1: an element has its own envelope, not the union).
+
+    Every layer below the placer was written when a house was one rectangle. This is the first
+    of the six to be told otherwise, and it is first because of the order the ruling states: an
+    element-aware `openings` makes a dependency's windows REAL, which turns `structure`'s missing
+    envelope walls into a drawn collision instead of a silent absence. Fixing them in the other
+    order would leave the shield in place.
+
+    A plan with no `footprint.blocks` -- which is every plan in this corpus -- gets an empty map
+    and every caller falls back to the main block, so the one-rectangle case is untouched by
+    construction rather than by luck.
+
+    THE JOIN IS THE ROOM'S OWN `block` TAG, NOT A ROOM LIST ON THE BLOCK. `blocks_record` writes
+    id, role, x, y, width, depth and area and no membership, so a first version of this read
+    `b["rooms"]`, found nothing on every plan, and left all nine refusals in place while
+    reporting success. The tag is what the placer itself groups by (`blocks_for` reads
+    `r["block"]`), so reading it here keeps one spelling of what an element contains.
+    """
+    fp = plan.get("footprint") or {}
+    by_id = {b["id"]: (b["x_ft"], b["y_ft"], b["x_ft"] + b["width_ft"],
+                       b["y_ft"] + b["depth_ft"]) for b in (fp.get("blocks") or [])}
+    if len(by_id) < 2:
+        return {}
+    main = by_id.get("main")
+    out = {}
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            tag = r.get("block")
+            env = by_id.get(tag) if tag else main
+            # A hyphen room is tagged into the DEPENDENCY's id by the composer and placed in the
+            # element `<id>-hyphen`; prefer the element it was actually placed in.
+            if tag and f"{tag}-hyphen" in by_id and r.get("hyphen"):
+                env = by_id[f"{tag}-hyphen"]
+            if env:
+                out[r["id"]] = env
+    return out
+
+
+def faces_across_a_gap(plan, env, tol=0.6):
+    """`{face: neighbour_element_id}` for the faces of one element that look across a gap at
+    ANOTHER element of the same building (WP-11.6, layer 5).
+
+    Ruling 4 of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`: *"where
+    a room's exterior wall faces the hyphen gap, the finding says so in its own words rather than
+    convicting a landlocked room: exterior to the weather, interior to the view"*. That wall is a
+    real exterior wall -- it takes the weather and it can hold a window -- and it is also the wall
+    that stares at the side of the house. A critic that says only "exterior" loses the second half.
+
+    A face counts when another element lies WHOLLY BEYOND it and OVERLAPS it on the perpendicular
+    axis. The overlap test is what keeps a diagonal neighbour out, and that is the ruling's own
+    position on the diagonal case -- refused rather than modelled -- arriving here as one
+    condition: a face that looks past the corner of another block is looking at the yard.
+
+    `{}` on a one-rectangle plan, where there is no other element to look at, and `{}` for an
+    element with open ground on every side."""
+    x0, y0, x1, y1 = env
+    out = {}
+    for b in ((plan.get("footprint") or {}).get("blocks") or []):
+        bx0, by0 = b["x_ft"], b["y_ft"]
+        bx1, by1 = bx0 + b["width_ft"], by0 + b["depth_ft"]
+        if (abs(bx0 - x0) < tol and abs(by0 - y0) < tol
+                and abs(bx1 - x1) < tol and abs(by1 - y1) < tol):
+            continue                      # this element itself
+        if min(by1, y1) - max(by0, y0) > tol:          # they share a band of latitude
+            if bx0 >= x1 - tol: out.setdefault("E", b["id"])
+            if bx1 <= x0 + tol: out.setdefault("W", b["id"])
+        if min(bx1, x1) - max(bx0, x0) > tol:          # ... of longitude
+            if by0 >= y1 - tol: out.setdefault("N", b["id"])
+            if by1 <= y0 + tol: out.setdefault("S", b["id"])
+    return out
+
+
 _APPD = None
 
 
@@ -184,20 +258,27 @@ def _appd():
     return _APPD
 
 
-def _boundary_walls(rect, bounds, tol=0.6):
-    """Which of a room's own walls lie on ITS OWN ELEMENT's boundary, with their runs.
+def _boundary_walls(rect, W, H, tol=0.6, env=None):
+    """Which of a room's own walls lie on ITS ELEMENT's boundary, with their runs.
 
-    WP-11.9. This took `(W, H)` -- the main block's -- until 5 Sep 2026, which is the first of
-    the six layers `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` names.
-    A garage at x 84-105 on a 70 ft block reported its east face as a footprint boundary, and
-    both renderers and `export_dxf` then drew the window at `x = W`, FOURTEEN FEET from the
-    room. `bounds` is `(x, y, W, H)` of the room's own element (ruling 1, 5 Sep 2026); on the
-    whole shipped corpus that is `(0, 0, W, H)` and every placement is byte-identical.
-
-    The body lives in `build/elements.py` so the drawn layer's `touches` tests cannot answer
-    differently -- they had their own transcription of this rule, one file over, and ruling 4
-    makes them the same question."""
-    return _elem().boundary_walls(rect, bounds, tol=tol)
+    `env` is `(x0, y0, x1, y1)` for the element the room sits in; absent, it is the main block
+    at the origin, which is what `W`/`H` have always meant and what every one-rectangle plan
+    still gets. **A dependency room touches none of the main block's boundary** -- on the
+    reference fixture at x -41..-14 against a 63 ft block, nine of fourteen declared openings
+    came back `unplaced` with "the placement puts this room on no such boundary wall", which is
+    a refusal produced by the instrument rather than by the house."""
+    x, y, w, h = rect
+    x0, y0, x1, y1 = env if env else (0.0, 0.0, W, H)
+    out = {}
+    if y <= y0 + tol:
+        out["S"] = (x, x + w)
+    if y + h >= y1 - tol:
+        out["N"] = (x, x + w)
+    if x <= x0 + tol:
+        out["W"] = (y, y + h)
+    if x + w >= x1 - tol:
+        out["E"] = (y, y + h)
+    return out
 
 
 def _free(lo, hi, blocked):
@@ -354,7 +435,7 @@ def _place_interior(level_rooms, occupied, report, appendages=None):
         report["placed"] += 1
 
 
-def _place_exterior(level_rooms, occupied, W, H, C, report, bounds=None):
+def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
     """Exterior doors, and the one rule that fixes the reported symptom.
 
     op-passage-axis. styles/tidewater-georgian.json c03 is HARD — "Centre passage 10-14 ft
@@ -375,22 +456,7 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, bounds=None):
                 d["unplaced"] = {"reason": "the room is not placed on this level"}
                 report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
             continue
-        # THE ROOM'S OWN ELEMENT, never the main block (WP-11.9, ruling 1). A miss is
-        # COULD NOT EVALUATE and is refused with a reason: it can only happen on a
-        # multi-element record whose room straddles two elements, which the slicer cannot
-        # produce and a caller-supplied record can, and guessing the main block there is the
-        # exact defect this package removes.
-        eb = (bounds or {}).get(r["id"])
-        if eb is None:
-            if bounds:
-                for d in ext_doors:
-                    d["unplaced"] = {"reason": "this room stands in no single massing element, "
-                                               "so which of its walls face outward cannot be "
-                                               "decided"}
-                    report["unplaced"].append({"pair": [r["id"], "exterior"], **d["unplaced"]})
-                continue
-            eb = (0.0, 0.0, W, H)
-        bw = _boundary_walls(rect, eb)
+        bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
         declared = [w for w in (r.get("exterior_walls") or []) if w in bw] or list(bw)
         fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
 
@@ -411,8 +477,9 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, bounds=None):
                 served.add(seg[0])
             # a porch on the south end serves the south end even where the shared wall
             # between the two runs east-west
-            ob = (bounds or {}).get(other["id"]) or eb
-            for w2, run in _boundary_walls(_rect(other), ob).items() if _rect(other) else []:
+            for w2, run in _boundary_walls(_rect(other), W, H,
+                                           env=(envs or {}).get(other["id"])).items() \
+                    if _rect(other) else []:
                 if w2 in bw:
                     served.add(w2)
 
@@ -460,7 +527,7 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, bounds=None):
                                        "rule": "op-passage-axis"})
 
 
-def _place_windows(level_rooms, occupied, W, H, report, bounds=None):
+def _place_windows(level_rooms, occupied, W, H, report, envs=None):
     """Windows into the run the doors left, centred on the bay grid where a bay line falls
     inside the free space. build/geometry.py's own header says the bay module is what
     "joists span, windows centre on, the facade composes from" — and no renderer or pass
@@ -471,17 +538,7 @@ def _place_windows(level_rooms, occupied, W, H, report, bounds=None):
             for win in (r.get("windows") or []):
                 win["unplaced"] = {"reason": "the room is not placed on this level"}
             continue
-        eb = (bounds or {}).get(r["id"])
-        if eb is None:
-            if bounds:
-                for win in (r.get("windows") or []):
-                    win["unplaced"] = {"reason": "this room stands in no single massing "
-                                                 "element, so which of its walls face outward "
-                                                 "cannot be decided"}
-                    report["windows_unplaced"] += (win.get("count") or 1)
-                continue
-            eb = (0.0, 0.0, W, H)
-        bw = _boundary_walls(rect, eb)
+        bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
         for win in (r.get("windows") or []):
             wall = win.get("wall")
             n = win.get("count") or 1
@@ -877,19 +934,21 @@ def place(plan, C=None):
     # openings on the five plans that declare a terrace, which is the deliverable.
     apx = _appd().appendage_pass(plan, C["rooms"], report,
                                  _elem().bounds_index, _elem().boundary_walls)
+    # `envelopes` IS THE ELEMENT MAP, AND THE MERGE KEEPS MAIN'S SPELLING OF IT. Both Phase 11s
+    # threaded each room's own element down to these two passes -- this branch as a
+    # `bounds_index` of `(x, y, W, H)` per level, main as `envelopes(plan)` of `(x0, y0, x1, y1)`
+    # plan-wide. Main's is the one `plan_check` reuses ("layer 1's own map, not a second spelling
+    # of the block-tag join"), so it is the one kept; keeping both would have been the third
+    # spelling of the join, which is the defect this whole layer is about.
+    envs = envelopes(plan)
     holds = []
     for _li, lv in enumerate(plan["levels"]):
         rooms = [r for r in lv["rooms"]]
         occupied = {}
         _place_interior(rooms, occupied, report,
                         appendages=apx.get(lv.get("index", _li)) or {})
-        # WP-11.9: which massing element each room stands in, computed ONCE per level and
-        # threaded down. On every plan in this corpus there is one element and this maps every
-        # placed room to `(0, 0, W, H)`, which is what the two passes read before -- so the
-        # whole shipped corpus is byte-identical across the change.
-        ebounds = _elem().bounds_index(plan, rooms)
-        _place_exterior(rooms, occupied, W, H, C, report, bounds=ebounds)
-        _place_windows(rooms, occupied, W, H, report, bounds=ebounds)
+        _place_exterior(rooms, occupied, W, H, C, report, envs)
+        _place_windows(rooms, occupied, W, H, report, envs)
         fixture_pass(rooms, C, report, occupied)
         holds.append((rooms, occupied))
     stair = stair_pass(plan, C, report)

@@ -464,19 +464,40 @@ const roomLabel = (name) => page.evaluate((n) => {
 // started. Press, raise the preview, come back and release — asserting the affordance
 // exists without leaving the record changed for the checks below.
 const handleLive = await (async () => {
+  //
+  // SCROLLED INTO VIEW BEFORE IT IS MEASURED, AND THE REASON IS A MEASUREMENT (7 Sep 2026).
+  // `page.mouse.click` takes VIEWPORT coordinates, and this read the rect where it happened to
+  // sit. WP-11.1 put a "what this placement gave up" panel above the sheet -- on this record it
+  // carries two lines and a paragraph -- and the Drawing Room went to **y = 1020.98 in a
+  // viewport 1000 tall**. Twenty-one pixels below the fold: the click landed outside the window,
+  // nothing was selected, `[data-nopan]` stayed at 0, and this block returned null, so all four
+  // checks below reported `undefined` and named nothing.
+  //
+  // That is the SECOND time these same four have gone red as a block for a reason that was not
+  // the wall handle -- CLAUDE.md records the first, where an annotation swallowed the click and
+  // it was misdiagnosed as CP latency for a week. The checks are about whether a handle can be
+  // grasped and what the drag does, not about where the page happens to have scrolled to, so
+  // scrolling the room into view restores what they were written to ask. Anything added above
+  // the sheet from now on moves the plate and not this test.
   const room = await page.evaluate(() => {
     for (const g of document.querySelectorAll('svg g')) {
       const t = g.firstElementChild;
       if (t && t.tagName === 'title' && /Drawing Room/.test(t.textContent)) {
+        g.scrollIntoView({ block: 'center' });          // synchronous: the rect below is post-scroll
         const b = g.querySelector('rect').getBoundingClientRect();
-        return { x: b.x + b.width / 2, y: b.y + b.height / 2 };
+        return { x: b.x + b.width / 2, y: b.y + b.height / 2,
+                 onScreen: b.y >= 0 && b.y + b.height <= window.innerHeight };
       }
     } return null;
   });
-  if (!room) return null;
+  if (!room) return { reason: 'the sheet drew no Drawing Room to click' };
   const before = await roomLabel('Drawing Room');
   await page.mouse.click(room.x, room.y);
   await page.waitForTimeout(400);
+  // Captured whatever happens next, so a failure below can NAME its cause instead of four
+  // `undefined`s. A room that did not select raises no handle, and that is a different defect
+  // from a handle that cannot be grasped.
+  const handles = await page.evaluate(() => document.querySelectorAll('[data-nopan]').length);
   const scroll0 = await scrollPos();
   const h = await page.evaluate(() => {
     const rs = [...document.querySelectorAll('[data-nopan]')].map((e) => e.getBoundingClientRect());
@@ -484,7 +505,7 @@ const handleLive = await (async () => {
     const r = rs.sort((a, b) => b.x - a.x)[0];
     return { x: r.x + r.width / 2, y: r.y + r.height / 2 };
   });
-  if (!h) return null;
+  if (!h) return { handles, room, reason: 'clicking the room raised no wall handle' };
   await page.mouse.move(h.x, h.y);
   await page.mouse.down();
   await page.mouse.move(h.x + 30, h.y, { steps: 6 });
@@ -531,8 +552,14 @@ const handleLive = await (async () => {
     await page.waitForTimeout(1800);
   }
   const after = await roomLabel('Drawing Room');
-  return { preview, panned, scroll0, before, restored, after, clicked: !!h2 };
+  return { preview, panned, scroll0, before, restored, after, clicked: !!h2, handles, room };
 })();
+// THE STEP BEFORE THE HANDLE, so this block can no longer fail four times saying `undefined`.
+// It reports what actually broke: the room was not drawn, or the click did not select it.
+check(`clicking a room raises its wall handles (${handleLive?.handles ?? 'n/a'}${
+  handleLive?.reason ? ' — ' + handleLive.reason : ''})`, (handleLive?.handles ?? 0) > 0);
+check('the room the drag needs is on screen to be clicked',
+  handleLive?.room ? handleLive.room.onScreen === true : false);
 check('a wall handle can still be grasped through the loupe', handleLive?.preview > 0);
 // data-nopan: the handle's drag must not become a pan. The pane is magnified above, so
 // there IS something to pan — without that this asserts nothing, because a fitted pane

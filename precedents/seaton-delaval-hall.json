@@ -1,0 +1,128 @@
+{
+  "id": "seaton-delaval-hall",
+  "name": "Seaton Delaval Hall",
+  "location": {
+    "text": "Northumberland, England",
+    "country": "United Kingdom",
+    "state": "Northumberland"
+  },
+  "dates": {
+    "built": "1718-1729",
+    "circa": false,
+    "altered": "The register of parks and gardens entry states that a fire in the Hall in 1822 rendered the main block uninhabitable, and that restoration has taken place since 1950.",
+    "note": "The listed-building entry says '1718-29'. The parks and gardens entry says the Hall was 'Designed by Sir John Vanbrugh in 1719 for Admiral Delaval' and 'completed for his successor Captain Francis Delaval in 1728', and heads the building '(1728, listed grade I)'. The node's own exemplar gives 1728 as the year and says 'Built 1719-28'. All are recorded; none is resolved."
+  },
+  "nodes": [
+    "english-baroque"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1041321",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1041321",
+      "title": "The Hall, Seaton Valley - 1041321 - Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section's own header prints 'The Hall (formerly listed as 28.7.50 Seaton Delaval Hall)'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1001052",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1001052",
+      "title": "Seaton Delaval, Seaton Valley - 1001052 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Register of Parks and Gardens entry. Its PRINCIPAL BUILDING paragraph states 'six bays and three storeys' for the central part with 'flanking canted two-storey towers', where the listed-building entry says the entrance-front centrepiece is 'of 3 storeys on basement'. Both were read; neither is quoted in the survey block below, which is scoped to entry 1041321."
+    },
+    {
+      "kind": "wikidata",
+      "id": "Q2915561",
+      "url": "https://www.wikidata.org/wiki/Q2915561",
+      "title": "Seaton Delaval Hall - Wikidata",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried only for the listing date: the search result prints 'heritage designation - Grade I listed building - start time. 28 July 1950. National Heritage List for England number - 1041321', which agrees with the '28.7.50' the Details header itself prints."
+    }
+  ],
+  "survey": {
+    "item": "1041321",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1041321",
+    "prepared": "The Details section prints '(formerly listed as 28.7.50 Seaton Delaval Hall)'. Neither extract returned the Overview block's own 'Date first listed' field, so no such field is quoted; Wikidata gives 28 July 1950 for the same entry number. The entry's Sources block cites Country Life, Vol. 54, (1923).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SEATON DELAVAL SEATON DELAVAL HALL NZ 3276 13/86 The Hall (formerly listed as 28.7.50 Seaton Delaval Hall) GV I Country house, 1718-29 by Sir John Vanbrugh for Admiral George Delaval.",
+        "page": "Official list entry 1041321, Details, header and opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Ashlar with varying rustication; Lakeland slate roofs.",
+        "page": "Official list entry 1041321, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "Central square main block, with polygonal angle turrets and flanking square stair towers, on south side of grand court. Symmetrical stable and kitchen blocks on east and west linked to main block by arcaded gallery which continues north to end in square pavilions. Palladian plan, individual Baroque style.",
+        "page": "Official list entry 1041321, Details, opening paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Entrance front has broad centrepiece of 3 storeys on basement: open stair up to arched door between 18-pane sashes, under broad lunette, the whole flanked by projecting groups of 3 giant columns carrying metope frieze, stepped back across centre. 2nd floor has 3 windows, the central arched, and richly-carved pediment. On either side 2-storey parts of 2 narrow bays link to the angle turrets, both under balustraded parapet.",
+        "page": "Official list entry 1041321, Details, entrance front"
+      },
+      {
+        "field": "porches",
+        "text": "South front a basically similar composition but with prostyle tetrastyle Ionic portico; set back on each side 3-storey stair towers with Venetian windows in top stage and balustraded parapets. The 3-storey centre has massive flanking stacks pierced by round arches.",
+        "page": "Official list entry 1041321, Details, south front"
+      },
+      {
+        "field": "finishes",
+        "text": "Interiors. Main block: Great Hall stone faced with blank arcading and arched niches above, opposed fireplaces with terms, and gallery on enriched cantilevers. Vaulted corridors link to oval open-well stairs with wrought-iron balustrades, partly restored. Saloon extending full width of south front.",
+        "page": "Official list entry 1041321, Details, Interiors"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "centrepiece_storey_count",
+      "as_printed": "broad centrepiece of 3 storeys on basement",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "The parks and gardens entry (1001059's sibling, 1001052) says of the same building that 'The central part of the building has six bays and three storeys with flanking canted two-storey towers'. The two entries agree on three storeys for the centre and disagree about whether the flanking towers are two-storey (parks) or three-storey stair towers (listed building, on the south front). Not resolved."
+    },
+    {
+      "name": "giant_column_group_count",
+      "as_printed": "projecting groups of 3 giant columns",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Three columns per group, not three groups. The entry does not say how many groups."
+    },
+    {
+      "name": "second_floor_window_count",
+      "as_printed": "2nd floor has 3 windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "flanking_link_bay_count",
+      "as_printed": "2-storey parts of 2 narrow bays",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "south_portico_column_count",
+      "as_printed": "prostyle tetrastyle Ionic portico",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "A READING: tetrastyle is four columns. The entry states the word and not the number."
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE NODE'S OWN EXEMPLAR NOTE SAYS 'Banded giant Doric columns'; the entry says the entrance front's giant columns carry a 'metope frieze' -- Doric by its frieze, and it does not use the word Doric or the word banded -- and it says the SOUTH front carries a 'prostyle tetrastyle Ionic portico'. The two fronts take two different orders and the node's note names only one. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was returned by any extract of THIS entry, so no `rights_evidence` is recorded rather than one borrowed from a sibling entry; Historic England does print one in the footer of the official-list-entry view, read verbatim on 5 Sep 2026 on entry 1253989 and recorded there."
+}

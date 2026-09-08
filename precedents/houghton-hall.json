@@ -1,0 +1,158 @@
+{
+  "id": "houghton-hall",
+  "name": "Houghton Hall",
+  "location": {
+    "text": "Norfolk, England",
+    "country": "United Kingdom",
+    "state": "Norfolk"
+  },
+  "dates": {
+    "built": "1722-1735",
+    "circa": false,
+    "altered": "Ground floor external staircase 1973 by Marshall Sisson, replacing that removed 1793. The north wing beyond the quadrant housed Walpole's pictures, sold in 1779 to the Hermitage.",
+    "note": "The listed-building entry says '1722-1735' and that the design was 'under discussion 1721' and 'published by Colen Campbell in Vitruvius Britannicus III (1725)'. The node's own exemplar gives 1735 as the year and says 'Built 1722-35'; the two agree."
+  },
+  "nodes": [
+    "english-palladian"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1152645",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1152645",
+      "title": "Houghton Hall With Courtyard Walls Attached to North and South, Houghton - 1152645 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. A search result's Overview block prints 'Grade: I List Entry Number: 1152645 Date first listed: 05-Jun-1953'; the Norfolk Heritage Explorer record for the same building prints 'Listing (Grade I) List Entry 1152645'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000462",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000462",
+      "title": "Houghton Hall, Houghton - 1000462 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry, Grade I, first listed 18-Sept-1987. Read in a tavily-search result and not extracted, so nothing is quoted from it; its PRINCIPAL BUILDING paragraph independently says 'The three-storey, nine-bay central block', which agrees with the listed-building entry's '3 storey 9 by 5 bay centre'."
+    }
+  ],
+  "survey": {
+    "item": "1152645",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1152645",
+    "prepared": "Historic England's National Heritage List entry; Date first listed 05-Jun-1953 on the Overview block as a search result printed it.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Country House. 1722-1735 for Sir Robert Walpole, the first Prime Minister of Great Britain (1717-1742), in rivalry with his brother-in-law's Raynham. Reputed to have been built largely from public funds, a \"house of State and Convenience\" (Colen Campbell) for the \"Houghton meeting\" house-parties and for Walpole's picture collection here 1742-1779. Design, published by Colen Campbell in Vitruvius Britannicus III (1725), under discussion 1721, executed by Walpole's protege in the King's Works, Thomas Ripley, modified by James Gibbs, decorated by William Kent. Palladian with some Baroque references.",
+        "page": "Official list entry 1152645, Details, opening paragraph"
+      },
+      {
+        "field": "materials",
+        "text": "Fine Whitby stone ashlar, pantiled roofs. 3 storey 9 by 5 bay centre with 4 advanced angle towers, single storey colonnaded wings, quadrant to west, dog-leg to east.",
+        "page": "Official list entry 1152645, Details, opening paragraph"
+      },
+      {
+        "field": "plan",
+        "text": "to west, dog-leg to east. 2 storey 7 by 7 bay service wings with courtyards beyond.",
+        "page": "Official list entry 1152645, Details, opening paragraph; this span begins mid-sentence at the start of the extract's second chunk and is quoted from where that chunk begins"
+      },
+      {
+        "field": "openings",
+        "text": "East front has rusticated basement with plinth and first floor platband. 3 ground floor centre bays with 2 arched headed sashes and fanlight door, 1793 refacing of removed external staircase. 4 outer and 2 tower sashes with keystone heads. Piano nobile sashes with Gibbsian surrounds, and balustrade dados. Venetian windows with keystone heads to angles.",
+        "page": "Official list entry 1152645, Details, east front"
+      },
+      {
+        "field": "cornice",
+        "text": "9 second floor architrave surround sashes. Rich Ionic entablature with pulvinated frieze, cornice, balustrade, parapet with coping",
+        "page": "Official list entry 1152645, Details, east front"
+      },
+      {
+        "field": "chimneys",
+        "text": "Each ridge has 2 massive stacks with moulded cornices.",
+        "page": "Official list entry 1152645, Details, east front and colonnades"
+      },
+      {
+        "field": "finishes",
+        "text": "Central single cube 2 storey Stone Hall lined with superbly detailed Whitby ashlar, stone and stucco carving. Architraved doors and aedicules. Antique busts on brackets, bas-reliefs and swags. Rysbrack chimney piece with caryatids, bas-relief above with bust of Walpole.",
+        "page": "Official list entry 1152645, Details, Interior"
+      },
+      {
+        "field": "plan",
+        "text": "aisled hall with piers supporting vaults. Piano nobile above for \"taste, expense, state and parade\" (Hervey), little used in C18, has State rooms to north, private rooms to south.",
+        "page": "Official list entry 1152645, Details, Interior; this span begins mid-sentence at the start of the extract's chunk and is quoted from where that chunk begins"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "3 storey 9 by 5 bay centre",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "front_bay_count",
+      "as_printed": "3 storey 9 by 5 bay centre",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The entry prints the centre block as 9 by 5 bays and does not say which is the front. The parks and gardens entry for the same building calls it 'The three-storey, nine-bay central block' with 'five-bay north and south fronts', which makes 9 the entrance and garden fronts and 5 the sides."
+    },
+    {
+      "name": "side_bay_count",
+      "as_printed": "3 storey 9 by 5 bay centre",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "See the note on front_bay_count."
+    },
+    {
+      "name": "angle_tower_count",
+      "as_printed": "4 advanced angle towers",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "service_wing_storey_count",
+      "as_printed": "2 storey 7 by 7 bay service wings",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "service_wing_bay_count",
+      "as_printed": "2 storey 7 by 7 bay service wings",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Square on plan at seven bays each way, as the entry prints it."
+    },
+    {
+      "name": "second_floor_window_count",
+      "as_printed": "9 second floor architrave surround sashes",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 4
+    },
+    {
+      "name": "stacks_per_ridge",
+      "as_printed": "Each ridge has 2 massive stacks with moulded cornices",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "stone_hall_storey_height",
+      "as_printed": "Central single cube 2 storey Stone Hall",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 6,
+      "note": "THE ENTRY CONFIRMS THE CUBE AND STATES NO DIMENSION. This node's own exemplar note says 'The Stone Hall is a 40-foot cube'; the register says 'single cube 2 storey Stone Hall' and gives no figure in feet, so the 40 remains uncorroborated here."
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. The richest external envelope in the Palladian half: three storeys, nine by five bays, four angle towers, two storey seven by seven service wings, two stacks a ridge, and a nine-window second floor -- and the register calls the whole thing 'Palladian with some Baroque references', which is a third party saying what this node's descent from the Baroque node would predict. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

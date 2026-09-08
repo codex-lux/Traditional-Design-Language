@@ -1,253 +1,261 @@
 {
- "$schema": "https://json-schema.org/draft/2020-12/schema",
- "$id": "https://traditional-design-language.org/schema/parti.schema.json",
- "title": "Parti",
- "version": "0.1.0",
- "description": "A canonical plan diagram, used as a seed. A parti specifies TOPOLOGY and ROLES — which rooms, which walls are outside, what connects to what — and nothing else. Dimensions come from the room catalogue and are scaled to the brief, so the library never duplicates room data and never drifts from it. Every parti here is descended from something that was actually built, which is the argument for seeding a search rather than starting it from noise.",
- "type": "object",
- "required": [
-  "id",
-  "name",
-  "description",
-  "massing",
-  "styles",
-  "rooms"
- ],
- "additionalProperties": false,
- "properties": {
-  "id": {
-   "type": "string",
-   "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
-  },
-  "name": {
-   "type": "string"
-  },
-  "aka": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   }
-  },
-  "description": {
-   "type": "string",
-   "description": "What the diagram IS, and what it is good and bad at. The trade-off is the useful part."
-  },
-  "massing": {
-   "type": "string"
-  },
-  "alternate_massings": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   }
-  },
-  "styles": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   },
-   "description": "style ids this parti is native to. A style not listed can still use it; the composer will say so."
-  },
-  "groupings": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   }
-  },
-  "circulation_parti": {
-   "type": "string"
-  },
-  "storeys": {
-   "type": "integer"
-  },
-  "area_range_sf": {
-   "type": "array",
-   "items": {
-    "type": "number"
-   },
-   "minItems": 2,
-   "maxItems": 2
-  },
-  "bedroom_range": {
-   "type": "array",
-   "items": {
-    "type": "integer"
-   },
-   "minItems": 2,
-   "maxItems": 2
-  },
-  "rooms": {
-   "type": "array",
-   "minItems": 2,
-   "items": {
-    "type": "object",
-    "required": [
-     "id",
-     "type",
-     "level"
-    ],
-    "additionalProperties": false,
-    "properties": {
-     "id": {
-      "type": "string"
-     },
-     "type": {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/parti.schema.json",
+  "title": "Parti",
+  "version": "0.1.0",
+  "description": "A canonical plan diagram, used as a seed. A parti specifies TOPOLOGY and ROLES — which rooms, which walls are outside, what connects to what — and nothing else. Dimensions come from the room catalogue and are scaled to the brief, so the library never duplicates room data and never drifts from it. Every parti here is descended from something that was actually built, which is the argument for seeding a search rather than starting it from noise.",
+  "type": "object",
+  "required": [
+    "id",
+    "name",
+    "description",
+    "massing",
+    "styles",
+    "rooms"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
       "type": "string",
-      "description": "room catalogue id"
-     },
-     "name": {
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "name": {
       "type": "string"
-     },
-     "level": {
-      "type": "integer",
-      "description": "0 ground, 1 above, -1 cellar"
-     },
-     "required": {
-      "type": "boolean",
-      "default": true,
-      "description": "False marks a room the composer may drop to hit an area target."
-     },
-     "repeats_with_bedrooms": {
-      "type": "boolean",
-      "default": false,
-      "description": "The room multiplies with the bedroom count — a chamber, its closet."
-     },
-     "area_weight": {
-      "type": "number",
-      "description": "Relative share of the plan. Omit and the room catalogue's midpoint is used."
-     },
-     "exterior_walls": {
+    },
+    "aka": {
       "type": "array",
       "items": {
-       "enum": [
-        "N",
-        "NE",
-        "E",
-        "SE",
-        "S",
-        "SW",
-        "W",
-        "NW"
-       ]
+        "type": "string"
       }
-     },
-     "lit_from": {
+    },
+    "description": {
+      "type": "string",
+      "description": "What the diagram IS, and what it is good and bad at. The trade-off is the useful part."
+    },
+    "massing": {
+      "type": "string"
+    },
+    "alternate_massings": {
       "type": "array",
       "items": {
-       "type": "string"
-      },
-      "description": "Which of those walls actually carry glass."
-     },
-     "doors": {
-      "type": "array",
-      "items": {
-       "type": "string"
-      },
-      "description": "room ids, or 'exterior'"
-     },
-     "fixtures": {
-      "type": "array",
-      "items": {
-       "type": "string"
+        "type": "string"
       }
-     },
-     "stacks_over": {
+    },
+    "styles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "style ids this parti is native to. A style not listed can still use it; the composer will say so."
+    },
+    "groupings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "circulation_parti": {
+      "type": "string"
+    },
+    "storeys": {
+      "type": "integer"
+    },
+    "area_range_sf": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "bedroom_range": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "level"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "room catalogue id"
+          },
+          "name": {
+            "type": "string"
+          },
+          "level": {
+            "type": "integer",
+            "description": "0 ground, 1 above, -1 cellar"
+          },
+          "required": {
+            "type": "boolean",
+            "default": true,
+            "description": "False marks a room the composer may drop to hit an area target."
+          },
+          "repeats_with_bedrooms": {
+            "type": "boolean",
+            "default": false,
+            "description": "The room multiplies with the bedroom count — a chamber, its closet."
+          },
+          "area_weight": {
+            "type": "number",
+            "description": "Relative share of the plan. Omit and the room catalogue's midpoint is used."
+          },
+          "exterior_walls": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "N",
+                "NE",
+                "E",
+                "SE",
+                "S",
+                "SW",
+                "W",
+                "NW"
+              ]
+            }
+          },
+          "lit_from": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Which of those walls actually carry glass."
+          },
+          "doors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "room ids, or 'exterior'"
+          },
+          "fixtures": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stacks_over": {
+            "type": "string",
+            "description": "STRUCTURAL alignment: the id of the room on the level one below that this room sits over. See the plan schema's own field for the split of duties made at plan 0.8.0."
+          },
+          "wet_stack_with": {
+            "type": "string",
+            "description": "SERVICING: the id of the room this room's wet stack shares a chase with, on any level including its own. No parti declares one today; the field exists so a parti CAN say it without reaching for `stacks_over`."
+          },
+          "note": {
+            "type": "string"
+          },
+          "level_offset_ft": {
+            "type": "number",
+            "description": "Half-storey offset from this room's level, in feet. Defaults to 0. `level` keeps its meaning and continues to drive stacking, vertical alignment and storey heights; this is read only by the section and the stair check, so a split-level can be expressed without every consumer of `level` changing. Ruled as OQ 56."
+          },
+          "block": {
+            "type": "string",
+            "description": "WP-11.6. The massing element this room is laid into, by id. Absent means the main block, which is what every room of every other parti is. `build/compose.py` copies it onto the plan record, where `geometry.blocks_for` reads it (plan schema 0.5.0's `block`), so a diagram can state its own five-part composition instead of leaving the placer to put eleven rooms in one rectangle. A DOOR BETWEEN TWO ELEMENTS CANNOT BE PLACED -- measured, 4 of 4 unplaced on the reference fixture, because the rooms share no wall -- so every connection across the gap must go through the hyphen room."
+          },
+          "hyphen": {
+            "type": "boolean",
+            "description": "WP-11.6. True on the one circulation room of an element that is the LINK between that element and the main block. `blocks_for` gives it an element of its own in the gap, lower and shallower than both, which is `dependency-and-hyphen`'s own stated rule, and reads its `width_ft` as the gap. Meaningless without `block`."
+          }
+        }
+      }
+    },
+    "adjacencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "a",
+          "b",
+          "relation"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "a": {
+            "type": "string"
+          },
+          "b": {
+            "type": "string"
+          },
+          "relation": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "scaling": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "How the diagram grows. Most partis grow by widening rooms; some grow only by adding a link, and saying which is the difference between a diagram that scales and one that breaks.",
+      "properties": {
+        "grows_by": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "widening",
+              "deepening",
+              "adding-bays",
+              "adding-a-link",
+              "adding-a-storey",
+              "does-not-scale"
+            ]
+          }
+        },
+        "bay_module_ft": {
+          "type": "number"
+        },
+        "max_bay_count": {
+          "type": "integer"
+        },
+        "note": {
+          "type": "string"
+        },
+        "min_bay_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "fewest bays this diagram can be built at; defaults to 3 when absent"
+        }
+      }
+    },
+    "trades_away": {
       "type": "string",
-      "description": "STRUCTURAL alignment: the id of the room on the level one below that this room sits over. See the plan schema's own field for the split of duties made at plan 0.8.0."
-     },
-     "wet_stack_with": {
-      "type": "string",
-      "description": "SERVICING: the id of the room this room's wet stack shares a chase with, on any level including its own. No parti declares one today; the field exists so a parti CAN say it without reaching for `stacks_over`."
-     },
-     "note": {
-      "type": "string"
-     },
-     "level_offset_ft": {
-      "type": "number",
-      "description": "Half-storey offset from this room's level, in feet. Defaults to 0. `level` keeps its meaning and continues to drive stacking, vertical alignment and storey heights; this is read only by the section and the stair check, so a split-level can be expressed without every consumer of `level` changing. Ruled as OQ 56."
-     }
-    }
-   }
-  },
-  "adjacencies": {
-   "type": "array",
-   "items": {
-    "type": "object",
-    "required": [
-     "a",
-     "b",
-     "relation"
-    ],
-    "additionalProperties": false,
-    "properties": {
-     "a": {
-      "type": "string"
-     },
-     "b": {
-      "type": "string"
-     },
-     "relation": {
-      "type": "string"
-     }
-    }
-   }
-  },
-  "scaling": {
-   "type": "object",
-   "additionalProperties": false,
-   "description": "How the diagram grows. Most partis grow by widening rooms; some grow only by adding a link, and saying which is the difference between a diagram that scales and one that breaks.",
-   "properties": {
-    "grows_by": {
-     "type": "array",
-     "items": {
+      "description": "What this diagram gives up. Every parti gives something up, and a composer that cannot say what will pick badly."
+    },
+    "exemplars": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "confidence": {
       "enum": [
-       "widening",
-       "deepening",
-       "adding-bays",
-       "adding-a-link",
-       "adding-a-storey",
-       "does-not-scale"
+        "high",
+        "medium",
+        "low"
       ]
-     }
-    },
-    "bay_module_ft": {
-     "type": "number"
-    },
-    "max_bay_count": {
-     "type": "integer"
-    },
-    "note": {
-     "type": "string"
-    },
-    "min_bay_count": {
-     "type": "integer",
-     "minimum": 1,
-     "description": "fewest bays this diagram can be built at; defaults to 3 when absent"
     }
-   }
-  },
-  "trades_away": {
-   "type": "string",
-   "description": "What this diagram gives up. Every parti gives something up, and a composer that cannot say what will pick badly."
-  },
-  "exemplars": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   }
-  },
-  "sources": {
-   "type": "array",
-   "items": {
-    "type": "string"
-   }
-  },
-  "confidence": {
-   "enum": [
-    "high",
-    "medium",
-    "low"
-   ]
   }
- }
 }

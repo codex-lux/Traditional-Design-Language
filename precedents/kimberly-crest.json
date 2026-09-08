@@ -1,0 +1,58 @@
+{
+  "id": "kimberly-crest",
+  "name": "Kimberly Crest",
+  "aka": [
+    "Kimberly Crest House and Gardens",
+    "John Alfred Kimberly house"
+  ],
+  "location": {
+    "text": "Redlands, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1897",
+    "circa": false,
+    "altered": "Bought in 1905 by John Alfred Kimberly, a co-founder of Kimberly-Clark; his wife Helen had the Italian gardens installed. Bequeathed to the people of Redlands on the death of his daughter Mary Kimberly Shirk in 1979.",
+    "note": "Every source read gives 1897, and the National Register infobox prints 'Built 1897'."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "96000328",
+      "url": "https://en.wikipedia.org/wiki/Kimberly_Crest",
+      "title": "Kimberly Crest; NRHP reference No. 96000328, added March 28, 1996; California Historical Landmark No. 1019; architectural style 'Victorian, Chateauesque' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox. A Flickr photograph caption read the same day independently prints 'NRHP No. 96000328', which is a second surface for the number and not an independent authority."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/2007684866",
+      "title": "[\"Kimberly Crest,\" John Alfred Kimberly house, 1325 Prospect Drive, Redlands, California] | Library of Congress",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Library's own caption: 'French revival chateau, Dennis & Farwell, built 1897. House and garden an historic site.' A Prints and Photographs item, NOT a Historic American Buildings Survey record, which is why this record carries no `survey` block and why this ref is `other` rather than `loc-item`: the Library control number 2007684866 is not a HABS item id of the `xx0000` shape and recording it as one would be a malformed locator. It also gives the street address, 1325 Prospect Drive, which the style node's exemplar does not print."
+    },
+    {
+      "kind": "other",
+      "url": "https://socallandmarks.com/index.php/2020/08/20/kimberly-crest-home-and-gardens",
+      "title": "Kimberly Crest Home and Gardens in Redlands - SoCal Landmarks",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Kimberly Crest House and Gardens in Redlands is a 22 room 7,000 square foot Victorian era estate with over 6 acres of Italian Renaissance styled gardens. Built in 1897, it was designed in the Chateauesque style by Oliver Perry Dennis and Lyman Farwell for Mrs. Cornelia Hill, a prominent Redlands pioneer.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://kids.kiddle.co/Kimberly_Crest",
+      "title": "Kimberly Crest Facts for Kids",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Kimberly Crest mansion has three stories. It was designed in a style called Chateauesque. ... The building is very large, with over 7,000 square feet (about 650 square meters) of floor space. A very similar building was designed by the same architects. It is now known as The Magic Castle and was built in Hollywood in 1909.' The Magic Castle comparison is worth knowing: the same office built the type twice, twelve years apart."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 and added deliberately as the SMALL case. chateauesque's description.long says the style was built 'for perhaps two hundred families between 1880 and 1910' and every other exemplar on the node is a Vanderbilt-scale house, a Toronto castle or a railway hotel; at 7,000 sq ft and 22 rooms Kimberly Crest is the version an ordinary rich family could buy, in a town of ten thousand people, and it is the one building on this node whose whole envelope a reader can hold in mind. Its walls are also the counter-case to the node's load-bearing-ashlar rule -- no source read states its construction, which is itself the finding. No HABS survey was found; the Library item is a Prints and Photographs record."
+}

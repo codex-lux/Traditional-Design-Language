@@ -1,0 +1,110 @@
+{
+  "id": "oakham-castle-great-hall",
+  "name": "Oakham Castle Great Hall",
+  "aka": [
+    "Oakham Castle"
+  ],
+  "location": {
+    "text": "Oakham, Rutland, England",
+    "country": "England",
+    "state": "Rutland"
+  },
+  "dates": {
+    "built": "circa 1180-90",
+    "circa": true,
+    "altered": "Two red oak beams put into part of the roof by 'George Villies, Duke of Buckingham'; three later dormers; modern additions built on to the west. Used as the Assize Court and then as the Magistrates Court.",
+    "note": "The entry's 'probably built by Walkelin de Ferrers circa 1180-90' agrees with the node's exemplar year of 1185 to within its own hedge."
+  },
+  "nodes": [
+    "norman-romanesque-english"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1073277",
+      "title": "Oakham Castle",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1073277",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'SK 8608 6/2 8.5.50. 1469 MARKET PLACE Oakham Castle I'. A search result printed 'List Entry Number: 1073277. Date first listed: 08-May-1950.' The entry closes 'Scheduled AM.'"
+    }
+  ],
+  "survey": {
+    "item": "1073277",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1073277",
+    "prepared": "The Details section's own legacy header: 'SK 8608 6/2 8.5.50. 1469 MARKET PLACE Oakham Castle I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Rectangular ward enclosed by high bank containing fine arcaded Hall in transitional style, probably built by Walkelin de Ferrers circa 1180-90. Stone used is fine-grained shelly oolite from Clipsham. Stone slate roof, 3 later dormers 65 ft by 44 ft.",
+        "page": "Official list entry, Details, opening paragraph"
+      },
+      {
+        "field": "bays",
+        "text": "The hall is divided by 3 shafts on either side into 4 bays, 8 paired windows under pointed arch, stone band continues cills. Round-headed doorway now in centre formerly at East End. At East gable end 3 blocked doorways, simple continuous moulding.",
+        "page": "Official list entry, Details, hall description"
+      },
+      {
+        "field": "finishes",
+        "text": "Circular piers and crocketed capitals like those in the chancel at Canterbury. Carved figures of musicians in spandrels. Romanesque carved wall corbels.",
+        "page": "Official list entry, Details, hall description"
+      },
+      {
+        "field": "roof",
+        "text": "part of roof 2 red oak beams put in by George Villies, Duke of Buckingham.",
+        "page": "Official list entry, Details; this span opens the extract's third chunk and its opening words run on from a sentence the extract did not return"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "65 ft by 44 ft",
+      "value": 65,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "THE SUBJECT OF THIS DIMENSION IS NOT STATED. The legacy text runs the roof, the dormers and the figures into one sentence -- 'Stone slate roof, 3 later dormers 65 ft by 44 ft' -- with no verb attaching the pair to anything. The only structure the entry describes is the arcaded hall, so the figures are almost certainly its plan; that is a reading and is marked as one. The first figure printed is taken as the width, per the corpus convention where a front is unstated."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "65 ft by 44 ft",
+      "value": 44,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The second figure printed. See the note on overall_width_ft: the sentence does not say what is measured."
+    },
+    {
+      "name": "hall_bay_count",
+      "as_printed": "3 shafts on either side into 4 bays",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "arcade_shaft_count_per_side",
+      "as_printed": "3 shafts on either side",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "window_count",
+      "as_printed": "8 paired windows under pointed arch",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "3 later dormers",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "LATER, by the entry's own word; not part of the C12 building."
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THE ONLY PLAN DIMENSION THIS NODE'S EXEMPLARS RECOVERED, AND ITS SUBJECT IS AMBIGUOUS IN THE SOURCE -- see the measurement notes. The entry independently states the node's own claim that the Oakham masons came from the Canterbury lodge ('Circular piers and crocketed capitals like those in the chancel at Canterbury'), which `norman-romanesque-english`'s long description makes in the abstract about the lodge system."
+}

@@ -1,0 +1,51 @@
+{
+  "id": "the-andalusia",
+  "name": "The Andalusia",
+  "aka": [
+    "Andalusia Apartments",
+    "The Andalusia (Los Angeles, California)"
+  ],
+  "location": {
+    "text": "1471-1475 Havenhurst Drive, Los Angeles, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "1471-1475 Havenhurst Dr., Hollywood, Los Angeles, California",
+      "West Hollywood, California"
+    ]
+  },
+  "dates": {
+    "built": "1926",
+    "circa": false
+  },
+  "nodes": [
+    "andalusian-spanish-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/The_Andalusia_(Los_Angeles,_California)",
+      "title": "The Andalusia (Los Angeles, California) - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'Architects Arthur and Nina Zwebell designed the structure around a richly landscaped interior courtyard. Materials used reflected those commonly used in the Spanish Colonial Revival, Mediterranean Revival, Moorish Revival, and Mission Revival traditions: exposed wooden beams, cantilevered beams, carved wood, wrought iron, terracotta roof tiles, lightly textured buff-colored stucco, cast concrete, and brick.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "03000775",
+      "url": "https://en.wikipedia.org/wiki/The_Andalusia_(Los_Angeles,_California)",
+      "title": "NRHP reference No. 03000775; added to the National Register 21 August 2003; Los Angeles Historic-Cultural Monument No. 435, designated 16 May 1989; architect Arthur and Nina Zwebell (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=231673",
+      "title": "The Andalusia (Historical Marker Database)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Andalusia is listed in the National Register of Historic Places by the United States Department of the Interior. Arthur & Nina Zwebell, architects'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. THE ADDRESS IS PRINTED TWO WAYS BY DIFFERENT SOURCES and both are carried: Wikipedia files it as Los Angeles (Hollywood) at 1471-1475 Havenhurst Dr., and the estate and local-history sources call it West Hollywood. The city boundary runs near this block; neither string is corrected. No survey exists and none is asserted. It is here because it is the Andalusian mode at the scale nobody else in the node covers — rented, urban and repeated round a court, not a country house."
+}

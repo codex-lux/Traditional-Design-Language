@@ -141,6 +141,12 @@ def integer_box(x, y, W, H, grid=1.0):
     return ex, ey, eW, eH
 
 
+# The hundredth of a foot every stated box's depth is rounded to -- `derive_footprint` and
+# `flank_sizes` both end `H = round(<quotient>, 2)`. Named here because `capacity_report` has to
+# know how precise a stated box is before it can convict one of not holding its own rooms.
+DEPTH_ROUNDING_FT = 0.01
+
+
 def capacity_report(els, members, grid=1.0):
     """Per element: its box, its rooms' own declared area, and whether they fit.
     `members` is `{element id: {room id: declared sf or None}}`.
@@ -199,8 +205,26 @@ def capacity_report(els, members, grid=1.0):
                         "unjudged_because": "a room in it states no width_ft x length_ft"})
             out.append(row)
             continue
+        # A STATED BOX'S DEPTH IS A ROUNDED QUOTIENT, AND THE MAIN BLOCK'S IS ROUNDED OFF ITS
+        # OWN ROOMS (found at the merge of the two Phase 11s, 8 Sep 2026). `derive_footprint`
+        # sets `W = bays * bay` and `H = round(need / W, 2)`, and `flank_sizes` the same shape
+        # one term along -- so the mass a record states IS the programme it was sized for,
+        # quantised to a hundredth of a foot of depth. For the main block, where `need` is that
+        # element's own rooms and the slack is nothing else, asking whether the box holds them
+        # is asking the box about itself and the answer is decided by which way the second
+        # decimal went: `W * 0.005` sf either side, 0.225 sf on a 45 ft front. It read `true`
+        # for three packages on one plan's luck and went `false` at this merge, when main's
+        # WP-11.2 centre-bay parity changed the bay count and the same box rounded the other
+        # way -- 1,675.8 sf stated for 1,676.0 sf of rooms, 0.012% and no mass moved.
+        # The tolerance is DERIVED from that rounding rather than chosen, and it is REPORTED,
+        # so a row that fits only inside it cannot read as a row with room to spare. It is not
+        # applied to the grid box below: that one is an integral number of quanta and its
+        # inward rounding is the very thing the grid figure exists to show.
+        tol = round(e["W"] * DEPTH_ROUNDING_FT / 2.0, 4)
         row["coverage_needed_stated"] = round(area / stated_sf, 3) if stated_sf else None
-        row["fits_stated"] = bool(stated_sf and area <= stated_sf)
+        row["fits_stated"] = bool(stated_sf and area <= stated_sf + tol)
+        if stated_sf and stated_sf < area <= stated_sf + tol:
+            row["fits_stated_only_within_the_depth_rounding"] = tol
         gb = row.get("grid_box_sf")
         if snapped or not gb:
             row["fits_on_the_proving_grid"] = None

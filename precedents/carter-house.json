@@ -1,0 +1,121 @@
+{
+  "id": "carter-house",
+  "name": "Carter House",
+  "aka": [
+    "Fountain Branch Carter House"
+  ],
+  "location": {
+    "text": "1140 Columbia Avenue, Franklin, Williamson County, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "1830",
+    "circa": false,
+    "altered": "The 1971 survey records the roofs as covered with asbestos shingles; the Library's catalogue line for the item gives '1830 Initial Construction'.",
+    "note": "The survey states '1. Date of erection: 1830' flatly and adds that Carter bought the land in October 1829; Wikipedia says 'Fountain Branch Carter completed construction of the house in 1830'. No disagreement on this record."
+  },
+  "nodes": [
+    "greek-revival-upland-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "TN-37",
+      "title": "Carter House, 1140 Columbia Avenue, Franklin, Williamson County, TN",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0100/tn0164/data/tn0164data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running head, twice inside one quoted span: 'CARTER HOUSE HABS No. TENN-37 (Page 7)'. The Library normalises it to TN-37 and prints that on its catalogue line; the 1930s-form call number is 'HABS TENN,94-FRANK,1-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "tn0164",
+      "url": "https://www.loc.gov/pictures/item/tn0164.sheet.00002a",
+      "title": "Carter House, 1140 Columbia Avenue, Franklin, Williamson County, TN (sheet 2 of 6)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The item id is the path segment of a drawing-sheet page the search returned, printed in a Wikimedia Commons source line together with 'Survey number: HABS TN-37; Building/structure dates: 1830 Initial Construction'. The item landing page itself was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000734",
+      "url": "https://en.wikipedia.org/wiki/Carter_House_(Franklin,_Tennessee)",
+      "title": "Part of Franklin Battlefield (ID66000734); designated a contributing property December 19, 1960 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A DISTRICT LISTING, NOT AN INDIVIDUAL ONE. The number names the Franklin Battlefield, of which this house is a contributing property; it does not identify the building on its own and must not be read as its identity. Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://visitfranklin.com/history/carter-house",
+      "title": "Carter House (Visit Franklin)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its words: 'Carter House was built in 1830 by Fountain Branch Carter. 34 years later, the small brick farmhouse would bear witness to the bloody Battle of Franklin'."
+    }
+  ],
+  "survey": {
+    "item": "tn0164",
+    "register": "loc-item",
+    "survey_no": "TN-37",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/tn/tn0100/tn0164/data/tn0164data.pdf",
+    "prepared": "'Prepared by Roy C. Pledger Supervisory Architect National Park Service July 1971'; the project section records the records as made 'during the summer of 1971 as part of a cooperative project of the National Park Service, the Tennessee Historical Commission, and the Historic Sites Federation of Tennessee'",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "PART I. HISTORICAL INFORMATION A. Physical History: 1. Date of erection: 1830. 2. Architect: No information has come to light concerning the architect or builders. 3. Original and subsequent owners: The house was built for Fountain Branch Carter on nineteen acres of land which he bought from Mr. and Mrs. Angus McPhail in October 1829.",
+        "page": "HABS No. TN-37, Part I.A; no page marker is legible in this extract span. The running head elsewhere in the same extract reads 'CARTER HOUSE HABS No. TENN-37 (Page 7)'."
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: The main house has a simple pitched roof with stepped gable ends; the frame ell, a simple pitched roof with a gable on the west end. The L-shaped portico is covered in part by a shed roof extending from the west wall of the brick house and in part by an extension of the ell roof. The roofs are covered with asbestos shingles,",
+        "page": "HABS No. TN-37 (Page 7) -- the running head is printed inside the same extract span, a few lines above, mid-sentence."
+      },
+      {
+        "field": "openings",
+        "text": "windows flank the CARTER HOUSE HABS No. TENN-37 (Page 7) chimney; at the basement level there are two three-light windows. Ell--on the north side of the frame ell are two windows with nine-over-nine-light, double-hung wooden sash; on the south side, a window with six-over-six-light, double-hung wooden sash opens onto the porch,",
+        "page": "HABS No. TN-37 (Page 7) -- the running head falls inside the quoted sentence and is left where it fell."
+      },
+      {
+        "field": "plan",
+        "text": "C. Description of Interior: 1. Floor plans: The main block consists of a central hallway with a door on the right opening into the",
+        "page": "HABS No. TN-37, Part II.C.1; the extract breaks off here and no page marker is legible in the span. Quoted broken rather than completed."
+      },
+      {
+        "field": "dependencies",
+        "text": "1. General setting and orientation: Carter House faces east onto Columbia Avenue, on a level site between Strahl and Fowlkes Streets. 2. Outbuildings: The frame office and the brick smoke-house are near the southwest corner of the house. The brick kitchen is due west of the house. 3. Landscaping: The building is surrounded by lawns; there are shrubs at the foundations and many trees on the grounds. A brick walk edged by low plantings approaches the steps to the front entrance.",
+        "page": "HABS No. TN-37, Part II.D (site); no page marker is legible in this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "sash_lights_ell_north",
+      "as_printed": "nine-over-nine-light",
+      "value": 18,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Nine over nine; recorded as the total per sash, on the ELL and not on the main block, which this extract does not reach."
+    },
+    {
+      "name": "sash_lights_ell_south",
+      "as_printed": "six-over-six-light",
+      "value": 12,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Six over six, total per sash, on the ell's south side."
+    },
+    {
+      "name": "basement_window_lights",
+      "as_printed": "two three-light windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Three lights per window, two windows. The value is the lights, not the count of windows."
+    }
+  ],
+  "note": "Written 5 Sep 2026 for Tranche 2. A 1971 survey with a real Part II outline, and it states no overall dimension in either of the two spans reached -- the ONE extract query made against this PDF returned the historical section, the roof and openings entries, the first line of the floor plans and the site section, and never a 'Over-all dimensions' entry. One query is one span; a later reader should query the same URL again with a different query value before concluding the survey states no dimension. The kitchen, smoke-house and office standing as SEPARATE BUILDINGS at the corners of the house is the service arrangement the node's own prose describes for this stratum, recorded by a surveyor rather than asserted. The plan sentence is quoted broken at 'opening into the' because that is where the extract stops; finishing it from the shape a central-passage house usually takes would be exactly the inference this schema exists to prevent."
+}

@@ -3,7 +3,7 @@
 An evolutionary taxonomy of traditional architecture, built as a machine-readable graph rather than a document — and designed so that selecting a style resolves to a kit of parts.
 
 <!-- COUNTS:START -->
-**164 taxa · 476 lineage edges · 97 element slots · 40 massings · 60 rooms · 17 groupings · 57 executable proportion packs · 210 named faults · 1850 specified images, 73 drawn · 21 partis native to 129 of 132 buildable styles · 24 MCP tools**
+**164 taxa · 476 lineage edges · 97 element slots · 40 massings · 60 rooms · 17 groupings · 57 executable proportion packs · 210 named faults · 1850 specified images, 73 drawn · 21 partis native to 129 of 132 buildable styles · 27 MCP tools**
 
 **700 BC – AD 2026**
 <!-- COUNTS:END -->
@@ -157,11 +157,11 @@ To populate a kit: edit `kits/<id>.kit.json`. Set a slot's `binding` to `specifi
   from this environment. **73 are sourced**, and none of them needed the network: they carry a
   `generated_from` block naming a proportion pack and an assembly, and `build/render_profile.py`
   draws them from the corpus's own geometry. Of the rest, **858 can never be harvested from any
-  archive** — they are `role: incorrect`, and no archive indexes wrongness. 786 name a real
-  building to look for, across 305 distinct queries; 180 of those are in the United States and so
+  archive** — they are `role: incorrect`, and no archive indexes wrongness. 858 name a real
+  building to look for, across 312 distinct queries; 183 of those are in the United States and so
   within HABS's charter.
 - **Generated guidelines and details, and costs** (WP-5.3, WP-5.4) — the workbench, the DXF/IFC export and drawing-to-record ingestion shipped; these two are what remain of the platform phase.
-- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug, first adjudication pass 2 Sep): 256 role gaps, 215 of them never judged, 249 judged. Ruled adjudicate-first — but the backlog **refills as it is worked**, because declining a pack re-attributes the role to the next ancestor: one log node needs 26 declines over 9 rounds to reach fixpoint, so 245 is what is visible rather than what is required.
+- **What the lineage cascade delivers that nobody bound** (OQ 51, ruled 25 Aug, refusal half built 28 Aug, first adjudication pass 2 Sep): 222 role gaps, 180 of them never judged, 250 judged. Ruled adjudicate-first — but the backlog **refills as it is worked**, because declining a pack re-attributes the role to the next ancestor: one log node needs 26 declines over 9 rounds to reach fixpoint, so 245 is what is visible rather than what is required.
 - **Non-Western traditions.** Five traditions are modelled, deep on the North American lineage and its European roots. Japanese, Islamic, South Asian, and African traditions would each be a peer trunk, and the schema extends to them without modification. Cape Dutch already carries an acknowledged gap: its Cape and Indonesian strand has no node to point at.
 
 ---
@@ -174,5 +174,5 @@ The dataset was audited adversarially before release, and every layer added sinc
 
 - One chronology warning survives by design: `mexican-colonial` (1550) descends from `churrigueresque` (1700), because Churrigueresque is a phase *inside* Mexican Colonial's three-century span. The validator's chronology check cannot express a containment relationship.
 - Confidence is recorded per node. Vernacular dating is genuinely uncertain and several nodes are honestly marked `medium` or `low`; `scandinavian-log-vernacular` in particular rests on a contested dating of the Nothnagle Log House.
-- Roughly 90 of 299 North American exemplar rows were individually web-verified, weighted toward the obscure and the doubtful. The famous remainder was read but not separately checked.
+- When the taxonomy was authored (August 2026) roughly 90 of the then 299 North American exemplar rows were individually web-verified, weighted toward the obscure and the doubtful, and the famous remainder was read but not separately checked — and nothing recorded WHICH 90, so the figure cannot be re-derived. Since WP-11.1 (4 Sep 2026) an exemplar's verification is on the record instead: `precedent` names its `precedents/` file, whose refs each carry `retrieved` and `via`; `python3 build/check_research.py` prints how many of the corpus's exemplars carry one.
 - `distinguished_from` entries that compare a style against a *massing* use a `massing:` prefix, since the two live in separate namespaces.

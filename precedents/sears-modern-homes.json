@@ -1,0 +1,31 @@
+{
+  "id": "sears-modern-homes",
+  "name": "Sears Modern Homes",
+  "aka": [
+    "Sears Catalog Homes",
+    "Sears, Roebuck Modern Homes"
+  ],
+  "location": {
+    "text": "United States, shipped nationally from Chicago",
+    "country": "United States"
+  },
+  "dates": {
+    "built": "1908-1940",
+    "circa": false,
+    "note": "A product line, not a building; the span is the programme's (Wikipedia: 'From 1908 to 1940'), as the node's own exemplar states it."
+  },
+  "nodes": [
+    "craftsman-bungalow"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Sears_Modern_Homes",
+      "title": "Sears Modern Homes - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The article's 'National Register of Historic Places' section names listed members: 'Alhambra: At Triangle Ranch near Philips, South Dakota', 'Saratoga: The Hogue House in Chelsea, Oklahoma', 'Strathmore: Chester Valentine House in Saranac Lake, New York'. None was opened for this record."
+    }
+  ],
+  "note": "The exemplar names a CLASS rather than a building -- the node's own note says so -- and this record says the same. No member of the class was found in the Historic American Buildings Survey: two searches ('Sears Roebuck \"Modern Homes\" catalog house HABS survey bungalow National Register' and 'Sears \"Modern Homes\" catalog house \"HABS No.\"', on loc.gov and wikipedia.org) returned only the company's Kansas City mail-order plant (HABS MO-1928), which is not a house. So no single surveyed member is named to carry a survey block; a later pass that finds one should add it under aka and quote its data page here. Seeded 4 Sep 2026."
+}

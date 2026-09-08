@@ -1,0 +1,102 @@
+{
+  "id": "layer-marney-tower",
+  "name": "Layer Marney Tower",
+  "location": {
+    "text": "Essex, England",
+    "country": "England",
+    "state": "Essex"
+  },
+  "dates": {
+    "built": "early C16, begun by the first Lord Marney who died in 1523",
+    "circa": true,
+    "altered": "Some C20 restoration and a few small additions; a small modern north wing; a barn on the east side largely rebuilt.",
+    "note": "The entry dates the house only as 'a great early Cl6 house which was never completed' and fixes it by the deaths of the first Lord Marney in 1523 and his son in 1524. The node's exemplar year is 1520 and its note says c.1520-25; neither is contradicted and neither is confirmed."
+  },
+  "nodes": [
+    "tudor"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1223988",
+      "title": "Layer Marney Tower",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1223988",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Details section opens with the legacy header 'Layer Marney Tower TL 91 NW 16/33 23.6.52 I'. A search result printed 'Grade: I. List Entry Number: 1223988. Date first listed: 23-Jun-1952.'"
+    }
+  ],
+  "survey": {
+    "item": "1223988",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1223988",
+    "prepared": "The Details section's own legacy header: 'Layer Marney Tower TL 91 NW 16/33 23.6.52 I'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Layer Marney Tower TL 91 NW 16/33 23.6.52 I 2. The gatehouse and remaining wings of a great early Cl6 house which was never completed. It was begun by the first Lord Marney who died in 1523 and his son in 1524. There has been some C20 restoration and a few small additions.",
+        "page": "Official list entry, Details, legacy header and paragraph numbered 2"
+      },
+      {
+        "field": "storeys",
+        "text": "The gatehouse is a remarkable and very fine example of early renaissance work and ornament. The King's Italian architect, Guialamo de Travizi, is said to have designed the building. It stands 80 ft high, built in red brick with terracotta dressings and diapering in flared headers. There are 3 storeys and on the south side Flanking seni-octagonal turrets of 8 storeys with subsidiary turrets of 7 storeys on the north side, square turrets.",
+        "page": "Official list entry, Details, gatehouse description"
+      },
+      {
+        "field": "bays",
+        "text": "The small west ring is of 2 storeys and attics, roofs tiled, and with windows and detail similar to that of the gatehouse but more restored, Small modern north wing. Original part of wing has a moulded band between the storeys and a number of original windows. This wing forms the north side of the outer courtyard. A barn, largely rebuilt, incorporating C13 material is on the east side The long gallery forms-the south side, 2 storeys in red brick with diapering in flared headers, and a number of original doorways and windows. The south side is divided into 8 bays by buttresses. The west end has a crow stepped gable.",
+        "page": "Official list entry, Details, wings and long gallery description"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "gatehouse_height_ft",
+      "as_printed": "It stands 80 ft high",
+      "value": 80,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "THE ENTRY DOES NOT SAY WHETHER THIS IS THE HEIGHT OF THE THREE-STOREY GATEHOUSE BLOCK OR OF ITS EIGHT-STOREY TURRETS, and the two readings differ by a factor of nearly three per storey (26.7 ft against 10.0 ft). Taken as the height of the composition, which is how the sentence reads, and not divided by anything here."
+    },
+    {
+      "name": "gatehouse_storey_count",
+      "as_printed": "There are 3 storeys",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "THE GATEHOUSE BLOCK ITSELF IS THREE STOREYS. The node's own exemplar note calls this 'an eight-storey brick gatehouse'; the eight belongs to the flanking semi-octagonal turrets in the same sentence."
+    },
+    {
+      "name": "turret_storey_count",
+      "as_printed": "Flanking seni-octagonal turrets of 8 storeys",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "'seni-octagonal' is the legacy text's own spelling of semi-octagonal and is kept."
+    },
+    {
+      "name": "subsidiary_turret_storey_count",
+      "as_printed": "subsidiary turrets of 7 storeys on the north side",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "long_gallery_bay_count",
+      "as_printed": "The south side is divided into 8 bays by buttresses",
+      "value": 8,
+      "unit": "count",
+      "from_quote": 2
+    },
+    {
+      "name": "long_gallery_storey_count",
+      "as_printed": "2 storeys in red brick with diapering in flared headers",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2
+    }
+  ],
+  "note": "Tranche 3, English medieval fabric and the Tudor house, 5 Sep 2026. THIS RECORD CONTRADICTS ITS OWN NODE'S PROSE AND THE CONTRADICTION IS THE REASON IT IS WORTH HAVING: `tudor`'s exemplar note calls Layer Marney 'An eight-storey brick gatehouse', and the list entry says 'There are 3 storeys and on the south side Flanking seni-octagonal turrets of 8 storeys'. Nothing in the node has been edited; the finding is reported. Extracted twice with different queries, both returning the same Details spans."
+}

@@ -1,0 +1,59 @@
+{
+  "id": "rosson-house",
+  "name": "Rosson House",
+  "aka": [
+    "Dr. Roland Lee Rosson House",
+    "Rosson House Museum"
+  ],
+  "location": {
+    "text": "Phoenix, Arizona",
+    "country": "United States",
+    "state": "Arizona"
+  },
+  "dates": {
+    "built": "1894-1895",
+    "circa": false,
+    "note": "Wikipedia says 'built between 1894 and 1895' and its infobox prints 'Built 1895'; the node's exemplar says 1894-95 and gives the year as 1895. The architect is given by Wikipedia's prose as 'San Francisco architect A. P. Petit, his final design before his death' and by its own infobox as 'George Franklin Barber via A.P. Petit' -- two attributions in one article, both recorded and neither resolved."
+  },
+  "nodes": [
+    "queen-anne-spindled",
+    "queen-anne-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "AZ-37",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0000/az0041/data/az0041data.pdf",
+      "title": "Rosson House, 139 N. 6th Street, Phoenix, Maricopa County, Arizona -- HABS No. ARIZ-37",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The data PDF is a COVER SHEET ONLY -- its whole extracted text is the header plus the word PHOTOGRAPHS -- so there is no written historical and descriptive data to quote and this record carries no survey block. The header prints the older form of the number, OCR'd as 'HABS Ho. ARI2-37' for HABS No. ARIZ-37, where the Library normalises it to AZ-37. The header's address is 139 N. 6th Street; Wikipedia and the museum give 113 North 6th Street."
+    },
+    {
+      "kind": "loc-item",
+      "id": "az0041",
+      "url": "https://www.loc.gov/pictures/item/az0041",
+      "title": "Rosson House, 139 North Sixth Street, Phoenix, Maricopa County, AZ",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The search result's own summary line: 'Survey number: HABS AZ-37 National Register of Historic Places NRIS Number: 71000112 Subjects: houses turrets (towers) Stick Style architectural elements'."
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000112",
+      "url": "https://en.wikipedia.org/wiki/Rosson_House",
+      "title": "NRHP reference No. 71000112; added to NRHP June 3, 1971 (as the Wikipedia infobox prints it, and as the Library's item summary repeats it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rosson_House",
+      "title": "Rosson House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'It was built between 1894 and 1895 in the Stick-Eastlake - Queen Anne Style of Victorian architecture'."
+    }
+  ],
+  "note": "A HABS record with no written data: the survey photographed this house and did not describe it, so the record carries refs and no survey block, which the protocol treats as complete rather than as a gap. Worth carrying: the Library's own subject headings for the item are 'houses / turrets (towers) / Stick Style architectural elements' -- the Library files a house the register calls Queen Anne under Stick Style, which is this cluster's boundary problem stated by a cataloguer. Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

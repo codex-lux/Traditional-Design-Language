@@ -1,0 +1,67 @@
+{
+  "id": "henry-delamater-house",
+  "name": "Henry Delamater House",
+  "aka": [
+    "Delamater House"
+  ],
+  "location": {
+    "text": "Rhinebeck, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1844",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1844' and 'Architect Davis, Alexander Jackson'; the Library's item record carries no building date for this survey."
+  },
+  "nodes": [
+    "carpenter-gothic",
+    "gothic-revival-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-5638",
+      "url": "https://www.loc.gov/pictures/item/ny0183/",
+      "title": "Henry Delamater House, 44 Montgomery Street, Rhinebeck, Dutchess County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The item's own 'Survey number' note reads 'HABS NY-5638' and its call number 'HABS NY,14-RHINB,5-'. Its mediums are 'Photo(s): 13' and 'Photo Caption Page(s): 1' and NO data pages, so no survey block is recorded. The Wikipedia article's external links print the same number and '13 photos, 1 photo caption page'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0183",
+      "url": "https://www.loc.gov/pictures/item/ny0183/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "73001185",
+      "url": "https://en.wikipedia.org/wiki/Henry_Delamater_House",
+      "title": "NRHP reference No. 73001185; added May 7, 1973; MPS 'Rhinebeck Town MRA' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Henry_Delamater_House",
+      "title": "Henry Delamater House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/707c9c37-97da-43fe-922b-2edc6d1de187",
+      "title": "William J. Rotch Gothic Cottage -- National Historic Landmark Nomination",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Not about this house, and cited because it places it: the nomination names 'the John B. Angier House in Medford, Massachusetts; Cottage Lawn in Oneida, New York; and the Henry Delamater House in Rhinebeck, New York' as the three other Davis Gothic Revival cottages on the National Register."
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ny0183/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Shared by two nodes at one location string. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

@@ -1,0 +1,35 @@
+{
+  "id": "southern-living-idea-house-2023",
+  "name": "Southern Living Idea House 2023",
+  "location": {
+    "text": "Leipers Fork, Tennessee",
+    "country": "United States",
+    "state": "Tennessee"
+  },
+  "dates": {
+    "built": "2023",
+    "circa": false
+  },
+  "nodes": [
+    "modern-farmhouse-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.marvin.com/blog/tennessee-hilltop-oasis",
+      "title": "Tennessee Hilltop Oasis - Southern Living Idea House 2023 (Marvin project feature)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Designed to look like its evolved in place over the years, the 2023 Southern Living Idea House marries the farmhouse tradition with inviting modern elegance ... a spectacular 5,600 square-foot contemporary Southern farmhouse'. Project team: architect Lake + Land Studio (residential designers Bill Holloway and Luke Sippel), builder Hatcliff Construction, interior design Laura Hodges Studio, landscaping Butch Hamby of Southern Creations Landscaping. A window manufacturer's own project page, recorded as one."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.westlakeroyalbuildingproducts.com/liveabode/2023-southern-living-idea-house-spotlights-indoor-outdoor-living-with-tennessee-modern-farmhouse",
+      "title": "2023 Southern Living Idea House Spotlights Indoor-Outdoor Living with Tennessee Modern Farmhouse - LiveAbode",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE EAVE, STATED BY THE DESIGNER, WHICH IS WHAT THIS RECORD IS FOR. 'Lake + Land Studio architects sought to embody the Modern Farmhouse trend, while reflecting the region's historic landscape,' and Luke Sippel told Southern Living: 'Overall the house [has] deeper and exaggerated bracketed overhangs on the front and back porches, which allow you to enjoy those spaces a little bit longer when [the day] gets to the hot parts of the sun, but also helps shield you from the many rainy days that we deal with.' Also locates it in 'peaceful Leipers Fork' in the Tennessee countryside near Nashville, with 'a welcoming front porch and a cozy rear terrace with optional screening'."
+    }
+  ],
+  "note": "A magazine show house, and the only building in this node's exemplars that is a NEW house designed and published as modern farmhouse, with an architect, a builder, a date and a floor area. That is why it is here: everything else on the node is a television series, a brand's retail site, an 1895 farmhouse and a New Urbanist village. WHAT IT SAYS TO THE NODE'S OWN ARGUMENT: the node names eave overhang and porch depth as two of the five dimensions the market version fails, and the designer of this house describes 'deeper and exaggerated bracketed overhangs' as a deliberate correction, made for shade and rain rather than for shadow. So the correction the node asks for is already being made at the top of the market and not in the production tract, which is a statement about price and not about knowledge. No pitch, no overhang figure in inches, and no porch depth was published in either source; the house's 5,600 sq ft is the only number. The spelling 'Leipers Fork' is the source's own; other publications write Leiper's Fork."
+}

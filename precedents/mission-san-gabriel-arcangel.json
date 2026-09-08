@@ -1,0 +1,136 @@
+{
+  "id": "mission-san-gabriel-arcangel",
+  "name": "Mission San Gabriel Arcángel",
+  "aka": [
+    "Mission San Gabriel",
+    "San Gabriel Mission"
+  ],
+  "location": {
+    "text": "San Gabriel, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "428 South Mission Drive, San Gabriel, Los Angeles County, California"
+    ]
+  },
+  "dates": {
+    "built": "1805",
+    "circa": false,
+    "altered": "The HABS addendum records that the earthquake of 1812 destroyed the campanario at the east end of the north elevation and the convento west of the sacristy, and brought down the church roof; repairs completed by 1827 gave the church a wood-frame hipped roof and replaced the campanario with an espadaña over the sacristy's south elevation. A reinforced-concrete seismic reinforcement has since been added between the bell portals.",
+    "note": "The style node carries 1805 for the church's completion. The survey does not give a completion year in the spans read; what it says instead is that 'Records of the Mission San Gabriel church's construction are limited to annual mission reports and correspondence' and that 'Much of this construction history remains shrouded in mystery.'"
+  },
+  "nodes": [
+    "california-mission-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-37-8",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0200/ca0291/data/ca0291data.pdf",
+      "title": "ADDENDUM TO MISSION SAN GABRIEL ARCANGEL, HABS No. 37-8 (written historical and descriptive data)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The running header of the data page prints 'ADDENDUM TO MISSION SAN GABRIEL ARCANGEL HABS No. 37-8' with the state prefix dropped; the Wikimedia record for the measured drawings, read the same day, prints 'Survey number: HABS CA-37-8'. CA-37-8 is recorded as the normalised form."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0291",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0200/ca0291/data/ca0291data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "manual",
+      "note": "MANUAL, AND THE REASON IS WORTH STATING: the item id was not returned by any search. Searching for the mission returned item ca0292, 'Mission San Gabriel Arcangel, Industrial Shop (Ruins)', call number HABS CAL,19-SANGA,1A. The neighbouring id was tried as a tile.loc.gov data path, the PDF at that path was fetched by extract on the stated day, and its own header identifies it as the Mission San Gabriel Arcangel addendum. The item landing page itself was never opened."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.loc.gov/pictures/item/ca0295",
+      "title": "Purcell House, 328 West Mission Road, San Gabriel — Call Number HABS CAL,19-SANGA,2-",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Recorded only to fix the geographic call-number series for San Gabriel (SANGA,1 the mission, SANGA,2 the Purcell House); it is not this building."
+    }
+  ],
+  "survey": {
+    "item": "ca0291",
+    "register": "loc-item",
+    "survey_no": "CA-37-8",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0200/ca0291/data/ca0291data.pdf",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "walls",
+        "text": "The baptistery walls and the higher walls encompassing the church's vestibule, choir balcony, nave, and sanctuary are between 4 '-0\" and 5 '-0\" thick in most places. The walls rise to heights of between 27'-6\" (northwest comer) and 30'-2\" (east elevation). Molded ledges form a cornice line at the tops of the walls that continues across the tops of the projecting buttresses.",
+        "page": "The marker 'ADDENDUM TO MISSION SAN GABRIEL ARCANGEL HABS No. 37-8 (page 5-3)' is printed at the end of this span."
+      },
+      {
+        "field": "walls",
+        "text": "The north and west walls of the sacristy between the church's sanctuary and the convento are approximately 14' -0\" high and between 4' -0 and 5 '-8\" thick. The convento walls consist of adobe brick with whitewashed plaster cladding. They rise to a height of 14'-2\" and are from 2'-9  Yi\"  to 3'-1  Yi\"  thick on the south elevation, up to 2'-3  Yi\"  thick at the west",
+        "page": "No page marker legible within this span; it follows the marker 'ADDENDUM TO MISSION SAN GABRIEL ARCANGEL HABS No. 37-8 (page 5-3)' in the extract. The 'Yi' is OCR of a fraction."
+      },
+      {
+        "field": "general_description",
+        "text": "features are its prominent buttresses topped by pyramidal finials or merlons, spare classical arrangement of the  fa9ade,  and  espadafza  housing six bells. Deeply inset and splayed windows reveal the thickness of the walls, a feature accentuated by the irregular finish of stucco over rock, burned brick, and mortar walls.",
+        "page": "No page marker legible in this span. 'fa9ade' and 'espadafza' are OCR of façade and espadaña."
+      },
+      {
+        "field": "other",
+        "text": "in 1812 destroyed the campanario (bell tower) that originally stood at the east end of the church's north elevation and the cluster of rooms immediately west of the church sacristy that comprised the mission convento (missionaries' quarters). The church's roof also collapsed.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "significance",
+        "text": "2. Architect: Records of the Mission San Gabriel church's construction are limited to annual mission reports and correspondence. A number of historians have exhausted these limited primary sources in search of information on the construction of the mission and the church. Much of this construction history remains shrouded in mystery. No trained architect is known to have designed the Mission San Gabriel church.",
+        "page": "The marker 'ADDENDUM TO MISSION SAN GABRIEL ARCANGEL HABS No. 37-8 (page 2' is printed at the head of this span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "church_wall_thickness_in",
+      "as_printed": "between 4 '-0\" and 5 '-0\" thick in most places",
+      "value": 48,
+      "unit": "in",
+      "from_quote": 0,
+      "note": "A band of 4 ft to 5 ft, i.e. 48 to 60 in; the lower bound is recorded in `value` and the band itself is in `as_printed`. The survey's own hedge 'in most places' is kept."
+    },
+    {
+      "name": "church_wall_height_ft",
+      "as_printed": "between 27'-6\" (northwest comer) and 30'-2\" (east elevation)",
+      "value": 27.5,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "A band; the lower bound is recorded. 'comer' is OCR of corner."
+    },
+    {
+      "name": "sacristy_wall_height_ft",
+      "as_printed": "approximately 14' -0\" high",
+      "value": 14,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "sacristy_wall_thickness_in",
+      "as_printed": "between 4' -0 and 5 '-8\" thick",
+      "value": 48,
+      "unit": "in",
+      "from_quote": 1,
+      "note": "A band of 4 ft to 5 ft 8 in, i.e. 48 to 68 in; the lower bound is recorded."
+    },
+    {
+      "name": "convento_wall_height_ft",
+      "as_printed": "They rise to a height of 14'-2\"",
+      "value": 14.17,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "bell_count",
+      "as_printed": "espadafza  housing six bells",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "'espadafza' is OCR of espadaña, the pierced bell wall. This is the node's own defining element counted by a surveyor."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, and THE ONE RECORD IN THIS CLUSTER THAT STATES DIMENSIONS. It is a modern HABS addendum rather than a 1930s data sheet, and it measures what the earlier surveys never did: 4 to 5 ft church walls rising 27 ft 6 in to 30 ft 2 in, sacristy walls 4 ft to 5 ft 8 in thick and 14 ft high, convento walls of adobe brick 2 ft 9½ in to 3 ft 1½ in thick and 14 ft 2 in high. It also confirms the node's campanario in the surveyor's own words — an espadaña housing six bells — while recording that the ORIGINAL campanario was a tower at the east end of the north elevation, destroyed in 1812, and that the pierced wall now over the sacristy is its post-earthquake replacement. The node's exemplar note calls the campanario 'detached', which the survey does not say."
+}

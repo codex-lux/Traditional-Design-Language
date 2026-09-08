@@ -85,6 +85,19 @@
     "depth_multiplier": 2.5,
     "sides_lit": 3,
     "orientation": "EAST OR SOUTH-EAST, and this is the diagnostic. A porch for sitting faces the shade and the view; a sleeping porch faces the morning and, in the cure literature, the sun - patients were placed to get direct morning sun on the bed. A north-facing sleeping porch is a room somebody drew as a porch. In the South a secondary consideration is the prevailing summer breeze, which on the Atlantic and Gulf coasts is south-west, and where the two conflict the breeze wins.",
+    "aspect": {
+      "applies": true,
+      "strength": "hard",
+      "prefer": [
+        "E",
+        "SE"
+      ],
+      "avoid": [
+        "N"
+      ],
+      "basis": "EAST OR SOUTH-EAST, and this is the diagnostic.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.35,
       0.7

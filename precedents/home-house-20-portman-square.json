@@ -1,0 +1,127 @@
+{
+  "id": "home-house-20-portman-square",
+  "name": "Home House, 20 Portman Square",
+  "aka": [
+    "Home House (Courtauld Institute)",
+    "No. 20 Portman Square"
+  ],
+  "location": {
+    "text": "Marylebone, London, England",
+    "country": "United Kingdom",
+    "state": "Greater London"
+  },
+  "dates": {
+    "built": "1773-1776",
+    "circa": false,
+    "altered": "The attic storey is an addition, which the list entry says in its own storey count: '4 storeys (attic storey an addition) and basement'.",
+    "note": "THREE DATINGS FROM TWO HISTORIC ENGLAND ENTRIES AND THE NODE, AND NONE IS CHOSEN. The listed-building entry (1227105) says '1773-76'. The Register of Parks and Gardens entry for Portman Square (1000820) says the house was 'built by Robert Adam for the Countess of Home in 1775-7'. The node's own exemplar gives 1777 as the year and says 'Built 1773-77'. Historic England's own research audit of the transatlantic slave economy, seen in a search result, adds that Elizabeth Home 'initially commissioned James Wyatt but replaced him with Robert Adam in 1775', which would explain the spread; that is a fourth account and it is not resolved here either."
+  },
+  "nodes": [
+    "adam-style"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1227105",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1227105",
+      "title": "Home House (Courtauld Institute) , Non Civil Parish - 1227105 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I. The Overview block prints 'List Entry Number: 1227105 ; Date first listed: 10-Sept-1954 ; List Entry Name: Home House (Courtauld Institute) ; Statutory Address 1: HOME HOUSE (COURTAULD INSTITUTE), 20, PORTMAN SQUARE W1', and the Details header prints '10.9.54'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1000820",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1000820",
+      "title": "Portman Square and Manchester Square, Non Civil Parish - 1000820 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Register of Parks and Gardens entry for the square, Grade II. Its own text says 'Three C18 buildings survive, No 20 Portman Square (Home House, listed grade I, built by Robert Adam for the Countess of Home in 1775-7), no 21 (listed grade I, now the Heinz Gallery and RIBA Drawings Collection, built by James Adam for William Locke c1772, altered 1866)' -- a second Adam house next door, and a build date two years later than the listed-building entry's. Read in a tavily-search result and not extracted, so nothing is quoted from it in the survey block."
+    }
+  ],
+  "survey": {
+    "item": "1227105",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1227105",
+    "prepared": "Historic England's National Heritage List entry; Date first listed 10-Sept-1954, and the Details header prints 'TQ 2781 SE and 2881 SW CITY OF WESTMINSTER PORTMAN SQUARE, Wl 54/37 ; 55/36 (north side) 10.9.54'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Terraced town mansion. 1773-76, by Robert Adam for Elizabeth, Countess of Home; retaining exceptional Adam interior.",
+        "page": "Official list entry 1227105, Details, opening sentence"
+      },
+      {
+        "field": "storeys",
+        "text": "Brown brick; concealed slate roof. Elevation designed to form one composition with No. 21 q.v. 4 storeys (attic storey an addition) and basement. 5 windows wide.",
+        "page": "Official list entry 1227105, Details, opening paragraph"
+      },
+      {
+        "field": "openings",
+        "text": "Semicircular arched doorway in 2nd bay from right, under projecting painted stone porch with slender fluted Doric columns, dentil cornice and shallow pediment with die-acroterion. Ground floor recessed sashes with flat gauged arches set in blind arcade with stuccoed roundels in spandrels. 1st floor has recessed French casements, and upper floors recessed sashes, all under flat gauged arches.",
+        "page": "Official list entry 1227105, Details, street elevation"
+      },
+      {
+        "field": "cornice",
+        "text": "Painted stone guilloche bands above 1st floor and as sill band to 2nd floor with, in between, painted stone panels framing garlands and paterae. Cornice over 3rd floor and stucco balustrade to later attic. Continuous, cast iron, simple geometric patterned balcony across 1st floor. Wrought iron area railings with urn finials.",
+        "page": "Official list entry 1227105, Details, street elevation"
+      },
+      {
+        "field": "openings",
+        "text": "Rear garden elevation has bowed, stucco, Ionic columned portico-porch; recessed sashes and a Venetian window composition to ground and 1st floors; 4 Coade stone circular relief medallions below 2nd floor windows and cornice below 4th attic floor crowned by balustraded parapet.",
+        "page": "Official list entry 1227105, Details, rear garden elevation"
+      },
+      {
+        "field": "stairways",
+        "text": "Spectacular circular tower-stairwell, set behind entrance hall, and top lit by dome, the stairs rising in one arm to niched landing and returning in 2 curved arms, with moulded soffits, to 1st floor; gallery at 3rd floor; refined wrought iron and gilded balustrade of open work pilaster pattern with anthemion and bucrania enrichment.",
+        "page": "Official list entry 1227105, Details, Interior"
+      },
+      {
+        "field": "finishes",
+        "text": "Very fine Adam interior with plasterwork by Joseph Rose and inset painted panels and roundels by Zucchi and Angelica Kaufmann, the room shapes modelled in depth with a typically inventive Adam use of varied apsidal and screened volumes and outstanding quality of original finishes and furnishings.",
+        "page": "Official list entry 1227105, Details, Interior"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "4 storeys (attic storey an addition) and basement",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Four including the added attic, so three as Adam built it, over a basement. The entry says which is the addition and this record does not net it out."
+    },
+    {
+      "name": "front_window_count",
+      "as_printed": "5 windows wide",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "door_bay_from_right",
+      "as_printed": "Semicircular arched doorway in 2nd bay from right",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "A POSITION, not a count: the door is in the second of five bays counting from the right, which is what makes this an off-centre terrace front rather than a symmetrical villa one."
+    },
+    {
+      "name": "stair_return_arm_count",
+      "as_printed": "returning in 2 curved arms",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 5
+    },
+    {
+      "name": "coade_medallion_count",
+      "as_printed": "4 Coade stone circular relief medallions",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4
+    }
+  ],
+  "note": "Tranche 3, English Baroque / Palladian / Adam cluster, 5 Sep 2026. THE ONE RECORD IN THIS CLUSTER THAT IS A TERRACE HOUSE ON A PLOT, and the entry states the constraint the node's exemplar note points at -- five windows wide, the door in the second bay from the right, an elevation 'designed to form one composition with No. 21' next door. It also states the ornament regime this node's kit reasons about (relief depth 5-15 mm) in words and not in millimetres: guilloche bands, panels framing garlands and paterae, Coade stone medallions, all applied to a plain brown-brick face. Historic England serves the Details section hard-wrapped. Every run of whitespace in these quotes is the extractor's line wrap collapsed to one space; nothing else was changed, and a word broken across a wrap is left broken. No rights line for the list entry TEXT was read verbatim here, so no `rights_evidence` is recorded rather than a borrowed one."
+}

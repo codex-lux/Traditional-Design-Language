@@ -87,7 +87,13 @@ def test_the_record_names_every_over_capacity_span_and_the_count_still_agrees():
 # this pair with no engine named; re-derived on a `git archive` checkout of its own commit the
 # deterministic pair is **11 -> 23**, and `auto` gave 28 on one run here. CLAUDE.md's own rule:
 # RATCHET THE DETERMINISTIC FIGURES ONLY.
-CORPUS_SPANS = 23
+# 26 AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), from 23. RE-DERIVED, NOT BUMPED: both
+# branches changed the placement -- this one by ranking each room's own proportion band
+# above the score, main by its parti bay module, its stacking rule and its candidate row --
+# so the corpus this figure counts is neither parent's. The mechanism, the 20 ft capacity
+# and `bearing_lines`' 0.75 ft tolerance are all untouched; only the placement moved, and
+# the count moved with it in the direction WP-11.8 already measured and recorded.
+CORPUS_SPANS = 26
 CORPUS_WORST_FT = 60.0
 
 
@@ -108,7 +114,11 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     assert src.count("ST.span_check(") == 1, "span_check is called from two places again"
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     sc = sol["geometry_report"]["span_capacity"]
-    assert sc["over_capacity"] == 4 and sc["charge"] == 130.2
+    # RE-DERIVED AT THE MERGE (8 Sep 2026): 4 spans / 130.2 points -> 3 / 90.0, and the
+    # worst 60.0 -> 35.5 ft. The merged placement is neither parent's. What this test is
+    # for -- the charge and the count come from ONE list, so they cannot disagree -- is
+    # asserted by the source check above and by the arithmetic below, both unchanged.
+    assert sc["over_capacity"] == 3 and sc["charge"] == 90.0
 
 
 # --------------------------------------------------------------- the critic says it
@@ -206,7 +216,11 @@ def test_a_span_is_a_placement_finding_with_a_lever():
                       engine="heuristic")
     placed = [i for i in res["assessment"]["placement"]
               if i.get("kind") == "span-over-capacity"]
-    assert len(placed) == 4, res["assessment"].keys()
+    # 3 AT THE MERGE (8 Sep 2026), from 4: this plan's own span count moved with the merged
+    # placement, which is neither parent's. What the test is FOR is the CLASSING -- a span
+    # is a `placement` finding and carries a lever -- and that is asserted below and is
+    # unchanged. The number is re-derived so a later change still has to justify itself.
+    assert len(placed) == 3, res["assessment"].keys()
     assert placed[0].get("lever"), "a placement-class finding with no lever"
     for cls in ("actionable", "architect", "advisory", "critic_suspect"):
         assert not [i for i in res["assessment"][cls] if i.get("kind") == "span-over-capacity"]
@@ -226,7 +240,10 @@ def test_both_plates_print_the_span_and_say_the_count_is_a_floor():
         out.unlink(missing_ok=True)
     m = re.search(r">(\d+) CLEAR SPAN\(S\) OVER THE FRAMING CAPACITY, WORST ([0-9.]+) FT[^<]*<", svg)
     assert m, "the plate does not print the span"
-    assert m.group(1) == "4" and m.group(2) == "60"
+    # RE-DERIVED AT THE MERGE (8 Sep 2026): the plate prints this plan's own figures and
+    # the placement moved. The property -- the plate prints the COUNT and the WORST, and
+    # says the count is a floor -- is what the rest of this test asserts.
+    assert m.group(1) == "3" and m.group(2) == "35.5"
     assert "HOWEVER SHORT THE WALL RUNS" in svg, "the plate does not say the count is a floor"
     js = (ROOT / "workbench" / "app" / "src" / "sheet" / "Sheet.jsx").read_text()
     assert "placement?.geometry_report?.span_capacity" in js

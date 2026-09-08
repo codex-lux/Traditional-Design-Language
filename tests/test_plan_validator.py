@@ -77,10 +77,25 @@ class TestShippedPlans:
         # now carries an `applies_when` on the slope COUNT (the dormer-off-the-bay pattern:
         # zero dormers is not an even number of dormers).
         #
-        # THE MERGED FIGURE IS MEASURED, NOT ADDED UP. The two branches pinned 57 and 52 from a
-        # shared baseline of 53, and 53 + 4 - 1 is an arithmetic prediction rather than a
-        # reading of the tree -- which is the habit this repository has been caught by more
-        # than once. Re-derived on the merged tree:
+        # THE MERGED FIGURE IS MEASURED, NOT ADDED UP -- AND THE FIRST MEASUREMENT OF IT WAS
+        # TAKEN TOO EARLY. This read 57 with a note saying it had been re-derived on the merged
+        # tree; re-derived again on the FINISHED merge it is 56, twice, deterministically. The
+        # earlier reading was taken while `geometry.py`'s candidate acceptance was still being
+        # reconciled, which is a mid-merge tree and not a tree. Measured on `git archive`
+        # checkouts of both parents and on the merged tree, all `plan_check.check` with no
+        # placement argument:
+        #
+        #     this branch  serious 56, minor 74, info 17
+        #     main         serious 57, minor 80, info 25
+        #     merged       serious 56, minor 80, info 25
+        #
+        # So SERIOUS is this branch's figure and MINOR and INFO are main's, which is what a
+        # merge that dropped neither side should look like: main's extra minor and info
+        # findings are checks this branch does not have, and the one serious finding between
+        # 56 and 57 is a difference in HOW a grouping failure is reported, not whether it is --
+        # `grouping:contemporary-service-core#2` on this branch against main's generic
+        # `grouping-rule-failed`, the same defect under two kinds. **Measure the finished tree,
+        # and measure it twice.**
         assert result["counts"]["serious"] == 56
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
@@ -112,7 +127,25 @@ class TestShippedPlans:
         # fatal 4 are UNMOVED**, which is the evidence that this surfaced dropped facts rather
         # than changing any judgement: every long-axis finding is minor, and nothing was
         # re-graded.
-        assert result["counts"]["minor"] == 74
+        # 74 -> 75 on 4 Sep 2026 (WP-11.4): the hearth. This plan is massed `gable-end-paired`
+        # and its roof draws paired end stacks, and its dining room states no fire while
+        # `rooms/dining-room.json` says "Historically a fireplace on the interior wall opposite
+        # the sideboard". One finding, on the DECLARED record -- nothing `hearth_report` reads
+        # is a placement. **WP-11.4 measured this movement on the PLACED key (89-98 -> 90-99)
+        # and did not run this suite, so the commit went out with this pin red.** Fatal and
+        # serious are unmoved, which is what says the hearth layer surfaced a fact rather than
+        # re-grading anything.
+        # 75 -> 80 on 6 Sep 2026 (WP-11.9): the aspect. Five rooms whose declared window walls
+        # disagree with what their own room record says about the compass -- four taking none of
+        # the light the record asks for, one glazed on a wall the record rules out. All five are
+        # DECLARED facts (a window's `wall` is authored; a door's is solver output), which is why
+        # this reads on a record with no placement, and every one of them prints the plan-north
+        # assumption it was judged under. **Serious 57 and fatal 4 are UNMOVED** for the third
+        # package running, which is what says a new layer surfaced facts rather than re-graded
+        # anything. `info` also moves, 17 -> 25, and that is a SEPARATE change in the same
+        # package: the grouping layer's no-test branch read `elif hard`, so 28 of the corpus's
+        # 86 internal rules emitted nothing at all.
+        assert result["counts"]["minor"] == 80
 
     def test_spec_builder_colonial_four_named_fatals(self, plan_check_module, corpus):
         """The three fatals docs/plans.md names (the powder-room door off the dining room, the
@@ -183,7 +216,21 @@ class TestShippedPlans:
         # never told about. **Serious 30 and fatal 0 are UNMOVED.** The careful plan takes four
         # new minors where the ordinary one takes twelve, which is the ratio this pair of tests
         # exists to watch.
-        assert result["counts"]["minor"] == 65
+        # 65 -> 74 on 6 Sep 2026 (WP-11.9): the aspect, nine rooms. Six take none of the light
+        # their record asks for and three are glazed on a wall it rules out -- the library on the
+        # south among them, which is the Tidewater diagnosis's own C4. **Serious 29 and fatal 0
+        # are UNMOVED.** The careful plan takes nine new minors against the ordinary one's five,
+        # and that is the ratio inverting for the first time in this pair of tests: it is not the
+        # careful plan being worse. Twenty-five rooms against twenty-one is not the whole of it
+        # either: the aspect check reads the rooms whose TYPE states one, and this house is built
+        # of period rooms that nearly all do (library, drawing room, dining room, breakfast room,
+        # chambers) where the spec plan's family room, great room and mudroom answer the compass
+        # question with "whatever the lot gives".
+        # **And the WP-9.6 note above says "Serious 30" where the measured figure is 29** --
+        # nothing pins the serious count on this plan, so the prose drifted and nobody could
+        # notice. It is 29 before this package and 29 after. The sentence is left as written
+        # because it records what that package measured; this is the correction beside it.
+        assert result["counts"]["minor"] == 74
 
 
 class TestAdjacencyMechanics:

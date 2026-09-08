@@ -3533,7 +3533,11 @@ def test_the_inheritance_backlog_is_pinned_and_cannot_grow_silently():
     # here that can tell a flip from an adjudication, and it is why the floor exists.
     # 3 Sep 2026 (WP-8.11, the SECOND flip): 258/3123/217 -> 256/3056/215 on `facade-gable`.
     # `judged` is still 249 after both flips -- 102 arrivals stopped and not one case was read.
-    assert ci.RATCHET == {"role_gaps": 256, "inherited_packs": 3056, "unendorsed": 215}
+    # 4 Sep 2026 (WP-8.13, the FOURTH flip): 255/3022/214 -> 222/2762/180, all five live-gate
+    # packs together. `judged` moved 249 -> 250 on this one -- the first time a flip has moved
+    # it -- by re-attributing a vacated role onto a pack the node had opted into; see
+    # `tests/test_opt_in_packs.py`, which pins that instance by name.
+    assert ci.RATCHET == {"role_gaps": 222, "inherited_packs": 2762, "unendorsed": 180}
 
 
 def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault():
@@ -3556,11 +3560,15 @@ def test_unendorsed_is_the_number_the_ruling_moves_and_endorsed_is_not_a_fault()
     # pack whether it named the node, which it did, because the node binds it. Read from the
     # FLOOR rather than a literal, because `judged` is the number that may only go up.
     ci = _check_inheritance_module()
-    assert endorsed_printed == 41, "41 of the 264 gaps are endorsed by the pack's own applies_to"
+    # 41 -> 42 at WP-8.13: the five-pack flip vacated `american-farmhouse-vernacular`'s
+    # `opening` role and it re-attributed to `sash-light`, which that node opted into and
+    # whose `applies_to` names it. That is how a FLIP moved `judged`, which nothing had
+    # expected to be possible; `tests/test_opt_in_packs.py` pins the instance by name.
+    assert endorsed_printed == 42, "42 of the 222 gaps are endorsed by the pack's own applies_to"
     # `judged` is endorsed + declined and is the floor, because a decline can RE-ATTRIBUTE a role
     # to the next ancestor rather than closing the gap: the first four declines moved `unendorsed`
     # by zero and `judged` by four.
-    assert ci.RATCHET_FLOOR == {"judged": 249}
+    assert ci.RATCHET_FLOOR == {"judged": 250}
 
     # And the predicate means what it says: a named gap whose pack `applies_to` lists the node is
     # endorsed, and one whose pack does not is not. `assert unendorsed < gaps` was vacuous --
@@ -3608,7 +3616,7 @@ def test_a_ranch_is_dimensioned_by_a_gothic_arch_pack_and_the_slot_report_says_s
     import subprocess
     out = subprocess.run([os.sys.executable, os.path.join(ROOT, "build", "check_inheritance.py"),
                           "--slots", "ranch-style"], capture_output=True, text=True, cwd=ROOT).stdout
-    assert "68 slot(s) dimensioned, 61 by a pack it never bound" in out
+    assert "65 slot(s) dimensioned, 58 by a pack it never bound" in out
     assert "opening-pointed" in out and "gothic-revival-british" in out
     # `gibbs-ionic` was the third name here until 2 Sep 2026, when WP-8.7 adjudicated it and
     # `ranch-style` DECLINED it -- a Gibbs Ionic order on a ranch house, refused on the node's own

@@ -108,6 +108,12 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "Faces the road, whatever direction the road is - this room's orientation is social and not solar, and it is the clearest case in the catalogue of a room sited to be SEEN INTO rather than to be lit.",
+    "aspect": {
+      "applies": false,
+      "basis": "Faces the road, whatever direction the road is",
+      "note": "The record says outright that this room's orientation is social and not solar; it faces the road whichever way the road runs.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.2

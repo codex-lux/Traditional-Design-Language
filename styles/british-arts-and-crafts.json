@@ -32,5 +32,22 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "Red House",
+      "location": "Bexleyheath, London, England",
+      "year": 1860,
+      "precedent": "red-house-bexleyheath",
+      "standing": "canonical",
+      "why": "Derived, not authored: `arts-and-crafts-british`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Gillian Naylor, The Arts and Crafts Movement: A Study of Its Sources, Ideals and Influence on Design Theory (1971)",
+    "Hermann Muthesius, Das englische Haus (1904-05)",
+    "Elizabeth Cumming and Wendy Kaplan, The Arts and Crafts Movement (1991)",
+    "Lionel Lambourne, Utopian Craftsmen: The Arts and Crafts Movement from the Cotswolds to Chicago (1980)",
+    "Margaret Richardson, Architects of the Arts and Crafts Movement (1983)"
   ]
 }

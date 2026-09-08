@@ -211,19 +211,55 @@
       "name": "Linda Vista Defense Housing Project",
       "location": "San Diego, California",
       "year": 1941,
-      "note": "3,000 houses and 750 dormitory units built in 259 days, 1941-43, at up to 40 completions a day, under a garden-city neighbourhood plan. The style's wartime proving ground."
+      "note": "3,000 houses and 750 dormitory units built in 259 days, 1941-43, at up to 40 completions a day, under a garden-city neighbourhood plan. The style's wartime proving ground.",
+      "precedent": "linda-vista-defense-housing-project",
+      "standing": "documentary",
+      "why": "The style's largest single wartime population, and the only one whose houses a contemporary source dimensioned -- 25 by 30 feet, 750 square feet, in The San Diego Union of 23 March 1941 -- which is a reporter's figure rather than a surveyor's, and is why it stands here as documentary."
     },
     {
       "name": "Levittown",
       "location": "Nassau County, New York",
       "year": 1947,
-      "note": "The 1947 Levitt Cape: roughly 750 sq ft on a 60 x 100 ft lot, built in 26 sequenced operations. Over 17,000 houses by 1951, sold to veterans under the GI Bill at about $8,000 with almost nothing down."
+      "note": "The 1947 Levitt Cape: roughly 750 sq ft on a 60 x 100 ft lot, built in 26 sequenced operations. Over 17,000 houses by 1951, sold to veterans under the GI Bill at about $8,000 with almost nothing down.",
+      "precedent": "levittown",
+      "standing": "icon",
+      "why": "The development every account of American postwar housing reaches for first, and the one this node's own cited sources -- Jackson, Wright, Lane -- all treat as the type case."
     },
     {
       "name": "Westlake, Daly City",
       "location": "Daly City, California",
       "year": 1949,
-      "note": "Henry Doelger's tract, begun in the late 1940s and built out through the 1950s. The West Coast counterpart, and the place where the style visibly shades into the ranch mid-subdivision. Construction begins 1949; the tract was annexed to Daly City in 1948."
+      "note": "Henry Doelger's tract, begun in the late 1940s and built out through the 1950s. The West Coast counterpart, and the place where the style visibly shades into the ranch mid-subdivision. Construction begins 1949; the tract was annexed to Daly City in 1948.",
+      "precedent": "westlake-daly-city",
+      "standing": "regional",
+      "why": "The West Coast counterpart, and the tract that the statewide context statement Tract Housing in California, 1945-1973 uses to illustrate BOTH the Postwar Minimal house and the tract Ranch, which is the shading into ranch-style this exemplar's note describes."
+    },
+    {
+      "name": "East Alvarado Historic District",
+      "location": "Phoenix, Arizona",
+      "year": null,
+      "note": "Thirty houses on a quarter mile of one street between Third and Seventh, listed on the National Register expressly as a representation of Federal Housing Administration policy on subdivision development in the late 1930s. Its nomination describes the eave and the shutter in the terms this node's kit uses -- 'little, if any, overhang', 'false shutters, usually louvered' -- and calls the same houses 'Early Ranch' or Minimal Traditional interchangeably, which is a boundary this corpus draws and Phoenix does not.",
+      "precedent": "east-alvarado-historic-district",
+      "standing": "canonical",
+      "why": "A documented type specimen at the scale of a street: a National Register nomination that names the style, states the FHA mechanism this node's description rests on, and describes thirty examples of it, on the judgment of the City of Phoenix's own multiple-property documentation of 1994."
+    },
+    {
+      "name": "Richmond Heights Pioneer Historic District",
+      "location": "Miami-Dade County, Florida",
+      "year": 1949,
+      "note": "The first twenty-six houses of a development built for African American veterans of the Second World War under segregation, all sold in December 1949 and grown to 457 houses by 1951. Concrete block with plain stucco, mostly three bedrooms, on lots measuring 75 by 100 feet -- the minimal-traditional house built as masonry in a hot-humid climate, which the node's frame-wall description does not cover.",
+      "precedent": "richmond-heights-pioneer-historic-district",
+      "standing": "regional",
+      "why": "The Gulf and South Atlantic expression of the type, in the one construction the node's own description never contemplates, and the listing is the National Park Service's, announced by the Florida Department of State, whose press release is the page this record carries."
+    },
+    {
+      "name": "Ervin and Ethel Jesse House",
+      "location": "La Jolla, San Diego, California",
+      "year": 1938,
+      "note": "7402 Eads Avenue: one ordinary Minimal Traditional house read feature by feature against the FHA's own Principles of Planning Small Houses in a City of San Diego historic resource report. A gable-and-wing sub-type -- a low-pitched front gable added to one side of a side-gabled roof, projecting barely at all in front of it.",
+      "precedent": "ervin-and-ethel-jesse-house",
+      "standing": "documentary",
+      "why": "The only single house among these exemplars, and the only document that holds the FHA pamphlet this node argues from against a real building; the judgment is the report's author's, and the record states that the Historical Resources Board's decision on it was not read, so no City of San Diego designation is claimed."
     }
   ],
   "sources": [
@@ -332,5 +368,8 @@
       "decided": "2026-09-02",
       "note": "Delivered by english-georgian at cascade depth 10 with no direct lineage edge. Governs 2 slots: cornice, which passes to palladio-ionic (english-palladian), and pilaster, which passes to benjamin-ionic (federal-style); 0 slots lose all dimensioning. --pair reports no live gate. Stated honestly: both successors are Ionic order packs of the same family and carry the same contradiction to the same two addresses, so this decline stops one delivery and not the class. palladio-ionic and benjamin-ionic on this node are the next adjudications."
     }
+  ],
+  "inherits_packs": [
+    "facade-classical"
   ]
 }

@@ -1,0 +1,49 @@
+{
+  "id": "ballenberg",
+  "name": "Ballenberg Swiss Open-Air Museum",
+  "record_kind": "group",
+  "aka": [
+    "Freilichtmuseum Ballenberg",
+    "Ballenberg"
+  ],
+  "location": {
+    "text": "Hofstetten bei Brienz, Switzerland",
+    "country": "Switzerland",
+    "state": "Kanton Bern"
+  },
+  "dates": {
+    "built": "museum opened 1978; the relocated buildings 14th to 20th century",
+    "circa": true,
+    "note": "The museum's own history page gives the growth: 16 objects at the opening in 1978, 25 two years later, 61 in 1985, over 100 today. The node's exemplar note says 'Over a hundred relocated rural buildings of the 14th-19th centuries from every canton', and the 'over a hundred' half is the museum's own figure."
+  },
+  "nodes": [
+    "swiss-chalet"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://ballenberg.ch/de/ueber-uns-flm/museumsgeschichte",
+      "title": "Geschichte des Museums -- Freilichtmuseum Ballenberg",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The museum's own history page: 'Nachdem bei der Eröffnung 16 Museumsobjekte präsentiert werden konnten, waren es zwei Jahre später bereits 25 und im Jahr 1985 gar 61 Gebäude. Heute stehen über 100 Wohn- und Nebengebäude auf dem Ballenberg.' It also names the scholarly basis, which is the thing this corpus should care about: 'Als Grundlage für das wissenschaftliche Konzept des Freilichtmuseums Ballenberg dienen die Forschungsarbeiten der «Aktion Bauernhausforschung in der Schweiz».'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://ballenberg.ch/en/about-us/history-of-the-museum",
+      "title": "History of the museum -- Swiss Open-Air Museum Ballenberg",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The English version of the same page, with the same figures."
+    },
+    {
+      "kind": "institution",
+      "url": "https://ferien-im-baudenkmal.ch/ferien-in-der-mittelalterlichen-innerschweiz",
+      "title": "Ferien in der mittelalterlichen Innerschweiz - Stiftung Ferien im Baudenkmal",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Names one of the museum's medieval Schwyz houses and dates it: 'Das Haus aus Hinteribach von 1336 wurde 1997 im Freilichtmuseum Ballenberg wieder aufgebaut.' Descoeudres's list gives the same house as 'das ehemalige Haus am Landsgemeindeplatz in Hinter-Ibach (1336), heute im Freilichtmuseum Ballenberg aufgestellt'."
+    }
+  ],
+  "note": "Tranche 3, Alpine cluster, 5 September 2026. A GROUP record and declared as one. It is worth carrying for a reason the node's exemplar note half states: the museum's own academic basis is the «Aktion Bauernhausforschung in der Schweiz», the same national farmhouse survey whose published volumes are the node's first cited source ('Die Bauernhauser der Schweiz'). The museum is, in effect, that survey built at full size. NO MEASUREMENT IS CARRIED: nothing read states a dimension of any building in it."
+}

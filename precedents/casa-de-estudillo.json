@@ -1,0 +1,111 @@
+{
+  "id": "casa-de-estudillo",
+  "name": "Casa de Estudillo",
+  "aka": [
+    "Estudillo House",
+    "Jose Antonio Estudillo House",
+    "Ramona's Marriage Place"
+  ],
+  "location": {
+    "text": "Old Town, San Diego, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1827",
+    "circa": false,
+    "altered": "Abandoned in 1887 and 'reduced to a ruin in the course of twenty three years'; restored in 1910 for John D. Spreckels to designs by Hazel W. Waterman, who, the survey says, 'endeavored to rebuild the house to as near the designs of the original as photographs showed' but changed roof ridge lines and window locations (survey).",
+    "note": "The Wikipedia infobox prints 'Built 1827'; the 1930s survey prints 'Date of erection: 1825'. Both recorded; neither changed. What stands is substantially a 1910 reconstruction on the survey's own account."
+  },
+  "nodes": [
+    "spanish-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-45",
+      "title": "Jose Antonio Estudillo House, Mason Street & San Diego Avenue, Old Town, San Diego, San Diego County, CA",
+      "url": "https://www.loc.gov/item/ca0595",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The data page's own header prints 'HABS. CAI. 45' and 'RABi9Cal45' -- the 1930s 'CAL-45' -- recorded as CA-45 in the form the checker admits."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0595",
+      "url": "https://www.loc.gov/item/ca0595",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The search result's own rights line: 'No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Casa_de_Estudillo",
+      "title": "Casa de Estudillo - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000143",
+      "url": "https://en.wikipedia.org/wiki/Casa_de_Estudillo",
+      "title": "NRHP reference No. 70000143; added April 15, 1970; designated NHL April 15, 1970; location 4000 Mason Street, San Diego (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "state-register",
+      "id": "53",
+      "url": "https://en.wikipedia.org/wiki/Casa_de_Estudillo",
+      "title": "California Historical Landmark No. 53, designated 1932; San Diego Historical Landmark No. 14A, November 6, 1970 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ca0595",
+    "register": "loc-item",
+    "survey_no": "CA-45",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0500/ca0595/data/ca0595data.pdf",
+    "prepared": "District of California #3, Historic American Buildings Survey, Henry F. Withey, District Officer, 407 So. Western Avenue, Los Angeles (as the header reads; no date legible in the extract).",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "SSTUDIILO HOUSE (Hamona's Marriage Place) Oldtown, 3an Diego, San Diego County, California MBS. Call 45 MAP, 6 CML 3 7 iro Owner: Estate of T. P. Getz, Oldtown, San Dieg< Date of erection: 1825 Architect: Yfell preserved as recondition in 1910, Builder: Present Conditions : Architect of reconstruction endeavored to rebuild the house to as near the designs of the original as photographs showed the original to he, hut old photographs indicate that a few changes were made in the ridge lines of roofs and locations of windows.",
+        "page": "The first sheet, headed 'HABS. CAI. 45'; two extract spans overlapped at 'a few changes were made in the ridge lines of roofs and' and are joined at the overlap."
+      },
+      {
+        "field": "storeys",
+        "text": "Number of stories: One.",
+        "page": "First sheet; no page number printed."
+      },
+      {
+        "field": "walls",
+        "text": "Materials of construction: foundation probably of stone laid in adobe mortar, as was the custom of that period. Walls of sun-dried adobe brick, laid in adobe mortar and plastered both sides.",
+        "page": "First sheet; no page number printed."
+      },
+      {
+        "field": "roof",
+        "text": "Roof framing of undressed eucalyptus logs connections fastened with raw- hide thongs. Over the roofs of corridors are laid mats of caresa, a material much like bamboo, obtained from the Cuyamaoa lake region, several miles north of Oldtown. Over this is laid the roof tile. New posts and lintel framing of porfches is of milled and dressed lumber. Solid one-inch rough boarding cover the rafters of the house proper. Roofs of tile, floors of large brick tile.",
+        "page": "First sheet; no page number printed."
+      },
+      {
+        "field": "condition",
+        "text": "By neglect of the care-taker, the place was reduoeo to a ruin in the course of twenty three years. John D. Sprecfcles in 1910 caused the house to be restored to near its original state and entrusted the design arid construction to Miss Haael V» Tf^terman architect.",
+        "page": "Printed after the marker 'RABi9Cal45 (continued) page 2.' (HABS Cal-45, continued, page 2)."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Number of stories: One.",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 1
+    }
+  ],
+  "note": "Added 4 Sep 2026 as the Californian domestic courtyard house with a survey behind it. The survey confirms the node's corredor ('roofs of corridors' of carrizo mats under tile on eucalyptus logs) and says nothing about wall thickness or overall size."
+}

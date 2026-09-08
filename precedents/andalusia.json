@@ -1,0 +1,173 @@
+{
+  "id": "andalusia",
+  "name": "Andalusia",
+  "aka": [
+    "Nicholas Biddle Estate"
+  ],
+  "location": {
+    "text": "Bensalem Township, Bucks County, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1794; remodeled and enlarged 1836-1838",
+    "circa": false,
+    "altered": "The survey's walls entry: 'the house had been finished with a coarse aggregate stucco of a gray tone prior to the 1836- 1838 remodeling and enlargement'; Wikipedia's captions record Latrobe's alterations of 1806 and Walter's watercolor of circa 1834.",
+    "note": "The node dates Walter's Doric temple front 1834; the HABS data page dates the remodeling and enlargement 1836-1838; the Wikipedia infobox prints 'Built 1794' with Latrobe and Walter as architects. All three kept; none changed."
+  },
+  "nodes": [
+    "greek-revival-american",
+    "greek-revival-northern",
+    "early-republic"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-1248",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0200/pa0213/data/pa0213data.pdf",
+      "title": "Andalusia (Nicholas Biddle Estate), Bucks County, PA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's running head ('ANDALUSIA (Nicholas Biddle Estate) HABS No. PA-1248 (page 3)'). Wikipedia's external links list PA-1248 with subsidiary records PA-1248-A to -D for the cottage, grotto, billiard room and graperies, and the article carries HABS sheet 3 of 15 (the first floor plan)."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa0213",
+      "url": "https://www.loc.gov/resource/hhh.pa0213.photos?sp=19",
+      "title": "9. DINING ROOM, EAST SIDE OF CENTRAL PORTION OF HOUSE, Andalusia, Bucks County, PA -- Photos from Survey HABS PA-1248",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "A photo resource page for the item, which is what the search returned and which names the survey; the item landing page was not opened."
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000649",
+      "url": "https://en.wikipedia.org/wiki/Andalusia_(estate)",
+      "title": "NRHP reference No. 66000649; added to NRHP and designated NHL November 13, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the Wikipedia infobox, not from the National Register's own database, which was not opened for this building. The Wikipedia list of NHLs in Pennsylvania, read the same day, prints the same number."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Andalusia_(estate)",
+      "title": "Andalusia (estate) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "pa0213",
+    "register": "loc-item",
+    "survey_no": "PA-1248",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa0200/pa0213/data/pa0213data.pdf",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural character: The most prominent feature of the house is the imposing hexastyle Doric portico (south elevation). Good feeling.of Greek originality is.evident in the columns, entablature, and pediment, 2. Condition of fabric: Excellent.",
+        "page": "HABS No. PA-1248 (page 3), Part II.A"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "Overall dimensions: The 2 1/2 story house is T-shaped and measures 9V-1\" X 120'-2\". The north elevation numbers 9 bays and the south (portico) elevation 6 b^ys.",
+        "page": "HABS No. PA-1248, Part II.B.1; the extract's nearest page marker reads '(page k)', i.e. page 4 in OCR"
+      },
+      {
+        "field": "foundations",
+        "text": "2. Foundations: The foundations of the earlier portion of the _ house are rubble with a brick watertable on the exterior. B The foundations of the later portions are also rubble, but have no watertable. All are coated with stucco.",
+        "page": "HABS No. PA-1248, Part II.B.2, same span"
+      },
+      {
+        "field": "walls",
+        "text": "3. Walls: The walls are laid up in brick. The exterior is covered with stucco with a sandstone tone. The stucco is scored to simulate stone. Wall fragments in the cellar of the earlier portion of the house show that the house had been finished with a coarse aggregate stucco of a gray tone prior to the 1836- 1838 remodeling and enlargement.",
+        "page": "HABS No. PA-1248, Part II.B.3, same span"
+      },
+      {
+        "field": "structural_system",
+        "text": "system, framing: The structural system consists of masonry bearing walls and wood framing. Some steel has been introduced into various floors, to stabilize the structure.",
+        "page": "HABS No. PA-1248, Part II.B.4; the item number and first word are cut in the extract"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches, stoops, bulkheads: The columns of the Doric portico are made of wood and brick. The portico floor was originally painted in black and white squares in imitation of marble paving. The entrance porch on the north elevation is classical. It is a four-columned structure with a gable roof and a 6-panel door with a fanlight. It is approached by a three-step stoop.",
+        "page": "HABS No. PA-1248, Part II.B.5; the marker '(page k)' follows"
+      },
+      {
+        "field": "chimneys",
+        "text": "6. Chimneys.: There are seven chimneys. Some have been covered with tin similar to that on the roof. A variety of terra cotta chimney pots have.been added.",
+        "page": "HABS No. PA-1248 (page 4), Part II.B.6"
+      },
+      {
+        "field": "openings",
+        "text": "7. Openings: a. Doorways and doors: The front entrance doorway is Federal: a fanlight^and paneled door and oamb. All other doors throughout the house are paneled. b. Windows and shutters: There are three basic types of windows: 6x6, 6 X 12 , and casements. The casements are employed on the attic windows, central part of the north elevation, and second and first floor bays. The 6 X 12 windows are on the first floor of the south portico. All other windows are 6x6. Shutters are used on the windows and on the north entrance doorway.",
+        "page": "HABS No. PA-1248 (page 4), Part II.B.7; two extract spans overlap at 'The 6 X 12 windows are on the first floor of the south' and are joined at the overlap, not with an ellipsis"
+      },
+      {
+        "field": "roof",
+        "text": "8. Roof: a. Shape, covering; All roofs are of gable form, with the exception of the roof over the north entrance doorway which is shed form. All roofs are covered with 12\" tin plate with standing seams. b. Cornices: Cornices are constructed of wood. A plain cornice is used throughout, except for the main cornice on the portico which is bracketed and ornamented in a classical manner. c. Skylights: Skylights are used on the roof to give light to the servants' rooms.",
+        "page": "HABS No. PA-1248, Part II.B.8; no page marker in the span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "9V-1\"",
+      "from_quote": 1,
+      "note": "The second digit of the feet is lost to OCR ('9V'); not parsed. 91, 94 and 97 are all possible readings and none is recorded."
+    },
+    {
+      "name": "overall_length_ft",
+      "as_printed": "120'-2\"",
+      "value": 120.17,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The T-shaped plan's longer dimension as printed; which axis is which is not stated."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "2 1/2 story",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count_north",
+      "as_printed": "The north elevation numbers 9 bays",
+      "value": 9,
+      "unit": "count",
+      "from_quote": 1
+    },
+    {
+      "name": "bay_count_south",
+      "as_printed": "the south (portico) elevation 6 b^ys",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "OCR for 'bays'."
+    },
+    {
+      "name": "portico_column_count",
+      "as_printed": "hexastyle Doric portico",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "There are seven chimneys",
+      "value": 7,
+      "unit": "count",
+      "from_quote": 6
+    },
+    {
+      "name": "roof_pitch_note",
+      "as_printed": "All roofs are of gable form",
+      "from_quote": 8,
+      "note": "The survey states the form and no pitch."
+    }
+  ],
+  "note": "Written 4 Sep 2026. The fullest of this package's surveys: dimensions, bays, foundations, walls, structure, porches, chimneys, openings and roof all quoted. `greek-revival-northern` also names this building and its exemplar was not touched (not in scope); add it to `nodes[]` when that exemplar gains a `precedent`."
+}

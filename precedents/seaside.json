@@ -1,0 +1,44 @@
+{
+  "id": "seaside",
+  "name": "Seaside",
+  "location": {
+    "text": "Walton County, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "Land inherited 1978; construction from 1981; plan complete c. 1985",
+    "circa": true,
+    "note": "The node: 'land assembled 1978, construction begun 1981'; Wikipedia: 'In 1978, Davis inherited the parcel from his grandfather' and 'The final plan was complete around 1985'; DPZ's project page prints '1982 Broke Ground'. The node's 1981 and DPZ's 1982 disagree by a year and neither is changed."
+  },
+  "nodes": [
+    "new-urbanist-traditional",
+    "contemporary-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Seaside,_Florida",
+      "title": "Seaside, Florida - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'As Seaside is privately owned, no other municipal governments had planning jurisdiction over Seaside, and therefore the developers were able to write their own zoning codes.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.dpz.com/projects/seaside",
+      "title": "Seaside (DPZ CoDesign project page)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Planner. Key facts: 1982 broke ground, 80 ac., client Robert Davis, 624 units, 84,178 sq.ft. retail, 200 lodging rooms, 80 civic amenities; 'Wood frame and clapboard structures, metal roofs. Porches to catch breezes'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Andr%C3%A9s_Duany",
+      "title": "Andrés Duany - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written 4 Sep 2026. A town. DPZ's own page locates it at 'Santa Rosa Beach, Florida'; the exemplar keeps the county."
+}

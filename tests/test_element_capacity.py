@@ -136,7 +136,10 @@ def test_the_allowance_is_derived_from_the_rounding_and_not_chosen():
     g = GEO.grid_allowance_ft()
     rooms = [{"id": "a", "type": "kitchen", "_area": 617.0, "block": "d",
               "exterior_walls": ["W"]}]
-    (_bid, _gap, W, H, _body, _hyph) = GEO.dependency_sizes(rooms, 10.0)[0]
+    # `dependency_sizes` is `flank_sizes` in the merged spelling (the other Phase 11's name for
+    # the same function, dicts rather than tuples); the arithmetic this asserts is unchanged.
+    row = GEO.flank_sizes({0: rooms}, 10.0)[0]
+    W, H = row["W"], row["H"]
     assert (W - g) * (H - g) >= 617.0 - 0.5, (
         f"{W} x {H}: the usable box after two inward roundings per axis is smaller than the "
         "617 sf it was sized for")
@@ -175,6 +178,36 @@ def test_the_main_block_is_not_judged_on_the_grid_and_says_why():
     assert row["grid_box_sf"] is None and row["fits_on_the_proving_grid"] is None
     assert "snaps the footprint" in row["grid_unjudged_because"]
     assert row["fits_stated"] is True, "the stated box holds its rooms and is judged"
+
+
+def test_the_stated_box_is_forgiven_its_own_depth_rounding_and_nothing_more():
+    """FOUND AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). A stated box's depth is
+    `round(<quotient>, 2)`, and the MAIN BLOCK's quotient is its own rooms' area over its own
+    width -- so `fits_stated` on the main block is decided by which way the second decimal
+    went, not by any mass. It read True for three packages on one plan's luck and read False
+    the moment main's WP-11.2 centre-bay parity changed the Tidewater's bay count: 1,675.8 sf
+    stated for 1,676.0 sf of rooms, 0.012% short, and no rectangle moved.
+
+    The tolerance is `W * 0.01 / 2`, DERIVED from that rounding. The guard is that it forgives
+    exactly that and not a foot more, and that a row leaning on it SAYS SO -- a box that holds
+    its rooms only inside the record's own precision must not read like one with room to
+    spare."""
+    els = [{"id": "main", "role": "main", "x": 0, "y": 0, "W": 45.0, "H": 37.24,
+            "rooms": ["a"]}]
+    tol = 45.0 * EL.DEPTH_ROUNDING_FT / 2.0          # 0.225 sf on a 45 ft front
+    stated = 45.0 * 37.24
+    (row,) = EL.capacity_report(els, {"main": {"a": stated + tol * 0.5}}, 1.0)
+    assert row["fits_stated"] is True
+    assert row["fits_stated_only_within_the_depth_rounding"] == round(tol, 4), (
+        "a box that holds its rooms only inside its own rounding must say so on the row")
+    (over,) = EL.capacity_report(els, {"main": {"a": stated + tol * 2.0}}, 1.0)
+    assert over["fits_stated"] is False, (
+        "one whole quantum of depth over is a real overrun and the tolerance may not eat it")
+    assert "fits_stated_only_within_the_depth_rounding" not in over
+    (clear,) = EL.capacity_report(els, {"main": {"a": stated - 100.0}}, 1.0)
+    assert clear["fits_stated"] is True
+    assert "fits_stated_only_within_the_depth_rounding" not in clear, (
+        "a box with real slack does not carry the rounding note")
 
 
 def test_an_element_too_small_for_its_rooms_is_detected_and_named():

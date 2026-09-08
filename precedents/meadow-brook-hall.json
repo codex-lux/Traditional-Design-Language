@@ -1,0 +1,57 @@
+{
+  "id": "meadow-brook-hall",
+  "name": "Meadow Brook Hall",
+  "aka": [
+    "Meadow Brook Farms",
+    "Estate of Matilda Dodge Wilson"
+  ],
+  "location": {
+    "text": "Rochester Hills, Michigan",
+    "country": "United States",
+    "state": "Michigan"
+  },
+  "dates": {
+    "built": "1926-1929",
+    "circa": false,
+    "note": "Every source read gives construction 1926-1929; the style node's exemplar prints the completion year, 1929. The owner states the cost as $4 million."
+  },
+  "nodes": [
+    "tudor-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "79001166",
+      "url": "https://en.wikipedia.org/wiki/Meadow_Brook_Hall",
+      "title": "Meadow Brook Hall; NRHP reference No. 79001166, added April 17, 1979; designated NHL March 2, 2012; designated MSHS November 3, 1976 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database, which was not opened for this building. A second surface should confirm the number before anything is built on it."
+    },
+    {
+      "kind": "institution",
+      "url": "https://meadowbrookhall.org/holiday-guide/inside-meadow-brook-hall",
+      "title": "Inside Meadow Brook Hall - Meadow Brook Hall",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The owner's own count, verbatim: 'Did you know Meadow Brook Hall has 110 room, 23 bathrooms, 25 bedrooms, 24 fireplaces, 2 elevators and spans 88,000 square feet!' The same page gives the construction as 1926-1929 'in near-secrecy to the tune of $4 million'. An owner's figures, recorded as such; there is no survey against which to check them."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Meadow_Brook_Hall",
+      "title": "Meadow Brook Hall - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It was designed by William Kapp of the firm Smith, Hinchman & Grylls in a Tudor-revival style. The building features stonework and a plaster dining room ceiling created by Corrado Parducci.'"
+    },
+    {
+      "kind": "institution",
+      "url": "https://savingplaces.org/distinctive-destinations/meadow-brook-hall",
+      "title": "Meadow Brook Hall | National Trust for Historic Preservation",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Constructed between 1926 and 1929 for $4 million, Meadow Brook Hall represents one of the finest examples of Tudor Revival architecture in America.' A National Trust judgment, recorded as one."
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2. NO HABS SURVEY WAS FOUND and none is expected: the house was five years old when the Historic American Buildings Survey began in 1933, and the programme's charter was the endangered and the old. Every figure here is the owner's or the encyclopedia's, and none of it is a measured drawing, which is exactly the gap this node has: tudor-revival's kit states a 10:12-16:12 roof pitch and a 3 ft minimum chimney plan width as `measured`, and there is no surveyed American Tudor Revival house in this corpus's reach against which to check either."
+}

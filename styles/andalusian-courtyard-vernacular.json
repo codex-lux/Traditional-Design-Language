@@ -203,25 +203,55 @@
       "name": "Palacio de Viana",
       "location": "Cordoba, Spain",
       "year": null,
-      "note": "14th-century origins, largely 16th-19th century; twelve courts of successive dates in one property, effectively a museum of the type at every social level."
+      "note": "14th-century origins, largely 16th-19th century; twelve courts of successive dates in one property, effectively a museum of the type at every social level.",
+      "precedent": "palacio-de-viana",
+      "standing": "icon",
+      "why": "Twelve courts of successive dates on one property, the house's own site and the Spanish encyclopedia agreeing on the count, and one of them -- the Patio de los Gatos -- described as 'el primer patio de vecinos documentado en la ciudad cordobesa', so the palace contains the tenement form of its own type."
     },
     {
       "name": "Corral del Conde",
       "location": "Seville, Spain",
       "year": null,
-      "note": "16th century; the best-preserved corral de vecinos in Seville — communal courtyard housing showing the diagram at its poorest and most collective."
+      "note": "16th century; the best-preserved corral de vecinos in Seville — communal courtyard housing showing the diagram at its poorest and most collective.",
+      "precedent": "corral-del-conde",
+      "standing": "canonical",
+      "why": "The Spanish article calls it 'probablemente el más interesante y completo de todos los que existían, desaparecidos actualmente en gran parte' -- the survivor of a class that has mostly gone -- and it was declared a national historic-artistic monument in 1979."
     },
     {
       "name": "Patios of the Barrio de San Basilio (Alcazar Viejo)",
       "location": "Cordoba, Spain",
       "year": null,
-      "note": "16th-19th century houses, still inhabited and still watered daily; the core of the Fiesta de los Patios, inscribed on the UNESCO Representative List of Intangible Cultural Heritage in 2012."
+      "note": "16th-19th century houses, still inhabited and still watered daily; the core of the Fiesta de los Patios, inscribed on the UNESCO Representative List of Intangible Cultural Heritage in 2012.",
+      "precedent": "patios-of-the-barrio-de-san-basilio",
+      "standing": "regional",
+      "why": "UNESCO inscribed the practice these courts are made by, not the courts: entry 00846 of 2012 describes 'communal, family or multi-family dwellings or sets of individual houses with a shared patio' and designates no address, which is why this row is a district and carries no plan."
     },
     {
       "name": "Casa de Pilatos",
       "location": "Seville, Spain",
       "year": 1539,
-      "note": "Begun 1483, largely 1519-1539; the aristocratic upper limit of the type, where the vernacular patio meets Mudejar tile and Italian marble."
+      "note": "Begun 1483, largely 1519-1539; the aristocratic upper limit of the type, where the vernacular patio meets Mudejar tile and Italian marble.",
+      "precedent": "casa-de-pilatos",
+      "standing": "canonical",
+      "why": "The aristocratic ceiling of the type, and the one exemplar here with figures: a two-storey arcade on twenty-four Genoese marble columns per level, tile dados over three metres high, and a 270 m2 carriage court inside the street door."
+    },
+    {
+      "name": "Palacio de las Duenas",
+      "location": "Seville, Spain",
+      "year": null,
+      "note": "15th century, reworked around 1500 in gothic-mudejar and Renaissance manner; 9,000 m2 of site of which about two thirds is built, with two courts and four gardens. BIC RI-51-0000890.",
+      "precedent": "palacio-de-las-duenas",
+      "standing": "canonical",
+      "why": "Added by Tranche 3 because it states the one quantity this node's argument turns on and no other exemplar gives: how much of the site is building and how much is void -- 'unas dos terceras partes están construidas'."
+    },
+    {
+      "name": "Casa de los Pinelo",
+      "location": "Seville, Spain",
+      "year": null,
+      "note": "16th century; a Renaissance merchant house whose street front is a plain wall with an undecorated stone doorway on the corner, a slate-hooded balcony above and a marble-columned mirador at the top. BIC RI-51-0001244, declared 5 February 1954.",
+      "precedent": "casa-de-los-pinelo",
+      "standing": "documentary",
+      "why": "Added by Tranche 3 as the plain middle of the social range the node insists on; the register-linked article's own first sentence about it is 'La fachada es de gran simplicidad', which is the blind street wall stated rather than asserted."
     }
   ],
   "sources": [

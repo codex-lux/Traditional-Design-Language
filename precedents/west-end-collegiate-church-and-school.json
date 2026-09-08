@@ -1,0 +1,51 @@
+{
+  "id": "west-end-collegiate-church-and-school",
+  "name": "West End Collegiate Church and School",
+  "aka": [
+    "West End Collegiate Church",
+    "West End Collegiate Church and Collegiate School"
+  ],
+  "location": {
+    "text": "West End Avenue at 77th Street, New York, New York",
+    "country": "United States",
+    "state": "New York",
+    "aliases": []
+  },
+  "dates": {
+    "built": "1892",
+    "circa": false,
+    "note": "The Wikipedia infobox gives 'Built 1892'; the Historic Districts Council gives 'DATE: 1892-93'; the node's own exemplar note gives 'Cornerstone 1891, dedicated 20 November 1892'. Three statements of one campaign, kept as printed."
+  },
+  "nodes": [
+    "dutch-colonial-revival",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "80002729",
+      "url": "https://npgallery.nps.gov/AssetDetail/NRIS/80002729",
+      "title": "NPGallery Asset Detail: West End Collegiate Church and Collegiate School; National Register Information System ID: 80002729",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Wikipedia infobox prints the same number with NYSRHP No. 06101.000089 and NYCL No. 0287; added to the National Register 6 May 1980, designated a New York City landmark 11 January 1967."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/West_End_Collegiate_Church",
+      "title": "West End Collegiate Church - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "THE INFOBOX NAMES THE STYLE 'Dutch-Flemish Renaissance Revival' AND NOT DUTCH COLONIAL REVIVAL, with 'Architect Robert W. Gibson'. Recorded because it is the same terminological split as 57 Stone Street and it is on this node's other three urban exemplars too."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.archiseek.com/the-collegiate-church-new-york",
+      "title": "1892 - West End Collegiate Church, New York, USA - Archiseek.com",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Robert W. Gibson designed the church following the design of the 1606 Vleeshal in Haarlem, The Netherlands.' The New York Times, in a piece the same search returned: 'Designed by Robert W. Gibson after the early 17th-century butchers' guildhall in Haarlem, the church, today called West End Collegiate'. Both corroborate the node's own exemplar note, which names the Vleeshal."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. The building is what the node's exemplar note says it is -- the institutional case that gave the Dutch reference its New York prestige -- and it is a nearly literal quotation of a 1606 Haarlem guildhall, which is a fact worth having on the record before anybody reads a stepped gable in this style as evidence about American colonial building. The style name the sources use is 'Dutch-Flemish Renaissance Revival'; this node's name for it is Dutch Colonial Revival. Both are kept."
+}

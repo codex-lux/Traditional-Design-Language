@@ -94,6 +94,12 @@
   "depth_multiplier": 2.2,
   "sides_lit": 4,
   "orientation": "The court is its own orientation and lights every range around it, so the question is not which way the court faces but which range gets which sun. The north range of a court in the northern hemisphere faces south across it and is the good one - it takes winter sun and is easy to shade in summer, and it is where the principal rooms belong. The south range faces north across the court and is cool and even, which suits sleeping and service. The west range takes the afternoon sun on its face and is the one that needs the deep walk, the shutter or the vine.",
+  "aspect": {
+    "applies": false,
+    "basis": "The court is its own orientation and lights every range around it",
+    "note": "The record redirects the question to the RANGES around the court, which are other rooms. A courtyard has no single aspect of its own.",
+    "judgment": true
+  },
   "note": "NOTE ON THIS ROOM'S depth_multiplier, which means something different here than anywhere else in the catalogue. Everywhere else it is the useful depth of a room as a multiple of its window head height. A courtyard is not lit through a wall - it IS the aperture - so the schema's field is used for the analogous ratio the type actually turns on: the widest the court may be as a multiple of the height of the walls enclosing it before it stops behaving like a court. 2.2 is the top of that band; see critical_dimension for the whole range and what happens at each end of it. Reused rather than left null because the field is required, and saying so is better than a number that quietly means something else.\n\nThis room has no depth_multiplier because it is not lit through a wall - it is the aperture. What matters is what the court gives the rooms around it, and the arithmetic is unforgiving: a room opening onto a covered walk onto a court is lit at the walk's reduced multiplier (about 1.8, see rooms/loggia.json) from a source whose own brightness falls with the court's W/H. That is why the single-pile range is not a stylistic preference in this type but a requirement - a double-pile range around a courtyard has an inner tier of rooms lit by nothing at all. It is also why the historic courtyard house puts stores, service and sleeping where the court is narrowest and the principal rooms where it is widest."
  },
  "adjacency": {

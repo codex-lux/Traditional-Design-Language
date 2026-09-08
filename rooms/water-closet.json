@@ -76,6 +76,12 @@
     "depth_multiplier": 1.5,
     "sides_lit": 1,
     "orientation": "Any, and a small high window is worth more than a fan for the same reason as the powder room: it works without anyone deciding.",
+    "aspect": {
+      "applies": false,
+      "basis": "Any, and a small high window is worth more than a fan",
+      "note": "The record answers \"Any\", for the powder room's reason: a small high window that works without anyone switching it on. Ventilation, not aspect.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.03,
       0.09

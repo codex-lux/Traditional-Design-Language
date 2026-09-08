@@ -1,0 +1,111 @@
+{
+  "id": "hardys-cottage",
+  "name": "Hardy's Cottage",
+  "aka": [
+    "Thomas Hardy's Cottage"
+  ],
+  "location": {
+    "text": "Higher Bockhampton, Dorset, England",
+    "country": "England",
+    "state": "Dorset"
+  },
+  "dates": {
+    "built": "Left section c1800, right section c1840",
+    "circa": true,
+    "note": "The list entry dates the house in two parts -- 'Left section c1800, right section c1840' -- while the Wikipedia infobox prints a single 'Built | 1800'. Both are recorded and neither is resolved. The entry's own closing sentence says the cottage is the 'Birthplace of Thomas Hardy in 1840, and built by his great grandfather', so on the entry's reading the right-hand section is as old as the birth and the left is a generation older."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1119859",
+      "title": "Hardy's Cottage, Stinsford - 1119859 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1119859",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Details section opens with the legacy header 'STINSFORD SY 79 SW HIGHER BOCKHAMPTON 8/136 Hardy's Cottage 26.1.56' followed by '- II', and the Location block prints 'District: Dorset (Unitary Authority)', 'Parish: Stinsford' and 'National Grid Reference: SY 72836 92498'. The entry's own closing citation is 'RCHM Monument 8 Dorset Vol II' -- the Royal Commission's inventory, which is the English survey nearest in kind to a HABS written data sheet."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Thomas_Hardy%27s_Cottage",
+      "title": "Thomas Hardy's Cottage - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Infobox field values as a search result returned them: 'Type | Cob and thatch building', 'Location | Higher Bockhampton, Dorset, England, United Kingdom', 'Built | 1800', 'Governing body | National Trust'. Field values, not prose. The article's body adds that the cottage 'was given listed building status in 1956 and is listed Grade II', which matches the legacy header's 26.1.56 and '- II'."
+    }
+  ],
+  "survey": {
+    "item": "1119859",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1119859",
+    "prepared": "The Details section's legacy header prints '8/136 Hardy's Cottage 26.1.56' -- listed 26 January 1956 -- followed by the grade '- II'. No Official list entry block was returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Detached cottage. Left section c1800, right section c1840.",
+        "page": "Official list entry, Details, opening sentences"
+      },
+      {
+        "field": "walls",
+        "text": "Brick walls with some flint banding - a facing on cob. Upper walls plastered cob.",
+        "page": "Official list entry, Details, walls sentences following the opening"
+      },
+      {
+        "field": "roof",
+        "text": "Hipped thatched roof, roof of right section slightly lower. Brick end and centre stacks.",
+        "page": "Official list entry, Details, roof and chimneys sentences"
+      },
+      {
+        "field": "storeys",
+        "text": "One storey and attic. Brick porch with shallow pitched lead roof. Ledged door. Evidence of 2 blocked doors.",
+        "page": "Official list entry, Details, storeys and porch sentences"
+      },
+      {
+        "field": "openings",
+        "text": "Ground floor has 4 casements, 2 with glazing bars, 2 with lead lights. Attic has 3 slightly dormered windows, 2 with glazing bars, one with lead lights.",
+        "page": "Official list entry, Details, fenestration sentences"
+      },
+      {
+        "field": "finishes",
+        "text": "Internally, main ground floor room has large open fireplace with timber lintel. Bread oven with access from room on right. Old brick and stone floors.",
+        "page": "Official list entry, Details, interior; verified against a second extract of the same page with a different query, which returned the whole Details prose as one span"
+      },
+      {
+        "field": "significance",
+        "text": "Old brick and stone floors. Early panelled doors, possibly brought from elsewhere. Birthplace of Thomas Hardy in 1840, and built by his great grandfather. Good unspoiled example of Dorset cottage. A National Trust property. (RCHM Monument 8 Dorset Vol II)",
+        "page": "Official list entry, Details, close of the description; this span opens the block the first extract returned after the Location block and repeats its first words from the close of the block before"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "One storey and attic",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "AGREES with the node's 'one and a half storeys of cob, rubble or timber frame under deep thatch'. The attic is lit by three dormered windows and is not counted as a storey by the entry."
+    },
+    {
+      "name": "ground_floor_window_count",
+      "as_printed": "Ground floor has 4 casements",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "Four ground-floor windows and one door on a two-section cottage. The node's own kit bands glazed_area_pct_floor at 4 to 8 per cent and cites the window tax; the entry gives the count and no size, so the band cannot be tested from it."
+    },
+    {
+      "name": "dormer_count",
+      "as_printed": "Attic has 3 slightly dormered windows",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 4,
+      "note": "'slightly dormered' is the surveyor's phrase for a window that barely breaks the thatch -- the same condition the node derives from thatch needing an unbroken surface, and the same detail Anne Hathaway's entry names as an eyebrow dormer."
+    }
+  ],
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. Added by this tranche, and it is the plainest building in the cluster: a Dorset labourer-class cottage of cob under thatch, one storey and an attic, four windows and an open hearth, described by Historic England in its own words as a 'Good unspoiled example of Dorset cottage'. The entry states no dimension. It also states something the node's prose does not allow for: the cob is FACED in brick with flint banding at the lower walls and is only bare, plastered cob above -- so the 'boots' the node's own constraint demands are here a full-height brick facing rather than a plinth. A QUOTE THAT STRADDLED TWO EXTRACT CHUNKS WAS FOUND BY RE-EXTRACTING THE PAGE WITH A DIFFERENT QUERY AND WAS SPLIT RATHER THAN JOINED. The chunker returns the same boundaries on every query and each block repeats the tail of the one before, so the text is demonstrably continuous -- but a span crossing the boundary was never READ as one contiguous run, and this record does not print one as though it had been."
+}

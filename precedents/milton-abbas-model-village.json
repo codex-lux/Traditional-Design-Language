@@ -1,0 +1,97 @@
+{
+  "id": "milton-abbas-model-village",
+  "name": "Milton Abbas Model Village",
+  "record_kind": "group",
+  "location": {
+    "text": "Milton Abbas, Dorset, England",
+    "country": "England",
+    "state": "Dorset"
+  },
+  "dates": {
+    "built": "c1780",
+    "circa": true,
+    "note": "The list entries for the individual cottages give 'c1780'; the Royal Commission's inventory says the village 'was built in c. 1780'; a local studio page read the same day says the street was 'built in the 1770s'. The c1780 of the two official sources is what this record carries."
+  },
+  "nodes": [
+    "english-cottage-vernacular"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1152135",
+      "title": "17 and 18, Milton Abbas - 1152135 | Historic England",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1152135",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The record's survey block: one standard pair of the village's cottages, read as continuous prose in an extract. Its Details section opens with the legacy header 'ST 8001 13/101 MILTON ABBAS (North-west side) Nos. 17 and 18 14-7-55' and 'GV II'; the Location block prints 'Statutory Address: 17 AND 18, MILTON ABBAS, BLANDFORD FORUM, DT11 0BW' and 'National Grid Reference: ST 80594 01810'; the Legacy block prints 'Legacy System number: 103517'."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1324280",
+      "title": "56-57, Milton Abbas, Milton Abbas - 1324280",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1324280",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A second cottage in the same street, whose description as a search result rendered it begins with the same formula as No 17 and 18: 'Detached cottage. c1780. Plastered cob walls, hipped thatched roof, brick end stacks. Two storeys.' Recorded as a locator and as corroboration that the description is a repeated standard type; NOT extracted, so nothing from it is quoted in `survey.quotes`."
+    },
+    {
+      "kind": "monograph",
+      "url": "https://www.british-history.ac.uk/rchme/dorset/vol3/pp182-200",
+      "title": "Milton Abbas | British History Online (Royal Commission on Historical Monuments, An Inventory of the Historical Monuments in Dorset, Volume 3)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "THE ENGLISH SURVEY NEAREST IN KIND TO A HABS WRITTEN DATA SHEET, and the only source here that describes the STANDARD cottage rather than one address. It is carried as a monograph reference and not as this record's `survey`, because WP-11.5 admits a national heritage list entry into that block and says nothing about an RCHME inventory; stretching it there would be a decision this agent is not entitled to make. Read as continuous prose in two extracts with different queries. Monument (7): 'The standard cottages are two-storied and have cob walls, thatched roofs, rectangular plans, and front elevations comprising a central doorway with a transomed two-light casement window on each side, and three two-light windows on the first floor.' And, from the second extract: 'Each cottage was originally meant to comprise two tenements (B.M. Add. MS. 41133 f. 95) but several have now become single dwellings. In nearly every case the central doorway opens into a vestibule, from which lateral doorways open into the tenements. Each staircase is lit by one light of the central two-light window.' The inventory states NO DIMENSION for the standard cottage either."
+    }
+  ],
+  "survey": {
+    "item": "1152135",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1152135",
+    "prepared": "The Details section's legacy header prints 'Nos. 17 and 18 14-7-55' -- listed 14 July 1955. No Official list entry block was returned by the extract. The entry's own Sources block cites 'Inventory of Dorset, (1970)' and its text cites 'RCHM Monument 7 (Dorset. Vol.III)'.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Pair of cottages. c1780.",
+        "page": "Official list entry, Details, opening sentences after the legacy header and 'GV II'"
+      },
+      {
+        "field": "materials",
+        "text": "Plastered cob walls, hipped thatched roofs, brick end stacks. Two storeys. Ledged door.",
+        "page": "Official list entry, Details, materials and storeys sentences"
+      },
+      {
+        "field": "openings",
+        "text": "No.17 has, on ground floor, one cross-pattern window with cast iron glazing. First floor has one casement with cast iron glazing and one shared with No.18.",
+        "page": "Official list entry, Details, fenestration of No 17"
+      },
+      {
+        "field": "openings",
+        "text": "No.18 has, on ground floor, one timber casement with glazing bars. First floor has one casement with lead lights and one shared with No.17.",
+        "page": "Official list entry, Details, fenestration of No 18, followed by 'RCHM Monument 7 (Dorset. Vol.III)' and 'Listing NGR: ST8059001814'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "Two storeys",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "CONTRADICTS the node's own short description, 'one and a half storeys', and it is not an outlier: the second cottage read here and the Royal Commission's account of the STANDARD cottage both say two storeys. A purpose-built estate cottage of c1780 is two full storeys where the four organically grown cottages in this cluster are one storey and an attic; that is a real difference in the type and not a survey error."
+    },
+    {
+      "name": "ground_floor_window_count_per_dwelling",
+      "as_printed": "on ground floor, one cross-pattern window with cast iron glazing",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "One ground-floor window per dwelling, beside the door. With one first-floor casement of its own and one shared, each half of the pair lights itself on about two and a half windows -- the sparsest fenestration recorded anywhere in this cluster, and the node's window-tax argument in its clearest form."
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1152135",
+  "note": "Tranche 3, the English cottage and the Cotswold vernacular, 5 Sep 2026. Added by this tranche. RECORD KIND `group`: the model village is about thirty-six near-identical cob-and-thatch cottages individually listed along one street, and no single address is the place; the survey block is one standard pair, and the Royal Commission's description of the STANDARD cottage is carried as a monograph reference rather than promoted into the survey block. It is here because the node needs a case where the cottage was DESIGNED rather than grown -- an estate landlord's repeated plan, two tenements to a cottage, entered through a shared vestibule -- and because that case immediately falsifies the node's storey count."
+}

@@ -86,6 +86,15 @@
     "depth_multiplier": 1.6,
     "sides_lit": 0,
     "orientation": "None needed; away from west if there is a choice, because heat degrades stored food faster than anything except damp.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "avoid": [
+        "W"
+      ],
+      "basis": "None needed; away from west if there is a choice",
+      "judgment": true
+    },
     "note": "No window. One fixture at the front, over the standing position, on a door switch - the same rule as a closet and for the same reason: a light at the back of a shelved room silhouettes everything on the shelves. Corrected 0.4.0: the multiplier was below 1.0, which made every pantry with a window fail its own daylight rule."
   },
   "adjacency": {

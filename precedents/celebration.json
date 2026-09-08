@@ -1,0 +1,44 @@
+{
+  "id": "celebration",
+  "name": "Celebration",
+  "location": {
+    "text": "Osceola County, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "Established 1994; master plan 1997 (Cooper Robertson's list)",
+    "circa": false,
+    "note": "Wikipedia files the community under 'Populated places established in 1994'; its text: 'In the early 1990s, the Disney Development Company (DDC) established the Celebration Company'; Cooper Robertson's Wikipedia list dates the 'Master Plan for Celebration, Florida for the Disney Development Company' 1997. Population 11,178 at the 2020 census."
+  },
+  "nodes": [
+    "new-urbanist-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Celebration,_Florida",
+      "title": "Celebration, Florida - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The master plan was developed by two Driehaus Prize winning architects, Jacquelin T. Robertson of Cooper, Robertson & Partners and Robert A. M. Stern ... Urban Design Associates, of Pittsburgh, developed design guidelines, called an architectural pattern book'."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.celebration.fl.us/celebration-community-governance",
+      "title": "Celebration Community Governance | Celebration Florida",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The community's own site: 'A subsidiary of The Walt Disney Company, The Celebration Company designed, developed and marketed the community of Celebration.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Cooper_Robertson",
+      "title": "Cooper Robertson - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Lists 'Master Plan for Celebration, Florida for the Disney Development Company (1997)'."
+    }
+  ],
+  "note": "Written 4 Sep 2026. A town. Wikipedia's 1994 establishment and Cooper Robertson's 1997 master-plan date are both on the record; the exemplar year is the earlier."
+}

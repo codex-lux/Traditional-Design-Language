@@ -208,7 +208,26 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 
 # --------------------------------------------------------------- the guarantee
 
-CORPUS_SHEET_SHA = "4cfba3a0885ddccb"
+# RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND THE GUARANTEE THIS PIN STATES
+# IS UNCHANGED. It says WP-11.14 is the IDENTITY on a one-rectangle house -- a boundary room's
+# own element face IS the footprint edge -- and that is still true; what moved is the house.
+# Main's WP-11.2 reads the massing's own bay count and its parity, resizing both shipped plans
+# (Tidewater 60.0 x 40.08 -> 63 x 38.17, spec Colonial 40.0 x 38.44 -> 50.0 x 30.75), and this
+# merge adds `data-t` to every wall band so the plate states its own thickness. Both change the
+# bytes of every sheet. The pin is re-derived rather than removed because its subject -- that
+# the element-aware exterior face changes nothing where there is one element -- is exactly what
+# WP-11.16's record edit will falsify, loudly, when it tags a plan.
+#
+# AND THIS PIN WAS RE-DERIVED TWICE, BECAUSE THE FIRST READING WAS TAKEN ON A MUTATED TREE. A
+# mutation harness checking the ported record table was interrupted between writing its first
+# mutation and restoring the file, leaving `if False:` where `if all_diverged:` belongs -- so
+# the sheet it hashed was one with the table's height reserved and the table not drawn. The
+# figure looked exactly like a legitimate re-derivation. CLAUDE.md already records the shape
+# (*"a mutation that silently does not REVERT makes every later result meaningless, and it
+# reads as success"*); what this adds is that the damage outlives the harness, into any number
+# measured afterwards. **After an interrupted mutation run, restore the file and re-derive
+# every figure taken since.**
+CORPUS_SHEET_SHA = "373d0116be7cecb8"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

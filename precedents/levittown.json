@@ -1,0 +1,72 @@
+{
+  "id": "levittown",
+  "name": "Levittown",
+  "aka": [
+    "Island Trees"
+  ],
+  "location": {
+    "text": "Nassau County, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1947-1951",
+    "circa": false,
+    "note": "Sales began March 1947 for the rented Cape Cods; the 1949 sale model (the Rancher) went on the market 7 March 1949. Counts of the finished development disagree across the sources read here: 17,447 homes (levittownbeyond.com and EBSCO), 17,500 families moved in (Digital History), 'more than 17,000 units' elsewhere. None is edited."
+  },
+  "nodes": [
+    "minimal-traditional",
+    "mid-century-traditional"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Levittown,_New_York",
+      "title": "Levittown, New York - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'They used pre-cut lumber and nails shipped from their own factories in Blue Lake, California, and built on concrete slabs, as they had done in a previous planned community in Norfolk, Virginia.' Gives a production rate of 30 houses a day by July 1948."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.history.com/articles/levittown-suburbs-tract-housing",
+      "title": "How Levittowns Shaped the Look of the Suburbs - History.com",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Quotes William Levitt on the reverse assembly line -- 'The land was our factory' -- and Berenson (named in the article only by surname, as the author of Perfect Communities: Levitt, Levittown, and the Dream of White Suburbia) on the lot: 'In the original Levittown, the yards were 6,000 square feet, which is about a tenth of an acre, but with each successive Levittown, the yards get bigger.' It also says construction was divided into '26 distinct steps performed by 26 different teams of workers'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.ebsco.com/research-starters/history/levittown",
+      "title": "Levittown | History | Research Starters | EBSCOhost",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Says the Levitts streamlined 'the construction process into 27 distinct steps' -- one more than History.com's 26 and than this node's own exemplar note -- and that 'A finished house measured 32 by 25 feet', which it places in the 1947-48 period. That last figure is attributed to the 1949 Rancher by two other sources; see `precedents/levittown-ranch-model.json`."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.digitalhistory.uh.edu/disp_textbook.cfm?psid=3427&smtID=2",
+      "title": "Levittown - Digital History (University of Houston), Digital History ID 3427",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'On the morning of March 7, 1949, builder William J. Levitt opened a sales office ... more than a thousand young couples crowded outside the sales office, waiting for a chance to buy a four-room, 25-by-32-foot house for $6,999--government financed, no money down.' Also '26 separate steps' and 'planted trees every 28 feet'."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nytimes.com/2018/12/19/realestate/levittown-ny-the-original-starter-community.html",
+      "title": "Levittown, N.Y.: The Original Starter Community - The New York Times",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'These houses were meant to be altered, with their unfinished attics and roomy 60-by-100-foot lots.' Corroborates the 60 x 100 ft lot this node's exemplar states."
+    },
+    {
+      "kind": "other",
+      "url": "http://www.levittownbeyond.com",
+      "title": "Introduction @ LevittownBeyond.com",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'In all, 17,447 homes were constructed in Levittown between 1947 and 1951.' Credits Alfred Levitt as chief architect and says the 1949 Rancher 'was the style of the remaining 11,447 homes at built at Levittown, N.Y.' -- so the Cape accounts for about 6,000 of the total and the ranch for the rest."
+    }
+  ],
+  "note": "THREE RECORDS, ONE PLACE, DELIBERATELY. This is the DEVELOPMENT, named as minimal-traditional's exemplar; `precedents/levittown-cape-cod-model.json` is the 1947 rental Cape (cape-cod-revival) and `precedents/levittown-ranch-model.json` is the 1949 sale model (ranch-style). The Cape record's own note already asks that the three not be merged, and the exemplar names cannot be edited because build/check_assets.py joins on them. THE LOT DISAGREES ACROSS SOURCES: the NYT and History.com give 60 x 100 ft and 6,000 sq ft ('about a tenth of an acre'), which is what this node's exemplar says; the Levitt & Sons article quoted in the Cape record's refs says the houses 'sat on a quarter-acre (0.09 ha) lot', which is nearly twice as much land. Both are recorded and neither is edited. Prices likewise: $6,990 and $7,900 for the Cape, $6,999 and $7,990 for the ranch, against this node's 'about $8,000'."
+}

@@ -1,0 +1,143 @@
+{
+  "id": "grand-chalet-rossiniere",
+  "name": "Le Grand Chalet",
+  "aka": [
+    "Grand Chalet de Rossinière",
+    "Grande Demeure",
+    "Grande Maison",
+    "Chalet Balthus"
+  ],
+  "location": {
+    "text": "Rossiniere, Switzerland",
+    "country": "Switzerland",
+    "state": "Canton de Vaud"
+  },
+  "dates": {
+    "built": "1752-1756",
+    "circa": false,
+    "altered": "A hotel from 1857 to 1976; bought by the painter Balthus in 1977, who lived and worked there until his death in 2001.",
+    "note": "THE DATE IS PUBLISHED THREE WAYS. The French and English Wikipedia articles both say 1752-1756; the Montreux-Oberland Bernois railway's page says 'construit entre 1752 et 1756'; the Swiss parks network says flatly 'built in 1754 for two families'. All three were read on one day."
+  },
+  "nodes": [
+    "swiss-chalet"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://fr.wikipedia.org/wiki/Grand_Chalet_de_Rossini%C3%A8re",
+      "title": "Grand Chalet de Rossinière — Wikipédia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox prints 'Patrimonialité: Bien culturel d'importance nationale' -- a Swiss cultural property of national significance -- and 'Partie de: Liste des biens culturels de Rossinière'. No KGS number was read."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grand_Chalet",
+      "title": "Grand Chalet - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'The Grand Chalet ... is the largest historic chalet in Switzerland and possibly in the entire Alpine region.' It also dates the two protections: '1946: Classification as a monument at municipal and cantonal level. 1996: Recognition as a heritage site of national significance.' The infobox names the makers: Jean-David Henchoz (owner), Gabriel Massard (master mason) and Joseph Genayne (master carpenter)."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.parks.swiss/en/visit-the-parks/hikes/offer-detail/le-grand-chalet-45051",
+      "title": "Le Grand Chalet | The Swiss parks",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Swiss parks network, for the Parc naturel regional Gruyere Pays-d'Enhaut: 'The Grand Chalet, formerly the Grande Maison, was built in 1754 for two families. On the lower ground floor an immense cheese cellar can be found.'"
+    }
+  ],
+  "survey": {
+    "item": "fr-wikipedia-grand-chalet-de-rossiniere",
+    "register": "wikipedia",
+    "data_url": "https://fr.wikipedia.org/wiki/Grand_Chalet_de_Rossini%C3%A8re",
+    "prepared": "The French Wikipedia article, read as CONTINUOUS PROSE IN AN EXTRACT. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER; the article cites Denyse Raymond, 'Les maisons rurales du canton de Vaud, tome II' (Les maisons rurales de Suisse, 17), Basel 2002, pp. 249-250, and Juerg Zbinden, 'Le Grand Chalet de Rossiniere', Editions mo, 2004 -- neither of which was read here. Footnote markers rendered as stray parentheses have been dropped and no word was changed.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "De facture artisanale locale à clavins, il est surtout caractéristique par sa taille (113 fenêtres pour 60 pièces dont 40 chambres habitables, 27 mètres de façade sur 5 étages, 20 mètres au faîte, 15 mètres de profondeur) et son toit pentu (200 m 2) à réveillonnage et pans brisés",
+        "page": "French Wikipedia, 'Grand Chalet de Rossinière'. Not paginated. The extract renders the square-metre exponent with a space, '200 m 2', and it is quoted as it came back."
+      },
+      {
+        "field": "materials",
+        "text": "Il a nécessité 750 m 3 de bois en grume, soit plus de 200 épicéas, et 950 m 2 de tavillons pour la couverture soit 70 épicéas de plus, pour un ensemble de près de 1 000 m 3 coupés dans les forêts du propriétaire",
+        "page": "French Wikipedia, 'Grand Chalet de Rossinière'. Not paginated."
+      },
+      {
+        "field": "significance",
+        "text": "La maison a été construite entre 1752 à 1756 pour et par le curial (greffier de justice) Jean-David Henchoz. Ce propriétaire gère et agrandit le patrimoine familial qui comprend des forêts, des propriétés agricoles dans le fond de la vallée et de vastes alpages dont il rachète progressivement les parts des anciennes corporations paysannes. Il pratique également le commerce de fromage, et pour cela il a besoin de caves suffisantes pour centraliser et affiner la production provenant d’alpages situés jusque dans la haute vallée de l'Étivaz. La surface de ces caves va déterminer le volume du bâtiment auquel elles servent de soubassement.",
+        "page": "French Wikipedia, 'Grand Chalet de Rossinière'. Not paginated."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "facade_width_ft",
+      "as_printed": "27 mètres de façade sur 5 étages",
+      "value": 88.58,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "27 m converted. IT BREAKS THE NODE'S OWN LOG RULE BY A FACTOR OF THREE. The node argues that 'no wall can be longer than a log, which fixes the building's plan dimensions at roughly six to nine metres'. This facade is 27 m. The record does not treat that as a refutation -- a log wall can be built longer than one log by scarfing or by intermediate posts, and this is the largest chalet in Switzerland, built by a man who needed a cheese cellar big enough to consolidate the output of several alps. It is the exception that says what the rule is for. SOURCE IS AN ENCYCLOPEDIA ARTICLE."
+    },
+    {
+      "name": "depth_ft",
+      "as_printed": "15 mètres de profondeur",
+      "value": 49.21,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "15 m converted. SOURCE IS AN ENCYCLOPEDIA ARTICLE."
+    },
+    {
+      "name": "ridge_height_ft",
+      "as_printed": "20 mètres au faîte",
+      "value": 65.62,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "20 m to the ridge, over five storeys. SOURCE IS AN ENCYCLOPEDIA ARTICLE."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "sur 5 étages",
+      "value": 5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "window_count",
+      "as_printed": "113 fenêtres",
+      "value": 113,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The figure the building is known by, and the one the node's own prose about the Fensterband would predict at this scale: 113 small openings rather than a few large ones."
+    },
+    {
+      "name": "room_count",
+      "as_printed": "60 pièces dont 40 chambres habitables",
+      "value": 60,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "Sixty rooms of which forty are habitable chambers."
+    },
+    {
+      "name": "roof_area_sf",
+      "as_printed": "son toit pentu (200 m 2)",
+      "from_quote": 0,
+      "note": "200 m2 of roof. NO `value` AND NO `unit`: the vocabulary has no area measure. NOTE THE ARITHMETIC DOES NOT CLOSE -- a 27 by 15 m footprint is 405 m2 on plan, and a pitched roof over it cannot be 200 m2. Either the figure counts one slope, or it counts something else, or it is wrong. The record states the discrepancy and changes nothing."
+    },
+    {
+      "name": "shingle_area_sf",
+      "as_printed": "950 m 2 de tavillons pour la couverture",
+      "from_quote": 1,
+      "note": "950 m2 of split-larch tavillons for the covering. NO `value` AND NO `unit`, the vocabulary having no area measure. IT CONTRADICTS THE 200 m2 IN THE PREVIOUS QUOTE ON THE SAME PAGE unless the shingles are laid four or five deep, which tavillons in fact are. Both figures are the article's own and both are recorded."
+    },
+    {
+      "name": "roof_pitch_word",
+      "as_printed": "son toit pentu",
+      "from_quote": 0,
+      "note": "NOT PARSED, and deliberately. The article says the roof is 'pentu' -- steep -- and gives no angle. The node's opening argument is that 'A real high-alpine chalet has a low roof -- eighteen to twenty-five degrees, sometimes less', and that the steep-roofed chalet is a lowland and resort invention. Rossiniere is at 906 m in the Pays-d'Enhaut, which is not high alpine, and the node's own prose already allows for that: 'Where pitches are steeper ... it is because those places get rain rather than dry cold'. No number is available either way and none is invented."
+    }
+  ],
+  "note": "Tranche 3, Alpine cluster, 5 September 2026. Added by this tranche as the icon the node had no icon for, and it is an icon that argues with the node.\n\nIt is a Swiss cultural property of national significance, classified at municipal and cantonal level in 1946 and recognised nationally in 1996. It is also the richest set of published dimensions anywhere in these six nodes: 27 m of facade over five storeys, 20 m to the ridge, 15 m deep, 113 windows, 60 rooms, 750 m3 of round timber -- over 200 spruces -- and 950 m2 of shingles from 70 more.\n\nAND ITS FORM IS DETERMINED BY A CHEESE CELLAR, which is a better instance of the node's own method than any of its existing exemplars: 'La surface de ces caves va déterminer le volume du bâtiment auquel elles servent de soubassement.' The cellar sizes the building. That is the node's whole way of arguing -- form as the residue of a constraint -- stated by a source about a specific building."
+}

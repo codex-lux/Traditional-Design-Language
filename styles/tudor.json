@@ -193,25 +193,55 @@
       "name": "Hampton Court Palace, Base Court and Clock Court",
       "location": "Richmond upon Thames, London, England",
       "year": 1515,
-      "note": "Begun 1515 for Cardinal Wolsey and taken by Henry VIII in 1529; Great Hall 1532-35. Diapered brick, gatehouse ranges, Maiano's terracotta roundels of 1521, and the definitive Tudor chimneyscape."
+      "note": "Begun 1515 for Cardinal Wolsey and taken by Henry VIII in 1529; Great Hall 1532-35. Diapered brick, gatehouse ranges, Maiano's terracotta roundels of 1521, and the definitive Tudor chimneyscape.",
+      "precedent": "hampton-court-palace-base-court-and-clock-court",
+      "standing": "icon",
+      "why": "Historic England 1193127 says Cardinal Wolsey's work survives 'particularly the ranges around the Base Court, the Clock Court and the Kitchen Court', which is exactly the fabric this exemplar names; that it is the building the style is known by is this project's judgment, and the entry states no dimension, storey count or bay count to support anything further."
     },
     {
       "name": "Layer Marney Tower",
       "location": "Essex, England",
       "year": 1520,
-      "note": "Built c.1520-25 for Henry, first Lord Marney. An eight-storey brick gatehouse with terracotta cresting and window dressings — a gatehouse so far outgrowing its house that the house was never finished."
+      "note": "Built c.1520-25 for Henry, first Lord Marney. An eight-storey brick gatehouse with terracotta cresting and window dressings — a gatehouse so far outgrowing its house that the house was never finished.",
+      "precedent": "layer-marney-tower",
+      "standing": "icon",
+      "why": "Historic England 1223988 calls the gatehouse 'a remarkable and very fine example of early renaissance work and ornament' and states 'It stands 80 ft high'; the judgment is the register's and the figure is its own -- and the same sentence contradicts this exemplar's note by putting the gatehouse at three storeys and its flanking turrets at eight."
     },
     {
       "name": "Compton Wynyates",
       "location": "Warwickshire, England",
       "year": 1515,
-      "note": "Built for Sir William Compton in the early sixteenth century, incorporating salvaged material. The least regularised of the great Tudor houses: a courtyard plan of astonishing picturesque irregularity in warm pink brick."
+      "note": "Built for Sir William Compton in the early sixteenth century, incorporating salvaged material. The least regularised of the great Tudor houses: a courtyard plan of astonishing picturesque irregularity in warm pink brick.",
+      "precedent": "compton-wynyates",
+      "standing": "icon",
+      "why": "Historic England 1024349 records 'Rose-red brickwork with dark brick diapering especially on the entrance front', a courtyard plan with irregular fenestration, and a hall roof and bay window salvaged from Fulbroke Castle; the fabric is the register's and the aesthetic judgment in this exemplar's note is this project's."
     },
     {
       "name": "Sutton Place",
       "location": "Guildford, Surrey, England",
       "year": 1525,
-      "note": "Built 1521-33 for Sir Richard Weston. An early courtyard house, later opened on one side, whose terracotta ornament and near-symmetrical entrance front mark the first serious English negotiation with Renaissance detail."
+      "note": "Built 1521-33 for Sir Richard Weston. An early courtyard house, later opened on one side, whose terracotta ornament and near-symmetrical entrance front mark the first serious English negotiation with Renaissance detail.",
+      "precedent": "sutton-place",
+      "standing": "canonical",
+      "why": "Historic England 1236810 gives the only plan dimension any Tudor exemplar in this cluster yielded -- 'Originally built as square house round a courtyard c140 foot by 130 foot' -- with terracotta dressings and a gatehouse range demolished in 1786, which is what makes it the Tudor house a kit can be held against; the judgment is this project's."
+    },
+    {
+      "name": "Oxburgh Hall",
+      "location": "Oxborough, Norfolk, England",
+      "year": 1482,
+      "note": "Historic England 1342586: a 'Fortified Country House', licence to crenellate 1482, brick with stone dressings on a 'Square moated site of four wings around a courtyard', the north, west and half the east wings C15. Its 'Central three-storey C15 gatehouse' has a four-centred vaulted archway, polygonal turrets with moulded brick arched corbel tables, a four-light first-floor window over a three-light second-floor window, a four-centred machicolation and stepped crenellations, reached by an early-C18 three-bay bridge across the moat.",
+      "precedent": "oxburgh-hall",
+      "standing": "icon",
+      "why": "Historic England 1342586 describes a three-storey brick gatehouse with a four-centred vaulted archway, a machicolation and stepped crenellations on a moated site crossed by a permanent eighteenth-century bridge, which is this node's own argument about defence surviving as costume, stated by a register; the judgment is this project's."
+    },
+    {
+      "name": "Gainsborough Old Hall",
+      "location": "Gainsborough, Lincolnshire, England",
+      "year": 1471,
+      "note": "Historic England 1359773, which is five sentences long and states no material, storey count, bay count or dimension: 'Late C15, between 1471 and 1484, for Sir Thomas Burgh. Half H plan with central great hall. East wing brick faced and West wing chimneys and South gable circa 1600 for William Hickman.' A Historic England Research Record instead gives 'probably built between 1464 and 1484'. The year here is the earlier end of the list entry's range.",
+      "precedent": "gainsborough-old-hall",
+      "standing": "canonical",
+      "why": "Historic England 1359773 states the plan in five words -- 'Half H plan with central great hall' -- and calls it 'A fine late mediaeval dwelling'; that plan statement is the register's and is the whole of what earns the standing, the entry saying nothing else about the building."
     }
   ],
   "sources": [

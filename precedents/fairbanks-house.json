@@ -1,0 +1,79 @@
+{
+  "id": "fairbanks-house",
+  "name": "Fairbanks House",
+  "aka": [
+    "Jonathan Fairbanks House"
+  ],
+  "location": {
+    "text": "Dedham, Massachusetts",
+    "country": "United States",
+    "state": "Massachusetts"
+  },
+  "dates": {
+    "built": "ca. 1641",
+    "circa": true,
+    "altered": "The 1930s HABS data sheet records 'practically no detrimental alterations except the removal of the original casement windows'; later lean-tos and wings are the node's own note.",
+    "note": "Three dates are on the record because three sources give them: the node's exemplar says 1637 (dendrochronology, late 1630s); the Wikipedia infobox says ca. 1641; the HABS data sheet says 'c.1656 et seq.'. None is edited to agree with another."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "MA-223",
+      "title": "Jonathan Fairbanks House, 511 East Street, Dedham, Norfolk County, MA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0431/data/ma0431data.pdf",
+      "note": "The data page's cover prints 'HABS No. MASS-223' and its addendum 'HABS No. MA-223'; recorded in the addendum's form. The loc.gov item page, read by search the same day, prints 'Photo(s): 25' and a sheet count of 24.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "ma0431",
+      "url": "https://www.loc.gov/pictures/item/ma0431",
+      "title": "Jonathan Fairbanks House, 511 East Street, Dedham, Norfolk County, MA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000367",
+      "url": "https://en.wikipedia.org/wiki/Fairbanks_House_(Dedham,_Massachusetts)",
+      "title": "NRHP reference No. 66000367; added October 15, 1966; designated NHL October 9, 1960 (as the Wikipedia infobox prints it)",
+      "note": "Read from the infobox, not from the National Register's own database.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Fairbanks_House_(Dedham,_Massachusetts)",
+      "title": "Fairbanks House (Dedham, Massachusetts) - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "ma0431",
+    "register": "loc-item",
+    "survey_no": "MA-223",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ma/ma0400/ma0431/data/ma0431data.pdf",
+    "prepared": "A 1930s District of Massachusetts data sheet (the extract shows the cover and the addendum cover only; no compiler or date legible)",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "This is perhaps the earliest and most important house of the 17th century standing in Massachusetts. It has suffered from practically no detri- mental alterations except the removal of the original casement windows many of which, however, are preserved in the house. It retains many fine open timber ceilings, very rare moulded sheathing and weatherboarded wainscot.",
+        "page": "HABS No. MASS-223 data sheet ('Additional Data'); no page number printed on the sheet"
+      },
+      {
+        "field": "structural_system",
+        "text": "Date of Erection: c.1656 et seq. Architect: Unknown Builder: Unkno-wn Present Condition: Good Materials of Construction: Stone foundation, frame structure",
+        "page": "HABS No. MASS-223 data sheet; no page number printed on the sheet"
+      }
+    ]
+  },
+  "note": "The extract returned only the data sheet and the addendum cover; the addendum's own descriptive pages, if any, were not reached and are not quoted.",
+  "nodes": [
+    "new-england-colonial",
+    "american-colonial"
+  ]
+}

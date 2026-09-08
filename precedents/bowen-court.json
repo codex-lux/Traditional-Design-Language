@@ -1,0 +1,46 @@
+{
+  "id": "bowen-court",
+  "name": "Bowen Court",
+  "location": {
+    "text": "539 E. Villa Street, Pasadena, California",
+    "country": "United States",
+    "state": "California"
+  },
+  "dates": {
+    "built": "1910-1912",
+    "circa": false,
+    "note": "Wikipedia infobox 'Built 1910-12'; the Pasadena bungalow-courts nomination says 'Designed by Arthur and Alfred Heineman in 1910'."
+  },
+  "nodes": [
+    "craftsman-bungalow",
+    "california-bungalow"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "82002194",
+      "url": "https://en.wikipedia.org/wiki/Bowen_Court",
+      "title": "NRHP reference No. 82002194; added June 17, 1982 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bowen_Court",
+      "title": "Bowen Court - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The court includes 23 bungalows arranged in an \"L\" shape and is one of the largest bungalow courts in southern California.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/pdfhost/docs/NRHP/Text/64000063.pdf",
+      "title": "National Register of Historic Places Inventory Nomination Form",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The Pasadena bungalow-courts multiple-property nomination. Its own words: 'Bowen Court is the most well known extant bungalow court in Pasadena, and perhaps in the larger Los Angeles region as well'; 'it was one of the first courts to be built, and it is one of the two oldest to survive'; 'Bowen Court was constructed for $1,253 per unit while Gartz Court, built in the same year, cost $2,333 per unit.'"
+    }
+  ],
+  "note": "No HABS survey was found (query: '\"Bowen Court\" 539 East Villa Street Pasadena HABS CA- loc.gov pictures item' returned other Pasadena surveys). The name and location are spelled exactly as california-bungalow's exemplar already spells them, so that node could join this record without renaming -- and WP-11.3, Tranche 2 (5 Sep 2026): it has. Seeded 4 Sep 2026."
+}

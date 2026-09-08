@@ -62,6 +62,15 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "East where it takes breakfast; it inherits whatever the kitchen has.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "E"
+      ],
+      "basis": "East where it takes breakfast",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.25

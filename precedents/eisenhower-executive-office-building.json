@@ -1,0 +1,62 @@
+{
+  "id": "eisenhower-executive-office-building",
+  "name": "Eisenhower Executive Office Building (State, War and Navy Building)",
+  "location": {
+    "text": "Washington, District of Columbia",
+    "country": "United States",
+    "state": "District of Columbia",
+    "aliases": [
+      "17th Street and Pennsylvania Avenue NW, Washington, D.C."
+    ]
+  },
+  "aka": [
+    "State, War, and Navy Building",
+    "Old Executive Office Building"
+  ],
+  "dates": {
+    "built": "1871-1888",
+    "circa": false,
+    "note": "Built in four stages, which the General Services Administration states as: the south wing 1871-1875 for State, the east wing 1872-1879 for the Navy, and the north, west and centre wings 1879-1888 for War. The style node's exemplar gives 1888, the completion."
+  },
+  "nodes": [
+    "second-empire",
+    "victorian"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "DC-290",
+      "url": "https://historicsites.dcpreservation.org/items/show/571",
+      "title": "State, War and Navy Building (Old Executive Office Building; Eisenhower Building) | DC Historic Sites -- related resources list 'HABS DC-290'",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The survey number is read from the DC Historic Sites entry's own 'Related Resources' list, which names 'National Register Nomination Form' and 'HABS DC-290'. The Library's item id for this survey was NOT resolved from here and no data page was opened, so no `survey` block is recorded and the number stands on this one surface."
+    },
+    {
+      "kind": "nrhp",
+      "id": "69000293",
+      "url": "https://en.wikipedia.org/wiki/Eisenhower_Executive_Office_Building",
+      "title": "NRHP reference No. 69000293; added June 4, 1969; designated NHL November 11, 1971; DCIHS No. 571, designated November 8, 1964 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.gsa.gov/real-estate/explore-historic-buildings/find-a-historic-federal-building/eisenhower-executive-office-building-washington-dc",
+      "title": "Dwight D. Eisenhower Executive Office Building, Washington, DC | GSA",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Custodian. Gives the four construction stages by wing and date, and records that Mullett resigned as Supervising Architect in 1874."
+    },
+    {
+      "kind": "other",
+      "url": "https://historicsites.dcpreservation.org/items/show/571",
+      "title": "State, War and Navy Building | DC Historic Sites",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Describes the building as 'a monumental, isolated rectangle with a transecting wing and two interior courts', 'distinguished by its purple-grey Virginia granite walls and slate mansard roofs'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The survey number is known and the survey is not: HABS DC-290 is named by the District's own site inventory, and no Library item id was resolved from here, so this record locates the survey without quoting it. Read the Corcoran Art Gallery record beside this one -- its HABS cover measures the gallery's two storeys against 'the 5-storied Old State, War, and Navy Bldg., across the street', which is the only figure this corpus holds about this building's height and it lives in another building's survey."
+}

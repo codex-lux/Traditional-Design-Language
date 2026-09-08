@@ -69,7 +69,16 @@ door since WP-6.1, and saying otherwise was the exact class of stale claim that
 package existed to remove.) A declared window whose room the solver did not place on
 that wall is disclosed, never dropped silently — declared, not drawn — and the
 daylight overlay is gated on the same test, so overlay and drawing cannot contradict
-each other. The plate also names which engine placed it, proved or searched. Every room is
+each other. The plate also names which engine placed it, proved or searched — and, since
+WP-11.1, **what the placement gave up**: the declared exterior walls a CP proof set aside to
+reach feasibility (sixteen of thirty-five on the shipped Tidewater plan, both ends of its centre
+passage among them), whether the compositional objective ran at all, how many declared window
+units are not on the drawing, how many upper wall lines land on no wall below, and a table under
+the plates giving every ∗ room's drawn figure beside the one its record asked for. Those lines
+are computed once in `build/disclosures.py` and rendered by BOTH surfaces — the printed plate
+draws them, and the bench shows the same list through `placement.disclosures` — so the two
+cannot drift. Before that package the bench's own caption told a reader that the facts a proof
+had to give up "are named above rather than dropped" and nothing above named them. Every room is
 clickable to its record; the selected room grows drag handles; and relaxations are
 both tallied (`count`, `max_off_grid_ft`) and DRAWN where they fall — a hollow triangle
 on the cut line, in ink and never in colour, one per counted relaxation. That is P7,
@@ -80,7 +89,7 @@ sheet and the browser sheet cannot disagree about where a compromise is.
 
 ## The rail
 
-`server/rail.py` runs an Anthropic tool loop over the 26 tools **loaded from
+`server/rail.py` runs an Anthropic tool loop over the 27 tools **loaded from
 `mcp_server/server.py` itself** — a stub `FastMCP` collects the decorated wrappers,
 so names, docstrings and signatures cannot drift (`server/tools.py`). Behaviour is
 enforced structurally:

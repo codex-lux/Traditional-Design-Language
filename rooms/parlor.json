@@ -120,6 +120,16 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "West or south-west. The parlor is an afternoon and evening room - calling hours were early afternoon, and the room's use was social rather than task-based - so it wants the low afternoon sun, and it is the one principal room where a west aspect is a virtue rather than a heat problem, because it was not occupied in the middle of a summer day.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "W",
+        "SW"
+      ],
+      "basis": "West or south-west.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.12,
       0.25

@@ -54,6 +54,15 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "North for even light on a bench",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N"
+      ],
+      "basis": "North for even light on a bench",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.1,
       0.25

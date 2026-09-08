@@ -1,0 +1,94 @@
+{
+  "id": "jean-hasbrouck-house",
+  "name": "Jean Hasbrouck House",
+  "location": {
+    "text": "Historic Huguenot Street, New Paltz, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1721 (the node's own figure)",
+    "circa": true,
+    "note": "FOUR DATES ARE ON THE RECORD AND NOT ONE IS EDITED TO AGREE WITH ANOTHER. The node says 1721. The Library titles the item 'Jean Hasbrouck House, Hugenot Street, New Paltz' with 'Building/structure dates: 1712 Initial Construction', and the data page's own cover title reads 'Jean Hasbrouck House(1712)'. The same cover then states the date of erection as '173 2' and gives its authority: '(IJarked stone in east wall.)' -- a datestone. The National Historic Landmark nomination read at NPGallery says 'Originally built in l69k by Jean Hasbrouck as a small' (OCR of 1694). A datestone, a Library catalogue date, a nomination date and a museum date; the house was built in phases, which is the likeliest reason there are four."
+  },
+  "nodes": [
+    "dutch-colonial-american",
+    "hudson-valley-dutch",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-471",
+      "title": "HABS No. NY-471, \"Jean Hasbrouck House, Huguenot Street\", 20 photos, 16 measured drawings, 2 data pages, 2 photo caption pages, supplemental material (as the Wikipedia Huguenot Street Historic District article lists it)",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0882/data/ny0882data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The number is printed in the data page's own header, OCR'd as 'HABS No.SiY-471'; the Library's call number, from a search result for a measured-drawing sheet, is 'HABS NY,56-NEWP,3-'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny0882",
+      "url": "https://www.loc.gov/pictures/item/ny0882.sheet.00013a",
+      "title": "HABS NY,56-NEWP,3- (sheet 13 of 15) - Jean Hasbrouck House, Huguenot Street, New Paltz, Ulster County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nhl",
+      "id": "67000016",
+      "url": "https://npgallery.nps.gov/NRHP/GetAsset/NHLS/67000016_text",
+      "title": "The Jean Hasbrouck House, The Huguenot Historical Society -- National Register of Historic Places Inventory - Nomination Form",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The nomination calls the house one of the 'impressive examples of Dutch Colonial stone architecture remaining in the United States' and argues the point this node's own exemplar note makes: 'Although \"built by a native of Calais, France (Jean Hasbrouck), in an area settled by immigrants from Flanders and the Lower Rhine, and by Huguenots who stubbornly isolated themselves for decades from the Dutch Colonists who surrounded them, we must nevertheless view this outstanding house as a variant of the basic Dutch style.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Huguenot_Street_Historic_District",
+      "title": "Huguenot Street Historic District - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ny0882",
+    "register": "loc-item",
+    "survey_no": "NY-471",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny0800/ny0882/data/ny0882data.pdf",
+    "prepared": "Historic American Buildings Survey, District of New York City, No. 4 New York; the cover reads 'Yjakafield Worcester,District Officer, Washington Depot, Connecticut' (OCR). Its stated reference is Reynolds, Dutch Houses in the Hudson Valley Before 1776.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Dew Faitz, New York QvvKsr: Ilugenot Patriotic, Historical and Monumental Society of Erection: 173 2 - (IJarked stone in east wall.) Archil- ect: Unknown guilder: Jean Kasbrouck (IE. - Marked s:,one in east v*all) Present Condition: Good Number of 1 Stories: 1 story, attic and cellar iJatarifals of Construction; Stone and clapboard. High steep roof.",
+        "page": "HABS No. NY-471; no page number is printed on this two-page form. The extract's header reads 'Jean Hasbrouck House(1712) HABS No.SiY-471 Hew Palta, New York'."
+      },
+      {
+        "field": "plan",
+        "text": "additional Date; ITirst floor - central hell with 2 rooms at each side- £ or •:. small rooms in attic. Cellar paved v/ith brick and stone. Handwork is in evidence throughout house. Severely plain trim.",
+        "page": "HABS No. NY-471; same span, no page number printed on the form"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "1 story, attic and cellar",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "As the surveyor counted it. The usual modern description of this type, and this corpus's, is one and a half; the difference is whether the attic is a storey."
+    },
+    {
+      "name": "ground_floor_room_count",
+      "as_printed": "central hell with 2 rooms at each side",
+      "value": 4,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "'hell' is OCR for hall. Four rooms about a central passage -- read as two each side."
+    }
+  ],
+  "note": "Tranche 2, the Dutch trunk in America. THE PLAN QUOTE CONTRADICTS BOTH NODES' PROSE AND IS THE MOST USEFUL THING ON THIS RECORD. `hudson-valley-dutch` describes standing 'in a single low room lit from two sides', and `dutch-colonial-american` treats the Georgian centre-passage front as a mid-eighteenth-century Anglicisation; the surveyor recorded this house -- dated by its own datestone to 1732, and the node's own earliest fully-Dutch exemplar -- as having a central hall with two rooms at each side. Recorded, not reconciled: the survey is a 1930s two-page form and the house has been re-read since."
+}

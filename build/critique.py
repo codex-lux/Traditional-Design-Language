@@ -165,7 +165,41 @@ def _intended_move(plan, f):
             if ext:
                 return "give-the-room-a-window", None
             return None, "the room declares no exterior wall to put a window in"
-        return None, "the depth rule does not govern this room type"
+        # THE ASPECT IS NOT THE DEPTH RULE, AND THE FALL-THROUGH USED TO SAY IT WAS (WP-11.9).
+        # Nine findings on the Tidewater plan reached the architect carrying "the depth rule does
+        # not govern this room type" -- a true sentence about a different rule, which is WP-11.4's
+        # "a refusal with one message for three causes" in a new place. The two aspect kinds get
+        # their own reasons, and both are honest refusals rather than absent moves: rotating a
+        # house is not a move at all, and moving a room's glass to another of its walls would
+        # change the elevation the author composed.
+        if k == "room-on-an-aspect-its-record-avoids":
+            return None, ("the room is glazed on an aspect its own record rules out. No move "
+                          "answers it: the house's bearing is a site fact and moving the glass "
+                          "to another wall of the same room recomposes an elevation the author "
+                          "drew. The architect chooses between the aspect and the facade")
+        if k == "room-off-the-aspect-its-record-wants":
+            return None, ("the room takes none of the light its record asks for. Either the room "
+                          "is on the wrong side of the plan, which is an arrangement decision, or "
+                          "the record's preference is being traded for something the plan wants "
+                          "more; both are the architect's")
+        # AND A BRANCH FOR `aspect-unstated` WAS DEAD CODE AND IS REMOVED (audit, 7 Sep 2026).
+        # `classify` returns every `info` finding into `could_not_evaluate` and never calls this
+        # function for one; `aspect-unstated` and `aspect-census` are emitted at `info` only, so
+        # the branch could not run and its removal changes no output. It was worth more than a
+        # deletion, though, because it hid the shape of the original defect: a kind this
+        # function does not know about falls through to a sentence about the DEPTH rule, which
+        # is how the aspect kinds came to carry the wrong refusal in the first place. The
+        # fall-through now names the kind rather than asserting a rule, so the next kind added
+        # to this layer gets an honest refusal on the day it is added rather than a true
+        # sentence about someone else's rule.
+        # AND THE FALL-THROUGH'S OWN SENTENCE WAS UNREACHABLE-AS-CORRECT. It said "the depth
+        # rule does not govern this room type", which is `depth-not-governed`'s reason -- and
+        # THAT kind is emitted at `info` too, so the sentence never once reached the finding it
+        # was written for and only ever reached findings it was wrong about. It names the kind
+        # now, so the next kind added to this layer gets an honest refusal on the day it is
+        # added instead of a true sentence about someone else's rule.
+        return None, (f"no move is registered for a '{k}' finding in the daylight layer, and "
+                      f"none of this layer's stated refusals covers it")
     if layer == "style":
         if k == "variant-forbidden":
             if f.get("canonical"):

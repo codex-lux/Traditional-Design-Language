@@ -188,19 +188,46 @@
       "name": "Heinrich Zeller House (Fort Zeller)",
       "location": "Millcreek Township, Lebanon County, Pennsylvania",
       "year": 1745,
-      "note": "Limestone house built into a bank over an everflowing spring that discharges from an arched opening in the basement; narrow irregularly placed windows, steep gable, central twelve-foot fireplace."
+      "note": "Limestone house built into a bank over an everflowing spring that discharges from an arched opening in the basement; narrow irregularly placed windows, steep gable, central twelve-foot fireplace.",
+      "precedent": "heinrich-zeller-house",
+      "standing": "icon",
+      "why": "The spring runs from the bedrock through the basement and out of an arched opening, which is this node's whole argument in one building -- on Wikipedia's account, which is where the record's banking claim comes from. CORRECTED 5 Sep 2026 by the cluster audit: this why had said the Pennsylvania Historical and Museum Commission's field guide 'reaches for' this building when it explains the banked house. It does not. The PHMC entry describes banked houses in a paragraph that names no building at all, and names Fort Zeller in a separate paragraph on FORTIFIED houses -- 'was not actually a fort but such a fortified (thick walled) house built in this manner'. The record's own ref note says so; the why did not."
     },
     {
       "name": "Schifferstadt",
       "location": "Frederick, Maryland",
       "year": 1758,
-      "note": "Built by Elias Bruner of the Palatinate; central wishbone chimney, liegender Stuhl truss, vaulted cellar and five-plate jamb stove all survive, making the section unusually legible."
+      "note": "Built by Elias Bruner of the Palatinate; central wishbone chimney, liegender Stuhl truss, vaulted cellar and five-plate jamb stove all survive, making the section unusually legible.",
+      "precedent": "schifferstadt",
+      "standing": "canonical",
+      "why": "A National Historic Landmark whose section survives entire - wishbone chimney, liegender Stuhl, vaulted cellar, jamb stove - so the node's figures for the service level can be held against something documented rather than described."
     },
     {
       "name": "Furnace Hills Tenant House",
       "location": "West Cocalico Township, Lancaster County, Pennsylvania",
       "year": 1840,
-      "note": "A 19th-century banked sandstone dwelling of about 19 by 26 ft, explicitly documented as a vernacular Pennsylvania German perpendicular bank house — the modest end of the type."
+      "note": "A 19th-century banked sandstone dwelling of about 19 by 26 ft, explicitly documented as a vernacular Pennsylvania German perpendicular bank house — the modest end of the type.",
+      "precedent": "furnace-hills-tenant-house",
+      "standing": "documentary",
+      "why": "The National Register itself types this building 'Penn. German Bankhouse', and at 19 by 26 ft it is the plainest measurable instance the corpus has; it is also the only one that banks its GABLE end into the ground, which this node's description does not distinguish."
+    },
+    {
+      "name": "Jonathan Hager House",
+      "location": "110 Key Street, Hagerstown City Park, Washington County, Maryland",
+      "year": 1740,
+      "note": "A fieldstone house of about 1740 built over two springs that join in the cellar, whose bottom floor is three rooms - two of them containing the springs, one with an enormous fireplace and serving as the principal kitchen - under a near-central brick chimney rising from a limestone hearth on the ground floor. HABS states the section in one line: 'Two and one-half above cellar, which is banked on one side.'",
+      "precedent": "jonathan-hager-house",
+      "standing": "canonical",
+      "why": "The only building in this node whose banked section is stated in those words by a federal surveyor rather than inferred, and the same sheet argues the spring from dairy and cold storage rather than from defence - which is this node's own reasoning, reached independently in about 1940."
+    },
+    {
+      "name": "Hupp House",
+      "location": "Strasburg, Shenandoah County, Virginia",
+      "year": 1755,
+      "note": "A rubble limestone dwelling of about 1755 on a banked site, 20 ft wide by 40 ft deep, with a traditional Germanic central chimney and a steep gable roof. The 1995 Virginia county survey calls it three storeys with the two lower built into a steep bank above a spring-fed pool, records a spring trough channelling water across the cellar floor, and notes that 'The present upper cellar was originally the principal floor of the house and served as the kuche'. Wikipedia says four storeys; both are recorded.",
+      "precedent": "hupp-house",
+      "standing": "regional",
+      "why": "The Shenandoah Valley is one of this node's own named regions and had no exemplar; this is 'one of the oldest extant dwellings erected by Germanic settlers in Shenandoah County' on WIKIPEDIA's account, and its principal floor has become a cellar -- 'The present upper cellar was originally the principal floor of the house and served as the kuche' -- which is the 1995 Virginia Department of Historic Resources county survey's own sentence and the clearest statement anywhere of what banking does to a section. CORRECTED 5 Sep 2026: the age claim had been attributed to the Department, whose own file 085-0007 states only the date and the presumed builder."
     }
   ],
   "sources": [

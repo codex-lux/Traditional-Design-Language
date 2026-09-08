@@ -191,19 +191,55 @@
       "name": "Armour-Stiner (Octagon) House",
       "location": "Irvington, New York",
       "year": 1860,
-      "note": "Built 1859-60 for Paul J. Armour on Fowler's principles; the encircling dome added and enlarged by Joseph Stiner 1872-76. The only known fully domed octagonal house."
+      "note": "Built 1859-60 for Paul J. Armour on Fowler's principles; the encircling dome added and enlarged by Joseph Stiner 1872-76. The only known fully domed octagonal house.",
+      "precedent": "armour-stiner-house",
+      "standing": "icon",
+      "why": "Its HABS survey calls it 'one of two-domed octagonal houses built in North America' and Wikipedia 'the only known fully domed octagonal residence'; the two claims disagree and either makes it the one people name."
     },
     {
       "name": "Longwood",
       "location": "Natchez, Mississippi",
       "year": 1861,
-      "note": "Samuel Sloan, designed 1859, construction halted by the Civil War in 1861 and never resumed above the basement storey. The largest octagonal house in the United States, and an Oriental-Italianate hybrid rather than a Fowler house."
+      "note": "Samuel Sloan, designed 1859, construction halted by the Civil War in 1861 and never resumed above the basement storey. The largest octagonal house in the United States, and an Oriental-Italianate hybrid rather than a Fowler house.",
+      "precedent": "longwood",
+      "standing": "icon",
+      "why": "Wikipedia states it is 'the largest octagonal house in the United States', and its unfinished upper floors are the picture the type is remembered by."
     },
     {
       "name": "McElroy Octagon House",
       "location": "San Francisco, California",
       "year": 1861,
-      "note": "Built 1860-61 by William C. McElroy at Gough and Union Streets; concrete construction, four rooms per floor around a central winding stair."
+      "note": "Built 1860-61 by William C. McElroy at Gough and Union Streets; concrete construction, four rooms per floor around a central winding stair.",
+      "precedent": "mcelroy-octagon-house",
+      "standing": "canonical",
+      "why": "Its HABS survey traces the plan to Fowler's own book -- 'A plan in a later edition (last chapter) of the hook was apparently the source for this building; it is labeled \"the best plan of all\"' -- and states a height to the top of the cornice beside its sixteen-foot face, the height being the one figure no other octagon record here carries."
+    },
+    {
+      "name": "John Richards Octagon House",
+      "location": "Watertown, Wisconsin",
+      "year": 1853,
+      "note": "Built 1853 by John Richards, a lawyer and mill owner who made his own plans and 'was determined to erect the largest house in the state of Wisconsin'. HABS WI-135 records four storeys, brick walls and chimneys with wood porticoes and cornices, and thirty-two rooms over the four floors, the top storey built to house the millhands rather than the family.",
+      "precedent": "john-richards-octagon-house",
+      "standing": "canonical",
+      "why": "Rexford Newcomb wrote in 1950 that it is 'probably the best-planned octagon house in the country', and its four floors of thirty-two rooms are the type tested at a size nothing else in this node reaches."
+    },
+    {
+      "name": "Rich-Twinn Octagon House",
+      "location": "Akron, New York",
+      "year": 1849,
+      "note": "One of three known octagon houses in Erie County and meticulously restored before its 1994 nomination; now a house museum. No HABS survey exists -- a Library of Congress search returns nothing -- so the building is carried on its register number and its nomination and no fabric description is recorded here.",
+      "precedent": "rich-twinn-octagon-house",
+      "standing": "regional",
+      "why": "The upstate New York expression close to Fowler's own hearth, and a 1849 date that puts it within a year of A Home for All; the standing is regional because nothing beyond the register describes it."
+    },
+    {
+      "name": "Loren Andrus Octagon House",
+      "location": "Washington, Michigan",
+      "year": 1860,
+      "note": "Also the Washington Octagon House, by David Stewart. Four rooms on each level around a spiral stair that runs from the main floor to the cupola, with triangular alcoves leading off the stair to each room -- the eight triangular residues this node's own prose describes, put to use. Ceilings are reported as twelve feet throughout, which is the only ceiling height any source in this cluster gives and is uncited where it is stated.",
+      "precedent": "loren-andrus-octagon-house",
+      "standing": "regional",
+      "why": "The upper-Midwest instance, and the one whose published interior account states what the corners were actually made into; its figures come from an encyclopedia rather than a survey, which is why nothing should be built on them."
     }
   ],
   "sources": [
@@ -252,5 +288,8 @@
       "note": "Confirmed in the pack's own applies_to. The earlier and plainer octagons carry Greek Revival millwork directly ('the actual carpentry, trim profiles, and door and window stock of the earlier octagons are straight Greek Revival millwork,' per the node's own lineage record), which this pack covers; the later Italianate-bracketed examples are dressed by whatever trim the borrowed style itself supplies.",
       "precedence": 4
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

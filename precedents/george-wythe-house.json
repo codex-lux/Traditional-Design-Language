@@ -1,0 +1,62 @@
+{
+  "id": "george-wythe-house",
+  "name": "George Wythe House",
+  "aka": [
+    "Wythe House"
+  ],
+  "location": {
+    "text": "Williamsburg, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "1754",
+    "circa": true,
+    "note": "The Wikipedia infobox and the Library's item both print 1754; the DHR entry says 'erected ca. 1750 by the builder Richard Taliaferro, who most likely was its designer'. Recorded as the item states it, with the DHR's date noted."
+  },
+  "nodes": [
+    "georgian-colonial-american"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "VA-1009",
+      "url": "https://www.loc.gov/pictures/item/va1028",
+      "title": "George Wythe House, 101 Palace Green Street, Williamsburg, Independent City, VA",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The item's note line reads 'Survey number: HABS VA-1009; Building/structure dates: 1754 Initial Construction; National Register of Historic Places NRIS Number: 70000866'; call number HABS VA,48-WIL,16-, 10 sheets. Wikipedia's external-links line gives '10 measured drawings'. The data PDF fetched is a one-line cover for the reduced drawings ('Wythe, George, House HABS VA-1009 ... REDUCED DRAWINGS'), so there is no written data and this record carries no survey block."
+    },
+    {
+      "kind": "loc-item",
+      "id": "va1028",
+      "url": "https://www.loc.gov/pictures/item/va1028",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/George_Wythe_House",
+      "title": "Wythe House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000866",
+      "url": "https://www.dhr.virginia.gov/historic-registers/137-0058",
+      "title": "NRHP reference No. 70000866; added April 15, 1970; designated NHL April 15, 1970 (as the Wikipedia infobox, the Library's item and the DHR page all print it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "state-register",
+      "id": "137-0058",
+      "url": "https://www.dhr.virginia.gov/historic-registers/137-0058",
+      "title": "Wythe House – DHR - Virginia Department of Historic Resources",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    }
+  ],
+  "note": "Written 4 Sep 2026 from the WP-11.1 research pass; a new exemplar on georgian-colonial-american. The DHR calls it the house that has 'spawned so many imitations', and its ten HABS sheets are the reason it is here: a plain five-bay brick double pile a generator can be held against, with no written data to quote."
+}

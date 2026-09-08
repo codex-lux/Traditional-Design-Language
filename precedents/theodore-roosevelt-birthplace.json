@@ -1,0 +1,49 @@
+{
+  "id": "theodore-roosevelt-birthplace",
+  "name": "Theodore Roosevelt Birthplace, 28 East 20th Street",
+  "location": {
+    "text": "New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "aka": [
+    "Theodore Roosevelt Birthplace National Historic Site"
+  ],
+  "dates": {
+    "built": "1848",
+    "circa": false,
+    "altered": "The original house was demolished in 1916; the present building is a 1919-1923 reconstruction by Theodate Pope Riddle, modelled on the surviving identical house next door at 26 East 20th Street, which had belonged to Robert Roosevelt and was converted into the museum. The National Park Service's own account and the New York Landmarks Conservancy both state this.",
+    "note": "The style node's exemplar already says the same, and says it is 'cited here for the interior sequence' rather than for original fabric. That caveat is the record."
+  },
+  "nodes": [
+    "italianate-townhouse"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "66000054",
+      "url": "https://en.wikipedia.org/wiki/Theodore_Roosevelt_Birthplace_National_Historic_Site",
+      "title": "NRHP reference No. 66000054; added October 15, 1966; NYSRHP 06101.000042; NYCL 0218, designated March 15, 1966 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.nps.gov/thrb",
+      "title": "Theodore Roosevelt Birthplace National Historic Site (U.S. National Park Service)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner and operator; the National Park Service acquired the site in 1962-63."
+    },
+    {
+      "kind": "other",
+      "url": "https://nylandmarks.org/explore-ny/theodore-roosevelt-birthplace",
+      "title": "Theodore Roosevelt Birthplace | New York Landmarks Conservancy",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "States: 'The original house was demolished in 1916, but was rebuilt in 1923 by the Woman's Roosevelt Memorial Association', designed by Theodate Pope Riddle, with rooms 'restored to reflect their appearance between 1865 and 1872'."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026, WP-11.3 Tranche 2, the mid-nineteenth-century city house cluster. No HABS survey with written historical and descriptive data was resolved for this building from here; the searches that failed are listed in the cluster's report. A record with references and no survey block is complete, and inventing one would be worse than the gap. The reconstruction is the point and the record says so twice, because a precedent that is a 1920s replica of an 1848 house is evidence about the 1920s unless the reader is told. What it does document, and nothing else in this cluster does, is the INTERIOR sequence of an ordinary Manhattan brownstone as understood by people who had lived in one: the National Park Service's own account says the two houses were identical and the neighbour's was used as the model."
+}

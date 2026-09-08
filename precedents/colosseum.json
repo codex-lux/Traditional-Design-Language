@@ -1,0 +1,74 @@
+{
+  "id": "colosseum",
+  "name": "Colosseum (Flavian Amphitheatre)",
+  "aka": [
+    "Anfiteatro Flavio",
+    "Colosseo"
+  ],
+  "location": {
+    "text": "Rome, Italy",
+    "country": "Italy",
+    "state": "Lazio"
+  },
+  "dates": {
+    "built": "1st century CE",
+    "circa": true,
+    "note": "The Park's own page dates it only to 'the 1st century CE at the behest of the emperors of the Flavian dynasty'; the node's exemplar note gives AD 70-80. Both are recorded and neither is changed."
+  },
+  "nodes": [
+    "roman-classical"
+  ],
+  "refs": [
+    {
+      "kind": "institution",
+      "url": "https://colosseo.it/en/area/the-colosseum",
+      "title": "The Colosseum - Parco archeologico del Colosseo",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Parco archeologico del Colosseo is the Italian state body that owns and runs the monument; colosseo.it is its official site."
+    },
+    {
+      "kind": "unesco",
+      "id": "91",
+      "url": "https://whc.unesco.org/en/list/91",
+      "title": "Historic Centre of Rome, the Properties of the Holy See in that City Enjoying Extraterritorial Rights and San Paolo Fuori le Mura - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "A monument inside the property, not a separate inscription."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://it.wikipedia.org/wiki/Colosseo",
+      "title": "Colosseo - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried because the state body's own page describes the building's history and function and says NOTHING about its orders, which is the whole reason this node names it. The Italian article states 'i tre registri inferiori con 80 arcate numerate, rette da pilastri ai quali si addossano semicolonne' and 'Le semicolonne e le lesene dei quattro ordini hanno a partire dal basso capitelli tuscanici, ionici, corinzi e corinzi a foglie lisce', and in a different sentence of the same article 'Gli ordini per ogni piano sono dorico, ionico e corinzio' -- the article contradicting itself about the lowest order. Read in a search result, so nothing from it is carried as a measurement and the contradiction is recorded rather than resolved."
+    }
+  ],
+  "survey": {
+    "item": "the-colosseum",
+    "register": "other",
+    "data_url": "https://colosseo.it/en/area/the-colosseum",
+    "prepared": "Parco archeologico del Colosseo, official site, monument page 'The Colosseum'; the page prints no author or revision line",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "The Flavian Amphitheatre, more commonly known as the Colosseum, stands in the archaeological heart of Rome and welcomes large numbers of visitors daily, attracted by the fascination of its history and its complex architecture.",
+        "page": "colosseo.it, 'The Colosseum' monument page, opening line"
+      },
+      {
+        "field": "significance",
+        "text": "The building became known as the Colosseum because of a colossal statue that stood nearby. It was built in the 1st century CE at the behest of the emperors of the Flavian dynasty. Until the end of the ancient period, it was used to present spectacles of great popular appeal, such as animal hunts and gladiatorial games. The building was, and still remains today, a spectacle in itself. It is the largest amphitheatre in the world, capable of presenting surprisingly complex stage machinery, as well as services for spectators.",
+        "page": "colosseo.it, 'The Colosseum' monument page, second paragraph"
+      },
+      {
+        "field": "condition",
+        "text": "In the Middle Ages and Renaissance it even became a quarry for building materials, part of it being used for the construction of St. Peter’s Basilica, and a shelter for animals and containing craft workshops and houses, while it was also Christianised over a long lapse of time.",
+        "page": "colosseo.it, 'The Colosseum' monument page, later-history paragraph"
+      }
+    ]
+  },
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. NO MEASUREMENT IS CARRIED, and the reason is the finding: the node names this building for one thing -- the superimposed arch order, 'the single most consequential invention in the history of Western facade design' in its own prose -- and the state body's own monument page does not mention an arch, an order or a storey. The figures that would test the node's claim (eighty arcades, four levels, Tuscan-Ionic-Corinthian-Corinthian) exist in an encyclopedia article that contradicts itself about the first of them, and are recorded in a ref note rather than promoted."
+}

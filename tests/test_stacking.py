@@ -200,16 +200,29 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     land, and the LANDING is drawn clear of the stair. Stacking is a 40-point charge in the
     SECOND key, so a candidate that conforms better to the bands outranks it -- and the broken
     claim is reported as `stack-broken` rather than passed over, which is the guarantee WP-11.6
-    actually built. What is pinned here is the judging (5 claims, none unjudged, 3 kept) and the
+    actually built. What is pinned here is the judging (5 claims, none unjudged) and the
     claim the ranking did not cost; the landing is asserted BROKEN so the trade cannot reverse
-    unnoticed in either direction."""
+    unnoticed in either direction.
+
+    AND THE MERGE OF THE TWO PHASE 11s MOVED THE COUNT AGAIN, 3 KEPT TO 2 (8 Sep 2026), which
+    is the third cause in three packages for one number -- main's WP-11.2 resized this house
+    from 60.0 x 40.08 to 63 x 38.17 (the massing's own bay count and its parity), and
+    `primarybath` over `butlers` no longer lands. `len(kept) == 3` was pinning an outcome the
+    placer is free to change, which is the very error the test below this one was re-cut for on
+    the same day. What is asserted now is the ACCOUNTING -- every claim judged into exactly one
+    list, which is WP-11.6's guarantee and no engine's outcome -- plus the two named claims and
+    a FLOOR under the count, so a collapse fails and an improvement does not."""
     G._SOLVE_CACHE.clear()
     solved = G.solve(json.loads(json.dumps(TIDEWATER)), engine="heuristic")
     st = solved["geometry_report"]["stacking"]
     assert st["claims"] == 5 and len(st["unjudged"]) == 0
     kept = {e["room"] for e in st["kept"]}
     broken = {e["room"] for e in st["broken"]}
-    assert len(kept) == 3, st
+    assert len(st["kept"]) + len(st["broken"]) + len(st["unjudged"]) == st["claims"], (
+        f"a claim is judged into exactly one list, or it is not judged at all: {st}")
+    assert len(kept) >= 2, (
+        f"2 of 5 kept at the merge, 3 before it; a fall below that is the ranking losing "
+        f"stacks rather than trading them: {st}")
     assert "upperpassage" in kept, f"the claim WP-11.8 did not cost is gone too: {st}"
     assert "landing" in broken, (
         "the landing stacks over the stair again -- welcome, and re-derive which key did it "

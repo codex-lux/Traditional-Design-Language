@@ -1,0 +1,57 @@
+{
+  "id": "chateau-frontenac",
+  "name": "Château Frontenac",
+  "aka": [
+    "Fairmont Le Château Frontenac",
+    "Château Frontenac National Historic Site of Canada"
+  ],
+  "location": {
+    "text": "Quebec City, Quebec",
+    "country": "Canada",
+    "state": "Quebec"
+  },
+  "dates": {
+    "built": "1892-1893",
+    "circa": false,
+    "altered": "Parks Canada records five wings and a central tower 'erected in seven stages between 1892 and 1993': enlarged 1908-09 to designs by W.S. Painter, 1920-24 by Edward and W.S. Maxwell (the tallest tower, 1924), and in the 1990s by the Arcop Group. THE DESIGNATION REFERS TO THE BUILDING ON ITS FOOTPRINT IN 1981, in Parks Canada's own words, and not to what stands now.",
+    "note": "Groundbreaking May 1892, opened 18 December 1893, agreed by Parks Canada, Wikipedia and Britannica."
+  },
+  "nodes": [
+    "chateauesque"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.pc.gc.ca/apps/dfhd/page_nhs_eng.aspx?id=676",
+      "title": "Château Frontenac National Historic Site of Canada -- Parks Canada, Directory of Federal Heritage Designations, id 676",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The designating authority's own statement of significance, verbatim in part: 'In the chateau style, Château Frontenac is an imposing hotel with five brick and stone wings and a central tower erected in seven stages between 1892 and 1993. It is prominently located on a cliff overlooking the St. Lawrence River, within the Québec historic district. The designation refers to the building on its footprint in 1981 (the date of designation).' And: 'The Château Frontenac was the prototype for the Chateau-style railway hotels that followed, and remained the purest expression of the Chateau style among the group. Its fortress-like design, derived from the medieval chateaux of France's Loire Valley and enhanced by its dramatic cliff-top location, expressed the prevailing romantic view of Quebec as a French medieval city.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://www.historicplaces.ca/en/rep-reg/place-lieu.aspx?id=1320",
+      "title": "Château Frontenac National Historic Site of Canada -- Canadian Register of Historic Places, place id 1320",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Construction Date(s) 1892/01/01 to 1893/01/01. Listed on the Canadian Register: 2004/08/09. Formally Recognized: 1981/01/15. 1 des Carrieres Street, Québec, Quebec, G1R, Canada.' The photograph captions on the same page describe 'its grey, ashlar stone base and string courses and the orange, Glenboig brick wall cladding'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ch%C3%A2teau_Frontenac",
+      "title": "Château Frontenac - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'Opened in 1893, the Chateauesque-styled building has 18 floors; its 79.9-metre (262-foot) height is augmented by its 54-metre (177-foot) ground elevation. It was one of the first of Canada's grand railway hotels, and was designated a National Historic Site of Canada in 1981.' The infobox gives Architect 'Bruce Price', Developer 'Canadian Pacific Railway', Height '80 m (260 ft)', Floor count 18, Number of rooms 610."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.britannica.com/topic/Chateau-Frontenac",
+      "title": "Château Frontenac | Luxury Hotel, Quebec City, Canada -- Britannica",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Château Frontenac, chateau-style hotel in historic Old Québec, built by the Canadian Pacific Railroad Company in 1893 and designed by American architect Bruce Price. The Château Frontenac is an excellent example of the grand hotels developed by railway companies in Canada in the late 1800s.'"
+    }
+  ],
+  "note": "Written for WP-11.2 Tranche 2 and added because the node's own `geography.regions` names Canada while its only Canadian exemplar, Casa Loma, is called Gothic Revival by every source that describes it. This building is the opposite case: the designating authority itself calls it 'the purest expression of the Chateau style' among the Canadian railway hotels, and it is the building the Canadian usage of the term is named after. It is also the node's one non-domestic case, which matters, because chateauesque's description.long argues the style ended around 1910 for want of clients 'of the Vanderbilt order' -- the Canadian railway companies were exactly such a client and kept building in the register into the 1920s. No HABS survey exists; the building is Canadian, and the Parks Canada statement of significance is the equivalent surface."
+}

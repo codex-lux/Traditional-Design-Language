@@ -1,0 +1,45 @@
+{
+  "id": "rector-house",
+  "name": "Rector House",
+  "location": {
+    "text": "Heber Springs, Arkansas",
+    "country": "United States",
+    "state": "Arkansas"
+  },
+  "dates": {
+    "built": "1915-1916",
+    "circa": false,
+    "note": "Wikipedia's text says 'The house was built in 1915-16' and its infobox prints 'Built 1915'; the node's exemplar gives 1916 and says 'Built 1915-16'. All are recorded and none is edited."
+  },
+  "nodes": [
+    "queen-anne-free-classic"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "08000486",
+      "url": "https://en.wikipedia.org/wiki/Rector_House",
+      "title": "NRHP reference No. 08000486; added to NRHP October 17, 2008; architectural style 'Queen Anne' (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Rector_House",
+      "title": "Rector House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its own words: 'It is a roughly rectangular single-story wood-frame structure, with a gable-on-hip roof that is on two sides extended at a lower slope across a wraparound porch. The porch is supported by Tuscan columns set on brick piers. ... The house was built in 1915-16, and is considered a good example of the \"Free Classic\" form of Queen Anne architecture.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/AssetDetail/NRIS/08000486",
+      "title": "NPGallery Asset Detail -- Rector House, NRIS ID 08000486, Architectural Styles: QUEEN ANNE",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Park Service's own asset record for the listing, confirming the reference number and the register's style word."
+    }
+  ],
+  "note": "The most useful thing this record carries for the node is a shape the rest of the cluster does not have: a SINGLE-STOREY Free Classic house, roughly rectangular, with the main roof carried down at a lower slope over the wraparound porch. `queen-anne-free-classic` inherits nothing about height and its parent's kit specifies none, so this is the node's own evidence that the subtype is not necessarily two storeys. No HABS record was found (same query as the reference above). Written 5 Sep 2026 (WP-11.3, Queen Anne and Stick Style cluster)."
+}

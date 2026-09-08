@@ -1,0 +1,58 @@
+{
+  "id": "hupp-house",
+  "name": "Hupp House",
+  "aka": [
+    "Hupp Homestead",
+    "Frontier Fort"
+  ],
+  "location": {
+    "text": "Strasburg, Shenandoah County, Virginia",
+    "country": "United States",
+    "state": "Virginia"
+  },
+  "dates": {
+    "built": "c. 1755",
+    "circa": true,
+    "altered": "A concrete block east wing was added in 1956.",
+    "note": "The 1991 marker on the site says the house was built in 1755 and had then been in Hupp family ownership for 236 years; Wikipedia says 'built about 1755'; the Virginia Department of Historic Resources says 'likely built as early as 1755, presumably by Peter Hupp'. A local genealogical account argues instead for Peter Stover, sole owner of the land from 1749 until 1799. The builder is unsettled and is left so."
+  },
+  "nodes": [
+    "pennsylvania-bank-house"
+  ],
+  "refs": [
+    {
+      "kind": "state-register",
+      "id": "085-0007",
+      "url": "https://www.dhr.virginia.gov/historic-registers/085-0007",
+      "title": "Hupp House -- Virginia Department of Historic Resources, DHR file 085-0007",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'The Hupp House, also known as the Hupp Homestead or Frontier Fort, was likely built as early as 1755, presumably by Peter Hupp, a settler of...' -- only the search snippet was read. The Shenandoah County register list gives the file number as 85-7, VLR 12-04-96, NRHP 02-21-97."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Hupp_House",
+      "title": "Hupp House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'It was built about 1755, and is a 4-story, rubble limestone Colonial-era dwelling. It is on a banked site and measures 20 feet wide by 40 feet deep ... The house has a steep gable roof and features a traditional Germanic central chimney ... It is one of the oldest extant dwellings erected by Germanic settlers in Shenandoah County.' Listed on the National Register in 1997; no reference number is printed, so none is recorded."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.dhr.virginia.gov/pdf_files/SpecialCollections/SH-049_Shenandoah_Historic_Resources_survey_report_1995_Massey.pdf",
+      "title": "Shenandoah County Historic Resources Survey Report (1995), Virginia Department of Historic Resources",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The fullest description found, and it disagrees with Wikipedia about the storey count: 'The Hupp House (85-7) is a remarkable three-story stone dwelling of mid-eighæenth-century daæ [OCR as printed; mid-eighteenth-century date] with the two lower stories built into a steep bank above a spring-fed pool in Strasburg. The lower cellar features a spring trough (channels for water on one or more sides in the basement floor to provide cool storage for dairy and other perishable foods) and an iron-barred loophole window for ventilation. The present upper cellar was originally the principal floor of the house and served as the kuche, with entrances at the front and back; only the east end of the main story was cut into the bank.' The same report describes the Rogers House (85-75) nearby as 'a small, Germanic, limestone bank house'. Only the search return was read; the PDF was not extracted."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.hmdb.org/m.asp?m=660",
+      "title": "Frontier Fort -- The Old Hupp Homestead, historical marker (1991) -- The Historical Marker Database",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The marker text gives the chimney: 'In the center of the building there is a very large chimney (with fireplaces), the outside dimensions of which are 5 by 8', and the spring: 'The normal output of this spring has been estimated by the Virginia Conservation Commission as having output in excess of 300 gallons of water per minute.'"
+    }
+  ],
+  "note": "The Shenandoah Valley member of the type, and the record with the sharpest STATEMENT of what banking does to a section: the county survey says 'The present upper cellar was originally the principal floor of the house and served as the kuche, with entrances at the front and back; only the east end of the main story was cut into the bank.' The house has moved a whole storey down the hill in how it is read. Two disagreements are recorded and neither is resolved: Wikipedia says four storeys, the 1995 county survey says three; and the builder is Peter Hupp on the state's account and Peter Stover on a local genealogical one. No HABS number was found -- a marker-hunting blog asserts the house is 'on the Register of Historic American Building Survey', and no such record could be resolved by search, so nothing is claimed."
+}

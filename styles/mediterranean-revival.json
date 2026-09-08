@@ -211,25 +211,55 @@
       "name": "Vizcaya",
       "location": "Miami, Florida",
       "year": 1916,
-      "note": "F. Burrall Hoffman with Paul Chalfin and Diego Suarez. Veneto villa parti around a cortile with sea-facing terraces; the earliest fully achieved American example."
+      "note": "F. Burrall Hoffman with Paul Chalfin and Diego Suarez. Veneto villa parti around a cortile with sea-facing terraces; the earliest fully achieved American example.",
+      "precedent": "vizcaya",
+      "standing": "icon",
+      "why": "The earliest fully achieved American example and a National Historic Landmark, and the building the node's own description of a cortile parti with sea-facing terraces is drawn from."
     },
     {
       "name": "Everglades Club",
       "location": "Palm Beach, Florida",
       "year": 1919,
-      "note": "Addison Mizner for Paris Singer. The building that established Palm Beach's identity and Mizner's career; 1918-19."
+      "note": "Addison Mizner for Paris Singer. The building that established Palm Beach's identity and Mizner's career; 1918-19.",
+      "precedent": "everglades-club",
+      "standing": "icon",
+      "why": "Its HABS survey states the claim outright: Mizner's design of 1919 'marked the beginning of an enduring trend in architecture of South Florida', and it is the building that launched both Palm Beach's identity and his career."
     },
     {
       "name": "Ca' d'Zan",
       "location": "Sarasota, Florida",
       "year": 1926,
-      "note": "Dwight James Baum for John and Mable Ringling, 1924-26. Venetian Gothic, Italian Renaissance, Moorish and Spanish elements over a bayfront terrace."
+      "note": "Dwight James Baum for John and Mable Ringling, 1924-26. Venetian Gothic, Italian Renaissance, Moorish and Spanish elements over a bayfront terrace.",
+      "precedent": "ca-dzan",
+      "standing": "canonical",
+      "why": "A documented 36,000 sq ft house of settled authorship and date -- Dwight James Baum, completed 1926 -- listed as a contributing property of the Caples'-Ringlings' Estates Historic District and open as a museum."
     },
     {
       "name": "Greenacres (Harold Lloyd Estate)",
       "location": "Beverly Hills, California",
       "year": 1928,
-      "note": "Sumner Spaulding. The California case: uniform hipped tile roof lines, near-axial symmetry, formal gardens extending from the house."
+      "note": "Sumner Spaulding. The California case: uniform hipped tile roof lines, near-axial symmetry, formal gardens extending from the house.",
+      "precedent": "greenacres-harold-lloyd-estate",
+      "standing": "regional",
+      "why": "The Californian case against four Florida ones, National Register-listed in 1984 with the style named in the listing itself; it stands for what the manner became on a Beverly Hills hilltop rather than for the style's whole reach."
+    },
+    {
+      "name": "Mar-a-Lago",
+      "location": "Palm Beach, Florida",
+      "year": 1927,
+      "note": "Marion Sims Wyeth with Joseph Urban, built 1924-27 for Marjorie Merriweather Post. Its HABS survey calls it 'an adaptation of the Hispano-Moresque style', two storeys and crescent-shaped in plan with double cloisters facing Lake Worth, walls of hollow sixteen-inch ceramic tile under cement stucco, and a seventy-five-foot tower. A National Historic Landmark since 1980.",
+      "precedent": "mar-a-lago",
+      "standing": "canonical",
+      "why": "The only building in this node whose survey states a wall section and a tower height, which is what makes it the specimen the node's own figures can be held against -- the judgment is the Historic American Buildings Survey's thirty-seven data pages, not a critic's."
+    },
+    {
+      "name": "Miami Biltmore Hotel",
+      "location": "Coral Gables, Florida",
+      "year": 1926,
+      "note": "Schultze and Weaver for John McEntee Bowman and George Merrick, opened 14 January 1926, with a tower modelled on the Giralda at Seville. Its own National Historic Landmark nomination names the style 'The Mediterranean Revival' while the register's index files it as 'Mission/Spanish Revival/Italian Renaissance' -- the clearest instance in this cluster of the register's vocabulary and the literature's disagreeing.",
+      "precedent": "miami-biltmore-hotel",
+      "standing": "icon",
+      "why": "A National Historic Landmark whose federal nomination names this node's style in its own descriptive prose -- 'The Mediterranean Revival style chosen for this project was the dominant theme of Coral Gables architecture at that time' -- while the same form's own ARCHITECTURAL CLASSIFICATION reads 'Late 19th & Early 20th Century Revivals: Mission/Spanish Colonial Revival'. The nomination carries both labels and settles neither; it is cited here for the descriptive sentence and not for the classification."
     }
   ],
   "sources": [

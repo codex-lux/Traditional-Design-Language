@@ -216,19 +216,55 @@
       "name": "Villa Medicea di Cafaggiolo",
       "location": "Barberino di Mugello, Florence, Italy",
       "year": 1452,
-      "note": "Reconstructed by Michelozzo for Cosimo de' Medici in 1452 from an existing fortified farm, retaining a crenellated entrance tower, battlemented wings and a moat. The moment the working farm block with a tower becomes a house worth being seen in."
+      "note": "Reconstructed by Michelozzo for Cosimo de' Medici in 1452 from an existing fortified farm, retaining a crenellated entrance tower, battlemented wings and a moat. The moment the working farm block with a tower becomes a house worth being seen in.",
+      "precedent": "villa-medicea-di-cafaggiolo",
+      "standing": "icon",
+      "why": "ICOMOS's evaluation of the World Heritage nomination calls it 'the prototype of the early fortified Medici villa' and 'the typical transitional solution between medieval and Renaissance architecture and the first appearance of the domus rustica', which is the transition this node exists to describe."
     },
     {
       "name": "Villa Medicea La Petraia",
       "location": "Castello, Florence, Italy",
       "year": 1588,
-      "note": "A Brunelleschi-family palace of 1364, bought by Cosimo I in 1544 and transformed from 1588, traditionally under Buontalenti. The medieval tower is kept and made the centre of the composition - the clearest surviving demonstration of how the villa tower came to exist."
+      "note": "A Brunelleschi-family palace of 1364, bought by Cosimo I in 1544 and transformed from 1588, traditionally under Buontalenti. The medieval tower is kept and made the centre of the composition - the clearest surviving demonstration of how the villa tower came to exist.",
+      "precedent": "villa-medicea-la-petraia",
+      "standing": "canonical",
+      "why": "ICOMOS describes its architecture as 'characterised by a closed, compact square plan, a central courtyard and a massive tower', which is this node's compact near-cubic block with a kept tower stated by an outside body rather than by the node about itself."
     },
     {
       "name": "Villa Medicea di Careggi",
       "location": "Careggi, Florence, Italy",
       "year": 1457,
-      "note": "Medici property from 1417; Michelozzo's remodelling for Cosimo de' Medici is conventionally dated to the 1450s. A fortified farm block cautiously opened up with loggias onto a garden - the villa emerging from the castello without discarding it."
+      "note": "Medici property from 1417; Michelozzo's remodelling for Cosimo de' Medici is conventionally dated to the 1450s. A fortified farm block cautiously opened up with loggias onto a garden - the villa emerging from the castello without discarding it.",
+      "precedent": "villa-medicea-di-careggi",
+      "standing": "canonical",
+      "why": "ICOMOS records that here 'For the first time, a relationship between the villa and its surrounding countryside was deliberately sought by the removal of walls in order to open up perspectives' and that it has 'one of the first examples of a loggia decorated with arabesques' -- the loggia this node binds a rule for, at the point it was invented."
+    },
+    {
+      "name": "Villa Medicea del Trebbio",
+      "location": "San Piero a Sieve, Florence, Italy",
+      "year": 1440,
+      "note": "The other Mugello fortified farm the Medici held before they were the Medici, restored by Michelozzo. ICOMOS describes 'a large square tower closely associated with a tall residential building punctuated with regular window openings on its first floor', an internal courtyard with 'a glazed loggia with slender pillars and an exterior staircase', and a pergola walk connecting the block to its garden. The year is the closing date of the Ministry catalogue's own field '1427/00/00 - 1440/00/00'.",
+      "precedent": "villa-medicea-del-trebbio",
+      "standing": "regional",
+      "why": "ICOMOS places it 'on the top of a hill' where 'it dominates the Mugello Plain whilst retaining its appearance of a cloistered residence' -- the Mugello expression of the type rather than its whole reach, and the judgment is ICOMOS's."
+    },
+    {
+      "name": "Villa Medici, Fiesole",
+      "location": "Fiesole, Florence, Italy",
+      "year": 1458,
+      "note": "The boundary case, carried for that reason: ICOMOS calls it the first Medici villa 'that abandons medieval references' and describes 'a cube-shaped ensemble incorporating arcaded loggias opening onto the terraced gardens', with 'The sloping roof and round tiles ... visible from the outside'. It is where the informal country house begins turning into the architect's villa. The Italian Wikipedia article states the original plan as 32 x 32 Florentine braccia on a 4 x 4 braccia grid, which is the only plan dimension found for any villa in this cluster and is unsourced on that page.",
+      "precedent": "villa-medici-fiesole",
+      "standing": "canonical",
+      "why": "Two independent statements make it the type specimen for this node's near-cubic block: ICOMOS calls it 'a cube-shaped ensemble', and the Italian Wikipedia article states the original plan as '32x32 braccia fiorentine' -- a square by both routes."
+    },
+    {
+      "name": "Cronkhill",
+      "location": "Atcham, Shropshire, England",
+      "year": 1802,
+      "note": "Not in Italy, and here because this node's own period block carries the British Italianate villa as a revival phase with no revival node of its own. Historic England's list entry describes a 'rectangular plan with circular tower to north-east and square tower to south-west', '2 storeys with 3-storey towers', 'deep eaves with paired brackets' and a 'round-arched loggia of 6 x 4 bays' -- the type read back to us in English materials, stuccoed brick under hipped slate instead of rubble under tile.",
+      "precedent": "cronkhill",
+      "standing": "canonical",
+      "why": "Historic England lists it Grade I and its Details section states the parts this node's grammar names -- towers off the axis, paired-bracket eaves, a round-arched loggia; the further claim that it is 'the earliest Italianate villa in England' is Wikipedia's, footnoted to Newman and Pevsner, and no facsimile of that has been read here."
     }
   ],
   "sources": [

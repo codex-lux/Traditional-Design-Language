@@ -1,0 +1,116 @@
+{
+  "id": "golden-plough-tavern",
+  "name": "Golden Plough Tavern",
+  "location": {
+    "text": "York, Pennsylvania",
+    "country": "United States",
+    "state": "Pennsylvania"
+  },
+  "dates": {
+    "built": "1741",
+    "circa": false,
+    "altered": "'Originally a detached building, the east facade became a party wall in 1751. By 1830, the building was sheathed by clapboards. The building was restored in 1962, which included partial reconstruction (notably of first floor walls)' (survey). The casement windows are not original.",
+    "note": "The survey's own architect field says 'Unknown; original owner was Michael Eichelberger'; Wikipedia and every local source name the builder as MARTIN Eichelberger. Both are recorded and neither is edited. The restoration is dated 1962 by the survey and 'between July 1961 and June 1964' by Wikipedia."
+  },
+  "nodes": [
+    "german-pennsylvania-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "PA-5169",
+      "title": "Golden Plough Tavern, 159 West Market Street, York, York County, PA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1000/pa1016/data/pa1016data.pdf",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own header and in its ARCHITECTURAL DATA FORM. Wikipedia's external-links section gives '9 photos, 1 data page, 1 photo caption page' and names the adjoining Joseph Chambers (Horatio Gates) House as a separate record, HABS No. PA-5189."
+    },
+    {
+      "kind": "loc-item",
+      "id": "pa1016",
+      "url": "https://www.loc.gov/item/pa1016",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000737",
+      "url": "https://en.wikipedia.org/wiki/Golden_Plough_Tavern",
+      "title": "Gen. Horatio Gates House and Golden Plough Tavern, NRHP reference No. 71000737 (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The listing covers the PAIR of buildings at 157-159 West Market Street, not the tavern alone."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Golden_Plough_Tavern",
+      "title": "Golden Plough Tavern - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.yorkhistorycenter.org/museums/colonial-complex",
+      "title": "Colonial Complex -- York County History Center",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. The complex also holds the General Gates House, a reconstructed Colonial Courthouse and the 1812 Barnett Bobb Log House."
+    }
+  ],
+  "survey": {
+    "item": "pa1016",
+    "register": "loc-item",
+    "survey_no": "PA-5169",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/pa/pa1000/pa1016/data/pa1016data.pdf",
+    "prepared": "Compiled by Druscilla (the surname runs off the end of the extracted span), on NPS Architectural Data Form 10-920 (June 1983); the photographs are by Paul Galbreath, May and September 1962",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "STYLE (IFAPPROPRIATE) vernacular with medieval elements MATERIAL OF CONSTRUCTION (INCLUDESTRUCTURAL SYSTEMS) First story, log construction; 2nd story, half-timbered with brick nogging. SHAPE AND DIMENSIONS OF STRUCTURE (SKETCHED FLOOR PLANS ON SEPARATE PAGES ARE ACCEPTABLE) 2-1/2 stories; 34' x 28'-5\"; gable roof.",
+        "page": "HABS No. PA-5169, ARCHITECTURAL DATA FORM; no page number printed on the form"
+      },
+      {
+        "field": "significance",
+        "text": "The building is the only remaining example of half-timber construction, which was widely used during the early period of the region's settlement. The tavern is also significant as a public meeting place during the time when the Continental Congress met at York.",
+        "page": "HABS No. PA-5169, ARCHITECTURAL DATA FORM, 'SIGNIFICANCE'"
+      },
+      {
+        "field": "finishes",
+        "text": "eave line; small casement windows (not original). INTERIOR FEATURES OF NOTE (DESCRIBE FLOOR PLANS, IF NOT SKETCHED) Interior partitions still retaining original wattle and daub; visible timber construction including corner posts;original east wall, now serving as party wall.",
+        "page": "HABS No. PA-5169, ARCHITECTURAL DATA FORM; a second extractor chunk overlapping the first, which ends '...Gable roof flares slightly at eave line; small casement windows (not original). INTERIOR'"
+      },
+      {
+        "field": "condition",
+        "text": "MAJOR ALTERATIONS AND ADDITIONS WITH DATES Originally a detached building, the east facade became a party wall in 1751. By 1830, the building was sheathed by clapboards. The building was restored in 1962, which included partial reconstruction (notably of first floor walls) .",
+        "page": "HABS No. PA-5169, ARCHITECTURAL DATA FORM, 'MAJOR ALTERATIONS'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "2-1/2 stories",
+      "value": 2.5,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "overall_width_ft",
+      "as_printed": "34'",
+      "value": 34,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The survey does not say which figure is the front; the convention across precedents/ is that the FIRST figure printed is the width."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "28'-5\"",
+      "value": 28.42,
+      "unit": "ft",
+      "from_quote": 0
+    }
+  ],
+  "note": "The Fachwerk half of the tradition, in a federal survey that says it is the last of it: 'the only remaining example of half-timber construction, which was widely used during the early period of the region's settlement.' Two details the node's prose does not carry: the first storey is LOG and only the second is half-timbered with brick nogging, and the gable roof 'flares slightly at eave line' -- the kicked eave that recurs on the Bethlehem Gemeinhaus and on the Bertolet-Herbein cabin. 34 x 28'-5\" is 1.20, within a hair of the Hans Herr House's 1.22."
+}

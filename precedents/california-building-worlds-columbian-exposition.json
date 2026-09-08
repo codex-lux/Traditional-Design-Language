@@ -1,0 +1,41 @@
+{
+  "id": "california-building-worlds-columbian-exposition",
+  "name": "California Building, World's Columbian Exposition",
+  "aka": [
+    "California State Building",
+    "California Pavilion"
+  ],
+  "location": {
+    "text": "Chicago, Illinois",
+    "country": "United States",
+    "state": "Illinois"
+  },
+  "dates": {
+    "built": "1892-1893",
+    "circa": false,
+    "altered": "Demolished. PCAD records the building as '(1892-1893) demolished'; it was an exposition pavilion and did not survive the fair."
+  },
+  "nodes": [
+    "mission-revival",
+    "eclectic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://pcad.lib.washington.edu/building/11082",
+      "title": "PCAD - World's Columbian Exposition, California Pavilion, Chicago, IL",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The Pacific Coast Architecture Database entry quotes the building's own published programme from The California Architect and Building News, 20 January 1892: 'The style is to be of the Mission and Moorish type, covering a ground area of from 60,000 to 65,000 feat, with a gallery floor space of two-thirds the same area ... An interior court is to be provided for semi-tropical plants around which arcades will be constructed.' PCAD's own gloss calls A. Page Brown's building 'one of the earliest designs in what became known as the Mission Revival Style'."
+    },
+    {
+      "kind": "other",
+      "url": "https://worldsfairchicago1893.com/2021/08/15/an-original-painting-of-the-1893-california-state-building-sells-at-auction",
+      "title": "An original painting of the 1893 California State Building sells at auction – Chicago's 1893 Worlds Fair",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Gives the building as 'the second largest state building (after that of Illinois) on the Columbian Exposition fairgrounds', designed by A. Page Brown."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. A demolished exposition pavilion carries no register listing and no survey; the only locators that exist are the architectural databases and the fair's own literature, and that is what is recorded. The 1892 programme's ground area of 60,000 to 65,000 square feet is quoted inside a ref note and NOT carried as a `measurement`, because measurements index survey quotes and there is no survey here — and because it is the brief for the competition rather than a measurement of what was built."
+}

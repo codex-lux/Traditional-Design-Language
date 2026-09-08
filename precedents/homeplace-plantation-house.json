@@ -1,0 +1,137 @@
+{
+  "id": "homeplace-plantation-house",
+  "name": "Homeplace Plantation House (Keller Homeplace)",
+  "aka": [
+    "Homeplace Plantation",
+    "Keller Homeplace"
+  ],
+  "location": {
+    "text": "Hahnville, St. Charles Parish, Louisiana",
+    "country": "United States",
+    "state": "Louisiana"
+  },
+  "dates": {
+    "built": "1787-1791",
+    "circa": false,
+    "altered": "The Koch-era survey records the first-floor ceiling raised, transoms placed over inside doors, the outside stairs at the north corner removed and a middle flight to the porch installed, the kitchen moved and the garconniere removed to an adjoining farm; since then two dormers removed, five chimneys capped off in the roof space, and galvanized iron over the shingles.",
+    "note": "The node's exemplar says 1787-91; the Wikipedia infobox says 1787; the loc.gov catalogue entry for HABS LA-155 prints 'ca. 1801 Initial Construction'. Recorded as the node states it, with the catalogue's date beside it."
+  },
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "LA-155",
+      "title": "Homeplace Plantation, River Road, Hahnville, St. Charles Parish, LA",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0037/data/la0037data.pdf",
+      "note": "The data page's header prints 'HABS No. LA-155'. The loc.gov sheet read by search carries 'HABS LA,45-HAHNV,1- (sheet 11 of 12)'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "loc-item",
+      "id": "la0037",
+      "url": "https://www.loc.gov/pictures/item/la0037",
+      "title": "Homeplace Plantation, River Road, Hahnville, St. Charles Parish, LA",
+      "note": "The item page prints 'Survey number: HABS LA-155; Building/structure dates: ca. 1801 Initial Construction; National Register of Historic Places NRIS Number: 70000842'.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "70000842",
+      "url": "https://en.wikipedia.org/wiki/Homeplace_Plantation_House",
+      "title": "NRHP reference No. 70000842; added and designated NHL April 15, 1970 (as the Wikipedia infobox prints it)",
+      "note": "The loc.gov item page prints the same NRIS number, so this one is read on two surfaces.",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Homeplace_Plantation_House",
+      "title": "Homeplace Plantation House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "la0037",
+    "register": "loc-item",
+    "survey_no": "LA-155",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/la/la0000/la0037/data/la0037data.pdf",
+    "prepared": "District of Louisiana, Richard Koch, District Officer, 908 Queen & Crescent Bldg., New Orleans (as the header reads); undated on the extracted spans",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "overall_dimensions",
+        "text": "Description (present condition) Wall construction: Ground floor, brick, plasteredj main floor, timber frame with mud filling (bousillage), plastered. Sise and form: 856\" x 545\", rectangular. Number stories; Two and attic, £-story porch: On all sides. Exterior openings, windows: Shutters only",
+        "page": "HABS No. LA-155, page 1, 'Physical Data'; the next marker reads 'Homeplace Plantation 2 LA.'"
+      },
+      {
+        "field": "openings",
+        "text": "Exterior openings, windows: Shutters only (no windows) at ground floor. The only windows at main floor are recent double hung at additions. Other openings are glased doors. Attic windows double hung. Exterior openings, doors: Glazed, double (French) doors at main floor. Cornice: Wood lookouts projecting- two feet. Roof: Hipped, trussed, French West Indies type. Roofing: Corrugated galvanized iron over original shingles. Chimneys: 2, brick (S others taken down).",
+        "page": "HABS No. LA-155, page 1; the marker 'MAS: Homeplace Plantation 2 LA.' follows within the same span"
+      },
+      {
+        "field": "stairways",
+        "text": "Stairways: Wood, outside, square spindles, round hardwood handrail.",
+        "page": "HABS No. LA-155, page 1-2 ('Interior'); the marker 'Homeplace Plantation 2 LA.' follows"
+      },
+      {
+        "field": "condition",
+        "text": "Since then two dormers have been removed; dormer sash (2-£0~-light sash) replaced; 5 chimneys capped off in roof space; galvanized iron gutters and roofing replace wood gutters and cover shingles.",
+        "page": "HABS No. LA-155, page 5 (the marker 'Homeplace Plantation 5 LA.' precedes it)"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "overall_width_ft",
+      "as_printed": "856\" x 545\"",
+      "value": 85.5,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "The OCR has dropped the foot marks; read as 85'6\" x 54'5\". A reading, marked as one."
+    },
+    {
+      "name": "overall_depth_ft",
+      "as_printed": "856\" x 545\"",
+      "value": 54.42,
+      "unit": "ft",
+      "from_quote": 0,
+      "note": "See the width note."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "Two and attic",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 0
+    },
+    {
+      "name": "cornice_projection_ft",
+      "as_printed": "Wood lookouts projecting- two feet",
+      "value": 2,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "chimney_stack_count",
+      "as_printed": "2, brick (S others taken down)",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Two standing; 'S others' is OCR for 5 others taken down, which the page-5 note ('5 chimneys capped off in roof space') confirms."
+    },
+    {
+      "name": "dormers_removed_count",
+      "as_printed": "two dormers have been removed",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "nodes": [
+    "raised-creole-plantation",
+    "american-colonial"
+  ]
+}

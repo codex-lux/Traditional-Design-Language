@@ -1,0 +1,138 @@
+{
+  "id": "brunswick-terrace-hove",
+  "name": "Brunswick Terrace",
+  "location": {
+    "text": "Hove, Brighton and Hove, England",
+    "country": "England",
+    "state": "Brighton and Hove"
+  },
+  "record_kind": "group",
+  "dates": {
+    "built": "1824-8",
+    "circa": false,
+    "altered": "alterations to attic storey mid-late C20, as the entry states; the terrace is now subdivided into flats."
+  },
+  "nodes": [
+    "regency"
+  ],
+  "refs": [
+    {
+      "kind": "historic-england",
+      "id": "1204829",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1204829",
+      "title": "Nos 1-6 and Attached Railings, Non Civil Parish - 1204829 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Grade I; the entry's own header prints HOVE TQ2904SE BRUNSWICK TERRACE 579-1/23/22 (North side) 24/03/50. This entry is the source of the survey block below."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1281033",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1281033",
+      "title": "Nos. 7-19 (Consecutive) and attached railings, Brunswick Terrace, Hove (1281033)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The second of the four Grade I entries covering the terrace, as cited by the Wikipedia list of Grade I listed buildings in Brighton and Hove."
+    },
+    {
+      "kind": "historic-england",
+      "id": "1187546",
+      "url": "https://historicengland.org.uk/listing/the-list/list-entry/1187546",
+      "title": "Nos 20-32 and Attached Railings, Non Civil Parish - 1187546 | Historic England",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "historic-england",
+      "id": "1204856",
+      "title": "Nos. 33-42 (Consecutive) and attached railings, Brunswick Terrace, Hove (1204856)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The fourth entry, cited by number and title in the Wikipedia list; its own page was not opened here, so no URL is recorded for it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Grade_I_listed_buildings_in_Brighton_and_Hove",
+      "title": "Grade I listed buildings in Brighton and Hove - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Names the four list entries that between them cover Brunswick Terrace and dates them 1828, where the entry for Nos 1-6 prints 1824-8."
+    }
+  ],
+  "survey": {
+    "item": "1204829",
+    "register": "historic-england",
+    "data_url": "https://historicengland.org.uk/listing/the-list/list-entry/1204829",
+    "prepared": "The entry's own Details header prints the listing date 24/03/50. The Overview block was not returned by the extract.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "Terrace, now subdivided into flats. 1824-8, alterations to attic storey mid-late C20. Architects Amon Wilds and C.A.Busby.",
+        "page": "Official list entry 1204829, Details, opening sentence"
+      },
+      {
+        "field": "materials",
+        "text": "Stucco over brick, roofs of slate.",
+        "page": "Official list entry 1204829, Details"
+      },
+      {
+        "field": "plan",
+        "text": "Plan: terrace of 6 units abutting block of flats to east.",
+        "page": "Official list entry 1204829, Details, Plan"
+      },
+      {
+        "field": "bays",
+        "text": "3 storeys over basement plus attic, with additional storey in centre 6 bays, 3:3:6:3:3 bays, mainly sash windows without glazing bars, some French casement windows, full-height bow fronts to penultimate 3 bays east and west, other bays distinguished by use of giant Ionic order, (pilasters frame the outer bays but the centre is all columns), moulded entablature and minimal pediment over central 2 bays, rusticated ground floor except to central 6 bays.",
+        "page": "Official list entry 1204829, Details"
+      },
+      {
+        "field": "other",
+        "text": "HOVE TQ2904SE BRUNSWICK TERRACE 579-1/23/22 (North side) 24/03/50 Nos.1-6 (Consecutive) and attached railings GV I",
+        "page": "Official list entry 1204829, Details, entry header"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "house_count",
+      "as_printed": "terrace of 6 units abutting block of flats to east",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "Six units in this entry; three further entries cover Nos 7-19, 20-32 and 33-42, so the terrace as built is larger."
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "3 storeys over basement plus attic",
+      "value": 3,
+      "unit": "count",
+      "from_quote": 3,
+      "note": "Three storeys over a basement with an attic above, and a fourth storey over the centre six bays only."
+    },
+    {
+      "name": "bay_rhythm",
+      "as_printed": "3:3:6:3:3 bays",
+      "from_quote": 3,
+      "note": "No total is printed. The five figures sum to 18, which is a reading and is not carried as a value."
+    },
+    {
+      "name": "centre_bay_count",
+      "as_printed": "with additional storey in centre 6 bays",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 3
+    },
+    {
+      "name": "pediment_bay_count",
+      "as_printed": "minimal pediment over central 2 bays",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 3
+    }
+  ],
+  "rights_evidence": "All text content is available under the Open Government Licence v3.0 , except where otherwise stated. Any supplied maps are © Crown Copyright [and database rights] 2026 OS AC0000815036 and may not be reproduced without permission.",
+  "rights_evidence_url": "https://historicengland.org.uk/listing/the-list/list-entry/1204829",
+  "note": "Tranche 3, 5 Sep 2026. A group record: four Grade I entries cover the terrace and the survey block is the easternmost, Nos 1-6. A CAUTION for anyone extending this record: Historic England also lists a DIFFERENT 'Brunswick Terrace' at 39-63 Kings Road (entry 1319313, Grade II, 'A terrace of 13 houses. Circa 1800, 3 storeys and basements, London stock brick'), which is neither this terrace nor stuccoed nor by Wilds and Busby. It was read here and deliberately not used."
+}

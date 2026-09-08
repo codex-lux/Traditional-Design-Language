@@ -120,6 +120,15 @@
     "depth_multiplier": 2.25,
     "sides_lit": 2,
     "orientation": "South-west for an evening room, which is what this is in most households. A living room lit from two sides - a long wall and one end - is disproportionately better than one lit from one, because it removes the silhouette effect that makes faces unreadable against a single bright wall, and that is a real reason to prefer a corner room over a middle one.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "SW"
+      ],
+      "basis": "South-west for an evening room",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.15,
       0.28

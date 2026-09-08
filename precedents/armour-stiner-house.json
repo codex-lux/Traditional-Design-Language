@@ -1,0 +1,142 @@
+{
+  "id": "armour-stiner-house",
+  "name": "Armour-Stiner (Octagon) House",
+  "aka": [
+    "Armour-Stiner House",
+    "Octagon House, Irvington"
+  ],
+  "location": {
+    "text": "Irvington, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1860",
+    "circa": false,
+    "altered": "The survey: 'The two-story core is original while the two-story dome cupola, as well as the veranda were added in c I876.' The node's own exemplar instead says the dome was 'added and enlarged by Joseph Stiner 1872-76'. Both are recorded and neither is changed.",
+    "note": "The Wikipedia infobox prints 'Built 1860' and the style as 'Eclectic: Octagon Mode'; the node's exemplar says built 1859-60 for Paul J. Armour."
+  },
+  "nodes": [
+    "octagon-house",
+    "romantic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "NY-5620",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny1100/ny1158/data/ny1158data.pdf",
+      "title": "Armour-Stiner House, 45 West Clinton Avenue, Irvington, Westchester County, NY",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The survey number is printed in the data page's own running header ('ARMOUR-STINER HOUSE HABS No. NY-5620 (Page 12)'), OCR'd on page 8 as 'HABS No. NX-5620'. The Library's item record confirms 'HABS NY-5620' and adds 'FN-348 Unprocessed Field note material exists for this structure'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ny1158",
+      "url": "https://www.loc.gov/pictures/item/ny1158/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "75001238",
+      "url": "https://www.loc.gov/pictures/item/ny1158/",
+      "title": "National Register of Historic Places NRIS Number 75001238 (as the Library's item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia infobox gives the same number and adds 'NYSRHP No. 11956.000156'; the article says the house 'was designated a National Historic Landmark in 1976'."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Armour-Stiner_House",
+      "title": "Armour-Stiner House - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "'It is the only known fully domed octagonal residence. The house was modeled after Donato Bramante's 1502 Tempietto in Rome' -- which is a second and different claim from the survey's own 'This is one of two-domed octagonal houses built in North America.'"
+    }
+  ],
+  "survey": {
+    "item": "ny1158",
+    "register": "loc-item",
+    "survey_no": "NY-5620",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ny/ny1100/ny1158/data/ny1158data.pdf",
+    "prepared": "'These records are part of a documentation made during January-March, 1975 by the Westchester Architectural Archive of the Hudson River Museum and funded by the New York State Council on the Arts.' James M. Addiss led the survey team and made the measured drawings; John R. Zukowsky coordinated.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "1. Architectural Interest: This is one of two-domed octagonal houses built in North America. In addition to being visually unique, it is eclectically representative of several nine- teenth century styles,",
+        "page": "HABS No. NY-5620; no page marker was legible in this extract span"
+      },
+      {
+        "field": "overall_dimensions",
+        "text": "1. Over-all dimensions: The house is lh.76 meters (50 feet) in diameter. Each face of the octagonal core measures AEMOUR-STINER HOUSE HABS No. NX-5620 (Page 8) 6.10 meters (20 feet) while each veranda side is 9.15 meters (30 feet). The two-story core is original while the two-story dome cupola, as well as the veranda were added in c I876.",
+        "page": "HABS No. NY-5620 (Page 8) -- the running header falls INSIDE this sentence, between 'measures' and '6.10 meters', and the quote is given whole rather than stitched round it"
+      },
+      {
+        "field": "structural_system",
+        "text": "k. Structural system: wood frame.",
+        "page": "HABS No. NY-5620; no page marker was legible in this extract span"
+      },
+      {
+        "field": "porches",
+        "text": "5. Porches, stoops, and bulkheads: Inspired by Fowler's advice (Fowler-Stern, p. 138), an octagonal veranda surrounds the entire structure. Two symmetrically placed curvilinear wooden stairways lead to the east entrance, and one linear stairway leads to the south entrance. The crossbeams of the veranda rest on brick foundations at the outside. On the inside wall they rest on bricks, two courses thick and are not embedded in the wall. At the outer circumference of the veranda is a rail which supports a colonnade with Corinthianesque capitals.",
+        "page": "HABS No. NY-5620; no page marker was legible in this extract span"
+      },
+      {
+        "field": "finishes",
+        "text": "h. Wall and ceiling finish: Painted plaster; first floor north room (living room) has plaster pendants; all ceilings have elaborate plasterwork medallions. Third floor reception room has wainscoting on walls; the west wall of that room has a recessment with archway. Wall boards used in the fourth floor and cupola are the same size as the floor boards (11 centimeters).",
+        "page": "HABS No. NY-5620; no page marker was legible in this extract span"
+      },
+      {
+        "field": "plan",
+        "text": "grates in most rooms throughout the house, from first through fourth floor, which also are probably original. The central stairwell also acts as a heating duct. This heating system for the Octagon House was of the type which Fowler supported. (Fowler-Stern, pp. 126-128).",
+        "page": "HABS No. NY-5620; no page marker was legible in this extract span"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "octagon_diameter_ft",
+      "as_printed": "lh.76 meters (50 feet) in diameter",
+      "value": 50,
+      "unit": "ft",
+      "from_quote": 1,
+      "note": "The survey gives the metric figure first and the foot figure in parentheses; the foot figure is taken. 'lh.76' is OCR for 14.76, and 14.76 m is 48.4 ft, so the survey's own two numbers differ by about 1.6 ft. Recorded as printed."
+    },
+    {
+      "name": "octagon_face_width_ft",
+      "as_printed": "6.10 meters (20 feet)",
+      "value": 20,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "veranda_face_width_ft",
+      "as_printed": "9.15 meters (30 feet)",
+      "value": 30,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "storey_count",
+      "as_printed": "The two-story core is original",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "Of the core. The same survey describes rooms on the first through fourth floors and a cupola above, so the storey count of the building as standing is not two."
+    },
+    {
+      "name": "board_width_cm",
+      "as_printed": "the same size as the floor boards (11 centimeters)",
+      "value": 11,
+      "from_quote": 4,
+      "note": "CENTIMETRES. The schema's `unit` enum has no centimetre and a wrong unit is worse than none, so no unit is recorded and the figure must be read off `as_printed`; 11 cm is about 4.33 in. The survey states it of the fourth-floor and cupola wall boards and of the floor boards alike."
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ny1158/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. This is the one survey in the cluster that measures an octagon in both directions, and the two face widths are what make the veranda depth derivable -- 20 ft and 30 ft across the flats give (30-20)*(1+sqrt(2))/2, about 12 ft, which is ARITHMETIC I did and not a figure the survey states, so it is written here and not in `measurements`. The data page was extracted twice with different queries; the second returned the interior finishes and the project statement. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

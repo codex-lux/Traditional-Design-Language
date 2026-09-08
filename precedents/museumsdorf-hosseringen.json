@@ -1,0 +1,41 @@
+{
+  "id": "museumsdorf-hosseringen",
+  "name": "Museumsdorf Hosseringen",
+  "record_kind": "group",
+  "aka": [
+    "Museumsdorf Hösseringen",
+    "Landwirtschaftsmuseum Lüneburger Heide"
+  ],
+  "location": {
+    "text": "Suderburg, Lower Saxony, Germany",
+    "country": "Germany",
+    "state": "Niedersachsen, Landkreis Uelzen"
+  },
+  "dates": {
+    "built": "the relocated buildings 17th to 20th century",
+    "circa": true,
+    "note": "The museum presents rural life 'zwischen 1600 und 1950' by its own regional tourist board's account. Its two dated hall houses read here are the Bruemmerhof of 1644 and the Koetnerhaus of 1648."
+  },
+  "nodes": [
+    "north-german-hall-house"
+  ],
+  "refs": [
+    {
+      "kind": "other",
+      "url": "https://www.lueneburger-heide-attraktionen.de/museumsdorf-hoesseringen.php",
+      "title": "Museumsdorf Hösseringen | Ausflugsziel in der Lüneburger Heide",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "'Das Kernstück vom Museumsdorf Hösseringen ist der Brümmerhof von 1644 mit seinem prächtigen Bauerngarten.' and, of a second house, 'Ein interessantes Relikt der damaligen Landwirtschaft ist das Kötnerhaus von 1648. Hier spürt man die typische Atmosphäre eines niederdeutschen Hallen- und Rauchhauses.'"
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://de.wikipedia.org/wiki/Hallenhaus",
+      "title": "Hallenhaus – Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The type article names one of this museum's buildings in its own illustration list: 'Das Hallenhaus des Brümmerhofes von 1644 im Museumsdorf Hösseringen'. That is the only corroboration read here for the Bruemmerhof's date."
+    }
+  ],
+  "note": "Tranche 3, Germanic cluster, 5 September 2026. A GROUP record and declared as one: an open-air museum of relocated buildings, so every figure about it is about a collection and not about a house. No museum website and no monument-register entry was reached, and no survey block or measurement is written. The node's exemplar note claims 'relocated hall houses and farm buildings of the 17th-19th centuries with the bay structure legible', and the two dated houses this record could source -- 1644 and 1648 -- are consistent with the earlier half of that range and say nothing about the later."
+}

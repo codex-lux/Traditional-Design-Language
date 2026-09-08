@@ -27,6 +27,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "build"))
 import constraint_vocabulary as cv
+import schema_validators
 
 try:
     import jsonschema
@@ -40,7 +41,10 @@ def main():
     ap.add_argument("--verbose", action="store_true")
     a = ap.parse_args()
 
-    schema = json.load(open(os.path.join(ROOT, "schema", "constraint.schema.json")))
+    schema_path = os.path.join(ROOT, "schema", "constraint.schema.json")
+    schema = json.load(open(schema_path))
+    # Compiled once for every constraint on every node, not rebuilt per constraint.
+    constraint_validator = schema_validators.compiled(schema_path) if jsonschema else None
 
     files = ([os.path.join(ROOT, "styles", f"{a.style}.json")] if a.style
               else sorted(glob.glob(os.path.join(ROOT, "styles", "*.json"))))
@@ -82,7 +86,7 @@ def main():
 
             if jsonschema:
                 try:
-                    jsonschema.validate(c, schema)
+                    schema_validators.raise_first(constraint_validator, c)
                 except jsonschema.ValidationError as e:
                     errs.append(f"{base}.{cid}: schema violation: {e.message}")
                     continue

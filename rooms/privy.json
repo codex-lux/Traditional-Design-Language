@@ -78,6 +78,12 @@
     "depth_multiplier": 1.5,
     "sides_lit": 1,
     "orientation": "Door away from the house and from the road; the vent to the prevailing wind. A crescent, a diamond or a star cut in the door is a ventilator and a daylight opening, not a decoration, and it is above head height for the obvious reason.",
+    "aspect": {
+      "applies": false,
+      "basis": "Door away from the house and from the road; the vent to the prevailing wind.",
+      "note": "A rule about the DOOR and the vent, against the house, the road and the wind. Nothing here is an aspect for glass.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.01,
       0.05

@@ -211,19 +211,55 @@
       "name": "Spadena House (the Witch's House)",
       "location": "Beverly Hills, California",
       "year": 1921,
-      "note": "Harry Oliver. Built 1921 in Culver City as offices and dressing rooms for Irvin Willat's film studio, moved to the corner of Walden Drive and Carmelita Avenue in Beverly Hills in 1926. The founding example, and literally a set."
+      "note": "Harry Oliver. Built 1921 in Culver City as offices and dressing rooms for Irvin Willat's film studio, moved to the corner of Walden Drive and Carmelita Avenue in Beverly Hills in 1926. The founding example, and literally a set.",
+      "precedent": "spadena-house",
+      "standing": "icon",
+      "why": "It is the building every account of the style opens with, and the Los Angeles Times, Atlas Obscura and Wikipedia all give the same reason: an art director designed it in 1921 as studio offices, so the founding example is literally a set that was allowed to stay."
     },
     {
       "name": "Hansel and Gretel Cottages",
       "location": "Torres Street, Carmel-by-the-Sea, California",
       "year": 1924,
-      "note": "Hugh Comstock, Hansel completed 1924 and Gretel 1925, built by hand by a man with no building training. The sincere, non-studio branch of the style and the origin of Carmel's cottage identity."
+      "note": "Hugh Comstock, Hansel completed 1924 and Gretel 1925, built by hand by a man with no building training. The sincere, non-studio branch of the style and the origin of Carmel's cottage identity.",
+      "precedent": "hansel-and-gretel-cottages",
+      "standing": "canonical",
+      "why": "Comstock's 1924 and 1925 pair is the whole of the style's sincere Carmel line by its own town's account, and it was built by a man with no building training to house rag dolls, which is the origin story the node's description rests on."
     },
     {
       "name": "Tam O'Shanter Inn",
       "location": "Los Angeles (Atwater Village), California",
       "year": 1922,
-      "note": "Harry Oliver again, for the restaurateur Lawrence Frank. A commercial building in the domestic idiom, still operating; the style at its most confident."
+      "note": "Harry Oliver again, for the restaurateur Lawrence Frank. A commercial building in the domestic idiom, still operating; the style at its most confident.",
+      "precedent": "tam-o-shanter-inn",
+      "standing": "regional",
+      "why": "The Los Angeles Conservancy's own place record lists its style as Storybook and its architect as Harry Oliver, and it is the commercial roadside case; but the same sources say the exterior now reads 'more like a Scottish country inn than a fairytale cottage', so what stands is a 1925 renaming as much as a 1922 building."
+    },
+    {
+      "name": "The Tuck Box",
+      "location": "Dolores Street, Carmel-by-the-Sea, California",
+      "year": 1926,
+      "note": "Hugh Comstock for the artist Bonnie Lee, opened as The Hobby House. Reviewed by the Carmel Pine Cone on 8 May 1926 -- 'a fantastic little building ... It is built of dreams-of moth wings-of the shimmer of moonlight' -- which is contemporary criticism of a Storybook building, and this node has almost none. A garden shop was added behind it in 1929 and a kiosk in 1931.",
+      "precedent": "tuck-box-carmel",
+      "standing": "icon",
+      "why": "The town's own walking tour calls it 'probably the most photographed structure in Carmel-by-the-Sea' and 'the prime example of the fairytale style the village is famous for', which is the local authority naming its own icon."
+    },
+    {
+      "name": "Snow White Cottages",
+      "location": "Griffith Park Boulevard, Los Angeles, California",
+      "year": 1931,
+      "note": "Ben W. Sherwood, eight cottages arranged as four duplexes round a court. Disney artists lived here during the production of Snow White and the Seven Dwarfs at the Hyperion studio a few blocks away, and the name is later than the buildings. Speculative rental housing, not a set and not a shop -- the only ordinary domestic case on this list.",
+      "precedent": "snow-white-cottages",
+      "standing": "documentary",
+      "why": "It is the late, cheap, repeated version -- four duplexes to one plan with individualised detail -- which is what the node's claim about bounded systematic deviation would have to be measured on, and its landmark status is contradicted between two sources and settled by neither."
+    },
+    {
+      "name": "Thornburg Village (Normandy Village)",
+      "location": "1781-1851 Spruce Street, Berkeley, California",
+      "year": 1927,
+      "note": "W. R. Yelland for Jack Wood Thornburg. Carried in this corpus as french-normandy-revival's exemplar and named here too, because it is the Bay Area arrival the Los Angeles Times describes -- 'From Los Angeles, the Storybook fad spread to the San Francisco Bay Area by the mid-1920s' -- and because a second node naming one record is how this corpus says two styles overlap rather than duplicating the building.",
+      "precedent": "thornburg-village",
+      "standing": "regional",
+      "why": "It is the style's northward spread as a whole street rather than a single house, and its own record already belongs to the French Norman node, which is the honest way to show a building two styles both claim."
     }
   ],
   "sources": [

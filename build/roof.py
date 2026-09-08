@@ -468,6 +468,76 @@ def chimney_positions(plan, style, section, main):
     # the stack's HEIGHT and by the placement layer for its PLAN (WP-11.4).
     positions = _threshold().gable_end_points(W, D, axis)
 
+    # THE STACK STANDS OVER A FIRE SOMEBODY DREW, WHERE THE PLAN STATES ONE (WP-11.4).
+    # Until the plan layer had a hearth at all, the two lines above were the whole rule: a stack
+    # at the centre of each gable end, derived from the RECTANGLE and not from the rooms inside
+    # it. `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` D3 is what that cost -- the
+    # elevation drew stacks over a passage and a kitchen, because nothing below the roof knew
+    # where a fire was. That is OQ 85's shape (a window drawn where a chimney stands) one layer
+    # down, and it is closed the same way: read the other record and DISCLOSE the disagreement
+    # rather than picking.
+    #
+    # A plan that states no hearth keeps the centre-line rule and the note says so. Nothing is
+    # inferred: a house with no stated fires is not thereby a house with none, it is a record
+    # that has not said, and the third state is what says which.
+    #
+    # THE FAILURE IS NAMED AND NOT SWALLOWED. The first draft wrapped this in a bare
+    # `except Exception: axes = None`, which is WP-9.1's finding exactly -- `plan_check.check`
+    # derived its elevation under an `except: pass` and judged two different buildings for a
+    # phase without anyone knowing. A swallowed error here reverts to the centre-line rule
+    # SILENTLY, so the sheet draws stacks over no fire and the note claims the record stated
+    # none, which is the false claim this package exists to remove. It is caught, recorded in the
+    # note, and re-raised nowhere -- a roof is still drawable without the reconciliation, and a
+    # renderer that dies because a hearth is malformed is worse than one that says it could not
+    # read them.
+    hearth_note = None
+    axes_error = None
+    try:
+        HE = _mod("hearths", f"{ROOT}/build/hearths.py")
+        axes = HE.stack_axes(plan, C)
+    except Exception as exc:                       # noqa: BLE001 -- named below, never silent
+        axes, axes_error = None, f"{type(exc).__name__}: {exc}"
+    unpositioned = 0
+    if axes:
+        by_flue = {}
+        for a in axes:
+            if a.get("position_ft") is None or a["wall"] not in ("E", "W", "N", "S"):
+                unpositioned += 1
+                continue
+            by_flue.setdefault(a.get("flue") or f'{a["wall"]}:{a["room"]}', []).append(a)
+        stated = []
+        for flue, group in sorted(by_flue.items()):
+            wall = group[0]["wall"]
+            pos = sum(a["position_ft"] for a in group) / len(group)
+            if wall == "W":
+                stated.append((0.0, pos))
+            elif wall == "E":
+                stated.append((W, pos))
+            elif wall == "S":
+                stated.append((pos, 0.0))
+            else:
+                stated.append((pos, D))
+        if stated:
+            # EUCLIDEAN, because the note calls it "moved N ft" and a reader will take that as a
+            # distance. The first version summed |dx| + |dy|, which happens to be right on both
+            # shipped plans -- their stacks stay on the walls they were already on, so dx is 0 --
+            # and overstates the moment a hearth on N meets a centre-line stack on E. A number in
+            # a sentence has to be the quantity the sentence names.
+            #
+            # The pairing is by SORT ORDER and is a reading, not a correspondence: with two
+            # stacks it is the obvious one, and the note says both placements so a reader can
+            # pair them differently. It is suppressed entirely when the counts differ.
+            moved = [f'{math.hypot(a[0]-b[0], a[1]-b[1]):.1f} ft'
+                     for a, b in zip(sorted(stated), sorted(positions))] \
+                if len(stated) == len(positions) else []
+            hearth_note = (
+                f"Placed over the {len(stated)} flue(s) the PLAN states rather than at the centre "
+                f"of each gable end. The centre-line rule would have put them at "
+                f"{[(round(x,2), round(y,2)) for x, y in positions]}"
+                + (f"; each moved {', '.join(moved)}" if moved else "")
+                + ". A stack over no fire is what this reconciliation removes (WP-11.4).")
+            positions = stated
+
     style_constraint = next((c for c in C["styles"].get(style, {}).get("constraints", [])
                               if (c.get("test") or {}).get("expression") == "chimney_height_above_ridge_ft"), None)
     height_above_ridge_ft = round(height_above_ridge_in / 12.0, 3)
@@ -480,7 +550,36 @@ def chimney_positions(plan, style, section, main):
     chimneys = [{"x_ft": round(x, 2), "y_ft": round(y, 2), "grade_to_ridge_ft": ridge_ft,
                  "height_above_ridge_ft": height_above_ridge_ft, "total_height_grade_ft": round(ridge_ft + height_above_ridge_ft, 2)}
                 for x, y in positions]
-    return {"applicable": True, "positions": chimneys, "source": source, "style_check": check}
+    out = {"applicable": True, "positions": chimneys, "source": source, "style_check": check}
+    # The reconciliation, said out loud whichever way it went. A plan that states no hearth keeps
+    # the centre-line rule and is TOLD so, because "no note" would read as "the two agree".
+    # THREE STATES, and the middle one is the one a two-state note got wrong on its first run:
+    # this plan STATES three hearths and the declared record cannot position them, because a
+    # hearth's position along its wall comes from the room's placed rectangle. Saying "states no
+    # hearth" about a record carrying three is the class of false claim this package is fixing.
+    if hearth_note:
+        out["note"] = hearth_note
+        out["from_stated_hearths"] = True
+    elif axes_error:
+        # A FOURTH STATE, and it is the one a bare `except` collapsed into the last. The
+        # reconciliation could not be READ; that is not a record stating no hearth.
+        out["note"] = (
+            f"Placed at the centre of each gable end because the plan's hearths COULD NOT BE "
+            f"READ: {axes_error}. This is not a record stating no fires — it is a record nobody "
+            f"could evaluate, and the stacks below may well stand over nothing (WP-11.4).")
+        out["hearths_unreadable"] = axes_error
+    elif unpositioned:
+        out["note"] = (
+            f"Placed at the centre of each gable end. This record STATES {unpositioned} hearth(s) "
+            f"and none could be positioned: a hearth's place along its wall comes from the room's "
+            f"placed rectangle, and this plan carries no placement. Draw it placed and the stacks "
+            f"move to stand over the fires (WP-11.4).")
+    else:
+        out["note"] = (
+            "Placed at the centre of each gable end, from the massing alone: this record states "
+            "no hearth, so there is no fire for a stack to stand over. A record that has not said "
+            "is not a house with no fires (WP-11.4).")
+    return out
 
 # ---------------------------------------------------------------- Cape eave-to-sill, dormers
 def _fault(fid):

@@ -1,0 +1,79 @@
+{
+  "id": "temple-of-apollo-epikourios-bassae",
+  "name": "Temple of Apollo Epikourios",
+  "location": {
+    "text": "Bassae, Arcadia, Greece",
+    "country": "Greece",
+    "state": "Arcadia, Peloponnese"
+  },
+  "dates": {
+    "built": "c. 429-400 BC",
+    "circa": true,
+    "note": "UNESCO's brief synthesis calls it 'one of the earliest post-Parthenonian edifices' and does not date it more closely in the text read here. The node's own exemplar note gives c. 429-400 BC."
+  },
+  "nodes": [
+    "greek-classical"
+  ],
+  "refs": [
+    {
+      "kind": "unesco",
+      "id": "392",
+      "url": "https://whc.unesco.org/en/list/392",
+      "title": "Temple of Apollo Epicurius at Bassae - UNESCO World Heritage Centre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Inscribed 1986, the first Greek property on the list. Unusually for this tranche the inscription is of ONE BUILDING rather than of a site or a city, which is why the entry text can be read as a survey of it."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Bassae",
+      "title": "Bassae",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Carried for the inscription metadata its infobox prints: 'Reference 392', 'Inscription 1986 (10th Session)', 'Criteria Cultural: (i)(ii)(iii)'."
+    }
+  ],
+  "survey": {
+    "item": "392",
+    "register": "unesco",
+    "data_url": "https://whc.unesco.org/en/list/392",
+    "prepared": "UNESCO World Heritage Centre, list entry 392; the criteria texts are the Committee's own, the brief synthesis the retrospective Statement of Outstanding Universal Value",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "bays",
+        "text": "Criterion (i): The Temple of Bassae represents a unique artistic achievement, remarkable for its archaic features (elongated surface, an exceptional proportion of 15 columns on the longer side and 6 columns on the facade, and a north-south exposure), and for its daring innovations: use of Ionic and Corinthian orders for a Doric edifice, the variety of materials used, and the originality of the layout of the cella and the adyton.",
+        "page": "List entry 392, Outstanding Universal Value, Criterion (i)"
+      },
+      {
+        "field": "significance",
+        "text": "Criterion (ii): The capital of the central column of the Temple of Bassae is the most ancient conserved Corinthian capital, and as such the temple may be considered a model for all “Corinthian” monuments of Greek, Roman and subsequent civilisations.",
+        "page": "List entry 392, Outstanding Universal Value, Criterion (ii)"
+      },
+      {
+        "field": "general_description",
+        "text": "The temple is one of the earliest post-Parthenonian edifices and the earliest monument in which all three ancient Greek architectural orders – Doric, Ionic and Corinthian – are found together. It also included the earliest surviving Corinthian column capital.",
+        "page": "List entry 392, Outstanding Universal Value, Brief synthesis"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "peristyle_columns_flank",
+      "as_printed": "15 columns on the longer side",
+      "value": 15,
+      "unit": "count",
+      "from_quote": 0,
+      "note": "The register calls this 'an exceptional proportion'. It breaks the node's stated rule n_flank = 2 x n_front + 1, which would require 13 for a hexastyle front."
+    },
+    {
+      "name": "peristyle_columns_front",
+      "as_printed": "6 columns on the facade",
+      "value": 6,
+      "unit": "count",
+      "from_quote": 0
+    }
+  ],
+  "note": "Tranche 3, the antique orders cluster, 5 Sep 2026. The one building in this cluster whose UNESCO inscription is of the building itself, so the entry text serves as the survey without the usual caveat that the inscription covers a whole site."
+}

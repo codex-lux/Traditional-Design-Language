@@ -1,0 +1,148 @@
+{
+  "id": "mission-san-xavier-del-bac",
+  "name": "Mission San Xavier del Bac",
+  "aka": [
+    "San Xavier del Bac Mission",
+    "The White Dove of the Desert"
+  ],
+  "location": {
+    "text": "Tucson, Arizona",
+    "country": "United States",
+    "state": "Arizona"
+  },
+  "dates": {
+    "built": "1797",
+    "circa": false,
+    "altered": "Extensive repair to church and convento in 1906 by Bishop Granjon of Tucson; the survey says that except for the facade and doorway 'the whole structure was restored' then, and that the east tower has never been finished.",
+    "note": "The survey prints 'Date of Erection; 1797'; the Wikipedia infobox prints 'current structure dates to 1783–1797'; the style node gives 1797. The survey's 1797 is the completion date and the infobox's span the construction period, so they are not in disagreement."
+  },
+  "nodes": [
+    "spanish-colonial-american",
+    "american-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "AZ-13",
+      "title": "San Xavier del Bac Mission, Mission Road, Tucson, Pima County, AZ",
+      "url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0000/az0061/data/az0061data.pdf",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "The data page's running header prints 'H.A.B.S. No. ARIZ.-13.'; the Wikipedia external-links line, read the same day, gives the item as '207 photos, 42 measured drawings, 9 data pages'."
+    },
+    {
+      "kind": "loc-item",
+      "id": "az0061",
+      "url": "https://www.loc.gov/resource/hhh.az0061.sheet?sp=23",
+      "title": "San Xavier del Bac Mission, Mission Road, Tucson, Pima ...",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Found through a drawing-sheet page; the item landing page itself was not opened. Three searches restricted to loc.gov for the item id returned only feature essays before this one surfaced."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Mission_San_Xavier_del_Bac",
+      "title": "Mission San Xavier del Bac - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "nrhp",
+      "id": "66000191",
+      "url": "https://en.wikipedia.org/wiki/Mission_San_Xavier_del_Bac",
+      "title": "U.S. National Register of Historic Places, designated October 15, 1966, reference no. 66000191; U.S. National Historic Landmark, designated October 9, 1960 (as the Wikipedia infobox prints it, read through a search result)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "The same number appears in the List of National Historic Landmarks in Arizona ('October 9, 1960 (#66000191)'), also read by search the same day."
+    },
+    {
+      "kind": "other",
+      "url": "https://www.nps.gov/places/san-xavier-del-bac-mission.htm",
+      "title": "San Xavier del Bac Mission (U.S. National Park Service)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Gives the address as 1950 W. San Xavier Rd., Tucson, and the NHL designation year 1960."
+    }
+  ],
+  "survey": {
+    "item": "az0061",
+    "register": "loc-item",
+    "survey_no": "AZ-13",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/az/az0000/az0061/data/az0061data.pdf",
+    "prepared": "District of Arizona, Historic American Buildings Survey, Henry J. Withey, District Officer, Los Angeles, California (as the header reads; no date legible in the extract).",
+    "retrieved": "2026-09-04",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "MISSIOH SM XAVIER DKL BAG Tucson Vicinity Pima County, Arizona Owners The Catholic Tiuroh administered by the national Catholic Council for Indian churches. Date of Erection; 1797. Architect: Ignacio Gaona. Builder: Pedro Bojourquez, Tinder the direction of Franciscan Fathers. Present Condition: Fair, extensive repair work done to church and convento in 1906 by Father ^ranjon of Tuosoni new floors and roof added to convento, parapet and roof of",
+        "page": "The header printed immediately before it reads 'BUA.B.S. Ho. ARIZ.-13. Page No. 1.' (H.A.B.S. No. ARIZ.-13, Page No. 1)."
+      },
+      {
+        "field": "foundations",
+        "text": "The foundations are of boulders embedded in cement mad© on the site. They extend to an approximate depth of five feet below grade and about two feet above. The stone was obtained from the nei$hbori:qg hills and was carried by the Indians to the building.",
+        "page": "Precedes the marker 'H.A.B.S, Do. ARIZ.-13. Page No. 4.' in the extract."
+      },
+      {
+        "field": "walls",
+        "text": "The church above the foundations is entirely of burned adobe briok, measuring 7-J to 8 inches in width, by 16 inches in length and 3 to 3j| inches in thickness They were manufactured near the site under the direction of the architect, Ignacio Gaona and'.his brother, a briok mason.",
+        "page": "Follows the marker 'H.A.B.S, Do. ARIZ.-13. Page No. 4.'"
+      },
+      {
+        "field": "structural_system",
+        "text": "The beautifully proportioned dome climaxing the exterior as well as the interior of the structure, and the vaults are constructed of brick They were built, without forms or centering, by pro- jecting each succeeding header course in an aroh or fan shaped form of construction, and were backed up with a rubble masonry fill ■where floors occurred over vaults.",
+        "page": "Page No. 4 or the page after it; two extract spans overlapped at 'are constructed of brick They were built, without forms or' and are joined at the overlap."
+      },
+      {
+        "field": "other",
+        "text": "Between the two flanking towers is the facade which remains com- pletely untouched since the day the finishing touches were put on it in 1797 Made entirely of baked adobe clay, the design is a curious one and the detail of the ornamentation is rather crude, nevertheless, it is considered one of the most beautiful things of its kind",
+        "page": "No page marker legible in the extract span."
+      },
+      {
+        "field": "condition",
+        "text": "^he Mission as it stamds today is not in its entirety the same structure that was finished in 1797 for in 1906 Bishop Granjon of Tucson undertook to restore and repair some parts of the building which had been falling into ruin as a result of a long period of rainy weather. With the exception of the old bullet-scarred facade and doorway, -the whole structure was re- stored, extant portions were reinforced, fallen portions raised from the ground and the wall around the Mission rebuilt though in a lighter",
+        "page": "No page marker legible in the extract span."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "foundation_depth_below_grade_ft",
+      "as_printed": "an approximate depth of five feet below grade",
+      "value": 5,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "foundation_height_above_grade_ft",
+      "as_printed": "about two feet above",
+      "value": 2,
+      "unit": "ft",
+      "from_quote": 1
+    },
+    {
+      "name": "brick_width_in",
+      "as_printed": "7-J to 8 inches in width",
+      "value": 8,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "'7-J' is OCR, probably 7-1/2; the upper bound of the band is recorded and the band itself is in `as_printed`."
+    },
+    {
+      "name": "brick_length_in",
+      "as_printed": "16 inches in length",
+      "value": 16,
+      "unit": "in",
+      "from_quote": 2
+    },
+    {
+      "name": "brick_thickness_in",
+      "as_printed": "3 to 3j| inches in thickness",
+      "value": 3,
+      "unit": "in",
+      "from_quote": 2,
+      "note": "'3j|' is OCR, probably 3-1/2; the lower bound is recorded."
+    }
+  ],
+  "note": "Seeded 4 Sep 2026. The survey confirms the node's own note in its own words: fired ('burned adobe') brick throughout, plastered, with brick dome and vaults built without centering -- the one borderlands building that is not sun-dried earth. It states no overall dimension in the spans read."
+}

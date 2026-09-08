@@ -16,7 +16,10 @@ silently absent:
     a `geometry_note` naming the gap, not a guessed solid;
   * a window whose record states no height — the IfcWindow exists, carries its
     record, and says why it has no body;
-  * chimneys, stairs, trim — outside this package's scope (see the WP report).
+  * chimneys, stairs, trim — outside this package's scope (see the WP report);
+  * the ROOF is still derived for the main block alone — a multi-element house
+    gets a slab per element (WP-11.6) and one roof, with no stated ridge
+    relation per element. That is ruling 1's second half and it is unbuilt.
 
 Wall placement: exterior walls sit with their inner face on the clear-dimension
 boundary (the record's rooms are clear dims; outside-to-outside = clear + 2t,
@@ -53,6 +56,65 @@ REFUSAL = {"error": "could not export: the ifcopenshell package is not installed
            "unexported": True, "refusal": True}
 
 GABLE_FORMS = ("gable", "side-gable", "front-gable")
+
+
+def slab_boxes(plan, section, t_ext):
+    """One slab per (storey, massing element), as plain numbers (WP-11.6, layer 6 of 6).
+
+    Ruling 1 of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`:
+    *"an element has its own envelope ... `export_ifc` a slab per element"*. Until this there was
+    ONE slab per storey, sized `W + 2t` by `D + 2t` on the MAIN BLOCK and centred on it, while
+    every `IfcSpace` is placed from its room's own ABSOLUTE rectangle -- so a dependency room's
+    space floated clear of every slab in the model. Measured on the reference fixture: the main
+    slab spans x[-1.29, 64.29] and three placed rooms sit at x[-41.0, -14.0].
+
+    IT IS PURE ARITHMETIC AND THAT IS THE POINT. `ifcopenshell` is optional and this environment
+    does not have it, so the export's own selftest reports COULD NOT EVALUATE and a slab rule
+    written inside the writer could not be measured here at all -- the layer would have been
+    "fixed" against a check that never ran. The geometry is computed where a test can read it and
+    emitted where it cannot.
+
+    AN ELEMENT GETS A SLAB ON A STOREY ONLY WHERE A ROOM OF THAT ELEMENT IS PLACED ON IT.
+    `blocks_for` lays only level 0 into elements, so a dependency has a ground slab and no upper
+    one -- that is the building rather than an omission, and it is why this reads the rooms rather
+    than crossing every element with every storey.
+
+    A one-rectangle plan carries no `footprint.blocks`, so every room falls to `main`, the box
+    falls back to the footprint scalars, and the returned list is one entry per storey with the
+    same numbers the single-slab loop produced. Byte-identical by construction, not by a branch.
+
+    Returns `[{level, element, width_ft, depth_ft, cx, cy, thickness_ft, grade_to_floor_ft}]`,
+    main block first on each storey."""
+    fp = section["geometry"]["footprint"]
+    W, D = fp["width_ft"], fp["depth_ft"]
+    blocks = {b["id"]: b for b in ((plan.get("footprint") or {}).get("blocks") or [])}
+    GEOM = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+    on_level = {}
+    for lv in plan.get("levels", []):
+        idx = lv.get("index", 0)
+        for r in lv.get("rooms", []):
+            if not r.get("geometry"):
+                continue
+            tag = r.get("block") if GEOM.is_block_tag(r.get("block")) else None
+            # A tag naming an element the placer did not build is read as the main block, which
+            # is `is_block_tag`'s own conservative answer one layer up rather than a new rule.
+            on_level.setdefault(idx, set()).add(tag if tag in blocks else "main")
+    out = []
+    for st in section.get("storeys", []):
+        idx = st.get("index")
+        if st.get("storey_height_ft") is None or (idx or 0) < 0:
+            continue
+        thick = (st.get("floor_structure_depth_in") or 10.0) / 12.0
+        for el in sorted(on_level.get(idx) or {"main"}, key=lambda e: (e != "main", e)):
+            b = blocks.get(el)
+            bx, by, bw, bd = ((b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"])
+                              if b else (0.0, 0.0, W, D))
+            out.append({"level": idx, "element": el,
+                        "width_ft": bw + 2 * t_ext, "depth_ft": bd + 2 * t_ext,
+                        "cx": bx + bw / 2.0, "cy": by + bd / 2.0,
+                        "thickness_ft": thick,
+                        "grade_to_floor_ft": float(st["grade_to_floor_ft"])})
+    return out
 
 
 def _ifc():
@@ -158,40 +220,29 @@ def export_ifc(plan, path, parti=None):
     counts = {"walls": 0, "slabs": 0, "spaces": 0, "windows": 0, "doors": 0,
               "windows_without_geometry": 0}
 
-    # ---- slabs: one framed floor per storey PER MASSING ELEMENT, its top at the storey's own
-    # datum. WP-11.9, ruling 1 (5 Sep 2026): an element has its own envelope, so it has its own
-    # slab. This sized one slab `W + 2*t_ext` centred on the MAIN BLOCK, so a dependency's
-    # IfcSpaces floated clear of the slab under them -- the sixth of the six layers
-    # `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` names.
-    #
-    # An element with no rooms on a storey gets no slab on that storey, which is the same rule
-    # `structure.build_section` takes for walls and for the same reason: a floor under nothing
-    # is phantom structure, and inventing it here would be the defect this package removes
-    # arriving one level up.
-    EL = _mod("elements", f"{ROOT}/build/elements.py")
-    _els = EL.elements(plan) or [{"id": "main", "role": "main", "x": 0.0, "y": 0.0,
-                                  "W": W, "H": D, "attached_to": None}]
-    _rooms_by_level = {(lv.get("index") or 0): (lv.get("rooms") or [])
-                       for lv in (plan.get("levels") or [])}
-    for idx, (storey, st) in storeys.items():
-        depth = (st.get("floor_structure_depth_in") or 10.0) / 12.0
-        here = EL.elements_on_level(plan, _rooms_by_level.get(idx, []), _els)
-        if not here:
-            here = [_els[0]] if len(_els) == 1 else []
-        for e in here:
-            suffix = "" if len(_els) == 1 else f"-{e['id']}"
-            slab = _run("root.create_entity", f, ifc_class="IfcSlab",
-                        name=f"{pid} floor L{idx}{suffix}")
-            slab.PredefinedType = "FLOOR"
-            _box(f, body, slab, e["W"] + 2 * t_ext, e["H"] + 2 * t_ext, depth)
-            _placement(f, slab, (e["x"] + e["W"] / 2, e["y"] + e["H"] / 2,
-                                 float(st["grade_to_floor_ft"]) - depth))
-            _run("spatial.assign_container", f, products=[slab], relating_structure=storey)
-            _pset(f, slab, {"plan_id": pid, "style": style,
-                            "tdl_id": f"floor-L{idx}{suffix}",
-                            "massing_element": e["id"], "massing_role": e["role"],
-                            "depth_in": st.get("floor_structure_depth_in")})
-            counts["slabs"] += 1
+    # ---- slabs: one framed floor per storey AND PER MASSING ELEMENT (WP-11.6 layer 6), its top
+    # at the storey's own datum. The geometry is `slab_boxes`, above, so it can be measured in an
+    # environment with no ifcopenshell -- which is this one, and every one CI runs.
+    for sb in slab_boxes(plan, section, t_ext):
+        idx = sb["level"]
+        if idx not in storeys:
+            continue
+        storey, st = storeys[idx]
+        # The main block's slab keeps its old name and id EXACTLY; only a second element's
+        # carries a suffix, so a one-rectangle model is unchanged down to its tdl ids.
+        suffix = "" if sb["element"] == "main" else f" {sb['element']}"
+        tdl = f"floor-L{idx}" if sb["element"] == "main" else f"floor-L{idx}-{sb['element']}"
+        slab = _run("root.create_entity", f, ifc_class="IfcSlab",
+                    name=f"{pid} floor L{idx}{suffix}")
+        slab.PredefinedType = "FLOOR"
+        _box(f, body, slab, sb["width_ft"], sb["depth_ft"], sb["thickness_ft"])
+        _placement(f, slab, (sb["cx"], sb["cy"],
+                             sb["grade_to_floor_ft"] - sb["thickness_ft"]))
+        _run("spatial.assign_container", f, products=[slab], relating_structure=storey)
+        _pset(f, slab, {"plan_id": pid, "style": style, "tdl_id": tdl,
+                        "element": sb["element"],
+                        "depth_in": st.get("floor_structure_depth_in")})
+        counts["slabs"] += 1
 
     # ---- walls per level, from structure.py's own wall lines
     exterior_walls = {}   # (level, wall_letter) -> (IfcWall, along_axis)
@@ -391,7 +442,11 @@ def export_ifc(plan, path, parti=None):
             # this is a stated approximation -- one gable over the whole union -- and
             # `geometry_report.multi_element` is where a reader is told the roof layer has not
             # been taught about elements.
-            _bb = EL.union_bbox(plan, _els) or (0.0, 0.0, W, D)
+            # `EL` and `_els` were this branch's, defined in the slab loop the merge
+            # replaced with main's `slab_boxes`; the reader is loaded here instead so the
+            # roof keeps the union it is supposed to span.
+            _EL = _mod("elements", os.path.join(ROOT, "build", "elements.py"))
+            _bb = _EL.union_bbox(plan) or (0.0, 0.0, W, D)
             ow, od = (_bb[2] - _bb[0]) + 2 * t_ext, (_bb[3] - _bb[1]) + 2 * t_ext
             ridge_len, span = (ow, od) if axis == "x" else (od, ow)
             slope_run, slope_rise = span / 2.0, ridge_h - eave

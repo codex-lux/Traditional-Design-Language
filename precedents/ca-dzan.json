@@ -1,0 +1,41 @@
+{
+  "id": "ca-dzan",
+  "name": "Ca' d'Zan",
+  "aka": [
+    "Cà d'Zan",
+    "Ca d'Zan",
+    "House of John"
+  ],
+  "location": {
+    "text": "Sarasota, Florida",
+    "country": "United States",
+    "state": "Florida"
+  },
+  "dates": {
+    "built": "1924-1926",
+    "circa": false,
+    "note": "Wikipedia: 'Cà d'Zan was built in the mid-1920s as the winter retreat of the American circus mogul ... John Ringling' and 'Completed in 1926 by Owen Burns'. The style node's exemplar carries 1926 and its note '1924-26'."
+  },
+  "nodes": [
+    "mediterranean-revival"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Ca'_d'Zan",
+      "title": "Ca' d'Zan - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The infobox gives 'Area 36,000 square feet (3,300 m2)', 'Architect Dwight James Baum', 'Architectural style Mediterranean revival'. The article: 'Cà d'Zan features an eclectic array of architectural styles including Venetian Gothic, Italian Renaissance, Moorish, and Spanish-inspired elements drawn from different historic periods.'"
+    },
+    {
+      "kind": "nrhp",
+      "id": "82001039",
+      "url": "https://en.wikipedia.org/wiki/Ca'_d'Zan",
+      "title": "Caples'-Ringlings' Estates Historic District, National Register ID 82001039, designated a contributing property 15 December 1982 — a DISTRICT listing covering several estates, of which this house is one; the house carries no individual National Register number in the source read",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. No HABS survey was found and none is asserted. The 36,000 sq ft comes from the encyclopaedia infobox and is left in a ref note rather than carried as a `measurement`, which indexes survey quotes. NOTE for the one-building-one-record guard: the National Register number here is the Caples'-Ringlings' Estates Historic DISTRICT's, not this house's, and its title says so; it may legitimately be shared with any other contributing property that gets a record."
+}

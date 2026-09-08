@@ -1,0 +1,107 @@
+{
+  "id": "serra-chapel-mission-san-juan-capistrano",
+  "name": "Serra Chapel, Mission San Juan Capistrano",
+  "aka": [
+    "Serra's Church",
+    "Father Serra's Church",
+    "Serra's Chapel"
+  ],
+  "location": {
+    "text": "San Juan Capistrano, California",
+    "country": "United States",
+    "state": "California",
+    "aliases": [
+      "Olive Street, between U.S. Highway 101 & Main Street, San Juan Capistrano, Orange County, California"
+    ]
+  },
+  "dates": {
+    "built": "1782",
+    "circa": false,
+    "note": "The style node carries 1782, which is the date the mission's own institutions give for the chapel. THE SURVEY DOES NOT DATE IT: the 1930s data page gives only 'Founded 1776. Construction of buildings was almost continuous for many years. The stone church was completed in 1806', the stone church being the ruined Great Stone Church and not this chapel. No date is invented here."
+  },
+  "nodes": [
+    "california-mission-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CA-331",
+      "url": "http://www.loc.gov/pictures/item/ca0449.sheet.00019a",
+      "title": "HABS CAL,30-SAJUC,1- (sheet 19 of 40) — Mission San Juan Capistrano, Olive Street, between U.S. Highway 101 & Main Street",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The data page's own header prints 'HABS. CAL. 331' and 'HABS, GAL, 331'. This is the mission-wide record; it is the only one of the group carrying written data."
+    },
+    {
+      "kind": "habs",
+      "id": "CA-331-B",
+      "url": "https://www.americanbuildings.org/pab/app/pj_display.cfm/1085969",
+      "title": "Mission San Juan Capistrano, Serra's Church (HABS CA-331-B)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "The sub-record for Serra's Church itself. Wikipedia's external-links list, read the same day, gives it as 'HABS No. CA-331-B, \"Mission San Juan Capistrano, Serra's Church\", 9 photos' — PHOTOGRAPHS ONLY, no data pages, which is why the quotes below come from the mission-wide CA-331 report."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ca0449",
+      "url": "http://www.loc.gov/pictures/item/ca0449.sheet.00019a",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    },
+    {
+      "kind": "nrhp",
+      "id": "71000170",
+      "url": "https://ohp.parks.ca.gov/listedresources/Detail/200",
+      "title": "MISSION SAN JUAN CAPISTRANO — California Office of Historic Preservation listed resource; NPS Number 71000170; listed in the National Register 9/3/71; California Historical Landmark registered 6/20/1935",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search"
+    }
+  ],
+  "survey": {
+    "item": "ca0449",
+    "register": "loc-item",
+    "survey_no": "CA-331",
+    "data_url": "https://tile.loc.gov/storage-services/master/pnp/habshaer/ca/ca0400/ca0449/data/ca0449data.pdf",
+    "prepared": "District of California #3, Historic American Buildings Survey, Henry F. Withey, District Officer, 407 So. Western Avenue, Los Angeles, California (as the header reads; no date legible in the extract).",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "£»ate_ of erection: Founded 1776. Construction of buildings was almost continuous for many years. The stone church was completed in 1806. Architect: Builder: Indian labor under direction of the Padres.",
+        "page": "No page marker legible in this span; the sheet's own header, printed at the head of the same document, reads 'HABS, GAL, 331' and 'MISSION SAN JUAN CAPISTRANO 3o-SA«ruc'."
+      },
+      {
+        "field": "condition",
+        "text": "The Padres' house, Refectory, Serra fs Church, Living Quarters, and the Barracks building have all been restored and are in good repair, A new building used as a school has been erected on the site of the original building of the shops; Of the structures on the West side of the inner quadrangle little more than the foundations remains. Serra's church has been much changed from the original design.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "storeys",
+        "text": "Number of stories: For the most part one story.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "walls",
+        "text": "Materials of Construction: The large or stone church, as it is called, was built of field and quarry stone. Both yellow and blue sand stones were used for quoin treatment of exterior corners, cornices, pilasters, mouldings, and arches. The roof was also of stone, built in the form of arches and domes. This stone was quarried in the hills or mountains not far distant; field stones were used in the body of the walls laid up in lime mortar.",
+        "page": "No page marker legible in this span."
+      },
+      {
+        "field": "roof",
+        "text": "All walls both inside and out including all stone work was plastered and white washed. Original roofs were of heavy frame construction and covered with tile. Floors are, in general, of large red brick tile",
+        "page": "No page marker legible within this span; the marker 'San Juan Capistrano Mission HABS. 331 ... page 2.' appears in an earlier span of the same extract."
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "storey_count",
+      "as_printed": "For the most part one story",
+      "value": 1,
+      "unit": "count",
+      "from_quote": 2,
+      "note": "The survey's own hedge is kept in `as_printed`: it is a statement about the mission as a whole, not about Serra's Chapel alone, and the sheet gives no separate figure for the chapel."
+    }
+  ],
+  "note": "Seeded 5 Sep 2026. THE SURVEY SAYS SOMETHING THE NODE DOES NOT, AND IT MATTERS TO ANYONE MEASURING THIS BUILDING: 'Serra's church has been much changed from the original design.' The chapel is cited by the node as the oldest standing building in California; the surveyor's note is that what stands has been substantially altered. The written data covers the mission as a whole — the sub-record for Serra's Church, CA-331-B, is photographs only — so the quotes here describe the quadrangle and the ruined stone church as well as the chapel, and no quote is attributed to the chapel alone."
+}

@@ -1,0 +1,66 @@
+{
+  "id": "casa-de-los-azulejos",
+  "name": "Casa de los Azulejos",
+  "aka": [
+    "Palacio de los condes del Valle de Orizaba"
+  ],
+  "location": {
+    "text": "Mexico City, Mexico",
+    "country": "Mexico",
+    "state": "Mexico City"
+  },
+  "dates": {
+    "built": "16th century",
+    "circa": true,
+    "altered": "The present south front, much of the interior patio and the chapel front are owed to Graciana Suarez de Peredo, fifth Countess of the Valle de Orizaba, who wanted the outside of the palace covered in tiles.",
+    "note": "THE NODE DATES THE TILE FACADE 1737 AND THE ARTICLE DOES NOT DATE IT AT ALL. The extracted spans say the work was raised in the 16th century from two houses joined by a marriage settlement, and attribute the tiled front to the fifth Countess without a year. The node's 1737 is not contradicted and is not corroborated."
+  },
+  "nodes": [
+    "mexican-colonial"
+  ],
+  "refs": [
+    {
+      "kind": "wikipedia",
+      "url": "https://es.wikipedia.org/wiki/Casa_de_los_Azulejos",
+      "title": "Casa de los Azulejos - Wikipedia, la enciclopedia libre",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    }
+  ],
+  "survey": {
+    "item": "es-wikipedia-casa-de-los-azulejos",
+    "register": "wikipedia",
+    "data_url": "https://es.wikipedia.org/wiki/Casa_de_los_Azulejos",
+    "prepared": "No revision date was printed in the extract. AN ENCYCLOPEDIA ARTICLE AND NOT A REGISTER.",
+    "retrieved": "2026-09-05",
+    "via": "tavily-extract",
+    "quotes": [
+      {
+        "field": "general_description",
+        "text": "El inmueble fue construido durante la época virreinal, y se le conoce comúnmente por este nombre (más que por el título nobiliario de quienes le habitaron) debido a su cubierta de azulejos de talavera poblana que recubren la fachada exterior del edificio y hacen de esta obra una de las más bellas joyas de la arquitectura civil del barroco novohispano.",
+        "page": "Spanish Wikipedia, opening paragraph"
+      },
+      {
+        "field": "general_description",
+        "text": "Como se mencionó anteriormente, se sabe que la obra fue levantada en el siglo XVI y que se conforma por dos casas unificadas por acuerdo matrimonial. El aspecto actual de su fachada Sur y gran parte del patio interior, así como de la fachada de la capilla, se le debe al encargo de una de las descendientes del Conde del Valle de Orizaba, Doña Graciana Suárez de Peredo, Quinta Condesa, quien decide reparar la casa para poder habitarla, pero principalmente desea ver la fachada exterior del palacio cubierta de azulejos.",
+        "page": "Spanish Wikipedia, section 'Descripción del inmueble'"
+      },
+      {
+        "field": "cornice",
+        "text": "imitación de follaje, con roleos y molduras curvas a los lados que descansan en pináculos que se encuentran realizados en talavera, el pretil que sirve como remate se haya cubierto por azulejos.",
+        "page": "Spanish Wikipedia, section on the facade; THE SPAN BEGINS MID-SENTENCE where the extract's chunk begins and no words are supplied before 'imitación'"
+      }
+    ]
+  },
+  "measurements": [
+    {
+      "name": "houses_combined_count",
+      "as_printed": "dos casas unificadas por acuerdo matrimonial",
+      "value": 2,
+      "unit": "count",
+      "from_quote": 1,
+      "note": "The palace is two houses joined, which is why its street front is longer than a single colonial house's and why the node can call it a whole-facade tile field."
+    }
+  ],
+  "note": "Tranche 3, 5 Sep 2026. The one exemplar in this node whose claim is about a SURFACE rather than a plan, and the source corroborates the surface exactly -- talavera poblana over the outer facade -- while giving no dimension and, notably, no date for the tiling. The node's 1737 has no support in what was read here."
+}

@@ -189,10 +189,19 @@ class TestTheStacks(unittest.TestCase):
             self.assertEqual(sk["stack_plan_in"], 22.0)
 
     def test_the_stack_is_centred_on_the_mid_depth_of_its_end_wall(self):
+        """RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). `places=3` asserted the
+        centring to a thousandth of a foot, and BOTH terms of the sum are written to exactly
+        three decimals by `threshold.py`'s own record writer -- so the assertion demanded more
+        precision than the record can carry, and held only while the arithmetic happened to
+        land. Main's WP-11.2 made this house 38.17 ft deep: the stack is written y 18.168,
+        depth 1.833, summing to 19.0845 against a mid-depth of 19.085, out by half a
+        thousandth and by nothing else. The tolerance is DERIVED -- one rounding step on each
+        of the two written terms -- rather than loosened to whatever passes."""
         pl = _placed()
         D = pl["footprint"]["depth_ft"]
+        tol = 2 * 0.0005 + 1e-9      # y_ft and depth_ft are each round(v, 3)
         for sk in pl["hearths"]["stacks"]:
-            self.assertAlmostEqual(sk["y_ft"] + sk["depth_ft"] / 2.0, D / 2.0, places=3)
+            self.assertAlmostEqual(sk["y_ft"] + sk["depth_ft"] / 2.0, D / 2.0, delta=tol)
 
     def test_the_size_is_read_and_never_defaulted(self):
         """A stack drawn at an invented size is an invented measurement. Take the figure away
@@ -325,7 +334,16 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
         blob = json.dumps(out, sort_keys=True, default=str)
         self.assertEqual(len(out), 180)
         self.assertEqual(hashlib.sha256(blob.encode()).hexdigest(),
-                         "0d94e0cd1587cf3c236f25fd86420f2149b3298fb778e34cf643c69faa4d66a3",
+                         # RE-DERIVED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). The
+                         # pin includes `footprint`, deliberately (WP-11.4 pruned this hash
+                         # precisely so it reads the roof and not the placement, and the
+                         # footprint IS a roof input -- a ridge spans it). Main's WP-11.2
+                         # reads the massing's own bay count, which takes the Tidewater from
+                         # 60.0 x 40.08 to 63 x 38.17 and the spec Colonial from 40.0 x 38.44
+                         # to 50.0 x 30.75, so 178 of the 180 sweep entries move with the
+                         # base plan they are built on. `build/roof.py` is byte-identical
+                         # across this merge.
+                         "82cfe22d66402370b5ae3baf100c446556a01973700cbc2c81907f6d56aab513",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "

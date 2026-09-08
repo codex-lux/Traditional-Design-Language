@@ -48,7 +48,7 @@ def _drain(body):
 
 def test_tool_registry_is_the_mcp_servers():
     defs = tools.tool_definitions()
-    assert len(defs) == 26
+    assert len(defs) == 27
     names = {d["name"] for d in defs}
     assert {"tdl_overview", "tdl_compose", "tdl_check_plan", "tdl_resolve_kit"} <= names
     # descriptions are the MCP server's own docstrings, not paraphrases

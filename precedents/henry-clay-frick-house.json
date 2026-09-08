@@ -1,0 +1,49 @@
+{
+  "id": "henry-clay-frick-house",
+  "name": "Henry Clay Frick House",
+  "aka": [
+    "Frick Collection",
+    "1 East 70th Street"
+  ],
+  "location": {
+    "text": "1 East 70th Street, New York, New York",
+    "country": "United States",
+    "state": "New York"
+  },
+  "dates": {
+    "built": "1913-1914",
+    "circa": false,
+    "note": "The Carrère and Hastings article's list: 'Henry Clay Frick House ... 1913-1914'; the Henry Clay Frick article says 'built in 1913'. Designed by Thomas Hastings after Carrère's death in 1911 (both articles)."
+  },
+  "nodes": [
+    "italian-renaissance-revival"
+  ],
+  "refs": [
+    {
+      "kind": "nrhp",
+      "id": "08001091",
+      "url": "https://en.wikipedia.org/wiki/Henry_Clay_Frick_House",
+      "title": "NRHP reference No. 08001091; added October 6, 2008; designated NHL October 6, 2008; NYSRHP No. 06101.000813; NYCL No. 0667, designated March 20, 1973; contributing to the Upper East Side Historic District (84002803) (as the Wikipedia infobox prints it)",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "Read from the infobox, not from the National Register's own database."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Henry_Clay_Frick_House",
+      "title": "Henry Clay Frick House - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-extract",
+      "note": "'The designation applies only to the facade, as the interior rooms were never designated as landmarks.'"
+    },
+    {
+      "kind": "other",
+      "url": "https://en.wikipedia.org/wiki/Carrère_and_Hastings",
+      "title": "Carrère and Hastings - Wikipedia",
+      "retrieved": "2026-09-04",
+      "via": "tavily-search",
+      "note": "Source of the 1913-1914 date."
+    }
+  ],
+  "note": "No HABS survey was found ('\"Frick\" residence 1 East Seventieth Street Fifth Avenue New York HABS NY- loc.gov pictures item' returned nothing about it). Seeded 4 Sep 2026."
+}

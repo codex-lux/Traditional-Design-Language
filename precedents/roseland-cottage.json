@@ -1,0 +1,78 @@
+{
+  "id": "roseland-cottage",
+  "name": "Roseland Cottage",
+  "aka": [
+    "Henry C. Bowen House",
+    "Bowen House",
+    "Bowen Cottage"
+  ],
+  "location": {
+    "text": "Woodstock, Connecticut",
+    "country": "United States",
+    "state": "Connecticut"
+  },
+  "dates": {
+    "built": "1846",
+    "circa": false,
+    "note": "The Wikipedia infobox prints 'Built 1846' and 'Architect Joseph Collins Wells; Edwin Eaton'. The National Historic Landmark nomination, read the same day, says 'Commissioned in 1845, built in 1846'. Both are recorded and neither is resolved; the node's own exemplars give 1846."
+  },
+  "nodes": [
+    "carpenter-gothic",
+    "gothic-revival-american",
+    "romantic-revivals"
+  ],
+  "refs": [
+    {
+      "kind": "habs",
+      "id": "CT-376",
+      "url": "https://www.loc.gov/pictures/item/ct0347/",
+      "title": "Bowen House, 555 Route 169, Woodstock, Windham County, CT",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The item's own 'Survey number' note reads 'HABS CT-376' and its call number 'HABS CONN,8-WOOD,1-'. Its mediums are 'Photo(s): 54' and 'Photo Caption Page(s): 3' and NO data pages, so this survey wrote no historical and descriptive data to quote; no survey block is recorded rather than a cover sheet quoted as one."
+    },
+    {
+      "kind": "loc-item",
+      "id": "ct0347",
+      "url": "https://www.loc.gov/pictures/item/ct0347/",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "Read as JSON by appending `?fo=json` to this path, which is the only route to the Library's catalogue record from this container."
+    },
+    {
+      "kind": "nrhp",
+      "id": "77001414",
+      "url": "https://www.loc.gov/pictures/item/ct0347/",
+      "title": "National Register of Historic Places NRIS Number 77001414 (as the Library's item record prints it)",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract",
+      "note": "The Wikipedia infobox gives the same number, with 'Added to NRHP August 24, 1977' and 'Designated NHL October 5, 1992'. Two independent surfaces, which is more than most records in this directory carry."
+    },
+    {
+      "kind": "other",
+      "url": "https://npgallery.nps.gov/GetAsset/bb8c7988-6e44-42c2-a475-6fba94fb6e55",
+      "title": "HENRY C. BOWEN HOUSE (Roseland Cottage) -- National Historic Landmark Nomination",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Its description 'quotes in large part the National Register Nomination for the Bowen House written by Mardges Bacon in 1976' and states 'Commissioned in 1845, built in 1846, this Gothic Revival house with servant's ell to the southwest'. It also records 'Recorded by Historic American Buildings Survey: [Photographs only: HABS Photographs 70-543-1 through 70-543-80]', which is the second surface confirming that no written data exists."
+    },
+    {
+      "kind": "wikipedia",
+      "url": "https://en.wikipedia.org/wiki/Roseland_Cottage",
+      "title": "Roseland Cottage - Wikipedia",
+      "retrieved": "2026-09-05",
+      "via": "tavily-extract"
+    },
+    {
+      "kind": "institution",
+      "url": "https://www.historicnewengland.org/property/roseland-cottage",
+      "title": "Roseland Cottage (1846) - Woodstock",
+      "retrieved": "2026-09-05",
+      "via": "tavily-search",
+      "note": "Owner. Its page says the house 'remains one of the nation's best preserved examples of Gothic Revival architecture'."
+    }
+  ],
+  "rights_evidence": "No known restrictions on images made by the U.S. Government; images copied from other sources may be restricted.",
+  "rights_evidence_url": "https://www.loc.gov/pictures/item/ct0347/",
+  "note": "Tranche 2, Gothic Revival and picturesque villa cluster, 5 Sep 2026. Shared by two nodes, which print the same name and the same location string, so no alias is needed. The Library's item record prints this in its `rights_information` field; an internal run of spaces in the JSON has been collapsed to one and nothing else was changed. It is the boilerplate the Library prints on every HABS item alike and no licence is read out of it."
+}

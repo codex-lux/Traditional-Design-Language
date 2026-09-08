@@ -212,25 +212,64 @@
       "name": "Biltmore House",
       "location": "Asheville, North Carolina",
       "year": 1895,
-      "note": "Richard Morris Hunt for George Washington Vanderbilt; begun 1889. Explicitly composed after Blois, Chambord and Chenonceau. 178,926 sq ft, the largest private house in the United States."
+      "note": "Richard Morris Hunt for George Washington Vanderbilt; begun 1889. Explicitly composed after Blois, Chambord and Chenonceau. 178,926 sq ft, the largest private house in the United States.",
+      "precedent": "biltmore-house",
+      "standing": "icon",
+      "why": "It is the building the style is known by, and the North Carolina architects' dictionary states the borrowings the node's own note claims -- the grand stair 'modified from the external spiral stair at Blois; other aspects from Chambord and Chenonceau' -- on scholarly rather than promotional authority."
     },
     {
       "name": "Ochre Court",
       "location": "Newport, Rhode Island",
       "year": 1892,
-      "note": "Richard Morris Hunt for Ogden Goelet. Louis XIII register - steep roofs, turrets, tall chimneys, elaborate dormers - on a compact Newport site."
+      "note": "Richard Morris Hunt for Ogden Goelet. Louis XIII register - steep roofs, turrets, tall chimneys, elaborate dormers - on a compact Newport site.",
+      "precedent": "ochre-court",
+      "standing": "canonical",
+      "why": "Salve Regina's own guide itemises the node's necessary features in one sentence -- 'high roofs, turrets, whimsical gargoyles and tall chimneys' over blue Indiana limestone -- which makes it the compact Newport specimen against which the node's skyline rules can be read."
     },
     {
       "name": "William K. Vanderbilt House ('Petit Chateau')",
       "location": "660 Fifth Avenue, New York, New York",
       "year": 1882,
-      "note": "Richard Morris Hunt. The founding building of the style in America. Demolished 1926, which is itself the clearest statement of the style's economics."
+      "note": "Richard Morris Hunt. The founding building of the style in America. Demolished 1926, which is itself the clearest statement of the style's economics.",
+      "precedent": "william-k-vanderbilt-house",
+      "standing": "icon",
+      "why": "It is the building the node's own history begins with, and it was demolished before the Historic American Buildings Survey existed, so the style's founding example is permanently unmeasurable -- which is a fact about the style and not an omission in the research."
     },
     {
       "name": "Casa Loma",
       "location": "Toronto, Ontario",
       "year": 1914,
-      "note": "E. J. Lennox for Henry Pellatt; begun 1911. Late, Canadian, and eclectic enough to show the style dissolving into general castellated romance."
+      "note": "E. J. Lennox for Henry Pellatt; begun 1911. Late, Canadian, and eclectic enough to show the style dissolving into general castellated romance.",
+      "precedent": "casa-loma",
+      "standing": "documentary",
+      "why": "Not one source read calls it Chateauesque -- Wikipedia says Gothic Revival, its own history says Norman, Gothic and Romanesque borrowed together -- and it is on the list precisely as the dissolution the node's exemplar note names, with the disagreement recorded rather than smoothed."
+    },
+    {
+      "name": "Château Frontenac",
+      "location": "Quebec City, Quebec",
+      "year": 1893,
+      "note": "Bruce Price for the Canadian Pacific Railway, opened 18 December 1893 and enlarged in 1908-09, 1920-24 and the 1990s. The building the Canadian usage of 'château style' is named after, and this node's only non-domestic case: the railway companies were clients of the Vanderbilt order and went on commissioning the register after American private patronage for it had stopped.",
+      "precedent": "chateau-frontenac",
+      "standing": "icon",
+      "why": "Parks Canada, the designating authority, calls it 'the prototype for the Chateau-style railway hotels that followed' and 'the purest expression of the Chateau style among the group' -- a government's judgment, published in its own statement of significance."
+    },
+    {
+      "name": "Bishop's Palace",
+      "location": "1402 Broadway, Galveston, Texas",
+      "year": 1892,
+      "note": "Nicholas J. Clayton for Colonel Walter Gresham. The only building on this node with a measured HABS survey (TX-2103), and the survey calls it Romanesque while the restoration architect who laser-scanned it calls it Chateauesque. Its walls are 'load bearing masonry' with timber floors, which is this node's own necessary condition confirmed by a surveyor for the first time in this corpus.",
+      "precedent": "bishops-palace-galveston",
+      "standing": "documentary",
+      "why": "It is here to be measured rather than to settle a label: HABS TX-2103 states the wall construction, the chimney positions, the roof and one plan dimension, and it is the only such document this node has."
+    },
+    {
+      "name": "Kimberly Crest",
+      "location": "Redlands, California",
+      "year": 1897,
+      "note": "Oliver Perry Dennis and Lyman Farwell for Cornelia A. Hill; about 7,000 sq ft and 22 rooms on three storeys, in a town of ten thousand. The same office built the type again in Hollywood in 1909 as what is now the Magic Castle, so the pattern was repeatable at this size and was repeated.",
+      "precedent": "kimberly-crest",
+      "standing": "regional",
+      "why": "The National Register's style field reads 'Victorian, Chateauesque' and the Library of Congress caption calls it a 'French revival chateau'; at about 7,000 sq ft against the 178,926 its own sources give Biltmore, it is the version the node's 'perhaps two hundred families' actually describes, and the only one whose whole envelope a reader can hold in mind."
     }
   ],
   "sources": [
@@ -279,5 +318,8 @@
       "note": "Bound narrowly and at low precedence. It reaches only the formally planned principal rooms implied by the Beaux-Arts axial plan noted above - the great hall, the stair, the salon - and it says nothing about the Gothic register that dominates the exterior (crockets, finials, tracery) or the room-harmonic pack does not already cover. This is the honest ceiling of what a classical trim family can claim on a building whose ornamental vocabulary is genuinely bifurcated; no pack in this corpus encodes the late-Gothic half.",
       "precedence": 5
     }
+  ],
+  "inherits_packs": [
+    "storey-graduation"
   ]
 }

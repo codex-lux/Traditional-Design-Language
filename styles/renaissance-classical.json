@@ -31,5 +31,38 @@
   "confidence": "high",
   "tags": [
     "container"
+  ],
+  "exemplars": [
+    {
+      "name": "San Carlo alle Quattro Fontane",
+      "location": "Via del Quirinale, Rome, Italy",
+      "year": 1638,
+      "precedent": "san-carlo-alle-quattro-fontane",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italian-baroque`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Ospedale degli Innocenti",
+      "location": "Piazza Santissima Annunziata, Florence, Italy",
+      "year": 1419,
+      "precedent": "ospedale-degli-innocenti",
+      "standing": "canonical",
+      "why": "Derived, not authored: `italian-renaissance`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    },
+    {
+      "name": "Villa La Rotonda (Villa Almerico Capra)",
+      "location": "Vicenza, Veneto, Italy",
+      "year": 1567,
+      "precedent": "villa-la-rotonda",
+      "standing": "canonical",
+      "why": "Derived, not authored: `palladian`, a style of this family, names it its icon, and the reason for that judgment is recorded on that node rather than restated here."
+    }
+  ],
+  "sources": [
+    "Ludwig H. Heydenreich, Architecture in Italy 1400-1500, rev. Paul Davies (1996)",
+    "Wolfgang Lotz, Architecture in Italy 1500-1600, rev. Deborah Howard (1995)",
+    "Rudolf Wittkower, Architectural Principles in the Age of Humanism (1949)",
+    "Vaughan Hart and Peter Hicks (eds.), Paper Palaces: The Rise of the Renaissance Architectural Treatise (1998)",
+    "Alina A. Payne, The Architectural Treatise in the Italian Renaissance: Architectural Invention, Ornament, and Literary Culture (1999)"
   ]
 }

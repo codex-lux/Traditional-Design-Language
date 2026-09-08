@@ -109,6 +109,16 @@
     "depth_multiplier": 2.25,
     "sides_lit": 1,
     "orientation": "South and east if the house allows, because this is a daytime room used by whoever is at home. In a two-parlour plan it usually gets what is left after the front room has taken the road elevation, which is why so many back parlours face north and why they read as cosy rather than bright - a virtue arrived at by accident.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "S",
+        "E"
+      ],
+      "basis": "South and east if the house allows",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.12,
       0.22

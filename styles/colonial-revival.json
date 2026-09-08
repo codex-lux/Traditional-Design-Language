@@ -230,25 +230,55 @@
       "name": "H. A. C. Taylor House",
       "location": "Newport, Rhode Island",
       "year": 1885,
-      "note": "McKim, Mead & White. The canonical first fully realised Colonial Revival house; symmetrical cubic block, one-storey Ionic entry portico, flanking Palladian windows. Demolished 1952."
+      "note": "McKim, Mead & White. The canonical first fully realised Colonial Revival house; symmetrical cubic block, one-storey Ionic entry portico, flanking Palladian windows. Demolished 1952.",
+      "precedent": "h-a-c-taylor-house",
+      "standing": "icon",
+      "why": "Hitchcock's Rhode Island Architecture (1939), as inscribed on the RISD Archives print: 'The first Colonial Revival house; with academic plan, eclectic eighteenth century detail and even the typical early Newport gable-above-hip roof' -- the sentence behind the node's 'canonical first'."
     },
     {
       "name": "Hill-Stead",
       "location": "Farmington, Connecticut",
       "year": 1901,
-      "note": "Theodate Pope Riddle with McKim, Mead & White. Free phase at its most confident: a colossal portico and a rambling plan under an ostensibly colonial skin."
+      "note": "Theodate Pope Riddle with McKim, Mead & White. Free phase at its most confident: a colossal portico and a rambling plan under an ostensibly colonial skin.",
+      "precedent": "hill-stead",
+      "standing": "canonical",
+      "why": "Designated a National Historic Landmark 'as a nationally significant example of Colonial Revival architecture' (Wikipedia), and HABS CT-472's 90-odd data pages describe its massing, structure and openings."
     },
     {
       "name": "Governor's Palace (reconstruction)",
       "location": "Williamsburg, Virginia",
       "year": 1934,
-      "note": "Perry, Shaw & Hepburn. Not a revival house but the instrument of the accuracy phase - it supplied the measured profiles that disciplined the style after 1930."
+      "note": "Perry, Shaw & Hepburn. Not a revival house but the instrument of the accuracy phase - it supplied the measured profiles that disciplined the style after 1930.",
+      "precedent": "governors-palace-reconstruction",
+      "standing": "documentary",
+      "why": "The node's own note: not a revival house but the instrument of the accuracy phase; Colonial Williamsburg's journal records the 1927 authorisation and the 1929 discovery of the Bodleian Plate it was built from."
     },
     {
       "name": "Dr. Glenn R. Frye House",
       "location": "Hickory, North Carolina",
       "year": 1937,
-      "note": "Two-storey stone Colonial Revival with frame wing; a competent late-phase example of the type as built for professionals rather than magnates. NRHP 2009."
+      "note": "Two-storey stone Colonial Revival with frame wing; a competent late-phase example of the type as built for professionals rather than magnates. NRHP 2009.",
+      "precedent": "dr-glenn-r-frye-house",
+      "standing": "documentary",
+      "why": "A National Register nomination (NC HPO CT1102, 2009) for a late-phase professional's house whose section 8 says of Hickory's Colonial Revival that 'only a small number of these houses were rendered in stone'."
+    },
+    {
+      "name": "The Orchard (James L. Breese House)",
+      "location": "Southampton, New York",
+      "year": 1898,
+      "note": "Stanford White of McKim, Mead & White for James L. Breese, 1897-1906: an 1858 house swallowed into a U-shaped summer place, two and a half storeys of white-painted shingle behind a two-storey portico. The Taylor House is gone; this is the firm's Colonial Revival country house that stands. NRHP 1980; condominiums since.",
+      "precedent": "the-orchard-james-l-breese-house",
+      "standing": "canonical",
+      "why": "By the same firm as the node's two named houses and still standing: Wikipedia's summary -- designed 1897-1906, an 1858 house incorporated, two and a half storeys of white shingle behind a two-storey portico -- is the free phase's rambling plan under a colonial skin, which is how the node describes Hill-Stead."
+    },
+    {
+      "name": "Springwood",
+      "location": "Hyde Park, New York",
+      "year": 1916,
+      "note": "Franklin D. Roosevelt's Hyde Park house, recast in 1915-16 by Hoppin & Koen from an Italianate villa of c. 1850 into a stone-and-stucco Colonial Revival mansion: the central roof raised for a full third floor, two fieldstone wings added, the plan a rough U of two and three storeys (NPS). HABS NY-4355 holds the photographs; its written data is a one-sheet cover.",
+      "precedent": "springwood",
+      "standing": "regional",
+      "why": "The NPS's own description -- an Italianate villa recast by Hoppin & Koen as a stone-and-stucco Colonial Revival mansion -- is the free phase's method, a colonial skin on an inherited body, in the Hudson Valley; the house the style's most famous client was born in."
     }
   ],
   "sources": [

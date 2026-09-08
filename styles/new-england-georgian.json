@@ -210,25 +210,55 @@
       "name": "Isaac Royall House",
       "location": "Medford, Massachusetts",
       "year": 1737,
-      "note": "Built out from a late 17th-century Usher core in the 1730s and raised to three storeys in the 1740s. The west facade is rusticated to simulate ashlar; the east has aproned windows, a modillion cornice and wooden quoining. The surviving slave quarters make it the most historically important Georgian house in New England."
+      "note": "Built out from a late 17th-century Usher core in the 1730s and raised to three storeys in the 1740s. The west facade is rusticated to simulate ashlar; the east has aproned windows, a modillion cornice and wooden quoining. The surviving slave quarters make it the most historically important Georgian house in New England.",
+      "precedent": "isaac-royall-house",
+      "standing": "canonical",
+      "why": "The 1983 survey form names, in the node's own order, the 'wooden imitation masonry', the 'wooden west front rusticated and adorned with a colossal order' and quoining 'among the earliest examples' -- the stone-out-of-pine argument the node opens with, in the surveyor's words."
     },
     {
       "name": "Vassall-Craigie-Longfellow House",
       "location": "105 Brattle Street, Cambridge, Massachusetts",
       "year": 1759,
-      "note": "Wood construction with a giant order of Ionic pilasters and a pedimented centre pavilion — the classical apparatus in pine at full scale."
+      "note": "Wood construction with a giant order of Ionic pilasters and a pedimented centre pavilion — the classical apparatus in pine at full scale.",
+      "precedent": "vassall-craigie-longfellow-house",
+      "standing": "icon",
+      "why": "The Library's item and the Wikipedia infobox both file it as 'New England High Georgian', and the node's own note -- 'the classical apparatus in pine at full scale' -- is the sentence a fluent reader would reach for first; HABS MA-169 has measured drawings and written data this pass could not read."
     },
     {
       "name": "Jeremiah Lee Mansion",
       "location": "Marblehead, Massachusetts",
       "year": 1768,
-      "note": "Three storeys of rusticated wood scored to imitate stone, with a projecting pedimented pavilion and a two-storey stair hall; among the most ambitious wooden houses in colonial America."
+      "note": "Three storeys of rusticated wood scored to imitate stone, with a projecting pedimented pavilion and a two-storey stair hall; among the most ambitious wooden houses in colonial America.",
+      "precedent": "jeremiah-lee-mansion",
+      "standing": "canonical",
+      "why": "The 1984 survey form states the specimen in one line -- 'Rectangular; 7-bay front; 3 stories; hipped roof; slightly projecting 3-bay pavilion on front; octagonal cupola' on a frame 'sheathed with rusticated boards to imitate stone' -- and calls it one of the finest Georgian houses in the northern colonies."
     },
     {
       "name": "Lady Pepperrell House",
       "location": "Kittery Point, Maine",
       "year": 1760,
-      "note": "A restrained late-Georgian block with a giant order of pilasters and a pedimented doorway; the type at its most disciplined."
+      "note": "A restrained late-Georgian block with a giant order of pilasters and a pedimented doorway; the type at its most disciplined.",
+      "precedent": "lady-pepperrell-house",
+      "standing": "regional",
+      "why": "The coastal-Maine expression the node's geography names and no other exemplar covers; a National Historic Landmark with no HABS record of its own, so it is placed by its register listing and not by a survey."
+    },
+    {
+      "name": "Wentworth-Gardner House",
+      "location": "Portsmouth, New Hampshire",
+      "year": 1760,
+      "note": "Built 1760 as a wedding gift for Thomas Wentworth: a two-and-a-half-storey frame house on the Piscataqua whose street front is rusticated and whose doorway carries a broken-scroll pediment on pilasters -- the whole of the node's 'everything the house has to spend goes on the doorway' in one elevation. Nearly sold to the Metropolitan Museum in the 1910s; now a house museum.",
+      "precedent": "wentworth-gardner-house",
+      "standing": "icon",
+      "why": "The doorway the node's prose describes -- pilasters, full entablature, a scroll pediment carved in pine at a scale no English house of the rank would attempt in stone -- is the one on this house; the Trust's page, as read at the 4 Sep audit, says 'The Met prized the house for its detailed carving and nearly perfect Georgian architecture'. An earlier version of this sentence attributed a different superlative to the National Trust that the page does not carry."
+    },
+    {
+      "name": "Hunter House",
+      "location": "54 Washington Street, Newport, Rhode Island",
+      "year": 1748,
+      "note": "Built about 1748 for Deputy Governor Jonathan Nichols Jr. and enlarged after 1756 by Joseph Wanton Jr., who added a south wing and a second chimney and made a central-hall Georgian house of it; balustraded gambrel roof, a carved pineapple over the door, and Townsend-Goddard furniture inside. The Preservation Society of Newport County's first rescue.",
+      "precedent": "hunter-house",
+      "standing": "regional",
+      "why": "The Newport expression the node's geography and hearth both name and no other exemplar covered -- a merchant's waterfront house with a gambrel rather than the hip the Boston houses carry, which the owner calls one of the finest examples of Colonial architecture in Newport."
     }
   ],
   "sources": [
@@ -274,6 +304,10 @@
     }
   ],
   "inherits_packs": [
+    "facade-classical",
+    "opening-proportion",
+    "sash-light",
+    "storey-graduation",
     "trim-classical"
   ]
 }

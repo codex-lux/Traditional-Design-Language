@@ -97,6 +97,19 @@
     "depth_multiplier": 1.8,
     "sides_lit": 1,
     "orientation": "North or east. North light is colourless and shows a garment's true colour, which is why every tailor's fitting room faces north; east gives you morning light at the hour the room is used. West is the worst, because it fades the contents and is dark when you need it.",
+    "aspect": {
+      "applies": true,
+      "strength": "preferred",
+      "prefer": [
+        "N",
+        "E"
+      ],
+      "avoid": [
+        "W"
+      ],
+      "basis": "North or east. North light is colourless and shows a garment's true colour",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.08,
       0.14

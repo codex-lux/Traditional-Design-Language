@@ -206,25 +206,55 @@
       "name": "Stenton",
       "location": "Germantown, Philadelphia, Pennsylvania",
       "year": 1730,
-      "note": "James Logan's brick country seat, built 1723–30; the earliest fully Georgian house in the region and among the plainest — a wall with almost no trim on it."
+      "note": "James Logan's brick country seat, built 1723–30; the earliest fully Georgian house in the region and among the plainest — a wall with almost no trim on it.",
+      "precedent": "stenton",
+      "standing": "canonical",
+      "why": "The node's own note calls it 'the earliest fully Georgian house in the region and among the plainest -- a wall with almost no trim on it', and HABS PA-1714's ten measured drawings make that wall measurable even though the survey wrote no data pages for it."
     },
     {
       "name": "Mount Pleasant",
       "location": "Fairmount Park, Philadelphia, Pennsylvania",
       "year": 1765,
-      "note": "Built 1762–65 for John Macpherson. Rubble stuccoed and scored to imitate ashlar with brick quoins, a pedimented centre pavilion, a Venetian window over the door and two flanking dependencies."
+      "note": "Built 1762–65 for John Macpherson. Rubble stuccoed and scored to imitate ashlar with brick quoins, a pedimented centre pavilion, a Venetian window over the door and two flanking dependencies.",
+      "precedent": "mount-pleasant",
+      "standing": "icon",
+      "why": "The node's own prose leads its Palladian paragraph with it -- pedimented pavilion, Venetian window, rubble stuccoed and scored to ashlar with real brick quoins, two flanking dependencies -- and it is the house a fluent reader names first for the region's top rank."
     },
     {
       "name": "Cliveden",
       "location": "Germantown, Philadelphia, Pennsylvania",
       "year": 1767,
-      "note": "Built 1763–67 for Benjamin Chew in Wissahickon schist, with a pedimented and pilastered centre and urns on the roof ridge; the site of the Battle of Germantown in 1777."
+      "note": "Built 1763–67 for Benjamin Chew in Wissahickon schist, with a pedimented and pilastered centre and urns on the roof ridge; the site of the Battle of Germantown in 1777.",
+      "precedent": "cliveden",
+      "standing": "canonical",
+      "why": "The survey gives the stone recipe the node is built on in figures -- a 53 by 44 ft five-bay block of grey ashlar with sandstone lintels over every window and a sandstone belt course at the second floor, twelve-over-twelve sash, two stacks on the main block -- which is what 'expresses its wall rather than its trim' measures as."
     },
     {
       "name": "Hammond-Harwood House",
       "location": "19 Maryland Avenue, Annapolis, Maryland",
       "year": 1774,
-      "note": "William Buckland's last work. The rusticated Gibbs door surround and the oeil-de-boeuf windows in the pediment are taken directly from Gibbs's A Book of Architecture (1728), executed in southern pine to read as stone."
+      "note": "William Buckland's last work. The rusticated Gibbs door surround and the oeil-de-boeuf windows in the pediment are taken directly from Gibbs's A Book of Architecture (1728), executed in southern pine to read as stone.",
+      "precedent": "hammond-harwood-house",
+      "standing": "icon",
+      "why": "The node's own prose ends its Palladian paragraph on this doorway -- 'pattern-book transmission caught in the act, in a building that still stands' -- and the 1940 survey records the five-part plan it belongs to at 44 by 42 ft with 18 ft links, in Flemish bond over a two-course water table."
+    },
+    {
+      "name": "Hope Lodge",
+      "location": "Whitemarsh Township, Montgomery County, Pennsylvania",
+      "year": null,
+      "note": "Dated 1721-23 by the 1930s HABS sheet and about 1750 by later scholarship (Wikipedia names Edmund Woolley); the record keeps both. Two and a half storeys and basement, brick-fronted with stone side and rear walls under stucco, a through-hall 'of unusual width' with the stair rising laterally from its rear, round-arched doorways, and a detached kitchen wing joined by a brick-paved porch. Twelve HABS sheets.",
+      "precedent": "hope-lodge",
+      "standing": "documentary",
+      "why": "The plain surveyed case the node needed: a stone house with a brick front, a wide through-hall and no pavilion, drawn on twelve HABS sheets with a written description, so the region's ordinary wall can be measured rather than the Palladian exceptions."
+    },
+    {
+      "name": "Chase-Lloyd House",
+      "location": "22 Maryland Avenue, Annapolis, Maryland",
+      "year": 1774,
+      "note": "Begun 1769 by Samuel Chase and finished for Edward Lloyd IV, with William Buckland brought in for the interior: a three-storey brick town house across Maryland Avenue from the Hammond-Harwood House, with a Palladian window over the stair landing. The MHT dates it 1769-1774; the survey says finished 1772.",
+      "precedent": "chase-lloyd-house",
+      "standing": "canonical",
+      "why": "The survey calls it 'a rare example of a three-story Georgian mansion' and the Annapolis concentration the node's hearth names has no other three-storey brick specimen on the record; Buckland's hand ties it to the Hammond-Harwood House opposite."
     }
   ],
   "sources": [
@@ -258,6 +288,11 @@
     }
   ],
   "inherits_packs": [
+    "gibbs-ionic",
+    "opening-proportion",
+    "sash-light",
+    "storey-graduation",
+    "timber-bay",
     "trim-classical"
   ]
 }

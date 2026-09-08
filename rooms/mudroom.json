@@ -109,6 +109,12 @@
     "depth_multiplier": 1.6,
     "sides_lit": 1,
     "orientation": "Whatever the garage leaves. In practice the mudroom is usually landlocked between the garage and the kitchen and its only glass is the back door, which makes the back door's glazing a real decision rather than a default.",
+    "aspect": {
+      "applies": false,
+      "basis": "Whatever the garage leaves.",
+      "note": "Answered by the plan: the record says the mudroom is usually landlocked and its only glass is the back door.",
+      "judgment": true
+    },
     "glazing_fraction": [
       0.0,
       0.2
