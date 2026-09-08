@@ -34,6 +34,7 @@ import sys
 # local by-path loader re-executes the module on every call (OQ 28).
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import modcache
+import schema_validators
 ENGINE = modcache.load("proportion_engine",
                        os.path.join(os.path.dirname(os.path.abspath(__file__)), "proportion_engine.py"))
 
@@ -217,7 +218,7 @@ def rule_expr_vars(expr):
 
 # ---------------------------------------------------------------- main checks
 
-def check_pack(path, schema, slot_ids, style_ids, verbose=False):
+def check_pack(path, pack_validator, slot_ids, style_ids, verbose=False):
     global checked
     base = os.path.basename(path)[:-5]
     try:
@@ -227,10 +228,13 @@ def check_pack(path, schema, slot_ids, style_ids, verbose=False):
         return
     pid = pack.get("id", base)
 
-    # 1. schema
+    # 1. schema -- the validator is compiled once by main() and passed in, never rebuilt
+    # per pack (build/schema_validators.py).
     try:
-        import jsonschema
-        jsonschema.validate(pack, schema)
+        import jsonschema                                        # noqa: F401  (presence test)
+        if pack_validator is None:
+            raise ImportError("jsonschema")
+        schema_validators.raise_first(pack_validator, pack)
     except ImportError:
         warn(pid, "jsonschema not installed; schema validation skipped")
     except Exception as e:
@@ -475,7 +479,11 @@ def check_overlays(by_id):
 def main():
     verbose = "--verbose" in sys.argv or "-v" in sys.argv
 
-    schema = json.load(open(SCHEMA_PATH, encoding="utf-8"))
+    try:
+        import jsonschema                                        # noqa: F401  (presence test)
+        pack_validator = schema_validators.compiled(SCHEMA_PATH)
+    except ImportError:
+        pack_validator = None
 
     slot_ids = set()
     slots_path = os.path.join(ROOT, "elements", "slots.json")
@@ -496,7 +504,7 @@ def main():
     for p in packs:
         if verbose:
             print(f"  {os.path.relpath(p, ROOT)}")
-        check_pack(p, schema, slot_ids, style_ids, verbose)
+        check_pack(p, pack_validator, slot_ids, style_ids, verbose)
 
     check_overlays(by_id)
     check_projection_datum(by_id)

@@ -1,0 +1,7 @@
+{
+  "_": "Deliberately not a valid JSON Schema: `required` must be an array of strings.",
+  "_why": "tests/test_schema_validators.py asserts that compiled() still runs check_schema,",
+  "_why2": "which jsonschema.validate() does on every call and a compiled validator does once.",
+  "type": "object",
+  "required": "id"
+}
