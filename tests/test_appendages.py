@@ -18,6 +18,7 @@ placed door is the whole deliverable.
 import glob
 import hashlib
 import json
+import re
 import pathlib
 
 import pytest
@@ -447,8 +448,23 @@ def test_both_renderers_read_the_record_and_derive_nothing():
     # it, `derive_openings`/`doors` find no room for a door the record says is SEATED and report
     # it undrawable: the record and the sheet holding two answers about one door.
     dj = (ROOT / "workbench" / "app" / "src" / "sheet" / "derive.js").read_text()
-    assert "def derive_openings(rooms, W, H, tol=0.6, appendages=None):" in py
-    assert "export function doors(rooms, W, H, tol = 0.6, appendages = null) {" in dj
+    # WP-11.14 RE-CUT THESE TWO FROM WHOLE SIGNATURE STRINGS TO THE PROPERTY THEY MEAN. They
+    # pinned `"def derive_openings(rooms, W, H, tol=0.6, appendages=None):"` and its JS twin
+    # verbatim, so adding an argument AFTER `appendages` -- which is what WP-11.14 did, to teach
+    # the drawing about massing elements -- broke a guard that has nothing to do with elements.
+    # The property is that both take `appendages` at the same ORDINAL, which is what "the same
+    # argument position" in the comment above says. Third instance of a guard reading a literal
+    # rather than a property in two packages; the others are named in CLAUDE.md.
+    import inspect
+    RP = _mod("render_plan")
+    py_params = list(inspect.signature(RP.derive_openings).parameters)
+    assert py_params[:4] == ["rooms", "W", "H", "tol"] and py_params[4] == "appendages", (
+        f"derive_openings takes {py_params}; `appendages` must stay the fifth")
+    m = re.search(r"export function doors\(([^)]*)\)", dj)
+    assert m, "derive.js no longer exports doors()"
+    js_params = [q.split("=")[0].strip() for q in m.group(1).split(",")]
+    assert js_params[:4] == ["rooms", "W", "H", "tol"] and js_params[4] == "appendages", (
+        f"doors() takes {js_params}; the two renderers disagree about the argument order")
     assert "for (const a of appendages || []) if (!idx.has(a.id)) idx.set(a.id, a);" in dj
     assert "const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({" in js
     # Neither renderer may decide a face or a size: those are the record's. Scoped to the

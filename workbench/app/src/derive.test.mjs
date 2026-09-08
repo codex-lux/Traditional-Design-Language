@@ -221,3 +221,69 @@ test('a relaxation run that leaves the sheet is clipped, and one with nothing le
   assert.deepEqual(r.drawn.map((d) => d.runs), [[[0, 12]]]);
   assert.equal(r.unlocated.length, 1, 'a run wholly off the plate locates nothing');
 });
+
+/* WP-11.14 — an exterior opening is drawn on its own massing element's face, not the
+   footprint's. HAND-BUILT for the reason WP-11.10's block above states: no plan in the corpus
+   carries a `block` tag, so the frozen fixtures cannot exercise a second element, and
+   regenerating them re-solves the placement. `tests/test_exterior_faces.py` is the same two
+   rectangles on the Python side; if either renderer stops taking `bounds` the two disagree. */
+function twoElementRects() {
+  //  main block 0..40 x 0..42;  west dependency -30..-7 x 20..33
+  return [
+    { id: 'hall', type: 'entrance-hall', name: 'Hall', x: 0, y: 0, w: 40, h: 42,
+      windows: [{ wall: 'N', count: 1, width_ft: 3 }],
+      doors: [{ to: 'exterior', width_ft: 3, wall: 'S', position_ft: 20 }],
+      exterior_walls: ['S', 'N'], declared_width_ft: 40, declared_length_ft: 42 },
+    { id: 'kitchen', type: 'kitchen', name: 'Kitchen', x: -30, y: 20, w: 23, h: 13,
+      windows: [{ wall: 'N', count: 1, width_ft: 3 }],
+      doors: [{ to: 'exterior', width_ft: 3, wall: 'N', position_ft: -18.5 }],
+      exterior_walls: ['N'], declared_width_ft: 23, declared_length_ft: 13 },
+  ];
+}
+const TWO_EL_BOUNDS = { hall: [0, 0, 40, 42], kitchen: [-30, 20, 23, 13] };
+
+test('an exterior door is drawn on its own element face, not the footprint edge', () => {
+  const rects = twoElementRects();
+  const withB = doors(rects, 40, 42, 0.6, null, TWO_EL_BOUNDS);
+  const k = withB.exterior.find((e) => e.room === 'kitchen');
+  assert.ok(k, 'the kitchen door was not drawn at all');
+  assert.equal(k.edge_ft, 33, 'the kitchen element ends at y=33; its north door belongs there');
+  assert.equal(k.y, 33, 'the drawn coordinate must be the element face too');
+
+  // BEFORE WP-11.14 this was 42 -- the FOOTPRINT's north edge, 8.98 ft north of the room, in
+  // open space. The fallback with no element known is the ROOM's own face, not the
+  // footprint's, so this door is drawn correctly either way; what `bounds` buys is the
+  // element's face where a boundary room sits a tolerance inside it, and the window seating
+  // below. Asserting a difference here would be asserting one the code does not have.
+  const without = doors(rects, 40, 42, 0.6, null, null);
+  const k2 = without.exterior.find((e) => e.room === 'kitchen');
+  assert.equal(k2.y, 33, "the room's own face is the fallback, never the footprint's");
+  assert.notEqual(k2.y, 42, 'the footprint edge is the defect this package removed');
+});
+
+test('an exterior window is drawn on its own element face, and is not dropped', () => {
+  const rects = twoElementRects();
+  const drs = doors(rects, 40, 42, 0.6, null, TWO_EL_BOUNDS);
+  const wins = windows(rects, 40, 42, 0.6, drs.exterior, TWO_EL_BOUNDS);
+  const kw = wins.filter((w) => w.room === 'kitchen');
+  assert.equal(kw.length, 1, 'the kitchen window is on its own element face and must be drawn');
+  assert.equal(kw[0].edge_ft, 33);
+
+  // without bounds the same window is refused as off-footprint, silently
+  const drs2 = doors(rects, 40, 42, 0.6, null, null);
+  const wins2 = windows(rects, 40, 42, 0.6, drs2.exterior, null);
+  assert.equal(wins2.filter((w) => w.room === 'kitchen').length, 0);
+  assert.ok(wins2.offFootprint >= 1, 'and it is counted as refused rather than vanishing');
+});
+
+test('a room in no element takes its own face and never element zero\'s', () => {
+  const rects = twoElementRects();
+  // `kitchen` deliberately absent from the map: WP-11.9's rule is that a room in no element is
+  // UNJUDGED, never given the main block's box. Element zero's north face is 42 and the
+  // footprint's is 42; the room's own is 33, and 33 is the only honest answer.
+  const partial = { hall: [0, 0, 40, 42] };
+  const drs = doors(rects, 40, 42, 0.6, null, partial);
+  const k = drs.exterior.find((e) => e.room === 'kitchen');
+  assert.equal(k.edge_ft, 33, 'a room with no element of its own is drawn on its own face');
+  assert.notEqual(k.edge_ft, 42, "element zero's box is not a default for a room outside it");
+});

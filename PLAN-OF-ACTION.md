@@ -1849,6 +1849,49 @@ term — not stepped around.
   `oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms`. Report:
   `docs/reports/wp-11.13-the-box-that-could-not-hold-its-own-rooms.md`.
 
+- **WP-11.14 — the seventh layer. Status: COMPLETE (8 Sep 2026).** WP-11.9 taught six layers
+  below the placer about massing elements and **the DRAWING was not one of them**: both plan
+  renderers put every exterior opening at `0`/`W`/`H`, the FOOTPRINT's edges. Measured on the
+  hand-tagged Tidewater — **2 exterior doors drawn in open space** (by 12.00 and 8.98 ft, with
+  their sills and swings) and **5 windows standing on their own element's face dropped as
+  "off-footprint"**. `_boundary_wall` / `boundaryWall` take the room's own element box from
+  `elements.bounds_index`, the same reader `openings.py` has used since WP-11.9, so the placer
+  and the drawing answer "which of this room's walls are exterior" with ONE function; and every
+  exterior entry carries `edge_ft`, the coordinate ACROSS the wall, which had nowhere to live
+  because `at_ft` already means the perpendicular on an INTERIOR entry and the position ALONG
+  the wall on an exterior one. **Its fallback is the ROOM's own face and never the footprint's**,
+  which is why the package is the IDENTITY on a one-rectangle house: all sixteen shipped sheets
+  hash `4cfba3a0885ddccb` before and after, measured on a `git archive HEAD` checkout. Doors
+  **2 → 0**, windows drawn **7 → 11**, refusals **16 → 11** — and that 16 was **5 defects and 11
+  CORRECT refusals** (the placement put those rooms inland), a split published rather than a
+  total, because 16 would have been three times the true figure in the flattering direction.
+  **The obstacle WP-11.13 named was not one.** It refused this work because changing
+  `derive_openings`' output shape needs the frozen `sheet_symbols` `expected` rewritten and
+  regenerating re-solves on `auto` (825 insertions / 804 deletions on the pristine tree with no
+  code change). But `freeze()` re-solves only to obtain the ROOMS; `expected` is derived FROM
+  them and the rooms are already committed as contract INPUT. `generate.py --expected-only`
+  re-derives it with no solver — **verified as a byte-for-byte NO-OP against the pristine
+  renderer before it was used**, and it produced **39 insertions, 0 deletions** here. That is
+  available to every later package that changes a renderer's output shape.
+  **The frozen fixtures cannot hold a multi-element case** (no plan carries a `block` tag), so
+  `tests/test_exterior_faces.py` and `workbench/app/src/derive.test.mjs` assert the same three
+  numbers on the same two hand-built rectangles, on WP-11.10's precedent.
+  **Six mutations; five bit at once and the sixth was the one that mattered** — *the drawing
+  ignores `edge_ft`*, the line that put the doors in mid-air, passed every test in the file
+  because every assertion read the DERIVATION and none read the DRAWING (WP-11.10's finding, one
+  package later, in the same file). The replacement was blind too, stripping both keys at once
+  so the windows alone moved the plate; it strips one at a time now. **And the code was really
+  wrong in the way the mutation exposed**: `_frame` and `_door` each read the face separately,
+  so reverting either still moved the other — one opening has one face, computed once. The
+  **And a THIRD guard pinned a literal signature**:
+  `test_both_renderers_read_the_record_and_derive_nothing` asserted the whole `derive_openings`
+  signature verbatim, so adding an argument after `appendages` broke a guard about appendages
+  with a change about elements; its own comment already named the property ("in the same argument
+  position") and it reads the parameter ORDER now, mutation-checked by swapping the last two.
+  The question is HALF CLOSED: doors and windows are swept, the other exterior marks (the stoop,
+  the stacks, the elevation's) are not. Report:
+  `docs/reports/wp-11.14-the-seventh-layer.md`.
+
 ## 6. Parallelisation map
 
 ```

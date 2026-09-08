@@ -1,8 +1,8 @@
 # oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms — the seventh layer that reads one rectangle
 
-*Status: OPEN · Raised in: WP-11.13, the box that could not hold its own rooms (7 September 2026)*
+*Status: HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open · Raised in: WP-11.13, the box that could not hold its own rooms (7 September 2026)*
 
-**OPEN — both plan renderers draw an exterior door and its frame on the FOOTPRINT's wall rather
+**HALF CLOSED — both plan renderers drew an exterior door and its frame on the FOOTPRINT's wall rather
 than on the wall of the room's own massing element. On a one-rectangle house those are the same
 line and the whole corpus is unaffected; on a plan with a dependency the door is drawn in open
 space, feet clear of the room it belongs to. WP-11.9 taught six layers about massing elements
@@ -79,3 +79,45 @@ lesson WP-11.9 states in its own report.
 Until then: **a multi-element sheet draws its exterior doors in the wrong place, and nothing on
 the plate says so.** No plan in this corpus carries a `block` tag, so nothing shipped is
 affected, and `tests/test_elements.py`'s two corpus hashes hold that.
+
+
+---
+
+## Built in WP-11.14 (8 September 2026), and the obstacle was not one
+
+**Doors and windows are done.** `_boundary_wall` / `boundaryWall` take the room's own element
+box (`elements.bounds_index`, the reader `openings.py` has used since WP-11.9), and every
+exterior entry carries `edge_ft` — the coordinate ACROSS the wall — which both drawings read.
+Measured on the hand-tagged Tidewater: doors misplaced **2 → 0**, windows drawn **7 → 11**, and
+the 16 refusals resolve into the 5 that were the defect and the 11 that were correct.
+
+**Its fallback is the ROOM's own face, never the footprint's**, which is what makes the change
+the identity on a one-rectangle house: all sixteen shipped sheets hash `4cfba3a0885ddccb` before
+and after.
+
+### Item 1 — where the field goes: on the derived entry, not the plan record, for now
+
+The stronger form has `openings.place` write each opening's face at placement time, so both
+renderers read it and neither derives anything (WP-11.3's rule). That is a plan-schema change
+and a placer change; the two renderers are held to one answer by contract today, which is the
+standard this pair has had since WP-6.1. Recorded as the better end state rather than done.
+
+### Item 2 — the frozen fixture: answered, and it was never the blocker
+
+`freeze()` re-solves only to obtain the ROOMS; `expected` is derived from them, and the rooms
+are already committed as contract INPUT. So `expected` is a pure function of what is in the file
+and can be re-derived with no solver at all. `generate.py --expected-only` does that.
+
+Verified before it was used, which is the whole of why it can be trusted: against the PRISTINE
+renderer it is a byte-for-byte no-op on both fixtures. Against WP-11.14 it produced **39
+insertions and 0 deletions** — against the README's measured 825/804 for a full regeneration.
+
+**Any later package that changes a renderer's output shape now has this.**
+
+### Item 3 — is there an eighth? STILL OPEN, and that is why this is half closed
+
+`derive_openings` owns doors and windows and they are swept. **The other exterior marks were
+not examined**: the stoop and the chimney stacks (`build/threshold.py`, drawn outside the block),
+the relaxation triangles, and every mark `render_elevation.py` places against a wall. Each should
+be measured against the room's or the element's own face rather than assumed correct because one
+plan looked right — which is exactly how this defect survived from WP-11.9 to WP-11.13.

@@ -499,8 +499,14 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     _apx = {}
     for _a in ((plan.get("appendages") or {}).get("placed") or []):
         _apx.setdefault(_a.get("level", 0), {})[_a["room"]] = _a["rect"]
+    # WP-11.14: each level's rooms over their OWN massing elements -- `elements.bounds_index`,
+    # the same reader `openings.py` has used since WP-11.9. A room in no element is ABSENT from
+    # the map and `_boundary_wall` then falls back to the footprint, which is the answer a
+    # one-rectangle house wants and the one every shipped plan gets.
+    _EL = _mod("elements", f"{ROOT}/build/elements.py")
     level_openings = [derive_openings(lv["rooms"], W, H,
-                                      appendages=_apx.get(lv.get("index", i)))
+                                      appendages=_apx.get(lv.get("index", i)),
+                                      bounds=_EL.bounds_index(plan, lv["rooms"]))
                       for i, lv in enumerate(levels)]
     all_undrawable = [u for op in level_openings for u in op["undrawable"]]
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
@@ -914,7 +920,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # and the glazing on its centre line, which is what the two lines of a sash are.
         op = level_openings[i]
 
-        def _frame(wl, at, half_px, glazed):
+        def _frame(wl, at, half_px, glazed, edge=None):
             """The three lines that make an opening READ as an opening.
 
             The wall body already has a hole cut in it and the hole's own ends are the jamb
@@ -924,8 +930,11 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             line, which is the two lines of a sash. A door gets the first two and its leaf,
             because a door is an opening you pass through and a window is one you do not."""
             t = ext_ft * scale
+            # WP-11.14: `edge` is the room's OWN face, off the record. Falling back to the
+            # footprint's is what drew two of the tagged plan's exterior doors, with their
+            # sills and swings, in open space north of the building.
             if wl in ("S", "N"):
-                cx0 = X(at); y0 = Y(0 if wl == "S" else H)
+                cx0 = X(at); y0 = Y(edge if edge is not None else (0 if wl == "S" else H))
                 out = t if wl == "S" else -t          # outward from the block
                 s.append(f'<line class="dr" x1="{cx0-half_px:.1f}" y1="{y0:.1f}" '
                          f'x2="{cx0+half_px:.1f}" y2="{y0:.1f}"/>')
@@ -935,7 +944,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                     s.append(f'<line class="win" x1="{cx0-half_px:.1f}" y1="{y0+out/2:.1f}" '
                              f'x2="{cx0+half_px:.1f}" y2="{y0+out/2:.1f}"/>')
             else:
-                cy0 = Y(at); x0 = X(0 if wl == "W" else W)
+                cy0 = Y(at); x0 = X(edge if edge is not None else (0 if wl == "W" else W))
                 out = -t if wl == "W" else t
                 s.append(f'<line class="dr" x1="{x0:.1f}" y1="{cy0-half_px:.1f}" '
                          f'x2="{x0:.1f}" y2="{cy0+half_px:.1f}"/>')
@@ -946,7 +955,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                              f'x2="{x0+out/2:.1f}" y2="{cy0+half_px:.1f}"/>')
 
         for win in op["windows"]:
-            _frame(win["wall"], win["at_ft"], win["width_ft"] * scale / 2, True)
+            _frame(win["wall"], win["at_ft"], win["width_ft"] * scale / 2, True,
+                   win.get("edge_ft"))
 
         def _door(px, py, horiz, width, dtype, swing_positive):
             """One opening drawn as the KIND of opening it is. Until WP-6.1 `type` was read by
@@ -995,8 +1005,19 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         for d in op["exterior"]:
             wl, p_ = d["wall"], d["at_ft"]
             horiz = wl in ("S", "N")
-            _frame(wl, p_, d["width_ft"] * scale / 2, False)
-            px, py = (p_, 0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W, p_)
+            # WP-11.14: across the wall from the ROOM's own face, not the footprint's. `W` and
+            # `H` remain the fallback for a 0.3.0 record whose entry carries no `edge_ft`, and
+            # on a one-rectangle house the two coincide exactly.
+            #
+            # COMPUTED ONCE AND HANDED TO BOTH, which a mutation pass forced: the frame read
+            # `d["edge_ft"]` and the leaf read a local, so reverting either still moved the
+            # other and a test comparing two plates could not tell them apart. One opening has
+            # one face; two readers of it is how a leaf and its own sill come to disagree.
+            _e = d.get("edge_ft")
+            if _e is None:
+                _e = (0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W)
+            _frame(wl, p_, d["width_ft"] * scale / 2, False, _e)
+            px, py = (p_, _e) if horiz else (_e, p_)
             _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"))
 
         # ---------------------------------------------------------- the stair
@@ -1204,13 +1225,50 @@ def _shared(a, b, tol=0.4, need=None, width_ft=None):
     if hi - lo < need: return None
     return (((lo+hi)/2, at), True) if horiz else ((at, (lo+hi)/2), False)
 
-def _boundary_wall(g, wall, W, H, tol=0.6):
-    """The run of a room's edge that lies on the footprint boundary: (wall, lo, hi)."""
+def _edge_of(g, wall, box=None):
+    """Where an EXTERIOR opening in this room's `wall` is drawn across the wall. WP-11.14.
+
+    The element's own face where the room's element is known, and the room's face otherwise --
+    and that order is the point rather than a default. `render()` draws the exterior poché
+    OUTWARD from the element's edge, so an opening cut in that wall belongs on the element's
+    face; a room may sit up to `tol` inside it and still be a boundary room. On every shipped
+    plan the rooms tile the block exactly, so the two coincide and this is the identity.
+
+    The INTERIOR branch of `derive_openings` uses the room's own shared face, correctly, and
+    that asymmetry is why this is a named function: the two questions look identical and are
+    not, and a first version of this package answered them with one expression.
+    """
+    if box:
+        bx, by, bW, bH = box
+        return {"S": by, "N": by + bH, "W": bx, "E": bx + bW}[wall]
+    return {"S": g["y_ft"], "N": g["y_ft"] + g["depth_ft"],
+            "W": g["x_ft"], "E": g["x_ft"] + g["width_ft"]}[wall]
+
+
+def _boundary_wall(g, wall, W, H, tol=0.6, box=None):
+    """The run of a room's edge on its OWN element's boundary: (wall, lo, hi, edge_ft).
+
+    WP-11.14. `box` is `(x, y, W, H)` of the massing element the room stands in, from
+    `elements.bounds_index` -- the same reader `openings.py` has used since WP-11.9. Without
+    it this function asked whether the room touched the FOOTPRINT, which on a one-rectangle
+    house is the same question and on a dependency is a different one: a room at x = -30 with
+    the block at 0..40 satisfied `x <= tol` for reasons of sign rather than of geometry, and
+    matched nothing on its other three faces. Measured on a hand-tagged Tidewater, five
+    windows standing on their own element's face were dropped as off-footprint and drawn
+    nowhere at all.
+
+    `edge_ft` is the fourth return and it is what WP-11.13 found missing: the coordinate of
+    the face ITSELF, so the drawing does not have to re-derive it from a rectangle it no
+    longer has. `render()` drew every exterior opening at the footprint's edge -- two doors
+    of the tagged plan landed 12.00 and 8.98 ft north of the rooms they belong to, in open
+    space -- because the entry carried a position ALONG the wall and nothing across it.
+    """
     x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
-    if wall == "S" and y <= tol: return ("S", x, x + w)
-    if wall == "N" and y + h >= H - tol: return ("N", x, x + w)
-    if wall == "W" and x <= tol: return ("W", y, y + h)
-    if wall == "E" and x + w >= W - tol: return ("E", y, y + h)
+    bx, by, bW, bH = box if box else (0.0, 0.0, W, H)
+    if wall == "S" and y <= by + tol: return ("S", x, x + w, by)
+    if wall == "N" and y + h >= by + bH - tol: return ("N", x, x + w, by + bH)
+    if wall == "W" and x <= bx + tol: return ("W", y, y + h, bx)
+    if wall == "E" and x + w >= bx + bW - tol: return ("E", y, y + h, bx + bW)
     return None
 
 def _free_intervals(lo, hi, blocked):
@@ -1261,7 +1319,7 @@ def _placed_at(d, r, W, H):
     return wall, float(pos)
 
 
-def derive_openings(rooms, W, H, tol=0.6, appendages=None):
+def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
     """Every opening of one level, resolved to where it is drawn -- and every declared
     opening that CANNOT be drawn, with the reason. The second half is the point: a door
     with no drawable shared wall used to be `continue`d over in silence by this renderer
@@ -1318,6 +1376,13 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None):
                 used_walls.add(wall)
                 exterior.append({"room": r["id"], "wall": wall, "width_ft": width,
                                  "type": dtype, "at_ft": round(pos, 3),
+                                 # WP-11.14: the coordinate ACROSS the wall, from the room's own
+                                 # rectangle. `at_ft` on an exterior entry is the position ALONG
+                                 # the wall -- the same key means the perpendicular on an
+                                 # INTERIOR entry, which is why there was nowhere to put this
+                                 # and the drawing fell back to the footprint's edge.
+                                 "edge_ft": round(
+                                     _edge_of(a, wall, (bounds or {}).get(r["id"])), 3),
                                  "inferred_wall": False,
                                  "inferred_width": declared_w is None})
                 continue
@@ -1351,18 +1416,19 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None):
                 seat = None
                 for wl in (r.get("exterior_walls") or ["S", "N", "W", "E"]):
                     if wl in used_walls: continue
-                    seat = _boundary_wall(a, wl, W, H, tol)
+                    seat = _boundary_wall(a, wl, W, H, tol, (bounds or {}).get(r["id"]))
                     if seat: break
                 if not seat:
                     undrawable.append({"from": r["id"], "to": "exterior", "width_ft": width,
                         "type": dtype,
-                        "reason": "no declared exterior wall of this room is on the footprint boundary here"})
+                        "reason": "no declared exterior wall of this room is on its own "
+                                  "massing element's boundary here"})
                     continue
-                wl, lo, hi = seat
+                wl, lo, hi, edge = seat
                 used_walls.add(wl)
                 mid = (lo + hi) / 2
                 exterior.append({"room": r["id"], "wall": wl, "width_ft": width, "type": dtype,
-                                 "at_ft": mid, "inferred_wall": True,
+                                 "at_ft": mid, "edge_ft": round(edge, 3), "inferred_wall": True,
                                  "inferred_width": declared_w is None})
                 continue
             key = tuple(sorted((r["id"], to)))
@@ -1403,11 +1469,11 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None):
         for win in (r.get("windows") or []):
             n = win.get("count") or 1
             ww = win.get("width_ft") or 3
-            seat = _boundary_wall(a, win.get("wall"), W, H, tol)
+            seat = _boundary_wall(a, win.get("wall"), W, H, tol, (bounds or {}).get(r["id"]))
             if not seat:
                 off_footprint += n
                 continue
-            wl, lo, hi = seat
+            wl, lo, hi, edge = seat
             # the record carries one centreline per unit; read them, do not re-space them
             if win.get("positions_ft"):
                 pos = [float(p) for p in win["positions_ft"]]
@@ -1418,7 +1484,7 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None):
                 inferred_positions += len(pos)
             for p in pos:
                 windows.append({"room": r["id"], "wall": wl, "width_ft": ww,
-                                "at_ft": round(p, 3)})
+                                "at_ft": round(p, 3), "edge_ft": round(edge, 3)})
     return {"interior": interior, "exterior": exterior, "undrawable": undrawable,
             "windows": windows, "windows_off_footprint": off_footprint,
             "windows_crowded": crowded, "inferred_widths": inferred_widths,

@@ -179,8 +179,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,732 tests**
-(plus the workbench app suite, **82** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 26 MCP tools · **50 checks, 1,741 tests**
+(plus the workbench app suite, **85** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -337,7 +337,7 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
-**Phase 11 — the drawn sheet — is COMPLETE through WP-11.13 (7 Sep 2026).** The A line (the
+**Phase 11 — the drawn sheet — is COMPLETE through WP-11.14 (8 Sep 2026).** The A line (the
 drawing) is finished: WP-11.1 and WP-11.2 put the sheet in Graphic Standard No. 1 with the wall
 as a body, WP-11.3 the furniture, WP-11.4 the threshold and the stacks, WP-11.5 the embedded
 face. **The B line — the placement — is WP-11.6 through WP-11.9.** WP-11.6 is a record edit that
@@ -351,7 +351,8 @@ massing elements and closed
 `oq/the-proving-engine-cannot-place-a-second-massing-element`; **WP-11.12** gave the critic a span
 finding, which is OQ 98's reporting half; **WP-11.13** fixed the element box that could not hold
 its own rooms, closing `oq/the-coverage-floor-is-an-exact-cover-per-element` — and the tagged
-Tidewater is PROVED. Reports: `docs/reports/wp-11.{6,7,8,9,10,11,12,13}-*.md`. **This heading said WP-11.10 "is gated on
+Tidewater is PROVED; **WP-11.14** taught the DRAWING about massing elements, which is the seventh
+layer. Reports: `docs/reports/wp-11.{6,7,8,9,10,11,12,13,14}-*.md`. **This heading said WP-11.10 "is gated on
 `oq/the-proving-engine-cannot-place-a-second-massing-element`" and it was not** — that gate
 applied only to reading a terrace as a third massing ROLE, and the CP refusal keys on the room's
 `block` TAG, which an appendage does not write. The question is still open and still gates the
@@ -468,6 +469,68 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 `build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
+
+- **THE DRAWING WAS THE SEVENTH LAYER, AND IT TOOK FOUR PACKAGES TO FIND (WP-11.14).**
+  WP-11.9 taught six layers below the placer about massing elements; `render_plan.py` and
+  `derive.js` were not among them, and drew every exterior opening at `0`/`W`/`H` — the
+  FOOTPRINT's edges. On the hand-tagged Tidewater: **2 exterior doors drawn in open space** (by
+  12.00 and 8.98 ft) and **5 windows standing on their own element's face dropped as
+  "off-footprint"**. Fixed on both sides: `_boundary_wall` / `boundaryWall` take the room's own
+  element box from `elements.bounds_index` — **the same reader `openings.py` has used since
+  WP-11.9**, so the placer and the drawing answer "which of this room's walls are exterior" with
+  one function — and every exterior entry carries `edge_ft`, the coordinate ACROSS the wall.
+  Doors 2 → 0, windows drawn 7 → 11. **Found by rendering the sheet and looking at it**, which is
+  now seven packages running.
+- **`at_ft` MEANT TWO THINGS, WHICH IS WHY THERE WAS NOWHERE TO PUT THE ANSWER (WP-11.14).** On
+  an INTERIOR entry `at_ft` is the coordinate ACROSS the wall; on an EXTERIOR entry it is the
+  position ALONG it. One key, two meanings, in one returned structure — so the exterior entry had
+  no field for the perpendicular and the drawing fell back to the footprint. `edge_ft` is that
+  field. **Its fallback is the ROOM's own face and never the footprint's**, which is the whole
+  reason the fix is the IDENTITY on a one-rectangle house: all sixteen shipped sheets hash
+  `4cfba3a0885ddccb` across it. The interior branch three lines above had been right all along.
+- **THE 16 REFUSED WINDOWS WERE 5 DEFECTS AND 11 CORRECT REFUSALS, AND THE SPLIT IS THE
+  DELIVERABLE (WP-11.14).** `windows_off_footprint` counts a window whose room the placement put
+  inland, which is a real and wanted refusal. Publishing 16 as the defect would have been a
+  number three times its true size, in the flattering direction for the fix. Measure which
+  refusals stand on the room's OWN element face before calling any of them wrong.
+- **THE FROZEN FIXTURE WAS NEVER THE OBSTACLE, AND `--expected-only` IS THE TOOL (WP-11.14).**
+  WP-11.13 refused this work because changing `derive_openings`' output shape needs
+  `tests/fixtures/sheet_symbols/`'s `expected` rewritten, and regenerating re-solves on `auto` —
+  the README measures **825 insertions and 804 deletions on the pristine tree with no code change
+  at all**. But `freeze()` re-solves only to obtain the ROOMS; `expected` is derived FROM them
+  and the rooms are already committed as contract INPUT. `generate.py --expected-only` re-derives
+  `expected` with no solver: **verified as a byte-for-byte NO-OP against the pristine renderer
+  before it was used**, and it produced **39 insertions, 0 deletions** for this package. Any
+  later package changing a renderer's output shape has this now; do not reach for the full
+  regeneration.
+- **A MUTATION FOUND THE ONE GUARD THAT MATTERED MISSING, AND THEN FOUND THE REPLACEMENT BLIND
+  TOO (WP-11.14).** Six mutations; five bit at once. The sixth — *the drawing ignores `edge_ft`*,
+  the single line that put the doors in mid-air — passed every test in the file, because every
+  assertion read `derive_openings`' OUTPUT and none read the DRAWING. That is WP-11.10's finding
+  one package later in the same file. The replacement (render twice, once with `edge_ft`
+  stripped, require the plates to differ) **stripped `exterior` and `windows` at once**, so a
+  mutation to the door path alone still moved the plate via the windows: it strips ONE KEY AT A
+  TIME now. **And the code was really wrong in the way the mutation exposed** — `_frame` read
+  `d["edge_ft"]` while `_door` read a local, so reverting either still moved the other. One
+  opening has one face; computing the edge once and handing it to both is what makes the guard
+  able to fail.
+- **AND A THIRD GUARD PINNED A LITERAL SIGNATURE, IN TWO PACKAGES RUNNING (WP-11.14).**
+  `test_both_renderers_read_the_record_and_derive_nothing` asserted
+  `"def derive_openings(rooms, W, H, tol=0.6, appendages=None):"` verbatim and its JS twin the
+  same way, so adding an argument AFTER `appendages` broke a guard about appendages with a change
+  about massing elements. Its own comment already said the property -- *"in the same argument
+  position"* -- so it reads the PARAMETER ORDER now (`inspect.signature`, and a regex over the JS
+  parameter list), mutation-checked by swapping the last two. With WP-11.13's source grep for
+  `">= int(COVERAGE * _eW * _eH)"` that is two in two packages, and the failure modes differ:
+  a stale SELECTOR goes quietly blind and a pinned LITERAL fails loudly on an unrelated change.
+  The second wastes a reader's afternoon; the first lies. Neither is the property.
+- **THE FROZEN FIXTURES CANNOT HOLD A MULTI-ELEMENT CASE, AND BOTH SIDES SAY SO (WP-11.14).** No
+  plan in the corpus carries a `block` tag, so every fixture has one element and
+  `tests/fixtures/sheet_symbols/` can hold the two renderers to one answer only on the case where
+  the defect does not appear. `tests/test_exterior_faces.py` and
+  `workbench/app/src/derive.test.mjs` assert the same three numbers on the same two hand-built
+  rectangles instead, on WP-11.10's stated precedent. A guard that runs only where the bug cannot
+  occur is not a guard.
 
 - **AN EXTERIOR DOOR IS DRAWN ON THE FOOTPRINT'S WALL AND NOT ITS ROOM'S, AND THAT IS A SEVENTH
   LAYER (WP-11.13).** `render_plan.render()` has
@@ -2472,8 +2535,17 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
   run `build/gen_open_questions.py`. It holds **145 entries, of which 60 are open**
   (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
-  The tally counts the three HALF CLOSED entries (18, 68, 98) as open, because a half-closed
-  question is an open one. That list is DERIVED from the register by
+  The tally counts every HALF CLOSED entry as open, because a half-closed
+  question is an open one. **THIS SENTENCE SAID "the three HALF CLOSED entries (18, 68, 98)" AND
+  THERE ARE EIGHT** -- 18, 39, 68, 91, 92, 98,
+  `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` and
+  `oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms` (corrected WP-11.14, by
+  reading every status line rather than the sentence). It was wrong before this package and each
+  reader who half-closed a question added one to the truth and none to the count: a countable
+  claim about the register that `check_counts.py` does not police, because the register is not a
+  corpus figure. The COUNT of open questions was right throughout -- the derived-list test holds
+  that -- so nothing downstream was wrong; the enumeration beside it was decoration nobody
+  checked. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
   which reads `build/check_ids.py`'s own reader rather than re-parsing anything -- the
   status vocabulary is spelled in ONE place. It requires the ids to be a bare
@@ -2494,7 +2566,7 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   id an add/add conflict git REFUSES instead of a text conflict it merges by juxtaposition; the
   slug makes the id underivable from the working tree in the first place. The fifth collision --
   two different WP-8.1s and two different OQ 99s, 28 Aug -- landed between them.
-  The tally counts the three HALF CLOSED entries (18, 68, 98) as open, because a half-closed question
+  The tally counts every HALF CLOSED entry as open, because a half-closed question
   is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
   which reads `build/check_ids.py`'s own reader rather than re-parsing anything — the status

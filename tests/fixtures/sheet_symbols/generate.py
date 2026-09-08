@@ -53,10 +53,45 @@ def freeze(plan_id):
             "note": "frozen placement — see README.md; regenerate with generate.py",
             "levels": levels}
 
+def refresh_expected(pid):
+    """Re-derive `expected` from the ROOMS ALREADY COMMITTED. Never solves. WP-11.14.
+
+    `freeze()` above re-solves to obtain the rooms and only then derives `expected` from them
+    -- so on a machine where CP-SAT answers, regenerating rewrites the frozen placement.
+    The README measures that at 825 insertions and 804 deletions ON THE PRISTINE TREE WITH NO
+    CODE CHANGE, and tells the reader not to regenerate to keep the fixture current.
+
+    That warning made a renderer change to `derive_openings`' OUTPUT SHAPE look impossible to
+    land: the contract is an exact dict comparison, so adding a key needs `expected` rewritten,
+    and rewriting it meant absorbing eight hundred lines of solver noise. It does not. The
+    rooms are contract INPUT and are already in the file; `expected` is a pure function of them
+    and the footprint. Re-deriving it touches no solver, is deterministic, and produces a diff
+    that is exactly the renderer's change and nothing else.
+
+    Verified before this function was written: on the unchanged tree it is a NO-OP on both
+    fixtures, which is the property that makes it trustworthy.
+    """
+    out = HERE / f"{pid}.json"
+    fx = json.loads(out.read_text())
+    W, H = fx["footprint"]["width_ft"], fx["footprint"]["depth_ft"]
+    for lv in fx["levels"]:
+        lv["expected"] = render_plan.derive_openings(lv["rooms"], W, H)
+        lv["expected_divergence"] = [d["id"] for d in render_plan.declared_divergence(lv["rooms"])]
+    out.write_text(json.dumps(fx, indent=1, sort_keys=True) + "\n")
+    return fx
+
+
 def main():
+    # `--expected-only` re-derives the openings from the committed rooms and leaves the frozen
+    # placement alone; the bare command re-solves and rewrites everything, which is what the
+    # README warns about. The narrow mode is the one a renderer change wants.
+    expected_only = "--expected-only" in sys.argv
     for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
         out = HERE / f"{pid}.json"
-        out.write_text(json.dumps(freeze(pid), indent=1, sort_keys=True) + "\n")
+        if expected_only:
+            refresh_expected(pid)
+        else:
+            out.write_text(json.dumps(freeze(pid), indent=1, sort_keys=True) + "\n")
         d = json.loads(out.read_text())
         n_i = sum(len(l["expected"]["interior"]) for l in d["levels"])
         n_e = sum(len(l["expected"]["exterior"]) for l in d["levels"])

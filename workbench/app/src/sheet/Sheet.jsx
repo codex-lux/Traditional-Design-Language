@@ -310,9 +310,26 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // is seated comes back "the other room is not placed on this level".
   const appendages = ((placement?.appendages?.placed) || [])
     .filter((a) => (a.level ?? 0) === levelIndex);
+  // WP-11.14 — which massing element each room stands in, as [x, y, W, H]. The join is
+  // geometric containment, which is build/elements.py::element_of's own rule; a room in NO
+  // element is ABSENT from the map, never given the main block's box, because defaulting it
+  // there is the defect WP-11.9 exists to remove. With no `blocks` on the record the map is
+  // empty and every reader falls back to the footprint, which is every plan in the corpus.
+  const elBounds = {};
+  for (const b of (fp?.blocks || [])) {
+    for (const r of rooms) {
+      const inside = r.x >= b.x_ft - 0.01 && r.y >= b.y_ft - 0.01
+        && r.x + r.w <= b.x_ft + b.width_ft + 0.01
+        && r.y + r.h <= b.y_ft + b.depth_ft + 0.01;
+      if (inside && elBounds[r.id] === undefined) {
+        elBounds[r.id] = [b.x_ft, b.y_ft, b.width_ft, b.depth_ft];
+      }
+    }
+  }
   const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({
-    id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft })));
-  const wins = windows(rooms, W, H, 0.6, drs.exterior);
+    id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft })),
+    elBounds);
+  const wins = windows(rooms, W, H, 0.6, drs.exterior, elBounds);
   const diverged = divergence(rooms);
   const divergedIds = new Set(diverged.map((d) => d.id));
   const bays = bayLines(fp);
@@ -453,7 +470,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           return <rect key={'pv' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
             fill="var(--sepia)" opacity={0.04 + ((rank - 1) / 4) * 0.20} />;
         })}
-        {ov.daylight && rooms.map((r) => litWalls(r, W, H).map((wall) => {
+        {ov.daylight && rooms.map((r) => litWalls(r, W, H, 0.6, elBounds[r.id]).map((wall) => {
           // gated on the walls the placement actually lit — the overlay may never
           // claim daylight from a window the sheet does not draw
           const head = r.window_head_ft || 7;
