@@ -175,8 +175,7 @@ def export_ifc(plan, path, parti=None):
                        for lv in (plan.get("levels") or [])}
     for idx, (storey, st) in storeys.items():
         depth = (st.get("floor_structure_depth_in") or 10.0) / 12.0
-        here = [e for e in _els
-                if any(EL.element_of(plan, r, _els) is e for r in _rooms_by_level.get(idx, []))]
+        here = EL.elements_on_level(plan, _rooms_by_level.get(idx, []), _els)
         if not here:
             here = [_els[0]] if len(_els) == 1 else []
         for e in here:

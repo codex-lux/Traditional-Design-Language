@@ -1892,6 +1892,75 @@ term — not stepped around.
   the stacks, the elevation's) are not. Report:
   `docs/reports/wp-11.14-the-seventh-layer.md`.
 
+- **WP-11.15 — the phantom storey the disclosure invented. Status: COMPLETE (8 Sep 2026).**
+  Found while COSTING WP-11.16, by tagging the shipped record in a scratch copy and reading what
+  came out: `geometry._disclose_spans` published a **30 ft clear span on the upper floor of a
+  single-storey wing**, at x −37..−7 where that wing has no rooms. It built its element map as
+  `{idx: [every element] for idx in rooms_by_level}` — every level, every element — while
+  `spans_over_capacity` takes that map keyed by level *precisely* so this cannot happen and says
+  so in its own comment. WP-11.9 had established the rule three packages earlier and
+  `structure.build_section` and `export_ifc` both obeyed it: **four spellings, the one written
+  last was wrong.** `elements.elements_on_level` is the one spelling now and all three read it;
+  the search keeps its own map deliberately, being a different input shape (raw blocks, before a
+  record exists, keyed to level 0 because the placer reads a `block` tag on the ground alone).
+  **THE COUNT NEVER MOVED**: the phantom REPLACED a real 29.9 ft run rather than adding to one,
+  so `over_capacity` 4, `len(marks)` 4 and `worst_span_ft` 40.0 ft read identically either way —
+  a ratchet on the count could not have failed, and every guard here asserts WHERE a mark is.
+  It falsified WP-11.12's own promise that the marks are the spans `SPAN_W` charged:
+  `published == charged` measured **False**, `charged == per-level` **True**. **The shipped
+  corpus is BYTE-IDENTICAL** — 23 marks over 13 plans, digest `10c5577097b5ec0e`, measured on
+  the pristine tree and again after, and provably so because `len(_els) > 1` is false on all
+  sixteen. Guards are hand-built two-element records on WP-11.10's precedent, the dependency at
+  negative x on purpose; four mutations, each asserted to have landed, all four bite. No new
+  checker; `TOTAL_CHECKS` does not move.
+  **The full suite came back `1 of 50 checks failed` and the failure was NOT this package's**:
+  `test_shape_pins`'s band guard fails about one run in four on `engine="auto"`, measured at
+  **2 of 8 on the PRISTINE tree and 2 of 8 on the working tree**, alternating to control for
+  machine load. The discriminator is the solver status — it passes on `FEASIBLE — kept polish`
+  and fails on `OPTIMAL (hard-only)`, where a room is drawn 51% over its declared area and
+  outside its band while `downgraded_shape_pins` is EMPTY. Raised with the measurement as
+  `oq/a-held-shape-pin-is-not-held-on-the-hard-only-path` and deliberately not fixed here: every
+  plausible fix moves a placement, and this package's guarantee is that nothing shipped moves.
+  Report: `docs/reports/wp-11.15-the-phantom-storey-the-disclosure-invented.md`.
+
+### WP-11.16 — the record edit (NEXT, and it is a record edit only)
+
+**Tag `plans/tidewater-georgian-careful.json`.** WP-11.13 ruled this "a record edit and its own
+package" and WP-11.9's lesson is that a package which teaches a layer *and* moves a shipped
+placement has done two things. Everything below the placer now knows about massing elements
+(seven layers, WP-11.14) and the last false measurement is gone (WP-11.15), so what remains is
+the edit.
+
+**The tagging, established by WP-11.13's ladder and re-derived here:** `kitchen`, `pantry`,
+`breakfast`, `powder`, `cellarstair` → `block: "service"` (617 sf); `backhall` →
+`block: "service"`, `hyphen: true` (112 sf); **`butlers` stays in the BLOCK**, which
+`rooms/butlers-pantry.json` has said since OQ 59 — *"in a Tidewater plantation house … the
+pantry is in the block"* — and the redundant **direct `butlers↔kitchen` door is dropped on both
+sides**, its `must_adjoin kitchen` being satisfied `via` the back hall, which the plan already
+carries in full.
+
+**Measured while costing, and to be RE-DERIVED rather than quoted** (WP-11.13's own published
+"zero pins downgraded" did not reproduce): `engine="cp"` goes **FEASIBLE at the 40 s budget →
+OPTIMAL in 8.9 s**, objective 541.2 → 407.8, wall pins 9 → 7, shape pins **0 → 1** (the Centre
+Passage's own proportion band, which is the price). `engine="heuristic"`: fatal **8 → 7**,
+serious **65 → 54**, minor 83 → 82.
+
+**A PRECONDITION FOUND BY WP-11.15's AUDIT, and it will fail the suite on day one:**
+`geometry_cp._score` calls `_span_charge` with no `elements=`, so a CP placement computes
+`over_capacity` footprint-wide while `span_capacity.marks` is per element (3 against 4 on a
+two-element fixture; on the tagged Tidewater the CP charge invents a 30 ft span across the
+hyphen gap). `tests/test_span_findings.py` asserts `len(findings) == over_capacity`, so it goes
+RED the moment a tagged plan is CP-solved. Settle it first; it is a placement change, because
+the charge is in the prover's objective.
+
+**What that package must answer rather than absorb**, all three found while costing:
+one NEW fatal `unreachable: butlers`; a **severed entrance sequence** (`Entrance Portico joins
+no other room on the drawing`); and the main block shrinking to 40 × 42 ft at 4 bays, which is
+correct — the service programme left it — but moves every drawn room. It also fires
+`test_the_fixture_really_exercises_the_multi_element_branch`, deliberately, and touches the
+frozen `sheet_symbols` fixture, whose ROOMS change: `--expected-only` does NOT cover that case
+and the README's 825/804 full regeneration does apply. Cost it before starting.
+
 ## 6. Parallelisation map
 
 ```

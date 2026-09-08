@@ -526,16 +526,21 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # `structure.build_section` and `export_ifc` the same afternoon; the renderer is the third
     # place it lived and the only one no count would have caught. On a one-rectangle house every
     # room is in element zero and this is the single ring, as before.
+    # WP-11.15: this was a FIFTH spelling of the rule -- a hand-rolled containment test with
+    # its own 0.5 literal, written here because `blocks` is a list of tuples rather than
+    # element dicts. An audit found it live while the guard added that same day asserted no
+    # such copy existed, which is what a source-text selector is worth. It reads the one
+    # spelling now; `elements.TOL` is the tolerance, in one place, so this cannot drift from
+    # `element_of` again.
+    #
+    # `or blocks` is KEPT deliberately and is not the `or None` defect one file over: there,
+    # an empty list became the MAIN BLOCK and hid a span; here it becomes EVERY element, which
+    # draws a ring that may enclose nothing rather than silently dropping one that encloses
+    # rooms. Same choice, same direction, for the same reason.
     def _blocks_here(rooms):
         if len(blocks) < 2:
             return blocks
-        here = [b for b in blocks
-                if any((r.get("geometry") or {}) and
-                       r["geometry"]["x_ft"] >= b[0] - 0.5 and
-                       r["geometry"]["y_ft"] >= b[1] - 0.5 and
-                       r["geometry"]["x_ft"] + r["geometry"]["width_ft"] <= b[0] + b[2] + 0.5 and
-                       r["geometry"]["y_ft"] + r["geometry"]["depth_ft"] <= b[1] + b[3] + 0.5
-                       for r in rooms)]
+        here = [_EL.bounds_of(e) for e in _EL.elements_on_level(plan, rooms)]
         return here or blocks
     level_bands, all_stray = [], []
     for i, lv in enumerate(levels):

@@ -463,9 +463,8 @@ def build_section(plan, parti=None, geometry_result=None, engine="heuristic"):
         # exactly the kind this package removes, one level up. Caught by reading the counts per
         # level rather than in total. On a one-rectangle house every room is in element zero and
         # this is the single block, as before.
-        _here = [ELEMENTS.bounds_of(e) for e in _all_els
-                 if any(ELEMENTS.element_of(geometry_result, r, _all_els) is e
-                        for r in lv["rooms"])] or None
+        _here = [ELEMENTS.bounds_of(e) for e in
+                 ELEMENTS.elements_on_level(geometry_result, lv["rooms"], _all_els)] or None
         walls = wall_lines(lv["rooms"], W, H, elements=_here)
         bearing = bearing_lines(walls, bay_module_ft)
         spans = span_check(bearing, W, H, plan.get("style"), construction["floor"])

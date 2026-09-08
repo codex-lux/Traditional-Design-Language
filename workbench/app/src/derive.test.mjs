@@ -276,6 +276,49 @@ test('an exterior window is drawn on its own element face, and is not dropped', 
   assert.ok(wins2.offFootprint >= 1, 'and it is counted as refused rather than vanishing');
 });
 
+// A room SET BACK from its element's face, inside boundaryWall's 0.6 ft tolerance. The fixture
+// above cannot tell the two branches of `edgeOf` apart -- the kitchen fills its element exactly,
+// so element face and room face are both 33 and DELETING the element-box branch leaves every
+// assertion green (an audit proved it: 17 of 17 passed). The comment on the door test above
+// already named this gap -- "what `bounds` buys is the element's face where a boundary room sits
+// a tolerance inside it" -- and did not test it. This does.
+function setbackRects() {
+  return [
+    // `windows: []` because `levelRooms` normalises it to an array before `windows()` is ever
+    // called (`p.windows || r.windows || []`); a hand-built rect must honour that contract.
+    { id: 'hall', type: 'entrance-hall', name: 'Hall', x: 0, y: 0, w: 40, h: 42,
+      windows: [], doors: [{ to: 'exterior', width_ft: 3, wall: 'S', position_ft: 20 }],
+      exterior_walls: ['S'], declared_width_ft: 40, declared_length_ft: 42 },
+    { id: 'scullery', type: 'kitchen', name: 'Scullery', x: -30, y: 20.4, w: 23, h: 12.2,
+      windows: [{ wall: 'N', count: 1, width_ft: 3 }],
+      doors: [{ to: 'exterior', width_ft: 3, wall: 'N', position_ft: -18.5 }],
+      exterior_walls: ['N'], declared_width_ft: 23, declared_length_ft: 12.2 },
+  ];
+}
+const SETBACK_BOUNDS = { hall: [0, 0, 40, 42], scullery: [-30, 20, 23, 13] };
+
+test('the element-box branch decides the face, and it is not the room\'s own', () => {
+  const rects = setbackRects();
+  const withB = doors(rects, 40, 42, 0.6, null, SETBACK_BOUNDS);
+  const without = doors(rects, 40, 42, 0.6, null, null);
+  const a = withB.exterior.find((e) => e.room === 'scullery');
+  const b = without.exterior.find((e) => e.room === 'scullery');
+  assert.equal(a.edge_ft, 33, "with its element known, the door sits on the ELEMENT's face");
+  assert.equal(b.edge_ft, 32.6, 'with no element known, it falls back to the ROOM\'s own face');
+  assert.notEqual(a.edge_ft, b.edge_ft,
+    'the two branches must be distinguishable here, or neither is guarded');
+
+  // and the window is RECOVERED rather than moved: 32.6 is nowhere near the footprint's 42, so
+  // without the element that wall is not a boundary at all and the window is refused.
+  const aw = windows(rects, 40, 42, 0.6, withB.exterior, SETBACK_BOUNDS)
+    .filter((w) => w.room === 'scullery');
+  const bw = windows(rects, 40, 42, 0.6, without.exterior, null)
+    .filter((w) => w.room === 'scullery');
+  assert.equal(aw.length, 1, 'with its element known the window is placed on the element face');
+  assert.equal(aw[0].edge_ft, 33);
+  assert.equal(bw.length, 0, 'without it the window is refused -- the defect WP-11.14 removed');
+});
+
 test('a room in no element takes its own face and never element zero\'s', () => {
   const rects = twoElementRects();
   // `kitchen` deliberately absent from the map: WP-11.9's rule is that a room in no element is

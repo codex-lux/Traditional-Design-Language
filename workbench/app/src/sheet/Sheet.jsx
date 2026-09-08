@@ -315,12 +315,21 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // element is ABSENT from the map, never given the main block's box, because defaulting it
   // there is the defect WP-11.9 exists to remove. With no `blocks` on the record the map is
   // empty and every reader falls back to the footprint, which is every plan in the corpus.
+  // EL_TOL IS 0.5 AND IT IS build/elements.py::TOL, NOT A TASTE. The first version of this
+  // block wrote 0.01 under a comment claiming it was `element_of`'s own rule -- fifty times
+  // tighter than the rule it named. An audit measured the band: a room 0.01 to 0.50 ft outside
+  // its block is IN its element for render_plan.py and in NO element here, so the two
+  // renderers answer "which of this room's walls are exterior" differently -- the exact thing
+  // WP-11.14 exists to make them answer with one function. `_absorb` is documented to grow a
+  // room past its element, so the band is reachable rather than theoretical, and the frozen
+  // sheet_symbols contract cannot catch it because no shipped plan carries a `block` tag.
+  const EL_TOL = 0.5;
   const elBounds = {};
   for (const b of (fp?.blocks || [])) {
     for (const r of rooms) {
-      const inside = r.x >= b.x_ft - 0.01 && r.y >= b.y_ft - 0.01
-        && r.x + r.w <= b.x_ft + b.width_ft + 0.01
-        && r.y + r.h <= b.y_ft + b.depth_ft + 0.01;
+      const inside = r.x >= b.x_ft - EL_TOL && r.y >= b.y_ft - EL_TOL
+        && r.x + r.w <= b.x_ft + b.width_ft + EL_TOL
+        && r.y + r.h <= b.y_ft + b.depth_ft + EL_TOL;
       if (inside && elBounds[r.id] === undefined) {
         elBounds[r.id] = [b.x_ft, b.y_ft, b.width_ft, b.depth_ft];
       }

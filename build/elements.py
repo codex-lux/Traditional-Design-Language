@@ -236,6 +236,45 @@ def bounds_index(plan, level_rooms):
     return out
 
 
+def elements_on_level(plan, level_rooms, els=None):
+    """The massing elements that have rooms on THIS level, in the order of the `els` ARGUMENT.
+
+    (That is `elements()` order at every call site today, because every caller either passes
+    `elements(plan)` or lets this compute it -- but the contract is the argument's order, and
+    `export_ifc` passes a synthesised single-element list when `elements()` is empty.)
+
+    AN ELEMENT WITH NO ROOMS ON A LEVEL HAS NO WALLS ON THAT LEVEL. That sentence is WP-11.9's
+    ruling 1 read one level up, and it had been spelled three times and written wrongly a
+    fourth. `structure.build_section` and `export_ifc` each carried their own copy of this
+    comprehension -- correctly -- while `geometry._disclose_spans`, written three packages
+    later, handed EVERY level EVERY element. On a house with a ground-floor dependency that
+    gave the upper storey a dependency envelope with nothing inside it, and
+    `structure.span_check` duly manufactured a clear span across it: a 30 ft joist run
+    reported over a wing that has no second storey.
+
+    It is here, and not in each caller, because the three readers agreeing by coincidence is
+    what this repository keeps paying for -- REF_RE/CITE_RE/parseCite, and the two `wall_lines`
+    that `over_capacity_spans` refuses to make three.
+
+    A room whose element cannot be decided (`element_of` returns None -- unplaced, no
+    footprint, or a rectangle straddling two elements) votes for NO element rather than for
+    the main block. Defaulting it into element zero is the defect, not the fallback.
+
+    THE WHOLE-LEVEL CONSEQUENCE IS THE CALLER'S, AND IT IS NOT THE SAME QUESTION. This can
+    return an EMPTY LIST -- every room on the level unresolvable, which `_absorb` can produce
+    by growing a room 0.51 ft past its own element against a `TOL` of 0.5. An empty result
+    means the level's element set is UNJUDGED; it does not mean the level is one rectangle.
+    A caller that turns it into `None` hands `structure.wall_lines` its
+    `elements or [(0, 0, W, H)]` default -- the main block -- and a dependency's own
+    over-capacity span disappears from the record. `geometry._disclose_spans` charges every
+    element and states `element_membership_unresolved` instead; see the comment there for why
+    over-reporting is the only safe direction.
+    """
+    els = els if els is not None else elements(plan)
+    return [e for e in els
+            if any(element_of(plan, r, els) is e for r in (level_rooms or []))]
+
+
 def union_measure(intervals):
     """Total length of a union of closed intervals — the 'gap excluded' of ruling 2.
 

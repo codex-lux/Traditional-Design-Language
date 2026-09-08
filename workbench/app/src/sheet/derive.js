@@ -184,6 +184,14 @@ function boundaryWall(r, wall, W, H, tol, box) {
    face where the element is known, the room's otherwise. The twin of _edge_of in
    build/render_plan.py, and the same ordering for the same reason -- the exterior wall is
    drawn outward from the element's edge, and a boundary room may sit a tolerance inside it. */
+// ROUNDED TO 3 dp, BECAUSE THE PYTHON SPELLING IS. `render_plan.py` writes every `edge_ft`
+// through `round(edge, 3)` and this file wrote the raw float, so a room set back a non-binary
+// fraction from its element face gave 32.6 in one renderer and 32.599999999999994 in the other
+// -- two answers to the question WP-11.14 exists to make them answer once. Found by a guard
+// written for a different gap, in the audit of that package. On every shipped plan the edge is
+// 0/W/H exactly and this is the identity.
+function edge3(v) { return Math.round(v * 1000) / 1000; }
+
 function edgeOf(r, wall, box) {
   if (box) {
     const [bx, by, bW, bH] = box;
@@ -295,7 +303,7 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const edge = edgeOf(r, seat.wall, (bounds || {})[r.id]);
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: false,
-          inferredWidth: declaredW == null, edge_ft: edge,
+          inferredWidth: declaredW == null, edge_ft: edge3(edge),
           span: [seat.pos - width / 2, seat.pos + width / 2],
           x: seat.wall === 'W' || seat.wall === 'E' ? edge : seat.pos,
           y: seat.wall === 'S' || seat.wall === 'N' ? edge : seat.pos,
@@ -348,7 +356,7 @@ export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null) 
         const mid = (seat.lo + seat.hi) / 2;
         exterior.push({
           wall: seat.wall, w: width, type, room: r.id, inferredWall: true,
-          inferredWidth: declaredW == null, edge_ft: seat.at,
+          inferredWidth: declaredW == null, edge_ft: edge3(seat.at),
           span: [mid - width / 2, mid + width / 2],
           x: seat.wall === 'W' || seat.wall === 'E' ? seat.at : mid,
           y: seat.wall === 'S' || seat.wall === 'N' ? seat.at : mid,
@@ -423,7 +431,7 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
         out.push({
           // WP-11.14: `seat.at` is the room's own element's face. It was already being
           // returned and both callers here threw it away for `0`/`W`/`H`.
-          wall: seat.wall, w: wallW, room: r.id, edge_ft: seat.at,
+          wall: seat.wall, w: wallW, room: r.id, edge_ft: edge3(seat.at),
           x: seat.wall === 'W' || seat.wall === 'E' ? seat.at : p,
           y: seat.wall === 'S' || seat.wall === 'N' ? seat.at : p,
         });

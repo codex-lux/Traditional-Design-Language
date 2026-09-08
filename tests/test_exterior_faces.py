@@ -28,6 +28,7 @@ The corpus is BYTE-IDENTICAL across the package: all sixteen shipped sheets hash
 face IS the footprint edge.
 """
 import glob
+import inspect
 import json
 import pathlib
 
@@ -92,6 +93,60 @@ def test_the_fallback_is_the_rooms_own_face_and_never_the_footprints():
     assert k["edge_ft"] != 42.0
 
 
+def _setback_rooms():
+    """A room SET BACK from its element's own face, inside `_boundary_wall`'s 0.6 ft tolerance.
+
+    The fixture above cannot tell the two branches of `_edge_of` apart: the kitchen fills DEP
+    exactly, so the element's north face and the room's north face are both 33.0 and deleting
+    the element-box branch entirely leaves every assertion green. An audit proved that by
+    deleting it -- 9 of 9 passed. A guard that runs only where the two answers coincide is not
+    a guard for the branch that chooses between them.
+
+    Here the scullery stands at y 20.4..32.6 inside an element ending at 33.0. It is still ON
+    the boundary (0.4 < 0.6), so an opening is placed; but the ELEMENT's face is 33.0 and the
+    ROOM's is 32.6, and only the element's is right -- the wall the window is cut through is
+    the element's envelope, not the room's inner face.
+    """
+    return [
+        {"id": "hall", "type": "entrance-hall", "width_ft": 40, "length_ft": 42,
+         "exterior_walls": ["S"],
+         "doors": [{"to": "exterior", "width_ft": 3, "wall": "S", "position_ft": 20}],
+         "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 40.0, "depth_ft": 42.0}},
+        {"id": "scullery", "type": "kitchen", "width_ft": 23, "length_ft": 12.2,
+         "exterior_walls": ["N"],
+         "windows": [{"wall": "N", "count": 1, "width_ft": 3}],
+         "doors": [{"to": "exterior", "width_ft": 3, "wall": "N", "position_ft": -18.5}],
+         "geometry": {"x_ft": -30.0, "y_ft": 20.4, "width_ft": 23.0, "depth_ft": 12.2}},
+    ]
+
+
+def test_the_element_box_branch_is_the_one_that_decides_and_is_not_the_rooms_face():
+    """THE BRANCH THE OTHER TESTS CANNOT SEE. With the element known the answer is the
+    ELEMENT's face; with it unknown, the room's own. Here those are 33.0 and 32.6, so deleting
+    the `box` branch of `_edge_of` changes this assertion and cannot pass either way."""
+    rooms = _setback_rooms()
+    with_box = RP.derive_openings(rooms, 40.0, 42.0, bounds={"hall": MAIN, "scullery": DEP})
+    without = RP.derive_openings(rooms, 40.0, 42.0, bounds=None)
+    a = next(e for e in with_box["exterior"] if e["room"] == "scullery")
+    b = next(e for e in without["exterior"] if e["room"] == "scullery")
+    assert a["edge_ft"] == 33.0, "with its element known, the door sits on the ELEMENT's face"
+    assert b["edge_ft"] == 32.6, "with no element known, it falls back to the ROOM's own face"
+    assert a["edge_ft"] != b["edge_ft"], (
+        "the two branches must be distinguishable on this fixture, or neither is guarded")
+    # AND THE WINDOW IS NOT MERELY MOVED, IT IS RECOVERED. Without the element the room's north
+    # edge is nowhere near the FOOTPRINT's (32.6 against 42.0), so the wall is not a boundary at
+    # all and the window is refused outright -- which is WP-11.14's "five authored windows
+    # recovered from 'the placement puts this room on no such boundary wall'", reproduced on two
+    # rectangles. Asserting a moved window here would assert an effect this code does not have.
+    aw = [w for w in with_box["windows"] if w["room"] == "scullery"]
+    bw = [w for w in without["windows"] if w["room"] == "scullery"]
+    assert len(aw) == 1 and aw[0]["edge_ft"] == 33.0, (
+        "with its element known the window is placed on the element's own face")
+    assert bw == [], (
+        "without the element the wall is not a boundary of the footprint, so the window is "
+        "refused -- the defect WP-11.14 removed")
+
+
 def test_a_room_in_no_element_is_not_given_element_zeros_box():
     """WP-11.9's rule. Element zero's north face is 42 and so is the footprint's; the room's
     own is 33, and 33 is the only honest answer for a room the map does not place."""
@@ -125,15 +180,30 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
     """`tests/fixtures/sheet_symbols/` cannot hold this pair to one answer -- no plan in the
     corpus carries a `block` tag, so the frozen fixtures have one element. The contract for
     this case is that both files take the argument, and both hand-built suites assert the same
-    three numbers on the same two rectangles."""
+    three numbers on the same two rectangles.
+
+    IT READS THE PARAMETER ORDER, NOT THE SIGNATURE TEXT. The first version pinned three whole
+    `function` lines verbatim, so renaming a local `box` to `elBox` -- which leaves the code
+    correct, and the JS suite green -- broke it. That is the literal-pin antipattern this very
+    package removed from `tests/test_appendages.py`, reintroduced three times over in the file
+    that removed it. The property is that `bounds` is LAST and `box` is LAST, in both spellings.
+    """
+    import re
     js = (ROOT / "workbench" / "app" / "src" / "sheet" / "derive.js").read_text()
-    assert "export function doors(rooms, W, H, tol = 0.6, appendages = null, bounds = null)" in js
-    assert "export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null)" in js
-    assert "function boundaryWall(r, wall, W, H, tol, box)" in js
+
+    def params(name):
+        m = re.search(r"function\s+" + name + r"\s*\(([^)]*)\)", js)
+        assert m, f"{name} is gone from derive.js"
+        return [p.split("=")[0].strip() for p in m.group(1).split(",") if p.strip()]
+
+    assert params("doors")[-1] == "bounds", "doors must take bounds last, as Python does"
+    assert params("windows")[-1] == "bounds", "windows must take bounds last, as Python does"
+    assert len(params("boundaryWall")) == 6, "boundaryWall must take the element box"
+    py = list(inspect.signature(RP.derive_openings).parameters)
+    assert py[-1] == "bounds", (
+        f"derive_openings takes {py[-1]} last; the two spellings must agree on position")
     jt = (ROOT / "workbench" / "app" / "src" / "derive.test.mjs").read_text()
     assert "twoElementRects" in jt, "the JS twin of this file's fixture is gone"
-    for n in ("33", "42"):
-        assert n in jt
 
 
 # --------------------------------------------------------------- the guarantee

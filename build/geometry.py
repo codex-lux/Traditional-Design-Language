@@ -2444,8 +2444,77 @@ def _disclose_spans(plan):
         if rs:
             rooms_by_level[idx] = rs
     _els = _elements().elements(plan)
-    els = ({idx: [(e["x"], e["y"], e["W"], e["H"]) for e in _els]
-            for idx in rooms_by_level} if len(_els) > 1 else None)
+    # PER LEVEL, and the first version of this line was not: it handed every level every
+    # element, so a house with a ground-floor dependency was published with a clear span across
+    # that dependency ON THE UPPER STOREY, where it has no rooms at all. `spans_over_capacity`
+    # takes this map keyed by level precisely so that cannot happen, and says so in its own
+    # comment; this call site did the one thing that comment forbids.
+    #
+    # THE COUNT DID NOT MOVE WHEN IT WAS WRONG, WHICH IS WHY NOTHING CAUGHT IT. On the tagged
+    # Tidewater the phantom level-1 span REPLACED a real one (a 30 ft run at -37..-7 for a
+    # 29.9 ft run at 0..29.9), so `over_capacity`, `len(marks)` and `worst_span_ft` all read
+    # exactly the same either way. Only the CONTENTS differ, and the contents are what
+    # `plan_check` names, what the critique classes and what the plate prints.
+    #
+    # These marks are the spans `SPAN_W` CHARGED **ON THE SEARCH PATH**, and that qualifier is
+    # not hedging: `geometry_cp._score` calls `_span_charge` with NO `elements=` at all, so on a
+    # CP placement `over_capacity` and `charge` are computed with the whole footprint as one
+    # rectangle while these marks are per element. On a one-rectangle house the two coincide and
+    # every shipped plan is one; on a multi-element record they do not, and `plan_check` emits
+    # one finding per mark while publishing CP's count beside it -- two numbers about one record.
+    # An audit measured 3 against 4 on a two-element fixture. NOT fixed here: passing `elements`
+    # into the CP charge changes the prover's objective on multi-element plans, which is a
+    # placement change and belongs to the package that authors the first such plan. WP-11.16
+    # must settle it before it tags a record; `tests/test_span_findings.py` asserts
+    # `len(findings) == over_capacity` and goes red the moment a tagged plan is CP-solved.
+    #
+    # The search builds its own map for level 0 alone because the placer reads a `block` tag on
+    # the ground level only. Filtering by which elements actually hold rooms reproduces that
+    # exactly, and keeps doing so if the placer ever reads an upper tag.
+    #
+    # AND THE EMPTY CASE IS NOT `None`, WHICH THE FIRST VERSION OF THIS FIX GOT WRONG. An
+    # audit measured it: with `or None`, a level on which EVERY room fails `element_of` handed
+    # `spans_over_capacity` a `None`, `structure.wall_lines` then took its `elements or
+    # [(0, 0, W, H)]` default -- the MAIN BLOCK -- and a dependency's own 30 ft over-capacity
+    # span VANISHED from the record. Reachable at 0.51 ft of overshoot, because `elements.TOL`
+    # is 0.5 and `_absorb` is documented to grow a room past its element. That is a real defect
+    # reported clear, in the flattering direction, inside the package whose whole subject is a
+    # false measurement -- and the code this replaced got it right by accident, because it
+    # never produced an empty list at all.
+    #
+    # So an element set that cannot be determined falls back to EVERY element and says so. That
+    # over-reports (the phantom span comes back for that level) and never under-reports, which
+    # is the only safe direction: a false positive is visible on the plate and in the findings,
+    # a false negative is invisible everywhere. `unresolved` is on the record so it is not
+    # merely a comment.
+    els = None
+    if len(_els) > 1:
+        els, _unresolved = {}, []
+        _all_bounds = [_elements().bounds_of(e) for e in _els]
+        for idx, rs in rooms_by_level.items():
+            here = [_elements().bounds_of(e)
+                    for e in _elements().elements_on_level(plan, rs, _els)]
+            # ANY UNRESOLVED ROOM, NOT MERELY ALL OF THEM. The first version of this fallback
+            # tested `if not here`, which is the case where EVERY room on the level fails
+            # `element_of` -- and an audit found the realistic case is that SOME do. One stray
+            # room is enough to take the last room out of an element, and the element then
+            # vanishes from the level with a full list still returned, so the empty test never
+            # fires: measured on this package's own fixture, nudging two wing rooms 1.0 ft west
+            # lost BOTH of the wing's over-capacity spans and set no flag. A membership that is
+            # partly unknown is not a membership that is known.
+            _stray = [r for r in rs
+                      if r.get("geometry") and _elements().element_of(plan, r, _els) is None]
+            if _stray or not here:
+                _unresolved.append(idx)
+                here = _all_bounds
+            els[idx] = here
+        if _unresolved:
+            row["element_membership_unresolved"] = {
+                "levels": sorted(_unresolved),
+                "note": ("A placed room on these levels could not be resolved to a massing "
+                         "element, so which elements stand on them is UNJUDGED. Every element "
+                         "is charged rather than a subset, because a span reported that does "
+                         "not exist is visible and a span not reported is not.")}
     marks = spans_over_capacity(rooms_by_level, W, H, fp.get("bay_module_ft") or 10.0,
                                 plan.get("style"), floor, elements=els)
     row["marks"] = marks
