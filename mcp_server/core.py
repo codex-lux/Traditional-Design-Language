@@ -1629,7 +1629,10 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     # against another one, and a record that cannot be re-derived is worth less than the seconds
     # it saves. (The ruling was made against the WP-2.3 solver that did not survive the 25 Aug
     # merge; it is about determinism, not about which engine, so it carries over unchanged.)
-    out = geo.solve(copy_json(plan), pt, candidates, engine=engine)
+    # WP-11.8: the INTERACTIVE budget by name -- this is served to a caller who is waiting,
+    # so it does not take the batch default `solve()` carries for check_all and the CLI.
+    out = geo.solve(copy_json(plan), pt, candidates, engine=engine,
+                    time_limit_s=geo.BUDGET_INTERACTIVE_S)
     if "error" in out: return out
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
@@ -1660,9 +1663,20 @@ def placement_summary(out):
             "rooms": [{"level": lv.get("index"), "id": r["id"], "name": r.get("name"),
                        "geometry": r.get("geometry"),
                        "doors": r.get("doors"), "windows": r.get("windows"),
-                       "fixture_layout": r.get("fixture_layout")}
+                       "fixture_layout": r.get("fixture_layout"),
+                       # WP-11.3: and the furniture, for the reason the comment above gives for
+                       # the fixtures -- it is a placement fact and there is nowhere else for a
+                       # reader to get it. Omitted, the browser sheet drew none of it while the
+                       # Python sheet drew all of it, from one record.
+                       "furniture_layout": r.get("furniture_layout")}
                       for lv in out["levels"] for r in lv["rooms"] if r.get("geometry")],
             "stair": out.get("stair"),
+            # WP-11.4: the stoop and the gable-end stacks, plan-level placement facts on the
+            # same argument as the stair. Omitted, the browser sheet would have drawn neither
+            # while the Python sheet drew both -- the exact defect WP-11.3 found here for the
+            # furniture, one package earlier, in this same return.
+            "threshold": out.get("threshold"),
+            "hearths": out.get("hearths"),
             "opening_report": out.get("opening_report"),
             "svg": out.get("svg"),
             "note": ("Coordinates are in feet with the origin at the south-west corner, x east and y north. "
@@ -1670,7 +1684,13 @@ def placement_summary(out):
                      "record's declared facts cannot all hold and this placement is the labelled least-bad "
                      "relaxation (WP-2.3). Then read geometry_report.relaxations: each cut taken off the bay "
                      "line is a joist run that does not land on a bearing wall and a window bay that will not "
-                     "centre. geometry_report.solver names which engine placed this and why.")}
+                     "centre. geometry_report.solver names which engine placed this and why. "
+                     "geometry_report.stacking sorts every declared `stacks_over` claim into "
+                     "kept, broken and UNJUDGED-with-a-reason, and the three add up to the "
+                     "number of claims the record makes — a claim nobody could judge is not a "
+                     "claim that landed (WP-11.6). geometry_report.multi_level, when present, "
+                     "says the record declares a storey neither engine places, so every room on "
+                     "it has no geometry here at all.")}
 
 def copy_json(o): return json.loads(json.dumps(o))
 

@@ -1,0 +1,107 @@
+{
+  "id": "furniture-grammar",
+  "version": "0.1.0",
+  "name": "The furniture grammar",
+  "kind": "editorial",
+  "judgment": true,
+  "description": "Where a room's furniture goes, once the placement has put the doors, the windows, the stair and the wet fixtures. It never says how big a room is: OQ 92 was ruled on 27 August 2026 and docs/model.md carries the direction of authority in Lucas's own words -- 'room sizing should not be furniture driven - that's the tail wagging the dog - however furniture arrangements that suit the program / room name and room size should be placed accordingly'.",
+  "note": "EDITORIAL THROUGHOUT, AND NO SOURCE IS RECORDED (the OQ 18 form). Nothing here was taken from a secondary work and nothing was measured. Every rule declares a GRADE saying how much of it is the corpus's and how much is ours, because that distinction is the whole difference between reading a record and inventing one: a `reading` takes both the rule and its figure from a sentence in the record it quotes; an `editorial-from-prose` takes the rule from a sentence and supplies the figure itself; an `editorial` has no sentence at all and says so. build/check_furniture.py verifies every quoted sentence against the record it names, under the key path it names, using build/check_openings.py's own check_basis -- the same machinery, called rather than copied.",
+  "grades": {
+    "reading": "The record states the rule AND the figure. The number is in the sentence.",
+    "editorial-from-prose": "The record states the rule in words and gives no figure. The rule is the corpus's and the number is ours.",
+    "editorial": "No sentence in the corpus states this. It is ours entirely, and it is named so that a reader can disagree with it."
+  },
+  "resolution": {
+    "order": ["item rule", "placement default", "refusal"],
+    "note": "First match wins. A `placement` value always resolves to a rule, so no item is ever seated from nothing; an item whose kind is not `object` resolves to a refusal rule that says why it was not drawn, which is a verdict and not a silence."
+  },
+  "executed": ["fg-against-wall", "fg-built-in", "fg-corner", "fg-freestanding", "fg-wall-run"],
+  "stated_not_executed": ["fg-library-table-in-the-middle", "fg-parlor-peripheral", "fg-hall-high-table-one-side"],
+  "placement_rules": [
+    {
+      "id": "fg-against-wall",
+      "grade": "editorial",
+      "applies_to": {"placement": "against-wall"},
+      "rule": "Seat the item against the wall with the longest run left once the doors, the windows and the fixtures have taken theirs, trying every wall and every free segment before reporting that it will not fit.",
+      "basis": "No sentence in this corpus states the packing order. The rule is build/furniture.py::pack_against_walls, which WP-7.2 and WP-7.4 wrote for the wet-room fixtures and which this grammar reuses unchanged; its two findings are the argument for it -- 'a fixture refused on a wall nobody tried is a false cannot-fit', and a run that does not turn the corner leaves three walls of a bathroom empty.",
+      "note": "The one thing this rule takes from the corpus is which items are against a wall at all, and that is authored per item in `placement` (WP-7.2 authored all 278 and deleted the regex that had been guessing them)."
+    },
+    {
+      "id": "fg-built-in",
+      "grade": "editorial",
+      "applies_to": {"placement": "built-in"},
+      "rule": "As against-wall. A built-in is joinery and is drawn flush; it takes no clearance either side of itself.",
+      "basis": "No sentence states this. `plan_check.furniture_shortfalls` already treats built-in as one-sided for the FIT check (`sides = 1 if place in (against-wall, corner, built-in)`), and drawing it flush is the same reading applied to the same field."
+    },
+    {
+      "id": "fg-corner",
+      "grade": "editorial",
+      "applies_to": {"placement": "corner"},
+      "rule": "Seat the item in the first corner whose two walls both have a free run long enough for it, taking the corners in the wall order the packer already uses.",
+      "basis": "No sentence states which corner. Three items in the whole catalogue are authored `corner`, so this rule governs three placements and is named rather than hidden inside the against-wall case."
+    },
+    {
+      "id": "fg-freestanding",
+      "grade": "editorial",
+      "applies_to": {"placement": "freestanding"},
+      "rule": "Centre the item on the room, its long axis along the room's long axis. A second freestanding item steps along that axis by its own clearance. An item that would foul a door swing, a fixture or something already placed is refused with the reason.",
+      "basis": "No sentence in this corpus states that a freestanding item is centred. It is the commonest arrangement in the exemplar drawings this package is measured against, and it is a judgment.",
+      "note": "This is the rule most likely to be wrong in a particular room, which is why it is graded `editorial` and reported. A dining table centred in its room is right; a pair of card tables centred on top of each other is not, and the step is what stops that rather than any claim about where card tables go."
+    },
+    {
+      "id": "fg-wall-run",
+      "grade": "reading",
+      "applies_to": {"field": "needs_uninterrupted_wall_ft"},
+      "rule": "An item stating a run of wall unbroken by openings may only be seated in a free segment at least that long.",
+      "basis": "rooms/dining-room.json furniture[sideboard].note: \"Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills.\"",
+      "note": "Five items carry the field and every one of them has the figure in its own sentence, which is what makes this a reading rather than a judgment. WP-7.4 refused a sixth -- the keeping room's hearth at 9.0 ft, taken from 'its chimney breast is 9 to 10 ft' -- because that is a band explaining why first-period halls are wide and not a run the hearth requires. The figure was withdrawn rather than the test loosened, and that refusal is the standard this rule is held to."
+    }
+  ],
+  "refusal_rules": [
+    {
+      "id": "fg-not-an-object",
+      "grade": "reading",
+      "applies_to": {"kind": ["reservation", "covering", "placed-elsewhere", "variant"]},
+      "rule": "Only an item whose `kind` is `object` is drawn. Everything else is counted by kind and named on the plate.",
+      "basis": "rooms/entry-porch.json furniture[clear route from step to door].note: \"must not pass through the seating group; a porch whose only route crosses in front of the occupied chairs is a corridor with furniture in it\"",
+      "note": "The quoted item is the clearest case: it has a footprint, a placement and a clearance, and it is not a thing. OQ 92 named the class -- 'they are clearance reservations wearing an item's shape' -- and WP-11.3 authored `kind` on all 278 items so that a drawing can tell them apart without guessing from the name."
+    },
+    {
+      "id": "fg-too-thin-to-draw",
+      "grade": "reading",
+      "applies_to": {"min_footprint_in": 8},
+      "rule": "An item under 8 in on its short side is not drawn in plan.",
+      "basis": "build/plan_check.py: \"if fw < 8:\"",
+      "note": "The same threshold the fit check already uses, for the same reason and in the same units: a mirror, a television, a picture rail and a curtain are real and have no plan bulk, and at 13 px per foot an 8 in object is under nine pixels. This is a scale rule and not a claim that the item is unreal, which is why it is separate from `kind` -- a television is an object; it is simply not a plan object."
+    }
+  ],
+  "stated_rules_not_executed": [
+    {
+      "id": "fg-library-table-in-the-middle",
+      "grade": "editorial-from-prose",
+      "room": "library",
+      "item": "library table or partners' desk",
+      "rule": "The library's table stands in the middle of the room, and that is what distinguishes a library from a study.",
+      "basis": "rooms/library.json furniture[library table or partners' desk].note: \"the table is in the MIDDLE of a library and against a wall in a study, and that difference is what distinguishes the two rooms\"",
+      "note": "STATED AND NOT EXECUTED. The record's own `placement` for this item read `against-wall` -- the study's answer, on the library's record -- and WP-11.3 corrected it to `freestanding` on the strength of this sentence. That correction is a reading. Centring it *because it is a library* would be a second rule about room identity that this grammar does not have, so the item is now merely freestanding and the room is handed to the architect."
+    },
+    {
+      "id": "fg-parlor-peripheral",
+      "grade": "editorial-from-prose",
+      "room": "parlor",
+      "item": "six to eight side chairs, set against the walls",
+      "rule": "Parlor seating stands round the wall, not in a group in the middle.",
+      "basis": "rooms/parlor.json furniture[six to eight side chairs, set against the walls].note: \"THE PERIPHERAL ARRANGEMENT is the thing modern furniture planning gets wrong about this room. Before about 1840 parlor furniture stood against the wall and was drawn into the centre only when used; the room's default state was an empty floor\"",
+      "note": "STATED AND NOT EXECUTED. The item is authored `against-wall`, so the packer already seats it correctly -- but the record says SIX TO EIGHT chairs and the footprint is one chair, so executing the rule properly means knowing the count, and nothing states whether a footprint is one piece or a group. That is the open question this package raises."
+    },
+    {
+      "id": "fg-hall-high-table-one-side",
+      "grade": "editorial-from-prose",
+      "room": "hall",
+      "item": "high table on the dais",
+      "rule": "The high table is seated on one side only, facing down the hall, which is what makes the room directional.",
+      "basis": "rooms/hall.json furniture[high table on the dais].note: \"seated on ONE side only, facing down the hall - this is what makes the room directional and why the dais end is the high end\"",
+      "note": "STATED AND NOT EXECUTED. Nothing in the plan record says which end of a hall is the dais end, so executing this needs a fact the corpus does not carry. Named here so the gap is counted rather than felt."
+    }
+  ]
+}

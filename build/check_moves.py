@@ -48,7 +48,11 @@ ALLOWED_TOUCHES = {
 UNJUDGED_CEILING = 0
 PLACEMENT_WORDS = ("geometry", "footprint", "geometry_report", "opening_report", "stair",
                    "fixture_layout", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced",
-                   "exterior_walls", "stacks_over")
+                   # WP-11.6: `wet_stack_with` beside `stacks_over`. The two are one authored
+                   # claim under two fields since plan schema 0.8.0, and a list that forbids a
+                   # move to edit one and not the other would have let the revision loop reach
+                   # the half nobody thought to name.
+                   "exterior_walls", "stacks_over", "wet_stack_with")
 
 
 def _mod(name, path):

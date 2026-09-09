@@ -8,6 +8,8 @@ The critic, built before the composer — because a composer needs a fitness fun
 
 **Since 0.3.0 (WP-6.2) it can also hold the PLACED plan.** Until then `additionalProperties: false` at the root forbade `geometry`, `footprint` and `geometry_report`, so a plan the solver had placed could not validate against its own schema and the placement travelled beside the record rather than in it — which is why nothing checked it. An opening now has a `wall`, a `position_ft` (or `positions_ft`, one per unit of a window group), a `hinge`, a `swing_into`, a leaf `height_ft` and a `rank`; a room has a `fixture_layout`; the plan has a `stair`. Everything added is optional, so a hand-authored 0.2.0 record validates unchanged and simply reports COULD NOT EVALUATE on the checks that need a placement.
 
+**Since 0.5.1 (WP-11.2) the footprint carries the WALL ASSEMBLY the house is built of** — `footprint.wall`, from the plan's own `declared.construction_type` against `construction/wall-assemblies.json`, written by `build/openings.py::place` and read by both renderers. It is on the record because it was previously in neither: `render_plan.py` drew no wall body at all and `derive.js` carried `WALL_T = 0.75` and `PART_T = 0.42`, two literals matching no assembly in the catalogue. Additive, and stripped with the rest of the footprint by `strip_placement`, so the DXF round trip still returns the authored record. **Since 0.5.0 (OQ 40) a room may carry a `block`** and the footprint its `blocks`, one per massing element.
+
 **Since 0.4.0 (WP-9.1) an `unplaced` mark carries its figures as fields** — `needs` and `have`, the stair's long and short dimension, a door's shared-wall run, a fixture's footprint — beside the prose and never instead of it, so a revision move reads a number rather than a sentence; and the record admits a `revision_report`, WP-9.2's account of what the loop did to it. **Every finding carries structured evidence beside its statement** (`kind`, `need_ft`, `have_ft`, `slot`, `canonical`, `expression`, `source`, and on the drawn layer the `engine` that placed the house); the id stays what the finding is about (OQ 32), never what it measured. **And the elevation is of the placement the record carries**: until WP-9.1 the fault layer derived it from a fresh heuristic placement while the drawn layer read the carried one — two buildings in one verdict — and the block that did it was silent on failure. `elevation_summary` says which placement and which engine, and an elevation that cannot be derived is a named `info` finding, never nothing. See `docs/reports/wp-9.1-the-critique.md`.
 
 The one rule that governs all of it: **an opening the placement could not realise is marked `unplaced` with a reason, never deleted.** `build/openings.py` writes these, called once from `geometry.solve()` so both engines produce the same kind of record. Note that a window's `unplaced` sits beside its DECLARED `count`, which the placement never overwrites: the shortfall is `count` minus the length of `positions_ft`, and losing an author's declared count to a placement outcome would be the same silent overwrite this layer exists to remove.
@@ -27,6 +29,17 @@ Two example plans ship with it. One is a deliberately ordinary production Coloni
 *(These counts are pinned by `tests/test_plan_validator.py` — run `make check` rather than trust this table if the two ever disagree. They are the counts on the DECLARED record; a placed record adds the drawn layer's findings, and the elevation is then derived from that placement rather than from a fresh heuristic one — WP-9.1. This table read 3 / 49 / 51 and 0 / 18 / 60 until 1 Sep 2026, against pins of 4 / 53 and 0 / 30: exactly the drift its own parenthesis warns about, corrected when WP-9.1 moved each serious count by one.)*
 
 The four fatals on the first are the powder-room door off the dining room, the primary bedroom over the garage, a half-width shutter at 0.33 where the corpus wants 0.48, and — since the elevation layer began supplying a window height (WP-3.2) — a window squarer than Colonial Revival permits.
+
+**Since 0.9.0 (WP-11.10) it holds `appendages`, the terrace at grade.** An at-grade appendage is
+the one thing this corpus draws that stands outside the block and is NOT a massing element: no
+walls, no storey, no roof plane, and not in the built extent the lot cap is measured on. It is
+written by `build/appendages.py` after the solve, on `threshold`'s precedent, and its room keeps
+`geometry` ABSENT — which is what keeps `structure.wall_lines`, this file's own `rooms_unplaced`
+and `geometry`'s block sizing blind to it by construction rather than by six more readers being
+taught. Every figure comes off the room record; anything the record does not state is an
+`unplaced` entry with a reason from a closed set. The consequence, stated because it is a real
+cost: the drawn rectangle is held against no band, since this file's drawn layer reads
+`room.geometry` — `oq/an-at-grade-appendage-is-drawn-and-not-judged`.
 
 ## Seven layers, and one of them reads the drawing
 
@@ -49,9 +62,21 @@ It exists because the split it crosses was hiding real defects. OQ 54 ruled in A
 - **Reachability**, over the openings that were actually placed. Nothing in this system had ever checked that you can walk from the front door to every room; a room with no doors produced no finding, and neither did a room whose declared doors had nowhere to go. A stranded habitable room is `fatal`.
 - **A room joined to nothing inside the house** — it passes reachability if it has its own exterior door, and it is still wrong. This is the reported symptom in its exact form: *"the door to the kitchen is only from the outside, and the kitchen is connected to no other rooms."*
 - **Drawn against declared**, both directions, `minor` past 10% and `serious` past 25%.
-- **Every `stacks_over` claim, against the room it names.** The field is in the schema and 14 of the 21 partis declare it (50 claims). **Both engines have charged it since WP-7.4** — a soft term in `geometry.vertical_score` and a penalty in `geometry_cp.py`, never a hard pin — and this layer still checks it, because a charge is a preference the search trades off and this is the arbiter. The test is the same one in all three places, deliberately. A room drawn clear of the room it says it stacks over is a `serious` finding, and one whose named room this placement did not place reports COULD NOT EVALUATE. (WP-6.3 refused the charge as inert and WP-7.1 confirmed the level-aware generator did not fix stacking; both measurements stand, and neither was the reason it looked inert — read `vertical_score`'s own comment before quoting either.)
+- **Every `stacks_over` claim, against the room it names.** The field is in the schema and 14 of the 21 partis declare it (50 claims). **Both engines have charged it since WP-7.4** — a soft term in `geometry.vertical_score` and a penalty in `geometry_cp.py`, never a hard pin — and this layer still checks it, because a charge is a preference the search trades off and this is the arbiter. The test is the same one in all three places, deliberately. A room drawn clear of the room it says it stacks over is a `serious` finding, and **every claim the layer cannot answer is an `info` finding of kind `stack-unjudged` carrying the reason** (WP-11.6) — the target is not a room, is not placed, is on this room's own level, or is not exactly one level below. Before that the same-level case was a bare `continue`: the shipped Tidewater record carried four claims of which three were judged and nothing said which three. The plumbing meaning that case actually had is `wet_stack_with` now, and `plan_check`'s servicing layer is the one reader that takes it. (WP-6.3 refused the charge as inert and WP-7.1 confirmed the level-aware generator did not fix stacking; both measurements stand, and neither was the reason it looked inert — read `vertical_score`'s own comment before quoting either.)
 - **Passage clear width** against `rooms/centre-passage.json`'s own two right answers and the dead zone between them.
 - **Wet-room fixtures** that will not fit together on real walls, from `room.fixture_layout`.
+
+**Clear span against the framing capacity (WP-11.12).** `build/structure.py::span_check` has
+measured the clear run between bearing lines since WP-3.1 and the search has CHARGED it since
+WP-7.4, and this file had **no span finding of any kind** — so the Tidewater upper floor, drawn
+with a 60 ft run and no bearing line in it, got a clean verdict on every surface a person reads
+(OQ 98's reporting half). The drawn layer reads `geometry_report.span_capacity.marks` off the
+record rather than recomputing: those are the spans the search scored and `geometry.SPAN_W`
+charged, and a second computation here could convict a placement on numbers it was not chosen
+by. One `serious` finding per over-capacity run, with `need_ft`/`have_ft` beside the prose;
+`info` where the construction catalogue could not be read, which is a third state and not a
+pass. **Every count says it is a floor**: `span_check` credits a bearing wall across the whole
+plate however short it actually runs, which is OQ 98's measurement half and is unruled.
 
 ## Absence is not failure
 

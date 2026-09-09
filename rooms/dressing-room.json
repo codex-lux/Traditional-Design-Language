@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "dressing table or chest",
+      "kind": "object",
       "footprint_in": [
         48,
         20
@@ -49,6 +50,7 @@
     },
     {
       "item": "chair or stool",
+      "kind": "object",
       "footprint_in": [
         24,
         24
@@ -59,6 +61,7 @@
     },
     {
       "item": "hanging, double-loaded",
+      "kind": "object",
       "footprint_in": [
         96,
         84
@@ -68,6 +71,7 @@
     },
     {
       "item": "cheval or full-length glass",
+      "kind": "object",
       "footprint_in": [
         26,
         20
@@ -78,6 +82,7 @@
     },
     {
       "item": "small fireplace",
+      "kind": "object",
       "footprint_in": [
         42,
         18

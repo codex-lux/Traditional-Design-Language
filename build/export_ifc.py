@@ -435,7 +435,19 @@ def export_ifc(plan, path, parti=None):
         if m.get("form") in GABLE_FORMS and ridge.get("grade_to_ridge_ft") and m.get("pitch_rise_per_12"):
             eave, ridge_h = m["grade_to_eave_ft"], ridge["grade_to_ridge_ft"]
             axis = ridge.get("axis", "x")
-            ow, od = W + 2 * t_ext, D + 2 * t_ext
+            # THE ROOF IS THE UNION READER, and ruling 1 says so in as many words: an element
+            # has its own envelope and the union is reported beside it, because the roof spans
+            # something and that something is not an element. On a one-rectangle house the union
+            # IS the main block and every figure below is unchanged; on a multi-element house
+            # this is a stated approximation -- one gable over the whole union -- and
+            # `geometry_report.multi_element` is where a reader is told the roof layer has not
+            # been taught about elements.
+            # `EL` and `_els` were this branch's, defined in the slab loop the merge
+            # replaced with main's `slab_boxes`; the reader is loaded here instead so the
+            # roof keeps the union it is supposed to span.
+            _EL = _mod("elements", os.path.join(ROOT, "build", "elements.py"))
+            _bb = _EL.union_bbox(plan) or (0.0, 0.0, W, D)
+            ow, od = (_bb[2] - _bb[0]) + 2 * t_ext, (_bb[3] - _bb[1]) + 2 * t_ext
             ridge_len, span = (ow, od) if axis == "x" else (od, ow)
             slope_run, slope_rise = span / 2.0, ridge_h - eave
             slope_len = math.hypot(slope_run, slope_rise)

@@ -429,17 +429,39 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
         wall-clock bounded -- measured, four consecutive runs of this plan on 'auto' alternated
         between 13 placed / 0 refused and 12 / 1 depending on which branch finished in budget.
         A count asserted against a nondeterministic solve is OQ 71's error, and the behaviour
-        this test names is deterministic."""
+        this test names is deterministic.
+
+        WP-11.8 MOVED THIS TEST OFF THE SHIPPED PLAN AND SAYS WHY. The behaviour is real and the
+        PLAN stopped exercising it: with the room's own band ranked above the score, that primary
+        bath is drawn 20.00 x 12.44 rather than 9 x 18, its S wall alone has a 20 ft clear run,
+        and all four fixtures fit on it honestly. `len(walls) > 1` then failed on a room that had
+        got BETTER -- a guard pinning an outcome the placement is free to change, which is the
+        error WP-7.4's own note in `test_geometry.py` records one file over. So the corner is
+        driven on a synthetic 9 x 14 ft room that no placement can outgrow, and the shipped plan
+        keeps the half of the assertion that is about the packer rather than about the room: it
+        refuses nothing.
+        """
         solved = GEO.solve(_plan("spec-builder-colonial"), engine="heuristic")
-        walls = set()
+        seen = 0
         for lv in solved["levels"]:
             for rm in lv["rooms"]:
                 if rm["id"] != "primarybath":
                     continue
                 for f in (rm.get("fixture_layout") or []):
                     assert "unplaced" not in f, (
-                        f"a 9 x 18 ft bathroom refused {f['item']}: {f.get('unplaced')}")
-                    walls.add(f.get("wall"))
+                        f"the primary bath refused {f['item']}: {f.get('unplaced')}")
+                    seen += 1
+        assert seen == 4, f"the shipped plan placed {seen} fixtures in its primary bath, not 4"
+
+        # the corner itself, on a room whose shape is this test's own and not the placer's
+        room = {"id": "bath", "type": "primary-bathroom",
+                "fixtures": ["wc", "lavatory", "tub", "shower"],
+                "geometry": {"x_ft": 0.0, "y_ft": 0.0, "width_ft": 9.0, "depth_ft": 14.0}}
+        OP.fixture_pass([room], GEO.C, {"fixtures_placed": 0, "fixtures_unplaced": 0}, {})
+        placed = [f for f in (room.get("fixture_layout") or []) if "unplaced" not in f]
+        assert len(placed) == 4, (
+            f"a 9 x 14 ft bathroom refused a fixture: {[f['item'] for f in room['fixture_layout'] if 'unplaced' in f]}")
+        walls = {f.get("wall") for f in placed}
         assert len(walls) > 1, f"all four fixtures still packed onto one wall: {walls}"
 
     def test_a_refused_fixture_says_which_walls_were_tried(self):
@@ -791,7 +813,39 @@ class TestAnUnplacedRecordCarriesItsFiguresAsFields:
                 if isinstance(v, (int, float)):
                     assert f"{v:.1f}" in u["reason"], (kind, rid, k, v, u["reason"])
                     checked += 1
-        assert checked > 0, f"{pid}: no numeric need was found to hold against its sentence"
+        if not checked:
+            # COULD NOT EVALUATE, and it is a real state rather than a pass. Only a PARTIAL
+            # shared wall states a figure in its sentence ("they share 6.1 ft; this leaf and
+            # its jambs need 6.7 ft"); "the placement leaves these two rooms no shared wall"
+            # states none, and there is nothing to hold a `needs` figure against. WP-11.8's
+            # ranking took `tidewater-georgian-careful` to all-or-nothing shared walls, so this
+            # parameter checked nothing and the assertion that used to sit here FAILED on a
+            # placement that had not got worse. The pair-wise guard below is what keeps both
+            # parameters from going quiet together.
+            pytest.skip(f"COULD NOT EVALUATE — {pid}'s placement produced no partial-shared-wall "
+                        "refusal, so no sentence on it carries a figure to hold")
+
+    def test_at_least_one_shipped_plan_still_states_a_figure_in_its_refusal(self):
+        """The pair-wise half of the test above, and the reason it may skip a parameter.
+
+        A refusal that states a number must state the SAME number in its prose and in its
+        `needs` field -- that is the invariant. A plan whose placement refuses only on
+        all-or-nothing shared walls cannot exercise it, and skipping there is honest. Both
+        plans skipping at once would be the invariant going untested in silence, which is the
+        thing a skip must never become."""
+        import re
+        total = 0
+        for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
+            _plan_, marks = self._unplaced(pid)
+            for _kind, _rid, u in marks:
+                if not re.search(r"\d", u["reason"]):
+                    continue
+                for k in self._NUMERIC:
+                    if isinstance((u.get("needs") or {}).get(k), (int, float)):
+                        total += 1
+        assert total > 0, (
+            "neither shipped plan produced a refusal whose sentence carries a figure, so the "
+            "prose-and-figure agreement is untested on the whole corpus this suite reaches")
 
     def test_the_stair_refusal_states_what_it_needed_and_whether_the_record_would_have_held_it(self):
         plan, marks = self._unplaced("tidewater-georgian-careful")

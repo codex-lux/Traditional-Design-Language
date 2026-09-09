@@ -40,6 +40,7 @@
  "furniture": [
   {
    "item": "hall chairs in a row down one side",
+   "kind": "object",
    "footprint_in": [
     20,
     20
@@ -50,6 +51,7 @@
   },
   {
    "item": "settee or bench",
+   "kind": "object",
    "footprint_in": [
     60,
     24
@@ -60,6 +62,7 @@
   },
   {
    "item": "side table between the room doors",
+   "kind": "object",
    "footprint_in": [
     36,
     16
@@ -69,6 +72,7 @@
   },
   {
    "item": "tall case clock",
+   "kind": "object",
    "footprint_in": [
     22,
     12
@@ -79,6 +83,7 @@
   },
   {
    "item": "clear passing route",
+   "kind": "reservation",
    "footprint_in": [
     42,
     240

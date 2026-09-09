@@ -54,6 +54,32 @@ def _storeys():
     return _STOREYS
 
 
+_THRESH = None
+
+
+def _thresh():
+    """build/threshold.py -- the stoop and the gable-end stacks (WP-11.4). Loaded lazily and
+    cached. It is NOT a leaf (it loads `resolve_kit` for the cascade-resolved kit), and that
+    closes no cycle: `resolve_kit` reaches only `proportion_engine` and, through it,
+    `construction_vocabulary`, and neither reaches `geometry`."""
+    global _THRESH
+    if _THRESH is None:
+        _THRESH = _mod("threshold", os.path.join(ROOT, "build", "threshold.py"))
+    return _THRESH
+
+
+_FURN = None
+
+
+def _furn():
+    """build/furniture.py, the packer and the free-run subtraction. A LEAF: it imports nothing
+    from build/, so loading it here closes no cycle."""
+    global _FURN
+    if _FURN is None:
+        _FURN = _mod("furniture", os.path.join(ROOT, "build", "furniture.py"))
+    return _FURN
+
+
 def required_wall_ft(width_ft):
     return width_ft + 2 * JAMB_FT
 
@@ -67,8 +93,9 @@ def required_wall_ft(width_ft):
 # declared its own `wall` — that is an authored fact and is NOT here — while a door had no
 # wall at all until 0.3.0, so on a door `wall` is placement output. That distinction cost
 # one round-trip failure to find (WP-6.2) and is worth the two constants.
-PLACEMENT_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report")
-PLACEMENT_ROOM_KEYS = ("geometry", "fixture_layout")
+PLACEMENT_PLAN_KEYS = ("footprint", "geometry_report", "stair", "opening_report",
+                       "threshold", "hearths", "appendages")
+PLACEMENT_ROOM_KEYS = ("geometry", "fixture_layout", "furniture_layout")
 PLACEMENT_DOOR_KEYS = ("wall", "position_ft", "positions_ft", "hinge", "swing_into", "unplaced")
 PLACEMENT_WINDOW_KEYS = ("position_ft", "positions_ft", "unplaced")
 
@@ -220,6 +247,17 @@ def faces_across_a_gap(plan, env, tol=0.6):
     return out
 
 
+_APPD = None
+
+
+def _appd():
+    """build/appendages.py -- the terrace at grade (WP-11.10). A LEAF; see its header."""
+    global _APPD
+    if _APPD is None:
+        _APPD = _mod("appendages", os.path.join(ROOT, "build", "appendages.py"))
+    return _APPD
+
+
 def _boundary_walls(rect, W, H, tol=0.6, env=None):
     """Which of a room's own walls lie on ITS ELEMENT's boundary, with their runs.
 
@@ -244,19 +282,13 @@ def _boundary_walls(rect, W, H, tol=0.6, env=None):
 
 
 def _free(lo, hi, blocked):
-    free = [(lo, hi)]
-    for a, b in blocked:
-        nxt = []
-        for s, e in free:
-            if b <= s or a >= e:
-                nxt.append((s, e))
-                continue
-            if a > s:
-                nxt.append((s, min(a, e)))
-            if b < e:
-                nxt.append((max(b, s), e))
-        free = nxt
-    return [(s, e) for s, e in free if e - s > 1e-6]
+    """`(lo, hi)` minus `blocked`. ONE spelling, in build/furniture.py, which is a leaf.
+
+    WP-11.3 moved the body there because `fixture_pass`'s packer went with it and the two
+    belong together; this name stays so every caller in this file, and `tests/test_openings.py`,
+    are unchanged. `plan_check.py` carries a third inline copy of the same subtraction in its
+    wall-run check -- known, and not this package's to move."""
+    return _furn().free_runs(lo, hi, blocked)
 
 
 def _seat(free, width, prefer):
@@ -300,7 +332,22 @@ def _door_pairs(level_rooms):
     return out
 
 
-def _place_interior(level_rooms, occupied, report):
+def _place_interior(level_rooms, occupied, report, appendages=None):
+    """Every door between two rooms on one level.
+
+    WP-11.10. `appendages` is `{room_id: (x, y, w, h)}` for the at-grade appendages
+    `build/appendages.py` placed OUTSIDE the block -- a terrace, today, and nothing else in
+    this corpus. It is threaded in rather than read off `room.geometry` on purpose: an
+    appendage takes no rectangle in the footprint, and writing one onto the room would make
+    `structure.wall_lines`, `plan_check`'s `rooms_unplaced` and `geometry._record_prep` all
+    see a room the placer never placed. This is the ONE reader that needs the rectangle, and
+    it is the only one that gets it. `_rect` is deliberately unchanged; six other call sites
+    read it and every one of them must go on seeing a terrace as unplaced."""
+    appendages = appendages or {}
+
+    def _r(x):
+        return _rect(x) or appendages.get(x.get("id"))
+
     for a, da, b, db in _door_pairs(level_rooms):
         width = da.get("width_ft") or (db and db.get("width_ft")) or 3.0
         if b is None:
@@ -308,7 +355,7 @@ def _place_interior(level_rooms, occupied, report):
             da["unplaced"] = note
             report["unplaced"].append({"pair": [a["id"], da["to"]], **note})
             continue
-        ra, rb = _rect(a), _rect(b)
+        ra, rb = _r(a), _r(b)
         if not ra or not rb:
             note = {"reason": "one of the two rooms is not placed on this level"}
             da["unplaced"] = note
@@ -709,6 +756,18 @@ _FIXTURE_ALIASES = {
 }
 
 
+_ELEM = None
+
+
+def _elem():
+    """build/elements.py, the one reader of which massing element a room stands in. A LEAF:
+    it imports nothing from build/, so loading it here closes no cycle (WP-11.9)."""
+    global _ELEM
+    if _ELEM is None:
+        _ELEM = _mod("elements", os.path.join(ROOT, "build", "elements.py"))
+    return _ELEM
+
+
 def _furniture_for(room_type, fixture, C):
     """The room catalogue's own footprint for a named fixture, or None."""
     rt = C["rooms"].get(room_type) or {}
@@ -749,126 +808,80 @@ def fixture_pass(level_rooms, C, report, occupied=None):
         fc = (C["rooms"].get(r["type"], {}) or {}).get("function_class")
         if fc not in ("sanitary", "service"):
             continue
-        x, y, w, d = rect
-        # WP-7.2: the wall with the longest CLEAR run, not simply the longest wall. Packing
-        # against the longest wall regardless of what is already on it reported the powder
-        # room's water closet and basin as unfittable because its 11 ft south wall was 9 ft
-        # spoken for, while its east wall stood empty. A fixture refused on a wall nobody
-        # tried is a false "cannot fit", and this corpus is built to distinguish
-        # evaluated-and-failed from not-looked-at.
-        cand = []
-        for wall in ("S", "N", "W", "E"):
-            along = wall in ("S", "N")
-            wrun = w if along else d
-            wbase = x if along else y
-            wfree = sorted(_free(wbase, wbase + wrun, occupied.get((r["id"], wall), [])))
-            longest = max((b - a for a, b in wfree), default=0.0)
-            # ties break on the longer wall, then S/W, so an unobstructed room packs exactly
-            # as it did before this change
-            cand.append((-longest, -wrun, ("S", "N", "W", "E").index(wall), wall, along, wrun, wbase, wfree))
-        cand.sort()
-        # WP-7.4: THE RUN TURNS THE CORNER. WP-7.2 made this pick the wall with the longest
-        # CLEAR run instead of simply the longest wall, because "a fixture refused on a wall
-        # nobody tried is a false 'cannot fit'". It then packed every fixture onto that one
-        # wall -- the same error one level up, and it surfaced the moment WP-7.4's score terms
-        # moved a room: `spec-builder-colonial`'s primary bath is 9 x 18 ft, its four fixtures
-        # want 22 ft, its longest clear run is 17.2 ft, and its other three walls stood empty.
-        #
-        # Each wall keeps its own cursor and a fixture tries the wall it is already on first,
-        # so a room whose fixtures all fit on one wall packs BYTE-IDENTICALLY to before.
-        #
-        # A SEAT IS ACCEPTED ONLY IF THE RECTANGLE IT PRODUCES IS REALLY FREE. The first
-        # version of this reserved the corner by starting a newly opened wall past the deepest
-        # fixture placed anywhere in the room, and called that "conservative". It is not: every
-        # wall packs from its LOW end, and the four low ends are four different corners, so the
-        # reserve guards the SW corner and does nothing for NE, pushes W into N at NW and S into
-        # E at SE. Measured over a sweep of 81 plausible primary-bathroom sizes, 60 came out
-        # with a drawn fixture overlapping another or sitting outside the room. Nothing in the
-        # corpus's own 16 plans showed it, which is exactly why it needed measuring rather than
-        # reasoning about. The approximation is gone: a candidate seat is now turned into its
-        # actual rectangle and rejected if it leaves the room or touches anything already
-        # placed, which also covers the OPPOSITE-wall case (a 6 ft room cannot hold a 5.5 ft
-        # fixture on W and a 5 ft one on E) that no corner rule could ever have caught.
-        walls = {c[3]: {"along": c[4], "run": c[5], "base": c[6], "free": c[7],
-                        "clear": -c[0], "cursor": 0.0} for c in cand}
-        order = [c[3] for c in cand]
-        wall = order[0]
-        layout = []
-        placed = []          # (x, y, w, d) of every fixture actually drawn in this room
-
-        def _seat_rect(cw, seat, fw, fd):
-            """The rectangle a seat on `cw` would occupy, or None if it leaves the room."""
-            along = walls[cw]["along"]
-            if along and fd > d + 1e-6: return None
-            if not along and fd > w + 1e-6: return None
-            off = (y if cw == "S" else y + d - fd) if along else (x if cw == "W" else x + w - fd)
-            return ((seat, off, fw, fd) if along else (off, seat, fd, fw))
-
-        def _clear_of_placed(rect):
-            for q in placed:
-                if (min(rect[0] + rect[2], q[0] + q[2]) - max(rect[0], q[0]) > 1e-6
-                        and min(rect[1] + rect[3], q[1] + q[3]) - max(rect[1], q[1]) > 1e-6):
-                    return False
-            return True
-
+        # WP-11.3: the packer is build/furniture.py::pack_against_walls now, moved there
+        # whole so the furniture pass and this one cannot drift. Every comment WP-7.2 and
+        # WP-7.4 wrote about why it is shaped as it is went with the code; this call must
+        # produce BYTE-IDENTICAL output, and tests/test_furniture_pass.py holds it to that
+        # over all sixteen plans.
+        entries = []
         for f in fixtures:
             spec = _furniture_for(r["type"], f, C)
             if not spec:
-                layout.append({"item": f, "unplaced": {
+                entries.append({"emit": {"item": f, "unplaced": {
                     "reason": f"rooms/{r['type']}.json lists no furniture item for '{f}', so "
-                              f"this corpus does not know how big it is"}})
+                              f"this corpus does not know how big it is"}}})
                 continue
-            fw = spec["w_in"] / 12.0
-            fd = spec["d_in"] / 12.0
-            # the wall it is already on first, then every other wall in clear-run order; and
-            # within a wall every free segment, not only the first that is wide enough
-            seat = rect = None
-            for cw in [wall] + [o for o in order if o != wall]:
-                W_ = walls[cw]
-                for lo, hi in W_["free"]:
-                    start = max(lo, W_["base"] + W_["cursor"])
-                    while hi - start >= fw - 1e-6:
-                        cand_rect = _seat_rect(cw, start, fw, fd)
-                        if cand_rect is not None and _clear_of_placed(cand_rect):
-                            seat, rect, wall = start, cand_rect, cw
-                            break
-                        if cand_rect is None:
-                            break        # too deep for this wall's room dimension: no seat fits
-                        start += 0.5     # step along and try again past the obstruction
-                    if seat is not None: break
-                if seat is not None: break
-            if seat is None:
-                tried = ", ".join(f"{o} {walls[o]['clear']:.1f} ft clear of {walls[o]['run']:.1f}"
-                                  for o in order)
-                layout.append({"item": spec["item"], "width_ft": round(fw, 2),
-                               "depth_ft": round(fd, 2), "unplaced": {
-                    "reason": (f"no wall of this room has a clear run left for a {fw:.1f} x "
-                               f"{fd:.1f} ft item that does not overlap what is already placed. "
-                               f"All four were tried ({tried}); fixtures already placed take "
-                               f"{walls[wall]['cursor']:.1f} ft of the {wall} wall"),
-                    "needs": {"width_ft": round(fw, 2), "depth_ft": round(fd, 2)},
-                    "have": {o: round(walls[o]["clear"], 2) for o in order}}})
-                continue
-            layout.append({
-                "item": spec["item"],
-                "wall": wall,
-                # WP-7.4 audit: position and extent are rounded to the SAME precision. They
-                # were 3dp and 2dp, so a fixture against the far wall came out at
-                # 2.333 + 2.67 = 5.003 in a 5.00 ft room -- the "against the wall it names"
-                # invariant held only to about 0.005 ft, and an outside-the-room check had to
-                # be written with a tolerance loose enough to hide a real 0.04 ft error.
-                "x_ft": round(rect[0], 3),
-                "y_ft": round(rect[1], 3),
-                "width_ft": round(rect[2], 3),
-                "depth_ft": round(rect[3], 3),
-            })
-            placed.append(rect)
-            walls[wall]["cursor"] = (seat - walls[wall]["base"]) + fw
+            entries.append({"spec": spec})
+        layout, _placed = _furn().pack_against_walls(rect, r["id"], occupied, entries)
         if layout:
             r["fixture_layout"] = layout
             report["fixtures_placed"] += sum(1 for f in layout if "unplaced" not in f)
             report["fixtures_unplaced"] += sum(1 for f in layout if "unplaced" in f)
 
+
+
+def furniture_pass(level_rooms, C, report, occupied=None, stair=None, level_index=0):
+    """Arrange the DRY rooms' furniture, after the openings, the stair and the fixtures.
+
+    WP-11.3, on OQ 92's ruling. `fixture_pass` owns the wet and service rooms and reads the
+    plan record's own `fixtures` list; this owns everything else and reads the room CATALOGUE's
+    `furniture` array. The gate is the exact complement of the fixture gate, so no room gets
+    two layouts drawn over each other -- the butler's pantry and the kitchen are `service` and
+    stay with the fixtures, and the four items `rooms/kitchen.json` carries that no fixture
+    list names are reported as not drawn rather than left to be noticed.
+
+    The rules are furniture/grammar.json's and `build/furniture.py` executes them. Every one
+    declares a grade there: four are `editorial` and say so, one is a `reading`. Three more
+    rules the corpus states in prose are named in that file as STATED AND NOT EXECUTED, which
+    is where OQ 92 drew the line -- "seating that makes a group rather than a line" needs a
+    fact no record carries, and inventing it would be the confident nonsense this program
+    exists to remove.
+
+    THIS PASS NEVER WRITES A DIMENSION. docs/model.md carries the ruling and the direction of
+    authority: a room's size comes from its programme and its band, and the furniture is
+    arranged into the room as given. tests/test_furniture_pass.py asserts it."""
+    occupied = occupied if occupied is not None else {}
+    F = _furn()
+    for r in level_rooms:
+        rect = _rect(r)
+        if not rect:
+            continue
+        rt = C["rooms"].get(r["type"]) or {}
+        fc = rt.get("function_class")
+        if fc in ("sanitary", "service"):
+            # fixture_pass owns these. What it does NOT place in them is counted, so a
+            # kitchen island missing from the sheet is a number rather than a silence.
+            drawn = {f.get("item") for f in (r.get("fixture_layout") or [])}
+            for it in (rt.get("furniture") or []):
+                if it["item"] not in drawn and not F.drawable(it):
+                    report["furniture_not_reached"] = report.get("furniture_not_reached", 0) + 1
+            continue
+        if not (rt.get("furniture") or []):
+            continue
+        blocked = [(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"])
+                   for f in (r.get("fixture_layout") or [])
+                   if not f.get("unplaced") and f.get("x_ft") is not None]
+        if stair and stair.get("level") == level_index and stair.get("well") \
+                and stair.get("room") == r["id"]:
+            wl = stair["well"]
+            blocked.append((wl["x_ft"], wl["y_ft"], wl["width_ft"], wl["depth_ft"]))
+        layout, skipped = F.arrange_room(r, rt, rect, occupied, blocked)
+        if layout:
+            r["furniture_layout"] = layout
+            report["furniture_placed"] += sum(1 for f in layout if "unplaced" not in f)
+            report["furniture_unplaced"] += sum(1 for f in layout if "unplaced" in f)
+        for rule_id, n in skipped.items():
+            report["furniture_skipped"][rule_id] = report["furniture_skipped"].get(rule_id, 0) + n
 
 # --------------------------------------------------------------------- entry point
 def place(plan, C=None):
@@ -891,25 +904,78 @@ def place(plan, C=None):
     fp = plan.get("footprint") or {}
     W = fp.get("width_ft")
     H = fp.get("depth_ft")
+    # THE WALL ASSEMBLY GOES ONTO THE RECORD, so both renderers read one number instead of
+    # each carrying its own. `workbench/app/src/sheet/derive.js` had `WALL_T = 0.75` and
+    # `PART_T = 0.42` -- two literals, a house convention rather than a reading, and neither
+    # of them any house in this corpus: the Tidewater plan declares solid masonry two wythe,
+    # which is 15.5 in of envelope and 4.5 in of partition. `build/assemblies.py` is a LEAF
+    # for exactly this reason (see its header, and build/storeys.py's before it): the drawing
+    # needs the number and `structure.py` cannot give it without closing an import cycle.
+    if W and H:
+        fp["wall"] = _mod("assemblies", os.path.join(ROOT, "build", "assemblies.py")) \
+            .wall_thickness(plan)
     report = {"placed": 0, "unplaced": [], "offset": [], "axis": [],
               "windows_placed": 0, "windows_unplaced": 0,
-              "fixtures_placed": 0, "fixtures_unplaced": 0}
+              "fixtures_placed": 0, "fixtures_unplaced": 0,
+              "furniture_placed": 0, "furniture_unplaced": 0, "furniture_skipped": {},
+              "threshold_steps": 0, "threshold_unplaced": 0,
+              "stacks_placed": 0, "stacks_unplaced": 0,
+              "appendages_placed": 0, "appendages_unplaced": 0}
     if not W or not H:
         report["note"] = ("no footprint on this record — openings are placed against the "
                           "block the solver produced, and this plan has not been placed")
         plan["opening_report"] = report
         return plan
+    # WP-11.10. THE APPENDAGE PASS RUNS BEFORE THE LEVEL LOOP, AND THAT IS FORCED RATHER THAN
+    # TIDY: `_place_interior` is the first pass inside it, so a terrace derived afterwards
+    # could never seat the door it exists for. `entrance_pass` runs LAST for the opposite
+    # reason -- it reads placed doors. Nothing here touches a room's `geometry`, so every
+    # placement in this corpus is byte-identical across the package; what moves is the
+    # openings on the five plans that declare a terrace, which is the deliverable.
+    apx = _appd().appendage_pass(plan, C["rooms"], report,
+                                 _elem().bounds_index, _elem().boundary_walls)
+    # `envelopes` IS THE ELEMENT MAP, AND THE MERGE KEEPS MAIN'S SPELLING OF IT. Both Phase 11s
+    # threaded each room's own element down to these two passes -- this branch as a
+    # `bounds_index` of `(x, y, W, H)` per level, main as `envelopes(plan)` of `(x0, y0, x1, y1)`
+    # plan-wide. Main's is the one `plan_check` reuses ("layer 1's own map, not a second spelling
+    # of the block-tag join"), so it is the one kept; keeping both would have been the third
+    # spelling of the join, which is the defect this whole layer is about.
     envs = envelopes(plan)
-    for lv in plan["levels"]:
+    holds = []
+    for _li, lv in enumerate(plan["levels"]):
         rooms = [r for r in lv["rooms"]]
         occupied = {}
-        _place_interior(rooms, occupied, report)
+        _place_interior(rooms, occupied, report,
+                        appendages=apx.get(lv.get("index", _li)) or {})
         _place_exterior(rooms, occupied, W, H, C, report, envs)
         _place_windows(rooms, occupied, W, H, report, envs)
         fixture_pass(rooms, C, report, occupied)
+        holds.append((rooms, occupied))
     stair = stair_pass(plan, C, report)
     if stair:
         plan["stair"] = stair
+    # WP-11.3. The furniture runs in a SECOND loop, after the stair, and that is not tidiness:
+    # `stair_pass` takes the whole plan and runs once after the level loop, so a furniture pass
+    # inside that loop could not see the stair and would arrange a stair hall's chairs through
+    # its own flights. Running here also leaves every pass before it untouched, which is what
+    # keeps the fixture layouts and the placement byte-identical -- tests/test_furniture_drawn.py
+    # pins its drawn counts as an EQUALITY over all sixteen plans and re-solves to get them.
+    for i, (rooms, occupied) in enumerate(holds):
+        furniture_pass(rooms, C, report, occupied, stair=stair, level_index=i)
+    # WP-11.4. The stoop and the stacks are PLAN-level and run last, after every room-level
+    # pass, because both read the placed exterior doors and the placed rooms and neither
+    # writes to a room. Nothing above this line can see them, which is what keeps every
+    # placement pin in the suite byte-identical across this package.
+    th = _thresh().entrance_pass(plan, C, report)
+    he = _thresh().hearth_pass(plan, C, report)
+    # counted from the records themselves rather than incremented inside the passes: a
+    # counter a pass forgets to bump on an early return is a silence wearing a number, and
+    # the two passes have EIGHT early returns between them -- two for a kit or an entrance
+    # face the record does not give, six for a hearth the record does not locate.
+    report["threshold_steps"] = len(th["steps"])
+    report["threshold_unplaced"] = len(th["unplaced"])
+    report["stacks_placed"] = len(he["stacks"])
+    report["stacks_unplaced"] = len(he["unplaced"])
     plan["opening_report"] = report
     return plan
 

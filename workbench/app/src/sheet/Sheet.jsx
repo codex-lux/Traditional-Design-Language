@@ -7,22 +7,23 @@
    flipped inside <Model>. Ported from the mockup Sheet; generalised from its one
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
-import { WALL_T, PART_T, levelRooms, partitions, windows, doors, bayLines, litWalls,
+import { wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
          divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
+import { PEN, POCHE, DASH, inked } from './pen.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
   return (
     <g>
       {vertical
-        ? <line x1={at} y1={-to} x2={at} y2={-from} stroke="var(--draw-dim)" strokeWidth=".7" vectorEffect="non-scaling-stroke" />
-        : <line x1={from} y1={at} x2={to} y2={at} stroke="var(--draw-dim)" strokeWidth=".7" vectorEffect="non-scaling-stroke" />}
+        ? <line x1={at} y1={-to} x2={at} y2={-from} style={PEN.dim} vectorEffect="non-scaling-stroke" />
+        : <line x1={from} y1={at} x2={to} y2={at} style={PEN.dim} vectorEffect="non-scaling-stroke" />}
       {marks.map((m, i) => vertical
         ? <line key={'t' + i} x1={at - 0.55} y1={-m - 0.55} x2={at + 0.55} y2={-m + 0.55}
-            stroke="var(--draw-dim)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
+            style={inked(PEN.fine, "draw-dim")} vectorEffect="non-scaling-stroke" />
         : <line key={'t' + i} x1={m - 0.55} y1={at + 0.55} x2={m + 0.55} y2={at - 0.55}
-            stroke="var(--draw-dim)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />)}
+            style={inked(PEN.fine, "draw-dim")} vectorEffect="non-scaling-stroke" />)}
       {marks.slice(0, -1).map((m, i) => {
         const mid = (m + marks[i + 1]) / 2;
         const label = ft(marks[i + 1] - m);
@@ -63,9 +64,9 @@ function Leaf({ hinge, nrm, len, to, sweep }) {
   return (
     <g>
       <line x1={hinge[0]} y1={hinge[1]} x2={open[0]} y2={open[1]}
-        stroke="var(--ink)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
+        style={PEN.medium} vectorEffect="non-scaling-stroke" />
       <path d={`M ${open[0]} ${open[1]} A ${len} ${len} 0 0 ${sweep} ${to[0]} ${to[1]}`}
-        fill="none" stroke="var(--hair)" strokeWidth=".8" vectorEffect="non-scaling-stroke" />
+        style={PEN.construction} vectorEffect="non-scaling-stroke" />
     </g>
   );
 }
@@ -76,9 +77,9 @@ function Jambs({ A, B, vert }) {
   const t = 0.55;
   const tick = (p, i) => vert
     ? <line key={i} x1={p[0] - t} y1={p[1]} x2={p[0] + t} y2={p[1]}
-        stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+        style={PEN.medium} vectorEffect="non-scaling-stroke" />
     : <line key={i} x1={p[0]} y1={p[1] - t} x2={p[0]} y2={p[1] + t}
-        stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />;
+        style={PEN.medium} vectorEffect="non-scaling-stroke" />;
   return <g>{[A, B].map(tick)}</g>;
 }
 
@@ -114,7 +115,7 @@ function DoorMark({ d }) {
     return (
       <g {...common}>
         {brk}
-        <rect {...slot} fill="none" stroke="var(--ink-2)" strokeWidth=".7"
+        <rect {...slot} style={inked(PEN.construction, "ink-2")}
           strokeDasharray="1.4 1" vectorEffect="non-scaling-stroke" />
         <Jambs A={f.A} B={f.B} vert={f.vert} />
       </g>
@@ -127,7 +128,7 @@ function DoorMark({ d }) {
       <g {...common}>
         {brk}
         <line x1={f.A[0]} y1={f.A[1]} x2={f.B[0]} y2={f.B[1]}
-          stroke="var(--ink)" strokeWidth="1.4"
+          style={PEN.medium}
           strokeDasharray={type === 'bulkhead' ? '1.6 1.1' : undefined}
           vectorEffect="non-scaling-stroke" />
         <Jambs A={f.A} B={f.B} vert={f.vert} />
@@ -152,18 +153,18 @@ function WindowMark({ w }) {
   const sill = vert
     ? <line x1={r.x + (w.wall === 'W' ? -0.35 : t + 0.35)} y1={r.y - 0.5}
         x2={r.x + (w.wall === 'W' ? -0.35 : t + 0.35)} y2={r.y + r.height + 0.5}
-        stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+        style={PEN.medium} vectorEffect="non-scaling-stroke" />
     : <line x1={r.x - 0.5} y1={r.y + (w.wall === 'S' ? t + 0.35 : -0.35)}
         x2={r.x + r.width + 0.5} y2={r.y + (w.wall === 'S' ? t + 0.35 : -0.35)}
-        stroke="var(--ink)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />;
+        style={PEN.medium} vectorEffect="non-scaling-stroke" />;
   return (
     <g>
-      <rect {...r} fill="var(--paper-lit)" stroke="var(--ink)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
+      <rect {...r} style={{ ...PEN.medium, fill: "var(--paper-lit)" }} vectorEffect="non-scaling-stroke" />
       {vert
         ? <line x1={r.x + t / 2} y1={r.y} x2={r.x + t / 2} y2={r.y + r.height}
-            stroke="var(--ink-2)" strokeWidth=".8" vectorEffect="non-scaling-stroke" />
+            style={PEN.fine} vectorEffect="non-scaling-stroke" />
         : <line x1={r.x} y1={r.y + t / 2} x2={r.x + r.width} y2={r.y + t / 2}
-            stroke="var(--ink-2)" strokeWidth=".8" vectorEffect="non-scaling-stroke" />}
+            style={PEN.fine} vectorEffect="non-scaling-stroke" />}
       {sill}
     </g>
   );
@@ -239,14 +240,14 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
     <g ref={ref}>
       {delta !== 0 && (axis === 'x'
         ? <line x1={hx} y1={-room.y} x2={hx} y2={-room.y - room.h}
-            stroke="var(--gilt-deep)" strokeWidth="1.2" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
+            style={inked(PEN.medium, "gilt-deep")} strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />
         : <line x1={room.x} y1={-hy} x2={room.x + room.w} y2={-hy}
-            stroke="var(--gilt-deep)" strokeWidth="1.2" strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />)}
+            style={inked(PEN.medium, "gilt-deep")} strokeDasharray="2 2" vectorEffect="non-scaling-stroke" />)}
       <rect data-nopan="" x={hx - 0.8} y={axis === 'y' ? -hy - 0.8 : -room.y - room.h / 2 - 0.8}
         width={1.6} height={1.6}
-        fill="var(--paper-lit)" stroke="var(--gilt-deep)" strokeWidth="1.2"
+        style={{ ...inked(PEN.medium, 'gilt-deep'), fill: 'var(--paper-lit)',
+                 cursor: axis === 'x' ? 'ew-resize' : 'ns-resize' }}
         vectorEffect="non-scaling-stroke"
-        style={{ cursor: axis === 'x' ? 'ew-resize' : 'ns-resize' }}
         onPointerDown={down} />
     </g>
   );
@@ -257,7 +258,7 @@ function DragHandle({ x, y, axis, room, bays, onCommit }) {
    into it even when it stops short. A room too small for its name and its dimensions
    keeps the name — the dimension string is on the dimension lines as well, the name is
    nowhere else. */
-const LABEL_PAD = PART_T / 2 + 0.55;
+const labelPad = (wall) => wall.partition_ft / 2 + 0.55;
 const DIM_GAP = 0.42;
 
 function layLabel(r, boxW, boxH) {
@@ -274,14 +275,15 @@ function layLabel(r, boxW, boxH) {
            block: name.height + (showDim ? DIM_GAP + dim.size * 1.15 : 0) };
 }
 
-function roomLabel(r) {
-  const flat = layLabel(r, r.w - LABEL_PAD * 2, r.h - LABEL_PAD * 2);
+function roomLabel(r, wall) {
+  const pad = labelPad(wall);
+  const flat = layLabel(r, r.w - pad * 2, r.h - pad * 2);
   // A closet, a stair or a hyphen is a slot: its name will not go across it at any size
   // that can still be read, and the draughtsman's answer has always been to turn the
   // lettering to run with the room. Turned only when it earns a materially larger
   // letter — a label turned for a few percent is a label the reader has to work at.
   const turned = r.h > r.w * 1.3
-    ? layLabel(r, r.h - LABEL_PAD * 2, r.w - LABEL_PAD * 2) : null;
+    ? layLabel(r, r.h - pad * 2, r.w - pad * 2) : null;
   const useTurned = turned && (!flat || turned.name.size > flat.name.size * 1.15);
   const L = useTurned ? turned : flat;
   if (!L) return null;
@@ -294,12 +296,49 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const ov = overlays || {};
   const fp = placement?.footprint || {};
   const W = fp.width_ft || 40, H = fp.depth_ft || 30;
+  // THE WALL THE RECORD STATES, not two literals. `footprint.wall` is written by
+  // build/openings.py::place from the plan's own declared.construction_type; a record placed
+  // before plan schema 0.5.1 has none and `wallOf` says so rather than drawing a convention
+  // as though it were a reading.
+  const wall = wallOf(fp);
   const rooms = levelRooms(plan, placement, levelIndex);
-  const parts = partitions(rooms, W, H);
+  const parts = partitions(rooms, W, H, 0.6, wall.partition_ft);
   // doors first, then windows into what the doors have left: an opening may not be drawn
   // over another opening, and on this sheet the door is the one that keeps its place
-  const drs = doors(rooms, W, H);
-  const wins = windows(rooms, W, H, 0.6, drs.exterior);
+  // WP-11.10 — the at-grade appendages on THIS level, as bare rectangles for the door
+  // lookup. An appendage's room carries no geometry, so without this a door the record says
+  // is seated comes back "the other room is not placed on this level".
+  const appendages = ((placement?.appendages?.placed) || [])
+    .filter((a) => (a.level ?? 0) === levelIndex);
+  // WP-11.14 — which massing element each room stands in, as [x, y, W, H]. The join is
+  // geometric containment, which is build/elements.py::element_of's own rule; a room in NO
+  // element is ABSENT from the map, never given the main block's box, because defaulting it
+  // there is the defect WP-11.9 exists to remove. With no `blocks` on the record the map is
+  // empty and every reader falls back to the footprint, which is every plan in the corpus.
+  // EL_TOL IS 0.5 AND IT IS build/elements.py::TOL, NOT A TASTE. The first version of this
+  // block wrote 0.01 under a comment claiming it was `element_of`'s own rule -- fifty times
+  // tighter than the rule it named. An audit measured the band: a room 0.01 to 0.50 ft outside
+  // its block is IN its element for render_plan.py and in NO element here, so the two
+  // renderers answer "which of this room's walls are exterior" differently -- the exact thing
+  // WP-11.14 exists to make them answer with one function. `_absorb` is documented to grow a
+  // room past its element, so the band is reachable rather than theoretical, and the frozen
+  // sheet_symbols contract cannot catch it because no shipped plan carries a `block` tag.
+  const EL_TOL = 0.5;
+  const elBounds = {};
+  for (const b of (fp?.blocks || [])) {
+    for (const r of rooms) {
+      const inside = r.x >= b.x_ft - EL_TOL && r.y >= b.y_ft - EL_TOL
+        && r.x + r.w <= b.x_ft + b.width_ft + EL_TOL
+        && r.y + r.h <= b.y_ft + b.depth_ft + EL_TOL;
+      if (inside && elBounds[r.id] === undefined) {
+        elBounds[r.id] = [b.x_ft, b.y_ft, b.width_ft, b.depth_ft];
+      }
+    }
+  }
+  const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({
+    id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft })),
+    elBounds);
+  const wins = windows(rooms, W, H, 0.6, drs.exterior, elBounds);
   const diverged = divergence(rooms);
   const divergedIds = new Set(diverged.map((d) => d.id));
   const bays = bayLines(fp);
@@ -316,13 +355,45 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   const yOff = hasLot ? (site.setback_front_ft || 0) : 0;
 
   // viewBox in model feet (y already negated screenward): margins for street, dims, bar
-  const mL = 11, mR = 15, mT = hasLot ? Math.max(15, lotD - H - yOff + 8) : 15, mB = hasLot ? Math.max(9, yOff + 7) : 9;
+  /* WP-11.4. The stoop stands outside the entrance wall and an exterior stack outside its
+     gable end, both at a negative coordinate or past `width_ft`, so the plate has to be wide
+     enough to hold them. `build/render_plan.py::threshold_rects` is the same reckoning in
+     the same order; a plate sized to the rooms alone cuts them off with no error anywhere. */
+  const thRects = [
+    ...((placement?.threshold?.steps) || []).flatMap((st) => [st.platform, st.flight].filter(Boolean)),
+    ...((placement?.hearths?.stacks) || []),
+    /* WP-11.10. An at-grade appendage stands OUTSIDE the block by its whole depth — fourteen
+       feet of terrace east of a sixty-foot house — so the plate has to hold it or it leaves
+       the sheet with no error anywhere. `build/render_plan.py::appendage_rects` is the same
+       reckoning in the same list. */
+    ...appendages.map((a) => a.rect),
+  ];
+  const outL = Math.max(0, ...thRects.map((r) => -r.x_ft));
+  const outR = Math.max(0, ...thRects.map((r) => r.x_ft + r.width_ft - W));
+  const outB = Math.max(0, ...thRects.map((r) => -r.y_ft));
+  const outT = Math.max(0, ...thRects.map((r) => r.y_ft + r.depth_ft - H));
+  // A FLOOR, AND ON THE SHIPPED PLAN IT IS NOT REACHED: an exterior stack projects 3.1 ft and
+  // the flight 3.5, against margins of 11 and 9 ft that this sheet already carried for the
+  // street and the dimension line. So this widening changes nothing today and is inert rather
+  // than wrong -- said plainly, because a reader who mutates it and sees the walk stay green
+  // should know why. build/render_plan.py's plate has no such margin and the same reckoning
+  // there is load-bearing; its guard goes red on the revert.
+  const mL = Math.max(11, outL + 3), mR = Math.max(15, outR + 3);
+  const mT = Math.max(hasLot ? Math.max(15, lotD - H - yOff + 8) : 15, outT + 3);
+  const mB = Math.max(hasLot ? Math.max(9, yOff + 7) : 9, outB + 3);
   const view = { x: -mL, y: -H - mT, w: W + mL + mR, h: H + mT + mB + 6 };
   // a zero-width space after each interpunct: the title may fold at a word boundary,
   // and never inside a word — without it 'TIDEWATER·GEORGIAN,·FIVE·BAYS,·CAREFULLY·
   // PLANNED' is one unbreakable word and the plate clips whatever does not fit
   const interpunct = interpunctTitle(title);
   const relax = placement?.geometry_report?.relaxations;
+  /* WP-11.12 (OQ 98's reporting half). build/structure.py has measured the clear span since
+     WP-3.1 and the search has CHARGED it since WP-7.4, and no plate had ever printed it -- the
+     Tidewater upper floor is drawn with a 60 ft run and no bearing line in it. The count is a
+     FLOOR and the sentence says so: `span_check` credits a bearing wall across the whole plate
+     however short it runs, which is that question's unruled measurement half.
+     build/render_plan.py prints the same two states in its margin schedule. */
+  const spanCap = placement?.geometry_report?.span_capacity;
   const rxMarks = relaxationMarks(relax?.marks, levelIndex, W, H);
   /* WHICH ENGINE PLACED THIS, on the PLATE (WP-6.4). WP-6.3 put the disclosure in the page
      prose beside the drawing, which is the one place it cannot travel: a plate that is
@@ -354,6 +425,8 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         style={{ display: 'block', width: '100%' }} role="img" aria-label={title}>
         <defs>
           <pattern id="ghosthatch" width="1.6" height="1.6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            {/* inside a <pattern>: pattern units, not pixels, so the ladder does not
+                apply -- the same exemption walk.mjs's pen check already makes here. */}
             <line x1="0" y1="0" x2="0" y2="1.6" stroke="var(--hair)" strokeWidth=".2" />
           </pattern>
         </defs>
@@ -362,11 +435,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {hasLot && (
           <g>
             <line x1={-xOff - 2} y1={yOff + 2.5} x2={lotW - xOff + 2} y2={yOff + 2.5}
-              stroke="var(--ink-2)" strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+              style={inked(PEN.medium, "ink-2")} vectorEffect="non-scaling-stroke" />
             <text x={-xOff - 2} y={yOff + 4.2} fontSize="1" fontFamily="var(--serif)" fill="var(--ink-2)"
               letterSpacing=".3">STREET · LOT {ft(lotW)} WIDE</text>
             <rect x={-xOff} y={-(lotD - yOff)} width={lotW} height={lotD} fill="none"
-              stroke="var(--hair)" strokeWidth=".8" strokeDasharray="1.5 5" strokeLinecap="round"
+              style={PEN.construction} strokeDasharray="1.5 5" strokeLinecap="round"
               vectorEffect="non-scaling-stroke" />
             <text x={-xOff + 0.6} y={-(lotD - yOff) - 0.7} fontSize=".85" fontFamily="var(--serif)"
               fontStyle="italic" fill="var(--ink-2)">setback envelope</text>
@@ -376,7 +449,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {/* the construction grid — left visible, at hairline */}
         {bays.map((x) => (
           <g key={'b' + x}>
-            <line x1={x} y1={-H - 3} x2={x} y2={4} stroke="var(--hair)" strokeWidth=".7" vectorEffect="non-scaling-stroke" />
+            <line x1={x} y1={-H - 3} x2={x} y2={4} style={PEN.construction} vectorEffect="non-scaling-stroke" />
             <text x={x} y={-H - 3.8} fontSize=".8" fontFamily="var(--serif)" fill="var(--hair)"
               textAnchor="middle">{Math.round(x)}′</text>
           </g>
@@ -387,7 +460,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           <g opacity=".9">
             {ghostRooms.map((r) => (
               <rect key={'g' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h} fill="url(#ghosthatch)"
-                stroke="var(--hair)" strokeWidth=".6" strokeDasharray="3 2" vectorEffect="non-scaling-stroke" />
+                style={PEN.construction} strokeDasharray="3 2" vectorEffect="non-scaling-stroke" />
             ))}
           </g>
         )}
@@ -406,7 +479,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           return <rect key={'pv' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
             fill="var(--sepia)" opacity={0.04 + ((rank - 1) / 4) * 0.20} />;
         })}
-        {ov.daylight && rooms.map((r) => litWalls(r, W, H).map((wall) => {
+        {ov.daylight && rooms.map((r) => litWalls(r, W, H, 0.6, elBounds[r.id]).map((wall) => {
           // gated on the walls the placement actually lit — the overlay may never
           // claim daylight from a window the sheet does not draw
           const head = r.window_head_ft || 7;
@@ -425,8 +498,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         }).map((r) => (
           <g key={'wt' + r.id}>
             <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h} fill="var(--blue)" opacity=".2" />
-            <circle cx={r.x + r.w / 2} cy={-r.y - r.h / 2} r="1.1" fill="none" stroke="var(--blue-deep)"
-              strokeWidth="1.1" vectorEffect="non-scaling-stroke" />
+            <circle cx={r.x + r.w / 2} cy={-r.y - r.h / 2} r="1.1" style={inked(PEN.fine, "blue-deep")} vectorEffect="non-scaling-stroke" />
           </g>
         ))}
 
@@ -438,7 +510,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           // never said what it departed from, so a kitchen declared 16 × 20 and placed at
           // 63% of that area read as a measurement of the declared room.
           const off = divergedIds.has(r.id);
-          const lab = roomLabel(r);
+          const lab = roomLabel(r, wall);
           const decl = off && r.declared_width_ft && r.declared_length_ft
             ? ` — the record declares ${ft(r.declared_width_ft)} × ${ft(r.declared_length_ft)}`
             : '';
@@ -449,7 +521,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
               <title>{`${r.name} — ${ft(r.w)} × ${ft(r.h)}${decl}`}</title>
               <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
                 fill={sel ? 'var(--wash-salmon-1)' : 'transparent'}
-                stroke={sel ? 'var(--salmon-deep)' : 'transparent'} strokeWidth="1.2" vectorEffect="non-scaling-stroke" />
+                style={sel ? inked(PEN.medium, 'salmon-deep') : { stroke: 'transparent' }} vectorEffect="non-scaling-stroke" />
               {lab && (
                 <g transform={lab.turned ? `rotate(-90 ${lab.cx} ${lab.cy})` : undefined}>
                   {lab.name.lines.map((ln, i) => (
@@ -485,7 +557,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                   corner of a 4 x 25 butler's pantry — because it measures where the glyph
                   actually is rather than where it was meant to be. */}
               {off && !(lab && lab.dim) && (
-                <text x={r.x + r.w - LABEL_PAD} y={-r.y - r.h + LABEL_PAD}
+                <text x={r.x + r.w - labelPad(wall)} y={-r.y - r.h + labelPad(wall)}
                   fontSize={Math.min(0.75, r.w * 0.3, r.h * 0.3)}
                   fontFamily="var(--serif)" fill="var(--gilt-deep)"
                   textAnchor="end" dominantBaseline="hanging">∗</text>
@@ -496,15 +568,14 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
 
         {/* partitions — pale sepia flesh, ink skin */}
         {parts.map((p, i) => (
-          <rect key={'pt' + i} x={p.x} y={-p.y - p.h} width={p.w} height={p.h} fill="var(--poche-partition)"
-            stroke="var(--ink)" strokeWidth="1.4" vectorEffect="non-scaling-stroke" />
+          <rect key={'pt' + i} x={p.x} y={-p.y - p.h} width={p.w} height={p.h} style={POCHE.partition} vectorEffect="non-scaling-stroke" />
         ))}
 
         {/* poché — salmon flesh, coal skin. The cut line bounds all poche. */}
-        <path d={`M${-WALL_T} ${WALL_T} L${W + WALL_T} ${WALL_T} L${W + WALL_T} ${-H - WALL_T} L${-WALL_T} ${-H - WALL_T} Z ` +
-                 `M0 0 L0 ${-H} L${W} ${-H} L${W} 0 Z`}
-          fillRule="evenodd" fill="var(--poche-masonry)" stroke="var(--draw-cut)"
-          strokeWidth="2.6" vectorEffect="non-scaling-stroke" />
+        <path d={`M${-wall.exterior_ft} ${wall.exterior_ft} L${W + wall.exterior_ft} ${wall.exterior_ft} `
+                 + `L${W + wall.exterior_ft} ${-H - wall.exterior_ft} L${-wall.exterior_ft} ${-H - wall.exterior_ft} Z `
+                 + `M0 0 L0 ${-H} L${W} ${-H} L${W} 0 Z`}
+          fillRule="evenodd" style={POCHE.masonry} vectorEffect="non-scaling-stroke" />
 
         {/* openings. Windows are laid into the run the doors left, so a door is never
             painted over by a window again — but the doors are still drawn AFTER, because
@@ -532,17 +603,17 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                 if (across) {
                   const tx = f.x_ft + f.width_ft * (t / n);
                   ticks.push(<line key={t} x1={tx} y1={-f.y_ft} x2={tx} y2={-f.y_ft - f.depth_ft}
-                    stroke="var(--ink-2)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />);
+                    style={PEN.fine} vectorEffect="non-scaling-stroke" />);
                 } else {
                   const ty = f.y_ft + f.depth_ft * (t / n);
                   ticks.push(<line key={t} x1={f.x_ft} y1={-ty} x2={f.x_ft + f.width_ft} y2={-ty}
-                    stroke="var(--ink-2)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />);
+                    style={PEN.fine} vectorEffect="non-scaling-stroke" />);
                 }
               }
               return (
                 <g key={'fl' + i}>
                   <rect x={f.x_ft} y={-f.y_ft - f.depth_ft} width={f.width_ft} height={f.depth_ft}
-                    fill="none" stroke="var(--ink-2)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
+                    style={PEN.fine} vectorEffect="non-scaling-stroke" />
                   {ticks}
                 </g>
               );
@@ -565,15 +636,106 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           </text>
         )}
 
-        {/* fixtures, from room.fixture_layout and from nothing else */}
+        {/* WP-11.4 — the stoop and the gable-end stacks, from plan.threshold and plan.hearths
+            and from nothing else. Both are BRICK, so both take the wall's own body: the same
+            masonry poché and the same cut line the envelope is drawn in, because they are the
+            same trade and a reader must not have to learn a second convention for a second
+            brick. The STACK is on every plate because it passes through every floor; the
+            STOOP only on the ground, because it is at grade. */}
+        {((placement?.hearths?.stacks) || []).map((sk, i) => (
+          <rect key={'sk' + i} data-stack={sk.wall} x={sk.x_ft} y={-sk.y_ft - sk.depth_ft}
+            width={sk.width_ft} height={sk.depth_ft}
+            style={POCHE.masonry} vectorEffect="non-scaling-stroke">
+            <title>{`chimney stack, ${sk.stack_plan_in} in square, ${sk.side} to the ${sk.wall} gable end`}</title>
+          </rect>
+        ))}
+        {/* WP-11.10 — the terrace at grade, from plan.appendages and from nothing else. Drawn
+            OPEN: an edge in the fine pen and a name, no poche and no wash, because an at-grade
+            appendage is a FLOOR and not a mass. Giving it the wall's body would say the house
+            is that shape, which is the one thing `rooms/terrace.json`'s own note denies.
+            `appendages` is already filtered to THIS level, so there is no `levelIndex === 0`
+            guard here: an appendage is drawn on the level it stands on, and hard-coding the
+            ground would hide a future one rather than refuse it. */}
+        {appendages.map((ap, i) => (
+          <g key={'ap' + i} data-appendage={ap.room} data-appendage-wall={ap.wall}>
+            <rect x={ap.rect.x_ft} y={-ap.rect.y_ft - ap.rect.depth_ft}
+              width={ap.rect.width_ft} height={ap.rect.depth_ft}
+              style={PEN.fine} vectorEffect="non-scaling-stroke">
+              <title>{`at grade, unroofed, appended to ${(ap.serves || []).join(', ')} on its ${ap.wall} face`}</title>
+            </rect>
+            {/* the name in the room voice, sized in model feet like every other room label
+                on this plate, and drawn only where it fits across the appendage. There is no
+                fitter here on purpose: an appendage is one rectangle with one short name, and
+                a second call into `layLabel` would be a second spelling of a fit this plate
+                already does for rooms that have geometry. */}
+            {ap.rect.width_ft > 0.62 * ((ap.name || ap.room).length + 2) && (
+              <text x={ap.rect.x_ft + ap.rect.width_ft / 2}
+                y={-ap.rect.y_ft - ap.rect.depth_ft / 2}
+                fontSize="1.1" fontFamily="var(--serif)" letterSpacing="0.3"
+                fill="var(--ink)" textAnchor="middle" dominantBaseline="middle">
+                {(ap.name || ap.room).toUpperCase()}
+              </text>
+            )}
+          </g>
+        ))}
+        {levelIndex === 0 && ((placement?.threshold?.steps) || []).map((st, i) => (
+          <g key={'th' + i} data-threshold={st.room}>
+            {[['platform', st.platform], ['flight', st.flight]].filter(([, r]) => r).map(([part, r]) => (
+              <rect key={part} data-part={part} x={r.x_ft} y={-r.y_ft - r.depth_ft}
+                width={r.width_ft} height={r.depth_ft}
+                style={POCHE.masonry} vectorEffect="non-scaling-stroke">
+                <title>{part === 'platform' ? 'stoop platform'
+                  : `${st.riser_count} risers at ${st.riser_height_in} in, treads ${st.tread_depth_in} in`}</title>
+              </rect>
+            ))}
+            {(st.nosings || []).map((n, j) => (
+              <line key={'n' + j} x1={n.line[0]} y1={-n.line[1]} x2={n.line[2]} y2={-n.line[3]}
+                style={PEN.medium} vectorEffect="non-scaling-stroke" />
+            ))}
+          </g>
+        ))}
+
+        {/* fixtures, from room.fixture_layout and from nothing else.
+            WP-11.3 put this mark on the pen ladder: it had carried `stroke="var(--ink-2)"` as
+            an ATTRIBUTE and a literal `1.4 1` dash since WP-6.2, and WP-11.2 moved nineteen
+            stroke widths onto PEN and walked past this one. It keeps its DASH, which is what
+            tells a derived wet fixture from a derived furniture arrangement on the sheet, and
+            it carries `data-fixture` so the walk can count it by what it IS rather than by the
+            dash it happens to be drawn with. */}
         {rooms.map((r) => (r.fixture_layout || [])
           .filter((f) => !f.unplaced && f.x_ft != null)
           .map((f, i) => (
-            <rect key={r.id + 'fx' + i} x={f.x_ft} y={-f.y_ft - f.depth_ft}
-              width={f.width_ft} height={f.depth_ft} fill="none" stroke="var(--ink-2)"
-              strokeWidth=".6" strokeDasharray="1.4 1" vectorEffect="non-scaling-stroke">
+            <rect key={r.id + 'fx' + i} data-fixture x={f.x_ft} y={-f.y_ft - f.depth_ft}
+              width={f.width_ft} height={f.depth_ft}
+              style={{ ...PEN.fine, strokeDasharray: DASH.extent }}
+              vectorEffect="non-scaling-stroke">
               <title>{f.item}</title>
             </rect>
+          )))}
+
+        {/* furniture, from room.furniture_layout and from nothing else (WP-11.3).
+            The MARKS are on the record — build/furniture.py mapped furniture/symbols.json into
+            each item's own rectangle once, at placement time — so this draws what is there and
+            derives nothing. That is WP-6.2's finding applied a layer up: handing both renderers
+            one position and letting each re-derive the geometry from it put them 0.7 in apart
+            on the first plan it was tried on. Fine pen, SOLID; the fixtures keep the dash. */}
+        {rooms.map((r) => (r.furniture_layout || [])
+          .filter((f) => !f.unplaced && f.marks)
+          .map((f, i) => (
+            <g key={r.id + 'fu' + i} data-furniture={f.symbol || 'block'}>
+              <title>{f.item}</title>
+              {f.marks.map((m, j) => (m.rect ? (
+                <rect key={j} x={m.rect[0]} y={-m.rect[1] - m.rect[3]}
+                  width={m.rect[2]} height={m.rect[3]}
+                  style={PEN.fine} vectorEffect="non-scaling-stroke" />
+              ) : m.line ? (
+                <line key={j} x1={m.line[0]} y1={-m.line[1]} x2={m.line[2]} y2={-m.line[3]}
+                  style={PEN.fine} vectorEffect="non-scaling-stroke" />
+              ) : m.circle ? (
+                <circle key={j} cx={m.circle[0]} cy={-m.circle[1]} r={m.circle[2]}
+                  style={PEN.fine} vectorEffect="non-scaling-stroke" />
+              ) : null))}
+            </g>
           )))}
 
         {/* dimensions — ticks, primes, never decimal feet */}
@@ -583,8 +745,8 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
 
         {/* north — an instrument, not an ornament: screen-up is model-north */}
         <g transform={`translate(${W + 10},${-H + 2})`}>
-          <circle cx="0" cy="0" r="2.6" fill="none" stroke="var(--ink)" strokeWidth="1" vectorEffect="non-scaling-stroke" />
-          <line x1="0" y1="2.6" x2="0" y2="-2.6" stroke="var(--ink)" strokeWidth=".9" vectorEffect="non-scaling-stroke" />
+          <circle cx="0" cy="0" r="2.6" style={PEN.medium} vectorEffect="non-scaling-stroke" />
+          <line x1="0" y1="2.6" x2="0" y2="-2.6" style={PEN.fine} vectorEffect="non-scaling-stroke" />
           <path d="M0 -2.6 L-0.55 -0.6 L0.55 -0.6 Z" fill="var(--coal)" />
           <text x="0" y="-3.4" fontSize="1" fontFamily="var(--serif)" letterSpacing=".2"
             fill="var(--ink-2)" textAnchor="middle">N</text>
@@ -616,12 +778,12 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
                   : [lo, -m.at_ft, hi, -m.at_ft];
                 return (
                   <line key={j} x1={x1} y1={y1} x2={x2} y2={y2} stroke="var(--ink-2)"
-                    strokeWidth=".55" strokeDasharray="1.2 1.2" pointerEvents="none"
+                    strokeDasharray="1.2 1.2" pointerEvents="none"
                     vectorEffect="non-scaling-stroke" />
                 );
               })}
               <path d={`M ${gx} ${gy - 1.15} L ${gx + 1.0} ${gy + 0.75} L ${gx - 1.0} ${gy + 0.75} Z`}
-                fill="var(--paper)" stroke="var(--ink)" strokeWidth=".45"
+                style={{ ...PEN.fine, fill: "var(--paper)" }}
                 vectorEffect="non-scaling-stroke" />
               <title>{`${m.off_ft} ft off the bay line — this cut is a joist run that does not land on a bearing wall`}</title>
             </g>
@@ -632,10 +794,10 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         <g transform={`translate(${-mL + 2},${mB - 2.6})`}>
           {[0, 1, 2, 3].map((i) => (
             <rect key={i} x={i * 8} y="0" width="8" height=".8" fill={i % 2 ? 'none' : 'var(--ink)'}
-              stroke="var(--ink)" strokeWidth=".5" vectorEffect="non-scaling-stroke" />
+              style={PEN.fine} vectorEffect="non-scaling-stroke" />
           ))}
           {[0, 8, 16, 24, 32].map((x) => (
-            <line key={'sb' + x} x1={x} y1="-.6" x2={x} y2="1.4" stroke="var(--ink)" strokeWidth=".6" vectorEffect="non-scaling-stroke" />
+            <line key={'sb' + x} x1={x} y1="-.6" x2={x} y2="1.4" style={PEN.fine} vectorEffect="non-scaling-stroke" />
           ))}
           <text x="0" y="3" fontSize=".9" fontFamily="var(--serif)" letterSpacing=".18" fill="var(--ink-2)">0</text>
           <text x="16" y="3" fontSize=".9" fontFamily="var(--serif)" letterSpacing=".18" fill="var(--ink-2)" textAnchor="middle">16</text>
@@ -649,7 +811,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {relax?.count ? (
           <g data-legend="relaxation" transform={`translate(${W - 16},${mB - 2.2})`}>
             <path d="M 0 -1.15 L 1.0 0.75 L -1.0 0.75 Z" fill="var(--paper)"
-              stroke="var(--ink)" strokeWidth=".45" vectorEffect="non-scaling-stroke" />
+              style={PEN.fine} vectorEffect="non-scaling-stroke" />
             <text x="2.1" y="0.7" fontSize=".95" fontFamily="var(--serif)" letterSpacing=".1"
               fill="var(--ink-2)">a cut off the bay line — no bearing wall under it</text>
           </g>
@@ -686,6 +848,16 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
           color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
           {engineLine}
+          {/* THE WALL IS A READING OR IT IS A CONVENTION, AND THE PLATE HAS TO SAY WHICH.
+              Before plan schema 0.5.1 this sheet drew a 9 in envelope and a 5 in partition
+              from two literals in derive.js -- numbers matching no assembly in the catalogue,
+              on every house whatever it was built of. It draws the record's own now, and a
+              record that carries none takes the fallback and says so here rather than
+              presenting a convention as a reading. */}
+          {wall.stated
+            ? `Walls ${wall.type.replace(/-/g, ' ')}: envelope ${(wall.exterior_ft * 12).toFixed(1)} in outside the placed rooms, partitions ${(wall.partition_ft * 12).toFixed(1)} in centred on them; room figures are the record's clear extents. `
+            : 'The record states no wall assembly, so the walls are drawn at this sheet\'s conventional 9 in and 5 in — a convention, not a reading. '}
+          {wall.note ? wall.note + ' ' : ''}
           {/* "each marked \u25B3 where it falls" was a claim about every mark, and a mark the
               solver located nowhere is now not drawn at all rather than dropped at the
               middle of the plan. So the sentence counts what it actually marked. */}
@@ -694,6 +866,15 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             : ''}
           {rxMarks.unlocated.length
             ? `${rxMarks.unlocated.length} cut(s) the solver located on no wall of this level \u2014 counted, not drawn. `
+            : ''}
+          {spanCap && spanCap.over_capacity == null
+            ? 'Clear span not evaluated \u2014 the construction catalogue could not be read; no span is claimed clear. '
+            : ''}
+          {spanCap && spanCap.over_capacity
+            ? `${spanCap.over_capacity} clear span(s) over the framing capacity, worst ${spanCap.worst_span_ft} ft \u2014 at least that many: a bearing line is credited across the whole plate however short the wall runs. `
+            : ''}
+          {spanCap && spanCap.over_capacity === 0
+            ? '0 clear span(s) over the framing capacity \u2014 at least none found: a bearing line is credited across the whole plate however short the wall runs. '
             : ''}
           {drs.undrawable.length
             ? `${drs.undrawable.length} declared door(s) without a drawable opening — in the record, not the linework: `

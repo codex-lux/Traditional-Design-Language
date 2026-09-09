@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "shelf, 14 in deep",
+      "kind": "object",
       "footprint_in": [
         60,
         14
@@ -48,6 +49,7 @@
     },
     {
       "item": "bottom shelf or floor zone for sacks and cases",
+      "kind": "object",
       "footprint_in": [
         48,
         20
@@ -58,6 +60,7 @@
     },
     {
       "item": "counter, in a large pantry",
+      "kind": "object",
       "footprint_in": [
         48,
         25
@@ -69,6 +72,7 @@
     },
     {
       "item": "door",
+      "kind": "placed-elsewhere",
       "footprint_in": [
         30,
         30

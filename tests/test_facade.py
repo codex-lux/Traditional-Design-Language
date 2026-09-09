@@ -130,15 +130,28 @@ class TestItReportsAndNeverWrites:
                        [w.get("count") for w in (ra.get("windows") or [])], rb["id"]
 
     def test_the_disagreements_are_REAL_on_this_plan(self, tidewater):
-        """The control for the test above: if nothing disagreed it would pass vacuously."""
+        """The control for the test above: if nothing disagreed it would pass vacuously.
+
+        RE-CUT AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026). This named `chamber2` and
+        `primary` and pinned `chamber2`'s bays as `[4, 5]` -- WHICH ROOM LANDS ON WHICH BAY IS
+        THE PLACER'S TO CHANGE, and main's WP-11.2 changed it: this house is 63 ft on 7 bays of
+        9 now, and the upper front is `primary` (agrees), `dressing` (2 bays, 0 declared),
+        `cl2` (1 bay, 0 declared) and `chamber3` (agrees). The property the control asserts is
+        that BOTH STATES REALLY OCCUR on this plan -- at least one room with front-wall bays
+        declaring no window, and at least one that agrees -- which is what makes the test above
+        non-vacuous. Pinning the room ids asserted a placement instead."""
         d = FA.room_front_bays(tidewater, 1)
         assert d["verdict"] == "read"
-        by = {x["room"]: x for x in d["rooms"]}
-        # a room with two bays of front wall and no window declared on it at all
-        assert by["chamber2"]["bays"] == [4, 5] and by["chamber2"]["declares"] == 0
-        assert by["chamber2"]["agrees"] is False
+        judged = [x for x in d["rooms"] if not x["spans_no_bay"]]
+        assert judged, "no upper room spans a bay at all; the control cannot run"
+        silent = [x for x in judged if x["bays"] and x["declares"] == 0]
+        assert silent, (
+            "no upper room has front-wall bays and no declared window, so the test above "
+            f"passes vacuously: {[(x['room'], x['bays'], x['declares']) for x in judged]}")
+        assert all(x["agrees"] is False for x in silent), silent
         # ...and a room that agrees, so the reading is not simply convicting everything
-        assert by["primary"]["agrees"] is True, by["primary"]
+        assert [x for x in judged if x["agrees"] is True], (
+            f"every judged room disagrees, which reads as a broken instrument: {judged}")
 
     def test_a_room_spanning_NO_bay_is_its_own_state_and_not_an_agreement(self, tidewater):
         """`wants 0, declares 0, agrees` would be a trivial pass hiding a room whose front wall

@@ -61,9 +61,20 @@ COULD_NOT_EVALUATE = 3
 # plan_check and critique judge it; moves edits it. plan_check is INCLUDED because a slot the
 # critic reads is one whose figure returns a verdict, which is the other half of "changes what the
 # machine does".
+# `threshold.py` JOINED THIS LIST AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND THE
+# INSTRUMENT MOVED RATHER THAN THE CORPUS. The other branch's WP-11.4 moved `roof_form_for`, the
+# ridge axis and the gable-end points OUT of `roof.py` and into `build/threshold.py`, which
+# derives the drawn threshold, the stoop and the stacks -- a generator by every test this list
+# applies, and the only reader of `roof_form`, `hearth_position`, `porch_support` and
+# `steps_and_stoop` in the tree. Left out, the walk reported that NO generator reads `roof_form`,
+# which is false, and `measured_unsourced_read` would have fallen by the four slots for free --
+# the exact "falling for free" this ratchet's own docstring says it exists to prevent, arriving
+# through the file list instead of through the data. Adding it re-baselines two ceilings UPWARD
+# in the same commit (267 -> 299 and 68 -> 78), which is what a widened instrument costs and is
+# recorded as such rather than netted off.
 GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "compose.py", "geometry.py",
                    "geometry_cp.py", "openings.py", "arrangement.py", "plan_check.py", "critique.py",
-                   "moves.py", "revise.py")
+                   "moves.py", "revise.py", "threshold.py")
 
 # Measured 4 Sep 2026 and thereafter may only improve. Read the entries before moving one.
 #
@@ -96,8 +107,14 @@ GENERATOR_FILES = ("elevation.py", "roof.py", "structure.py", "storeys.py", "com
 #   nodes_with_a_precedent 27    A FLOOR.
 RATCHET = {
     "measured_unsourced": 536,      # 542 at WP-11.1; six sourced by WP-11.4 Ruling A
-    "measured_unsourced_read": 270,  # 272 at WP-11.1; two of the six are on a read slot
-    "editorial_read": 69,
+    # RE-BASELINED UPWARD AT THE MERGE, WITH THE INSTRUMENT NAMED (8 Sep 2026). 272 at WP-11.1,
+    # 270 after WP-11.4 Ruling A sourced two of the six, 267 on the merged corpus -- and 299 the
+    # moment `threshold.py` joined GENERATOR_FILES above, because four slots the corpus really
+    # does read had been invisible to the walk. The corpus did not get worse by 32 parameters;
+    # the meter started reading a file. A ceiling raised in the same commit as the widening, in
+    # public, on WP-9.4's precedent for its literal detector (35 -> 44).
+    "measured_unsourced_read": 299,
+    "editorial_read": 78,            # 69 before the same widening; 68 on the merged corpus
     "shared_only_nodes": 24,
     "sourceless_nodes": 0,          # a CEILING at its floor -- 32 at WP-11.1, 0 after WP-11.7.
     "untested_nodes": 3,

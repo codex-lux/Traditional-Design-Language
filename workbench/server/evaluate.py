@@ -62,7 +62,11 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
     if place:
         geo = core._mod("geometry", os.path.join(core.ROOT, "build", "geometry.py"))
         pt = core.load_parti(parti)
-        cand = geo.solve(core.copy_json(plan), pt, candidates, engine=engine)
+        # WP-11.8: the INTERACTIVE budget by name. This route is the one the infrastructure
+        # audit measured as the whole server's bound, and a person is waiting on it behind a
+        # 400 ms debounce -- so it does not take the batch default `solve()` now carries.
+        cand = geo.solve(core.copy_json(plan), pt, candidates, engine=engine,
+                         time_limit_s=geo.BUDGET_INTERACTIVE_S)
         if "error" in cand:
             placement_error = cand["error"]
         else:

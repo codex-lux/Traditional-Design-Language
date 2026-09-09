@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "bench",
+      "kind": "object",
       "footprint_in": [
         42,
         18
@@ -49,6 +50,7 @@
     },
     {
       "item": "hook rail",
+      "kind": "object",
       "footprint_in": [
         48,
         10
@@ -58,6 +60,7 @@
     },
     {
       "item": "broom cupboard",
+      "kind": "object",
       "footprint_in": [
         24,
         24
@@ -67,6 +70,7 @@
     },
     {
       "item": "clear loaded route",
+      "kind": "reservation",
       "footprint_in": [
         42,
         180

@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "sectional sofa",
+      "kind": "object",
       "footprint_in": [
         110,
         90
@@ -50,6 +51,7 @@
     },
     {
       "item": "television and console",
+      "kind": "object",
       "footprint_in": [
         60,
         18
@@ -59,6 +61,7 @@
     },
     {
       "item": "coffee table or ottoman",
+      "kind": "object",
       "footprint_in": [
         48,
         32
@@ -68,6 +71,7 @@
     },
     {
       "item": "toy and game storage",
+      "kind": "object",
       "footprint_in": [
         48,
         18
@@ -78,6 +82,7 @@
     },
     {
       "item": "games table",
+      "kind": "object",
       "footprint_in": [
         42,
         42
@@ -88,6 +93,7 @@
     },
     {
       "item": "clear floor for children",
+      "kind": "reservation",
       "footprint_in": [
         72,
         72

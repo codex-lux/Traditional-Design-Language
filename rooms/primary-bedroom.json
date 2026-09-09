@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "king bed",
+      "kind": "object",
       "footprint_in": [
         80,
         86
@@ -49,6 +50,7 @@
     },
     {
       "item": "nightstands, pair",
+      "kind": "object",
       "footprint_in": [
         24,
         18
@@ -58,6 +60,7 @@
     },
     {
       "item": "chest of drawers or dresser",
+      "kind": "object",
       "footprint_in": [
         60,
         20
@@ -67,6 +70,7 @@
     },
     {
       "item": "bench or blanket chest at the foot",
+      "kind": "object",
       "footprint_in": [
         54,
         18
@@ -77,6 +81,7 @@
     },
     {
       "item": "two chairs and a table",
+      "kind": "object",
       "footprint_in": [
         72,
         36
@@ -88,6 +93,7 @@
     },
     {
       "item": "television",
+      "kind": "object",
       "footprint_in": [
         60,
         4

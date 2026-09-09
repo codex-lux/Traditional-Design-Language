@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "sofas, pair, facing",
+      "kind": "object",
       "footprint_in": [
         84,
         34
@@ -49,6 +50,7 @@
     },
     {
       "item": "eight to twelve chairs, movable",
+      "kind": "object",
       "footprint_in": [
         24,
         26
@@ -59,6 +61,7 @@
     },
     {
       "item": "grand piano",
+      "kind": "object",
       "footprint_in": [
         58,
         72
@@ -70,6 +73,7 @@
     },
     {
       "item": "card tables, pair",
+      "kind": "object",
       "footprint_in": [
         36,
         36
@@ -80,6 +84,7 @@
     },
     {
       "item": "tea table",
+      "kind": "object",
       "footprint_in": [
         30,
         42
@@ -90,6 +95,7 @@
     },
     {
       "item": "pier tables and glasses between the windows",
+      "kind": "object",
       "footprint_in": [
         42,
         16

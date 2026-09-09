@@ -41,6 +41,7 @@
   "furniture": [
     {
       "item": "seat bench",
+      "kind": "object",
       "footprint_in": [
         48,
         30
@@ -51,6 +52,7 @@
     },
     {
       "item": "vault or pit",
+      "kind": "object",
       "footprint_in": [
         48,
         48
@@ -61,6 +63,7 @@
     },
     {
       "item": "ash or earth box",
+      "kind": "object",
       "footprint_in": [
         18,
         14

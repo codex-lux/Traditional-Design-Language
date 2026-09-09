@@ -172,16 +172,46 @@ def test_provenance_validates_and_gates_method():
     # carries an optional `block`, and `footprint` an optional `blocks` -- both additive, so the
     # footprint scalars still describe the main block and every existing reader is untouched. This
     # pin did its job and caught the bump, which is the whole reason it names the current version.
-    # 0.6.0 (WP-11.2, 4 Sep 2026): a plan may name the PARTI it is an instance of, as an id and
-    # never a record. It is what lets the diagram's own bay module reach the placement, and what
-    # build/check_plans.py holds a hand-authored record to. Additive; every existing plan
-    # validates unchanged. Caught by this pin again, which is twice in two days.
-    # 0.7.0 (WP-11.4, 4 Sep 2026): a plan room may carry `hearth`, an ARRAY of authored fires --
-    # wall, position, opening width, flue. Additive; every existing plan validates unchanged.
-    # **Caught by this pin for the third time in two days, and this time it was missed at the
-    # push**: WP-11.4 bumped the schema and did not run this suite, so the commit went out with
-    # the pin red. The pin is not the problem.
-    assert schema["version"] == "0.7.0"
+    # 0.5.1 (WP-11.2, 4 Sep 2026): `footprint.wall` -- the assembly the house is built of, from its
+    # own `declared.construction_type`, written by openings.place so BOTH renderers read one number
+    # instead of the two literals derive.js carried. Additive, and stripped with the rest of the
+    # footprint by `strip_placement`, so the DXF round trip returns the authored record unchanged.
+    # It caught the bump again, which is exactly what naming the current version is for.
+    # 0.6.0 (WP-11.3, 4 Sep 2026): `room.furniture_layout` -- where a dry room's furniture was
+    # arranged, with the MARKS to draw it, so both renderers draw one answer and neither derives.
+    # Additive and stripped by `strip_placement` with the fixtures. It caught the bump a fourth
+    # time, and this time it caught something else with it: the schema edit that was to admit
+    # `marks` reported success and changed nothing, so the solved record failed its own schema
+    # and the workbench sat on "placing…" with a 200 and no placement.
+    # 0.7.0 (WP-11.4, 4 Sep 2026): `threshold` and `hearths` -- the stoop at the entrance door
+    # and the gable-end stacks in plan, both written by openings.place and both stripped by
+    # `strip_placement`. And ONE FIX RATHER THAN AN ADDITION, which is why the bump is a minor
+    # and not a patch: `geometry.void` now admits `heated`, which build/geometry.py has written
+    # since OQ 55 and this schema forbade -- two of the fourteen reference plans had been
+    # INVALID against the contract they were placed from for three phases, unnoticed because
+    # nothing validates a placed plan except the API's own gate. It caught the bump a fifth time.
+    # 0.8.0 (WP-11.6, 5 Sep 2026): `room.wet_stack_with`, and NOT an addition so much as a
+    # SPLIT -- `stacks_over`'s own description had read "room id on the level below, for
+    # plumbing and structure" since it was written, two duties in one field, and one shipped
+    # record used it for a room on its OWN level. Three readers dropped that claim with a bare
+    # `continue` and no note. `stacks_over` is structural and cross-level now; `wet_stack_with`
+    # is the servicing half and takes any level including the claimant's own. Additive to the
+    # schema and so a minor. IT CAUGHT THE BUMP A SIXTH TIME, and this time it caught it AFTER
+    # the package had shipped -- the bump went in, every checker was run, and this assertion
+    # was the only thing in the corpus that noticed, in the full suite, forty-five minutes in.
+    # 0.9.0 (WP-11.10, 7 Sep 2026): `appendages` -- the terrace at grade. Additive, written by
+    # openings.place and stripped by `strip_placement` with the threshold and the hearths. What is
+    # worth carrying is what the field does NOT do: an at-grade appendage takes no rectangle in the
+    # footprint and its ROOM keeps `geometry` absent, which is what leaves `structure.wall_lines`,
+    # `plan_check`'s `rooms_unplaced` and `geometry`'s block sizing blind to it BY CONSTRUCTION
+    # rather than by six more readers being taught. IT CAUGHT THE BUMP A SEVENTH TIME, again in
+    # the full suite and again after every checker had already been run green.
+    # 0.10.0 (the merge of the two Phase 11s, 8 Sep 2026): a version bump and not a field.
+    # Both branches edited this schema -- one to 0.9.0 (`wet_stack_with`, `appendages`), the
+    # other to 0.7.0 (`block`/`hyphen`, `footprint.wall`, `parti`) -- and the merged schema
+    # carries every one of those fields, so it is neither. THIS TRIPWIRE HAS NOW CAUGHT A
+    # SCHEMA CHANGE EIGHT TIMES and this is the first where the change was a merge.
+    assert schema["version"] == "0.10.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

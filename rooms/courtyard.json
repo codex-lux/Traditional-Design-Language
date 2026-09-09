@@ -45,6 +45,7 @@
  "furniture": [
   {
    "item": "fountain, well head or cistern mouth at the centre",
+   "kind": "object",
    "footprint_in": [
     48,
     48
@@ -55,6 +56,7 @@
   },
   {
    "item": "outdoor dining table for six to eight",
+   "kind": "object",
    "footprint_in": [
     40,
     84
@@ -66,6 +68,7 @@
   },
   {
    "item": "planting bed or pots to the court's edge",
+   "kind": "object",
    "footprint_in": [
     30,
     120
@@ -77,6 +80,7 @@
   },
   {
    "item": "clear route around all four sides",
+   "kind": "reservation",
    "footprint_in": [
     42,
     240

@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "the screen",
+      "kind": "object",
       "footprint_in": [
         180,
         6
@@ -48,6 +49,7 @@
     },
     {
       "item": "loaded servant, both hands",
+      "kind": "reservation",
       "footprint_in": [
         30,
         24
@@ -58,6 +60,7 @@
     },
     {
       "item": "bench against the screen",
+      "kind": "object",
       "footprint_in": [
         72,
         18
@@ -69,6 +72,7 @@
     },
     {
       "item": "clear route, front door to rear door",
+      "kind": "reservation",
       "footprint_in": [
         42,
         200

@@ -77,13 +77,26 @@ class TestShippedPlans:
         # now carries an `applies_when` on the slope COUNT (the dormer-off-the-bay pattern:
         # zero dormers is not an even number of dormers).
         #
-        # THE MERGED FIGURE IS MEASURED, NOT ADDED UP. The two branches pinned 57 and 52 from a
-        # shared baseline of 53, and 53 + 4 - 1 is an arithmetic prediction rather than a
-        # reading of the tree -- which is the habit this repository has been caught by more
-        # than once. Re-derived on the merged tree:
-        # 57, moved from 56 by WP-11.2: this plan names no parti, but its massing does
-        # state `bays: "5"`, so the odd-count rule moved its footprint too.
-        assert result["counts"]["serious"] == 57
+        # THE MERGED FIGURE IS MEASURED, NOT ADDED UP -- AND THE FIRST MEASUREMENT OF IT WAS
+        # TAKEN TOO EARLY. This read 57 with a note saying it had been re-derived on the merged
+        # tree; re-derived again on the FINISHED merge it is 56, twice, deterministically. The
+        # earlier reading was taken while `geometry.py`'s candidate acceptance was still being
+        # reconciled, which is a mid-merge tree and not a tree. Measured on `git archive`
+        # checkouts of both parents and on the merged tree, all `plan_check.check` with no
+        # placement argument:
+        #
+        #     this branch  serious 56, minor 74, info 17
+        #     main         serious 57, minor 80, info 25
+        #     merged       serious 56, minor 80, info 25
+        #
+        # So SERIOUS is this branch's figure and MINOR and INFO are main's, which is what a
+        # merge that dropped neither side should look like: main's extra minor and info
+        # findings are checks this branch does not have, and the one serious finding between
+        # 56 and 57 is a difference in HOW a grouping failure is reported, not whether it is --
+        # `grouping:contemporary-service-core#2` on this branch against main's generic
+        # `grouping-rule-failed`, the same defect under two kinds. **Measure the finished tree,
+        # and measure it twice.**
+        assert result["counts"]["serious"] == 56
         # 59 -> 57 on 24 Aug 2026 (OQ 59): centre-passage joined the entrance-hall EQUIVALENT
         # group, so two rooms opening off the passage stopped being reported as wanting an
         # entrance hall the plan does not model. It models one; it calls it a passage. Fatal

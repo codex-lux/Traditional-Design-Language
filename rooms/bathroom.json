@@ -39,6 +39,7 @@
   "furniture": [
     {
       "item": "alcove bathtub",
+      "kind": "object",
       "footprint_in": [
         60,
         30
@@ -49,6 +50,7 @@
     },
     {
       "item": "shower, minimum",
+      "kind": "object",
       "footprint_in": [
         30,
         30
@@ -59,6 +61,7 @@
     },
     {
       "item": "water closet",
+      "kind": "object",
       "footprint_in": [
         20,
         30
@@ -69,6 +72,7 @@
     },
     {
       "item": "lavatory or vanity",
+      "kind": "object",
       "footprint_in": [
         30,
         21
@@ -79,6 +83,7 @@
     },
     {
       "item": "door swing",
+      "kind": "placed-elsewhere",
       "footprint_in": [
         28,
         28
@@ -89,6 +94,7 @@
     },
     {
       "item": "towel positions",
+      "kind": "object",
       "footprint_in": [
         24,
         4

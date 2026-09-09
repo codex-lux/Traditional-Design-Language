@@ -1,6 +1,8 @@
 # oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it — six layers read the main block as the whole building
 
-*Status: RULED 4 Sep 2026 · Raised in: From the adversarial audit of OQ 40's block machinery (3 Sep 2026)*
+*Status: HALF CLOSED — RULED TWICE, IN PARALLEL, AND BOTH RULINGS ARE BELOW · Raised in: From the adversarial audit of OQ 40's block machinery (3 Sep 2026)*
+
+**Two branches each ran a Phase 11 and each ruled this question — main on 4 September 2026 and this branch on 5 September — and the merge of 8 September keeps both sections rather than picking one.** They agree on the substance (an element has its own envelope; the lot cap is on the built extent; a hyphen is an element) and differ in what they then built, which is why both accounts are worth having. What remains open after the merge is what both left open: the ROOF is still modelled for one mass, and the composer writes no block tag.
 
 **OPEN — the placer states two massing elements and SIX layers below it read
 `footprint.width_ft`/`depth_ft` as the whole building. Each is wrong in its own direction on a
@@ -71,6 +73,45 @@ package here has to take the layers in an order it can state, and measure after 
 the record OQ 40 ruled for; removing them would make the disclosure unnecessary by making the
 feature unreachable, which is a different decision and belongs to OQ 40, not here.
 
+
+---
+
+## Ruled 5 September 2026, and built the same day (WP-11.9)
+
+All four items of "What must be ruled" were put to Lucas with the measurements above and ruled
+in one sitting:
+
+1. **Per-element envelope, union reported beside it.** Each element has its own four walls, its
+   own boundary for openings and its own slab; `elements.union_bbox` is written beside them for
+   the readers that are not per-element.
+2. **The lot cap is on the BUILT EXTENT, elements only, gap excluded.** Open ground between two
+   detached elements is not the building. `elements.extent_width_ft` measures the union of the
+   elements' x-intervals; a hyphen that fills the gap makes it the total.
+3. **A hyphen is an element, and abutment becomes a constraint.** `role: "hyphen"` stays.
+4. **`touches` is measured against the room's own element's face.** Exterior is exterior; a face
+   across a gap is exterior too and is counted separately as `faces_across_a_gap`.
+
+`build/elements.py` is the one reader, a LEAF on `stacking.py`'s precedent. All six layers are
+taught, each measured, and **the whole shipped corpus is byte-identical** — placement, footprint,
+openings, fixtures, furniture and findings — because every plan here is one rectangle. Report:
+`docs/reports/wp-11.9-the-six-layers-that-read-one-rectangle.md`.
+
+**Item 3's seventh defect could not be reproduced, and that is worth more than a fix would have
+been.** This entry records a hyphen missing its neighbour by 0.64 ft with both doors unplaced.
+Tried at five hyphen depths on a hand-tagged Tidewater and on a composed `five-part-palladian`
+with two dependencies and two hyphens — FIVE elements — the count is zero every time, and
+deleting the new ranking term changes no outcome anywhere in the tree. `blocks_for` clamps the
+hyphen's depth to the dependency's (`hh = min(H, …)`) and centres all three on one axis, so the
+hyphen's y-range lies inside both neighbours' and the slicer tiles each element exactly: a shared
+wall exists by construction. The constraint shipped as a **guard against a regression in
+`blocks_for`**, said so in its test's own name, and the detector is proved to bite on a
+hand-built record.
+
+**What is left, and it is a shorter list than six.** The roof spans the UNION bounding box rather
+than being modelled per element — ruling 1 gave it that, and it is a stated approximation on a
+multi-element house. The composer still writes no `block` tag. And the CP engine still refuses a
+multi-element plan outright, which is now the thing that BLOCKS tagging the shipped record:
+`oq/the-proving-engine-cannot-place-a-second-massing-element`.
 ---
 
 ## Lucas's ruling, 4 September 2026 — all four items

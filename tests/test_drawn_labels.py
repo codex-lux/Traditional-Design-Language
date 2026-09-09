@@ -124,8 +124,14 @@ def test_every_room_is_named_on_the_sheet():
     assert placed >= 20
     # names may be broken across lines, so the count of TEXT runs is >= the room count
     assert len(named) >= placed, f"{len(named)} name runs for {placed} placed rooms"
-    joined = " ".join(named)
-    for want in ("Butler's", "Pantry", "Kitchen", "(Dependency)", "Entrance", "Portico"):
+    # CASE-INSENSITIVE SINCE THE SHEET WAS PUT INTO GRAPHIC STANDARD No. 1: room names are
+    # set in letterspaced roman capitals, which is what the standard's `--tr-room` is for and
+    # what every exemplar plan does. The property this test is about -- that the room a
+    # renderer placed is a room the renderer NAMES, and names whole -- is untouched by case,
+    # and pinning the case here would have made a typographic ruling enforceable by a test
+    # that was written about something else.
+    joined = " ".join(named).lower()
+    for want in ("butler's", "pantry", "kitchen", "(dependency)", "entrance", "portico"):
         assert want in joined, want
 
 

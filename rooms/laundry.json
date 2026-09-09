@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "washer, front-loading",
+      "kind": "object",
       "footprint_in": [
         27,
         34
@@ -48,6 +49,7 @@
     },
     {
       "item": "dryer",
+      "kind": "object",
       "footprint_in": [
         27,
         32
@@ -58,6 +60,7 @@
     },
     {
       "item": "stacked pair",
+      "kind": "variant",
       "footprint_in": [
         27,
         34
@@ -69,6 +72,7 @@
     },
     {
       "item": "folding counter",
+      "kind": "object",
       "footprint_in": [
         60,
         24
@@ -79,6 +83,7 @@
     },
     {
       "item": "utility sink",
+      "kind": "object",
       "footprint_in": [
         24,
         22
@@ -89,6 +94,7 @@
     },
     {
       "item": "hanging rod for drip-dry",
+      "kind": "object",
       "footprint_in": [
         48,
         20
@@ -99,6 +105,7 @@
     },
     {
       "item": "drying rack or airing space",
+      "kind": "object",
       "footprint_in": [
         30,
         24
@@ -110,6 +117,7 @@
     },
     {
       "item": "baskets, sorted",
+      "kind": "object",
       "footprint_in": [
         42,
         18

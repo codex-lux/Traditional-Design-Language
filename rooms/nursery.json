@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "crib",
+      "kind": "object",
       "footprint_in": [
         30,
         54
@@ -48,6 +49,7 @@
     },
     {
       "item": "changing table or dresser with a changing top",
+      "kind": "object",
       "footprint_in": [
         36,
         20
@@ -58,6 +60,7 @@
     },
     {
       "item": "glider or nursing chair",
+      "kind": "object",
       "footprint_in": [
         30,
         34
@@ -68,6 +71,7 @@
     },
     {
       "item": "bookcase / low storage",
+      "kind": "object",
       "footprint_in": [
         36,
         12

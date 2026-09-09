@@ -29,6 +29,12 @@ SHARED_ONLY = {
     "raised-creole-plantation", "saltbox-colonial", "spanish-colonial-american", "stick-style",
 }
 UNTESTED = {"queen-anne-free-classic", "queen-anne-spindled", "roman-classical"}
+# WIDENED AT THE MERGE OF THE TWO PHASE 11s (8 Sep 2026), AND THE GENERATOR IS NAMED, as this
+# set's own rule requires: `build/threshold.py` joined `check_research.GENERATOR_FILES`, because
+# the other branch's WP-11.4 moved `roof_form_for`, the ridge axis and the gable-end points out
+# of `roof.py` and into it. `roof_form` was about to leave this set -- the walk found no reader
+# -- and it has one; `hearth_position`, `porch_support` and `steps_and_stoop` were never in it
+# and always read. Four slots ARRIVED; none left.
 READ_SLOTS = {
     "arch",
     "belt_course",
@@ -45,10 +51,12 @@ READ_SLOTS = {
     "entablature",
     "entry_door",
     "frieze",
+    "hearth_position",
     "height_proportion",
     "orientation_rule",
     "pilaster",
     "porch_depth",
+    "porch_support",
     "porch_type",
     "reveal_frame",
     "reveal_masonry",
@@ -57,6 +65,7 @@ READ_SLOTS = {
     "setback_rule",
     "shutter",
     "stair_type",
+    "steps_and_stoop",
     "transom_sidelight",
     "water_table",
     "window_grouping_rule",

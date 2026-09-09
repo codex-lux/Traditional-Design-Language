@@ -42,6 +42,7 @@
  "furniture": [
   {
    "item": "dining table for six",
+   "kind": "object",
    "footprint_in": [
     36,
     72
@@ -52,6 +53,7 @@
   },
   {
    "item": "row of rocking chairs",
+   "kind": "object",
    "footprint_in": [
     26,
     30
@@ -62,6 +64,7 @@
   },
   {
    "item": "joggling board",
+   "kind": "object",
    "footprint_in": [
     192,
     16
@@ -73,6 +76,7 @@
   },
   {
    "item": "hanging bed or swing",
+   "kind": "object",
    "footprint_in": [
     78,
     40
@@ -84,6 +88,7 @@
   },
   {
    "item": "clear route from the street door to the house door",
+   "kind": "reservation",
    "footprint_in": [
     42,
     180

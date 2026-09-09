@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "sofa",
+      "kind": "object",
       "footprint_in": [
         78,
         34
@@ -49,6 +50,7 @@
     },
     {
       "item": "two armchairs",
+      "kind": "object",
       "footprint_in": [
         32,
         34
@@ -59,6 +61,7 @@
     },
     {
       "item": "coffee table or low table",
+      "kind": "object",
       "footprint_in": [
         48,
         28
@@ -69,6 +72,7 @@
     },
     {
       "item": "bookcase or built-in cupboard",
+      "kind": "object",
       "footprint_in": [
         42,
         12
@@ -79,6 +83,7 @@
     },
     {
       "item": "writing table or bureau",
+      "kind": "object",
       "footprint_in": [
         42,
         22
@@ -90,6 +95,7 @@
     },
     {
       "item": "television, in every version after 1955",
+      "kind": "object",
       "footprint_in": [
         57,
         4

@@ -25,6 +25,7 @@
   "furniture": [
     {
       "item": "mechanical equipment zone",
+      "kind": "reservation",
       "footprint_in": [
         72,
         120

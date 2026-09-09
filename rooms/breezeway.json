@@ -40,6 +40,7 @@
   "furniture": [
     {
       "item": "bench or settle against a pen wall",
+      "kind": "object",
       "footprint_in": [
         60,
         20
@@ -50,6 +51,7 @@
     },
     {
       "item": "work table",
+      "kind": "object",
       "footprint_in": [
         30,
         60
@@ -61,6 +63,7 @@
     },
     {
       "item": "two chairs",
+      "kind": "object",
       "footprint_in": [
         22,
         24
@@ -70,6 +73,7 @@
     },
     {
       "item": "clear route end to end",
+      "kind": "reservation",
       "footprint_in": [
         42,
         144

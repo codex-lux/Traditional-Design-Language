@@ -38,6 +38,7 @@
   "furniture": [
     {
       "item": "high-backed settle facing the fire",
+      "kind": "object",
       "footprint_in": [
         66,
         20
@@ -48,6 +49,7 @@
     },
     {
       "item": "trestle or gate-leg table",
+      "kind": "object",
       "footprint_in": [
         36,
         60
@@ -58,6 +60,7 @@
     },
     {
       "item": "ladder-back and banister-back chairs",
+      "kind": "object",
       "footprint_in": [
         18,
         18
@@ -67,6 +70,7 @@
     },
     {
       "item": "great wheel or flax wheel",
+      "kind": "object",
       "footprint_in": [
         60,
         24
@@ -78,6 +82,7 @@
     },
     {
       "item": "cradle by the hearth",
+      "kind": "object",
       "footprint_in": [
         40,
         20
@@ -88,6 +93,7 @@
     },
     {
       "item": "cooking hearth with crane and oven",
+      "kind": "object",
       "footprint_in": [
         60,
         30
