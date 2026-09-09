@@ -7,7 +7,8 @@
    flipped inside <Model>. Ported from the mockup Sheet; generalised from its one
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
-import { wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
+import { privacyOpacity, daylightReachFt, isWet } from './overlayRules.js';
+import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
          divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
@@ -323,18 +324,9 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // WP-11.14 exists to make them answer with one function. `_absorb` is documented to grow a
   // room past its element, so the band is reachable rather than theoretical, and the frozen
   // sheet_symbols contract cannot catch it because no shipped plan carries a `block` tag.
-  const EL_TOL = 0.5;
-  const elBounds = {};
-  for (const b of (fp?.blocks || [])) {
-    for (const r of rooms) {
-      const inside = r.x >= b.x_ft - EL_TOL && r.y >= b.y_ft - EL_TOL
-        && r.x + r.w <= b.x_ft + b.width_ft + EL_TOL
-        && r.y + r.h <= b.y_ft + b.depth_ft + EL_TOL;
-      if (inside && elBounds[r.id] === undefined) {
-        elBounds[r.id] = [b.x_ft, b.y_ft, b.width_ft, b.depth_ft];
-      }
-    }
-  }
+  // WP-12.5 lifted this into derive.js::elementBounds, because the Round needed the same
+  // question answered and a second copy is how the 0.01-against-0.5 tolerance split happened.
+  const elBounds = elementBounds(rooms, fp);
   const drs = doors(rooms, W, H, 0.6, appendages.map((a) => ({
     id: a.room, x: a.rect.x_ft, y: a.rect.y_ft, w: a.rect.width_ft, h: a.rect.depth_ft })),
     elBounds);
@@ -472,19 +464,22 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
         {/* privacy_rank runs 1-5 across rooms/, not 1-6, so dividing by 6 meant the most
             private room never reached the top of the ramp. And `|| 1` drew a room type the
             catalogue has no rank for exactly like the LEAST private one — unjudged rendered
-            as evaluated, on a sheet. An unranked room is now left unglazed. */}
+            as evaluated, on a sheet. An unranked room is now left unglazed.
+            WP-12.5 lifted the ramp into `overlayRules.js` so the Round cannot spell it a
+            second way; every rank this corpus carries washes exactly as before. */}
         {ov.privacy && rooms.map((r) => {
-          const rank = roomsMeta[r.type]?.privacy_rank;
-          if (!rank) return null;
+          const op = privacyOpacity(roomsMeta[r.type]?.privacy_rank);
+          if (op == null) return null;
           return <rect key={'pv' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
-            fill="var(--sepia)" opacity={0.04 + ((rank - 1) / 4) * 0.20} />;
+            fill="var(--sepia)" opacity={op} />;
         })}
         {ov.daylight && rooms.map((r) => litWalls(r, W, H, 0.6, elBounds[r.id]).map((wall) => {
           // gated on the walls the placement actually lit — the overlay may never
           // claim daylight from a window the sheet does not draw
-          const head = r.window_head_ft || 7;
-          const mult = roomsMeta[r.type]?.daylight_multiplier || 2.25;
-          const reach = mult * head;
+          // `daylightReachFt` and not `mult || 2.25`: three records state a multiplier of
+          // ZERO and `||` turned that stated zero into the default (WP-12.5).
+          const reach = daylightReachFt(r, roomsMeta[r.type]);
+          if (!(reach > 0)) return null;
           let box;
           if (wall === 'S') box = { x: r.x, y: -r.y - Math.min(r.h, reach), width: r.w, height: Math.min(r.h, reach) };
           else if (wall === 'N') box = { x: r.x, y: -r.y - r.h, width: r.w, height: Math.min(r.h, reach) };
@@ -492,10 +487,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           else box = { x: Math.max(r.x, r.x + r.w - reach), y: -r.y - r.h, width: Math.min(r.w, reach), height: r.h };
           return <rect key={'dl' + r.id + wall} {...box} fill="var(--green)" opacity=".16" />;
         }))}
-        {ov.wet && rooms.filter((r) => {
-          const m = roomsMeta[r.type] || {};
-          return m.plumbing === 'heavy' || m.function_class === 'sanitary';
-        }).map((r) => (
+        {ov.wet && rooms.filter((r) => isWet(roomsMeta[r.type])).map((r) => (
           <g key={'wt' + r.id}>
             <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h} fill="var(--blue)" opacity=".2" />
             <circle cx={r.x + r.w / 2} cy={-r.y - r.h / 2} r="1.1" style={inked(PEN.fine, "blue-deep")} vectorEffect="non-scaling-stroke" />

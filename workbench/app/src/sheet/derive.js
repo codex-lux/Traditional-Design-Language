@@ -444,6 +444,33 @@ export function windows(rooms, W, H, tol = 0.6, extDoors = [], bounds = null) {
   return out;
 }
 
+/* Which massing element each room stands in — `build/elements.py::element_of`'s question,
+   answered once for both surfaces (WP-12.5).
+
+   This was written out inline in `Sheet.jsx` and the Round was about to need it, which is how
+   a second tolerance and a second rounding got into the tree last time (WP-11.15's audit found
+   `Sheet.jsx` transcribing the containment test at 0.01 ft under a comment citing
+   `elements.py`'s own rule, which is 0.5). `EL_TOL` is `elements.TOL` and there is one of it.
+
+   Returns `{roomId: [x, y, w, d]}` and omits a room that stands in NO element — never
+   defaulting it to element zero, which is the defect WP-11.9 exists to remove. */
+export const EL_TOL = 0.5;
+
+export function elementBounds(rooms, footprint) {
+  const out = {};
+  for (const b of (footprint?.blocks || [])) {
+    for (const r of rooms) {
+      const inside = r.x >= b.x_ft - EL_TOL && r.y >= b.y_ft - EL_TOL
+        && r.x + r.w <= b.x_ft + b.width_ft + EL_TOL
+        && r.y + r.h <= b.y_ft + b.depth_ft + EL_TOL;
+      if (inside && out[r.id] === undefined) {
+        out[r.id] = [b.x_ft, b.y_ft, b.width_ft, b.depth_ft];
+      }
+    }
+  }
+  return out;
+}
+
 /* Which of a room's declared window-walls the placement actually put on the footprint
    boundary — the daylight overlay must agree with the DRAWN windows, not the declared
    list, or the overlay and the drawing contradict each other on the same sheet. */
