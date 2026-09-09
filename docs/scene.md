@@ -166,3 +166,43 @@ not move — the precedent is WP-11.6, which put the family-specimen drift check
 make that verdict read as its own, it exits non-zero on its own account, and a scene that
 cannot be built at all reports **N/EV — could not evaluate** with the reason rather than
 passing.
+
+## The viewer (WP-12.4)
+
+`workbench/app/src/round/` draws this record, and the division of labour is the same one the
+scene layer itself rests on — the part that can be silently wrong is the part that is testable
+without a browser:
+
+| file | what it decides | tested by |
+|---|---|---|
+| `frame.js` | where the camera stands, how the model projects, what is a named view | `node --test` |
+| `solids.js` | what a triangle is: the four primitives become faces, edges and an extent | `node --test` |
+| `annotate.js` | what the drawing is called, and what furniture is true in each view | `node --test` |
+| `three-scene.js` | uploading the above to a GPU. The ONLY importer of `three` | the browser walk |
+| `Round.jsx`, `RoundPlate.jsx` | the canvas, the pointer, the sheet chrome | the browser walk |
+
+**Azimuth is the compass bearing of the CAMERA — where the viewer stands, not where they look.**
+The south elevation is therefore 180. Getting this backwards draws every elevation as its own
+mirror and every axon reflected, and the drawing looks entirely plausible either way: that is
+WP-5.11's inverted sweep flag one dimension up, and it is why `round.test.mjs` asserts that east
+is on the RIGHT of the south elevation and on the LEFT of the north one rather than asserting
+that the projection is self-consistent.
+
+**`three` is loaded only by `await import('./three-scene.js')`.** That is what puts it in a chunk
+of its own (545 KB, against an entry chunk of 478 KB and a 700 KB ceiling), so a reader who never
+opens the Round never downloads a 3D engine — and it is also what keeps
+`no_bare_imports.test.mjs` green, since that walker deliberately does not follow a dynamic
+import. `build/check_frontend.py` asserts the chunk exists.
+
+**The pen does not magnify with the zoom.** Edges are drawn with `LineSegments2` at screen-space
+width, so OQ 66 — the loupe magnifying the ink along with the drawing — is answered in the Round
+by construction rather than by a setting.
+
+**The flat plate is laid over the model by `data-frame`**, which every renderer now writes: see
+`build/sheet_style.py::frame_attr`. The renderer states its own affine and says nothing about the
+model frame, because which model axis runs along a face is the camera's business and is under
+test in `frame.js`. Its elevation case rests on an assumption the record does not state —
+`elevation.py::_face_bays` computes bay centres across the span without consulting the face, so
+nothing says which model end `u = 0` is. Every face in this corpus is symmetric, so the
+assumption cannot be caught out here; the day one is not, read
+`oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from`.

@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**178 questions, of which 86 are open.** A question is OPEN while
+**179 questions, of which 87 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 86
+## Open — 87
 
 Awaiting a ruling. This is the list to read first.
 
@@ -93,6 +93,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity** | OPEN | [the guard compares numbers and cannot compare meanings](open-questions/oq-a-source-that-agrees-numerically-may-be-the-wrong-quantity.md) |
 | **oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it** | OPEN | [17 `measured` figures a survey disproves, three by the node's own exemplar](open-questions/oq-a-survey-contradicts-a-kit-figure-and-nothing-decides-it.md) |
 | **oq/an-at-grade-appendage-is-drawn-and-not-judged** | OPEN | [the terrace is on the sheet and held against no band](open-questions/oq-an-at-grade-appendage-is-drawn-and-not-judged.md) |
+| **oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from** | OPEN | [and every face in the corpus is symmetric, so nothing can catch it](open-questions/oq-an-elevation-does-not-state-which-end-of-the-face-it-starts-from.md) |
 | **oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms** | HALF CLOSED — doors and windows built in WP-11.14 (8 September 2026); the sweep of the other exterior marks is open | [the seventh layer that reads one rectangle](open-questions/oq-an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms.md) |
 | **oq/applies-when-means-two-things** | OPEN | [one field name, two preconditions, three schemas](open-questions/oq-applies-when-means-two-things.md) |
 | **oq/fifteen-of-sixteen-plans-name-no-parti** | OPEN | [the facade layer is silent on 94% of this corpus](open-questions/oq-fifteen-of-sixteen-plans-name-no-parti.md) |

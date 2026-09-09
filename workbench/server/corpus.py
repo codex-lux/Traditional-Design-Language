@@ -654,7 +654,14 @@ def scene(plan, parti=None, candidates=250, plates=True):
             if "error" in got:
                 refused[key] = got["error"]
             else:
-                drawn[key] = got["svg"]
+                # THE WHOLE RESULT, NOT JUST THE SVG. A plate is its drawing AND the things the
+                # drawing does not say for itself -- WP-3.2's photograph-measurable disclosure,
+                # which face the record calls the entrance front, the relaxation count, and
+                # WP-11.8's engine-and-input-digest line. WP-12.4 first stored `got["svg"]` here
+                # and the bench's elevation lost every one of them: the plate looked right and
+                # had stopped disclosing, which is the failure this surface exists not to have.
+                # The browser walk caught it, on the two checks that read the caption.
+                drawn[key] = got
         out["plates"] = drawn
         out["plates_refused"] = refused
     return out

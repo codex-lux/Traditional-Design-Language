@@ -130,7 +130,7 @@ truncated left half. Both are the shapes this file already records for the two p
 code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
 were then driven to prove they fire**, which is the only thing that has ever caught one of these.
 
-**WP-12.0 THROUGH WP-12.3 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
+**WP-12.0 THROUGH WP-12.4 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
 again (`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`) and WP-12.1 is the scene
 record (`docs/reports/wp-12.1-the-scene-record.md`, layer doc `docs/scene.md`): `build/scene.py`,
 pure arithmetic and a leaf, which imports `export_ifc.slab_boxes`, `structure.wall_thickness`,
@@ -228,6 +228,58 @@ guard proving two drawings share an input says nothing about what each did with 
 **AND THE FIRST PLATE FIGURE PUBLISHED WAS 0.70 s AGAINST A REPRODUCIBLE 0.38** -- measured in a
 process that had not yet loaded the drawing pipeline, so it carried the module loads. Corrected in
 five files by sweeping for the retired number, which is this file's own rule after a correction.
+
+**WP-12.4 IS THE ROUND, AND ITS TWO FINDINGS BOTH CAME FROM A MUTATION BEING BLIND
+(`docs/reports/wp-12.4-the-round.md`).** Surface 8's first plate is the model now; the five flat
+plates are chips beneath it. `round/frame.js` (the camera), `round/solids.js` (the four primitives
+as triangles and edges) and `round/annotate.js` (what a drawing is called) are Three-free LEAVES
+under `node --test`, for the reason `build/scene.py` is one: the arithmetic that decides where a
+triangle goes must be testable without a bundle, a browser or a GPU. `round/three-scene.js` is the
+ONLY importer of `three` and is reached only by `await import()` -- which puts it in a **544.7 KB
+chunk of its own** (entry 460 -> 478 KB against a 700 KB ceiling, so a reader who never opens the
+Round never downloads a 3D engine) and keeps it out of `no_bare_imports.test.mjs`'s walk, because
+that walker deliberately does not follow a dynamic import. The pen is `LineSegments2` at
+screen-space width, so **OQ 66 is answered in the Round by construction** -- the ink does not
+magnify with the zoom.
+**THE `xz` FRAME IS LEFT-HANDED AND IT WOUND HALF THE HOUSE INSIDE OUT.** `PLANES.xz` maps
+`(u, v, n)` to `(x, z, y)`, and **x cross z is MINUS y**, so that frame is left-handed while `yz`
+and `xy` are right-handed: an outline wound one way faces outward in a gable and INWARD in a wall,
+and every opening reveal and gable came out with its normals reversed. On the plate that is a flat
+sun lighting half the house from inside -- WP-5.11's mirrored-arc class exactly, a model that is
+self-consistent and ink that is wrong. **The box normal test passed over it**, because a box's
+faces are hand-wound and never go through `sweptFaces`; the tell was a mutation of the cap winding
+staying green. Orientation is COMPUTED from the solid's own centroid now, which is right whatever
+the frame's handedness and whatever order the record wrote the outline in.
+**AND A PLATE SERVED WITHOUT ITS METADATA IS A PLATE THAT HAS STOPPED DISCLOSING.** Serving the
+flat plates out of `scene.plates` -- WP-12.3's whole argument -- was written as `got["svg"]`. The
+picture was right and everything around it vanished: WP-3.2's photograph-measurable disclosure,
+which face the record calls the entrance front, the relaxation count, WP-11.8's
+engine-and-input-digest line. **THE BROWSER WALK WAS THE ONLY THING THAT CAUGHT IT**, on two
+checks that read the caption; no Python test saw it, because `test_scene_endpoint.py` was
+asserting that the picture was a picture and the defect was in everything the picture does not say
+for itself. A plate is its drawing AND its disclosures, and that file asserts both now.
+**AND THE REPAIR'S OWN TWO GUARDS WERE SHIELDED BY THE ASSERTION ABOVE THEM.** The block asserted
+the picture first, so driving the defect back in went red on a `TypeError: string indices must be
+integers` and the two disclosure assertions were NEVER REACHED -- red for a reason that says
+nothing about what a plate owes. The SHAPE is asserted before the picture now, and BOTH defect
+shapes are driven: a bare string, and `{"svg": ...}`, the plausible half-fix that sails past the
+picture line and is caught only by the metadata guard. *A guard that runs only where the bug
+cannot occur* met inside one `for` body, in the repair for the defect it was written for.
+**NO PLAN IN THIS CORPUS STATES A LOT -- 0 of 16, swept** -- so `render_plan`'s whole site block
+and its four `extra_*` terms are unreachable from the shipped records, `oy` equals `top` on every
+plate drawn, and a mutation replacing `data-frame`'s origin with the sheet margin stayed GREEN.
+Driven by hand, with the premise asserted.
+**`data-frame` CARRIES A LIST BECAUSE A PLAN CARRIES SEVERAL PLATES**: measured, the Tidewater
+levels' origins are 44.0 and 1177.2 px, so one frame at the root would have mis-registered the
+upper plate by a whole plate's width. It states the renderer's own affine and NOTHING about the
+model frame -- which model axis runs along a face is the camera's business and is under test in
+`frame.js`, and a renderer claiming it too would be a second authority over exactly the fact a
+mirrored drawing gets wrong. 16 of 16 plates are byte-identical across the attribute.
+**APPROACH IS NOT IN THIS PACKAGE AND WP-12.7 LANDS IT.** The 8 Sep ruling putting a 5'-6"
+perspective view in v1 stands; only its package moved, because at WP-12.4 the model is an
+undressed massing and eye height is where a missing cornice, dormer and door surround are least
+forgivable. `frame.js` carries one projection kind. `PLAN-OF-ACTION.md`'s status block says so;
+its original package text still names the chip, as this project leaves original text.
 
 **AND THREE STATES OF THE TREE THAT ARE NOT PHASE 12'S, MEASURED 8-9 SEP BY WALKING A WORKTREE OF `origin/main` ALONE.** The browser walk is RED on `main`: a label spill on the Pantry, twice, and the Plan Workbench's engine-caption parity check. Byte-identical on `main` and on `main` + Phase 12. **The spill moved rooms between trees** -- the Centre Passage on `f54c5af`, the Pantry on `main` -- because the merge moved the placement, so attributing it by the room name would have been wrong. At `5869012` every corpus shard, the aggregate gate, the server tests and the docker build are green and the walk is the only red job. **AND THE MERGE WAS DONE AND THE RE-DERIVATION PAID, 9 SEP -- THE DEFECT WAS WORSE THAN PUBLISHED.** `main` was six commits ahead of the PRD's `f54c5af`, carrying the other Phase 11's merge, which touches `structure.py`, `roof.py`, `openings.py`, `plan_check.py` and `export_ifc.py` -- the modules `build/scene.py` is specified to import -- and moved both shipped plans' footprints. Merged with no conflicts, and every WP-12.0 figure re-derived across it rather than quoted: the spec Colonial's `porch_clear_depth_ft` is **6.00 against a drawn 4.00**, fifty per cent over rather than the three quarters of a foot measured on `f54c5af`, and **the Tidewater plan now reaches a proof inside its budget**, so **ten** of its measurements move -- the ridge height, the eave-to-ridge height, the roof plane area -- and **all four of its faces differ** where none did before. **Two published sentences are now false of the tree**: *nothing moves on the Tidewater plan*, and *the front is drawn on the width and the width does not move*. The second was never a rule -- it was a property of one plan on one tree, and it read as an explanation. Corrected in the report's addendum rather than overwritten; the code is unchanged and all 15 tests pass. **A figure is a statement about the tree it was measured on**, which is this file's own rule about what happens to a number at exactly a merge, met the day after it was written down.
 
@@ -4358,8 +4410,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **178 entries, of which 86 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **179 entries, of which 87 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,

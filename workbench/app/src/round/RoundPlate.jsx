@@ -110,7 +110,7 @@ export function RoundPlate({
   }, []);
 
   const key = plateKeyFor(view);
-  const svg = key && plates ? plates[key] : null;
+  const svg = key && plates && plates[key] ? plates[key].svg : null;
   const refusedWhy = key && platesRefused ? platesRefused[key] : null;
 
   const overlay = React.useMemo(() => {

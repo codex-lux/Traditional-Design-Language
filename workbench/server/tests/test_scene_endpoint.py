@@ -51,8 +51,24 @@ def test_the_scene_comes_back_with_its_plan_and_its_plates(scene_res):
     assert set(scene_res["plates"]) | set(scene_res["plates_refused"]) == {
         f"{k}:{f}" if f else k for k, f in corpus.SCENE_PLATES}
     assert scene_res["plates"], "no plate was drawn at all"
-    for key, svg in scene_res["plates"].items():
-        assert svg.lstrip().startswith("<svg"), key
+    for key, got in scene_res["plates"].items():
+        # A PLATE IS ITS DRAWING AND ITS DISCLOSURES. WP-12.4 first stored the SVG alone here
+        # and the bench's elevation silently lost WP-3.2's disclosure, the entrance face and
+        # the engine-and-digest line -- caught by the browser walk, not by this file, because
+        # this file was asserting the picture and the defect was in everything around it.
+        #
+        # THE SHAPE IS ASSERTED BEFORE THE PICTURE, AND THAT ORDER WAS CHOSEN BY MUTATION.
+        # With `got["svg"]` written back into corpus.py the picture line raised
+        # `TypeError: string indices must be integers` -- red, and telling the reader nothing
+        # about what a plate owes. The two disclosure assertions below were never reached at
+        # all, so the guards written for this defect were shielded by the one above them.
+        assert isinstance(got, dict), (
+            f"{key} came back as a bare {type(got).__name__}: a plate is its drawing AND the "
+            "things the drawing does not say for itself")
+        assert got["svg"].lstrip().startswith("<svg"), key
+        assert got.get("kind"), f"{key} carries a drawing and no metadata"
+        if key.startswith("elevation"):
+            assert got.get("entrance_face"), f"{key} does not say which face is the front"
 
 
 def test_the_returned_plan_is_placed_so_a_later_call_does_not_re_solve(scene_res):

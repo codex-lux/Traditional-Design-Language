@@ -100,8 +100,8 @@ export function DrawingSet({ go }) {
       ? scene.plates[kind === 'elevation' ? `elevation:${face || scene.scene?.entrance_face || 'S'}` : kind]
       : null;
     if (fromScene) {
-      const j = { kind, svg: fromScene, ...(scene.solver ? { solver: scene.solver } : {}) };
-      cache.current[key] = j; setResult(j); setError(null); return;
+      // the whole result the drawing route returns, so the plate keeps its disclosures
+      cache.current[key] = fromScene; setResult(fromScene); setError(null); return;
     }
     setBusy(true); setError(null); setResult(null);
     api.drawing(kind, plan, kind === 'elevation' && face ? { face } : {})
