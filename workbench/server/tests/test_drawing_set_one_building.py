@@ -155,10 +155,17 @@ def test_the_roof_plan_is_drawn_from_the_sets_own_placement(client):
 
 
 def test_the_front_elevation_is_unmoved_and_that_is_why_nobody_saw_it(client):
-    """The control, and the reason this went eleven weeks unnoticed. The front is drawn on the
-    WIDTH; on both shipped plans the width is the same under either engine, so the one face a
-    client could ask for is byte-identical before and after. A fix that moved this too would
-    be doing something else."""
+    """The control, and the reason this went twelve days unnoticed.
+
+    THE NAME OVER-CLAIMS ON THE MERGED TREE AND IS KEPT RATHER THAN QUIETLY WIDENED. It is
+    driven on `spec-builder-colonial`, where the front is drawn on the WIDTH and the width is
+    the same under either engine, so the one face a client could ask for is byte-identical
+    before and after. That was true of BOTH shipped plans on `f54c5af`, which is what the name
+    says. It is no longer true of `tidewater-georgian-careful`: after the 9 Sep merge that plan
+    reaches a CP proof inside its budget, its two placements no longer coincide, and all four
+    of its faces differ. So this is a fact about one plan, not about fronts. A fix that moved
+    the front HERE would be doing something else.
+    """
     plan = _plan()
     if _engines_differ_on(plan) != "cp-sat":
         pytest.skip("COULD NOT EVALUATE — no proof, so there is no before-and-after here")
