@@ -301,10 +301,27 @@ def _walls(section, states):
     return out
 
 
-# How far a stack stands above the ridge where its own record states no cap height. EDITORIAL:
-# no pack in this corpus states it, and a stack level with the ridge draws as a house with a
-# hole in its roof. Named so it cannot read as a measurement.
-CHIMNEY_ABOVE_RIDGE_FT = 2.0
+# A CAP ON A CALLER-SUPPLIED COUNT, AND NOT A STATEMENT ABOUT STAIRS (WP-12.8). `_porch`
+# draws one solid per riser and `plan.threshold.steps[].riser_count` is an unbounded
+# `integer` in the plan schema, reached by `POST /api/scene` from any caller. Two of the three
+# bounds below it are the record's own -- the treads that fit the flight's stated depth, and
+# the risers that stand below the floor the flight serves -- and both are defeated by a tread
+# or a rise small enough. This one is a GUARD: it bounds the work, refuses the excess by name,
+# and asserts nothing about how many risers a stoop has.
+# `oq/a-room-count-cap-on-the-heavy-routes` is the open question this belongs to.
+_MAX_DRAWN_RISERS = 64
+
+
+class UnknownPrimitive(ValueError):
+    """`_extent` met a primitive it has no rule for (WP-12.8).
+
+    NAMED SO `build/validate.py` CAN TELL IT FROM A REFUSAL. That checker wraps the scene
+    selftest in a blanket `except Exception` and prints `N/EV -- could not evaluate`, which is
+    right for a plan whose PLACEMENT could not be made and is exactly wrong here: the whole
+    argument for `_extent` raising is that a primitive nobody measured must not be silent, and
+    the only CI consumer of that raise was turning it into one line of text and exiting 0. A
+    loud failure routed into a quiet channel is a quiet failure.
+    """
 
 
 def _extent(g):
@@ -336,8 +353,19 @@ def _extent(g):
             return ([min(us), n0, min(zs)], [max(us), n1, max(zs)])
         if g["plane"] == "yz":                       # (u, v, n) -> (y, z, x)
             return ([n0, min(us), min(zs)], [n1, max(us), max(zs)])
-        raise ValueError(f"extrude on an unknown plane {g['plane']!r}")
-    raise ValueError(f"no extent rule for primitive {t!r}")
+        if g["plane"] == "xy":                       # (u, v, n) -> (x, y, z)
+            # ADMITTED BECAUSE THE SCHEMA AND THE VIEWER BOTH ADMIT IT (WP-12.8). Nothing in
+            # this file emits an `xy` extrusion yet, but `scene.schema.json`'s plane enum
+            # carries it and `round/solids.js`'s PLANES map builds it -- so a record the
+            # schema calls valid and the viewer can draw was one the FRAME refused to measure,
+            # and the refusal takes `build_scene` down. A vocabulary gap between three
+            # spellings of one enum is what WP-12.8's pen maps were; this is the same gap in
+            # the other direction, closed rather than left as a latent crash.
+            return ([min(us), min(zs), n0], [max(us), max(zs), n1])
+        raise UnknownPrimitive(f"extrude on an unknown plane {g['plane']!r}")
+    # `sweep` and `lathe` are in the schema's `oneOf` and NOTHING emits one; when something
+    # does, it owes this function a rule rather than a silent skip.
+    raise UnknownPrimitive(f"no extent rule for primitive {t!r}")
 
 
 def _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext):
@@ -357,6 +385,30 @@ def _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext):
                 [[ox + u0, z0], [ox + u1, z0], [ox + u1, z1], [ox + u0, z1]])
     return ("yz", (ox if face == "W" else ox + W - t_ext),
             [[oy + u0, z0], [oy + u1, z0], [oy + u1, z1], [oy + u0, z1]])
+
+
+def _on_the_outside_face(face, at, t_ext, thickness=0.0):
+    """The `at` for a member that sits ON the outside face of its wall (WP-12.8).
+
+    `_face_extrude` returns the LOW face, which is exactly right for the opening FRAME: the
+    frame's thickness is the whole wall, so low + full thickness spans it on every face. It is
+    exactly wrong for anything THINNER. On S and W the low face IS the outside face; on N and E
+    it is the INSIDE one, so a sash bar, a shutter leaf, a surround or a flush entablature
+    member placed at `at` stood on the wrong side of the house — measured on
+    `spec-builder-colonial`, whose N wall runs y 30.750 to 31.417 and whose muntins, meeting
+    rails, shutters, door surround, both sidelights and flush frieze all sat at **30.747**.
+    That plan's entrance front IS the N face, so its entire doorcase was inside the house with
+    only the two projecting mouldings outdoors above a blank wall. Corpus-wide, counting out the
+    projecting entablature members, which were already face-aware and did not move: **1,769
+    dressing solids on the wrong side against 1,713 on the right, of 3,482**.
+
+    It is WP-12.2's own defect with the sign reversed — that one put `at` on the outside face
+    with an always-positive thickness and stood the N and E openings PROUD of their walls — and
+    it survived for the same reason: no number in the record disagrees with it, every test read
+    the in-plane extent, and only a picture of the north side shows it. The extrusion still
+    always runs +axis, which is the contract; what this states is where a thin member starts.
+    """
+    return at if face in ("S", "W") else at + t_ext - thickness
 
 
 def _openings(elev, section, states):
@@ -382,6 +434,17 @@ def _openings(elev, section, states):
     W, D = fp.get("width_ft"), fp.get("depth_ft")
     t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
     ox = oy = -t_ext
+    # AN OPENING STANDS ON A STOREY AND THE RECORD DID NOT SAY WHICH (WP-12.8). `opening_rects`
+    # names its storey by ID (`'ground'`, `'upper'`) and `solid.level` is an INTEGER, so the two
+    # vocabularies had to be joined and the first version simply omitted the key: 432 of the
+    # Tidewater plan's 500 solids carried no `level` at all. It is a fact the record holds --
+    # the elevation resolved the storey to lay the opening out -- and omitting it made the
+    # viewer's `explode: levels` lift the walls, the slabs and the hearths and leave every
+    # window, sash bar, shutter and doorcase behind, because `three-scene.js` picks an offset
+    # with `byLevel[solid.level]`. Wrong long before this package; visible now that there are
+    # eleven times as many solids without one.
+    _lvl = {st.get("id"): st.get("index") for st in (section.get("storeys") or [])
+            if st.get("id") is not None and st.get("index") is not None}
     EL = _mod("elevation")
     kept = {}
     for face in ("S", "N", "E", "W"):
@@ -420,11 +483,11 @@ def _openings(elev, section, states):
                  "outline": [[round(a, 3), round(b, 3)] for a, b in outline]},
                 "profile", "paper-lit",
                 {"record": r["source"], "also": [f"elevation.faces.{face}.centres_ft"]},
-                "derived", face=face,
+                "derived", face=face, level=_lvl.get(r.get("storey")),
                 note="the opening's extent, drawn in the face plane at the reveal. It is a "
                      "FRAME and not a hole: this layer does no boolean subtraction, so the "
                      "wall behind it is the box the section describes"))
-    out.extend(_dress_openings(elev, states, kept, ox, oy, W, D, t_ext))
+    out.extend(_dress_openings(elev, states, kept, ox, oy, W, D, t_ext, _lvl))
     return out
 
 
@@ -434,7 +497,7 @@ def _openings(elev, section, states):
 _BAR_IS_SQUARE = True
 
 
-def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext):
+def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext, levels=None):
     """Sash bars, shutters and the sill, on every drawn opening (WP-12.6).
 
     EVERY NUMBER IS THE RECORD'S OWN. `lights_across`, `lights_high_per_sash`, `muntin_width_in`,
@@ -477,13 +540,16 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext):
             bw = bar / 12.0
             plane, at, _ = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext)
 
+            at_out = _on_the_outside_face(face, at, t_ext, bw)
+            lvl = (levels or {}).get(r.get("storey"))
+
             def _bar(sid, a, b, c, d, cls):
                 _, _, ol = _face_extrude(face, a, b, c, d, ox, oy, W, D, t_ext)
                 return _solid(sid, cls,
-                              {"type": "extrude", "plane": plane, "at": round(at, 3),
+                              {"type": "extrude", "plane": plane, "at": round(at_out, 3),
                                "thickness": round(bw, 4),
                                "outline": [[round(x, 3), round(y, 3)] for x, y in ol]},
-                              "fine", "paper-lit", src, "measured", face=face)
+                              "fine", "paper-lit", src, "measured", face=face, level=lvl)
 
             for i in range(1, across):
                 cu = u0 + (u1 - u0) * i / across
@@ -519,7 +585,7 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext):
                     _, _, ol = _face_extrude(face, a, b, z0, z0 + lh, ox, oy, W, D, t_ext)
                     out.append(_solid(
                         f"{r['id']}-shutter-{side}", "shutter",
-                        {"type": "extrude", "plane": plane, "at": round(at, 3),
+                        {"type": "extrude", "plane": plane, "at": round(at_out, 3),
                          "thickness": round(bw, 4),
                          "outline": [[round(x, 3), round(y, 3)] for x, y in ol]},
                         # THREE INVENTED NAMES IN A ROW, and the schema caught every one:
@@ -529,9 +595,28 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext):
                         "seen", "sepia-pale",
                         {"record": f"elevation.storey_windows[{r['storey']}].shutter_leaf_width_in",
                          "also": ["elevation.shutters_carried"]},
-                        "measured", face=face,
-                        note=f"drawn open; {rec.get('shutter_panel_count')} panels a leaf"))
-    if rects_by_face:
+                        # `editorial` AND NOT `measured`, BECAUSE ONE OF ITS THREE DIMENSIONS
+                        # IS NOT THE RECORD'S (WP-12.8). The leaf's width and height are
+                        # stated; its THICKNESS is nowhere in the corpus, and the first version
+                        # drew it at `bw` -- the MUNTIN's width, a dimension belonging to a
+                        # different member -- while calling the whole solid measured. A
+                        # borrowed number wearing a measurement's label is the one thing this
+                        # layer's header forbids. The depth is still the bar's, because a leaf
+                        # has to have one to be a solid at all; what changes is that the record
+                        # now says so.
+                        "editorial", face=face, level=lvl,
+                        note=f"drawn open; {rec.get('shutter_panel_count')} panels a leaf. Its "
+                             "width and height are the record's; its THICKNESS is not stated "
+                             "anywhere in this corpus and is drawn at the sash bar's"))
+    # GATED ON THE WINDOWS AND NOT ON THE DICT (WP-12.8). `rects_by_face` is built for all four
+    # faces unconditionally, so `if rects_by_face:` is `if {"S": [], "N": [], "E": [], "W": []}`
+    # — always true — and would file "the sills under every window" against a house with no
+    # windows at all. That is precisely WP-12.6's own dormer defect, in the function immediately
+    # below the one it was found in and in the same commit: a refusal about something that does
+    # not exist is the fake-unjudged collapse wearing its other face. Latent rather than live —
+    # the five shipped plans that draw no opening refuse their elevation before reaching here —
+    # so `tests/test_scene_dressed.py` drives it.
+    if any(r.get("kind") == "window" for rs in rects_by_face.values() for r in rs):
         states.cannot("the sills under every window",
                       "`window_sill.projection_in` resolves to a BAND rather than a figure on "
                       "the nodes this corpus draws (tidewater-georgian states [0, 1] in, a child "
@@ -593,6 +678,11 @@ def _entrance(elev, section, states):
                       f"elevation.faces.{face}", cls="entrance")
         return out
 
+    # The doorcase stands on the storey its door does -- see `_openings` on why this join has
+    # to be made by hand (WP-12.8): `opening_rects` names a storey by id and `solid.level` is
+    # an integer.
+    door_level = {st.get("id"): st.get("index")
+                  for st in (section.get("storeys") or [])}.get(door.get("storey"))
     cw = (ent.get("casing_width_in") or 0) / 12.0
     x0, x1 = door["x0_in"] / 12.0, door["x1_in"] / 12.0
     z0, z1 = door["sill_in"] / 12.0, door["head_in"] / 12.0
@@ -601,16 +691,21 @@ def _entrance(elev, section, states):
 
     def _plane(sid, cls, u0, u1, za, zb, note, src):
         pl, at, outline = _face_extrude(face, u0, u1, za, zb, ox, oy, W, D, t_ext)
-        ax = {"xz": 1, "yz": 0}[pl]
+        # ON THE OUTSIDE FACE, WHICH `at` IS ONLY ON S AND W (WP-12.8). A flush member has no
+        # thickness to set back, so it takes the outside face itself. `spec-builder-colonial`
+        # is approached from the N, and its surround, both sidelights and its flush frieze were
+        # drawn at 30.747 against a north wall whose outside face is 31.417 — the entire
+        # doorcase inside the house, under a blank wall carrying two projecting mouldings.
+        at_out = _on_the_outside_face(face, at, t_ext)
         verts = []
         for a, b in outline:
             v = [0.0, 0.0, 0.0]
             v[0 if pl == "xz" else 1] = round(a, 3)
             v[2] = round(b, 3)
-            v[1 if pl == "xz" else 0] = round(at, 3)
+            v[1 if pl == "xz" else 0] = round(at_out, 3)
             verts.append(v)
         return _solid(sid, cls, {"type": "plane", "vertices": verts}, "profile", "paper-lit",
-                      {"record": src}, "derived", face=face, note=note)
+                      {"record": src}, "derived", face=face, level=door_level, note=note)
 
     if cw > 0:
         out.append(_plane(
@@ -671,12 +766,12 @@ def _entrance(elev, section, states):
             f"{door['id']}-{m['id']}", "entablature",
             {"type": "extrude", "plane": pl, "at": round(lo, 3), "thickness": round(pr, 3),
              "outline": [[round(a, 3), round(b, 3)] for a, b in outline]},
-            "profile", "paper-lit", src, "derived", face=face,
+            "profile", "paper-lit", src, "derived", face=face, level=door_level,
             note=f"{m.get('name')}, projecting {m.get('projection_in')} in from the naked"))
     return out
 
 
-def _entrance_agreement(plan, elev, states):
+def _entrance_agreement(plan, elev, section, states):
     """Do the two records of the front door agree about where it is? (WP-12.7)
 
     THIS EXISTS BECAUSE THE MODEL IS THE FIRST PICTURE WITH BOTH IN IT. The doorcase is drawn
@@ -720,17 +815,37 @@ def _entrance_agreement(plan, elev, states):
     # The centre in feet. Written as two steps because 24 is a HALVING and a CONVERSION
     # collapsed into one number, and a bare 24.0 in this file reads as a dimension --
     # which the source guard says, correctly, on its first run.
-    drawn = ((door["x0_in"] + door["x1_in"]) / 2) / 12
+    #
+    # AND THEN INTO THE MODEL FRAME, WHICH IS THE WHOLE OF WP-12.8's CORRECTION HERE. The
+    # elevation's `u` runs from the OUTSIDE face's left edge; `axis.door_bay`'s `position_ft`
+    # is a placed door's coordinate in the CLEAR plan frame, which is the scene's own. The two
+    # are one exterior wall thickness apart, and the first version compared them raw -- so the
+    # figures WP-12.7 published are each short by `t_ext` (Tidewater 5.42 against a true 6.71,
+    # the spec Colonial 21.33 against 22.00), and, far worse, **a house whose two records agree
+    # exactly would be reported as disagreeing by one wall thickness**. `_openings` applies
+    # this same shift at `ox = oy = -t_ext` on every rectangle it draws; this comparison did
+    # not. A disclosure that convicts a record that agrees is worse than no disclosure.
+    t_ext = (((section or {}).get("wall") or {}).get("exterior_in") or 0) / 12.0
+    drawn = ((door["x0_in"] + door["x1_in"]) / 2) / 12 - t_ext
     try:
         bay = AX.door_bay(plan) or {}
     except Exception as err:                       # noqa: BLE001 - reported, never swallowed
-        states.cannot("the doorcase and the stoop in one place",
+        states.cannot("whether the doorcase and the stoop are in one place",
                       f"the placed door could not be read: {err}",
                       "axis.door_bay", cls="entrance")
         return
     placed = bay.get("position_ft")
     if placed is None:
-        states.cannot("the doorcase and the stoop in one place",
+        # A COMPARISON THAT COULD NOT BE MADE IS NOT A COMPARISON THAT DISAGREED (WP-12.8).
+        # The first version gave all three states the same `what`, and the `what` is what the
+        # plate prints: over the sixteen plans that is ELEVEN entries reading as eleven
+        # disagreements, of which **four** are disagreements and **seven** are houses whose
+        # placement seats no exterior door on the entrance front at all. Collapsing an
+        # unjudged state into a failed one is the same dishonesty as the reverse, in the
+        # flattering direction for nobody -- it reports a defect three times its true size.
+        # The measured disagreement keeps the assertive `what`; the two states that could not
+        # evaluate say so in theirs.
+        states.cannot("whether the doorcase and the stoop are in one place",
                       "the placement seats no exterior door on the entrance front, so the "
                       "drawn doorcase cannot be held against one: "
                       + str(bay.get("why") or bay.get("verdict")),
@@ -746,7 +861,9 @@ def _entrance_agreement(plan, elev, states):
     states.cannot(
         "the doorcase and the stoop in one place",
         f"the elevation draws the front door centred at {drawn:.2f} ft along the {ent_face} "
-        f"face and the placement seats it at {placed:.2f} ft in '{bay.get('room')}' — "
+        f"face and the placement seats it at {placed:.2f} ft in '{bay.get('room')}' — both in "
+        f"the scene's own frame, the elevation's own u shifted by the {t_ext:.3f} ft exterior "
+        f"wall — "
         f"{gap:.2f} ft apart. `_face_bays` puts the entrance in the middle bay of the front "
         "whatever the placement did, so the doorcase is drawn where the composition wants it "
         "and the stoop under where the house has it. Both are drawn; their agreement is not "
@@ -787,6 +904,20 @@ def _porch(plan, section, states):
     """
     out = []
     thr = (plan or {}).get("threshold") or {}
+    # A RECORD THAT NEVER WENT THROUGH THE THRESHOLD PASS IS AN UNJUDGED STATE, NOT AN EMPTY
+    # ONE (WP-12.8). `openings.place` skips `threshold.entrance_pass` entirely on its "no
+    # footprint on this record" early return, and `corpus._placed` hands back a pre-placed
+    # record untouched -- so a caller can post a plan with no `threshold` at all and the first
+    # version drew nothing, refused nothing and said nothing. `_dormers` two functions up is
+    # scrupulous about exactly this distinction and this was not.
+    if not thr:
+        states.cannot("the entrance threshold",
+                      "this record carries no `threshold` block at all, so nothing states a "
+                      "stoop, a flight or a portico to draw or to refuse -- "
+                      "`openings.place` skips `threshold.entrance_pass` where the record "
+                      "states no footprint",
+                      "plan.threshold", cls="threshold")
+        return out
     for u in thr.get("unplaced") or []:
         states.cannot(u.get("what") or "a threshold element",
                       u.get("reason") or "the record states no reason",
@@ -798,11 +929,35 @@ def _porch(plan, section, states):
         f = st.get("flight") or {}
         rc, rh = st.get("riser_count"), st.get("riser_height_in")
         td = st.get("tread_depth_in")
-        if not (rc and rh and td and f.get("depth_ft")):
+        # THE GUARD READS EVERY FIELD THE BODY READS (WP-12.8). The first version checked four
+        # and the body then indexed `f["y_ft"]`, `f["x_ft"]` and `f["width_ft"]` directly, so a
+        # flight stating a depth and no position raised `KeyError: 'y_ft'` out of
+        # `build_scene` -- surfaced by the route's blanket except as
+        # `{"error": "KeyError: 'y_ft'"}`, which tells a caller nothing about their record.
+        # A guard one field narrower than its body is not a guard.
+        if not (rc and rh and td) or any(f.get(k) is None
+                                         for k in ("x_ft", "y_ft", "width_ft", "depth_ft")):
             states.cannot(f"the flight at the {st.get('wall')} door of {st.get('room')}",
-                          "the record places a flight without a riser count, a riser height or a "
-                          "tread depth, and a step drawn from a number nobody wrote down is what "
-                          "this corpus refuses",
+                          "the record places a flight without a riser count, a riser height, a "
+                          "tread depth or a rectangle to stand on, and a step drawn from a "
+                          "number nobody wrote down is what this corpus refuses",
+                          f"plan.threshold.steps[{n}]", cls="threshold")
+            continue
+        # A NON-POSITIVE TREAD IS NOT A TREAD, AND THE FALSY TEST ABOVE DOES NOT SAY SO
+        # (WP-12.8). `not td` rejects 0 and None and admits -1.0, and the loop below breaks on
+        # `inner - lo <= 0` -- a difference that GROWS with a negative tread, so the break can
+        # never fire and the loop runs `riser_count - 1` times. Measured through
+        # `POST /api/scene`: a 56 KB body carrying `tread_depth_in: -1.0` and
+        # `riser_count: 100000` builds 99,999 solids, and 1e-9 with 500,000 builds 499,999 --
+        # remote memory exhaustion on a route the infrastructure audit measures as one
+        # serialised core. It is also simply wrong before it is unsafe: a negative tread draws
+        # boxes of negative size, which no viewer can mean anything by.
+        if td <= 0 or rh <= 0 or (f.get("depth_ft") or 0) <= 0 or (f.get("width_ft") or 0) <= 0:
+            states.cannot(f"the flight at the {st.get('wall')} door of {st.get('room')}",
+                          f"the record states a tread of {td} in, a rise of {rh} in and a "
+                          f"flight {f.get('width_ft')} x {f.get('depth_ft')} ft -- a step whose "
+                          "tread, rise, width or depth is not positive is not a step, and this "
+                          "layer will not draw a box of negative size to represent one",
                           f"plan.threshold.steps[{n}]", cls="threshold")
             continue
         rise = rc * rh / 12.0
@@ -820,7 +975,34 @@ def _porch(plan, section, states):
         # porch room. Verified on the shipped record, where (3 - 1) x 13 in is the flight's own
         # 2.167 ft depth exactly.
         inner = f["y_ft"] + f["depth_ft"] if st.get("wall") == "S" else f["y_ft"]
-        for k in range(1, rc):
+        # THE PLATFORM IS A THING THE RECORD HOLDS AND THIS LAYER DOES NOT DRAW (WP-12.8).
+        # `threshold._one_stoop` writes `entry["platform"]` whenever `platform_is_the_room` is
+        # false -- the landing between the top riser and the door, where the entrance is not
+        # carried by an `entry-porch` room. `_porch` read only `flight`, so a band the record
+        # states was neither drawn nor named, which is the one thing this module's header
+        # forbids. Unreachable from the corpus: **1 of 16 records produces a step at all** and
+        # its entrance IS a porch room, so this is driven by a test rather than measured.
+        if st.get("platform"):
+            states.cannot(f"the platform at the {st.get('wall')} door of {st.get('room')}",
+                          "the record states a landing between the top riser and the door "
+                          f"({st['platform']}) and this layer draws the flight only -- a "
+                          "platform is a deck, and no shipped record carries one to draw it "
+                          "against",
+                          f"plan.threshold.steps[{n}].platform", cls="threshold")
+        # THREE BOUNDS, AND ONLY THE LAST OF THEM IS A GUARD. `rc` is the record's own count;
+        # `depth` below stops at the flight's own stated depth; and `_MAX_DRAWN_RISERS` bounds
+        # the work when a record states dimensions small enough to defeat both. The excess is
+        # REFUSED BY NAME rather than silently truncated, because a stoop drawn with 63 of its
+        # 100,000 risers and no note is a drawing that lies about its record.
+        drawn_to = min(rc, _MAX_DRAWN_RISERS + 1)
+        if rc > _MAX_DRAWN_RISERS + 1:
+            states.cannot(f"the flight at the {st.get('wall')} door of {st.get('room')}",
+                          f"the record states {rc} risers. This layer draws at most "
+                          f"{_MAX_DRAWN_RISERS}, which is a bound on the work and not a "
+                          "statement about stairs -- see "
+                          "oq/a-room-count-cap-on-the-heavy-routes",
+                          f"plan.threshold.steps[{n}].riser_count", cls="threshold")
+        for k in range(1, drawn_to):
             lo = f["y_ft"] + (k - 1) * td / 12.0 if st.get("wall") == "S" else None
             if lo is None:
                 break
@@ -828,7 +1010,14 @@ def _porch(plan, section, states):
             if round(depth, 2) <= 0:
                 break
             out.append(_solid(
-                f"stoop-{st.get('room')}-{k}", "deck",
+                # THE STEP'S OWN INDEX IS IN THE ID (WP-12.8). `threshold.entrance_pass`
+                # appends one step per (room, door) pair on the entrance face, so a room with
+                # two exterior doors on the front produced two flights with colliding solid
+                # ids -- driven, `['stoop-porch-1', 'stoop-porch-2', 'stoop-porch-1',
+                # 'stoop-porch-2']`. The schema says an id is unique within a scene and nothing
+                # enforces it; all sixteen shipped records are clean, so this is unreachable
+                # from the corpus and is driven by a test.
+                f"stoop-{st.get('room')}-{n}-{k}", "deck",
                 {"type": "box", "origin": [round(f["x_ft"], 3), round(lo, 3), 0.0],
                  "size": [round(f["width_ft"], 3), round(depth, 3), round(k * rh / 12.0, 3)]},
                 "cut", "paper-deep", {"record": f"plan.threshold.steps[{n}].flight",
@@ -1024,7 +1213,6 @@ def _roof(plan, section, roof, states, elev=None):
                          for u, v in prof]},
             "cut", "salmon",
             {"record": f"roof.elevation_profiles.{f}"}, "derived", face=f))
-    out += _chimneys(roof, elev, section, states)
     return out
 
 
@@ -1048,18 +1236,35 @@ def _chimneys(roof, elev, section, states):
     ch = (roof.get("chimneys") or {})
     positions = ch.get("positions") or []
     if not positions:
+        # A HOUSE WHOSE MASSING CALLS FOR STACKS AND HAS NONE IS A REFUSAL, NOT A SILENCE
+        # (WP-12.8). The first version returned an empty list here and said nothing, and on
+        # `spec-builder-colonial` — a shipped plan — that is a four-over-four whose hearth is
+        # `gable-end-paired` and whose roof record carries the reason IN FULL:
+        # *"Placement source calls for gable-end chimneys ..., but the main roof has no judged
+        # ridge height to measure a chimney's total height against -- unjudged, not placed."*
+        # The record had spoken and the scene dropped it, so the model read as a house that
+        # simply has no fires. This republishes the roof's own sentence rather than composing a
+        # second one, which is `_porch`'s rule for `plan.threshold.unplaced` applied one layer
+        # over. `applicable: false` — a massing that calls for no stack at all — is NOT a
+        # refusal and stays silent, because there is nothing there to be missing.
+        if ch.get("applicable"):
+            states.cannot("the chimney stacks",
+                          ch.get("note") or "the roof record places no stack and gives no reason",
+                          "roof.chimneys.note", cls="chimney")
         return []
     plan_in = (elev or {}).get("chimney_stack_plan_in")
     is_judgment = bool((elev or {}).get("chimney_stack_plan_judgment"))
-    z_ridge = ((roof.get("main") or {}).get("ridge") or {}).get("grade_to_ridge_ft")
+    # THE RIDGE IS NOT READ HERE AND THE CHECK ON IT IS GONE (WP-12.8). The first version
+    # refused on `roof.main.ridge.grade_to_ridge_ft is None` and then did its arithmetic on a
+    # key that does not exist; with `total_height_grade_ft` read directly the ridge is not a
+    # quantity this function consumes, and a refusal stated on a number nobody reads can fire
+    # when the height is perfectly available and stay silent when it is not. `roof.py` emits a
+    # position only where it has a ridge — a roof that judges none reports it through
+    # `chimneys.note`, which the empty-positions branch above now republishes, and that is the
+    # route the spec Colonial actually takes.
     fp = section.get("footprint") or {}
     t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
     out = []
-    if z_ridge is None:
-        states.cannot("the chimney stacks",
-                      "the roof record judges no ridge height, so there is nothing to carry a "
-                      "stack up past", "roof.main.ridge.grade_to_ridge_ft", cls="chimney")
-        return out
     for i, pos in enumerate(positions):
         x = pos.get("x_ft")
         y = pos.get("y_ft")
@@ -1067,7 +1272,31 @@ def _chimneys(roof, elev, section, states):
             states.cannot(f"chimney stack {i}", "the roof record places it on no axis",
                           f"roof.chimneys.positions[{i}]", cls="chimney")
             continue
-        top = pos.get("grade_to_cap_ft") or (z_ridge + CHIMNEY_ABOVE_RIDGE_FT)
+        # `total_height_grade_ft`, WHICH IS THE NAME `roof.py` ACTUALLY WRITES (WP-12.8).
+        # The first version read `grade_to_cap_ft` — a key nothing in this repository writes —
+        # and fell through `or` onto an editorial 2.0 ft above the ridge on EVERY stack on
+        # EVERY plan. Measured on `tidewater-georgian-careful`: the record states 47.03 ft
+        # (ridge 39.03 + 8.0 above it, from `tidewater-georgian`'s own
+        # `height_above_ridge_band` of [72, 120] in) and the axis was drawn to 41.03. Three
+        # things at once, and each is one this phase exists to prevent: an INVENTED number
+        # displacing a stated one; a stack standing 2.0 ft above the ridge against the style
+        # constraint `chimney_height_above_ridge_ft` that the same roof record judges
+        # `at-least 6, ok: True`, so the model broke a rule the record passes; and
+        # `render_elevation.py` reading `total_height_grade_ft` for the same stack, so the
+        # plate and the model were two buildings six feet apart — WP-12.0's own subject.
+        #
+        # A MISSING HEIGHT IS REFUSED AND NOT INVENTED. `roof.py` writes the key on every
+        # position it emits, so the refusal is unreachable from this corpus and is driven by a
+        # hand-built record in `tests/test_scene_chimney.py` — WP-11.10's rule for a branch the
+        # corpus cannot reach. It is kept rather than dropped because it is a FALLBACK about a
+        # malformed record and not a check: what it must never do is guess a height.
+        top = pos.get("total_height_grade_ft")
+        if top is None:
+            states.cannot(f"chimney stack {i}",
+                          "the roof record states no `total_height_grade_ft` for it, and how "
+                          "far a stack stands above a ridge is not this layer's to invent",
+                          f"roof.chimneys.positions[{i}].total_height_grade_ft", cls="chimney")
+            continue
         if is_judgment or not plan_in:
             # THE AXIS, and nothing wider. A line has no plan size, which is precisely the fact
             # the corpus is declining to settle.
@@ -1087,7 +1316,11 @@ def _chimneys(roof, elev, section, states):
             states.judged(f"chimney stack {i}",
                           f"the plan size is stated as {plan_in} in with judgment: true — "
                           "brick-course's own note is that the mason will build 18 or 27. The "
-                          "axis is drawn and the mass is not.",
+                          "axis is drawn and the mass is not. THE ELEVATION PLATE DRAWS THE "
+                          f"MASS at {plan_in} in and discloses the judgment in its legend "
+                          "instead; the two layers disclose one judgment two ways, and a "
+                          "reader comparing the plate with the model should know that before "
+                          "reading the difference as a disagreement about the house.",
                           "elevation.chimney_stack_plan_in")
             continue
         w = plan_in / 12.0
@@ -1103,15 +1336,37 @@ def _chimneys(roof, elev, section, states):
     return out
 
 
-def _hearths(plan, states):
+def _hearths(plan, section, states):
     """A fire is authored and never inferred (WP-11.4), so this reads `room.hearth[]` and
     draws only what is there. The breast rectangle is `hearths.breast`' — imported, because
     `render_plan.py` already draws that exact rectangle as poché and two spellings of one
     breast is how a plan and a model come to disagree about where a fire is."""
     hearths = _mod("hearths")
+    # THE BREAST STANDS ON ITS OWN STOREY'S FLOOR AND NOT AT GRADE (WP-12.8). `hearths.breast`
+    # is a PLAN rectangle and carries no z, and the first version wrote 0.0 -- so on
+    # `tidewater-georgian-careful`, whose ground floor is 2.0 ft above grade, all three fires
+    # lay two feet UNDER the house, on the ground, outside the building. Invisible in every
+    # named orthographic view, where a flat rectangle under the floor slab is hidden by the
+    # elevation or read as part of the plan cut; **plainly visible in the APPROACH**, as three
+    # pale slabs on the lawn at the foot of the west and east walls. Found by rendering the
+    # walk's own screenshot and looking at it -- eight packages running now -- and then
+    # measured through `frame.js::project` rather than adjudicated from the picture, which is
+    # WP-12.5's rule. The height stays a ZERO: the breast's projection is a judgment and this
+    # fixes only the datum.
+    storey_z = {st.get("index"): st.get("grade_to_floor_ft")
+                for st in ((section or {}).get("storeys") or [])}
     out = []
     for lv in plan.get("levels") or []:
-        idx = lv.get("level", 0) or 0
+        # `index`, WHICH IS THE KEY THE PLAN SCHEMA STATES (WP-12.8). A plan level is
+        # `{id, index, name, floor_to_ceiling_ft, rooms}` under `additionalProperties: false`,
+        # so `level` is a key no record may carry -- `lv.get("level", 0) or 0` therefore tagged
+        # EVERY hearth solid `level: 0`, an upper-storey fire included, and `three-scene.js`
+        # picks an explode offset with `byLevel[solid.level]`. Latent on this corpus, where all
+        # three authored hearths are on the ground floor, so `or 0` was right by luck: the same
+        # class as WP-12.6's `shutters_carried` and `dormers`, met a third time in one layer.
+        # A level that states no index makes no level claim: `_solid` omits the key rather than
+        # asserting a storey the record does not give.
+        idx = lv.get("index")
         for r in lv.get("rooms") or []:
             for n, h in enumerate(r.get("hearth") or []):
                 b = hearths.breast(r, h)
@@ -1124,14 +1379,16 @@ def _hearths(plan, states):
                 out.append(_solid(
                     f"{r['id']}-hearth-{n}", "hearth",
                     {"type": "box",
-                     "origin": [round(b["x_ft"], 3), round(b["y_ft"], 3), 0.0],
+                     "origin": [round(b["x_ft"], 3), round(b["y_ft"], 3),
+                                round(storey_z.get(idx) or 0.0, 3)],
                      "size": [round(b["width_ft"], 3), round(b["depth_ft"], 3), 0.0]},
                     "cut", "salmon",
                     {"record": f"levels[].rooms[{r['id']}].hearth[{n}]",
                      "also": ["build/hearths.py::breast"]},
                     "editorial", level=idx, room=r["id"],
                     note="the breast's projection is a judgment; its height is not modelled "
-                         "and the box carries a zero rather than an invented one"))
+                         "and the box carries a zero rather than an invented one. It stands "
+                         "on its own storey's floor, which the section states"))
     return out
 
 
@@ -1141,7 +1398,13 @@ def _spaces(plan, section):
     storeys = {st.get("index"): st for st in (section.get("storeys") or [])}
     out = []
     for n, lv in enumerate(plan.get("levels") or []):
-        idx = lv.get("level", n) or n
+        # `index` again (WP-12.8), and the fallback does not collapse a stated zero: the first
+        # version's `lv.get("level", n) or n` was the enumerate POSITION every time, right by
+        # coincidence on all sixteen shipped plans and wrong for the cellar the plan schema
+        # documents at `index: -1`, or for any `levels` array not written in order.
+        idx = lv.get("index")
+        if idx is None:
+            idx = n
         st = storeys.get(idx) or {}
         z = st.get("grade_to_floor_ft")
         h = st.get("ceiling_ft")
@@ -1207,11 +1470,19 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
     solids += _walls(section, states)
     solids += _openings(elev, section, states)
     solids += _roof(plan, section, roof, states, elev)
+    # A STACK IS NOT A ROOF PLANE AND IS NOT NESTED INSIDE ONE (WP-12.8). `_chimneys` was
+    # called from `_roof`'s tail, and `_roof` returns early on a form it cannot dimension and on
+    # a roof with no judged ridge -- so on `spec-builder-colonial`, whose massing is a
+    # four-over-four with `gable-end-paired` hearths, the stacks were not undrawn but
+    # UNCONSIDERED, and the layer said nothing about them at all. A stack stands on its own
+    # record (`roof.chimneys`), which carries its own note about why it holds no position, and
+    # it is read here beside the other layers rather than behind another layer's guard.
+    solids += _chimneys(roof, elev, section, states)
     solids += _dormers(elev, states)
-    solids += _hearths(plan, states)
+    solids += _hearths(plan, section, states)
     solids += _entrance(elev, section, states)
     solids += _porch(plan, section, states)
-    _entrance_agreement(plan, elev, states)
+    _entrance_agreement(plan, elev, section, states)
 
     datums = _storey_datums(section, states)
     z_top = max([d["z_ft"] for d in datums] or [0.0])
@@ -1231,13 +1502,27 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
     # `tests/test_scene.py` keeps its OWN extent helper and asserts containment against it: the
     # two are independent readers of the same four primitives, so a primitive this one gets
     # wrong is caught by the other rather than ratified by it.
-    lo = [-_t_ext_ft, -_t_ext_ft, 0.0]
-    hi = [W - _t_ext_ft, D - _t_ext_ft, z_top]
+    #
+    # THE ENVELOPE IS PUBLISHED BESIDE THE FRAME, BECAUSE THEY STOPPED BEING ONE NUMBER
+    # (WP-12.8). While `bounds` came off `section.footprint` it WAS the outside face of the
+    # exterior wall, and `frame.js::modelAt` reads it that way to register a flat elevation
+    # plate over the model -- `u = 0` is the face's left edge. The union above is a different
+    # quantity: it holds the stoop at y = -3.458 and the doorcase cornice at y = 31.872, so the
+    # Tidewater E plate slid **2.166 ft** along its own horizontal and the spec Colonial's W
+    # plate 0.459 ft, on both shipped plans, with every test green -- `plateTransform`
+    # registers the whole plate off two points, so the error is a rigid slide of the drawing
+    # rather than anything that looks broken. Two quantities under one name is this
+    # repository's most-repeated defect; they have two names now, and `modelAt` reads the
+    # envelope and REFUSES a scene that states none rather than falling back on the frame.
+    env_lo = [-_t_ext_ft, -_t_ext_ft, 0.0]
+    env_hi = [W - _t_ext_ft, D - _t_ext_ft, z_top]
+    lo = list(env_lo)
+    hi = list(env_hi)
     for _s in solids:
-        try:
-            e0, e1 = _extent(_s["geometry"])
-        except ValueError:
-            raise
+        # No try/except here. The first version wrote `except ValueError: raise`, which reads
+        # as though it did something and is exactly a no-op; `_extent` now raises the named
+        # `UnknownPrimitive` and it travels, which is the whole point of it raising at all.
+        e0, e1 = _extent(_s["geometry"])
         for i in range(3):
             lo[i] = min(lo[i], e0[i])
             hi[i] = max(hi[i], e1[i])
@@ -1300,7 +1585,9 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
         # agreement figures already carry: `section.footprint` is rounded to two places, so the
         # frame and the solids differ by up to 0.004 ft and rounding one to the other would be
         # OQ 48's error in a new place.
-        "bounds": {"min": [round(v, 3) for v in lo], "max": [round(v, 3) for v in hi]},
+        "bounds": {"min": [round(v, 3) for v in lo], "max": [round(v, 3) for v in hi],
+                   "envelope": {"min": [round(v, 3) for v in env_lo],
+                                "max": [round(v, 3) for v in env_hi]}},
         "grid": grid,
         "storeys": [{"id": st.get("id"), "index": st.get("index"),
                      "floor_z_ft": st.get("grade_to_floor_ft"),

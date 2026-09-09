@@ -162,7 +162,7 @@ over `hashchange` in the same idiom as `planDoc`.
 - `-` holds an absent leading path key (`#/kit/-/cornice` is a slot with no style).
 - A URL cannot express "present, but null", and nothing downstream reads one.
 
-**Search.** `GET /api/search/index` serves every nameable thing once (665 entries, ~207 KB)
+**Search.** `GET /api/search/index` serves every nameable thing once (666 entries, ~207 KB)
 and the palette matches it in the browser. It indexes names, ids, akas and short
 categorical fields — **not prose**: indexing every fault's remedy and every style's
 diagnostic tells quadrupled the payload and produced matches nobody could account for. The

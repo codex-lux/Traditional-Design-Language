@@ -243,7 +243,7 @@ is on the RIGHT of the south elevation and on the LEFT of the north one rather t
 that the projection is self-consistent.
 
 **`three` is loaded only by `await import('./three-scene.js')`.** That is what puts it in a chunk
-of its own (545 KB, against an entry chunk of 478 KB and a 700 KB ceiling), so a reader who never
+of its own (564 KB, against an entry chunk of 477 KB and a 700 KB ceiling), so a reader who never
 opens the Round never downloads a 3D engine — and it is also what keeps
 `no_bare_imports.test.mjs` green, since that walker deliberately does not follow a dynamic
 import. `build/check_frontend.py` asserts the chunk exists.

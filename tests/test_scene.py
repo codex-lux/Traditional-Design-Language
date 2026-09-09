@@ -428,10 +428,19 @@ def test_the_scene_file_states_no_dimension_as_a_literal():
     tree = ast.parse(src)
     # CUT_HEIGHT_FT is the one editorial DIMENSION; DEFAULT_CANDIDATES is a search-pool
     # size, named for a different reason (see the module) and exempt for that reason.
-    allowed_names = {"CUT_HEIGHT_FT", "DEFAULT_CANDIDATES"}
+    # `_MAX_DRAWN_RISERS` is a bound on the WORK and not a dimension: see its own comment.
+    # It is named here rather than exempted by value precisely so a reader has to write the
+    # sentence saying which it is.
+    allowed_names = {"CUT_HEIGHT_FT", "DEFAULT_CANDIDATES", "_MAX_DRAWN_RISERS"}
     assigned = {t.id for node in ast.walk(tree) if isinstance(node, ast.Assign)
                 for t in node.targets if isinstance(t, ast.Name)}
     assert allowed_names <= assigned, "the named editorial constant is gone from the file"
+    # AND THE GUARD'S OWN BLIND SPOT, WRITTEN DOWN (WP-12.8). `STRUCTURAL` exempts 2.0 as an
+    # index or a halving, and `CHIMNEY_ABOVE_RIDGE_FT = 2.0` -- an invented height that stood
+    # every chimney on every plan 6 ft short of its own record -- sailed through this test for
+    # exactly that reason. A structural exemption by VALUE cannot tell 2.0-the-index from
+    # 2.0-the-dimension, so this test is a floor and not a ceiling: it catches a number nobody
+    # named, and says nothing about a number named wrongly.
 
     exempt = set()          # by node identity, so the exemption cannot leak to a sibling
     for node in ast.walk(tree):

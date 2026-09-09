@@ -620,8 +620,24 @@ def scene(plan, parti=None, candidates=250, plates=True):
 
     The last row of timings is the one to quote: the section, the roof, the elevation, the scene,
     the six plates AND the first-call module loads are the 0.98 s between it and the solve --
-    **2.6% of the placement**. So the budget rather than the clock is what bites. One call costs
-    about 71 KB on the wire and buys sixty record changes an hour where seven calls buy eight.
+    **2.6% of the placement**. So the budget rather than the clock is what bites. One call buys
+    sixty record changes an hour where seven calls buy eight.
+
+    **THE SIZE ROW IS WP-12.3's AND IS NOW WRONG TWICE OVER (re-measured WP-12.8).** The TIME
+    claim stands: end to end 39.00 s against a solve that is almost all of it. The BYTES do not.
+    Measured on the same plan on this tree: **621,870 raw and 97,442 gzipped**, of which the
+    scene record alone is 270,029 raw against WP-12.3's 64,928 -- WP-12.6 dressed the envelope
+    and WP-12.7 added the doorcase and the stoop, taking 101 solids to 500, and 350 of the 500
+    are muntins. Two separate corrections in one row:
+
+      - the published 70,702 was gzip level **6** and `app.GZipExceptSSE` deploys level **4**,
+        so the wire figure was never the server's; at level 4 the old payload is 85,115.
+      - "about 71 KB on the wire" is **95 KB** now.
+
+    And the 2.6% must not be read as a claim about SIZE, which is the trap in quoting it beside
+    the row above: the placed record is 57,957 of 621,870 raw bytes, so **ninety per cent of
+    this response is everything-but-the-placement** while under three per cent of its time is.
+    One number, two questions, opposite answers.
 
     THE PLACED RECORD COMES BACK FOR A SECOND REASON. `_placed` returns a record carrying
     `geometry` untouched, so a client that keeps this one and posts it to a later export or

@@ -3617,7 +3617,7 @@ is fed before WP-12.4 wires it. **Depends on:** WP-12.1. **Size:** small.
 (the camera), `round/solids.js` (the record's four primitives as triangles and edges),
 `round/annotate.js` (what a drawing is called) are Three-free LEAVES under `node --test`;
 `round/three-scene.js` is the only importer of `three` and is reached only by `await import()`,
-which puts it in a **544.7 KB chunk of its own** (entry 460 -> 478 KB against a 700 KB ceiling)
+which puts it in a **564 KB chunk of its own** (entry 460 -> 477 KB against a 700 KB ceiling)
 and keeps it out of `no_bare_imports.test.mjs`'s walk. `Round.jsx` and `RoundPlate.jsx` are the
 canvas and the sheet chrome; surface 8's first plate is the model and the five flat plates are
 chips beneath it. `data-frame` on all four Python renderers states each plate's own affine --
@@ -3655,7 +3655,7 @@ the four Python renderers so the plate overlays the model at the same frame. Eve
 resolves to a `tokens.css` name, and the pen does not magnify with the zoom — which answers OQ 66 in the
 Round by construction and should say so. **`annotate.js` may not import `sheet/label.js`**: that file
 imports React and `no_bare_imports.test.mjs` would turn a green local run red in CI, which is the
-`coastTiers.js` trap. **The bundle baseline is measured rather than assumed: the entry chunk is 444 KB today against `check_frontend.py`'s 700 KB ceiling**, with the two coastline tiers already kept out of it -- so there is about 256 KB of headroom, which is not enough for `three` to be allowed into the entry chunk and is why R1's condition is that it is not. **Depends on:** WP-12.3. **Size:** large.
+`coastTiers.js` trap. **The bundle baseline is measured rather than assumed: the entry chunk was 444 KB when this package was planned and is 477 KB today against `check_frontend.py`'s 700 KB ceiling**, with the two coastline tiers already kept out of it -- so there is about 223 KB of headroom, which is not enough for `three` to be allowed into the entry chunk and is why R1's condition is that it is not. **Depends on:** WP-12.3. **Size:** large.
 
 ### WP-12.5 Overlays and modifiers
 
@@ -3757,11 +3757,30 @@ naming both positions, and
 
 ### WP-12.8 The adversarial audit of WP-12.0 through 12.7
 
-**Status: NOT STARTED.** In the tradition of WP-6.4, WP-7.5, WP-8.6, WP-9.4 and the 7 September audit: a
-fresh session reads the eight reports and the code and looks for what the packages did not measure — a
-solid with no source, a literal past the allowlist, a plate disagreeing with the model beyond tolerance, a
-caption saying "proved" without "feasible", a colour that is not a token, a test that passes with its
-guard reverted. **Depends on:** all of the above. **Size:** medium.
+**Status: COMPLETE (9 Sep 2026) — `docs/reports/wp-12.8-the-adversarial-audit-of-phase-12.md`.**
+Four read-only auditors on different angles (call chain and consumers; second-order risk; second
+occurrences of the five patterns 12.6 and 12.7 had already fixed once; whether the new tests can fail,
+in an isolated worktree with sixty mutations). **Four blocking defects, all introduced by that session,
+and three of them one mistake made three ways: a coordinate read in the wrong frame.** Every dressed
+member on the north and east faces drawn INSIDE its wall (1,769 of 3,482 solids, the spec Colonial's whole
+doorcase, since its entrance front is the N face); `_chimneys` reading `grade_to_cap_ft`, which nothing
+writes, so every stack stood 6 ft short of its own record and below a style minimum the same record
+judges `ok: true`; `_entrance_agreement` comparing the elevation's `u` against a clear-frame plan
+coordinate, so a house whose two records AGREE would have been convicted by one wall thickness; and a
+caller-supplied `threshold` able to build half a million solids on `POST /api/scene`.
+
+**NONE WAS VISIBLE TO ANY ASSERTION IN THE TREE, AND THE REASON IS THE FINDING**: every test written for
+those two packages read a member's IN-PLANE extent and not one read the third coordinate. When a package
+adds a dimension, assert on that dimension.
+
+Also fixed: `_chimneys` nested inside `_roof`'s success path, so a house whose massing calls for stacks
+and whose roof judges no ridge had them UNCONSIDERED rather than refused; `bounds` no longer being the
+envelope `frame.js::modelAt` reads it as (the Tidewater E plate slid 2.166 ft); no pen for the
+`construction` ink, so the corpus's only two `judgment` solids drew as measured edges; a drag on the
+approach moving the sun and not the house; the level join, taking solids that state their storey from 57
+to 494; and eight smaller refusals-about-nothing and guards-that-could-not-fire. Three published figures
+re-derived. **Twenty-three mutations, all red; two of this session's own guards were blind on their
+first run and are recorded rather than quietly fixed. Depends on:** all of the above. **Size:** medium.
 
 
 ## 6. Parallelisation map

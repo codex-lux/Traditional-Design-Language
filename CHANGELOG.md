@@ -2,7 +2,48 @@
 
 One line per layer per notable change. Versions here track the project's own `v0.x` designation, not any single schema's version number (those are tracked in the schema files themselves — `ontology_version`, `kit_version`, and so on).
 
-## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.7 built)
+## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.8 built)
+
+### WP-12.8 — the adversarial audit, and four coordinates read in the wrong frame
+
+- **Four blocking defects, all introduced by WP-12.6 and WP-12.7, and three of them one mistake
+  made three ways.** None was visible to any assertion in the tree: every test written for those
+  two packages read a member's in-plane extent and not one read the third coordinate.
+- **Every dressed member on the N and E faces was drawn INSIDE its own wall** — 1,769 solids
+  against 1,713 right, including the whole doorcase of `spec-builder-colonial`, whose entrance
+  front is the N face. `_face_extrude` returns the LOW face, which is the outside face only on S
+  and W. `scene._on_the_outside_face` is the one spelling.
+- **`_chimneys` read `grade_to_cap_ft`, which nothing in the repository writes**, so every stack
+  on every plan stood at an editorial 2 ft above the ridge: 41.03 ft against a stated 47.03, and
+  below the 6 ft minimum the same roof record judges `ok: true`. `CHIMNEY_ABOVE_RIDGE_FT` is
+  deleted; a missing height is refused.
+- **`_chimneys` was also nested inside `_roof`'s success path**, so a house whose massing calls
+  for stacks and whose roof judges no ridge had them unconsidered rather than refused. It is read
+  beside the other layers now, and republishes `roof.chimneys.note`.
+- **`_entrance_agreement` compared two coordinate frames** — the elevation's `u` against a
+  clear-frame plan coordinate — so every published gap was short by one exterior wall (5.42 →
+  6.71, 21.33 → 22.00) and a house whose records AGREE would have been convicted by `t_ext`.
+- **A caller-supplied `threshold` could build half a million solids** on `POST /api/scene`: a
+  non-positive `tread_depth_in` defeats the loop's break. Three bounds now, two the record's own
+  and one a named guard that refuses the excess by name.
+- **`bounds.envelope` is published beside the frame**, and `frame.js::modelAt` reads it: the
+  union of everything drawn had slid the Tidewater E plate 2.166 ft and the spec Colonial's W
+  plate 0.459.
+- **The viewer had no pen for the `construction` ink**, so the corpus's only two `judgment`
+  solids drew as measured edges. The schema's enum, the two maps and `Round.jsx`'s token list are
+  held to each other, in both directions.
+- **A drag on the approach moved the sun and not the house.** Refused rather than orbited.
+- **Every hearth was drawn two feet underground** — `hearths.breast` is a plan rectangle with
+  no z and `_hearths` wrote 0.0, so on a house whose ground floor is 2 ft above grade the fires
+  lay on the lawn outside it. Pre-existing since WP-12.1, invisible in every orthographic view,
+  found in the approach and then measured through the camera rather than read off the picture.
+- **Solids stating their storey: 57 → 494 of 500**, so `explode: levels` no longer lifts the
+  structure and leaves every window, bar, shutter and doorcase behind.
+- **Three published figures re-derived**: the `three` chunk 544.7 → 564 KB; `POST /api/scene`
+  376,574 raw / ~71 KB → 621,870 / 97,442 (half the scene growing, half a published gzip level 6
+  where the server deploys 4); the search index 665 → 666 in `docs/workbench.md`.
+- **Twenty-four mutations, all red from a green baseline.** Two of this session's own guards were
+  blind on their first run and are recorded; four guards from 12.6 and 12.7 could not fail at all.
 
 ### WP-12.7 — the entrance and the porch, and the refusal that was already written
 

@@ -57,6 +57,11 @@ def both():
     return out
 
 
+def _t_ext(section):
+    """The exterior wall in feet, off the section the scene was built against."""
+    return ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
+
+
 def _cls(scene, name):
     return [s for s in scene["solids"] if s["class"] == name]
 
@@ -213,8 +218,23 @@ def test_the_two_records_of_the_front_door_disagree_and_the_scene_says_so(both):
     for pid, (scene, sol, _sec, ev) in both.items():
         f = ev["entrance_face"]
         door = next(r for r in EL.opening_rects(ev, f)["rects"] if r["kind"] == "door")
-        drawn = (door["x0_in"] + door["x1_in"]) / 24.0
+        # IN ONE FRAME, WHICH THE FIRST VERSION OF THIS TEST DID NOT DO (WP-12.8). The
+        # elevation's `u` starts at the OUTSIDE face; `axis.door_bay`'s `position_ft` is a
+        # clear-frame plan coordinate. Comparing them raw understates every gap by exactly one
+        # exterior wall -- and this test recomputed the shipped expression, so it RATIFIED the
+        # defect rather than catching it. The shift is taken from the SOLID the scene actually
+        # drew rather than from the section, so the test and the code cannot agree by both
+        # reading the same constant.
+        drawn_u = (door["x0_in"] + door["x1_in"]) / 24.0
+        sur = next(s for s in scene["solids"]
+                   if s["class"] == "surround" and s["id"].endswith("-surround"))
+        along = 0 if f in ("S", "N") else 1
+        xs = [v[along] for v in sur["geometry"]["vertices"]]
+        drawn = (min(xs) + max(xs)) / 2
         placed = AX.door_bay(sol)["position_ft"]
+        assert abs((drawn_u - drawn) - _t_ext(_sec)) < 0.01, (
+            f"{pid}: the elevation's u and the model x differ by {drawn_u - drawn:.3f} ft, "
+            f"which should be the {_t_ext(_sec):.3f} ft exterior wall and nothing else")
         assert round(drawn, 1) != round(placed, 1), (
             f"{pid}: the two records of the front door agree now ({drawn:.2f} against "
             f"{placed:.2f}) — the disclosure below is about nothing, so re-derive it rather "
@@ -324,8 +344,27 @@ def test_no_shipped_record_places_a_flight_off_the_south_face(both):
 
 def test_the_extent_helper_refuses_a_primitive_it_does_not_understand():
     """A frame computed by silently skipping what it cannot read is a frame that is too small
-    and says so nowhere."""
-    with pytest.raises(ValueError):
-        SC._extent({"type": "lathe", "profile": []})
-    with pytest.raises(ValueError):
-        SC._extent({"type": "extrude", "plane": "xy", "at": 0, "thickness": 1, "outline": [[0, 0]]})
+    and says so nowhere.
+
+    IT RAISES A NAMED CLASS, WHICH IS WHAT LETS `build/validate.py` TELL IT FROM A REFUSAL
+    (WP-12.8). That checker wraps the scene selftest in a blanket `except Exception` and prints
+    `N/EV -- could not evaluate`, so the only CI consumer of this raise was converting the
+    loudest failure this file can produce into one line of text and exiting 0. `ValueError`
+    alone could not be separated from a plan whose placement was refused.
+
+    AND `xy` IS NO LONGER AMONG THE REFUSALS, because the schema's plane enum admits it and
+    `round/solids.js` builds it: a record three spellings called valid was one the frame
+    refused to measure. It is measured now; `sweep` and `lathe` remain refused because nothing
+    emits one and, when something does, it owes this function a rule.
+    """
+    for bad in ({"type": "lathe", "profile": []},
+                {"type": "sweep", "profile": [], "path": [], "scale": 1},
+                {"type": "extrude", "plane": "zz", "at": 0, "thickness": 1, "outline": [[0, 0]]}):
+        with pytest.raises(SC.UnknownPrimitive):
+            SC._extent(bad)
+    # it is a ValueError too, so a caller catching the broad class still catches it
+    assert issubclass(SC.UnknownPrimitive, ValueError)
+    lo, hi = SC._extent({"type": "extrude", "plane": "xy", "at": 3.0, "thickness": 0.5,
+                         "outline": [[0, 0], [10, 0], [10, 4], [0, 4]]})
+    assert lo == [0, 0, 3.0] and hi == [10, 4, 3.5], (
+        f"an xy extrusion measures {lo} to {hi}: u and v are x and y and the extrusion runs z")

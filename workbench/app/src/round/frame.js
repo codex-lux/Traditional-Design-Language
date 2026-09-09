@@ -161,7 +161,10 @@ function orientationFor(view, scene, opts = {}) {
        grade and looking at the middle of the house, so it is computed in `poseFor` where the
        distance is known. */
     const f = (scene && scene.entrance_face) || null;
-    if (!f || FACE_AZIMUTH[f.toUpperCase()] == null) return null;
+    // `typeof f === 'string'` and not merely truthy: `scene.entrance_face` is caller data on
+    // every route that takes a plan, and a number here threw `f.toUpperCase is not a function`
+    // out of a function that promises to return null (WP-12.8).
+    if (typeof f !== 'string' || FACE_AZIMUTH[f.toUpperCase()] == null) return null;
     return { azimuthDeg: FACE_AZIMUTH[f.toUpperCase()], elevationDeg: 0, approach: true };
   }
   if (isFaceView(view)) {
@@ -194,6 +197,17 @@ export function poseFor(view, scene, level = null, opts = {}) {
   const v = level == null ? view : `plan-l${level}`;
   const o = orientationFor(v, scene, opts);
   if (!o) return null;
+  /* A SCENE WITH NO FRAME NAMES NO POSE (WP-12.8). This function's own comment promises it
+     "returns null rather than choosing one", and until WP-12.7 that was true: `namedViews`
+     read only `scene.storeys` and could not throw. Adding the approach put `framing` -- and
+     through it `targetFor`'s `const { min, max } = scene.bounds` -- on the path `namedViews`
+     reaches, and `RoundPlate.jsx` calls `namedViews` inside a `useMemo`, i.e. during render,
+     with no error boundary above it. So a scene missing or malforming `bounds` took the whole
+     surface down instead of offering fewer chips. Returning null for a missing face and
+     throwing for a missing frame is one promise kept two ways. */
+  const bd = scene && scene.bounds;
+  if (!bd || !Array.isArray(bd.min) || !Array.isArray(bd.max)
+      || bd.min.length < 3 || bd.max.length < 3) return null;
   const target = targetFor(v, scene, opts);
   const lvl = planLevel(v);
   const st = lvl == null ? null : storeyAt(scene, lvl);
@@ -399,12 +413,23 @@ export function namedViews(scene) {
    asymmetric it will matter, and then this is the line to read:
    oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from */
 export function modelAt(view, scene, u, v) {
-  const { min, max } = scene.bounds;
   if (isPlanView(view) || view === 'roof') {
     // A plan's plate axes ARE the model's east and north. Nothing is assumed here.
     return [u, v, 0];
   }
   if (!isFaceView(view)) return null;
+  /* THE ENVELOPE AND NOT THE FRAME (WP-12.8). An elevation plate's `u = 0` is the OUTSIDE FACE
+     of the exterior wall, so this needs the box the walls make. `scene.bounds.min/max` was
+     that box while WP-12.1 stated it off `section.footprint`; WP-12.7 made it the union of
+     everything DRAWN, which reaches out to the stoop at y = -3.458 and the doorcase cornice at
+     y = 31.872 -- so the Tidewater E plate registered 2.166 ft along its own horizontal and
+     the spec Colonial W plate 0.459 ft, on both shipped plans, with nothing red. The scene
+     publishes both quantities now, and this REFUSES a record that states no envelope rather
+     than falling back on the frame: a silent fallback would put the misregistration back on
+     exactly the records that cannot say otherwise. */
+  const env = scene && scene.bounds && scene.bounds.envelope;
+  if (!env || !Array.isArray(env.min) || !Array.isArray(env.max)) return null;
+  const { min, max } = env;
   const f = view.toUpperCase();
   // The camera's own right vector, so `u` runs the way the reader reads.
   const b = basis(FACE_AZIMUTH[f], 0);

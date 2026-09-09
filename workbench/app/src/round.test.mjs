@@ -30,6 +30,7 @@ import {
   defaultAxon,
   framing,
   isNamed,
+  modelAt,
   namedViews,
   planLevel,
   plateTransform,
@@ -43,7 +44,17 @@ import { caption, chipLabel, furnitureFor, notModelledLine, plateKeyFor } from '
 import { edges, extent, facesOf, normalOf, triangles } from './round/solids.js';
 
 const SCENE = {
-  bounds: { min: [-1.292, -1.292, 0], max: [64.288, 39.458, 39.03] },
+  /* THE FRAME AND THE ENVELOPE DIFFER HERE ON PURPOSE (WP-12.8), and they differ on the axis
+     the plate registration reads. `bounds.min/max` is the union of everything drawn -- on the
+     real Tidewater record that reaches y = -3.458 for the stoop and z = 47.03 for a chimney --
+     while `bounds.envelope` is the outside face of the exterior wall, which is what
+     `modelAt` must use. A fixture where the two coincide would let a reader of the wrong one
+     pass, which is WP-11.15's own rule: choose numbers that straddle the branch. Both are the
+     shipped record's, measured off build/scene.py. */
+  bounds: {
+    min: [-1.292, -3.458, 0], max: [64.292, 39.462, 47.03],
+    envelope: { min: [-1.292, -1.292, 0], max: [64.288, 39.458, 39.03] },
+  },
   cut_height_ft: 4,
   entrance_face: 'S',
   storeys: [
@@ -487,6 +498,218 @@ test('three is imported in exactly one file, and that file is loaded lazily', ()
   }
   assert.deepEqual(statics, [], `three-scene.js must be loaded with import(), but ${statics} import it statically`);
 });
+
+/* ------------------------------------------ the pen vocabulary is the schema's (WP-12.8)
+
+   FOUND BY THE AUDIT, AND IT IS THE WP-12.6 CHIMNEY UNDONE ONE LAYER DOWN. `three-scene.js`'s
+   PEN and INK maps carried `hidden` and `grid` -- neither of which is an ink a solid may carry
+   -- and did NOT carry `construction`, which is the ink `build/scene.py` gives the two chimney
+   axes, the only `judgment` solids in the whole corpus. Both lookups fall back with `||`, so a
+   judgment drew at `draw-seen` / `lw-medium`: pixel for pixel a MEASURED edge, in the one place
+   a reader most needs to tell a decision from a measurement. Nothing failed. Nothing could:
+   three vocabularies (the schema's enum, these two maps, `Round.jsx`'s TOKEN_NAMES) and no
+   assertion relating any pair of them.
+
+   The second direction is the half that would have caught the obvious wrong fix. Mapping
+   `construction` to a NEW token name without adding it to `Round.jsx`'s list leaves
+   `tokens['draw-construction']` undefined and `colour()` falls straight back to `draw-seen`
+   again -- the identical defect, identically silent. So every value these maps name must be a
+   token `Round.jsx` actually reads. */
+
+function inkEnum() {
+  const schema = JSON.parse(readFileSync(join(SRC, '..', '..', '..', 'schema', 'scene.schema.json'), 'utf8'));
+  return schema.$defs.solid.properties.ink.enum;
+}
+
+function mapKeys(name) {
+  const src = readFileSync(join(SRC, 'round', 'three-scene.js'), 'utf8');
+  const m = src.match(new RegExp(`const ${name} = \\{([^}]*)\\};`));
+  assert.ok(m, `three-scene.js no longer declares a ${name} map -- this guard is reading air`);
+  return m[1].split(',').map(s => s.split(':')[0].trim()).filter(Boolean);
+}
+
+function mapValues(name) {
+  const src = readFileSync(join(SRC, 'round', 'three-scene.js'), 'utf8');
+  const m = src.match(new RegExp(`const ${name} = \\{([^}]*)\\};`));
+  return m[1].split(',').map(s => (s.split(':')[1] || '').trim().replace(/'/g, '')).filter(Boolean);
+}
+
+test('every ink the schema admits has a pen and a colour, and no map carries one it does not', () => {
+  const inks = inkEnum();
+  assert.ok(inks.length >= 4 && inks.includes('construction'),
+    `the schema's ink enum is ${JSON.stringify(inks)} -- this guard is reading the wrong field`);
+  for (const name of ['PEN', 'INK']) {
+    const keys = mapKeys(name);
+    assert.ok(keys.length > 0, `${name} parsed to no keys, so the comparison below means nothing`);
+    assert.deepEqual([...keys].sort(), [...inks].sort(),
+      `${name} and schema/scene.schema.json disagree about what an ink is.\n`
+      + `  ${name}:    ${[...keys].sort().join(', ')}\n`
+      + `  schema: ${[...inks].sort().join(', ')}\n`
+      + '  A key the schema does not admit is dead and makes the map look complete; a key it '
+      + 'does admit and the map does not falls through `||` and draws as something else.');
+  }
+});
+
+test('and every token those maps name is one Round.jsx actually reads', () => {
+  const round = readFileSync(join(SRC, 'round', 'Round.jsx'), 'utf8');
+  const listed = (round.match(/const TOKEN_NAMES = \[([\s\S]*?)\]/) || [])[1];
+  assert.ok(listed, 'Round.jsx no longer declares TOKEN_NAMES -- this guard is reading air');
+  const names = listed.split(',').map(s => s.trim().replace(/'/g, '')).filter(Boolean);
+  assert.ok(names.length > 10, `TOKEN_NAMES parsed to ${names.length} names, so this proves nothing`);
+  const wanted = [...mapValues('PEN'), ...mapValues('INK')];
+  assert.ok(wanted.length >= 8, `${wanted.length} token names parsed out of the maps`);
+  const missing = wanted.filter(n => !names.includes(n));
+  assert.deepEqual(missing, [],
+    `three-scene.js asks for ${missing} and Round.jsx never reads ${missing.length === 1 ? 'it' : 'them'}, `
+    + 'so `tokens[...]` is undefined and colour()/width() falls back silently');
+});
+
+
+/* ------------------------------------------- the plate registers on the envelope (WP-12.8)
+
+   `modelAt` takes `u = 0` to be the outside face of the exterior wall, which `scene.bounds`
+   WAS while WP-12.1 stated it off `section.footprint`. WP-12.7 made `bounds` the union of
+   everything drawn, and the stoop stands 3.458 ft clear of the house — so the Tidewater E
+   plate registered 2.166 ft along its own horizontal and the spec Colonial W plate 0.459 ft,
+   on both shipped plans, with every test green. `plateTransform` fits the whole plate off two
+   points, so the error is a rigid slide of the drawing and looks like nothing at all. */
+
+test('an elevation plate registers on the envelope and not on the frame', () => {
+  const env = SCENE.bounds.envelope;
+  // the fixture's frame really is bigger than its envelope, or this proves nothing
+  assert.ok(SCENE.bounds.min[1] < env.min[1] - 0.1,
+    `the fixture's frame and envelope coincide in y (${SCENE.bounds.min[1]} vs ${env.min[1]})`);
+  // u = 0 on the E face is the south end of the east wall: the ENVELOPE's y, not the stoop's
+  const e = modelAt('e', SCENE, 0, 10);
+  assert.equal(e[1], env.min[1],
+    `the E plate starts at y=${e[1]}; the envelope's south face is ${env.min[1]} and the `
+    + `frame reaches ${SCENE.bounds.min[1]} because a stoop stands there`);
+  const w = modelAt('w', SCENE, 0, 10);
+  assert.equal(w[1], env.max[1], 'the W plate reads u the other way, off the envelope');
+  // and the face's own depth coordinate is the envelope's too
+  assert.equal(modelAt('s', SCENE, 5, 3)[1], env.min[1]);
+  assert.equal(modelAt('n', SCENE, 5, 3)[1], env.max[1]);
+});
+
+test('and a scene that states no envelope is refused rather than registered on the frame', () => {
+  // A silent fallback would put the misregistration back on exactly the records that cannot
+  // say otherwise, which is the shape this whole guard exists to remove.
+  const bare = { ...SCENE, bounds: { min: SCENE.bounds.min, max: SCENE.bounds.max } };
+  assert.equal(modelAt('e', bare, 0, 10), null);
+  assert.equal(modelAt('s', bare, 0, 10), null);
+  // a plan view needs no envelope: its plate axes ARE the model's east and north
+  assert.deepEqual(modelAt('plan-l0', bare, 4, 5), [4, 5, 0]);
+});
+
+test('poseFor names no pose for a scene with no frame, and does not throw', () => {
+  /* `namedViews` is called inside a `useMemo` in `RoundPlate.jsx`, i.e. during render, with no
+     error boundary above it. Before WP-12.7 it read only `scene.storeys` and could not throw;
+     the approach put `framing` and `targetFor`'s `const { min, max } = scene.bounds` on its
+     path, so a scene missing `bounds` took the surface down instead of offering fewer chips —
+     in a function whose own comment promises it "returns null rather than choosing one". */
+  for (const bad of [{ entrance_face: 'S' },
+                     { entrance_face: 'S', bounds: null },
+                     { entrance_face: 'S', bounds: { min: [0, 0], max: [1, 1, 1] } },
+                     { entrance_face: 7, bounds: null },
+                     {}]) {
+    assert.doesNotThrow(() => namedViews(bad), `namedViews threw on ${JSON.stringify(bad)}`);
+    assert.equal(poseFor('approach', bad), null);
+    assert.ok(!namedViews(bad).includes('approach'));
+  }
+  // and the real scene still offers it, so the assertions above are not passing by refusing
+  assert.ok(namedViews(SCENE).includes('approach'));
+});
+
+
+/* ------------------------------------------- a standpoint is not orbited (WP-12.8)
+
+   These are SOURCE guards and that is a limitation, not a preference: `Round.jsx` and
+   `three-scene.js` both import from node_modules, and this suite runs with no `npm install`.
+   Each therefore states the PROPERTY it is reading for rather than pinning a line, and the
+   first of the two is what makes the second necessary.
+
+   The defect: the orbit handler builds its next pose as `{...p, azimuthDeg, elevationDeg}`, and
+   `setPose`'s perspective branch reads neither of those — it is driven by `eye`, `target` and
+   `fovDeg`. So on the approach the picture DID NOT MOVE while `reshade` swung the sun across
+   it, `isNamed` went false and the caption dropped to FREE VIEW on a view the reader could no
+   longer steer, since `poseFor('free')` returns null. Ink that is wrong on a model that is
+   right, which `frame.js`'s own projection comment names three functions away. */
+
+test('the perspective camera is driven by the eye, and not by the two orbit controls', () => {
+  const src = readFileSync(join(SRC, 'round', 'three-scene.js'), 'utf8');
+  const m = /if \(pose\.kind === 'perspective'\)\s*\{([\s\S]*?)\n    \}/.exec(src);
+  assert.ok(m, 'three-scene.js no longer branches on a perspective pose — this guard is air');
+  const body = m[1];
+  assert.ok(/pose\.eye/.test(body) && /pose\.target/.test(body),
+    'the perspective branch no longer reads the eye and the target');
+  for (const k of ['azimuthDeg', 'elevationDeg']) {
+    // reshade(pose) legitimately reads both; what must not appear is the CAMERA reading them
+    const cameraLines = body.split('\n').filter((l) => /camera\./.test(l));
+    assert.ok(!cameraLines.some((l) => l.includes(k)),
+      `the perspective camera reads pose.${k}, so an orbit would move it after all and the `
+      + 'refusal in Round.jsx is no longer the right answer');
+  }
+});
+
+test('and Round.jsx refuses to orbit one rather than swinging the sun over a frozen picture', () => {
+  const src = readFileSync(join(SRC, 'round', 'Round.jsx'), 'utf8');
+  const m = /const move = \(ev\) => \{([\s\S]*?)\n    \};/.exec(src);
+  assert.ok(m, 'Round.jsx no longer declares a pointermove handler — this guard is air');
+  const body = m[1];
+  const refusal = body.indexOf('PERSPECTIVE');
+  const orbit = body.indexOf('azimuthDeg:');
+  assert.ok(refusal >= 0,
+    'the drag handler does not mention PERSPECTIVE, so it orbits a standpoint whose camera '
+    + 'cannot follow — see the test above');
+  assert.ok(orbit >= 0, 'the drag handler no longer orbits at all — re-derive this guard');
+  assert.ok(refusal < orbit,
+    'the perspective refusal comes AFTER the orbit is computed, so the pose has already been '
+    + 'rewritten by the time it fires');
+  assert.ok(/\breturn;/.test(body.slice(refusal, orbit)),
+    'the perspective branch does not return, so the orbit below it still runs');
+});
+
+test('the sun is recomputed only when the camera turns', () => {
+  /* `reshade` is called from `setPose`, which runs on every pointermove of a drag and every
+     frame of a tween; it rewrites a colour attribute per solid and sets `needsUpdate` on each,
+     which is one GPU buffer upload apiece. At WP-12.1's 97 solids that was 97 a frame; at
+     WP-12.7's 498 it is 498. A resize, an explode, a clip change and a re-`load` all call
+     `setPose` without turning the camera. */
+  const src = readFileSync(join(SRC, 'round', 'three-scene.js'), 'utf8');
+  const m = /function reshade\(pose\) \{([\s\S]*?)\n  \}/.exec(src);
+  assert.ok(m, 'three-scene.js no longer declares reshade — this guard is air');
+  /* THE CONDITION ITSELF, NOT THE FUNCTION HEAD. The first version searched the whole head
+     for `shaded.length`, and that string also appears in the line that RECORDS the cached
+     pose — so a mutation dropping it from the guard left this green. Read the `if (…) return;`
+     statement and nothing else. */
+  const g = /\n\s*if \(([\s\S]*?)\)\s*return;/.exec(m[1]);
+  assert.ok(g, 'reshade no longer short-circuits, so every setPose rewrites every colour buffer');
+  const cond = g[1];
+  assert.ok(/azimuthDeg/.test(cond) && /elevationDeg/.test(cond),
+    `the short-circuit compares ${cond.trim()} — not the two angles the sun is computed from, `
+    + 'so it can skip a reshade the camera really did need');
+  assert.ok(/shaded\.length/.test(cond),
+    `the short-circuit compares ${cond.trim()} and does not notice a new set of solids, so a `
+    + 're-load at the same pose would leave the new geometry unshaded');
+});
+
+test('and every geometry a load creates is disposed by the clear before the next one', () => {
+  /* `load` pushed each LineSegments2's MATERIAL into `lineMats` and its LineSegmentsGeometry
+     nowhere; `group.clear()` detaches from the scene graph and three.js does not free on
+     removal. One orphaned WebGL buffer per solid per load, and `load` runs on every new scene
+     record — 97 at WP-12.1, 498 now. */
+  const src = readFileSync(join(SRC, 'round', 'three-scene.js'), 'utf8');
+  const m = /function clear\(\) \{([\s\S]*?)\n  \}/.exec(src);
+  assert.ok(m, 'three-scene.js no longer declares clear — this guard is air');
+  const body = m[1];
+  assert.ok(/for \(const p of parts\)/.test(body) && /geometry\.dispose/.test(body),
+    'clear() does not walk `parts` disposing geometries, so every line geometry a load '
+    + 'created is orphaned on the GPU');
+  // and `parts` really does hold both kinds, or walking it proves nothing
+  assert.ok(/parts\.push\(\{ obj: mesh/.test(src) && /parts\.push\(\{ obj: seg/.test(src),
+    '`parts` no longer holds both the meshes and the line segments');
+});
+
 
 test('the model carries no colour of its own', () => {
   // Every ink and tone reaches three-scene.js through `tokens`, resolved from tokens.css. A

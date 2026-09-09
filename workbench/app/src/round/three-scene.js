@@ -28,9 +28,24 @@ import { edges as edgesOf, normalOf, triangles } from './solids.js';
 import { APPROACH_FOV_DEG, basis, eyeDirection } from './frame.js';
 
 /* Which pen an `ink` names, and which wash a `tone` names. The VALUES are tokens.css's; these
-   are only the names, so a token may be re-ruled without touching this file. */
-const PEN = { cut: 'lw-cut', profile: 'lw-heavy', seen: 'lw-medium', fine: 'lw-fine', hidden: 'lw-fine', grid: 'lw-construction' };
-const INK = { cut: 'draw-cut', profile: 'draw-profile', seen: 'draw-seen', fine: 'draw-fine', hidden: 'draw-hidden', grid: 'draw-grid' };
+   are only the names, so a token may be re-ruled without touching this file.
+
+   THE KEYS ARE `schema/scene.schema.json`'s OWN ink enum AND NOTHING ELSE (WP-12.8). The first
+   version carried `hidden` and `grid` -- neither of which is an ink a solid may declare -- and
+   did NOT carry `construction`, which is. Two dead keys made the map LOOK complete over the
+   vocabulary while the one value that matters most fell through `|| 'draw-seen'` and drew a
+   JUDGMENT at the weight and colour of a measured edge: WP-12.6 made the chimney stack a
+   two-vertex axis precisely so a figure the corpus declines to settle could not be mistaken for
+   one it has measured, and the viewer put it back. Both maps are held to the schema, and every
+   value in them to `Round.jsx`'s own TOKEN_NAMES, by `round.test.mjs` -- because a name this
+   file asks for that `Round.jsx` never reads is the identical defect one layer down, silent in
+   exactly the same way.
+
+   `construction` takes `draw-grid`, which is `--hair`: the same value `build/sheet_style.py`
+   gives `INK_FOR["construction"]`, so a construction line is one colour in the model and on the
+   plate rather than two. */
+const PEN = { cut: 'lw-cut', profile: 'lw-heavy', seen: 'lw-medium', fine: 'lw-fine', construction: 'lw-construction' };
+const INK = { cut: 'draw-cut', profile: 'draw-profile', seen: 'draw-seen', fine: 'draw-fine', construction: 'draw-grid' };
 
 export function mount(canvas, tokens) {
   const colour = (name, fallback) => new THREE.Color(tokens[name] || tokens[fallback] || tokens.ink);
@@ -71,7 +86,18 @@ export function mount(canvas, tokens) {
      light comes over the reader's left shoulder whichever way the house is turned. So the
      shading is recomputed when the camera moves — flat, two-tone, never a gradient, and never
      a cast shadow, because a cast shadow is a photograph's idea and not a drawing's. */
+  let litAt = null;
   function reshade(pose) {
+    /* THE SUN ONLY MOVES WHEN THE CAMERA TURNS (WP-12.8). This is called from `setPose`, which
+       runs on every pointermove of a drag and every frame of a tween, and it rewrites a colour
+       attribute per solid and sets `needsUpdate` on each -- one `bufferSubData` upload apiece.
+       At WP-12.1's 97 solids that was 97 uploads a frame; at WP-12.7's 498 it is 498, and the
+       arithmetic is not the cost (0.64 ms) -- the per-buffer driver round trips are. A resize,
+       an explode, a clip change and a re-`load` all call `setPose` without turning the camera,
+       and those are now free. */
+    if (litAt && litAt.az === pose.azimuthDeg && litAt.el === pose.elevationDeg
+        && litAt.n === shaded.length) return;
+    litAt = { az: pose.azimuthDeg, el: pose.elevationDeg, n: shaded.length };
     const b = basis(pose.azimuthDeg, pose.elevationDeg);
     const a = (parseFloat(tokens['shadow-angle']) || 45) * (Math.PI / 180);
     // upper-left of the plate, in the camera's own right/up, then into world space
@@ -104,11 +130,21 @@ export function mount(canvas, tokens) {
       if (m.material.dispose) m.material.dispose();
     }
     for (const m of lineMats) m.dispose();
+    /* AND THE LINE GEOMETRIES, WHICH NOTHING DISPOSED (WP-12.8). `load` pushes each
+       `LineSegments2`'s MATERIAL into `lineMats` and its `LineSegmentsGeometry` nowhere, and
+       `group.clear()` detaches from the scene graph without freeing anything on the GPU --
+       three.js does not free on removal. One orphaned WebGL buffer per solid per `load`, and
+       `load` runs on every new scene record: 97 at WP-12.1, 498 now. Walking `parts` reaches
+       both the meshes (already disposed above, and `dispose()` is idempotent) and the lines. */
+    for (const p of parts) {
+      if (p.obj && p.obj.geometry && p.obj.geometry.dispose) p.obj.geometry.dispose();
+    }
     group.clear();
     meshes = [];
     lineMats = [];
     shaded = [];
     parts = [];
+    litAt = null;
   }
 
   function load(sceneRecord) {

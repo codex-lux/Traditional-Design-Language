@@ -153,6 +153,43 @@ def test_shutters_are_drawn_iff_the_storey_window_carries_them(spec, tidewater):
         "independent records")
 
 
+def test_it_is_shutters_carried_that_decides_and_not_the_leaf_width(spec):
+    """DRIVEN, BECAUSE THE CORPUS CANNOT TELL THE TWO APART (WP-12.8).
+
+    The gate is `rec.get("shutters_carried") and lw_in`, and on both shipped plans those two
+    are perfectly coextensive — the Tidewater windows carry `False` with a `None` width, the
+    spec Colonial's carry `True` with 14.011 and 11.605. So the width alone does all the work,
+    and the mutation audit found that **removing the `shutters_carried` half of the gate
+    outright leaves the whole suite green**: a test over the corpus cannot say which condition
+    is holding. That is WP-11.15's own rule, that a fixture where both branches return the same
+    number guards neither, met in a boolean.
+
+    A record stating a leaf width and declining to carry shutters is the discriminator, and it
+    is exactly the record WP-5.13's adjudication describes: the width resolves from the kit
+    cascade whether or not the style carries the member.
+    """
+    states = SC._States()
+    rec = {"lights_across": 3, "lights_high_per_sash": 3, "muntin_width_in": 0.875,
+           "shutters_carried": False, "shutter_leaf_width_in": 14.0,
+           "shutter_panel_count": 2}
+    rect = {"id": "S-0-ground", "kind": "window", "storey": "ground", "record": rec,
+            "x0_in": 24.0, "x1_in": 60.0, "sill_in": 36.0, "head_in": 96.0}
+    out = SC._dress_openings({}, states, {"S": [rect]}, -1.0, -1.0, 40.0, 30.0, 1.0)
+    assert not [o for o in out if o["class"] == "shutter"], (
+        "a window stating a leaf width and NOT carrying shutters was dressed with two of them "
+        "— the gate is reading the width and not the carrying")
+    assert [o for o in out if o["class"] in ("muntin", "sash")], (
+        "no bars were drawn either, so the fixture never reached the dressing at all and the "
+        "assertion above is about nothing")
+    # and the same record carrying them does draw two, so the refusal is not unconditional
+    rec2 = dict(rec, shutters_carried=True)
+    rect2 = dict(rect, record=rec2)
+    out2 = SC._dress_openings({}, SC._States(), {"S": [rect2]}, -1.0, -1.0, 40.0, 30.0, 1.0)
+    assert len([o for o in out2 if o["class"] == "shutter"]) == 2, (
+        "the same window carrying shutters draws no pair, so this test would pass on a "
+        "function that never draws one")
+
+
 def test_a_leaf_is_the_width_the_record_states(spec):
     s_scene, s_ev = spec
     want = {w["storey"]: w["shutter_leaf_width_in"] / 12.0 for w in s_ev["storey_windows"]}
@@ -206,7 +243,14 @@ def test_a_stack_whose_plan_size_is_stated_is_a_solid():
     """DRIVEN. No node in this corpus states a chimney plan size that is not a judgment, so the
     solid branch is unreachable and a guard over the shipped plans would pass with it deleted."""
     states = SC._States()
-    roof = {"chimneys": {"positions": [{"x_ft": 10.0, "y_ft": 5.0}]},
+    # `total_height_grade_ft` is the key `roof.py` writes and `_chimneys` reads. The first
+    # version of this fixture omitted it and the function fell back onto an editorial 2 ft
+    # above the ridge -- so the test drove the branch and asserted the PLAN size while nothing
+    # anywhere read the stack's HEIGHT, which is how a stack six feet short of its own record
+    # shipped through a suite written for exactly this function.
+    roof = {"chimneys": {"applicable": True, "positions": [
+                {"x_ft": 10.0, "y_ft": 5.0, "grade_to_ridge_ft": 28.0,
+                 "height_above_ridge_ft": 8.0, "total_height_grade_ft": 36.0}]},
             "main": {"ridge": {"grade_to_ridge_ft": 28.0}}}
     section = {"footprint": {"width_ft": 40, "depth_ft": 30}, "wall": {"exterior_in": 12}}
     out = SC._chimneys(roof, {"chimney_stack_plan_in": 24.0,
@@ -214,14 +258,43 @@ def test_a_stack_whose_plan_size_is_stated_is_a_solid():
     assert [s["class"] for s in out] == ["chimney"]
     assert out[0]["geometry"]["type"] == "box"
     assert abs(out[0]["geometry"]["size"][0] - 2.0) < 1e-9, "24 in is 2 ft"
+    # AND THE HEIGHT IS THE RECORD'S, WHICH NOTHING ASSERTED (WP-12.8). `_chimneys` read
+    # `grade_to_cap_ft` -- a key nothing in this repository writes -- so the `or` fell through
+    # to an editorial 2.0 ft above the ridge on every stack on every plan. On the Tidewater
+    # record that is 41.03 ft drawn against a stated 47.03, BELOW the 6 ft minimum the same
+    # roof record judges `ok: True`, and six feet away from where `render_elevation` puts the
+    # same stack. Every test here read the plan size and none read the height.
+    assert abs(out[0]["geometry"]["size"][2] - 36.0) < 1e-9, (
+        f'the stack rises to {out[0]["geometry"]["size"][2]} against a stated '
+        "total_height_grade_ft of 36.0")
     assert states.judgment == [], "a stated size is not a judgment"
 
 
 def test_a_stack_the_roof_cannot_carry_is_refused(spec):
-    """The spec Colonial's roof judges no ridge, so there is nothing to carry a stack up past —
-    and the refusal must say that rather than a stack silently not appearing."""
-    scene, _ = spec
+    """The spec Colonial's massing calls for gable-end stacks and its roof judges no ridge to
+    measure one against — and the refusal must SAY that rather than a stack silently not
+    appearing.
+
+    THE FIRST VERSION OF THIS TEST ASSERTED ONLY THE ABSENCE, which is the whole finding
+    (WP-12.8). Its body was one negative assertion; deleting the refusal outright, and deleting
+    `_chimneys` entirely, both left it green and the whole file green. And the refusal it named
+    was not even the one this record takes: `_chimneys` returned `[]` on empty `positions`
+    before reaching any refusal at all, so a four-over-four whose hearth is `gable-end-paired`
+    read as a house that simply has no fires. The roof record had the reason in full and the
+    scene dropped it.
+    """
+    scene, _ev = spec
     assert not [s for s in scene["solids"] if s["class"] == "chimney"]
+    said = [n for n in scene["not_modelled"] if n.get("class") == "chimney"]
+    assert len(said) == 1, (
+        f"{len(said)} chimney refusals — a house whose massing calls for stacks and draws none "
+        "owes the reader exactly one reason")
+    # the reason is the ROOF's own sentence, republished rather than composed here
+    assert said[0]["source"] == "roof.chimneys.note"
+    assert "ridge" in said[0]["why"], said[0]["why"]
+    # AND THE PREMISE, so this cannot go quiet the day the spec Colonial judges a ridge:
+    # the reason must name a stack the record ASKED FOR, not merely a house without one.
+    assert "chimney" in said[0]["why"].lower(), said[0]["why"]
 
 
 # ------------------------------------------------------------------ the dormers

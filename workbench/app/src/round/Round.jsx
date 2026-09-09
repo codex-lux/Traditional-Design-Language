@@ -11,7 +11,7 @@
    a reading room, and this surface is a drawing before it is a viewer. */
 import React from 'react';
 
-import { basis, defaultAxon, isNamed, poseFor, tween, unproject } from './frame.js';
+import { PERSPECTIVE, basis, defaultAxon, isNamed, poseFor, tween, unproject } from './frame.js';
 
 /* The tokens the model draws in. Read once from the live document, so the Round is in the same
    palette as every plate beside it and a re-ruled token moves both. */
@@ -191,6 +191,17 @@ export function Round({
       anim.current = null;
       cancelAnimationFrame(raf.current);
       const p = start.pose;
+      /* A STANDPOINT IS NOT A CAMERA YOU FLY, AND THE ALTERNATIVE WAS WORSE THAN NOTHING
+         (WP-12.8). The orbit below rewrites `azimuthDeg` and `elevationDeg` only; a
+         perspective pose is driven by `eye`, `target` and `fovDeg`, which it does not touch --
+         so on the approach the picture DID NOT MOVE while `reshade` swung the sun across it
+         and `isNamed` went false, dropping the caption to FREE VIEW on a view the reader could
+         no longer steer and `poseFor('free')` cannot restore. That is ink that is wrong on a
+         model that is right, which is the class `frame.js`'s own projection comment names.
+         The approach is refused instead of orbited: its whole content is a person standing at
+         5'-6", the caption prints that height, and a dragged eye would make the caption false.
+         The chips are how you leave it. */
+      if (p.kind === PERSPECTIVE) return;
       live.current = {
         ...p,
         view: 'free',

@@ -164,7 +164,8 @@
       "type": "object",
       "required": [
         "min",
-        "max"
+        "max",
+        "envelope"
       ],
       "properties": {
         "min": {
@@ -188,8 +189,43 @@
           },
           "minItems": 3,
           "maxItems": 3
+        },
+        "envelope": {
+          "type": "object",
+          "required": [
+            "min",
+            "max"
+          ],
+          "additionalProperties": false,
+          "description": "The outside face of the exterior wall: the box the walls make, before anything that projects from them. A flat plate registers against this.",
+          "properties": {
+            "min": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "max": {
+              "type": "array",
+              "items": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "minItems": 3,
+              "maxItems": 3
+            }
+          }
         }
-      }
+      },
+      "description": "The frame, and the envelope beside it -- two quantities that were one field until WP-12.8. `min`/`max` is the UNION OF EVERYTHING DRAWN, which is what a camera must hold: it reaches past the exterior wall wherever a stoop, a projecting cornice or a chimney does. `envelope` is the OUTSIDE FACE of the exterior wall, which is what a flat elevation plate registers against -- the elevation's own `u = 0` is that face's left edge. Reading the frame as the envelope slides the plate by however far the furthest-out thing sticks out.",
+      "additionalProperties": false
     },
     "grid": {
       "type": "object"

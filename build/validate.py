@@ -147,6 +147,14 @@ try:
     print()
     _scene_bad = _scene.selftest()
 except Exception as _e:                 # noqa: BLE001 -- a refusal is content
+    # AND A LOUD ERROR IS NOT A REFUSAL (WP-12.8). `scene._extent` raises on a primitive it
+    # cannot measure precisely so the frame can never quietly be too small again -- and this
+    # blanket except was the only CI consumer of that raise, printing one line of N/EV and
+    # exiting 0. `UnknownPrimitive` goes straight through; everything else is still a genuine
+    # could-not-evaluate, because a placement can be refused for reasons that are not this
+    # checker's and saying which is the third state working.
+    if type(_e).__name__ == "UnknownPrimitive":
+        raise
     # COULD NOT EVALUATE, named. A scene needs a placement, and a placement can be refused
     # for reasons that are not this checker's; saying which is the third state working.
     print(f"\nN/EV — scene: could not evaluate ({type(_e).__name__}: {str(_e)[:120]})")

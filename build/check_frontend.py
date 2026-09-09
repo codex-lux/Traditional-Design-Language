@@ -60,7 +60,8 @@ def main():
         # entry graph. It reaches the bundle only through `round/three-scene.js`, which
         # `Round.jsx` loads with a dynamic import -- so rollup emits it as its own chunk and
         # a reader who never opens the Round never downloads it. Measured at the time:
-        # entry 478 KB against this 700 KB ceiling, `three` 545 KB in a chunk of its own.
+        # entry 477 KB against this 700 KB ceiling, `three` 564 KB in a chunk of its own
+        # (WP-12.8 re-measured; the file that PRINTS these carried 478/545 as a comment).
         model = [f for f in names if f.startswith("three-scene-")]
         if not entry:
             print("FAIL: no entry chunk in dist/assets", file=sys.stderr)
