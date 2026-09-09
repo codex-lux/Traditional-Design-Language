@@ -472,6 +472,13 @@ an argument; `tests/test_baked_snapshots.py` went red at once and `check_counts.
 later on its own run. Verify every consumer means every one -- I verified two.
 Eight mutations, each asserted LANDED before the colour was believed and each restored
 byte-for-byte; every new guard asserts its own premise.
+**THE BUILD IS 52 OF 53, AND THE ONE FAILURE WAS ATTRIBUTED RATHER THAN CALLED A FLAKE**:
+`pytest tests/` returns 1 failed / 2248 passed / 4 skipped, the failure being
+`test_shape_pins.py::test_no_room_is_drawn_outside_its_own_band_when_the_pins_hold`. Four runs
+alternating trees against a `git archive` of `4b05806` came back **4 of 4 FAIL on each**, so the
+two trees agree -- which is what this file records as that intermittent's one stable property.
+The `+ 0.02` tolerance was not touched. **And the pass count reconciles exactly**: 2230 -> 2248
+is +18, this package's own new tests to the test, so nothing was silently lost or skipped.
 
 **WP-12.6 IS THE ENVELOPE DRESSED, AND ITS TWO FINDINGS ARE ONE DEFECT MET TWICE — A FIELD READ
 OFF THE WRONG RECORD (`docs/reports/wp-12.6-the-envelope-dressed.md`).** Sash bars, meeting rails,
