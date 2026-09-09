@@ -274,7 +274,19 @@ levels' origins are 44.0 and 1177.2 px, so one frame at the root would have mis-
 upper plate by a whole plate's width. It states the renderer's own affine and NOTHING about the
 model frame -- which model axis runs along a face is the camera's business and is under test in
 `frame.js`, and a renderer claiming it too would be a second authority over exactly the fact a
-mirrored drawing gets wrong. 16 of 16 plates are byte-identical across the attribute.
+mirrored drawing gets wrong.
+**AND THE CORPUS SHEET HASH MOVED, WHICH THE PACKAGE VERIFIED BY HAND AND DID NOT RUN THE GUARD
+FOR.** WP-12.4 diffed all 44 plates with the attribute stripped, found them identical, and
+published *"16 of 16 plates byte-identical"* -- true of the stripped comparison and NOT what
+`test_exterior_faces.py::test_no_shipped_sheet_moves` measures, which is the raw bytes of all
+sixteen sheets. It went red at `373d0116be7cecb8 -> 535077ae0bca1ea2` and **three commits had
+already shipped on it**, on an assertion whose own message names the property they were checking
+by hand. Re-derived: stripped of ` data-frame='...'` the corpus is `373d0116be7cecb8` TO THE
+CHARACTER -- WP-11.14's own value, so the guarantee is intact and the movement is 2,918 bytes of
+attribute over 16 of 16 sheets. **A bare re-pin would have converted a defect into a claim**, so
+the STRIPPED hash is asserted first and the raw one second, with a premise assertion that all
+sixteen sheets really carry a frame; three mutations drive them (a byte outside the attribute, a
+wrong affine inside it, the attribute absent) and each bites a different one.
 **APPROACH IS NOT IN THIS PACKAGE AND WP-12.7 LANDS IT.** The 8 Sep ruling putting a 5'-6"
 perspective view in v1 stands; only its package moved, because at WP-12.4 the model is an
 undressed massing and eye height is where a missing cornice, dormer and door surround are least

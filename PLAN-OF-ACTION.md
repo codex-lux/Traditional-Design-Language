@@ -3621,8 +3621,13 @@ which puts it in a **544.7 KB chunk of its own** (entry 460 -> 478 KB against a 
 and keeps it out of `no_bare_imports.test.mjs`'s walk. `Round.jsx` and `RoundPlate.jsx` are the
 canvas and the sheet chrome; surface 8's first plate is the model and the five flat plates are
 chips beneath it. `data-frame` on all four Python renderers states each plate's own affine --
-**16 of 16 plates byte-identical across it**. App suite 86 -> 117 tests, router-unit 61 -> 63,
-walk 152 -> 162 check sites, `check_frontend.py` gains a third lazy-chunk assertion, driven both
+**16 of 16 plates byte-identical across it, WITH THE ATTRIBUTE STRIPPED** -- and that qualifier
+is the package's last finding. The corpus sheet hash itself MOVED
+(`373d0116be7cecb8 -> 535077ae0bca1ea2`) and three commits shipped red on
+`test_no_shipped_sheet_moves`, because the property was verified by hand and the guard that
+measures it was not run. Stripped of the attribute the corpus is WP-11.14's value to the
+character; the pin asserts the stripped hash FIRST, so a later package cannot buy a green tick by
+re-pinning the raw number. App suite 86 -> 117 tests, router-unit 61 -> 63,walk 152 -> 162 check sites, `check_frontend.py` gains a third lazy-chunk assertion, driven both
 ways.
 **THE APPROACH VIEW IS NOT HERE AND THE VIEW-BAR LINE BELOW IS CORRECTED FOR IT.** The 8 Sep
 ruling putting a 5'-6" perspective view in v1 stands; **WP-12.7 lands it**, beside the entrance

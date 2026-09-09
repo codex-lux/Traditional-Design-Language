@@ -227,7 +227,23 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # reads as success"*); what this adds is that the damage outlives the harness, into any number
 # measured afterwards. **After an interrupted mutation run, restore the file and re-derive
 # every figure taken since.**
-CORPUS_SHEET_SHA = "373d0116be7cecb8"
+# WP-12.4 moved this by adding one `data-frame` attribute to the root <svg> of every plate,
+# so the corpus hashes 535077ae0bca1ea2 now. **A re-pin on its own would have converted a
+# defect into a claim** -- this pin's whole job is to say that WP-11.14 is the IDENTITY on a
+# one-rectangle corpus, and overwriting the number tells the next reader that identity was
+# re-verified when all that happened is that a new value was written down. So the STRIPPED
+# hash is asserted too, and it is WP-11.14's own: re-derived over the same sixteen sheets with
+# ` data-frame='...'` removed, it is 373d0116be7cecb8 to the character. 16 of 16 sheets carry
+# the attribute and it adds 2,918 bytes in total.
+#
+# AND THE PIN CAUGHT A PACKAGE THAT HAD ALREADY BEEN COMMITTED. WP-12.4 verified the property
+# by diffing all 44 plates with the attribute stripped and never ran the guard that MEASURES
+# it, so three commits shipped red on an assertion whose own message names the property they
+# were checking by hand. That is this repository's own *a package that commits before its
+# build finishes learns what it broke from the build*, met by the package that had just
+# written the sentence down.
+CORPUS_SHEET_SHA = "535077ae0bca1ea2"
+CORPUS_SHEET_SHA_NO_FRAME = "373d0116be7cecb8"   # WP-11.14's, unchanged by WP-12.4
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])
@@ -236,8 +252,11 @@ def test_no_shipped_sheet_moves(engine, tmp_path):
     working tree after. Deterministic: `engine="heuristic"`, which is why it is pinned and the
     `auto` figure is not."""
     import hashlib
+    import re as _re
     GEO = _mod("geometry")
     h = hashlib.sha256()
+    bare = hashlib.sha256()          # the same sheets with WP-12.4's `data-frame` removed
+    framed = 0
     n = 0
     for pf in (sorted(glob.glob(str(ROOT / "plans" / "*.json")))
                + sorted(glob.glob(str(ROOT / "plans" / "reference" / "*.json")))):
@@ -248,12 +267,24 @@ def test_no_shipped_sheet_moves(engine, tmp_path):
         sol = GEO.solve(json.loads(json.dumps(d)), engine=engine)
         out = tmp_path / f"{pathlib.Path(pf).stem}.svg"
         RP.render(sol, str(out))
-        h.update(out.read_bytes())
+        b = out.read_bytes()
+        s = _re.sub(rb" data-frame='[^']*'", b"", b)
+        framed += (b != s)
+        h.update(b)
+        bare.update(s)
         n += 1
     assert n == 16
+    # THE GUARANTEE, and it is the second assertion rather than the first. With WP-12.4's one
+    # disclosure attribute removed, the corpus must still hash to what WP-11.14 measured -- so
+    # a later package cannot quietly buy a green tick by re-pinning the raw number.
+    assert framed == 16, f"only {framed} of 16 sheets carry a data-frame; the premise has moved"
+    assert bare.hexdigest()[:16] == CORPUS_SHEET_SHA_NO_FRAME, (
+        "a shipped sheet moved by more than the data-frame attribute accounts for. On a "
+        "one-rectangle house a boundary room's own face IS the footprint edge, so WP-11.14 "
+        "must be the identity on every plan in this corpus")
     assert h.hexdigest()[:16] == CORPUS_SHEET_SHA, (
-        "a shipped sheet moved. On a one-rectangle house a boundary room's own face IS the "
-        "footprint edge, so WP-11.14 must be the identity on every plan in this corpus")
+        "a shipped sheet moved. If the assertion above passed, the movement is inside the "
+        "data-frame attribute itself and the renderers' affine has changed")
 
 
 # --------------------------------------------------------------- the DRAWING, not the derivation
