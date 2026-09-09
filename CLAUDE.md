@@ -1187,6 +1187,19 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `oq/a-held-shape-pin-is-not-held-on-the-hard-only-path`, raised with the measurement and NOT
   fixed there, because every plausible fix moves a placement and that package's guarantee is
   that nothing shipped moves. **Do not loosen the `+ 0.02` tolerance to make it green.**
+  **AND THE DISCRIMINATOR SENTENCE ABOVE IS FALSIFIED (re-measured 9 Sep 2026 during WP-12.2's
+  verification, when a full `check_all` came back `1 of 53 checks failed` on this same
+  assertion).** Eight runs alternating trees -- `9aa3a35` before WP-12.2 against the working tree
+  after it -- came back **4 failures of 4 on each**, which settles the attribution: the failure is
+  not that package's, and `tests/test_cp_elements.py` passed in the same build, so the prover was
+  handed a byte-identical model. **But all eight failed on `FEASIBLE — kept polish from the
+  heuristic hint`, which is the status this entry calls the PASSING one.** The pin is not held on
+  the polish path either, so the slug is narrower than the defect (kept, because ids are stable).
+  The convicted population differs with the path -- the hard-only solve convicted `chamber2` and
+  `chamber3`, every polish solve convicts `chamber3` alone -- and `downgraded_shape_pins` is EMPTY
+  on all eight, which is the entry's central fact and survives. **THE RATE IS A PROPERTY OF THE
+  MACHINE AND THE DAY**: 2 in 8 on each tree on 8 Sep, 8 in 8 on each tree on 9 Sep. Quote neither
+  as the frequency; what is stable is that the two trees agree.
 - **WP-11.13's "PROVED OPTIMAL WITH ZERO PINS DOWNGRADED" DOES NOT REPRODUCE (WP-11.15, measured
   while costing WP-11.16).** The tagging that proves — service programme in a west dependency,
   back hall as hyphen, butler's pantry in the BLOCK per its own OQ 59 clause, the redundant
