@@ -33,6 +33,7 @@ import {
   unproject,
 } from './round/frame.js';
 import { caption, chipLabel, furnitureFor, notModelledLine, plateKeyFor } from './round/annotate.js';
+import { edges, extent, facesOf, normalOf, triangles } from './round/solids.js';
 
 const SCENE = {
   bounds: { min: [-1.292, -1.292, 0], max: [64.288, 39.458, 39.03] },
@@ -324,4 +325,121 @@ test('the not-modelled line counts, and is silent when there is nothing to say',
   assert.equal(notModelledLine(SCENE), '1 thing the record holds is not modelled — listed in the card');
   assert.equal(notModelledLine({ ...SCENE, not_modelled: [{}, {}] }).startsWith('2 things'), true);
   assert.equal(notModelledLine({ ...SCENE, not_modelled: [] }), null, 'no reassuring zero');
+});
+
+/* ------------------------------------------------------------------ solids */
+
+/* Two REAL solids off build/scene.py's Tidewater record, not invented ones: a ground-floor
+   sash on the south front and the east gable. Their numbers are what make the contract
+   assertions below mean something -- 1.292 is one exterior wall thickness, and where that
+   1.292 goes is the whole of WP-12.2's third finding. */
+const SASH = {
+  id: 'S-0-ground-window',
+  class: 'opening-frame',
+  geometry: {
+    type: 'extrude', plane: 'xz', at: -1.292, thickness: 1.292,
+    outline: [[1.782, 4.5], [5.003, 4.5], [5.003, 11.263], [1.782, 11.263]],
+  },
+};
+const GABLE_E = {
+  id: 'gable-E',
+  class: 'gable',
+  geometry: {
+    type: 'extrude', plane: 'yz', at: 62.997, thickness: 1.292,
+    outline: [[-1.292, 25.44], [19.083, 39.03], [39.458, 25.44]],
+  },
+};
+const WALL_S = {
+  id: 'L0-wall-0',
+  class: 'wall',
+  geometry: { type: 'box', origin: [0.0, -1.292, 2.0], size: [63.0, 1.292, 11] },
+};
+
+test('a box occupies exactly the extent it declares', () => {
+  const e = extent(WALL_S);
+  assert.deepEqual(e.min, [0.0, -1.292, 2.0]);
+  assert.deepEqual(e.max.map((n) => +n.toFixed(6)), [63.0, 0.0, 13.0]);
+  assert.equal(triangles(WALL_S).length, 12, 'six faces, two triangles each');
+  assert.equal(edges(WALL_S).length, 12, 'twelve edges, each drawn once, not twice');
+});
+
+test('an opening is extruded INTO its wall, on every plane', () => {
+  // WP-12.2's finding, asserted as the CONTRACT rather than as a consequence: `at` is the LOW
+  // face and the sweep always runs along the plane's POSITIVE axis. The first version of the
+  // scene put `at` on the OUTSIDE face with an always-positive thickness, so south and west
+  // openings went in and north and east ones stood proud -- and the test that was green over
+  // it compared `at` against exactly where the wrong contract had put it.
+  const s = extent(SASH);
+  assert.equal(+s.min[1].toFixed(6), -1.292, 'the sash starts on the wall’s outside face');
+  assert.equal(+s.max[1].toFixed(6), 0.0, 'and ends on its clear face — inside the wall');
+
+  const g = extent(GABLE_E);
+  assert.equal(+g.min[0].toFixed(6), 62.997, 'the east gable starts on its wall’s low face');
+  assert.equal(+g.max[0].toFixed(6), 64.289, 'and sweeps east through the wall, not past it');
+
+  // Driven on the third plane too, since a prism is the same sweep with a different pair.
+  const sp = { geometry: { type: 'prism', polygon: [[0, 0], [4, 0], [4, 3]], z0: 2, z1: 13 } };
+  const pe = extent(sp);
+  assert.equal(pe.min[2], 2, 'a space stands on its floor');
+  assert.equal(pe.max[2], 13, 'and stops at its ceiling');
+});
+
+test('a swept solid is closed, and a plane is not', () => {
+  // A triangle swept through a wall is a prism: 2 ends + 3 sides.
+  assert.equal(facesOf(GABLE_E).length, 5, 'two ends and three sides');
+  // A roof plane is one polygon with no thickness -- it is a surface, and saying otherwise
+  // would give the roof a soffit the record does not state.
+  const rp = { geometry: { type: 'plane', vertices: [[0, 0, 25], [10, 0, 25], [10, 5, 30], [0, 5, 30]] } };
+  assert.equal(facesOf(rp).length, 1);
+  const e = extent(rp);
+  assert.ok(e.max[0] - e.min[0] > 0 && e.max[2] - e.min[2] > 0, 'it has extent in its own plane');
+  assert.equal(triangles(rp).length, 2, 'a quadrilateral fans to two triangles');
+});
+
+test('a SWEPT solid’s faces point outward too — on every plane', () => {
+  // The assertion the box test could not make. `PLANES.xz` is (x, z, y) and x cross z is
+  // MINUS y, so that frame is left-handed while the other two are right-handed: an outline
+  // wound one way faces out in a gable and IN in a wall. A mutation of the cap winding stayed
+  // green until this existed, and the consequence on the plate is a flat sun lighting half
+  // the openings from inside the house.
+  for (const [name, solid] of [['sash (xz)', SASH], ['gable (yz)', GABLE_E]]) {
+    const c = extent(solid);
+    const mid = [(c.min[0] + c.max[0]) / 2, (c.min[1] + c.max[1]) / 2, (c.min[2] + c.max[2]) / 2];
+    for (const tri of triangles(solid)) {
+      const n = normalOf(tri);
+      const a = tri[0];
+      const away = [a[0] - mid[0], a[1] - mid[1], a[2] - mid[2]];
+      const facing = n[0] * away[0] + n[1] * away[1] + n[2] * away[2];
+      assert.ok(facing >= -1e-9, `${name}: a face is wound inward (${facing.toFixed(4)})`);
+    }
+  }
+  // And a space, which is the third plane and the one a reader looks through.
+  const sp = { geometry: { type: 'prism', polygon: [[35.51, 0], [40.91, 0], [40.91, 9], [35.51, 9]], z0: 2, z1: 13 } };
+  const e = extent(sp);
+  const mid = [(e.min[0] + e.max[0]) / 2, (e.min[1] + e.max[1]) / 2, (e.min[2] + e.max[2]) / 2];
+  for (const tri of triangles(sp)) {
+    const n = normalOf(tri);
+    const away = [tri[0][0] - mid[0], tri[0][1] - mid[1], tri[0][2] - mid[2]];
+    assert.ok(n[0] * away[0] + n[1] * away[1] + n[2] * away[2] >= -1e-9, 'a space is wound inward');
+  }
+});
+
+test('a box’s faces point outward, so a flat sun shades the turned ones', () => {
+  const tris = triangles(WALL_S);
+  const ns = tris.map(normalOf);
+  const has = (v) => ns.some((n) => Math.abs(n[0] - v[0]) < 1e-9 && Math.abs(n[1] - v[1]) < 1e-9 && Math.abs(n[2] - v[2]) < 1e-9);
+  for (const v of [[1, 0, 0], [-1, 0, 0], [0, 1, 0], [0, -1, 0], [0, 0, 1], [0, 0, -1]]) {
+    assert.ok(has(v), `no face points ${JSON.stringify(v)} — a wound-inward face is lit backwards`);
+  }
+});
+
+test('a primitive this viewer does not know is refused by name, never skipped', () => {
+  // An absence is the one thing a drawing must not report silently: a solid quietly dropped
+  // is a house missing a piece with nothing anywhere saying so.
+  assert.throws(
+    () => facesOf({ geometry: { type: 'lathe', profile: [] } }),
+    /cannot build a 'lathe'/,
+    'an unknown primitive must name itself',
+  );
+  assert.throws(() => facesOf({ geometry: { type: 'extrude', plane: 'zz', outline: [], at: 0, thickness: 1 } }), /cannot sweep the plane 'zz'/);
 });
