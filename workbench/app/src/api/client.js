@@ -97,6 +97,13 @@ export const api = {
   // never been looked at.
   drawing: (kind, plan, opts = {}) => postJSON(`/api/drawings/${seg(kind)}`, { plan, ...opts }),
 
+  /* The Round's one call (WP-12.3). Returns the scene record, the PLACED plan and every named
+     view's plate together, because seven metered calls per record change against a budget of
+     sixty an hour buys eight edits and one call buys sixty. Keep the returned `plan`: a record
+     carrying `geometry` short-circuits the server's placement, 37.48 s -> 0.00 s, on every
+     later export or evaluate. */
+  scene: (plan, opts = {}) => postJSON('/api/scene', { plan, ...opts }),
+
   evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
   // WP-9.3: the analyst (synchronous) and the loop (a job; rounds arrive through jobEvents,
   // the revised record through jobPlan -- stripped of its placement, the bench re-solves)

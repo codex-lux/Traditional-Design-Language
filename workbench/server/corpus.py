@@ -553,6 +553,113 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
     return {"kind": kind, "svg": svg_theme.retokenize(svg), **meta}
 
 
+# ----------------------------------------------------------------- the scene (WP-12.3)
+
+# The six views that HAVE a plate. `AXON` and `APPROACH` are named views of the model with no
+# orthographic drawing behind them, and the PRD says so rather than inventing one: a perspective
+# has no plate because a perspective dimension is never true.
+SCENE_PLATES = (("plan", None), ("elevation", "S"), ("elevation", "N"),
+                ("elevation", "E"), ("elevation", "W"), ("roof", None))
+
+
+def scene(plan, parti=None, candidates=250, plates=True):
+    """The constructed-3D record for the Round, with the PLACED record and every named view's
+    plate beside it — deliberately ONE metered call rather than seven.
+
+    IT IS NOT A SIXTH DRAWING KIND. `/api/drawings/{kind}` returns an SVG and this returns a
+    record; `test_unknown_kind_names_the_kinds` uses `axonometric` as its negative fixture and
+    stays true, which it would not if a camera were smuggled into that enum.
+
+    WHY EVERYTHING COMES BACK AT ONCE, AND THE MEASUREMENT THAT DECIDED IT (WP-12.3). The Round
+    has six views that carry a plate. Fetched one at a time beside the scene that is SEVEN calls
+    against `limits.heavy_calls_per_hour()`, which is 60 — eight record changes an hour, for a
+    surface whose whole subject is moving between views of one house. Measured on
+    `tidewater-georgian-careful`:
+
+        a cold solve                              37.48 s
+        a record that already carries geometry     0.00 s   (the short-circuit, not the cache)
+        all six plates on the placed record        0.38 s
+        build_scene on the placed record           0.00 s
+        the whole call, end to end               38.46 s
+        scene + plates + placed record            70,702 bytes gzipped (376,574 raw)
+
+    The last row of timings is the one to quote: the section, the roof, the elevation, the scene,
+    the six plates AND the first-call module loads are the 0.98 s between it and the solve --
+    **2.6% of the placement**. So the budget rather than the clock is what bites. One call costs
+    about 71 KB on the wire and buys sixty record changes an hour where seven calls buy eight.
+
+    THE PLACED RECORD COMES BACK FOR A SECOND REASON. `_placed` returns a record carrying
+    `geometry` untouched, so a client that keeps this one and posts it to a later export or
+    evaluate pays 0.00 s where a fresh record pays 37.48 s. That is not a cache: it is the
+    drawing set's own rule (WP-6.4) — one placement, and every surface that reads it is reading
+    the same building.
+
+    `plates=False` returns the scene alone. Both branches are driven by
+    `workbench/server/tests/test_scene_endpoint.py`, because a knob nobody exercises is a branch
+    nobody tests.
+    """
+    # A PARTI IS AN ID HERE, NEVER A RECORD (WP-9.4), and the refusal is `core.critique_plan`'s
+    # own words. A caller-supplied record becomes the template `geometry` reads its bay module
+    # off, which is how 114 bays of half a foot reached the solver through two bench routes.
+    if parti is not None and not isinstance(parti, str):
+        return {"error": "parti must be a parti id, not a record",
+                "detail": type(parti).__name__}
+    pt = core.load_parti(parti)
+    placed = _placed(plan, pt, candidates)
+    if "error" in placed:
+        return {"error": placed["error"]}
+    # `B` is a LOCAL in each of the three functions that need it, not a module name -- and so is
+    # `_os`, which those three alias with their own `import os as _os`. The first draft of this
+    # function borrowed both from a neighbour and raised `NameError` twice; `os` is imported
+    # plainly at module scope and is what this uses. Both were caught by the tests on their first
+    # two runs, which is what they are for -- and neither would have been caught by reading, because
+    # the surrounding functions read exactly as though the names were module-level.
+    B = os.path.join(ROOT, "build")
+    ST_ = core._mod("structure", f"{B}/structure.py")
+    RF_ = core._mod("roof", f"{B}/roof.py")
+    EL_ = core._mod("elevation", f"{B}/elevation.py")
+    SC_ = core._mod("scene", f"{B}/scene.py")
+    try:
+        section = ST_.build_section(placed, pt, geometry_result=placed)
+        if "error" in section:
+            return {"error": section["error"]}
+        roof = RF_.build_roof(placed, pt, section=section)
+        if "error" in roof:
+            return {"error": roof["error"]}
+        # A REFUSED ELEVATION IS NOT AN ERROR HERE, and `build_scene` is written for it: outside
+        # the classical-front family the generator declines, and the scene then carries one
+        # `not_modelled` entry saying no face states an opening rather than failing. Passing
+        # `None` is `scene._build_from_plan`'s own reading of the same refusal.
+        elev = EL_.build_elevation(placed, pt, section=section, roof=roof)
+        rec = SC_.build_scene(placed, section, roof, None if "error" in elev else elev)
+    except Exception as e:                      # noqa: BLE001 -- a refusal is content
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+    out = {"scene": rec, "plan": placed,
+           "solver": (placed.get("geometry_report") or {}).get("solver")}
+    if plates:
+        drawn, refused = {}, {}
+        for kind, face in SCENE_PLATES:
+            key = f"{kind}:{face}" if face else kind
+            # THE ID AND NOT THE RESOLVED RECORD. `drawing()` calls `core.load_parti` itself,
+            # and that function takes a caller's STRING: handed a dict it does
+            # `os.path.basename(str(dict))`, finds no such file and returns None — so every
+            # plate would have been drawn with NO PARTI while the scene beside it used one.
+            # Two different buildings in one response, which is the defect WP-12.0 removed one
+            # layer up. Found by reading `load_parti`'s signature, not by running it.
+            got = drawing(kind, placed, parti=parti, face=face, candidates=candidates)
+            # A PLATE THAT COULD NOT BE DRAWN IS NAMED, NEVER DROPPED. An elevation refuses
+            # outside the classical-front family and a roof refuses where the style states no
+            # migrated pitch; a missing key would read to the viewer as a view it has not
+            # fetched yet, which is the one thing it must not read as.
+            if "error" in got:
+                refused[key] = got["error"]
+            else:
+                drawn[key] = got["svg"]
+        out["plates"] = drawn
+        out["plates_refused"] = refused
+    return out
+
+
 def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
     """WP-5.1: run build/export_dxf.py or build/export_ifc.py for one plan and
     return the file's text (DXF and IFC-SPF are both text formats). Refusals —

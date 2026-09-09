@@ -716,6 +716,34 @@ def drawings(kind: str, request: Request, body: dict = Body(...)):
     return res
 
 
+# ----------------------------------------------------------------- the scene (WP-12.3)
+@app.post("/api/scene")
+def scene(request: Request, body: dict = Body(...)):
+    """The constructed-3D record for the Round, with the placed record and every named view's
+    plate beside it.
+
+    `_heavy` because it drives the same 250-candidate solver every drawing does — and ONE call
+    rather than seven is the whole point of returning the plates here. WP-12.3 measured it: a
+    cold solve is 37.48 s, and the six plates plus `build_scene` on the record it produces are
+    0.38 s, so the budget rather than the clock is what bites. At `limits.heavy_calls_per_hour()`
+    of 60, seven calls per record change buys eight edits an hour and one buys sixty.
+
+    `plates=false` returns the scene alone, for a caller that has the drawings already.
+    """
+    _heavy(request)
+    plan = _plan(body)
+    plates = body.get("plates", True)
+    if not isinstance(plates, bool):
+        raise HTTPException(status_code=422,
+                            detail={"error": "plates must be true or false",
+                                    "got": str(plates)[:40]})
+    res = corpus.scene(plan, parti=body.get("parti"), candidates=_candidates(body),
+                       plates=plates)
+    if "error" in res:
+        raise HTTPException(status_code=422, detail=res)
+    return res
+
+
 # ----------------------------------------------------------------- export (WP-5.1)
 @app.post("/api/export/{fmt}")
 def export_cad(fmt: str, request: Request, body: dict = Body(...)):

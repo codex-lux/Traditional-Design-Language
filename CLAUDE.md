@@ -130,7 +130,7 @@ truncated left half. Both are the shapes this file already records for the two p
 code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
 were then driven to prove they fire**, which is the only thing that has ever caught one of these.
 
-**WP-12.0, WP-12.1 AND WP-12.2 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
+**WP-12.0 THROUGH WP-12.3 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
 again (`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`) and WP-12.1 is the scene
 record (`docs/reports/wp-12.1-the-scene-record.md`, layer doc `docs/scene.md`): `build/scene.py`,
 pure arithmetic and a leaf, which imports `export_ifc.slab_boxes`, `structure.wall_thickness`,
@@ -200,6 +200,34 @@ five, and eight distinct door widths from 2.2 to 6 ft are each placed at their o
 test the paragraph cited could never have caught it**: it asserts the DXF's widths are a SUBSET
 of the recorded ones, which is true whether or not the SVG shrinks -- one half of a claim about
 two surfaces.
+
+**WP-12.3 IS THE SCENE ROUTE, AND THE MEASUREMENT THAT DECIDED ITS SHAPE IS ABOUT THE METER RATHER
+THAN THE CLOCK (`docs/reports/wp-12.3-the-scene-route.md`).** `corpus.scene()` returns the scene,
+the PLACED record and every named view's plate together, behind `POST /api/scene` with `_heavy` and
+`_plan`; `api.scene` is the client wrapper. Measured on `tidewater-georgian-careful` at `auto`: a
+cold solve **37.48 s**, an already-placed record **0.00 s**, `build_scene` **0.00 s**, all six
+plates **0.38 s**, the whole call **38.46 s** -- everything but the placement is **2.6% of it**, and
+the response is 376,574 bytes raw, about 71 KB gzipped. **A reader who profiled this route would
+have concluded the plates were free and reached the opposite design**: six plates fetched one at a
+time beside the scene is SEVEN calls against `limits.heavy_calls_per_hour()` of 60, which is eight
+record changes an hour where one call buys sixty. `SCENE_PLATES` holds the six views that carry a
+plate and **APPROACH is deliberately absent, because a perspective dimension is never true**. The
+placed record comes back for a second reason and it is not a cache -- it is WP-6.4's rule, and a
+client that keeps it pays 0.00 s on every later export or evaluate.
+**AND THE PACKAGE'S TWO DEFECTS SPLIT EXACTLY THE OTHER WAY FROM WHAT A READER WOULD GUESS.** `B`
+and `_os` are per-function LOCALS in the three neighbouring functions that use them -- two
+`NameError`s on the tests' first two runs, and **neither was reachable by reading**, because the
+surrounding code reads as though both were module-level. The one found BY reading was the serious
+one: the first draft forwarded the RESOLVED parti record to `drawing()`, which calls
+`core.load_parti` itself and takes a caller's STRING -- handed a dict it does
+`os.path.basename(str(dict))`, finds no file and returns `None`, so **every plate would have been
+drawn with NO PARTI while the scene beside it used one**, WP-12.0's own defect reintroduced by the
+package that depends on WP-12.0. **This package's own digest guard cannot see that**, because
+`_placed` stamps the digest on the record it was HANDED and that record is the same either way; a
+guard proving two drawings share an input says nothing about what each did with it.
+**AND THE FIRST PLATE FIGURE PUBLISHED WAS 0.70 s AGAINST A REPRODUCIBLE 0.38** -- measured in a
+process that had not yet loaded the drawing pipeline, so it carried the module loads. Corrected in
+five files by sweeping for the retired number, which is this file's own rule after a correction.
 
 **AND THREE STATES OF THE TREE THAT ARE NOT PHASE 12'S, MEASURED 8-9 SEP BY WALKING A WORKTREE OF `origin/main` ALONE.** The browser walk is RED on `main`: a label spill on the Pantry, twice, and the Plan Workbench's engine-caption parity check. Byte-identical on `main` and on `main` + Phase 12. **The spill moved rooms between trees** -- the Centre Passage on `f54c5af`, the Pantry on `main` -- because the merge moved the placement, so attributing it by the room name would have been wrong. At `5869012` every corpus shard, the aggregate gate, the server tests and the docker build are green and the walk is the only red job. **AND THE MERGE WAS DONE AND THE RE-DERIVATION PAID, 9 SEP -- THE DEFECT WAS WORSE THAN PUBLISHED.** `main` was six commits ahead of the PRD's `f54c5af`, carrying the other Phase 11's merge, which touches `structure.py`, `roof.py`, `openings.py`, `plan_check.py` and `export_ifc.py` -- the modules `build/scene.py` is specified to import -- and moved both shipped plans' footprints. Merged with no conflicts, and every WP-12.0 figure re-derived across it rather than quoted: the spec Colonial's `porch_clear_depth_ft` is **6.00 against a drawn 4.00**, fifty per cent over rather than the three quarters of a foot measured on `f54c5af`, and **the Tidewater plan now reaches a proof inside its budget**, so **ten** of its measurements move -- the ridge height, the eave-to-ridge height, the roof plane area -- and **all four of its faces differ** where none did before. **Two published sentences are now false of the tree**: *nothing moves on the Tidewater plan*, and *the front is drawn on the width and the width does not move*. The second was never a rule -- it was a property of one plan on one tree, and it read as an explanation. Corrected in the report's addendum rather than overwritten; the code is unchanged and all 15 tests pass. **A figure is a statement about the tree it was measured on**, which is this file's own rule about what happens to a number at exactly a merge, met the day after it was written down.
 
