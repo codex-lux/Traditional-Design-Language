@@ -229,6 +229,59 @@ guard proving two drawings share an input says nothing about what each did with 
 process that had not yet loaded the drawing pipeline, so it carried the module loads. Corrected in
 five files by sweeping for the retired number, which is this file's own rule after a correction.
 
+**WP-12.6 IS THE ENVELOPE DRESSED, AND ITS TWO FINDINGS ARE ONE DEFECT MET TWICE — A FIELD READ
+OFF THE WRONG RECORD (`docs/reports/wp-12.6-the-envelope-dressed.md`).** Sash bars, meeting rails,
+shutters and chimneys: **Tidewater 101 -> 492 solids, the spec Colonial 75 -> 368**, with
+`opening-frame` UNCHANGED at 40 and 32 -- the package changed how an opening is dressed and not
+which openings exist. The bars are `across - 1` verticals and `2 x high - 1` horizontals; the two
+sashes of a double-hung align, so a bar is ONE member, and the middle horizontal is a `sash` and
+not a `muntin`, because a meeting rail is a member and not glazing. **The two shipped plans
+exercise opposite halves, which is what makes the pair an assertion rather than a sample**: the
+Tidewater house carries no shutters (its own kit makes `none` canonical) and draws two chimney
+axes; the spec Colonial carries 62 shutters and draws no chimney, because its roof judges no
+ridge. **The SILL IS REFUSED** -- `kit.window_sill.projection_in` resolves to a BAND and a drawing
+cannot draw one, which is `oq/a-child-band-replaces-an-ancestor-derivation` reaching its first
+consumer. **A STACK WHOSE PLAN SIZE CARRIES `judgment: true` IS A TWO-VERTEX AXIS AND NEVER A
+SOLID** (`judgment` 0 -> 2): drawing a box at 22 in would publish a dimension the corpus declines
+to settle -- the mason still owes 18 or 27 -- in the one place a reader cannot tell a decision
+from a measurement.
+**`shutters_carried` IS SET PER STOREY WINDOW AND THE FIRST DRAFT READ IT OFF THE ELEVATION**, so
+it returned `None` on every house and NOT ONE SHUTTER WAS DRAWN. The picture looked dressed, the
+schema validated, every id was unique, nothing failed. **Only a CENSUS OF SOLID CLASSES before
+against after could see it**, which is why that test file counts classes rather than asserting
+that some solid exists.
+**AND `dormers` IS PLURAL WHILE `scene._dormers` READ THE SINGULAR** (`elevation.py` 2012 writes
+it; `render_elevation.py` has read the plural in both its readers all along), so the function took
+`{}` on every record in the corpus and drew, refused and disclosed nothing. **ITS OWN THREE TESTS
+CORROBORATED THE DEFECT**: all three DRIVE the function with a hand-built dict, and that dict
+carried the same wrong key as the code, so fixture and defect agreed with each other and all three
+passed. **A driven test proves the branch runs and says nothing about whether anything reaches
+it.** It was found by reading the WRITER to check a claim this file's own plan block made about
+something else -- and that claim was itself false, which is the third finding: `PLAN-OF-ACTION.md`
+said to avoid `placeable` and `not_drawn_reason` "because they do not exist", and both are written
+at `elevation.py` 1971-1980. Following it would have re-derived one judgment from another.
+**AND THE FIX'S FIRST VERSION FILED A REFUSAL ABOUT NOTHING.** With the key corrected the shipped
+corpus moved, `not_modelled` 1 -> 2 and 3 -> 4: both plans state `dormers.stated: True` with
+**`count: 0`** -- a MEASURED ZERO -- and the function, gated on `stated`, refused to model dormers
+that are not there. **A refusal about something that does not exist is the fake-unjudged collapse
+wearing its other face**, and is exactly as dishonest as a fake pass. `elevation.py` 1954 settles
+it: `placeable` and `not_drawn_reason` are written only where the count is truthy. Gated on the
+count, the census returns to 1 and 3 -- the same numbers as before, now for the right reason
+rather than by accident.
+**AND ONE OPENING HAD TWO NAMES, WHICH IS WHY THE GUARD WRITTEN TO CATCH THAT COULD NOT.**
+WP-12.2's blind-bay guard counted EVERY SOLID where its own docstring named the FRAMES, so it went
+red on a package that had not touched the blinding (blinding a bay now costs 22 solids: two
+frames, two rails, eighteen bars) -- the LOUD half of the selector fault, where the quiet half goes
+blind. Re-cut against the frames, its new half asserted that a bay's dressing leaves with the bay
+-- and **injecting exactly that defect left it green**, because `_openings` rebuilt the frame's id
+as `{face}-{bay}-{storey}-{kind}` while `_dress_openings` keyed off `opening_rects`' own `r["id"]`.
+`S-0-ground-window` against `S-0-ground-bar-v0`: no assertion relating a frame to its dressing
+could hold. The frame takes the record's own name now, and **restoring the second spelling left
+every suite in this repository green**, which is why there is a test and not a comment. It also
+retired the neighbouring `"-ground-" in id` selector, which read a SEPARATOR and not a field and
+silently matched nothing the moment the name changed. **Seven mutations, and one of them did not
+land on its first run beside a green suite** -- `landed: 0` is not evidence of anything.
+
 **WP-12.4 IS THE ROUND, AND ITS TWO FINDINGS BOTH CAME FROM A MUTATION BEING BLIND
 (`docs/reports/wp-12.4-the-round.md`).** Surface 8's first plate is the model now; the five flat
 plates are chips beneath it. `round/frame.js` (the camera), `round/solids.js` (the four primitives

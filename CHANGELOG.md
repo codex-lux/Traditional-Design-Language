@@ -2,7 +2,36 @@
 
 One line per layer per notable change. Versions here track the project's own `v0.x` designation, not any single schema's version number (those are tracked in the schema files themselves — `ontology_version`, `kit_version`, and so on).
 
-## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.5 built)
+## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.6 built)
+
+### WP-12.6 — the envelope dressed, and two fields read off the wrong record
+
+- **The model has sash bars, meeting rails, shutters and chimneys.** Tidewater **101 → 492**
+  solids, the spec Colonial **75 → 368**; `opening-frame` unchanged at 40 and 32, because this
+  package changed how an opening is dressed and not which openings exist. The two shipped plans
+  exercise opposite halves — the Tidewater house carries no shutters and draws two chimney axes,
+  the spec Colonial carries 62 shutters and draws no chimney — so a change that drew either
+  everywhere fails on one of the two.
+- **The sill is refused.** `kit.window_sill.projection_in` resolves to a BAND and a drawing
+  cannot draw one: `oq/a-child-band-replaces-an-ancestor-derivation` reaching its first consumer.
+- **A stack whose plan size carries `judgment: true` is a two-vertex AXIS and never a solid.**
+  `judgment` 0 → 2 on the Tidewater plan.
+- **`shutters_carried` was read off the elevation and is set per storey window**, so the first
+  draft drew no shutter anywhere while the picture looked dressed. Caught only by a census of
+  solid classes before against after.
+- **`dormers` is plural and `scene._dormers` read the singular**, taking `{}` on every record in
+  the corpus. **Its own three tests could not see it**, because all three drive the function with
+  a hand-built dict carrying the same wrong key as the code. Found by reading the writer to check
+  a claim in `PLAN-OF-ACTION.md` — which was itself false, and is corrected: `placeable` and
+  `not_drawn_reason` do exist.
+- **And the fix's first version filed a refusal about nothing.** Both shipped plans state
+  `dormers.count: 0`, a measured zero, and the function gated on `stated` refused to model
+  dormers that are not there. Gated on the count instead, which is the writer's own gate.
+- **One opening had two names.** The frame rebuilt `{face}-{bay}-{storey}-{kind}` while its
+  dressing keyed off `opening_rects`' own `r["id"]`. The frame takes the record's name now;
+  restoring the second spelling left every suite in the tree green, so the guard is a test.
+- WP-12.2's blind-bay guard counted every solid where its own docstring named the frames, and
+  went red on a package that had not touched the blinding. Re-cut against the property.
 
 - **Overlays and modifiers (WP-12.5, 9 Sep 2026).** Six analytic overlays and three modifiers on the Round, each a pure leaf under `node --test`, each stated in the caption when active and addressable in the URL. `sheet/overlayRules.js` is the one spelling of the daylight reach, the privacy ramp, the wet predicate and the two wash strengths — all inline in `Sheet.jsx`'s JSX until now; `derive.js::elementBounds` and `corpus.rooms_meta` are two more copies removed before a second surface could make them. App suite 117 → 147, walk 162 → 177 check sites.
   **The finding is that looking at the sheet produced a false positive, for the first time in eight packages.** I read one tone off a screenshot, concluded the privacy overlay drew nothing, and pushed that conclusion as `46f612f`, whose subject reads "AND THEY DRAW NOTHING". It is false, and the commit cannot be rewritten. The canvas states what it built — `privacy:24, wet:4`, which reconciles exactly with the record — and a pixel band across the model gives **one floor tone with the overlay off and three with it on**, sitting on the sepia ramp. The wash is 4–24% of `--sepia` over cream and I read *I cannot see it* as *it is not there*. **Looking at the sheet finds defects; it does not adjudicate them**: on a translucent mark the absent overlay and the faint one are the same picture. The half that stands is that the six new walk checks asserted the URL and the caption and never that anything was drawn, which is why the count attribute exists.

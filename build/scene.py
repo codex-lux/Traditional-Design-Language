@@ -301,6 +301,31 @@ def _walls(section, states):
     return out
 
 
+# How far a stack stands above the ridge where its own record states no cap height. EDITORIAL:
+# no pack in this corpus states it, and a stack level with the ridge draws as a house with a
+# hole in its roof. Named so it cannot read as a measurement.
+CHIMNEY_ABOVE_RIDGE_FT = 2.0
+
+
+def _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext):
+    """(plane, at, outline) for a rectangle on one face, in the scene's own frame (WP-12.6).
+
+    THE ONE SPELLING, lifted out of `_openings` because WP-12.6 needed the identical mapping
+    for every sash bar, shutter leaf and cornice run — forty more copies of it on the Tidewater
+    plan alone. `u` runs along the face from its own left edge and `z` above grade, both in FEET.
+
+    `at` IS THE LOW FACE AND THE EXTRUSION ALWAYS RUNS +AXIS. That is WP-12.2's contract, and its
+    first version put `at` on the OUTSIDE face with an always-positive thickness — so south and
+    west openings went INTO their walls and north and east ones stood PROUD of them, which no
+    number in the record disagreed with and one picture showed at once.
+    """
+    if face in ("S", "N"):
+        return ("xz", (oy if face == "S" else oy + D - t_ext),
+                [[ox + u0, z0], [ox + u1, z0], [ox + u1, z1], [ox + u0, z1]])
+    return ("yz", (ox if face == "W" else ox + W - t_ext),
+            [[oy + u0, z0], [oy + u1, z0], [oy + u1, z1], [oy + u0, z1]])
+
+
 def _openings(elev, section, states):
     """The openings, as their own solids, from `elevation.opening_rects` — the THIRD caller of
     the one function WP-12.2 lifted (the SVG renderer and the DXF exporter are the other two).
@@ -325,8 +350,10 @@ def _openings(elev, section, states):
     t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
     ox = oy = -t_ext
     EL = _mod("elevation")
+    kept = {}
     for face in ("S", "N", "E", "W"):
         got = EL.opening_rects(elev, face)
+        kept[face] = got["rects"]
         for r in got["refused"]:
             states.cannot(f"opening on face {face} bay {r.get('bay')}", r["why"], r["source"],
                           cls="opening")
@@ -345,14 +372,16 @@ def _openings(elev, section, states):
             # ones stood proud of it — and it rendered as a house with blocks stuck to two of
             # its faces. Caught by looking at the picture, which is the second time in this
             # phase that a geometry defect was invisible to every number.
-            if face in ("S", "N"):
-                plane, at = "xz", (oy if face == "S" else oy + D - t_ext)
-                outline = [[ox + u0, z0], [ox + u1, z0], [ox + u1, z1], [ox + u0, z1]]
-            else:
-                plane, at = "yz", (ox if face == "W" else ox + W - t_ext)
-                outline = [[oy + u0, z0], [oy + u1, z0], [oy + u1, z1], [oy + u0, z1]]
+            plane, at, outline = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext)
+            # THE OPENING'S ID IS THE RECT'S OWN AND IS NOT REBUILT HERE. `opening_rects` has
+            # named every rectangle since WP-12.2 (`S-0-ground`, `S-3-door`); WP-12.1 rebuilt
+            # that name out of four fields, and when WP-12.6 came to dress the opening it keyed
+            # the sash and its bars off `r["id"]` instead — so one opening had two names, the
+            # frame's and its own dressing's, and no assertion comparing them could hold. Found
+            # by a mutation that dropped a frame and left its bars hanging in the wall plane
+            # while the guard written to catch exactly that stayed green.
             out.append(_solid(
-                f"{face}-{r['bay']}-{r['storey']}-{r['kind']}", "opening-frame",
+                r["id"], "opening-frame",
                 {"type": "extrude", "plane": plane, "at": round(at, 3),
                  "thickness": round(t_ext, 3),
                  "outline": [[round(a, 3), round(b, 3)] for a, b in outline]},
@@ -362,10 +391,187 @@ def _openings(elev, section, states):
                 note="the opening's extent, drawn in the face plane at the reveal. It is a "
                      "FRAME and not a hole: this layer does no boolean subtraction, so the "
                      "wall behind it is the box the section describes"))
+    out.extend(_dress_openings(elev, states, kept, ox, oy, W, D, t_ext))
     return out
 
 
-def _roof(plan, section, roof, states):
+# The muntin bar is drawn SQUARE — its width in the sash plane is the only dimension the record
+# states for it, and how far a bar stands proud of the glass is not a number this corpus holds.
+# Said here rather than left as a bare `bw` at the call site.
+_BAR_IS_SQUARE = True
+
+
+def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext):
+    """Sash bars, shutters and the sill, on every drawn opening (WP-12.6).
+
+    EVERY NUMBER IS THE RECORD'S OWN. `lights_across`, `lights_high_per_sash`, `muntin_width_in`,
+    `shutter_leaf_width_in` and `shutter_panel_count` are `elevation._storey_window`'s fields,
+    read off the rect's own `record`, so a window drawn here cannot disagree with the elevation
+    plate beside it about how many lights it has.
+
+    THE LIGHT COUNT IS `lights_across x lights_high_per_sash x 2` and the bars are laid to give
+    exactly that: `across - 1` verticals running the full opening — the two sashes of a
+    double-hung align, so a bar is one member and not two — and `2 x high - 1` horizontals, of
+    which the middle one is the MEETING RAIL and is a real member rather than a glazing bar. It
+    carries its own class so a reader can tell them apart.
+
+    THE SILL IS REFUSED, AND THAT IS THE FINDING. `window_sill.projection_in` resolves to a BAND
+    on `tidewater-georgian` — `[0, 1]` in, because a child `extends` replaced the ancestor's
+    derivation — and only 2 of 159 kits state the parameter at all. That is
+    `oq/a-child-band-replaces-an-ancestor-derivation` reaching its first consumer: WP-11.4 raised
+    it as a data observation with nothing reading it, and a drawing is the thing that cannot draw
+    a band. A sill at the band's midpoint is a measurement nobody authored.
+    """
+    out = []
+    for face, rects in rects_by_face.items():
+        for r in rects:
+            rec = r.get("record")
+            if r.get("kind") != "window" or not rec:
+                continue
+            u0, u1 = r["x0_in"] / 12.0, r["x1_in"] / 12.0
+            z0, z1 = r["sill_in"] / 12.0, r["head_in"] / 12.0
+            across, high = rec.get("lights_across"), rec.get("lights_high_per_sash")
+            bar = rec.get("muntin_width_in")
+            src = {"record": f"elevation.storey_windows[{r['storey']}].muntin_width_in",
+                   "also": [f"elevation.storey_windows[{r['storey']}].lights_across",
+                            f"elevation.storey_windows[{r['storey']}].lights_high_per_sash"]}
+            if not across or not high or not bar:
+                states.cannot(f"the sash bars in {r['id']}",
+                              "the storey window states no light count or no muntin width, so "
+                              "the number of lights is not a fact this record holds",
+                              f"elevation.storey_windows[{r['storey']}]", cls="opening")
+                continue
+            bw = bar / 12.0
+            plane, at, _ = _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext)
+
+            def _bar(sid, a, b, c, d, cls):
+                _, _, ol = _face_extrude(face, a, b, c, d, ox, oy, W, D, t_ext)
+                return _solid(sid, cls,
+                              {"type": "extrude", "plane": plane, "at": round(at, 3),
+                               "thickness": round(bw, 4),
+                               "outline": [[round(x, 3), round(y, 3)] for x, y in ol]},
+                              "fine", "paper-lit", src, "measured", face=face)
+
+            for i in range(1, across):
+                cu = u0 + (u1 - u0) * i / across
+                out.append(_bar(f"{r['id']}-bar-v{i}", cu - bw / 2, cu + bw / 2, z0, z1, "muntin"))
+            rows = 2 * high
+            for j in range(1, rows):
+                cz = z0 + (z1 - z0) * j / rows
+                # THE SCHEMA ALREADY NAMED THIS VOCABULARY and the first draft invented its own.
+                # `scene.schema.json`'s class enum has carried `muntin` and `sash` since WP-12.1;
+                # `sash-bar` and `meeting-rail` are words I made up, and the schema check caught
+                # all 350 of them at once. A glazing bar is a MUNTIN. The middle horizontal is
+                # the MEETING RAIL, which is the bottom rail of the upper sash meeting the top
+                # rail of the lower one -- a member of the SASH and not a glazing bar, which is
+                # the distinction the schema's own two words already draw.
+                out.append(_bar(f"{r['id']}-bar-h{j}", u0, u1, cz - bw / 2, cz + bw / 2,
+                                "sash" if j == high else "muntin"))
+
+            # THE SHUTTERS, where the style carries them. A leaf is drawn OPEN and flat against
+            # the wall beside its own jamb, which is the only position the record determines: a
+            # closed leaf would assert something about the day the drawing represents, and no
+            # record states one.
+            # `shutters_carried` IS PER STOREY WINDOW and not on the elevation.
+            # `elevation.py` sets it at 1843 as `sw["shutters_carried"]`; reading it off `elev`
+            # returns None on every house, and the first draft of this function did exactly that
+            # — so no shutter would ever have been drawn, on any plan, silently. It was found by
+            # printing the class census before and after, and by nothing else: the sash bars
+            # appeared, the picture looked dressed, and a whole class was absent from it.
+            lw_in = rec.get("shutter_leaf_width_in")
+            if rec.get("shutters_carried") and lw_in:
+                lw = lw_in / 12.0
+                lh = (rec.get("shutter_leaf_height_in") or (r["head_in"] - r["sill_in"])) / 12.0
+                for side, (a, b) in (("l", (u0 - lw, u0)), ("r", (u1, u1 + lw))):
+                    _, _, ol = _face_extrude(face, a, b, z0, z0 + lh, ox, oy, W, D, t_ext)
+                    out.append(_solid(
+                        f"{r['id']}-shutter-{side}", "shutter",
+                        {"type": "extrude", "plane": plane, "at": round(at, 3),
+                         "thickness": round(bw, 4),
+                         "outline": [[round(x, 3), round(y, 3)] for x, y in ol]},
+                        # THREE INVENTED NAMES IN A ROW, and the schema caught every one:
+                        # `sash-bar`/`meeting-rail` for the class, `hidden` for the ink, and
+                        # `sepia` for this tone. `scene.schema.json` already names the whole
+                        # vocabulary — read the enum before naming anything.
+                        "seen", "sepia-pale",
+                        {"record": f"elevation.storey_windows[{r['storey']}].shutter_leaf_width_in",
+                         "also": ["elevation.shutters_carried"]},
+                        "measured", face=face,
+                        note=f"drawn open; {rec.get('shutter_panel_count')} panels a leaf"))
+    if rects_by_face:
+        states.cannot("the sills under every window",
+                      "`window_sill.projection_in` resolves to a BAND rather than a figure on "
+                      "the nodes this corpus draws (tidewater-georgian states [0, 1] in, a child "
+                      "`extends` that replaced the ancestor's derivation), and only 2 of 159 "
+                      "kits state the parameter at all. A sill drawn at the midpoint of a band "
+                      "is a measurement nobody authored — see "
+                      "oq/a-child-band-replaces-an-ancestor-derivation",
+                      "kit.window_sill.projection_in", cls="opening")
+    return out
+
+
+def _dormers(elev, states):
+    """The dormers, or the record's own reason there are none to draw (WP-12.6).
+
+    IT READS THE DORMER RECORD'S OWN FIELDS, AND THE PLAN SAID THEY DO NOT EXIST.
+    `PLAN-OF-ACTION.md`'s WP-12.6 line says to read `refused` / `placed_count` /
+    `placement_shortfall_note` because "there is no `placeable` and no `not_drawn_reason`, which
+    the PRD assumed". **That correction is false.** Both fields are on the dormer record
+    (`elevation.py` 1971-1980) and `render_elevation.py` has read them since the day they landed;
+    all six names are on the one record. Following the plan would have re-derived `placeable`'s
+    judgment from `refused` — a second reader of one question, which is the defect this corpus
+    meets more often than any other.
+
+    AND IT READ THE WRONG ONE OF THEM FOR THE WHOLE OF THIS PACKAGE'S FIRST DRAFT. The key is
+    `dormers`, PLURAL — `build_elevation` writes it at `elevation.py` 2012 and
+    `render_elevation.py` has read `elev.get("dormers")` in both its readers all along. This
+    function read `dormer`, so it returned `{}` on every record in the corpus and drew, refused
+    and disclosed nothing. It was invisible to its own three tests, because all three DRIVE it
+    with a hand-built dict — and that dict carried the same wrong key as the code, so the test
+    and the defect agreed with each other. `test_the_key_this_function_reads_is_the_key_the
+    _elevation_writes` takes the name off a real elevation now instead of a literal.
+
+    That is the SECOND field this package read off the wrong record — `shutters_carried` is set
+    per storey window and not on the elevation, and drew no shutter anywhere until a census of
+    solid classes caught it. Both were silent, and neither was found by reading.
+
+    FOUR STATES, AND THE FOURTH IS THE ONE BOTH SHIPPED PLANS ARE IN. Stated with a count and
+    placeable -> drawn (Stage B; the geometry wants the roof surface). Stated with a count and
+    NOT placeable -> a `not_modelled` entry carrying the record's OWN `not_drawn_reason`, because
+    `spec-builder-colonial`'s roof has no judged pitch and no judged ridge, so there is no
+    surface to stand a dormer on — while the count still reaches the fault corpus, which once
+    judged three dormers on a sheet that drew none. Not stated at all -> nothing, and no
+    reassuring zero. **Stated with a count of ZERO -> also nothing**, and that is not the same
+    silence: the record has considered dormers and says the house has none.
+
+    The first version gated on `stated` alone and filed *"the dormer solids could not be
+    modelled"* against both shipped plans, each of which states `count: 0`. A refusal about
+    something that does not exist is the fake-unjudged shape wearing its other face — it reads
+    as a gap in this layer where the record is in fact complete — and it is exactly as dishonest
+    as a fake pass. `elevation.py` 1954 is the authority: `placeable` and `not_drawn_reason` are
+    written only `if dorm.get("count")`, so a count of zero can never reach the branch below and
+    gating anywhere but on the count invents a state the writer does not have.
+    """
+    dorm = (elev or {}).get("dormers") or {}
+    if not dorm.get("stated") or dorm.get("refused") or not dorm.get("count"):
+        return []
+    if dorm.get("placeable") is False:
+        states.cannot("the dormers the record states",
+                      dorm.get("not_drawn_reason") or "the record states no reason",
+                      "elevation.dormers.not_drawn_reason", cls="dormer")
+        return []
+    short = dorm.get("placement_shortfall_note")
+    if short:
+        states.cannot("some of the dormers the record states", short,
+                      "elevation.dormers.placement_shortfall_note", cls="dormer")
+    states.cannot("the dormer solids", "WP-12.6 states the dormer's THREE refusal states and "
+                  "draws none: the cheeks, face and own roof stand on the roof surface, which "
+                  "this layer models as two planes rather than as a solid to sit a box on",
+                  "elevation.dormers", cls="dormer")
+    return []
+
+
+def _roof(plan, section, roof, states, elev=None):
     """The roof volume, and — where this file cannot construct it — the refusal.
 
     GABLE ONLY, and the boundary is the record's rather than this file's convenience.
@@ -484,13 +690,82 @@ def _roof(plan, section, roof, states):
                          for u, v in prof]},
             "cut", "salmon",
             {"record": f"roof.elevation_profiles.{f}"}, "derived", face=f))
-    if (roof.get("chimneys") or {}).get("positions"):
-        states.cannot("chimney stacks",
-                      "the stack's plan size is a judgment the corpus declines to settle "
-                      "(brick-course states 22 in with judgment: true — 'the mason will "
-                      "build 18 or 27'), so a solid here would be an invented dimension; "
-                      "WP-12.6 draws an axis line and names the judgment",
-                      "roof.chimneys.positions", cls="chimney")
+    out += _chimneys(roof, elev, section, states)
+    return out
+
+
+def _chimneys(roof, elev, section, states):
+    """The stacks: a SOLID where the plan size is stated, an AXIS and a named judgment where it
+    is not (WP-12.6).
+
+    THIS FUNCTION IS SPECIFIED BY THE REFUSAL IT REPLACES. `_roof` has carried, since WP-12.1,
+    the sentence *"the stack's plan size is a judgment the corpus declines to settle
+    (brick-course states 22 in with judgment: true — 'the mason will build 18 or 27'), so a solid
+    here would be an invented dimension; WP-12.6 draws an axis line and names the judgment."*
+    This is that, and the refusal is deleted rather than left beside its own fix — which is
+    WP-6.4's rule that "until X lands" is a lie the moment X lands.
+
+    A JUDGMENT IS NOT A REFUSAL AND THE RECORD KEEPS THEM APART. `not_modelled` means the record
+    holds a thing this layer did not draw; `judgment` means the corpus itself declines to settle
+    the number. Collapsing the second into the first would say the corpus is silent where it has
+    in fact spoken and said "the mason decides" — and a reader owed that distinction is exactly
+    the reader who is choosing a brick.
+    """
+    ch = (roof.get("chimneys") or {})
+    positions = ch.get("positions") or []
+    if not positions:
+        return []
+    plan_in = (elev or {}).get("chimney_stack_plan_in")
+    is_judgment = bool((elev or {}).get("chimney_stack_plan_judgment"))
+    z_ridge = ((roof.get("main") or {}).get("ridge") or {}).get("grade_to_ridge_ft")
+    fp = section.get("footprint") or {}
+    t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
+    out = []
+    if z_ridge is None:
+        states.cannot("the chimney stacks",
+                      "the roof record judges no ridge height, so there is nothing to carry a "
+                      "stack up past", "roof.main.ridge.grade_to_ridge_ft", cls="chimney")
+        return out
+    for i, pos in enumerate(positions):
+        x = pos.get("x_ft")
+        y = pos.get("y_ft")
+        if x is None or y is None:
+            states.cannot(f"chimney stack {i}", "the roof record places it on no axis",
+                          f"roof.chimneys.positions[{i}]", cls="chimney")
+            continue
+        top = pos.get("grade_to_cap_ft") or (z_ridge + CHIMNEY_ABOVE_RIDGE_FT)
+        if is_judgment or not plan_in:
+            # THE AXIS, and nothing wider. A line has no plan size, which is precisely the fact
+            # the corpus is declining to settle.
+            out.append(_solid(
+                f"chimney-{i}-axis", "chimney",
+                {"type": "plane", "vertices": [[round(x - t_ext, 3), round(y - t_ext, 3), 0.0],
+                                               [round(x - t_ext, 3), round(y - t_ext, 3),
+                                                round(top, 3)]]},
+                # `construction` and not `hidden`: the schema's ink enum is
+                # cut/profile/seen/fine/construction and `hidden` is a word I invented. An axis
+                # IS a construction line, which is the enum's own name for it.
+                "construction", "paper-mat",
+                {"record": f"roof.chimneys.positions[{i}]",
+                 "also": ["elevation.chimney_stack_plan_judgment"]},
+                "judgment", note="the stack's axis; its plan size is a judgment the corpus "
+                                 "declines to settle, so no solid is drawn"))
+            states.judged(f"chimney stack {i}",
+                          f"the plan size is stated as {plan_in} in with judgment: true — "
+                          "brick-course's own note is that the mason will build 18 or 27. The "
+                          "axis is drawn and the mass is not.",
+                          "elevation.chimney_stack_plan_in")
+            continue
+        w = plan_in / 12.0
+        out.append(_solid(
+            f"chimney-{i}", "chimney",
+            {"type": "box",
+             "origin": [round(x - t_ext - w / 2, 3), round(y - t_ext - w / 2, 3), 0.0],
+             "size": [round(w, 3), round(w, 3), round(top, 3)]},
+            "cut", "salmon",
+            {"record": f"roof.chimneys.positions[{i}]",
+             "also": ["elevation.chimney_stack_plan_in"]},
+            "measured"))
     return out
 
 
@@ -597,11 +872,25 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
     solids += _slabs(plan, section, states)
     solids += _walls(section, states)
     solids += _openings(elev, section, states)
-    solids += _roof(plan, section, roof, states)
+    solids += _roof(plan, section, roof, states, elev)
+    solids += _dormers(elev, states)
     solids += _hearths(plan, states)
 
     datums = _storey_datums(section, states)
     z_top = max([d["z_ft"] for d in datums] or [0.0])
+    # A STACK STANDS ABOVE THE RIDGE, SO THE FRAME MUST REACH IT (WP-12.6). `z_top` is the
+    # highest DATUM, and the highest datum is the ridge — but a chimney level with the ridge is
+    # a hole in the roof, so `_chimneys` carries its cap above it and the stated frame then no
+    # longer contained the model. Caught by `test_every_solid_lies_inside_the_declared_bounds`,
+    # which WP-12.2 wrote after finding `bounds` the right SIZE in the wrong PLACE — the same
+    # guard, catching the same field being wrong for the opposite reason.
+    for _s in solids:
+        if _s["class"] != "chimney":
+            continue
+        _g = _s["geometry"]
+        _z = (_g["origin"][2] + _g["size"][2]) if _g["type"] == "box" else max(
+            v[2] for v in _g["vertices"])
+        z_top = max(z_top, _z)
 
     faces = {}
     for f in ("S", "N", "E", "W"):

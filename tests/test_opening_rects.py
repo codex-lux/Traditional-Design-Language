@@ -258,7 +258,22 @@ def test_a_blind_bay_is_skipped_by_all_three_callers(elevations, tmp_path):
 
 def test_the_scene_drops_the_same_bay(elevations):
     """The third caller, read the same way. `build/scene.py` turns each rectangle into an
-    `opening-frame` solid, so the same blinding must cost it the same two."""
+    `opening-frame` solid, so the same blinding must cost it the same two.
+
+    THIS ASSERTION COUNTED EVERY SOLID UNTIL WP-12.6 AND ITS OWN DOCSTRING NAMED THE FRAMES.
+    The two happened to be the same number while an opening was a bare rectangle; the moment
+    the envelope was dressed, blinding a bay cost 22 solids — two frames, two meeting rails and
+    eighteen glazing bars — and the guard went red on a package that had not touched the
+    blinding at all. A count that is only incidentally the property it is named for is a guard
+    that fails on the next unrelated change, which is the LOUD half of the selector fault this
+    file already records (the quiet half goes blind instead).
+
+    So it reads the frames, and it reads the DRESSING SEPARATELY — because a total count could
+    never have said what matters here: that a bay's sash bars leave with the bay. A change that
+    dropped the frame and left its muntins hanging in the wall plane is a real defect, it is
+    invisible to any count of the whole, and it is exactly the shape WP-12.2's original defect
+    had (the SVG learned to skip the bay and the DXF did not).
+    """
     el, sc = _load("elevation"), _load("scene")
     elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
     section = elev["section"]
@@ -267,14 +282,77 @@ def test_the_scene_drops_the_same_bay(elevations):
         def __init__(self): self.said = []
         def cannot(self, what, why, source, cls=None): self.said.append((what, why, source, cls))
 
+    def frames(solids):
+        return {s["id"] for s in solids if s["class"] == "opening-frame"}
+
     before = sc._openings(elev, section, _States())
     assert before, "the scene drew no openings at all"
+    n_dress_before = len(before) - len(frames(before))
+    assert n_dress_before > 0, (
+        "no opening carries any dressing, so the second half of this test asserts nothing — "
+        "WP-12.6 draws a sash and its bars on every drawn window")
+
     elev["faces"]["N"]["kinds"][1] = "blind"
     states = _States()
     after = sc._openings(elev, section, states)
-    assert len(before) - len(after) == 2, f"{len(before)} -> {len(after)}"
+
+    gone = frames(before) - frames(after)
+    assert len(gone) == 2, (
+        f"{len(frames(before))} -> {len(frames(after))} frames; dropped {sorted(gone)}")
+    assert frames(after) < frames(before), "the blinded bay's frames are a strict subset"
+
+    # and every solid dressing one of those two frames left with it
+    ids_after = {s["id"] for s in after}
+    orphans = sorted(i for i in ids_after
+                     if any(i.startswith(g + "-") for g in gone))
+    assert not orphans, (
+        f"{len(orphans)} solid(s) still dress a bay the scene refused to draw: {orphans[:4]}")
+    assert len(before) - len(after) > 2, (
+        "the frames went and their dressing did not, which is the defect the line above is "
+        "written to catch arriving from the other direction")
+
     assert any("blind" in why for _w, why, _s, _c in states.said), (
         "the scene must record the refusal, not merely draw two fewer frames")
+
+
+def test_an_opening_has_one_name_and_the_scene_does_not_rebuild_it(elevations):
+    """THE FRAME'S ID IS THE RECTANGLE'S OWN, AND THIS ASSERTION EXISTS BECAUSE A MUTATION
+    PROVED NOTHING ELSE CHECKED IT.
+
+    `opening_rects` has named every rectangle since WP-12.2 — `S-0-ground` for a sash,
+    `S-3-door` for the entrance. WP-12.1's `_openings` rebuilt that name out of four fields
+    (`{face}-{bay}-{storey}-{kind}`), and when WP-12.6 came to dress the opening it keyed the
+    sash, its bars and its shutters off `r["id"]`. So one opening carried TWO names and every
+    assertion relating a frame to its own dressing was comparing strings that could not match.
+
+    It cost nothing that a reader could see — the picture was right, the ids were unique, the
+    schema was satisfied — and it made the blind-bay guard one line above unable to notice a
+    frame dropped while its glazing bars stayed in the wall plane. Restoring the hand-built name
+    left every suite in this repository green, which is why this test is here rather than a
+    comment.
+    """
+    el, sc = _load("elevation"), _load("scene")
+    elev = json.loads(json.dumps(elevations["tidewater-georgian-careful"]))
+
+    class _States:
+        def cannot(self, *_a, **_k): pass
+
+    want = set()
+    for face in ("S", "N", "E", "W"):
+        want |= {r["id"] for r in el.opening_rects(elev, face)["rects"]}
+    assert want, "the elevation states no opening, so this compares two empty sets"
+
+    solids = sc._openings(elev, elev["section"], _States())
+    got = {s["id"] for s in solids if s["class"] == "opening-frame"}
+    assert got == want, (
+        f"the scene names {len(got - want)} opening(s) the elevation does not: "
+        f"{sorted(got - want)[:3]}; and misses {sorted(want - got)[:3]}")
+
+    # and every other solid on an opening is prefixed by one of those names, so a dressing
+    # solid can always be traced to the frame it dresses
+    stray = sorted(s["id"] for s in solids if s["class"] != "opening-frame"
+                   and not any(s["id"].startswith(w + "-") for w in want))
+    assert not stray, f"{len(stray)} dressing solid(s) name no opening: {stray[:4]}"
 
 
 # ------------------------------------------------------------------ the other refusals

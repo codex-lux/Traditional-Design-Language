@@ -3689,11 +3689,27 @@ rather than a count. **Depends on:** WP-12.4. **Size:** medium.
 
 ### WP-12.6 The envelope dressed
 
-**Status: NOT STARTED.** Sashes, muntins, sills, shutters, the cornice swept from `profiles.pack_geometry`,
-the water table and belt, chimneys where the plan size is stated and an axis line and a `judgment` entry
-where it is not, dormers where the record says they were placed. Reads the dormer record's OWN field names
-(`refused`, `placed_count`, `placement_shortfall_note`, `positions_ft`) — there is no `placeable` and no
-`not_drawn_reason`, which the PRD assumed. Raises the eave-projection question R3 records.
+**Status: BUILT (9 Sep 2026).** `docs/reports/wp-12.6-the-envelope-dressed.md`. Sashes, meeting rails,
+shutters and chimneys: **Tidewater 101 -> 492 solids, the spec Colonial 75 -> 368**, `opening-frame`
+unchanged at 40 and 32 — this package changed how an opening is dressed and not which openings exist. The
+sill is REFUSED, because `window_sill.projection_in` resolves to a BAND and a drawing cannot draw one
+(`oq/a-child-band-replaces-an-ancestor-derivation` reaching its first consumer). A stack whose plan size
+carries `judgment: true` is a two-vertex AXIS and never a solid; `judgment` 0 -> 2. The dormer solids and
+the swept cornice, water table and belt are NOT built and are refused by name — the cornice goes with the
+columns in WP-12.7, where one sweep serves both, and the eave-projection question R3 records goes with it.
+
+**AND THE PARAGRAPH THIS ONE REPLACES CARRIED A FALSE CORRECTION, WHICH IS HOW THE PACKAGE'S SECOND
+DEFECT WAS FOUND.** It said to read `refused` / `placed_count` / `placement_shortfall_note` / `positions_ft`
+because *"there is no `placeable` and no `not_drawn_reason`, which the PRD assumed"*. Both fields exist:
+`elevation.py` 1971-1980 writes them and `render_elevation.py` has read them in two places since the day
+they landed. Following the plan would have re-derived `placeable`'s judgment from `refused` — a second
+reader of one question. **Reading the writer to verify that claim is what exposed the real defect**: the
+key is `dormers`, PLURAL (`elevation.py` 2012), and `scene._dormers` read the singular, so it took `{}` on
+every record in the corpus and drew, refused and disclosed nothing. Its own three tests could not see it,
+because all three drive the function with a hand-built dict carrying the same wrong key as the code. That
+is the SECOND field this package read off the wrong record — `shutters_carried` is per storey window, not
+on the elevation, and drew no shutter anywhere until a class census caught it. **Neither was found by
+reading the code that consumed it.**
 **Depends on:** WP-12.2 and WP-12.4. **Size:** large.
 
 ### WP-12.7 The entrance and the porch

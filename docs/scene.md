@@ -96,11 +96,35 @@ grade to ridge with each label already set in feet and inches; the bay grid; the
 at the positions the placement recorded; the compass assumption; the solver's engine and input
 digest.
 
-**Not in, and each says so in the record:** hip, gambrel and cross-gable planes; chimney solids;
-sashes, cornices, shutters, dormers, the entrance and the porch (WP-12.6 and 12.7); stairs, which
-have plan rectangles and no ARITHMETIC yet — the data is there (`riser_in` 7.367 on the Tidewater
-plan, and each flight carrying its own tread count, 9 and 10 against 20 risers), so what is
-missing is the derivation and not the record.
+**In since WP-12.6:** sash bars and meeting rails on every drawn window (`across - 1` verticals
+and `2 x high - 1` horizontals, the two sashes of a double-hung aligning so a bar is ONE member,
+and the middle horizontal a `sash` rather than a `muntin` because a meeting rail is a member and
+not glazing); shutter leaves where the storey window carries them; and a chimney where the roof
+judges a ridge to carry one.
+
+**Not in, and each says so in the record:** hip, gambrel and cross-gable planes; **the window
+sill** — `kit.window_sill.projection_in` resolves to a BAND on the node this corpus draws, and a
+sill at the band's midpoint is a measurement nobody authored
+(`oq/a-child-band-replaces-an-ancestor-derivation`); the **dormer solids**, whose cheeks, face and
+own roof stand on the roof *surface*, which this layer models as two planes rather than as a box
+to sit one on; cornices, the water table and the belt; the entrance and the porch (WP-12.7);
+stairs, which have plan rectangles and no ARITHMETIC yet — the data is there (`riser_in` 7.367 on
+the Tidewater plan, and each flight carrying its own tread count, 9 and 10 against 20 risers), so
+what is missing is the derivation and not the record.
+
+**A CHIMNEY WHOSE PLAN SIZE IS A JUDGMENT IS AN AXIS AND NEVER A SOLID.**
+`tidewater-georgian`'s `chimney_stack_plan_in` is 22 in carrying `judgment: true` — the mason
+still owes 18 or 27 — so the scene draws a two-vertex construction line where the stack stands
+and puts the judgment on the record beside it. Drawing a box at 22 in would publish a dimension
+the corpus declines to settle, in the one place a reader cannot tell a decision from a
+measurement. Where the plan size IS stated the stack is a solid; no node in this corpus states
+one, so that branch is driven by hand.
+
+**AN OPENING HAS ONE NAME.** `opening_rects` names every rectangle (`S-0-ground`, `S-3-door`) and
+the frame takes that name verbatim; every solid dressing it prefixes the name with a `-`. WP-12.1
+rebuilt the frame's name out of four fields while WP-12.6's dressing keyed off the record's own,
+so one opening carried two names and no assertion relating a frame to its dressing could hold —
+found by a mutation, and restoring the second spelling left every suite in the tree green.
 
 ## The openings, and the contract that had to be written down
 
