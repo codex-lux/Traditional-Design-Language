@@ -692,6 +692,54 @@ check('drawing set: no per-style fault count is printed as if it were universal'
   check('drawing set: and the sheet still fits its column', g && g.fits);
 }
 await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
+
+/* (8a) WP-12.0 — the four faces, and the plate that says which placement drew it.
+
+   `render_elevation` has taken a `face` since WP-3.2 and `corpus.drawing` has forwarded
+   `body.face` since WP-5.1, and until WP-12.0 no client sent one: three of the four
+   elevations this system can draw had never been looked at, and the one it did draw was
+   the one face the placement defect could not reach (the front is drawn on the WIDTH,
+   which does not move between the two engines; only the gable ends move). So the check
+   that matters is that a chosen face draws a DIFFERENT plate — a `face` argument accepted
+   and ignored looks exactly like one that works. */
+{
+  const faceChips = page.getByRole('radio', { name: /^(south|north|east|west)/ });
+  check('drawing set: four face chips, as radios', await faceChips.count() === 4);
+  check('drawing set: exactly one face is named the entrance front',
+    await page.getByRole('radio', { name: /the entrance front/ }).count() === 1);
+  const ink = async () => (await page.locator('.plate-fit > svg').innerHTML()).length;
+  const before = await ink();
+  await page.getByRole('radio', { name: /^west/ }).click();
+  await page.waitForFunction((n) => {
+    const s = document.querySelector('.plate-fit > svg');
+    return s && s.innerHTML.length !== n;
+  }, before, { timeout: 60000 }).catch(() => {});
+  check(`drawing set: a chosen face draws a different plate (${before} → ${await ink()})`,
+    (await ink()) !== before);
+  const cap = await page.locator('main').innerText();
+  check('drawing set: the caption names the face drawn, and where the front is',
+    /W elevation/.test(cap) && /the entrance front is [SNEW]/.test(cap));
+  // WP-11.8's J6 on the two plates that could not carry it: two sheets of "the same house"
+  // that disagree differ because the INPUT differed, and a reader must be able to see it.
+  check('drawing set: the elevation names the engine that placed it and the input digest',
+    /placed by (proof \(CP-SAT\)|search \(hill-climb\)|an engine this plate does not name)/.test(cap)
+    && /input [0-9a-f]{12}/.test(cap));
+  // The face group made this strip wider than the pane; without `flex: none` and `nowrap`
+  // on the right-hand block the plan id wrapped inside a 34px bar and collided with the
+  // chips. The strip is overflowX:auto by design — it scrolls, it does not reflow.
+  const strip = await page.evaluate(() => {
+    const el = [...document.querySelectorAll('div')].find((d) => d.innerText.includes('download SVG')
+      && d.innerText.includes('elevation') && d.getBoundingClientRect().height < 60);
+    if (!el) return null;
+    const dl = [...el.querySelectorAll('button')].find((b) => /download SVG/.test(b.innerText));
+    return { h: Math.round(el.getBoundingClientRect().height),
+             dlw: dl ? Math.round(dl.getBoundingClientRect().width) : 0 };
+  });
+  check(`drawing set: the sheet strip is one row (${strip && strip.h}px) with its download still whole`,
+    strip && strip.h <= 40 && strip.dlw > 40);
+  await page.screenshot({ path: SHOTS + 'drawing-elevation-west.png' });
+}
+
 // A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
 // between alternatives say so to a screen reader since WP-5.6.
 await page.getByRole('radio', { name: 'bearing lines' }).click();

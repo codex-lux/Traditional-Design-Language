@@ -5,16 +5,36 @@
    permanently and without embarrassment. */
 import React from 'react';
 import { planDoc } from '../state/planDoc.js';
+import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
 
 const KINDS = [
-  { id: 'elevation', label: 'front elevation' },
+  // "front elevation" until WP-12.0 gave the surface its face chips: the sheet chip picks
+  // the KIND and the face chip picks the face, and calling the kind "front" would contradict
+  // the reader who has just asked for the north.
+  { id: 'elevation', label: 'elevation' },
   { id: 'section', label: 'section' },
   { id: 'bearing', label: 'bearing lines' },
   { id: 'roof', label: 'roof plan' },
   { id: 'plan', label: 'solved plan' },
+];
+
+/* WP-12.0. The compass order, not a preference: `build/elevation.py`'s own FACES tuple is
+   ("S", "N", "E", "W") and the elevation record carries a face block for every one of them.
+   `render_elevation(elev, path, face=…)` has taken the argument since WP-3.2 and
+   `corpus.drawing` has forwarded `body.face` since WP-5.1 — and no client ever sent one, so
+   the surface has been showing the entrance front and calling it "front elevation" while
+   three quarters of what the generator draws had never been seen. Which face is the FRONT is
+   a fact the record states (`context.entrance_faces` → `elev.entrance_face`), so the chip
+   says the compass point and the caption says the role, exactly as WP-11.9 ruled for the
+   plan's north: plan-N is true-N unless a bearing says otherwise. */
+const FACES = [
+  { id: 'S', label: 'south' },
+  { id: 'N', label: 'north' },
+  { id: 'E', label: 'east' },
+  { id: 'W', label: 'west' },
 ];
 
 const DISCLOSURE = {
@@ -42,6 +62,10 @@ const DISCLOSURE = {
 export function DrawingSet({ go }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   const [kind, setKind] = React.useState('elevation');
+  // null means "whichever face the record calls the entrance front" — the server's own
+  // default (`face or elev["entrance_face"]`), so arriving here draws what it always drew
+  // and choosing a face is an act the reader takes.
+  const [face, setFace] = React.useState(null);
   const [result, setResult] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
@@ -49,21 +73,19 @@ export function DrawingSet({ go }) {
 
   React.useEffect(() => { cache.current = {}; }, [plan]);
 
+  // The cache key carries the face, or four faces of one house would be one entry and the
+  // reader would be shown the first one they asked for whichever chip they pressed.
+  const key = kind === 'elevation' ? `${kind}:${face || '-'}` : kind;
+
   React.useEffect(() => {
     if (!plan) return;
-    if (cache.current[kind]) { setResult(cache.current[kind]); setError(null); return; }
+    if (cache.current[key]) { setResult(cache.current[key]); setError(null); return; }
     setBusy(true); setError(null); setResult(null);
-    fetch(`/api/drawings/${kind}`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ plan }),
-    }).then(async (r) => {
-      const j = await r.json();
-      if (!r.ok) throw new Error(j.detail?.error || 'generation refused');
-      cache.current[kind] = j;
-      setResult(j);
-    }).catch((e) => setError(String(e.message || e)))
+    api.drawing(kind, plan, kind === 'elevation' && face ? { face } : {})
+      .then((j) => { cache.current[key] = j; setResult(j); })
+      .catch((e) => setError(String(e.body?.detail?.error || e.message || e)))
       .finally(() => setBusy(false));
-  }, [plan, kind]);
+  }, [plan, kind, face, key]);
 
   if (!plan) {
     return (
@@ -89,9 +111,16 @@ export function DrawingSet({ go }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+      {/* `flex: none` and `nowrap` because the face group made this strip wider than the
+          pane: without them the plan id wrapped onto a second line inside a 34 px bar and
+          collided with the chips. The strip is `overflowX: auto` by design, so the right
+          answer under pressure is to let it SCROLL rather than to let its contents reflow —
+          the same reason the clear-all control in `Chrome.jsx` is sticky. */}
       <FilterStrip right={
-        <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{plan.id} · {plan.style}</span>
+        <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 'none' }}>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', whiteSpace: 'nowrap' }}>
+            {plan.id} · {plan.style}
+          </span>
           <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
         </span>
       }>
@@ -101,6 +130,20 @@ export function DrawingSet({ go }) {
             <Chip key={k.id} radio on={kind === k.id} onClick={() => setKind(k.id)}>{k.label}</Chip>
           ))}
         </ChipGroup>
+        {kind === 'elevation' && (
+          <>
+            <Eyebrow as="span">face</Eyebrow>
+            <ChipGroup label="face">
+              {FACES.map((f) => (
+                <Chip key={f.id} radio
+                  on={(face || result?.entrance_face) === f.id}
+                  onClick={() => setFace(f.id)}>
+                  {f.label}{result?.entrance_face === f.id ? ' · the entrance front' : ''}
+                </Chip>
+              ))}
+            </ChipGroup>
+          </>
+        )}
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>
@@ -162,8 +205,30 @@ export function DrawingSet({ go }) {
             )}
             {kind === 'elevation' && result.date_of_representation && (
               <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
-                drawn for {result.date_of_representation} · glass module {result.glass_module_in}″ ·
-                entrance faces {result.entrance_face}
+                {(face || result.entrance_face)} elevation
+                {(face || result.entrance_face) === result.entrance_face
+                  ? ' · the entrance front'
+                  : ` · the entrance front is ${result.entrance_face}`} ·
+                drawn for {result.date_of_representation} · glass module {result.glass_module_in}″
+              </p>
+            )}
+            {/* WP-12.0: which placement this plate was drawn on, and of what input. Every
+                sheet in a set now takes `corpus._placed`'s one solve, so a reader comparing
+                two plates of "the same house" can tell whether the INPUT differed rather
+                than guessing — WP-11.8's J6, which the plan sheet has carried and the
+                elevation and roof plates could not, because they were built on a placement
+                of their own. */}
+            {result.solver && (
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
+                {/* Three states, not two. A ternary here would have made an ABSENT engine
+                    read as "searched", which is a definite claim about a placement nobody
+                    can name — the one collapse this corpus refuses first. */}
+                placed by {result.solver.engine === 'cp-sat' ? 'proof (CP-SAT)'
+                  : result.solver.engine === 'heuristic' ? 'search (hill-climb)'
+                    : 'an engine this plate does not name'}
+                {result.solver.drawn_by?.input_digest
+                  ? ` · input ${result.solver.drawn_by.input_digest}` : ''}
+                {result.solver.fallback ? ` · fell back: ${result.solver.fallback}` : ''}
               </p>
             )}
           </div>

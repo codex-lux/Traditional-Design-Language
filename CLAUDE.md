@@ -99,6 +99,39 @@ There is no hearth anywhere in the plan layer and no axis vocabulary anywhere in
 work is `PLAN-OF-ACTION.md` Phase 11, WP-11.1 through 11.11, nothing started; three are
 unblocked and the container waits on four rulings the phase recommends answers to.
 
+**PHASE 12 — THE SHEET IN THE ROUND — IS PLANNED AND ITS BRIEF IS A PRD (8 Sep 2026).**
+`docs/prd/phase-12-the-sheet-in-the-round.md`, cited by filename, the first document in a new `docs/prd/`.
+Lucas asked for the interaction in Dilum Sanjaya's post on 2D schematics transitioning into 3D — named
+views, a camera tween, annotations anchored to the model, view-specific furniture — and asked whether SVG
+was still the medium or a BIM or Blender layer was now required. **The answer is WP-5.11's own finding one
+dimension up: the format was never the constraint.** A format serialises what is modelled and cannot
+invent what is not; what is missing is the layer between, and this time it is a constructed-3D scene
+(`build/scene.py`, pure Python, a leaf) with three.js drawing what Python models, the SVG plates staying
+authoritative and overlaid on the model at every named view to keep the two honest, and Blender and IFC
+staying what they are — export targets. **All nine of the PRD's rulings were taken on 8 Sep, the day they
+were put, and an APPROACH perspective view at 5′-6″ was added to v1** with its dimensions withheld,
+because a perspective dimension is never true.
+
+**AND THE REVIEW THAT ADOPTED IT FOUND THAT THE DRAWING SET IS NOT ONE BUILDING, WHICH IS WP-12.0.**
+`corpus.drawing` routes the plan, section and bearing plates through `_placed` — WP-6.4's one placement per
+set — and then calls `build_elevation(plan, pt)` and `build_roof(plan, pt)` **with no section**, so both
+fall into `structure.build_section`'s heuristic default, whose own comment says that default is *"for
+INTERNAL callers ONLY"*; the DXF export path repeats it. The elevation READS placement, so wherever CP-SAT
+reaches a proof the elevation plate is of a different house from the plan plate beside it — under the
+banner WP-6.4 wrote saying *"one drawing set is one building or it is nothing"*. Pre-existing, invisible to
+every test, and it would have surfaced as a failure of the scene's own agreement assertion and been blamed
+on the scene. **In the same package: `render_elevation` has taken a `face` argument since WP-3.2 and
+`corpus.drawing` has passed `body.face` since WP-5.1, and NO CLIENT HAS EVER SENT ONE** — three of the four
+elevations this system can already draw have never been looked at.
+**And two citations in the PRD would have failed the build the moment it was committed** — report paths for
+reports that do not exist yet, which `check_ids.py::check_reports` refuses BY CONSTRUCTION, and an
+open-question slug wrapped across a newline, which `check_citations.py` reads line by line and sees as its
+truncated left half. Both are the shapes this file already records for the two parallel Phase 11s and for a
+code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
+were then driven to prove they fire**, which is the only thing that has ever caught one of these.
+
+**AND TWO STATES OF THE TREE THAT ARE NOT PHASE 12'S, MEASURED 8 SEP.** The browser walk is RED on `main` and on this branch's base with two label spills on the Centre Passage, reproduced on a clean tree -- on `main` at `5869012` every corpus shard and every other job is green and the walk is the only red one. And **`main` is six commits past the `f54c5af` the PRD was written against**, carrying the other Phase 11's merge, which touches `structure.py`, `roof.py`, `openings.py`, `plan_check.py` and `export_ifc.py` -- the modules `build/scene.py` is specified to import -- and moved both shipped plans' footprints. Every figure WP-12.0 published is a statement about `f54c5af`; **merge first, then re-derive rather than quote**, which is this file's own rule about what happens to a number at exactly a merge.
+
 **READ `docs/reports/project-review-2026-09-03.md` FIRST if you are about to plan work rather than
 do a named package.** It is the second review of the whole project against `VISION.md` and the
 UI/UX documents (the first is `project-review-2026-08-26.md`, and both are kept: the earlier one is

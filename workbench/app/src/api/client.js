@@ -89,6 +89,14 @@ export const api = {
   briefSchema: () => getJSON('/api/schema/brief'),
   examplePlan: (name) => getJSON(`/api/plans/examples/${seg(name)}`, { fresh: true }),
 
+  // WP-12.0. The Drawing Set was the last surface calling `fetch` directly, so it was also
+  // the last one outside `noteUnauthorized` -- a session that expired while a reader was on
+  // it threw instead of showing the password screen. `face` is one of S/N/E/W: the server
+  // has accepted it since WP-5.1 and `render_elevation` has taken it since WP-3.2, and no
+  // client had ever sent one, so three of the four elevations this system can draw had
+  // never been looked at.
+  drawing: (kind, plan, opts = {}) => postJSON(`/api/drawings/${seg(kind)}`, { plan, ...opts }),
+
   evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
   // WP-9.3: the analyst (synchronous) and the loop (a job; rounds arrive through jobEvents,
   // the revised record through jobPlan -- stripped of its placement, the bench re-solves)

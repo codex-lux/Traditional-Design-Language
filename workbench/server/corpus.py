@@ -449,15 +449,47 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
             meta = {"relaxations": solved["geometry_report"].get("relaxations"),
                     "solver": solved["geometry_report"].get("solver")}
         elif kind == "elevation":
+            # WP-12.0: the SAME placement the plan sheet draws, as the section and bearing
+            # sheets below have taken since WP-6.4 -- and this branch did not. It called
+            # `build_elevation(plan, pt)` with no section, so the elevation fell into
+            # `build_section`'s heuristic default, whose own comment says that default is
+            # "for INTERNAL callers ONLY" (plan_check's elevation layer, the composer's
+            # scoring loop). The elevation READS placement, so wherever the set's own solve
+            # reached a proof the elevation was a drawing of a different house -- under a
+            # banner WP-6.4 wrote saying "one drawing set is one building or it is nothing."
+            #
+            # MEASURED on spec-builder-colonial before the fix: the plan sheet proved
+            # 50.0 x 31.0 with CP-SAT while the elevation was built on a heuristic placement,
+            # and `porch_clear_depth_ft` -- the measurement `porch-too-shallow-to-inhabit`
+            # reads, this project's own Four-Foot Porch -- published 4.75 ft for a porch the
+            # plan beside it drew at 4.0. A fault measurement wrong in the flattering
+            # direction, which is the OQ 52 family. On tidewater-georgian-careful the two
+            # AGREED, because `auto` spends its budget there and falls back to the same
+            # heuristic: invisible on one shipped plan and real on the other.
             EL = core._mod("elevation", f"{B}/elevation.py")
-            elev = EL.build_elevation(plan, pt)
+            ST_ = core._mod("structure", f"{B}/structure.py")
+            RF_ = core._mod("roof", f"{B}/roof.py")
+            placed = _placed(plan, pt, candidates)
+            if "error" in placed:
+                return {"error": placed["error"]}
+            section = ST_.build_section(plan, pt, geometry_result=placed)
+            if "error" in section:
+                return {"error": section["error"]}
+            roof = RF_.build_roof(plan, pt, section=section)
+            if "error" in roof:
+                return {"error": roof["error"]}
+            elev = EL.build_elevation(plan, pt, section=section, roof=roof)
             if "error" in elev:
                 return {"error": elev["error"]}
             re_ = core._mod("render_elevation", f"{B}/render_elevation.py")
             re_.render_elevation(elev, out_path, face=face)
             meta = {"entrance_face": elev.get("entrance_face"),
                     "date_of_representation": elev.get("date_of_representation"),
-                    "glass_module_in": elev.get("glass_module_in")}
+                    "glass_module_in": elev.get("glass_module_in"),
+                    # the engine and the input digest, as the plan sheet has carried since
+                    # WP-11.8: a reader comparing two plates of "the same house" can now tell
+                    # whether the INPUT differed (finding J6 of the 4 Sep diagnosis).
+                    "solver": (placed.get("geometry_report") or {}).get("solver")}
         elif kind in ("section", "bearing"):
             st = core._mod("structure", f"{B}/structure.py")
             # WP-6.4: hand it the SAME placement the plan sheet draws. `build_section`'s own
@@ -476,12 +508,24 @@ def drawing(kind, plan, parti=None, face=None, candidates=250):
             else:
                 rs.render_bearing_diagram(section, out_path)
         elif kind == "roof":
+            # WP-12.0, the same defect as the elevation branch above: `build_roof` was called
+            # with no section, so it built its own on the heuristic while the plan sheet in
+            # the same set was a proof. The roof's ridge, eave and chimney heights all come
+            # off that section.
             rf = core._mod("roof", f"{B}/roof.py")
-            roof = rf.build_roof(plan, pt)
+            st_ = core._mod("structure", f"{B}/structure.py")
+            placed = _placed(plan, pt, candidates)
+            if "error" in placed:
+                return {"error": placed["error"]}
+            section = st_.build_section(plan, pt, geometry_result=placed)
+            if "error" in section:
+                return {"error": section["error"]}
+            roof = rf.build_roof(plan, pt, section=section)
             if "error" in roof:
                 return {"error": roof["error"]}
             rr = core._mod("render_roof", f"{B}/render_roof.py")
             rr.render_roof(roof, out_path)
+            meta = {"solver": (placed.get("geometry_report") or {}).get("solver")}
         else:
             return {"error": f"unknown drawing kind '{kind}'",
                     "kinds": ["plan", "elevation", "section", "bearing", "roof"]}
@@ -544,12 +588,33 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
                     section = st.build_section(plan, pt, geometry_result=placed)
                     res = section if "error" in section else EX.export_section_dxf(section, p)
                 elif kind == "roof":
+                    # WP-12.0: the exported sheet is a sheet of the house on screen, which
+                    # is WP-6.4's rule and which the section branch above already keeps.
+                    # These two took `build_section`'s internal heuristic default instead.
                     rf = core._mod("roof", f"{B}/roof.py")
-                    roof = rf.build_roof(plan, pt)
+                    st = core._mod("structure", f"{B}/structure.py")
+                    placed = _placed(plan, pt, candidates)
+                    if "error" in placed:
+                        return placed
+                    section = st.build_section(plan, pt, geometry_result=placed)
+                    if "error" in section:
+                        return section
+                    roof = rf.build_roof(plan, pt, section=section)
                     res = roof if "error" in roof else EX.export_roof_dxf(roof, p)
                 elif kind == "elevation":
                     EL = core._mod("elevation", f"{B}/elevation.py")
-                    elev = EL.build_elevation(plan, pt)
+                    st = core._mod("structure", f"{B}/structure.py")
+                    rf = core._mod("roof", f"{B}/roof.py")
+                    placed = _placed(plan, pt, candidates)
+                    if "error" in placed:
+                        return placed
+                    section = st.build_section(plan, pt, geometry_result=placed)
+                    if "error" in section:
+                        return section
+                    roof = rf.build_roof(plan, pt, section=section)
+                    if "error" in roof:
+                        return roof
+                    elev = EL.build_elevation(plan, pt, section=section, roof=roof)
                     res = elev if "error" in elev else EX.export_elevation_dxf(elev, p, face)
                 else:
                     return {"error": f"unknown DXF sheet kind '{kind}'",
