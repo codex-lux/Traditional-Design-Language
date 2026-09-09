@@ -408,6 +408,71 @@ a string that also appears in the line it was not about. **And the auditor found
 claiming *"the refusal must say that rather than a stack silently not appearing"* -- deleting the
 refusal AND deleting `_chimneys` entirely both left it green.
 
+**WP-12.9 CLOSES WP-12.8'S FIVE DEFERRED ITEMS, AND THE FIRST OF THEM WAS NOT THE QUESTION THE
+AUDIT ASKED (`docs/reports/wp-12.9-the-deferred-items.md`).** WP-12.8 deferred the chimney's plan
+size as *"a data question about which record owns the figure"* -- the two readers agree at 22 in
+by construction. Measured: they agree on the NUMBER on all 14 styles that resolve one, 0
+disagreements, and they do not agree on whether it is a JUDGMENT.
+**THE BAKE HAS NEVER CARRIED A JUDGMENT FLAG.** `brick-course` states the stack's plan size
+`judgment: true` -- *"twenty-two inches on the default coursing is between sizes; the mason will
+build 18 or 27"* -- and its baked snapshot in `kits/georgian-colonial-american.kit.json` carried
+`kind: derived` and nothing else. Over the **93** snapshots matchable to a source rule,
+**13 drop a `judgment: true` and ZERO carry one**: a systematic loss, not a slip.
+`check_baked_snapshots` was green over all thirteen because it re-derives the VALUE and compares
+nothing else -- **a snapshot can be perfectly faithful to its expression and unfaithful to
+everything else its rule says.**
+**AND THE CORPUS COULD NOT HAVE SAID IT ANYWAY**: `schema/kit.schema.json` admitted `judgment` on
+a SLOT and not on a PARAMETER, so it could say *"this slot is a decision"* and had no way to say
+*"this number is"*. The data edit failed schema validation on its first run, which is how that
+was found.
+**THE PLAN SHEET WAS A THIRD SURFACE AND THE AUDIT HAD COUNTED TWO.** The elevation legend
+disclosed the judgment, the scene refused a solid over it and filed one -- and `render_plan.py`
+and `Sheet.jsx` drew a poche square whose tooltip read *"chimney stack, 22.0 in square"*. The
+scene's own note says *"the two layers disclose one judgment two ways"*; there are three, and the
+third is the one where a reader is choosing a brick. `check_baked_flags` is the guard (93 matched
+and agreeing, 50 could not be compared, ratcheted), the flag and **its BASIS** travel onto the
+stack, and `disclosures.stack_plan_judgment` is the one spelling both plan surfaces read.
+**AND WIRING THAT REVEALED THAT `render_plan.py` IMPORTS `disclosures.py` AND CALLED NOTHING FROM
+IT.** That module opens *"ONE SPELLING, TWO SURFACES"* and this file adds *"do not add a third"*.
+Measured: `mcp_server/core.py` calls `banner()`, so the BENCH strip is the module's output;
+`render_plan.py` builds its own schedule and spells two of the lines itself at 611 and 656, and
+`export_dxf.py:217` spells one a THIRD time. It was found because the new line reached the bench
+and not the printed plate. The plate reads `DISC.stack_plan_judgment` for this one line;
+reconciling the rest moves sixteen sheets and is
+`oq/the-plate-does-not-read-the-disclosure-module-it-imports`.
+**`sweep` AND `lathe` ARE OUT OF THE SCENE SCHEMA (ruled).** Both were declared by field NAME
+alone -- no shape, no units, no frame -- and nothing emitted either, so an extent rule for them
+would have had to invent the semantics first. 28 deletions; `_extent` is TOTAL over everything a
+valid record can hold, and its raise stays because records reach it unchecked. `scene_version` is
+deliberately NOT bumped: no record's shape changes, because no record could hold one.
+**THE CLI PRINTED NOTHING IN THE CASE IT EXISTS FOR.** `geometry.py`'s conflict printer read
+`out["conflict"]["requirements"]` and NEITHER key exists in this tree; the writer states
+`infeasible.conflicts`. It is `geometry.conflict_lines` now -- a function so the branch can be
+DRIVEN, since no shipped record reaches it -- and its test holds the reader against the prover's
+own K5 output rather than a shape written by hand.
+**AND TWO SCHEMA-IMPOSSIBLE KEYS LEFT `moves.py`**: `rooms[].type` and `required_rooms` are not
+merely absent from all 17 grouping records, they fail validation (`additionalProperties: false`
+at both levels, `room` required). **That distinction decided the fix** -- this corpus KEEPS a
+fallback that cannot fire and REMOVES a check that cannot fire, and the schema being the guard is
+what makes this a removal.
+**ONE SHIPPED SHEET OF SIXTEEN MOVED, AND THE ACCOUNTING WAS PROVED RATHER THAN REASONED**: +296
+bytes on the Tidewater plan, four tooltips and one schedule row (canvas 962 -> 976, every row
+below shifting by exactly 14), nothing in the drawing field. Removing the ONE field this package
+added and re-rendering gives all sixteen byte-identical to the previous commit.
+`CORPUS_SHEET_SHA` `535077ae0bca1ea2` -> **`c4210345a77b9904`**, stripped `373d0116be7cecb8` ->
+**`b620afc41d04b412`**.
+**AND THE HARNESS THAT MEASURED IT WAS WRONG ONCE.** The first sweep hashed the sixteen files in
+FILENAME order where the test hashes `plans/` then `plans/reference/`, and produced a confident
+pair of hashes of nothing anybody computes -- one edit from being pinned. The control caught it:
+re-running the same harness on a `git archive HEAD` checkout and requiring it to reproduce
+`535077ae0bca1ea2`. **A re-pin whose instrument has not been shown to reproduce the OLD value is
+not a measurement, it is a new number.**
+**AND THE BUILD FOUND THE THIRD CONSUMER OF A SIGNATURE I CHANGED.** `check_baked_snapshots` grew
+an argument; `tests/test_baked_snapshots.py` went red at once and `check_counts.py:203` an hour
+later on its own run. Verify every consumer means every one -- I verified two.
+Eight mutations, each asserted LANDED before the colour was believed and each restored
+byte-for-byte; every new guard asserts its own premise.
+
 **WP-12.6 IS THE ENVELOPE DRESSED, AND ITS TWO FINDINGS ARE ONE DEFECT MET TWICE — A FIELD READ
 OFF THE WRONG RECORD (`docs/reports/wp-12.6-the-envelope-dressed.md`).** Sash bars, meeting rails,
 shutters and chimneys: **Tidewater 101 -> 492 solids, the spec Colonial 75 -> 368**, with
@@ -4695,10 +4760,21 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **184 entries, of which 91 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **184 entries, of which 92 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-draws-the-front-door-where-the-composition-wants-it, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-plate-does-not-read-the-disclosure-module-it-imports, oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits, oq/the-raw-kit-read, oq/the-record-dimensions-a-transom-and-no-drawing-draws-one, oq/the-roof-record-and-the-plan-record-do-not-share-an-origin, oq/the-transfer-count-lives-only-inside-an-english-sentence, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
-  question is an open one. That list is DERIVED from the register by
+  question is an open one. **AND THE ENTRY COUNT HAS BEEN THE FILE COUNT, WHICH IS THE
+  UNGUARDED-PROSE CLASS ARRIVING IN THIS PARAGRAPH** -- `docs/open-questions/README.md`
+  is a file in that directory and not a question, so on the commit before WP-12.9 this
+  sentence said 184 against a reader returning 183. It is the ENTRY count now and is
+  right for the first time, by arriving at the number it had already been claiming.
+  Nothing derives it: the test below checks the LIST, and `check_counts.py` polices
+  figures derived from the CORPUS, which neither of these is.
+  **AND WRITING THAT NOTE INSIDE THE PARENTHESES BROKE THE TEST ON ITS FIRST RUN**, which
+  is the trap the next sentence but one already records: the regex wants a bare
+  comma-separated list immediately after `are open**`, so prose there matches nothing and
+  the assertion fires on an empty set. Recorded because it was met by the reader of the
+  warning, in the paragraph carrying it. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
   which reads `build/check_ids.py`'s own reader rather than re-parsing anything -- the
   status vocabulary is spelled in ONE place. It requires the ids to be a bare

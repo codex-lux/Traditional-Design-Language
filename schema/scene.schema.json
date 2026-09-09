@@ -490,6 +490,7 @@
           }
         },
         "geometry": {
+          "description": "FOUR primitives, and it was six until WP-12.9. `sweep` and `lathe` were declared here by field NAME alone -- `profile`/`path`/`scale` and `radius_at`/`axis`/`z0` -- with no shape, no units and no frame, and nothing in the tree emitted either. So `build/scene.py::_extent` could not measure them without inventing the semantics first, and a schema that calls a record valid which no reader can measure is a gap between two spellings of one vocabulary -- the same gap WP-12.8 found between the scene's ink enum and the viewer's pen map. They are removed rather than specified: authoring a contract for two primitives nothing needs would make every figure in it editorial. When a package needs a swept moulding or a lathed column it adds the primitive WITH its shape and its extent rule together, which is what `docs/prd/phase-12-the-sheet-in-the-round.md` had always intended for WP-12.7's columns and what that package refused for want of a diameter -- WP-12.7 measured 23 nodes making a portico canonical, 8 resolving a bay count, 1 stating a diameter and 0 with all three.",
           "oneOf": [
             {
               "type": "object",
@@ -547,34 +548,6 @@
                 },
                 "holes": {
                   "type": "array"
-                }
-              }
-            },
-            {
-              "type": "object",
-              "required": [
-                "type",
-                "profile",
-                "path",
-                "scale"
-              ],
-              "properties": {
-                "type": {
-                  "const": "sweep"
-                }
-              }
-            },
-            {
-              "type": "object",
-              "required": [
-                "type",
-                "radius_at",
-                "axis",
-                "z0"
-              ],
-              "properties": {
-                "type": {
-                  "const": "lathe"
                 }
               }
             },

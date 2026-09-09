@@ -363,8 +363,13 @@ def _extent(g):
             # the other direction, closed rather than left as a latent crash.
             return ([min(us), min(zs), n0], [max(us), max(zs), n1])
         raise UnknownPrimitive(f"extrude on an unknown plane {g['plane']!r}")
-    # `sweep` and `lathe` are in the schema's `oneOf` and NOTHING emits one; when something
-    # does, it owes this function a rule rather than a silent skip.
+    # AND THE SCHEMA NO LONGER ADMITS ANYTHING THIS CANNOT MEASURE (WP-12.9). `sweep` and
+    # `lathe` sat in the `oneOf` declared by field NAME alone -- no shape, no units, no frame --
+    # and nothing emitted either, so an extent rule for them would have had to invent the
+    # semantics before it could measure them. They are removed from the schema rather than
+    # specified, which makes this function TOTAL over everything a valid record can hold: the
+    # raise below is now unreachable from any schema-valid scene, and it stays because the
+    # records this function is handed are not all schema-checked first.
     raise UnknownPrimitive(f"no extent rule for primitive {t!r}")
 
 

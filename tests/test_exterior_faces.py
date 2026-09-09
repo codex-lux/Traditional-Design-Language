@@ -242,8 +242,30 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-CORPUS_SHEET_SHA = "535077ae0bca1ea2"
-CORPUS_SHEET_SHA_NO_FRAME = "373d0116be7cecb8"   # WP-11.14's, unchanged by WP-12.4
+CORPUS_SHEET_SHA = "c4210345a77b9904"
+CORPUS_SHEET_SHA_NO_FRAME = "b620afc41d04b412"
+# BOTH MOVED AT WP-12.9, AND THE MOVEMENT IS ACCOUNTED RATHER THAN RE-PINNED. Was
+# 535077ae0bca1ea2 / 373d0116be7cecb8 (WP-11.14's stripped value, which WP-12.4 left alone).
+#
+# ONE SHEET OF SIXTEEN MOVED -- `tidewater-georgian-careful`, the only shipped plan that draws a
+# chimney stack -- by 296 bytes: four tooltips gain "(a judgment, not a measurement)" and the
+# title block gains one schedule row, so the canvas grows 962 -> 976 px and every row below the
+# new line shifts by exactly 14. NOTHING IN THE DRAWING FIELD MOVED.
+#
+# THE ACCOUNTING WAS PROVED AND NOT REASONED. Removing the single field this package added --
+# `judgment: true` on `kits/georgian-colonial-american.kit.json`'s `chimney.stack_plan_in` --
+# and re-rendering gives all SIXTEEN sheets byte-identical to the previous commit. So the whole
+# corpus movement is attributable to that one flag and to nothing else in the package, which is
+# what a re-pin owes: WP-12.4 published "16 of 16 plates byte-identical" from a comparison that
+# was not this one and shipped three commits on a red assertion.
+#
+# AND THE HARNESS THAT MEASURED IT WAS WRONG ONCE, WHICH IS WHY THERE WAS A CONTROL. The first
+# sweep hashed the sixteen rendered files in FILENAME order; this test hashes them in
+# `plans/*.json` order followed by `plans/reference/*.json`, and the two are not the same
+# sequence. It produced a confident pair of hashes that were hashes of nothing anybody computes.
+# Running the same harness over a `git archive HEAD` checkout and requiring it to reproduce
+# 535077ae0bca1ea2 / 373d0116be7cecb8 is what caught it -- a re-pin whose instrument has not
+# been shown to reproduce the OLD value is not a measurement, it is a new number.
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

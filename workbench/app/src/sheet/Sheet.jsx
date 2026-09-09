@@ -641,7 +641,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           <rect key={'sk' + i} data-stack={sk.wall} x={sk.x_ft} y={-sk.y_ft - sk.depth_ft}
             width={sk.width_ft} height={sk.depth_ft}
             style={POCHE.masonry} vectorEffect="non-scaling-stroke">
-            <title>{`chimney stack, ${sk.stack_plan_in} in square, ${sk.side} to the ${sk.wall} gable end`}</title>
+            <title>{`chimney stack, ${sk.stack_plan_in} in square${sk.stack_plan_judgment ? ' (a judgment, not a measurement)' : ''}, ${sk.side} to the ${sk.wall} gable end`}</title>
           </rect>
         ))}
         {/* WP-11.10 — the terrace at grade, from plan.appendages and from nothing else. Drawn

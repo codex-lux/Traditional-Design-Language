@@ -2,7 +2,38 @@
 
 One line per layer per notable change. Versions here track the project's own `v0.x` designation, not any single schema's version number (those are tracked in the schema files themselves — `ontology_version`, `kit_version`, and so on).
 
-## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.8 built)
+## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.9 built)
+
+### WP-12.9 — the five items the audit deferred, and the one it under-read
+
+- **The bake has never carried a judgment flag.** `brick-course` states the chimney's plan size
+  `judgment: true` — *"the mason will build 18 or 27"* — and its baked snapshot carried
+  `kind: derived` and nothing else. Over the 93 snapshots matchable to a source rule, **13 drop a
+  judgment and ZERO carry one**. `check_baked_snapshots` was green over all of them: it re-derives
+  the VALUE and compares nothing else.
+- **The kit schema admitted `judgment` on a slot and not on a parameter**, so the corpus could say
+  "this slot is a decision" and had no way to say "this number is". Widened; the data edit failed
+  validation on its first run, which is how it was found.
+- **`check_kits.py::check_baked_flags`** holds every snapshot to its source rule in both
+  directions — a dropped flag and a claimed one are each an error. 93 matched and agreeing, 50
+  could not be compared (ratcheted).
+- **The plan sheet was a third surface.** The elevation legend and the scene both disclosed the
+  judgment; `render_plan.py` and `Sheet.jsx` drew a poché square whose tooltip called 22 in a
+  measurement. The flag and its BASIS now travel onto the stack and
+  `disclosures.stack_plan_judgment` is the one spelling both read.
+- **`render_plan.py` imports `disclosures.py` and called nothing from it** — found because the new
+  line reached the bench strip and not the printed plate. Raised as
+  `oq/the-plate-does-not-read-the-disclosure-module-it-imports`.
+- **`sweep` and `lathe` removed from the scene schema** — declared by field name with no shape,
+  units or frame, emitted by nothing, so an extent rule would have been invented. `_extent` is now
+  total over everything a valid record can hold.
+- **`geometry.py`'s CLI conflict printer read a key nothing writes**, so it printed nothing in the
+  one case it exists for. Extracted as `conflict_lines` and held against the prover's own output.
+- **Two schema-impossible grouping keys left `moves.py`** — impossible rather than absent, which is
+  what makes it a removal rather than a kept fallback.
+- One shipped sheet moved (+296 bytes); removing the single field added gives all sixteen
+  byte-identical to the previous commit.
+
 
 ### WP-12.8 — the adversarial audit, and four coordinates read in the wrong frame
 

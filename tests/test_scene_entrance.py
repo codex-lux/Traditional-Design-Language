@@ -354,8 +354,9 @@ def test_the_extent_helper_refuses_a_primitive_it_does_not_understand():
 
     AND `xy` IS NO LONGER AMONG THE REFUSALS, because the schema's plane enum admits it and
     `round/solids.js` builds it: a record three spellings called valid was one the frame
-    refused to measure. It is measured now; `sweep` and `lathe` remain refused because nothing
-    emits one and, when something does, it owes this function a rule.
+    refused to measure. It is measured now; `sweep` and `lathe` are refused and are also no
+    longer in the schema at all (WP-12.9), so this raise is unreachable from any schema-valid
+    record and is kept for the records that reach `_extent` without being schema-checked first.
     """
     for bad in ({"type": "lathe", "profile": []},
                 {"type": "sweep", "profile": [], "path": [], "scale": 1},
@@ -368,3 +369,61 @@ def test_the_extent_helper_refuses_a_primitive_it_does_not_understand():
                          "outline": [[0, 0], [10, 0], [10, 4], [0, 4]]})
     assert lo == [0, 0, 3.0] and hi == [10, 4, 3.5], (
         f"an xy extrusion measures {lo} to {hi}: u and v are x and y and the extrusion runs z")
+
+
+def test_the_frame_measures_every_primitive_the_schema_admits_and_no_others():
+    """The schema's primitive set and `_extent`'s vocabulary are ONE set, asserted both ways.
+
+    WP-12.9. `sweep` and `lathe` sat in the geometry `oneOf` declared by field NAME alone --
+    `profile`/`path`/`scale` and `radius_at`/`axis`/`z0`, with no shape, no units and no frame --
+    and nothing in the tree emitted either, so `_extent` could not measure them without first
+    inventing their semantics. That is a gap between two spellings of one vocabulary, which is
+    exactly what WP-12.8 found between the scene's ink enum and the viewer's pen map, and it is
+    closed the same way: by an assertion relating the two, in both directions.
+
+    IT IS DRIVEN RATHER THAN READ OFF THE SOURCE. A guard enumerating `_extent`'s `if t ==`
+    branches would be a source-text selector, and this repository has been bitten by four of
+    those; this builds a real instance of every kind the schema admits and requires the frame to
+    measure it. The samples are VALIDATED against the schema first, so they are the schema's
+    shapes rather than my recollection of them -- without `jsonschema` that half reports COULD
+    NOT EVALUATE and the measurement half still runs.
+    """
+    schema = json.load(open(os.path.join(ROOT, "schema", "scene.schema.json")))
+    oneof = schema["$defs"]["solid"]["properties"]["geometry"]["oneOf"]
+    kinds = {b["properties"]["type"]["const"] for b in oneof}
+    assert kinds == {"box", "extrude", "prism", "plane"}, (
+        f"the schema admits {sorted(kinds)}. A primitive added here owes `_extent` a rule in "
+        f"the same commit -- and a rule that cannot be derived from the schema's own statement "
+        f"of the shape is a rule that would have to be invented.")
+    assert "sweep" not in kinds and "lathe" not in kinds, (
+        "sweep and lathe are removed (WP-12.9): they were declared by field name with no shape, "
+        "so no extent rule for them could be derived rather than invented")
+
+    samples = {
+        "box": {"type": "box", "origin": [0.0, 0.0, 0.0], "size": [2.0, 3.0, 4.0]},
+        "prism": {"type": "prism", "polygon": [[0.0, 0.0], [2.0, 0.0], [2.0, 3.0]],
+                  "z0": 1.0, "z1": 5.0},
+        "plane": {"type": "plane",
+                  "vertices": [[0.0, 0.0, 0.0], [4.0, 0.0, 1.0], [4.0, 2.0, 3.0]]},
+        "extrude": {"type": "extrude", "plane": "xz", "at": 1.0, "thickness": 0.5,
+                    "outline": [[0.0, 0.0], [3.0, 0.0], [3.0, 2.0]]},
+    }
+    assert set(samples) == kinds, (
+        f"the schema admits {sorted(kinds)} and this test builds {sorted(samples)} -- a "
+        f"primitive with no sample here is one this guard silently does not cover")
+
+    try:
+        import jsonschema
+    except Exception:
+        jsonschema = None
+    for k, g in samples.items():
+        if jsonschema is not None:
+            jsonschema.validate(g, {"$defs": schema["$defs"],
+                                    "oneOf": schema["$defs"]["solid"]["properties"]["geometry"]["oneOf"]})
+        lo, hi = SC._extent(g)                      # must not raise
+        assert len(lo) == 3 and len(hi) == 3, (k, lo, hi)
+        assert all(hi[i] >= lo[i] for i in range(3)), (
+            f"{k} measures {lo} to {hi}, which is inside out")
+    if jsonschema is None:
+        pytest.skip("jsonschema absent: the samples were measured but NOT validated against the "
+                    "schema -- COULD NOT EVALUATE on that half, which is not a pass")

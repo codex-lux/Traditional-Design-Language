@@ -575,7 +575,15 @@ def _split_per_grouping(plan, f, C, ctx):
     for gid in plan.get("groupings") or []:
         g = C["groupings"].get(gid) or {}
         logic = g.get("expansion_logic") or ""
-        types = {x.get("type") or x.get("room") for x in (g.get("rooms") or [])} | set(g.get("required_rooms") or [])
+        # TWO SCHEMA-IMPOSSIBLE KEYS REMOVED (WP-12.9). This read `x.get("type") or x.get("room")`
+        # and unioned `g.get("required_rooms")`. Censused over all 17 grouping records: rooms[]
+        # items carry `room`/`role`/`count`/`note` and NEVER `type`, and no record carries
+        # `required_rooms` at all -- so the first half of the `or` and the whole union were dead.
+        # They are not merely absent: `schema/grouping.schema.json` sets `additionalProperties:
+        # false` at BOTH levels and makes `room` required, so a record carrying either key fails
+        # validation. The schema is the guard that keeps them impossible, which is why deleting
+        # them is safe where deleting a fallback against a malformed record would not be.
+        types = {x.get("room") for x in (g.get("rooms") or [])}
         if logic.startswith("Split rather than enlarge") and r["type"] in types:
             w, l = min(r["width_ft"], r["length_ft"]), max(r["width_ft"], r["length_ft"])
             half = round(l / 2.0, 1)

@@ -80,7 +80,7 @@ empty list is not the question closed (WP-11.6). A scene that models everything 
 
 ## What is in it today, and what is not
 
-**A note on the primitives.** There are six — box, extrude, sweep, lathe, prism and **plane** —
+**A note on the primitives.** There are four — box, extrude, prism and **plane** —
 and the last was earned. A roof plane was first written as a `prism`, one polygon extruded
 vertically between the eave and ridge heights, which is a BOX that spans the roof's rise. Every
 agreement figure accepted it because all three measure the plan extent, and in plan a box and a
@@ -149,6 +149,17 @@ and invisibly, because a viewer clips what the frame does not know about. `scene
 on a primitive it does not understand, and `tests/test_scene.py` keeps its own independent
 reader — and asserts the frame TIGHT as well as containing, because a wrong extent rule makes
 the frame a SUPERSET and containment alone stayed green under exactly that mutation.
+
+**AND THE SCHEMA NO LONGER ADMITS ANYTHING THE FRAME CANNOT MEASURE (WP-12.9).** `sweep` and
+`lathe` sat in the geometry `oneOf` declared by field NAME alone — `profile`/`path`/`scale` and
+`radius_at`/`axis`/`z0`, with no shape, no units and no frame — and nothing emitted either, so an
+extent rule for them would have had to invent the semantics before it could measure them. They
+are removed rather than specified, and `_extent` is now TOTAL over everything a valid record can
+hold. Its raise stays, because records reach that function without being schema-checked first: it
+is a fallback against a malformed input, not a check that cannot fire. A package that needs a
+swept moulding or a lathed column adds the primitive WITH its shape and its extent rule together
+— `tests/test_scene_entrance.py` holds the schema's set and the frame's vocabulary to each other
+in both directions, so adding one without the other goes red.
 
 **AN OPENING HAS ONE NAME.** `opening_rects` names every rectangle (`S-0-ground`, `S-3-door`) and
 the frame takes that name verbatim; every solid dressing it prefixes the name with a `-`. WP-12.1

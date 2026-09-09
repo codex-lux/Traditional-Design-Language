@@ -3542,6 +3542,32 @@ def _offer_the_alternative(out, plan, parti, candidates, seed):
                                 for lv in alt.get("levels", [])]}}
 
 # ---------------------------------------------------------------- cli
+def conflict_lines(out):
+    """The named conflict set a refused solve carries, as the lines the CLI prints.
+
+    `infeasible.conflicts`, WHICH IS THE SHAPE THE WRITER ACTUALLY STATES (WP-12.9). This read
+    `out["conflict"]["requirements"]` and NEITHER key exists anywhere in this tree -- so the
+    named-conflict printer printed nothing in exactly the case it exists for: CP-SAT proved the
+    declared facts cannot all hold AND the heuristic could not place the house either, which is
+    the one path reaching that branch with an `infeasible` block attached. `geometry_cp.solve_cp`
+    states `{"infeasible": {"proven", "conflicts", "minimized", "downgraded_wall_pins",
+    "downgraded_shape_pins", "note", "attempts"}}` and has since it was written.
+
+    IT IS A FUNCTION SO THAT THE BRANCH CAN BE DRIVEN. Reaching it from the corpus needs a plan
+    CP proves infeasible and the hill-climb also refuses, which no shipped record does; a guard
+    written against `main()` would be a guard nothing runs. Computed where a test can read it,
+    printed where it cannot -- which is `export_ifc.slab_boxes`' own reason.
+
+    The NOTE is printed as well as the conflicts, because a sufficient core that was not fully
+    minimized says so in that sentence and a reader given the list without it will read a
+    removable requirement as a necessary one."""
+    inf = out.get("infeasible") or {}
+    lines = [f"    \u00b7 {r}" for r in (inf.get("conflicts") or [])]
+    if inf.get("note"):
+        lines.append(f"\n  {inf['note']}")
+    return lines
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("plan"); ap.add_argument("--out"); ap.add_argument("--svg")
@@ -3561,7 +3587,8 @@ def main():
     out = solve(plan, parti, a.candidates, engine=a.engine, time_limit_s=a.time)
     if "error" in out:
         print(out["error"])
-        for r in (out.get("conflict") or {}).get("requirements", []): print(f"    · {r}")
+        for line in conflict_lines(out):
+            print(line)
         return
     fp, gr = out["footprint"], out["geometry_report"]
     print(f"\n  {plan['name']}")

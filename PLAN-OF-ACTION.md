@@ -3808,3 +3808,34 @@ Agent-count guidance: Phase 0 is one agent, sequential. Phase 1 is one schema ow
 ## 7. What "finished" looks like
 
 A brief — 3,200 sf, four bedrooms, Tidewater Georgian, a 120 ft lot facing south, two cars — goes in. The system resolves the kit at the declared date, selects the native partis the lot can hold, composes four candidates whose entrance is on the south front and whose service is to the rear, places them on the bay grid with walls and a section, raises a five-bay front composed to Gibbs with the sash lights correct for 1760 and one head datum per storey, puts the garage in a hyphened dependency with its ridge at 70%, runs 209 faults and 441 hard constraints against the result and reports every one as present, clear, or unjudged, and exports a DXF a drafter can open — with a decision log of every assumption and a list of the judgment calls that belong to the architect. That last list is not a limitation. It is the system knowing the difference between grammar and poetry, and leaving the poetry to the person.
+
+### WP-12.9 The five items WP-12.8 deferred
+
+**Status: COMPLETE (9 Sep 2026) — `docs/reports/wp-12.9-the-deferred-items.md`.** Closes §V of the
+audit. Two of the five needed a ruling and both were given the day they were put: *snapshot +
+checker + plan disclosure* for the chimney judgment, and *remove them from the schema* for `sweep`
+and `lathe`.
+
+**THE FIRST ITEM WAS NOT THE QUESTION THE AUDIT ASKED.** It was deferred as *"a data question about
+which record owns the figure"* — the two readers agreeing at 22 in by construction. Measured, they
+agree on the NUMBER on all 14 styles that resolve one, 0 disagreements, and disagree on whether it
+is a JUDGMENT. **Over the 93 baked snapshots matchable to a source rule, 13 drop a `judgment: true`
+and ZERO carry one** — the bake has never carried the flag, and `check_baked_snapshots` was green
+over every one because it re-derives the value and compares nothing else. `schema/kit.schema.json`
+admitted `judgment` on a SLOT and not a PARAMETER, so the corpus had no way to say the number was a
+decision; the data edit failed validation on its first run, which is how that surfaced.
+`check_baked_flags` holds every snapshot to its source rule in BOTH directions (93 matched and
+agreeing, 50 could not be compared, ratcheted at 50 with the two-unit gap from 52 accounted).
+
+**AND THE PLAN SHEET WAS A THIRD SURFACE THE AUDIT HAD NOT COUNTED** — elevation legend and scene
+disclosed, `render_plan.py` and `Sheet.jsx` drew a poché square and called it a measurement. Fixed
+through `disclosures.stack_plan_judgment`, one spelling, with the BASIS carried beside the flag.
+
+**Deferred out of it:** `oq/the-plate-does-not-read-the-disclosure-module-it-imports` —
+`render_plan.py` imports `disclosures.py` and, before this package, called nothing from it, while
+`mcp_server/core.py` calls `banner()`. The two lists have diverged in both directions and all
+sixteen sheets move on a reconciliation, so it is its own package with three things to rule first.
+
+**One shipped sheet moved (+296 bytes), and removing the one field this package added gives all
+sixteen byte-identical to the previous commit** — the accounting proved rather than reasoned.
+**Depends on:** WP-12.8. **Size:** small.

@@ -198,9 +198,12 @@ def computed():
     # cannot drift into two answers about what "judged" means. Same discipline as the OQ 51
     # figures: `check_kits.check_baked_snapshots` decides, this only counts what it decided.
     _ck = modcache.load("check_kits", os.path.join(ROOT, "build", "check_kits.py"))
-    _errs, _unj, _st = [], [], collections.Counter()
+    # `_flag_unj` is the FLAG question's own list (WP-12.9): a snapshot can be faithful to its
+    # expression and drop the `judgment: true` its source rule carries, which is a different
+    # population from the ones whose VALUE could not be re-derived. Two questions, two lists.
+    _errs, _unj, _flag_unj, _st = [], [], [], collections.Counter()
     for _f in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
-        _ck.check_baked_snapshots(_errs, _unj, os.path.basename(_f).split(".")[0],
+        _ck.check_baked_snapshots(_errs, _unj, _flag_unj, os.path.basename(_f).split(".")[0],
                                   json.load(open(_f, encoding="utf-8")), _st)
     v["baked_judged"] = _st["baked_judged"]
     v["baked_unjudged"] = _st["baked_unjudged"]

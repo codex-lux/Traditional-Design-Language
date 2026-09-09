@@ -219,6 +219,43 @@ class TestTheStacks(unittest.TestCase):
         finally:
             cache["tidewater-georgian"] = saved
 
+    def test_the_judgment_travels_from_the_kit_onto_the_stack(self):
+        """WP-12.9. `brick-course`'s chimney rule is flagged `judgment: true` -- 22 in on the
+        default coursing is between sizes and a mason will build 18 or 27 -- and the baked
+        snapshot of it in the kit carried NO flag, so this pass read a settled measurement out
+        of a deferred decision and the plan sheet published it as one. The elevation plate has
+        disclosed it since WP-5.11 and the scene refuses a solid over it (WP-12.6); the plan
+        was the third surface and the only one that said nothing.
+
+        THE BASIS IS ASSERTED AND NOT ONLY THE BOOLEAN. A judgment with no basis named is what
+        this corpus forbids one step further than a figure with no source."""
+        pl = _placed()
+        stacks = pl["hearths"]["stacks"]
+        self.assertTrue(stacks, "the fixture draws no stack, so this guard is about nothing")
+        for sk in stacks:
+            self.assertIs(sk["stack_plan_judgment"], True,
+                          "the kit flags this figure a judgment and the stack does not carry it")
+            self.assertTrue((sk.get("stack_plan_basis") or "").strip(),
+                            "the flag arrived with no basis, which is a bare `judgment`")
+
+    def test_a_figure_the_corpus_HAS_settled_carries_no_judgment(self):
+        """The other half, without which the flag above could be unconditional -- and this
+        corpus has shipped a refusal filed about nothing before (WP-12.6's dormers)."""
+        pl = _placed()
+        cache = TH._RESOLVED
+        saved = json.loads(json.dumps(cache["tidewater-georgian"]))
+        try:
+            par = cache["tidewater-georgian"]["chimney"]["parameters"]["stack_plan_in"]
+            par.pop("judgment", None)
+            out = TH.hearth_pass(_placed(), C, {})
+            self.assertTrue(out["stacks"], "no stack placed, so nothing was tested")
+            for sk in out["stacks"]:
+                self.assertIs(sk["stack_plan_judgment"], False)
+                self.assertIsNone(sk["stack_plan_basis"],
+                                  "a basis with no judgment to explain is prose nobody asked for")
+        finally:
+            cache["tidewater-georgian"] = saved
+
     def test_the_side_comes_from_the_node_s_own_kit_and_never_the_cascade(self):
         """`colonial-revival` is the case: its `hearth_position` is bound `open`, so the
         cascade hands it `central-open-hearth` from `english-gothic`, seven steps up and

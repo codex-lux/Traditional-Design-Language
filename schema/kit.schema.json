@@ -433,6 +433,10 @@
      ],
      "description": "measured: from surviving fabric or a documented standard. derived: computed from a proportion pack. editorial: our considered convention. invented: no precedent exists. code: imposed from outside. A brick course, a stair riser band and a garage setback were indistinguishable in 0.1.0 and are three completely different kinds of claim."
     },
+    "judgment": {
+     "type": "boolean",
+     "description": "The figure is a decision somebody still owes, not a settled measurement -- the same flag a proportion pack's derived_rule carries, and it must survive being baked into a snapshot of that rule. WP-12.9: 13 snapshots of judgment rules carried no flag and ZERO carried one, because until then this schema admitted `judgment` on a SLOT and not on a FIGURE -- so the corpus could say 'this slot is a decision' and had no way to say 'this number is'. build/check_kits.py::check_baked_flags holds every snapshot to its own source rule."
+    },
     "source": {
      "type": "string"
     },
