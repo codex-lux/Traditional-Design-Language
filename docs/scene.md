@@ -96,13 +96,33 @@ grade to ridge with each label already set in feet and inches; the bay grid; the
 at the positions the placement recorded; the compass assumption; the solver's engine and input
 digest.
 
+**In since WP-12.7:** the doorcase — its casing band, its two sidelights and the three members
+of its entablature, a member of zero projection drawn as a `plane` because the Gibbs frieze
+really is flush with the naked — and the stoop, as one box per riser.
+
+**AND A PILASTER IS NOT DRAWN, WHICH IS MEASURED RATHER THAN ASSUMED.** The composition is
+exactly door + two casings + two sidelights: 42.099 + 2 × 7.017 + 2 × 14.033 = 84.199, which is
+`entrance_composition_width_in` to the thousandth of an inch, and the same sum with the stated
+`pilaster_width_in` gives 88.875. The record's own arithmetic excludes the member.
+
+**THERE IS NO DECK AND NO PORCH ROOF, AND THAT IS THE RECORD.** Both shipped plans place their
+`entry-porch` INSIDE the footprint, so its floor is the ground slab and its roof is the main
+roof. `deck` carries the stoop's risers and nothing else; `porch-roof` is an unused class.
+
 **In since WP-12.6:** sash bars and meeting rails on every drawn window (`across - 1` verticals
 and `2 x high - 1` horizontals, the two sashes of a double-hung aligning so a bar is ONE member,
 and the middle horizontal a `sash` rather than a `muntin` because a meeting rail is a member and
 not glazing); shutter leaves where the storey window carries them; and a chimney where the roof
 judges a ridge to carry one.
 
-**Not in, and each says so in the record:** hip, gambrel and cross-gable planes; **the window
+**Not in, and each says so in the record:** hip, gambrel and cross-gable planes; **the transom
+over the entrance door** — the record dimensions a rectangular one and feeds it to two faults,
+and `render_elevation._entrance` draws none, so drawing it here would make the model and the
+plate two different doorcases
+(`oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`); **the surround's relief**, whose
+projection `elev.entrance` does not publish and whose value in the cascade this file may not read
+without becoming a second reader of that slot; **the porch's columns**, refused by
+`build/threshold.py` since WP-11.4 and republished here rather than re-derived; **the window
 sill** — `kit.window_sill.projection_in` resolves to a BAND on the node this corpus draws, and a
 sill at the band's midpoint is a measurement nobody authored
 (`oq/a-child-band-replaces-an-ancestor-derivation`); the **dormer solids**, whose cheeks, face and
@@ -119,6 +139,16 @@ and puts the judgment on the record beside it. Drawing a box at 22 in would publ
 the corpus declines to settle, in the one place a reader cannot tell a decision from a
 measurement. Where the plan size IS stated the stack is a solid; no node in this corpus states
 one, so that branch is driven by hand.
+
+**THE FRAME IS THE UNION OF WHAT IS DRAWN (WP-12.7).** `bounds` was stated off the section's
+footprint (WP-12.1), found the right size in the wrong place (WP-12.2), and grown over the
+chimneys by hand (WP-12.6); WP-12.7 would have needed two more hand-written cases — a cornice
+projecting out of its wall and a stoop three and a half feet clear of the house. A frame
+maintained as a list of exceptions is wrong the moment somebody draws a thing not on the list,
+and invisibly, because a viewer clips what the frame does not know about. `scene._extent` RAISES
+on a primitive it does not understand, and `tests/test_scene.py` keeps its own independent
+reader — and asserts the frame TIGHT as well as containing, because a wrong extent rule makes
+the frame a SUPERSET and containment alone stayed green under exactly that mutation.
 
 **AN OPENING HAS ONE NAME.** `opening_rects` names every rectangle (`S-0-ground`, `S-3-door`) and
 the frame takes that name verbatim; every solid dressing it prefixes the name with a `-`. WP-12.1
@@ -221,6 +251,34 @@ import. `build/check_frontend.py` asserts the chunk exists.
 **The pen does not magnify with the zoom.** Edges are drawn with `LineSegments2` at screen-space
 width, so OQ 66 — the loupe magnifying the ink along with the drawing — is answered in the Round
 by construction rather than by a setting.
+
+**THE APPROACH IS THE ONE PERSPECTIVE, AND EVERY OTHER VIEW IS ORTHOGRAPHIC (WP-12.7).** A
+projection is a KIND and not a setting: `pose.kind` is `orthographic` or `perspective`, there are
+two cameras rather than one with a flag, and a move between them is a **cut** — a camera cannot
+be half a projection, and interpolating an eye point towards a target-and-half-height produces
+frames that are neither.
+
+The camera stands off the front the record names, at the ruled **5′-6″**, and the distance is
+DERIVED: `framing` answers what half-height must be held, and at a stated field of view that is
+one distance. On the Tidewater scene the eye lands 73 ft in front of the house looking **up
+8.5°**, because the house's middle is nineteen feet in the air and the eye is not. **Eye height is
+the 8 September ruling's; the field of view is EDITORIAL and says so** — admissible precisely
+because nothing is measured off this view.
+
+Four things the perspective refuses, and they are the part to read before changing it:
+
+- **A point behind the eye returns `null`**, never a coordinate. An orthographic projection is
+  defined everywhere; a perspective divides by depth, and a point behind the eye projects to a
+  finite, plausible, MIRRORED number — WP-5.11's sweep-flag class exactly.
+- **No flat plate is laid over it.** The overlay's whole argument is a uniform scale; a
+  perspective has a different number of feet to the pixel at every depth and no affine exists.
+  The refusal's real subject is a *perspective pose at a face view*, which the app reaches the
+  moment a reader at the approach drags the camera.
+- **`plateKeyFor` returns null**, so no plate is fetched for it — `SCENE_PLATES` never carried
+  one.
+- **The furniture table gives it a compass and nothing else** — no scale bar, no bay ticks, no
+  overall width, no datums. Every one of those is a measurement read off the plate, and the
+  caption states `DIMENSIONS WITHHELD` beside the view's own name.
 
 **The flat plate is laid over the model by `data-frame`**, which every renderer now writes: see
 `build/sheet_style.py::frame_attr`. The renderer states its own affine and says nothing about the

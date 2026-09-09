@@ -25,7 +25,7 @@ import { LineSegmentsGeometry } from 'three/addons/lines/LineSegmentsGeometry.js
 import { LineMaterial } from 'three/addons/lines/LineMaterial.js';
 
 import { edges as edgesOf, normalOf, triangles } from './solids.js';
-import { basis, eyeDirection } from './frame.js';
+import { APPROACH_FOV_DEG, basis, eyeDirection } from './frame.js';
 
 /* Which pen an `ink` names, and which wash a `tone` names. The VALUES are tokens.css's; these
    are only the names, so a token may be re-ruled without touching this file. */
@@ -42,7 +42,15 @@ export function mount(canvas, tokens) {
   renderer.localClippingEnabled = true;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, -5000, 5000);
+  /* TWO CAMERAS, BECAUSE A PROJECTION IS A KIND AND NOT A SETTING (WP-12.7). Everything
+     before the approach view is orthographic, which is what makes the scale bar and the flat
+     plate overlay honest; the approach is a perspective at 5'-6" and the two cannot be one
+     object with a flag. `setPose` swaps between them on `pose.kind`, which frame.js states,
+     and every reader downstream (the raycaster, the pen's resolution, the overlays) takes
+     whichever is current from `cam()`. */
+  const orthoCam = new THREE.OrthographicCamera(-1, 1, 1, -1, -5000, 5000);
+  const perspCam = new THREE.PerspectiveCamera(APPROACH_FOV_DEG, 4 / 3, 0.5, 5000);
+  let camera = orthoCam;
   const group = new THREE.Group();
   scene.add(group);
 
@@ -168,6 +176,24 @@ export function mount(canvas, tokens) {
 
   function setPose(pose, aspect) {
     const h = pose.halfHeightFt;
+    if (pose.kind === 'perspective') {
+      /* THE EYE IS A PLACE AND NOT A DIRECTION. An orthographic camera is pushed far back
+         along the view direction because its distance does not matter; a perspective one's
+         distance IS the projection, and frame.js has already derived it from the field of
+         view and the framing. Putting this camera "far away along the same bearing" would
+         quietly draw a different picture from the one the leaf computed and every test in
+         round.test.mjs is written against. */
+      camera = perspCam;
+      camera.fov = pose.fovDeg || APPROACH_FOV_DEG;
+      camera.aspect = aspect;
+      camera.position.set(pose.eye[0], pose.eye[1], pose.eye[2]);
+      camera.up.set(0, 0, 1);
+      camera.lookAt(pose.target[0], pose.target[1], pose.target[2]);
+      camera.updateProjectionMatrix();
+      reshade(pose);
+      return;
+    }
+    camera = orthoCam;
     const w = h * aspect;
     camera.left = -w; camera.right = w; camera.top = h; camera.bottom = -h;
     const d = eyeDirection(pose.azimuthDeg, pose.elevationDeg);

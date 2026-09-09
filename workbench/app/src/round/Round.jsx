@@ -47,6 +47,7 @@ export function Round({
   const drag = React.useRef(null);
   const [size, setSize] = React.useState({ width: 1, height: 1 });
   const [failed, setFailed] = React.useState(null);
+  const [built, setBuilt] = React.useState(null);
   const [ready, setReady] = React.useState(false);
   const tokens = React.useRef({});
 
@@ -98,7 +99,12 @@ export function Round({
   /* ---------------------------------------------------------------- the record */
   React.useEffect(() => {
     if (!ready || !api.current || !scene) return;
-    api.current.load(scene);
+    /* WHAT THE RENDERER ACTUALLY BUILT, published for the same reason the overlay counts are
+       (WP-12.5): a canvas with nothing in it and a canvas with a house in it are the same
+       element, the same size and the same caption. The walk asserts a POSITIVE off this, and
+       `refused` is never silent -- a solid the renderer could not build is named. */
+    const built = api.current.load(scene);
+    setBuilt(built || null);
     draw();
   }, [ready, scene]);
 
@@ -223,6 +229,8 @@ export function Round({
            is indistinguishable from one drawn faintly — the chip lights, the URL is right and
            the caption is correct either way. The walk asserts a POSITIVE count off this. */
         data-round-overlays={Object.entries(drew).map(([k, v]) => `${k}:${v}`).join(',')}
+        data-round-solids={built ? String(built.solids) : ''}
+        data-round-refused={built ? String((built.refused || []).length) : ''}
         aria-label={`the model, seen at ${view || 'a free view'}`}
         onPointerDown={onPointerDown}
         style={{ display: 'block', width: '100%', height: '100%', cursor: drag.current ? 'grabbing' : 'grab' }}

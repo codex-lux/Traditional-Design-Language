@@ -3714,11 +3714,46 @@ reading the code that consumed it.**
 
 ### WP-12.7 The entrance and the porch
 
-**Status: NOT STARTED.** The door leaf, casing, sidelights and transom where the kit permits them,
-pilasters, the entablature swept across the composition width, columns lathed from the pack's own
-diameters; the porch's columns placed only by a stated intercolumniation and refused by name otherwise
-(R4). The Four-Foot Porch becomes visible as a porch a rocking chair cannot fit, which is the point of
-drawing it at its real depth. **Depends on:** WP-12.6. **Size:** medium.
+**Status: BUILT (9 Sep 2026).** `docs/reports/wp-12.7-the-entrance-and-the-porch.md`. The doorcase and
+the stoop, and the APPROACH view the 8 Sep ruling put in v1. Tidewater 492 -> 500 solids, the spec
+Colonial 368 -> 374; app suite 147 -> 156.
+
+**THE REFUSAL THIS PACKAGE WAS ASKED TO WRITE HAD BEEN IN THE RECORD SINCE WP-11.4.** R4 asks for porch
+columns "placed only by a stated intercolumniation and refused by name otherwise" -- and
+`build/threshold.py` already refuses exactly that on both shipped plans, in the record's own words
+(*"'tidewater-georgian' states no canonical portico (canonical porch type: stoop-only), and its
+`portico_bays` of 1 is conditioned by its own slot rule"*). `_porch` READS `plan.threshold.unplaced` and
+republishes each reason; a source guard refuses `portico_bays`, `intercolumniation`, `porch_support` and
+`porch_type` in that function. Following this text literally would have written a second reader of one
+rule. Re-derived first: 23 nodes make a portico canonical, 8 resolve a bay count, 1 states a diameter,
+**0 have all three**.
+
+**AND A PILASTER IS NOT IN THIS DOORCASE, MEASURED.** door + 2 casings + 2 sidelights = 84.199 =
+`entrance_composition_width_in` to the thousandth; with pilasters it is 88.875. So the composition's own
+arithmetic excludes one, and the entablature, the casing band and the two sidelights are what is drawn.
+
+**THREE MORE OF THE TEXT ABOVE ARE OVERTAKEN.** `order_at_the_eave` NAMES NO ORDER -- it is a
+three-state verdict on whether an order engages the WALL, and both plans read 0. The shaft diameters are
+equal by a stated, disclosed parallel-shaft fact, so a lathe would invent a taper. And the Four-Foot
+Porch cannot become visible as an outbuilding: **both shipped plans place their `entry-porch` INSIDE the
+footprint**, so its floor is the ground slab and its roof is the main roof -- `deck` and `porch-roof`
+stay unused classes and that is the record rather than a gap. The stoop, which really is outside, is
+drawn.
+
+**THE APPROACH IS IN, WITH ITS DIMENSIONS WITHHELD.** Eye at the ruled 5'-6", standing off the front the
+record names, at a distance DERIVED from the framing and a field of view that is EDITORIAL and says so.
+Four refusals come with it: a point behind the eye returns null rather than a mirrored coordinate, no
+flat plate is laid over a perspective, a move between the two projections is a CUT, and the furniture
+table gives it a compass and nothing else.
+**AND LOOKING AT THE APPROACH VIEW FOUND THE TWO DOORS.** The stoop stands away from the door it
+serves, because `elevation._face_bays` puts the entrance in the MIDDLE BAY of the front whatever
+the placement did: the elevation draws it at 32.79 ft against a placed 38.21 on the Tidewater
+plan and **25.67 against 47.00** on the spec Colonial, where the drawn front door stands over the
+GARAGE. The scene is the first surface to draw both, and `plan_check` already convicts the
+PLACEMENT for the displacement the DRAWING corrects. Nothing moved -- the disagreement is stated
+naming both positions, and
+`oq/the-elevation-draws-the-front-door-where-the-composition-wants-it` carries the ruling.
+**Depends on:** WP-12.6. **Size:** medium.
 
 ### WP-12.8 The adversarial audit of WP-12.0 through 12.7
 

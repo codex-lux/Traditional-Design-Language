@@ -130,7 +130,7 @@ truncated left half. Both are the shapes this file already records for the two p
 code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
 were then driven to prove they fire**, which is the only thing that has ever caught one of these.
 
-**WP-12.0 THROUGH WP-12.5 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
+**WP-12.0 THROUGH WP-12.7 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
 again (`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`) and WP-12.1 is the scene
 record (`docs/reports/wp-12.1-the-scene-record.md`, layer doc `docs/scene.md`): `build/scene.py`,
 pure arithmetic and a leaf, which imports `export_ifc.slab_boxes`, `structure.wall_thickness`,
@@ -228,6 +228,101 @@ guard proving two drawings share an input says nothing about what each did with 
 **AND THE FIRST PLATE FIGURE PUBLISHED WAS 0.70 s AGAINST A REPRODUCIBLE 0.38** -- measured in a
 process that had not yet loaded the drawing pipeline, so it carried the module loads. Corrected in
 five files by sweeping for the retired number, which is this file's own rule after a correction.
+
+**WP-12.7 IS THE ENTRANCE AND THE PORCH, AND ITS CENTRAL DELIVERABLE ALREADY EXISTED
+(`docs/reports/wp-12.7-the-entrance-and-the-porch.md`).** The doorcase and the stoop stand up and
+the model can be walked up to at 5'-6": **Tidewater 492 -> 500 solids, the spec Colonial
+368 -> 374**, `not_modelled` 1 -> 8 and 3 -> 8, the app suite 147 -> 156.
+**THE PRD ASKS THIS PACKAGE TO REFUSE THE PORCH COLUMNS "AND NAME THE MISSING RULE", AND
+`build/threshold.py` HAS DONE EXACTLY THAT SINCE WP-11.4** -- on both shipped plans, in the
+record's own words: *"'tidewater-georgian' states no canonical portico (canonical porch type:
+stoop-only), and its `portico_bays` of 1 is conditioned by its own slot rule"*. I derived the
+refusal independently from three unmet preconditions before finding it. `_porch` READS
+`plan.threshold.unplaced` and republishes each reason, and a source guard refuses `portico_bays`,
+`intercolumniation`, `porch_support` and `porch_type` anywhere in that function. **Following the
+brief literally would have written a second reader of one rule** -- this repository's
+most-repeated defect, met twice in the package before. Re-derived rather than quoted: **23 nodes
+make a portico canonical, 8 resolve a bay count, 1 states a diameter, 0 have all three.**
+**A PILASTER IS NOT A MEMBER OF THIS DOORCASE AND THAT IS MEASURED.** door + 2 casings +
+2 sidelights = **84.199** = `entrance_composition_width_in` to the thousandth of an inch (the
+spec Colonial within 0.001); the same sum with the stated `pilaster_width_in` gives **88.875**.
+The composition's own arithmetic excludes the member, and the test asserts the discriminator as
+well as the reconciliation, because "no pilaster is drawn" passes with the function deleted.
+**AND THREE MORE OF THE BRIEF'S SENTENCES ARE OVERTAKEN BY THE TREE.** `order_at_the_eave` NAMES
+NO ORDER -- it is a three-state verdict on whether an order engages the WALL, and both plans read
+0. The shaft diameters are equal by a stated, disclosed parallel-shaft fact (`elevation.py` 431),
+so a lathe would invent a taper. And *"the porch: deck and roof already in 12.1"* is wrong twice:
+the scene drew neither, and **both shipped plans place their `entry-porch` INSIDE the
+footprint**, so its floor is the ground slab and its roof is the main roof. `deck` carries the
+stoop's risers and nothing else; `porch-roof` is unused, and that is the record rather than a gap.
+**THE STOOP'S TREADS RECONCILE AND ITS RISERS DO NOT**: `(rc - 1) x tread` is 2.1667 ft against a
+flight depth of 2.167 -- the top riser lands on the platform, which is the porch room -- while
+`rc x riser_height` is **1.719 ft against a `grade_to_floor_ft` of 2.0**, three and a half inches
+short of the floor it serves. That is `oq/a-child-band-replaces-an-ancestor-derivation` reaching
+its SECOND consumer, WP-12.6's sill being the first. Reported, and no fourth riser is invented.
+**THE TRANSOM IS STATED BY THE RECORD AND DRAWN BY NOTHING.** `elevation.py` dimensions the whole
+family together -- height, width the door leaf's, head rise 0 -- and feeds it to two faults;
+`render_elevation._entrance` draws none. Drawing one here would make the model and the plate two
+different doorcases, so it is REFUSED and the disagreement is the finding
+(`oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`); the guard reads
+`render_elevation.py`'s own source so the refusal cannot outlive the omission.
+**THE FRAME IS THE UNION OF WHAT IS DRAWN NOW, AND CONTAINMENT ALONE WAS HALF A GUARD.**
+`bounds` was stated off the footprint (WP-12.1), found the right SIZE in the wrong PLACE
+(WP-12.2) and grown over the chimneys by hand (WP-12.6); this package needed two more cases -- a
+cornice projecting out of its wall and a stoop 3.5 ft clear of the house. **A frame maintained as
+a list of exceptions is wrong the moment somebody draws a thing not on the list**, and invisibly.
+`_extent` RAISES on a primitive it does not understand. **And swapping the axes in its `xz`
+branch left the whole suite GREEN**, because a wrong mapping makes the frame a SUPERSET -- a
+frame too large is a real defect in the other direction that nothing could see, so the frame is
+asserted TIGHT as well as containing, by a test that keeps its own independent extent reader.
+**THE APPROACH IS IN, AND A PROJECTION IS A KIND RATHER THAN A SETTING.** Two cameras, not one
+with a flag; a move between them is a **CUT**, because a camera cannot be half a projection. The
+eye stands off the front the record names at the ruled 5'-6" and the DISTANCE IS DERIVED from the
+framing -- measured on the Tidewater scene, 73 ft in front, looking **up 8.5 degrees**, because
+the house's middle is nineteen feet up and the eye is not. **Eye height is the ruling's; the
+field of view is EDITORIAL and says so**, which is admissible only because nothing is measured
+off this view. Four refusals: a point behind the eye returns `null` rather than a finite,
+plausible, MIRRORED coordinate (WP-5.11's class); no flat plate is laid over a perspective (no
+uniform scale, so no affine -- and the case that matters is a PERSPECTIVE POSE AT A FACE VIEW,
+which the app reaches the moment a reader at the approach drags the camera); `plateKeyFor`
+returns null; and the furniture table gives it a compass and no measurement.
+**AND THEN THE APPROACH SCREENSHOT SHOWED TWO PALE BOXES AT THE BOTTOM OF THE FRONT, WELL AWAY
+FROM THE DOOR -- AND THEY ARE THE STOOP.** Measured rather than concluded: **the elevation draws
+the front door at 32.79 ft and the placement seats it at 38.21** on the Tidewater plan, **25.67
+against 47.00** on the spec Colonial -- 5.42 ft and **21.33 ft** apart, and on the spec Colonial
+**the drawn front door stands over the GARAGE**. `elevation._face_bays` writes
+`kinds[mid] = "door"` -- the entrance goes in the MIDDLE BAY of the front, always -- while
+`openings.place` seats the real door where the porch room's own wall allows. Each record is right
+on its own and **no surface had ever drawn both**: the scene takes the doorcase from
+`opening_rects` and the stoop from `plan.threshold`, so the model is the first picture in this
+project with the two in it at once. That is WP-12.1's own finding repeated -- *invisible for as
+long as no surface drew a roof and a room in one picture*.
+**AND THE CHECKER CONVICTS THE HALF THAT IS NOT DRAWN**: `plan_check` emits
+`drawn-door-off-the-centre-bay`, serious, off `axis.door_bay` -- *"The front door stands in bay 5
+of 7, not the middle bay"* -- so the corpus criticises the PLACEMENT for a displacement the
+DRAWING silently corrects, and the plate a reader turns to is evidence against the finding beside
+it. **Nothing is moved**: correcting the elevation moves sixteen shipped plates and has a ruling
+in front of it (WP-11.7 says the facade is a RESULT, which argues for the placement; WP-11.3
+swept and deleted a centre-bay score, which argues against moving the placement).
+`_entrance_agreement` draws both where their own records put them and states the disagreement
+naming BOTH positions -- either alone reads as a defect in the other record rather than as a
+disagreement between two -- taking the placed figure from `axis.door_bay`, the one reader
+`plan_check` convicts on, so the disclosure cannot disagree with the finding it is about.
+`oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`.
+**LOOKING FOUND IT AND MEASURING ADJUDICATED IT, WHICH IS WP-12.5'S RULE WORKING IN BOTH
+DIRECTIONS** -- the picture was evidence that something was worth measuring and nothing more.
+**AND THE SURFACE NEEDED NO CHANGE AT ALL** -- `namedViews` offers the chip only where the record
+names an entrance front, and the two null-returning readers do the rest. That is the leaf design
+paying for itself.
+**FIFTEEN MUTATIONS, TWO OF WHICH DID NOT LAND AND NEITHER WAS READ AS EVIDENCE**: one matched
+nothing and one landed as a SYNTAX ERROR, so it interrogated a broken file rather than the
+defect. Two more were BLIND on their first run -- the plate refusal sat behind an existing null
+return, and the containment guard above -- and both were re-cut against the case they exist for.
+**And a walk check read `0 px of canvas` on a working model**, because it selected
+`[data-round-canvas] canvas` and that attribute is ON the canvas: a check that reads zero because
+its selector is wrong is indistinguishable from one that reads zero because nothing was drawn,
+which is WP-12.5's own finding wearing the other face. The renderer publishes
+`data-round-solids` now rather than the walk sniffing the DOM for it.
 
 **WP-12.6 IS THE ENVELOPE DRESSED, AND ITS TWO FINDINGS ARE ONE DEFECT MET TWICE — A FIELD READ
 OFF THE WRONG RECORD (`docs/reports/wp-12.6-the-envelope-dressed.md`).** Sash bars, meeting rails,

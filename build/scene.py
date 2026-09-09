@@ -676,6 +676,84 @@ def _entrance(elev, section, states):
     return out
 
 
+def _entrance_agreement(plan, elev, states):
+    """Do the two records of the front door agree about where it is? (WP-12.7)
+
+    THIS EXISTS BECAUSE THE MODEL IS THE FIRST PICTURE WITH BOTH IN IT. The doorcase is drawn
+    from `elevation.opening_rects` and the stoop from `plan.threshold`, and on the approach view
+    the stoop stands five and a half feet east of the door it serves. Each record is right on its
+    own and nothing had ever drawn the two together — which is WP-12.1's own finding repeated:
+    *"invisible for as long as no surface drew a roof and a room in one picture"*.
+
+    Measured on both shipped plans:
+
+        tidewater-georgian-careful   elevation 32.79 ft   placement 38.21 ft   5.42 ft apart
+        spec-builder-colonial        elevation 25.67 ft   placement 47.00 ft   21.33 ft apart
+
+    `elevation._face_bays` writes `kinds[mid] = "door"` — the entrance door goes in the MIDDLE
+    BAY of the front, always — while `openings.place` seats the real door where the porch room's
+    own wall allows. On the spec Colonial the drawn front door stands over the GARAGE.
+
+    AND THE CHECKER CONVICTS THE HALF THAT IS NOT DRAWN. `plan_check` already emits
+    `drawn-door-off-the-centre-bay`, serious, off `axis.door_bay` — so the corpus criticises the
+    PLACEMENT for a displacement the DRAWING silently corrects, and the plate a reader turns to
+    is evidence against the finding beside it.
+
+    NOTHING IS MOVED HERE. Correcting the elevation moves sixteen shipped plates and needs a
+    ruling first (WP-11.7 says the facade is a RESULT, which argues for the placement; WP-11.3
+    swept and deleted a centre-bay score, which argues against moving the placement). Both are
+    drawn where their own records put them and the disagreement is stated:
+    `oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`.
+
+    THE PLACED POSITION IS `axis.door_bay`'s AND NOT A FOURTH READING. That function is the
+    corpus's one reader of where the front door is, and it is what `plan_check` convicts on, so
+    this cannot disagree with the finding it is about.
+    """
+    ent_face = (elev or {}).get("entrance_face")
+    if not elev or elev.get("error") or not ent_face:
+        return
+    EL, AX = _mod("elevation"), _mod("axis")
+    door = next((r for r in EL.opening_rects(elev, ent_face)["rects"]
+                 if r.get("kind") == "door"), None)
+    if door is None:
+        return
+    # The centre in feet. Written as two steps because 24 is a HALVING and a CONVERSION
+    # collapsed into one number, and a bare 24.0 in this file reads as a dimension --
+    # which the source guard says, correctly, on its first run.
+    drawn = ((door["x0_in"] + door["x1_in"]) / 2) / 12
+    try:
+        bay = AX.door_bay(plan) or {}
+    except Exception as err:                       # noqa: BLE001 - reported, never swallowed
+        states.cannot("the doorcase and the stoop in one place",
+                      f"the placed door could not be read: {err}",
+                      "axis.door_bay", cls="entrance")
+        return
+    placed = bay.get("position_ft")
+    if placed is None:
+        states.cannot("the doorcase and the stoop in one place",
+                      "the placement seats no exterior door on the entrance front, so the "
+                      "drawn doorcase cannot be held against one: "
+                      + str(bay.get("why") or bay.get("verdict")),
+                      "axis.door_bay", cls="entrance")
+        return
+    gap = abs(drawn - placed)
+    # Compared at a TENTH OF A FOOT rather than against an invented tolerance, for the reason
+    # the stoop's risers are: two records of one door that agree will agree to the precision
+    # either of them is written at, and the disagreements this exists for are 5.42 ft and
+    # 21.33 ft. A threshold chosen by hand here would be a dimension with no source.
+    if round(drawn, 1) == round(placed, 1):
+        return
+    states.cannot(
+        "the doorcase and the stoop in one place",
+        f"the elevation draws the front door centred at {drawn:.2f} ft along the {ent_face} "
+        f"face and the placement seats it at {placed:.2f} ft in '{bay.get('room')}' — "
+        f"{gap:.2f} ft apart. `_face_bays` puts the entrance in the middle bay of the front "
+        "whatever the placement did, so the doorcase is drawn where the composition wants it "
+        "and the stoop under where the house has it. Both are drawn; their agreement is not "
+        "modelled",
+        "elevation.faces.%s.kinds vs axis.door_bay" % ent_face, cls="entrance")
+
+
 def _porch(plan, section, states):
     """The stoop, and every threshold refusal the record already carries (WP-12.7).
 
@@ -1133,6 +1211,7 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
     solids += _hearths(plan, states)
     solids += _entrance(elev, section, states)
     solids += _porch(plan, section, states)
+    _entrance_agreement(plan, elev, states)
 
     datums = _storey_datums(section, states)
     z_top = max([d["z_ft"] for d in datums] or [0.0])

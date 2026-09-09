@@ -18,6 +18,7 @@
    reader learned to draw. */
 
 import { ft } from '../sheet/derive.js';
+import { EYE_HEIGHT_FT } from './frame.js';
 
 const COMPASS = {
   sw: 'SOUTH-WEST',
@@ -64,6 +65,20 @@ export function caption(view, scene) {
     return `AXONOMETRIC · FROM THE ${COMPASS[view.slice(5)]}`;
   }
   if (view === 'roof') return 'ROOF PLAN';
+  if (view === 'approach') {
+    /* THE ONE NAMED VIEW WHOSE CAPTION IS ALSO A REFUSAL. It IS a named drawing -- the eye
+       height is the 8 September ruling's own 5'-6" and the camera stands off the front the
+       record names -- and nothing on it may be measured, because a perspective has a different
+       number of feet to the pixel at every depth. The two halves are stated together for the
+       reason `free` states its own: a plate a reader could scale off is worse than no plate. */
+    const f = (scene && scene.entrance_face) || null;
+    if (!f) return 'FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD';
+    /* The face's own name comes from `faceCaption`'s reading and not from a fourth table:
+       the record states `SOUTH ELEVATION` and the front is the south one. A private compass
+       map here would be a second spelling of what the face records already say. */
+    return `APPROACH TO THE ${faceCaption(f.toLowerCase(), scene)}`
+      + ` · EYE AT ${ft(EYE_HEIGHT_FT)} · PERSPECTIVE · DIMENSIONS WITHHELD`;
+  }
   return 'FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD';
 }
 
@@ -73,6 +88,7 @@ export function chipLabel(view, scene) {
   if (m) return `PLAN·L${m[1]}`;
   if (/^[snew]$/.test(view)) return view.toUpperCase();
   if (/^axon-/.test(view)) return `AXON·${view.slice(5).toUpperCase()}`;
+  if (view === 'approach') return 'APPROACH';
   return view.toUpperCase();
 }
 
@@ -90,6 +106,11 @@ const FURNITURE = {
   face: { bayTicks: true, overallWidth: true, datums: true, scaleBar: true },
   axon: { axisRules: true, compass: true },
   roof: { roofLines: true, chimneys: true, north: true, scaleBar: true },
+  /* THE APPROACH CARRIES A COMPASS AND NOTHING ELSE, and the absences are the point. No
+     scale bar, because there is no one scale; no bay ticks, no overall width and no datums,
+     because every one of them is a measurement read off the plate. What it keeps is the one
+     annotation that is still true in a perspective: which way is north. */
+  approach: { compass: true },
   free: { compass: true },
 };
 
@@ -98,6 +119,7 @@ export function furnitureFor(view) {
   if (/^[snew]$/.test(view || '')) return { ...FURNITURE.face };
   if (/^axon-/.test(view || '')) return { ...FURNITURE.axon };
   if (view === 'roof') return { ...FURNITURE.roof };
+  if (view === 'approach') return { ...FURNITURE.approach };
   return { ...FURNITURE.free };
 }
 

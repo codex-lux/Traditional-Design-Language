@@ -190,6 +190,66 @@ def test_the_flight_does_not_reach_the_floor_and_the_shortfall_is_reported(both)
     assert len(r) == 1, f"{len(r)} shortfall refusals"
 
 
+# ------------------------------------------------------------------ the two doors
+
+def test_the_two_records_of_the_front_door_disagree_and_the_scene_says_so(both):
+    """FOUND BY DRAWING THE STOOP AND THE DOORCASE IN ONE PICTURE AND LOOKING AT IT.
+
+    `elevation._face_bays` writes `kinds[mid] = "door"` — the entrance goes in the MIDDLE BAY of
+    the front, always — while `openings.place` seats the real door where the porch room's own
+    wall allows. Measured: 5.42 ft apart on the Tidewater plan and **21.33 ft** on the spec
+    Colonial, where the drawn front door stands over the GARAGE.
+
+    Each record is right on its own and no surface drew both until the scene. That is WP-12.1's
+    own lesson repeated — *"invisible for as long as no surface drew a roof and a room in one
+    picture"* — and this time the picture was the approach view, where the stoop stands five and
+    a half feet east of the door it serves.
+
+    NOTHING IS MOVED. Correcting the elevation moves sixteen shipped plates and needs a ruling:
+    `oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`.
+    """
+    AX = _mod("axis")
+    EL = _mod("elevation")
+    for pid, (scene, sol, _sec, ev) in both.items():
+        f = ev["entrance_face"]
+        door = next(r for r in EL.opening_rects(ev, f)["rects"] if r["kind"] == "door")
+        drawn = (door["x0_in"] + door["x1_in"]) / 24.0
+        placed = AX.door_bay(sol)["position_ft"]
+        assert round(drawn, 1) != round(placed, 1), (
+            f"{pid}: the two records of the front door agree now ({drawn:.2f} against "
+            f"{placed:.2f}) — the disclosure below is about nothing, so re-derive it rather "
+            "than deleting it")
+        said = [n for n in scene["not_modelled"] if "axis.door_bay" in n["source"]]
+        assert len(said) == 1, f"{pid}: {len(said)} entrance-agreement disclosures"
+        # the disclosure states BOTH figures, because either alone reads as a defect in the
+        # other record rather than as a disagreement between two
+        assert f"{drawn:.2f}" in said[0]["why"] and f"{placed:.2f}" in said[0]["why"], (
+            f"{pid}: the disclosure does not name both positions: {said[0]['why'][:120]}")
+
+
+def test_the_checker_convicts_the_placement_for_what_the_drawing_corrects(both):
+    """The sharpest half: `plan_check` emits `drawn-door-off-the-centre-bay` against the PLACED
+    door, and the elevation plate a reader turns to draws that door in the middle bay after all.
+    The plate is evidence against the finding beside it."""
+    PC = _mod("plan_check")
+    scene, sol, _sec, ev = both["tidewater-georgian-careful"]
+    findings = PC.check(sol)["findings"]
+    off = [f for f in findings if f.get("kind") == "drawn-door-off-the-centre-bay"]
+    assert len(off) == 1, (
+        "the checker no longer convicts this placement of an off-centre door, so the "
+        "contradiction this test names has changed — re-derive it")
+    EL = _mod("elevation")
+    door = next(r for r in EL.opening_rects(ev, ev["entrance_face"])["rects"]
+                if r["kind"] == "door")
+    bays = sol["footprint"]["bays"]
+    span = (door["x0_in"] + door["x1_in"]) / 24.0
+    module = (sol["footprint"]["width_ft"] + 2 * 0) / bays
+    drawn_bay = int(span // module)
+    assert drawn_bay == bays // 2, (
+        f"the elevation draws the door in bay {drawn_bay} of {bays}, not the middle one — "
+        "the drawing has stopped composing the front and this contradiction is over")
+
+
 # ------------------------------------------------------------------ one reader of R4
 
 def test_the_portico_refusal_is_the_records_own_and_is_not_re_derived_here(both):

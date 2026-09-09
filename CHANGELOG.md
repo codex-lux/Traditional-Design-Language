@@ -2,7 +2,43 @@
 
 One line per layer per notable change. Versions here track the project's own `v0.x` designation, not any single schema's version number (those are tracked in the schema files themselves — `ontology_version`, `kit_version`, and so on).
 
-## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.6 built)
+## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.7 built)
+
+### WP-12.7 — the entrance and the porch, and the refusal that was already written
+
+- **The doorcase and the stoop stand up, and the model can be walked up to at 5′-6″.**
+  Tidewater **492 → 500** solids, the spec Colonial **368 → 374**; app suite 147 → 156.
+- **The refusal the brief asked for had been in the record since WP-11.4.** `build/threshold.py`
+  already refuses the portico's columns on both plans in the record's own words, so `_porch`
+  republishes that reason and a source guard keeps the question out of this layer. Following
+  the brief literally would have written a second reader of one rule.
+- **A pilaster is not a member of this doorcase, and that is measured**: door + 2 casings +
+  2 sidelights = 84.199 = the stated composition width to the thousandth; with pilasters,
+  88.875.
+- **Both shipped plans place their `entry-porch` inside the footprint**, so there is no deck and
+  no porch roof to draw. `deck` and `porch-roof` stay unused classes.
+- **The stoop's treads reconcile and its risers do not** — 1.719 ft against a stated
+  `grade_to_floor_ft` of 2.0. `oq/a-child-band-replaces-an-ancestor-derivation` reaching its
+  second consumer; reported, and no fourth riser is invented.
+- **The transom is stated by the record and drawn by nothing**, so the scene refuses it rather
+  than making the model and the plate two different doorcases:
+  `oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`.
+- **`bounds` is the union of what is drawn** rather than the footprint plus hand-written
+  exceptions — and **containment alone was half a guard**: swapping the axes in `_extent` left
+  the whole suite green, because a wrong mapping makes the frame a superset. The frame is
+  asserted tight now.
+- **And the approach screenshot showed the stoop standing away from the door it serves.**
+  Measured: the elevation draws the front door at 32.79 ft and the placement seats it at 38.21
+  (Tidewater), 25.67 against 47.00 (spec Colonial) — **5.4 ft and 21.3 ft apart**, and on the
+  spec Colonial the drawn front door stands over the garage. `_face_bays` puts the entrance in
+  the middle bay of the front whatever the placement did. **The scene is the first surface to
+  draw both**, and `plan_check` already convicts the placement for the displacement the drawing
+  corrects. Nothing moved; the disagreement is stated, naming both positions:
+  `oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`.
+- **APPROACH**, with four refusals: a point behind the eye returns null rather than a mirrored
+  coordinate; no flat plate is laid over a perspective; a move between projections is a cut; the
+  view carries a compass and no measurement. Eye height is the ruling's, the field of view is
+  editorial and says so.
 
 ### WP-12.6 — the envelope dressed, and two fields read off the wrong record
 

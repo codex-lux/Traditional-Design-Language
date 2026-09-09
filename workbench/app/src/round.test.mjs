@@ -20,15 +20,19 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import {
+  APPROACH_FOV_DEG,
   AXON_ELEVATION_DEG,
+  EYE_HEIGHT_FT,
   MARGIN_FT,
   NAMED_TOL_DEG,
+  PERSPECTIVE,
   basis,
   defaultAxon,
   framing,
   isNamed,
   namedViews,
   planLevel,
+  plateTransform,
   poseFor,
   project,
   shortestTurn,
@@ -496,4 +500,135 @@ test('the model carries no colour of its own', () => {
   assert.deepEqual(hexy, [], `three-scene.js carries 0x colours: ${hexy}`);
   // and it really does read the palette, so the assertion above is not vacuous
   assert.ok(/tokens\[/.test(src), 'three-scene.js must resolve its colours from tokens');
+});
+
+
+/* ---------------------------------------------------------------- the approach (WP-12.7)
+
+   THE ASSERTIONS THAT MATTER HERE ARE THE REFUSALS. A perspective view is easy to add and
+   easy to get wrong in a way no picture shows: a point behind the eye projects to a finite,
+   plausible, MIRRORED coordinate, and a flat plate laid over it registers at one depth and
+   nowhere else. Both are the WP-5.11 class -- ink that is wrong on a model that is right --
+   so both are driven rather than reasoned about. */
+
+test('the approach stands at eye height and looks UP at the house', () => {
+  const p = poseFor('approach', SCENE);
+  assert.ok(p, 'the record names an entrance front, so there is an approach');
+  assert.equal(p.kind, PERSPECTIVE);
+  assert.equal(p.eye[2], EYE_HEIGHT_FT, 'the eye is 5-6 above grade, which is the ruling');
+  // the house's middle is twenty feet up, so the camera looks UP: a POSITIVE elevation angle
+  // would mean looking down on it from five and a half feet, which is not a thing.
+  assert.ok(p.elevationDeg < 0,
+    `elevation ${p.elevationDeg} -- the eye is below the target and must look up`);
+  // and it stands off the ENTRANCE front (S), which is south of the house: y below the target
+  assert.ok(p.eye[1] < p.target[1],
+    `the eye stands at y=${p.eye[1]} against a target at ${p.target[1]} -- not off the S front`);
+  assert.equal(p.dimensionsWithheld, true);
+});
+
+test('a record that names no entrance front has no approach, and the view bar says so', () => {
+  const anon = { ...SCENE, entrance_face: null };
+  assert.equal(poseFor('approach', anon), null,
+    'an approach was posed for a house whose record does not say which front it is approached from');
+  assert.ok(!namedViews(anon).includes('approach'));
+  assert.ok(namedViews(SCENE).includes('approach'), 'the shipped fixture DOES name one');
+});
+
+test('a point behind the eye is refused and not drawn mirrored in front of it', () => {
+  const p = poseFor('approach', SCENE);
+  const behind = [p.eye[0], p.eye[1] - 10, p.eye[2]];       // ten feet further from the house
+  assert.equal(project(p, VIEWPORT, behind), null,
+    'a point behind the camera projected to a coordinate; it would draw mirrored in front');
+  const front = project(p, VIEWPORT, [30, 0, 10]);
+  assert.ok(front && front[2] > 0, 'a point on the front wall must project');
+});
+
+test('the perspective divides by depth, which is the whole difference from an axon', () => {
+  const p = poseFor('approach', SCENE);
+  // one foot of model at the near face and at the far face are NOT the same number of pixels
+  const near = project(p, VIEWPORT, [30, 0, 10]);
+  const near2 = project(p, VIEWPORT, [31, 0, 10]);
+  const far = project(p, VIEWPORT, [30, 38, 10]);
+  const far2 = project(p, VIEWPORT, [31, 38, 10]);
+  const a = Math.abs(near2[0] - near[0]);
+  const b = Math.abs(far2[0] - far[0]);
+  assert.ok(a > b * 1.2, `a foot is ${a.toFixed(1)} px near and ${b.toFixed(1)} px far -- the `
+    + 'scale does not change with depth, so this is not a perspective');
+  // the orthographic control: the same two feet ARE the same number of pixels
+  const o = poseFor('s', SCENE);
+  const oa = Math.abs(project(o, VIEWPORT, [31, 0, 10])[0] - project(o, VIEWPORT, [30, 0, 10])[0]);
+  const ob = Math.abs(project(o, VIEWPORT, [31, 38, 10])[0] - project(o, VIEWPORT, [30, 38, 10])[0]);
+  assert.ok(Math.abs(oa - ob) < 1e-6, 'the orthographic scale changed with depth');
+});
+
+test('no flat plate is laid over a perspective', () => {
+  const frame = { px_per_ft: 13, origin_px: [44, 100], at_origin_ft: [0, 0] };
+  assert.equal(plateTransform('approach', SCENE, poseFor('approach', SCENE), VIEWPORT, frame), null,
+    'an affine was returned for a perspective: it registers at one depth and nowhere else');
+
+  /* AND THE CASE ABOVE IS NOT THE ONE THE REFUSAL EXISTS FOR, which a mutation proved: deleting
+     the perspective branch left it green, because `modelAt` already answers null for a view
+     that is neither a plan nor a face. The refusal's real subject is a PERSPECTIVE POSE AT A
+     FACE VIEW -- which the app reaches the moment a reader at the approach drags the camera and
+     the plate overlay is still asking to be laid on the south front. There `modelAt` answers,
+     two points settle an affine, and the plate would register at one depth and float off the
+     model everywhere else. */
+  const persp = { ...poseFor('approach', SCENE), view: 's' };
+  assert.equal(plateTransform('s', SCENE, persp, VIEWPORT, frame), null,
+    'a face view with a perspective pose returned an affine');
+
+  // the control -- the same face view with its own orthographic pose still gets one, so the
+  // refusal is about the projection and not about the view or a missing argument
+  assert.ok(plateTransform('s', SCENE, poseFor('s', SCENE), VIEWPORT, frame));
+});
+
+test('a move between the two projections is a cut and never a tween', () => {
+  const a = poseFor('s', SCENE);
+  const b = poseFor('approach', SCENE);
+  for (const t of [0.01, 0.5, 0.99]) {
+    assert.equal(tween(a, b, t).kind, PERSPECTIVE,
+      `at t=${t} the camera is half a projection, which is neither`);
+  }
+  // and a move WITHIN one kind still tweens, so the cut is about the kinds and not about tween
+  const mid = tween(poseFor('s', SCENE), poseFor('e', SCENE), 0.5);
+  assert.ok(mid.azimuthDeg > 90 && mid.azimuthDeg < 180, `mid azimuth ${mid.azimuthDeg}`);
+});
+
+test('the approach is not a named pose at the same angles as a face view', () => {
+  const p = poseFor('approach', SCENE);
+  assert.ok(!isNamed({ ...p, kind: 'orthographic' }, 'approach', SCENE),
+    'an orthographic pose at the approach angles read as the approach');
+  assert.ok(isNamed(p, 'approach', SCENE));
+});
+
+test('unproject on the approach meets a stated plane and refuses a ray that runs away', () => {
+  const p = poseFor('approach', SCENE);
+  /* THE FIRST VERSION OF THIS TEST ASSERTED THAT THE CENTRE PIXEL MEETS GRADE, AND IT DOES
+     NOT -- the camera stands at 5'-6" and looks UP at a house whose middle is nineteen feet in
+     the air, so the centre ray leaves the ground behind. The assertion was wrong and the
+     geometry was right, which is the direction that gets a correct camera "fixed". What the
+     centre pixel meets is the plane through the TARGET. */
+  const mid = unproject(p, VIEWPORT, [VIEWPORT.width / 2, VIEWPORT.height / 2], p.target[2]);
+  assert.ok(mid, 'the centre pixel misses the plane it is aimed at');
+  assert.ok(Math.abs(mid[0] - p.target[0]) < 0.01 && Math.abs(mid[1] - p.target[1]) < 0.01,
+    `the centre pixel lands at ${mid} against a target of ${p.target}`);
+  assert.equal(unproject(p, VIEWPORT, [VIEWPORT.width / 2, VIEWPORT.height / 2], 0), null,
+    'the centre ray met grade, so the camera is not looking up at the house');
+  // the FOOT of the frame does look down, and meets the ground the viewer is standing on
+  const foot = unproject(p, VIEWPORT, [VIEWPORT.width / 2, VIEWPORT.height - 1], 0);
+  assert.ok(foot, 'the bottom of the frame does not reach the ground at all');
+  assert.ok(foot[1] > p.eye[1] && foot[1] < SCENE.bounds.min[1],
+    `the foreground meets grade at y=${foot[1]}, outside the run between the eye `
+    + `(${p.eye[1].toFixed(1)}) and the front wall (${SCENE.bounds.min[1]})`);
+  assert.equal(unproject(p, VIEWPORT, [VIEWPORT.width / 2, 0], 0), null,
+    'a ray running up and away from grade returned an intersection');
+});
+
+test('the field of view is declared editorial, and the eye height is not', () => {
+  // WP-12.6's rule: a figure the sources leave to us says so where it is stated. 5-6 is the
+  // 8 September ruling's own number; the angle is a choice between defensible ones.
+  const src = readFileSync(new URL('./round/frame.js', import.meta.url), 'utf8');
+  assert.match(src, /APPROACH_FOV_IS_EDITORIAL = true/);
+  assert.match(src, /EDITORIAL and says so/);
+  assert.equal(typeof APPROACH_FOV_DEG, 'number');
 });

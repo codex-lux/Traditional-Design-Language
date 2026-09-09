@@ -810,6 +810,45 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
       /FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD/i.test(capFree));
     await page.screenshot({ path: SHOTS + 'round-free.png' });
 
+    // ---------------------------------------------------------- the approach (WP-12.7)
+    //
+    // THE ASSERTIONS HERE ARE ABOUT WHAT THE VIEW REFUSES. A perspective is easy to add and
+    // easy to get wrong in a way no picture shows: the caption must say the dimensions are
+    // withheld, and the flat plate must NOT be laid over it -- an affine registers a plate at
+    // one depth and floats it off the model everywhere else, which looks registered and is not.
+    // WP-12.5's rule applies to the screenshot below: looking at it FINDS defects and does not
+    // adjudicate them, so the checks read the DOM and the picture is evidence for a reader.
+    await bar.getByRole('radio', { name: 'APPROACH', exact: true }).click();
+    await page.waitForTimeout(900);
+    const capApp = await page.locator('[data-plate-title]').first().innerText();
+    check(`the approach names itself and withholds its dimensions (${capApp.slice(0, 46)})`,
+      /APPROACH TO THE/i.test(capApp) && /DIMENSIONS WITHHELD/i.test(capApp)
+      && /PERSPECTIVE/i.test(capApp));
+    check('and it states the ruled eye height', /5′-6″|5'-6"/.test(capApp));
+    check('the approach is addressable in the URL',
+      /[?&]view=approach\b/.test(page.url()), page.url().slice(-52));
+    const appOv = await page.evaluate(() => {
+      const el = document.querySelector('[data-plate-overlay]');
+      return el ? getComputedStyle(el).transform : 'ABSENT';
+    });
+    check(`no flat plate is laid over the perspective (${appOv})`, appOv === 'ABSENT');
+    /* AND THE MODEL IS IN THE RENDERER AT THIS VIEW -- an empty canvas would pass every line
+       above, because a canvas with a house in it and a canvas with nothing in it are the same
+       element, the same size and the same caption.
+
+       THE FIRST VERSION OF THIS CHECK READ ZERO AND THE MODEL WAS FINE: it selected
+       `[data-round-canvas] canvas`, and `[data-round-canvas]` IS the canvas, so the descendant
+       matched nothing. A check that reads 0 because its selector is wrong is indistinguishable
+       from one that reads 0 because nothing was drawn -- which is WP-12.5's own finding wearing
+       the other face, so the count is published by the renderer now rather than sniffed out of
+       the DOM. */
+    const cvEl = page.locator('[data-round-canvas]');
+    const appSolids = +(await cvEl.getAttribute('data-round-solids') || 0);
+    const appRefused = +(await cvEl.getAttribute('data-round-refused') || 0);
+    check(`and the model is in the renderer at it (${appSolids} solids built)`, appSolids > 100);
+    check(`and no solid was refused by the renderer (${appRefused})`, appRefused === 0);
+    await page.screenshot({ path: SHOTS + 'round-approach.png' });
+
     // and a named chip takes it back
     await bar.getByRole('radio', { name: 'PLAN·L0', exact: true }).click();
     await page.waitForTimeout(700);

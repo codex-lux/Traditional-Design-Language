@@ -31,6 +31,24 @@ export const AXON_ELEVATION_DEG = (Math.atan(1 / Math.SQRT2) * 180) / Math.PI;
    over the model at the same view will not sit on it. */
 export const MARGIN_FT = { left: 11, right: 15, top: 15, bottom: 9 };
 
+/* THE APPROACH VIEW (WP-12.7), ruled 8 September 2026 and in v1 with its dimensions withheld.
+
+   Eye height is 5'-6", which is the ruling's own figure and the one number in this block that
+   is not ours. The FIELD OF VIEW is EDITORIAL and says so: a 50 mm lens on 35 mm film subtends
+   about 27 degrees vertically and an architectural photographer works wider; 40 is a choice
+   between defensible numbers and not a fact about architecture. Nothing is measured off this
+   view, which is precisely why an editorial angle is admissible here and would not be in a
+   plate somebody scales. */
+export const EYE_HEIGHT_FT = 5.5;
+export const APPROACH_FOV_DEG = 40;
+export const APPROACH_FOV_IS_EDITORIAL = true;
+
+/* A projection is a kind, and the two kinds are not interchangeable. Everything before WP-12.7
+   was orthographic, which is what makes a scale bar honest; the approach is the one view where
+   the scale is different at every depth, and every surface that measures must read this. */
+export const ORTHOGRAPHIC = 'orthographic';
+export const PERSPECTIVE = 'perspective';
+
 /* Where the viewer stands for each named view. */
 const FACE_AZIMUTH = { N: 0, E: 90, S: 180, W: 270 };
 const AXON_AZIMUTH = { ne: 45, se: 135, sw: 225, nw: 315 };
@@ -45,6 +63,7 @@ const DEFAULT_ASPECT = 4 / 3;
 export const isFaceView = (v) => typeof v === 'string' && /^[snew]$/.test(v);
 export const isAxonView = (v) => typeof v === 'string' && /^axon-(sw|se|nw|ne)$/.test(v);
 export const isPlanView = (v) => typeof v === 'string' && /^plan-l\d+$/.test(v);
+export const isApproachView = (v) => v === 'approach';
 
 export function planLevel(view) {
   const m = /^plan-l(\d+)$/.exec(view || '');
@@ -134,6 +153,17 @@ function storeyAt(scene, level) {
 function orientationFor(view, scene, opts = {}) {
   const axonEl = opts.axonElevationDeg == null ? AXON_ELEVATION_DEG : opts.axonElevationDeg;
   if (isPlanView(view) || view === 'roof') return { azimuthDeg: 0, elevationDeg: 90 };
+  if (isApproachView(view)) {
+    /* The viewer stands off the ENTRANCE FRONT, which is the record's own
+       `scene.entrance_face` and never a default: a house whose record does not say which front
+       it is approached from has no approach, and `poseFor` returns null rather than choosing
+       one. The elevation is NOT a free choice either -- it falls out of standing 5'-6" above
+       grade and looking at the middle of the house, so it is computed in `poseFor` where the
+       distance is known. */
+    const f = (scene && scene.entrance_face) || null;
+    if (!f || FACE_AZIMUTH[f.toUpperCase()] == null) return null;
+    return { azimuthDeg: FACE_AZIMUTH[f.toUpperCase()], elevationDeg: 0, approach: true };
+  }
   if (isFaceView(view)) {
     return { azimuthDeg: FACE_AZIMUTH[view.toUpperCase()], elevationDeg: 0 };
   }
@@ -167,12 +197,46 @@ export function poseFor(view, scene, level = null, opts = {}) {
   const target = targetFor(v, scene, opts);
   const lvl = planLevel(v);
   const st = lvl == null ? null : storeyAt(scene, lvl);
+  const half = framing(scene, v, opts.aspect == null ? DEFAULT_ASPECT : opts.aspect, opts);
+  if (o.approach) {
+    /* THE STANDING DISTANCE IS DERIVED AND THE EYE HEIGHT IS FIXED, in that order.
+       `framing` already answers "what half-height in feet must the plate hold"; at a stated
+       field of view that is one distance and not a choice. The eye then stands at 5'-6"
+       whatever that distance is -- which is the whole point of the view -- so the camera
+       looks UP at a house whose middle is twenty feet in the air, and the elevation angle is
+       a CONSEQUENCE rather than a setting.
+
+       The horizontal leg is taken from the slant distance by Pythagoras, and where the rise
+       exceeds the slant (a very tall house seen very close) it degenerates; the horizontal
+       leg is floored at the slant so the eye never passes through the target. */
+    const fov = (opts.approachFovDeg == null ? APPROACH_FOV_DEG : opts.approachFovDeg) * RAD;
+    const dist = half / Math.tan(fov / 2);
+    const rise = EYE_HEIGHT_FT - target[2];
+    const flat = Math.sqrt(Math.max(dist * dist - rise * rise, 0)) || dist;
+    const dir = eyeDirection(o.azimuthDeg, 0);
+    return {
+      view: v,
+      kind: PERSPECTIVE,
+      azimuthDeg: o.azimuthDeg,
+      elevationDeg: (Math.atan2(rise, flat) * 180) / Math.PI,
+      target,
+      eye: [target[0] + dir[0] * flat, target[1] + dir[1] * flat, EYE_HEIGHT_FT],
+      fovDeg: fov / RAD,
+      /* CARRIED SO NOTHING DOWNSTREAM HAS TO ASK, AND NEVER READ AS A SCALE. A perspective
+         has a different number of feet to the pixel at every depth, so a scale bar, a
+         dimension string and the flat-plate overlay are all refused at this view. */
+      halfHeightFt: half,
+      dimensionsWithheld: true,
+      cut: null,
+    };
+  }
   return {
     view: v,
+    kind: ORTHOGRAPHIC,
     azimuthDeg: o.azimuthDeg,
     elevationDeg: o.elevationDeg,
     target,
-    halfHeightFt: framing(scene, v, opts.aspect == null ? DEFAULT_ASPECT : opts.aspect, opts),
+    halfHeightFt: half,
     /* A plan is a cut, and the cut is where scene.cut_height_ft says -- read, never typed.
        The roof plan is the same camera with nothing cut away, which is the whole difference
        between the two views and is why they share an orientation. */
@@ -197,6 +261,11 @@ export function shortestTurn(from, to) {
 export function tween(a, b, t) {
   if (t <= 0) return a;
   if (t >= 1) return b;
+  /* A CAMERA CANNOT BE HALF A PROJECTION, so a move between the two kinds is a CUT and not a
+     tween. Interpolating an eye point towards a target-and-half-height, or a field of view
+     towards a scale, produces frames that are neither projection and are wrong in a way a
+     reader would read as the building moving. Cutting says what happened. */
+  if ((a.kind || ORTHOGRAPHIC) !== (b.kind || ORTHOGRAPHIC)) return b;
   const k = easeOutCubic(t);
   const lerp = (p, q) => p + (q - p) * k;
   return {
@@ -220,6 +289,23 @@ export function tween(a, b, t) {
    along the view direction so a label can be hidden behind the building it names. */
 export function project(pose, viewport, p) {
   const b = basis(pose.azimuthDeg, pose.elevationDeg);
+  if (pose.kind === PERSPECTIVE) {
+    /* A PINHOLE, AND IT RETURNS null BEHIND THE CAMERA rather than a coordinate.
+       An orthographic projection is defined for every point in space, so nothing before this
+       could fail; a perspective one divides by the depth, and a point at or behind the eye
+       plane projects to a number that is finite, plausible and MIRRORED. Returning it would
+       draw the wall behind the viewer upside down in front of them, which is exactly the
+       WP-5.11 sweep-flag class -- ink that is wrong on a model that is right. */
+    const v = sub(p, pose.eye);
+    const along = dot(v, b.forward);
+    if (along <= 1e-6) return null;
+    const k = viewport.height / (2 * Math.tan(((pose.fovDeg || APPROACH_FOV_DEG) * RAD) / 2));
+    return [
+      viewport.width / 2 + (dot(v, b.right) / along) * k,
+      viewport.height / 2 - (dot(v, b.up) / along) * k,
+      along,
+    ];
+  }
   const v = sub(p, pose.target);
   const k = viewport.height / (2 * pose.halfHeightFt);
   return [
@@ -234,6 +320,23 @@ export function project(pose, viewport, p) {
    intersection is a coordinate the reader would believe. */
 export function unproject(pose, viewport, px, zFt) {
   const b = basis(pose.azimuthDeg, pose.elevationDeg);
+  if (pose.kind === PERSPECTIVE) {
+    // A ray from the eye through the pixel, met with the stated horizontal plane. Null where
+    // the ray runs away from that plane, for the same reason the orthographic branch below
+    // returns null on a horizon: an invented intersection is a coordinate the reader believes.
+    const k = viewport.height / (2 * Math.tan(((pose.fovDeg || APPROACH_FOV_DEG) * RAD) / 2));
+    const sx = (px[0] - viewport.width / 2) / k;
+    const sy = (viewport.height / 2 - px[1]) / k;
+    const d = [
+      b.forward[0] + b.right[0] * sx + b.up[0] * sy,
+      b.forward[1] + b.right[1] * sx + b.up[1] * sy,
+      b.forward[2] + b.right[2] * sx + b.up[2] * sy,
+    ];
+    if (Math.abs(d[2]) < 1e-9) return null;
+    const t = (zFt - pose.eye[2]) / d[2];
+    if (t <= 0) return null;
+    return [pose.eye[0] + d[0] * t, pose.eye[1] + d[1] * t];
+  }
   const k = viewport.height / (2 * pose.halfHeightFt);
   const sx = (px[0] - viewport.width / 2) / k;
   const sy = (viewport.height / 2 - px[1]) / k;
@@ -258,19 +361,26 @@ export function isNamed(pose, view, scene, opts = {}) {
   if (!pose || !view || view === 'free') return false;
   const named = poseFor(view, scene, null, { ...opts, aspect: opts.aspect });
   if (!named) return false;
+  // Two poses at one azimuth and elevation are still different views if one is a perspective.
+  if ((pose.kind || ORTHOGRAPHIC) !== (named.kind || ORTHOGRAPHIC)) return false;
   return (
     Math.abs(shortestTurn(pose.azimuthDeg, named.azimuthDeg)) < NAMED_TOL_DEG &&
     Math.abs(pose.elevationDeg - named.elevationDeg) < NAMED_TOL_DEG
   );
 }
 
-/* Every view this package can name, in the order the view bar prints them. APPROACH is
-   deliberately absent: the 8 Sep ruling puts a 5'-6" perspective view in v1 and WP-12.7
-   lands it, beside the entrance and porch it exists to show. Adding it here would put a
-   second projection kind in this file before there is anything dressed to look at. */
+/* Every view this package can name, in the order the view bar prints them.
+
+   APPROACH IS LAST AND IS OFFERED ONLY WHERE THE RECORD NAMES AN ENTRANCE FRONT. WP-12.4's
+   version of this comment said the view was deliberately absent "before there is anything
+   dressed to look at"; WP-12.6 dressed the envelope and WP-12.7 the doorcase, so it is here.
+   A house whose record does not say which front it is approached from has no approach, and
+   offering a chip that cannot produce a pose would be a view bar naming a place the reader
+   cannot go. */
 export function namedViews(scene) {
   const out = (scene.storeys || []).filter((s) => s.index >= 0).map((s) => `plan-l${s.index}`);
-  return out.concat(['s', 'n', 'e', 'w', 'axon-sw', 'axon-se', 'axon-nw', 'axon-ne', 'roof']);
+  const flat = out.concat(['s', 'n', 'e', 'w', 'axon-sw', 'axon-se', 'axon-nw', 'axon-ne', 'roof']);
+  return poseFor('approach', scene) ? flat.concat(['approach']) : flat;
 }
 
 /* ---------------------------------------------------------------- the flat plate
@@ -309,6 +419,12 @@ export function modelAt(view, scene, u, v) {
    has no plate — an axon is not a drawing this project makes flat. */
 export function plateTransform(view, scene, pose, viewport, frame) {
   if (!frame || !pose) return null;
+  /* NO PLATE LIES OVER A PERSPECTIVE. The overlay's whole argument is that both the plate and
+     the model are axis-aligned and UNIFORMLY scaled, so two points settle an affine; a
+     perspective has a different number of feet to the pixel at every depth and no affine
+     exists. Registering one on two points would put the plate on the model at one distance
+     and off it everywhere else -- a drawing that looks registered and is not. */
+  if (pose.kind === PERSPECTIVE) return null;
   const a = modelAt(view, scene, frame.at_origin_ft[0], frame.at_origin_ft[1]);
   if (!a) return null;
   const bft = [frame.at_origin_ft[0] + 10, frame.at_origin_ft[1]];
