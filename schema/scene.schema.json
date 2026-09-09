@@ -1,0 +1,592 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://traditional-design-language.org/schema/scene.schema.json",
+  "title": "TDL scene record",
+  "description": "Constructed 3D geometry between a PLACED plan record and any camera (WP-12.1). Feet throughout; x east, y north, z up; the origin is the main block's SW corner at grade, which is the plan frame with z added. A viewer draws this and knows nothing else about a house \u2014 every rule that made a number here lives in build/, and the viewer may not re-derive one. The record carries three states and not two: a solid is DRAWN, a thing the record holds that this layer cannot construct is in `not_modelled` with its reason, and a figure the sources leave to a person is in `judgment`. An empty `not_modelled` is not the question closed, so the note states the count either way.",
+  "type": "object",
+  "required": [
+    "scene_version",
+    "plan_id",
+    "style",
+    "frame",
+    "faces",
+    "bounds",
+    "grid",
+    "storeys",
+    "datums",
+    "elements",
+    "solids",
+    "spaces",
+    "marks",
+    "not_modelled",
+    "judgment",
+    "provenance_counts",
+    "note"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "scene_version": {
+      "const": "0.1.0"
+    },
+    "plan_id": {
+      "type": "string"
+    },
+    "style": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "parti": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "massing": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "entrance_face": {
+      "description": "Which face the record calls the front. Null where the elevation refused \u2014 the building is still drawable and no face may be promoted to the front to fill the gap.",
+      "enum": [
+        "S",
+        "N",
+        "E",
+        "W",
+        null
+      ]
+    },
+    "cut_height_ft": {
+      "description": "The plan cut plane above finished floor. Editorial (PRD ruling R2): the corpus states no rule for it, so it is a named judgment printed in the caption rather than a silent default.",
+      "type": "number"
+    },
+    "frame": {
+      "type": "object",
+      "required": [
+        "units",
+        "x",
+        "y",
+        "z",
+        "origin",
+        "north"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "units": {
+          "const": "ft"
+        },
+        "x": {
+          "const": "east"
+        },
+        "y": {
+          "const": "north"
+        },
+        "z": {
+          "const": "up"
+        },
+        "origin": {
+          "type": "string"
+        },
+        "north": {
+          "description": "Plan-N is true-N unless a bearing says otherwise (ruled 5 Sep 2026), and the assumption travels with the record rather than being held silently \u2014 a reader told a face is south deserves to know whether the record said so or the checker assumed it.",
+          "type": "object",
+          "required": [
+            "assumption"
+          ],
+          "properties": {
+            "plan_north_is_true_north": {
+              "type": "boolean"
+            },
+            "bearing_deg": {
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "assumption": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "faces": {
+      "description": "One block per compass face. `role` names the entrance front where the record states one; the bay rhythm is present only where the elevation generator applies, and its absence is a `not_modelled` entry rather than an empty list.",
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "S",
+          "N",
+          "E",
+          "W"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "required": [
+          "label"
+        ],
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "role": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "token": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "outside_width_ft": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bays": {
+            "type": [
+              "object",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "bounds": {
+      "type": "object",
+      "required": [
+        "min",
+        "max"
+      ],
+      "properties": {
+        "min": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "minItems": 3,
+          "maxItems": 3
+        },
+        "max": {
+          "type": "array",
+          "items": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "minItems": 3,
+          "maxItems": 3
+        }
+      }
+    },
+    "grid": {
+      "type": "object"
+    },
+    "storeys": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "datums": {
+      "description": "Every horizontal a drawing names, with its label already set in feet and inches \u2014 the string travels with the datum so a viewer never has to know how this corpus writes a dimension.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "z_ft",
+          "class",
+          "source"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "z_ft": {
+            "type": "number"
+          },
+          "class": {
+            "enum": [
+              "grade",
+              "floor",
+              "ceiling",
+              "head",
+              "eave",
+              "ridge"
+            ]
+          },
+          "source": {
+            "type": "string"
+          },
+          "kind": {
+            "$ref": "#/$defs/kind"
+          }
+        }
+      }
+    },
+    "elements": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "solids": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/solid"
+      }
+    },
+    "spaces": {
+      "description": "Every placed room as a pick volume. NEVER DRAWN \u2014 a space is how a click finds a record, and drawing one would put a box inside every wall in the model.",
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "marks": {
+      "type": "object"
+    },
+    "not_modelled": {
+      "description": "A thing the record holds and this layer does not draw, with the reason it does not. Counted and printed; never an omission.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "what",
+          "why",
+          "source"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "class": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "judgment": {
+      "description": "A value the sources leave to a person (a chimney's plan size, a breast's projection). Drawn where it is drawn at all, in construction weight, and named.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "what",
+          "why",
+          "source"
+        ],
+        "properties": {
+          "what": {
+            "type": "string"
+          },
+          "why": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "provenance_counts": {
+      "type": "object"
+    },
+    "solver": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "kind": {
+      "description": "The WEAKEST provenance among the numbers that positioned and sized the thing. A wall whose length was measured and whose thickness came from a construction-type default is editorial, and the record card says which number was the weak one.",
+      "enum": [
+        "measured",
+        "editorial",
+        "derived",
+        "judgment"
+      ]
+    },
+    "solid": {
+      "type": "object",
+      "required": [
+        "id",
+        "class",
+        "geometry",
+        "ink",
+        "tone",
+        "source",
+        "kind"
+      ],
+      "properties": {
+        "id": {
+          "description": "Stable and unique within a scene, following export_ifc.py's tdl_id scheme \u2014 a solid and the IfcProduct one day swept from it must answer to the same name.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+$"
+        },
+        "class": {
+          "enum": [
+            "wall",
+            "slab",
+            "roof-plane",
+            "gable",
+            "opening-frame",
+            "sash",
+            "muntin",
+            "shutter",
+            "sill",
+            "surround",
+            "cornice",
+            "belt",
+            "water-table",
+            "column",
+            "pilaster",
+            "entablature",
+            "chimney",
+            "dormer-cheek",
+            "dormer-face",
+            "dormer-roof",
+            "hearth",
+            "deck",
+            "porch-roof",
+            "void-cap"
+          ]
+        },
+        "ink": {
+          "description": "The pen weight the viewer draws this solid's edges at, as a NAME resolved from tokens.css. A cut line is a weight and not a width.",
+          "enum": [
+            "cut",
+            "profile",
+            "seen",
+            "fine",
+            "construction"
+          ]
+        },
+        "tone": {
+          "description": "The face fill, as a tokens.css name. Colour here is nomenclature: salmon is cut masonry and nothing else, sepia is timber. A solid never carries a hex.",
+          "enum": [
+            "paper",
+            "paper-lit",
+            "paper-mat",
+            "paper-deep",
+            "sepia-pale",
+            "salmon"
+          ]
+        },
+        "kind": {
+          "$ref": "#/$defs/kind"
+        },
+        "level": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "element": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "face": {
+          "enum": [
+            "S",
+            "N",
+            "E",
+            "W",
+            null
+          ]
+        },
+        "room": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "object",
+          "required": [
+            "record"
+          ],
+          "properties": {
+            "record": {
+              "type": "string"
+            },
+            "also": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "geometry": {
+          "oneOf": [
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "origin",
+                "size"
+              ],
+              "properties": {
+                "type": {
+                  "const": "box"
+                },
+                "origin": {
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 3
+                },
+                "size": {
+                  "type": "array",
+                  "minItems": 3,
+                  "maxItems": 3
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "plane",
+                "at",
+                "thickness",
+                "outline"
+              ],
+              "properties": {
+                "type": {
+                  "const": "extrude"
+                },
+                "plane": {
+                  "enum": [
+                    "xz",
+                    "yz",
+                    "xy"
+                  ]
+                },
+                "at": {
+                  "type": "number"
+                },
+                "thickness": {
+                  "type": "number"
+                },
+                "outline": {
+                  "type": "array"
+                },
+                "holes": {
+                  "type": "array"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "profile",
+                "path",
+                "scale"
+              ],
+              "properties": {
+                "type": {
+                  "const": "sweep"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "radius_at",
+                "axis",
+                "z0"
+              ],
+              "properties": {
+                "type": {
+                  "const": "lathe"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "polygon",
+                "z0",
+                "z1"
+              ],
+              "properties": {
+                "type": {
+                  "const": "prism"
+                },
+                "polygon": {
+                  "type": "array"
+                },
+                "z0": {
+                  "type": "number"
+                },
+                "z1": {
+                  "type": "number"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "type",
+                "vertices"
+              ],
+              "properties": {
+                "type": {
+                  "const": "plane"
+                },
+                "vertices": {
+                  "description": "A flat polygon in 3D, vertex by vertex. A roof plane needs a per-vertex height and a prism cannot hold one: written as a prism between the eave and ridge heights, a slope becomes a box with a lid \u2014 which every plan-extent agreement figure accepts and only a picture refuses.",
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 3
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

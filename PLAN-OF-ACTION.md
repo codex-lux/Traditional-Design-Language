@@ -3481,7 +3481,34 @@ ignored is the defect this half removes, and equal output would pass a weaker as
 
 ### WP-12.1 The scene record
 
-**Status: NOT STARTED.** `schema/scene.schema.json` 0.1.0 and `build/scene.py` — pure arithmetic, a leaf
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.1-the-scene-record.md`; layer doc:
+`docs/scene.md`. `build/scene.py` (pure arithmetic, a leaf), `schema/scene.schema.json` 0.1.0,
+`tests/test_scene.py` (15 tests, six mutations, all caught). **Measured on the heuristic: 61
+solids on the Tidewater plan and 43 on the spec Colonial, 2 and 3 things not modelled, agreement
+0.001 ft between the wall envelope and `slab_boxes` and 0.000 between the datums and the storeys,
+every placed room inside the envelope by at least half a wall.** The figures are on the heuristic
+DELIBERATELY: `auto` reaches a proof on one machine and spends its budget on another, which is
+exactly what WP-12.0 measured happening to the elevation between two trees hours earlier.
+**THE FINDING IS THAT THE ROOF WAS NEVER OVER THE HOUSE.** `roof_outline` and
+`elevation_profile` lay the roof out from (0, 0) over the OUTSIDE footprint while `wall_lines`
+lays the walls out from (0, 0) over the CLEAR one -- two origins half an exterior wall apart, so
+read literally the roof sits 1.29 ft east and north of what it covers. It has never mattered
+because no surface has ever drawn a roof and a room in one picture, and the scene is the first
+thing that had to. Resolved by FOLLOWING `export_ifc.slab_boxes`, whose slabs are already centred
+on the clear rectangle, rather than inventing a third convention;
+`oq/the-roof-record-and-the-plan-record-do-not-share-an-origin` asks which record should move,
+and carries the smaller disagreement underneath it -- `section.footprint` and `slab_boxes` differ
+by 0.17 ft about the outside depth of one house, and both are called the outside footprint.
+**And two of this package's own defects were invisible in every part and obvious in the whole**:
+every exterior wall grew INWARD, each one the right thickness in the right place along its own
+axis and the envelope 2.58 ft too small, and the east gable stood at a y coordinate. Both were
+caught by summing the extent rather than by reading the expression, which is why the guard is an
+agreement between two independent derivations rather than a pinned number. The selftest runs
+INSIDE `validate.py` so `TOTAL_CHECKS` does not move (WP-11.6's precedent).
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** `schema/scene.schema.json` 0.1.0 and `build/scene.py` — pure arithmetic, a leaf
 in the manner of `storeys.py` and `axis.py`, importing `export_ifc.slab_boxes`,
 `structure.wall_thickness`, `render_plan.relaxation_marks`, `openings.JAMB_FT`, `hearths.breast`,
 `compass` and `disclosures` rather than restating any of them. Slabs, walls, gables, roof planes for the

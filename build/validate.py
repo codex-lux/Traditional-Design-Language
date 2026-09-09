@@ -127,4 +127,24 @@ if warns:
     print(f"\n{len(warns)} WARNINGS"); [print("  ! " + w) for w in warns[:60]]
 if errs:
     print(f"\n{len(errs)} ERRORS"); [print("  x " + e) for e in errs[:80]]; sys.exit(1)
+# WP-12.1: the scene layer's own selftest runs HERE rather than as a 51st entry in
+# check_all.CHECKS, so `TOTAL_CHECKS` does not move — the precedent is WP-11.6, which put the
+# family-specimen drift check inside check_precedents.py for the same reason. It is placed
+# after the taxonomy verdict because it is a different subject and must not be able to make
+# that verdict read as its own; it exits non-zero on its own account.
+_scene_bad = 0
+try:
+    import importlib.util as _ilu
+    _s = _ilu.spec_from_file_location("scene", f"{ROOT}/build/scene.py")
+    _scene = _ilu.module_from_spec(_s)
+    _s.loader.exec_module(_scene)
+    print()
+    _scene_bad = _scene.selftest()
+except Exception as _e:                 # noqa: BLE001 -- a refusal is content
+    # COULD NOT EVALUATE, named. A scene needs a placement, and a placement can be refused
+    # for reasons that are not this checker's; saying which is the third state working.
+    print(f"\nN/EV — scene: could not evaluate ({type(_e).__name__}: {str(_e)[:120]})")
+
 print("\nOK — schema valid, references resolve, no cycles.")
+if _scene_bad:
+    sys.exit(1)
