@@ -307,6 +307,39 @@ def _walls(section, states):
 CHIMNEY_ABOVE_RIDGE_FT = 2.0
 
 
+def _extent(g):
+    """The axis-aligned extent of one primitive, as (min[3], max[3]) in the scene's own frame.
+
+    IT RAISES ON A PRIMITIVE IT DOES NOT UNDERSTAND, and that is the whole discipline. WP-12.2's
+    own containment guard says why: a reader blind to `plane` and `extrude` "would say nothing
+    about the two things this phase added and the two that went wrong". A frame computed by
+    silently skipping what it cannot read is a frame that is too small and says so nowhere.
+    """
+    t = g.get("type")
+    if t == "box":
+        o, sz = g["origin"], g["size"]
+        return ([o[i] for i in range(3)], [o[i] + sz[i] for i in range(3)])
+    if t == "prism":
+        xs = [p[0] for p in g["polygon"]]
+        ys = [p[1] for p in g["polygon"]]
+        return ([min(xs), min(ys), g["z0"]], [max(xs), max(ys), g["z1"]])
+    if t == "plane":
+        v = g["vertices"]
+        return ([min(p[i] for p in v) for i in range(3)],
+                [max(p[i] for p in v) for i in range(3)])
+    if t == "extrude":
+        us = [p[0] for p in g["outline"]]
+        zs = [p[1] for p in g["outline"]]
+        a, b = g["at"], g["at"] + g["thickness"]
+        n0, n1 = min(a, b), max(a, b)
+        if g["plane"] == "xz":                       # (u, v, n) -> (x, z, y)
+            return ([min(us), n0, min(zs)], [max(us), n1, max(zs)])
+        if g["plane"] == "yz":                       # (u, v, n) -> (y, z, x)
+            return ([n0, min(us), min(zs)], [n1, max(us), max(zs)])
+        raise ValueError(f"extrude on an unknown plane {g['plane']!r}")
+    raise ValueError(f"no extent rule for primitive {t!r}")
+
+
 def _face_extrude(face, u0, u1, z0, z1, ox, oy, W, D, t_ext):
     """(plane, at, outline) for a rectangle on one face, in the scene's own frame (WP-12.6).
 
@@ -507,6 +540,229 @@ def _dress_openings(elev, states, rects_by_face, ox, oy, W, D, t_ext):
                       "is a measurement nobody authored — see "
                       "oq/a-child-band-replaces-an-ancestor-derivation",
                       "kit.window_sill.projection_in", cls="opening")
+    return out
+
+
+def _entrance(elev, section, states):
+    """The doorcase — its surround, its sidelights and its entablature (WP-12.7).
+
+    THE COMPOSITION IS EXACTLY DOOR + TWO CASINGS + TWO SIDELIGHTS, AND THAT IS MEASURED RATHER
+    THAN ASSUMED. On `tidewater-georgian-careful` 42.099 + 2 x 7.017 + 2 x 14.033 = 84.199, which
+    is `entrance_composition_width_in` TO THE THOUSANDTH; on the spec Colonial the same sum lands
+    within 0.001 in. **Substituting the stated `pilaster_width_in` for the casing gives 88.875
+    against 84.199** — so a pilaster is NOT a member of this doorcase, and drawing one would put
+    a member on the front that the record's own arithmetic excludes. `pilaster_width_in` is the
+    ORDER's pilaster, and `order_at_the_eave` reads the pilaster slot to answer a question about
+    the WALL; its own docstring warns in as many words against reading a neighbouring signal as
+    evidence that a member is present here.
+
+    THE DOOR'S RECTANGLE IS `opening_rects`' OWN — this is the fourth caller of the one function
+    WP-12.2 lifted, and the surround takes the door's own id as its prefix so a reader can trace
+    it to the opening it dresses, which is WP-12.6's rule after one opening turned out to have
+    two names.
+
+    THE SURROUND'S RELIEF IS NOT MODELLED AND THE REASON IS A SECOND READER. `elev.entrance`
+    publishes `casing_width_in` and no projection; the cascade DOES state one
+    (`casing.backband_projection_in`, 1 1/16 in from `trim-classical`) and reading the kit here
+    would make this file a second reader of a slot `elevation.py` already resolves half of —
+    which is how `plan_check`'s style layer came to be blind to 879 forbidden bindings. So the
+    surround is a `plane` on the wall face: its EXTENT is the record's and its relief is refused
+    by name.
+
+    THE ENTABLATURE IS THE ONE PART FULLY DIMENSIONED IN BOTH AXES. Each member carries a height,
+    a projection and its own `y_bottom_in`/`y_top_in`, and they sum to `entablature_height_in`.
+    A member whose projection is ZERO is drawn as a `plane` and not as an extrusion of no
+    thickness — the Gibbs frieze really is flush with the naked, and a degenerate solid would say
+    something the record does not.
+    """
+    out = []
+    ent = (elev or {}).get("entrance") or {}
+    face = (elev or {}).get("entrance_face")
+    if not ent or not face:
+        return out
+    fp = section.get("footprint") or {}
+    W, D = fp.get("width_ft"), fp.get("depth_ft")
+    t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
+    ox = oy = -t_ext
+    EL = _mod("elevation")
+    door = next((r for r in EL.opening_rects(elev, face)["rects"]
+                 if r.get("kind") == "door"), None)
+    if door is None:
+        states.cannot("the doorcase", "the elevation states no door on the entrance front, so "
+                      "there is no opening for a surround to dress",
+                      f"elevation.faces.{face}", cls="entrance")
+        return out
+
+    cw = (ent.get("casing_width_in") or 0) / 12.0
+    x0, x1 = door["x0_in"] / 12.0, door["x1_in"] / 12.0
+    z0, z1 = door["sill_in"] / 12.0, door["head_in"] / 12.0
+    band = (ent.get("entablature_height_in")
+            or ent.get("surround_height_above_opening_in") or 0) / 12.0
+
+    def _plane(sid, cls, u0, u1, za, zb, note, src):
+        pl, at, outline = _face_extrude(face, u0, u1, za, zb, ox, oy, W, D, t_ext)
+        ax = {"xz": 1, "yz": 0}[pl]
+        verts = []
+        for a, b in outline:
+            v = [0.0, 0.0, 0.0]
+            v[0 if pl == "xz" else 1] = round(a, 3)
+            v[2] = round(b, 3)
+            v[1 if pl == "xz" else 0] = round(at, 3)
+            verts.append(v)
+        return _solid(sid, cls, {"type": "plane", "vertices": verts}, "profile", "paper-lit",
+                      {"record": src}, "derived", face=face, note=note)
+
+    if cw > 0:
+        out.append(_plane(
+            f"{door['id']}-surround", "surround", x0 - cw, x1 + cw, z0, z1 + band,
+            "the casing and the band above it, drawn as the face area the composition occupies. "
+            "Its RELIEF is not modelled: `elev.entrance` states the width and no projection",
+            "elevation.entrance.casing_width_in"))
+        states.cannot("the surround's relief",
+                      "`elev.entrance` publishes `casing_width_in` and no projection. The cascade "
+                      "states `casing.backband_projection_in`, but reading the kit here would "
+                      "make this file a second reader of a slot the elevation already resolves "
+                      "half of, and one rule with two readers is this corpus's commonest defect",
+                      "elevation.entrance.casing_width_in", cls="entrance")
+
+    if ent.get("sidelights_present") and ent.get("sidelight_width_in"):
+        sw = ent["sidelight_width_in"] / 12.0
+        for side, a in (("left", x0 - cw - sw), ("right", x1 + cw)):
+            out.append(_plane(
+                f"{door['id']}-sidelight-{side}", "surround", a, a + sw, z0, z1,
+                "a sidelight of the composition. Drawn as a face area rather than an opening "
+                "frame: it is not one of `opening_rects`' rectangles",
+                "elevation.entrance.sidelight_width_in"))
+
+    # THE TRANSOM IS STATED AND IS NOT DRAWN, AND THAT IS A DISAGREEMENT WORTH NAMING.
+    # `elevation.py` dimensions the whole transom family together -- height, width (the door
+    # leaf's) and a head rise of 0, a rectangular transom and not a fanlight -- and feeds it to
+    # `fanlight-before-its-date` and `transom-bar-at-the-wrong-height`. `render_elevation`
+    # draws the door, the casing and the sidelights and NO transom. Drawing one here would put
+    # a member in the model that the plate beside it does not have, which is the one thing
+    # WP-12.0 forbids; so it is refused, and the disagreement is the finding.
+    if ent.get("transom_height_in"):
+        states.cannot("the transom over the entrance door",
+                      "the record dimensions a rectangular transom (height "
+                      f"{ent['transom_height_in']} in, width the door leaf's, head rise 0) and "
+                      "two faults are judged on it, but `render_elevation._entrance` draws none "
+                      "-- so drawing one here would make the model and the plate two different "
+                      "doorcases",
+                      "elevation.entrance.transom_height_in", cls="entrance")
+
+    for m in ent.get("entablature_members") or []:
+        h0 = z1 + (m.get("y_bottom_in") or 0) / 12.0
+        h1 = z1 + (m.get("y_top_in") or 0) / 12.0
+        pr = (m.get("projection_in") or 0) / 12.0
+        cx = (x0 + x1) / 2.0
+        cwid = (ent.get("entrance_composition_width_in") or 0) / 12.0 or (x1 - x0)
+        u0, u1 = cx - cwid / 2.0, cx + cwid / 2.0
+        src = {"record": f"elevation.entrance.entablature_members[{m.get('id')}]"}
+        if pr <= 0:
+            out.append(_plane(f"{door['id']}-{m['id']}", "entablature", u0, u1, h0, h1,
+                              f"{m.get('name')} -- flush with the naked, which is what its own "
+                              "projection of 0 states",
+                              f"elevation.entrance.entablature_members[{m.get('id')}]"))
+            continue
+        pl, at, outline = _face_extrude(face, u0, u1, h0, h1, ox, oy, W, D, t_ext)
+        # the member stands PROUD, so it starts at the wall's outer face and runs outward
+        lo = at - pr if face in ("S", "W") else at + t_ext
+        out.append(_solid(
+            f"{door['id']}-{m['id']}", "entablature",
+            {"type": "extrude", "plane": pl, "at": round(lo, 3), "thickness": round(pr, 3),
+             "outline": [[round(a, 3), round(b, 3)] for a, b in outline]},
+            "profile", "paper-lit", src, "derived", face=face,
+            note=f"{m.get('name')}, projecting {m.get('projection_in')} in from the naked"))
+    return out
+
+
+def _porch(plan, section, states):
+    """The stoop, and every threshold refusal the record already carries (WP-12.7).
+
+    THERE IS NO DECK AND NO PORCH ROOF, AND THAT IS THE RECORD RATHER THAN A GAP. The PRD says
+    "the porch: deck and roof already in 12.1"; measured, **both shipped plans place their
+    `entry-porch` INSIDE the footprint** (Tidewater 5.4 x 9 at (35.51, 0) in a 65.58 x 40.75
+    block; the spec Colonial 6 x 6 at (44.0, 24.75) in 51.33 x 32.08). A porch inside the
+    footprint stands on the ground slab `_slabs` already draws and under the main roof `_roof`
+    already draws. Drawing a deck there would put a second floor structure inside the house, and
+    a porch roof would assert a roof the record does not state. `deck` and `porch-roof` stay
+    unused classes.
+
+    AND R4 IS NOT DERIVED HERE, BECAUSE THE RECORD ALREADY DECIDED IT. The PRD asks this package
+    to place porch columns "where a bound pack states an intercolumniation ... else refuse and
+    name the missing rule" — and `build/threshold.py` has refused exactly that since WP-11.4, on
+    both plans, by name: *"'tidewater-georgian' states no canonical portico (canonical porch
+    type: stoop-only), and its `portico_bays` of 1 is conditioned by its own slot rule"*. So this
+    function READS `plan.threshold.unplaced` and republishes each reason. Writing a second
+    refusal would have been a second reader of one rule, which is this repository's most-repeated
+    defect, and following the brief literally is what would have produced it.
+
+    THE STOOP'S TREADS RECONCILE AND ITS RISERS DO NOT. `(riser_count - 1) x tread_depth_in` is
+    2.1667 ft against a flight depth of 2.167 — the top riser lands on the platform, which is the
+    porch room itself. But `riser_count x riser_height_in` is **1.719 ft against a
+    `grade_to_floor_ft` of 2.0**: the flight stops 3.4 in below the floor it serves. That is
+    `oq/a-child-band-replaces-an-ancestor-derivation` reaching its SECOND consumer — WP-12.6's
+    sill was the first — because `tidewater-georgian` `extends` `riser_count_from_grade` with a
+    [3, 6] band and the ancestor's `ceil(part * 2.4 / 6.75)` derivation is lost in the resolved
+    kit. The shortfall is REPORTED and the risers are drawn at the heights the record states; a
+    fourth riser invented to close the gap would be a measurement nobody wrote down.
+    """
+    out = []
+    thr = (plan or {}).get("threshold") or {}
+    for u in thr.get("unplaced") or []:
+        states.cannot(u.get("what") or "a threshold element",
+                      u.get("reason") or "the record states no reason",
+                      f"plan.threshold.unplaced[{u.get('rule')}]", cls="threshold")
+
+    g0 = next((st for st in (section.get("storeys") or []) if st.get("index") == 0), None) or {}
+    floor = g0.get("grade_to_floor_ft")
+    for n, st in enumerate(thr.get("steps") or []):
+        f = st.get("flight") or {}
+        rc, rh = st.get("riser_count"), st.get("riser_height_in")
+        td = st.get("tread_depth_in")
+        if not (rc and rh and td and f.get("depth_ft")):
+            states.cannot(f"the flight at the {st.get('wall')} door of {st.get('room')}",
+                          "the record places a flight without a riser count, a riser height or a "
+                          "tread depth, and a step drawn from a number nobody wrote down is what "
+                          "this corpus refuses",
+                          f"plan.threshold.steps[{n}]", cls="threshold")
+            continue
+        rise = rc * rh / 12.0
+        # Compared at the record's own precision rather than against an invented tolerance:
+        # every figure in a placed record is written through `round(v, 3)`, and a stoop is
+        # stated in hundredths of a foot.
+        if floor is not None and round(rise, 2) != round(floor, 2):
+            states.cannot(f"the top {abs(floor - rise) * 12:.1f} in of the flight at the "
+                          f"{st.get('wall')} door of {st.get('room')}",
+                          f"{rc} risers of {rh} in rise {rise:.3f} ft against a stated "
+                          f"grade_to_floor_ft of {floor} -- the flight does not reach the floor "
+                          "it serves, and a riser nobody stated may not be invented to close it",
+                          f"plan.threshold.steps[{n}].riser_count", cls="threshold")
+        # The flight holds `rc - 1` treads: the top riser lands on the PLATFORM, which is the
+        # porch room. Verified on the shipped record, where (3 - 1) x 13 in is the flight's own
+        # 2.167 ft depth exactly.
+        inner = f["y_ft"] + f["depth_ft"] if st.get("wall") == "S" else f["y_ft"]
+        for k in range(1, rc):
+            lo = f["y_ft"] + (k - 1) * td / 12.0 if st.get("wall") == "S" else None
+            if lo is None:
+                break
+            depth = inner - lo
+            if round(depth, 2) <= 0:
+                break
+            out.append(_solid(
+                f"stoop-{st.get('room')}-{k}", "deck",
+                {"type": "box", "origin": [round(f["x_ft"], 3), round(lo, 3), 0.0],
+                 "size": [round(f["width_ft"], 3), round(depth, 3), round(k * rh / 12.0, 3)]},
+                "cut", "paper-deep", {"record": f"plan.threshold.steps[{n}].flight",
+                                      "also": [f"plan.threshold.steps[{n}].riser_height_in"]},
+                "derived", level=0,
+                note=f"riser {k} of {rc} at {rh} in, on a tread of {td} in"))
+        if st.get("wall") != "S":
+            states.cannot(f"the flight at the {st.get('wall')} door of {st.get('room')}",
+                          "this layer lays a flight only on a south face; the record places one "
+                          "on the " + str(st.get("wall")) + " face and the step geometry is not "
+                          "written for it",
+                          f"plan.threshold.steps[{n}].wall", cls="threshold")
     return out
 
 
@@ -875,22 +1131,37 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
     solids += _roof(plan, section, roof, states, elev)
     solids += _dormers(elev, states)
     solids += _hearths(plan, states)
+    solids += _entrance(elev, section, states)
+    solids += _porch(plan, section, states)
 
     datums = _storey_datums(section, states)
     z_top = max([d["z_ft"] for d in datums] or [0.0])
-    # A STACK STANDS ABOVE THE RIDGE, SO THE FRAME MUST REACH IT (WP-12.6). `z_top` is the
-    # highest DATUM, and the highest datum is the ridge — but a chimney level with the ridge is
-    # a hole in the roof, so `_chimneys` carries its cap above it and the stated frame then no
-    # longer contained the model. Caught by `test_every_solid_lies_inside_the_declared_bounds`,
-    # which WP-12.2 wrote after finding `bounds` the right SIZE in the wrong PLACE — the same
-    # guard, catching the same field being wrong for the opposite reason.
+    # THE FRAME IS THE UNION OF WHAT IS DRAWN, WHICH IS WHY IT IS NO LONGER A LIST OF SPECIAL
+    # CASES. WP-12.1 stated `bounds` off the section's footprint and WP-12.2 found it the right
+    # SIZE in the wrong PLACE, because no agreement figure reads it. WP-12.6 then had to grow it
+    # over the chimneys by hand, because a stack stands above the ridge and the ridge is the
+    # highest DATUM. WP-12.7 would have needed two more hand-written cases -- an entablature
+    # cornice projecting 6.7 in OUT of the wall it dresses, and a stoop standing at y = -3.46,
+    # three and a half feet clear of the house. **A frame maintained as a list of exceptions is
+    # wrong the moment somebody draws a thing not on the list**, and the failure is invisible:
+    # a viewer frames the model from `bounds` and simply clips what it does not know about.
+    #
+    # So the frame is computed from the solids themselves, and `_extent` RAISES on a primitive
+    # it does not understand rather than returning nothing for it -- silently skipping one is
+    # exactly how the frame would come to be too small again.
+    # `tests/test_scene.py` keeps its OWN extent helper and asserts containment against it: the
+    # two are independent readers of the same four primitives, so a primitive this one gets
+    # wrong is caught by the other rather than ratified by it.
+    lo = [-_t_ext_ft, -_t_ext_ft, 0.0]
+    hi = [W - _t_ext_ft, D - _t_ext_ft, z_top]
     for _s in solids:
-        if _s["class"] != "chimney":
-            continue
-        _g = _s["geometry"]
-        _z = (_g["origin"][2] + _g["size"][2]) if _g["type"] == "box" else max(
-            v[2] for v in _g["vertices"])
-        z_top = max(z_top, _z)
+        try:
+            e0, e1 = _extent(_s["geometry"])
+        except ValueError:
+            raise
+        for i in range(3):
+            lo[i] = min(lo[i], e0[i])
+            hi[i] = max(hi[i], e1[i])
 
     faces = {}
     for f in ("S", "N", "E", "W"):
@@ -950,8 +1221,7 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
         # agreement figures already carry: `section.footprint` is rounded to two places, so the
         # frame and the solids differ by up to 0.004 ft and rounding one to the other would be
         # OQ 48's error in a new place.
-        "bounds": {"min": [round(-_t_ext_ft, 3), round(-_t_ext_ft, 3), 0.0],
-                   "max": [round(W - _t_ext_ft, 3), round(D - _t_ext_ft, 3), round(z_top, 3)]},
+        "bounds": {"min": [round(v, 3) for v in lo], "max": [round(v, 3) for v in hi]},
         "grid": grid,
         "storeys": [{"id": st.get("id"), "index": st.get("index"),
                      "floor_z_ft": st.get("grade_to_floor_ft"),

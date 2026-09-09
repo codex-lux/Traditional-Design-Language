@@ -356,6 +356,46 @@ def test_every_solid_lies_inside_the_declared_bounds(scenes):
         assert worst <= 0.01, f"{name}: {who} stands {worst:.3f} ft outside the stated frame"
 
 
+def test_the_frame_is_tight_and_not_merely_large_enough(scenes):
+    """THE CONTAINMENT TEST ABOVE IS HALF A GUARD, AND A MUTATION PROVED IT (WP-12.7).
+
+    Since WP-12.7 `bounds` is the UNION of the solids' own extents rather than the section's
+    footprint plus a list of hand-written exceptions — which removes by construction the class of
+    defect WP-12.1 shipped and WP-12.6 had to patch again for the chimneys. But it also makes
+    containment nearly free: swapping the axes in `scene._extent`'s `xz` branch was measured to
+    leave **the whole suite green**, because the wrong mapping makes the frame a SUPERSET. A
+    frame too large is a real defect in the other direction — a viewer frames the model from it
+    and zooms out past the house — and nothing could see it.
+
+    So the frame is asserted TIGHT: on every axis some solid must reach it. This file keeps its
+    own extent reader (per-axis pairs, a different shape from `scene._extent`'s two corners), so
+    the two are independent readers of the same four primitives and neither can ratify the
+    other's mistake.
+    """
+    for name, (scene, _s) in scenes.items():
+        b = scene["bounds"]
+        got_lo = [None, None, None]
+        got_hi = [None, None, None]
+        for solid in scene["solids"]:
+            for axis, (lo, hi) in enumerate(_extent(solid["geometry"])):
+                got_lo[axis] = lo if got_lo[axis] is None else min(got_lo[axis], lo)
+                got_hi[axis] = hi if got_hi[axis] is None else max(got_hi[axis], hi)
+        for axis in range(3):
+            # z reaches the ridge, which is a DATUM and not a solid on a plan whose roof this
+            # layer cannot construct, so the frame is legitimately taller than the solids there.
+            slack_lo = b["min"][axis] - got_lo[axis]
+            slack_hi = got_hi[axis] - b["max"][axis]
+            assert slack_hi <= 0.01, (
+                f"{name}: a solid stands {slack_hi:.3f} ft past the frame on {'xyz'[axis]}")
+            if axis < 2:
+                assert abs(slack_lo) <= 0.01, (
+                    f"{name}: the frame reaches {b['min'][axis]} on {'xyz'[axis]} and the "
+                    f"nearest solid only {got_lo[axis]} — {abs(slack_lo):.3f} ft of empty frame")
+                assert abs(got_hi[axis] - b["max"][axis]) <= 0.01, (
+                    f"{name}: the frame reaches {b['max'][axis]} on {'xyz'[axis]} and the "
+                    f"furthest solid only {got_hi[axis]}")
+
+
 def test_a_hearth_is_drawn_only_where_one_is_authored(scenes):
     """A fire is authored and never inferred (WP-11.4). The Tidewater record states three;
     every hearth solid must trace back to a room that states one."""
