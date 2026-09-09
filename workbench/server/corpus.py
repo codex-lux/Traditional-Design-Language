@@ -562,6 +562,41 @@ SCENE_PLATES = (("plan", None), ("elevation", "S"), ("elevation", "N"),
                 ("elevation", "E"), ("elevation", "W"), ("roof", None))
 
 
+def rooms_meta(plan):
+    """Per-room-type catalogue facts the overlays draw from — privacy rank, plumbing, the
+    daylight depth multiplier, and the furniture the client could not otherwise draw.
+
+    LIFTED OUT OF `evaluate.py` BY WP-12.5, because the Round needs the same dict and the
+    scene route is a different call. A second copy is how two surfaces of one house come to
+    disagree about which rooms are wet — and the analytic rules that READ this dict were
+    themselves two copies until the same package lifted them into `overlayRules.js`.
+
+    Joined here so the client never re-derives corpus data: `daylight.depth_multiplier` is
+    carried through as-is, INCLUDING a stated zero, which three records use to say the room
+    takes no daylight depth at all and which a `or` in this loop would have turned into a
+    missing value."""
+    D = core._data()
+    meta = {}
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            t = r.get("type")
+            if t and t not in meta:
+                room = D["rooms"].get(t) or {}
+                meta[t] = {
+                    "function_class": room.get("function_class"),
+                    "privacy_rank": room.get("privacy_rank"),
+                    "plumbing": (room.get("servicing") or {}).get("plumbing"),
+                    "daylight_multiplier": (room.get("daylight") or {}).get("depth_multiplier"),
+                    "furniture": [
+                        {"item": f.get("item"), "footprint_in": f.get("footprint_in"),
+                         "clearance_in": f.get("clearance_in"), "essential": f.get("essential")}
+                        for f in (room.get("furniture") or [])
+                        if f.get("footprint_in")
+                    ],
+                }
+    return meta
+
+
 def scene(plan, parti=None, candidates=250, plates=True):
     """The constructed-3D record for the Round, with the PLACED record and every named view's
     plate beside it — deliberately ONE metered call rather than seven.
@@ -634,7 +669,13 @@ def scene(plan, parti=None, candidates=250, plates=True):
         rec = SC_.build_scene(placed, section, roof, None if "error" in elev else elev)
     except Exception as e:                      # noqa: BLE001 -- a refusal is content
         return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+    # THE OVERLAYS NEED THE CATALOGUE AND THIS ROUTE IS THE ONLY CALL THE ROUND MAKES.
+    # Without it `meta` reaches the viewer as undefined and every wash comes back empty while
+    # looking exactly like an overlay that works: no privacy rank resolves, `isWet` is false
+    # for every room, and the daylight reach silently falls back on every one. A surface that
+    # draws nothing is indistinguishable from a house with nothing to draw.
     out = {"scene": rec, "plan": placed,
+           "rooms_meta": rooms_meta(placed),
            "solver": (placed.get("geometry_report") or {}).get("solver")}
     if plates:
         drawn, refused = {}, {}

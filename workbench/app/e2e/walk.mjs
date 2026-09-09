@@ -816,6 +816,59 @@ await rail.getByRole('button', { name: /Drawing Set/ }).click();
     check('a named chip snaps back out of the free view',
       /GROUND FLOOR PLAN/i.test(await page.locator('[data-plate-title]').first().innerText()));
     await page.screenshot({ path: SHOTS + 'round-plan.png' });
+
+    // ------------------------------------------------------------ overlays (WP-12.5)
+    //
+    // THE FAILURE THESE GUARD IS AN OVERLAY THAT LOOKS LIKE IT WORKS. Without `rooms_meta` on
+    // the scene response every wash comes back empty -- no privacy rank resolves, no room is
+    // wet -- and a surface that draws nothing is indistinguishable from a house with nothing
+    // to draw. So each of these asserts a POSITIVE, and the URL is asserted too, because a
+    // chip that does not reach the query string is a place nobody can send.
+    const ovBar = page.locator('[data-chipgroup="overlay"], text=overlay').first();
+    await page.getByRole('button', { name: 'privacy', exact: true }).click();
+    await page.waitForTimeout(500);
+    check('an overlay chip puts itself in the URL',
+      /(\?|&)ov=[^&]*privacy/.test(page.url()), page.url().slice(-70));
+    // AND THAT IT DREW SOMETHING. The first version of this block asserted the URL and the
+    // caption and nothing else, so it passed green over an overlay that drew NOTHING at all --
+    // a translucent wash that is absent looks exactly like one drawn faintly over a sepia
+    // floor. Only a count can tell those apart, so the canvas states what it built.
+    const drew1 = await page.locator('[data-round-canvas]').getAttribute('data-round-overlays');
+    check(`the privacy overlay actually draws geometry (${drew1})`,
+      /privacy:[1-9]/.test(drew1 || ''));
+    await page.screenshot({ path: SHOTS + 'round-privacy.png' });
+
+    await page.getByRole('button', { name: 'wet', exact: true }).click();
+    await page.waitForTimeout(500);
+    check('two overlays coexist in one query key',
+      /(\?|&)ov=[^&]*privacy/.test(page.url()) && /(\?|&)ov=[^&]*wet/.test(page.url()),
+      page.url().slice(-70));
+    const drew2 = await page.locator('[data-round-canvas]').getAttribute('data-round-overlays');
+    check(`and both draw (${drew2})`,
+      /privacy:[1-9]/.test(drew2 || '') && /wet:[1-9]/.test(drew2 || ''));
+
+    // ------------------------------------------------------------ modifiers (WP-12.5)
+    //
+    // A MODIFIER PERSISTS ACROSS VIEWS, SO THE CAPTION MUST CARRY IT. A plate still captioned
+    // GROUND FLOOR PLAN while its storeys float apart has told the reader something untrue.
+    await page.getByRole('radio', { name: 'levels', exact: true }).click();
+    await page.waitForTimeout(700);
+    const capEx = await page.locator('[data-plate-title]').first().innerText();
+    check(`an exploded model says so in its caption (${capEx.slice(-46)})`,
+      /EXPLODED BY LEVEL/i.test(capEx));
+    check('the modifier is in the URL', /(\?|&)explode=levels/.test(page.url()),
+      page.url().slice(-70));
+    await page.screenshot({ path: SHOTS + 'round-explode.png' });
+
+    // THE CUT SAYS WHERE IT CAME FROM. With a face selected this is the building section the
+    // project does not draw flat, and a reader who mistook it for a plate would be citing a
+    // drawing that does not exist.
+    await page.getByRole('radio', { name: 'level', exact: true }).click();
+    await page.waitForTimeout(700);
+    const capCut = await page.locator('[data-plate-title]').first().innerText();
+    check(`a cut says it is derived from the model and not a plate (${capCut.slice(-52)})`,
+      /DERIVED FROM THE MODEL, NOT A PLATE/i.test(capCut));
+    await page.screenshot({ path: SHOTS + 'round-cut.png' });
   }
 }
 

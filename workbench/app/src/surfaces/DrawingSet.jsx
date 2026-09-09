@@ -11,6 +11,41 @@ import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
 import { KINDS } from './drawingKinds.js';
 import { RoundPlate } from '../round/RoundPlate.jsx';
+import { useSurfaceFilters } from '../filters/useFilters.js';
+
+/* THE ROUND'S PLACE IS A URL (§7.2), which is WP-5.6's rule and not a new one: a view with
+   three overlays and an exploded model is a thing one reader sends another, and until this it
+   died with the component. All four axes carry `widens: true` — none of them narrows a list,
+   and `FilterStrip`'s "N narrowing" counter lies if they are counted (the Kit's `all` chip and
+   the Phylogeny's map toggle are the two surfaces that taught it that).
+
+   The encodings are the shortest thing that round-trips, and each is PARSED DEFENSIVELY: a
+   hand-edited URL is an untrusted string, and a viewer that threw on one would lose the whole
+   surface rather than the one control. */
+const parseOv = (raw) => (raw ? String(raw).split(',').filter(Boolean) : []);
+const fmtOv = (list) => (list && list.length ? list.join(',') : null);
+
+const parseExplode = (raw) => {
+  if (!raw) return { mode: 'none', k: 0 };
+  const [mode, k] = String(raw).split(':');
+  if (mode !== 'levels' && mode !== 'elements') return { mode: 'none', k: 0 };
+  const n = parseFloat(k);
+  return { mode, k: Number.isFinite(n) ? Math.max(0, Math.min(1.5, n)) : 1 };
+};
+const fmtExplode = (e) => (e && e.mode && e.mode !== 'none' ? `${e.mode}:${e.k}` : null);
+
+const parseCut = (raw) => {
+  if (!raw) return {};
+  const [axis, at] = String(raw).split(':');
+  if (axis === 'level') return { axis: 'level' };
+  if (axis !== 'x' && axis !== 'y') return {};
+  const n = parseFloat(at);
+  return Number.isFinite(n) ? { axis, at: n } : {};
+};
+const fmtCut = (c) => {
+  if (!c || !c.axis) return null;
+  return c.axis === 'level' ? 'level' : `${c.axis}:${c.at}`;
+};
 import { defaultAxon } from '../round/frame.js';
 import { plateKeyFor } from '../round/annotate.js';
 
@@ -62,7 +97,18 @@ export function DrawingSet({ go }) {
   const [kind, setKind] = React.useState('model');
   const [scene, setScene] = React.useState(null);
   const [sceneErr, setSceneErr] = React.useState(null);
-  const [view, setView] = React.useState(null);
+  const F = useSurfaceFilters(React.useMemo(() => ({
+    view: { widens: true }, ov: { widens: true },
+    explode: { widens: true }, cut: { widens: true },
+  }), []));
+  const view = F.values.view;
+  const setView = React.useCallback((v) => F.set('view', v), [F]);
+  const ov = React.useMemo(() => parseOv(F.values.ov), [F.values.ov]);
+  const setOv = React.useCallback((list) => F.set('ov', fmtOv(list)), [F]);
+  const explode = React.useMemo(() => parseExplode(F.values.explode), [F.values.explode]);
+  const setExplode = React.useCallback((e) => F.set('explode', fmtExplode(e)), [F]);
+  const cut = React.useMemo(() => parseCut(F.values.cut), [F.values.cut]);
+  const setCut = React.useCallback((c) => F.set('cut', fmtCut(c)), [F]);
   const [plateOn, setPlateOn] = React.useState(false);
   // null means "whichever face the record calls the entrance front" — the server's own
   // default (`face or elev["entrance_face"]`), so arriving here draws what it always drew
@@ -81,7 +127,13 @@ export function DrawingSet({ go }) {
     if (!plan || kind !== 'model' || scene || sceneErr) return;
     let dead = false;
     api.scene(plan)
-      .then((j) => { if (!dead) { setScene(j); setView((v) => v || defaultAxon(j.scene?.entrance_face)); } })
+      .then((j) => {
+        if (dead) return;
+        setScene(j);
+        // the default opens on the axon that shows the entrance front, and never overwrites a
+        // view the URL already names — a copied link must reproduce what its sender saw
+        if (!view) setView(defaultAxon(j.scene?.entrance_face));
+      })
       .catch((e) => { if (!dead) setSceneErr(String(e.body?.detail?.error || e.message || e)); });
     return () => { dead = true; };
   }, [plan, kind, scene, sceneErr]);
@@ -201,10 +253,18 @@ export function DrawingSet({ go }) {
                   scene={scene.scene}
                   plates={scene.plates}
                   platesRefused={scene.plates_refused}
+                  plan={scene.plan}
+                  meta={scene.rooms_meta}
                   view={view || defaultAxon(scene.scene?.entrance_face)}
                   onView={setView}
                   plateOn={plateOn}
                   onPlate={setPlateOn}
+                  ov={ov}
+                  onOv={setOv}
+                  explode={explode}
+                  onExplode={setExplode}
+                  cut={cut}
+                  onCut={setCut}
                   title={plan.name || plan.id}
                   styleName={plan.style}
                   subtitle={`${scene.scene?.parti || 'no parti named'} · ${scene.scene?.massing || 'no massing named'}`}

@@ -9,8 +9,17 @@ import React from 'react';
 
 import { Chip, ChipGroup } from '../Chrome.jsx';
 import { ft, interpunctTitle } from '../sheet/derive.js';
-import { caption, chipLabel, notModelledLine, plateKeyFor } from './annotate.js';
+import {
+  caption, chipLabel, modifierLine, notModelledLine, overlaysFor, plateKeyFor,
+} from './annotate.js';
 import { namedViews, plateTransform, poseFor } from './frame.js';
+import {
+  FREE_VIEW_OVERLAYS, bayGrid, cutPlane, datumLines, daylightVolumes,
+  explodeOffsets, privacyWashes, relaxationMarks, wetPrisms,
+} from './overlays.js';
+import {
+  DAYLIGHT_OPACITY, DAYLIGHT_TOKEN, PRIVACY_TOKEN, WET_OPACITY, WET_TOKEN,
+} from '../sheet/overlayRules.js';
 import { Round, readTokens } from './Round.jsx';
 import { extent } from './solids.js';
 
@@ -86,8 +95,14 @@ function RecordCard({ solid, onClose }) {
   );
 }
 
+/* The overlays a reader may ask for, in the order the chip strip prints them. `plate` is a
+   chip of its own beside the view bar and is not in this list, because it is the one overlay
+   that is a DRAWING rather than an analysis. */
+const OVERLAY_CHIPS = ['grid', 'datums', 'daylight', 'wet', 'privacy', 'relaxations'];
+
 export function RoundPlate({
-  scene, plates, platesRefused, view, onView, plateOn, onPlate,
+  scene, plan, meta, plates, platesRefused, view, onView, plateOn, onPlate,
+  ov, onOv, explode, onExplode, cut, onCut,
   title, styleName, subtitle, disclosures,
 }) {
   const [picked, setPicked] = React.useState(null);
@@ -125,8 +140,45 @@ export function RoundPlate({
     return plateTransform(view, scene, pose, box, fr);
   }, [plateOn, svg, scene, view, box.width, box.height]);
 
+  /* WHICH OVERLAYS THIS VIEW MAY CARRY. Four of the six are read off a plan and mean nothing
+     on a model turned in the hand (§7.5); a free view keeps the three that are true from any
+     angle, and the ones it drops are NAMED rather than silently ceasing to work. */
+  const wanted = React.useMemo(() => ov || [], [ov]);
+  const { active: ovActive, dropped: ovDropped } =
+    React.useMemo(() => overlaysFor(view, wanted, FREE_VIEW_OVERLAYS), [view, wanted]);
+
+  const explodeResult = React.useMemo(
+    () => (scene ? explodeOffsets(scene, explode) : null), [scene, explode],
+  );
+  const cutResult = React.useMemo(
+    () => (scene && cut && cut.axis ? cutPlane(scene, cut) : null), [scene, cut],
+  );
+
+  const payload = React.useMemo(() => {
+    if (!scene) return null;
+    const on = new Set(ovActive);
+    const b = scene.bounds || {};
+    return {
+      grid: on.has('grid') ? bayGrid(scene) : null,
+      datums: on.has('datums') ? datumLines(scene) : null,
+      extent: b.min && b.max ? [b.min[0], b.min[1], b.max[0], b.max[1]] : null,
+      daylight: on.has('daylight') && plan ? daylightVolumes(scene, plan, meta) : null,
+      daylightToken: DAYLIGHT_TOKEN, daylightOpacity: DAYLIGHT_OPACITY,
+      wet: on.has('wet') ? wetPrisms(scene, meta) : null,
+      wetToken: WET_TOKEN, wetOpacity: WET_OPACITY,
+      privacy: on.has('privacy') ? privacyWashes(scene, meta).drawn : null,
+      privacyToken: PRIVACY_TOKEN,
+      relaxations: on.has('relaxations') ? relaxationMarks(scene).drawn : null,
+    };
+  }, [scene, plan, meta, ovActive]);
+
   const cap = scene ? caption(view, scene) : '';
   const nm = scene ? notModelledLine(scene) : null;
+  const mods = scene ? modifierLine({ explode, cut: cutResult }, explodeResult) : null;
+  /* A mark the placement could not locate is NAMED here rather than drawn somewhere
+     plausible — WP-6.3's rule, and the reason `relaxationMarks` splits them at all. */
+  const unlocated = scene && ovActive.includes('relaxations')
+    ? relaxationMarks(scene).unlocated.length : 0;
 
   return (
     <div style={{
@@ -150,8 +202,52 @@ export function RoundPlate({
         ) : null}
       </div>
 
+      <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 8 }}>
+        <ChipGroup label="overlay">
+          {OVERLAY_CHIPS.map((o) => (
+            <Chip
+              key={o}
+              on={wanted.includes(o)}
+              onClick={() => onOv(wanted.includes(o) ? wanted.filter((x) => x !== o) : [...wanted, o])}
+              title={ovDropped.includes(o)
+                ? `${o} is read off a plan and is not drawn in a free view`
+                : `show ${o}`}
+            >
+              {ovDropped.includes(o) ? `${o} ·` : o}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <ChipGroup label="explode">
+          {['levels', 'elements'].map((m) => (
+            <Chip
+              key={m}
+              radio
+              on={(explode || {}).mode === m}
+              onClick={() => onExplode((explode || {}).mode === m ? { mode: 'none', k: 0 } : { mode: m, k: 1 })}
+              title={`separate the model by ${m}`}
+            >
+              {m}
+            </Chip>
+          ))}
+        </ChipGroup>
+        <ChipGroup label="cut">
+          {['level', 'x', 'y'].map((a) => (
+            <Chip
+              key={a}
+              radio
+              on={(cut || {}).axis === a}
+              onClick={() => onCut((cut || {}).axis === a ? {} : { axis: a, at: a === 'level' ? undefined : 20 })}
+              title="a section plane through the model, derived from the model and not from a plate"
+            >
+              {a}
+            </Chip>
+          ))}
+        </ChipGroup>
+      </div>
+
       <div ref={mountRef} style={{ position: 'relative' }}>
-        <Round scene={scene} view={view} onView={onView} onPick={setPicked} />
+        <Round scene={scene} view={view} onView={onView} onPick={setPicked}
+          overlays={payload} explode={explodeResult} cut={cutResult} />
         {overlay && svg ? (
           <div
             data-round-overlay=""
@@ -174,12 +270,18 @@ export function RoundPlate({
         <div data-plate-title="" style={{
           font: '10.5px/1.4 var(--serif)', letterSpacing: '.3em', textTransform: 'uppercase',
           color: 'var(--ink)', flex: '1 0 auto',
-        }}>{cap}</div>
+        }}>{cap}{mods ? ` · ${mods}` : ''}</div>
         <div data-plate-note="" style={{
           font: 'italic var(--fw-reg) 13px/1.45 var(--serif)', color: 'var(--ink-2)',
           textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch',
         }}>
-          {plateOn && !svg && refusedWhy ? `the flat plate for this view was refused: ${refusedWhy}` : nm}
+          {plateOn && !svg && refusedWhy
+            ? `the flat plate for this view was refused: ${refusedWhy}`
+            : [
+              nm,
+              unlocated ? `${unlocated} relaxation mark${unlocated === 1 ? '' : 's'} the placement could not locate — named, not placed` : null,
+              ovDropped.length ? `${ovDropped.join(', ')} withheld: read off a plan, and this is a free view` : null,
+            ].filter(Boolean).join(' · ')}
         </div>
       </div>
 

@@ -102,6 +102,18 @@ export function privacyRefusal(rank) {
 export const DAYLIGHT_MULTIPLIER_FALLBACK = 2.25;
 export const WINDOW_HEAD_FALLBACK_FT = 7;
 
+/* The wash strengths. `Sheet.jsx` carried these as inline literals on the elements that draw
+   them (`opacity=".16"`, `opacity=".2"`), and the Round would have re-typed both — which is
+   how one overlay comes to read differently on two surfaces of the same house. They are the
+   SOLID tokens at an opacity, exactly as the sheet draws them, and not the `--wash-*-1`
+   tokens: `THREE.Color` cannot parse an `rgba()` and a viewer that silently failed to would
+   have drawn the wash at full strength. */
+export const DAYLIGHT_TOKEN = 'green';
+export const DAYLIGHT_OPACITY = 0.16;
+export const WET_TOKEN = 'blue';
+export const WET_OPACITY = 0.20;
+export const PRIVACY_TOKEN = 'sepia';
+
 export function daylightReachFt(room, meta) {
   const head = (room && room.window_head_ft) || WINDOW_HEAD_FALLBACK_FT;
   const m = meta && meta.daylight_multiplier;

@@ -34,7 +34,10 @@ export function readTokens(el) {
 
 const DUR_MS = (tokens) => parseFloat(tokens['dur-4']) || 520;
 
-export function Round({ scene, view, onView, onPick, selected, height = 'clamp(420px, 74vh, 960px)' }) {
+export function Round({
+  scene, view, onView, onPick, selected, overlays, explode, cut,
+  height = 'clamp(420px, 74vh, 960px)',
+}) {
   const canvasRef = React.useRef(null);
   const wrapRef = React.useRef(null);
   const api = React.useRef(null);
@@ -109,9 +112,23 @@ export function Round({ scene, view, onView, onPick, selected, height = 'clamp(4
     if (!a || !live.current) return;
     a.resize(size.width, size.height);
     a.setPose(live.current, aspect);
-    a.setClip(live.current.cut ? live.current.cut.z_ft : null);
+    /* A MODIFIER CUT OUTRANKS THE VIEW'S OWN. A plan view carries the record's plan cut; if
+       the reader has dragged a section plane, that is the cut they are looking at and the
+       caption says so. Two cuts at once would be two drawings in one picture. */
+    a.setClip(cut && cut.at_ft != null ? cut
+      : (live.current.cut ? live.current.cut.z_ft : null));
+    a.setExplode(explode);
     a.render();
-  }, [size.width, size.height, aspect]);
+  }, [size.width, size.height, aspect, cut, explode]);
+
+  /* The overlays are rebuilt only when they change, not on every frame: a tween redraws sixty
+     times a second and an overlay is geometry, not a pose. */
+  const [drew, setDrew] = React.useState({});
+  React.useEffect(() => {
+    if (!ready || !api.current) return;
+    setDrew(api.current.setOverlays(overlays) || {});
+    draw();
+  }, [ready, overlays, draw]);
 
   /* ---------------------------------------------------------------- the tween */
   const step = React.useCallback(() => {
@@ -202,6 +219,10 @@ export function Round({ scene, view, onView, onPick, selected, height = 'clamp(4
         ref={canvasRef}
         role="img"
         data-round-canvas=""
+        /* WHAT THE OVERLAYS ACTUALLY DREW. A wash is translucent and one that draws nothing
+           is indistinguishable from one drawn faintly — the chip lights, the URL is right and
+           the caption is correct either way. The walk asserts a POSITIVE count off this. */
+        data-round-overlays={Object.entries(drew).map(([k, v]) => `${k}:${v}`).join(',')}
         aria-label={`the model, seen at ${view || 'a free view'}`}
         onPointerDown={onPointerDown}
         style={{ display: 'block', width: '100%', height: '100%', cursor: drag.current ? 'grabbing' : 'grab' }}

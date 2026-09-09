@@ -124,3 +124,52 @@ export function notModelledLine(scene) {
   if (!n) return null;
   return `${n} thing${n === 1 ? '' : 's'} the record holds ${n === 1 ? 'is' : 'are'} not modelled — listed in the card`;
 }
+
+/* ------------------------------------------------------------------ the modifiers (§7.6)
+
+   A MODIFIER PERSISTS ACROSS VIEWS, SO THE CAPTION MUST CARRY IT. An exploded model and a
+   cut model are both still captioned `SOUTH ELEVATION`, and a reader looking at a plate
+   labelled that while the storeys float apart has been told something untrue about what they
+   are seeing. This is the same rule the sheet already obeys for the engine that placed it and
+   for the objective that did not run: what the drawing is NOT is part of what it is.
+
+   THE CUT SAYS WHERE IT CAME FROM. `DERIVED FROM THE MODEL, NOT A PLATE` is the PRD's own
+   wording and it earns its place: with `S` selected and a cut running, this is the building
+   section the project does not yet draw flat, and a reader who mistook it for one would be
+   citing a drawing that does not exist. */
+export function modifierLine(mods, explodeResult) {
+  const parts = [];
+  const ex = (mods && mods.explode) || null;
+  if (ex && ex.mode && ex.mode !== 'none' && ex.k) {
+    if (ex.mode === 'levels') {
+      parts.push(`EXPLODED BY LEVEL · ${ex.k.toFixed(2)}× EACH STOREY'S OWN HEIGHT`);
+    } else if (explodeResult && explodeResult.note === 'one element — nothing to separate') {
+      // NOT silently omitted: the reader asked for something and the record cannot give it.
+      parts.push('EXPLODE BY ELEMENT UNAVAILABLE · ONE ELEMENT — NOTHING TO SEPARATE');
+    } else {
+      const ref = (explodeResult && explodeResult.refused) || [];
+      parts.push(`EXPLODED BY ELEMENT · ${ex.k.toFixed(2)}×`
+        + (ref.length ? ` · ${ref.length} REFUSED` : ''));
+    }
+  }
+  const cut = (mods && mods.cut) || null;
+  if (cut && cut.axis) {
+    if (cut.refused) parts.push(`CUT REFUSED · ${cut.refused.toUpperCase()}`);
+    else {
+      parts.push(`SECTION · CUT AT ${cut.axis.toUpperCase()} = ${ft(cut.at_ft)}`
+        + ' · DERIVED FROM THE MODEL, NOT A PLATE');
+    }
+  }
+  return parts.length ? parts.join(' · ') : null;
+}
+
+/* Which overlays a view may carry. §7.5: the four that are read off a plan mean nothing on a
+   model turned in the hand, so a free view keeps only the three that are true from any angle.
+   Returning the DROPPED set as well, because a chip that silently stops working is worse than
+   one that says why. */
+export function overlaysFor(view, wanted, freeViewOverlays) {
+  const w = wanted || [];
+  if (view && view !== 'free') return { active: [...w], dropped: [] };
+  const active = w.filter((o) => freeViewOverlays.includes(o));
+  return { active, dropped: w.filter((o) => !freeViewOverlays.includes(o)) };
+}

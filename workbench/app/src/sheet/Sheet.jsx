@@ -7,7 +7,10 @@
    flipped inside <Model>. Ported from the mockup Sheet; generalised from its one
    hardcoded 64×44 plan to any footprint. */
 import React from 'react';
-import { privacyOpacity, daylightReachFt, isWet } from './overlayRules.js';
+import {
+  DAYLIGHT_OPACITY, DAYLIGHT_TOKEN, PRIVACY_TOKEN, WET_OPACITY, WET_TOKEN,
+  daylightReachFt, isWet, privacyOpacity,
+} from './overlayRules.js';
 import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines, litWalls,
          divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
@@ -471,7 +474,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           const op = privacyOpacity(roomsMeta[r.type]?.privacy_rank);
           if (op == null) return null;
           return <rect key={'pv' + r.id} x={r.x} y={-r.y - r.h} width={r.w} height={r.h}
-            fill="var(--sepia)" opacity={op} />;
+            fill={`var(--${PRIVACY_TOKEN})`} opacity={op} />;
         })}
         {ov.daylight && rooms.map((r) => litWalls(r, W, H, 0.6, elBounds[r.id]).map((wall) => {
           // gated on the walls the placement actually lit — the overlay may never
@@ -485,11 +488,11 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           else if (wall === 'N') box = { x: r.x, y: -r.y - r.h, width: r.w, height: Math.min(r.h, reach) };
           else if (wall === 'W') box = { x: r.x, y: -r.y - r.h, width: Math.min(r.w, reach), height: r.h };
           else box = { x: Math.max(r.x, r.x + r.w - reach), y: -r.y - r.h, width: Math.min(r.w, reach), height: r.h };
-          return <rect key={'dl' + r.id + wall} {...box} fill="var(--green)" opacity=".16" />;
+          return <rect key={'dl' + r.id + wall} {...box} fill={`var(--${DAYLIGHT_TOKEN})`} opacity={DAYLIGHT_OPACITY} />;
         }))}
         {ov.wet && rooms.filter((r) => isWet(roomsMeta[r.type])).map((r) => (
           <g key={'wt' + r.id}>
-            <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h} fill="var(--blue)" opacity=".2" />
+            <rect x={r.x} y={-r.y - r.h} width={r.w} height={r.h} fill={`var(--${WET_TOKEN})`} opacity={WET_OPACITY} />
             <circle cx={r.x + r.w / 2} cy={-r.y - r.h / 2} r="1.1" style={inked(PEN.fine, "blue-deep")} vectorEffect="non-scaling-stroke" />
           </g>
         ))}

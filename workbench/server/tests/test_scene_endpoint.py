@@ -71,6 +71,38 @@ def test_the_scene_comes_back_with_its_plan_and_its_plates(scene_res):
             assert got.get("entrance_face"), f"{key} does not say which face is the front"
 
 
+def test_the_scene_carries_the_catalogue_the_overlays_read(scene_res):
+    """WP-12.5. `POST /api/scene` is the only call the Round makes, so the overlays' catalogue
+    facts have to travel with it.
+
+    THE FAILURE THIS GUARDS IS INVISIBLE ON THE SURFACE. Without `rooms_meta` the viewer gets
+    `undefined`, and then no privacy rank resolves, `isWet` is false for every room and every
+    daylight reach falls back — an overlay that draws nothing looks exactly like a house with
+    nothing to draw. Nothing in the picture says which."""
+    meta = scene_res.get("rooms_meta")
+    assert meta, "the scene carries no rooms_meta, so every overlay would draw empty"
+    # the four keys the analytic rules read, and the furniture the client cannot derive
+    some = next(iter(meta.values()))
+    for k in ("function_class", "privacy_rank", "plumbing", "daylight_multiplier", "furniture"):
+        assert k in some, f"rooms_meta rows do not carry {k}"
+    # A STATED ZERO SURVIVES THE JOIN. Three records say `depth_multiplier: 0` and an `or` in
+    # the loop would have turned that into None -- the same defect `||` made on the client.
+    zeros = [t for t, m in meta.items() if m.get("daylight_multiplier") == 0]
+    if zeros:
+        assert all(meta[t]["daylight_multiplier"] == 0 for t in zeros)
+
+
+def test_evaluate_and_the_scene_agree_about_the_catalogue():
+    """One spelling: `corpus.rooms_meta` is what both routes return, so a room cannot be wet
+    on the Plan Workbench and dry in the Round."""
+    from workbench.server import corpus as C
+    assert C.rooms_meta(_plan()), "the shipped plan yields no catalogue rows at all"
+    with open(os.path.join(ROOT, "workbench", "server", "evaluate.py")) as fh:
+        src = fh.read()
+    assert "corpus.rooms_meta(" in src, "evaluate.py has grown a second spelling of the join"
+    assert 'room.get("privacy_rank")' not in src, "evaluate.py still derives the catalogue itself"
+
+
 def test_the_returned_plan_is_placed_so_a_later_call_does_not_re_solve(scene_res):
     """The second reason the record comes back. `_placed` returns a record carrying `geometry`
     untouched, so a client that keeps this one pays 0.00 s where a fresh record pays 37.48 s.

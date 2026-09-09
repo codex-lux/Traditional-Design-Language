@@ -56,6 +56,7 @@ import {
   transferCount,
   wetPrisms,
 } from './round/overlays.js';
+import { modifierLine, overlaysFor } from './round/annotate.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(HERE, '..', '..', '..');
@@ -389,4 +390,50 @@ test('neither surface spells an analytic rule of its own', () => {
   }
   const rules = readFileSync(join(HERE, 'sheet', 'overlayRules.js'), 'utf8');
   assert.match(rules, /plumbing === 'heavy'/, 'the guard above must be exercised, not vacuous');
+});
+
+/* ------------------------------------------------------------------ the caption (§7.6)
+
+   A modifier persists across views, so a plate captioned SOUTH ELEVATION while its storeys
+   float apart has told the reader something untrue. These assert the caption carries it. */
+
+test('an exploded model says so in its caption', () => {
+  const s = scene();
+  const line = modifierLine({ explode: { mode: 'levels', k: 1 } },
+    explodeOffsets(s, { mode: 'levels', k: 1 }));
+  assert.match(line, /EXPLODED BY LEVEL/);
+  assert.match(line, /1\.00×/);
+});
+
+test('a modifier a one-element record cannot honour is NAMED, not silently dropped', () => {
+  const s = scene();
+  const line = modifierLine({ explode: { mode: 'elements', k: 1 } },
+    explodeOffsets(s, { mode: 'elements', k: 1 }));
+  assert.match(line, /UNAVAILABLE/);
+  assert.match(line, /NOTHING TO SEPARATE/);
+});
+
+test('a cut says it came from the model and not from a plate', () => {
+  const s = scene();
+  const line = modifierLine({ cut: cutPlane(s, { axis: 'level' }) }, null);
+  assert.match(line, /DERIVED FROM THE MODEL, NOT A PLATE/,
+    'with S selected this is the building section the project does not draw flat; a reader '
+    + 'who mistook it for one would be citing a drawing that does not exist');
+  assert.match(line, /CUT AT Z = /);
+});
+
+test('nothing active means no caption line at all, rather than a reassuring one', () => {
+  assert.equal(modifierLine({}, null), null);
+  assert.equal(modifierLine({ explode: { mode: 'none', k: 0 } }, null), null);
+});
+
+test('a free view keeps only the overlays that are true from any angle, and says which it dropped', () => {
+  const all = ['grid', 'datums', 'daylight', 'wet', 'privacy', 'relaxations'];
+  const free = overlaysFor('free', all, FREE_VIEW_OVERLAYS);
+  assert.deepEqual(free.active.sort(), ['grid', 'privacy', 'relaxations']);
+  assert.deepEqual(free.dropped.sort(), ['datums', 'daylight', 'wet']);
+
+  const named = overlaysFor('s', all, FREE_VIEW_OVERLAYS);
+  assert.deepEqual(named.active.sort(), [...all].sort());
+  assert.deepEqual(named.dropped, [], 'a named view drops nothing');
 });
