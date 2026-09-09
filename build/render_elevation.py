@@ -657,8 +657,17 @@ def render_elevation(elev, path, face=None, scale=24.0):
     total_w = pad * 2 + pw + inset_w + 20
     total_h = top + ph + legend_h
 
+    # WP-12.4: what this plate's pixels mean in feet, so the Round can lay it over the model.
+    # `u` is the distance ALONG the face from its own left edge and `v` is the height above
+    # grade -- the two axes this renderer's X and Ypx already use, stated rather than left for
+    # a reader to infer. The origin is hoisted here so the attribute and the ink read one pair.
+    ox, oy = pad, top
+    _frames = {"plates": [{"id": face, "proj": "elevation", "face": face,
+                           "px_per_ft": scale, "origin_px": [ox, oy],
+                           "at_origin_ft": [0.0, round(top_height_ft, 3)]}]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{PAL["ground"]}">']
     s.append(_style_block())
     # _esc on `face` too: it arrives as body.get("face") on /api/drawings and /api/export, and
     # this string is rendered into the page by DrawingSet.jsx with dangerouslySetInnerHTML.
@@ -668,7 +677,6 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # is one refactor from being live.
     s.append(f'<text class="hd" x="{pad}" y="20">{_esc(elev.get("plan_id",""))} — {_esc(face)} ELEVATION</text>')
 
-    ox, oy = pad, top
     X = lambda ft: ox + ft * scale
     Ypx = lambda ft: oy + (top_height_ft - ft) * scale   # model y-up (height above grade), screen y-down
 

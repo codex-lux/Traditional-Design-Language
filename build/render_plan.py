@@ -746,8 +746,32 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     top = M + BP + head_h + grid_h
     total_h = top + extra_top + ph + extra_bottom + foot_h + sched_h + table_h + BP + M
 
+    # ONE SPELLING OF THE PLATE'S ORIGIN (WP-12.4). `data-frame` states the affine this
+    # renderer actually uses, and the level loop below reads the SAME function, so the
+    # attribute and the ink cannot drift. That is the whole reason the Round can lay this
+    # plate over the model and trust it to land on the house rather than near it.
+    #
+    # The attribute states this file's own arithmetic and NOTHING about the model frame --
+    # which model axis runs along a face, and which way, is the camera's business and lives
+    # under test in workbench/app/src/round/frame.js. A renderer that also claimed a model
+    # mapping would be a second authority over the one thing that convention decides, and
+    # the two would disagree about the north elevation on the day somebody mirrored it.
+    #
+    # A PLAN CARRIES SEVERAL PLATES SIDE BY SIDE, so `plates` is a list: one entry per level,
+    # each with its own origin. A single root frame would describe the ground floor and
+    # silently mis-register every plate to the right of it.
+    def _plate_origin(i):
+        return (M + BP + i * (panel_w + gap) + extra_left, top + extra_top)
+
+    _frames = {"plates": [
+        {"id": lv.get("id") or str(i), "proj": "plan", "level": lv.get("index", i),
+         "px_per_ft": scale,
+         "origin_px": [round(_plate_origin(i)[0], 3), round(_plate_origin(i)[1], 3)],
+         "at_origin_ft": [round(draw_x0, 3), round(draw_H + draw_y0, 3)]}
+        for i, lv in enumerate(levels)]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{L["paper"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{L["paper"]}">']
     s.append(_style_block(register))
     # OQ 55: the hatch a reserved void that is open to the sky is filled with.
     s.append(f'<defs><pattern id="openvoid" width="9" height="9" patternUnits="userSpaceOnUse" '
@@ -767,7 +791,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
              f'{" · " + str(_date) if _date else ""} · {register.upper()} REGISTER</text>')
 
     for i, lv in enumerate(levels):
-        ox = M + BP + i * (panel_w + gap) + extra_left; oy = top + extra_top
+        ox, oy = _plate_origin(i)          # the SAME function data-frame was built from
         X = lambda v, ox=ox: ox + (v - draw_x0) * scale
         Y = lambda v, oy=oy: oy + (draw_H + draw_y0 - v) * scale
         # `data-plate` carries the plate's own top edge. The levels of one house are drawn
