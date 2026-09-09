@@ -130,7 +130,7 @@ truncated left half. Both are the shapes this file already records for the two p
 code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
 were then driven to prove they fire**, which is the only thing that has ever caught one of these.
 
-**WP-12.0 AND WP-12.1 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
+**WP-12.0, WP-12.1 AND WP-12.2 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
 again (`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`) and WP-12.1 is the scene
 record (`docs/reports/wp-12.1-the-scene-record.md`, layer doc `docs/scene.md`): `build/scene.py`,
 pure arithmetic and a leaf, which imports `export_ifc.slab_boxes`, `structure.wall_thickness`,
@@ -147,6 +147,59 @@ INWARD (each the right thickness in the right place, the envelope 2.58 ft too sm
 gable stood at a y coordinate -- both caught by summing the extent rather than by reading the
 expression. **The scene's selftest runs INSIDE `validate.py`** so `TOTAL_CHECKS` does not move,
 which is WP-11.6's precedent.
+
+**WP-12.2 IS THE OPENING RECTANGLE, AND THE BRANCH IT EXISTS TO GUARD IS UNREACHABLE FROM THE
+CORPUS (`docs/reports/wp-12.2-one-opening-rectangle.md`).** `(x0, x1, sill, head)` was written out
+THREE times -- `render_elevation._window` for a sash, `render_elevation._entrance` for the door
+(the one the PRD did not know about) and `export_dxf._win` -- and **so was the LOOP**, which is
+the half that bit: when the blind bay arrived (OQ 85) the SVG learned to skip the bay a stack
+stands on and the DXF did not, so the CAD file drew a window through a chimney and the export
+selftest could not see it, because it round-trips FINDINGS and not geometry.
+`elevation.opening_rects(elev, face)` is the one spelling now, with `build/scene.py` as the third
+caller (40 and 32 `opening-frame` solids; `not_modelled` 2 -> 1 and 3 -> 2).
+**AND ITS LARGEST FINDING WAS INVISIBLE ON THE TWO SHIPPED PLANS.** Both renderers resolved the
+upper storey as `next((s for s in storeys if s["index"] == 1), ground)` -- falling back to the
+GROUND storey -- and then drew a second row of windows at that datum unconditionally. **Six of the
+eleven plans that build an elevation state only storey 0**, so each was drawing a whole row of
+openings its record does not hold, above the real row in the cornice zone: `good-02`'s south
+elevation drew ELEVEN `op` rectangles where the record holds six. Corpus-wide, **244 window
+rectangles become 124 over 24 plates**. Both shipped plans are two-storey, so the first
+measurement of this package -- taken over those two -- reported that the lift changed nothing but
+four pixels. **`verifying a corpus-wide change on the plans that happen to ship is verifying it on
+2 of 164 styles` is in this file, and it was still the thing that nearly shipped.** The refusal
+carries the right reason of TWO: a storey the section does not state is a fact about the BUILDING,
+a storey with no `grade_to_floor_ft` is a fact about the RECORD.
+**ALL SIXTEEN PLAN RECORDS PRODUCE ZERO BLIND BAYS**, because WP-11.4 moved the stacks onto stated
+flues, so a parity test over the shipped plans would pass with the skip DELETED -- the guard is
+driven and asserts its own premise.
+**THE UNIT WAS CHOSEN BY MEASUREMENT AND THE RESIDUE IS PUBLISHED**: over the 144 opening edges
+the two shipped plans actually draw,
+an inches-first rectangle moves **0** DXF coordinates and **2** printed SVG ones, a feet-first one
+0 and **64**. (The first published figures were 216 and 100, swept over every combination of bay
+centre and stated width -- a superset of what is drawn, and a denominator nobody draws.)
+The two that move are one decimal tie -- the true value is exactly 203.35 px and
+`:.1f` resolves it by which side of the ulp the double lands on -- so 6 of 8 SVG plates and 8 of 8
+DXF plates are byte-identical on the two shipped plans and the other two move 0.05 in of
+building; corpus-wide it is 16 of 44 SVG and 20 of 44 DXF, and every other movement is the
+one-storey row above. **The DXF has no ties at all** -- it never leaves inches.
+**AND IT FOUND THREE THINGS WP-12.1 HAD SHIPPED.** An opening extruded OUT of its wall on the
+north and east faces (`at` was the outside face with an always-positive thickness; it is the LOW
+face now, stated in the schema); **the same error in the GABLE ENDS, with WP-12.1's own test
+ratifying it** -- that test compared the gable's `at` against the OUTER face of the wall extent,
+which is exactly where the wrong contract put it, so both gables stood 1.29 ft clear of the house
+above the eave under a green assertion saying each *"stands on the face it names"*; and a `bounds`
+block that was the right SIZE in the wrong PLACE, offset by one wall thickness, **which no
+agreement figure could see because none of the three reads `bounds`**. All three were found by
+drawing the scene and looking at it -- three geometry defects in two packages that every number
+in the record accepted. **A test written against the wrong contract is worse than no test**,
+because it converts the defect into a claim.
+**AND `docs/export.md` DESCRIBED TWO DIFFERENCES BETWEEN THE DXF AND THE SVG AND NEITHER EXISTS**
+-- a 0.9x window shrink and a fixed 3 ft door, both false since WP-6.2 gave every opening a placed
+width. Measured: the plan SVG draws 2.0/2.5/3.0/3.5/4.0 ft against a record stating exactly those
+five, and eight distinct door widths from 2.2 to 6 ft are each placed at their own size. **The
+test the paragraph cited could never have caught it**: it asserts the DXF's widths are a SUBSET
+of the recorded ones, which is true whether or not the SVG shrinks -- one half of a claim about
+two surfaces.
 
 **AND THREE STATES OF THE TREE THAT ARE NOT PHASE 12'S, MEASURED 8-9 SEP BY WALKING A WORKTREE OF `origin/main` ALONE.** The browser walk is RED on `main`: a label spill on the Pantry, twice, and the Plan Workbench's engine-caption parity check. Byte-identical on `main` and on `main` + Phase 12. **The spill moved rooms between trees** -- the Centre Passage on `f54c5af`, the Pantry on `main` -- because the merge moved the placement, so attributing it by the room name would have been wrong. At `5869012` every corpus shard, the aggregate gate, the server tests and the docker build are green and the walk is the only red job. **AND THE MERGE WAS DONE AND THE RE-DERIVATION PAID, 9 SEP -- THE DEFECT WAS WORSE THAN PUBLISHED.** `main` was six commits ahead of the PRD's `f54c5af`, carrying the other Phase 11's merge, which touches `structure.py`, `roof.py`, `openings.py`, `plan_check.py` and `export_ifc.py` -- the modules `build/scene.py` is specified to import -- and moved both shipped plans' footprints. Merged with no conflicts, and every WP-12.0 figure re-derived across it rather than quoted: the spec Colonial's `porch_clear_depth_ft` is **6.00 against a drawn 4.00**, fifty per cent over rather than the three quarters of a foot measured on `f54c5af`, and **the Tidewater plan now reaches a proof inside its budget**, so **ten** of its measurements move -- the ridge height, the eave-to-ridge height, the roof plane area -- and **all four of its faces differ** where none did before. **Two published sentences are now false of the tree**: *nothing moves on the Tidewater plan*, and *the front is drawn on the width and the width does not move*. The second was never a rule -- it was a property of one plan on one tree, and it read as an explanation. Corrected in the report's addendum rather than overwritten; the code is unchanged and all 15 tests pass. **A figure is a statement about the tree it was measured on**, which is this file's own rule about what happens to a number at exactly a merge, met the day after it was written down.
 
@@ -938,6 +991,83 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 `build/geometry.py` remains the default engine everywhere.
 
 ## Traps worth knowing before you hit them
+
+- **A TEST WRITTEN AGAINST THE WRONG CONTRACT IS WORSE THAN NO TEST, AND WP-12.1 SHIPPED ONE
+  (WP-12.2, 9 Sep 2026).** The scene schema now says `at` is the LOW face of a wall and the
+  extrusion always runs along the plane's POSITIVE axis. The first version put `at` on the
+  OUTSIDE face with an always-positive thickness, so south and west openings went INTO their
+  walls and north and east ones stood PROUD of them -- and **the gable ends had the same error**,
+  standing 1.29 ft clear of the east and north walls, above the eave, where a reader looks.
+  `test_a_gable_stands_on_the_face_it_names` was GREEN over it, because it compared the gable's
+  `at` against the OUTER face of the wall extent, which is exactly where the wrong contract put
+  it. The assertion was true of the defect, so it converted the defect into a claim. **When a
+  package introduces a contract, assert the contract's own statement and not a consequence that
+  happens to hold under the version being written** -- the gable's interval is read against its
+  own wall's interval now, so a shift in either direction fails.
+- **`bounds` WAS THE RIGHT SIZE IN THE WRONG PLACE AND NO AGREEMENT FIGURE COULD SEE IT
+  (WP-12.2).** The scene's origin is the CLEAR SW corner, so an exterior wall grows outward to
+  `-t` and the outside envelope starts NEGATIVE; WP-12.1 wrote `min: [0, 0, 0]` with a `max` off
+  the section's outside footprint -- declared `[0, 65.58]` against a drawn `[-1.292, 64.292]`.
+  **All three agreement figures accepted it, because every one compares the walls, the slabs and
+  the datums to each other and not one of them reads `bounds`.** Nothing in the record disagreed
+  with itself; a viewer framing the model from it would have drawn the house off centre and
+  nobody could have said why. The guard is a CONTAINMENT to 0.01 ft, not an equality --
+  `section.footprint` is rounded to two places, so the frame and the solids differ by up to 0.004
+  ft and rounding one to the other would be OQ 48's error in a new place -- and its extent helper
+  **raises** on a primitive it does not understand rather than skipping it, because a containment
+  test blind to `plane` and `extrude` would say nothing about the two things this phase added and
+  the two that went wrong.
+- **BYTE-IDENTITY IS THE RIGHT TARGET FOR A LIFT, AND WHERE IT CANNOT BE HAD THE RESIDUE IS
+  MEASURED RATHER THAN ASSERTED AWAY (WP-12.2).** Lifting the elevation's opening rectangle left
+  8 of 8 DXF plates and 6 of 8 SVG plates byte-identical. The two that moved are ONE decimal tie:
+  the exact value is **203.35 px** and `f"{x:.1f}"` resolves a tie by whichever side of it the
+  double lands on, so `cx + w/24` in feet prints 203.4 and `(cx*12 + w/2)/12` in inches prints
+  203.3. **The unit was then chosen by measurement over the 144 opening edges the two shipped
+  plans actually draw** -- inches-first moves 0 DXF coordinates and 2 printed SVG ones, feet-first
+  moves 0 and **64**. Reproducing the
+  float artefact to keep a byte count would have made the function's unit choice a lie.
+- **THE BLIND BAY IS UNREACHABLE FROM THE CORPUS, SO EVERY GUARD ON IT MUST BE DRIVEN
+  (WP-12.2).** OQ 85 blinds the bay a chimney stack stands on, and that skip landing in the SVG
+  loop and not the DXF loop is why the CAD file drew a window through a chimney. **All sixteen
+  plan records now produce ZERO blind bays**, because WP-11.4 moved the stacks off the gable
+  centre line and onto the flues the plan states. So a parity test over the shipped plans passes
+  with the skip DELETED -- WP-8.11's fixture rule arriving on the one branch that has already
+  failed in production. `tests/test_opening_rects.py` blinds a bay by hand and reads the delta
+  from the function, the SVG, the DXF and the scene at once, asserts a POSITIVE count first
+  (a selector matching nothing makes a delta of zero look like a delta of zero), and **asserts
+  the premise** so the day a plan grows a blind bay the suite says so rather than the fixture
+  quietly becoming redundant.
+  **AND IT IS THE SECOND UNREACHABLE BRANCH IN THAT ONE FUNCTION.** A bay the record calls a door
+  draws a WINDOW on any face but the entrance front -- both renderers did it and the lift carried
+  it across -- and the false side of that condition cannot be reached either: `_face_bays` writes
+  `kinds[mid] = "door"` only under `has_entrance`, which is `f == entrance_face`. Swept: 44 faces
+  built over the sixteen plans, 11 door bays, **0** off the entrance front. **KEPT, because it is
+  a FALLBACK and not a CHECK** -- a check that cannot fire is a hazard, since its greenness reads
+  as a verdict, while a fallback that cannot fire is a decision about a malformed record, and
+  deleting this one would draw a door on a wall with no entrance composition to dress it. Named in
+  its own comment with the sweep, and driven by a test. Both branches were found by asking what
+  the corpus actually produces, not by reading the condition.
+- **A DEAD LOCAL THAT READS THE FIELD A LIFT CENTRALISED IS HOW THE SECOND SPELLING GROWS BACK
+  (WP-12.2).** The lift left `door_w_in, door_h_in = ent[...]` and a `cx`/`floor_ft` pair unused
+  at the top of `_entrance`, three lines above a rectangle carrying all four numbers. Nothing
+  used them and nothing would have failed. The source guard is written against READS, not
+  arithmetic -- **and it had to state a rule rather than name a file**: its first version fired
+  on the elevation sheet's own legend, which PRINTS the stated opening width, and exempting that
+  file would have been fitting the corpus that exists. The rule is that outside `elevation.py`
+  one of these fields may be printed and never computed with, so the guard walks up from each
+  read to see whether it is inside an f-string -- and asserts the legend really does print two of
+  them, so the exemption is exercised rather than merely available.
+  **AND A SOURCE GUARD ON FIELD NAMES IS A GUARD ON ONE ROUTE IN.** A sweep after it was green
+  found three more dead locals AND a live transcription it cannot see: the DXF's door branch drew
+  its leaf from a `ground["grade_to_floor_ft"] * IN` computed at the top of the function while the
+  rectangle beside it carried `sill_in` -- the same number by derivation, read twice, which is how
+  two readings stop being the same number. Read the diff for the routes the names do not name.
+- **A LANDED-ASSERTION OF THE FORM `new in back and old not in back` IS FALSE FOR AN INSERTION
+  (WP-12.2).** The mutation harness reported MUTATION DID NOT LAND on a mutation that had landed
+  perfectly, because its replacement CONTAINED the original. `back != src and new in back` holds
+  for both shapes. The landed-assertion is this repository's answer to *a mutation that silently
+  does not apply looks exactly like a guard that works*; an assertion that cries wolf on a good
+  mutation is on its way to being deleted.
 
 - **THE DISCLOSURE PUBLISHED A JOIST RUN OVER OPEN SKY, AND THE COUNT NEVER MOVED (WP-11.15).**
   `geometry._disclose_spans` built its element map as `{idx: [every element] for idx in
@@ -3859,6 +3989,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   styles.** Three separate defects in WP-5.13/5.10 were invisible to both reference plans and fell
   out of a style sweep in seconds. If a change touches the fault corpus or the measurement set,
   sweep the styles.
+  **AND IT EARNED ITSELF AGAIN AT WP-12.2, ONE AXIS OVER: SWEEP THE PLANS TOO.** Lifting the
+  elevation's opening rectangle was measured on the two shipped plans and reported as changing
+  nothing but four pixels. Both are TWO-STOREY; **six of the eleven plans that build an elevation
+  state only storey 0**, and on every one of those the old code drew a whole second row of windows,
+  because both renderers resolved the upper storey as `next((... index == 1), ground)`. Corpus-wide
+  the lift removes **120 window rectangles over 24 plates** -- the largest thing the package did,
+  and invisible to the measurement it was first published with. **The remedy was to widen the
+  harness, not to re-read the code**: render every plate on both sides and diff them.
 - **A NEGATIVE assertion whose selector breaks inverts into a tautology.** `assert 'class="ch"' not
   in text` stopped matching when the stack gained a weight rung, and the suite then held both "no
   chimney on the front" and "two stacks on the front" — green, because only the broken selector
@@ -3887,6 +4025,15 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   `window-on-the-chimney-axis` catches the collision where a record states both. The generator
   publishes `count_of_openings_on_the_axis_of_a_chimney_stack` as a MEASURED zero — it resolved a
   collision, it did not fail to have one.
+  **AND THAT LAST SENTENCE STOPPED BEING TRUE AND WENT ON READING THE SAME (measured WP-12.2).**
+  WP-11.4 moved this house's stacks off the gable centre line and onto the flues the plan states,
+  to 11.77 and 14.21 ft, against bay centres of 6.79, 20.38 and 33.96 on a half-stack of 0.92 ft.
+  So **all sixteen plan records now produce ZERO blind bays**: nothing is blinded, no
+  `blind_bay_reason` reaches any sheet, and the measurement is a zero because there is no
+  collision to resolve rather than because one was resolved. The number is identical and what it
+  means is not, which is the fake-pass shape one level up. The mechanism is intact and correct;
+  what is gone is the corpus's ability to exercise it, so **every guard on the blind bay must be
+  DRIVEN** (`tests/test_opening_rects.py`, which asserts the premise as well as the branch).
 - **A node's own MEASURED parameter can contradict a pack rule at the same address, and OQ 48's
   checker could not see it.** The kit writes `projection_in`; a pack writes dimension `projection`;
   the two never meet under one name. `tidewater-georgian` authored its brick sill at **0–1 in

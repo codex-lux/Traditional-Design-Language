@@ -1434,6 +1434,139 @@ def _derive_measurements(elev):
     # so that a future edit reintroducing one cannot reach the critic (OQ 52).
     return {k: v for k, v in m.items() if v is not None and k not in NOT_MODELLED}
 
+# ---------------------------------------------------------------- the opening rectangle
+
+def opening_rects(elev, face):
+    """Every opening on one face, as a rectangle. THE ONE SPELLING of (x0, x1, sill, head).
+
+    WP-12.2. Until this, the rectangle was transcribed THREE times — `render_elevation._window`
+    for a sash, `render_elevation._entrance` for the door, and `export_dxf._win` — and so was the
+    LOOP around it: both renderers independently derived `faces[face]`, the two storey windows
+    and the two floor datums, skipped a blind bay, and branched on the entrance door. **That
+    duplicated loop has already cost this corpus once**: when the blind bay arrived (OQ 85) the
+    SVG learned to skip it and the DXF did not, so the CAD file drew the very collision the sheet
+    had stopped drawing, and the export selftest could not see it because it round-trips FINDINGS
+    and not geometry.
+
+    The precedent is `plan_check.furniture_shortfalls` — one spelling, several callers — and NOT
+    `openings.required_wall_ft`, which is deliberately spelled three times (one of them
+    JavaScript) and held together by `tests/fixtures/sheet_symbols/`. The discipline transfers;
+    the mechanism does not.
+
+    NOT ROUNDED, and that is deliberate. A rectangle handed to a renderer must carry the number
+    the record implies and not a rounded one: rounding here moved the drawn coordinates by
+    thousandths of an inch and the SVG stopped being byte-identical to what it drew before the
+    lift — a change with no author, which is exactly what a refactor must not produce.
+
+    UNITS: inches throughout, `x` along the face from its own left edge and `y` above GRADE. The
+    DXF draws in inches and the SVG in feet, so one of the two has to divide; inches is the unit
+    the record states every opening in, and a rectangle that starts in the record's own unit is
+    one conversion rather than two.
+
+    A blind bay yields NO rectangle and appears in `refused` with its reason — the bay is real,
+    it holds its place in the rhythm and a stack stands on its axis, so there is nothing to draw
+    at either storey. A bay whose storey states no window record yields no rectangle either, and
+    says which.
+
+    Returns `{"rects": [...], "refused": [...]}`.
+    """
+    front = (elev.get("faces") or {}).get(face) or {}
+    centres = front.get("centres_ft") or []
+    kinds = front.get("kinds") or []
+    sw = elev.get("storey_windows") or []
+    ent = elev.get("entrance") or {}
+    section = elev.get("section") or {}
+    storeys = section.get("storeys") or []
+    rects, refused = [], []
+
+    def _floor_in(index):
+        """The storey's floor datum in inches above grade, or a REASON it has none.
+
+        TWO CAUSES AND TWO MESSAGES (WP-11.4's rule: a refusal with one message for three
+        causes has stopped being a refusal). A storey the section does not state at all is a
+        fact about the BUILDING — this house has one floor — and a storey that exists without a
+        `grade_to_floor_ft` is a fact about the RECORD. They call for different actions and read
+        as the same absence.
+        """
+        st = next((s for s in storeys if s.get("index") == index), None)
+        if st is None:
+            return None, (f"the section states {len(storeys)} storey(s), so this building has "
+                          f"no storey {index} for an opening to stand in")
+        if st.get("grade_to_floor_ft") is None:
+            return None, "the storey states no floor datum"
+        return st["grade_to_floor_ft"] * 12.0, None
+
+    for bay, (cx_ft, kind) in enumerate(zip(centres, kinds)):
+        cx_in = cx_ft * 12.0
+        if kind == "blind":
+            refused.append({"bay": bay, "why": "a blind bay carries no opening at either storey "
+                                               "— a stack stands on its axis (OQ 85)",
+                            "source": f"elevation.faces.{face}.kinds[{bay}]"})
+            continue
+        for si, (storey, rec) in enumerate((("ground", sw[0] if sw else None),
+                                            ("upper", sw[1] if len(sw) > 1 else None))):
+            floor_in, why_no_floor = _floor_in(si)
+            if floor_in is None:
+                refused.append({"bay": bay, "storey": storey, "why": why_no_floor,
+                                "source": f"section.storeys[{si}]"})
+                continue
+            # The DOOR, at the ground storey of the entrance face only. On any other face a bay
+            # the record calls a door draws a window, which is what both renderers already did
+            # and is preserved here rather than corrected: which faces carry a door is the
+            # elevation's judgment, not this function's.
+            #
+            # AND THE FALSE SIDE OF THAT CONDITION IS UNREACHABLE FROM THIS GENERATOR, measured
+            # rather than assumed: `_face_bays` writes `kinds[mid] = "door"` only under
+            # `has_entrance`, and `has_entrance` is `f == entrance_face`, so a door bay can only
+            # ever be on the entrance front. Swept over all sixteen plan records: 44 faces built,
+            # 11 door bays, 0 of them off the entrance front. The condition is KEPT because it is
+            # a fallback and not a check -- deleting it would draw a door on a wall that has no
+            # entrance composition to dress it, which is worse than drawing a window -- and it is
+            # named here so that it does not read as a guard against a case that happens.
+            # `tests/test_opening_rects.py` drives it, because nothing in the corpus can.
+            if si == 0 and kind == "door" and face == elev.get("entrance_face"):
+                w = ent.get("door_leaf_width_in")
+                h = ent.get("door_leaf_height_in")
+                if w is None or h is None:
+                    refused.append({"bay": bay, "storey": storey,
+                                    "why": "the entrance states no door leaf",
+                                    "source": "elevation.entrance"})
+                    continue
+                rects.append({"id": f"{face}-{bay}-door", "bay": bay, "storey": storey,
+                              "kind": "door", "cx_in": cx_in,
+                              "x0_in": cx_in - w / 2.0,
+                              "x1_in": cx_in + w / 2.0,
+                              "sill_in": floor_in,
+                              "head_in": floor_in + h,
+                              "width_in": w, "height_in": h,
+                              "record": None, "entrance": ent,
+                              "source": "elevation.entrance.door_leaf_width_in"})
+                continue
+            if rec is None:
+                refused.append({"bay": bay, "storey": storey,
+                                "why": "the elevation states no window for this storey",
+                                "source": f"elevation.storey_windows[{si}]"})
+                continue
+            w = rec.get("opening_width_in")
+            sill = rec.get("sill_height_above_floor_in")
+            head = rec.get("head_height_above_floor_in")
+            if w is None or sill is None or head is None:
+                refused.append({"bay": bay, "storey": storey,
+                                "why": "the storey's window states no width, sill or head",
+                                "source": f"elevation.storey_windows[{si}]"})
+                continue
+            rects.append({"id": f"{face}-{bay}-{storey}", "bay": bay, "storey": storey,
+                          "kind": "window", "cx_in": cx_in,
+                          "x0_in": cx_in - w / 2.0,
+                          "x1_in": cx_in + w / 2.0,
+                          "sill_in": floor_in + sill,
+                          "head_in": floor_in + head,
+                          "width_in": w, "height_in": head - sill,
+                          "record": rec, "entrance": None,
+                          "source": f"elevation.storey_windows[{si}]"})
+    return {"rects": rects, "refused": refused}
+
+
 # ---------------------------------------------------------------- orchestration
 def build_elevation(plan, parti=None, section=None, roof=None):
     if section is None:

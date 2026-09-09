@@ -64,9 +64,10 @@ empty list is not the question closed (WP-11.6). A scene that models everything 
 
 - **Invent a dimension.** Every solid names its source and its weakest provenance.
 - **Restate a rule that exists.** It imports `export_ifc.slab_boxes`,
-  `structure.wall_thickness`, `hearths.breast`, `compass.plan_north`/`assumption`/`face_token`
-  and the storey heights — it re-derives none of them. A second transcription is how two
-  records of one building come to disagree, which is the defect WP-12.0 removed one layer up.
+  `structure.wall_thickness`, `hearths.breast`, `elevation.opening_rects`,
+  `compass.plan_north`/`assumption`/`face_token` and the storey heights — it re-derives none of
+  them. A second transcription is how two records of one building come to disagree, which is the
+  defect WP-12.0 removed one layer up and WP-12.2 removed one layer down.
 - **Carry a numeric literal that is a dimension.** `tests/test_scene.py` reads this file's
   source and refuses one outside two named constants: `CUT_HEIGHT_FT` (editorial, PRD ruling
   R2) and `DEFAULT_CANDIDATES` (a pool size, named because
@@ -88,17 +89,51 @@ how it was found. A sloping plane needs a per-vertex height, so it has a primiti
 one. **A layer that adds a dimension needs at least one assertion in that dimension.**
 
 **In:** floor slabs per storey per massing element; wall boxes with their role, bearing verdict
-and pen weight; the two roof planes of the gable family and the gable ends as their own face
-silhouettes; hearth breasts where a room authors one; every placed room as a *pick volume* that
-is never drawn; the datum ladder from grade to ridge with each label already set in feet and
-inches; the bay grid; the relaxation marks at the positions the placement recorded; the compass
-assumption; the solver's engine and input digest.
+and pen weight; **the openings, as frames in their own wall (WP-12.2)**; the two roof planes of
+the gable family and the gable ends as their own face silhouettes; hearth breasts where a room
+authors one; every placed room as a *pick volume* that is never drawn; the datum ladder from
+grade to ridge with each label already set in feet and inches; the bay grid; the relaxation marks
+at the positions the placement recorded; the compass assumption; the solver's engine and input
+digest.
 
-**Not in, and each says so in the record:** openings (WP-12.2 lifts the elevation's opening
-rectangle into one function with three callers — until then an exterior wall is a plain box and
-a blank wall must not read as a wall with no windows); hip, gambrel and cross-gable planes;
-chimney solids; sashes, cornices, shutters, dormers, the entrance and the porch (WP-12.6 and
-12.7); stairs, which have plan rectangles and no ARITHMETIC yet — the data is there (`riser_in` 7.367 on the Tidewater plan, and each flight carrying its own tread count, 9 and 10 against 20 risers), so what is missing is the derivation and not the record.
+**Not in, and each says so in the record:** hip, gambrel and cross-gable planes; chimney solids;
+sashes, cornices, shutters, dormers, the entrance and the porch (WP-12.6 and 12.7); stairs, which
+have plan rectangles and no ARITHMETIC yet — the data is there (`riser_in` 7.367 on the Tidewater
+plan, and each flight carrying its own tread count, 9 and 10 against 20 risers), so what is
+missing is the derivation and not the record.
+
+## The openings, and the contract that had to be written down
+
+An opening comes from `elevation.opening_rects(elev, face)` — this layer is its THIRD caller,
+beside the SVG renderer and the DXF exporter — and it is drawn as a **frame and not a hole**.
+This layer does no boolean subtraction, so the wall stays the box the section describes and the
+opening is the rectangle the elevation states, extruded through the wall's own thickness. WP-12.6
+dresses it; what is here is the extent, which is what the elevation actually determines.
+
+**`at` IS THE LOW FACE AND THE EXTRUSION ALWAYS RUNS ALONG THE PLANE'S POSITIVE AXIS.** That
+sentence is in the schema because the first version did not have it: `at` was written on the
+OUTSIDE face of each wall with a thickness that is always positive, so the south and west
+openings went into their walls and the north and east ones stood **proud** of them. **The same
+error was in the gable ends**, which WP-12.1 had shipped standing a full wall thickness clear of
+the east and north walls — a 1.29 ft ledge above the eave, where a reader looks — **and its own
+test ratified it**, because that test compared the gable's `at` against the OUTER face of the
+wall extent, which is exactly where the wrong contract put it. A test written against the wrong
+contract is worse than no test. Both are read from both sides now: a gable must occupy the same
+slab of space as the wall it stands on, and every opening must lie inside the building's own
+bounds.
+
+**And the bounds were the right size in the wrong place.** The frame's origin is the CLEAR SW
+corner, so an exterior wall grows outward to `-t` and the outside envelope starts negative;
+WP-12.1 stated `min: [0, 0, 0]` with a `max` off the section's outside footprint, offset by one
+wall thickness. **None of the three agreement figures could see it**, because all three compare
+the walls, the slabs and the datums to each other and not one of them reads `bounds` — a viewer
+framing the model from it would simply have drawn the house off centre. It is a containment test
+now, to 0.01 ft, which is two and a half times the `section.footprint` rounding residue and three
+hundred times smaller than the defect it caught.
+
+Both defects were found the same way as the roof that was a box with a lid: by drawing the scene
+and looking at it. **That is now three geometry defects in two packages that every number in the
+record accepted.**
 
 ## The measurement it is held to
 

@@ -25,7 +25,7 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **11 — The drawn sheet** | **WP-11.1 … WP-11.8** · the rest planned | **WP-11.1 complete (4 Sep 2026)** — raised by Lucas against a rendered sheet set beside four exemplar plans, and diagnosed before he said what was wrong. The finding that organises it: **the instrument already owned a written graphic standard and the plan sheet did not obey it** — `tokens.css` has carried Graphic Standard No. 1 verbatim since WP-5.2 while `render_plan.py` drew in a dark instrument palette that `svg_theme.py` translated on the way to the browser, so the sheet had the standard's COLOURS and none of its GRAMMAR. `build/sheet_style.py` is the one spelling (52 hex literals in the four renderers → 0, all ten sheets byte-identical across the move); the wall is a BODY at the three thicknesses `structure.wall_thickness` has computed since WP-3.1 and no drawing had ever read, so the sheet now says which walls CARRY; an opening is a hole cut from `derive_openings`' own spans; the room washes are gone and the paper is the room; and the six banner lines are a margin schedule below a ruled border. **Two registers, ruled by Lucas 4 Sep**: `presentation` for a reader, `working` for the marks, one renderer, the plate saying which. **Three existing guards had selectors this package retired and all three would have passed vacuously**, and widening the fourth opened a hole a mutation found — `LIGHT` vouched for itself. Reports: `docs/reports/wp-11.1-the-sheet-in-its-own-standard.md` and `docs/reports/wp-11.2-the-pen-ladder-and-the-wall-the-record-states.md` · new question: `oq/the-placement-carries-no-wall-bands`. **WP-11.2** put the workbench's own sheet on the same ladder (19 inline stroke widths → 0) and gave both renderers ONE wall to read — `footprint.wall`, plan schema 0.5.1, from `build/assemblies.py`, a leaf on `storeys.py`'s precedent. **The browser walk ran for the first time in a session on this branch** and caught a defect 81 unit tests and a clean build both missed |
 | **11 — The house the sheet should have drawn** | **WP-11.1 through 11.9, 11.11 and 11.12 COMPLETE · 11.10 PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · then the adversarial audit of 11.9-11.11** | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
-| **12 — The sheet in the round** | **WP-12.0 through 12.8** | **Not started (8 Sep 2026)** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
+| **12 — The sheet in the round** | **WP-12.0 through 12.8** | **WP-12.0, 12.1 and 12.2 complete (8-9 Sep 2026); 12.3 through 12.8 not started** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -3506,6 +3506,20 @@ caught by summing the extent rather than by reading the expression, which is why
 agreement between two independent derivations rather than a pinned number. The selftest runs
 INSIDE `validate.py` so `TOTAL_CHECKS` does not move (WP-11.6's precedent).
 
+**AMENDED 9 SEP 2026 BY WP-12.2, WHICH FOUND THREE THINGS IN THIS PACKAGE AND MOVED ITS
+FIGURES.** The solid counts above are pre-openings: with WP-12.2's `opening-frame` solids they are
+**101 and 75**, and `not_modelled` is **1 and 2**; the suite is 18 tests. The three defects: an
+opening extruded OUT of its wall on the north and east faces, because `at` was written on the
+outside face with an always-positive thickness (it is the LOW face now, and the schema says so);
+**the same error in the GABLE ENDS**, which stood 1.29 ft clear of the east and north walls above
+the eave, **with this package's own test ratifying it** -- `test_a_gable_stands_on_the_face_it_
+names` compared the gable's `at` against the OUTER face of the wall extent, which is exactly where
+the wrong contract put it; and a `bounds` block that was the right SIZE in the wrong PLACE, offset
+by one wall thickness, **which none of the three agreement figures could see, because not one of
+them reads `bounds`**. All three were found by drawing the scene and looking at it -- the same
+instrument that found the roof that was a box with a lid, now three defects in two packages that
+every number in the record accepted.
+
 *Original package text follows, as written.*
 
 **Status when written: NOT STARTED.** `schema/scene.schema.json` 0.1.0 and `build/scene.py` — pure arithmetic, a leaf
@@ -3520,7 +3534,37 @@ on. **Size:** large. Full text: PRD §8.
 
 ### WP-12.2 One opening rectangle, three callers
 
-**Status: NOT STARTED.** `elevation.py::opening_rects(elev, face)` as the one spelling of
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.2-one-opening-rectangle.md`.
+`build/elevation.py::opening_rects(elev, face)` is the one spelling of `(x0, x1, sill, head)`
+**and of the loop around it**, with `render_elevation._window`, `render_elevation._entrance`,
+`export_dxf._win` and `build/scene.py::_openings` reading it and every copy deleted.
+`tests/test_opening_rects.py` (10 tests, 9 mutations, all red from green).
+**AND ITS LARGEST FINDING WAS INVISIBLE ON THE TWO SHIPPED PLANS.** Both renderers resolved the
+upper storey with a fallback to the GROUND one and then drew a second row of windows at that datum
+unconditionally; **six of the eleven plans that build an elevation state only storey 0**, so each
+was drawing a row of openings its record does not hold. Corpus-wide, **244 window rectangles become
+124 over 24 plates**. The first measurement of this package was taken over the two shipped plans,
+which are both two-storey, and reported that the lift changed nothing but four pixels.
+**Measured over all 44 elevation plates against `9aa3a35`: 16 of 44 SVG and 20 of 44 DXF
+byte-identical**, both sides proved reproducible run-to-run first; on the two shipped plans alone
+it is 6 of 8 and 8 of 8. The two that move are one decimal tie -- the
+exact value is 203.35 px and `:.1f` resolves a tie by whichever side of it the double lands on --
+and **the unit was then chosen by measurement rather than taste**: over the 144 opening edges the
+two shipped plans actually draw, an inches-first rectangle moves 0 DXF coordinates and 2 printed
+SVG ones, a feet-first one 0 and **64**. Scene solids 61 -> **101** and 43 -> **75**; `not_modelled` 2 -> 1 and 3 -> 2.
+**THE BRANCH THIS PACKAGE EXISTS TO GUARD IS UNREACHABLE FROM THE CORPUS.** OQ 85's blind bay is
+what the DXF failed to skip; **all sixteen plan records now produce ZERO blind bays**, because
+WP-11.4 moved the stacks off the gable centre line and onto the flues the plan states. A parity
+test over the shipped plans would pass with the skip deleted, so the guard is driven and asserts
+its own premise. It also found three defects in WP-12.1 (see that package's amendment) and two
+false claims in `docs/export.md` -- a 0.9x window shrink and a fixed 3 ft door, neither of which
+has existed since WP-6.2, **cited to a test that could never have caught it** because that test
+asserts the DXF's widths are a SUBSET of the recorded ones, which is true whether or not the SVG
+shrinks.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** `elevation.py::opening_rects(elev, face)` as the one spelling of
 `(x0, x1, sill, head)`, with `render_elevation._window`, `export_dxf._win` and `scene.py` as its three
 callers and the copies deleted. The review found a third transcription the PRD did not name — the DOOR
 rectangle at `render_elevation.py:451` — so it is three removed, not two. The precedent is

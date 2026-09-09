@@ -499,9 +499,11 @@
                   ]
                 },
                 "at": {
+                  "description": "The plane's own coordinate, and it is always the LOW face: a viewer extrudes `thickness` from here in the plane's POSITIVE direction and never has to know which side of the building the face is on. Written the other way, a south opening goes into its wall and a north one stands proud of it, which renders as blocks stuck to the house and is invisible to every plan-extent measurement.",
                   "type": "number"
                 },
                 "thickness": {
+                  "description": "Always positive; the extrusion runs from `at` along the plane's positive axis.",
                   "type": "number"
                 },
                 "outline": {

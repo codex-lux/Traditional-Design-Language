@@ -132,12 +132,18 @@ if errs:
 # family-specimen drift check inside check_precedents.py for the same reason. It is placed
 # after the taxonomy verdict because it is a different subject and must not be able to make
 # that verdict read as its own; it exits non-zero on its own account.
+#
+# AND IT LOADS THROUGH `modcache` RATHER THAN BY PATH. WP-12.1 wrote a bare
+# `spec_from_file_location` here and `tests/test_modcache.py::
+# test_no_new_by_path_loader_outside_modcache` refused it — correctly: a fresh module object
+# per call is exactly what that cache exists to stop, and `scene.py` pulls in geometry,
+# structure, roof and elevation behind it. Found by WP-12.2 running the guard rather than by
+# reading, which is the shape this file keeps meeting: a package that commits before its build
+# finishes learns what it broke from the build.
 _scene_bad = 0
 try:
-    import importlib.util as _ilu
-    _s = _ilu.spec_from_file_location("scene", f"{ROOT}/build/scene.py")
-    _scene = _ilu.module_from_spec(_s)
-    _s.loader.exec_module(_scene)
+    import modcache as _mc
+    _scene = _mc.load("scene", f"{ROOT}/build/scene.py")
     print()
     _scene_bad = _scene.selftest()
 except Exception as _e:                 # noqa: BLE001 -- a refusal is content

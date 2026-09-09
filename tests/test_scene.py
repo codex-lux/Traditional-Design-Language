@@ -54,6 +54,34 @@ def scenes():
     return out
 
 
+def _extent(g):
+    """The axis-aligned extent of any of the schema's primitives, as three (lo, hi) pairs.
+
+    Written once here rather than per test: a containment assertion that only understood boxes
+    would have said nothing about the roof planes and nothing about the openings, which are the
+    two things this phase added and the two that have gone wrong.
+    """
+    if g["type"] == "box":
+        o, s = g["origin"], g["size"]
+        return [(o[i], o[i] + s[i]) for i in range(3)]
+    if g["type"] == "plane":
+        v = g["vertices"]
+        return [(min(p[i] for p in v), max(p[i] for p in v)) for i in range(3)]
+    if g["type"] == "prism":
+        poly = g["polygon"]
+        return [(min(p[0] for p in poly), max(p[0] for p in poly)),
+                (min(p[1] for p in poly), max(p[1] for p in poly)),
+                (g["z0"], g["z1"])]
+    if g["type"] == "extrude":
+        u = [(min(p[0] for p in g["outline"]), max(p[0] for p in g["outline"])),
+             (min(p[1] for p in g["outline"]), max(p[1] for p in g["outline"]))]
+        thick = (g["at"], g["at"] + g["thickness"])
+        return {"xz": [u[0], thick, u[1]],
+                "yz": [thick, u[0], u[1]],
+                "xy": [u[0], u[1], thick]}[g["plane"]]
+    raise AssertionError(f"no extent rule for a {g['type']} — add one rather than skipping it")
+
+
 # ------------------------------------------------------------------ the record is well formed
 
 def test_both_scenes_validate_against_the_schema(scenes):
@@ -186,26 +214,38 @@ def test_a_roof_plane_slopes_and_is_not_a_box(scenes):
                 f"{sorted({datums['eave'], datums['ridge']})}"
 
 
-def test_a_gable_stands_on_the_face_it_names(scenes):
-    """An E or W gable is a constant-x plane and an N or S gable a constant-y one. The first
-    version took the DEPTH as the east gable's x coordinate, which put it inside the house —
-    caught by reading the number against the wall extent rather than by reading the code."""
+def test_a_gable_occupies_its_own_wall(scenes):
+    """An E or W gable is a constant-x plane and an N or S gable a constant-y one, AND it
+    occupies the same slab of space as the exterior wall it stands on.
+
+    WP-12.1 wrote this test the weaker way — `at` against the OUTER face of the wall extent —
+    and by doing so it ratified the very defect WP-12.2 then found in the openings. Under the
+    schema's contract `at` is the LOW face and the extrusion runs along the plane's POSITIVE
+    axis, so a gable whose `at` is the outer face stands one wall thickness PROUD of the house:
+    a 1.29 ft ledge over the east and north walls of the Tidewater plan, drawn above the eave
+    where a reader looks. The old assertion was true of that gable, which is what a test written
+    against the wrong contract does.
+
+    The interval is read from both sides now — the gable's `[at, at + thickness]` against the
+    wall's own box on the same axis — so a shift in either direction fails. The tolerance is the
+    `section.footprint` rounding residue and nothing more.
+    """
     for name, (scene, _s) in scenes.items():
         walls = [s for s in scene["solids"] if s["class"] == "wall" and s.get("face")]
-        xs = [v for s in walls for v in (s["geometry"]["origin"][0],
-                                         s["geometry"]["origin"][0] + s["geometry"]["size"][0])]
-        ys = [v for s in walls for v in (s["geometry"]["origin"][1],
-                                         s["geometry"]["origin"][1] + s["geometry"]["size"][1])]
         for g in [s for s in scene["solids"] if s["class"] == "gable"]:
-            at, plane, f = g["geometry"]["at"], g["geometry"]["plane"], g["face"]
-            if f in ("E", "W"):
-                assert plane == "yz", f"{name}: gable {f} is not a constant-x plane"
-                assert abs(at - (max(xs) if f == "E" else min(xs))) < 0.05, \
-                    f"{name}: gable {f} stands at x={at}, not on its own face"
-            else:
-                assert plane == "xz", f"{name}: gable {f} is not a constant-y plane"
-                assert abs(at - (max(ys) if f == "N" else min(ys))) < 0.05, \
-                    f"{name}: gable {f} stands at y={at}, not on its own face"
+            f, geo = g["face"], g["geometry"]
+            axis = 0 if f in ("E", "W") else 1
+            assert geo["plane"] == ("yz" if axis == 0 else "xz"), \
+                f"{name}: gable {f} is not a constant-{'x' if axis == 0 else 'y'} plane"
+            mine = [w for w in walls if w["face"] == f]
+            assert mine, f"{name}: no exterior wall on face {f} for its gable to stand on"
+            lo = min(w["geometry"]["origin"][axis] for w in mine)
+            hi = max(w["geometry"]["origin"][axis] + w["geometry"]["size"][axis] for w in mine)
+            assert abs(geo["at"] - lo) < 0.05 and \
+                abs(geo["at"] + geo["thickness"] - hi) < 0.05, (
+                f"{name}: gable {f} occupies [{geo['at']}, {geo['at'] + geo['thickness']}] "
+                f"where its own wall is [{lo}, {hi}] — a gable that is not in its wall is a "
+                f"ledge over the eave")
 
 
 # ------------------------------------------------------------------ the three states
@@ -238,12 +278,82 @@ def test_the_note_states_the_count_even_when_it_is_zero(scenes):
         assert str(len(scene["not_modelled"])) in scene["note"], name
 
 
-def test_the_walls_say_they_have_no_openings_yet(scenes):
-    """WP-12.2's holes are not here, and a blank wall must not read as a wall with no windows.
-    When 12.2 lands this test is the thing that says so: it will fail, and the entry it is
-    asserting on should be REPLACED by holes rather than deleted."""
+def test_the_openings_are_drawn_on_every_face(scenes):
+    """WP-12.2 replaced this test's predecessor rather than deleting it.
+
+    Until 12.2 an exterior wall was a plain box carrying a `not_modelled` entry that said so,
+    because a blank wall must not read as a wall with no windows, and
+    `test_the_walls_say_they_have_no_openings_yet` was written to FAIL when the openings landed.
+    It did. What replaces it asserts the other side of the same rule: every face carries
+    openings now, and NOTHING still says they are missing.
+    """
     for name, (scene, _s) in scenes.items():
-        assert any(n.get("class") == "opening" for n in scene["not_modelled"]), name
+        assert not any(n.get("class") == "opening" and "every face" in n.get("what", "")
+                       for n in scene["not_modelled"]), (
+            f"{name} draws openings and still declares them not modelled")
+        by_face = {}
+        for solid in scene["solids"]:
+            if solid["class"] == "opening-frame":
+                by_face[solid["face"]] = by_face.get(solid["face"], 0) + 1
+        assert set(by_face) == {"S", "N", "E", "W"}, f"{name}: openings on {sorted(by_face)}"
+        assert all(n > 0 for n in by_face.values()), f"{name}: {by_face}"
+
+
+def test_an_opening_is_extruded_into_its_own_wall_and_not_out_of_it(scenes):
+    """THE CONTRACT THE SCHEMA STATES, read back from the record.
+
+    `at` is the LOW face of the wall and `thickness` always runs along the plane's POSITIVE
+    axis. Written the other way — `at` on the OUTSIDE face of each wall, extruding positively —
+    the south and west openings go into their walls and the north and east ones stand PROUD of
+    them, and the model renders as a house with blocks stuck to two of its sides. No count and
+    no plan-extent measurement can see that; it was found by looking at the picture.
+    """
+    for name, (scene, section) in scenes.items():
+        t = (section["wall"]["exterior_in"]) / 12.0
+        b = scene["bounds"]
+        seen = 0
+        for solid in scene["solids"]:
+            if solid["class"] != "opening-frame":
+                continue
+            seen += 1
+            g = solid["geometry"]
+            assert g["thickness"] > 0, f"{name} {solid['id']} extrudes backwards"
+            assert abs(g["thickness"] - t) < 0.01, f"{name} {solid['id']} is not a wall thick"
+            axis = 1 if g["plane"] == "xz" else 0
+            lo, hi = g["at"], g["at"] + g["thickness"]
+            assert b["min"][axis] - 0.01 <= lo and hi <= b["max"][axis] + 0.01, (
+                f"{name} {solid['id']} on face {solid['face']} is extruded to "
+                f"[{lo}, {hi}], outside the building's own "
+                f"[{b['min'][axis]}, {b['max'][axis]}]")
+        assert seen > 0, f"{name} drew no openings at all"
+
+
+def test_every_solid_lies_inside_the_declared_bounds(scenes):
+    """A WHOLE-MEASURE ASSERTION, and it is the one that found WP-12.1's `bounds`.
+
+    The frame's origin is the CLEAR SW corner, so an exterior wall grows outward to `-t` and the
+    outside envelope starts negative. WP-12.1 stated `min: [0, 0, 0]` and `max` off the
+    section's OUTSIDE footprint — the right SIZE in the wrong PLACE, offset by one exterior wall
+    thickness, 1.292 ft on the Tidewater plan. **None of the three agreement figures could see
+    it**, because all three compare the walls, the slabs and the datums to each other and not
+    one of them reads `bounds`; a viewer framing the model from it would simply have drawn the
+    house off centre.
+
+    CONTAINMENT AND NOT EQUALITY. `section.footprint` is rounded to two places, so the stated
+    frame and the drawn solids differ by up to 0.004 ft — the same residue the agreement table
+    reports — and rounding one to the other to make an equality hold would be OQ 48's error in
+    a new place. The tolerance is 0.01 ft: two and a half times the residue, and three hundred
+    times smaller than the defect it caught.
+    """
+    for name, (scene, _s) in scenes.items():
+        b = scene["bounds"]
+        worst, who = 0.0, None
+        for solid in scene["solids"]:
+            for axis, (lo, hi) in enumerate(_extent(solid["geometry"])):
+                over = max(b["min"][axis] - lo, hi - b["max"][axis])
+                if over > worst:
+                    worst, who = over, f"{solid['id']} ({solid['class']}) on {'xyz'[axis]}"
+        assert worst <= 0.01, f"{name}: {who} stands {worst:.3f} ft outside the stated frame"
 
 
 def test_a_hearth_is_drawn_only_where_one_is_authored(scenes):

@@ -298,12 +298,70 @@ def _walls(section, states):
                 level=idx, element=w.get("element") or "main",
                 face=w.get("wall") if exterior else None,
                 note=w.get("why")))
-    if out:
-        states.cannot("openings in the walls",
-                      "an exterior wall is a plain box until WP-12.2 lifts the elevation's "
-                      "opening rectangle into one function with three callers; a wall drawn "
-                      "with no holes is not a wall with no windows",
-                      "build/elevation.py::opening_rects (not built)", cls="opening")
+    return out
+
+
+def _openings(elev, section, states):
+    """The openings, as their own solids, from `elevation.opening_rects` — the THIRD caller of
+    the one function WP-12.2 lifted (the SVG renderer and the DXF exporter are the other two).
+
+    THEY ARE FRAMES AND NOT HOLES, and the distinction is the honest one. A hole is a boolean
+    subtraction from the wall it sits in, and this layer does no CSG: the wall stays the box the
+    section describes and the opening is drawn as the rectangle the elevation states, in its own
+    face plane, at the reveal. WP-12.6 dresses it with sash, muntins, sill and shutters; what is
+    here is the opening's extent, which is what the elevation actually determines.
+
+    A face the elevation refuses carries no openings and says so once, rather than per bay.
+    """
+    out = []
+    if not elev or elev.get("error") or not elev.get("faces"):
+        states.cannot("openings on every face",
+                      (elev or {}).get("error") or "the elevation generator refuses outside the "
+                      "classical-front family, so no face states an opening",
+                      "elevation.faces", cls="opening")
+        return out
+    fp = section.get("footprint") or {}
+    W, D = fp.get("width_ft"), fp.get("depth_ft")
+    t_ext = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
+    ox = oy = -t_ext
+    EL = _mod("elevation")
+    for face in ("S", "N", "E", "W"):
+        got = EL.opening_rects(elev, face)
+        for r in got["refused"]:
+            states.cannot(f"opening on face {face} bay {r.get('bay')}", r["why"], r["source"],
+                          cls="opening")
+        for r in got["rects"]:
+            # The face's own horizontal runs along the wall it is on: x for S and N, y for E
+            # and W. The elevation lays every face out from its own left edge at 0, and the
+            # faces are laid over the OUTSIDE footprint, so they take the same origin shift the
+            # roof does — one frame for the whole scene.
+            u0, u1 = r["x0_in"] / 12.0, r["x1_in"] / 12.0
+            z0, z1 = r["sill_in"] / 12.0, r["head_in"] / 12.0
+            # `at` IS THE LOW FACE AND THE EXTRUSION ALWAYS RUNS +AXIS, which is the whole
+            # contract: a viewer extrudes `thickness` from `at` in the plane's own positive
+            # direction and never has to know which side of the building it is on. The first
+            # version put `at` on the OUTSIDE face of every wall and extruded positively from
+            # there, so the south and west openings went into the wall and the north and east
+            # ones stood proud of it — and it rendered as a house with blocks stuck to two of
+            # its faces. Caught by looking at the picture, which is the second time in this
+            # phase that a geometry defect was invisible to every number.
+            if face in ("S", "N"):
+                plane, at = "xz", (oy if face == "S" else oy + D - t_ext)
+                outline = [[ox + u0, z0], [ox + u1, z0], [ox + u1, z1], [ox + u0, z1]]
+            else:
+                plane, at = "yz", (ox if face == "W" else ox + W - t_ext)
+                outline = [[oy + u0, z0], [oy + u1, z0], [oy + u1, z1], [oy + u0, z1]]
+            out.append(_solid(
+                f"{face}-{r['bay']}-{r['storey']}-{r['kind']}", "opening-frame",
+                {"type": "extrude", "plane": plane, "at": round(at, 3),
+                 "thickness": round(t_ext, 3),
+                 "outline": [[round(a, 3), round(b, 3)] for a, b in outline]},
+                "profile", "paper-lit",
+                {"record": r["source"], "also": [f"elevation.faces.{face}.centres_ft"]},
+                "derived", face=face,
+                note="the opening's extent, drawn in the face plane at the reveal. It is a "
+                     "FRAME and not a hole: this layer does no boolean subtraction, so the "
+                     "wall behind it is the box the section describes"))
     return out
 
 
@@ -417,9 +475,10 @@ def _roof(plan, section, roof, states):
             # first version took `D` for the E face — the DEPTH as an x coordinate — which
             # put the east gable inside the house, and it was caught by reading the number
             # against the wall extent rather than by reading the expression.
+            # `at` is the LOW face and the extrusion runs +axis, as for every opening above.
             {"type": "extrude", "plane": "yz" if f in ("E", "W") else "xz",
              "at": round((ox if f == "W" else oy if f == "S"
-                          else ox + W if f == "E" else oy + D), 3),
+                          else ox + W - t_ext_ft if f == "E" else oy + D - t_ext_ft), 3),
              "thickness": round(t_ext_ft, 3),
              "outline": [[round(u + (oy if f in ("E", "W") else ox), 3), round(v, 3)]
                          for u, v in prof]},
@@ -532,9 +591,12 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
 
     fp = section.get("footprint") or {}
     W, D = fp.get("width_ft"), fp.get("depth_ft")
+    # The one place this file states the exterior wall's thickness in feet, for the frame below.
+    _t_ext_ft = ((section.get("wall") or {}).get("exterior_in") or 0) / 12.0
     solids = []
     solids += _slabs(plan, section, states)
     solids += _walls(section, states)
+    solids += _openings(elev, section, states)
     solids += _roof(plan, section, roof, states)
     solids += _hearths(plan, states)
 
@@ -581,8 +643,26 @@ def build_scene(plan, section, roof, elev=None, *, kit=None, packs=None):
                             "assumption": compass.assumption(north)}},
         "entrance_face": (elev or {}).get("entrance_face"),
         "faces": faces,
-        "bounds": {"min": [0.0, 0.0, 0.0],
-                   "max": [W, D, round(z_top, 3)]},
+        # THE BOUNDS ARE THE OUTSIDE ENVELOPE AND THE ORIGIN IS THE CLEAR CORNER, so they start
+        # NEGATIVE. WP-12.1 wrote `min: [0, 0, 0]` and `max: [W, D]` off the section's OUTSIDE
+        # footprint while every solid in the scene is laid from the CLEAR SW corner — an
+        # exterior wall grows outward to `-t`, and so do the slabs, the roof and now the
+        # openings. So the stated frame was the right SIZE in the wrong PLACE, offset by one
+        # exterior wall thickness (1.292 ft on the Tidewater plan): declared [0, 65.58] against
+        # a drawn [-1.292, 64.292]. Nothing in the record disagreed with itself, because the
+        # three agreement figures compare the walls, the slabs and the datums to each other and
+        # none of them reads `bounds` — a viewer framing the model from it would have centred
+        # the house half a foot off and nobody would have known why.
+        #
+        # Found by WP-12.2, from listening to the openings: they are the first solids whose own
+        # `at` is printed in the record, and printing them beside `bounds` made the offset
+        # legible. `tests/test_scene.py::test_every_solid_lies_inside_the_declared_bounds` is
+        # the guard, and it is a CONTAINMENT rather than an equality for the reason the
+        # agreement figures already carry: `section.footprint` is rounded to two places, so the
+        # frame and the solids differ by up to 0.004 ft and rounding one to the other would be
+        # OQ 48's error in a new place.
+        "bounds": {"min": [round(-_t_ext_ft, 3), round(-_t_ext_ft, 3), 0.0],
+                   "max": [round(W - _t_ext_ft, 3), round(D - _t_ext_ft, 3), round(z_top, 3)]},
         "grid": grid,
         "storeys": [{"id": st.get("id"), "index": st.get("index"),
                      "floor_z_ft": st.get("grade_to_floor_ft"),
