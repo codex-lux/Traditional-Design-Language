@@ -3659,7 +3659,28 @@ imports React and `no_bare_imports.test.mjs` would turn a green local run red in
 
 ### WP-12.5 Overlays and modifiers
 
-**Status: NOT STARTED.** The bay grid, datums, daylight reach, wet stack, privacy gradient, the △ marks
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.5-overlays-and-modifiers.md`.
+Six overlays and three modifiers, each a pure leaf under `node --test`, each stated in the caption
+when active and addressable in the URL. `sheet/overlayRules.js` is the one spelling of the three
+analytic rules, which lived inline in `Sheet.jsx`'s JSX; `derive.js::elementBounds` and
+`corpus.rooms_meta` are two further copies removed before a second surface could make them.
+**THE FINDING IS THAT LOOKING AT THE SHEET PRODUCED A FALSE POSITIVE, for the first time in eight
+packages.** I read one tone off a screenshot, concluded the privacy overlay drew nothing, and
+pushed that as `46f612f` ("AND THEY DRAW NOTHING"). It is false. The canvas states what it built
+(`privacy:24, wet:4`, reconciling exactly with the record) and a pixel band gives ONE floor tone
+with the overlay off and THREE with it on, on the ramp. **Looking at the sheet finds defects; it
+does not adjudicate them** -- on a translucent mark the absent overlay and the faint one are the
+same picture. The half that stands: the walk checks asserted the URL and the caption and never
+that anything was drawn.
+Two defects found by the lift, both unreachable from the corpus and both driven: `|| 2.25` eating
+a stated `depth_multiplier: 0` (12 placements, **0 drawing a wash**), and a privacy ramp unbounded
+in both directions whose falsy guard covers one bad rank by accident. Three PRD sentences the tree
+had overtaken are corrected in the modules rather than followed. App suite 117 -> 147, walk
+162 -> 177.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** The bay grid, datums, daylight reach, wet stack, privacy gradient, the △ marks
 and the 2D plate as overlays; explode by level, explode by element, and a real section cut with poché
 caps as modifiers; each computed in a pure module, each composing with any view, each stated in the
 caption when active and addressable in the URL. The exploded drop-line count is held to

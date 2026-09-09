@@ -130,7 +130,7 @@ truncated left half. Both are the shapes this file already records for the two p
 code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
 were then driven to prove they fire**, which is the only thing that has ever caught one of these.
 
-**WP-12.0 THROUGH WP-12.4 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
+**WP-12.0 THROUGH WP-12.5 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
 again (`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`) and WP-12.1 is the scene
 record (`docs/reports/wp-12.1-the-scene-record.md`, layer doc `docs/scene.md`): `build/scene.py`,
 pure arithmetic and a leaf, which imports `export_ifc.slab_boxes`, `structure.wall_thickness`,
@@ -292,6 +292,47 @@ perspective view in v1 stands; only its package moved, because at WP-12.4 the mo
 undressed massing and eye height is where a missing cornice, dormer and door surround are least
 forgivable. `frame.js` carries one projection kind. `PLAN-OF-ACTION.md`'s status block says so;
 its original package text still names the chip, as this project leaves original text.
+
+**WP-12.5 IS THE OVERLAYS AND THE MODIFIERS, AND ITS FINDING IS THAT LOOKING AT THE SHEET
+PRODUCED A FALSE POSITIVE (`docs/reports/wp-12.5-overlays-and-modifiers.md`).** The six analytic
+overlays and the three modifiers, each computed in a pure leaf, each stated in the caption when
+active and addressable in the URL. `sheet/overlayRules.js` is the one spelling of the daylight
+reach, the privacy ramp, the wet predicate and the two wash strengths -- all of which lived
+INLINE IN `Sheet.jsx`'s JSX until a second surface needed them; `derive.js::elementBounds` and
+`corpus.rooms_meta` are two more copies removed before they could be made.
+**THIS FILE RECORDS *RENDER THE SHEET AND OPEN IT* AS THE TECHNIQUE THAT FOUND WHAT NOTHING ELSE
+DID, SEVEN PACKAGES RUNNING. THIS IS THE FIRST TIME IT WAS WRONG.** I turned the privacy overlay
+on, looked at the screenshot, saw one tone, concluded the overlay drew nothing, and **pushed that
+conclusion as `46f612f`, whose subject reads "AND THEY DRAW NOTHING".** It is false and the commit
+cannot be rewritten, so it is corrected here. Two measurements settled it: the canvas now states
+what it built and the walk read **`privacy:24, wet:4`** -- which reconciles exactly with the
+record, 25 rooms carrying a rank less the terrace, which takes no rectangle -- and a pixel band
+across the model gives **ONE floor tone with the overlay off and THREE with it on**, sitting on
+the sepia ramp over that base to within two values of eight bits. The wash is 4% to 24% of
+`--sepia` over cream, and at plan scale I read *I cannot see it* as *it is not there*.
+**LOOKING AT THE SHEET FINDS DEFECTS; IT DOES NOT ADJUDICATE THEM** -- WP-11.8's *a number read
+off the deliverable is not a measurement of the change* wearing the other face. On a translucent
+mark the absent overlay and the faint one are the SAME PICTURE, so measure against a control
+before naming a cause and never before publishing one. **The half that stands is that my six walk
+checks asserted the URL and the caption and never that anything was drawn**, so they would have
+passed over an overlay that really was absent; that is why the count attribute exists, and it is
+the same fact from the other side.
+**AND THE LIFT FOUND TWO DEFECTS IN THE SHIPPED OVERLAY CODE, BOTH UNREACHABLE FROM THE CORPUS.**
+`daylight_multiplier || 2.25` turned a STATED ZERO into the default -- three records say
+`depth_multiplier: 0`, placed 12 times over 6 plans, and **0 of the 12 draw a wash** because none
+declares a window, so it is latent and publishing 12 would have been three times its true size in
+the flattering direction. And the privacy ramp has **no bound in either direction**: rank -1 washes
+at -0.06 and rank 6 at 0.29, darker than the deepest legitimate room, while `if (!rank)` catches
+rank 0 -- which `check_rooms.PRIVACY_BANDS` AUTHORISES -- by accident and renders an evaluated rank
+as unjudged. **My first version of that finding was also wrong**: I claimed rank 0 drew at -0.01
+and a mutation left the suite 24 of 24 GREEN under a full revert, because a test on the VALUE
+cannot separate `null` from `null`. `oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits`.
+**Three more of the PRD's sentences are overtaken by the tree**: `scene.grid` is a count and a
+module and not lines; `geometry_report.vertical` is a list of English sentences, so the transfer
+count is READ from the disclosure and never recomputed
+(`oq/the-transfer-count-lives-only-inside-an-english-sentence`); and a scene element carries no
+`attached_to`, so an explode direction is derived from the rects and refused by name where an
+element is concentric with the main block. App suite 117 -> 147, walk 162 -> 177 check sites.
 
 **AND THREE STATES OF THE TREE THAT ARE NOT PHASE 12'S, MEASURED 8-9 SEP BY WALKING A WORKTREE OF `origin/main` ALONE.** The browser walk is RED on `main`: a label spill on the Pantry, twice, and the Plan Workbench's engine-caption parity check. Byte-identical on `main` and on `main` + Phase 12. **The spill moved rooms between trees** -- the Centre Passage on `f54c5af`, the Pantry on `main` -- because the merge moved the placement, so attributing it by the room name would have been wrong. At `5869012` every corpus shard, the aggregate gate, the server tests and the docker build are green and the walk is the only red job. **AND THE MERGE WAS DONE AND THE RE-DERIVATION PAID, 9 SEP -- THE DEFECT WAS WORSE THAN PUBLISHED.** `main` was six commits ahead of the PRD's `f54c5af`, carrying the other Phase 11's merge, which touches `structure.py`, `roof.py`, `openings.py`, `plan_check.py` and `export_ifc.py` -- the modules `build/scene.py` is specified to import -- and moved both shipped plans' footprints. Merged with no conflicts, and every WP-12.0 figure re-derived across it rather than quoted: the spec Colonial's `porch_clear_depth_ft` is **6.00 against a drawn 4.00**, fifty per cent over rather than the three quarters of a foot measured on `f54c5af`, and **the Tidewater plan now reaches a proof inside its budget**, so **ten** of its measurements move -- the ridge height, the eave-to-ridge height, the roof plane area -- and **all four of its faces differ** where none did before. **Two published sentences are now false of the tree**: *nothing moves on the Tidewater plan*, and *the front is drawn on the width and the width does not move*. The second was never a rule -- it was a property of one plan on one tree, and it read as an explanation. Corrected in the report's addendum rather than overwritten; the code is unchanged and all 15 tests pass. **A figure is a statement about the tree it was measured on**, which is this file's own rule about what happens to a number at exactly a merge, met the day after it was written down.
 
