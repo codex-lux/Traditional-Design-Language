@@ -9,17 +9,11 @@ import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
+import { KINDS } from './drawingKinds.js';
+import { RoundPlate } from '../round/RoundPlate.jsx';
+import { defaultAxon } from '../round/frame.js';
+import { plateKeyFor } from '../round/annotate.js';
 
-const KINDS = [
-  // "front elevation" until WP-12.0 gave the surface its face chips: the sheet chip picks
-  // the KIND and the face chip picks the face, and calling the kind "front" would contradict
-  // the reader who has just asked for the north.
-  { id: 'elevation', label: 'elevation' },
-  { id: 'section', label: 'section' },
-  { id: 'bearing', label: 'bearing lines' },
-  { id: 'roof', label: 'roof plan' },
-  { id: 'plan', label: 'solved plan' },
-];
 
 /* WP-12.0. The compass order, not a preference: `build/elevation.py`'s own FACES tuple is
    ("S", "N", "E", "W") and the elevation record carries a face block for every one of them.
@@ -61,7 +55,15 @@ const DISCLOSURE = {
 
 export function DrawingSet({ go }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
-  const [kind, setKind] = React.useState('elevation');
+  // WP-12.4: the model is the first plate and the five flat kinds are chips beneath it, so
+  // arriving at ⑧ shows the house rather than one of its faces. It costs no extra call: the
+  // scene route returns the six named views' plates WITH the model, where one `api.drawing`
+  // returned one plate for the same solve.
+  const [kind, setKind] = React.useState('model');
+  const [scene, setScene] = React.useState(null);
+  const [sceneErr, setSceneErr] = React.useState(null);
+  const [view, setView] = React.useState(null);
+  const [plateOn, setPlateOn] = React.useState(false);
   // null means "whichever face the record calls the entrance front" — the server's own
   // default (`face or elev["entrance_face"]`), so arriving here draws what it always drew
   // and choosing a face is an act the reader takes.
@@ -71,21 +73,42 @@ export function DrawingSet({ go }) {
   const [busy, setBusy] = React.useState(false);
   const cache = React.useRef({});
 
-  React.useEffect(() => { cache.current = {}; }, [plan]);
+  React.useEffect(() => { cache.current = {}; setScene(null); setSceneErr(null); }, [plan]);
+
+  // ONE metered call for the model and all six named views' plates (WP-12.3): seven would buy
+  // a reader eight record changes an hour against a budget of sixty.
+  React.useEffect(() => {
+    if (!plan || kind !== 'model' || scene || sceneErr) return;
+    let dead = false;
+    api.scene(plan)
+      .then((j) => { if (!dead) { setScene(j); setView((v) => v || defaultAxon(j.scene?.entrance_face)); } })
+      .catch((e) => { if (!dead) setSceneErr(String(e.body?.detail?.error || e.message || e)); });
+    return () => { dead = true; };
+  }, [plan, kind, scene, sceneErr]);
 
   // The cache key carries the face, or four faces of one house would be one entry and the
   // reader would be shown the first one they asked for whichever chip they pressed.
   const key = kind === 'elevation' ? `${kind}:${face || '-'}` : kind;
 
   React.useEffect(() => {
-    if (!plan) return;
+    if (!plan || kind === 'model') return;
     if (cache.current[key]) { setResult(cache.current[key]); setError(null); return; }
+    // The scene response already holds `plan`, the four elevations and `roof`, keyed exactly
+    // as this cache keys them (workbench/server/corpus.py::SCENE_PLATES). Only `section` and
+    // `bearing` are not in it, so only those two cost a call of their own.
+    const fromScene = scene && scene.plates
+      ? scene.plates[kind === 'elevation' ? `elevation:${face || scene.scene?.entrance_face || 'S'}` : kind]
+      : null;
+    if (fromScene) {
+      const j = { kind, svg: fromScene, ...(scene.solver ? { solver: scene.solver } : {}) };
+      cache.current[key] = j; setResult(j); setError(null); return;
+    }
     setBusy(true); setError(null); setResult(null);
     api.drawing(kind, plan, kind === 'elevation' && face ? { face } : {})
       .then((j) => { cache.current[key] = j; setResult(j); })
       .catch((e) => setError(String(e.body?.detail?.error || e.message || e)))
       .finally(() => setBusy(false));
-  }, [plan, kind, face, key]);
+  }, [plan, kind, face, key, scene]);
 
   if (!plan) {
     return (
@@ -126,6 +149,7 @@ export function DrawingSet({ go }) {
       }>
         <Eyebrow as="span">sheet</Eyebrow>
         <ChipGroup label="sheet">
+          <Chip radio on={kind === 'model'} onClick={() => setKind('model')}>the model</Chip>
           {KINDS.map((k) => (
             <Chip key={k.id} radio on={kind === k.id} onClick={() => setKind(k.id)}>{k.label}</Chip>
           ))}
@@ -161,7 +185,36 @@ export function DrawingSet({ go }) {
             </p>
           </div>
         )}
-        {result?.svg && (
+        {kind === 'model' && (
+          <div style={{ maxWidth: 1180 }}>
+            {sceneErr ? (
+              <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+                COULD NOT EVALUATE — the scene could not be built: {sceneErr}
+              </div>
+            ) : !scene ? (
+              <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+                placing the house and building the model…
+              </div>
+            ) : (
+              <PlateViewer label="the model" height="clamp(420px, 74vh, 960px)" note="drag orbits · a named view snaps back">
+                <RoundPlate
+                  scene={scene.scene}
+                  plates={scene.plates}
+                  platesRefused={scene.plates_refused}
+                  view={view || defaultAxon(scene.scene?.entrance_face)}
+                  onView={setView}
+                  plateOn={plateOn}
+                  onPlate={setPlateOn}
+                  title={plan.name || plan.id}
+                  styleName={plan.style}
+                  subtitle={`${scene.scene?.parti || 'no parti named'} · ${scene.scene?.massing || 'no massing named'}`}
+                  disclosures={(scene.plan?.geometry_report?.disclosures) || []}
+                />
+              </PlateViewer>
+            )}
+          </div>
+        )}
+        {kind !== 'model' && result?.svg && (
           <div style={{ maxWidth: 1180 }}>
             <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
             <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',

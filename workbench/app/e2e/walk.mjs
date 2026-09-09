@@ -729,6 +729,99 @@ await page.screenshot({ path: SHOTS + 'candidates.png' });
 // Scoped to the rail: since WP-5.6 the Overview offers doors carrying the same labels, so an
 // unscoped getByRole matches two elements and Playwright refuses both.
 await rail.getByRole('button', { name: /Drawing Set/ }).click();
+
+/* ⑧a — THE ROUND (WP-12.4). The model is the surface's FIRST plate now, so it is what a reader
+   arriving here sees; the five flat plates are chips beneath it and everything below this block
+   still tests them, after clicking `elevation`.
+
+   The scene is one metered call that solves the house, so the wait is generous. */
+{
+  const webgl = await page.evaluate(() => {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  });
+  if (!webgl) {
+    // A real COULD NOT EVALUATE: this machine cannot draw the model at all, and saying so is
+    // not the same as the Round being broken. It is PRINTED rather than counted as a pass.
+    console.log('N/EV  the Round: this browser reports no WebGL context — the model checks '
+      + 'could not be evaluated here (the flat plates below are unaffected)');
+  } else {
+    await page.waitForSelector('[data-round-canvas]', { timeout: 120000 });
+    const cap0 = await page.locator('[data-plate-title]').first().innerText();
+    // The default view shows the entrance face and the face to its left. The Tidewater front
+    // is south, so it is the south-west axon -- read off the caption, which is the reader's
+    // own evidence, rather than off internal state.
+    check(`the Round opens on the axon that shows the entrance front (${cap0})`,
+      /AXONOMETRIC · FROM THE SOUTH-WEST/i.test(cap0));
+
+    // Every named view chip produces its own caption. Counted, so a chip that silently does
+    // nothing cannot pass by leaving the previous caption on the plate.
+    const bar = page.locator('[role="radiogroup"][aria-label="view"]');
+    check(`the view bar offers every named view (${await bar.getByRole('radio').count()})`,
+      (await bar.getByRole('radio').count()) >= 10);
+    let named = 0;
+    for (const [chip, want] of [['S', /SOUTH ELEVATION · THE ENTRANCE FRONT/i],
+                                ['N', /NORTH ELEVATION/i],
+                                ['ROOF', /ROOF PLAN/i],
+                                ['PLAN·L0', /GROUND FLOOR PLAN · CUT AT/i],
+                                ['AXON·NE', /AXONOMETRIC · FROM THE NORTH-EAST/i]]) {
+      await bar.getByRole('radio', { name: chip, exact: true }).click();
+      await page.waitForTimeout(220);
+      const cap = await page.locator('[data-plate-title]').first().innerText();
+      if (want.test(cap)) named += 1;
+      else check(`the ${chip} chip captions its own drawing (got "${cap}")`, false);
+    }
+    check(`every named view captions its own drawing (${named} of 5)`, named === 5);
+
+    // THE PLATE OVER THE MODEL. `data-frame` is what registers it, so its presence is the
+    // thing to assert -- an overlay drawn without one is an SVG floating at whatever scale
+    // the browser chose.
+    await bar.getByRole('radio', { name: 'S', exact: true }).click();
+    await page.waitForTimeout(200);
+    await page.getByRole('button', { name: 'plate', exact: true }).click();
+    await page.waitForTimeout(400);
+    const ov = await page.evaluate(() => {
+      const el = document.querySelector('[data-round-overlay]');
+      if (!el) return null;
+      const svg = el.querySelector('svg');
+      return { frame: svg ? svg.getAttribute('data-frame') : null,
+               t: getComputedStyle(el).transform };
+    });
+    check('the plate is laid over the model at the same view', !!ov);
+    check('and it carries the frame that registers it',
+      !!(ov && ov.frame && /"px_per_ft"/.test(ov.frame)));
+    check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
+      !!(ov && ov.t && ov.t !== 'none'));
+    await page.getByRole('button', { name: 'plate', exact: true }).click();
+    await page.screenshot({ path: SHOTS + 'round-axon-sw.png' });
+
+    // AN ORBIT IS NOT A NAMED DRAWING, and the caption must stop claiming to be one. A free
+    // view that still called itself SOUTH ELEVATION would be a drawing lying about its own
+    // projection, and every dimension on it would read as measured.
+    const cv = page.locator('[data-round-canvas]');
+    const b = await cv.boundingBox();
+    await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(b.x + b.width / 2 + 140, b.y + b.height / 2 + 30, { steps: 12 });
+    await page.mouse.up();
+    await page.waitForTimeout(300);
+    const capFree = await page.locator('[data-plate-title]').first().innerText();
+    check(`after an orbit the caption says it is a free view (${capFree.slice(0, 40)})`,
+      /FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD/i.test(capFree));
+    await page.screenshot({ path: SHOTS + 'round-free.png' });
+
+    // and a named chip takes it back
+    await bar.getByRole('radio', { name: 'PLAN·L0', exact: true }).click();
+    await page.waitForTimeout(700);
+    check('a named chip snaps back out of the free view',
+      /GROUND FLOOR PLAN/i.test(await page.locator('[data-plate-title]').first().innerText()));
+    await page.screenshot({ path: SHOTS + 'round-plan.png' });
+  }
+}
+
+// The five flat plates are chips beneath the model now, so the rest of ⑧ asks for one first.
+await page.getByRole('radio', { name: 'elevation', exact: true }).click();
+
 // The disclosure is asserted by its CLAIM, not by a number. It used to wait on the literal
 // "83 of" — which was tidewater-georgian's own fault-coverage count (wp-3.2's report says so
 // in as many words) printed unqualified beneath a Craftsman or Charleston elevation, and

@@ -15,6 +15,9 @@
    exercised rather than rounded away. */
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 import {
   AXON_ELEVATION_DEG,
@@ -442,4 +445,55 @@ test('a primitive this viewer does not know is refused by name, never skipped', 
     'an unknown primitive must name itself',
   );
   assert.throws(() => facesOf({ geometry: { type: 'extrude', plane: 'zz', outline: [], at: 0, thickness: 1 } }), /cannot sweep the plane 'zz'/);
+});
+
+/* ------------------------------------------------------------------ the two source rules */
+
+const SRC = dirname(fileURLToPath(import.meta.url));
+
+function allSources(dir = SRC, out = []) {
+  for (const f of readdirSync(dir)) {
+    const p = join(dir, f);
+    if (statSync(p).isDirectory()) { if (f !== 'data') allSources(p, out); continue; }
+    if (/\.(js|jsx|mjs)$/.test(f)) out.push(p);
+  }
+  return out;
+}
+
+test('three is imported in exactly one file, and that file is loaded lazily', () => {
+  // The bundle rule, as a property rather than as a build artefact. `three` reaches the app
+  // ONLY through `round/three-scene.js`, and that module is reached only by a dynamic import
+  // -- which is what keeps it out of the entry chunk AND out of no_bare_imports.test.mjs's
+  // walk, since that walker deliberately does not follow `import()`.
+  const importers = [];
+  for (const f of allSources()) {
+    if (/round[/\\]three-scene\.js$/.test(f)) continue;
+    const src = readFileSync(f, 'utf8');
+    if (/\bfrom\s+['"]three(\/|['"])/.test(src) || /\bimport\s+['"]three(\/|['"])/.test(src)) {
+      importers.push(f.slice(SRC.length + 1));
+    }
+  }
+  assert.deepEqual(importers, [], `three must be imported only by round/three-scene.js, not by ${importers}`);
+
+  // and the one file that does import it is only ever reached dynamically
+  const statics = [];
+  for (const f of allSources()) {
+    const src = readFileSync(f, 'utf8');
+    if (/^\s*import[^\n]*from\s+['"][^'"]*three-scene\.js['"]/m.test(src)) statics.push(f.slice(SRC.length + 1));
+  }
+  assert.deepEqual(statics, [], `three-scene.js must be loaded with import(), but ${statics} import it statically`);
+});
+
+test('the model carries no colour of its own', () => {
+  // Every ink and tone reaches three-scene.js through `tokens`, resolved from tokens.css. A
+  // hex typed here would be a second palette that no token can move, and the Drawn Language
+  // is one palette -- which is the rule WP-11.1 enforced on the four Python renderers when it
+  // took them from 52 hex literals to none.
+  const src = readFileSync(join(SRC, 'round', 'three-scene.js'), 'utf8');
+  const hex = src.match(/#[0-9a-fA-F]{3,8}\b/g) || [];
+  const hexy = src.match(/\b0x[0-9a-fA-F]+\b/g) || [];
+  assert.deepEqual(hex, [], `three-scene.js carries hex colours: ${hex}`);
+  assert.deepEqual(hexy, [], `three-scene.js carries 0x colours: ${hexy}`);
+  // and it really does read the palette, so the assertion above is not vacuous
+  assert.ok(/tokens\[/.test(src), 'three-scene.js must resolve its colours from tokens');
 });

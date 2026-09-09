@@ -272,3 +272,56 @@ export function namedViews(scene) {
   const out = (scene.storeys || []).filter((s) => s.index >= 0).map((s) => `plan-l${s.index}`);
   return out.concat(['s', 'n', 'e', 'w', 'axon-sw', 'axon-se', 'axon-nw', 'axon-ne', 'roof']);
 }
+
+/* ---------------------------------------------------------------- the flat plate
+
+   Where a point on a 2D plate stands in the model, so the Round can lay the plate over the
+   house at the same view. `u` and `v` are the plate's own two axes in feet, as the renderer's
+   `data-frame` states them (build/sheet_style.py::frame_attr).
+
+   THE ELEVATION CASE RESTS ON AN ASSUMPTION THE RECORD DOES NOT STATE, and it is written here
+   rather than buried: `elevation.py::_face_bays` computes its bay centres as (i + 0.5) * bay
+   across the span and NEVER CONSULTS THE FACE, so nothing in the record says which model end
+   `u = 0` is. We take it as the face's left edge AS THE CAMERA SEES IT, which is what makes a
+   drawing a drawing. On this corpus the assumption cannot be caught out: every face is
+   symmetric -- the Tidewater south front's centres mirror onto themselves (65.58 - 60.896 =
+   4.684) -- so a plate registered either way lands in the same place. The day a facade is
+   asymmetric it will matter, and then this is the line to read:
+   oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from */
+export function modelAt(view, scene, u, v) {
+  const { min, max } = scene.bounds;
+  if (isPlanView(view) || view === 'roof') {
+    // A plan's plate axes ARE the model's east and north. Nothing is assumed here.
+    return [u, v, 0];
+  }
+  if (!isFaceView(view)) return null;
+  const f = view.toUpperCase();
+  // The camera's own right vector, so `u` runs the way the reader reads.
+  const b = basis(FACE_AZIMUTH[f], 0);
+  const originX = b.right[0] > 0 ? min[0] : max[0];
+  const originY = b.right[1] > 0 ? min[1] : max[1];
+  if (f === 'S' || f === 'N') return [originX + b.right[0] * u, f === 'S' ? min[1] : max[1], v];
+  return [f === 'W' ? min[0] : max[0], originY + b.right[1] * u, v];
+}
+
+/* The affine that lays a rendered plate's PIXELS onto this canvas's pixels at this pose: both
+   are axis-aligned and uniformly scaled, so two points settle it. Returns null where the view
+   has no plate — an axon is not a drawing this project makes flat. */
+export function plateTransform(view, scene, pose, viewport, frame) {
+  if (!frame || !pose) return null;
+  const a = modelAt(view, scene, frame.at_origin_ft[0], frame.at_origin_ft[1]);
+  if (!a) return null;
+  const bft = [frame.at_origin_ft[0] + 10, frame.at_origin_ft[1]];
+  const b = modelAt(view, scene, bft[0], bft[1]);
+  const pa = project(pose, viewport, a);
+  const pb = project(pose, viewport, b);
+  const spanPx = Math.hypot(pb[0] - pa[0], pb[1] - pa[1]);
+  if (spanPx < 1e-9) return null;
+  const scale = spanPx / (10 * frame.px_per_ft);
+  return {
+    scale,
+    // the plate's own origin pixel, moved to where the model puts that point
+    dx: pa[0] - frame.origin_px[0] * scale,
+    dy: pa[1] - frame.origin_px[1] * scale,
+  };
+}
