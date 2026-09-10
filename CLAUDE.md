@@ -95,9 +95,15 @@ the passage among them, with `objective: null` -- the compositional objective ne
 soft term the corpus has was inert on the engine the bench draws, and the search it refuses to draw
 scores 712.6 against the proof's 835.0. **Relaxed is not proved.** The declared record is
 infeasible in one rectangle because its `exterior_walls` are the exposures of a five-part house.
-There is no hearth anywhere in the plan layer and no axis vocabulary anywhere in the code. The
-work is `PLAN-OF-ACTION.md` Phase 11, WP-11.1 through 11.11, nothing started; three are
-unblocked and the container waits on four rulings the phase recommends answers to.
+**BOTH OF THE DIAGNOSIS'S TWO MISSING LAYERS WERE BUILT AND THIS PARAGRAPH WENT ON DENYING
+THEM.** It read *"There is no hearth anywhere in the plan layer and no axis vocabulary anywhere
+in the code. The work is `PLAN-OF-ACTION.md` Phase 11, WP-11.1 through 11.11, nothing started"*
+until 10 Sep: `build/axis.py` landed at WP-11.3, `build/hearths.py` and the plan record's own
+`hearth` array at WP-11.4, the container's four rulings were taken at WP-11.6 and WP-11.9, and
+**WP-11.1 through 11.15 are COMPLETE**, WP-11.16 -- the record edit -- being what is left. The
+diagnosis is unchanged and is still the thing to read before touching the placer, the sheet or
+the parti; what was stale was this paragraph's account of what had been done about it, in a
+READ-THIS-FIRST heading, telling the next reader the corpus lacks two layers it has.
 
 **PHASE 12 — THE SHEET IN THE ROUND — IS PLANNED AND ITS BRIEF IS A PRD (8 Sep 2026).**
 `docs/prd/phase-12-the-sheet-in-the-round.md`, cited by filename, the first document in a new `docs/prd/`.
@@ -130,7 +136,9 @@ truncated left half. Both are the shapes this file already records for the two p
 code span straddling a newline, met in a new place; both were corrected before the commit and **both guards
 were then driven to prove they fire**, which is the only thing that has ever caught one of these.
 
-**WP-12.0 THROUGH WP-12.7 ARE BUILT (8-9 Sep 2026).** WP-12.0 is the drawing set made one building
+**WP-12.0 THROUGH WP-12.9 ARE BUILT (8-9 Sep 2026) — the whole of the phase, 12.8 being the
+adversarial audit and 12.9 the five items it deferred, each with its own entry below.**
+WP-12.0 is the drawing set made one building
 again (`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`) and WP-12.1 is the scene
 record (`docs/reports/wp-12.1-the-scene-record.md`, layer doc `docs/scene.md`): `build/scene.py`,
 pure arithmetic and a leaf, which imports `export_ifc.slab_boxes`, `structure.wall_thickness`,
@@ -928,7 +936,7 @@ and 497 MB of it -- 85.5% of the dependency layer -- is `ezdxf`/`ifcopenshell`/`
 their transitive `pandas`/`numpy`/`fontTools`.** Report:
 `docs/reports/infrastructure-audit.md` · new open questions: OQ 73-77.
 
-**Phase 11 — the drawn sheet — is COMPLETE through WP-11.14 (8 Sep 2026).** The A line (the
+**Phase 11 — the drawn sheet — is COMPLETE through WP-11.15 (8 Sep 2026).** The A line (the
 drawing) is finished: WP-11.1 and WP-11.2 put the sheet in Graphic Standard No. 1 with the wall
 as a body, WP-11.3 the furniture, WP-11.4 the threshold and the stacks, WP-11.5 the embedded
 face. **The B line — the placement — is WP-11.6 through WP-11.9.** WP-11.6 is a record edit that
@@ -978,11 +986,29 @@ FORBIDDEN and a lime-plaster face carrying no masonry word, so the frame-wall si
 a mass masonry wall, which is OQ 88's own bug surviving inside OQ 88's fix. Report:
 `docs/reports/wp-8.4-the-exception-precondition.md`.
 
-**Phase 11 — the house the sheet should have drawn — is IN PROGRESS (4–5 Sep 2026): WP-11.1
-through 11.9 and 11.11 are complete; 11.10 is PART-BUILT (the container question answered and refused; its three shape terms remain).** (**This line said "11.1, 11.2 and 11.3
+**Phase 11 — the house the sheet should have drawn — is COMPLETE through WP-11.15 (4–8 Sep 2026);
+WP-11.16, the record edit, is NEXT.** (**This line said "11.1, 11.2 and 11.3
 are complete, 11.4 through 11.11 are planned" for two days after 11.4, 11.5 and 11.6 had shipped**,
 above entries describing all three — the same staleness the "READ THIS FIRST" heading records about
-itself, two headings up.) Raised by Lucas against the workbench's own
+itself, two headings up. **AND IT HAPPENED AGAIN, IN EIGHT PLACES ACROSS TWO FILES, AND THIS FILE
+HELD TWO ANSWERS ABOUT ONE LINE AT ONCE.** This line went on calling 11.10 PART-BUILT after
+WP-11.10's own Status line had read COMPLETE since 7 Sep, and went on stopping at 11.12 after 11.13,
+11.14 and 11.15 shipped — while the entry fifty lines above said COMPLETE THROUGH 11.14, which was
+stale inside its own paragraph, a few sentences from the one describing WP-11.15 and above a report
+list ending `,15}`. **AND THE WORST OF THE EIGHT WAS THE READ-THIS-FIRST HEADING**, which told the
+next reader there is *"no hearth anywhere in the plan layer and no axis vocabulary anywhere in the
+code"* — `build/axis.py` and `build/hearths.py` have both existed since WP-11.3 and WP-11.4 — and
+called the whole phase *"nothing started"*. Corrected 10 Sep: four sites in `PLAN-OF-ACTION.md`
+(two Phase 11 rows, the Phase 12 row, and a sentence inside the second row's own body) and four in
+this file (three headings and that paragraph). **AND THE FIRST PASS CORRECTED THE SUMMARY CELLS AND
+LEFT THE SENTENCE UNDER ONE OF THEM SAYING THE OLD THING** — found by reading the diff rather than
+the file, which is this file's own rule about re-reading what actually landed, earning itself inside
+the correction it is about. **NOTHING CHECKS A RANGE STATED IN PROSE** — WP-8.6's finding, in
+WP-8.6's own title — and `check_counts.py` polices figures DERIVED FROM THE CORPUS, which a package
+count is not, so this class is found only by a reader holding a summary against the Status lines
+under it. Eight were found by reading Phase 11 and Phase 12 alone; **nobody has swept the older
+rows, and saying the boards are clean now would be the same mistake one layer up.**)
+Raised by Lucas against the workbench's own
 sheet, with the instruction to diagnose before building; the diagnosis is
 `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` and all five of the phase's questions were
 ruled the same day. Reports: `docs/reports/wp-11.{1,2,3,4,5,6,7,8,9}-*.md`. **Read WP-11.3's refusal
