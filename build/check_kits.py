@@ -256,7 +256,61 @@ BAKED_UNJUDGED_CEILING = 8       # may only go DOWN -- close one by recording th
 BAKED_JUDGED_FLOOR = 135         # may only go UP -- catches the instrument going blind
 
 
-def check_baked_snapshots(errs, unjudged, nid, kit, stats):
+FLAG_UNJUDGED_CEILING = 50   # may only go DOWN -- close one by giving the pack a rule for
+                             # the slot the snapshot names, never by loosening the match.
+                             # 50 and not 52: a sweep over `kind: derived` parameters finds 52
+                             # unmatchable, and two of those (english-georgian.door_surround's
+                             # order_height_ratio and entablature_depth) carry an `expr` and NO
+                             # `computed_at.value`, so they are live expressions rather than
+                             # snapshots and never enter this loop at all. There is no snapshot
+                             # there to be unfaithful to anything.
+
+
+def check_baked_flags(errs, unjudged, where, sid, pv, src, pk, stats):
+    """Is a baked snapshot FAITHFUL TO ITS SOURCE RULE'S FLAGS, and not merely to its number?
+
+    WP-12.9, and it is the half `check_baked_snapshots` could not see. That function re-derives
+    the VALUE and reports 135 judged and agreeing; it never compares anything else the rule says.
+    Measured over the 93 snapshots that can be matched to a rule at all: **13 carry a source rule
+    flagged `judgment: true` and ZERO of them carried the flag.** The bake has never carried it.
+
+    THAT IS A JUDGMENT LAUNDERED AS A DERIVED FIGURE, which is the one thing this corpus names as
+    the worst that can be done to it, arriving through the field rather than through the number.
+    `brick-course`'s chimney rule says in its own note that 22 in "is between sizes; the mason
+    will build 18 or 27 and someone should decide which" -- and the snapshot of it said `kind:
+    derived` and nothing else, so `build/threshold.py` read a settled measurement out of a
+    deferred decision and the plan sheet published it as one.
+
+    THE MATCH IS ON (target_slot, expression) AND IS DELIBERATELY STRICT. 50 of the 143 snapshots
+    that reach this function name a `source` pack that states no rule for their slot at all --
+    the figure is 52 over a WIDER sweep that also counts two parameters carrying an `expr` and no
+    `computed_at.value`, and those never enter this loop; see FLAG_UNJUDGED_CEILING. `english-georgian`'s
+    `door_surround.order_height_ratio` cites `gibbs-ionic`, which carries zero rules targeting
+    that slot. Those are COULD NOT COMPARE and are counted and printed as such: loosening the
+    match until they resolve would pair a snapshot with a rule that is not its source, which is
+    OQ 48's error one layer up. Unjudged is not passed, in either direction."""
+    rules = [r for r in (pk or {}).get("derived_rules", []) if r.get("target_slot") == sid]
+    rule = next((r for r in rules if r.get("expression") == pv.get("expr")), None)
+    if rule is None:
+        stats["baked_flag_unjudged"] += 1
+        unjudged.append("%s: `%s` states no rule on slot `%s` with that expression"
+                        % (where, src, sid))
+        return
+    stats["baked_flag_judged"] += 1
+    if bool(rule.get("judgment")) and not bool(pv.get("judgment")):
+        errs.append("%s: its source rule `%s`/%s is flagged `judgment: true` and this snapshot "
+                    "of it is not. A snapshot faithful to the number and not to the judgment "
+                    "publishes a deferred decision as a settled figure -- which is what every "
+                    "reader downstream will then do with it."
+                    % (where, src, rule.get("dimension")))
+    if bool(pv.get("judgment")) and not bool(rule.get("judgment")):
+        errs.append("%s: it is flagged `judgment: true` and its source rule `%s`/%s is not. A "
+                    "judgment claimed where the corpus settled the figure is the fake-unjudged "
+                    "collapse, and is as dishonest as a fake pass in the other direction."
+                    % (where, src, rule.get("dimension")))
+
+
+def check_baked_snapshots(errs, unjudged, flag_unjudged, nid, kit, stats):
     """A `kind: derived` parameter carries an `expr` AND the value that expr produced. Nothing
     re-derived it (`oq/a-baked-pack-value-is-a-second-delivery-path`).
 
@@ -286,6 +340,18 @@ def check_baked_snapshots(errs, unjudged, nid, kit, stats):
             where = "%s.%s.%s" % (nid, sid, pname)
             stored = ca["value"]
             src = pv.get("pack") or pv.get("source")
+            # THE PACK IS RESOLVED ONCE, HERE, FOR BOTH QUESTIONS (WP-12.9). `resolve()` deep-
+            # copies and recurses over overlays and is not cached, so this is hoisted out of the
+            # value block below rather than added beside it: the flag question costs no second
+            # walk, and -- the half that matters -- it is asked of EVERY snapshot, including the
+            # eight the value check returns early on. A snapshot whose value cannot be re-derived
+            # can still be checked for fidelity to its source's flags.
+            try:
+                pk = pe.resolve(src)
+            except Exception as e:
+                pk = None
+                _pack_err = e
+            check_baked_flags(errs, flag_unjudged, where, sid, pv, src, pk, stats)
             if not isinstance(stored, (int, float)) or isinstance(stored, bool):
                 stats["baked_unjudged"] += 1
                 unjudged.append("%s: stored value is not a number" % where)
@@ -307,8 +373,11 @@ def check_baked_snapshots(errs, unjudged, nid, kit, stats):
                 unjudged.append("%s: reads %s, which `computed_at` does not record"
                                 % (where, ", ".join(sorted(gap))))
                 continue
+            if pk is None:
+                stats["baked_unjudged"] += 1
+                unjudged.append("%s: %s" % (where, _pack_err))
+                continue
             try:
-                pk = pe.resolve(src)
                 mod = (ORDER_MODULE if pk.get("kind") == "order-system"
                        else (pk["module"].get("default_size_in") or 6.0))
                 env = dict(pe.DEFAULT_BINDINGS)
@@ -403,6 +472,7 @@ def main():
     errs, warns = [], []
     stats = collections.Counter()
     baked_unjudged = []
+    flag_unjudged = []
     census = collections.Counter()
     invented, judgment, out_of_cal, populated = [], [], [], []
 
@@ -432,7 +502,7 @@ def main():
         check_rule_blocks(errs, warns, base, kit, rule_slots, rooms)
         check_determined_by(errs, warns, base, kit, ont_set)
         check_slot_fields(errs, warns, base, kit, ont_fields)
-        check_baked_snapshots(errs, baked_unjudged, base, kit, stats)
+        check_baked_snapshots(errs, baked_unjudged, flag_unjudged, base, kit, stats)
         for _sid, _s in (kit.get("slots") or {}).items():
             for _pk, _pv in (_s.get("parameters") or {}).items():
                 if not isinstance(_pv, dict): continue
@@ -660,6 +730,23 @@ def main():
                         "falls when the instrument goes blind, not only when the corpus shrinks "
                         "-- check that before re-pinning it."
                         % (stats["baked_judged"], BAKED_JUDGED_FLOOR))
+
+    # THE FLAGS, WHICH ARE A SECOND QUESTION AND GET A SECOND METER (WP-12.9). A snapshot can be
+    # perfectly faithful to its expression and drop the `judgment` its source rule carries -- 13
+    # of them did, and the value check above was green over every one. Two questions, two
+    # counters: quoting either for the other is what this file's own baked/refused pair warns
+    # against one paragraph up.
+    print("\nbaked snapshot FLAGS: %d matched to their source rule and AGREEING, "
+          "%d COULD NOT BE COMPARED" % (stats["baked_flag_judged"], stats["baked_flag_unjudged"]))
+    for x in flag_unjudged[:12]:
+        print("  ? " + x)
+    if len(flag_unjudged) > 12:
+        print("  ? ... and %d more" % (len(flag_unjudged) - 12))
+    if not a.style and stats["baked_flag_unjudged"] > FLAG_UNJUDGED_CEILING:
+        errs.append("baked snapshots whose source rule could not be found: %d against a ceiling "
+                    "of %d. Give the pack a rule for the slot the snapshot names -- never loosen "
+                    "the match, which would pair a snapshot with a rule that is not its source."
+                    % (stats["baked_flag_unjudged"], FLAG_UNJUDGED_CEILING))
 
     if warns:
         print("\n%d WARNINGS" % len(warns))

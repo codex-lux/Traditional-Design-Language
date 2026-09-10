@@ -26,11 +26,29 @@ toggles. Layers are per element group: `TDL-L0-WALL`, `TDL-L0-ROOM`,
 `TDL-TITLE`, `TDL-META`; `TDL-SECT-*`, `TDL-ROOF-*` (eave / ridge / hip /
 gambrel-break / cross on their own layers), `TDL-ELEV-*`.
 
-Two deliberate departures from the SVG renderers, because a DXF is a measured
-drawing and the SVG is a presentation: window openings are drawn at **true
-recorded width** (the SVG shrinks to 0.9× for legibility), and door openings at
-the door's **own recorded width** (the SVG uses a fixed 3 ft). A test pins the
-first (`tests/test_export.py::test_windows_drawn_at_true_width_not_the_svg_shrink`).
+**THIS PARAGRAPH USED TO NAME TWO DEPARTURES FROM THE SVG RENDERERS AND NEITHER
+OF THEM EXISTS (measured, WP-12.2).** It said window openings were drawn at true
+recorded width because "the SVG shrinks to 0.9× for legibility", and door
+openings at the door's own recorded width because "the SVG uses a fixed 3 ft".
+Measured on `tidewater-georgian-careful`: the plan SVG draws its window glazing
+at **2.0, 2.5, 3.0, 3.5 and 4.0 ft** against a record stating exactly 2, 2.5, 3,
+3.5 and 4 — no shrink anywhere — and the record carries **eight** distinct door
+widths from 2.2 to 6 ft, each of which `build/openings.py` places at its own
+size. WP-6.2 gave every opening a placed width and both surfaces started reading
+it; nothing went back and corrected the sentence that described the difference.
+The DXF and the SVG agree about an opening's width, and that is the point rather
+than a departure from it — `tests/test_export.py::test_windows_drawn_at_true_width_not_the_svg_shrink`
+pins the DXF half, and it is a subset assertion, so it could never have caught
+the SVG half going the same way.
+
+What IS still true is the reason the paragraph gave: a DXF is a measured drawing
+and the SVG a presentation, so where they differ the DXF holds the record's own
+number. There is one fewer place they can differ since WP-12.2, which lifted the
+ELEVATION's opening rectangle into `build/elevation.py::opening_rects` — one
+spelling, three callers, `render_elevation.py`, this file and `build/scene.py`.
+See `docs/reports/wp-12.2-one-opening-rectangle.md`; the defect that motivated it
+is the CAD file drawing a window through a chimney for as long as it took anyone
+to notice, because the blind-bay skip landed in one loop and not the other.
 
 ## What the DXF carries, and where
 

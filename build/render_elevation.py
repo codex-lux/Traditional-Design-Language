@@ -37,6 +37,10 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 PROF = _mod("profiles", f"{ROOT}/build/profiles.py")
+# WP-12.2: the opening rectangle and the loop around it are `elevation.opening_rects`,
+# read here rather than transcribed. Loaded through modcache like every other sibling, so
+# it is the same module object `build_elevation` came from.
+EL = _mod("elevation", f"{ROOT}/build/elevation.py")
 
 SS = _mod("sheet_style", f"{ROOT}/build/sheet_style.py")
 
@@ -166,10 +170,20 @@ def _sash_grid(s, x0, y0, x1, y1, lights_across, lights_high):
         out.append(f'<line class="mt" x1="{x0:.1f}" y1="{y:.1f}" x2="{x1:.1f}" y2="{y:.1f}"/>')
     return "".join(out)
 
-def _window(s, cx, y_bottom, y_top, width_in, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale,
+def _window(s, rect, lights_across, lights_high, shutter_w, shutter_h, X, Ypx, scale,
             head=None, sill_in=None, panel_count=None, reveal_in=None):
-    x0, x1 = X(cx - width_in / 2 / 12.0), X(cx + width_in / 2 / 12.0)
-    yb, yt = Ypx(y_bottom), Ypx(y_top)
+    """WP-12.2: THE RECTANGLE IS HANDED TO THIS FUNCTION AND NEVER COMPUTED IN IT.
+
+    `(x0, x1, sill, head)` used to be worked out here, again in `_entrance` below, and a third
+    time in `export_dxf._win` — so did the loop around them, which is how the CAD file went on
+    drawing a blind bay for as long as it did. It is `elevation.opening_rects(elev, face)` now,
+    in inches above grade, and this draws what it is given. The dormer caller builds its own
+    rectangle from `dormers()`' numbers, because a dormer window on a roof plane is a different
+    rectangle and not this one.
+    """
+    x0, x1 = X(rect["x0_in"] / 12.0), X(rect["x1_in"] / 12.0)
+    yb, yt = Ypx(rect["sill_in"] / 12.0), Ypx(rect["head_in"] / 12.0)
+    width_in = rect["x1_in"] - rect["x0_in"]
     out = []
 
     # THE HEAD, drawn only where the record could judge one.
@@ -439,7 +453,13 @@ def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
         # than defaulting to 6/6, which is what it did on the first run: a spec-builder colonial's
         # dormers came back with a confident twelve-light pattern no record had stated.
         la, lh = d.get("lights_across"), d.get("lights_high_per_sash")
-        out.append(_window(out, cx, sill_ft, head_ft, ww_in,
+        # A DORMER'S WINDOW IS NOT A FACE OPENING, so it does not come from `opening_rects`:
+        # it sits on a roof plane at a position `dormers()` computed, and its rectangle is built
+        # here from those numbers. Same SHAPE, different rectangle, and stated rather than
+        # smuggled through the face's own list.
+        out.append(_window(out, {"x0_in": (cx - ww_in / 24.0) * 12.0,
+                                 "x1_in": (cx + ww_in / 24.0) * 12.0,
+                                 "sill_in": sill_ft * 12.0, "head_in": head_ft * 12.0},
                            la or 1, lh or 1, None, None, X, Ypx, scale,
                            head=None, sill_in=None, panel_count=None, reveal_in=None))
         # and the face's own shade line: it stands proud of the roof plane it sits in
@@ -447,12 +467,19 @@ def _dormers(elev, roof, profile_ft, X, Ypx, scale, face):
     return "".join(out)
 
 
-def _entrance(elev, cx, floor_ft, X, Ypx, scale):
+def _entrance(elev, rect, X, Ypx, scale):
+    """WP-12.2: the door's rectangle is `opening_rects`' too — it was the THIRD transcription of
+    the same arithmetic, and the one the PRD did not know about."""
     ent = elev["entrance"]
     out = []
-    door_w_in, door_h_in = ent["door_leaf_width_in"], ent["door_leaf_height_in"]
-    dx0, dx1 = X(cx - door_w_in / 2 / 12.0), X(cx + door_w_in / 2 / 12.0)
-    dyb, dyt = Ypx(floor_ft), Ypx(floor_ft + door_h_in / 12.0)
+    # AND THE LEAF'S OWN WIDTH AND HEIGHT ARE NOT RE-READ HERE. The first pass of the lift left
+    # `door_w_in, door_h_in = ent[...]` and a `cx`/`floor_ft` pair standing above these lines,
+    # unused: the rectangle already carries every one of those numbers. A dead local that reads
+    # the record field the lift was supposed to centralise is how a second spelling grows back,
+    # so `tests/test_opening_rects.py` refuses `sill_height_above_floor_in`,
+    # `head_height_above_floor_in` and `door_leaf_width_in` anywhere but `elevation.py`.
+    dx0, dx1 = X(rect["x0_in"] / 12.0), X(rect["x1_in"] / 12.0)
+    dyb, dyt = Ypx(rect["sill_in"] / 12.0), Ypx(rect["head_in"] / 12.0)
     out.append(f'<rect class="dr w-med" x="{dx0:.1f}" y="{dyt:.1f}" width="{dx1-dx0:.1f}" height="{dyb-dyt:.1f}"/>')
     # THE SIX-PANEL RAISED-AND-FIELDED DOOR, drawn as the arrangement it is. The kit names the
     # type; the arrangement is the one every account of the period gives -- TWO SHORT panels at
@@ -596,7 +623,11 @@ def render_elevation(elev, path, face=None, scale=24.0):
     ground = next(s for s in section["storeys"] if s.get("index") == 0)
     upper = next((s for s in section["storeys"] if s.get("index") == 1), ground)
 
-    floor1_ft, floor2_ft = ground["grade_to_floor_ft"], upper["grade_to_floor_ft"]
+    # WP-12.2: the GROUND floor datum is no longer read here — `opening_rects` derives every
+    # opening's sill and head from the section's own storeys, so a second reading of the same
+    # number in this file could only ever disagree with it. `floor2_ft` survives because the
+    # belt course stands on it, which is not an opening.
+    floor2_ft = upper["grade_to_floor_ft"]
     top_of_wall_ft = roof["main"]["grade_to_eave_ft"]              # roof.py's own eave -- no frieze/cornice band yet
     true_eave_ft = elev["grade_to_true_eave_in"] / 12.0             # this file's own top-of-cornice
     cornice_band_ft = true_eave_ft - top_of_wall_ft
@@ -626,8 +657,17 @@ def render_elevation(elev, path, face=None, scale=24.0):
     total_w = pad * 2 + pw + inset_w + 20
     total_h = top + ph + legend_h
 
+    # WP-12.4: what this plate's pixels mean in feet, so the Round can lay it over the model.
+    # `u` is the distance ALONG the face from its own left edge and `v` is the height above
+    # grade -- the two axes this renderer's X and Ypx already use, stated rather than left for
+    # a reader to infer. The origin is hoisted here so the attribute and the ink read one pair.
+    ox, oy = pad, top
+    _frames = {"plates": [{"id": face, "proj": "elevation", "face": face,
+                           "px_per_ft": scale, "origin_px": [ox, oy],
+                           "at_origin_ft": [0.0, round(top_height_ft, 3)]}]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{PAL["ground"]}">']
     s.append(_style_block())
     # _esc on `face` too: it arrives as body.get("face") on /api/drawings and /api/export, and
     # this string is rendered into the page by DrawingSet.jsx with dangerouslySetInnerHTML.
@@ -637,7 +677,6 @@ def render_elevation(elev, path, face=None, scale=24.0):
     # is one refactor from being live.
     s.append(f'<text class="hd" x="{pad}" y="20">{_esc(elev.get("plan_id",""))} — {_esc(face)} ELEVATION</text>')
 
-    ox, oy = pad, top
     X = lambda ft: ox + ft * scale
     Ypx = lambda ft: oy + (top_height_ft - ft) * scale   # model y-up (height above grade), screen y-down
 
@@ -744,25 +783,20 @@ def render_elevation(elev, path, face=None, scale=24.0):
         s.append(f'<line class="wtm" x1="{X(0):.1f}" y1="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}" '
                  f'x2="{X(span_ft):.1f}" y2="{Ypx(true_eave_ft - (cornice["cornice_height_in"]/12.0)):.1f}"/>')
 
-    for cx, kind in zip(front["centres_ft"], front["kinds"]):
-        # A BLIND BAY IS DRAWN AS WALL (OQ 85). The bay is real -- it holds its place in the
-        # rhythm -- and the opening is not, because a chimney stack stands on that axis. Skipping
-        # BOTH storeys is deliberate: an exterior end stack runs the full height of the wall.
-        if kind == "blind":
+    # WP-12.2: ONE LOOP, in `elevation.opening_rects`. The blind-bay skip (OQ 85), the
+    # door-at-the-entrance-face branch and the two storeys all live there now, so this file and
+    # `export_dxf.py` cannot come to disagree about which bays carry an opening — which they did,
+    # for as long as it took someone to notice the CAD file drawing a window through a chimney.
+    for r in EL.opening_rects(elev, face)["rects"]:
+        if r["kind"] == "door":
+            s.append(_entrance(elev, r, X, Ypx, scale))
             continue
-        if kind == "door" and face == elev["entrance_face"]:
-            s.append(_entrance(elev, cx, floor1_ft, X, Ypx, scale))
-        else:
-            s.append(_window(s, cx, floor1_ft + gw["sill_height_above_floor_in"]/12.0, floor1_ft + gw["head_height_above_floor_in"]/12.0,
-                              gw["opening_width_in"], gw["lights_across"], gw["lights_high_per_sash"],
-                              gw["shutter_leaf_width_in"], gw["shutter_leaf_height_in"], X, Ypx, scale,
-                              head=gw.get("head_treatment"), sill_in=wtb.get("course_height_in"),
-                          panel_count=gw.get("shutter_panel_count"), reveal_in=gw.get("reveal_band_in")))
-        s.append(_window(s, cx, floor2_ft + uw["sill_height_above_floor_in"]/12.0, floor2_ft + uw["head_height_above_floor_in"]/12.0,
-                          uw["opening_width_in"], uw["lights_across"], uw["lights_high_per_sash"],
-                          uw["shutter_leaf_width_in"], uw["shutter_leaf_height_in"], X, Ypx, scale,
-                          head=uw.get("head_treatment"), sill_in=wtb.get("course_height_in"),
-                          panel_count=uw.get("shutter_panel_count"), reveal_in=uw.get("reveal_band_in")))
+        rec = r["record"]
+        s.append(_window(s, r, rec["lights_across"], rec["lights_high_per_sash"],
+                         rec["shutter_leaf_width_in"], rec["shutter_leaf_height_in"], X, Ypx, scale,
+                         head=rec.get("head_treatment"), sill_in=wtb.get("course_height_in"),
+                         panel_count=rec.get("shutter_panel_count"),
+                         reveal_in=rec.get("reveal_band_in")))
 
     # THE ROOF, drawn as the closed plane it is rather than as a line along its bottom edge.
     #

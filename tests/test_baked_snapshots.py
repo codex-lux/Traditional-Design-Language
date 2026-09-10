@@ -31,12 +31,26 @@ def _ck():
 
 
 def _run(kit, nid="probe"):
-    """Drive the shipped function and return (errors, unjudged reasons, counters)."""
+    """Drive the shipped function and return (errors, unjudged reasons, counters).
+
+    `flag_unjudged` is the SECOND list the function fills (WP-12.9) -- the snapshots whose
+    source rule could not be found at all, which are a different population from the ones whose
+    VALUE could not be re-derived. It is dropped here because these tests are about the value;
+    `_run_flags` below is its reader."""
     import collections
     ck = _ck()
-    errs, unjudged, stats = [], [], collections.Counter()
-    ck.check_baked_snapshots(errs, unjudged, nid, kit, stats)
+    errs, unjudged, flag_unjudged, stats = [], [], [], collections.Counter()
+    ck.check_baked_snapshots(errs, unjudged, flag_unjudged, nid, kit, stats)
     return errs, unjudged, stats
+
+
+def _run_flags(kit, nid="probe"):
+    """The same drive, returning the FLAG question's own errors and unjudged list."""
+    import collections
+    ck = _ck()
+    errs, unjudged, flag_unjudged, stats = [], [], [], collections.Counter()
+    ck.check_baked_snapshots(errs, unjudged, flag_unjudged, nid, kit, stats)
+    return errs, flag_unjudged, stats
 
 
 def _snapshot(expr, value, source="storey-graduation", **ca):
@@ -56,10 +70,11 @@ def corpus():
     import glob
     import json
     ck = _ck()
-    errs, unjudged, stats = [], [], collections.Counter()
+    errs, unjudged, flag_unjudged, stats = [], [], [], collections.Counter()
     for p in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
         kit = json.load(open(p, encoding="utf-8"))
-        ck.check_baked_snapshots(errs, unjudged, os.path.basename(p).split(".")[0], kit, stats)
+        ck.check_baked_snapshots(errs, unjudged, flag_unjudged,
+                                 os.path.basename(p).split(".")[0], kit, stats)
     return errs, unjudged, stats
 
 
@@ -199,3 +214,114 @@ def test_a_corpus_wide_bound_is_not_judged_on_a_single_kit_run():
     assert "135 re-derived" in whole.stdout, (
         "the corpus run must still judge them, or scoping the bound turned it off")
     assert "corpus-wide" not in whole.stdout, whole.stdout[-400:]
+
+
+# ------------------------------------------- the FLAGS, which are a second question (WP-12.9)
+def _flagkit(judgment, expr="ceil(module / 7.5)", slot="stair_type",
+             pname="risers_per_storey", source="storey-graduation", value=16.0):
+    """A kit whose one snapshot names a REAL pack rule, so the flag question can be asked of it.
+
+    The value question and the flag question are asked of the same parameter and answered
+    separately; this fixture is built so the value half is quiet and only the flag half speaks.
+    """
+    par = {"expr": expr, "unit": "count", "kind": "derived", "source": source,
+           "computed_at": {"ceiling_height_in": 108.0, "storey_height_in": 120.0,
+                           "opening_width_in": 36.0, "value": value}}
+    if judgment is not None:
+        par["judgment"] = judgment
+    return {"slots": {slot: {"parameters": {pname: par}}}}
+
+
+def _rule_for(source, slot, expr):
+    """The source rule this fixture's snapshot claims to be a snapshot OF -- read, so the test
+    is about the corpus's real rule rather than about a rule this file made up."""
+    ck = _ck()
+    pk = ck.pe.resolve(source)
+    return next((r for r in pk.get("derived_rules", [])
+                 if r.get("target_slot") == slot and r.get("expression") == expr), None)
+
+
+def test_a_snapshot_that_drops_its_source_rules_judgment_is_an_error():
+    """THE DEFECT THIS CHECK EXISTS FOR, DRIVEN. Measured over the 93 snapshots that can be
+    matched to a source rule at all, THIRTEEN carried a rule flagged `judgment: true` and ZERO
+    of them carried the flag -- the bake has never carried it, and `check_baked_snapshots` was
+    green over every one because it re-derives the VALUE and compares nothing else.
+
+    A judgment laundered as a derived figure is the thing this corpus names as the worst that
+    can be done to it, arriving through a FIELD rather than through a number: `brick-course`
+    says 22 in "is between sizes; the mason will build 18 or 27", and the snapshot of that said
+    `kind: derived` and nothing else, so `build/threshold.py` read a settled measurement out of
+    a deferred decision and the plan sheet published it as one.
+    """
+    slot, pname, expr, src = "chimney", "stack_plan_in", "part * 8", "brick-course"
+    rule = _rule_for(src, slot, expr)
+    assert rule is not None and rule.get("judgment") is True, (
+        "this test's premise is that the corpus really flags this rule a judgment; it does not, "
+        "so the test would pass for the wrong reason")
+
+    errs, _unj, stats = _run_flags(_flagkit(None, expr, slot, pname, src, 22.0))
+    assert stats["baked_flag_judged"] == 1, stats
+    assert len(errs) == 1, errs
+    assert "judgment: true" in errs[0] and pname in errs[0], errs[0]
+
+    errs, _unj, stats = _run_flags(_flagkit(True, expr, slot, pname, src, 22.0))
+    assert errs == [], errs
+    assert stats["baked_flag_judged"] == 1, stats
+
+
+def test_a_judgment_claimed_where_the_corpus_settled_the_figure_is_also_an_error():
+    """The OTHER direction, and it is not symmetry for its own sake. A flag added where the rule
+    carries none is the fake-unjudged collapse -- the corpus saying "somebody still owes this"
+    about a figure it has in fact settled -- which this project treats as exactly as dishonest
+    as a fake pass. Without this half the check could be satisfied by flagging everything."""
+    slot, pname, expr, src = "stair_type", "risers_per_storey", "ceil(module / 7.5)", "storey-graduation"
+    rule = _rule_for(src, slot, expr)
+    assert rule is not None and not rule.get("judgment"), (
+        "premise: this rule is NOT a judgment. If the corpus flags it, this test is vacuous.")
+
+    errs, _unj, _stats = _run_flags(_flagkit(True, expr, slot, pname, src))
+    assert len(errs) == 1, errs
+    assert "fake-unjudged" in errs[0] or "as dishonest" in errs[0], errs[0]
+
+    errs, _unj, _stats = _run_flags(_flagkit(None, expr, slot, pname, src))
+    assert errs == [], errs
+
+
+def test_a_snapshot_whose_rule_cannot_be_found_is_UNJUDGED_and_never_an_error():
+    """50 of 143 snapshots name a `source` pack that states no rule for their slot with that
+    expression -- `english-georgian.door_surround.order_height_ratio` cites `gibbs-ionic`, which
+    carries ZERO rules targeting that slot. Loosening the match until those resolve would pair a
+    snapshot with a rule that is not its source, which is OQ 48's error one layer up. They are
+    counted and printed as could-not-compare: unjudged is not passed, and it is not failed."""
+    # value 22.0 so `part * 8` re-derives exactly: the VALUE question must stay quiet here, or
+    # this test would pass on an error raised by the other half of the function.
+    errs, unj, stats = _run_flags(_flagkit(None, expr="part * 8", slot="composition_parti",
+                                           pname="invented", source="brick-course", value=22.0))
+    assert errs == [], errs
+    assert stats["baked_flag_unjudged"] == 1 and stats["baked_flag_judged"] == 0, stats
+    assert "states no rule on slot" in unj[0], unj[0]
+
+
+def test_the_corpus_carries_no_snapshot_that_drops_a_judgment(corpus_flags):
+    """The corpus-wide half. It is SECOND deliberately: a green run here says nothing about
+    whether the check can fire, which is why the three driven cases above come first."""
+    errs, flag_unjudged, stats = corpus_flags
+    assert errs == [], errs
+    assert stats["baked_flag_judged"] > 80, (
+        f"only {stats['baked_flag_judged']} snapshots were matched to a source rule -- this "
+        f"number falls when the matcher goes blind, not only when the corpus shrinks")
+
+
+@pytest.fixture(scope="module")
+def corpus_flags():
+    import collections
+    import glob
+    import json
+    ck = _ck()
+    errs, unjudged, flag_unjudged, stats = [], [], [], collections.Counter()
+    for p in sorted(glob.glob(os.path.join(ROOT, "kits", "*.kit.json"))):
+        kit = json.load(open(p, encoding="utf-8"))
+        ck.check_baked_snapshots(errs, unjudged, flag_unjudged,
+                                 os.path.basename(p).split(".")[0], kit, stats)
+    # only the FLAG errors: a stale value is the other question and has its own test
+    return [e for e in errs if "judgment" in e], flag_unjudged, stats

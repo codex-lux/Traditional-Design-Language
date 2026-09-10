@@ -26,6 +26,7 @@ So this file starts from the emitted string and works backwards:
 A cheaper version of this file would compare `svg_path()` output to a stored string. That is what
 TestSegTo did, and it is why nobody noticed.
 """
+import json
 import math
 import os
 import re
@@ -1088,3 +1089,180 @@ class TestDormersHaveThreeStatesAndTheThirdIsThePoint:
         assert abs(d["cornice_height_in"] - house_ratio * face_in) < 0.01
         assert d["cornice_projection_in"] > 0
         assert "reduced scale" in (d["cornice_source"] or "")
+
+
+class TestEveryPlateStatesTheFrameItWasDrawnIn:
+    """WP-12.4. The Round lays a 2D plate over the 3D model at the same view, and it can only do
+    that if the plate says what its own pixels mean in feet. `data-frame` is that statement.
+
+    THE POINT OF PINNING IT HERE RATHER THAN IN THE VIEWER is that the attribute is a claim the
+    RENDERER makes about its own arithmetic, and the failure it guards against is the attribute
+    and the ink drifting apart — which no test on the JavaScript side can see, because the
+    JavaScript believes the attribute. So the assertions below hold the attribute against a
+    number the same file emits by a different path.
+
+    A PLAN CARRIES ONE PLATE PER LEVEL, side by side in one SVG, each with its own origin. That
+    is why `plates` is a list: measured on the Tidewater plan the two origins are 44.0 and
+    1177.2 px, so a single root frame would have described the ground floor and mis-registered
+    the upper one by eleven hundred pixels — the whole width of a plate.
+    """
+
+    KEYS = {"id", "proj", "px_per_ft", "origin_px", "at_origin_ft"}
+    # `data-plate-top` is PRINTED at one decimal and the frame carries full precision,
+    # because a viewer registering a plate on a model needs the number and a reader of the
+    # plate needs a legible one. So they agree to within that printing and not to the bit —
+    # rounding the frame to match would throw away 0.05 px of registration to make a test
+    # tidier, which is the WP-12.2 residue lesson in a new place.
+    PRINTED_TOL_PX = 0.05 + 1e-9
+
+    def _frame(self, svg):
+        m = re.search(r"data-frame='([^']*)'", svg)
+        assert m, "the plate states no data-frame"
+        import json as _json
+        return _json.loads(m.group(1).replace("&apos;", "'"))
+
+    def _plates(self, svg):
+        f = self._frame(svg)
+        assert isinstance(f.get("plates"), list) and f["plates"], "data-frame carries no plates"
+        for p in f["plates"]:
+            assert self.KEYS <= set(p), f"a plate frame is missing {self.KEYS - set(p)}"
+            assert isinstance(p["px_per_ft"], (int, float)) and p["px_per_ft"] > 0
+            assert len(p["origin_px"]) == 2 and len(p["at_origin_ft"]) == 2
+        return f["plates"]
+
+    def test_the_plan_states_one_frame_per_level_and_agrees_with_its_own_plate_top(self, tmp_path):
+        """`data-plate-top` and `data-frame.origin_px[1]` are two independent emissions about one
+        edge — the plate's top. They must agree exactly, and if the origin hoist ever drifts they
+        stop agreeing, which is the only cheap way to catch that from outside the file."""
+        rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
+        g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
+        plan = json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json"))
+        placed = g.solve(plan, engine="heuristic")
+        out = str(tmp_path / "plan.svg")
+        rp.render(placed, out)
+        svg = open(out).read()
+        plates = self._plates(svg)
+        tops = re.findall(r'data-plate="([^"]*)" data-plate-top="([^"]*)"', svg)
+        assert len(tops) == len(plates) >= 2, (
+            f"{len(plates)} frames against {len(tops)} plates — a level is drawn with no frame")
+        by_id = {p["id"]: p for p in plates}
+        for pid, top in tops:
+            assert pid in by_id, f"the plate {pid!r} is drawn and has no frame"
+            assert abs(by_id[pid]["origin_px"][1] - float(top)) <= self.PRINTED_TOL_PX, (
+                f"{pid}: data-frame says the plate starts at {by_id[pid]['origin_px'][1]} and "
+                f"data-plate-top says {top} — the attribute has drifted from the ink")
+        # The levels stand side by side, so their origins must DIFFER on x. A frame that gave
+        # them the same origin would lay every plate on the first one and look plausible.
+        xs = [p["origin_px"][0] for p in plates]
+        assert len(set(xs)) == len(xs), f"two plates claim one origin: {xs}"
+
+    def test_the_frame_follows_the_plate_when_a_lot_pushes_it_down(self, tmp_path):
+        """DRIVEN, and it has to be: NO PLAN IN THIS CORPUS STATES A LOT (0 of 16, swept), so
+        `render_plan`'s whole site block — the setbacks and the four `extra_*` terms — is
+        unreachable from the shipped records, and `oy` equals `top` on every plate this tree
+        draws. A mutation replacing the frame's `oy` with `top` is therefore INVISIBLE on the
+        corpus: measured, it left this class green.
+
+        That is WP-10.1's lesson (choose a fixture that straddles the branch) meeting WP-8.11's
+        (a guard that runs only where the bug cannot occur is not a guard). So the lot is stated
+        by hand, and the premise is asserted below, so the day a plan grows one the fixture stops
+        being the only route rather than quietly becoming redundant."""
+        rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
+        g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
+        plan = json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json"))
+        placed = g.solve(plan, engine="heuristic")
+
+        flat = str(tmp_path / "flat.svg")
+        rp.render(placed, flat)
+        base = self._plates(open(flat).read())[0]["origin_px"][1]
+
+        # a lot deeper than the house, so `extra_top` is a real number rather than a zero
+        placed = json.loads(json.dumps(placed))
+        placed["site"] = {"lot_width_ft": 140.0, "lot_depth_ft": 120.0,
+                          "setback_front_ft": 20.0, "setback_side_ft": 30.0}
+        out = str(tmp_path / "lot.svg")
+        rp.render(placed, out)
+        svg = open(out).read()
+        plates = self._plates(svg)
+        assert plates[0]["origin_px"][1] > base + 1.0, (
+            f"the lot must push the plate down the sheet: {base} -> {plates[0]['origin_px'][1]}; "
+            "if it did not, this fixture no longer drives the branch it exists for")
+        tops = re.findall(r'data-plate="([^"]*)" data-plate-top="([^"]*)"', svg)
+        by_id = {p["id"]: p for p in plates}
+        for pid, top in tops:
+            assert abs(by_id[pid]["origin_px"][1] - float(top)) <= self.PRINTED_TOL_PX, (
+                f"{pid}: with a lot stated, data-frame says {by_id[pid]['origin_px'][1]} and the "
+                f"plate says {top} — the frame is reading the sheet margin, not the plate")
+
+    def test_no_shipped_plan_states_a_lot_so_the_case_above_must_stay_driven(self):
+        """The premise of the fixture above, asserted rather than assumed. If this ever fails, a
+        plan has grown a lot and the driven case is no longer the only route — read it again."""
+        import glob
+        withlot = []
+        for f in sorted(glob.glob(f"{ROOT}/plans/**/*.json", recursive=True)):
+            r = json.load(open(f))
+            site, ctx = r.get("site") or {}, r.get("context") or {}
+            if (site.get("lot_width_ft") or ctx.get("lot_width_ft")) and \
+               (site.get("lot_depth_ft") or ctx.get("lot_depth_ft")):
+                withlot.append(os.path.basename(f))
+        assert withlot == [], f"a plan now states a lot ({withlot}) — see the driven test above"
+
+    def test_the_scale_is_the_scale_the_caller_asked_for(self, tmp_path):
+        """DRIVEN at a non-default scale, because `px_per_ft` transcribed as the module's default
+        would be right on every plate this corpus ships and wrong for anyone who passes one."""
+        rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
+        g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
+        plan = json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json"))
+        placed = g.solve(plan, engine="heuristic")
+        assert rp.PX_PER_FT != 9.0, "pick a scale the renderer does not already default to"
+        out = str(tmp_path / "plan9.svg")
+        rp.render(placed, out, scale=9.0)
+        for p in self._plates(open(out).read()):
+            assert p["px_per_ft"] == 9.0, f"{p['id']} states {p['px_per_ft']} at a 9.0 scale"
+
+    def test_the_elevation_the_roof_and_the_section_each_state_theirs(self, tmp_path):
+        """One shape across four renderers. The elevation's frame is also the one the Round reads
+        most, because four of its six named views are elevations."""
+        g = modcache.load("geometry", f"{ROOT}/build/geometry.py")
+        st = modcache.load("structure", f"{ROOT}/build/structure.py")
+        rf_m = modcache.load("roof", f"{ROOT}/build/roof.py")
+        el_m = modcache.load("elevation", f"{ROOT}/build/elevation.py")
+        re_r = modcache.load("render_elevation", f"{ROOT}/build/render_elevation.py")
+        rs_r = modcache.load("render_section", f"{ROOT}/build/render_section.py")
+        rr_r = modcache.load("render_roof", f"{ROOT}/build/render_roof.py")
+        plan = json.load(open(f"{ROOT}/plans/tidewater-georgian-careful.json"))
+        placed = g.solve(plan, engine="heuristic")
+        sec = st.build_section(placed, None, geometry_result=placed)
+        rf = rf_m.build_roof(placed, None, section=sec)
+        ev = el_m.build_elevation(placed, None, section=sec, roof=rf)
+        if "error" in ev:
+            pytest.skip(f"COULD NOT EVALUATE: this plan builds no elevation ({ev['error']})")
+
+        # every face, because render_elevation has taken a `face` since WP-3.2 and three of the
+        # four were never looked at until WP-12.0
+        for face in ("S", "N", "E", "W"):
+            out = str(tmp_path / f"e{face}.svg")
+            re_r.render_elevation(ev, out, face=face)
+            ps = self._plates(open(out).read())
+            assert len(ps) == 1 and ps[0]["proj"] == "elevation"
+            assert ps[0]["id"] == face and ps[0]["face"] == face, (
+                f"the {face} elevation's frame names {ps[0]['id']!r}")
+            assert ps[0]["at_origin_ft"][0] == 0.0, "a face is measured from its own left edge"
+            assert ps[0]["at_origin_ft"][1] > 0, "and its origin is the top of the drawn height"
+
+        out = str(tmp_path / "roof.svg")
+        rr_r.render_roof(rf, out)
+        ps = self._plates(open(out).read())
+        assert len(ps) == 1 and ps[0]["proj"] == "roof"
+
+        out = str(tmp_path / "sec.svg")
+        rs_r.render_section(sec, out)
+        assert self._plates(open(out).read())[0]["proj"] == "section"
+
+        # The bearing diagram is a plan-shaped drawing in the CLEAR frame rather than the outside
+        # one, and `proj` is the only thing that tells a reader which — so it is pinned.
+        out = str(tmp_path / "bear.svg")
+        rs_r.render_bearing_diagram(sec, out)
+        bp = self._plates(open(out).read())
+        assert bp and all(p["proj"] == "bearing" for p in bp)
+        assert len(bp) == len(sec["levels"]), "one frame per level, as the plan states"

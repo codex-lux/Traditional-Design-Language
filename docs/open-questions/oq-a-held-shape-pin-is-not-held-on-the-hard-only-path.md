@@ -60,6 +60,49 @@ asked — which is **unjudged reported as passed**, in a new place, and the same
 assert it, then a hard constraint is being violated and that is a much larger fact about the
 model.
 
+## AMENDED 9 SEPTEMBER 2026 — THE DISCRIMINATOR IS NOT THE SOLVER STATUS
+
+Re-measured during WP-12.2's verification, when a full `check_all` came back `1 of 53 checks
+failed` on this same assertion and the package had to establish whose failure it was. The
+method is this entry's own: eight runs of the assertion, **alternating trees to control for
+machine load**, `9aa3a35` (before WP-12.2) against the working tree after it.
+
+| tree | runs | failures |
+|---|---|---|
+| `9aa3a35`, before WP-12.2 | 4 | **4** |
+| working tree, WP-12.2 applied | 4 | **4** |
+
+Identical on both, which settles the attribution: **the failure is not WP-12.2's.** Nothing that
+package touches is in the placement path, and `tests/test_cp_elements.py` passed in the same
+build — its four SHA pins cover the serialised `CpModel` proto for both shipped plans in both
+phases, so the prover was handed a byte-identical model.
+
+**AND THE TABLE ABOVE THIS SECTION IS FALSIFIED.** It says the discriminator is the solver status:
+passing on `FEASIBLE — kept polish from the heuristic hint` (4 of 5) and failing on
+`OPTIMAL (hard-only) — kept hard-only phase A`. **All eight of these runs failed, and all eight
+were on the FEASIBLE-polish status** — the one the table calls passing. So the pin is not held on
+the polish path either, and the entry's own slug, which names the hard-only path, is narrower
+than the defect. The slug is NOT changed: ids are stable and never reused, and a slug that has
+become too narrow is a smaller cost than a citation that stops resolving.
+
+**The convicted population differs with the path, and that is the new fact.** The hard-only solve
+this entry records convicted `chamber2` at 1.38 and `chamber3` at 1.40; every polish solve here
+convicts `chamber3` alone, at the same 1.40 against the same 1.35. What survives both is the
+central claim: **`downgraded_shape_pins` is EMPTY on all eight**, so the record goes on saying
+every proportion pin held while a room is drawn outside the band those pins assert.
+
+**The rate is a property of the machine and the day, and both figures are kept with their dates.**
+WP-11.15 measured 2 in 8 on each tree on 8 September; this measures 8 in 8 on each tree on
+9 September. Neither is the rate — quoting either as *the* frequency is the error this entry was
+written to avoid, and what is stable across both measurements is that the two trees agree.
+
+**What this changes in the questions below.** Question 1 asked whether phase A asserts the pin,
+"which decides whether the below are one question or two". It is now established that the failure
+does not require phase A at all, so a reading confined to `_finish_feasible`'s hard-only branch
+cannot explain it. Question 4 — should the test name the status it is judging — is answered NO on
+this evidence: naming the hard-only status would have made the suite green today while the defect
+was firing on every single run.
+
 ## Why this was not fixed in WP-11.15
 
 WP-11.15's guarantee is that the whole shipped corpus is byte-identical, and every plausible fix

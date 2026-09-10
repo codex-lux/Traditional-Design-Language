@@ -88,6 +88,36 @@ def test_k5_door_graph_is_a_named_proven_conflict():
     assert inf["conflicts"], "an infeasible plan returns WHICH requirements conflict"
 
 
+def test_the_cli_prints_the_conflict_set_the_prover_actually_writes():
+    """WP-12.9. `geometry.py`'s CLI read `out["conflict"]["requirements"]` -- and NEITHER key
+    exists anywhere in this tree. `solve_cp` states `infeasible.conflicts` and `infeasible.note`
+    and always has, so the named-conflict printer printed NOTHING in exactly the case it exists
+    for: CP-SAT proves the declared facts cannot all hold, the hill-climb cannot place the house
+    either, and a person at the CLI is shown the error and none of the reasons.
+
+    THE READER IS HELD AGAINST THE WRITER'S OWN OUTPUT rather than against a shape written here.
+    A hand-built `infeasible` block would pin my recollection of it; this drives the same real
+    K5 refusal the test above does and requires the printer to find the conflicts inside it, so
+    the two cannot drift apart without this going red."""
+    res = GC.solve_cp(GC._k5_fixture(), time_limit_s=25)
+    inf = res.get("infeasible")
+    assert inf and inf["conflicts"], "premise: this fixture must really refuse with a named core"
+
+    lines = GEO.conflict_lines({"error": "refused", **res})
+    assert lines, "the prover named a conflict set and the CLI printed nothing"
+    for c in inf["conflicts"]:
+        assert any(c in ln for ln in lines), f"conflict not printed: {c}"
+    assert any(inf["note"] in ln for ln in lines), (
+        "the note says whether the core was fully minimized; a reader given the list without it "
+        "reads a removable requirement as a necessary one")
+
+    # AND THE DEFECT ITSELF, DRIVEN: the shape the old reader expected produces nothing, which
+    # is what shipped. Without this half the test above passes on a printer that prints
+    # everything it is handed under any key.
+    assert GEO.conflict_lines({"error": "refused",
+                               "conflict": {"requirements": ["a", "b"]}}) == []
+
+
 def test_check_plans_solve_with_stated_downgrades():
     """The corpus's exposure idiom: both check plans solve, and every wall pin the
     solver had to read as massing is STATED in refinements — never silent.

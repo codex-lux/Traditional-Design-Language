@@ -5,16 +5,65 @@
    permanently and without embarrassment. */
 import React from 'react';
 import { planDoc } from '../state/planDoc.js';
+import { api } from '../api/client.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
+import { KINDS } from './drawingKinds.js';
+import { RoundPlate } from '../round/RoundPlate.jsx';
+import { useSurfaceFilters } from '../filters/useFilters.js';
 
-const KINDS = [
-  { id: 'elevation', label: 'front elevation' },
-  { id: 'section', label: 'section' },
-  { id: 'bearing', label: 'bearing lines' },
-  { id: 'roof', label: 'roof plan' },
-  { id: 'plan', label: 'solved plan' },
+/* THE ROUND'S PLACE IS A URL (§7.2), which is WP-5.6's rule and not a new one: a view with
+   three overlays and an exploded model is a thing one reader sends another, and until this it
+   died with the component. All four axes carry `widens: true` — none of them narrows a list,
+   and `FilterStrip`'s "N narrowing" counter lies if they are counted (the Kit's `all` chip and
+   the Phylogeny's map toggle are the two surfaces that taught it that).
+
+   The encodings are the shortest thing that round-trips, and each is PARSED DEFENSIVELY: a
+   hand-edited URL is an untrusted string, and a viewer that threw on one would lose the whole
+   surface rather than the one control. */
+const parseOv = (raw) => (raw ? String(raw).split(',').filter(Boolean) : []);
+const fmtOv = (list) => (list && list.length ? list.join(',') : null);
+
+const parseExplode = (raw) => {
+  if (!raw) return { mode: 'none', k: 0 };
+  const [mode, k] = String(raw).split(':');
+  if (mode !== 'levels' && mode !== 'elements') return { mode: 'none', k: 0 };
+  const n = parseFloat(k);
+  return { mode, k: Number.isFinite(n) ? Math.max(0, Math.min(1.5, n)) : 1 };
+};
+const fmtExplode = (e) => (e && e.mode && e.mode !== 'none' ? `${e.mode}:${e.k}` : null);
+
+const parseCut = (raw) => {
+  if (!raw) return {};
+  const [axis, at] = String(raw).split(':');
+  if (axis === 'level') return { axis: 'level' };
+  if (axis !== 'x' && axis !== 'y') return {};
+  const n = parseFloat(at);
+  return Number.isFinite(n) ? { axis, at: n } : {};
+};
+const fmtCut = (c) => {
+  if (!c || !c.axis) return null;
+  return c.axis === 'level' ? 'level' : `${c.axis}:${c.at}`;
+};
+import { defaultAxon } from '../round/frame.js';
+import { plateKeyFor } from '../round/annotate.js';
+
+
+/* WP-12.0. The compass order, not a preference: `build/elevation.py`'s own FACES tuple is
+   ("S", "N", "E", "W") and the elevation record carries a face block for every one of them.
+   `render_elevation(elev, path, face=…)` has taken the argument since WP-3.2 and
+   `corpus.drawing` has forwarded `body.face` since WP-5.1 — and no client ever sent one, so
+   the surface has been showing the entrance front and calling it "front elevation" while
+   three quarters of what the generator draws had never been seen. Which face is the FRONT is
+   a fact the record states (`context.entrance_faces` → `elev.entrance_face`), so the chip
+   says the compass point and the caption says the role, exactly as WP-11.9 ruled for the
+   plan's north: plan-N is true-N unless a bearing says otherwise. */
+const FACES = [
+  { id: 'S', label: 'south' },
+  { id: 'N', label: 'north' },
+  { id: 'E', label: 'east' },
+  { id: 'W', label: 'west' },
 ];
 
 const DISCLOSURE = {
@@ -41,29 +90,77 @@ const DISCLOSURE = {
 
 export function DrawingSet({ go }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
-  const [kind, setKind] = React.useState('elevation');
+  // WP-12.4: the model is the first plate and the five flat kinds are chips beneath it, so
+  // arriving at ⑧ shows the house rather than one of its faces. It costs no extra call: the
+  // scene route returns the six named views' plates WITH the model, where one `api.drawing`
+  // returned one plate for the same solve.
+  const [kind, setKind] = React.useState('model');
+  const [scene, setScene] = React.useState(null);
+  const [sceneErr, setSceneErr] = React.useState(null);
+  const F = useSurfaceFilters(React.useMemo(() => ({
+    view: { widens: true }, ov: { widens: true },
+    explode: { widens: true }, cut: { widens: true },
+  }), []));
+  const view = F.values.view;
+  const setView = React.useCallback((v) => F.set('view', v), [F]);
+  const ov = React.useMemo(() => parseOv(F.values.ov), [F.values.ov]);
+  const setOv = React.useCallback((list) => F.set('ov', fmtOv(list)), [F]);
+  const explode = React.useMemo(() => parseExplode(F.values.explode), [F.values.explode]);
+  const setExplode = React.useCallback((e) => F.set('explode', fmtExplode(e)), [F]);
+  const cut = React.useMemo(() => parseCut(F.values.cut), [F.values.cut]);
+  const setCut = React.useCallback((c) => F.set('cut', fmtCut(c)), [F]);
+  const [plateOn, setPlateOn] = React.useState(false);
+  // null means "whichever face the record calls the entrance front" — the server's own
+  // default (`face or elev["entrance_face"]`), so arriving here draws what it always drew
+  // and choosing a face is an act the reader takes.
+  const [face, setFace] = React.useState(null);
   const [result, setResult] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [busy, setBusy] = React.useState(false);
   const cache = React.useRef({});
 
-  React.useEffect(() => { cache.current = {}; }, [plan]);
+  React.useEffect(() => { cache.current = {}; setScene(null); setSceneErr(null); }, [plan]);
+
+  // ONE metered call for the model and all six named views' plates (WP-12.3): seven would buy
+  // a reader eight record changes an hour against a budget of sixty.
+  React.useEffect(() => {
+    if (!plan || kind !== 'model' || scene || sceneErr) return;
+    let dead = false;
+    api.scene(plan)
+      .then((j) => {
+        if (dead) return;
+        setScene(j);
+        // the default opens on the axon that shows the entrance front, and never overwrites a
+        // view the URL already names — a copied link must reproduce what its sender saw
+        if (!view) setView(defaultAxon(j.scene?.entrance_face));
+      })
+      .catch((e) => { if (!dead) setSceneErr(String(e.body?.detail?.error || e.message || e)); });
+    return () => { dead = true; };
+  }, [plan, kind, scene, sceneErr]);
+
+  // The cache key carries the face, or four faces of one house would be one entry and the
+  // reader would be shown the first one they asked for whichever chip they pressed.
+  const key = kind === 'elevation' ? `${kind}:${face || '-'}` : kind;
 
   React.useEffect(() => {
-    if (!plan) return;
-    if (cache.current[kind]) { setResult(cache.current[kind]); setError(null); return; }
+    if (!plan || kind === 'model') return;
+    if (cache.current[key]) { setResult(cache.current[key]); setError(null); return; }
+    // The scene response already holds `plan`, the four elevations and `roof`, keyed exactly
+    // as this cache keys them (workbench/server/corpus.py::SCENE_PLATES). Only `section` and
+    // `bearing` are not in it, so only those two cost a call of their own.
+    const fromScene = scene && scene.plates
+      ? scene.plates[kind === 'elevation' ? `elevation:${face || scene.scene?.entrance_face || 'S'}` : kind]
+      : null;
+    if (fromScene) {
+      // the whole result the drawing route returns, so the plate keeps its disclosures
+      cache.current[key] = fromScene; setResult(fromScene); setError(null); return;
+    }
     setBusy(true); setError(null); setResult(null);
-    fetch(`/api/drawings/${kind}`, {
-      method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ plan }),
-    }).then(async (r) => {
-      const j = await r.json();
-      if (!r.ok) throw new Error(j.detail?.error || 'generation refused');
-      cache.current[kind] = j;
-      setResult(j);
-    }).catch((e) => setError(String(e.message || e)))
+    api.drawing(kind, plan, kind === 'elevation' && face ? { face } : {})
+      .then((j) => { cache.current[key] = j; setResult(j); })
+      .catch((e) => setError(String(e.body?.detail?.error || e.message || e)))
       .finally(() => setBusy(false));
-  }, [plan, kind]);
+  }, [plan, kind, face, key, scene]);
 
   if (!plan) {
     return (
@@ -89,18 +186,40 @@ export function DrawingSet({ go }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 0, flex: 1 }}>
+      {/* `flex: none` and `nowrap` because the face group made this strip wider than the
+          pane: without them the plan id wrapped onto a second line inside a 34 px bar and
+          collided with the chips. The strip is `overflowX: auto` by design, so the right
+          answer under pressure is to let it SCROLL rather than to let its contents reflow —
+          the same reason the clear-all control in `Chrome.jsx` is sticky. */}
       <FilterStrip right={
-        <span style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)' }}>{plan.id} · {plan.style}</span>
+        <span style={{ display: 'flex', gap: 10, alignItems: 'center', flex: 'none' }}>
+          <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', whiteSpace: 'nowrap' }}>
+            {plan.id} · {plan.style}
+          </span>
           <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
         </span>
       }>
         <Eyebrow as="span">sheet</Eyebrow>
         <ChipGroup label="sheet">
+          <Chip radio on={kind === 'model'} onClick={() => setKind('model')}>the model</Chip>
           {KINDS.map((k) => (
             <Chip key={k.id} radio on={kind === k.id} onClick={() => setKind(k.id)}>{k.label}</Chip>
           ))}
         </ChipGroup>
+        {kind === 'elevation' && (
+          <>
+            <Eyebrow as="span">face</Eyebrow>
+            <ChipGroup label="face">
+              {FACES.map((f) => (
+                <Chip key={f.id} radio
+                  on={(face || result?.entrance_face) === f.id}
+                  onClick={() => setFace(f.id)}>
+                  {f.label}{result?.entrance_face === f.id ? ' · the entrance front' : ''}
+                </Chip>
+              ))}
+            </ChipGroup>
+          </>
+        )}
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>
@@ -118,7 +237,44 @@ export function DrawingSet({ go }) {
             </p>
           </div>
         )}
-        {result?.svg && (
+        {kind === 'model' && (
+          <div style={{ maxWidth: 1180 }}>
+            {sceneErr ? (
+              <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+                COULD NOT EVALUATE — the scene could not be built: {sceneErr}
+              </div>
+            ) : !scene ? (
+              <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
+                placing the house and building the model…
+              </div>
+            ) : (
+              <PlateViewer label="the model" height="clamp(420px, 74vh, 960px)" note="drag orbits · a named view snaps back">
+                <RoundPlate
+                  scene={scene.scene}
+                  plates={scene.plates}
+                  platesRefused={scene.plates_refused}
+                  plan={scene.plan}
+                  meta={scene.rooms_meta}
+                  view={view || defaultAxon(scene.scene?.entrance_face)}
+                  onView={setView}
+                  plateOn={plateOn}
+                  onPlate={setPlateOn}
+                  ov={ov}
+                  onOv={setOv}
+                  explode={explode}
+                  onExplode={setExplode}
+                  cut={cut}
+                  onCut={setCut}
+                  title={plan.name || plan.id}
+                  styleName={plan.style}
+                  subtitle={`${scene.scene?.parti || 'no parti named'} · ${scene.scene?.massing || 'no massing named'}`}
+                  disclosures={(scene.plan?.geometry_report?.disclosures) || []}
+                />
+              </PlateViewer>
+            )}
+          </div>
+        )}
+        {kind !== 'model' && result?.svg && (
           <div style={{ maxWidth: 1180 }}>
             <PlateViewer label={'the ' + kind} height="clamp(420px, 74vh, 960px)">
             <div style={{ background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -162,8 +318,30 @@ export function DrawingSet({ go }) {
             )}
             {kind === 'elevation' && result.date_of_representation && (
               <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '10px 0 0' }}>
-                drawn for {result.date_of_representation} · glass module {result.glass_module_in}″ ·
-                entrance faces {result.entrance_face}
+                {(face || result.entrance_face)} elevation
+                {(face || result.entrance_face) === result.entrance_face
+                  ? ' · the entrance front'
+                  : ` · the entrance front is ${result.entrance_face}`} ·
+                drawn for {result.date_of_representation} · glass module {result.glass_module_in}″
+              </p>
+            )}
+            {/* WP-12.0: which placement this plate was drawn on, and of what input. Every
+                sheet in a set now takes `corpus._placed`'s one solve, so a reader comparing
+                two plates of "the same house" can tell whether the INPUT differed rather
+                than guessing — WP-11.8's J6, which the plan sheet has carried and the
+                elevation and roof plates could not, because they were built on a placement
+                of their own. */}
+            {result.solver && (
+              <p style={{ font: 'var(--type-data-s)', color: 'var(--ink-3)', margin: '4px 0 0' }}>
+                {/* Three states, not two. A ternary here would have made an ABSENT engine
+                    read as "searched", which is a definite claim about a placement nobody
+                    can name — the one collapse this corpus refuses first. */}
+                placed by {result.solver.engine === 'cp-sat' ? 'proof (CP-SAT)'
+                  : result.solver.engine === 'heuristic' ? 'search (hill-climb)'
+                    : 'an engine this plate does not name'}
+                {result.solver.drawn_by?.input_digest
+                  ? ` · input ${result.solver.drawn_by.input_digest}` : ''}
+                {result.solver.fallback ? ` · fell back: ${result.solver.fallback}` : ''}
               </p>
             )}
           </div>

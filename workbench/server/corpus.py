@@ -458,15 +458,47 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             meta = {"relaxations": solved["geometry_report"].get("relaxations"),
                     "solver": solved["geometry_report"].get("solver")}
         elif kind == "elevation":
+            # WP-12.0: the SAME placement the plan sheet draws, as the section and bearing
+            # sheets below have taken since WP-6.4 -- and this branch did not. It called
+            # `build_elevation(plan, pt)` with no section, so the elevation fell into
+            # `build_section`'s heuristic default, whose own comment says that default is
+            # "for INTERNAL callers ONLY" (plan_check's elevation layer, the composer's
+            # scoring loop). The elevation READS placement, so wherever the set's own solve
+            # reached a proof the elevation was a drawing of a different house -- under a
+            # banner WP-6.4 wrote saying "one drawing set is one building or it is nothing."
+            #
+            # MEASURED on spec-builder-colonial before the fix: the plan sheet proved
+            # 50.0 x 31.0 with CP-SAT while the elevation was built on a heuristic placement,
+            # and `porch_clear_depth_ft` -- the measurement `porch-too-shallow-to-inhabit`
+            # reads, this project's own Four-Foot Porch -- published 4.75 ft for a porch the
+            # plan beside it drew at 4.0. A fault measurement wrong in the flattering
+            # direction, which is the OQ 52 family. On tidewater-georgian-careful the two
+            # AGREED, because `auto` spends its budget there and falls back to the same
+            # heuristic: invisible on one shipped plan and real on the other.
             EL = core._mod("elevation", f"{B}/elevation.py")
-            elev = EL.build_elevation(plan, pt)
+            ST_ = core._mod("structure", f"{B}/structure.py")
+            RF_ = core._mod("roof", f"{B}/roof.py")
+            placed = _placed(plan, pt, candidates)
+            if "error" in placed:
+                return {"error": placed["error"]}
+            section = ST_.build_section(plan, pt, geometry_result=placed)
+            if "error" in section:
+                return {"error": section["error"]}
+            roof = RF_.build_roof(plan, pt, section=section)
+            if "error" in roof:
+                return {"error": roof["error"]}
+            elev = EL.build_elevation(plan, pt, section=section, roof=roof)
             if "error" in elev:
                 return {"error": elev["error"]}
             re_ = core._mod("render_elevation", f"{B}/render_elevation.py")
             re_.render_elevation(elev, out_path, face=face)
             meta = {"entrance_face": elev.get("entrance_face"),
                     "date_of_representation": elev.get("date_of_representation"),
-                    "glass_module_in": elev.get("glass_module_in")}
+                    "glass_module_in": elev.get("glass_module_in"),
+                    # the engine and the input digest, as the plan sheet has carried since
+                    # WP-11.8: a reader comparing two plates of "the same house" can now tell
+                    # whether the INPUT differed (finding J6 of the 4 Sep diagnosis).
+                    "solver": (placed.get("geometry_report") or {}).get("solver")}
         elif kind in ("section", "bearing"):
             st = core._mod("structure", f"{B}/structure.py")
             # WP-6.4: hand it the SAME placement the plan sheet draws. `build_section`'s own
@@ -485,12 +517,24 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
             else:
                 rs.render_bearing_diagram(section, out_path)
         elif kind == "roof":
+            # WP-12.0, the same defect as the elevation branch above: `build_roof` was called
+            # with no section, so it built its own on the heuristic while the plan sheet in
+            # the same set was a proof. The roof's ridge, eave and chimney heights all come
+            # off that section.
             rf = core._mod("roof", f"{B}/roof.py")
-            roof = rf.build_roof(plan, pt)
+            st_ = core._mod("structure", f"{B}/structure.py")
+            placed = _placed(plan, pt, candidates)
+            if "error" in placed:
+                return {"error": placed["error"]}
+            section = st_.build_section(plan, pt, geometry_result=placed)
+            if "error" in section:
+                return {"error": section["error"]}
+            roof = rf.build_roof(plan, pt, section=section)
             if "error" in roof:
                 return {"error": roof["error"]}
             rr = core._mod("render_roof", f"{B}/render_roof.py")
             rr.render_roof(roof, out_path)
+            meta = {"solver": (placed.get("geometry_report") or {}).get("solver")}
         else:
             return {"error": f"unknown drawing kind '{kind}'",
                     "kinds": ["plan", "elevation", "section", "bearing", "roof"]}
@@ -507,6 +551,177 @@ def drawing(kind, plan, parti=None, face=None, candidates=250, register="present
     if kind == "plan":
         meta["register"] = register
     return {"kind": kind, "svg": svg_theme.retokenize(svg), **meta}
+
+
+# ----------------------------------------------------------------- the scene (WP-12.3)
+
+# The six views that HAVE a plate. `AXON` and `APPROACH` are named views of the model with no
+# orthographic drawing behind them, and the PRD says so rather than inventing one: a perspective
+# has no plate because a perspective dimension is never true.
+SCENE_PLATES = (("plan", None), ("elevation", "S"), ("elevation", "N"),
+                ("elevation", "E"), ("elevation", "W"), ("roof", None))
+
+
+def rooms_meta(plan):
+    """Per-room-type catalogue facts the overlays draw from — privacy rank, plumbing, the
+    daylight depth multiplier, and the furniture the client could not otherwise draw.
+
+    LIFTED OUT OF `evaluate.py` BY WP-12.5, because the Round needs the same dict and the
+    scene route is a different call. A second copy is how two surfaces of one house come to
+    disagree about which rooms are wet — and the analytic rules that READ this dict were
+    themselves two copies until the same package lifted them into `overlayRules.js`.
+
+    Joined here so the client never re-derives corpus data: `daylight.depth_multiplier` is
+    carried through as-is, INCLUDING a stated zero, which three records use to say the room
+    takes no daylight depth at all and which a `or` in this loop would have turned into a
+    missing value."""
+    D = core._data()
+    meta = {}
+    for lv in plan.get("levels", []):
+        for r in lv.get("rooms", []):
+            t = r.get("type")
+            if t and t not in meta:
+                room = D["rooms"].get(t) or {}
+                meta[t] = {
+                    "function_class": room.get("function_class"),
+                    "privacy_rank": room.get("privacy_rank"),
+                    "plumbing": (room.get("servicing") or {}).get("plumbing"),
+                    "daylight_multiplier": (room.get("daylight") or {}).get("depth_multiplier"),
+                    "furniture": [
+                        {"item": f.get("item"), "footprint_in": f.get("footprint_in"),
+                         "clearance_in": f.get("clearance_in"), "essential": f.get("essential")}
+                        for f in (room.get("furniture") or [])
+                        if f.get("footprint_in")
+                    ],
+                }
+    return meta
+
+
+def scene(plan, parti=None, candidates=250, plates=True):
+    """The constructed-3D record for the Round, with the PLACED record and every named view's
+    plate beside it — deliberately ONE metered call rather than seven.
+
+    IT IS NOT A SIXTH DRAWING KIND. `/api/drawings/{kind}` returns an SVG and this returns a
+    record; `test_unknown_kind_names_the_kinds` uses `axonometric` as its negative fixture and
+    stays true, which it would not if a camera were smuggled into that enum.
+
+    WHY EVERYTHING COMES BACK AT ONCE, AND THE MEASUREMENT THAT DECIDED IT (WP-12.3). The Round
+    has six views that carry a plate. Fetched one at a time beside the scene that is SEVEN calls
+    against `limits.heavy_calls_per_hour()`, which is 60 — eight record changes an hour, for a
+    surface whose whole subject is moving between views of one house. Measured on
+    `tidewater-georgian-careful`:
+
+        a cold solve                              37.48 s
+        a record that already carries geometry     0.00 s   (the short-circuit, not the cache)
+        all six plates on the placed record        0.38 s
+        build_scene on the placed record           0.00 s
+        the whole call, end to end               38.46 s
+        scene + plates + placed record            70,702 bytes gzipped (376,574 raw)
+
+    The last row of timings is the one to quote: the section, the roof, the elevation, the scene,
+    the six plates AND the first-call module loads are the 0.98 s between it and the solve --
+    **2.6% of the placement**. So the budget rather than the clock is what bites. One call buys
+    sixty record changes an hour where seven calls buy eight.
+
+    **THE SIZE ROW IS WP-12.3's AND IS NOW WRONG TWICE OVER (re-measured WP-12.8).** The TIME
+    claim stands: end to end 39.00 s against a solve that is almost all of it. The BYTES do not.
+    Measured on the same plan on this tree: **621,870 raw and 97,442 gzipped**, of which the
+    scene record alone is 270,029 raw against WP-12.3's 64,928 -- WP-12.6 dressed the envelope
+    and WP-12.7 added the doorcase and the stoop, taking 101 solids to 500, and 350 of the 500
+    are muntins. Two separate corrections in one row:
+
+      - the published 70,702 was gzip level **6** and `app.GZipExceptSSE` deploys level **4**,
+        so the wire figure was never the server's; at level 4 the old payload is 85,115.
+      - "about 71 KB on the wire" is **95 KB** now.
+
+    And the 2.6% must not be read as a claim about SIZE, which is the trap in quoting it beside
+    the row above: the placed record is 57,957 of 621,870 raw bytes, so **ninety per cent of
+    this response is everything-but-the-placement** while under three per cent of its time is.
+    One number, two questions, opposite answers.
+
+    THE PLACED RECORD COMES BACK FOR A SECOND REASON. `_placed` returns a record carrying
+    `geometry` untouched, so a client that keeps this one and posts it to a later export or
+    evaluate pays 0.00 s where a fresh record pays 37.48 s. That is not a cache: it is the
+    drawing set's own rule (WP-6.4) — one placement, and every surface that reads it is reading
+    the same building.
+
+    `plates=False` returns the scene alone. Both branches are driven by
+    `workbench/server/tests/test_scene_endpoint.py`, because a knob nobody exercises is a branch
+    nobody tests.
+    """
+    # A PARTI IS AN ID HERE, NEVER A RECORD (WP-9.4), and the refusal is `core.critique_plan`'s
+    # own words. A caller-supplied record becomes the template `geometry` reads its bay module
+    # off, which is how 114 bays of half a foot reached the solver through two bench routes.
+    if parti is not None and not isinstance(parti, str):
+        return {"error": "parti must be a parti id, not a record",
+                "detail": type(parti).__name__}
+    pt = core.load_parti(parti)
+    placed = _placed(plan, pt, candidates)
+    if "error" in placed:
+        return {"error": placed["error"]}
+    # `B` is a LOCAL in each of the three functions that need it, not a module name -- and so is
+    # `_os`, which those three alias with their own `import os as _os`. The first draft of this
+    # function borrowed both from a neighbour and raised `NameError` twice; `os` is imported
+    # plainly at module scope and is what this uses. Both were caught by the tests on their first
+    # two runs, which is what they are for -- and neither would have been caught by reading, because
+    # the surrounding functions read exactly as though the names were module-level.
+    B = os.path.join(ROOT, "build")
+    ST_ = core._mod("structure", f"{B}/structure.py")
+    RF_ = core._mod("roof", f"{B}/roof.py")
+    EL_ = core._mod("elevation", f"{B}/elevation.py")
+    SC_ = core._mod("scene", f"{B}/scene.py")
+    try:
+        section = ST_.build_section(placed, pt, geometry_result=placed)
+        if "error" in section:
+            return {"error": section["error"]}
+        roof = RF_.build_roof(placed, pt, section=section)
+        if "error" in roof:
+            return {"error": roof["error"]}
+        # A REFUSED ELEVATION IS NOT AN ERROR HERE, and `build_scene` is written for it: outside
+        # the classical-front family the generator declines, and the scene then carries one
+        # `not_modelled` entry saying no face states an opening rather than failing. Passing
+        # `None` is `scene._build_from_plan`'s own reading of the same refusal.
+        elev = EL_.build_elevation(placed, pt, section=section, roof=roof)
+        rec = SC_.build_scene(placed, section, roof, None if "error" in elev else elev)
+    except Exception as e:                      # noqa: BLE001 -- a refusal is content
+        return {"error": f"{type(e).__name__}: {str(e)[:300]}"}
+    # THE OVERLAYS NEED THE CATALOGUE AND THIS ROUTE IS THE ONLY CALL THE ROUND MAKES.
+    # Without it `meta` reaches the viewer as undefined and every wash comes back empty while
+    # looking exactly like an overlay that works: no privacy rank resolves, `isWet` is false
+    # for every room, and the daylight reach silently falls back on every one. A surface that
+    # draws nothing is indistinguishable from a house with nothing to draw.
+    out = {"scene": rec, "plan": placed,
+           "rooms_meta": rooms_meta(placed),
+           "solver": (placed.get("geometry_report") or {}).get("solver")}
+    if plates:
+        drawn, refused = {}, {}
+        for kind, face in SCENE_PLATES:
+            key = f"{kind}:{face}" if face else kind
+            # THE ID AND NOT THE RESOLVED RECORD. `drawing()` calls `core.load_parti` itself,
+            # and that function takes a caller's STRING: handed a dict it does
+            # `os.path.basename(str(dict))`, finds no such file and returns None — so every
+            # plate would have been drawn with NO PARTI while the scene beside it used one.
+            # Two different buildings in one response, which is the defect WP-12.0 removed one
+            # layer up. Found by reading `load_parti`'s signature, not by running it.
+            got = drawing(kind, placed, parti=parti, face=face, candidates=candidates)
+            # A PLATE THAT COULD NOT BE DRAWN IS NAMED, NEVER DROPPED. An elevation refuses
+            # outside the classical-front family and a roof refuses where the style states no
+            # migrated pitch; a missing key would read to the viewer as a view it has not
+            # fetched yet, which is the one thing it must not read as.
+            if "error" in got:
+                refused[key] = got["error"]
+            else:
+                # THE WHOLE RESULT, NOT JUST THE SVG. A plate is its drawing AND the things the
+                # drawing does not say for itself -- WP-3.2's photograph-measurable disclosure,
+                # which face the record calls the entrance front, the relaxation count, and
+                # WP-11.8's engine-and-input-digest line. WP-12.4 first stored `got["svg"]` here
+                # and the bench's elevation lost every one of them: the plate looked right and
+                # had stopped disclosing, which is the failure this surface exists not to have.
+                # The browser walk caught it, on the two checks that read the caption.
+                drawn[key] = got
+        out["plates"] = drawn
+        out["plates_refused"] = refused
+    return out
 
 
 def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
@@ -555,12 +770,33 @@ def export_cad(fmt, plan, kind=None, parti=None, face=None, candidates=250):
                     section = st.build_section(plan, pt, geometry_result=placed)
                     res = section if "error" in section else EX.export_section_dxf(section, p)
                 elif kind == "roof":
+                    # WP-12.0: the exported sheet is a sheet of the house on screen, which
+                    # is WP-6.4's rule and which the section branch above already keeps.
+                    # These two took `build_section`'s internal heuristic default instead.
                     rf = core._mod("roof", f"{B}/roof.py")
-                    roof = rf.build_roof(plan, pt)
+                    st = core._mod("structure", f"{B}/structure.py")
+                    placed = _placed(plan, pt, candidates)
+                    if "error" in placed:
+                        return placed
+                    section = st.build_section(plan, pt, geometry_result=placed)
+                    if "error" in section:
+                        return section
+                    roof = rf.build_roof(plan, pt, section=section)
                     res = roof if "error" in roof else EX.export_roof_dxf(roof, p)
                 elif kind == "elevation":
                     EL = core._mod("elevation", f"{B}/elevation.py")
-                    elev = EL.build_elevation(plan, pt)
+                    st = core._mod("structure", f"{B}/structure.py")
+                    rf = core._mod("roof", f"{B}/roof.py")
+                    placed = _placed(plan, pt, candidates)
+                    if "error" in placed:
+                        return placed
+                    section = st.build_section(plan, pt, geometry_result=placed)
+                    if "error" in section:
+                        return section
+                    roof = rf.build_roof(plan, pt, section=section)
+                    if "error" in roof:
+                        return roof
+                    elev = EL.build_elevation(plan, pt, section=section, roof=roof)
                     res = elev if "error" in elev else EX.export_elevation_dxf(elev, p, face)
                 else:
                     return {"error": f"unknown DXF sheet kind '{kind}'",

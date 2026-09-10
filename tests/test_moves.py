@@ -694,3 +694,73 @@ class TestTheSessionAuditOfTheGuard:
         CO.check_basis(rep3, {"id": "m", "basis": f'rooms/centre-passage.json no.such.key: "{sentence}"'}, source="moves/registry.json")
         assert rep3.unjudged_items and not rep3.errors, (rep3.unjudged_items, rep3.errors)
         assert CK.UNJUDGED_CEILING == 0, "the registry's unjudged citations are ratcheted at zero"
+
+
+# ------------------------------- the two grouping keys `_split_per_grouping` used to read (WP-12.9)
+def test_the_grouping_room_key_is_room_and_the_schema_makes_it_the_only_one():
+    """`_split_per_grouping` read `x.get("type") or x.get("room")` and unioned
+    `g.get("required_rooms")`. WP-12.8's audit called both dead; censused over all 17 grouping
+    records they are dead, and the schema makes them IMPOSSIBLE rather than merely absent --
+    which is the difference between deleting a dead fallback and deleting a live one.
+
+    THIS CORPUS DISTINGUISHES THE TWO CASES AND THE DISTINCTION DECIDED THE FIX. A CHECK that
+    cannot fire is a hazard, because its greenness reads as a verdict; a FALLBACK that cannot
+    fire is a decision about a malformed record, and WP-12.2 kept one for exactly that reason
+    (a bay the record calls a door on a wall with no entrance composition). This one is neither:
+    `additionalProperties: false` at BOTH levels with `room` required means a record carrying
+    `type` or `required_rooms` fails validation and never reaches the reader at all. The schema
+    is the guard, so this test asserts the schema.
+    """
+    schema = json.load(open(os.path.join(ROOT, "schema", "grouping.schema.json"),
+                            encoding="utf-8"))
+    assert schema.get("additionalProperties") is False
+    assert "required_rooms" not in schema["properties"], (
+        "the schema now admits `required_rooms`, so build/moves.py's union of it is no longer "
+        "provably dead -- restore the reader or keep the key out")
+
+    item = schema["properties"]["rooms"]["items"]
+    assert item.get("additionalProperties") is False
+    assert "room" in (item.get("required") or []), (
+        "`room` is no longer required, so a rooms[] entry can name nothing and "
+        "`{x.get('room') for x in ...}` would silently collect a None")
+    assert "type" not in item["properties"], (
+        "the schema now admits `type` on a grouping room, so dropping the `or x.get('type')` "
+        "fallback would make `_split_per_grouping` blind to it")
+
+
+def test_no_grouping_record_carries_either_retired_key():
+    """The corpus half. The schema forbids them; this says the corpus agrees, so a schema
+    loosened by accident cannot go unnoticed until a record uses it."""
+    import glob
+    seen_rooms = 0
+    for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
+        g = json.load(open(f, encoding="utf-8"))
+        assert "required_rooms" not in g, f
+        for x in (g.get("rooms") or []):
+            seen_rooms += 1
+            assert "type" not in x, (f, x)
+            assert x.get("room"), (f, x)
+    assert seen_rooms > 50, (
+        f"only {seen_rooms} grouping rooms were read -- a selector matching almost nothing "
+        f"makes this pass vacuously")
+
+
+def test_split_per_grouping_still_selects_the_room_it_is_meant_to():
+    """And the behaviour, because the two above are both about the SHAPE of the data. Deleting
+    the union and the `or` must not change which rooms the move selects: driven on a real
+    grouping that carries the split logic, against a room type it really names."""
+    import glob
+    groupings = {}
+    for f in sorted(glob.glob(os.path.join(ROOT, "groupings", "*.json"))):
+        g = json.load(open(f, encoding="utf-8"))
+        groupings[g["id"]] = g
+    hits = []
+    for gid, g in groupings.items():
+        if not (g.get("expansion_logic") or "").startswith("Split rather than enlarge"):
+            continue
+        types = {x.get("room") for x in (g.get("rooms") or [])}
+        assert types and None not in types, (gid, types)
+        hits.append((gid, types))
+    assert hits, (
+        "no grouping carries `Split rather than enlarge`, so `_split_per_grouping` selects "
+        "nothing on this corpus and this guard is about a branch that cannot run")

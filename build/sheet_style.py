@@ -272,6 +272,37 @@ def pen_attrs(weight, dash=None):
     return f'stroke="{p["stroke"]}" stroke-width="{p["stroke-width"]}"{d}'
 
 
+def frame_attr(frames):
+    """The `data-frame` attribute's value: what a plate's own pixels mean in feet (WP-12.4).
+
+    ONE SHAPE FOR ALL FOUR RENDERERS, because all four already share one affine:
+
+        px_x = origin_px[0] + (u - at_origin_ft[0]) * px_per_ft
+        px_y = origin_px[1] + (at_origin_ft[1] - v) * px_per_ft
+
+    where (u, v) are the plate's own two axes in feet -- (east, north) for a plan or a roof
+    plan, (along the face, above grade) for an elevation. The y term is a subtraction because
+    every plate in this tree draws model-up as screen-up, which is the one convention
+    render_plan.py, render_roof.py and render_section.py already state in comments to each
+    other.
+
+    IT SAYS NOTHING ABOUT THE MODEL FRAME, DELIBERATELY. Which model axis runs along a face,
+    and in which direction, is a question about the camera, and the camera answers it in
+    workbench/app/src/round/frame.js where it is under test. A renderer asserting it too
+    would be a second authority over exactly the fact a mirrored drawing gets wrong, and the
+    two would disagree the first time anyone touched either -- which is this corpus's
+    most-repeated defect wearing a new attribute.
+
+    `plates` is a LIST because a plan draws one plate per level side by side in one SVG. A
+    reader wanting one plate selects it by `id`; a single frame at the root would describe
+    the first plate and mis-register every other.
+    """
+    import json as _json
+    # A single-quoted attribute, so the JSON's own double quotes pass through untouched; the
+    # only character that could close it early is an apostrophe, and a level id is a slug.
+    return _json.dumps(frames, separators=(",", ":")).replace("'", "&apos;")
+
+
 if __name__ == "__main__":
     import json
     print(json.dumps({"dark": DARK, "light": LIGHT, "weights": LW, "poche": POCHE}, indent=1))

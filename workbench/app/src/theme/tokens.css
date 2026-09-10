@@ -261,6 +261,13 @@
   /* One sun: 45°, upper left, every sheet in a set. Shadow depth = projection depth. */
   --shadow-angle:45deg; /* @kind other */
   --shadow-working:rgba(63,58,49,.15);
+  /* The Round's two numbers (WP-12.4). The sun on a drawing is FLAT -- one step, never a
+     gradient -- so the model needs the strength as a scalar rather than as the rgba above,
+     which is a wash for a 2D plate. And the axonometric's elevation is a token so a
+     dimetric 30 can be ruled without a code change; 35.264 is true isometric, and
+     round/frame.js DERIVES it as atan(1/sqrt2) rather than trusting this line. */
+  --shadow-flat:.15; /* @kind other */
+  --axon-elevation-deg:35.264; /* @kind other */
   --shadow-presentation:rgba(63,58,49,.12);
 
   /* Analytic overlays, one duty each */

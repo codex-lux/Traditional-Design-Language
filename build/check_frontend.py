@@ -56,12 +56,24 @@ def main():
         names = sorted(os.listdir(dist))
         entry = [f for f in names if f.startswith("index-") and f.endswith(".js")]
         tiers = [f for f in names if f.startswith("coastlines-")]
+        # WP-12.4: `three` is the app's third runtime dependency and it must stay OUT of the
+        # entry graph. It reaches the bundle only through `round/three-scene.js`, which
+        # `Round.jsx` loads with a dynamic import -- so rollup emits it as its own chunk and
+        # a reader who never opens the Round never downloads it. Measured at the time:
+        # entry 477 KB against this 700 KB ceiling, `three` 564 KB in a chunk of its own
+        # (WP-12.8 re-measured; the file that PRINTS these carried 478/545 as a comment).
+        model = [f for f in names if f.startswith("three-scene-")]
         if not entry:
             print("FAIL: no entry chunk in dist/assets", file=sys.stderr)
             bad += 1
         elif len(tiers) < 2:
             print(f"FAIL: the medium and fine tiers are not separate chunks (found {tiers}) — "
                   "they have been folded into the entry graph", file=sys.stderr)
+            bad += 1
+        elif not model:
+            print("FAIL: three.js is not a separate chunk — `round/three-scene.js` has been "
+                  "imported statically somewhere, so every reader now downloads a 3D engine "
+                  "to look at a flat plate", file=sys.stderr)
             bad += 1
         else:
             size = os.path.getsize(os.path.join(dist, entry[0]))
@@ -70,7 +82,9 @@ def main():
                       "statically imported", file=sys.stderr)
                 bad += 1
             else:
-                print(f"  entry {size/1024:.0f} KB, {len(tiers)} tier chunks kept out of it")
+                msize = os.path.getsize(os.path.join(dist, model[0]))
+                print(f"  entry {size/1024:.0f} KB, {len(tiers)} tier chunks kept out of it, "
+                      f"three {msize/1024:.0f} KB in its own chunk")
 
     for suite in SUITES:
         path = os.path.join(E2E, suite)

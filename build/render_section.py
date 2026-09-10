@@ -75,8 +75,13 @@ def render_section(section, path, scale=7.0):
     ox, oy = pad + left_gutter, top_pad
     Y = lambda h_ft: oy + (top_ft - h_ft) * scale   # grade at bottom, height increases upward
 
+    # WP-12.4: see build/sheet_style.py::frame_attr. `u` is the distance across the span from
+    # its left edge, `v` the height above grade -- this drawing's own two axes.
+    _frames = {"plates": [{"id": "section", "proj": "section", "px_per_ft": scale,
+                           "origin_px": [ox, oy], "at_origin_ft": [0.0, round(top_ft, 3)]}]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{PAL["ground"]}">']
     s.append(_style_block())
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(section.get("plan_id",""))} — SECTION</text>')
     s.append(f'<text class="lb" x="{pad}" y="42">{_esc(section.get("style",""))} · '
@@ -141,14 +146,28 @@ def render_bearing_diagram(section, path, scale=7.0):
     total_w = pad * 2 + len(levels) * pw + max(0, len(levels) - 1) * gap
     total_h = top + ph + 60
 
+    # WP-12.4: one plate per level, so one entry per level -- and the loop below reads the
+    # SAME origin function, which is what stops the attribute and the ink drifting apart.
+    # NOTE the frame here is the CLEAR one (wall_lines() was built in it), not the outside
+    # frame render_plan.py draws; `proj` is what tells the two apart.
+    def _plate_origin(i):
+        return (pad + i * (pw + gap), top)
+
+    _frames = {"plates": [
+        {"id": lv.get("id") or str(i), "proj": "bearing", "level": lv.get("index", i),
+         "px_per_ft": scale,
+         "origin_px": [round(_plate_origin(i)[0], 3), round(_plate_origin(i)[1], 3)],
+         "at_origin_ft": [0.0, round(H, 3)]}
+        for i, lv in enumerate(levels)]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{PAL["ground"]}">']
     s.append(_style_block())
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(section.get("plan_id",""))} — BEARING LINES</text>')
     s.append(f'<text class="lb" x="{pad}" y="42">HEAVY = BEARING · DASHED = PARTITION · RED = SPAN EXCEEDS CAPACITY</text>')
 
     for i, lv in enumerate(levels):
-        ox = pad + i * (pw + gap); oy = top
+        ox, oy = _plate_origin(i)      # the SAME function data-frame was built from
         X = lambda v, ox=ox: ox + v * scale
         Yc = lambda v, oy=oy: oy + (H - v) * scale
         s.append(f'<text class="lb" x="{ox:.1f}" y="{oy-10:.1f}">{_esc((lv.get("id") or "").upper())}</text>')

@@ -729,6 +729,191 @@ await page.screenshot({ path: SHOTS + 'candidates.png' });
 // Scoped to the rail: since WP-5.6 the Overview offers doors carrying the same labels, so an
 // unscoped getByRole matches two elements and Playwright refuses both.
 await rail.getByRole('button', { name: /Drawing Set/ }).click();
+
+/* ⑧a — THE ROUND (WP-12.4). The model is the surface's FIRST plate now, so it is what a reader
+   arriving here sees; the five flat plates are chips beneath it and everything below this block
+   still tests them, after clicking `elevation`.
+
+   The scene is one metered call that solves the house, so the wait is generous. */
+{
+  const webgl = await page.evaluate(() => {
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl2') || c.getContext('webgl'));
+  });
+  if (!webgl) {
+    // A real COULD NOT EVALUATE: this machine cannot draw the model at all, and saying so is
+    // not the same as the Round being broken. It is PRINTED rather than counted as a pass.
+    console.log('N/EV  the Round: this browser reports no WebGL context — the model checks '
+      + 'could not be evaluated here (the flat plates below are unaffected)');
+  } else {
+    await page.waitForSelector('[data-round-canvas]', { timeout: 120000 });
+    const cap0 = await page.locator('[data-plate-title]').first().innerText();
+    // The default view shows the entrance face and the face to its left. The Tidewater front
+    // is south, so it is the south-west axon -- read off the caption, which is the reader's
+    // own evidence, rather than off internal state.
+    check(`the Round opens on the axon that shows the entrance front (${cap0})`,
+      /AXONOMETRIC · FROM THE SOUTH-WEST/i.test(cap0));
+
+    // Every named view chip produces its own caption. Counted, so a chip that silently does
+    // nothing cannot pass by leaving the previous caption on the plate.
+    const bar = page.locator('[role="radiogroup"][aria-label="view"]');
+    check(`the view bar offers every named view (${await bar.getByRole('radio').count()})`,
+      (await bar.getByRole('radio').count()) >= 10);
+    let named = 0;
+    for (const [chip, want] of [['S', /SOUTH ELEVATION · THE ENTRANCE FRONT/i],
+                                ['N', /NORTH ELEVATION/i],
+                                ['ROOF', /ROOF PLAN/i],
+                                ['PLAN·L0', /GROUND FLOOR PLAN · CUT AT/i],
+                                ['AXON·NE', /AXONOMETRIC · FROM THE NORTH-EAST/i]]) {
+      await bar.getByRole('radio', { name: chip, exact: true }).click();
+      await page.waitForTimeout(220);
+      const cap = await page.locator('[data-plate-title]').first().innerText();
+      if (want.test(cap)) named += 1;
+      else check(`the ${chip} chip captions its own drawing (got "${cap}")`, false);
+    }
+    check(`every named view captions its own drawing (${named} of 5)`, named === 5);
+
+    // THE PLATE OVER THE MODEL. `data-frame` is what registers it, so its presence is the
+    // thing to assert -- an overlay drawn without one is an SVG floating at whatever scale
+    // the browser chose.
+    await bar.getByRole('radio', { name: 'S', exact: true }).click();
+    await page.waitForTimeout(200);
+    await page.getByRole('button', { name: 'plate', exact: true }).click();
+    await page.waitForTimeout(400);
+    const ov = await page.evaluate(() => {
+      const el = document.querySelector('[data-round-overlay]');
+      if (!el) return null;
+      const svg = el.querySelector('svg');
+      return { frame: svg ? svg.getAttribute('data-frame') : null,
+               t: getComputedStyle(el).transform };
+    });
+    check('the plate is laid over the model at the same view', !!ov);
+    check('and it carries the frame that registers it',
+      !!(ov && ov.frame && /"px_per_ft"/.test(ov.frame)));
+    check(`and it is placed by a real transform (${ov && ov.t && ov.t.slice(0, 24)})`,
+      !!(ov && ov.t && ov.t !== 'none'));
+    await page.getByRole('button', { name: 'plate', exact: true }).click();
+    await page.screenshot({ path: SHOTS + 'round-axon-sw.png' });
+
+    // AN ORBIT IS NOT A NAMED DRAWING, and the caption must stop claiming to be one. A free
+    // view that still called itself SOUTH ELEVATION would be a drawing lying about its own
+    // projection, and every dimension on it would read as measured.
+    const cv = page.locator('[data-round-canvas]');
+    const b = await cv.boundingBox();
+    await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(b.x + b.width / 2 + 140, b.y + b.height / 2 + 30, { steps: 12 });
+    await page.mouse.up();
+    await page.waitForTimeout(300);
+    const capFree = await page.locator('[data-plate-title]').first().innerText();
+    check(`after an orbit the caption says it is a free view (${capFree.slice(0, 40)})`,
+      /FREE VIEW · NOT A NAMED DRAWING · DIMENSIONS WITHHELD/i.test(capFree));
+    await page.screenshot({ path: SHOTS + 'round-free.png' });
+
+    // ---------------------------------------------------------- the approach (WP-12.7)
+    //
+    // THE ASSERTIONS HERE ARE ABOUT WHAT THE VIEW REFUSES. A perspective is easy to add and
+    // easy to get wrong in a way no picture shows: the caption must say the dimensions are
+    // withheld, and the flat plate must NOT be laid over it -- an affine registers a plate at
+    // one depth and floats it off the model everywhere else, which looks registered and is not.
+    // WP-12.5's rule applies to the screenshot below: looking at it FINDS defects and does not
+    // adjudicate them, so the checks read the DOM and the picture is evidence for a reader.
+    await bar.getByRole('radio', { name: 'APPROACH', exact: true }).click();
+    await page.waitForTimeout(900);
+    const capApp = await page.locator('[data-plate-title]').first().innerText();
+    check(`the approach names itself and withholds its dimensions (${capApp.slice(0, 46)})`,
+      /APPROACH TO THE/i.test(capApp) && /DIMENSIONS WITHHELD/i.test(capApp)
+      && /PERSPECTIVE/i.test(capApp));
+    check('and it states the ruled eye height', /5′-6″|5'-6"/.test(capApp));
+    check('the approach is addressable in the URL',
+      /[?&]view=approach\b/.test(page.url()), page.url().slice(-52));
+    const appOv = await page.evaluate(() => {
+      const el = document.querySelector('[data-plate-overlay]');
+      return el ? getComputedStyle(el).transform : 'ABSENT';
+    });
+    check(`no flat plate is laid over the perspective (${appOv})`, appOv === 'ABSENT');
+    /* AND THE MODEL IS IN THE RENDERER AT THIS VIEW -- an empty canvas would pass every line
+       above, because a canvas with a house in it and a canvas with nothing in it are the same
+       element, the same size and the same caption.
+
+       THE FIRST VERSION OF THIS CHECK READ ZERO AND THE MODEL WAS FINE: it selected
+       `[data-round-canvas] canvas`, and `[data-round-canvas]` IS the canvas, so the descendant
+       matched nothing. A check that reads 0 because its selector is wrong is indistinguishable
+       from one that reads 0 because nothing was drawn -- which is WP-12.5's own finding wearing
+       the other face, so the count is published by the renderer now rather than sniffed out of
+       the DOM. */
+    const cvEl = page.locator('[data-round-canvas]');
+    const appSolids = +(await cvEl.getAttribute('data-round-solids') || 0);
+    const appRefused = +(await cvEl.getAttribute('data-round-refused') || 0);
+    check(`and the model is in the renderer at it (${appSolids} solids built)`, appSolids > 100);
+    check(`and no solid was refused by the renderer (${appRefused})`, appRefused === 0);
+    await page.screenshot({ path: SHOTS + 'round-approach.png' });
+
+    // and a named chip takes it back
+    await bar.getByRole('radio', { name: 'PLAN·L0', exact: true }).click();
+    await page.waitForTimeout(700);
+    check('a named chip snaps back out of the free view',
+      /GROUND FLOOR PLAN/i.test(await page.locator('[data-plate-title]').first().innerText()));
+    await page.screenshot({ path: SHOTS + 'round-plan.png' });
+
+    // ------------------------------------------------------------ overlays (WP-12.5)
+    //
+    // THE FAILURE THESE GUARD IS AN OVERLAY THAT LOOKS LIKE IT WORKS. Without `rooms_meta` on
+    // the scene response every wash comes back empty -- no privacy rank resolves, no room is
+    // wet -- and a surface that draws nothing is indistinguishable from a house with nothing
+    // to draw. So each of these asserts a POSITIVE, and the URL is asserted too, because a
+    // chip that does not reach the query string is a place nobody can send.
+    const ovBar = page.locator('[data-chipgroup="overlay"], text=overlay').first();
+    await page.getByRole('button', { name: 'privacy', exact: true }).click();
+    await page.waitForTimeout(500);
+    check('an overlay chip puts itself in the URL',
+      /(\?|&)ov=[^&]*privacy/.test(page.url()), page.url().slice(-70));
+    // AND THAT IT DREW SOMETHING. The first version of this block asserted the URL and the
+    // caption and nothing else, so it passed green over an overlay that drew NOTHING at all --
+    // a translucent wash that is absent looks exactly like one drawn faintly over a sepia
+    // floor. Only a count can tell those apart, so the canvas states what it built.
+    const drew1 = await page.locator('[data-round-canvas]').getAttribute('data-round-overlays');
+    check(`the privacy overlay actually draws geometry (${drew1})`,
+      /privacy:[1-9]/.test(drew1 || ''));
+    await page.screenshot({ path: SHOTS + 'round-privacy.png' });
+
+    await page.getByRole('button', { name: 'wet', exact: true }).click();
+    await page.waitForTimeout(500);
+    check('two overlays coexist in one query key',
+      /(\?|&)ov=[^&]*privacy/.test(page.url()) && /(\?|&)ov=[^&]*wet/.test(page.url()),
+      page.url().slice(-70));
+    const drew2 = await page.locator('[data-round-canvas]').getAttribute('data-round-overlays');
+    check(`and both draw (${drew2})`,
+      /privacy:[1-9]/.test(drew2 || '') && /wet:[1-9]/.test(drew2 || ''));
+
+    // ------------------------------------------------------------ modifiers (WP-12.5)
+    //
+    // A MODIFIER PERSISTS ACROSS VIEWS, SO THE CAPTION MUST CARRY IT. A plate still captioned
+    // GROUND FLOOR PLAN while its storeys float apart has told the reader something untrue.
+    await page.getByRole('radio', { name: 'levels', exact: true }).click();
+    await page.waitForTimeout(700);
+    const capEx = await page.locator('[data-plate-title]').first().innerText();
+    check(`an exploded model says so in its caption (${capEx.slice(-46)})`,
+      /EXPLODED BY LEVEL/i.test(capEx));
+    check('the modifier is in the URL', /(\?|&)explode=levels/.test(page.url()),
+      page.url().slice(-70));
+    await page.screenshot({ path: SHOTS + 'round-explode.png' });
+
+    // THE CUT SAYS WHERE IT CAME FROM. With a face selected this is the building section the
+    // project does not draw flat, and a reader who mistook it for a plate would be citing a
+    // drawing that does not exist.
+    await page.getByRole('radio', { name: 'level', exact: true }).click();
+    await page.waitForTimeout(700);
+    const capCut = await page.locator('[data-plate-title]').first().innerText();
+    check(`a cut says it is derived from the model and not a plate (${capCut.slice(-52)})`,
+      /DERIVED FROM THE MODEL, NOT A PLATE/i.test(capCut));
+    await page.screenshot({ path: SHOTS + 'round-cut.png' });
+  }
+}
+
+// The five flat plates are chips beneath the model now, so the rest of ⑧ asks for one first.
+await page.getByRole('radio', { name: 'elevation', exact: true }).click();
+
 // The disclosure is asserted by its CLAIM, not by a number. It used to wait on the literal
 // "83 of" — which was tidewater-georgian's own fault-coverage count (wp-3.2's report says so
 // in as many words) printed unqualified beneath a Craftsman or Charleston elevation, and
@@ -762,6 +947,54 @@ check('drawing set: no per-style fault count is printed as if it were universal'
   check('drawing set: and the sheet still fits its column', g && g.fits);
 }
 await page.screenshot({ path: SHOTS + 'drawing-elevation.png' });
+
+/* (8a) WP-12.0 — the four faces, and the plate that says which placement drew it.
+
+   `render_elevation` has taken a `face` since WP-3.2 and `corpus.drawing` has forwarded
+   `body.face` since WP-5.1, and until WP-12.0 no client sent one: three of the four
+   elevations this system can draw had never been looked at, and the one it did draw was
+   the one face the placement defect could not reach (the front is drawn on the WIDTH,
+   which does not move between the two engines; only the gable ends move). So the check
+   that matters is that a chosen face draws a DIFFERENT plate — a `face` argument accepted
+   and ignored looks exactly like one that works. */
+{
+  const faceChips = page.getByRole('radio', { name: /^(south|north|east|west)/ });
+  check('drawing set: four face chips, as radios', await faceChips.count() === 4);
+  check('drawing set: exactly one face is named the entrance front',
+    await page.getByRole('radio', { name: /the entrance front/ }).count() === 1);
+  const ink = async () => (await page.locator('.plate-fit > svg').innerHTML()).length;
+  const before = await ink();
+  await page.getByRole('radio', { name: /^west/ }).click();
+  await page.waitForFunction((n) => {
+    const s = document.querySelector('.plate-fit > svg');
+    return s && s.innerHTML.length !== n;
+  }, before, { timeout: 60000 }).catch(() => {});
+  check(`drawing set: a chosen face draws a different plate (${before} → ${await ink()})`,
+    (await ink()) !== before);
+  const cap = await page.locator('main').innerText();
+  check('drawing set: the caption names the face drawn, and where the front is',
+    /W elevation/.test(cap) && /the entrance front is [SNEW]/.test(cap));
+  // WP-11.8's J6 on the two plates that could not carry it: two sheets of "the same house"
+  // that disagree differ because the INPUT differed, and a reader must be able to see it.
+  check('drawing set: the elevation names the engine that placed it and the input digest',
+    /placed by (proof \(CP-SAT\)|search \(hill-climb\)|an engine this plate does not name)/.test(cap)
+    && /input [0-9a-f]{12}/.test(cap));
+  // The face group made this strip wider than the pane; without `flex: none` and `nowrap`
+  // on the right-hand block the plan id wrapped inside a 34px bar and collided with the
+  // chips. The strip is overflowX:auto by design — it scrolls, it does not reflow.
+  const strip = await page.evaluate(() => {
+    const el = [...document.querySelectorAll('div')].find((d) => d.innerText.includes('download SVG')
+      && d.innerText.includes('elevation') && d.getBoundingClientRect().height < 60);
+    if (!el) return null;
+    const dl = [...el.querySelectorAll('button')].find((b) => /download SVG/.test(b.innerText));
+    return { h: Math.round(el.getBoundingClientRect().height),
+             dlw: dl ? Math.round(dl.getBoundingClientRect().width) : 0 };
+  });
+  check(`drawing set: the sheet strip is one row (${strip && strip.h}px) with its download still whole`,
+    strip && strip.h <= 40 && strip.dlw > 40);
+  await page.screenshot({ path: SHOTS + 'drawing-elevation-west.png' });
+}
+
 // A sheet kind is one of a set, so it is a radio now, not a button — the chips that pick
 // between alternatives say so to a screen reader since WP-5.6.
 await page.getByRole('radio', { name: 'bearing lines' }).click();
