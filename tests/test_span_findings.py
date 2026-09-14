@@ -259,3 +259,85 @@ def test_the_understatement_is_named_on_the_record_the_finding_and_the_plate():
     assert "OQ 98" in sol["geometry_report"]["span_capacity"]["understated"]
     f = next(x for x in PC.check(sol)["findings"] if x.get("kind") == "span-over-capacity")
     assert "floor and not a ceiling" in f["statement"]
+
+
+# ------------------------------- the prover counts the spans the record names (WP-11.16's
+# ------------------------------- precondition)
+#
+# `geometry_cp._score` called `_span_charge` with NO `elements=` while `_disclose_spans` wrote
+# `marks` per element, so on a multi-element CP placement the record carried two numbers about
+# one house and `test_the_record_names_every_over_capacity_span_and_the_count_still_agrees`
+# above would have gone red the moment a plan was tagged. Every plan in this corpus is one
+# rectangle, where the two coincide, which is why nothing had caught it.
+#
+# MEASURED ON `geometry_cp._multi_element_fixture()` BEFORE THE FIX: `over_capacity` **0**
+# against **1** mark -- a 37.5 ft clear run inside the dependency against its own 24.0 ft
+# capacity -- so the record was not merely disagreeing with itself, it was claiming that
+# nothing exceeded capacity. A defect reported clear is the OQ 52 family, and this one lived
+# in the objective the prover ranks its own hard-valid placements by.
+
+def _cp_fixture_solved(tag=True):
+    plan = _mod("geometry_cp")._multi_element_fixture()
+    if not tag:
+        # THE CONTROL IS THE SAME RECORD WITH THE TAGS OFF, not a different fixture: one
+        # element, identical rooms, identical doors. It is what makes the assertion below a
+        # statement about massing elements rather than about this plan.
+        for r in plan["levels"][0]["rooms"]:
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    G._SOLVE_CACHE.clear()
+    return G.solve(json.loads(json.dumps(plan)), engine="cp", time_limit_s=40)
+
+
+def test_a_cp_placement_counts_the_spans_it_draws_and_not_the_footprints():
+    pytest.importorskip("ortools")
+    sol = _cp_fixture_solved()
+    assert sol.get("geometry_report", {}).get("solver", {}).get("engine") == "cp-sat", (
+        "the fixture fell back to the search, so this says nothing about the prover")
+    sc = sol["geometry_report"]["span_capacity"]
+    marks = sc.get("marks") or []
+    assert sc["over_capacity"] == len(marks), (
+        f'the prover charged {sc["over_capacity"]} spans and the record names {len(marks)}')
+    # AND THE FIXTURE REALLY REACHES THE BRANCH. A mark wholly inside the main block would be
+    # counted the same either way, so without this the test could pass on a placement where
+    # the defect cannot appear -- which is the "a guard that runs only where the bug cannot
+    # occur" shape this file's neighbours keep recording.
+    blocks = (sol.get("footprint") or {}).get("blocks") or []
+    assert len(blocks) > 1, "the fixture placed one element"
+    main = next(b for b in blocks if b.get("role") == "main")
+    assert any(m["from_ft"] < main["x_ft"] - 0.01 for m in marks if m["axis"] == "y"), (
+        f"no span sits outside the main block, so the per-element reading is untested: {marks}")
+
+
+def test_the_elements_the_prover_charges_are_the_rooms_own_and_none_on_one_rectangle():
+    """The BEHAVIOUR rather than the source line. `geometry.py`'s own `_span_elements` is
+    `None` on a one-rectangle house so `spans_over_capacity` takes its `[(0, 0, W, H)]`
+    default, and the CP side must pass the same `None` or the whole shipped corpus moves. The
+    control is the same fixture with its `block` tags removed."""
+    pytest.importorskip("ortools")
+    CP = _mod("geometry_cp")
+    seen = []
+    real = CP.GEO._span_charge
+
+    def spy(*a, **kw):
+        seen.append(kw.get("elements"))
+        return real(*a, **kw)
+
+    CP.GEO._span_charge = spy
+    try:
+        CP.solve_cp(CP._multi_element_fixture(), time_limit_s=25)
+        tagged = list(seen)
+        seen.clear()
+        plan = CP._multi_element_fixture()
+        for r in plan["levels"][0]["rooms"]:
+            r.pop("block", None)
+            r.pop("hyphen", None)
+        CP.solve_cp(plan, time_limit_s=25)
+        untagged = list(seen)
+    finally:
+        CP.GEO._span_charge = real
+    assert tagged and all(isinstance(c, dict) and len(c.get(0) or []) == 3 for c in tagged), (
+        f"the prover charged a tagged plan against something other than its three elements: "
+        f"{tagged}")
+    assert untagged and all(c is None for c in untagged), (
+        f"a one-rectangle plan was charged against an element list: {untagged}")

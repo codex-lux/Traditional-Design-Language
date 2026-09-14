@@ -1432,7 +1432,8 @@ def _count_relaxations(rects_by_level, W, H, bay, tol, boxes_ft=None):
     return relax
 
 
-def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
+def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None,
+           elements=None):
     """The heuristic's OWN scoring of this placement, term for term, so the
     acceptance comparison is apples to apples.
 
@@ -1441,7 +1442,20 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
     passed it to `exterior_score` since layer 4, so a wing room's declared walls were charged
     against the WING there and against the main block here. Two engines scoring one house by
     two rules is what this function's first sentence exists to forbid. The other scorers take no
-    bounds in EITHER engine — they measure the main block — and are left alone deliberately."""
+    bounds in EITHER engine — they measure the main block — and are left alone deliberately.
+
+    `elements` is the SECOND half of that same parity gap and stood open for five packages
+    (WP-11.16's precondition). The hill-climb has passed `_span_elements` to `_span_charge`
+    since WP-11.9; this function did not, so on a multi-element CP placement the count and the
+    charge were computed with the whole footprint as ONE rectangle while `_disclose_spans`
+    wrote `marks` per element -- two numbers about one record, and
+    `tests/test_span_findings.py` asserts they are equal. MEASURED on
+    `_multi_element_fixture()` before the fix: `over_capacity` **0** against **1** mark, and
+    the mark is a 37.5 ft clear run in the dependency against its own 24.0 ft capacity. So it
+    was not merely a disagreement -- the record claimed NOTHING exceeded capacity while a run
+    half again over it stood in the drawing, which is the OQ 52 family inside the prover's own
+    score. `geometry_cp._build`'s span term has been per element since WP-11.11; only this
+    post-solve scoring was not."""
     W, H = fpd["W"], fpd["H"]
     gr = rects_by_level.get(0, {})
     ur = rects_by_level.get(1, {})
@@ -1467,7 +1481,7 @@ def _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax, bounds=None):
     except Exception:
         _floor = None
     spc, over = GEO._span_charge(rects_by_level, prep, W, H, fpd["bay"],
-                                 plan.get("style"), _floor)
+                                 plan.get("style"), _floor, elements=elements)
     tot = sg + su + sv + spc + 1.5 * len(relax)
     return {"score": round(tot, 1), "sg": round(sg, 1), "su": round(su, 1),
             "sv": round(sv, 1), "span_charge": round(spc, 1),
@@ -1698,8 +1712,18 @@ def solve_cp(plan, parti=None, seed=7, time_limit_s=20.0, candidates=250):
                                           bounds=_eb)
         relax = _count_relaxations(rects_by_level, fpd["W"], fpd["H"],
                                    fpd["bay"], fpd["tol"], boxes_ft=boxes_ft)
+        # WP-11.16's precondition: the span charge is PER ELEMENT here too. `_els2` is already
+        # in hand at the head of this function; this is that same list in the shape
+        # `geometry.spans_over_capacity` takes -- keyed by level, holding only the levels that
+        # really have more than one element, which is `geometry.py`'s own `_span_elements`
+        # built from `blocks_for` in exactly this way. A level with ONE element is ABSENT from
+        # the map rather than present with a single entry, so `spans_over_capacity` takes its
+        # `[(0, 0, W, H)]` default and the arithmetic is identical; the whole shipped corpus is
+        # one rectangle everywhere, passes `None`, and is byte-identical across this change.
+        _span_els = {lv: [(b["x"], b["y"], b["W"], b["H"]) for b in bl]
+                     for lv, bl in _els2.items() if len(bl) > 1} or None
         sc = _score(rects_by_level, prep, levels, plan, fpd, ewalls, relax,
-                    bounds=bounds_ft)
+                    bounds=bounds_ft, elements=_span_els)
         return rects_by_level, relax, sc
 
     def _polish(fpd, hint, budget, tag):

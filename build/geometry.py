@@ -3150,17 +3150,17 @@ def _disclose_spans(plan):
     # exactly the same either way. Only the CONTENTS differ, and the contents are what
     # `plan_check` names, what the critique classes and what the plate prints.
     #
-    # These marks are the spans `SPAN_W` CHARGED **ON THE SEARCH PATH**, and that qualifier is
-    # not hedging: `geometry_cp._score` calls `_span_charge` with NO `elements=` at all, so on a
-    # CP placement `over_capacity` and `charge` are computed with the whole footprint as one
-    # rectangle while these marks are per element. On a one-rectangle house the two coincide and
-    # every shipped plan is one; on a multi-element record they do not, and `plan_check` emits
-    # one finding per mark while publishing CP's count beside it -- two numbers about one record.
-    # An audit measured 3 against 4 on a two-element fixture. NOT fixed here: passing `elements`
-    # into the CP charge changes the prover's objective on multi-element plans, which is a
-    # placement change and belongs to the package that authors the first such plan. WP-11.16
-    # must settle it before it tags a record; `tests/test_span_findings.py` asserts
-    # `len(findings) == over_capacity` and goes red the moment a tagged plan is CP-solved.
+    # These marks are the spans `SPAN_W` CHARGED, ON EITHER ENGINE -- and that used to carry an
+    # "on the search path" qualifier, because `geometry_cp._score` called `_span_charge` with NO
+    # `elements=` at all: on a CP placement `over_capacity` and `charge` were computed with the
+    # whole footprint as one rectangle while these marks were per element. On a one-rectangle
+    # house the two coincide and every shipped plan is one, which is why nothing caught it.
+    # SETTLED as WP-11.16's precondition, in its own commit, because it moves a multi-element
+    # placement (`_finish_feasible` ranks its hard-valid candidates by that score) and a package
+    # that does two things can only be reasoned about as one. Measured on
+    # `geometry_cp._multi_element_fixture()` before the fix: `over_capacity` **0** against **1**
+    # mark, a 37.5 ft run in the dependency against its own 24.0 ft capacity -- a record
+    # claiming nothing exceeded capacity, which is the OQ 52 family rather than a disagreement.
     #
     # The search builds its own map for level 0 alone because the placer reads a `block` tag on
     # the ground level only. Filtering by which elements actually hold rooms reproduces that
