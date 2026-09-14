@@ -27,10 +27,45 @@ GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 OP = modcache.load("openings", os.path.join(ROOT, "build", "openings.py"))
 
 
+def _is_tagged(plan):
+    """Does this record declare a massing element of its own? (WP-11.16.)
+
+    One shipped plan does -- `tidewater-georgian-careful` -- and the sweeps below need to tell it
+    from the other fifteen. `GEO.is_block_tag` is the ONE rule for whether a `block` field is an
+    element id and is borrowed rather than re-spelled."""
+    return any(GEO.is_block_tag(r.get("block"))
+               for lv in (plan.get("levels") or []) for r in (lv.get("rooms") or []))
+
+
+def _shipped_untagged():
+    """`tidewater-georgian-careful` with WP-11.16's massing tags STRIPPED.
+
+    THIS FILE USES THAT RECORD FOR TWO JOBS AND WP-11.16 SPLIT THEM. It is the base every
+    multi-element fixture below is built from (tag some rooms `west-dependency` and solve), and
+    it is the ONE-RECTANGLE CONTROL that half these tests assert is untouched. Both assumed the
+    shipped record carried no `block` tag. It carries one now -- a `service` dependency and a
+    hyphen -- so a fixture that tags rooms on top of it produces THREE elements where it means
+    two (measured: `{'main', 'service', 'west-dependency'}` against `{'main', 'west-dependency'}`,
+    and four CP models that were satisfiable came back INFEASIBLE), and every control asserting
+    one rectangle was reading a house with a wing.
+
+    Stripping is the same move `tests/test_check_plans.py`'s growth fixture takes and for the
+    same reason: **a driven fixture must not inherit whatever the shipped record happens to
+    declare** (WP-8.11). What this file tests is the element machinery, not this plan's tagging,
+    and the two are independent.
+    """
+    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    for lv in p.get("levels") or []:
+        for r in lv.get("rooms") or []:
+            r.pop("block", None)
+            r.pop("hyphen", None)
+    return p
+
+
 def _fixture():
     """The same tagging `test_geometry.py::_tagged_dependency_plan` uses, kept in step with it
     deliberately: two files measuring two different dependencies would be two houses."""
-    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    p = _shipped_untagged()
     n = 0
     for r in p["levels"][0]["rooms"]:
         if r["type"] in ("kitchen", "pantry", "breakfast-room"):
@@ -83,8 +118,7 @@ class TestTheDisclosureFalls:
         """Every plan in this corpus is one rectangle. The disclosure exists for the record a
         caller supplies, and a plan with one element has nothing to disclose."""
         GEO._SOLVE_CACHE.clear()
-        p = GEO.solve(json.load(open(os.path.join(
-            ROOT, "plans", "tidewater-georgian-careful.json"))), engine="heuristic")
+        p = GEO.solve(_shipped_untagged(), engine="heuristic")
         assert p["geometry_report"].get("multi_element") is None
         assert (p["footprint"].get("blocks") or []) == []
 
@@ -242,8 +276,7 @@ class TestStructureIsPerElement:
 
     def test_a_one_element_plan_carries_no_element_tag_at_all(self):
         """The byte-identity guard. Sixteen records have never needed one and must not grow one."""
-        sec = ST.build_section(json.load(open(os.path.join(
-            ROOT, "plans", "tidewater-georgian-careful.json"))))
+        sec = ST.build_section(_shipped_untagged())
         assert all("element" not in w for lv in sec["levels"] for w in lv["walls"])
         assert all("element" not in s for lv in sec["levels"] for s in lv["spans"])
         # and the numbers this plan has always reported
@@ -577,7 +610,7 @@ class TestVerticalScoreAcrossElements:
         """The byte-identity guard, and the ordering trap it was written against: a first
         version read `footprint.blocks`, which `blocks_record` writes AFTER the search loop this
         map is used in, so it was empty exactly where the charge is decided."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         assert GEO.element_of(p, p["levels"][0]["rooms"]) == {}
         # and non-empty on the fixture BEFORE any placement has written a blocks list
         f = _fixture()
@@ -589,8 +622,7 @@ def _lot(lot, dep=True):
     """The fixture at a stated lot width. `dep=False` is the SAME plan with no tag at all --
     one rectangle, which is what every plan in this corpus is, and which is where layer 4's
     second finding lives."""
-    p = _fixture() if dep else json.load(open(os.path.join(
-        ROOT, "plans", "tidewater-georgian-careful.json")))
+    p = _fixture() if dep else _shipped_untagged()
     p.setdefault("site", {}).update({"lot_width_ft": lot, "setback_side_ft": 0})
     return p
 
@@ -638,7 +670,7 @@ class TestTheLotCapIsOnTheBuiltExtent:
         """A plan with no lot is not told it fits. `lot_capped` alone was a boolean about the
         main block's bay count and it read `false` over a 104 ft extent on an 80 ft lot."""
         GEO._SOLVE_CACHE.clear()
-        none = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        none = _shipped_untagged()
         none.pop("site", None)
         (none.get("context") or {}).pop("lot_width_ft", None)
         GEO.solve(none, engine="heuristic")
@@ -731,7 +763,7 @@ class TestTheLotCapIsOnTheBuiltExtent:
         between a measurement and a guard. The main block was 63 ft while `derive_footprint`
         counted the wings' programme into it as well as beside it; sized from its own rooms it is
         45, so the building is 100 ft rather than 118. `flanking_ft` is unmoved at 55."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         for r in p["levels"][0]["rooms"]:
             if r["type"] in ("kitchen", "pantry"):
                 r["block"] = "west-dependency"; r["exterior_walls"] = ["N", "S", "W"]
@@ -1045,7 +1077,7 @@ class TestTheGarageJoinsTheElementItsAnchorIsIn:
     branch is measuring the corpus."""
 
     def _plan_with_a_tagged_kitchen(self):
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         for lv in p["levels"]:
             for r in lv["rooms"]:
                 if r["type"] in ("kitchen", "back-hall"):
@@ -1067,7 +1099,7 @@ class TestTheGarageJoinsTheElementItsAnchorIsIn:
     def test_and_an_UNTAGGED_kitchen_leaves_them_untagged(self):
         """The control, and the byte-identity guard for every plan in this corpus: no block on
         the anchor, no block on the garage."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         for lv in p["levels"]:
             lv["rooms"] = [r for r in lv["rooms"] if r["type"] not in ("garage", "mudroom")]
         log = []
@@ -1108,7 +1140,7 @@ def _fixture_east():
     NEGATIVE x and therefore tests only the lower half of every bound — the main block's `Wi` is
     looser than the wing's own east face there, so a mutation replacing one with the other cannot
     be seen. Beyond the block, `Wi` is the tighter bound and the same mutation is fatal."""
-    p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    p = _shipped_untagged()
     n = 0
     for r in p["levels"][0]["rooms"]:
         if r["type"] in ("kitchen", "pantry", "breakfast-room"):
@@ -1135,6 +1167,7 @@ class TestTheModelIsUnchangedOnOneRectangle:
         each of those expressions is arithmetically the one it replaced — which is why the
         sixteen one-rectangle placements did not have to be re-measured one solve at a time."""
         seen = 0
+        tagged_seen = 0
         import glob
         for f in sorted(glob.glob(os.path.join(ROOT, "plans", "**", "*.json"), recursive=True)):
             p = json.load(open(f))
@@ -1148,10 +1181,23 @@ class TestTheModelIsUnchangedOnOneRectangle:
             boxes, main = CP._boxes(p, prep, fpd)
             assert main == (0, 0, int(round(fpd["W"] * CP.U)), int(round(fpd["H"] * CP.U)))
             assert boxes, f
+            # WP-11.16 TAGGED ONE SHIPPED PLAN, so this sweep has BOTH cases to make now and is
+            # stronger for it: the fifteen one-rectangle records must map every room to the main
+            # box, and the tagged one must NOT -- a sweep that silently skipped it would be
+            # asserting the by-construction claim over a corpus chosen to satisfy it.
+            if _is_tagged(p):
+                tagged_seen += 1
+                assert set(boxes.values()) != {main}, (
+                    os.path.basename(f), "a tagged plan maps every room to the main box, so the "
+                    "per-element boxes are not being read")
+                continue
             for key, b in boxes.items():
                 assert b == main, (os.path.basename(f), key, b, main)
             seen += 1
         assert seen >= 14, seen
+        assert tagged_seen == 1, (
+            f"{tagged_seen} shipped plan(s) carry a block tag; this sweep is written for exactly "
+            f"one (WP-11.16) and both of its branches must stay exercised")
 
     def test_no_shipped_plan_gets_a_WIDENED_domain(self):
         """**THE REGRESSION GUARD OF THIS PACKAGE, AND IT WAS EARNED BY AN INSTRUMENT THAT COULD
@@ -1172,6 +1218,7 @@ class TestTheModelIsUnchangedOnOneRectangle:
         cp_model = _cp_or_skip()
         import glob
         seen = 0
+        tagged_seen = 0
         for f in sorted(glob.glob(os.path.join(ROOT, "plans", "**", "*.json"), recursive=True)):
             plan = json.load(open(f))
             if "levels" not in plan:
@@ -1182,6 +1229,15 @@ class TestTheModelIsUnchangedOnOneRectangle:
                 continue
             fpd = CP._snap_fpd(fpd)
             boxes, main = CP._boxes(plan, prep, fpd)
+            # THE TAGGED PLAN IS THE CONTROL, NOT AN EXCEPTION (WP-11.16). `_wide` widens only
+            # above one element, so the one record that has a wing MUST carry widened domains --
+            # which is the other half of this guard and could not be asserted until a shipped
+            # plan had a wing. A sweep that merely skipped it would leave `_wide`'s live branch
+            # untested on the corpus.
+            if _is_tagged(plan):
+                tagged_seen += 1
+                assert set(boxes.values()) != {main}, os.path.basename(f)
+                continue
             assert set(boxes.values()) == {main}, os.path.basename(f)
             ext = max([abs(c) for b in boxes.values() for c in b] + [main[2], main[3]]) * 2 + 1
             m, rooms, reqs = CP._build(plan, prep, fpd, GEO.entrance_walls(plan), objective=True)
@@ -1193,6 +1249,9 @@ class TestTheModelIsUnchangedOnOneRectangle:
                                  "CP-SAT presolves is not the one it presolved before item 4")
             seen += 1
         assert seen >= 14, seen
+        assert tagged_seen == 1, (
+            f"{tagged_seen} shipped plan(s) carry a block tag; this sweep is written for exactly "
+            f"one (WP-11.16)")
 
     def test_and_a_MULTI_element_plan_DOES_get_it(self):
         """The control. Without it the test above passes if `_wide` never widens at all, which
@@ -1210,7 +1269,7 @@ class TestTheModelIsUnchangedOnOneRectangle:
         """`derive_footprint` counted a dependency's programme into the main block AND laid the
         dependency beside it, so the wing's area was counted twice. With one element the two
         sums are the same sum, which is why no shipped record moved."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         levels, prep = GEO.prep_rooms(p)
         assert not any(GEO.is_block_tag(r.get("block")) for r in prep[0])
         a_all = sum(r["_area"] for r in prep[0])
@@ -1637,7 +1696,7 @@ class TestTheFourGuardsTheFirstMutationPassMISSED:
     def test_a_ONE_element_plan_gets_ONE_fill_and_it_is_the_buildings(self):
         """The control, and the byte-identity claim in its own right: with one element the
         function returns exactly the number the line it replaced computed."""
-        p = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+        p = _shipped_untagged()
         levels, prep, fpd = _prepped(p)
         boxes, main = CP._boxes(p, prep, fpd)
         fills = CP._element_fills(boxes, prep[0], 0)
