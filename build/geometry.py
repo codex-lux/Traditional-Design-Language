@@ -2424,7 +2424,8 @@ def blocks_record(plan, fp, prep):
     """`footprint.blocks` for the record, or None on a one-rectangle house (OQ 40).
 
     Returns None rather than a single-entry list when there is one element, and that is
-    deliberate: every plan in this corpus is one rectangle, and writing a `blocks` key onto all
+    deliberate: every plan in this corpus was one rectangle when this was written -- WP-11.16 has
+    since tagged one, and the branch below is what it reaches -- and writing a `blocks` key onto all
     sixteen of them would be a schema-visible change to records nothing has asked to change.
     The footprint scalars beside it already describe the main block and always have."""
     blocks = blocks_for(plan, fp, prep, 0)

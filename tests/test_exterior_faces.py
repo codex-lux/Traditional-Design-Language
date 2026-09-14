@@ -178,7 +178,9 @@ def test_without_bounds_that_window_is_refused_and_counted_rather_than_vanishing
 
 def test_the_two_renderers_take_bounds_in_the_same_place():
     """`tests/fixtures/sheet_symbols/` cannot hold this pair to one answer -- no plan in the
-    corpus carries a `block` tag, so the frozen fixtures have one element. The contract for
+    corpus carried a `block` tag when this was written, so the frozen fixtures have one element
+    -- and they still do, because `generate.py`'s `ROOM_KEYS` does not copy the field even now
+    that `plans/tidewater-georgian-careful.json` carries one (WP-11.16). The contract for
     this case is that both files take the argument, and both hand-built suites assert the same
     three numbers on the same two rectangles.
 
@@ -227,7 +229,13 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # reads as success"*); what this adds is that the damage outlives the harness, into any number
 # measured afterwards. **After an interrupted mutation run, restore the file and re-derive
 # every figure taken since.**
-CORPUS_SHEET_SHA = "373d0116be7cecb8"
+# RE-DERIVED AT WP-11.16, AND ATTRIBUTED. Tagging `tidewater-georgian-careful` re-places its
+# ground floor, so its sheet had to move; what had to be PROVED is that no other sheet did.
+# Measured per plan on a `git worktree` of the parent commit and on the working tree: of the
+# sixteen rendered sheets, exactly ONE differs and it is the tagged plan. The sentence below
+# -- that WP-11.14 is the identity on a one-rectangle house -- is still the guarantee for the
+# fifteen; the sixteenth is not one rectangle any more.
+CORPUS_SHEET_SHA = "d148650a79e3a5d1"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])
@@ -253,7 +261,9 @@ def test_no_shipped_sheet_moves(engine, tmp_path):
     assert n == 16
     assert h.hexdigest()[:16] == CORPUS_SHEET_SHA, (
         "a shipped sheet moved. On a one-rectangle house a boundary room's own face IS the "
-        "footprint edge, so WP-11.14 must be the identity on every plan in this corpus")
+        "footprint edge, so WP-11.14 must be the identity on the fifteen plans that are one "
+        "rectangle; the sixteenth carries a massing element (WP-11.16) and its sheet is the "
+        "one this digest is allowed to have moved for -- re-derive PER PLAN before re-pinning")
 
 
 # --------------------------------------------------------------- the DRAWING, not the derivation

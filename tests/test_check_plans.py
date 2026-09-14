@@ -188,10 +188,22 @@ class TestTheMassingsBayCount:
         count already satisfies the depth test, so `all(... for b in [])` is True and the test
         passed with the step forced back to 1. A fixture that never enters the loop cannot test
         the loop, so this one enlarges the program until it must grow, and asserts the loop ran
-        before asserting anything about what it did."""
+        before asserting anything about what it did.
+
+        AND IT WENT BLIND A SECOND TIME AT WP-11.16, FOR A DIFFERENT REASON WORTH KNOWING. That
+        package tagged this plan's service programme into a west dependency, and the ×1.9 then
+        inflates the DEPENDENCY's rooms too: `flank_sizes` widens the wing, the wing eats the
+        140 ft lot, `lot_maxbay` caps the main block, and the bay count goes DOWN rather than up
+        -- measured 7, 6 and 5 bays at ×1.9, ×2.5 and ×3.0 with `grown` empty at all three. The
+        lot cap binds before the growth loop can run, which is coherent and is not this test's
+        subject. So the fixture STRIPS THE TAGS: bay parity is a question about one rectangle,
+        and a fixture that inherits whatever the shipped record happens to declare is the error
+        WP-8.11 recorded. Stripped, the loop runs and grows to 9 at all three multipliers."""
         plan = tidewater()
         for lv in plan["levels"]:
             for r in lv["rooms"]:
+                r.pop("block", None)
+                r.pop("hyphen", None)
                 if r.get("width_ft") and r.get("length_ft"):
                     r["length_ft"] = round(r["length_ft"] * 1.9, 2)
         fp = GEO.derive_footprint(plan)

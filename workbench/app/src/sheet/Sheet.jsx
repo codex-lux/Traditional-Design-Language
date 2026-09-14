@@ -322,7 +322,8 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // renderers answer "which of this room's walls are exterior" differently -- the exact thing
   // WP-11.14 exists to make them answer with one function. `_absorb` is documented to grow a
   // room past its element, so the band is reachable rather than theoretical, and the frozen
-  // sheet_symbols contract cannot catch it because no shipped plan carries a `block` tag.
+  // sheet_symbols contract cannot catch it: `generate.py`'s ROOM_KEYS does not copy `block`, so
+  // every frozen fixture has one element even though one shipped plan is tagged (WP-11.16).
   const EL_TOL = 0.5;
   const elBounds = {};
   for (const b of (fp?.blocks || [])) {

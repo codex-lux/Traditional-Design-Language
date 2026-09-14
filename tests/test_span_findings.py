@@ -93,7 +93,13 @@ def test_the_record_names_every_over_capacity_span_and_the_count_still_agrees():
 # so the corpus this figure counts is neither parent's. The mechanism, the 20 ft capacity
 # and `bearing_lines`' 0.75 ft tolerance are all untouched; only the placement moved, and
 # the count moved with it in the direction WP-11.8 already measured and recorded.
-CORPUS_SPANS = 26
+# 27 AT WP-11.16, from 26, AND IT IS ONE PLAN. Tagging `tidewater-georgian-careful`'s service
+# programme into a west dependency re-places its ground floor and takes that plan from 3 spans
+# to 4; the other fifteen are unmoved (measured per plan, the same sweep that attributed the
+# placement digest in tests/test_appendages.py). The worst is unchanged at 60.0 ft and is on
+# another plan entirely -- the Tidewater's own worst FELL, 45.0 against a 63.0 ft run under CP
+# before the tag. The 20 ft capacity and `bearing_lines`' 0.75 ft tolerance are untouched.
+CORPUS_SPANS = 27
 CORPUS_WORST_FT = 60.0
 
 
@@ -115,10 +121,13 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     sc = sol["geometry_report"]["span_capacity"]
     # RE-DERIVED AT THE MERGE (8 Sep 2026): 4 spans / 130.2 points -> 3 / 90.0, and the
-    # worst 60.0 -> 35.5 ft. The merged placement is neither parent's. What this test is
-    # for -- the charge and the count come from ONE list, so they cannot disagree -- is
-    # asserted by the source check above and by the arithmetic below, both unchanged.
-    assert sc["over_capacity"] == 3 and sc["charge"] == 90.0
+    # worst 60.0 -> 35.5 ft. The merged placement is neither parent's. RE-DERIVED AGAIN at
+    # WP-11.16, which tagged this plan: 3 / 90.0 -> 4 / 130.5, worst 35.5 -> 45.0. A wing is a
+    # second mass with its own floor to span, so a span count that did not move would have been
+    # the surprise. What this test is for -- the charge and the count come from ONE list, so
+    # they cannot disagree -- is asserted by the source check above and by the arithmetic
+    # below, both unchanged.
+    assert sc["over_capacity"] == 4 and sc["charge"] == 130.5
 
 
 # --------------------------------------------------------------- the critic says it
@@ -216,11 +225,12 @@ def test_a_span_is_a_placement_finding_with_a_lever():
                       engine="heuristic")
     placed = [i for i in res["assessment"]["placement"]
               if i.get("kind") == "span-over-capacity"]
-    # 3 AT THE MERGE (8 Sep 2026), from 4: this plan's own span count moved with the merged
-    # placement, which is neither parent's. What the test is FOR is the CLASSING -- a span
-    # is a `placement` finding and carries a lever -- and that is asserted below and is
+    # 3 AT THE MERGE (8 Sep 2026), from 4, and 4 again at WP-11.16 with the tagging -- the
+    # same count as this plan's own `span_capacity.over_capacity`, which is the point: the
+    # critique reads the record and does not recompute. What the test is FOR is the CLASSING --
+    # a span is a `placement` finding and carries a lever -- and that is asserted below and is
     # unchanged. The number is re-derived so a later change still has to justify itself.
-    assert len(placed) == 3, res["assessment"].keys()
+    assert len(placed) == 4, res["assessment"].keys()
     assert placed[0].get("lever"), "a placement-class finding with no lever"
     for cls in ("actionable", "architect", "advisory", "critic_suspect"):
         assert not [i for i in res["assessment"][cls] if i.get("kind") == "span-over-capacity"]
@@ -240,10 +250,13 @@ def test_both_plates_print_the_span_and_say_the_count_is_a_floor():
         out.unlink(missing_ok=True)
     m = re.search(r">(\d+) CLEAR SPAN\(S\) OVER THE FRAMING CAPACITY, WORST ([0-9.]+) FT[^<]*<", svg)
     assert m, "the plate does not print the span"
-    # RE-DERIVED AT THE MERGE (8 Sep 2026): the plate prints this plan's own figures and
-    # the placement moved. The property -- the plate prints the COUNT and the WORST, and
-    # says the count is a floor -- is what the rest of this test asserts.
-    assert m.group(1) == "3" and m.group(2) == "35.5"
+    # RE-DERIVED AT THE MERGE (8 Sep 2026) AND AGAIN AT WP-11.16: the plate prints this plan's
+    # own figures and the placement moved both times. Read off the record rather than pinned
+    # twice over, because what this asserts is that the PLATE AGREES WITH THE RECORD -- a
+    # literal pair here would go stale on any placement change and say nothing about that.
+    _sc = sol["geometry_report"]["span_capacity"]
+    assert int(m.group(1)) == _sc["over_capacity"], "the plate's count is not the record's"
+    assert float(m.group(2)) == _sc["worst_span_ft"], "the plate's worst is not the record's"
     assert "HOWEVER SHORT THE WALL RUNS" in svg, "the plate does not say the count is a floor"
     js = (ROOT / "workbench" / "app" / "src" / "sheet" / "Sheet.jsx").read_text()
     assert "placement?.geometry_report?.span_capacity" in js

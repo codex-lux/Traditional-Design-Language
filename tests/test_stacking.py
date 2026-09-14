@@ -211,7 +211,16 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     placer is free to change, which is the very error the test below this one was re-cut for on
     the same day. What is asserted now is the ACCOUNTING -- every claim judged into exactly one
     list, which is WP-11.6's guarantee and no engine's outcome -- plus the two named claims and
-    a FLOOR under the count, so a collapse fails and an improvement does not."""
+    a FLOOR under the count, so a collapse fails and an improvement does not.
+
+    AND WP-11.16 REVERSED THE TRADE, WHICH IS THE FOURTH CAUSE IN FOUR PACKAGES FOR ONE NUMBER.
+    Tagging this plan's service programme into a west dependency takes the main block from
+    63 x 38.17 to 45 x 37.24, and the landing lands over its stair again: kept 2 -> 3, and the
+    assertion below is the one that caught it, saying in its own message *"welcome, and
+    re-derive which key did it before moving this line"*. Re-derived: no key changed. The
+    ranking is untouched; the house is a different shape, because 617 sf of service programme
+    left the block. The landing is asserted KEPT now and the floor is raised with it, so the
+    trade still cannot reverse unnoticed in either direction."""
     G._SOLVE_CACHE.clear()
     solved = G.solve(json.loads(json.dumps(TIDEWATER)), engine="heuristic")
     st = solved["geometry_report"]["stacking"]
@@ -220,13 +229,16 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     broken = {e["room"] for e in st["broken"]}
     assert len(st["kept"]) + len(st["broken"]) + len(st["unjudged"]) == st["claims"], (
         f"a claim is judged into exactly one list, or it is not judged at all: {st}")
-    assert len(kept) >= 2, (
-        f"2 of 5 kept at the merge, 3 before it; a fall below that is the ranking losing "
-        f"stacks rather than trading them: {st}")
+    assert len(kept) >= 3, (
+        f"3 of 5 kept at WP-11.16, 2 at the merge, 3 before it; a fall below that is a "
+        f"placement losing stacks rather than trading them: {st}")
     assert "upperpassage" in kept, f"the claim WP-11.8 did not cost is gone too: {st}"
-    assert "landing" in broken, (
-        "the landing stacks over the stair again -- welcome, and re-derive which key did it "
-        f"before moving this line: {st}")
+    assert "landing" in kept, (
+        "the landing is drawn clear of its stair again -- that is a regression against "
+        f"WP-11.16, and re-derive which layer did it before moving this line: {st}")
+    assert broken, (
+        f"every claim lands, which no placement in this corpus has managed -- re-derive it "
+        f"before believing it, and the `stack-broken` assertion below has nothing to read: {st}")
     rep = PC.check(json.loads(json.dumps(solved)))
     kinds = [f.get("kind") for f in rep["findings"]]
     assert "stack-broken" in kinds, "a broken claim must be reported, not passed over"

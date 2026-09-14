@@ -16,7 +16,9 @@ three things to rule. Ruled 7 September 2026, taking the question's own first re
      budget.
 
 **THE GUARANTEE IS THAT THE MODEL FOR A ONE-RECTANGLE HOUSE IS BYTE-IDENTICAL** -- not the
-placement, the MODEL -- because every plan in this corpus is one rectangle and a package that
+placement, the MODEL -- because every plan in this corpus was one rectangle when WP-11.11 shipped
+(WP-11.16 has since tagged one, and these four hashes are of the other two plans' models) and a
+package that
 teaches the prover a new concept must be invisible on all sixteen.
 """
 import hashlib
@@ -57,21 +59,33 @@ EL = _mod("elements")
 # main's fpd dict and leaving the rest reproduced three of the four hashes and not the fourth,
 # because `bay` stayed at main's 9 and the span term lays its grid lines on the BAY MODULE. A
 # derived dict's keys are derived together; substitute the whole dict or none of it.
+# AND TWO OF THE FOUR MOVED AT WP-11.16, WHICH TAGGED `tidewater-georgian-careful`. The
+# assertion below says any movement here is a defect, so the discriminating control was run
+# BEFORE a number was touched: today's `_build`, handed the PARENT COMMIT's records from a
+# `git worktree`, reproduces **all four** of the previous hashes exactly
+# (fc35a5f9e2048703 / 24d6bf0453c84db8 / 6ad5fa0d6ee72ffd / db49b3bc8d7c8fda). So the model
+# builder did not move and the whole movement is the RECORD -- which the other half confirms
+# from the opposite side: `spec-builder-colonial`, untouched by that package, is unmoved in
+# both phases. A proto shorter than 5 KB is refused, so an empty read cannot pass for a match.
 MODEL_SHAS = {
-    ("tidewater-georgian-careful", False): "fc35a5f9e2048703",
-    ("tidewater-georgian-careful", True): "24d6bf0453c84db8",
+    ("tidewater-georgian-careful", False): "5ee42e94740f659c",
+    ("tidewater-georgian-careful", True): "6fa0c66d9288ae72",
     ("spec-builder-colonial", False): "6ad5fa0d6ee72ffd",
     ("spec-builder-colonial", True): "db49b3bc8d7c8fda",
 }
 
 
-def test_the_model_for_a_one_rectangle_house_is_byte_identical():
+def test_the_model_the_prover_builds_for_the_shipped_plans_is_byte_identical():
     """THE GUARANTEE, and it is stronger than a placement hash: CP-SAT under a wall-clock
     budget is not reproducible, so pinning what it FINDS would be pinning this machine. What is
     reproducible is what it is ASKED. These four are the serialized CpModel proto for both
     shipped plans in both phases, measured on a `git archive HEAD` checkout before the package
     and on the working tree after it. Every guard in `_build` that reads `gx0 < ex`,
     `len(els[lvl]) > 1` or `if base:` exists to keep them.
+
+    RENAMED AT WP-11.16: it said "for a one-rectangle house", and one of these two plans is not
+    one any more. The guarantee is unchanged -- what moved is which houses it is a guarantee
+    ABOUT, and the header above records the control that separated the record from the code.
     """
     for pid in ("tidewater-georgian-careful", "spec-builder-colonial"):
         plan = json.loads((ROOT / "plans" / f"{pid}.json").read_text())
@@ -81,10 +95,13 @@ def test_the_model_for_a_one_rectangle_house_is_byte_identical():
         for obj in (False, True):
             m, _r, _q = CP._build(plan, prep, fpd, ew, frozenset(), objective=obj)
             got = hashlib.sha256(str(m.Proto()).encode()).hexdigest()[:16]
+            assert len(str(m.Proto())) > 5000, "an empty proto cannot be evidence of a match"
             assert got == MODEL_SHAS[(pid, obj)], (
-                f"{pid} objective={obj}: the model the prover builds for a one-rectangle house "
-                f"moved. WP-11.11 teaches it a concept no plan in this corpus exercises, so "
-                f"any movement here is a defect and not a trade.")
+                f"{pid} objective={obj}: the model the prover builds for a shipped plan moved. "
+                f"Before re-pinning, run the control: hand THIS `_build` the previous commit's "
+                f"records and check it reproduces the previous hashes. If it does, the record "
+                f"moved and the builder did not; if it does not, the builder moved and that is "
+                f"a defect and not a trade.")
 
 
 def test_the_refusal_is_gone_from_the_dispatcher():
