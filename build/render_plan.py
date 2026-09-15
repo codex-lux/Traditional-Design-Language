@@ -176,6 +176,391 @@ def _fmt(x):
     if inch == 12: ft += 1; inch = 0
     return f"{ft}'-{inch}\"" if inch else f"{ft}'"
 
+
+def _room_label(r, g, wall, scale, working, diverged_ids):
+    """The room label's whole layout, in ONE place: what it says (name, dimension line, void
+    tail, the ∗) and how it is fitted (lines, sizes, turned or flat), plus the extent of ink
+    it occupies. Lifted out of the label loop by WP-13.2 so the furniture key can know where
+    the name is WITHOUT a second account of the fit -- the key is placed before any plate is
+    drawn, and the alternative was to re-derive `lay()` beside it, which is the second spelling
+    this file forbids. The loop calls this and draws; `furniture_key_plan` calls this and
+    avoids. Returns None where the room is too small to carry a name at all."""
+    x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+    nm = (r.get("name") or r["id"]).upper()
+    # the label sits INSIDE the room, clear of the partitions that bound it, so the
+    # box is the room less half a partition on each side
+    inset = wall["partition_in"] / 12.0 * scale
+    bw, bh = w*scale - inset - 6, h*scale - inset - 5
+    if bw <= 4 or bh <= 5: return None
+    tail = ""
+    if g.get("void"):
+        tail = "roofed, unheated" if g["void"].get("roofed") else "open to sky"
+    # ∗ — DRAWN at a size the record does not declare. It is NOT part of `dim`, and
+    # that is the point: tests/test_drawn_labels.py freezes this line because OQ 55's
+    # void disclosure once rode on it, and anything that LENGTHENS the string shrinks
+    # the fitted size until the dimension drops out of every narrow room.
+    star = "∗" if (working and r["id"] in diverged_ids) else ""
+    dim = f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf'
+    show_dim = working
+
+    def lay(box_w, box_h):
+        tsize = min(6.5, box_w / (0.60 * len(tail))) if tail else 0
+        tsize = max(4.6, tsize) if tail else 0
+        dsize = min(8.0, box_w / (0.60 * len(dim))) if show_dim else 0
+        want = show_dim and dsize >= 5.6 and box_h >= 26 + (tsize * 1.5 if tail else 0)
+        reserve = (dsize * 1.5 if want else 0) + (tsize * 1.5 if tail else 0)
+        fit = _fit_lines(nm, box_w, box_h - reserve, 11.0, 6.0, track=ROOM_TRACK)
+        if not fit: return None
+        lines, size = fit
+        show = want and size >= 7.0
+        return lines, size, (dsize if show else None), tsize, \
+            len(lines) * size * 1.2 + (dsize * 1.5 if show else 0) \
+            + (tsize * 1.5 if tail else 0)
+
+    flat = lay(bw, bh)
+    turned = lay(bh, bw) if h > w * 1.3 else None
+    use = turned if (turned and (not flat or turned[1] > flat[1] * 1.15)) else flat
+    if not use: return None
+    lines, size, dsize, tsize, block = use
+    # the ink's extent, as the fitter estimated it: the widest of the name's lines, the
+    # dimension line and its ∗, and the tail; the block's height; swapped for a turned label
+    ink_w = max(_text_w(ln, size, track=ROOM_TRACK) for ln in lines)
+    if dsize:
+        ink_w = max(ink_w, _text_w(dim, dsize, mono=True) + (0.9 * dsize if star else 0))
+    if tail:
+        ink_w = max(ink_w, _text_w(tail, tsize, mono=True))
+    ink_h = block
+    if use is turned:
+        ink_w, ink_h = ink_h, ink_w
+    return {"lines": lines, "size": size, "dsize": dsize, "tsize": tsize, "block": block,
+            "turned": use is turned, "star": star, "dim": dim, "tail": tail,
+            "ink_w": ink_w, "ink_h": ink_h}
+
+
+# ---------------------------------------------------------------- the furniture key (WP-13.2)
+# EVERY FURNITURE MARK CARRIES ITS NAME ON THE PLATE. Until this package a furniture mark was
+# a rectangle with a <title> tooltip -- invisible in print, in a PDF and on the sheet Lucas
+# read, where fifty-six of fifty-six placed items were unnamed. What a draughtsman does is a
+# numeral on the mark and a key. Every item this plate draws takes a small numeral inside
+# its own rectangle (or beside it, on the room side, where the rectangle is too thin to hold
+# one), and the room carries a KEY: one line per item, the numeral and the item's own name AS
+# RECORDED, whole and never abbreviated, in the mono face the schedule is set in, in a clear
+# corner of the room. The fitter chooses the corner and the size, flat first and turned only
+# where turning earns a materially larger letter -- the room labels' own rule. Where no
+# corner of the room can hold the key at the smallest legible size, flat or turned, the key
+# goes to the margin schedule under the room's name, and that is a REFUSAL the plate states
+# rather than a silence. The <title> tooltips stay on the marks. Fixtures get the same
+# treatment, in the same numbering, because a reader does not care which pass drew a basin.
+KEY_PREFERRED_PX = 6.0   # never larger than a room name at its own floor (`_fit_lines`, 6.0)
+KEY_FLOOR_PX = 4.6       # the smallest lettering this sheet already sets: the void tail's floor
+KEY_LEAD = 1.25
+KEY_PAD_PX = 3.0         # air between the key and the wall body, and between it and other ink
+NUMERAL_PX = 5.5         # the numeral on the mark; beside the mark where the mark cannot hold it
+
+_COUNT_WORDS = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7,
+                "eight": 8, "nine": 9, "ten": 10, "eleven": 11, "twelve": 12}
+
+
+def key_count(name):
+    """A count the RECORD states in an item's own name, read by a closed rule and never
+    guessed: 'pair' is two; a name that opens with a number word or a numeral is that many,
+    UNLESS it states a band ('six to eight side chairs') or joins a second item ('two chairs
+    and a table'), in which case it is unjudged. None is unjudged and never one. The key line
+    carries the name whole, so the record's own words -- 'pair', 'seats 4', 'six to eight' --
+    reach the reader whatever this returns; this is the machine-readable half, published as
+    `data-count` on the line. A mark is drawn ONCE whatever the count, which is
+    `oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`, and a key naming
+    'nightstands, pair' beside one drawn nightstand is that question stated on the plate."""
+    words = [w.strip(",.;:()/'\"") for w in (name or "").lower().split()]
+    words = [w for w in words if w]
+    if not words: return None
+    if "pair" in words: return 2
+    if "to" in words or "and" in words: return None
+    if words[0] in _COUNT_WORDS: return _COUNT_WORDS[words[0]]
+    if words[0].isdigit(): return int(words[0])
+    return None
+
+
+def key_entries(room):
+    """(numeral, entry, kind) for every mark this plate draws in `room`, numbered in drawing
+    order -- the wet fixtures first, because the fixture pass draws first, then the furniture.
+    An unplaced fixture and a furniture entry with no marks are not on the plate and take no
+    numeral: a numeral for a thing that is not drawn would be a key to nothing."""
+    out, n = [], 0
+    for f in (room.get("fixture_layout") or []):
+        if f.get("unplaced") or f.get("x_ft") is None: continue
+        n += 1
+        out.append((n, f, "fixture"))
+    for f in (room.get("furniture_layout") or []):
+        if not f.get("marks"): continue
+        n += 1
+        out.append((n, f, "furniture"))
+    return out
+
+
+def key_lines(entries):
+    """One line per entry: the numeral and the item's name as recorded, whitespace
+    normalised, set in capitals like everything else lettered on this sheet. Never
+    abbreviated: a key that shortens a name is a key to a different item."""
+    return [f'{n} {" ".join(str(f["item"]).split()).upper()}' for n, f, _kind in entries]
+
+
+def key_block_px(lines, size, lead=KEY_LEAD):
+    """(width, height) of a key block in sheet px, flat, in the mono face."""
+    return (max(_text_w(ln, size, mono=True) for ln in lines), len(lines) * size * lead)
+
+
+def _clear(box, obstacles, pad):
+    x0, y0, x1, y1 = box
+    for ox0, oy0, ox1, oy1 in obstacles:
+        if x0 < ox1 + pad and x1 > ox0 - pad and y0 < oy1 + pad and y1 > oy0 - pad:
+            return False
+    return True
+
+
+def clear_floor(room_px, bands_px):
+    """The room's box less the wall bodies drawn on its edges: an interior band is centred on
+    the shared line and takes half its thickness from this room, so the FLOOR a key may stand
+    on starts inside it. Each side is shrunk by the deepest band intruding on it; a band that
+    only touches (the exterior envelope, drawn outward) shrinks nothing. Bands are read here
+    rather than listed among the obstacles because every corner of every room has one, and a
+    corner tried flush to the room's edge would be refused by its own wall every time."""
+    x0, y0, x1, y1 = room_px
+    left = right = top = bottom = 0.0
+    for bx0, by0, bx1, by1 in bands_px:
+        # the part of the band inside the room: a thin VERTICAL strip is a wall on the left
+        # or right, a thin HORIZONTAL one a wall on the top or bottom -- decided by the
+        # strip's own shape, because a band along the top of a room also crosses its left
+        # edge and would otherwise read as a wall the whole width of the room
+        ox0, oy0, ox1, oy1 = max(bx0, x0), max(by0, y0), min(bx1, x1), min(by1, y1)
+        if ox1 <= ox0 or oy1 <= oy0:
+            continue                                   # touching or clear: no intrusion
+        if (ox1 - ox0) < (oy1 - oy0):                  # vertical strip
+            if ox0 <= x0 + 1e-6: left = max(left, ox1 - x0)
+            if ox1 >= x1 - 1e-6: right = max(right, x1 - ox0)
+        else:                                          # horizontal strip
+            if oy0 <= y0 + 1e-6: top = max(top, oy1 - y0)
+            if oy1 >= y1 - 1e-6: bottom = max(bottom, y1 - oy0)
+    return (x0 + left, y0 + top, x1 - right, y1 - bottom)
+
+
+# A key may be pushed off its corner by the marks that stand there: a sofa in the corner of
+# the drawing room, a bookcase down the wall. The push is a short search -- at most this
+# many positions tried per corner -- from the corner inward, nearest first, so the key sits
+# against whatever it had to clear rather than somewhere plausible in the middle of the room.
+KEY_PUSH_STATES = 48
+
+
+def _place(corner, bw, bh, floor_px, obstacles, pad):
+    """The nearest clear position to `corner` for a bw x bh block, pushed inward past the
+    obstacles in its way, or None. Returns (x0, y0, distance from the corner)."""
+    rx0, ry0, rx1, ry1 = floor_px
+    sx = 1 if corner[1] == "W" else -1              # the direction "inward" along x
+    sy = 1 if corner[0] == "N" else -1
+    start = (rx0 if sx > 0 else rx1 - bw, ry0 if sy > 0 else ry1 - bh)
+    seen, frontier = {start}, [start]
+    tried = 0
+    while frontier and tried < KEY_PUSH_STATES:
+        frontier.sort(key=lambda p: abs(p[0] - start[0]) + abs(p[1] - start[1]))
+        x0, y0 = frontier.pop(0)
+        tried += 1
+        if x0 < rx0 - 1e-6 or y0 < ry0 - 1e-6 or x0 + bw > rx1 + 1e-6 or y0 + bh > ry1 + 1e-6:
+            continue
+        hit = None
+        for o in obstacles:
+            if x0 < o[2] + pad and x0 + bw > o[0] - pad and y0 < o[3] + pad and y0 + bh > o[1] - pad:
+                hit = o
+                break
+        if hit is None:
+            return (x0, y0, abs(x0 - start[0]) + abs(y0 - start[1]))
+        # push past the obstacle along either axis, away from the corner
+        nx = (hit[2] + pad) if sx > 0 else (hit[0] - pad - bw)
+        ny = (hit[3] + pad) if sy > 0 else (hit[1] - pad - bh)
+        for cand in ((nx, y0), (x0, ny)):
+            cand = (round(cand[0], 3), round(cand[1], 3))
+            if cand not in seen:
+                seen.add(cand)
+                frontier.append(cand)
+    return None
+
+
+def fit_key(room_px, obstacles, lines, preferred=KEY_PREFERRED_PX, floor=KEY_FLOOR_PX,
+            lead=KEY_LEAD, pad=KEY_PAD_PX):
+    """Where a room's key goes -- or None, and None is a refusal the caller must state.
+
+    `room_px` is the room's clear FLOOR (x0, y0, x1, y1), y down -- the room less the wall
+    bodies on its edges (`clear_floor`); `obstacles` are boxes in the same frame the key may
+    not cover -- the marks, the fixtures, the breast, the stair, the door swings as drawn, and
+    the room's own label. At every size from the preferred down to the floor the four corners
+    are tried, each pushed inward past whatever stands in it (`_place`), and the nearest
+    clear place at the largest size wins; a TURNED key (read from the foot of the sheet, as
+    a room name turned to run with a slot room is) is taken only where it earns a materially
+    larger letter or where nothing flat fits at all -- the same rule the room labels are held
+    to. Returns {corner, turned, size, x0, y0, x1, y1} or None."""
+    rx0, ry0, rx1, ry1 = room_px
+    rx0, ry0, rx1, ry1 = rx0 + pad, ry0 + pad, rx1 - pad, ry1 - pad
+    if rx1 <= rx0 or ry1 <= ry0 or not lines:
+        return None
+    steps = int(round((preferred - floor) / 0.2))
+    sizes = [round(preferred - 0.2 * k, 2) for k in range(steps + 1)]
+
+    def _try(turned):
+        for size in sizes:
+            bw, bh = key_block_px(lines, size, lead)
+            if turned:
+                bw, bh = bh, bw
+            if bw > rx1 - rx0 or bh > ry1 - ry0:
+                continue
+            best = None
+            for corner in ("NW", "NE", "SW", "SE"):
+                got = _place(corner, bw, bh, (rx0, ry0, rx1, ry1), obstacles, pad)
+                if got and (best is None or got[2] < best[1][2]):
+                    best = (corner, got)
+            if best:
+                corner, (x0, y0, _d) = best
+                return {"corner": corner, "turned": turned, "size": size,
+                        "x0": x0, "y0": y0, "x1": x0 + bw, "y1": y0 + bh}
+        return None
+
+    flat = _try(False)
+    turned = _try(True)
+    if turned and (not flat or turned["size"] > flat["size"] * 1.15):
+        return turned
+    return flat
+
+
+def numeral_at(item_px, wall_side, n, room_px, size=NUMERAL_PX, avoid=()):
+    """Where an item's numeral goes: centred INSIDE its own rectangle where the rectangle can
+    hold it, else BESIDE it on the room side -- off the wall the item was seated against, or
+    above a freestanding one -- so the numeral stands on the floor and not in the wall. A
+    beside-numeral that would leave the room is put on the opposite side instead. `avoid`
+    lists ink the numeral should not sit on -- the room's own label, which is drawn OVER a
+    freestanding table at the room's centre -- and an inside-numeral that would land on it
+    goes beside the mark instead, where a clear side exists; where none does it stays inside,
+    because the mark is the one place a numeral can never be read as somebody else's.
+    Returns (x, y_baseline, text-anchor, size, box)."""
+    x0, y0, x1, y1 = item_px
+    dw = _text_w(str(n), size, mono=True)
+    cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+    inside = None
+    if (x1 - x0) >= dw + 2.0 and (y1 - y0) >= size + 1.0:
+        inside = (cx, cy + 0.35 * size, "middle", size,
+                  (cx - dw / 2, cy - 0.5 * size, cx + dw / 2, cy + 0.5 * size))
+        if _clear(inside[4], avoid, 0.0):
+            return inside
+    pad = 1.5
+
+    def below():   # seated on the north wall: the room is below it (y down)
+        by = y1 + pad + 0.75 * size
+        return (cx, by, "middle", size, (cx - dw / 2, y1 + pad, cx + dw / 2, by + 0.25 * size))
+
+    def above():   # seated on the south wall, or freestanding
+        by = y0 - pad - 0.25 * size
+        return (cx, by, "middle", size, (cx - dw / 2, by - 0.75 * size, cx + dw / 2, y0 - pad))
+
+    def right():   # seated on the west wall
+        return (x1 + pad, cy + 0.35 * size, "start", size,
+                (x1 + pad, cy - 0.5 * size, x1 + pad + dw, cy + 0.5 * size))
+
+    def left():    # seated on the east wall
+        return (x0 - pad, cy + 0.35 * size, "end", size,
+                (x0 - pad - dw, cy - 0.5 * size, x0 - pad, cy + 0.5 * size))
+
+    order = {"N": (below, above), "S": (above, below), "W": (right, left),
+             "E": (left, right)}.get(wall_side, (above, below))
+    rx0, ry0, rx1, ry1 = room_px
+    for cand in order:
+        c = cand()
+        bx0, by0, bx1, by1 = c[4]
+        if bx0 >= rx0 and by0 >= ry0 and bx1 <= rx1 and by1 <= ry1 and _clear(c[4], avoid, 0.0):
+            return c
+    return inside or order[0]()
+
+
+def furniture_key_plan(levels, level_openings, level_bands, plan, wall, W, H, scale, working,
+                       diverged_ids):
+    """Every room's furniture key, fitted or refused to the margin, BEFORE the sheet is sized:
+    the margin schedule's height is fixed before any plate is drawn, and a refusal that
+    arrives after that has nowhere to go but off the canvas.
+
+    Returns (plan, margin). `plan[i][room_id]` carries the entries, the key lines, each
+    numeral's place and the key's placement (or None); `margin` is [(room label, lines)] for
+    every room no corner of which holds its key, in level order. Everything is in the ROOM'S
+    OWN frame -- px from its NW corner, y down -- so nothing here depends on where the plate
+    lands, and the drawing pass adds the plate's origin and nothing else."""
+    st = plan.get("stair") or {}
+    out, margin = [], []
+    for i, lv in enumerate(levels):
+        here = {}
+        op = level_openings[i]
+        # every door leaf on this level sweeps a square of its own width, AS DRAWN -- the same
+        # `swing_positive` the leaf is drawn from, so the key avoids the arc the reader sees
+        swings = []
+        for d in op["interior"]:
+            w_, hw, at, pos = d["width_ft"], d["width_ft"] / 2.0, d["at_ft"], d["pos_ft"]
+            if d["horiz"]:
+                swings.append((pos - hw, at, w_, w_) if d["swing_positive"] else (pos - hw, at - w_, w_, w_))
+            else:
+                swings.append((at, pos - hw, w_, w_) if d["swing_positive"] else (at - w_, pos - hw, w_, w_))
+        for d in op["exterior"]:
+            wl, p_, w_ = d["wall"], d["at_ft"], d["width_ft"]
+            horiz = wl in ("S", "N")
+            e = d.get("edge_ft")
+            if e is None:
+                e = (0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W)
+            if horiz:
+                swings.append((p_ - w_ / 2.0, e if wl == "S" else e - w_, w_, w_))
+            else:
+                swings.append((e if wl == "W" else e - w_, p_ - w_ / 2.0, w_, w_))
+        stair_rects = []
+        if st and (st.get("level") or 0) == i:
+            stair_rects = [st["well"]] if st.get("well") else list(st.get("flights") or [])
+        for r in lv["rooms"]:
+            g = r.get("geometry")
+            if not g or g.get("void"):
+                continue
+            entries = key_entries(r)
+            if not entries:
+                continue
+            x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
+
+            def loc(mx, my, mw, mh):
+                return ((mx - x) * scale, (y + h - my - mh) * scale,
+                        (mx + mw - x) * scale, (y + h - my) * scale)
+
+            room_px = (0.0, 0.0, w * scale, h * scale)
+            obstacles = [loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]) for _n, f, _k in entries]
+            for hh in (r.get("hearth") or []):
+                b = HEARTH.breast(r, hh)
+                if b and not b.get("undrawable"):
+                    obstacles.append(loc(b["x_ft"], b["y_ft"], b["width_ft"], b["depth_ft"]))
+            for rect in stair_rects:
+                obstacles.append(loc(rect["x_ft"], rect["y_ft"], rect["width_ft"], rect["depth_ft"]))
+            for sw in swings:
+                obstacles.append(loc(*sw))
+            floor_px = clear_floor(room_px, [loc(bd["x_ft"], bd["y_ft"], bd["width_ft"], bd["depth_ft"])
+                                             for bd in level_bands[i]])
+            lab = _room_label(r, g, wall, scale, working, diverged_ids)
+            label_box = []
+            if lab:
+                cx, cy = w * scale / 2.0, h * scale / 2.0
+                label_box = [(cx - lab["ink_w"] / 2.0, cy - lab["ink_h"] / 2.0,
+                              cx + lab["ink_w"] / 2.0, cy + lab["ink_h"] / 2.0)]
+                obstacles.extend(label_box)
+            numerals = []
+            for n, f, _kind in entries:
+                nb = numeral_at(loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]),
+                                f.get("wall"), n, room_px, avoid=label_box)
+                numerals.append((n, nb))
+                obstacles.append(nb[4])
+            lines = key_lines(entries)
+            fit = fit_key(floor_px, obstacles, lines)
+            here[r["id"]] = {"entries": entries, "lines": lines, "numerals": numerals, "fit": fit}
+            if fit is None:
+                margin.append(((r.get("name") or r["id"]).upper(), lines))
+        out.append(here)
+    return out, margin
+
 # ---------------------------------------------------------------- the wall as a body
 # WHAT CHANGED AND WHY. Until this package every wall on this sheet was a single stroke --
 # `.wl` at 2.2 px for a room outline, 1 px for a partition -- and the word "thickness" did not
@@ -740,6 +1125,17 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     foot_h = 58.0                                  # scale bar and compass under the plates
     total_w = M * 2 + BP * 2 + len(levels) * panel_w + (len(levels) - 1) * gap
 
+    # THE FURNITURE KEY IS FITTED HERE, BEFORE THE MARGIN IS SIZED (WP-13.2). A room no corner
+    # of which can hold its key sends the key to this schedule under the room's name, and the
+    # schedule's height is fixed a few lines down -- a refusal arriving after that would be
+    # drawn off the canvas, which is the silence the key exists to end. The plates draw from
+    # `key_plan` and add nothing to it.
+    key_plan, key_margin = furniture_key_plan(levels, level_openings, level_bands, plan, wall,
+                                              W, H, scale, working, diverged_ids)
+    for _kname, _klines in key_margin:
+        schedule.append((L["salmon_deep"], f'FURNITURE KEY, {_kname} — NO CORNER OF THE ROOM '
+                         f'HOLDS IT AT {KEY_FLOOR_PX:g} PX, FLAT OR TURNED: {"; ".join(_klines)}'))
+
     # THE SCHEDULE WRAPS, AND THE BAND GROWS TO HOLD IT. Set as one line each, the undrawable-
     # door list and the stair's own refusal ran off the right edge and past the border -- the
     # note the reader most needs, half of it not on the sheet. Nothing is shortened to make it
@@ -949,43 +1345,15 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             if not g: continue
             x, y, w, h = g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]
             cx, cy = X(x + w/2), Y(y + h/2)
-            nm = (r.get("name") or r["id"]).upper()
-            # the label sits INSIDE the room, clear of the partitions that bound it, so the
-            # box is the room less half a partition on each side
-            inset = wall["partition_in"] / 12.0 * scale
-            bw, bh = w*scale - inset - 6, h*scale - inset - 5
-            if bw <= 4 or bh <= 5: continue
-            tail = ""
-            if g.get("void"):
-                tail = "roofed, unheated" if g["void"].get("roofed") else "open to sky"
-            # ∗ — DRAWN at a size the record does not declare. It is NOT part of `dim`, and
-            # that is the point: tests/test_drawn_labels.py freezes this line because OQ 55's
-            # void disclosure once rode on it, and anything that LENGTHENS the string shrinks
-            # the fitted size until the dimension drops out of every narrow room.
-            star = "∗" if (working and r["id"] in diverged_ids) else ""
-            dim = f'{_fmt(min(w,h))} x {_fmt(max(w,h))} · {g["area_sf"]} sf'
-            show_dim = working
-
-            def lay(box_w, box_h):
-                tsize = min(6.5, box_w / (0.60 * len(tail))) if tail else 0
-                tsize = max(4.6, tsize) if tail else 0
-                dsize = min(8.0, box_w / (0.60 * len(dim))) if show_dim else 0
-                want = show_dim and dsize >= 5.6 and box_h >= 26 + (tsize * 1.5 if tail else 0)
-                reserve = (dsize * 1.5 if want else 0) + (tsize * 1.5 if tail else 0)
-                fit = _fit_lines(nm, box_w, box_h - reserve, 11.0, 6.0, track=ROOM_TRACK)
-                if not fit: return None
-                lines, size = fit
-                show = want and size >= 7.0
-                return lines, size, (dsize if show else None), tsize, \
-                    len(lines) * size * 1.2 + (dsize * 1.5 if show else 0) \
-                    + (tsize * 1.5 if tail else 0)
-
-            flat = lay(bw, bh)
-            turned = lay(bh, bw) if h > w * 1.3 else None
-            use = turned if (turned and (not flat or turned[1] > flat[1] * 1.15)) else flat
-            if not use: continue
-            lines, size, dsize, tsize, block = use
-            gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if use is turned else '<g>'
+            # WHAT THE LABEL SAYS AND HOW IT IS FITTED LIVE IN `_room_label` (WP-13.2), one
+            # function with two callers: this loop draws it, and `furniture_key_plan` keeps the
+            # furniture key clear of it before any plate is drawn. The fit itself is unchanged.
+            lab = _room_label(r, g, wall, scale, working, diverged_ids)
+            if not lab: continue
+            lines, size, dsize, tsize, block = (lab["lines"], lab["size"], lab["dsize"],
+                                                lab["tsize"], lab["block"])
+            star, dim, tail = lab["star"], lab["dim"], lab["tail"]
+            gx = f'<g transform="rotate(-90 {cx:.1f} {cy:.1f})">' if lab["turned"] else '<g>'
             s.append(gx)
             # NAMED `label_top`, AND THE NAME IS THE WHOLE FIX. This was `top`, the SHEET'S TOP
             # MARGIN, read by both `total_h` and `oy`; reassigning it here positioned the first
@@ -1260,6 +1628,45 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                         cx_, cy_, rr = m["circle"]
                         s.append(f'<circle class="fu" cx="{X(cx_):.1f}" cy="{Y(cy_):.1f}" '
                                  f'r="{rr * scale:.1f}"><title>{_esc(f["item"])}</title></circle>')
+
+        # ---------------------------------------------------------- the key (WP-13.2)
+        # A NUMERAL ON EVERY MARK AND A KEY IN THE ROOM, so a printed plate names what it
+        # draws. Fitted by `furniture_key_plan` before the sheet was sized (a refused key is
+        # already in the margin schedule); this pass only adds the plate's origin. `.dm` is the
+        # sheet's small mono lettering -- the dimension line, the stair's UP, the scale figures
+        # -- and the key takes it with its size in `style=`, which is where a fitted size wins
+        # (tests/test_drawn_labels.py). A key line carries NO <title>: the line IS the
+        # disclosure, and a child element would hide its text from any reader of the ink.
+        for r in lv["rooms"]:
+            kr = key_plan[i].get(r["id"])
+            if not kr:
+                continue
+            g = r["geometry"]
+            ox_, oy_ = X(g["x_ft"]), Y(g["y_ft"] + g["depth_ft"])    # the room's NW corner
+            for n, (nx, ny, anchor, nsize, _box) in kr["numerals"]:
+                s.append(f'<text class="dm" data-key-numeral="{n}" data-key-room="{_esc(r["id"])}" '
+                         f'x="{ox_ + nx:.1f}" y="{oy_ + ny:.1f}" text-anchor="{anchor}" '
+                         f'style="font-size:{nsize:.2f}px">{n}</text>')
+            fit = kr["fit"]
+            if not fit:
+                continue          # refused: in the margin schedule, under the room's name
+            size = fit["size"]
+            for k, (line, (n, f, _kind)) in enumerate(zip(kr["lines"], kr["entries"])):
+                count = key_count(f["item"])
+                cnt = f' data-count="{count}"' if count else ""
+                if fit["turned"]:
+                    # read from the foot of the sheet: the block stands on its bottom edge and
+                    # each line is a column, glyph tops to the left, the first line leftmost
+                    tx = ox_ + fit["x0"] + k * size * KEY_LEAD + 0.8 * size
+                    ty = oy_ + fit["y1"]
+                    s.append(f'<text class="dm" data-key="{_esc(r["id"])}" data-key-item="{n}"{cnt} '
+                             f'x="{tx:.1f}" y="{ty:.1f}" transform="rotate(-90 {tx:.1f} {ty:.1f})" '
+                             f'style="font-size:{size:.2f}px">{_esc(line)}</text>')
+                else:
+                    tx = ox_ + fit["x0"]
+                    ty = oy_ + fit["y0"] + k * size * KEY_LEAD + 0.8 * size
+                    s.append(f'<text class="dm" data-key="{_esc(r["id"])}" data-key-item="{n}"{cnt} '
+                             f'x="{tx:.1f}" y="{ty:.1f}" style="font-size:{size:.2f}px">{_esc(line)}</text>')
 
 
         # ---------------------------------------------------------- P7, at its location

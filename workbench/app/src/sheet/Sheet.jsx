@@ -15,6 +15,7 @@ import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines
          divergence, interpunctTitle, relaxationMarks, ft } from './derive.js';
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
+import { furnitureKeyPlan, keyCount, KEY } from './furnitureKey.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -294,6 +295,40 @@ function roomLabel(r, wall) {
   return { ...L, turned: !!useTurned, cx: r.x + r.w / 2, cy: -r.y - r.h / 2 };
 }
 
+/* The furniture key's inputs, gathered ONCE for the plate and its caption (WP-13.2): the
+   partitions as drawn, every door leaf's swing square AS DRAWN (the same `swingUp` /
+   `swingRight` DoorMark reads, so the key avoids the arc the reader sees), the stair, and
+   each room's label through `roomLabel` -- the one fitter, so the key knows where the name
+   is without a second measurement of it. build/render_plan.py::furniture_key_plan is the
+   same gathering in sheet px. */
+function keyPlanFor(rooms, wall, drs, parts, stair, levelIndex) {
+  const swings = [];
+  for (const d of drs.interior) {
+    if (d.horiz) swings.push({ x: d.x - d.w / 2, y: d.swingUp ? d.y : d.y - d.w, w: d.w, h: d.w });
+    else swings.push({ x: d.swingRight ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
+  }
+  for (const d of drs.exterior) {
+    if (d.wall === 'W' || d.wall === 'E') {
+      swings.push({ x: d.wall === 'W' ? d.x : d.x - d.w, y: d.y - d.w / 2, w: d.w, h: d.w });
+    } else {
+      swings.push({ x: d.x - d.w / 2, y: d.wall === 'S' ? d.y : d.y - d.w, w: d.w, h: d.w });
+    }
+  }
+  const stairRects = (stair && (stair.level ?? 0) === levelIndex)
+    ? (stair.well ? [stair.well] : (stair.flights || [])) : [];
+  return furnitureKeyPlan(rooms, {
+    partitions: parts,
+    swings,
+    stairRects: stairRects.map((s) => ({ x: s.x_ft, y: s.y_ft, w: s.width_ft, h: s.depth_ft })),
+    labelBox: (r) => {
+      const lab = roomLabel(r, wall);
+      if (!lab) return null;
+      const w = Math.max(lab.name.width, lab.dim ? lab.dim.width : 0);
+      return lab.turned ? { w: lab.block, h: w } : { w, h: lab.block };
+    },
+  });
+}
+
 export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, selectedRoom,
                         onPickRoom, onResizeRoom, title, subtitle, styleName }) {
   useFontMetrics();          // re-fit every label once EB Garamond itself has arrived
@@ -340,6 +375,7 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   // plan schema 0.3.0 (WP-6.2): the stair is an object on the record, or it is absent —
   // never an empty room presented as a finished one
   const stair = placement?.stair || plan?.stair;
+  const keyPlan = keyPlanFor(rooms, wall, drs, parts, stair, levelIndex);    // WP-13.2
   const ghostRooms = ghost != null ? levelRooms(plan, placement, ghost) : [];
   const roomsMeta = ov.meta || {};
 
@@ -733,6 +769,49 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             </g>
           )))}
 
+        {/* the key (WP-13.2). A numeral on every mark and a key in the room, so a printed
+            plate names what it draws -- the tooltip above stays, and is not a label. Fitted
+            by furnitureKey.js in the room's own frame (feet from its NW corner, y down);
+            this adds the room's corner and nothing else. A refused key is in the caption
+            under the room's name, never silently dropped. NOT `data-furniture`: the walk
+            counts those as items, and a key is lettering about an item. */}
+        {rooms.map((r) => {
+          const kr = keyPlan.byRoom.get(r.id);
+          if (!kr) return null;
+          const ox = r.x, oy = -r.y - r.h;          // the room's NW corner, screen y down
+          const fit = kr.fit;
+          return (
+            <g key={r.id + 'key'} data-furniture-key={r.id}
+              data-furniture-key-fit={fit ? (fit.turned ? 'turned' : 'flat') : 'margin'}>
+              {kr.numerals.map((nu) => (
+                <text key={'n' + nu.n} data-key-numeral={nu.n} x={ox + nu.x} y={oy + nu.y}
+                  fontSize={nu.size} fontFamily="var(--mono)" fill="var(--ink-2)"
+                  textAnchor={nu.anchor}>{nu.n}</text>
+              ))}
+              {fit && kr.lines.map((line, k) => {
+                const size = fit.size;
+                const count = keyCount(kr.entries[k].item);
+                if (fit.turned) {
+                  // read from the foot of the sheet: each line is a column, the first leftmost
+                  const tx = ox + fit.x0 + k * size * KEY.lead + 0.8 * size;
+                  const ty = oy + fit.y1;
+                  return (
+                    <text key={'k' + k} data-key-item={kr.entries[k].n} data-count={count || undefined}
+                      x={tx} y={ty} transform={`rotate(-90 ${tx} ${ty})`}
+                      fontSize={size} fontFamily="var(--mono)" fill="var(--ink-2)">{line}</text>
+                  );
+                }
+                const tx = ox + fit.x0;
+                const ty = oy + fit.y0 + k * size * KEY.lead + 0.8 * size;
+                return (
+                  <text key={'k' + k} data-key-item={kr.entries[k].n} data-count={count || undefined}
+                    x={tx} y={ty} fontSize={size} fontFamily="var(--mono)" fill="var(--ink-2)">{line}</text>
+                );
+              })}
+            </g>
+          );
+        })}
+
         {/* dimensions — ticks, primes, never decimal feet */}
         <DimRun from={0} to={W} at={2.6} stops={[0, ...bays, W]} />
         <DimRun from={0} to={W} at={5.2} stops={[0, W]} />
@@ -888,6 +967,14 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           {drs.inferredWidths
             ? `${drs.inferredWidths} door(s) declare no width; drawn at the conventional leaf. `
             : ''}
+          {/* WP-13.2 -- a furniture key no corner of its room could hold at the smallest
+              legible size, flat or turned, is set here under the room's name rather than
+              dropped. build/render_plan.py puts the same line in its margin schedule. */}
+          {keyPlan.margin.map((m) => (
+            <span key={'km' + m.id} data-furniture-key-margin={m.id}>
+              {`Furniture key, ${m.name} — no corner of the room holds it: ${m.lines.join('; ')}. `}
+            </span>
+          ))}
           {drs.inferredPositions
             ? `${drs.inferredPositions} exterior door(s) carry no placement in the record and are `
               + 'drawn at conventional mid-wall position, on a wall inferred from the room\u2019s '
