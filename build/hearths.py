@@ -42,6 +42,37 @@ and recovering his rule correctly does not weaken it -- an English rule read rig
 English rule. `bedchamber`'s own *"30-36 in opening"* is the corpus's figure and outranks it. See
 the constants below for the provenance, for why the table it replaced was worse at both ends, and
 for the one rule (RULE I, and so the DEPTH) that could not be recovered.
+
+THE FIRE STANDS ON ITS FLUE, OR IT IS REFUSED (WP-13.2, "rendering honesty"). The gate
+(`tests/test_sheet_coherence.py`) read the CP-SAT sheet and found the drawing and dining rooms'
+breasts drawn 19 and 25 ft inboard of the west face, on declared W walls the solver had released,
+with no flue behind them -- `breast()` drew the fire on the room's declared wall wherever the room
+landed. `openings.py` had refused a WINDOW on a released wall since WP-6.2 ("the placement puts this
+room on no such boundary wall"); the breast now takes the same test, through the same reader
+(`elements.boundary_walls`, the one spelling `openings` and `render_plan` already share), when the
+caller hands it the room's element box. A refused breast is `undrawable` and carries its reason AND
+the rectangle the declared wall would have given it, so the refusal can be measured rather than
+merely counted. An interior stack is not modelled and is not invented in its place.
+
+And the stack stands over the fire (WP-11.4's rule, one layer down). `roof.py` grouped the stated
+hearths by flue and stood one chimney per flue at the mean of its fires' axes while the PLAN put
+its stack square at the centre of each gable end from the rectangle alone -- the two records of one
+building put the west chimney 5.4 ft apart and the east 7.3. `flues()` below is roof.py's rule
+MOVED, not a second spelling: `threshold.hearth_pass` reads it for the plan's squares and
+`roof.py` reads the plan's record for the roof's positions.
+
+WHAT ONE STACK PER FLUE CANNOT DO, STATED HERE BECAUSE IT DECIDES A DRAWING. The shipped
+Tidewater record puts the drawing room's fire and the dining room's on one flue, `west-stack`, and
+both breasts default to the centre of their own end wall (the schema's own rule for an absent
+`position_ft`), which on that placement are 13.5 ft apart. A 22 in square at the flue's position
+stands behind neither. That is not resolved here by moving a breast off its centre (the drawing
+room's record calls the chimneypiece "the room's compositional centre") nor by drawing two shafts
+(`docs/structure.md` records that this corpus SIMPLIFIES `paired-and-joined-by-arched-curtain` --
+"two stacks per gable end joined above the roof by an arched brick curtain" -- to one position per
+gable end, and lifting that simplification is a roof-and-elevation change). It is DISCLOSED: each
+breast row says whether its flue's stack stands behind it and by how much it misses (`gathered`),
+and the fire is still drawn, because a fire on the wall its flue stands on has a flue -- the
+masonry gathers it -- where a fire on a released wall has none.
 """
 from __future__ import annotations
 
@@ -50,6 +81,24 @@ import os
 import re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+_ELEM = None
+
+
+def _elements():
+    """build/elements.py, the one reader of which walls of a room lie on its element's
+    boundary. A leaf loading a leaf: `elements.py` imports nothing from build/, so this closes
+    no cycle and this file stays one (`scene.py`, `roof.py` and `facade.py` load it as one).
+    Through `build/modcache.py`, never a local loader (tests/test_modcache.py counts loads)."""
+    global _ELEM
+    if _ELEM is None:
+        b = os.path.join(ROOT, "build")
+        import sys
+        if b not in sys.path:
+            sys.path.insert(0, b)
+        import modcache
+        _ELEM = modcache.load("elements", os.path.join(b, "elements.py"))
+    return _ELEM
 
 # The massing's `hearth` values this file will act on, and what each says about WHERE a flue can
 # stand. Every other value in massings/catalog.json is refused by name below rather than mapped to
@@ -129,9 +178,19 @@ DEFAULT_OPENING_IN = 36.0
 JAMB_IN = 8.0                # masonry either side of the opening, making the breast's face
 
 
-def breast(room, hearth, C=None):
+def breast(room, hearth, C=None, bounds=None):
     """The chimney breast as a rectangle in model feet, from a room's PLACED geometry and one
     stated hearth — or None where the room is unplaced.
+
+    `bounds` is the room's OWN massing element as `(x, y, W, H)` -- `elements.bounds_index`'s
+    form, the reader `openings.py` and `render_plan.py` already share -- and with it the breast
+    is JUDGED: a hearth whose declared wall the placement did not put on that element's
+    boundary comes back `undrawable`, with `unplaced.reason` in the words `openings.py` uses
+    for a window in the same position, and STILL CARRYING the rectangle the declared wall would
+    have given it, so a reader can measure how far inboard the fire stands. Without `bounds`
+    the rectangle is returned unjudged, exactly as before WP-13.2; a caller that wants the
+    verdict on a placed plan reads `plan["hearths"]["breasts"]`, where `threshold.hearth_pass`
+    has already written it with the same function and the same bounds.
 
     `build/arrangement.py` keeps `chimney_breast_projection_or_wall_thickness_in` NOT_DERIVABLE
     and its REASON has changed: it used to say *"no record carries a chimney PLAN dimension"*,
@@ -158,26 +217,55 @@ def breast(room, hearth, C=None):
     face_ft = (opening_in + 2 * JAMB_IN) / 12.0
     wall = (hearth.get("wall") or "").upper()
     pos = hearth.get("position_ft")
+    rect = None
     if wall in ("E", "W"):
         cy = pos if pos is not None else g["y_ft"] + g["depth_ft"] / 2.0
         y = max(g["y_ft"], min(cy - face_ft / 2.0, g["y_ft"] + g["depth_ft"] - face_ft))
         x = g["x_ft"] if wall == "W" else g["x_ft"] + g["width_ft"] - depth_ft
-        return {"x_ft": round(x, 3), "y_ft": round(y, 3), "width_ft": round(depth_ft, 3),
+        rect = {"x_ft": round(x, 3), "y_ft": round(y, 3), "width_ft": round(depth_ft, 3),
                 "depth_ft": round(face_ft, 3), "wall": wall,
                 "projection_in": round(depth_ft * 12, 1), "judgment": True}
-    if wall in ("N", "S"):
+    elif wall in ("N", "S"):
         cx = pos if pos is not None else g["x_ft"] + g["width_ft"] / 2.0
         x = max(g["x_ft"], min(cx - face_ft / 2.0, g["x_ft"] + g["width_ft"] - face_ft))
         y = g["y_ft"] if wall == "S" else g["y_ft"] + g["depth_ft"] - depth_ft
-        return {"x_ft": round(x, 3), "y_ft": round(y, 3), "width_ft": round(face_ft, 3),
+        rect = {"x_ft": round(x, 3), "y_ft": round(y, 3), "width_ft": round(face_ft, 3),
                 "depth_ft": round(depth_ft, 3), "wall": wall,
                 "projection_in": round(depth_ft * 12, 1), "judgment": True}
-    # `interior` — the dining room's case. The record says which wall it is opposite and this
-    # file does not know which of the room's four sides that is, so it is NOT DRAWN and says so
-    # rather than being put on a plausible one.
-    return {"undrawable": True, "wall": wall,
-            "why": "an interior hearth names no side of the room, and putting it on a plausible "
-                   "one is the invention this layer exists to stop"}
+    if rect is None:
+        # `interior` — the dining room's case. The record says which wall it is opposite and
+        # this file does not know which of the room's four sides that is, so it is NOT DRAWN
+        # and says so rather than being put on a plausible one.
+        return {"undrawable": True, "wall": wall,
+                "why": "an interior hearth names no side of the room, and putting it on a "
+                       "plausible one is the invention this layer exists to stop"}
+    if bounds is None:
+        return rect
+    # THE FIRE STANDS ON ITS FLUE OR IT IS REFUSED (WP-13.2). The same question `openings.py`
+    # asks of a window, through the same reader, so the two cannot answer differently about one
+    # wall: is the declared wall on the room's element's boundary? On the CP-SAT sheet the gate
+    # read (`tests/test_sheet_coherence.py`) the drawing and dining rooms' declared W walls were
+    # released by the solver and this function drew their fires 19 and 25 ft inboard of the west
+    # face, against a partition, with no exterior wall to carry a flue. An interior stack is not
+    # modelled here and is not invented in its place.
+    on = _elements().boundary_walls((g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"]), bounds)
+    if wall in on:
+        return rect
+    bx, by, bw, bh = bounds
+    inboard = {"W": g["x_ft"] - bx, "E": (bx + bw) - (g["x_ft"] + g["width_ft"]),
+               "S": g["y_ft"] - by, "N": (by + bh) - (g["y_ft"] + g["depth_ft"])}[wall]
+    rect.update({
+        "undrawable": True,
+        "unplaced": {"reason": "the placement puts this room on no such boundary wall",
+                     "declared_wall": wall,
+                     "needs": {"wall_on_the_element_boundary": wall},
+                     "have": {"walls_on_the_boundary": sorted(on),
+                              "inboard_ft": round(inboard, 2)}},
+        "why": (f"the record puts this fire on the room's {wall} wall and the placement puts "
+                f"that wall {inboard:.1f} ft inboard of the element's {wall} face, against "
+                f"another room: no exterior wall carries its flue, an interior stack is not "
+                f"modelled, and a fire with no flue is not drawn")})
+    return rect
 
 
 def massing_hearth(massing):
@@ -409,12 +497,82 @@ def stack_axes(plan, C):
             continue
         for r in lv.get("rooms", []):
             g = r.get("geometry")
-            for h in (r.get("hearth") or []):
+            for n, h in enumerate(r.get("hearth") or []):
                 wall = (h.get("wall") or "").upper()
                 pos = h.get("position_ft")
                 if pos is None and g:
                     pos = (g["y_ft"] + g["depth_ft"] / 2.0 if wall in ("E", "W")
                            else g["x_ft"] + g["width_ft"] / 2.0)
-                axes.append({"room": r["id"], "wall": wall, "position_ft": pos,
+                # `index` is the hearth's place in its room's own list, so a reader that has
+                # judged the BREAST (`threshold.hearth_pass`) can say which axis it judged --
+                # a keeping room states two fires and a room id alone cannot tell them apart.
+                axes.append({"room": r["id"], "index": n, "wall": wall, "position_ft": pos,
                              "width_in": h.get("width_in"), "flue": h.get("flue")})
     return axes or None
+
+
+def flue_key(axis):
+    """The id a hearth's stack is grouped under: the record's own `flue` where it states one,
+    else the wall and the room, so a fire that names no flue is a stack of its own."""
+    return axis.get("flue") or f'{axis["wall"]}:{axis["room"]}'
+
+
+def flues(axes, served=None):
+    """One stack per flue, at the mean of its fires' axes, on the wall its fires name.
+
+    ROOF.PY'S RULE SINCE WP-11.4, MOVED HERE AND NOT RESTATED (WP-13.2): `chimney_positions`
+    grouped the plan's stated hearths by `flue` and averaged their positions, while
+    `threshold.hearth_pass` put the plan's own stack square at the centre of each gable end from
+    the rectangle alone -- so the plan and the roof drew the west chimney 5.4 ft apart and the
+    east 7.3. Both read this now: the placement layer writes what it returns to
+    `plan["hearths"]["flues"]` and the roof stands its chimneys on that record.
+
+    `served` is the set of `(room, index)` whose breast the placement could stand on its
+    declared wall. A flue with a stated fire and no served one is REFUSED, not placed: a stack
+    with no fire behind it is what WP-11.4's reconciliation exists to remove, and standing one
+    over a fire the placement put 19 ft inboard would draw the chimney the gate found. A flue
+    whose fires name two different walls is refused too -- one stack cannot stand on two walls,
+    and choosing one would be authoring.
+
+    Returns `(placed, refused)`; every refusal names the flue and its reason."""
+    by = {}
+    for a in axes or []:
+        by.setdefault(flue_key(a), []).append(a)
+    placed, refused = [], []
+    for flue, group in sorted(by.items()):
+        stated = [a["room"] for a in group]
+        keep = [a for a in group
+                if served is None or (a["room"], a.get("index", 0)) in served]
+        if not keep:
+            refused.append({"flue": flue, "wall": sorted({a["wall"] for a in group})[0]
+                            if len({a["wall"] for a in group}) == 1 else None,
+                            "serves": stated,
+                            "reason": (f"none of the {len(group)} fire(s) the record puts on "
+                                       f"flue '{flue}' ({', '.join(stated)}) stands on a "
+                                       f"boundary wall on this placement, so there is no "
+                                       f"fire for its stack to stand over -- a stack over no "
+                                       f"fire is not placed (WP-11.4)")})
+            continue
+        walls = sorted({a["wall"] for a in keep})
+        if len(walls) != 1:
+            refused.append({"flue": flue, "wall": None, "serves": stated,
+                            "reason": (f"the fires on flue '{flue}' name {len(walls)} walls "
+                                       f"({', '.join(walls)}); one stack cannot stand on two, "
+                                       f"and choosing between them would be authoring")})
+            continue
+        if any(a.get("position_ft") is None for a in keep):
+            refused.append({"flue": flue, "wall": walls[0], "serves": stated,
+                            "reason": (f"a fire on flue '{flue}' has no position along its "
+                                       f"wall: the room is not placed")})
+            continue
+        pos = sum(a["position_ft"] for a in keep) / len(keep)
+        placed.append({"flue": flue, "wall": walls[0], "position_ft": round(pos, 3),
+                       "serves": [a["room"] for a in keep],
+                       "stated": stated,
+                       "rule": ("one stack per flue at the mean of its fires' axes, on the "
+                                "wall the fires name (roof.py's rule since WP-11.4)")})
+    # In the order the gable-end rule has always written its two squares (W, E; then S, N),
+    # and along the wall within it -- so a reader of `plan.hearths.stacks` who knew the old
+    # record finds the west stack first, whatever the flues are called.
+    placed.sort(key=lambda f: (("W", "E", "S", "N").index(f["wall"]), f["position_ft"]))
+    return placed, refused

@@ -196,12 +196,31 @@ class TestTheStacks(unittest.TestCase):
         land. Main's WP-11.2 made this house 38.17 ft deep: the stack is written y 18.168,
         depth 1.833, summing to 19.0845 against a mid-depth of 19.085, out by half a
         thousandth and by nothing else. The tolerance is DERIVED -- one rounding step on each
-        of the two written terms -- rather than loosened to whatever passes."""
-        pl = _placed()
+        of the two written terms -- rather than loosened to whatever passes.
+
+        RE-CUT AGAIN AT WP-13.2, AND THE SUBJECT NARROWED. The centre line is the rule for a
+        plan that STATES NO HEARTH; the shipped record states three, and its squares now stand
+        on the stated flues (`tests/test_hearths_on_flue.py` holds those figures). So the
+        centre-line pin is driven on the record with its hearths stripped, and the shipped
+        record is asserted OFF the centre line, so that a regression to the rectangle rule
+        cannot pass by the fixture happening to be centred."""
+        base = json.load(open(TIDEWATER, encoding="utf-8"))
+        for lv in base["levels"]:
+            for r in lv["rooms"]:
+                r.pop("hearth", None)
+        GEOM._SOLVE_CACHE.clear()
+        pl = GEOM.solve(base, engine="heuristic")
+        self.assertEqual(pl["hearths"]["placed_from"], "centre-line")
         D = pl["footprint"]["depth_ft"]
         tol = 2 * 0.0005 + 1e-9      # y_ft and depth_ft are each round(v, 3)
+        self.assertEqual(len(pl["hearths"]["stacks"]), 2)
         for sk in pl["hearths"]["stacks"]:
             self.assertAlmostEqual(sk["y_ft"] + sk["depth_ft"] / 2.0, D / 2.0, delta=tol)
+        shipped = _placed()
+        self.assertEqual(shipped["hearths"]["placed_from"], "stated-hearths")
+        for sk in shipped["hearths"]["stacks"]:
+            self.assertGreater(abs(sk["y_ft"] + sk["depth_ft"] / 2.0 - D / 2.0), 4.0,
+                               "the shipped record's square is back on the centre line")
 
     def test_the_size_is_read_and_never_defaulted(self):
         """A stack drawn at an invented size is an invented measurement. Take the figure away

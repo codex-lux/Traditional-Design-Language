@@ -617,18 +617,40 @@ def hearth_pass(plan, C, report):
     THE SIZE IS THE ONE THING READ FROM THE CASCADE, and that is deliberate: `stack_plan_in`
     is a DIMENSION, and a dimension arriving through the lineage is what the cascade is for.
     `tidewater-georgian`'s own kit states the stack's height above the ridge and not its plan,
-    which comes from `georgian-colonial-american` as `part * 8` = 22 in."""
+    which comes from `georgian-colonial-american` as `part * 8` = 22 in.
+
+    THE PLAN'S STACKS ARE THE ROOF'S STACKS (WP-13.2). Until this package the two points came
+    from the RECTANGLE alone -- `gable_end_points`, the mid-depth of each end wall -- while
+    `roof.py` had stood its chimneys over the plan's stated hearths since WP-11.4, so one
+    building carried two records of where its west chimney was, 5.4 ft apart. Now, where the
+    plan states hearths, every breast is JUDGED first (`hearths.breast` with the room's own
+    element box: a fire on a wall the solver released is refused, not drawn), the served fires
+    are grouped by flue (`hearths.flues`, roof.py's rule moved into the leaf), and one square
+    per flue stands on the wall the fires name at the mean of their axes. `roof.py` reads the
+    `flues` this writes rather than deriving them a second time. A plan that states no hearth
+    keeps the centre-line rule and `placed_from` says so.
+
+    IT RUNS BEFORE THE WINDOWS NOW, and the reason is the order of three defaults: the breast's
+    centre, a lone window's position and the flue axis all default to the room's mid-wall, so
+    the dining and library sashes were drawn 100% inside their own breasts. `openings._place_windows`
+    reserves each drawn breast's run and each stack's run before it seats a sash, which it can
+    only do if this pass has already written them."""
     style = plan.get("style")
     fp = plan.get("footprint") or {}
     W, D = fp.get("width_ft"), fp.get("depth_ft")
     t_ft = float(((fp.get("wall") or {}).get("exterior_in") or 0.0)) / 12.0
-    out = {"stacks": [], "unplaced": [], "source": None, "side": None,
+    out = {"stacks": [], "unplaced": [], "breasts": [], "flues": [], "placed_from": None,
+           "hearths_unreadable": None, "source": None, "side": None,
            "hearth_rooms": None,
-           "hearth_rooms_note": "NOT READ. Which rooms take a hearth is stated in no record in "
-                                "this corpus -- `hearth_position.rule` says the end rooms and "
-                                "nothing says which rooms those are on a placed plan. "
-                                "oq/which-rooms-take-the-hearth."}
+           "hearth_rooms_note": "NOT INFERRED. Which rooms take a hearth is stated in no record "
+                                "in this corpus -- `hearth_position.rule` says the end rooms and "
+                                "nothing says which rooms those are on a placed plan "
+                                "(oq/which-rooms-take-the-hearth), so no room that states no "
+                                "fire is given one. The fires a room STATES are read: `breasts` "
+                                "is each one judged against the placement and `flues` is where "
+                                "their stacks stand (WP-13.2)."}
     plan["hearths"] = out
+    _judge_breasts_and_flues(plan, C, out, W, D)
     own = ((C["kits"].get(style, {}).get("slots") or {}).get("hearth_position") or {})
     canonical = _canonical(own)
     massing = C["massings"].get(plan.get("massing"), {})
@@ -696,14 +718,136 @@ def hearth_pass(plan, C, report):
         return out
     axis = ridge_axis(form)
     s = float(s_in) / 12.0
+    if out["placed_from"] == "stated-hearths":
+        # ONE STACK PER FLUE, ON THE WALL THE FIRES NAME, AT THE MEAN OF THEIR AXES -- the
+        # flues this pass judged above, which are the same record `roof.py` stands its
+        # chimneys on. The wall is the fires' own and not filtered to the gable ends: a fire
+        # stated on the N wall of a side-gable house is a record-against-massing disagreement
+        # `plan_check` already reports (`hearth-off-the-stack-wall`), and drawing its stack
+        # where the record puts it is what lets a reader see that disagreement on the plate.
+        for fl in out["flues"]:
+            rect = _stack_rect(fl["wall"], s, t_ft, W, D, side, fl["position_ft"])
+            out["stacks"].append({"wall": fl["wall"], "side": side, "stack_plan_in": s_in,
+                                  "stack_plan_judgment": s_judgment,
+                                  "stack_plan_basis": s_basis,
+                                  "source": out["source"], "flue": fl["flue"],
+                                  "serves": list(fl["serves"]), **rect,
+                                  **_graded("th-stack-at-the-gable-end")})
+        _stand_behind(out)
+        return out
     for (x, y), wall in zip(gable_end_points(W, D, axis), gable_end_walls(axis)):
         rect = _stack_rect(wall, s, t_ft, W, D, side, x if axis == "y" else y)
         out["stacks"].append({"wall": wall, "side": side, "stack_plan_in": s_in,
                               "stack_plan_judgment": s_judgment,
                               "stack_plan_basis": s_basis,
-                              "source": out["source"], **rect,
+                              "source": out["source"], "flue": None, "serves": [], **rect,
                               **_graded("th-stack-at-the-gable-end")})
     return out
+
+
+def _judge_breasts_and_flues(plan, C, out, W, D):
+    """Every stated hearth judged against the placement, and the served fires grouped by
+    flue. Writes `out["breasts"]`, `out["flues"]`, `out["placed_from"]`,
+    `out["hearths_unreadable"]` and the refusals in `out["unplaced"]`; needs only the placed
+    rooms and the footprint, so it runs whatever the square-drawing preconditions below say.
+
+    THE FAILURE IS NAMED AND NOT SWALLOWED, and this is where it is named now. `roof.py` used to
+    catch a malformed hearth here on its own account; with one reader the catch moves with the
+    reading, and the roof republishes `hearths_unreadable` rather than re-deriving anything.
+    A plan whose hearths cannot be read is a plan whose stacks stand on the centre line with
+    a reason, never a plan that "states no hearth"."""
+    HE = _mod("hearths", os.path.join(ROOT, "build", "hearths.py"))
+    EL = _mod("elements", os.path.join(ROOT, "build", "elements.py"))
+    try:
+        axes = HE.stack_axes(plan, C) or []
+    except Exception as exc:                       # noqa: BLE001 -- recorded, republished by roof.py
+        out["hearths_unreadable"] = f"{type(exc).__name__}: {exc}"
+        out["placed_from"] = "centre-line"
+        return
+    served = set()
+    stated = 0
+    for lv in plan.get("levels", []):
+        rooms = lv.get("rooms", [])
+        try:
+            bidx = EL.bounds_index(plan, rooms)
+        except Exception:                          # noqa: BLE001 -- a one-rectangle house has no element list
+            bidx = {}
+        for r in rooms:
+            for n, h in enumerate(r.get("hearth") or []):
+                stated += 1
+                row = {"level": lv.get("index"), "room": r["id"], "index": n,
+                       "wall": (h.get("wall") or "").upper(), "flue": h.get("flue"),
+                       "drawn": False}
+                if not r.get("geometry"):
+                    row["why"] = "the room is not placed on this level"
+                    out["breasts"].append(row)
+                    out["unplaced"].append({"what": f"the breast of {r['id']}'s hearth",
+                                            "room": r["id"], "hearth_index": n,
+                                            "reason": row["why"],
+                                            "rule": "hearths.breast", "grade": "reading"})
+                    continue
+                bounds = bidx.get(r["id"]) or ((0.0, 0.0, W, D) if W and D else None)
+                # A record with no footprint gives the breast nothing to be judged against:
+                # `judged: False` says so, and the rectangle is carried as it was before
+                # WP-13.2 rather than refused for a reason that is the record's, not the fire's.
+                row["judged"] = bounds is not None
+                b = HE.breast(r, h, bounds=bounds)
+                for k in ("x_ft", "y_ft", "width_ft", "depth_ft", "projection_in", "judgment"):
+                    if k in b:
+                        row[k] = b[k]
+                if b.get("undrawable"):
+                    row["why"] = b.get("why")
+                    if b.get("unplaced"):
+                        row["unplaced"] = b["unplaced"]
+                    out["breasts"].append(row)
+                    out["unplaced"].append({"what": f"the breast of {r['id']}'s hearth",
+                                            "room": r["id"], "hearth_index": n,
+                                            "reason": b.get("why"),
+                                            "rule": "hearths.breast", "grade": "reading"})
+                    continue
+                row["drawn"] = True
+                served.add((r["id"], n))
+                out["breasts"].append(row)
+    if not stated:
+        out["placed_from"] = "centre-line"
+        return
+    placed, refused = HE.flues(axes, served)
+    out["flues"] = placed
+    for rf in refused:
+        out["unplaced"].append({"what": f"the stack for flue '{rf['flue']}'", "flue": rf["flue"],
+                                "wall": rf.get("wall"), "serves": rf.get("serves"),
+                                "reason": rf["reason"],
+                                "rule": "hearths.flues", "grade": "reading"})
+    out["placed_from"] = "stated-hearths"
+
+
+def _stand_behind(out):
+    """Which drawn breasts each stack stands behind, and by how much it misses the rest.
+
+    A stack stands BEHIND a breast when its square's run along the wall overlaps the breast's
+    face. Where it does not, the distance along the wall is written as `gathered` on the breast
+    row and on the stack -- the flue reaches the fire through the masonry, and how far is a
+    figure a reader is owed rather than a silence. On the shipped Tidewater record the west
+    flue serves two fires whose breasts are 13.5 ft apart, so one 22 in square at the flue's
+    mean stands behind neither; see the module docstring of build/hearths.py for why that is
+    disclosed rather than resolved here."""
+    for sk in out["stacks"]:
+        sk["behind"], sk["gathered"] = [], {}
+        along = ((sk["y_ft"], sk["y_ft"] + sk["depth_ft"]) if sk["wall"] in ("E", "W")
+                 else (sk["x_ft"], sk["x_ft"] + sk["width_ft"]))
+        for row in out["breasts"]:
+            if not row.get("drawn") or row.get("wall") != sk["wall"] or \
+                    (sk.get("flue") is not None and row.get("flue") != sk["flue"]):
+                continue
+            run = ((row["y_ft"], row["y_ft"] + row["depth_ft"]) if sk["wall"] in ("E", "W")
+                   else (row["x_ft"], row["x_ft"] + row["width_ft"]))
+            gap = max(along[0] - run[1], run[0] - along[1])
+            if gap <= 0:
+                sk["behind"].append(row["room"])
+                row["flue_stack"] = {"behind": True, "gathered_ft": 0.0}
+            else:
+                sk["gathered"][row["room"]] = round(gap, 2)
+                row["flue_stack"] = {"behind": False, "gathered_ft": round(gap, 2)}
 
 
 def _stack_rect(wall, s, t, W, D, side, along):

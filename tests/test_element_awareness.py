@@ -465,18 +465,32 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # UNMOVED (13/18 and 11/17), which is what says the movement is placement and
                 # not a layer going quiet. Old digests: 9da22729316445d4 / 67e42551e7ffc356.
                 #
-                # RE-PINNED AT WP-13.2 (15 Sep 2026), TIDEWATER ONLY, AND THE PLACEMENT DID NOT
-                # MOVE: b8faf56908995542 -> 6ccb26efc5ec42a1, 210 -> 212 rows, histogram
-                # unmoved, the spec Colonial byte-identical. `stacking.judge` reads CONTAINMENT
-                # now (the smaller room at least 90% inside the larger) where it read touching,
-                # so the two claims the old rule called kept -- the upper passage at 38% of
-                # itself over the passage and the principal chamber at 78% over the drawing
-                # room -- are `stack-broken` findings. Both rows were listed by diffing the
-                # (kind, room, statement) sets on a `git archive` checkout against this tree:
-                # +2, -0, and the placement digest 10f2a72af362dd9a identical on both.
-                ("tidewater-georgian-careful", "6ccb26efc5ec42a1", 212,
+                # RE-PINNED TWICE AT WP-13.2 (15 Sep 2026), IN TWO PARALLEL WORKTREES, AND
+                # MERGED BY MEASUREMENT RATHER THAN BY PICKING A SIDE. The placement did not
+                # move in either (digest 10f2a72af362dd9a on both); what moved is the CRITIC
+                # and the OPENINGS:
+                #   the title block: `stacking.judge` reads CONTAINMENT now (the smaller room
+                #   at least 90% inside the larger) where it read touching, so the two claims
+                #   the old rule called kept -- the upper passage at 38% of itself over the
+                #   passage and the principal chamber at 78% over the drawing room -- are
+                #   `stack-broken` findings: b8faf56908995542 -> 6ccb26efc5ec42a1, 210 -> 212,
+                #   +2 -0 by set difference, the spec Colonial byte-identical.
+                #   the fire on its flue: the dining room's one W sash is refused for want of a
+                #   run beside the chimney breast (a 4.76 ft breast at the centre of a 12.07 ft
+                #   wall leaves 2.65 ft either side of the pier) and its N units were already
+                #   refused, so "Dining Room is drawn with no window" is a new `drawn` row:
+                #   b8faf56908995542 -> b592e0d4b3fcedeb, 210 -> 211, +1 -0. Spec Colonial
+                #   024fa784786c2469 -> 7847180ecfab43d7, 243 rows UNMOVED, ONE statement
+                #   reworded (the family room's partial-refusal reason ends "... beside its
+                #   doors" because it names what took the wall).
+                # Merged: 2b5c81430bb590ef, 213 rows, MEASURED on the merged tree against a
+                # `git archive` of the last commit before the merge (which already carried the
+                # title block's +2): +1 -0 by set difference, the one row the fire slice named,
+                # `drawn` 82 -> 83 and every other layer unmoved; the spec Colonial exactly as
+                # that slice measured it. Never the sum of two digests, which is not a thing.
+                ("tidewater-georgian-careful", "2b5c81430bb590ef", 213,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "024fa784786c2469", 243,
+                ("spec-builder-colonial", "7847180ecfab43d7", 243,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))

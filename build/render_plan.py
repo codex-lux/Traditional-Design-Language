@@ -1355,8 +1355,32 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # the record names the wall it is opposite and this renderer does not know which of four
         # sides that is, and putting it on a plausible one is the invention this layer exists
         # to stop.
+        #
+        # AND A FIRE THE PLACEMENT REFUSED IS NOT DRAWN EITHER (WP-13.2). `threshold.hearth_pass`
+        # judges every stated breast against the room's own element box and writes the verdict
+        # to `plan["hearths"]["breasts"]`; on the CP-SAT sheet the drawing and dining rooms'
+        # declared W walls were released by the solver and this block drew their fires 19 and
+        # 25 ft inboard of the west face with no flue behind them. The verdict is READ here and
+        # not re-derived: one judge, and the plate draws what it allowed. In the WORKING
+        # register the refusal is drawn as a dashed ghost where the declared wall would have put
+        # the breast, carrying the reason -- the register that already carries the △ and the ∗
+        # -- and in the presentation register nothing is drawn and the record carries it.
+        _verdict = {(row.get("level"), row.get("room"), row.get("index")): row
+                    for row in ((plan.get("hearths") or {}).get("breasts") or [])}
         for r in lv["rooms"]:
-            for h in (r.get("hearth") or []):
+            for _hn, h in enumerate(r.get("hearth") or []):
+                _v = _verdict.get((lv.get("index", i), r["id"], _hn))
+                if _v is not None and not _v.get("drawn"):
+                    if working and _v.get("x_ft") is not None:
+                        s.append(f'<rect data-hearth-refused="{_esc(r["id"])}" '
+                                 f'x="{X(_v["x_ft"]):.1f}" y="{Y(_v["y_ft"] + _v["depth_ft"]):.1f}" '
+                                 f'width="{_v["width_ft"] * scale:.1f}" '
+                                 f'height="{_v["depth_ft"] * scale:.1f}" fill="none" '
+                                 f'stroke="{L["salmon_deep"]}" stroke-width="{SS.LW["fine"]}" '
+                                 f'stroke-dasharray="3 2">'
+                                 f'<title>{_esc(r.get("name") or r["id"])}: fireplace NOT DRAWN -- '
+                                 f'{_esc(_v.get("why") or "refused by the placement")}</title></rect>')
+                    continue
                 b = HEARTH.breast(r, h)
                 if not b or b.get("undrawable"):
                     continue
