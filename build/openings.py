@@ -527,11 +527,80 @@ def _place_exterior(level_rooms, occupied, W, H, C, report, envs=None):
                                        "rule": "op-passage-axis"})
 
 
-def _place_windows(level_rooms, occupied, W, H, report, envs=None):
+# THE PIER BESIDE A CHIMNEY BREAST OR A STACK IS THE SAME MINIMUM SOLID AS BESIDE A DOOR
+# (WP-13.2). `MIN_SOLID_FT` is the corpus's one figure for the masonry an opening keeps between
+# itself and the next opening, and a sash jamb against a breast needs a pier of masonry for the
+# same reason it needs one against a door frame. It is EDITORIAL -- no record states the width of
+# a jamb pier -- and it is reused here rather than restated so the plan owns one such figure.
+#
+# AND ONE QUANTUM MORE, FOR THE RECORD'S OWN PRECISION. A seated position is written
+# `round(p, 3)`, so a sash seated flush against a reserved edge lands a half-thousandth either
+# side of it: half the time 0.9995 ft of pier where the reader was promised 1.0. The reserved
+# run is widened by the quantum the record rounds to, so the written figure cannot fall inside
+# the pier -- WP-11.13's `grid_allowance_ft` for the same reason one layer down (a box rounded
+# inward could not hold its own rooms; a run rounded outward keeps its own clearance).
+MASONRY_PIER_FT = MIN_SOLID_FT
+_RECORD_QUANTUM_FT = 0.001
+
+
+def _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index):
+    """Occupy each drawn chimney breast's run on its own wall, and each stack's run on the
+    boundary wall it stands on, BEFORE a window is seated there -- with the pier either side.
+
+    Reads what `threshold.hearth_pass` judged and wrote (`plan["hearths"]["breasts"]` and
+    `["stacks"]`) and judges nothing itself; a breast the pass REFUSED reserves nothing,
+    because nothing is drawn there. Returns `{(room, wall): [what was reserved]}` so a window
+    refused for want of a run can say what took the wall."""
+    took = {}
+    if not hearths:
+        return took
+    pad = MASONRY_PIER_FT + _RECORD_QUANTUM_FT
+    by_id = {r["id"]: r for r in level_rooms}
+    for row in (hearths.get("breasts") or []):
+        if not row.get("drawn") or row.get("level") != level_index:
+            continue
+        r = by_id.get(row["room"])
+        if r is None or row.get("wall") not in ("N", "E", "S", "W"):
+            continue
+        run = ((row["y_ft"], row["y_ft"] + row["depth_ft"]) if row["wall"] in ("E", "W")
+               else (row["x_ft"], row["x_ft"] + row["width_ft"]))
+        occupied.setdefault((r["id"], row["wall"]), []).append((run[0] - pad, run[1] + pad))
+        took.setdefault((r["id"], row["wall"]), []).append("the chimney breast")
+    # A stack passes through every storey, so its run is reserved on every level's rooms that
+    # stand on that wall where it stands.
+    for sk in (hearths.get("stacks") or []):
+        wall = sk.get("wall")
+        if wall not in ("N", "E", "S", "W"):
+            continue
+        run = ((sk["y_ft"], sk["y_ft"] + sk["depth_ft"]) if wall in ("E", "W")
+               else (sk["x_ft"], sk["x_ft"] + sk["width_ft"]))
+        for r in level_rooms:
+            rect = _rect(r)
+            if not rect:
+                continue
+            bw = _boundary_walls(rect, W, H, env=(envs or {}).get(r["id"]))
+            if wall not in bw:
+                continue
+            lo, hi = bw[wall]
+            if run[1] + pad <= lo or run[0] - pad >= hi:
+                continue
+            occupied.setdefault((r["id"], wall), []).append((run[0] - pad, run[1] + pad))
+            took.setdefault((r["id"], wall), []).append("the chimney stack")
+    return took
+
+
+def _place_windows(level_rooms, occupied, W, H, report, envs=None, hearths=None, level_index=0):
     """Windows into the run the doors left, centred on the bay grid where a bay line falls
     inside the free space. build/geometry.py's own header says the bay module is what
     "joists span, windows centre on, the facade composes from" — and no renderer or pass
-    had ever centred a window on one."""
+    had ever centred a window on one.
+
+    AND INTO THE RUN THE MASONRY LEAVES (WP-13.2). `hearths` is the record `hearth_pass`
+    wrote before this pass ran; its drawn breasts and its stacks are reserved on their walls
+    first, so a sash is seated beside a chimney breast exactly as it is seated beside a door
+    rather than dead centre in it. A window that no longer fits is UNPLACED with a reason
+    naming what took the wall, and the declared count is never overwritten (WP-6.2)."""
+    took = _reserve_masonry(level_rooms, occupied, W, H, envs, hearths, level_index)
     for r in level_rooms:
         rect = _rect(r)
         if not rect:
@@ -550,6 +619,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None):
                 report["windows_unplaced"] += n
                 continue
             lo, hi = bw[wall]
+            beside = " and ".join(["its doors"] + sorted(set(took.get((r["id"], wall), []))))
             placed = []
             for k in range(n):
                 free = _free(lo, hi, occupied.get((r["id"], wall), []))
@@ -561,7 +631,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None):
                 occupied.setdefault((r["id"], wall), []).append(
                     (pos - width / 2 - MIN_SOLID_FT, pos + width / 2 + MIN_SOLID_FT))
             if not placed:
-                win["unplaced"] = {"reason": "the wall has no clear run left beside its doors",
+                win["unplaced"] = {"reason": f"the wall has no clear run left beside {beside}",
                                    "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
                                              "units": n},
                                    "have": {"units_placed": 0}}
@@ -574,7 +644,7 @@ def _place_windows(level_rooms, occupied, W, H, report, envs=None):
                 # shortfall is already legible as count - len(positions_ft). Caught by the
                 # DXF round trip, which asserts the rebuilt record equals the authored one.
                 win["unplaced"] = {"reason": f"{n - len(placed)} of {n} unit(s) had no clear "
-                                             f"run left on this wall",
+                                             f"run left on this wall beside {beside}",
                                    "needs": {"free_run_ft": round(width + 2 * MIN_SOLID_FT, 2),
                                              "units": n},
                                    "have": {"units_placed": len(placed)}}
@@ -941,6 +1011,16 @@ def place(plan, C=None):
     # of the block-tag join"), so it is the one kept; keeping both would have been the third
     # spelling of the join, which is the defect this whole layer is about.
     envs = envelopes(plan)
+    # WP-13.2. THE FIRE AND ITS STACK ARE PLACED BEFORE THE WINDOWS, because a sash was being
+    # seated dead centre in the chimney breast: the breast's centre (`hearths.breast`), a lone
+    # window's position (`_place_windows`, `(k+1)/(n+1)` for n = 1) and the flue axis all
+    # default to the room's mid-wall, so on the shipped Tidewater record the dining and
+    # library sashes were drawn 100% inside their own breasts and the west stack overlapped a
+    # window by 0.79 ft. `hearth_pass` reads the placed rooms and nothing this loop writes, so
+    # it can run first; `_place_windows` then reserves each drawn breast's run and each stack's
+    # run before it seats a sash, exactly as it seats one beside a door. The STOOP still runs
+    # last (below), because it reads the placed exterior doors.
+    he = _thresh().hearth_pass(plan, C, report)
     holds = []
     for _li, lv in enumerate(plan["levels"]):
         rooms = [r for r in lv["rooms"]]
@@ -948,7 +1028,8 @@ def place(plan, C=None):
         _place_interior(rooms, occupied, report,
                         appendages=apx.get(lv.get("index", _li)) or {})
         _place_exterior(rooms, occupied, W, H, C, report, envs)
-        _place_windows(rooms, occupied, W, H, report, envs)
+        _place_windows(rooms, occupied, W, H, report, envs,
+                       hearths=he, level_index=lv.get("index", _li))
         fixture_pass(rooms, C, report, occupied)
         holds.append((rooms, occupied))
     stair = stair_pass(plan, C, report)
@@ -962,12 +1043,11 @@ def place(plan, C=None):
     # pins its drawn counts as an EQUALITY over all sixteen plans and re-solves to get them.
     for i, (rooms, occupied) in enumerate(holds):
         furniture_pass(rooms, C, report, occupied, stair=stair, level_index=i)
-    # WP-11.4. The stoop and the stacks are PLAN-level and run last, after every room-level
-    # pass, because both read the placed exterior doors and the placed rooms and neither
-    # writes to a room. Nothing above this line can see them, which is what keeps every
-    # placement pin in the suite byte-identical across this package.
+    # WP-11.4. The stoop is PLAN-level and runs last, after every room-level pass, because it
+    # reads the placed exterior doors and writes to no room. (The stacks ran here too until
+    # WP-13.2 moved them above the level loop so the windows could be seated clear of them;
+    # they read placed rooms only, so nothing they see is written by the loop.)
     th = _thresh().entrance_pass(plan, C, report)
-    he = _thresh().hearth_pass(plan, C, report)
     # counted from the records themselves rather than incremented inside the passes: a
     # counter a pass forgets to bump on an early return is a silence wearing a number, and
     # the two passes have EIGHT early returns between them -- two for a kit or an entrance
@@ -975,7 +1055,10 @@ def place(plan, C=None):
     report["threshold_steps"] = len(th["steps"])
     report["threshold_unplaced"] = len(th["unplaced"])
     report["stacks_placed"] = len(he["stacks"])
-    report["stacks_unplaced"] = len(he["unplaced"])
+    report["stacks_unplaced"] = len([u for u in he["unplaced"] if "hearth_index" not in u])
+    # a breast the placement refused is a fire NOT DRAWN, counted here beside the windows it
+    # refused so no surface can read the plan as having every fire it states
+    report["hearths_refused"] = len([b for b in he.get("breasts") or [] if not b.get("drawn")])
     plan["opening_report"] = report
     return plan
 

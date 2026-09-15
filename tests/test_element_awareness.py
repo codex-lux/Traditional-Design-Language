@@ -464,9 +464,21 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # parent's: 208 -> 210 rows and 238 -> 243, with the per-layer histogram
                 # UNMOVED (13/18 and 11/17), which is what says the movement is placement and
                 # not a layer going quiet. Old digests: 9da22729316445d4 / 67e42551e7ffc356.
-                ("tidewater-georgian-careful", "b8faf56908995542", 210,
+                #
+                # RE-DERIVED AT WP-13.2 (the fire on its flue), row by row against a
+                # `git archive` checkout of the previous commit, and the placement is
+                # UNTOUCHED -- what moved is the openings. Tidewater b8faf56908995542 ->
+                # b592e0d4b3fcedeb, 210 -> 211 rows, +1 `drawn`: "Dining Room is drawn with
+                # no window" -- its one W sash is refused for want of a run beside the chimney
+                # breast (a 4.76 ft breast at the centre of a 12.07 ft wall leaves 2.65 ft
+                # either side of the pier) and its N units were already refused, so the room
+                # now has no placed window and the drawn layer says so. Spec Colonial
+                # 024fa784786c2469 -> 7847180ecfab43d7, 243 rows UNMOVED, histogram unmoved:
+                # ONE statement reworded, the family room's partial-refusal reason now ending
+                # "... beside its doors" because that reason names what took the wall.
+                ("tidewater-georgian-careful", "b592e0d4b3fcedeb", 211,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "024fa784786c2469", 243,
+                ("spec-builder-colonial", "7847180ecfab43d7", 243,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))

@@ -419,14 +419,21 @@ class TestTheStackStandsOverAFire:
         reverts to the centre-line rule SILENTLY and then says *"this record states no hearth"*
         about a record carrying three. That is WP-9.1's `except: pass` — two buildings judged as
         one for a phase — and it is the exact false claim this package removes. Four states now:
-        positioned / stated-but-unplaced / UNREADABLE / none."""
-        placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
-        sec = ST.build_section(placed)
+        positioned / stated-but-unplaced / UNREADABLE / none.
 
+        RE-CUT AT WP-13.2: the reading moved to the placement layer (`threshold.hearth_pass`
+        is the one reader of the hearths and the roof reads its record), so the failure is
+        caught THERE and republished by the roof. The patch therefore goes in BEFORE the solve;
+        patching after it, as the first version did, would leave a record already carrying good
+        flues and the roof would rightly read them."""
         def boom(plan, C):
             raise ValueError("a hearth wall nobody wrote down")
 
         monkeypatch.setattr(HE, "stack_axes", boom)
+        GEO._SOLVE_CACHE.clear()
+        placed = GEO.solve(tidewater(), None, 60, engine="heuristic")
+        assert "a hearth wall nobody wrote down" in (placed["hearths"].get("hearths_unreadable") or "")
+        sec = ST.build_section(placed)
         ch = RF.build_roof(placed, section=sec)["chimneys"]
         assert ch.get("hearths_unreadable"), "the failure must be recorded, not swallowed"
         assert "COULD NOT BE READ" in ch["note"]

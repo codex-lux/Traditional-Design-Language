@@ -242,8 +242,20 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-CORPUS_SHEET_SHA = "c4210345a77b9904"
-CORPUS_SHEET_SHA_NO_FRAME = "b620afc41d04b412"
+CORPUS_SHEET_SHA = "e0ccb4cf648cad04"
+CORPUS_SHEET_SHA_NO_FRAME = "55c2a6f66a7dbe0c"
+# BOTH MOVED AT WP-13.2 (the fire on its flue). Was c4210345a77b9904 / b620afc41d04b412.
+# ONE SHEET OF SIXTEEN MOVED -- `tidewater-georgian-careful`, again the only shipped plan that
+# draws a chimney stack -- and this time the DRAWING FIELD moved, on purpose: the two stack
+# squares stand on the stated flues (W at 13.30-15.13 ft, E at 10.85-12.68) instead of the
+# mid-depth of each end wall (18.17-20.00); the drawing room's west sashes go from two (at 5.0
+# and 10.0, 49% inside the breast each) to one at 2.26 ft, and its second and the dining room's
+# one west sash are REFUSED for want of a run beside the breast and the stack, so the sheet is
+# 531 bytes shorter (75,439 -> 74,908). The other fifteen sheets hash byte-identical, per sheet,
+# measured with a harness that reproduced c4210345a77b9904 / b620afc41d04b412 on a
+# `git archive HEAD` checkout of the previous commit before it was believed on this tree.
+# The placement (`geometry_report`, every room rectangle) is untouched; what moved is what
+# `openings.place` seats after it.
 # BOTH MOVED AT WP-12.9, AND THE MOVEMENT IS ACCOUNTED RATHER THAN RE-PINNED. Was
 # 535077ae0bca1ea2 / 373d0116be7cecb8 (WP-11.14's stripped value, which WP-12.4 left alone).
 #
