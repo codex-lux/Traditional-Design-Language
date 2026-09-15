@@ -268,7 +268,13 @@ class TestGeometrySolverHonoursLotWidth:
         # bearing line, and a smaller box holding fewer rooms has fewer cuts to take off the
         # grid in the first place. The same quantity is pinned in `test_measurement_honesty.py`,
         # `test_site.py` and `test_geometry.py` and all three moved in one commit.
-        assert result["geometry_report"]["relaxations"]["count"] == 5
+        # AND 5 -> 6 AT WP-11.17, WHICH STATES THE ENTRANCE FRONT. The entry porch is placed
+        # against the S face as an anchor rather than left to the guillotine, so the cuts the
+        # slicer is free to choose are the ones behind it -- one more of them lands off the bay
+        # grid. MORE IS THE WORSE DIRECTION and it is reported rather than netted off against
+        # what the package buys (serious 60 -> 55, minor 111 -> 105 on this record). All three
+        # copies of this number moved together, which is what the sentence above asks of them.
+        assert result["geometry_report"]["relaxations"]["count"] == 6
 
     def test_lot_too_narrow_for_even_two_bays_errors_honestly(self, geometry_module):
         plan = {

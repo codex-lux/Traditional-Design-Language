@@ -161,7 +161,25 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # nowhere to stand (`tests/test_openings.py` names it). A furniture ratchet improving while a
 # fixture is refused means the two instruments are reading different halves of one house, and
 # the fixture is the one carrying the bad news.
-DRAWN_SHORT_CEILING = 66   # 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
+# WP-11.17 MOVED BOTH IN OPPOSITE DIRECTIONS AND IT WAS THE PLACEMENT AGAIN: 66/79 -> 69/74,
+# the across ceiling RISING by three and the along one falling by five. That package states the
+# entrance front -- the room that must stand on it is placed against it rather than left to the
+# guillotine -- and the six plans whose records decide that question are re-placed. Re-derived
+# per plan on a `git worktree` of the parent commit, across/along:
+#
+#     good-01   5/5 -> 5/4        good-03   1/2 -> 0/2      good-04   2/1 -> 3/1
+#     good-07   3/2 -> 3/4        spec      9/18 -> 13/9    tidewater 6/8 -> 5/11
+#
+# and the other TEN plans are byte-identical, which is what says this is the entrance anchor and
+# not something corpus-wide. The movement is dominated by `spec-builder-colonial`, which trades
+# nine along-axis shortfalls for four across; its own porch was ALREADY on the entrance front, so
+# the anchor fixes nothing there and only re-places the house.
+#
+# A RISE IS THE WORSE DIRECTION AND IS NOT NETTED OFF against the five it buys or against what
+# the package is for. What the across rise is NOT is the band ranking failing: WP-11.8's key is
+# untouched, and the pool it chooses from is simply smaller, because every candidate now has the
+# entrance room on the entrance face.
+DRAWN_SHORT_CEILING = 69   # 66 until WP-11.17, 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -174,7 +192,7 @@ DRAWN_SHORT_CEILING = 66   # 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 79   # 82 until WP-11.16; see the short ceiling's note
+DRAWN_LONG_CEILING = 74   # 79 until WP-11.17, 82 until WP-11.16; see the short ceiling's note
 # WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
 # MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
 # record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it

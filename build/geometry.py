@@ -214,16 +214,24 @@ def bias(room, axis, below=None):
                 b += 2.0 * max(-1.0, min(1.0, (c - span / 2.0) / (span / 2.0)))
     return b
 
-def partition(rooms, axis, rng, below=None):
+def partition(rooms, axis, rng, below=None, frac=None):
     """Split into two groups: the LOW group goes south or west, so it must be seeded with the
     rooms pulled that way. Grow each group through the door graph, so a cut severs as few
-    connections as possible — a plan whose adjacencies survive the slicing is the whole point."""
+    connections as possible — a plan whose adjacencies survive the slicing is the whole point.
+
+    `frac` STATES the share of area the low group should take, in place of the coin flip
+    (WP-11.17). `slice_rect` chooses its own cut and wants the groups near even; a caller that
+    has ALREADY chosen the rectangles -- `flank_slice`'s partial strip -- knows their areas and
+    must fill them, because `slice_rect` tiles whatever rectangle it is handed with whatever
+    rooms it is handed and a group whose area does not match its rectangle is stretched to fit.
+    Byte-identical for every existing caller: `frac is None` draws exactly as before, in the
+    same place in the stream."""
     ids = {r["id"] for r in rooms}
     doors = {r["id"]: {d["to"] for d in (r.get("doors") or []) if d["to"] in ids} for r in rooms}
     # bias ASCENDING: most negative (south/west) first, because lo is placed low
     ranked = sorted(rooms, key=lambda r: (bias(r, axis, below), -r["_area"], r["id"]))
     total = sum(r["_area"] for r in ranked)
-    target = total * rng.uniform(0.44, 0.56)
+    target = total * (rng.uniform(0.44, 0.56) if frac is None else max(0.0, min(1.0, frac)))
     lo, taken, acc = [], set(), 0.0
     seed = ranked[rng.randrange(min(3, len(ranked)))]      # vary the seed, or every run is identical
     lo.append(seed); taken.add(seed["id"]); acc = seed["_area"]
@@ -507,7 +515,218 @@ def hyphen_anchors(plan, blocks, level=0):
     return out
 
 
-def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax):
+def entrance_anchors(plan, blocks, level=0):
+    """The room that MUST stand on the entrance front, stated rather than searched for (WP-11.17).
+
+    `entrance_score` has charged 100 points -- `compose.py`'s own fatal tier -- for a threshold
+    room off the entrance wall since WP-2.2, and its docstring says that is "weighted heavily
+    enough ... that no candidate with the porch off the entrance wall can win against one that
+    has it right". THAT IS NOT TRUE AND WAS MEASURED ON THE TAGGED TIDEWATER RECORD: the search
+    drew the entry porch at (32.07, 31.51), the REAR wall, against a declared `entrance_faces`
+    of "S" and against CP's proof, which puts it at (31.0, 0.0). Two independent causes, both
+    measured over 250 candidates:
+
+      * THE POOL HELD NO CANDIDATE WITH THE PORCH ON THE FRONT AT ALL -- 0 of 250, minimum porch
+        y of 21.32. `hyphen_anchors` lays the butler's pantry as a full-depth strip on the main
+        block's W face and hands the remaining six rooms a narrowed 40.05 x 37.24 in which the
+        porch never reaches y = 0. Suppressing that anchor gives 60 of 250; stripping the tags
+        gives 159 of 250. A charge has nothing to prefer when every candidate pays it.
+      * AND WHERE A MIXED POOL DOES EXIST THE CHARGE IS NEVER READ. `_key` is `(viol, tot)` and
+        `entrance_score` lives in `tot`: front-porch candidates bottom out at viol 3 and
+        back-porch ones at viol 1, so ONE EXTRA OUT-OF-BAND ROOM OUTRANKS A FATAL-TIER ENTRANCE
+        VIOLATION, unconditionally. The ground score preferred the front by 92.3 points and the
+        first key never let it speak. That is WP-11.8's band-first ruling silently winning, and
+        it is REPORTED in `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`
+        rather than fixed here: stating the front means every candidate has the porch on it, so
+        the key never has to adjudicate the entrance and WP-11.8 stands untouched.
+
+    So the front is STATED, which is `flank_slice`'s own move and `courtyard_slice`'s before it:
+    "a room that must touch a particular edge is placed against it rather than left to a
+    guillotine that does not know the edge matters."
+
+    THE SELECTOR IS NARROW AND REFUSES RATHER THAN GUESSING, which is WP-11.7's idiom for the
+    axis pin, and every clause of it was measured against the sixteen shipped records:
+
+      * `entrance_faces` must be stated -- 7 of 16 plans state one, so this is silent on nine.
+      * The room is `function_class: threshold` AND WANTS THE ENTRANCE FRONT: it declares one of
+        the entrance walls in its own `exterior_walls`. "Every threshold room" is not the rule --
+        `good-04-rambling-porch-farmhouse` is a south-facing house whose `north-porch` declares
+        N and W, and anchoring it would have pulled a back porch onto the front.
+      * WHERE MORE THAN ONE QUALIFIES, THE ONE THAT REACHES THE OUTSIDE WINS, and if that does
+        not decide it the answer is nothing. Two plans carry a porch AND a foyer both declaring
+        the entrance wall: on `spec-builder-colonial` the porch declares `to: exterior` and the
+        foyer does not, which is the record saying which room you come in through; on
+        `good-02-portico-library-house` neither does, and the record does not decide, so no
+        anchor is stated there. A door graph cannot break that tie either -- both pairs door
+        into each other -- and picking the porch by its TYPE would be this reader inventing the
+        answer the record declines to give.
+      * The face is the intersection of the entrance walls with the room's own declared walls,
+        and must be unique. It is on all six that survive.
+
+    Six of sixteen plans are anchored: the two shipped records and `good-01`, `good-03`,
+    `good-04`, `good-07`. Returns `{element_id: {face: [room_id]}}`, exactly as `hyphen_anchors`
+    does so the caller's loop reads one shape, or `{}` where the record does not decide."""
+    ew = entrance_walls(plan)
+    if not ew or not blocks:
+        return {}
+    of = {rid: b["id"] for b in blocks for rid in b["rooms"]}
+    cands = []
+    for lv in plan.get("levels", []):
+        if (lv.get("index") or 0) != level:
+            continue
+        for r in lv.get("rooms", []):
+            if not is_placed(r.get("type")):
+                continue
+            if C["rooms"].get(r["type"], {}).get("function_class") != "threshold":
+                continue
+            faces = ew & set(r.get("exterior_walls") or [])
+            if len(faces) != 1:
+                continue
+            cands.append((r, faces.pop()))
+    if len(cands) > 1:
+        # THE ROOM THAT REACHES THE OUTSIDE. See the docstring: this is the record saying which
+        # of two front rooms you come in through, and where no candidate says it the tie stands.
+        outward = [c for c in cands
+                   if any((d.get("to") if isinstance(d, dict) else d) == "exterior"
+                          for d in (c[0].get("doors") or []))]
+        cands = outward
+    if len(cands) != 1:
+        return {}
+    room, face = cands[0]
+    el = of.get(room["id"])
+    if el is None:
+        return {}
+    return {el: {face: [room["id"]]}}
+
+
+def _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax, run):
+    """`flank_slice`'s partial branch: the anchor gets a rectangle of ITS OWN AREA on the face.
+
+    Three guillotine cuts, in this order, and every one of them is a real cut of a real rectangle
+    -- there is no L-shape anywhere and no rectangle any room is placed outside:
+
+        cut 1, along the face at `off`          ->  P  |  (the rest)
+        cut 2, along the face at `off + L`      ->       Q  |  R
+        cut 3, across Q at the anchor's depth   ->    anchor | B
+
+    `P` and `R` are the full-depth slabs either side; `B` is what stands behind the anchor. Any of
+    the three may be absent -- `off` of 0 drops `P`, an anchor running the whole face drops both --
+    and the anchor is the only room in its own rectangle.
+
+    THE ANCHOR'S RECTANGLE IS SIZED FROM ITS OWN DECLARED AREA AND NOT FROM THE FACE, which is the
+    whole difference from the strip above. `d = acc / L` makes the rectangle the anchor's area
+    exactly; the clamps then re-derive `L` from whichever of the two the element can actually hold,
+    so the area survives a clamp and the aspect is what gives. `slice_rect` tiles whatever
+    rectangle it is handed with whatever rooms it is handed, so a rectangle whose area does not
+    match its rooms' is not a smaller room, it is a STRETCHED one -- which is why `partition` grew
+    a stated `frac` for this caller rather than this caller accepting its coin flip.
+
+    `off` IS AN RNG DRAW OVER THREE POSITIONS -- the low end, the centre, the high end -- and the
+    score picks. A bias rule was written first and measured: `bias(anchor, along_axis)` is exactly
+    0 on ALL SIX anchored plans, because a threshold room on a front declares the entrance wall
+    and then either nothing else or a symmetric pair (`["S","E","W"]` on both shipped records), so
+    the along-axis components cancel. An instrument that cannot fire is worse than none. Letting
+    the search draw keeps the WALL a guarantee -- every candidate has the anchor on the entrance
+    face -- while leaving WHERE ALONG IT a question `centre_hall_symmetry_score`,
+    `ceremonial_score` and `adjacency_score` answer, which is the division of labour the rest of
+    this file already keeps.
+
+    THE ENTRANCE IS LAID FIRST AND THE HYPHEN CROSSING LOSES ITS STRIP, AND THREE WAYS OF HAVING
+    BOTH WERE BUILT, MEASURED AND REVERTED. The caller takes the first anchor that lays, and on a
+    record carrying both -- the tagged Tidewater main block has an S entrance anchor (the porch)
+    and a W hyphen anchor (the butler's pantry, for its door into the back hall) -- that costs
+    real doors. Measured on it, doors the placement cannot draw:
+
+        hyphen anchor alone      12      the house drawn back to front
+        neither                  18
+        entrance anchor alone    23      the entrance right, `unreachable: butlers` a new fatal
+
+    `P` and `R` are full-depth slabs standing on the element's own low and high faces along the
+    entrance axis, so a slab receiving the hyphen's rooms could take the ordinary full-face
+    `flank_slice` against the face it really touches. All three attempts to make that happen were
+    worse than not trying:
+
+      * LETTING `partition` DECIDE is inert -- the pantry declares `exterior_walls: ["N"]`, so
+        its x-bias is exactly 0, and the W slab held it in **0 of 841 draws**.
+      * ADDING THE ANCHOR'S STATED DIRECTION TO THAT BIAS did not move it either (`partition`
+        ranks door connectivity above bias and the pantry's other door is to the dining room)
+        and cost **6 serious findings**.
+      * PUTTING IT IN THAT SLAB OUTRIGHT, holding it out of the split and reducing the slab's
+        target area by its own, works and is not worth it: a pantry laid as a full-face strip
+        down a 16.5 ft slab is a worse room than one the guillotine places, and it took the
+        score 672.3 -> 753.5, serious 55 -> 62 and doors 23 -> 24.
+
+    The two statements genuinely compete on this record and the corpus's own arbiter prefers the
+    entrance: `plan_check` reads serious 60 -> 55 and minor 111 -> 105 across the trade, against
+    one new fatal. The residue is named in
+    `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`.
+
+    Returns False having placed nothing where the element cannot hold the cuts, exactly as
+    `flank_slice` does, so the caller falls back to the ordinary slice."""
+    want = set(anchor_ids)
+    keep = [r for r in rooms if r["id"] in want]
+    rest = [r for r in rooms if r["id"] not in want]
+    if not keep or not rest:
+        return False
+    acc = sum(r["_area"] for r in keep)
+    if acc <= 0:
+        return False
+
+    horiz = face in ("S", "N")            # the face runs along x
+    along = w if horiz else h
+    across = h if horiz else w
+    lo_face = face in ("S", "W")          # the band sits at the low end of the across axis
+    u0, v0 = (x, y) if horiz else (y, x)
+    floor_ = module * 0.55
+
+    L = max(floor_, min(run, along - floor_))
+    d = max(floor_, min(acc / L, across * 0.6))
+    L = max(floor_, min(acc / d, along - floor_))
+    if across - d < floor_ or along - L < floor_:
+        return False
+
+    off = [0.0, (along - L) / 2.0, along - L][rng.randrange(3)]
+    if off < floor_:
+        off = 0.0
+    elif along - off - L < floor_:
+        off = along - L
+
+    # The rest-rectangles, in the order the cuts make them. `a` is each one's area, which is what
+    # its share of the rooms must come to.
+    aP = off * across
+    aR = (along - off - L) * across
+    aB = L * (across - d)
+    want_p, want_r = off > 0.0, along - off - L > 0.0
+    if len(rest) < 1 + int(want_p) + int(want_r):
+        return False
+
+    grp = rest
+    gP = gR = None
+    ax = "x" if horiz else "y"
+    if want_p:
+        gP, grp = partition(grp, ax, rng, frac=aP / max(aP + aB + aR, 1.0))
+    if want_r:
+        grp, gR = partition(grp, ax, rng, frac=aB / max(aB + aR, 1.0))
+    if not grp or (want_p and not gP) or (want_r and not gR):
+        return False
+
+    def rect(u, ulen, v, vlen):
+        return (round(v0 + v, 2), round(u0 + u, 2), round(vlen, 2), round(ulen, 2)) if not horiz \
+            else (round(u0 + u, 2), round(v0 + v, 2), round(ulen, 2), round(vlen, 2))
+
+    av = 0.0 if lo_face else across - d      # the anchor band's across-origin
+    bv = d if lo_face else 0.0               # and what stands behind it
+    for rs, rc in ((keep, rect(off, L, av, d)),
+                   (grp, rect(off, L, bv, across - d)),
+                   (gP, rect(0.0, off, 0.0, across) if want_p else None),
+                   (gR, rect(off + L, along - off - L, 0.0, across) if want_r else None)):
+        if rc is None:
+            continue
+        slice_rect(copy.deepcopy(rs), rc[0], rc[1], rc[2], rc[3], module, tol, rng, out, relax)
+    return True
+
+
+def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, relax, run=None):
     """Lay `anchor_ids` as a strip against `face` of this element, then slice the rest.
 
     The same statement `courtyard_slice` makes about a corredor, at one element's scale: a room
@@ -515,7 +734,19 @@ def flank_slice(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out, rela
     does not know the edge matters. Returns False and places nothing when the strip cannot be cut
     -- an anchor list that is the whole element, or a strip that would leave the remainder below a
     module -- so the caller falls back to the ordinary slice and the refusal is a fall-back rather
-    than a malformed plan."""
+    than a malformed plan.
+
+    `run` STATES THE ANCHOR'S OWN RUN ALONG THE FACE and takes the partial branch (WP-11.17). The
+    strip below spans the WHOLE face, which is right for a hyphen crossing -- a wing runs the
+    depth of the element it meets -- and wrong for an object standing on a front. Measured on the
+    two shipped records: the Tidewater entry porch is declared 6 x 12 = 72 sf and a full-face
+    strip draws it 45 x 4.95 = 222 sf, a veranda across the whole house; `spec-builder-colonial`'s
+    is declared 4 x 6 = 24 sf and would be drawn about 275. `_partial_flank` cuts the band along
+    the face as well, so the anchor gets a rectangle of its own area and the leftovers go back to
+    the pool."""
+    if run is not None:
+        return _partial_flank(rooms, x, y, w, h, face, anchor_ids, module, tol, rng, out,
+                              relax, run)
     want = set(anchor_ids)
     along = h if face in ("E", "W") else w
     across = w if face in ("E", "W") else h
@@ -2553,6 +2784,18 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
     # Computed once per solve rather than once per candidate: it walks the door graph and the
     # element rectangles, neither of which a candidate moves.
     _anchors = hyphen_anchors(plan, gblocks, 0)
+    # WP-11.17. THE ENTRANCE IS LAID FIRST AND THE LOOP TAKES THE FIRST ANCHOR THAT LAYS, so on a
+    # record carrying both -- the tagged Tidewater main block has a W hyphen anchor (the butler's
+    # pantry, for its door into the back hall) and an S entrance anchor (the porch) -- the order
+    # is the ruling. The entrance is the fatal tier: `entrance_score` charges 100 where
+    # `adjacency_score` charges a door, and a house drawn back to front is wrong in a way a door
+    # that cannot be drawn is not. The cost is stated rather than assumed -- see the report.
+    _eanchors = entrance_anchors(plan, gblocks, 0)
+    # THE RUN ALONG THE FACE IS THE ROOM'S OWN LONGER DECLARED DIMENSION, which is not a taste:
+    # `_partial_flank` derives the depth as `area / run`, so this hands it the room's own declared
+    # rectangle with its long side on the front, and a threshold room standing on a front is what
+    # it is by being wider than it is deep (6 x 12 and 4 x 6 on the two shipped records).
+    _erun = {r["id"]: max(r.get("width_ft") or 10, r.get("length_ft") or 12) for r in prep[0]}
     best = None
     # DECLARED STACKING AS A RULE RATHER THAN A CHARGE (WP-11.5). Two incumbents: the best
     # candidate overall, and the best that breaks NO claim its own author wrote. The strict one
@@ -2585,7 +2828,14 @@ def solve_heuristic(plan, parti=None, candidates=250, seed=7, level_aware=True):
                 # search. One element -> `_anchors` is `{}` and this is the same single call
                 # with the same rng draws it always was.
                 _laid = False
-                for _f, _ids in sorted((_anchors.get(_b["id"]) or {}).items()):
+                for _f, _ids in sorted((_eanchors.get(_b["id"]) or {}).items()):
+                    _laid = flank_slice(_rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids,
+                                        bay, tol, rng, gr, grelax,
+                                        run=max(_erun.get(i, 0.0) for i in _ids))
+                    if _laid:
+                        break
+                for _f, _ids in (sorted((_anchors.get(_b["id"]) or {}).items())
+                                 if not _laid else ()):
                     _laid = flank_slice(_rs, _b["x"], _b["y"], _b["W"], _b["H"], _f, _ids,
                                         bay, tol, rng, gr, grelax)
                     if _laid:

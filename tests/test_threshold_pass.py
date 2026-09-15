@@ -30,49 +30,33 @@ def _placed(path=TIDEWATER):
     return GEOM.solve(json.load(open(path, encoding="utf-8")), engine="heuristic")
 
 
-def _proved(path=TIDEWATER):
-    """The PROVING engine, for the four tests in `TestTheStoop` whose subject is the ENTRANCE
-    SEQUENCE rather than a dimension, and returns None when there is no proof.
-
-    WHY THIS EXISTS (WP-11.16). `plans/tidewater-georgian-careful.json` now declares its service
-    programme as a west dependency, and that costs the SEARCH its entrance while costing the
-    PROVER nothing -- measured, the porch lands at y = 31.51 on the rear wall under the
-    hill-climb and at y = 0.0 on the S front under CP, and the threshold layer correctly hands
-    the flight to whichever room the entrance door is really in. So the layer is behaving and
-    the placement it is handed is not.
-
-    Those four tests assert that the entrance sequence is drawn RIGHT. Re-pointing them at
-    `passage` and `platform_is_the_room is False` would have converted four tests asserting a
-    correct sequence into four asserting the broken one, and a green suite would then be
-    evidence for the defect. They run on the engine that DRAWS the sheet instead -- `auto` takes
-    the proof -- and the search's cost is pinned once, by name, in
-    `test_THE_SEARCH_LOSES_THE_ENTRANCE_AND_THAT_IS_A_MEASURED_COST` below.
-
-    NOT `auto`, WHICH WOULD BE OQ 71's ERROR. `engine="cp"` is asked for by name and this
-    returns None -- COULD NOT EVALUATE, never a pass -- when the solve does not come back
-    `cp-sat`. What makes it usable at all is that the tagged record's proof CLOSES: three runs
-    returned OPTIMAL with an identical objective, where the untagged record spent its budget and
-    drifted. A proof that closes is reproducible; one that times out is not, and the caution in
-    `_placed` above is about the second kind.
-    """
-    pl = GEOM.solve(json.load(open(path, encoding="utf-8")), engine="cp")
-    if ((pl.get("geometry_report", {}).get("solver") or {}).get("engine")) != "cp-sat":
-        return None
-    return pl
+# `_proved()` IS GONE, AND ITS REMOVAL IS THE POINT (WP-11.17). WP-11.16 introduced it because
+# tagging this record's service programme into a west dependency cost the SEARCH its entrance
+# while costing the PROVER nothing -- the porch landed at y = 31.51 on the rear wall under the
+# hill-climb and at y = 0.0 on the S front under CP -- so the four tests below whose subject is
+# the ENTRANCE SEQUENCE ran on the engine that draws rather than being re-pointed at the broken
+# sequence. WP-11.17 states the entrance front as an anchor and both engines hold it, measured
+# 250 of 250 candidates on this record, so the four run on the deterministic engine again and
+# the helper has no callers. Its own docstring asked for exactly this. What the search still
+# gets wrong is pinned below, re-pointed rather than deleted.
 
 
 class TestTheStoop(unittest.TestCase):
     def test_the_entrance_door_gets_a_flight_and_the_other_three_doors_get_a_reason(self):
-        pl = _proved()
-        if pl is None:
-            return              # COULD NOT EVALUATE without a proof, and not a pass
+        pl = _placed()
         th = pl["threshold"]
         self.assertEqual(len(th["steps"]), 1, "one door on the entrance face, one flight")
         st = th["steps"][0]
         self.assertEqual(st["wall"], "S")
         self.assertEqual(st["room"], "porch")
         named = [u["what"] for u in th["unplaced"] if u["rule"] == "th-only-the-entrance-door"]
-        self.assertEqual(len(named), 3, "three exterior doors on the north front, three refusals")
+        # 3 -> 2 AT WP-11.17, AND THE MISSING ONE IS NOT A REFUSAL THAT STOPPED BEING MADE. The
+        # count is of exterior doors the PLACEMENT seated and this rule then declined to give a
+        # stoop; under the search the centre passage's own exterior door is not seated at all
+        # (`test_appendages.py` reports it undrawable), so it never reaches this rule. The two
+        # that do are the kitchen's -- on the S ENTRANCE face, a service door, which is the case
+        # the next test drives by hand -- and the back hall's on the N.
+        self.assertEqual(len(named), 2, "two seated exterior doors besides the entrance, two refusals")
         for u in th["unplaced"]:
             self.assertTrue(u.get("reason"), "a refusal that does not say why is a silence")
             self.assertTrue(u.get("rule"), "a refusal must name the rule refusing it")
@@ -83,12 +67,12 @@ class TestTheStoop(unittest.TestCase):
         front; CP-SAT puts the KITCHEN's there too, legal by the record and a service door on
         the entrance front all the same. A door carries no `rank` on any record in this
         corpus, so the room's own `function_class` is the discriminator."""
-        pl = _proved()
-        if pl is None:
-            return              # COULD NOT EVALUATE without a proof, and not a pass
+        pl = _placed()
         C_ = C
-        # the search engine's placement does not put a service door on the S front, so the
-        # branch is exercised on a record that does: the kitchen's own north door, moved.
+        # DRIVEN, AND SINCE WP-11.17 THE SHIPPED PLACEMENT ALSO REACHES IT. The search now seats
+        # the kitchen's own exterior door on the S ENTRANCE face unaided, so the branch is live
+        # on the corpus; the hand-moved door is KEPT because a test whose subject exists only
+        # while one placement happens to produce it goes quiet the next time the placer moves.
         for lv in pl["levels"][:1]:
             for r in lv["rooms"]:
                 if r["id"] == "kitchen":
@@ -102,41 +86,45 @@ class TestTheStoop(unittest.TestCase):
         self.assertEqual([st["room"] for st in out["steps"]], ["porch"],
                          "the porch keeps its stoop and the kitchen does not get one")
 
-    def test_THE_SEARCH_LOSES_THE_ENTRANCE_AND_THAT_IS_A_MEASURED_COST(self):
-        """WP-11.16, and it is pinned here so it cannot go quiet.
+    def test_STATING_THE_FRONT_COSTS_THE_HYPHEN_ITS_STRIP_AND_THAT_IS_A_MEASURED_COST(self):
+        """RE-POINTED AT WP-11.17, WHICH IS WHAT ITS OWN ASSERTION MESSAGE ASKED FOR.
 
-        Tagging `plans/tidewater-georgian-careful.json`'s service programme into a west
-        dependency costs the SEARCH its entrance and costs the PROVER nothing:
+        This pinned WP-11.16's finding that tagging this record cost the SEARCH its entrance --
+        porch at (32.07, 31.51) on the rear wall under the hill-climb against (31.0, 0.0) under
+        CP -- and said, in as many words, that if the search ever gave the flight to the porch
+        again the open question had been answered and this test should be re-pointed at whatever
+        the search gets wrong next rather than deleted. WP-11.17 answered it and this is that.
 
-            engine="cp"          porch at (31.0, 0.0)    flight -> `porch`
-            engine="heuristic"   porch at (32.07, 31.51) flight -> `passage`
+        WHAT THE SEARCH GETS WRONG NEXT IS THE OTHER ANCHOR. `geometry`'s candidate loop takes
+        the FIRST anchor that lays and the entrance is laid first, so on this record the W hyphen
+        anchor -- the butler's pantry, pulled onto the main block's shared face for its door into
+        the back hall -- is pre-empted. Measured on it, doors the placement cannot draw:
 
-        The threshold layer is BEHAVING in both: it hands the flight to whichever room the
-        entrance door is really in, and under the hill-climb that door is on the rear wall. This
-        is the same defect `test_composition.py`'s entry-porch and service-room tests pin, seen
-        from the threshold layer -- one house drawn back to front, not three separate faults.
+            hyphen anchor alone      12      the house drawn back to front
+            neither                  18
+            entrance anchor alone    23      the entrance right, `unreachable: butlers` a fatal
 
-        RULED 15 SEP 2026: name it, do not fix it. Repairing the search is a placement change
-        with a corpus-wide blast radius, and WP-11.16's subject is a record edit -- a package
-        that does two things can only be reasoned about as one.
-        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`.
-
-        WP-11.16's OWN REPORT RECORDED THIS AS "did not reproduce". That was measured on CP and
-        published with no engine named, which this corpus already records as a trap that costs
-        two numbers. It reproduces on the search.
+        Three ways of holding both were built, measured and reverted; `geometry._partial_flank`'s
+        docstring carries the numbers and the reasons. The trade is the corpus's own arbiter's:
+        serious 60 -> 55 and minor 111 -> 105 against that one new fatal.
+        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` records the residue.
         """
         pl = _placed()
         st = pl["threshold"]["steps"][0]
-        self.assertEqual(
-            st["room"], "passage",
-            "the SEARCH now gives the flight to the entry porch again. That is good news: it "
-            "means `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has been "
-            "answered, so close it and make `_proved()`'s four callers unconditional -- do not "
-            "delete this test, re-point it at whatever the search gets wrong next.")
+        self.assertEqual(st["room"], "porch",
+                         "the search has stopped holding the entrance front; WP-11.17 states it")
         porch = next(r for lv in pl["levels"] for r in lv["rooms"] if r["id"] == "porch")
-        self.assertGreater(
-            porch["geometry"]["y_ft"], 0.6,
-            "the entry porch is on the entrance wall under the search; see above")
+        self.assertLessEqual(porch["geometry"]["y_ft"], 0.6)
+
+        # THE COST, pinned so it cannot go quiet: the butler's pantry cannot be reached.
+        unreach = [f for f in PC.check(pl)["findings"]
+                   if f.get("kind") == "unreachable" and f.get("room") == "butlers"]
+        self.assertEqual(
+            len(unreach), 1,
+            "the butler's pantry is reachable again. That is good news and it means the two "
+            "anchors no longer compete -- say which of the three reverted approaches was made "
+            "to work, and re-point this test at whatever the search gets wrong next rather "
+            "than deleting it.")
 
     def test_the_flight_is_outside_the_block_and_never_inside_a_room(self):
         pl = _placed()
@@ -163,17 +151,13 @@ class TestTheStoop(unittest.TestCase):
         """The record's own reading: an entry-porch room IS the raised platform, already
         placed and dimensioned. Drawing a second one in front of it puts two thresholds on
         one house."""
-        pl = _proved()
-        if pl is None:
-            return              # COULD NOT EVALUATE without a proof, and not a pass
+        pl = _placed()
         st = pl["threshold"]["steps"][0]
         self.assertTrue(st["platform_is_the_room"])
         self.assertNotIn("platform", st)
 
     def test_the_flight_is_centred_on_the_door_and_clamped_to_the_room_behind_it(self):
-        pl = _proved()
-        if pl is None:
-            return              # COULD NOT EVALUATE without a proof, and not a pass
+        pl = _placed()
         st = pl["threshold"]["steps"][0]
         f = st["flight"]
         porch = next(r for lv in pl["levels"] for r in lv["rooms"] if r["id"] == "porch")

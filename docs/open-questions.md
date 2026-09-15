@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**181 questions, of which 88 are open.** A question is OPEN while
+**181 questions, of which 87 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 88
+## Open — 87
 
 Awaiting a ruling. This is the list to read first.
 
@@ -113,7 +113,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-placement-carries-no-wall-bands** | OPEN | [the rooms tile the footprint exactly, so the walls are drawn where no room allows for them](open-questions/oq-the-placement-carries-no-wall-bands.md) |
 | **oq/the-placer-places-two-levels-and-says-nothing-about-the-third** | OPEN | [a declared storey came back with no geometry, no finding and no note](open-questions/oq-the-placer-places-two-levels-and-says-nothing-about-the-third.md) |
 | **oq/the-raw-kit-read** | OPEN | [six places read a node's own kit file where the corpus's answer lives in its cascade](open-questions/oq-the-raw-kit-read.md) |
-| **oq/the-search-loses-the-entrance-front-on-a-multi-element-plan** | OPEN | [the hill-climb draws the tagged Tidewater back to front](open-questions/oq-the-search-loses-the-entrance-front-on-a-multi-element-plan.md) |
 | **oq/the-servicing-layer-does-not-know-about-massing-elements** | OPEN | [a wet pair across a 27 ft gap](open-questions/oq-the-servicing-layer-does-not-know-about-massing-elements.md) |
 | **oq/the-span-count-and-the-span-marks-read-membership-two-ways** | OPEN | [one record, two answers to "which element is this room in"](open-questions/oq-the-span-count-and-the-span-marks-read-membership-two-ways.md) |
 | **oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left** | OPEN | [a terrace on the east of a west wing](open-questions/oq-the-terraces-declared-faces-were-written-for-a-house-its-room-has-left.md) |
@@ -121,7 +120,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 93
+## Settled — 94
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -218,5 +217,6 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **oq/the-proportion-band-forbids-the-square** | RULED 3 Sep 2026 | [29 room types may not be square, and the square is what the tradition was aiming at](open-questions/oq-the-proportion-band-forbids-the-square.md) |
 | **oq/the-proving-engine-cannot-place-a-second-massing-element** | CLOSED 7 September 2026 (WP-11.11) | [the tag that costs a plan its proof](open-questions/oq-the-proving-engine-cannot-place-a-second-massing-element.md) |
 | **oq/the-revision-loops-authority-over-topology** | RULED 1 Sep 2026 | [what the generator may change when the critic tells it to](open-questions/oq-the-revision-loops-authority-over-topology.md) |
+| **oq/the-search-loses-the-entrance-front-on-a-multi-element-plan** | CLOSED | [the hill-climb draws the tagged Tidewater back to front](open-questions/oq-the-search-loses-the-entrance-front-on-a-multi-element-plan.md) |
 | **oq/the-stair-run-is-spelled-three-times** | CLOSED 2 Sep 2026 | [16, 17 and 21 risers for one house, and the section draws the third](open-questions/oq-the-stair-run-is-spelled-three-times.md) |
 | **oq/three-hard-room-rules-forbid-a-detached-kitchen** | RULED 5 Sep 2026 | [the room records assume one rectangle](open-questions/oq-three-hard-room-rules-forbid-a-detached-kitchen.md) |

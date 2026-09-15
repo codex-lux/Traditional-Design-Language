@@ -139,19 +139,41 @@ class TestItReportsAndNeverWrites:
         `cl2` (1 bay, 0 declared) and `chamber3` (agrees). The property the control asserts is
         that BOTH STATES REALLY OCCUR on this plan -- at least one room with front-wall bays
         declaring no window, and at least one that agrees -- which is what makes the test above
-        non-vacuous. Pinning the room ids asserted a placement instead."""
+        non-vacuous. Pinning the room ids asserted a placement instead.
+
+        AND THE SILENT STATE RAN OUT AT WP-11.17, SO IT IS DRIVEN. Stating the entrance front
+        re-places this house and its upper front is now `upperpassage` (2 bays, 1 declared),
+        `primary` (2 bays, 2) and `chamber3` (1 bay, 2) -- every one of them declares glass, so
+        there is no room on this placement with front-wall bays and nothing declared. That is
+        the corpus improving and the control losing its specimen at the same time, which is the
+        shape this file already records one test below. Waiting for the corpus to produce it
+        again is what makes a control go quiet, so the state is stated: one judged room's
+        declared window count is zeroed by hand, and the OTHER rooms are asserted untouched so
+        the drive cannot be mistaken for the reading collapsing."""
+        import copy
         d = FA.room_front_bays(tidewater, 1)
         assert d["verdict"] == "read"
         judged = [x for x in d["rooms"] if not x["spans_no_bay"]]
         assert judged, "no upper room spans a bay at all; the control cannot run"
-        silent = [x for x in judged if x["bays"] and x["declares"] == 0]
-        assert silent, (
-            "no upper room has front-wall bays and no declared window, so the test above "
-            f"passes vacuously: {[(x['room'], x['bays'], x['declares']) for x in judged]}")
-        assert all(x["agrees"] is False for x in silent), silent
-        # ...and a room that agrees, so the reading is not simply convicting everything
+        # ...a room that agrees, so the reading is not simply convicting everything
         assert [x for x in judged if x["agrees"] is True], (
             f"every judged room disagrees, which reads as a broken instrument: {judged}")
+
+        victim = sorted(x["room"] for x in judged if x["bays"])[0]
+        q = copy.deepcopy(tidewater)
+        for lv in q["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == victim:
+                    r["windows"] = []
+        d2 = FA.room_front_bays(q, 1)
+        silent = [x for x in d2["rooms"] if x["bays"] and x["declares"] == 0]
+        assert [x["room"] for x in silent] == [victim], (
+            f"zeroing {victim}'s declared glass did not produce the silent state the test "
+            f"above reads: {[(x['room'], x['bays'], x['declares']) for x in d2['rooms']]}")
+        assert all(x["agrees"] is False for x in silent), silent
+        assert [x for x in d2["rooms"] if x["room"] != victim and x["agrees"] is True], (
+            f"the untouched rooms stopped agreeing too, so this is the reading moving rather "
+            f"than one room's record: {d2['rooms']}")
 
     def test_a_room_spanning_NO_bay_is_its_own_state_and_not_an_agreement(self, tidewater):
         """`wants 0, declares 0, agrees` would be a trivial pass hiding a room whose front wall
@@ -163,6 +185,13 @@ class TestItReportsAndNeverWrites:
         four of its remaining ground-front rooms span at least one -- so `none_` came back empty
         and the loop below had nothing to run.
 
+        AND WP-11.17 SHOWED THAT NAMING THE DRIVEN ROOM IS THE SAME MISTAKE ONE STEP LATER. It
+        named `butlers`, and stating the entrance front takes that room OFF the front entirely
+        (it is drawn at x 28.5, y 27.0, the rear), so moving it changed nothing and `none_` was
+        empty again. The room to drive is chosen FROM THE READING -- whichever ground-front room
+        currently spans the fewest bays -- so the test states its case on whatever the placer
+        produces rather than on a room that happens to be where it was.
+
         DELETING THE `assert none_` WAS THE AVAILABLE REPAIR AND IS THE WRONG ONE: the loop is
         `for x in none_`, so an empty list makes every assertion in this test vacuously true and
         it would stay green on a corpus with no example at all. A state that exists only when
@@ -171,22 +200,28 @@ class TestItReportsAndNeverWrites:
         is FOR, and the untouched rooms are asserted alongside so the move cannot be mistaken
         for the rhythm collapsing."""
         import copy
+        d0 = FA.room_front_bays(tidewater, 0)
+        assert not [x for x in d0["rooms"] if x["spans_no_bay"]], (
+            "a ground-front room already spans no bay, so the drive below is not the only way "
+            f"into this state and the assertion after it is not about the drive: {d0['rooms']}")
+        victim = sorted((len(x["bays"]), x["room"]) for x in d0["rooms"] if x["bays"])[0][1]
         q = copy.deepcopy(tidewater)
         for lv in q["levels"]:
             for r in lv["rooms"]:
-                if r["id"] == "butlers" and r.get("geometry"):
+                if r["id"] == victim and r.get("geometry"):
                     r["geometry"]["x_ft"] = -20.0
                     r["geometry"]["width_ft"] = 4.0
         d = FA.room_front_bays(q, 0)
         none_ = [x for x in d["rooms"] if x["spans_no_bay"]]
-        assert [x["room"] for x in none_] == ["butlers"], [x["room"] for x in d["rooms"]]
-        # the control: the other three front rooms are untouched and still span their bays, so
+        assert [x["room"] for x in none_] == [victim], [x["room"] for x in d["rooms"]]
+        # the control: the other front rooms are untouched and still span their bays, so
         # this is one room moved off the facade and not the rhythm failing to derive
-        assert all(x["bays"] for x in d["rooms"] if x["room"] != "butlers"), d["rooms"]
+        assert all(x["bays"] for x in d["rooms"] if x["room"] != victim), d["rooms"]
         for x in none_:
             assert x["agrees"] is None and x["bays"] == [], x
         assert all(x["room"] not in {y["room"] for y in d["disagreements"]} or x["agrees"] is False
                    for x in none_)
+
 
     def test_an_empty_bay_is_reported_and_never_filled(self, tidewater):
         c = FA.compare(tidewater, 0)

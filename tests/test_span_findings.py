@@ -99,7 +99,19 @@ def test_the_record_names_every_over_capacity_span_and_the_count_still_agrees():
 # placement digest in tests/test_appendages.py). The worst is unchanged at 60.0 ft and is on
 # another plan entirely -- the Tidewater's own worst FELL, 45.0 against a 63.0 ft run under CP
 # before the tag. The 20 ft capacity and `bearing_lines`' 0.75 ft tolerance are untouched.
-CORPUS_SPANS = 27
+# 25 AT WP-11.17, from 27, AND IT IS AN IMPROVEMENT ON FOUR PLANS AND A COST ON ONE. Stating
+# the entrance front re-places the six plans whose records decide where the entrance is, and the
+# only way this slicer creates a bearing line is to cut on the bay grid -- so the anchor's cuts
+# move the count. Re-derived per plan against the parent commit:
+#
+#     good-01  2 -> 1   worst 40.00 -> 30.00        good-03  2 -> 0   worst 40.26 -> 0.00
+#     good-04  1 -> 2   worst 40.00 -> 37.06        good-07  1 -> 1   worst 40.00 -> 30.00
+#
+# `spec-builder-colonial` and `tidewater-georgian-careful` hold at 4 each and the other ten
+# plans are unmoved. The corpus WORST is unchanged at 60.0 ft and is on a plan the anchor does
+# not reach. `good-04` is the one that got worse and is stated rather than netted off. The 20 ft
+# capacity and `bearing_lines`' 0.75 ft tolerance are untouched.
+CORPUS_SPANS = 25
 CORPUS_WORST_FT = 60.0
 
 
@@ -124,10 +136,12 @@ def test_the_charge_and_the_count_are_summed_from_the_same_list():
     # worst 60.0 -> 35.5 ft. The merged placement is neither parent's. RE-DERIVED AGAIN at
     # WP-11.16, which tagged this plan: 3 / 90.0 -> 4 / 130.5, worst 35.5 -> 45.0. A wing is a
     # second mass with its own floor to span, so a span count that did not move would have been
-    # the surprise. What this test is for -- the charge and the count come from ONE list, so
-    # they cannot disagree -- is asserted by the source check above and by the arithmetic
-    # below, both unchanged.
-    assert sc["over_capacity"] == 4 and sc["charge"] == 130.5
+    # the surprise. AND AGAIN AT WP-11.17, where the COUNT holds at 4 and the CHARGE falls
+    # 130.5 -> 119.7: the entrance anchor re-places this ground floor, the same four runs are
+    # over capacity and each of them is shorter. That the count can hold while the charge moves
+    # is the thing this test is about -- both come from ONE list, so they move together or not
+    # at all, and here the list's length held while its contents shortened.
+    assert sc["over_capacity"] == 4 and sc["charge"] == 119.7
 
 
 # --------------------------------------------------------------- the critic says it

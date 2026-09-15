@@ -214,22 +214,25 @@ class TestTheCriticReadsIt:
         """It was the whole west bay of a six-bay house when the diagnosis was written. The
         odd bay count and the diagram's own module put it on the centre line.
 
-        SPLIT BY ENGINE AT WP-11.16, AND THE SPLIT IS THE FINDING. Tagging this record's service
-        programme into a west dependency costs the SEARCH its axis and costs the PROVER nothing:
+        SPLIT BY ENGINE AT WP-11.16, AND WP-11.17 CHANGED WHICH STATE THE SEARCH IS IN WITHOUT
+        FOLDING THE SPLIT BACK. Tagging this record's service programme into a west dependency
+        cost the search its axis: `on-centre` under CP against `off-centre` under the hill-climb.
+        Stating the entrance front takes the search to **`could-not-evaluate`**, and that is a
+        DIFFERENT state rather than a worse one, with a cause worth knowing:
 
-            engine="cp"          spine on-centre
-            engine="heuristic"   spine off-centre
+            engine="cp"          spine on-centre        passage (21, 0, 10, 37)
+            engine="heuristic"   spine could-not-evaluate  passage (16.5, 6.0, 12, 23.87)
 
-        The claim is therefore asserted on the engine that DRAWS -- `corpus._placed()` solves on
-        `auto`, which takes the proof -- and the search's failure is pinned beside it BY NAME
-        rather than left out. Re-pinning this to "off-centre" was the available repair and would
-        have inverted a test that asserts a correct entrance axis into one asserting the broken
-        one; a green suite would then be evidence for the defect.
+        The passage is drawn directly BEHIND ITS OWN PORCH, which is the sequence this record
+        describes, and therefore no longer spans S to N -- so the axis reader has no spine to
+        measure and says so. **THE PLACER TILES THE FOOTPRINT EXACTLY**, so a porch standing on
+        the S wall takes that stretch of wall from whatever is behind it; in a real Georgian
+        house the portico projects in FRONT of the block and the passage runs from its own front
+        door to its own back one. That is the same question
+        `oq/an-at-grade-appendage-is-drawn-and-not-judged` asks about the terrace, one room over.
 
-        RULED 15 SEP 2026: name it, do not fix it. Why the search drops the axis once the plan
-        has a second element is `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`,
-        and it is not repaired here -- that is a placement change with a corpus-wide blast
-        radius, and this package's subject is a record edit.
+        `could-not-evaluate` IS NOT A PASS and the assertion below says which state it expects,
+        so a search that silently started reading `off-centre` again would fail here too.
 
         IT IS NOT RE-POINTED ONTO `auto`, WHICH WOULD BE OQ 71's ERROR: CP under a wall clock is
         not reproducible in general. `engine="cp"` is asked for by name and the test reports
@@ -244,15 +247,15 @@ class TestTheCriticReadsIt:
             "the proving engine no longer draws the centre passage on the block's centre line, "
             "which is the defect the whole axis vocabulary was written for")
 
-        # THE SEARCH'S COST, PINNED SO IT CANNOT GO QUIET. This is a measured consequence of the
-        # WP-11.16 tagging and not a thing anybody wants: if it ever reads `on-centre` the
-        # search has been repaired and the open question above should be closed, not this line
-        # deleted.
+        # THE SEARCH'S COST, PINNED SO IT CANNOT GO QUIET. A measured consequence of the
+        # WP-11.16 tagging and the WP-11.17 anchor together, and not a thing anybody wants: if it
+        # ever reads `on-centre` the search draws the spine too and this folds back into the
+        # assertion above. `off-centre` would be a REGRESSION and not a restoration -- it would
+        # mean the passage had gone back to spanning a front its own porch no longer stands on.
         _, c = checked
-        assert c["drawn_summary"]["axis"]["spine"] == "off-centre", (
-            "the SEARCH now draws the passage on centre too. That is good news and it means "
-            "`oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has been answered "
-            "-- close it and fold this assertion back into the one above.")
+        assert c["drawn_summary"]["axis"]["spine"] == "could-not-evaluate", (
+            "the SEARCH's spine verdict moved. `on-centre` is good news -- fold this back into "
+            "the assertion above and say what did it. `off-centre` is not: read the docstring.")
 
     def test_the_door_is_named_when_it_misses_the_middle_bay(self, checked):
         _, c = checked

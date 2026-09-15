@@ -93,7 +93,13 @@ class TestSolveSmoke:
         # holding fewer rooms has fewer cuts to take off the grid in the first place. It is the
         # same quantity as `test_measurement_honesty`'s and `test_site`'s and the three must
         # move together.
-        assert report["relaxations"]["count"] == 5
+        # AND 5 -> 6 AT WP-11.17, WHICH STATES THE ENTRANCE FRONT. The entry porch is placed
+        # against the S face as an anchor rather than left to the guillotine, so the cuts the
+        # slicer is free to choose are the ones behind it -- one more of them lands off the bay
+        # grid. MORE IS THE WORSE DIRECTION and it is reported rather than netted off against
+        # what the package buys (serious 60 -> 55, minor 111 -> 105 on this record). All three
+        # copies of this number moved together, which is what the sentence above asks of them.
+        assert report["relaxations"]["count"] == 6
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]

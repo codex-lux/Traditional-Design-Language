@@ -285,7 +285,15 @@ class TestStructureIsPerElement:
         # placement, so the worst span on this fixture is neither parent's. What the line
         # is for -- the span is OVER the 20 ft capacity and therefore judged -- is
         # unchanged, and the capacity itself is untouched.
-        assert round(max(s["span_ft"] for s in over), 2) == 35.5
+        # AND AGAIN AT WP-11.17: 35.5 -> 54.0 ft, ON THIS FIXTURE AND NOT ON THE SHIPPED PLAN.
+        # `_shipped_untagged()` strips the tags, so this is the Tidewater record as ONE
+        # rectangle -- 63 x 38.17 -- and the entrance anchor lays its porch on that 63 ft front,
+        # which moves where the slicer is free to cut and takes one bay module off the grid.
+        # The SHIPPED (tagged) record's worst span FELL over the same package, 45.0 -> 45.0 with
+        # its four runs all shorter (`tests/test_span_findings.py` carries the charge, 130.5 ->
+        # 119.7), and the corpus worst is unchanged at 60.0 ft on a plan the anchor does not
+        # reach. The 20 ft capacity and `bearing_lines`' 0.75 ft tolerance are untouched.
+        assert round(max(s["span_ft"] for s in over), 2) == 54.0
 
 
 def _forced(placed):
@@ -515,9 +523,24 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 #     layer called those two a wet pair, and on the TAGGED record that is a shared
                 #     plumbing chase between two detached buildings 27 ft apart.
                 #     `oq/the-servicing-layer-does-not-know-about-massing-elements`.
-                ("tidewater-georgian-careful", "ff2d664a8216897f", 212,
+                # RE-DERIVED AT WP-11.17, AND BOTH PLANS MOVED FOR ONE REASON: that package
+                # states the entrance front, and BOTH of these records name an entrance face
+                # and carry a room that declares it, so both are re-placed. 212 -> 205 and
+                # 243 -> 240. Every moved row is in the `drawn` layer -- diffed row by row, 22
+                # in and 29 out on the Tidewater fixture, 3 in and 3 out on the spec Colonial --
+                # and the per-layer histogram below is UNMOVED at 13/18 and 11/17, which is what
+                # says a layer did not go quiet. Old digests: ff2d664a8216897f /
+                # 024fa784786c2469.
+                #
+                # THE TIDEWATER ROW HERE IS THE UNTAGGED FIXTURE AND NOT THE SHIPPED RECORD.
+                # `_shipped_untagged()` gives the anchor a 63 ft front to lay a 12 ft porch on,
+                # which is a different house from the tagged 45 ft one the corpus ships; its
+                # `drawn-entrance-severed` row is a property of that fixture and the shipped
+                # record does not carry one (`tests/test_threshold_pass.py` asserts the flight
+                # goes to the porch there).
+                ("tidewater-georgian-careful", "9ecdca7453819879", 205,
                  {"daylight": 13, "grouping": 18}),
-                ("spec-builder-colonial", "024fa784786c2469", 243,
+                ("spec-builder-colonial", "81ddd6e8555cb1a5", 240,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
@@ -769,16 +792,33 @@ class TestTheLotCapIsOnTheBuiltExtent:
         # the width comes back to 63 and the relaxation count to 7, so the TAGS really are gone,
         # and the score does not, because the `butlers`-`kitchen` door is gone from the record
         # whether or not its rooms carry a `block`. 775.2 -> 761.2 is the door, measured by
-        # stripping. `spec-builder-colonial` is untouched by that package and is unmoved here,
-        # which is the control that says so.
+        # stripping. `spec-builder-colonial` was untouched by that package and unmoved here,
+        # which was the control that said so -- AND IT IS NOT THAT CONTROL ANY MORE. WP-11.17
+        # states the entrance front, that record names one, and its figures move with the
+        # Tidewater's. The ten plans the entrance selector does NOT reach carry the control
+        # now, in `tests/test_elements.py`'s corpus digests.
         for name, score, width, capped in (
-                ("tidewater-georgian-careful", 761.2, 63, False),
-                ("spec-builder-colonial", 830.1, 50.0, True)):
+                # RE-DERIVED AT WP-11.17 for the reason the note beside the other copy of these
+                # figures gives: both records name an entrance face, so the anchor re-places
+                # both and neither is the untouched control it was.
+                ("tidewater-georgian-careful", 864.1, 63, False),
+                ("spec-builder-colonial", 814.4, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
                 else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             g = q["geometry_report"]
+            # AND AT WP-11.17: 761.2 -> 864.1 on this untagged fixture, WHICH IS THE SCORE
+            # RISING WHILE THE FINDINGS FALL. Stating the entrance front is a HARD statement --
+            # the entry porch is placed against the S face before the guillotine runs -- so the
+            # search chooses from a smaller pool and cannot reach the candidate it used to. On
+            # the same fixture `plan_check` reads serious 67 -> 60 and minor 109 -> 108 across
+            # that rise. This corpus already records the inverse shape (a minor count rising
+            # while a house got materially better); READ THE FINDINGS BEFORE QUOTING THE KEY ON
+            # A PLACEMENT CHANGE, in either direction. `spec-builder-colonial` moves too --
+            # 830.1 -> 814.4 -- because its record also names an entrance face, so it is no
+            # longer the untouched control it was for WP-11.16 and its figure is re-derived
+            # rather than carried.
             assert round(g["score"], 1) == score, (name, g["score"])
             assert q["footprint"]["width_ft"] == width, (name, q["footprint"]["width_ft"])
             assert g["lot_capped"] is capped, name
@@ -924,8 +964,21 @@ def _hyphen_fixture(with_hyphen=True):
     re-authoring of `centre-passage-double-pile` that would have exercised it was measured and
     withdrawn -- three of the corpus's own hard room rules refuse it, in three different
     arrangements -- so the placer's half ships with a fixture that drives it rather than with a
-    parti that happens to."""
+    parti that happens to.
+
+    AND IT DROPS `entrance_faces`, WHICH IS THAT SAME RULE MET A SECOND TIME (WP-11.17). This is
+    built from the shipped Tidewater record, so it inherited `"S"` and an entry porch -- and
+    WP-11.17 states the entrance front as an anchor of the same kind, laid FIRST, so the
+    entrance anchor pre-empted the hyphen one and all four tests below stopped exercising the
+    branch they name (`butlers` at x 28.5 instead of 0.00, its door through the hyphen
+    unplaced). That ordering is the WP-11.17 ruling and is correct on a real record: the
+    entrance is the fatal tier. It is wrong HERE, because this fixture's whole subject is the
+    hyphen anchor, and a fixture that inherits whatever the shipped record happens to declare
+    tests whatever that record happens to want. Dropping the field is what makes these four
+    tests about `hyphen_anchors` again; the entrance anchor's own cost is measured on the
+    shipped record, in `tests/test_threshold_pass.py` and the WP-11.17 report."""
     p = _fixture()
+    p.get("context", {}).pop("entrance_faces", None)
     g = p["levels"][0]["rooms"]
     if with_hyphen:
         g.append({"id": "hyphen", "type": "gallery-corridor", "name": "Hyphen",
@@ -1101,10 +1154,13 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         # the width comes back to 63 and the relaxation count to 7, so the TAGS really are gone,
         # and the score does not, because the `butlers`-`kitchen` door is gone from the record
         # whether or not its rooms carry a `block`. 775.2 -> 761.2 is the door, measured by
-        # stripping. `spec-builder-colonial` is untouched by that package and is unmoved here,
-        # which is the control that says so.
-        for name, score, w in (("tidewater-georgian-careful", 761.2, 63),
-                               ("spec-builder-colonial", 830.1, 50.0)):
+        # stripping. `spec-builder-colonial` was untouched by that package and unmoved here,
+        # which was the control that said so -- AND IT IS NOT THAT CONTROL ANY MORE. WP-11.17
+        # states the entrance front, that record names one, and its figures move with the
+        # Tidewater's. The ten plans the entrance selector does NOT reach carry the control
+        # now, in `tests/test_elements.py`'s corpus digests.
+        for name, score, w in (("tidewater-georgian-careful", 864.1, 63),
+                               ("spec-builder-colonial", 814.4, 50.0)):
             GEO._SOLVE_CACHE.clear()
             q = _shipped_untagged() if name == "tidewater-georgian-careful" \
                 else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
@@ -1112,6 +1168,17 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
             fp = GEO.derive_footprint(q, None, prep)
             assert GEO.hyphen_anchors(q, GEO.blocks_for(q, fp, prep, 0), 0) == {}, name
             GEO.solve(q, engine="heuristic")
+            # AND AT WP-11.17: 761.2 -> 864.1 on this untagged fixture, WHICH IS THE SCORE
+            # RISING WHILE THE FINDINGS FALL. Stating the entrance front is a HARD statement --
+            # the entry porch is placed against the S face before the guillotine runs -- so the
+            # search chooses from a smaller pool and cannot reach the candidate it used to. On
+            # the same fixture `plan_check` reads serious 67 -> 60 and minor 109 -> 108 across
+            # that rise. This corpus already records the inverse shape (a minor count rising
+            # while a house got materially better); READ THE FINDINGS BEFORE QUOTING THE KEY ON
+            # A PLACEMENT CHANGE, in either direction. `spec-builder-colonial` moves too --
+            # 830.1 -> 814.4 -- because its record also names an entrance face, so it is no
+            # longer the untouched control it was for WP-11.16 and its figure is re-derived
+            # rather than carried.
             assert round(q["geometry_report"]["score"], 1) == score, (name, q["geometry_report"]["score"])
             assert q["footprint"]["width_ft"] == w, name
 

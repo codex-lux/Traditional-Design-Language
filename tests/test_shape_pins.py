@@ -269,11 +269,30 @@ def test_the_search_draws_fewer_rooms_outside_their_band_than_it_scores_for():
     # THE MESSAGE USED TO SAY "a pinned 28" OVER A TUPLE PINNING 30 -- a stale literal in the
     # very sentence a reader consults when the pin moves. It reads the pin now, so the two
     # cannot drift apart again.
-    _PIN = (28, 219)
+    # 31 AT WP-11.17, UP FROM 28, AND "THE RANKING STOPPED GOVERNING" IS NOT WHAT HAPPENED --
+    # which is why the message below no longer says it in those words. That package states the
+    # entrance front: the room that must stand on it is placed against it before the guillotine
+    # runs, so a whole class of candidate stops being generated. WP-11.8's key is untouched and
+    # still picks the fewest band violations among the candidates that exist; there are simply
+    # fewer of them. THAT IS A REAL COST AND IT IS NOT NETTED OFF.
+    #
+    # Re-derived per plan against the parent commit rather than taken as a total -- NINE rooms
+    # joined and SIX left, over five plans, which a net of +3 hides entirely:
+    #
+    #   joined  good-01 bedroom/kitchen/laundry, good-04 dining/enclosed-porch,
+    #           good-07 guest-bath, spec bed2, tidewater chamber3/hallbath
+    #   left    good-01 dining/library, good-04 entry, good-07 bar, tidewater butlers
+    #
+    # `good-04`'s `entry` is the anchor itself: the room the package places against its own
+    # entrance face is drawn at its declared 6 x 8 and leaves this list. A RISE here that is NOT
+    # accompanied by a change to `geometry`'s candidate acceptance IS the ranking failing, and
+    # that is still what this guard is for.
+    _PIN = (31, 219)
     assert (out, tot) == _PIN, (
         f"the search draws {out} of {tot} rooms outside their own band against a pinned "
         f"{_PIN[0]} of {_PIN[1]}. An improvement is welcome -- lower it here and say what "
-        f"moved. A RISE means the ranking stopped governing.")
+        f"moved. A RISE means either the ranking stopped governing or something new is "
+        f"constraining the pool before it runs; say which, with the per-plan derivation.")
 
 
 def test_the_residual_is_disclosed_on_the_record_by_both_engines():

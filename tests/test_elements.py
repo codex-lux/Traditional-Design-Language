@@ -387,7 +387,16 @@ def test_export_ifc_writes_one_slab_per_element_per_storey():
 #
 # THE SAME QUANTITY IS PINNED IN `tests/test_appendages.py` UNDER THE SAME NAME. Two files, one
 # rule -- they must move together, and they did here.
-CORPUS_PLACEMENT_SHA = "c61e23256e559eb2"
+# AND RE-DERIVED AT WP-11.17, WHERE SIX OF SIXTEEN MOVED AND THE SIX ARE NAMED. That package
+# states the entrance front as an anchor -- the room that must stand on it is placed against it
+# rather than left to a guillotine that does not know the face matters -- and
+# `geometry.entrance_anchors` reaches exactly the plans whose record decides the question:
+# `tidewater-georgian-careful`, `spec-builder-colonial`, `good-01`, `good-03`, `good-04` and
+# `good-07`. Re-derived PER PLAN on a `git worktree` of the parent commit `b6c7773`: those six
+# differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
+# plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
+# evidence the refusal is real rather than a silence.
+CORPUS_PLACEMENT_SHA = "c3621155dc280406"
 # WP-11.10 MOVED THIS ONE ON PURPOSE, and it is the only thing that package moves here.
 # `f7c7430ec31dae3c` -> `770a886c7387f3ab`: the terrace at grade is placed, so the door the
 # record has always declared from a room to its terrace is seated instead of refused, on the
@@ -400,7 +409,11 @@ CORPUS_PLACEMENT_SHA = "c61e23256e559eb2"
 # on exactly one and the openings digest differs on exactly the same one -- the tagged Tidewater.
 # The two moving together is itself the evidence they should: 617 sf of programme left the main
 # block, so the rooms move, and an opening is placed against a wall of the room it is in.
-CORPUS_OPENINGS_SHA = "1cee02960d8f59bd"
+# AND AT WP-11.17, FOR THE SAME SIX PLANS AND FOR THE REASON THE TWO MOVE TOGETHER: an opening
+# is placed against a wall of the room it is in, so a package that re-places six houses moves
+# their openings. Re-derived per plan on the same worktree; the ten unmoved records are unmoved
+# on both digests, which is the pair agreeing rather than a second bump.
+CORPUS_OPENINGS_SHA = "ed97c8f3d2787df0"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

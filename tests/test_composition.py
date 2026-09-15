@@ -165,31 +165,24 @@ class TestSolveIntegration:
     genuine data conflict, not silently forced -- see test_dining_room_front_claim below."""
 
     def test_entrance_portico_lands_on_the_entrance_wall(self, geometry_module):
-        """PLAN-OF-ACTION.md's own acceptance clause, and WP-11.16 SPLIT IT BY ENGINE.
+        """PLAN-OF-ACTION.md's own acceptance clause. WP-11.16 SPLIT IT BY ENGINE AND WP-11.17
+        FOLDED IT BACK, which is the sequence the split's own assertion message asked for.
 
-        Tagging this record's service programme into a west dependency costs the SEARCH its
-        entrance and costs the PROVER nothing. Measured:
+        Tagging this record's service programme into a west dependency cost the SEARCH its
+        entrance and cost the PROVER nothing -- porch at (32.07, 31.51) on the REAR wall under
+        the hill-climb against (31.0, 0.0) on the S front under CP. For one day the clause was
+        therefore asserted on the engine that draws and the search's failure pinned beside it.
 
-            engine="cp"          porch at (31.0, 0.0)   -- the S front, flight goes to `porch`
-            engine="heuristic"   porch at (32.07, 31.51) -- the REAR wall, flight to `passage`
+        WP-11.17 STATES THE FRONT rather than charging for it: the entry porch is the room
+        `geometry.entrance_anchors` names, and `_partial_flank` gives it a rectangle of its own
+        declared area on the entrance face before the guillotine runs. So both engines hold the
+        clause and there is one assertion again. Measured over 250 candidates on this record,
+        porch-on-the-entrance-front went from **0 of 250 to 250 of 250**, and the porch is drawn
+        at exactly its declared 12.00 x 6.00.
 
-        So the acceptance clause is asserted on the engine that DRAWS the sheet -- `auto` takes
-        the proof -- and the search's failure is pinned beside it by name. Relaxing the 0.6 ft
-        tolerance was the available repair and would have made this test vacuous while hiding
-        the regression outright; re-pointing it at `passage` would have made it assert the
-        broken sequence as correct.
-
-        RULED 15 SEP 2026: name it, do not fix it. Why the search stops holding the porch on the
-        entrance front once the plan has a second element is
-        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`. Repairing it is a
-        placement change with a corpus-wide blast radius and this package's subject is a record
-        edit -- a package that does two things can only be reasoned about as one.
-
-        AND WP-11.16's OWN REPORT GOT THIS WRONG, which is the reason to state both engines
-        here. It listed "severed entrance sequence -- predicted -- did not reproduce". That was
-        measured on CP alone and published without the engine named; on the search it reproduces
-        exactly as predicted. An unlabelled engine figure is a trap this file's own corpus
-        records, and this is it.
+        THE TOLERANCE STAYS AT 0.6 ft. Relaxing it was the available repair while this was
+        broken and would have made the test vacuous; it is not needed now (`y_ft` is 0.0 on the
+        search and 0.0 on the proof) and loosening it later would hide the next regression.
         """
         plan = load_plan("tidewater-georgian-careful")
         assert plan["context"]["entrance_faces"] == "S"
@@ -199,17 +192,17 @@ class TestSolveIntegration:
             pr = next(r for lv in proved["levels"] for r in lv["rooms"] if r["id"] == "porch")
             assert pr["geometry"]["y_ft"] <= 0.6, (
                 f"the PROVING engine no longer lands the entry porch on the S (entrance) wall: "
-                f"{pr['geometry']}. That is the acceptance clause failing on the engine that "
-                f"draws the sheet, and it is a defect rather than a cost.")
+                f"{pr['geometry']}.")
         # else: COULD NOT EVALUATE without a proof, and not a pass
 
         result = geometry_module.solve(plan, engine="heuristic")
         porch = next(r for lv in result["levels"] for r in lv["rooms"] if r["id"] == "porch")
-        assert porch["geometry"]["y_ft"] > 0.6, (
-            "the SEARCH now lands the entry porch on the entrance wall too. That is good news "
-            "and it means `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has "
-            "been answered -- close it and fold this back into one unconditional assertion, "
-            "rather than deleting this line.")
+        assert porch["geometry"]["y_ft"] <= 0.6, (
+            f"the SEARCH no longer lands the entry porch on the S (entrance) wall: "
+            f"{porch['geometry']}. WP-11.17 states that front as an anchor, so this is a "
+            "regression in `geometry.entrance_anchors` or `_partial_flank` rather than a cost "
+            "to be re-pinned -- and check the CENSUS, not this winner: a winner can be right "
+            "by the luck of one draw.")
 
     def test_service_rooms_land_toward_the_rear(self, geometry_module):
         """THE SUBJECT DISSOLVED AT WP-11.16 AND THE TEST IS RE-STATED RATHER THAN RE-PINNED.
@@ -230,15 +223,23 @@ class TestSolveIntegration:
         asserted against the whole built extent rather than against one rectangle, which is the
         same correction WP-11.9 made to six other layers.
 
-        AND THE RE-STATED CLAUSE IS SPLIT BY ENGINE FOR THE SAME REASON AS THE PORCH ABOVE, AND
-        BY THE SAME CAUSE. Measured on the tagged record:
+        THE CLAUSE IS SPLIT BY ENGINE AND WP-11.17 CHANGED WHY. It was split because the search
+        drew this house back to front -- porch on the rear wall, service in front of the
+        principal rooms -- and the entry-porch test above was split for the same cause. That
+        cause is gone: the porch is on its declared S front on both engines now. The kitchen and
+        the pantry are still drawn on the entrance half under the search (mid 15.92 of a 37.24 ft
+        depth, against 24.92 and 25.36 under the proof), and the reason is a different defect
+        that WP-11.17 measured and did not fix:
 
-            engine="cp"          porch mid 3.00, kitchen 24.92, pantry 25.36 -- correct
-            engine="heuristic"   porch mid 34.38, kitchen 15.92, pantry 15.92 -- reversed
-
-        The search draws this house BACK TO FRONT: the entrance on the rear wall and the service
-        programme in front of the principal rooms. That is one defect wearing two names, and it
-        is the same one the entry-porch test above pins.
+        **`principal_and_service_score` MEASURES A WING ROOM AGAINST THE MAIN BLOCK.** It is
+        handed the footprint's own `W`/`H` and no per-element `bounds`, so a dependency room at
+        x = -34 satisfies `_touches_wall(..., "W", ...)` -- `x <= 0.6` -- and can satisfy N, S or
+        E for no placement whatever. Each service room is therefore charged a flat 2.0 for "not
+        at the rear" and the 3.0 for *service ON the front* CAN NEVER FIRE. The term has nothing
+        to say about where the service programme sits once it is in a wing, which is exactly this
+        record. `geometry_cp._score` states the asymmetry deliberately (*"they measure the main
+        block"*), so giving these scorers `bounds=` is its own package --
+        `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`.
         """
         def _rear(result, rid):
             rooms = {r["id"]: r for lv in result["levels"] for r in lv["rooms"]}
@@ -262,9 +263,9 @@ class TestSolveIntegration:
                                        engine="heuristic")
         assert not _rear(result, "kitchen")[0], (
             "the SEARCH now draws the kitchen behind the principal rooms too. That is good news "
-            "and it means `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has "
-            "been answered -- close it and make both branches above unconditional, rather than "
-            "deleting this line.")
+            "and it means `principal_and_service_score` has been given per-element `bounds` (or "
+            "something else has done the same work) -- make both branches above unconditional "
+            "and say what moved, rather than deleting this line.")
 
     def test_relaxations_do_not_increase_by_more_than_two_over_the_pre_wp22_baseline(self, geometry_module):
         """PLAN-OF-ACTION.md's own acceptance wording. The pre-WP-2.2 baseline (also
@@ -285,19 +286,38 @@ class TestSolveIntegration:
         principal_and_service_score's much softer 3.5-point front preference).
 
         This test pins the conflict itself, so it is a visible, deliberate finding rather than
-        a silently-missed acceptance clause: dining-room lands at the rear because its own
-        record says to, and the fix, if one is wanted, is a data decision on the reference
-        plan (or the acceptance text), not a solver change -- see docs/geometry.md, 'What was
-        deliberately not done.'"""
+        a silently-missed acceptance clause: dining-room lands on a wall its own record names,
+        and the fix, if one is wanted, is a data decision on the reference plan (or the
+        acceptance text), not a solver change -- see docs/geometry.md, 'What was
+        deliberately not done.'
+
+        RE-CUT AT WP-11.17, BECAUSE THE ASSERTION WAS A PROXY AND THE PROXY BROKE WHILE ITS
+        SUBJECT HELD. It read `y_ft + depth/2 > H/2` -- *rear-of-centre* -- which is a test of
+        N-ness, and this room declares **N and W**. Stating the entrance front re-places the
+        ground floor and the dining room now takes its **W** wall instead of its N one: drawn
+        (0.0, 0.0, 16.5, 18.0) against (4.95, 20.6, 18, 16.64) before, one declared wall reached
+        in each case. So the room is still honouring its own record over the front preference,
+        and the old line would have called that a failure.
+
+        MEASURED CORPUS-WIDE SO THE RE-CUT IS NOT A LOOSENING: across all sixteen plans, 170
+        declared `exterior_walls` and **67 not reached, before and after** -- the anchor costs
+        the corpus none of them. What is asserted is the property the docstring above states.
+        """
         plan = load_plan("tidewater-georgian-careful")
         dining = next(r for lv in plan["levels"] for r in lv["rooms"] if r["id"] == "dining")
         assert set(dining.get("exterior_walls") or []) == {"N", "W"}
         result = geometry_module.solve(plan, engine="heuristic")
         rooms_by_id = {r["id"]: r for lv in result["levels"] for r in lv["rooms"]}
         g = rooms_by_id["dining"]["geometry"]
-        H = result["footprint"]["depth_ft"]
-        assert g["y_ft"] + g["depth_ft"] / 2 > H / 2, \
-            "dining lands rear-of-centre, honouring its own declared exterior_walls over the front preference"
+        W_, H = result["footprint"]["width_ft"], result["footprint"]["depth_ft"]
+        rect = (g["x_ft"], g["y_ft"], g["width_ft"], g["depth_ft"])
+        reached = [w for w in ("N", "W") if geometry_module._touches_wall(rect, w, W_, H)]
+        assert reached, (
+            f"the dining room is drawn clear of BOTH walls its own record declares: {g}. Its "
+            "`exterior_walls` are authoritative over every compositional preference in this "
+            "package by design -- `exterior_score` charges 14 per missing wall against "
+            "`principal_and_service_score`'s 3.5 -- so this is that ordering failing, not a "
+            "number to re-pin.")
 
 
 class TestDoorSwingsRender:

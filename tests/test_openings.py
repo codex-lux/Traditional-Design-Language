@@ -361,8 +361,14 @@ def test_drawn_and_declared_sizes_are_reconciled_or_reported():
 #
 # THIS LIST MAY ONLY SHRINK. An empty list for a plan means the guarantee holds for it
 # outright, which is what fifteen of sixteen records still do.
+# EMPTIED AT WP-11.17, WHICH IS THE DIRECTION THE ASSERTION BELOW CALLS GOOD NEWS. The entry
+# was the Principal Bath's shower with bench, refused because the tagging left that room 99 sf
+# against a declared 140 and no wall with a clear 3.5 x 5.0 ft run. Stating the entrance front
+# re-places the ground floor and the bath comes back to a shape that holds all four fixtures.
+# IT IS EMPTIED RATHER THAN LOOSENED: `<= 1` would say nothing about WHICH fixture and the next
+# refusal would hide behind this one, which is why the list names items and may only shrink.
 KNOWN_REFUSALS = {
-    "tidewater-georgian-careful": [("primarybath", "shower with bench")],
+    "tidewater-georgian-careful": [],
     "spec-builder-colonial": [],
 }
 

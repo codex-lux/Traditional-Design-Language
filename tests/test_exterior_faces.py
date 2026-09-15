@@ -235,7 +235,16 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # sixteen rendered sheets, exactly ONE differs and it is the tagged plan. The sentence below
 # -- that WP-11.14 is the identity on a one-rectangle house -- is still the guarantee for the
 # fifteen; the sixteenth is not one rectangle any more.
-CORPUS_SHEET_SHA = "d148650a79e3a5d1"
+# AND RE-DERIVED AT WP-11.17, WHERE SIX OF SIXTEEN MOVED AND THE SIX ARE NAMED. That package
+# states the entrance front as an anchor -- the room that must stand on it is placed against it
+# rather than left to a guillotine that does not know the face matters -- and
+# `geometry.entrance_anchors` reaches exactly the plans whose record decides the question:
+# `tidewater-georgian-careful`, `spec-builder-colonial`, `good-01`, `good-03`, `good-04` and
+# `good-07`. Re-derived PER PLAN on a `git worktree` of the parent commit `b6c7773`: those six
+# differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
+# plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
+# evidence the refusal is real rather than a silence.
+CORPUS_SHEET_SHA = "585b5dcd73ed3b2f"
 
 
 @pytest.mark.parametrize("engine", ["heuristic"])

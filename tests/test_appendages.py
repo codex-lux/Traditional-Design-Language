@@ -430,11 +430,16 @@ def test_the_one_cause_of_twenty_seven_fatals_is_named_once_beside_them():
     assert per["good-02-portico-library-house.json"] == 7
     assert per["good-04-rambling-porch-farmhouse.json"] == 10
     assert per["good-07-diamond-plan-house.json"] == 10
-    assert per["tidewater-georgian-careful.json"] == 7, (
+    assert per["tidewater-georgian-careful.json"] == 8, (
         "9 when WP-11.10 measured it and 8 after; 7 at WP-11.16, which tagged the service "
         "programme into a west dependency and cleared `library`. `breakfast` left this list at "
         "WP-11.10 by the reachability ruling and NOT by seating the terrace door, and its "
-        "terrace door is a refusal again -- the room is in the wing now")
+        "terrace door is a refusal again -- the room is in the wing now. 8 AT WP-11.17, AND THE "
+        "ONE THAT RETURNED IS `butlers`: stating the entrance front lays the entry porch as an "
+        "anchor and the caller takes the first anchor that lays, so the W hyphen anchor that "
+        "had been pulling the pantry onto the main block's shared face is pre-empted and its "
+        "two doors stop being drawable. That is the package's stated cost, measured against "
+        "serious 60 -> 55 and minor 111 -> 105 on the same record")
     # and NOT on the Tidewater plan, which has a placed front door as well
     sol = _solved(str(ROOT / "plans" / "tidewater-georgian-careful.json"))
     assert not [f for f in PC.check(sol)["findings"]
@@ -559,7 +564,18 @@ def test_derive_openings_draws_a_door_to_an_appendage_and_refuses_it_without_one
     # fewer undrawable door than they did, and neither names the terrace any more
     # RE-DERIVED AT WP-11.16: the Tidewater count is 6, not 13 -- tagging the service programme
     # into a dependency re-placed every ground room. `good-02` is unmoved at 5.
-    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 6),
+    # AND AT WP-11.17: 6 -> 12, AND THAT IS THE PACKAGE'S LARGEST SINGLE COST. Stating the
+    # entrance front lays the entry porch as an anchor on the S face, and the caller takes the
+    # FIRST anchor that lays -- so the W hyphen anchor that had been pulling the butler's pantry
+    # onto the main block's shared face is pre-empted and the doors through it stop being
+    # drawable. Measured on this record, doors the placement cannot draw: 12 with the hyphen
+    # anchor alone (and the house drawn back to front), 18 with neither, 23 with the entrance
+    # anchor. Three ways of holding both were built and measured and all three were worse --
+    # `geometry._partial_flank`'s docstring carries the numbers. `good-02` is unmoved at 5
+    # because its record does not decide which of its two front rooms is the entrance, so it
+    # gets no anchor at all; that it is unmoved here is the same control the corpus digests
+    # carry, in a different instrument.
+    for pf, n in ((ROOT / "plans" / "tidewater-georgian-careful.json", 12),
                   (ROOT / "plans" / "reference" / "good-02-portico-library-house.json", 5)):
         sol = _solved(str(pf))
         fp = sol["footprint"]
@@ -688,7 +704,16 @@ def test_the_appendage_rect_is_inside_the_drawn_plate():
 # parent commit and on the working tree: of the sixteen, exactly ONE digest differs and it is
 # the tagged plan. A corpus digest is a single number over sixteen houses, so a movement in it
 # says nothing about which one moved; the per-plan pass is what makes it evidence.
-CORPUS_PLACEMENT_SHA = "c61e23256e559eb2"
+# AND RE-DERIVED AT WP-11.17, WHERE SIX OF SIXTEEN MOVED AND THE SIX ARE NAMED. That package
+# states the entrance front as an anchor -- the room that must stand on it is placed against it
+# rather than left to a guillotine that does not know the face matters -- and
+# `geometry.entrance_anchors` reaches exactly the plans whose record decides the question:
+# `tidewater-georgian-careful`, `spec-builder-colonial`, `good-01`, `good-03`, `good-04` and
+# `good-07`. Re-derived PER PLAN on a `git worktree` of the parent commit `b6c7773`: those six
+# differ and the other ten are byte-identical, INCLUDING `good-02-portico-library-house`, the
+# plan whose portico and foyer the selector refuses to choose between -- which is the sharpest
+# evidence the refusal is real rather than a silence.
+CORPUS_PLACEMENT_SHA = "c3621155dc280406"
 
 
 def test_placing_the_terrace_moved_no_shipped_placement():
