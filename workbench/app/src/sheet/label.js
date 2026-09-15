@@ -111,13 +111,16 @@ export function fitLabel(text, maxW, maxH, opt) {
     const byWidth = maxW / widest;
     const byHeight = maxH / (n * lead);
     const size = Math.min(preferred, byWidth, byHeight);
-    if (!best || size > best.size + 1e-6) best = { lines, size, n };
+    if (!best || size > best.size + 1e-6) best = { lines, size, n, widest };
     if (size >= preferred - 1e-6) break;         // fewest lines at full size: done
   }
   if (!best) return null;
   const size = Math.max(min, best.size);
+  // `width` is the ink's own extent as this fitter measured it, so a caller placing other
+  // lettering in the same room (the furniture key, WP-13.2) can keep clear of the name
+  // without a second measurement of it.
   return { lines: best.lines, size, track: track * size, lead: size * lead,
-           height: best.lines.length * size * lead };
+           height: best.lines.length * size * lead, width: best.widest * size };
 }
 
 /* Shrink a single line (a dimension string) until it fits, never wrapping it: a
