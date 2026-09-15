@@ -53,6 +53,9 @@ PC = _mod("plan_check", f"{ROOT}/build/plan_check.py")
 # way. Loaded HERE rather than beside its first use because `is_placed` (line ~72) delegates to
 # it, and a module-level name used that early must be bound that early.
 STK = _mod("stacking", f"{ROOT}/build/stacking.py")
+# WP-13.2. The type's facts on the placed record, another leaf for the same reason, written from
+# `_disclose` so both record writers carry it.
+TF = _mod("typefacts", f"{ROOT}/build/typefacts.py")
 C = PC.load_corpus()
 
 DIRS = {"N": (0, 1), "S": (0, -1), "E": (1, 0), "W": (-1, 0),
@@ -1228,12 +1231,15 @@ def element_of(plan, groundrooms):
 def declared_stack_breaks(g, u, upperrooms, elements=None):
     """Every `stacks_over` claim the placement BREAKS, in ONE place (WP-11.5).
 
-    Strict positive rectangle intersection -- plan_check's drawn layer's own rule, so the
-    search, the charge and the critic cannot convict and acquit the same house. It was spelled
-    once inside `vertical_score` and is now spelled once here, because WP-11.5 needs the same
-    test at CANDIDATE-REJECTION time and a second transcription is the
-    `openings.required_wall_ft` error (an arbiter carrying its own copy of a rule) in a new
-    place.
+    The test is `stacking.lands` -- CONTAINMENT, the smaller rectangle at least 90% inside the
+    larger -- which is what `stacking.judge` reads for the record and therefore what
+    `plan_check`'s drawn layer reports, so the search, the charge and the critic cannot convict
+    and acquit the same house. It was strict positive intersection until WP-13.2, under which a
+    0.16 sf corner was a landed stack. It was spelled once inside `vertical_score` and is now
+    read once here, because WP-11.5 needs the same test at CANDIDATE-REJECTION time and a second
+    transcription is the `openings.required_wall_ft` error (an arbiter carrying its own copy of
+    a rule) in a new place. `geometry_cp.py`'s soft penalty still means intersection until
+    WP-13.3 makes the stack hard on the prover.
 
     A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS NOT A BREAK AND IS NOT RETURNED. The
     generator cannot answer it; counting it as broken would convict a placement of something
@@ -1264,8 +1270,7 @@ def declared_stack_breaks(g, u, upperrooms, elements=None):
             out.append({"room": rid, "over": so, "name": ut[rid].get("name") or rid,
                         "unjudged": f"in the {elements[so]} element"})
             continue
-        if (min(x + w, t[0] + t[2]) - max(x, t[0]) <= 0
-                or min(y + h, t[1] + t[3]) - max(y, t[1]) <= 0):
+        if not STK.lands((x, y, w, h), t):
             out.append({"room": rid, "over": so,
                         "name": ut[rid].get("name") or rid})
     return out
@@ -1362,11 +1367,13 @@ def vertical_score(g, u, groundrooms, upperrooms, plan):
     # why the break-even read 378 and 52 there. A sampling artefact, not a property of the
     # charge.
     #
-    # THE TEST IS plan_check's, DELIBERATELY. Strict positive rectangle intersection, the same
-    # rule as plan_check.py's drawn layer, so the search and the critic cannot convict and
-    # acquit the same house. Do not "improve" it to a centroid or an overlap fraction here
-    # without changing it there in the same commit -- that is the openings.required_wall_ft
-    # error (an arbiter carrying its own transcription of a rule) in a new place.
+    # THE TEST IS plan_check's, DELIBERATELY. `stacking.lands` -- containment, the smaller
+    # rectangle at least 90% inside the larger (WP-13.2; strict positive intersection before
+    # it) -- read through `declared_stack_breaks`, the same leaf function plan_check.py's drawn
+    # layer reads through `stacking.judge`, so the search and the critic cannot convict and
+    # acquit the same house. Do not "improve" it to a centroid or another fraction here without
+    # changing it there in the same commit -- that is the openings.required_wall_ft error (an
+    # arbiter carrying its own transcription of a rule) in a new place.
     #
     # A CLAIM WHOSE TARGET IS NOT ON THE LEVEL BELOW IS UNJUDGED AND IS NOT CHARGED. The
     # generator cannot answer it and a zero would read as a pass (the OQ 52 rule).
@@ -3024,6 +3031,13 @@ def _disclose(plan):
     if _prev.get("note") and _prev.get("note") != _leaf.get("note"):
         _leaf = dict(_leaf, rule_note=_prev["note"])
     rep["stacking"] = {**_prev, **_leaf}
+    # THE TYPE'S FACTS, ON THE RECORD FOR BOTH ENGINES (WP-13.2). `build/typefacts.py` is a leaf
+    # and measures the placed record it is handed: today the residual void -- floor inside no
+    # room, which the prover's 0.97 coverage floor leaves and across which no wall is drawn --
+    # per placed level, located. HERE, beside the stacking tally, for the reason this function
+    # exists: a block written from one record writer and not the other shipped that way for two
+    # phases. WP-13.3 adds the rest of the ruled precedence under this same key.
+    rep["type_facts"] = TF.report(plan)
     # WP-11.8: how many rooms are drawn outside the proportion ceiling their own record states.
     # HERE rather than in `solve_heuristic`'s report dict, because `_finish` builds the CP
     # path's report from named keys and a figure added to one writer and not the other is the

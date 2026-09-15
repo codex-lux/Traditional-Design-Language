@@ -1124,6 +1124,7 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
         # Shaped exactly like the wet-stack term above so the two read as one mechanism, and
         # weighted from the same sweep that set geometry.STACK_W (measured on the heuristic:
         # broken claims across all 14 declaring partis).
+        # WP-13.2: this term still means INTERSECTION; `stacking.lands` (containment) is the search's and the critic's rule now, and the prover's follows when WP-13.3 makes the stack hard.
         for r in upper:
             so = r.get("stacks_over")
             if not so or (1, r["id"]) not in rooms or (0, so) not in rooms:
