@@ -10,6 +10,7 @@
      {
       "at_ft": 29.0,
       "edge_ft": 38.0,
+      "hinge": "low",
       "inferred_wall": false,
       "inferred_width": true,
       "room": "porch",
@@ -20,6 +21,7 @@
      {
       "at_ft": 8.5,
       "edge_ft": 40.0,
+      "hinge": "low",
       "inferred_wall": false,
       "inferred_width": false,
       "room": "garage",
@@ -34,6 +36,7 @@
      {
       "at_ft": 32.0,
       "from": "porch",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "foyer",
@@ -48,6 +51,7 @@
      {
       "at_ft": 31.0,
       "from": "foyer",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "foyer",
@@ -62,6 +66,7 @@
      {
       "at_ft": 26.0,
       "from": "foyer",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "family",
@@ -76,6 +81,7 @@
      {
       "at_ft": 32.0,
       "from": "foyer",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "foyer",
@@ -90,6 +96,7 @@
      {
       "at_ft": 18.0,
       "from": "foyer",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "foyer",
@@ -104,6 +111,7 @@
      {
       "at_ft": 22.0,
       "from": "dining",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "dining",
@@ -118,6 +126,7 @@
      {
       "at_ft": 32.0,
       "from": "dining",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "dining",
@@ -132,6 +141,7 @@
      {
       "at_ft": 7.0,
       "from": "kitchen",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "kitchen",
@@ -146,6 +156,7 @@
      {
       "at_ft": 12.0,
       "from": "mud",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "garage",
@@ -160,6 +171,7 @@
      {
       "at_ft": 9.0,
       "from": "mud",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "laundry",
@@ -174,6 +186,7 @@
      {
       "at_ft": 26.0,
       "from": "stair",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "family",
@@ -233,7 +246,8 @@
      }
     ],
     "windows_crowded": 1,
-    "windows_off_footprint": 4
+    "windows_off_footprint": 4,
+    "windows_refused": 0
    },
    "expected_divergence": [
     "powder",
@@ -750,6 +764,7 @@
      {
       "at_ft": 27.0,
       "from": "upperhall",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "primary",
@@ -764,6 +779,7 @@
      {
       "at_ft": 27.0,
       "from": "upperhall",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "bed2",
@@ -778,6 +794,7 @@
      {
       "at_ft": 27.0,
       "from": "upperhall",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "bed3",
@@ -792,6 +809,7 @@
      {
       "at_ft": 34.0,
       "from": "upperhall",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "hallbath",
@@ -806,6 +824,7 @@
      {
       "at_ft": 34.0,
       "from": "upperhall",
+      "hinge": "low",
       "horiz": false,
       "pair": [
        "upperhall",
@@ -820,6 +839,7 @@
      {
       "at_ft": 20.0,
       "from": "primary",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "primary",
@@ -834,6 +854,7 @@
      {
       "at_ft": 20.0,
       "from": "primary",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "primary",
@@ -848,6 +869,7 @@
      {
       "at_ft": 23.0,
       "from": "bed2",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "bed2",
@@ -862,6 +884,7 @@
      {
       "at_ft": 27.0,
       "from": "bed3",
+      "hinge": "low",
       "horiz": true,
       "pair": [
        "bed3",
@@ -921,7 +944,8 @@
      }
     ],
     "windows_crowded": 0,
-    "windows_off_footprint": 0
+    "windows_off_footprint": 0,
+    "windows_refused": 0
    },
    "expected_divergence": [
     "bed2cl",

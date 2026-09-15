@@ -331,12 +331,7 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
         # `doors_not_drawn`, never silently skipped -- the width check that lived here (WP-6.1,
         # the leaf and its jambs) is `required_wall_ft` inside the derivation.
         RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
-        _ELM = _mod("elements", f"{ROOT}/build/elements.py")
-        _apx = {}
-        for _a in ((solved.get("appendages") or {}).get("placed") or []):
-            _apx.setdefault(_a.get("level", 0), {})[_a["room"]] = _a["rect"]
-        op = RP.derive_openings(lv["rooms"], W / IN, H / IN, appendages=_apx.get(n),
-                                bounds=_ELM.bounds_index(solved, lv["rooms"]))
+        op = RP.openings_of_level(solved, lv, n)     # the sheet's own derivation, one spelling
         for u in op["undrawable"]:
             if u["to"] == "exterior":
                 # This exporter has never drawn an exterior door, drawable or not (`to ==
@@ -373,12 +368,15 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
             # two angles are ordered to make the quarter between them the leaf's own. Model y is
             # north here and there is no flip, which is why the angles are the record's and not
             # the SVG's.
-            if d["type"] in ("cased-opening", "open", "pocket", "garage", "bulkhead"):
+            if d["type"] in RP.LEAFLESS:
                 continue
             open_deg = (90 if d["swing_positive"] else 270) if horiz else (0 if d["swing_positive"] else 180)
             if d["type"] == "double":
                 leaves = ([((px - dw, py), dw, 0), ((px + dw, py), dw, 180)] if horiz
                           else [((px, py - dw), dw, 90), ((px, py + dw), dw, 270)])
+            elif (d.get("hinge") or "low") == "high":
+                # the record's jamb (WP-13.2): "high" hangs the leaf from the east or north jamb
+                leaves = [((px + dw, py), 2 * dw, 180)] if horiz else [((px, py + dw), 2 * dw, 270)]
             else:
                 leaves = [((px - dw, py), 2 * dw, 0)] if horiz else [((px, py - dw), 2 * dw, 90)]
             for (hx, hy), r, closed_deg in leaves:

@@ -27,12 +27,14 @@ sys.path.insert(0, os.path.join(ROOT, "build"))
 import modcache  # noqa: E402
 
 IN = 12.0
-# the door types the SVG's `_door` draws with no leaf, spelled as the gate spells them
-LEAFLESS = ("cased-opening", "open", "pocket", "garage", "bulkhead")
 
 
 def _b(name):
     return modcache.load(name, os.path.join(ROOT, "build", name + ".py"))
+
+
+# the door types the SVG's `_door` draws with no leaf -- the renderer's own one spelling
+LEAFLESS = _b("render_plan").LEAFLESS
 
 
 @pytest.fixture(scope="module")
@@ -52,22 +54,16 @@ def dxf(tmp_path_factory):
 def _level_openings(placed, i, lv):
     """`derive_openings` as `render_plan.render()` and the exporter call it: with the level's
     placed appendages and each room's own element. The bare call is one leaf short on this
-    plan (the breakfast-terrace door)."""
-    RP, EL = _b("render_plan"), _b("elements")
-    apx = {}
-    for a in ((placed.get("appendages") or {}).get("placed") or []):
-        apx.setdefault(a.get("level", 0), {})[a["room"]] = a["rect"]
-    fp = placed["footprint"]
-    return RP.derive_openings(lv["rooms"], fp["width_ft"], fp["depth_ft"],
-                              appendages=apx.get(lv.get("index", i)),
-                              bounds=EL.bounds_index(placed, lv["rooms"]))
+    plan (the breakfast-terrace door). ONE spelling since WP-13.2: `openings_of_level`."""
+    return _b("render_plan").openings_of_level(placed, lv, i)
 
 
 def _expected_leaves(placed):
     """(hinge ft, radius ft, closed deg, open deg, label) per leaf the record states -- the
-    gate's spelling: a single leaf hinged on the LOW jamb at the full width, a pair as two
-    half-width leaves on both jambs, open toward `swing_positive` (+y off a horizontal wall,
-    +x off a vertical one), closed along the wall toward the far end of its run."""
+    gate's spelling: a single leaf hinged on the jamb the RECORD names (`hinge`: "low" is the
+    west or south jamb, "high" the east or north) at the full width, a pair as two half-width
+    leaves on both jambs, open toward `swing_positive` (+y off a horizontal wall, +x off a
+    vertical one), closed along the wall toward the far end of its run."""
     out = []
     levels = [lv for lv in placed["levels"] if any(r.get("geometry") for r in lv["rooms"])]
     for i, lv in enumerate(levels):
@@ -75,21 +71,26 @@ def _expected_leaves(placed):
             if d["type"] in LEAFLESS:
                 continue
             half = d["width_ft"] / 2.0
+            low = (d.get("hinge") or "low") == "low"
             label = f"L{lv.get('index', i)} {d['from']}-{d['to']}"
             if d["horiz"]:
                 px, py = d["pos_ft"], d["at_ft"]
                 open_deg = 90 if d["swing_positive"] else 270
                 if d["type"] == "double":
                     out += [((px - half, py), half, 0, open_deg, label), ((px + half, py), half, 180, open_deg, label)]
-                else:
+                elif low:
                     out.append(((px - half, py), 2 * half, 0, open_deg, label))
+                else:
+                    out.append(((px + half, py), 2 * half, 180, open_deg, label))
             else:
                 px, py = d["at_ft"], d["pos_ft"]
                 open_deg = 0 if d["swing_positive"] else 180
                 if d["type"] == "double":
                     out += [((px, py - half), half, 90, open_deg, label), ((px, py + half), half, 270, open_deg, label)]
-                else:
+                elif low:
                     out.append(((px, py - half), 2 * half, 90, open_deg, label))
+                else:
+                    out.append(((px, py + half), 2 * half, 270, open_deg, label))
     return out
 
 

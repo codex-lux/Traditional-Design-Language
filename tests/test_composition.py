@@ -237,20 +237,16 @@ class TestDoorSwingsRender:
         path = rp.render(result, str(tmp_path / "door_swing.svg"))
         svg = open(path).read()
         fp = result["footprint"]
-        # `derive_openings` as `render()` calls it: with the level's placed appendages, since the
-        # breakfast-terrace door is a leaf on the sheet and is not derived without the terrace
-        apx = {}
-        for a in ((result.get("appendages") or {}).get("placed") or []):
-            apx.setdefault(a.get("level", 0), {})[a["room"]] = a["rect"]
+        # `derive_openings` as `render()` calls it -- the one spelling, `openings_of_level`,
+        # with the level's placed appendages, since the breakfast-terrace door is a leaf on the
+        # sheet and is not derived without the terrace
         leaves = 0
         for i, lv in enumerate(result["levels"]):
             if not any(r.get("geometry") for r in lv["rooms"]):
                 continue
-            op = rp.derive_openings(lv["rooms"], fp["width_ft"], fp["depth_ft"],
-                                    appendages=apx.get(lv.get("index", i)),
-                                    bounds=el.bounds_index(result, lv["rooms"]))
+            op = rp.openings_of_level(result, lv, i)
             for d in op["interior"] + op["exterior"]:
-                if d["type"] in ("cased-opening", "open", "pocket", "garage", "bulkhead"):
+                if d["type"] in rp.LEAFLESS:
                     continue
                 leaves += 2 if d["type"] == "double" else 1
         arcs = len(re.findall(r'<path class="sw" d="M [-\d. ]+ A ', svg))

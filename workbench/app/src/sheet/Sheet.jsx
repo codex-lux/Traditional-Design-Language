@@ -43,29 +43,45 @@ function DimRun({ from, to, at, vertical, stops }) {
   );
 }
 
-/* The opening resolved into a wall-local frame: the two jambs A and B, the direction the
-   leaf swings, and the arc's sweep flag. Both wall orientations reduce to this, so a door
-   TYPE is drawn once rather than twice — which is why every type below is a few lines. */
+/* The opening resolved into a wall-local frame: the two jambs A and B and the direction the
+   leaf swings. Both wall orientations reduce to this, so a door TYPE is drawn once rather
+   than twice — which is why every type below is a few lines.
+
+   WP-13.2: A is the LOW jamb in MODEL terms — west on a horizontal wall, SOUTH on a vertical
+   one (the larger screen y) — because that is what the record's `hinge: "low"` names, and
+   `render_plan.py::_door` and the DXF read the same word. Until Phase 13 this frame put A at
+   the top-left jamb on screen, so a vertical-wall single leaf hung from the NORTH jamb here
+   and from the south in the DXF. The sweep flag is no longer carried: `Leaf` derives it. */
 function doorFrame(d) {
   const w = d.w;
   const vert = d.horiz === false || d.wall === 'W' || d.wall === 'E';
   if (vert) {
-    const x = d.x, y0 = -d.y - w / 2;
+    const x = d.x, y0 = -d.y - w / 2;                       // screen y of the NORTH jamb
     const s = d.swingRight === false ? -1 : 1;
-    return { w, vert, A: [x, y0], B: [x, y0 + w], nrm: [s, 0], sweep: s > 0 ? 1 : 0,
+    return { w, vert, A: [x, y0 + w], B: [x, y0], nrm: [s, 0],
              rect: { x: x - 0.35, y: y0, width: 0.7, height: w } };
   }
   const x0 = d.x - w / 2, y = -d.y;
   const t = d.swingUp !== false ? -1 : 1;
-  return { w, vert, A: [x0, y], B: [x0 + w, y], nrm: [0, t], sweep: t < 0 ? 1 : 0,
+  return { w, vert, A: [x0, y], B: [x0 + w, y], nrm: [0, t],
            rect: { x: x0, y: y - 0.35, width: w, height: 0.7 } };
 }
 
 const add = (p, v, k) => [p[0] + v[0] * k, p[1] + v[1] * k];
 const mid = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
 
-function Leaf({ hinge, nrm, len, to, sweep }) {
+/* The SVG sweep flag for a leaf drawn from its open tip to the far jamb about the hinge, in
+   screen space: 1 when the quarter-turn runs clockwise as a reader sees it, which is the sign
+   of the cross product. `render_plan.py::sweep_flag` is the same rule; a table with one wrong
+   row drew every horizontal-wall leaf in the Python sheet as its own mirror for seven phases. */
+export function sweepFlag(hinge, tip, far) {
+  const c = (tip[0] - hinge[0]) * (far[1] - hinge[1]) - (tip[1] - hinge[1]) * (far[0] - hinge[0]);
+  return c > 0 ? 1 : 0;
+}
+
+function Leaf({ hinge, nrm, len, to }) {
   const open = add(hinge, nrm, len);
+  const sweep = sweepFlag(hinge, open, to);
   return (
     <g>
       <line x1={hinge[0]} y1={hinge[1]} x2={open[0]} y2={open[1]}
@@ -104,8 +120,8 @@ function DoorMark({ d }) {
     return (
       <g {...common}>
         {brk}
-        <Leaf hinge={f.A} nrm={f.nrm} len={f.w / 2} to={M} sweep={f.sweep} />
-        <Leaf hinge={f.B} nrm={f.nrm} len={f.w / 2} to={M} sweep={1 - f.sweep} />
+        <Leaf hinge={f.A} nrm={f.nrm} len={f.w / 2} to={M} />
+        <Leaf hinge={f.B} nrm={f.nrm} len={f.w / 2} to={M} />
       </g>
     );
   }
@@ -113,9 +129,10 @@ function DoorMark({ d }) {
     return <g {...common}>{brk}<Jambs A={f.A} B={f.B} vert={f.vert} /></g>;
   }
   if (type === 'pocket') {
-    // the leaf slides into the wall: shown as the slot it runs in, not as a swing
+    // the leaf slides into the wall: shown as the slot it runs in, not as a swing -- past
+    // the HIGH jamb on a vertical wall (B, the north one on screen) and the low on a horizontal
     const slot = f.vert
-      ? { x: f.rect.x, y: f.A[1] - f.w, width: 0.7, height: f.w }
+      ? { x: f.rect.x, y: f.B[1] - f.w, width: 0.7, height: f.w }
       : { x: f.A[0] - f.w, y: f.rect.y, width: f.w, height: 0.7 };
     return (
       <g {...common}>
@@ -140,10 +157,13 @@ function DoorMark({ d }) {
       </g>
     );
   }
+  // a single leaf hangs from the jamb the RECORD names (WP-13.2): "low" is A, "high" is B
+  const H = d.hinge === 'high' ? f.B : f.A;
+  const T = d.hinge === 'high' ? f.A : f.B;
   return (
     <g {...common}>
       {brk}
-      <Leaf hinge={f.A} nrm={f.nrm} len={f.w} to={f.B} sweep={f.sweep} />
+      <Leaf hinge={H} nrm={f.nrm} len={f.w} to={T} />
     </g>
   );
 }

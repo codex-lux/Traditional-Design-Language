@@ -295,23 +295,24 @@ def test_every_door_arc_in_the_dxf_swings_the_way_the_record_says(sheets, kind, 
     W, H = fp["width_ft"], fp["depth_ft"]
     want, bad = 0, []
     for lv in _placed_levels(out):
-        op = RP.derive_openings(lv["rooms"], W, H)
+        op = RP.openings_of_level(out, lv)
         for d in op["interior"]:
-            if d["type"] in ("cased-opening", "open", "pocket", "garage", "bulkhead"):
+            if d["type"] in RP.LEAFLESS:
                 continue
             half = d["width_ft"] / 2.0
+            low = (d.get("hinge") or "low") == "low"      # the RECORD's jamb, read by all three
             if d["horiz"]:
                 px, py = d["pos_ft"], d["at_ft"]
-                leaves = ([((px - half, py), half, 90 if d["swing_positive"] else 270),
-                           ((px + half, py), half, 90 if d["swing_positive"] else 270)]
+                tip = 90 if d["swing_positive"] else 270
+                leaves = ([((px - half, py), half, tip), ((px + half, py), half, tip)]
                           if d["type"] == "double" else
-                          [((px - half, py), 2 * half, 90 if d["swing_positive"] else 270)])
+                          [((px - half if low else px + half, py), 2 * half, tip)])
             else:
                 px, py = d["at_ft"], d["pos_ft"]
-                leaves = ([((px, py - half), half, 0 if d["swing_positive"] else 180),
-                           ((px, py + half), half, 0 if d["swing_positive"] else 180)]
+                tip = 0 if d["swing_positive"] else 180
+                leaves = ([((px, py - half), half, tip), ((px, py + half), half, tip)]
                           if d["type"] == "double" else
-                          [((px, py - half), 2 * half, 0 if d["swing_positive"] else 180)])
+                          [((px, py - half if low else py + half), 2 * half, tip)])
             for (hx, hy), r, tip_deg in leaves:
                 want += 1
                 hit = None
@@ -388,7 +389,7 @@ def test_every_room_edge_carries_a_wall_or_an_opening(sheets, kind, engine):
     wall = ST.wall_thickness(out)
     bad, checked = [], 0
     for lv in _placed_levels(out):
-        op = RP.derive_openings(lv["rooms"], W, H)
+        op = RP.openings_of_level(out, lv)
         gaps = RP.opening_gaps(op, W, H)
         bands, _stray = RP.wall_bands(lv["rooms"], _blocks(out), W, H, fp.get("bay_module_ft"),
                                       wall, gaps)
@@ -480,8 +481,16 @@ def test_every_hearth_breast_stands_on_a_wall_a_stack_stands_on(sheets, kind, en
 @pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)
 def test_the_plans_stacks_are_the_roofs_stacks(sheets, kind, engine):
     """One building: the stack the plan draws in poche is the stack the roof and the elevation
-    stand on the ridge. `roof.py` reconciles its positions to the hearths' flue axes; the plan
-    puts one 22 in square at the centre of each gable end from the rectangle alone."""
+    stand on the ridge. On `840c7f1` the roof reconciled its positions to the hearths' flue
+    axes while the plan put one 22 in square at the centre of each gable end from the
+    rectangle alone -- 5.4 and 7.3 ft apart along the wall.
+
+    COMPARED ALONG THE WALL AND BY END, NOT ACROSS THE WALL. The two records do not share an
+    origin (`oq/the-roof-record-and-the-plan-record-do-not-share-an-origin`): the roof's x is
+    the wall FACE in an outside-to-outside frame and the plan's exterior square is centred
+    half a stack outside the wall, so the across-wall distance is 2.2 ft on every plan by
+    construction and measures the frame, not the house. What a reader sees is whether the
+    chimney stands over the fire ALONG the gable, and which end it is on."""
     out, _svg, _ = sheets(kind, engine)
     roof = RF.build_roof(copy.deepcopy(out))
     assert "error" not in roof, roof.get("error")
@@ -489,14 +498,22 @@ def test_the_plans_stacks_are_the_roofs_stacks(sheets, kind, engine):
     stacks = _stacks(out)
     if not positions and not stacks:
         pytest.skip("COULD NOT EVALUATE: neither the roof nor the plan places a stack")
+    W = out["footprint"]["width_ft"]
+    # the roof's frame is outside-to-outside (its W stack sits at x = 0 on the outer face and
+    # its E at W + 2t), so a coordinate ALONG the wall is the plan's plus one wall thickness;
+    # converted here, and stated, rather than absorbed into a tolerance
+    t = ST.wall_thickness(out)["exterior_in"] / 12.0
     bad = []
     for p in positions:
-        near = min((math.hypot(p["x_ft"] - (s["x_ft"] + s["width_ft"] / 2),
-                               p["y_ft"] - (s["y_ft"] + s["depth_ft"] / 2)) for s in stacks),
+        end = "W" if p["x_ft"] < (W + 2 * t) / 2 else "E"
+        same_end = [s for s in stacks if s["wall"] == end]
+        y_plan = p["y_ft"] - t
+        near = min((abs(y_plan - (s["y_ft"] + s["depth_ft"] / 2)) for s in same_end),
                    default=math.inf)
-        if near > 1.5:
-            bad.append(f"roof stack at ({p['x_ft']:.1f}, {p['y_ft']:.1f}) is {near:.1f} ft from the "
-                       f"nearest plan stack")
+        if near > 1.0:
+            bad.append(f"the roof's {end} stack at y={p['y_ft']:.1f} (plan frame {y_plan:.1f}) "
+                       f"stands {near:.1f} ft along the wall from the nearest plan stack on that "
+                       f"end" + ("" if same_end else " -- the plan draws none there"))
     if len(positions) != len(stacks):
         bad.append(f"the roof stands {len(positions)} stack(s) and the plan draws {len(stacks)}")
     assert not bad, "; ".join(bad)
@@ -515,7 +532,7 @@ def test_no_window_is_pressed_against_a_stack(sheets, kind, engine):
         pytest.skip("COULD NOT EVALUATE: the plan places no stack")
     seen, bad = 0, []
     for lv in _placed_levels(out):
-        op = RP.derive_openings(lv["rooms"], W, H)
+        op = RP.openings_of_level(out, lv)
         for win in op["windows"]:
             for s in stacks:
                 if s["wall"] != win["wall"]:
@@ -549,7 +566,7 @@ def test_no_window_sits_inside_a_chimney_breast(sheets, kind, engine):
     W, H = fp["width_ft"], fp["depth_ft"]
     rows, bad = 0, []
     for lv in _placed_levels(out):
-        op = RP.derive_openings(lv["rooms"], W, H)
+        op = RP.openings_of_level(out, lv)
         for r in _rooms(lv):
             for h in (r.get("hearth") or []):
                 br = HE.breast(r, h)
@@ -585,7 +602,7 @@ def test_every_declared_door_is_drawable(sheets, kind, engine):
     W, H = fp["width_ft"], fp["depth_ft"]
     declared, bad = 0, []
     for lv in _placed_levels(out):
-        op = RP.derive_openings(lv["rooms"], W, H)
+        op = RP.openings_of_level(out, lv)
         declared += len(op["interior"]) + len(op["exterior"]) + len(op.get("undrawable") or [])
         for u in (op.get("undrawable") or []):
             bad.append(f"{lv['id']} {u.get('from')}-{u.get('to')}: {u.get('reason') or u.get('why') or ''}".rstrip(": "))
@@ -640,7 +657,7 @@ def test_the_elevations_openings_are_the_plans_placed_openings(sheets, kind, eng
     W, H = fp["width_ft"], fp["depth_ft"]
     ext = ST.wall_thickness(out)["exterior_in"] / 12.0
     lv = _placed_levels(out)[0]
-    op = RP.derive_openings(lv["rooms"], W, H)
+    op = RP.openings_of_level(out, lv)
     plan = [d["at_ft"] for d in op["exterior"] if d["wall"] == face] + \
            [w["at_ft"] for w in op["windows"] if w["wall"] == face]
     if not plan:

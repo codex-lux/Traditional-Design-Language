@@ -1277,27 +1277,14 @@ _LEAF = re.compile(
     r'<path class="sw" d="M ([-\d.]+) ([-\d.]+) A ([\d.]+) [\d.]+ 0 0 ([01]) ([-\d.]+) ([-\d.]+)"/>'
     r'\s*<line class="dr" x1="([-\d.]+)" y1="([-\d.]+)" x2="([-\d.]+)" y2="([-\d.]+)"/>')
 
-# The door types `render_plan._door` draws with NO leaf (jambs, a pocket line, a garage line)
-# -- spelled as the gate spells it. A named constant on the renderer would be the one place;
-# it sits inside `render()` today and is outside this package's region.
-_LEAFLESS = ("cased-opening", "open", "pocket", "garage", "bulkhead")
-
-
 def _level_openings(rp, placed, i, lv):
     """`derive_openings` called the way `render_plan.render()` calls it -- the level's placed
     appendages and each room's own massing element -- because the sheet draws THAT derivation.
     On the reference plan the bare call derives 17 leaves and the sheet draws 18: the
     eighteenth is the breakfast-terrace door, which exists only once the terrace's rectangle is
     handed in. A guard that compared the sheet against the bare call would fail on a correct
-    sheet, or be loosened until it did not."""
-    el = modcache.load("elements", f"{ROOT}/build/elements.py")
-    apx = {}
-    for a in ((placed.get("appendages") or {}).get("placed") or []):
-        apx.setdefault(a.get("level", 0), {})[a["room"]] = a["rect"]
-    fp = placed["footprint"]
-    return rp.derive_openings(lv["rooms"], fp["width_ft"], fp["depth_ft"],
-                              appendages=apx.get(lv.get("index", i)),
-                              bounds=el.bounds_index(placed, lv["rooms"]))
+    sheet, or be loosened until it did not. ONE spelling since WP-13.2: `openings_of_level`."""
+    return rp.openings_of_level(placed, lv, i)
 
 
 @pytest.fixture(scope="module")
@@ -1400,9 +1387,13 @@ class TestTheDoorArcIsCentredOnItsHinge:
         exterior door inward). A centre on the hinge is necessary and not sufficient: a leaf
         drawn on the wrong side with a consistently flipped sweep is still centred.
 
-        The hinge jamb is the renderer's own convention and is read off the ink rather than
-        asserted -- the LOW jamb on a horizontal wall and the HIGH one on a vertical wall, for
-        a single leaf -- so this test does not pin a choice the record does not make."""
+        THE HINGE JAMB IS THE RECORD'S, since WP-13.2. `openings.py` writes `hinge: "low"` on
+        every door it places (the jamb at the lower coordinate along the wall -- west, or
+        SOUTH), `derive_openings` carries it, and the leaf is asserted hung from THAT jamb.
+        Until then this renderer hung a vertical-wall single leaf from the NORTH jamb, the
+        browser sheet did the same, and the DXF from the south: three drawings of one door
+        from two jambs, and the first cut of this test pinned the renderer's own convention
+        rather than a fact the record states."""
         placed, svg = sheet
         rp = modcache.load("render_plan", f"{ROOT}/build/render_plan.py")
         m = re.search(r"data-frame='([^']*)'", svg)
@@ -1418,17 +1409,20 @@ class TestTheDoorArcIsCentredOnItsHinge:
             k = plate["px_per_ft"]
             op = _level_openings(rp, placed, i, lv)
             doors = [(d["pos_ft"], d["at_ft"], d["horiz"], d["width_ft"], d["type"],
-                      d["swing_positive"], f"{d['from']}-{d['to']}") for d in op["interior"]]
+                      d["swing_positive"], d.get("hinge") or "low", f"{d['from']}-{d['to']}")
+                     for d in op["interior"]]
             doors += [(d["at_ft"], d["edge_ft"], d["wall"] in ("S", "N"), d["width_ft"], d["type"],
-                       d["wall"] in ("S", "W"), f"{d['room']}-exterior") for d in op["exterior"]]
-            for pos, at, horiz, w, dtype, positive, label in doors:
-                if dtype in _LEAFLESS:
+                       d["wall"] in ("S", "W"), d.get("hinge") or "low", f"{d['room']}-exterior")
+                      for d in op["exterior"]]
+            for pos, at, horiz, w, dtype, positive, hinge, label in doors:
+                if dtype in rp.LEAFLESS:
                     continue
                 half = w / 2
                 if dtype == "double":
                     jambs = [(pos - half, at), (pos + half, at)] if horiz else [(at, pos - half), (at, pos + half)]
                 else:
-                    jambs = [(pos - half, at)] if horiz else [(at, pos + half)]
+                    j = pos - half if hinge == "low" else pos + half
+                    jambs = [(j, at)] if horiz else [(at, j)]
                 for jx, jy in jambs:
                     expected.append(((ox + (jx - ax) * k, oy + (ay - jy) * k), horiz, positive, label))
         assert len(expected) >= 6, "COULD NOT EVALUATE: fewer than six leaves derived"

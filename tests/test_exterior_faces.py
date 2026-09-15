@@ -242,8 +242,37 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-CORPUS_SHEET_SHA = "e0ccb4cf648cad04"
-CORPUS_SHEET_SHA_NO_FRAME = "55c2a6f66a7dbe0c"
+CORPUS_SHEET_SHA = "01771d3656231ba9"
+CORPUS_SHEET_SHA_NO_FRAME = "0fd105825eda19e0"
+# BOTH MOVED AT THE MERGE OF WP-13.2's SIX SLICES (15 Sep 2026), AND RE-PINNED ONCE, ON THE
+# MERGED TREE, WITH EACH SLICE'S OWN ACCOUNTING -- because five parallel worktrees each moved
+# the sixteen sheets and a pin per slice was stale the moment the next one merged. The value
+# below this comment (e0ccb4cf648cad04 / 55c2a6f66a7dbe0c) was the fire slice's, measured on a
+# tree carrying none of the other four; it is not reproducible here and is kept as the record
+# of what that slice moved. Measured with this test's own loop, copied verbatim. ALL SIXTEEN
+# SHEETS MOVE, and every changed line is one of:
+#   the door arc: 15 of 16 sheets, 47 lines, every one a class="sw" path whose only
+#     difference is the sweep digit (the horizontal-wall mirror, WP-6.1 to Phase 13); then the
+#     lead's follow-up hung every vertical-wall single leaf from the record's LOW jamb (the
+#     south one; it hung from the north), which moves those leaves' hinge lines and arcs;
+#   the title block: 16 of 16 schedules gain 3 to 5 lines (the window and transfer lines
+#     reach the plate for the first time; the engine line stops certifying on the name; the
+#     stacking, furniture and residual-void lines are new), 0 lines lost, the drawing field
+#     unmoved (render_plan.py's diff confined to the schedule; placement digests identical);
+#   the furniture key: 16 of 16 sheets gain a numeral on every mark and a key in the room or
+#     the margin, and the canvas grows for the margin keys;
+#   the datum: 16 of 16 sheets gain a dimension run under each plate, the bar's zero moves
+#     from the sheet's margin to the clear face, and every foot element and the canvas move
+#     down by exactly the 44 px band;
+#   the fire on its flue: the Tidewater alone -- the two stacks on the stated flues, one west
+#     sash refused for want of a run beside the breast -- and, from the follow-up, the dining
+#     room's REFUSED sash no longer re-inferred at the mid-wall (one class="sw"-free window
+#     frame fewer);
+#   the drawing field is otherwise unmoved: `openings_of_level` is `render()`'s own map and
+#     changes no derivation.
+# The old comment block below is kept as the record of the fire slice's movement.
+# ---- the fire slice's own pin, superseded by the merged value above ----
+# CORPUS_SHEET_SHA = "e0ccb4cf648cad04"; CORPUS_SHEET_SHA_NO_FRAME = "55c2a6f66a7dbe0c"
 # BOTH MOVED AT WP-13.2 (the fire on its flue). Was c4210345a77b9904 / b620afc41d04b412.
 # ONE SHEET OF SIXTEEN MOVED -- `tidewater-georgian-careful`, again the only shipped plan that
 # draws a chimney stack -- and this time the DRAWING FIELD moved, on purpose: the two stack

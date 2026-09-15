@@ -951,21 +951,14 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     draw_W = (max([g["x_ft"] + g["width_ft"] for g in _pts] + [W]) if _pts else W) + ext_ft - draw_x0
     draw_H = (max([g["y_ft"] + g["depth_ft"] for g in _pts] + [H]) if _pts else H) + ext_ft - draw_y0
 
-    # WP-11.10. The appendages, keyed by the level they stand on, so a placed terrace door is
-    # drawn instead of being reported undrawable. Keyed on the level's own `index` and not on
-    # its position in `levels`, which is FILTERED to the levels carrying geometry.
-    _apx = {}
-    for _a in ((plan.get("appendages") or {}).get("placed") or []):
-        _apx.setdefault(_a.get("level", 0), {})[_a["room"]] = _a["rect"]
-    # WP-11.14: each level's rooms over their OWN massing elements -- `elements.bounds_index`,
-    # the same reader `openings.py` has used since WP-11.9. A room in no element is ABSENT from
-    # the map and `_boundary_wall` then falls back to the footprint, which is the answer a
-    # one-rectangle house wants and the one every shipped plan gets.
+    # WP-11.10 / WP-11.14: the level's placed appendages (a terrace door is drawn, not reported
+    # undrawable) and each room's own massing element (`elements.bounds_index`), keyed on the
+    # level's own `index` and not on its position in `levels`, which is FILTERED to the levels
+    # carrying geometry. ONE spelling since WP-13.2 -- `openings_of_level` -- because the DXF
+    # exporter, two tests and the gate had each written this map out and one of them forgot the
+    # appendages and was a leaf short of the sheet.
     _EL = _mod("elements", f"{ROOT}/build/elements.py")
-    level_openings = [derive_openings(lv["rooms"], W, H,
-                                      appendages=_apx.get(lv.get("index", i)),
-                                      bounds=_EL.bounds_index(plan, lv["rooms"]))
-                      for i, lv in enumerate(levels)]
+    level_openings = [openings_of_level(plan, lv, i) for i, lv in enumerate(levels)]
     all_undrawable = [u for op in level_openings for u in op["undrawable"]]
     all_diverged = [d for lv in levels for d in declared_divergence(lv["rooms"])]
     all_diverged.sort(key=lambda d: -abs(d["pct"]))
@@ -1541,15 +1534,23 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             _frame(win["wall"], win["at_ft"], win["width_ft"] * scale / 2, True,
                    win.get("edge_ft"))
 
-        def _door(px, py, horiz, width, dtype, swing_positive):
+        def _door(px, py, horiz, width, dtype, swing_positive, hinge="low"):
             """One opening drawn as the KIND of opening it is. Until WP-6.1 `type` was read by
             no renderer at all, so a pair of doors and a cased opening were both drawn as one
             enormous hinged leaf -- what a reader saw as 'a massive door' with 'no rhyme or
             reason' to its size. The leaf is the medium pen and the arc the construction pen,
-            which is the weight ladder doing the work colour used to be asked to do."""
+            which is the weight ladder doing the work colour used to be asked to do.
+
+            `hinge` is the RECORD's (`openings.py` writes `hinge: "low"` on every door it
+            places, and until WP-13.2 nothing read it): "low" is the jamb at the lower
+            coordinate ALONG the wall -- west on a horizontal wall, SOUTH on a vertical one.
+            This renderer hinged a vertical-wall single leaf on the NORTH jamb, the browser
+            sheet did the same, and the DXF hinged it on the south; three drawings of one door
+            from two jambs. A is the low jamb and B the high one, in model terms -- on screen a
+            vertical wall's low jamb is the LARGER y."""
             half = width * scale / 2
             if horiz: ax0, ay0, bx0, by0 = X(px)-half, Y(py), X(px)+half, Y(py)
-            else:     ax0, ay0, bx0, by0 = X(px), Y(py)-half, X(px), Y(py)+half
+            else:     ax0, ay0, bx0, by0 = X(px), Y(py)+half, X(px), Y(py)-half
 
             def jambs():
                 t = ext_ft * scale / 2
@@ -1557,47 +1558,47 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                     if horiz: s.append(f'<line class="dr" x1="{jx:.1f}" y1="{jy-t:.1f}" x2="{jx:.1f}" y2="{jy+t:.1f}"/>')
                     else:     s.append(f'<line class="dr" x1="{jx-t:.1f}" y1="{jy:.1f}" x2="{jx+t:.1f}" y2="{jy:.1f}"/>')
 
-            def leaf(hx, hy, radius, tox, toy, sweep):
+            def leaf(hx, hy, radius, tox, toy):
                 if horiz: ex, ey = hx, hy + (-radius if swing_positive else radius)
                 else:     ex, ey = hx + (radius if swing_positive else -radius), hy
                 s.append(f'<path class="sw" d="M {ex:.1f} {ey:.1f} A {radius:.1f} {radius:.1f} '
-                         f'0 0 {sweep} {tox:.1f} {toy:.1f}"/>')
+                         f'0 0 {sweep_flag((hx, hy), (ex, ey), (tox, toy))} {tox:.1f} {toy:.1f}"/>')
                 s.append(f'<line class="dr" x1="{hx:.1f}" y1="{hy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}"/>')
 
-            # WP-13.2. The sweep flag is the SAME on both wall orientations, and it was not:
-            # this read `(0 if swing_positive else 1) if horiz else (1 if swing_positive else 0)`
-            # from WP-6.1 to Phase 13, so every leaf on a horizontal wall was drawn as its own
-            # mirror about the chord -- hollowing back toward the hinge, its W3C centre exactly
-            # r*sqrt(2) from it -- and every leaf on a vertical wall was right. The gate measured
-            # it: 8 of 18 arcs on the search sheet, 12 of 28 on the prover's, all horizontal.
-            # The four cases, in SCREEN space (y down, so a positive angle runs clockwise):
-            #   horizontal, positive: tip is ABOVE the hinge (-90 deg), the far jamb to its
-            #     RIGHT (0 deg); -90 -> 0 is increasing, sweep 1.  Negative: +90 -> 0, sweep 0.
-            #   vertical, positive: tip is RIGHT of the hinge (0 deg), the far jamb BELOW it
-            #     (+90 deg); 0 -> 90 is increasing, sweep 1.  Negative: 180 -> 90, sweep 0.
-            # The second leaf of a pair takes `1 - sw` because its far end lies the other way.
-            # `workbench/app/src/sheet/Sheet.jsx::doorFrame` had it right all along.
-            sw = 1 if swing_positive else 0
+            # WP-13.2. The sweep flag was a TABLE -- `(0 if swing_positive else 1) if horiz
+            # else (1 if swing_positive else 0)` from WP-6.1 to Phase 13 -- and the horizontal
+            # arm was inverted, so every leaf on a horizontal wall was drawn as its own mirror
+            # about the chord, hollowing back toward the hinge with its W3C centre exactly
+            # r*sqrt(2) from it: 8 of 18 arcs on the search sheet, 12 of 28 on the prover's.
+            # The one-line fix collapsed the table to `1 if swing_positive else 0`; then the
+            # hinge became the record's jamb (see the docstring) and the table would have needed
+            # a fourth row. It is DERIVED now, by `sweep_flag`, from where the hinge, the tip
+            # and the far jamb actually are -- one rule for every leaf, held by
+            # tests/test_drawn_geometry.py's W3C round-trip on the emitted ink and by the gate.
+            # `workbench/app/src/sheet/Sheet.jsx::Leaf` derives it the same way.
             if dtype == "double":
                 mx, my = (ax0 + bx0) / 2, (ay0 + by0) / 2
-                leaf(ax0, ay0, half, mx, my, sw)
-                leaf(bx0, by0, half, mx, my, 1 - sw)
+                leaf(ax0, ay0, half, mx, my)
+                leaf(bx0, by0, half, mx, my)
             elif dtype in ("cased-opening", "open"):
                 jambs()                                    # a lining and no leaf
             elif dtype == "pocket":
                 jambs()
                 if horiz: s.append(f'<line class="sw" x1="{ax0-2*half:.1f}" y1="{ay0:.1f}" x2="{ax0:.1f}" y2="{ay0:.1f}" style="stroke-dasharray:{SS.DASH["extent"]}"/>')
-                else:     s.append(f'<line class="sw" x1="{ax0:.1f}" y1="{ay0-2*half:.1f}" x2="{ax0:.1f}" y2="{ay0:.1f}" style="stroke-dasharray:{SS.DASH["extent"]}"/>')
+                else:     s.append(f'<line class="sw" x1="{bx0:.1f}" y1="{by0-2*half:.1f}" x2="{bx0:.1f}" y2="{by0:.1f}" style="stroke-dasharray:{SS.DASH["extent"]}"/>')
             elif dtype in ("garage", "bulkhead"):
                 jambs()
                 dash = f' style="stroke-dasharray:{SS.DASH["hidden"]}"' if dtype == "bulkhead" else ''
                 s.append(f'<line class="dr" x1="{ax0:.1f}" y1="{ay0:.1f}" x2="{bx0:.1f}" y2="{by0:.1f}"{dash}/>')
+            elif hinge == "high":
+                leaf(bx0, by0, 2 * half, ax0, ay0)
             else:
-                leaf(ax0, ay0, 2 * half, bx0, by0, sw)
+                leaf(ax0, ay0, 2 * half, bx0, by0)
 
         for d in op["interior"]:
             px, py = (d["pos_ft"], d["at_ft"]) if d["horiz"] else (d["at_ft"], d["pos_ft"])
-            _door(px, py, d["horiz"], d["width_ft"], d["type"], d["swing_positive"])
+            _door(px, py, d["horiz"], d["width_ft"], d["type"], d["swing_positive"],
+                  d.get("hinge") or "low")
         for d in op["exterior"]:
             wl, p_ = d["wall"], d["at_ft"]
             horiz = wl in ("S", "N")
@@ -1614,7 +1615,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 _e = (0.0 if wl == "S" else H) if horiz else (0.0 if wl == "W" else W)
             _frame(wl, p_, d["width_ft"] * scale / 2, False, _e)
             px, py = (p_, _e) if horiz else (_e, p_)
-            _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"))
+            _door(px, py, horiz, d["width_ft"], d["type"], wl in ("S", "W"),
+                  d.get("hinge") or "low")
 
         # ---------------------------------------------------------- the stair
         # Drawn from plan["stair"] and from nothing else (WP-6.2). Treads, a nosing on each,
@@ -1986,6 +1988,46 @@ def _placed_at(d, r, W, H):
     return wall, float(pos)
 
 
+# The door types that have no leaf and so no swing: a lining, a slot, a line. ONE spelling,
+# read by `_door`, by `export_dxf`'s leaves and by the gate; until WP-13.2 the tuple was
+# spelled in four places.
+LEAFLESS = ("cased-opening", "open", "pocket", "garage", "bulkhead")
+
+
+def sweep_flag(hinge, tip, far):
+    """The SVG arc sweep flag for a leaf drawn from its open TIP to the FAR jamb about the
+    HINGE, in SCREEN space (y down). 1 when the quarter-turn from tip to far runs with
+    increasing angle -- clockwise as a reader sees it -- which is the sign of the cross
+    product. Derived, never tabled: the table this replaced had four rows and one of them was
+    wrong for seven phases (`_door`'s own comment)."""
+    (hx, hy), (tx, ty), (fx, fy) = hinge, tip, far
+    return 1 if (tx - hx) * (fy - hy) - (ty - hy) * (fx - hx) > 0 else 0
+
+
+def openings_of_level(plan, lv, index=None):
+    """The openings of ONE placed level, derived the way `render()` derives them: with the
+    level's placed at-grade appendages (a terrace has no geometry and lives in
+    `plan.appendages.placed`; without it the breakfast-terrace door is a leaf the sheet draws
+    and a bare `derive_openings` call cannot see) and each room's own massing element
+    (`elements.bounds_index`). WP-13.2 found this three-line map spelled in four places --
+    `render()`, the DXF exporter and two tests -- and a caller that forgot the appendages was
+    one leaf short of the sheet. `index` is the level's position where the record states no
+    `index`."""
+    fp = plan["footprint"]
+    W, H = fp["width_ft"], fp["depth_ft"]
+    apx = {}
+    for a in ((plan.get("appendages") or {}).get("placed") or []):
+        apx.setdefault(a.get("level", 0), {})[a["room"]] = a["rect"]
+    if index is None:
+        # the level's own `index`, else its position in the record's FULL list (a caller may
+        # hand in a level from a filtered list, so the position in that list is not it)
+        index = next((i for i, l in enumerate(plan.get("levels") or []) if l is lv), 0)
+    idx = lv.get("index", index)
+    el = _mod("elements", f"{ROOT}/build/elements.py")
+    return derive_openings(lv["rooms"], W, H, appendages=apx.get(idx),
+                           bounds=el.bounds_index(plan, lv["rooms"]))
+
+
 def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
     """Every opening of one level, resolved to where it is drawn -- and every declared
     opening that CANNOT be drawn, with the reason. The second half is the point: a door
@@ -2051,7 +2093,11 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                                  "edge_ft": round(
                                      _edge_of(a, wall, (bounds or {}).get(r["id"])), 3),
                                  "inferred_wall": False,
-                                 "inferred_width": declared_w is None})
+                                 "inferred_width": declared_w is None,
+                                 # WP-13.2: the jamb the leaf hangs from, the RECORD's word
+                                 # ("low" is the lower coordinate along the wall), read by all
+                                 # three drawings of the door
+                                 "hinge": d.get("hinge") or "low"})
                 continue
             if (not is_ext) and seat_rec:
                 key = tuple(sorted((r["id"], to)))
@@ -2073,7 +2119,8 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                 interior.append({"pair": list(key), "from": r["id"], "to": to,
                                  "width_ft": width, "type": dtype, "at_ft": at,
                                  "pos_ft": round(pos, 3), "horiz": horiz,
-                                 "swing_positive": bool(swing)})
+                                 "swing_positive": bool(swing),
+                                 "hinge": d.get("hinge") or "low"})
                 continue
             inferred_positions += 1
             if is_ext:
@@ -2096,7 +2143,8 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                 mid = (lo + hi) / 2
                 exterior.append({"room": r["id"], "wall": wl, "width_ft": width, "type": dtype,
                                  "at_ft": mid, "edge_ft": round(edge, 3), "inferred_wall": True,
-                                 "inferred_width": declared_w is None})
+                                 "inferred_width": declared_w is None,
+                                 "hinge": d.get("hinge") or "low"})
                 continue
             key = tuple(sorted((r["id"], to)))
             if key in handled: continue
@@ -2123,13 +2171,14 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                 swing = (b["x_ft"] + b["width_ft"]/2) > (a["x_ft"] + a["width_ft"]/2)
             interior.append({"pair": list(key), "from": r["id"], "to": to, "width_ft": width,
                              "type": dtype, "at_ft": at, "pos_ft": (lo+hi)/2, "horiz": horiz,
-                             "swing_positive": bool(swing)})
+                             "swing_positive": bool(swing),
+                             "hinge": d.get("hinge") or "low"})
     # windows go into what the doors left
     blocked = {}
     for e in exterior:
         blocked.setdefault((e["room"], e["wall"]), []).append(
             (e["at_ft"] - e["width_ft"]/2 - MIN_SOLID_FT, e["at_ft"] + e["width_ft"]/2 + MIN_SOLID_FT))
-    windows, off_footprint, crowded = [], 0, 0
+    windows, off_footprint, crowded, refused = [], 0, 0, 0
     for r in rooms:
         a = r.get("geometry")
         if not a: continue
@@ -2145,6 +2194,16 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
             if win.get("positions_ft"):
                 pos = [float(p) for p in win["positions_ft"]]
                 crowded += max(0, n - len(pos))
+            elif win.get("unplaced"):
+                # WP-13.2. A window the PLACER refused is not re-inferred. The branch below was
+                # written for a DECLARED record -- one nobody has placed, whose windows carry no
+                # position -- and it fired on a refused one too: `openings.py` had declined the
+                # dining room's W sash for want of a run beside the chimney breast, written the
+                # refusal onto the record, and this then drew the sash at the mid-wall anyway,
+                # 100% inside the breast, while the schedule reported it undrawn. The record's
+                # verdict stands; the count is returned so a caller can say how many.
+                refused += n
+                continue
             else:
                 pos = _distribute(_free_intervals(lo, hi, blocked.get((r["id"], wl), [])), n, ww)
                 crowded += n - len(pos)
@@ -2154,8 +2213,8 @@ def derive_openings(rooms, W, H, tol=0.6, appendages=None, bounds=None):
                                 "at_ft": round(p, 3), "edge_ft": round(edge, 3)})
     return {"interior": interior, "exterior": exterior, "undrawable": undrawable,
             "windows": windows, "windows_off_footprint": off_footprint,
-            "windows_crowded": crowded, "inferred_widths": inferred_widths,
-            "inferred_positions": inferred_positions}
+            "windows_crowded": crowded, "windows_refused": refused,
+            "inferred_widths": inferred_widths, "inferred_positions": inferred_positions}
 
 # The `.lb` face is monospaced at 8.5px with .14em of letter-spacing, so one character costs
 # 8.5*0.60 + 8.5*0.14 px. A banner line longer than the plate is a disclosure the sheet does not
