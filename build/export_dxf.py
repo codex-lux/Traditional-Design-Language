@@ -315,41 +315,79 @@ def export_plan_dxf(plan, path, parti=None, candidates=250):
                     if line is not None:
                         _xdata(line, f"TDL::window::L{n}::{r['id']}::{wi}::{k+1}/{cnt}")
 
-        # doors where two placed rooms share a wall — drawn once per pair, the
-        # opening at the door's own recorded width (the SVG uses a fixed 3 ft)
-        idx = {r["id"]: r.get("geometry") for r in lv["rooms"] if r.get("geometry")}
+        # Interior doors -- ONE derivation, WP-13.2. Until Phase 13 this loop re-derived each
+        # door from `RP._shared` and drew ONE quarter-circle per pair, `add_arc((px - dw, py),
+        # 2*dw, 0, 90)`: hinged at the west or south jamb and swept 0 -> 90 degrees whatever the
+        # record said, one arc for a pair of leaves. It read neither the hinge nor
+        # `swing_positive`, so every leaf whose record swings negative was drawn into the wrong
+        # room, and every pair was drawn as one leaf of twice the radius -- the gate measured
+        # 7 of 13 leaves wrong on the search sheet and 15 of 24 on the prover's. The SVG, the
+        # gate and this file read `RP.derive_openings` now, which is the one spelling of where
+        # a door is and which way it goes, called the way `render_plan.render()` calls it (the
+        # level's placed appendages, each room's own massing element) so the DXF is the SVG's
+        # door and not a cousin: on the reference plan the bare call is one leaf short, the
+        # breakfast-terrace door, which exists only once the terrace's rectangle is handed in.
+        # A door the derivation cannot draw is in `undrawable` WITH its reason and reaches
+        # `doors_not_drawn`, never silently skipped -- the width check that lived here (WP-6.1,
+        # the leaf and its jambs) is `required_wall_ft` inside the derivation.
         RP = _mod("render_plan", f"{ROOT}/build/render_plan.py")
-        drawn = set()
-        for r in lv["rooms"]:
-            a = idx.get(r["id"])
-            if not a:
+        _ELM = _mod("elements", f"{ROOT}/build/elements.py")
+        _apx = {}
+        for _a in ((solved.get("appendages") or {}).get("placed") or []):
+            _apx.setdefault(_a.get("level", 0), {})[_a["room"]] = _a["rect"]
+        op = RP.derive_openings(lv["rooms"], W / IN, H / IN, appendages=_apx.get(n),
+                                bounds=_ELM.bounds_index(solved, lv["rooms"]))
+        for u in op["undrawable"]:
+            if u["to"] == "exterior":
+                # This exporter has never drawn an exterior door, drawable or not (`to ==
+                # "exterior"` was `continue`d over since WP-5.1), so the banner's "without a
+                # drawable shared wall" is about interior pairs. That exterior doors are absent
+                # from the DXF is a pre-existing gap outside this package, recorded in its report.
                 continue
-            for di, d in enumerate(r.get("doors") or []):
-                to = d["to"]
-                key = tuple(sorted((r["id"], to)))
-                if to == "exterior" or to not in idx or key in drawn:
-                    continue
-                drawn.add(key)
-                # WP-6.1: measured against THIS door's leaf and its jambs, not the flat
-                # 3.2 ft the draw test used to apply to every door alike. A closet door
-                # narrower than 3.2 ft is now exported rather than listed as undrawable,
-                # which is the export half of OQ 41/63.
-                seg = RP._shared(a, idx[to], width_ft=(d.get("width_ft") or RP.DEFAULT_DOOR_FT))
-                if not seg:
-                    # a declared door the placement gives no wall wide enough to hold —
-                    # stated, never silently omitted
-                    doors_not_drawn.append(f"L{n} {r['id']}-{to}")
-                    continue
-                (px, py), horiz = seg
-                dw = (d.get("width_ft") or 3.0) * IN / 2
-                px, py = px * IN, py * IN
-                if horiz:
-                    line = msp.add_line((px - dw, py), (px + dw, py), dxfattribs={"layer": door_layer})
-                    msp.add_arc((px - dw, py), 2 * dw, 0, 90, dxfattribs={"layer": door_layer})
-                else:
-                    line = msp.add_line((px, py - dw), (px, py + dw), dxfattribs={"layer": door_layer})
-                    msp.add_arc((px, py - dw), 2 * dw, 0, 90, dxfattribs={"layer": door_layer})
-                _xdata(line, f"TDL::door::L{n}::{r['id']}::{di}")
+            doors_not_drawn.append(f"L{n} {u['from']}-{u['to']}: {u.get('reason', '')}".rstrip(": "))
+        rooms_by_id = {r["id"]: r for r in lv["rooms"]}
+        for d in op["interior"]:
+            # the XDATA header names the door by its index in the FROM room's own list, which
+            # is what `import_dxf.read_plan_dxf` cross-checks against the carried record
+            frm = rooms_by_id[d["from"]]
+            di = next((i for i, dd in enumerate(frm.get("doors") or []) if dd.get("to") == d["to"]), None)
+            if di is None:      # cannot happen by construction; a wrong index would pass the importer silently
+                raise RuntimeError(f"derive_openings drew {d['from']}-{d['to']} from no declared door")
+            horiz = d["horiz"]
+            px, py = (d["pos_ft"], d["at_ft"]) if horiz else (d["at_ft"], d["pos_ft"])
+            px, py = px * IN, py * IN
+            dw = d["width_ft"] * IN / 2
+            if horiz:
+                line = msp.add_line((px - dw, py), (px + dw, py), dxfattribs={"layer": door_layer})
+            else:
+                line = msp.add_line((px, py - dw), (px, py + dw), dxfattribs={"layer": door_layer})
+            _xdata(line, f"TDL::door::L{n}::{d['from']}::{di}")
+            # THE LEAVES. A cased opening, a pocket, a garage or a bulkhead door has no swing
+            # and gets no arc -- the SVG's `_door` draws those as jambs or a line, and an arc
+            # here would be a leaf the record does not state. A single leaf is hinged on the
+            # LOW jamb at the opening's full width; a pair is two leaves of half the width, one
+            # on each jamb, meeting at the centre. Each leaf runs the quarter-circle from its
+            # CLOSED position (along the wall, toward the far end of its run) to its OPEN one
+            # (across the wall, on the side `swing_positive` names: +y off a horizontal wall,
+            # +x off a vertical one). ezdxf arcs run counter-clockwise from start to end, so the
+            # two angles are ordered to make the quarter between them the leaf's own. Model y is
+            # north here and there is no flip, which is why the angles are the record's and not
+            # the SVG's.
+            if d["type"] in ("cased-opening", "open", "pocket", "garage", "bulkhead"):
+                continue
+            open_deg = (90 if d["swing_positive"] else 270) if horiz else (0 if d["swing_positive"] else 180)
+            if d["type"] == "double":
+                leaves = ([((px - dw, py), dw, 0), ((px + dw, py), dw, 180)] if horiz
+                          else [((px, py - dw), dw, 90), ((px, py + dw), dw, 270)])
+            else:
+                leaves = [((px - dw, py), 2 * dw, 0)] if horiz else [((px, py - dw), 2 * dw, 90)]
+            for (hx, hy), r, closed_deg in leaves:
+                start, end = ((closed_deg, open_deg) if (open_deg - closed_deg) % 360 == 90
+                              else (open_deg, closed_deg))
+                msp.add_arc((hx, hy), r, start, end, dxfattribs={"layer": door_layer})
+                # the leaf itself, hinge to tip, as the SVG draws it beside the arc
+                tip = (hx + r * math.cos(math.radians(open_deg)), hy + r * math.sin(math.radians(open_deg)))
+                msp.add_line((hx, hy), tip, dxfattribs={"layer": door_layer})
 
     if doors_not_drawn:
         _text(msp, _layer(doc, "TDL-TITLE", color=7),

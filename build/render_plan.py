@@ -1139,7 +1139,20 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                          f'0 0 {sweep} {tox:.1f} {toy:.1f}"/>')
                 s.append(f'<line class="dr" x1="{hx:.1f}" y1="{hy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}"/>')
 
-            sw = (0 if swing_positive else 1) if horiz else (1 if swing_positive else 0)
+            # WP-13.2. The sweep flag is the SAME on both wall orientations, and it was not:
+            # this read `(0 if swing_positive else 1) if horiz else (1 if swing_positive else 0)`
+            # from WP-6.1 to Phase 13, so every leaf on a horizontal wall was drawn as its own
+            # mirror about the chord -- hollowing back toward the hinge, its W3C centre exactly
+            # r*sqrt(2) from it -- and every leaf on a vertical wall was right. The gate measured
+            # it: 8 of 18 arcs on the search sheet, 12 of 28 on the prover's, all horizontal.
+            # The four cases, in SCREEN space (y down, so a positive angle runs clockwise):
+            #   horizontal, positive: tip is ABOVE the hinge (-90 deg), the far jamb to its
+            #     RIGHT (0 deg); -90 -> 0 is increasing, sweep 1.  Negative: +90 -> 0, sweep 0.
+            #   vertical, positive: tip is RIGHT of the hinge (0 deg), the far jamb BELOW it
+            #     (+90 deg); 0 -> 90 is increasing, sweep 1.  Negative: 180 -> 90, sweep 0.
+            # The second leaf of a pair takes `1 - sw` because its far end lies the other way.
+            # `workbench/app/src/sheet/Sheet.jsx::doorFrame` had it right all along.
+            sw = 1 if swing_positive else 0
             if dtype == "double":
                 mx, my = (ax0 + bx0) / 2, (ay0 + by0) / 2
                 leaf(ax0, ay0, half, mx, my, sw)

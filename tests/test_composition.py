@@ -217,12 +217,42 @@ class TestSolveIntegration:
 
 
 class TestDoorSwingsRender:
-    def test_svg_includes_arc_paths_for_doors(self, geometry_module):
-        import importlib.util
+    def test_svg_includes_arc_paths_for_doors(self, geometry_module, tmp_path):
+        """WP-13.2 made this non-vacuous. It asserted `'<path d="M ' in svg and " A " in svg`,
+        which a sheet with NO door arc at all satisfies (a relaxation mark, a stair arrow, any
+        path and any capital A on the plate), so it was green over a renderer that drew no
+        door -- and it was green over every mirrored one, since it never read where the ink
+        went. Now: one `class="sw"` arc per hinged leaf the record derives, two for a pair and
+        none for a cased opening or a pocket -- counted against `derive_openings`, not against a
+        number, so it stays exact as the plan changes and cannot pass on a sheet with none.
+        The centre-on-the-hinge rule is `tests/test_drawn_geometry.py`'s."""
+        import re
+        import sys
+        sys.path.insert(0, os.path.join(ROOT, "build"))
+        import modcache
+        rp = modcache.load("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
+        el = modcache.load("elements", os.path.join(ROOT, "build", "elements.py"))
         plan = load_plan("tidewater-georgian-careful")
         result = geometry_module.solve(plan, engine="heuristic")
-        spec = importlib.util.spec_from_file_location("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
-        rp = importlib.util.module_from_spec(spec); spec.loader.exec_module(rp)
-        path = rp.render(result, "/tmp/wp22_door_swing_test.svg")
+        path = rp.render(result, str(tmp_path / "door_swing.svg"))
         svg = open(path).read()
-        assert '<path d="M ' in svg and " A " in svg, "expected at least one door-swing arc path"
+        fp = result["footprint"]
+        # `derive_openings` as `render()` calls it: with the level's placed appendages, since the
+        # breakfast-terrace door is a leaf on the sheet and is not derived without the terrace
+        apx = {}
+        for a in ((result.get("appendages") or {}).get("placed") or []):
+            apx.setdefault(a.get("level", 0), {})[a["room"]] = a["rect"]
+        leaves = 0
+        for i, lv in enumerate(result["levels"]):
+            if not any(r.get("geometry") for r in lv["rooms"]):
+                continue
+            op = rp.derive_openings(lv["rooms"], fp["width_ft"], fp["depth_ft"],
+                                    appendages=apx.get(lv.get("index", i)),
+                                    bounds=el.bounds_index(result, lv["rooms"]))
+            for d in op["interior"] + op["exterior"]:
+                if d["type"] in ("cased-opening", "open", "pocket", "garage", "bulkhead"):
+                    continue
+                leaves += 2 if d["type"] == "double" else 1
+        arcs = len(re.findall(r'<path class="sw" d="M [-\d. ]+ A ', svg))
+        assert leaves >= 6, f"COULD NOT EVALUATE: the record derives only {leaves} hinged leaves"
+        assert arcs == leaves, f"{arcs} door-swing arcs drawn for {leaves} hinged leaves on the record"
