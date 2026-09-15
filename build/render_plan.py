@@ -868,6 +868,53 @@ def threshold_rects(plan):
     return out
 
 
+# ---------------------------------------------------------------- the dimension run (WP-13.2)
+# PORTED FROM workbench/app/src/sheet/Sheet.jsx::DimRun, the browser sheet's own run, so the
+# two sheets of one record dimension it the same way: a run line in the construction pen, an
+# oblique tick at every stop in the fine pen, and a feet-and-inches figure over every segment
+# -- "ticks, primes, never decimal feet". The figure is `_fmt`'s, the one spelling the room
+# dimension strings and the title already use. Until this the Python sheet carried a bay
+# figure above the plate and nothing under it, so the only thing a reader could step a
+# dimension off was the scale bar -- whose zero stood on the plate's margin.
+#
+# THE SIZES ARE IN PX AND DO NOT SCALE WITH THE PLATE. A pen is a pen (sheet_style.py) and a
+# tick is a sheet mark, not a model one; the JSX states its tick in feet only because its
+# whole plate is drawn in model units under one transform.
+DIM_RUN_OFF_PX = (14.0, 36.0)   # the bay run and the overall run, below the plate's extent
+DIM_BAND_PX = 44.0              # what the two runs and their overshoot take under each plate;
+                                # `foot_h` grows by it so the foot and the canvas follow
+DIM_TICK_PX = 4.0               # half of the oblique tick
+DIM_FIG_FLOOR_PX = 6.0          # the smallest figure set; it is never dropped or truncated
+
+
+def dim_run(X, y, stops, size=8.0, floor=DIM_FIG_FLOOR_PX):
+    """One horizontal dimension run at sheet `y`: the line, a tick at each stop, a figure per
+    segment. `stops` are model x in feet, ascending; `X` is the plate's own affine, the same
+    function the bay figures are struck from. Returns SVG strings.
+
+    A figure wider than its segment at the class size is set smaller, to a floor, and drawn
+    whole in every case -- the rule the room labels are held to (tests/test_drawn_labels.py):
+    a figure over its own ticks is legible where a missing one is a silence. The size goes in
+    `style=`, never as an attribute, because `.dm` sets font-size and would win."""
+    t = DIM_TICK_PX
+    out = [f'<line class="gd" x1="{X(stops[0]):.1f}" y1="{y:.1f}" '
+           f'x2="{X(stops[-1]):.1f}" y2="{y:.1f}"/>']
+    for m in stops:
+        x = X(m)
+        out.append(f'<line class="fn" x1="{x - t:.1f}" y1="{y + t:.1f}" '
+                   f'x2="{x + t:.1f}" y2="{y - t:.1f}"/>')
+    for a, b in zip(stops, stops[1:]):
+        label = _fmt(b - a)
+        seg = (X(b) - X(a)) - 2 * t
+        fs = size
+        if _text_w(label, fs, mono=True) > seg:
+            fs = max(floor, seg / _text_w(label, 1.0, mono=True))
+        st = f' style="font-size:{fs:.2f}px"' if fs != size else ""
+        out.append(f'<text class="dm" x="{(X(a) + X(b)) / 2:.1f}" y="{y - 3.0:.1f}" '
+                   f'text-anchor="middle"{st}>{_esc(label)}</text>')
+    return out
+
+
 def render(plan, path, scale=PX_PER_FT, register="working"):
     if register not in REGISTERS:
         raise SystemExit(f"register must be one of {REGISTERS}, not {register!r}")
@@ -1073,7 +1120,10 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     panel_w = pw + extra_left + extra_right
     head_h = 54.0                                  # title and its subtitle inside the border
     grid_h = 24.0                                  # the bay figures above each plate
-    foot_h = 58.0                                  # scale bar and compass under the plates
+    # WP-13.2: the two dimension runs under each plate sit ABOVE the scale bar, in a band of
+    # DIM_BAND_PX; the foot grows by it, so `total_h` and the table's `ty` follow without a
+    # second spelling of the sum. `tests/test_dimension_run.py` holds the foot's order.
+    foot_h = 58.0 + DIM_BAND_PX                    # the runs, then scale bar and compass
     total_w = M * 2 + BP * 2 + len(levels) * panel_w + (len(levels) - 1) * gap
 
     # THE FURNITURE KEY IS FITTED HERE, BEFORE THE MARGIN IS SIZED (WP-13.2). A room no corner
@@ -1191,14 +1241,46 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         # against project every structural line thinly past the walls, which is how a reader
         # sees the discipline the plan was composed on rather than only the marks where it was
         # broken. The line is left visible -- that is what the construction weight is FOR.
+        #
+        # ...AND IT IS THE EXTENSION LINE OF THE DIMENSION RUN UNDER THE PLATE (WP-13.2). Each
+        # bay line runs on past the plate to the runs' overshoot, so the tick on the run stands
+        # on the very line the figure above it names; the two stops no bay line reaches -- the
+        # clear faces at 0 and W -- get an extension line of their own, from the clear face
+        # down. The band sits under everything the plate draws, the lot's front strip
+        # included (`extra_bottom`), so a stoop or a setback never has a run through it.
+        #
+        # THE FIGURE ABOVE THE PLATE CARRIES NO PRIME, DELIBERATELY. Sheet.jsx:449 writes
+        # `9′`; the gate reads this figure with a regex that ends `(\d+)</text>`
+        # (tests/test_sheet_coherence.py, `_FIG`), and a gate row may not be loosened to
+        # pass. The unit is stated by the run under the plate instead, whose figures are
+        # feet-and-inches. If the gate's reader is ever widened, the prime goes here.
         bm = fp.get("bay_module_ft") or 10
-        b, n = bm, 1
+        stops, b = [0.0], bm
         while b < W - 0.01:
+            stops.append(b); b += bm
+        stops.append(float(W))
+        band_top = Y(draw_y0) + extra_bottom
+        band_bot = band_top + DIM_RUN_OFF_PX[1] + DIM_TICK_PX
+        for n, b in enumerate(stops[1:-1], 1):
             s.append(f'<line class="gd" x1="{X(b):.1f}" y1="{Y(draw_y0 + draw_H) - 16:.1f}" '
-                     f'x2="{X(b):.1f}" y2="{Y(draw_y0) + 16:.1f}"/>')
+                     f'x2="{X(b):.1f}" y2="{band_bot:.1f}"/>')
             s.append(f'<text class="dm" x="{X(b):.1f}" y="{Y(draw_y0 + draw_H) - 20:.1f}" '
                      f'text-anchor="middle" style="font-size:7px;fill:{L["hair"]}">{n * bm:g}</text>')
-            b += bm; n += 1
+        for m in (0.0, float(W)):
+            s.append(f'<line class="gd" x1="{X(m):.1f}" y1="{Y(0.0):.1f}" '
+                     f'x2="{X(m):.1f}" y2="{band_bot:.1f}"/>')
+        lvid = _esc(lv.get("id") or str(i))
+        s.append(f'<g data-run="bays" data-level="{lvid}">')
+        s.extend(dim_run(X, band_top + DIM_RUN_OFF_PX[0], stops))
+        s.append('</g>')
+        s.append(f'<g data-run="overall" data-level="{lvid}">')
+        s.extend(dim_run(X, band_top + DIM_RUN_OFF_PX[1], [0.0, float(W)]))
+        s.append('</g>')
+        # THE SCALE BAR'S ZERO STANDS ON THIS FUNCTION'S X(0.0) -- the ground plate's clear
+        # face, the datum every bay figure above is struck from -- and the foot of the sheet
+        # reads it from here rather than re-spelling the plate's affine (WP-13.2).
+        if i == 0:
+            ground_X = X
 
         # the reserved voids, under the walls: a court is drawn OPEN (OQ 55) -- the ground
         # colour and a hatch, so it reads as the outside it is and not as a room nobody labelled
@@ -1678,10 +1760,18 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                          f'{mk.get("off_ft")} ft off the bay line</title></path>')
 
     # ------------------------------------------------------------- the foot of the sheet
-    foot_y = top + extra_top + ph + extra_bottom + 26
+    foot_y = top + extra_top + ph + extra_bottom + DIM_BAND_PX + 26
     # A GRAPHIC SCALE, not a line with a number beside it. Alternating cells so a reader can
     # step a dimension off the sheet, which is what a scale bar is for and what one line is not.
-    sx0 = M + BP
+    #
+    # ITS ZERO STANDS ON THE GROUND PLATE'S CLEAR FACE, x = 0 (WP-13.2). It stood at `M + BP`,
+    # the sheet's hard left margin -- the plate's own origin and model x = -4.42 ft on the
+    # Tidewater sheet, the drawn-extent margin, which is nothing drawn -- ruled 26 px straight
+    # under the plan on the sheet's strongest alignment, so a reader laying a straightedge from
+    # its 0 to the first bay line read 13.4 ft against a figure that says 9. `ground_X` is the
+    # SAME function the bay figures are struck from, bound in the level loop above; a second
+    # spelling of the affine here is exactly how the two would drift again.
+    sx0 = ground_X(0.0)
     cell = 5 * scale                       # five feet a cell
     for k in range(4):
         s.append(f'<rect x="{sx0 + k*cell:.1f}" y="{foot_y:.1f}" width="{cell:.1f}" height="5" '
