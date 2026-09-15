@@ -122,7 +122,12 @@ def sources_newer_than(built_at, root=None):
     base = root or ROOT
     src_dir = os.path.join(base, "workbench", "app", "src")
     out = []
-    for dirpath, _dirs, files in os.walk(src_dir):
+    # sorted(os.walk(...)), not just sorted(files): tests/test_determinism.py forbids an
+    # unsorted directory read anywhere in the toolchain, and it CAUGHT THIS ONE -- the first
+    # draft sorted the file list on the next line, which is deterministic in the result and
+    # invisible to a line-based guard. Sorting the walk is the stronger claim anyway: it
+    # fixes the traversal order too, not only the order within each directory.
+    for dirpath, _dirs, files in sorted(os.walk(src_dir)):
         for name in sorted(files):
             path = os.path.join(dirpath, name)
             try:

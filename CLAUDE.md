@@ -1470,6 +1470,20 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   own: the reader was walked TWICE under one name (one quantity, two derivations, inside four
   lines of its own fix) and `newer[0]` was labelled *"oldest offender"* when the list is sorted by
   PATH -- the exact defect being removed, committed in the sentence removing it.
+- **A SOURCE-READING GUARD READS AT RUN TIME, SO A MID-RUN EDIT IS JUDGED BY IT (WP-13.2).**
+  `test_determinism.py::test_corpus_globs_are_sorted` greps `build/`, `mcp_server/`,
+  `workbench/` and `tests/` for an unsorted directory read, it sits at the END of a
+  forty-five-minute suite, and it opens the files FROM DISK. WP-13.2's new `os.walk` was
+  written while `check_all.py --shard 1/1` was running and the guard flagged both new files --
+  correctly, and from inside the build the edit was not supposed to affect. **Reasoning that
+  "pytest already collected, and nothing collected imports my file" is not enough**: a
+  source-reading guard does not need to import anything. The edit was deliberate and the catch
+  is the system working, but a mid-run edit is never free.
+  **AND `sorted(files)` ON THE NEXT LINE IS DETERMINISTIC AND STILL WRONG.** The guard is
+  line-based and cannot see it; more to the point `sorted(os.walk(...))` is the STRONGER claim,
+  because it fixes the TRAVERSAL order too and not only the order within each directory. Do not
+  reach for an exemption when the guard is asking for something better than what you wrote.
+
 - **DO NOT `npm install` WHILE A BUILD IS IN FLIGHT, AND THE REASON IS NOT CONTENTION
   (WP-13.2).** `check_all.py` runs `node --test workbench/app` with NO npm install, deliberately,
   so a package import there is a green local run and a red CI one. Rebuilding `dist/` mid-run to

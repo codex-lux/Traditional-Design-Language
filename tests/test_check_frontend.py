@@ -221,7 +221,9 @@ class TestTheSourceGuaranteeThisCheckerCannotSee(unittest.TestCase):
         rx = re.compile(pattern, re.M)
         hits = []
         src_dir = os.path.join(ROOT, "workbench", "app", "src")
-        for dirpath, _dirs, files in os.walk(src_dir):
+        # sorted(os.walk(...)) -- tests/test_determinism.py forbids an unsorted directory
+        # read anywhere in the toolchain, this file included, and it caught both of these.
+        for dirpath, _dirs, files in sorted(os.walk(src_dir)):
             for name in sorted(files):
                 if not name.endswith((".js", ".jsx", ".mjs")):
                     continue
