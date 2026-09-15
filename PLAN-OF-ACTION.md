@@ -2040,9 +2040,24 @@ term — not stepped around.
 Reports: `docs/reports/wp-11.16-the-prover-that-charged-the-wrong-rectangle.md` and
 `docs/reports/wp-11.16-the-record-edit.md`.
 
-**THREE OF THIS PACKAGE'S OWN PREDICTIONS DID NOT REPRODUCE**, which is why its text said
-re-derive: no new `unreachable: butlers`, no severed entrance sequence, and the main block is
-45 × 37.24 at 5 bays rather than 40 × 42 at 4. **And its premise did not hold either** — with the
+**Suite repaired and the corrections made 15 Sep 2026** — 41 tests across 19 files, plus one
+defect the repair uncovered. See §§VIII–IX of the record-edit report.
+
+**TWO OF THIS PACKAGE'S OWN PREDICTIONS DID NOT REPRODUCE**, which is why its text said
+re-derive: no new `unreachable: butlers`, and the main block is 45 × 37.24 at 5 bays rather than
+40 × 42 at 4. **THE THIRD — the severed entrance sequence — WAS PUBLISHED AS "did not reproduce"
+AND DOES**, on the SEARCH: the entry porch lands at (32.07, 31.51), the rear wall, against
+(31.0, 0.0) under CP. That figure was measured on one engine and printed with no engine named,
+which is the trap this project records costing two numbers at WP-11.8, committed in the report
+that opens by telling its reader to re-derive. Corrected in §VIII; ruled *name it, do not fix
+it*, as `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`.
+
+**AND THE PROVER WAS STATING A PROPORTION BAND THE CORPUS DOES NOT** —
+`int(round(1.35 * 10))` is 14, so CP asserted a ceiling of 1.4 wherever a record says 1.35 and
+*proved* an 18 × 13 bedroom inside a band it is outside of. Four room types loose, one
+(`parlor`) tight. Its own commit, with two controls;
+`oq/a-held-shape-pin-is-not-held-on-the-hard-only-path` is CLOSED by it, having asked exactly
+that question. **And its premise did not hold either** — with the
 redundant `butlers↔kitchen` door KEPT the tagging still proves OPTIMAL at 9.4 s with the identical
 objective 308.1 and the same pins, so WP-11.13's ladder no longer binds; the door is dropped on
 the corpus's own grounds (OQ 59, and both engines reporting it permanently unplaced) and costs two

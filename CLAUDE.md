@@ -891,6 +891,99 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **THE PROVER STATED THE PROPORTION BAND AT ONE DECIMAL PLACE, AND PROVED A ROOM INSIDE A BAND
+  IT IS OUTSIDE OF (WP-11.16).** `geometry_cp._build` wrote a room's ceiling as
+  `10 * mxs <= int(round(_ceil * 10)) * mns`, and `int(round(1.35 * 10))` is **14** -- so CP
+  asserted **1.4** wherever the record states 1.35, and `tidewater-georgian-careful` drew
+  `chamber2` at 18 x 13 (**1.3846**) with its shape pin HELD and `downgraded_shape_pins` naming
+  only `L0 pantry`. Swept over all 54 banded room types, one decimal is wrong BOTH WAYS: **4
+  LOOSE** (`bedroom`, `keeping-room`, `morning-room`, `nursery`) and **1 TIGHT** (`parlor`,
+  1.45 -> 1.4). **The tight one is the sharper direction and had no instance to catch it** -- the
+  prover can downgrade an AUTHORED wall pin, or call a house infeasible, to escape a band the
+  room's own record does not state, which is the OQ 52 family. `ASPECT_FALLBACK` is 2.6 and
+  survives the rounding exactly; `GEO.shape_band()` is unrounded, so the hill-climb never had it.
+  `_BAND_Q = 100` is the one spelling, **and it is a constant because there are TWO sites** -- the
+  hard pin and the soft overshoot term -- and the reason a tenth survived four packages is that
+  both copies were wrong TOGETHER and so agreed with each other.
+  **THIS CLOSES `oq/a-held-shape-pin-is-not-held-on-the-hard-only-path` BY ANSWERING ITS OWN
+  QUESTION 1** (*does phase A assert the pin at all?* -- it does, at the wrong number), and that
+  entry's own recorded evidence is the confirmation: its two rooms are at 1.38 and **1.40**, and
+  1.40 is exactly the loosened ceiling. **Its slug names the wrong cause and is kept**: the
+  failure reproduces three runs of three on `OPTIMAL -- kept polish from the heuristic hint`, so
+  the hard-only path was a coincidence of which candidate won. `_absorb` is exonerated for the
+  fifth time, by a probe rather than by reading.
+- **THE TAGGING COSTS THE SEARCH ITS ENTRANCE AND COSTS THE PROVER NOTHING (WP-11.16).** On the
+  tagged Tidewater the hill-climb puts the entry porch at **(32.07, 31.51) -- the REAR wall** and
+  CP puts it at (31.0, 0.0) on the S front; the flight goes to `passage` against `porch`, the axis
+  spine reads off-centre against on-centre, the kitchen's centroid sits in the FRONT half, the
+  primary bath is 99 sf against 135, and the search refuses a fixture CP places. `entrance_faces`
+  is `"S"` and unchanged: **the search draws this house back to front.**
+  **IT IS ONE DEFECT WEARING FOUR NAMES, and every layer reporting it is behaving** --
+  `build/threshold.py` hands the flight to whichever room the entrance door is really in, so
+  `platform_is_the_room` is False and a platform is correctly drawn. Reading four failures as four
+  faults produces four wrong repairs. **Ruled 15 Sep 2026: name it, do not fix it**, because
+  repairing the search is a placement change with a corpus-wide blast radius.
+  `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`. **Nothing shipped is drawn
+  wrong** -- `corpus._placed()` solves on `auto`, which takes the proof -- and the seven guards
+  that assert a correct entrance sequence run on `engine="cp"` BY NAME, reporting COULD NOT
+  EVALUATE rather than passing when there is no proof. **Not `auto`, which is OQ 71's error**; what
+  makes it usable is that the tagged record's proof CLOSES, identical on three runs.
+  **Do not re-point those guards at the broken sequence** -- a green suite would then be evidence
+  FOR the defect.
+- **AND WP-11.16's OWN REPORT PUBLISHED "did not reproduce" ABOUT IT, MEASURED ON ONE ENGINE AND
+  PRINTED WITH NO ENGINE NAMED.** The same trap that cost two numbers at WP-11.8, committed in a
+  report whose own Status line tells its reader to re-derive rather than quote. Corrected in the
+  report's §VIII rather than silently overwritten.
+- **THERE WERE TWO CAUSES IN ONE RECORD EDIT, AND STRIPPING THE TAGS ONLY UNDOES ONE (WP-11.16).**
+  Twenty-one guards asserted, directly or through a fixture, that `tidewater-georgian-careful` is
+  one rectangle. Stripping `block`/`hyphen` restores the width (63) and the relaxation count (7)
+  and does NOT restore the score (**775.2 -> 761.2**) or the `plan_check` digest (**210 -> 212
+  rows**), because the dropped `butlers`-`kitchen` door is gone from the record whether or not its
+  rooms carry a tag. **Any repair presenting a pin as "restored by stripping" is wrong by a
+  measurable amount.** And the four moved rows were DIFFED rather than counted: two are the same
+  findings reworded and the real +2 are the wet-room pair, which is
+  `oq/the-servicing-layer-does-not-know-about-massing-elements` speaking. A net count hides
+  substitutions.
+- **A SWEEP THAT ASSERTS "EVERY SHIPPED PLAN IS ONE RECTANGLE" BECOMES A CENSUS, NOT A SKIP AND
+  NOT A LOOSENING (WP-11.16).** Four of them. `len(els) >= 1` is vacuous and is what those tests'
+  own docstrings forbid; skipping the tagged plan removes the one record that exercises the layer
+  at all. **15 one-element, 1 named three-element**, so a seventeenth tagged plan fails them again
+  -- which it should, because each one takes a plan out from under `tests/test_elements.py`'s two
+  corpus digests. **The census made one half STRONGER**: the integer-origin claim that sweep is
+  actually for is asserted on the main block of all sixteen now, and measured, it holds everywhere.
+- **AND ONE OF THOSE TESTS HAD NEVER EXERCISED THE BRANCH IT NAMES (WP-11.16).**
+  `test_the_lot_cap_is_on_the_built_extent` asserted `elements == 1` and then that the built extent
+  equals the footprint width -- **true by construction on a one-rectangle house**, so every
+  assertion after the first was a tautology and the gap-exclusion rule its own note describes had
+  no test. **The first replacement assertion was an ASSUMPTION and failed**: it required the built
+  extent to be strictly less than the bounding box's span, and it is EQUAL, because the three
+  elements are contiguous (dependency -34 to -7, hyphen -7 to 0, main 0 to 45). That is right --
+  WP-11.9's ruling 2 is that the hyphen is roofed ground -- so **the gap-exclusion half has no
+  instance in this corpus and is not asserted**; a test demanding it would drive the layer to
+  produce a house that does not exist here.
+- **A SPECIMEN CAN RUN OUT, AND DELETING THE ASSERTION THAT NOTICES IS THE WRONG REPAIR
+  (WP-11.16).** `spans_no_bay` had no instance left -- all four of the Tidewater's remaining
+  ground-front rooms span at least one bay -- so `none_` came back empty and the `for x in none_`
+  loop had nothing to run. Deleting `assert none_` leaves every assertion below **vacuously true
+  on a corpus with no example at all**. The state is DRIVEN instead, with the untouched rooms
+  asserted alongside so one room moved off the facade cannot be mistaken for the rhythm collapsing.
+  Two facade tests lost their subject the same way by a number moving the RIGHT direction (the
+  passage/facade share went 0.1359 -> 0.2027, INTO its band), which is the failure a bare re-pin
+  hides best.
+- **THE FIXTURE GUARANTEE IS KEPT AND THE REFUSAL NAMED, NOT RATCHETED (WP-11.16).**
+  `fixtures_unplaced == 0` had no ceiling in it; `<= 1` would say nothing about WHICH fixture and
+  the next refusal would hide behind this one. `KNOWN_REFUSALS` names the item -- `primarybath`'s
+  shower with bench, refused with a full reason naming all four walls it tried -- **and the list
+  may only shrink.** CP refuses zero on the same record and nothing left the upper floor (still
+  1,621 sf declared), so it is the search drawing badly, not the programme failing to fit.
+- **A DIGEST THAT MOVES IS RE-DERIVED PER ENTRY, WHICH IS HOW "the roof changed" IS TOLD FROM
+  "the roof's INPUT changed" (WP-11.16).** The roof sweep's own assertion message demands a
+  pristine checkout; run that way, **165 of 180 entries moved and that is the expected shape** --
+  1 is the tagged plan and 164 are the style sweep built on it as its base, while the 15 unmoved
+  are the records with a base of their own. `build/roof.py` and `build/threshold.py` are
+  byte-identical across the package, which is the proof. The two corpus digests got the same
+  treatment: exactly one of sixteen plans differs, on both.
+
 - **THE DISCLOSURE PUBLISHED A JOIST RUN OVER OPEN SKY, AND THE COUNT NEVER MOVED (WP-11.15).**
   `geometry._disclose_spans` built its element map as `{idx: [every element] for idx in
   rooms_by_level}` — every level, every element — so a house with a ground-floor dependency was
@@ -4225,8 +4318,8 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   for the frozen numbers and `docs/open-questions/oq-<slug>.md` for every question raised after
   28 Aug 2026, one file per question, filename == id, exactly as `faults/` and `rooms/` have
   always worked. `docs/open-questions.md` is a GENERATED INDEX; edit the question's own file and
-  run `build/gen_open_questions.py`. It holds **180 entries, of which 88 are open**
-  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-held-shape-pin-is-not-held-on-the-hard-only-path, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/the-servicing-layer-does-not-know-about-massing-elements, oq/the-span-count-and-the-span-marks-read-membership-two-ways, oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth).
+  run `build/gen_open_questions.py`. It holds **181 entries, of which 88 are open**
+  (7, 8, 9, 10, 11, 18, 36, 37, 38, 39, 64, 66, 67, 68, 72, 73, 74, 75, 76, 77, 79, 86, 87, 91, 92, 93, 94, 96, 98, oq/a-baked-pack-value-is-a-second-delivery-path, oq/a-child-band-replaces-an-ancestor-derivation, oq/a-daily-route-is-an-editorial-model, oq/a-declared-measurement-and-a-window-record-state-one-width-twice, oq/a-district-number-on-a-contributing-property-is-not-that-buildings-identity, oq/a-finding-citation-cannot-name-a-finding, oq/a-findings-ordinal-is-not-an-identity, oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group, oq/a-kit-binding-propagates-to-descendants-nobody-read, oq/a-licence-conditioned-on-the-wrong-axis, oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants, oq/a-lot-too-narrow-for-the-diagrams-own-minimum-bay-count, oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it, oq/a-massing-record-carries-no-provenance, oq/a-massing-states-its-structure-and-nothing-reads-it, oq/a-material-neutral-assembly-decides-a-material-question, oq/a-measured-parameter-with-no-source-is-not-metered, oq/a-node-that-refuses-a-category-must-decline-it-twenty-six-times, oq/a-parameter-has-one-source-field-so-a-building-cannot-corroborate-a-reasoned-figure, oq/a-placement-finding-is-classed-by-what-the-engine-is-for-five-kinds, oq/a-placement-rule-is-free-at-a-pool-the-server-cannot-afford, oq/a-plan-does-not-name-the-parti-it-was-built-from, oq/a-room-count-cap-on-the-heavy-routes, oq/a-room-record-names-the-wall-its-fire-stands-on-and-nothing-compares-it, oq/a-room-records-prose-states-a-floor-its-own-band-does-not, oq/a-round-is-accepted-on-the-key-and-not-on-the-rule-each-move-executed, oq/a-slug-in-a-code-span-is-not-checked, oq/a-source-is-a-free-string-and-nothing-can-tell-a-book-from-a-fiction, oq/a-source-that-agrees-numerically-may-be-the-wrong-quantity, oq/a-survey-contradicts-a-kit-figure-and-nothing-decides-it, oq/an-at-grade-appendage-is-drawn-and-not-judged, oq/an-exterior-door-is-drawn-on-the-footprints-wall-and-not-its-rooms, oq/applies-when-means-two-things, oq/fifteen-of-sixteen-plans-name-no-parti, oq/fourteen-of-sixteen-plans-name-no-massing, oq/no-plan-record-states-its-bearing, oq/one-work-is-cited-under-several-strings-and-every-source-count-is-inflated, oq/the-adjudication-cases-the-records-do-not-decide, oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either, oq/the-canon-axis-counts-two-grains-as-one, oq/the-composer-ranks-on-an-assumed-bearing, oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced, oq/the-divergence-mark-is-in-neither-face-the-sheet-names, oq/the-dxf-draws-its-own-windows, oq/the-elevation-reads-five-packs-whatever-the-style-binds, oq/the-massing-states-its-hearth-in-prose-and-a-substring-test-reads-it, oq/the-measurement-that-defaulted-the-stacking-rule-has-inverted, oq/the-partis-bay-module-contradicts-its-own-exemplars, oq/the-passage-is-divided-and-the-corpus-has-no-word-for-it, oq/the-placement-carries-no-wall-bands, oq/the-placer-places-two-levels-and-says-nothing-about-the-third, oq/the-raw-kit-read, oq/the-servicing-layer-does-not-know-about-massing-elements, oq/the-span-count-and-the-span-marks-read-membership-two-ways, oq/the-terraces-declared-faces-were-written-for-a-house-its-room-has-left, oq/thirty-five-measurements-the-elevation-states-as-literals, oq/two-id-namespaces, oq/which-rooms-take-the-hearth, oq/the-search-loses-the-entrance-front-on-a-multi-element-plan).
   The tally counts the two HALF CLOSED entries (18, 68) as open, because a half-closed
   question is an open one. That list is DERIVED from the register by
   `tests/test_wp46_packs.py::test_claude_md_open_question_list_is_derived_from_the_file_not_asserted_against_a_literal`,
