@@ -146,7 +146,22 @@ def test_the_drawn_layer_names_a_room_the_declared_record_passes():
 # (419 -> 574). Of those, 140 are the new call site (86 across + 54 along) and 15 are long-axis
 # shortfalls the old `elif` computed and dropped. The declared furniture layer moved 137 -> 178
 # by the same split, +41.
-DRAWN_SHORT_CEILING = 68   # 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN ORDER: the first is
+# 66/79 AT WP-11.16, from 68/82, AND THE LAYER THAT MOVED IT IS THE PLACEMENT -- re-derived,
+# per plan, which this file's own standing rule demands. Of sixteen records EXACTLY ONE moves:
+# `tidewater-georgian-careful` 8/11 -> 6/8. Every other plan is byte-identical, so neither the
+# catalogue nor the fit arithmetic moved, and a reader who assumed the last cause was the cause
+# would have been wrong for the fourth time in this file.
+#
+# THE CAUSE IS A RECORD EDIT: that plan declares 617 sf of service programme as a west
+# dependency now, so the rooms that stay in the main block are drawn in a 45 x 37.24 ft pile
+# instead of 63 x 38.17, and five essential items that did not fit now do.
+#
+# AND IT IS AN IMPROVEMENT TO READ WITH SUSPICION, not to bank. The SAME package refuses a
+# fixture on the same plan -- the primary bath goes 211 sf to 99 and its shower with bench has
+# nowhere to stand (`tests/test_openings.py` names it). A furniture ratchet improving while a
+# fixture is refused means the two instruments are reading different halves of one house, and
+# the fixture is the one carrying the bad news.
+DRAWN_SHORT_CEILING = 66   # 68 until WP-11.16, 86 until WP-11.8. READ ALL NOTES BELOW IN ORDER:
 # WP-11.3's move 86 -> 88 (the catalogue), the second WP-11.6's 88 -> 86 (the placement).
 # WP-11.3 MOVED THE SHORT CEILING 86 -> 88 AND THE PLACEMENT DID NOT MOVE AT ALL. Re-derived
 # both ways over all sixteen plans: the two extra shortfalls are the library table in
@@ -159,7 +174,7 @@ DRAWN_SHORT_CEILING = 68   # 86 until WP-11.8. READ ALL THREE NOTES BELOW, IN OR
 # and two libraries that had passed now fail. The conviction is right and the ceiling is raised
 # rather than the correction reverted. Fixture layouts, room geometry and relaxation counts are
 # byte-identical across the whole package, which is how the cause was isolated.
-DRAWN_LONG_CEILING = 82
+DRAWN_LONG_CEILING = 79   # 82 until WP-11.16; see the short ceiling's note
 # WP-11.8 MOVED BOTH TO 65 (86 -> 65 SHORT, 70 -> 65 LONG) AND IT IS THE FIRST OF THE FOUR
 # MOVES THAT IS AN IMPROVEMENT RATHER THAN A DISCLOSURE. The search ranks the band a room's own
 # record states -- the proportion ceiling AND the area floor -- ABOVE its own score now, so it

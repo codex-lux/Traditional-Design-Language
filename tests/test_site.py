@@ -256,7 +256,19 @@ class TestGeometrySolverHonoursLotWidth:
         # `tests/test_measurement_honesty.py` carries the same number and the reasoning; the
         # two are the SAME quantity on the same plan and must move together, which is why both
         # went red on this merge and neither was bumped without the other.
-        assert result["geometry_report"]["relaxations"]["count"] == 7
+        # 5 AT WP-11.16, from 7, AND THE CAUSE IS A RECORD EDIT RATHER THAN A CODE ONE.
+        # `plans/tidewater-georgian-careful.json` declares 617 sf of service programme as a west
+        # dependency with a hyphen, so the main block is 45 x 37.24 with 5 bays instead of
+        # 63 x 38.17 with 7 -- fewer rooms to slice into a smaller pile, and fewer cuts taken off
+        # the bay line. Separated from the other half of that edit by measurement: a stripped
+        # copy of the same record returns to exactly 7, so the dropped `butlers`-`kitchen` door
+        # is not what moved this (it moves the SCORE, 775.2 -> 761.2, and not this count).
+        #
+        # NOT AN IMPROVEMENT TO CLAIM. A relaxation is a joist run that does not land on a
+        # bearing line, and a smaller box holding fewer rooms has fewer cuts to take off the
+        # grid in the first place. The same quantity is pinned in `test_measurement_honesty.py`,
+        # `test_site.py` and `test_geometry.py` and all three moved in one commit.
+        assert result["geometry_report"]["relaxations"]["count"] == 5
 
     def test_lot_too_narrow_for_even_two_bays_errors_honestly(self, geometry_module):
         plan = {

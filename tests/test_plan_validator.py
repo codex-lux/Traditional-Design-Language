@@ -230,7 +230,27 @@ class TestShippedPlans:
         # nothing pins the serious count on this plan, so the prose drifted and nobody could
         # notice. It is 29 before this package and 29 after. The sentence is left as written
         # because it records what that package measured; this is the correction beside it.
-        assert result["counts"]["minor"] == 74
+        # 74 -> 76 on 15 Sep 2026 (WP-11.16), AND ALL OF IT IS THE DROPPED DOOR RATHER THAN
+        # THE TAGGING. That package tagged this record's service programme into a west
+        # dependency AND dropped the redundant direct `butlers`-`kitchen` door; the counts here
+        # are DECLARED-record counts, so the tags -- which are a placement fact -- do not reach
+        # them and the door does. Diffed row by row rather than counted, because a net of +2 can
+        # hide substitutions and here it hid two:
+        #   -1 / +1  `Kitchen (Dependency) is entered from ...` -- the same adjacency finding
+        #            reworded, the butler's pantry dropping out of the list. Net zero.
+        #   +2       `Butler's Pantry is a wet room with no other wet room adjacent or below it`
+        #            and the same for the Kitchen.
+        # THE +2 ARE NAMED RATHER THAN ABSORBED, because they are the corpus telling the truth
+        # for the first time: with that door in the record, the servicing layer called those two
+        # rooms a wet pair, and on the tagged plan that is a shared plumbing chase between two
+        # detached buildings 27 ft apart. The layer reads the declared door graph and is
+        # element-blind -- `oq/the-servicing-layer-does-not-know-about-massing-elements`.
+        # FATAL 0 AND SERIOUS 29 ARE BOTH UNMOVED across this package, which is what says the
+        # movement is one rule speaking and not a house getting worse.
+        assert result["counts"].get("serious", 0) == 29, (
+            "serious moved on this plan; WP-11.16 measured it unmoved at 29, and the note above "
+            "records that nothing pinned it before, which is how the prose drifted last time")
+        assert result["counts"]["minor"] == 76
 
 
 class TestAdjacencyMechanics:

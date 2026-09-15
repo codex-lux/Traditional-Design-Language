@@ -155,10 +155,34 @@ class TestItReportsAndNeverWrites:
 
     def test_a_room_spanning_NO_bay_is_its_own_state_and_not_an_agreement(self, tidewater):
         """`wants 0, declares 0, agrees` would be a trivial pass hiding a room whose front wall
-        the rhythm cannot account for. `agrees` is None there and `spans_no_bay` says why."""
-        d = FA.room_front_bays(tidewater, 0)
+        the rhythm cannot account for. `agrees` is None there and `spans_no_bay` says why.
+
+        DRIVEN SINCE WP-11.16, BECAUSE THE SPECIMEN RAN OUT. This read the shipped placement and
+        picked whichever front rooms happened to span no bay. That record's main block is 45 ft
+        with five bays now (617 sf of service programme left it for a west dependency), and all
+        four of its remaining ground-front rooms span at least one -- so `none_` came back empty
+        and the loop below had nothing to run.
+
+        DELETING THE `assert none_` WAS THE AVAILABLE REPAIR AND IS THE WRONG ONE: the loop is
+        `for x in none_`, so an empty list makes every assertion in this test vacuously true and
+        it would stay green on a corpus with no example at all. A state that exists only when
+        the corpus happens to produce it is not tested by waiting for the corpus. One room's
+        front wall is moved clear of the facade instead, which is the exact condition the state
+        is FOR, and the untouched rooms are asserted alongside so the move cannot be mistaken
+        for the rhythm collapsing."""
+        import copy
+        q = copy.deepcopy(tidewater)
+        for lv in q["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "butlers" and r.get("geometry"):
+                    r["geometry"]["x_ft"] = -20.0
+                    r["geometry"]["width_ft"] = 4.0
+        d = FA.room_front_bays(q, 0)
         none_ = [x for x in d["rooms"] if x["spans_no_bay"]]
-        assert none_, [x["room"] for x in d["rooms"]]
+        assert [x["room"] for x in none_] == ["butlers"], [x["room"] for x in d["rooms"]]
+        # the control: the other three front rooms are untouched and still span their bays, so
+        # this is one room moved off the facade and not the rhythm failing to derive
+        assert all(x["bays"] for x in d["rooms"] if x["room"] != "butlers"), d["rooms"]
         for x in none_:
             assert x["agrees"] is None and x["bays"] == [], x
         assert all(x["room"] not in {y["room"] for y in d["disagreements"]} or x["agrees"] is False
@@ -215,12 +239,38 @@ class TestTheDataTheRulingCommittedTo:
         assert "fifth to a quarter" in cp
 
     def test_the_share_is_reported_with_its_band_as_an_advisory(self, tidewater):
+        """WP-11.16 MOVED THIS PLAN INTO THE BAND, AND THAT COSTS THE TEST ITS SUBJECT unless
+        the out-of-band half is driven. The share was 0.1359 on a 63 ft facade; the main block
+        is 45 ft now (617 sf of service programme left it for a west dependency) and the same
+        9.12 ft passage reads 0.2027, which is inside [0.18, 0.27].
+
+        So the shipped record proves the band is READ and the verdict is `reported`; it can no
+        longer prove the thing this test exists for -- that a plan OUTSIDE the band is reported
+        and not convicted, which is the whole of the 5 Sep ruling that took `facade_share`'s
+        hard test away. Flipping the assertion to `is True` would have left a green test that
+        had quietly stopped asking the question."""
+        import copy
         s = FA.facade_share(tidewater)
         assert s["verdict"] == "reported"
         assert s["advisory_band"] == [0.18, 0.27]
-        # this plan is OUTSIDE the band, and that is now a report rather than a conviction
-        assert s["within_advisory"] is False and s["share"] < 0.18, s
+        assert s["within_advisory"] is True and 0.18 <= s["share"] <= 0.27, s
         assert "not required" in s["note"]
+
+        # DRIVEN: the same house with a narrower passage falls below the band, and the verdict
+        # is STILL `reported` and still carries the band. That is the ruling.
+        q = copy.deepcopy(tidewater)
+        for lv in q["levels"]:
+            for r in lv["rooms"]:
+                if r["id"] == "passage" and r.get("geometry"):
+                    r["geometry"]["width_ft"] = 6.0
+        out = FA.facade_share(q)
+        assert out["share"] < 0.18, out
+        assert out["within_advisory"] is False, out
+        assert out["verdict"] == "reported", (
+            "a plan outside the advisory band is CONVICTED again; the 5 Sep ruling makes the "
+            "facade a result that is reported, and `centre-passage-core`'s hard test was "
+            "removed for exactly this")
+        assert "not required" in out["note"]
 
 
 class TestTheCriticCarriesIt:
@@ -281,11 +331,20 @@ class TestTheElevationReadsThePlansBayCount:
     def test_DRIVEN_the_elevation_FOLLOWS_the_plan_when_the_two_would_disagree(self):
         """**The guard that matters, and the corpus cannot supply it**: the pack formula and the
         plan agree on both shipped plans, so a mutation deleting this join leaves every assertion
-        above green (measured — 7 and 5 either way). Driving the plan to a bay count the formula
-        would never pick is the only way to see the join at all. WP-8.11's rule."""
+        above green. Driving the plan to a bay count the formula would never pick is the only
+        way to see the join at all. WP-8.11's rule.
+
+        AND THE CORPUS GOT WEAKER FOR THIS JOIN AT WP-11.16, WHICH IS WORTH SAYING PLAINLY. The
+        measurement in the sentence above was "7 and 5 either way" -- the two shipped plans
+        agreeing at two DIFFERENT values, which is at least two independent coincidences. That
+        package took the Tidewater's main block from 63 ft to 45 (617 sf of service programme
+        left it for a west dependency) and its front from seven bays to five, so BOTH shipped
+        plans now read 5 and the agreement is at a single value across the whole corpus. Nothing
+        holds the two derivations to each other; the driven half below is the only thing that
+        does, and it matters more than it did."""
         out = _placed()
         formula_count = EL.build_elevation(out)["faces"]["S"]["count"]
-        assert formula_count == out["footprint"]["bays"] == 7
+        assert formula_count == out["footprint"]["bays"] == 5
         out["footprint"]["bays"] = 9
         e = EL.build_elevation(out)
         assert e["faces"]["S"]["count"] == 9, (
@@ -309,13 +368,20 @@ class TestTheBandIsSpelledONCE:
     def test_MOVING_the_record_moves_the_reader(self, tidewater, monkeypatch):
         """The control. Both sides reading a hardcoded `[0.18, 0.27]` would pass the test above
         for the wrong reason, which is this repository's own most-repeated shape of blind guard."""
-        monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: [0.10, 0.20])
+        # THE PATCHED BAND IS CHOSEN TO STRADDLE THE CURRENT SHARE, AND IT HAD TO BE RE-CHOSEN.
+        # It was [0.10, 0.20] against a share of 0.1359: outside the record's own [0.18, 0.27]
+        # and inside the patch, so the verdict flipped False -> True. WP-11.16 took the share to
+        # 0.2027 -- inside the record's band -- so [0.10, 0.20] no longer separates anything and
+        # the differential ran the other way by accident. [0.30, 0.40] excludes 0.2027, so the
+        # flip is True -> False and the test still proves what it says: the reader takes the
+        # band from the record rather than from a constant of its own.
+        monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: [0.30, 0.40])
         s = FA.facade_share(tidewater)
-        assert s["advisory_band"] == [0.10, 0.20]
-        # this plan's share is 0.1359: OUTSIDE the record's own band and INSIDE the moved one, so
-        # the verdict flips with the band. Both halves matter -- a band the reader ignored would
-        # leave the verdict where it was.
-        assert s["within_advisory"] is True, s
+        assert s["advisory_band"] == [0.30, 0.40]
+        assert 0.18 <= s["share"] <= 0.27, (
+            f"the share is {s['share']}, outside the record's own band -- this control needs a "
+            f"share the record ADMITS and the patch REFUSES, or the flip proves nothing")
+        assert s["within_advisory"] is False, s
 
     def test_an_unreadable_band_reports_None_and_never_a_default(self, tidewater, monkeypatch):
         monkeypatch.setattr(FA, "_advisory_band", lambda *a, **k: None)

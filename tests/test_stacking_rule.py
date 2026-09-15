@@ -24,8 +24,28 @@ GEO = modcache.load("geometry", os.path.join(ROOT, "build", "geometry.py"))
 ST = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
 
 
-def plan(name):
-    return json.load(open(os.path.join(ROOT, "plans", f"{name}.json"), encoding="utf-8"))
+def plan(name, keep_tags=False):
+    """A shipped record, WITH ITS MASSING TAGS STRIPPED unless a caller asks for them.
+
+    WP-8.11's RULE, MET AGAIN AT WP-11.16: a driven fixture must not inherit whatever the
+    shipped record happens to declare. Every test in this file drives `GEO.STACK_HARD` and a
+    candidate pool by hand, and the questions they ask -- does the fallback disclose itself,
+    does a strict candidate exist at a pool of one -- are questions about how the SEARCH ranks
+    candidates for one rectangle. They are not questions about massing elements.
+
+    `plans/tidewater-georgian-careful.json` was tagged at WP-11.16 (six service rooms into a
+    west dependency with a hyphen), which moved its placement and therefore every count in this
+    file that is incidental to its subject. Stripping restores the house these tests were
+    written against; `keep_tags=True` is there so a later test about stacking ACROSS elements
+    has a way to ask for the real record rather than reaching around this helper.
+    """
+    p = json.load(open(os.path.join(ROOT, "plans", f"{name}.json"), encoding="utf-8"))
+    if not keep_tags:
+        for lv in p.get("levels") or []:
+            for r in lv.get("rooms") or []:
+                r.pop("block", None)
+                r.pop("hyphen", None)
+    return p
 
 
 @pytest.fixture

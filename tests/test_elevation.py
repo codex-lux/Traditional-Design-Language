@@ -97,8 +97,24 @@ class TestStoreyWindowSizing:
 
 
 class TestBayLayout:
-    def test_tidewater_front_gets_seven_bays(self, elevation_module):
-        """SEVEN, moved from five by WP-11.2, and the move revealed that these two layers had
+    def test_tidewater_front_gets_the_bay_count_its_own_footprint_states(self, elevation_module):
+        """FIVE AT WP-11.16, and the test is RENAMED rather than re-pinned under a name saying
+        seven -- a `..._gets_seven_bays` over a 5 is this repository's own "until X lands" trap,
+        and a name is the first thing a reader trusts.
+
+        The cause is a record edit: `plans/tidewater-georgian-careful.json` declares 617 sf of
+        service programme as a west dependency, so the main block is 45 ft wide instead of 63
+        and its front carries five bays. `styles/tidewater-georgian.json` admits both in its own
+        words -- *"Five or seven bays, unaccented, the centre marked only by the doorway"* -- so
+        this is the house changing shape and not a rule breaking.
+
+        AND THE COINCIDENCE THE PARAGRAPH BELOW WARNS ABOUT HAS GOT NARROWER, which is worth
+        saying because it makes the corpus WEAKER for this join, not stronger: both shipped
+        plans now read 5, so the two independent derivations agree at a single value across the
+        whole corpus. Nothing holds them to each other; `tests/test_facade.py` drives them apart
+        deliberately for that reason.
+
+        SEVEN, moved from five by WP-11.2, and the move revealed that these two layers had
         been DISAGREEING. The elevation derives its own odd bay count from `facade-classical`'s
         window-grouping rule against the face's actual width; the plan derives its own from the
         area and (now) the massing. Before WP-11.2 the elevation said five and the footprint
@@ -109,7 +125,7 @@ class TestBayLayout:
         worth knowing before trusting either. """ + \
         ""
         plan, elev = _tidewater_elevation(elevation_module)
-        assert elev["front"]["count"] == 7
+        assert elev["front"]["count"] == 5
 
     def test_door_bay_is_centred(self, elevation_module):
         plan, elev = _tidewater_elevation(elevation_module)
