@@ -666,26 +666,53 @@ def test_the_elevations_openings_are_the_plans_placed_openings(sheets, kind, eng
 @pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)
 def test_every_furniture_mark_carries_its_name(sheets, kind, engine):
     """A furniture mark is a rectangle with a `<title>` tooltip -- invisible in print, in a
-    PDF and on the plate Lucas read. Every placed item gets a `<text>` inside its room that
-    names it, and a count where the record states one."""
+    PDF and on the plate Lucas read. Every placed item is named on the plate the way a
+    draughtsman names it: a NUMERAL on (or beside) the mark, and a KEY line carrying that
+    numeral and the item's whole name -- set inside the room where a corner holds it, and
+    otherwise in the margin schedule under the room's own name, which is a stated refusal
+    and not a silence (WP-13.2 ratchets how many rooms take the margin).
+
+    The first cut of this row asked for the name INSIDE the room and refused the margin form;
+    the lead admitted it once the slice showed that ten of fifty-six items live in rooms no
+    corner of which holds a key at the smallest legible size, and that the margin line names
+    the room. A numeral with no key, or a key with no numeral on the mark, still fails."""
     out, svg, _ = sheets(kind, engine)
     plates = _frame(svg)
-    texts = [(_attrs(a), t.strip().upper()) for a, t in _texts(svg)]
+    texts = [(_attrs(a), re.sub(r"\s+", " ", t.strip().upper())) for a, t in _texts(svg)]
+    numerals = [(a["data-key-room"], a["data-key-numeral"], float(a["x"]), float(a["y"]))
+                for a, _t in texts if "data-key-numeral" in a]
     want, bad = 0, []
     for i, lv in enumerate(_placed_levels(out)):
         X, Y, _k = _xy(plates[i])
         for r in _rooms(lv):
-            x, y, w, h = _rect(r)
-            x0, x1, y0, y1 = X(x) - 1, X(x + w) + 1, Y(y + h) - 1, Y(y) + 1
+            rname = re.sub(r"\s+", " ", (r.get("name") or r["id"]).strip().upper())
+            # the room's key: its in-room lines, or its margin line under the room's name
+            key = [t for a, t in texts if a.get("data-key") == r["id"]]
+            key += [t.split(":", 1)[1] for a, t in texts
+                    if a.get("class") == "lb" and t.startswith(f"FURNITURE KEY, {rname}") and ":" in t]
+            entries = {}
+            for line in key:
+                for m in re.finditer(r"(?:^|;\s*)(\d+)\s+([^;]+)", line.strip()):
+                    entries[m.group(1)] = m.group(2).strip()
             for f in (r.get("furniture_layout") or []):
                 if not f.get("marks"):
                     continue
                 want += 1
                 name = re.sub(r"\s+", " ", f["item"].strip().upper())
-                hit = any(name in t and x0 <= float(a.get("x", -1e9)) <= x1 and
-                          y0 <= float(a.get("y", -1e9)) <= y1 for a, t in texts)
-                if not hit:
-                    bad.append(f"{r['id']}: {f['item']!r}")
+                num = next((n for n, nm in entries.items() if name in nm), None)
+                if num is None:
+                    bad.append(f"{r['id']}: {f['item']!r} is in no key line")
+                    continue
+                rect = next((m["rect"] for m in f["marks"] if "rect" in m), None)
+                if rect:
+                    mx, my, mw, mh = rect
+                    x0, x1 = X(mx) - 10, X(mx + mw) + 10
+                    y0, y1 = Y(my + mh) - 10, Y(my) + 10
+                    on_mark = any(rid == r["id"] and n == num and x0 <= nx <= x1 and y0 <= ny <= y1
+                                  for rid, n, nx, ny in numerals)
+                    if not on_mark:
+                        bad.append(f"{r['id']}: {f['item']!r} is keyed {num} and no numeral {num} "
+                                   f"stands on its mark")
     if not want:
         pytest.skip("COULD NOT EVALUATE: no furniture is placed on this sheet")
     assert not bad, (f"{len(bad)} of {want} placed furniture items carry no name on the plate: "
