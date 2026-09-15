@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**180 questions, of which 88 are open.** A question is OPEN while
+**180 questions, of which 87 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 88
+## Open — 87
 
 Awaiting a ruling. This is the list to read first.
 
@@ -69,7 +69,6 @@ Awaiting a ruling. This is the list to read first.
 | **oq/a-finding-citation-cannot-name-a-finding** | OPEN | [1,608 of 1,620 finding ids are unciteable by the grammar that has a `finding` kind for them](open-questions/oq-a-finding-citation-cannot-name-a-finding.md) |
 | **oq/a-findings-ordinal-is-not-an-identity** | OPEN | [a finding's id moves when an unrelated sibling clears](open-questions/oq-a-findings-ordinal-is-not-an-identity.md) |
 | **oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group** | OPEN | [38 items name a count and nothing says what the rectangle means](open-questions/oq-a-furniture-footprint-is-sometimes-one-and-sometimes-the-group.md) |
-| **oq/a-held-shape-pin-is-not-held-on-the-hard-only-path** | OPEN | [the record says every proportion pin held, and two did not](open-questions/oq-a-held-shape-pin-is-not-held-on-the-hard-only-path.md) |
 | **oq/a-kit-binding-propagates-to-descendants-nobody-read** | OPEN | [binding a slot on one node states it for every node under it, and nothing compares the result against those nodes' own records](open-questions/oq-a-kit-binding-propagates-to-descendants-nobody-read.md) |
 | **oq/a-licence-conditioned-on-the-wrong-axis** | OPEN | [an exception's precondition names the wall when what it means is the member](open-questions/oq-a-licence-conditioned-on-the-wrong-axis.md) |
 | **oq/a-licence-matches-the-style-id-exactly-and-never-its-descendants** | OPEN | [a Georgian portico's exception never reaches a Tidewater Georgian house](open-questions/oq-a-licence-matches-the-style-id-exactly-and-never-its-descendants.md) |
@@ -121,7 +120,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/two-id-namespaces** | OPEN | [two id namespaces in one register, and nothing can tell that a slug and a number are the same question](open-questions/oq-two-id-namespaces.md) |
 | **oq/which-rooms-take-the-hearth** | OPEN | [the corpus says the end rooms and never which rooms those are](open-questions/oq-which-rooms-take-the-hearth.md) |
 
-## Settled — 92
+## Settled — 93
 
 Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and the original question both, because what was asked stays legible beside what was decided.
 
@@ -199,6 +198,7 @@ Ruled, closed or recorded as a standing disclosure. Kept in full: the ruling and
 | **99** | CLOSED | [an open-question id is issued from the working tree, and this register predicted its own collision](open-questions/099-how-an-open-question-id-is-issued.md) |
 | **oq/a-family-node-has-no-exemplar** | CLOSED 5 Sep 2026 | [32 higher-rank nodes name no building, 72 asset records wait on them, and every one is `confidence: high`](open-questions/oq-a-family-node-has-no-exemplar.md) |
 | **oq/a-grouping-rule-and-a-room-record-can-disagree** | CLOSED 2 Sep 2026 | [six instances, one of them on fourteen partis, and nothing checks the class](open-questions/oq-a-grouping-rule-and-a-room-record-can-disagree.md) |
+| **oq/a-held-shape-pin-is-not-held-on-the-hard-only-path** | CLOSED 15 SEP 2026 | [the prover stated the band at one decimal place](open-questions/oq-a-held-shape-pin-is-not-held-on-the-hard-only-path.md) |
 | **oq/a-pack-can-be-the-only-writer-a-node-has** | CLOSED | [flipping a pack can remove the only account of a slot a node can reach](open-questions/oq-a-pack-can-be-the-only-writer-a-node-has.md) |
 | **oq/a-proof-of-feasibility-is-not-a-proof-of-composition** | RULED 4 Sep 2026 | [the bench draws the proof, and on this plan the proof carries no composition at all](open-questions/oq-a-proof-of-feasibility-is-not-a-proof-of-composition.md) |
 | **oq/a-share-alike-photograph-has-no-home-in-the-asset-schema** | RULED 31 Aug 2026, and the ruling is a refusal | [the English records can have a licence or an image, not both](open-questions/oq-a-share-alike-photograph-has-no-home-in-the-asset-schema.md) |

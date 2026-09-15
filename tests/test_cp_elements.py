@@ -67,11 +67,38 @@ EL = _mod("elements")
 # builder did not move and the whole movement is the RECORD -- which the other half confirms
 # from the opposite side: `spec-builder-colonial`, untouched by that package, is unmoved in
 # both phases. A proto shorter than 5 KB is refused, so an empty read cannot pass for a match.
+# AND ALL FOUR MOVED AGAIN AT WP-11.16's BAND FIX, WHICH IS THE FIRST TIME THE MOVEMENT REALLY
+# IS THE MODEL. Every entry above records a control showing the builder did NOT move and the
+# record did; this one is the opposite and says so. `_BAND_Q` was 10, so `int(round(1.35 * 10))`
+# was 14 and the prover asserted a ceiling of 1.4 on every room whose record states 1.35 -- four
+# room types loose, one (`parlor`, 1.45 -> 1.4) tight. Stating it at hundredths changes what
+# CP-SAT is ASKED about every banded room on both plans in both phases, so four of four moving
+# is the expected result and two of four would have been the defect.
+#
+# TWO CONTROLS, BECAUSE ONE WOULD NOT HAVE LOCALISED IT.
+#   1. The previous four were re-confirmed on a `git worktree` of the parent commit (`b78a4ff`)
+#      before any number here was touched -- all four reproduce exactly, so the pins that moved
+#      were right when they were written.
+#   2. Reverting the SCALE alone (`_BAND_Q` 100 -> 10, both statements left in their new form)
+#      reproduces both HARD-phase hashes exactly -- 5ee42e94740f659c and 6ad5fa0d6ee72ffd. That
+#      localises the hard phase's whole movement to the constant.
+# The objective phase deliberately does NOT reproduce under control 2, and the reason is worth
+# knowing rather than filing as noise: the soft overshoot term was restated as
+# `10 * ov10 >= _BAND_Q * mx - ...` to keep `ov10`'s units and its integer weight, so its
+# ALGEBRA changed shape and not only its constant. At _BAND_Q = 100 that form is exactly the old
+# one for every band with two decimals or fewer, which is 49 of 54 types; at 10 it is a tenth of
+# the old charge, which is why the control cannot reach it. Substituting a constant does not
+# control for a change of form.
+#
+# NEITHER SHIPPED PLAN BECAME INFEASIBLE, which was the cost this fix was allowed to have and
+# did not: tidewater still proves OPTIMAL in ~9.5 s with the same four wall pins and the same
+# one shape pin (objective 308.1 -> 308.3), and spec-builder-colonial is still FEASIBLE with
+# none. Measured before the numbers below were written.
 MODEL_SHAS = {
-    ("tidewater-georgian-careful", False): "5ee42e94740f659c",
-    ("tidewater-georgian-careful", True): "6fa0c66d9288ae72",
-    ("spec-builder-colonial", False): "6ad5fa0d6ee72ffd",
-    ("spec-builder-colonial", True): "db49b3bc8d7c8fda",
+    ("tidewater-georgian-careful", False): "d8889b7f85105d72",
+    ("tidewater-georgian-careful", True): "3fa2d59e5a5d8695",
+    ("spec-builder-colonial", False): "53f6ab2dc19684dc",
+    ("spec-builder-colonial", True): "45bf3a3cdf55d5c8",
 }
 
 

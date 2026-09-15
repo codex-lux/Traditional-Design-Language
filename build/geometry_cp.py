@@ -136,6 +136,30 @@ COVERAGE = 0.97           # hard floor; the absorb pass grows rooms into the res
 # and belongs in a report, not in a diff.
 _RANK = ("wall", "axis", "shape")
 
+# THE SCALE A PROPORTION CEILING IS STATED TO THE SOLVER AT, AND IT WAS A TENTH UNTIL WP-11.16.
+# CP-SAT takes integer coefficients, so a band of `c` to 1 is written `Q * mxs <= round(c*Q) * mns`.
+# Q WAS 10, AND THE CORPUS STATES ITS BANDS TO TWO DECIMALS -- so `int(round(1.35 * 10))` is 14 and
+# the prover asserted a ceiling of **1.4** on every room whose record says 1.35. Measured over all
+# 54 banded room types: 4 LOOSE (`bedroom`, `keeping-room`, `morning-room`, `nursery`, all
+# 1.35 -> 1.4) and 1 TIGHT (`parlor`, 1.45 -> 1.4). 49 survive the rounding exactly, and
+# `GEO.ASPECT_FALLBACK` (2.6) is one of them, which is why this went unnoticed for four packages.
+#
+# BOTH DIRECTIONS ARE DEFECTS AND THE TIGHT ONE IS THE SHARPER. Loose, the prover PROVES a room
+# inside a band it is outside of -- `plans/tidewater-georgian-careful.json` drew `chamber2` at
+# 18 x 13 (1.3846) with its pin HELD and `downgraded_shape_pins` naming only `L0 pantry`, because
+# 10*18 = 180 <= 14*13 = 182. Tight, the prover can downgrade an AUTHORED wall pin, or report
+# INFEASIBLE, to escape a band the room's own record does not state -- a false refusal wearing a
+# proof's clothes, which is the OQ 52 family.
+#
+# `GEO.shape_band()` is unrounded and the hill-climb reads it directly, so this was never a
+# heuristic defect; it lived only in the two places the model is built.
+#
+# It is a CONSTANT and not a literal at each site because there are TWO sites -- the hard pin and
+# the soft overshoot term -- and they must never disagree about what the band is. That is this
+# corpus's most-repeated bug (a rule written twice), and the reason the one-decimal form survived
+# is that both copies were wrong together and so agreed with each other.
+_BAND_Q = 100
+
 
 def _cls(rtype):
     return C["rooms"].get(rtype, {}).get("function_class")
@@ -513,7 +537,9 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # CP-SAT's max/min propagators are stronger here than two reified linear
                 # constraints, by a factor of about 1.7. The pair is built unconditionally
                 # above and the soft aspect term shares it, so it costs nothing to reuse.
-                m.Add(10 * mxs <= int(round(_ceil * 10)) * mns).OnlyEnforceIf(_sh)
+                # `_BAND_Q`, not a literal 10: see the constant for the measurement. At a
+                # tenth this line asserted 1.4 for every record stating 1.35.
+                m.Add(_BAND_Q * mxs <= int(round(_ceil * _BAND_Q)) * mns).OnlyEnforceIf(_sh)
             else:
                 # The FLOOR is deliberately not stated: every room record's proportion floor is
                 # 1.0 since the 3 Sep ruling, and `mxs >= mns` holds by construction, so a floor
@@ -543,7 +569,14 @@ def _build(plan, prep, fpd, ewalls, downgraded=frozenset(), objective=True,
                 # is the one spelling. The corpus has been bitten by a rule written twice at
                 # least four times; this is not a fifth.
                 _ceil, _src = GEO.shape_band(r.get("type"))
-                m.Add(ov10 >= 10 * mx - int(round(_ceil * 10)) * mn)
+                # SCALE-NEUTRAL, DELIBERATELY. `ov10` is in tenths and `penalties` takes an
+                # INTEGER weight, so restating this as `ov100 >= 100*mx - ...` would multiply
+                # the shape term against every other penalty by ten -- a re-weighting, and a
+                # different package. Multiplying the LEFT side instead keeps `ov10`'s units and
+                # its weight of 6 while reading the ceiling at `_BAND_Q`; integer division makes
+                # the charge a ceiling rather than a floor, which over-charges by under one
+                # tenth and is the conservative direction.
+                m.Add(10 * ov10 >= _BAND_Q * mx - int(round(_ceil * _BAND_Q)) * mn)
                 penalties.append((ov10, 6))
                 # The width floor the room's own record states, mirrored from level_score's
                 # `(floor - short) * WIDTH_W`. A soft penalty and never a bound: a hard floor
