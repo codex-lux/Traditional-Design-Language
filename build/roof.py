@@ -512,19 +512,34 @@ def chimney_positions(plan, style, section, main):
     elif hr is not None and hr.get("placed_from") == "stated-hearths":
         axes = None                                # read, not re-derived
         stated = []
+        # INTO THIS RECORD'S OWN FRAME (WP-13.2, the lead's second pass). A flue's
+        # `position_ft` is a PLAN coordinate -- feet from the clear inside face of the S (or W)
+        # wall -- and this record is laid out outside-to-outside from (0, 0): its W stack stands
+        # at x = 0 on the outer face and its E at `W`, which is the clear width plus two wall
+        # thicknesses. WP-11.4 wrote the plan coordinate into the roof's frame verbatim, so on
+        # its own plate, on the elevation (`_face_bays` divides the OUTSIDE face) and in the scene
+        # every gable-end stack stood one wall thickness short of the fire it serves -- 1.29 ft
+        # on the Tidewater plan, measured by the gate's stacks-equal-roof row on both engines
+        # after the plan side started reading the same record. The two records still do not
+        # share an origin (`oq/the-roof-record-and-the-plan-record-do-not-share-an-origin`);
+        # what this does is stop ONE record mixing both frames in one coordinate pair.
+        t_ext = (section.get("wall") or {}).get("exterior_in")
+        t_ext = (t_ext / 12.0) if t_ext is not None else \
+            (section["footprint"].get("exterior_wall_thickness_in") or 0.0) / 12.0
         for fl in (hr.get("flues") or []):
             wall, pos = fl.get("wall"), fl.get("position_ft")
             if pos is None or wall not in ("E", "W", "N", "S"):
                 unpositioned += 1
                 continue
+            along = pos + t_ext
             if wall == "W":
-                stated.append((0.0, pos))
+                stated.append((0.0, along))
             elif wall == "E":
-                stated.append((W, pos))
+                stated.append((W, along))
             elif wall == "S":
-                stated.append((pos, 0.0))
+                stated.append((along, 0.0))
             else:
-                stated.append((pos, D))
+                stated.append((along, D))
         refused_flues = [u for u in (hr.get("unplaced") or []) if u.get("flue")]
         # EUCLIDEAN, because the note calls it "moved N ft" and a reader will take that as a
         # distance. The first version summed |dx| + |dy|, which happens to be right on both
@@ -541,8 +556,9 @@ def chimney_positions(plan, style, section, main):
         hearth_note = (
             f"Placed over the {len(stated)} flue(s) the PLAN states rather than at the centre "
             f"of each gable end -- read from the placement layer's own record "
-            f"(plan.hearths.flues), so the plan's stacks are this roof's stacks. The "
-            f"centre-line rule would have put them at "
+            f"(plan.hearths.flues), so the plan's stacks are this roof's stacks -- each "
+            f"flue's position carried into this record's outside-to-outside frame by one wall "
+            f"thickness ({t_ext * 12:.1f} in). The centre-line rule would have put them at "
             f"{[(round(x,2), round(y,2)) for x, y in positions]}"
             + (f"; each moved {', '.join(moved)}" if moved else "")
             + (("; " + "; ".join(f"flue '{u['flue']}' NOT placed: {u.get('reason')}"

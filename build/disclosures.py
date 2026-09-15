@@ -343,6 +343,46 @@ def stacking(plan):
             "text": f"{len(kept)} OF {claims} DECLARED STACK(S) LAND ON THE ROOM THEY NAME{tail}"}
 
 
+def fires_not_drawn(plan):
+    """Stated fires the placement could not put on a flue, and stated flues left with no stack,
+    from `plan.hearths` -- `threshold.hearth_pass`'s verdicts, never re-derived here.
+
+    WP-13.2's hearth slice made the breast a JUDGED thing: a fire the record puts on a wall the
+    solver released is refused with a reason rather than drawn with no flue behind it, and a
+    flue none of whose fires stands on a boundary wall gets no stack. Both verdicts went to
+    `plan["hearths"]["unplaced"]` and the Python plate captions the refused breast on the field
+    in the working register -- and NOTHING ELSE said it: not the presentation register, not the
+    bench's disclosure strip, not the schedule. The browser walk found it as a stack COUNT of 1
+    against a pin of 2 on the bench's own placement (OPTIMAL hard-only at 25 s, both W breasts
+    18 and 24 ft inboard of the gable) with no line anywhere naming the west stack it had not
+    drawn. A fire the record states and the sheet does not draw is the undrawable-door shape.
+
+    ONLY WHAT THE RECORD STATED. `hearth_pass` also refuses "the stacks" wholesale where a plan
+    states no hearth or its massing cannot be read (`th-which-side-of-the-end-wall` and its
+    siblings, on 15 of 16 shipped plans); that entry carries neither a `room` nor a `flue`, and
+    a line saying FIRES NOT DRAWN over a house that states no fire would be a refusal about
+    nothing -- the fake-unjudged shape WP-12.6 met on dormers. Those take no line here."""
+    h = plan.get("hearths") or {}
+    breasts = [u for u in (h.get("unplaced") or []) if u.get("room")]
+    flues = [u for u in (h.get("unplaced") or []) if u.get("flue")]
+    if not breasts and not flues:
+        return None
+    stated = [b for b in (h.get("breasts") or []) if b.get("judged")]
+    total = len(stated) if stated else len(breasts)
+    parts = []
+    if breasts:
+        rooms = ", ".join(dict.fromkeys(b["room"] for b in breasts))
+        parts.append(f"{len(breasts)} OF {total} STATED FIRE(S) NOT DRAWN — {rooms.upper()}: "
+                     f"NO EXTERIOR WALL CARRIES THE FLUE ON THIS PLACEMENT")
+    if flues:
+        parts.append("; ".join(
+            f"STACK {f['flue'].upper()} NOT PLACED ({len(f.get('serves') or [])} FIRE(S), "
+            f"NONE ON A BOUNDARY WALL)" for f in flues))
+    return {"id": "fires", "tone": IRON,
+            "detail": {"breasts": breasts, "flues": flues, "stated": total},
+            "text": " — ".join(parts)}
+
+
 # The residual void below which a level is said to tile: the raster's own quantum is 0.01 sf
 # and the gate's tiling row reads a level as tiled at or under this figure, so the plate and the
 # gate agree on what a sliver is.
@@ -526,10 +566,10 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
     # `alternative_offered` comes straight after `objective_not_run` deliberately: it is the
     # second half of one disclosure and a reader meeting the first without the second has
     # been told the composition was not evaluated and not told what else is available. The
-    # furniture, the stacks and the residual void follow the windows because all four are
-    # things the record asked for and the placement did not deliver.
+    # furniture, the stacks, the fires and the residual void follow the windows because all
+    # five are things the record asked for and the placement did not deliver.
     for fn in (walls_set_aside, objective_not_run, alternative_offered, windows_not_drawn,
-               furniture_not_drawn, stacking):
+               furniture_not_drawn, stacking, fires_not_drawn):
         line = fn(plan)
         if line:
             lines.append(line)

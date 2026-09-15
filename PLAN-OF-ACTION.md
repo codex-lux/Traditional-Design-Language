@@ -3834,7 +3834,7 @@ number-to-filename table, so a bare "WP-13.n" can always be resolved:
 | number | report |
 |---|---|
 | WP-13.1 | `docs/reports/wp-13.1-the-gate.md` |
-| WP-13.2 | rendering honesty — report to be written as `wp-13.2-…` |
+| WP-13.2 | `docs/reports/wp-13.2-the-plate-tells-the-truth.md` |
 | WP-13.3 | the prover learns the type — `wp-13.3-…` |
 | WP-13.4 | refuse to draw — `wp-13.4-…` |
 | WP-13.5 | the container — `wp-13.5-…` |
@@ -3861,7 +3861,29 @@ re-baselining: a red row is a defect on the sheet, not a ceiling to raise. **Dep
 
 ### WP-13.2 Rendering honesty
 
-**Status: NOT STARTED.** No ruling needed; one package. `render_plan.py:1142`'s `horiz` arm (one line)
+**Status: COMPLETE (15 Sep 2026)** — `docs/reports/wp-13.2-the-plate-tells-the-truth.md`. Built as six
+parallel worktree slices, one per file region, each measured by the gate rows it owns, merged against the
+gate, then the lead's two passes over what the six found in each other's regions. Delivered: the door arc
+derived from a cross product in three spellings (`render_plan.sweep_flag`, `Sheet.jsx::sweepFlag`, the
+DXF reading the same derived opening) and the record's `hinge` read by all three; the title block reading
+`disclosures.banner()` — PROVED only on OPTIMAL with an objective, the stacking tally, the residual void
+counted per level, the transfers line the plate imported and never printed; `stacking.judge` as
+containment; furniture numerals and a fitted key with every refusal on the schedule; the breast judged
+against the placement and refused with a reason, `threshold.py` reading `hearths.stack_axes` so the
+plan's stacks are the roof's; the scale bar's zero on the clear face and `DimRun` ported to the Python
+plate; `/api/health` carrying the build sha; the walk reading the API's solver block; and one spelling of
+the openings (`render_plan.openings_of_level`). **The lead's second pass** found the bench's
+`engineClaim.js` saying "proved" on the status alone where the plate says NOT PROVED AT THE OPTIMUM
+(the three spellings are held to one sentence now), `Sheet.jsx`'s plate note never wired to it, the
+furniture key eating the room click, and a refused fire reaching no surface but the working register's
+field (`disclosures.fires_not_drawn`). The browser walk is green on the merged tree (189 checks) for the
+first time since PR #32. **Not done here, by design**: the placement rows of the gate stay red — the
+stacks, the tiling, the bearing lines, the shared flue, the one bay system — and are WP-13.3's;
+`oq/a-shared-flue-cannot-stand-behind-two-centred-breasts` is raised for Lucas because the reference
+plan puts two centred fires on one flue and no placement can stand one shaft behind both. Original
+package text follows.
+
+No ruling needed; one package. `render_plan.py:1142`'s `horiz` arm (one line)
 and the W3C round-trip extended to every `class="sw"` path in the SVG and to the DXF; `render_plan.py:672`
 reads `solver.status` and `objective` before printing PROVED and prints `disclosures.objective_not_run`
 and the stacking line otherwise; `stacking.py`'s "kept" becomes containment; `export_dxf.py:347/351`

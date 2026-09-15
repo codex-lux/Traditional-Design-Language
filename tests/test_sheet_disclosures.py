@@ -271,6 +271,67 @@ class TestTheDeclaredStacks:
         assert text_of(DISC.banner(p), "stacking") is None
 
 
+# ------------------------------------------------------ the fires not drawn (WP-13.2)
+class TestTheFiresNotDrawn:
+    """A stated fire the placement could not put on a flue, and a stated flue left with no
+    stack. Both verdicts were in `plan.hearths.unplaced` and reached the working register's
+    field caption and nothing else; the browser walk met it as a stack count of 1 against a pin
+    of 2 with no line naming the missing west stack."""
+
+    def _hearths(self, breasts=(), flues=(), generic=False, judged=3):
+        un = [{"what": f"the breast of {r}'s hearth", "room": r, "hearth_index": 0,
+               "reason": "the record puts this fire on the room's W wall and the placement puts "
+                         "that wall 18.0 ft inboard of the element's W face",
+               "rule": "hearths.breast", "grade": "reading"} for r in breasts]
+        un += [{"what": f"the stack for flue '{f}'", "flue": f, "wall": "W", "serves": ["a", "b"],
+                "reason": "none of the 2 fire(s) the record puts on this flue stands on a "
+                          "boundary wall on this placement", "rule": "hearths.flues",
+                "grade": "reading"} for f in flues]
+        if generic:
+            un.append({"what": "the stacks", "reason": "no canonical hearth position names "
+                       "which face of the end wall the mass stands on",
+                       "rule": "th-which-side-of-the-end-wall", "grade": "reading"})
+        p = _plan()
+        p["hearths"] = {"stacks": [], "unplaced": un,
+                        "breasts": [{"room": f"r{i}", "judged": True, "drawn": True}
+                                    for i in range(judged)],
+                        "flues": []}
+        return p
+
+    def test_a_refused_breast_and_a_refused_flue_are_named_in_iron(self):
+        ln = [ln for ln in DISC.banner(self._hearths(breasts=["drawing", "dining"],
+                                                      flues=["west-stack"], judged=3))
+              if ln["id"] == "fires"][0]
+        assert ln["tone"] == "iron"
+        assert ln["text"].startswith("2 OF 3 STATED FIRE(S) NOT DRAWN — DRAWING, DINING"), ln["text"]
+        assert "STACK WEST-STACK NOT PLACED (2 FIRE(S), NONE ON A BOUNDARY WALL)" in ln["text"], ln["text"]
+        assert ln["detail"]["stated"] == 3 and len(ln["detail"]["breasts"]) == 2
+
+    def test_a_house_that_states_no_fire_takes_no_line(self):
+        """`hearth_pass` refuses "the stacks" wholesale on a plan whose massing cannot be read
+        or that states no hearth -- 15 of the 16 shipped plans on the search engine. That entry
+        names no room and no flue, and a FIRES NOT DRAWN line over it would be a refusal about
+        fires nobody stated: the fake-unjudged collapse WP-12.6 met on dormers."""
+        assert text_of(DISC.banner(self._hearths(generic=True, judged=0)), "fires") is None
+        assert text_of(DISC.banner(_plan()), "fires") is None
+        assert text_of(DISC.banner(_plan(hearths={"stacks": [], "unplaced": []})), "fires") is None
+
+    def test_fires_all_drawn_take_no_line_because_the_poche_is_the_disclosure(self):
+        assert text_of(DISC.banner(self._hearths(judged=3)), "fires") is None
+
+    def test_the_generic_refusal_beside_a_real_one_does_not_inflate_the_count(self):
+        t = text_of(DISC.banner(self._hearths(breasts=["dining"], generic=True, judged=2)), "fires")
+        assert t.startswith("1 OF 2 STATED FIRE(S) NOT DRAWN — DINING"), t
+        assert "STACK" not in t
+
+    def test_the_line_follows_the_stacks_line_in_the_banner(self):
+        p = self._hearths(breasts=["dining"], judged=1)
+        p["geometry_report"]["stacking"] = {"claims": 1, "kept": [{"room": "a", "over": "b"}],
+                                            "broken": [], "unjudged": []}
+        order = ids(DISC.banner(p))
+        assert order.index("fires") == order.index("stacking") + 1, order
+
+
 # ------------------------------------------------- the furniture not drawn (WP-13.2)
 class TestTheFurnitureNotDrawn:
     def test_the_three_counts_are_named_apart(self):

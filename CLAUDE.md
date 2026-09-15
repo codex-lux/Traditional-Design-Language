@@ -746,8 +746,8 @@ and 46 no facade-role pack, down from 68 and 67 (WP-4.6's measured movement) · 
 migrated, 61.5% of hard ones tested · 210 faults · **159 of 159 kits populated** · 1,556 kit
 parameters (74.6% measured, 12.8% editorial of which 0 are now silent — OQ 18's note half) ·
 1850 image records, **73 sourced** (the first ever — drawn by the corpus from its own
-proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,151 tests**
-(plus the workbench app suite, **86** under `node --test`). Those figures were 970/36 before the
+proportion packs; 1777 still wanted, and 858 of those can never be harvested) · 14 reference plans · 27 MCP tools · **53 checks, 2,432 tests**
+(plus the workbench app suite, **191** under `node --test`). Those figures were 970/36 before the
 infrastructure audit collected them and 762 before that, and the CHECK figure said 32 against a
 suite of 33 until WP-5.11 read the total. **It said 32 again for an hour on 27 Aug, in this
 sentence, for the same reason** — the 27 Aug merge resolved the conflict here by measuring
@@ -1434,6 +1434,32 @@ and library sashes sit 100% inside their breasts; **the scale bar's zero is the 
 reaches the prover through its hint and makes the sheet WORSE** — do not flip it; and the composer's own
 Tidewater candidate **cannot be proved in the 40 s batch budget**. The phase's section in
 `PLAN-OF-ACTION.md` carries the packages and the number-to-filename table.
+**WP-13.2 IS COMPLETE (15 Sep) — `docs/reports/wp-13.2-the-plate-tells-the-truth.md` — and the rule it
+was built to is the one to keep: a plate may draw only what the record states, must state what it could
+not draw, and may certify nothing it did not prove.** Six worktree slices, one per file region, each
+measured by the gate rows it owns; then two passes by the lead over what the six found in each other's
+regions, and THOSE are the traps: **the proof verdict is spelled three times** — `disclosures.engine_line`
+(the printed plate), `sheet/engineClaim.js` (the bench) and the gate's title-block row — and the bench's
+said "proved" on the status alone while the plate beside it said NOT PROVED AT THE OPTIMUM over the same
+`OPTIMAL (hard-only)` with `objective: null`, which is the status the bench draws at its 25 s budget;
+`engineClaim.test.mjs` reads the Python and the gate and holds all three to one sentence, since nothing
+imports across the language boundary. **`Sheet.jsx`'s own plate note was wired to none of them** and
+printed the retired green line on `engine === 'cp-sat'` — a source guard refuses that expression in the
+sheet's live code now. **The furniture key ate the room click** (a `<text>` across the middle of the room,
+a sibling of the room's `<g>`, so nothing bubbled to `onPickRoom`): WP-6.3's relaxation-mark rule, met
+with the second annotation this sheet ever drew over a room, and every annotation goes `pointerEvents:
+none`. **A refused fire reached no surface but the working register's field**: the hearth slice refuses a
+breast whose wall the solver released, and on the bench's own placement the west stack was simply one
+short with nothing naming it; `disclosures.fires_not_drawn` is the line, in both registers and the strip,
+and it prints ONLY for fires the record stated (15 of 16 shipped plans refuse "the stacks" wholesale for
+want of a hearth, and a FIRES NOT DRAWN line over a house with no fires is the fake-unjudged shape). The
+browser walk is green on the merged tree (189 checks) for the first time since PR #32; its stacks check
+pinned a count of two and reads the record now, and its 30 s wait for the sheet was one CPU hiccup from a
+TimeoutError, because the sheet arrives 28 s after the click behind the 25 s interactive solve. **The
+placement rows of the gate stay red on purpose** — the stacks, the tiling, the bearing lines, the shared
+flue, the one bay system are WP-13.3's — and
+`oq/a-shared-flue-cannot-stand-behind-two-centred-breasts` needs Lucas: the reference plan puts two
+centred fires on one flue and no placement can stand one shaft behind both.
 
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for

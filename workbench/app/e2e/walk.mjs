@@ -81,7 +81,13 @@ await rail.getByRole('button', { name: /Plan Workbench/ }).click();
 const example = page.getByRole('button', { name: 'tidewater-georgian-careful' });
 await example.waitFor({ state: 'visible', timeout: 15000 }).catch(() => {});
 if (await example.count()) await example.click();
-await page.waitForSelector('svg[role="img"]', { timeout: 30000 });
+// The sheet arrives AFTER the evaluate, and the evaluate runs CP-SAT at the interactive
+// budget (`BUDGET_INTERACTIVE_S`, 25 s) before it can fall back -- measured here at 28.1 s
+// from the click to the first `svg[role="img"]` on a quiet 4-core box (WP-13.2's lead pass,
+// probed with a pageerror listener: no error, just late). A 30 s wait was one CPU hiccup from
+// a TimeoutError that reads like a broken surface, and CI's runner is slower than this box.
+// 90 s is the critique panel's wait below, for the same reason.
+await page.waitForSelector('svg[role="img"]', { timeout: 90000 });
 const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
@@ -101,8 +107,9 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
 //
 // THE CONTRACT IS STATED HERE FROM THE API'S OWN SOLVER BLOCK, never from a phrase:
 //   * the caption names the engine the record names;
-//   * "proved" is claimed only where the status begins with OPTIMAL — a FEASIBLE truncation
-//     and a hill-climb are not proofs;
+//   * "proved" is claimed only where the status begins with OPTIMAL AND the objective ran — a
+//     FEASIBLE truncation, an `OPTIMAL (hard-only)` with a null objective and a hill-climb are
+//     not proofs (the plate's rule, `build/disclosures.py::engine_line`);
 //   * a CP-SAT record with no objective says its composition was not evaluated;
 //   * a fallback quotes the solver's own reason.
 // The POST below hits the same solve-cache key as the bench's own evaluate (engine `auto`, 250
@@ -111,6 +118,7 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
 // and publishes it on the paragraph as `data-engine-claim`; that attribute is read AND the
 // words are read, because the attribute is what the app decided and the words are what a
 // reader sees, and the two can disagree.
+let apiPlacement = null;   // the evaluate's own placement, read again by the stacks check below
 {
   const solved = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
     .then((r) => r.json())
@@ -120,6 +128,7 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
     }))
     .then((r) => r.json())
     .catch(() => null);
+  apiPlacement = solved?.placement || null;
   const solver = solved?.placement?.geometry_report?.solver;
   const eng = solver?.engine;
   if (!eng) {
@@ -128,8 +137,8 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
   } else {
     const status = typeof solver.status === 'string' ? solver.status : '';
     const cp = eng === 'cp-sat';
-    const mayClaimProof = cp && /^OPTIMAL\b/.test(status);
     const objectiveRan = !cp || (solver.objective !== null && solver.objective !== undefined);
+    const mayClaimProof = cp && /^OPTIMAL\b/.test(status) && objectiveRan;
     const fellBack = !cp && !!solver.reason && solver.reason !== 'requested';
     const expectVerdict = cp ? (mayClaimProof ? 'proved' : 'not-proved') : 'searched';
     const head = status ? status.split('—')[0].trim() : '(no status)';
@@ -479,13 +488,30 @@ check(`dry-room furniture is drawn from the record (${built.furniture} items, `
 // OUTSIDE the block, so the plate has to have grown for them; a stack drawn at x = -3.1 on a
 // viewBox starting at -11 is invisible and raises nothing, which is why the extent is
 // asserted here and not only the count.
+// THE COUNT IS THE RECORD'S, NOT A PIN OF TWO (WP-13.2, the lead's pass). This asserted
+// `=== 2` -- the paired gable ends -- and went red the day the hearth slice made the breast a
+// judged thing: on the bench's own placement (OPTIMAL hard-only at 25 s) both west fires stand
+// 18 and 24 ft inboard of the gable, so the west stack is REFUSED with a reason and only the
+// east one is drawn. One stack is the honest sheet there. What is asserted is that the sheet
+// draws every stack the record placed, all of them on the plate, and that a stack the record
+// refused is NAMED on the page rather than silently one short -- which is the line the
+// disclosure strip carries now (`disclosures.fires_not_drawn`).
 {
   const vb = (built.vb || '').split(/\s+/).map(Number);
-  const inside = built.stacks.length > 0 && built.stacks.every(
-    (s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
-  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length}, `
+  const hearths = apiPlacement?.hearths || {};
+  const placedStacks = (hearths.stacks || []).filter((s) => s.x_ft !== undefined && s.x_ft !== null);
+  const refusedFlues = (hearths.unplaced || []).filter((u) => u.flue).map((u) => u.flue);
+  const inside = built.stacks.every((s) => s.x >= vb[0] && s.x + s.w <= vb[0] + vb[2]);
+  check(`the gable-end stacks are drawn and lie on the plate (${built.stacks.length} drawn of `
+        + `${placedStacks.length} placed, ${refusedFlues.length} refused; `
         + `walls ${built.stacks.map((s) => s.wall).join('/')}, viewBox ${built.vb})`,
-    built.stacks.length === 2 && inside);
+    placedStacks.length + refusedFlues.length > 0
+      && built.stacks.length === placedStacks.length && inside);
+  if (refusedFlues.length) {
+    const main = await page.locator('main').innerText();
+    check(`a stack the record refused is named on the page (${refusedFlues.join(', ')})`,
+      refusedFlues.every((f) => main.toUpperCase().includes(f.toUpperCase())));
+  }
   // COUNTED AS A PROPERTY AND NOT AS A NUMBER. The first version asserted exactly one, and
   // the walk answered TWO: on CP-SAT the placement puts the KITCHEN's exterior door on the
   // entrance front as well, so the count is the engine's and not the record's. What must hold

@@ -205,9 +205,21 @@ class TestThePlansStacksAreTheRoofsStacks:
         ch = RF.build_roof(copy.deepcopy(placed), section=ST.build_section(placed))["chimneys"]
         assert ch["from_stated_hearths"] is True
         assert "plan.hearths.flues" in ch["note"]
+        # IN THE ROOF'S OWN FRAME. The first version of this test asserted the roof's y EQUAL
+        # to the flue's `position_ft`, and that equality was the defect: the flue is a plan
+        # coordinate (from the clear inside face) and the roof record is outside-to-outside,
+        # so an equal number is a stack one wall thickness short of its fire on the roof plate,
+        # the elevation and the scene. The gate's stacks-equal-roof row measured it at 1.3 ft
+        # on both engines the moment the plan side read the same record.
+        sec = ST.build_section(placed)
+        t = sec["wall"]["exterior_in"] / 12.0
         roof_y = sorted(round(c["y_ft"], 2) for c in ch["positions"])
-        plan_y = sorted(round(f["position_ft"], 2) for f in placed["hearths"]["flues"])
+        plan_y = sorted(round(f["position_ft"] + t, 2) for f in placed["hearths"]["flues"])
         assert roof_y == plan_y, (roof_y, plan_y)
+        assert all(abs(c["y_ft"] - f["position_ft"]) > 1.0
+                   for c, f in zip(sorted(ch["positions"], key=lambda c: c["y_ft"]),
+                                   sorted(placed["hearths"]["flues"], key=lambda f: f["position_ft"]))), \
+            "the roof wrote the plan coordinate into its own frame verbatim again"
         assert len(ch["positions"]) == len(placed["hearths"]["stacks"]) == 2
 
     def test_a_flue_moved_in_the_record_moves_the_roof(self, placed):
@@ -216,8 +228,11 @@ class TestThePlansStacksAreTheRoofsStacks:
         p = copy.deepcopy(placed)
         fl = next(f for f in p["hearths"]["flues"] if f["flue"] == "east-stack")
         fl["position_ft"] = 3.0
-        ch = RF.build_roof(p, section=ST.build_section(p))["chimneys"]
-        assert any(abs(c["y_ft"] - 3.0) < 0.01 for c in ch["positions"])
+        sec = ST.build_section(p)
+        t = sec["wall"]["exterior_in"] / 12.0
+        ch = RF.build_roof(p, section=sec)["chimneys"]
+        assert any(abs(c["y_ft"] - (3.0 + t)) < 0.01 for c in ch["positions"]), \
+            [c["y_ft"] for c in ch["positions"]]
 
     def test_the_gather_is_disclosed_where_one_stack_serves_two_fires_apart(self, placed):
         """THE FIGURE THIS PACKAGE CANNOT CLOSE, STATED AS ONE. The record puts the drawing and

@@ -16,6 +16,7 @@ import { elementBounds, wallOf, levelRooms, partitions, windows, doors, bayLines
 import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
 import { furnitureKeyPlan, keyCount, KEY } from './furnitureKey.js';
+import { engineClaim, statusHead } from './engineClaim.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -450,14 +451,29 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
      prose beside the drawing, which is the one place it cannot travel: a plate that is
      printed, screenshotted or exported leaves the prose behind, and a reader then cannot
      tell a proof from a search. The caption is the plate's own voice, so it says it here.
-     `reason` is present when `auto` FELL BACK, and that is the case worth naming. */
-  const solver = placement?.geometry_report?.solver;
-  const engineLine = !solver ? ''
-    : solver.engine === 'cp-sat'
-      ? "Placement proved (CP-SAT) against the record's own declared facts. "
-      : 'Placement searched, not proved — hill-climb'
-        + (solver.reason && solver.reason !== 'requested' ? `, because ${solver.reason}` : '')
-        + '. ';
+     `reason` is present when `auto` FELL BACK, and that is the case worth naming.
+     WP-13.2: THE VERDICT IS `engineClaim.js`'s. This line read `solver.engine === 'cp-sat'` and
+     printed "Placement proved" over a FEASIBLE truncation and over an `OPTIMAL (hard-only)` whose
+     objective never ran -- the bench's own plate certifying what the Python plate beside it had
+     stopped certifying at the same commit. It prints the plate's four states now: proved at the
+     optimum (naming any declared wall set aside to get there), by CP-SAT and not proved at the
+     optimum (quoting the solver's own status, and saying when the composition was not evaluated),
+     searched, or nothing where no engine is recorded. */
+  const claim = engineClaim(placement?.geometry_report?.solver);
+  const engineLine = claim.verdict === 'unjudged' ? ''
+    : claim.proved
+      ? "Placement proved (CP-SAT) against the record's own declared facts"
+        + (claim.wallsSetAside
+          ? `, with ${claim.wallsSetAside} declared exterior wall${claim.wallsSetAside === 1 ? '' : 's'} set aside`
+          : '')
+        + '. '
+      : claim.cp
+        ? `Placement by CP-SAT, not proved at the optimum — ${statusHead(claim.status) || 'solver status not recorded'}. `
+          + (claim.objectiveRan ? ''
+            : 'The compositional objective did not run, so no term for the front, the axis or the stack was evaluated on it. ')
+        : 'Placement searched, not proved — hill-climb'
+          + (claim.fellBack ? `, because ${claim.reason}` : '')
+          + '. ';
 
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
@@ -794,7 +810,14 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             by furnitureKey.js in the room's own frame (feet from its NW corner, y down);
             this adds the room's corner and nothing else. A refused key is in the caption
             under the room's name, never silently dropped. NOT `data-furniture`: the walk
-            counts those as items, and a key is lettering about an item. */}
+            counts those as items, and a key is lettering about an item.
+            `pointerEvents: none` ON THE GROUP, because a key line lying across the middle of
+            a room is lettering and not a control: the walk clicks the Drawing Room at its
+            centre to raise its wall handles, and with the key's `<text>` sitting there the
+            click landed on the text -- a sibling of the room's `<g>`, so nothing bubbled to
+            `onPickRoom` -- and all four handle checks went red naming nothing. That is the
+            relaxation mark's own defect (WP-6.3, "an annotation must not eat the click under
+            it") arriving with the second annotation this sheet ever drew over a room. */}
         {rooms.map((r) => {
           const kr = keyPlan.byRoom.get(r.id);
           if (!kr) return null;
@@ -802,7 +825,8 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           const fit = kr.fit;
           return (
             <g key={r.id + 'key'} data-furniture-key={r.id}
-              data-furniture-key-fit={fit ? (fit.turned ? 'turned' : 'flat') : 'margin'}>
+              data-furniture-key-fit={fit ? (fit.turned ? 'turned' : 'flat') : 'margin'}
+              pointerEvents="none">
               {kr.numerals.map((nu) => (
                 <text key={'n' + nu.n} data-key-numeral={nu.n} x={ox + nu.x} y={oy + nu.y}
                   fontSize={nu.size} fontFamily="var(--mono)" fill="var(--ink-2)"

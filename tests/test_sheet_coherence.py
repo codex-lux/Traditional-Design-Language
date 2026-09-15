@@ -479,6 +479,28 @@ def test_every_hearth_breast_stands_on_a_wall_a_stack_stands_on(sheets, kind, en
 
 
 @pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)
+def test_every_refused_fire_reaches_the_schedule(sheets, kind, engine):
+    """WP-13.2's hearth rule is "drawn on the wall its stack stands on, or refused with a
+    reason on the plate". The refusal went to `plan.hearths.unplaced` and to a field caption in
+    the working register only; the presentation register, the schedule and the bench's strip
+    said nothing, and the browser walk met the bench drawing one stack where the record refused
+    the other with no line naming it. Every refused breast and every refused stack is a line of
+    the schedule now (`disclosures.fires_not_drawn`), in both registers."""
+    out, svg, _ = sheets(kind, engine)
+    un = ((out.get("hearths") or {}).get("unplaced") or [])
+    breasts = [u for u in un if u.get("room")]
+    flues = [u for u in un if u.get("flue")]
+    if not breasts and not flues:
+        pytest.skip(f"COULD NOT EVALUATE: on {_engine(out)} this placement refused no stated fire")
+    lines = [ln for ln in _schedule(svg) if "FIRE(S) NOT DRAWN" in ln.upper() or "STACK " in ln.upper()]
+    joined = " ".join(lines).upper()
+    missing = [b["room"] for b in breasts if b["room"].upper() not in joined] \
+        + [f["flue"] for f in flues if f["flue"].upper() not in joined]
+    assert not missing, (f"on {_engine(out)}, {len(breasts)} refused breast(s) and {len(flues)} "
+                         f"refused stack(s) and the schedule names none of: {missing}; lines: {lines}")
+
+
+@pytest.mark.parametrize("kind,engine", SHEETS, ids=IDS)
 def test_the_plans_stacks_are_the_roofs_stacks(sheets, kind, engine):
     """One building: the stack the plan draws in poche is the stack the roof and the elevation
     stand on the ridge. On `840c7f1` the roof reconciled its positions to the hearths' flue
