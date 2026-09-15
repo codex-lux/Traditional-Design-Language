@@ -199,10 +199,19 @@ class TestTheBenchParagraphSaysIt:
             "a CP placement outranks a hill-climb on FEASIBILITY and on nothing else"
         assert "Its composition was not evaluated." in src
 
+    # WP-13.2 moved the verdict into ONE leaf, `sheet/engineClaim.js`, so the bench could stop
+    # captioning a FEASIBLE truncation as proved; the paragraph reads `claim.objectiveRan` and
+    # the null-or-missing test lives in the leaf. This test pinned the JSX's own spelling of
+    # that expression and went red on the lift -- a literal, not the property -- and is re-cut
+    # against the property where it now lives.
+    LEAF = os.path.join(ROOT, "workbench", "app", "src", "sheet", "engineClaim.js")
+
     def test_it_reads_the_objective_from_the_record_rather_than_assuming_it_ran(self):
         src = open(self.PATH).read()
-        assert "objectiveRan" in src
-        assert "solver?.objective === null" in src and "=== undefined" in src, \
+        assert "objectiveRan" in src and "claim.objectiveRan" in src, \
+            "the paragraph must take the verdict from the leaf, not re-derive it"
+        leaf = open(self.LEAF).read()
+        assert "solver.objective !== null" in leaf and "!== undefined" in leaf, \
             "a missing key and a null must both count as did-not-run"
 
     def test_the_paragraph_carries_BOTH_numbers_for_BOTH_placements(self):

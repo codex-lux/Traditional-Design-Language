@@ -22,6 +22,7 @@ data behind them is behind /api/. When the first of anything else lands under as
 paragraph is the thing to re-read before widening the mount.
 """
 import os
+import subprocess
 from contextlib import asynccontextmanager
 
 from fastapi import Body, FastAPI, HTTPException, Query, Request, Response
@@ -212,6 +213,48 @@ def _ok(result):
 
 
 # ----------------------------------------------------------------- health
+# WHICH BUILD ANSWERED (WP-13.2). Until this, a screenshot of the bench could not be attributed
+# to a commit: /api/health said what the server could do and nothing about what it WAS, so the
+# WP-13.1 pass could only record "which build drew Lucas's screenshot" as COULD NOT EVALUATE.
+# The Dockerfile stamps the image (`ARG GIT_SHA` -> `ENV TDL_GIT_SHA`) because inside a container
+# nothing else can answer -- .dockerignore keeps .git out and python:3.11-slim ships no git.
+SHA_VAR = "TDL_GIT_SHA"          # the Dockerfile's ENV; tests/test_build_sha.py holds the two together
+SHA_UNKNOWN = "unknown"          # the Dockerfile's ARG default, and the one word that is not a sha
+
+
+def _build_sha(root=None):
+    """The commit this process is serving, and where that answer came from.
+
+    Three sources, in order, each a NAMED state and none a guess:
+      env  -- `TDL_GIT_SHA`, stamped into the image at build time; the only source that can
+              answer in a container.
+      git  -- `git rev-parse --short HEAD` at the repository root, where a checkout is
+              reachable. Asked of git rather than tested for a `.git` DIRECTORY, because a
+              worktree's `.git` is a FILE pointing at the main checkout and git resolves it.
+      None -- neither answered: the sha is the word "unknown". Never an empty string, because
+              a blank in a health payload reads as a field somebody forgot rather than a fact
+              nobody could establish.
+    Read ONCE at import (`BUILD_SHA` below): a build identity that changed under a running
+    process would be a health endpoint describing two builds. The Dockerfile's default value
+    is the word "unknown" itself, so an unstamped image falls through to git -- which the image
+    does not have -- and lands on the third state with its source recorded as None."""
+    v = (os.environ.get(SHA_VAR) or "").strip()
+    if v and v != SHA_UNKNOWN:
+        return v, "env"
+    try:
+        r = subprocess.run(["git", "-C", root or corpus.ROOT, "rev-parse", "--short", "HEAD"],
+                           capture_output=True, text=True, timeout=5)
+        sha = r.stdout.strip()
+        if r.returncode == 0 and sha:
+            return sha, "git"
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return SHA_UNKNOWN, None
+
+
+BUILD_SHA, BUILD_SHA_SOURCE = _build_sha()
+
+
 @app.get("/api/health")
 def health(request: Request, response: Response):
     try:
@@ -228,6 +271,8 @@ def health(request: Request, response: Response):
     # change and reads as the change not working.
     response.headers["Cache-Control"] = "no-store, max-age=0"
     return {"ok": schema_ok, "jsonschema": schema_ok, "counts": counts,
+            # the build, so a screenshot can be attributed to a commit; "unknown" is a state
+            "sha": BUILD_SHA, "sha_source": BUILD_SHA_SOURCE,
             "rail": bool(rail.key()),
             "auth": auth.state(), "limits": limits.state(),
             # /api/health is deliberately ungated (the platform healthcheck has no

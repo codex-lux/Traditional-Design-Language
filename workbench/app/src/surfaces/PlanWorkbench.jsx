@@ -13,6 +13,7 @@ import { SeverityTally } from '../components/SeverityTally.jsx';
 import { JudgmentMark } from '../components/JudgmentMark.jsx';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { Sheet } from '../sheet/Sheet.jsx';
+import { engineClaim, statusHead } from '../sheet/engineClaim.js';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip, FilterGroup } from '../Chrome.jsx';
@@ -338,9 +339,17 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      moment the default became `auto`. A caption that names the wrong engine is worse than
      one that names none: a reader cannot tell a proof from a search, which is the one
      distinction this surface exists to keep. `reason` is present when `auto` FELL BACK, and
-     that is the case worth saying out loud. */
+     that is the case worth saying out loud.
+     WP-13.2: THE VERDICT IS `sheet/engineClaim.js`'s NOW, AND IT IS NO LONGER THE ENGINE'S NAME.
+     This line read `solver?.engine === 'cp-sat'`, so a CP-SAT solve that ran out of budget and
+     returned FEASIBLE -- a placement found, optimality never established -- was captioned
+     "proved feasible": the bench half of *a green PLACEMENT PROVED over a FEASIBLE truncation*.
+     A proof is claimed only where the status begins with OPTIMAL; the leaf is the one spelling
+     and is driven branch by branch under `node --test`. */
   const solver = placement?.geometry_report?.solver;
-  const proved = solver?.engine === 'cp-sat';
+  const claim = engineClaim(solver);
+  const proved = claim.proved;
+  const cpNotProved = claim.cp && !claim.proved;
   /* WP-11.8 (`oq/a-proof-of-feasibility-is-not-a-proof-of-composition`, ruled 4 Sep 2026): a
      CP-SAT placement outranks a hill-climb placement on FEASIBILITY and on nothing else. Phase A
      proves the hard set; phase B carries every compositional term the corpus has, and when it
@@ -351,10 +360,9 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
      demerit score AND the count of declared facts it breaks, judged against the same downgrade
      list, because a lower score alone reads as a better house and on `spec-builder-colonial` is
      bought with sixteen broken facts. */
-  const objectiveRan = !(proved && (solver?.objective === null || solver?.objective === undefined));
+  const objectiveRan = claim.objectiveRan;
   const alternative = solver?.alternative;
-  const fellBack = solver?.engine === 'heuristic' && solver?.reason
-    && solver.reason !== 'requested';
+  const fellBack = claim.fellBack;
   // OQ 54. The search may place a room below the floor of its own catalogue band, charging
   // itself 12 points and winning anyway — and the plan RECORD still declares the full size, so
   // the trade is invisible to every layer of the critic downstream. geometry.py reports it; this
@@ -758,14 +766,26 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
             </div>
           )}
 
-          <p style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
-            margin: '16px 0 0', maxWidth: '76ch' }}>
+          {/* `data-engine-claim` is the verdict the leaf returned, published beside the prose so
+              the walk can hold BOTH -- the words a reader reads and the claim they encode -- to
+              the API's own solver block. The two CP-SAT branches share the objective and the
+              gave-up sentences below; only the headline differs, and the headline is the claim. */}
+          <p data-engine-claim={claim.verdict} data-engine-name={claim.engine || ''}
+            style={{ font: 'var(--fw-reg) 12.5px/1.6 var(--body)', color: 'var(--ink-3)',
+              margin: '16px 0 0', maxWidth: '76ch' }}>
             {proved
-              ? <>This placement was <strong>proved feasible</strong>, not searched: CP-SAT held
-                the record's own declared facts as hard constraints and returned {solver.status
-                  ? solver.status.split('—')[0].trim().toLowerCase() : 'a solution'}.{' '}
-                {!objectiveRan
-                  ? <><strong>Its composition was not evaluated.</strong> The proof ran out of
+              ? <>This placement was <strong>proved feasible</strong> by CP-SAT, not searched: it held
+                the record's own declared facts as hard constraints and returned{' '}
+                {statusHead(claim.status) || 'a solution'}.{' '}</>
+              : cpNotProved
+                ? <>This placement was <strong>found feasible by CP-SAT, not proved</strong>: the solver
+                  returned {statusHead(claim.status) || 'no status'} inside its budget — a placement
+                  that holds the declared facts it kept, with optimality never established, so
+                  nothing on this sheet is a proof.{' '}</>
+                : null}
+            {claim.cp
+              ? <>{!objectiveRan
+                  ? <><strong>Its composition was not evaluated.</strong> The solve ran out of
                     budget before the compositional objective, so no term for the front, the axis
                     or the stack was scored on this drawing — it is the first feasible placement,
                     not the best one.{alternative?.verdict === 'offered'
@@ -774,7 +794,7 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                         <strong>{alternative.hard_fact_violations}</strong> declared fact(s) this
                         one holds ({alternative.drawn_hard_fact_violations}). A lower score is not
                         on its own a better house: choosing the search is choosing a better
-                        composition over a proved feasibility, and that is the choice. </>
+                        composition over a feasibility CP-SAT found, and that is the choice. </>
                       : ' '}</>
                   : ' '}
                 {gaveUp.length
@@ -783,10 +803,15 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) 
                     claimed they were named and no surface named them. </>
                   : 'It gave nothing up. '}
                 <em>Prove placement (CP-SAT)</em> above runs the same act on demand. </>
+              : claim.verdict === 'unjudged'
+                /* no solver block: nothing has been placed (or the placement errored), and the
+                   caption used to fall into the fast-search sentence here -- an engine named over
+                   nothing drawn. Unjudged is not searched. */
+                ? <>No placement is on this sheet yet, so no engine is named for it. </>
               : <>This placement came from the <strong>fast search</strong>, which is a hill-climb and
                 not an optimiser: seconds-cheap, not deterministic across runs, and nothing it draws
                 asserts that feasibility was proved.{fellBack
-                  ? <> The proof was attempted and did not answer — <em>{solver.reason}</em>. </>
+                  ? <> The proof was attempted and did not answer — <em>{claim.reason}</em>. </>
                   : ' '}<em>Prove placement (CP-SAT)</em> above is the act that proves it. </>}
             A wall drag deliberately re-scores on the fast search — a hill-climb, not an optimiser —
             because a gesture cannot wait for a proof; every other edit takes the proof where it can
