@@ -3839,3 +3839,64 @@ sixteen sheets move on a reconciliation, so it is its own package with three thi
 **One shipped sheet moved (+296 bytes), and removing the one field this package added gives all
 sixteen byte-identical to the previous commit** — the accounting proved rather than reasoned.
 **Depends on:** WP-12.8. **Size:** small.
+
+---
+
+## Phase 13 — The procedure nobody read
+
+*Raised by Lucas on 15 September 2026: "do the faults.detection package next." Diagnosed before it
+was built, which is this phase's own rule and the one Phase 11 was founded on.*
+
+`detection` is required on all 210 fault records and is **139,070 characters** — nearly ten times
+the 14,154 of `daylight.orientation`, the field whose zero readers WP-11.9 closed — and **nothing
+read one of them**. (It is not the largest prose field in the corpus: `correct_practice` is 191,878
+over the same records and has a reader. The report's first draft claimed otherwise and the claim was
+corrected by measuring.) What makes it a phase rather than a curiosity is what it
+was written FOR: on `tidewater-georgian-careful`, **120 of 210 faults come back COULD NOT EVALUATE**
+naming **299 distinct missing measurements**, and `detection` is the corpus's own written account
+of how to obtain each one.
+
+### WP-13.1 — the reader, and the verdict that did not carry what the corpus knows
+
+**Status: COMPLETE (15 September 2026).** Report: `docs/reports/wp-13.1-the-procedure-nobody-read.md`
+(cite the filename). New questions: `oq/clear-counts-a-pass-and-a-tautology-as-one-thing`,
+`oq/the-net-clear-opening-is-half-of-every-sash`,
+`oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies`.
+
+`build/detection.py` is the ONE reader. It supplies no measurement and copies no refusal:
+`refusals()` reads `arrangement.NOT_DERIVABLE` and `elevation.NOT_MODELLED` live, proved by a test
+that moves a table at runtime. `plan_check`'s unjudged rows carry the refusal and its verbatim
+reason — **13 annotated on the Tidewater plan, 8 of them wholly accounted for**, so
+`plant-room-that-was-never-drawn` no longer reads as a gap nobody has looked at when WP-9.1 built
+that measurement, swept it, found it convicted both reference plans and withdrew it.
+`check_faults.py` gains three checks, the sharpest being that **every refusal names a quantity some
+fault test actually reads** (36 of 36 live) — a refusal that cannot fire looks exactly like a
+decision taken.
+
+**Two discriminators were built, measured and FALSIFIED**, and both read perfectly well.
+`measurable_from: photograph` does not mean out of reach — **54 photograph-only faults are judged**,
+and the census that discriminator produced said the work list was 15 names when it is **276**. And
+the detection prose cannot be held to the tests' declared surface by word match, because in this
+prose **`elevation` means the FACE of the building**, which accounts for all 21 apparent
+disagreements.
+
+**The largest finding was not what the package was sent to look at.** `clear` counts two different
+things: **26 of the 65 faults clear on the Tidewater plan and 27 of 56 on the spec Colonial are
+cleared on a test reading a name `critic_suspects` already lists as the generator's own constant** —
+`one-bay-symmetry-break` on a symmetry count of 0, from a generator that draws a symmetric facade by
+construction. They are not false passes and they are vacuous as verdicts, and `critique.classify`
+is structurally blind to every one of them because it iterates findings and a fault that passes
+emits none. `plan_check.fault_clear_on_a_generator_constant` makes the question askable and decides
+nothing.
+
+**What was deliberately not done, and the reasons are in the report's §VIII:** no measurement was
+supplied (`exterior_openings_on_the_passage_axis` is *very nearly* what
+`arrangement.passage_ends_with_a_door` counts, and very nearly is the reason — that fault scores a
+rear window 0.5 and a door 1.0, which is one quantity under two meanings); no refusal was deleted,
+only two reasons corrected; no fault was moved from clear to unjudged; no instrument ceiling was
+moved; and the detection prose was not made machine-readable, which is roughly six hundred authored
+entries and is the next package if one is wanted rather than a debt.
+
+**Depends on:** nothing. **Size:** medium. **Fifteen mutations, fifteen red**, each with the match
+count asserted before the colour was believed, and four of them driving branches unreachable from
+the corpus.

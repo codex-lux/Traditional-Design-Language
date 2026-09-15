@@ -96,8 +96,22 @@ NOT_DERIVABLE = {
         "opening, and nothing in the corpus states a central stack's base in plan",
     "firebox_depth_in":
         "a hearth states its opening width, never its depth; no firebox is modelled in plan",
+    # CORRECTED WP-13.1, AND THE OLD REASON IS WHY THE ENTRY STAYS. It read "the plan record
+    # states no wall thickness; construction_type says what a wall is OF, not how thick",
+    # which `structure.wall_thickness` had already falsified and `footprint.wall` (WP-11.2,
+    # plan schema 0.5.1) falsified again -- and `elevation.py` has been SUPPLYING the name all
+    # along, at 15.5 in on the Tidewater plan and 8.0 on the spec Colonial, where four fault
+    # tests read it. So the refusal was inert AND its reason was a claim about this corpus
+    # that a package one directory over had made false: WP-6.4's "until X lands is a lie the
+    # moment X lands", in a refusal instead of a comment. Found by
+    # `build/detection.py --contradictions`, which is what that reading is for.
+    #
+    # It is KEPT, and the reason is now the true one: the quantity exists and is judged, and
+    # a second derivation of it HERE would be two numbers under one name, which is the OQ 48
+    # error. To take this name off, delete the elevation layer's spelling in the same commit.
     "wall_thickness_in":
-        "the plan record states no wall thickness; construction_type says what a wall is OF, not how thick",
+        "supplied by elevation.py from structure.wall_thickness (and stated on the record as "
+        "footprint.wall since WP-11.2); refused HERE so one quantity keeps one spelling",
     # No HVAC model exists anywhere in this corpus -- no slot, no kit parameter, no line in
     # any renderer. A proxy counted off room adjacency would be a guess with a number on it.
     "duct_runs_crossing_the_principal_passage":
@@ -129,8 +143,21 @@ NOT_DERIVABLE = {
         "a cladding-return question, not an arrangement one; out of WP-9.1's scope",
     "net_clear_opening_sqft":
         "an egress-sash question; the plan states no sash operation or clear opening",
+    # CORRECTED WP-13.1. "as net_clear_opening_sqft" is true of THE PLAN and false of the
+    # corpus: elevation.py supplies this name as `upper_w["opening_height_in"] * 0.5`, and
+    # `egress-window-flips-the-proportion` is judged on it -- 25.42 in against an at-least of
+    # 24.0 on the spec Colonial, a secondary CLEARED by 1.4 in on a figure
+    # `critic_suspects.literal_ratios()` already lists as the generator's own.
+    #
+    # The 0.5 is NOT invented, which is why nothing is withheld here: it is the lower sash's
+    # travel, and this fault's own secondary note states that model in as many words -- "In a
+    # double-hung the net clear opening is only the lower sash's travel". It is wrong for a
+    # CASEMENT, whose leaf opens whole, and the elevation layer applies it to every sash
+    # without asking the kit what kind it is. That is a live question and it is the elevation
+    # layer's, not this one's: `oq/the-net-clear-opening-is-half-of-every-sash`.
     "net_clear_opening_height_in":
-        "as net_clear_opening_sqft",
+        "supplied by elevation.py as the lower sash's travel; refused HERE so one quantity "
+        "keeps one spelling. See oq/the-net-clear-opening-is-half-of-every-sash",
     "largest_single_leaf_net_clear_opening_sqft":
         "as net_clear_opening_sqft",
     "swing_or_fold_clearance_outside_the_opening_ft":
