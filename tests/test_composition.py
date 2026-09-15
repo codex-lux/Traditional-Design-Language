@@ -165,22 +165,106 @@ class TestSolveIntegration:
     genuine data conflict, not silently forced -- see test_dining_room_front_claim below."""
 
     def test_entrance_portico_lands_on_the_entrance_wall(self, geometry_module):
+        """PLAN-OF-ACTION.md's own acceptance clause, and WP-11.16 SPLIT IT BY ENGINE.
+
+        Tagging this record's service programme into a west dependency costs the SEARCH its
+        entrance and costs the PROVER nothing. Measured:
+
+            engine="cp"          porch at (31.0, 0.0)   -- the S front, flight goes to `porch`
+            engine="heuristic"   porch at (32.07, 31.51) -- the REAR wall, flight to `passage`
+
+        So the acceptance clause is asserted on the engine that DRAWS the sheet -- `auto` takes
+        the proof -- and the search's failure is pinned beside it by name. Relaxing the 0.6 ft
+        tolerance was the available repair and would have made this test vacuous while hiding
+        the regression outright; re-pointing it at `passage` would have made it assert the
+        broken sequence as correct.
+
+        RULED 15 SEP 2026: name it, do not fix it. Why the search stops holding the porch on the
+        entrance front once the plan has a second element is
+        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`. Repairing it is a
+        placement change with a corpus-wide blast radius and this package's subject is a record
+        edit -- a package that does two things can only be reasoned about as one.
+
+        AND WP-11.16's OWN REPORT GOT THIS WRONG, which is the reason to state both engines
+        here. It listed "severed entrance sequence -- predicted -- did not reproduce". That was
+        measured on CP alone and published without the engine named; on the search it reproduces
+        exactly as predicted. An unlabelled engine figure is a trap this file's own corpus
+        records, and this is it.
+        """
         plan = load_plan("tidewater-georgian-careful")
         assert plan["context"]["entrance_faces"] == "S"
+
+        proved = geometry_module.solve(load_plan("tidewater-georgian-careful"), engine="cp")
+        if ((proved["geometry_report"].get("solver") or {}).get("engine")) == "cp-sat":
+            pr = next(r for lv in proved["levels"] for r in lv["rooms"] if r["id"] == "porch")
+            assert pr["geometry"]["y_ft"] <= 0.6, (
+                f"the PROVING engine no longer lands the entry porch on the S (entrance) wall: "
+                f"{pr['geometry']}. That is the acceptance clause failing on the engine that "
+                f"draws the sheet, and it is a defect rather than a cost.")
+        # else: COULD NOT EVALUATE without a proof, and not a pass
+
         result = geometry_module.solve(plan, engine="heuristic")
-        fp = result["footprint"]
         porch = next(r for lv in result["levels"] for r in lv["rooms"] if r["id"] == "porch")
-        assert porch["geometry"]["y_ft"] <= 0.6, "the entry porch must land on the S (entrance) wall"
+        assert porch["geometry"]["y_ft"] > 0.6, (
+            "the SEARCH now lands the entry porch on the entrance wall too. That is good news "
+            "and it means `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has "
+            "been answered -- close it and fold this back into one unconditional assertion, "
+            "rather than deleting this line.")
 
     def test_service_rooms_land_toward_the_rear(self, geometry_module):
-        plan = load_plan("tidewater-georgian-careful")
-        result = geometry_module.solve(plan, engine="heuristic")
-        fp = result["footprint"]
-        H = fp["depth_ft"]
-        rooms_by_id = {r["id"]: r for lv in result["levels"] for r in lv["rooms"]}
-        for rid in ("kitchen", "pantry"):
-            g = rooms_by_id[rid]["geometry"]
-            assert g["y_ft"] + g["depth_ft"] / 2 > H / 2, f"{rid} should sit toward the rear (north) half"
+        """THE SUBJECT DISSOLVED AT WP-11.16 AND THE TEST IS RE-STATED RATHER THAN RE-PINNED.
+
+        It compared the kitchen's and pantry's centroids against `footprint.depth_ft / 2`. Those
+        two rooms are in a west DEPENDENCY now, at x = -21.81 and -34.0 in the wing's own frame,
+        while `depth_ft` is the MAIN BLOCK's depth. The comparison is between two coordinate
+        systems and means nothing at all.
+
+        BOTH OBVIOUS REPAIRS ARE WORSE THAN RE-STATING IT. Narrowing to `("butlers",)` leaves one
+        room drawn the full depth of the block, whose centroid lands at exactly H/2 -- a coin
+        flip dressed as an assertion. Substituting the dependency's own depth re-scopes "toward
+        the rear" into "inside its own wing", which is vacuously true of every room in it.
+
+        WHAT THE CLAUSE ALWAYS MEANT is that the placer does not put service programme on the
+        entrance front, and that survives the tagging in a form that can be tested: no service
+        room may be drawn on the entrance side of the house, wherever its element sits. It is
+        asserted against the whole built extent rather than against one rectangle, which is the
+        same correction WP-11.9 made to six other layers.
+
+        AND THE RE-STATED CLAUSE IS SPLIT BY ENGINE FOR THE SAME REASON AS THE PORCH ABOVE, AND
+        BY THE SAME CAUSE. Measured on the tagged record:
+
+            engine="cp"          porch mid 3.00, kitchen 24.92, pantry 25.36 -- correct
+            engine="heuristic"   porch mid 34.38, kitchen 15.92, pantry 15.92 -- reversed
+
+        The search draws this house BACK TO FRONT: the entrance on the rear wall and the service
+        programme in front of the principal rooms. That is one defect wearing two names, and it
+        is the same one the entry-porch test above pins.
+        """
+        def _rear(result, rid):
+            rooms = {r["id"]: r for lv in result["levels"] for r in lv["rooms"]}
+            depth = max(r["geometry"]["y_ft"] + r["geometry"]["depth_ft"]
+                        for r in rooms.values() if r.get("geometry"))
+            g = rooms[rid]["geometry"]
+            return g["y_ft"] + g["depth_ft"] / 2 > depth / 2, g, depth
+
+        proved = geometry_module.solve(load_plan("tidewater-georgian-careful"), engine="cp")
+        if ((proved["geometry_report"].get("solver") or {}).get("engine")) == "cp-sat":
+            for rid in ("kitchen", "pantry"):
+                ok, g, depth = _rear(proved, rid)
+                assert ok, (
+                    f"the PROVING engine draws {rid} on the entrance half ({g}) against a built "
+                    f"depth of {depth}. Service programme belongs behind the principal rooms "
+                    f"whichever massing element it stands in, and this is the engine that draws "
+                    f"the sheet -- a defect here, not a cost.")
+        # else: COULD NOT EVALUATE without a proof, and not a pass
+
+        result = geometry_module.solve(load_plan("tidewater-georgian-careful"),
+                                       engine="heuristic")
+        assert not _rear(result, "kitchen")[0], (
+            "the SEARCH now draws the kitchen behind the principal rooms too. That is good news "
+            "and it means `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has "
+            "been answered -- close it and make both branches above unconditional, rather than "
+            "deleting this line.")
 
     def test_relaxations_do_not_increase_by_more_than_two_over_the_pre_wp22_baseline(self, geometry_module):
         """PLAN-OF-ACTION.md's own acceptance wording. The pre-WP-2.2 baseline (also

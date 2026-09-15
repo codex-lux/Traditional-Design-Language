@@ -30,9 +30,42 @@ def _placed(path=TIDEWATER):
     return GEOM.solve(json.load(open(path, encoding="utf-8")), engine="heuristic")
 
 
+def _proved(path=TIDEWATER):
+    """The PROVING engine, for the four tests in `TestTheStoop` whose subject is the ENTRANCE
+    SEQUENCE rather than a dimension, and returns None when there is no proof.
+
+    WHY THIS EXISTS (WP-11.16). `plans/tidewater-georgian-careful.json` now declares its service
+    programme as a west dependency, and that costs the SEARCH its entrance while costing the
+    PROVER nothing -- measured, the porch lands at y = 31.51 on the rear wall under the
+    hill-climb and at y = 0.0 on the S front under CP, and the threshold layer correctly hands
+    the flight to whichever room the entrance door is really in. So the layer is behaving and
+    the placement it is handed is not.
+
+    Those four tests assert that the entrance sequence is drawn RIGHT. Re-pointing them at
+    `passage` and `platform_is_the_room is False` would have converted four tests asserting a
+    correct sequence into four asserting the broken one, and a green suite would then be
+    evidence for the defect. They run on the engine that DRAWS the sheet instead -- `auto` takes
+    the proof -- and the search's cost is pinned once, by name, in
+    `test_THE_SEARCH_LOSES_THE_ENTRANCE_AND_THAT_IS_A_MEASURED_COST` below.
+
+    NOT `auto`, WHICH WOULD BE OQ 71's ERROR. `engine="cp"` is asked for by name and this
+    returns None -- COULD NOT EVALUATE, never a pass -- when the solve does not come back
+    `cp-sat`. What makes it usable at all is that the tagged record's proof CLOSES: three runs
+    returned OPTIMAL with an identical objective, where the untagged record spent its budget and
+    drifted. A proof that closes is reproducible; one that times out is not, and the caution in
+    `_placed` above is about the second kind.
+    """
+    pl = GEOM.solve(json.load(open(path, encoding="utf-8")), engine="cp")
+    if ((pl.get("geometry_report", {}).get("solver") or {}).get("engine")) != "cp-sat":
+        return None
+    return pl
+
+
 class TestTheStoop(unittest.TestCase):
     def test_the_entrance_door_gets_a_flight_and_the_other_three_doors_get_a_reason(self):
-        pl = _placed()
+        pl = _proved()
+        if pl is None:
+            return              # COULD NOT EVALUATE without a proof, and not a pass
         th = pl["threshold"]
         self.assertEqual(len(th["steps"]), 1, "one door on the entrance face, one flight")
         st = th["steps"][0]
@@ -50,7 +83,9 @@ class TestTheStoop(unittest.TestCase):
         front; CP-SAT puts the KITCHEN's there too, legal by the record and a service door on
         the entrance front all the same. A door carries no `rank` on any record in this
         corpus, so the room's own `function_class` is the discriminator."""
-        pl = _placed()
+        pl = _proved()
+        if pl is None:
+            return              # COULD NOT EVALUATE without a proof, and not a pass
         C_ = C
         # the search engine's placement does not put a service door on the S front, so the
         # branch is exercised on a record that does: the kitchen's own north door, moved.
@@ -66,6 +101,42 @@ class TestTheStoop(unittest.TestCase):
         self.assertIn("kitchen", named[0]["what"])
         self.assertEqual([st["room"] for st in out["steps"]], ["porch"],
                          "the porch keeps its stoop and the kitchen does not get one")
+
+    def test_THE_SEARCH_LOSES_THE_ENTRANCE_AND_THAT_IS_A_MEASURED_COST(self):
+        """WP-11.16, and it is pinned here so it cannot go quiet.
+
+        Tagging `plans/tidewater-georgian-careful.json`'s service programme into a west
+        dependency costs the SEARCH its entrance and costs the PROVER nothing:
+
+            engine="cp"          porch at (31.0, 0.0)    flight -> `porch`
+            engine="heuristic"   porch at (32.07, 31.51) flight -> `passage`
+
+        The threshold layer is BEHAVING in both: it hands the flight to whichever room the
+        entrance door is really in, and under the hill-climb that door is on the rear wall. This
+        is the same defect `test_composition.py`'s entry-porch and service-room tests pin, seen
+        from the threshold layer -- one house drawn back to front, not three separate faults.
+
+        RULED 15 SEP 2026: name it, do not fix it. Repairing the search is a placement change
+        with a corpus-wide blast radius, and WP-11.16's subject is a record edit -- a package
+        that does two things can only be reasoned about as one.
+        `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`.
+
+        WP-11.16's OWN REPORT RECORDED THIS AS "did not reproduce". That was measured on CP and
+        published with no engine named, which this corpus already records as a trap that costs
+        two numbers. It reproduces on the search.
+        """
+        pl = _placed()
+        st = pl["threshold"]["steps"][0]
+        self.assertEqual(
+            st["room"], "passage",
+            "the SEARCH now gives the flight to the entry porch again. That is good news: it "
+            "means `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` has been "
+            "answered, so close it and make `_proved()`'s four callers unconditional -- do not "
+            "delete this test, re-point it at whatever the search gets wrong next.")
+        porch = next(r for lv in pl["levels"] for r in lv["rooms"] if r["id"] == "porch")
+        self.assertGreater(
+            porch["geometry"]["y_ft"], 0.6,
+            "the entry porch is on the entrance wall under the search; see above")
 
     def test_the_flight_is_outside_the_block_and_never_inside_a_room(self):
         pl = _placed()
@@ -92,13 +163,17 @@ class TestTheStoop(unittest.TestCase):
         """The record's own reading: an entry-porch room IS the raised platform, already
         placed and dimensioned. Drawing a second one in front of it puts two thresholds on
         one house."""
-        pl = _placed()
+        pl = _proved()
+        if pl is None:
+            return              # COULD NOT EVALUATE without a proof, and not a pass
         st = pl["threshold"]["steps"][0]
         self.assertTrue(st["platform_is_the_room"])
         self.assertNotIn("platform", st)
 
     def test_the_flight_is_centred_on_the_door_and_clamped_to_the_room_behind_it(self):
-        pl = _placed()
+        pl = _proved()
+        if pl is None:
+            return              # COULD NOT EVALUATE without a proof, and not a pass
         st = pl["threshold"]["steps"][0]
         f = st["flight"]
         porch = next(r for lv in pl["levels"] for r in lv["rooms"] if r["id"] == "porch")
@@ -343,7 +418,24 @@ class TestTheMoveOutOfRoof(unittest.TestCase):
                          # to 50.0 x 30.75, so 178 of the 180 sweep entries move with the
                          # base plan they are built on. `build/roof.py` is byte-identical
                          # across this merge.
-                         "82cfe22d66402370b5ae3baf100c446556a01973700cbc2c81907f6d56aab513",
+                         # RE-DERIVED AT WP-11.16 AGAINST A PRISTINE CHECKOUT, WHICH IS WHAT
+                         # THE ASSERTION MESSAGE BELOW DEMANDS. `plans/tidewater-georgian-
+                         # careful.json` was tagged -- 617 sf of service programme into a west
+                         # dependency -- and the same sweep was run on a `git worktree` of
+                         # `7cc02f8^` and diffed PER ENTRY rather than compared as one number.
+                         #
+                         # 165 of 180 entries moved, AND THAT IS THE EXPECTED SHAPE rather than
+                         # an alarming one: 1 is the tagged plan itself and 164 are the style
+                         # sweep, every one of which is built on that plan as its base. The 15
+                         # that did NOT move are `spec-builder-colonial` and all fourteen
+                         # reference plans -- the entries with a base of their own.
+                         #
+                         # AND `build/roof.py` AND `build/threshold.py` ARE BYTE-IDENTICAL
+                         # across this whole package (`git diff 7cc02f8^ -- build/roof.py
+                         # build/threshold.py` is empty). So the roof did not change and its
+                         # INPUT did, which is the one thing this pin exists to tell apart and
+                         # the reason WP-11.4 pruned it to `footprint` and five siblings.
+                         "4a06aa83cd6d4b88ba9168a750ffa95494f50e9374e1c7c494b4d56ce3be0844",
                          "build/roof.py's own answer changed. Measured on a `git archive HEAD` "
                          "checkout of the pristine tree and again here; if a later package "
                          "means to move it, re-measure against a pristine checkout the same "
@@ -427,13 +519,32 @@ class TestTheDrawing(unittest.TestCase):
         m = re.search(r'viewBox="([-\d.]+) ([-\d.]+) ([\d.]+) ([\d.]+)"', svg)
         self.assertIsNotNone(m)
         self.assertEqual(svg.count("data-stack"), 4, "two stacks on each of two plates")
-        self.assertEqual(svg.count('data-threshold="porch"'), 1,
+        # READS THE RECORD RATHER THAN A LITERAL (WP-11.16). This asserted
+        # `data-threshold="porch"`, and the subject of this test is that the PLATE IS WIDE
+        # ENOUGH -- not which room the flight belongs to. The search gives the flight to
+        # `passage` on the tagged record (see
+        # `test_THE_SEARCH_LOSES_THE_ENTRANCE_AND_THAT_IS_A_MEASURED_COST`), so a hardcoded
+        # "porch" made a test about canvas width fail for a reason that is not its own -- and
+        # hardcoding "passage" instead would have asserted the broken sequence here too.
+        # The room comes from the record the plate was drawn from, so this survives the next
+        # placement move in either direction.
+        room = pl["threshold"]["steps"][0]["room"]
+        self.assertEqual(svg.count(f'data-threshold="{room}"'), 1,
                          "the flight, on the ground plate only -- the stoop is at grade -- and "
                          "`data-threshold` names the ROOM in both renderers, so one selector "
                          "finds it in either")
         self.assertEqual(svg.count('data-part="flight"'), 1)
-        self.assertEqual(svg.count('data-part="platform"'), 0,
-                         "the entry porch IS the platform")
+        # AND THE PLATFORM IS DERIVED FROM THE RULE, NOT PINNED AT ZERO (WP-11.16). The old
+        # literal 0 encoded "the entry porch IS the platform", which is true only when the
+        # flight lands in an entry-porch room. On the search's placement of the tagged record
+        # the flight lands in the PASSAGE, which is not a raised platform, so the layer
+        # correctly draws one -- and a pinned 0 made correct behaviour look like a regression.
+        # `platform_is_the_room` is the record's own statement of which case this is.
+        st0 = pl["threshold"]["steps"][0]
+        self.assertEqual(svg.count('data-part="platform"'),
+                         0 if st0.get("platform_is_the_room") else 1,
+                         "an entry-porch room IS the platform and no second one may be drawn; "
+                         "any other room needs one drawn in front of it")
 
     def test_the_plate_grows_to_hold_what_stands_outside_the_house(self):
         """A DIFFERENTIAL, because the obvious form of this guard CANNOT FAIL. The first

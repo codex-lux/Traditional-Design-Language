@@ -338,6 +338,35 @@ def test_drawn_and_declared_sizes_are_reconciled_or_reported():
         assert abs(pct) >= 10, f"{rid} reported at {pct}% — under the threshold"
 
 
+# WP-11.16: THE GUARANTEE IS KEPT AND THE ONE REFUSAL IS NAMED, NOT RATCHETED.
+#
+# `fixtures_unplaced == 0` on the shipped plans was a guarantee with no ceiling in it, and
+# tagging `plans/tidewater-georgian-careful.json`'s service programme into a west dependency
+# broke it on one item. Replacing it with `<= 1` would have been a ceiling that says nothing
+# about WHICH fixture, and the next refusal would have hidden behind this one.
+#
+# WHAT IS REFUSED, AND WHY IT IS HONEST RATHER THAN A BUG: `primarybath` goes from
+# 14.55 x 14.5 (211 sf) to 9 x 11 (99 sf) under the SEARCH, and the fourth of its four
+# fixtures has nowhere to stand -- "no wall of this room has a clear run left for a
+# 3.5 x 5.0 ft item ... All four were tried (E 11.0 ft clear of 11.0, N 9.0 of 9.0,
+# W 3.2 of 11.0, S 2.2 of 9.0); fixtures already placed take 5.5 ft of the N wall". The
+# refusal carries its own full reason, which is what this corpus asks of one.
+#
+# AND IT IS THE SEARCH'S, NOT THE RECORD'S. Measured on the same record: `engine="cp"`
+# refuses ZERO fixtures and draws that bath 15 x 9. Nothing left the upper floor -- it still
+# declares 1,621 sf -- so this is the hill-climb drawing the house badly rather than the
+# programme no longer fitting. It is one symptom of
+# `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan`, which is the same
+# placement drawing the entrance on the rear wall.
+#
+# THIS LIST MAY ONLY SHRINK. An empty list for a plan means the guarantee holds for it
+# outright, which is what fifteen of sixteen records still do.
+KNOWN_REFUSALS = {
+    "tidewater-georgian-careful": [("primarybath", "shower with bench")],
+    "spec-builder-colonial": [],
+}
+
+
 class TestFurnitureIsArrangedAgainstThePlacedOpenings:
     """WP-7.2 (OQ 92). Two defects and one rule, all of them about the same thing: the
     fixtures and the openings were placed as if the other did not exist."""
@@ -383,8 +412,17 @@ class TestFurnitureIsArrangedAgainstThePlacedOpenings:
             solved = GEO.solve(_plan(pid), engine="heuristic")
             rep = solved.get("opening_report") or {}
             assert rep.get("fixtures_placed", 0) > 0, "vacuous unless fixtures were placed"
-            assert rep.get("fixtures_unplaced", 0) == 0, (
-                f"{pid}: {rep.get('fixtures_unplaced')} fixture(s) refused")
+            refused = [(r["id"], f.get("item"))
+                       for lv in solved["levels"] for r in lv["rooms"]
+                       for f in (r.get("fixture_layout") or []) if f.get("unplaced")]
+            assert refused == KNOWN_REFUSALS.get(pid, []), (
+                f"{pid}: the set of refused fixtures moved. It is {refused} against a named "
+                f"{KNOWN_REFUSALS.get(pid, [])}. A NEW refusal is a placement getting worse; a "
+                f"refusal DISAPPEARING is good news and means the entry below should be "
+                f"removed with the reason.")
+            assert rep.get("fixtures_unplaced", 0) == len(KNOWN_REFUSALS.get(pid, [])), (
+                f"{pid}: the report's count ({rep.get('fixtures_unplaced')}) disagrees with the "
+                f"fixtures actually marked unplaced ({len(refused)})")
 
     def test_a_fixture_is_drawn_against_the_wall_its_record_names(self):
         """WP-7.4. The off-wall coordinate was the room's LOW edge whichever wall was chosen,
