@@ -24,6 +24,16 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     WORKBENCH_HOST=0.0.0.0
 
+# WHICH BUILD THIS IS, for /api/health's `sha` (WP-13.2). Inside the container nothing can
+# read the commit -- .dockerignore keeps .git out and this base image ships no git -- so the
+# build has to be TOLD:  docker build --build-arg GIT_SHA=$(git rev-parse --short HEAD) .
+# Railway's build must pass it the same way (docs/deployment.md). Left at the default the
+# server answers "unknown", which is a named state and never a guess. `app.SHA_VAR` is the
+# variable's one spelling on the server side and workbench/server/tests/test_build_sha.py
+# holds this line to it.
+ARG GIT_SHA=unknown
+ENV TDL_GIT_SHA=$GIT_SHA
+
 WORKDIR /app
 
 COPY workbench/requirements.txt workbench/requirements.txt

@@ -86,11 +86,31 @@ const body = await page.locator('main').innerText();
 check('three-state panel present (could not evaluate)', /could not evaluate/i.test(body));
 check('hill-climb honesty line present', /hill-climb/i.test(body));
 check('the proof is offered, not just the search', /prove placement/i.test(body));
-// …and the caption names the engine that ACTUALLY DREW THIS SHEET. Until WP-6.3 flipped
-// the default it said flatly that every edit re-scores on the hill-climb and that nothing
-// drawn asserts feasibility was proved — true then, false the moment `auto` became the
-// default, and false in the direction that matters: a reader could not tell a proof from a
-// search. Checked against the API's own report rather than against a phrase.
+// …and the caption names the engine that ACTUALLY DREW THIS SHEET, and claims a proof only
+// where the record carries one. Until WP-6.3 flipped the default it said flatly that every
+// edit re-scores on the hill-climb and that nothing drawn asserts feasibility was proved —
+// true then, false the moment `auto` became the default, and false in the direction that
+// matters: a reader could not tell a proof from a search.
+//
+// WP-13.2 FOUND THIS CHECK ITSELF STALE, AND THE CAPTION IT GUARDED WRONG. It matched two
+// PHRASES — `was proved, not searched` and `came from the fast search` — and WP-11.8 had
+// reworded the first to "proved feasible" without this line noticing, so main's CI was red on
+// a wording. And the wording it was red on said "proved" over ANY CP-SAT solve, FEASIBLE
+// included: a placement found inside the budget with optimality never established, captioned
+// as a proof — the bench half of *a green PLACEMENT PROVED over a FEASIBLE truncation*.
+//
+// THE CONTRACT IS STATED HERE FROM THE API'S OWN SOLVER BLOCK, never from a phrase:
+//   * the caption names the engine the record names;
+//   * "proved" is claimed only where the status begins with OPTIMAL — a FEASIBLE truncation
+//     and a hill-climb are not proofs;
+//   * a CP-SAT record with no objective says its composition was not evaluated;
+//   * a fallback quotes the solver's own reason.
+// The POST below hits the same solve-cache key as the bench's own evaluate (engine `auto`, 250
+// candidates, strict off), so the report read here IS the sheet's — the critique block further
+// down rests on the same fact. `sheet/engineClaim.js` is the app's one spelling of the verdict
+// and publishes it on the paragraph as `data-engine-claim`; that attribute is read AND the
+// words are read, because the attribute is what the app decided and the words are what a
+// reader sees, and the two can disagree.
 {
   const solved = await fetch(BASE + '/api/plans/examples/tidewater-georgian-careful')
     .then((r) => r.json())
@@ -100,27 +120,60 @@ check('the proof is offered, not just the search', /prove placement/i.test(body)
     }))
     .then((r) => r.json())
     .catch(() => null);
-  const eng = solved?.placement?.geometry_report?.solver?.engine;
+  const solver = solved?.placement?.geometry_report?.solver;
+  const eng = solver?.engine;
   if (!eng) {
     check('the caption names the engine that drew the sheet — COULD NOT EVALUATE '
       + '(the API did not report one)', false);
   } else {
-    const saysProved = /was\s+proved,\s+not\s+searched/i.test(body);
-    const saysSearched = /came from the\s+fast search/i.test(body);
-    check(`the caption names the engine that drew the sheet (${eng})`,
-      eng === 'cp-sat' ? (saysProved && !saysSearched) : (saysSearched && !saysProved));
+    const status = typeof solver.status === 'string' ? solver.status : '';
+    const cp = eng === 'cp-sat';
+    const mayClaimProof = cp && /^OPTIMAL\b/.test(status);
+    const objectiveRan = !cp || (solver.objective !== null && solver.objective !== undefined);
+    const fellBack = !cp && !!solver.reason && solver.reason !== 'requested';
+    const expectVerdict = cp ? (mayClaimProof ? 'proved' : 'not-proved') : 'searched';
+    const head = status ? status.split('—')[0].trim() : '(no status)';
+    const cap = await page.evaluate(() => {
+      const p = document.querySelector('[data-engine-claim]');
+      return p ? { verdict: p.getAttribute('data-engine-claim'),
+                   engine: p.getAttribute('data-engine-name'),
+                   text: p.textContent.replace(/\s+/g, ' ').trim() } : null;
+    });
+    const text = cap ? cap.text : '';
+    const saysProved = /\bproved feasible\b/i.test(text);
+    const saysNotProved = /\bnot proved\b/i.test(text);
+    check('the caption paragraph is on the page and publishes its claim', !!cap);
+    check(`the caption names the engine that drew the sheet (${eng}, ${head})`,
+      !!cap && cap.engine === eng
+        && (cp ? /CP-SAT/.test(text) && !/came from the fast search/i.test(text)
+               : /came from the fast search/i.test(text) && !/by CP-SAT/i.test(text)));
+    check(`the caption claims a proof only where the record carries one (${head} → ${expectVerdict})`,
+      mayClaimProof ? (saysProved && !saysNotProved)
+                    : (!saysProved && (cp ? saysNotProved : true)));
+    check(`the caption's published verdict agrees with the API (${cap?.verdict} vs ${expectVerdict})`,
+      !!cap && cap.verdict === expectVerdict);
+    if (cp && !objectiveRan) {
+      check('a CP-SAT sheet whose objective did not run says its composition was not evaluated',
+        /composition was not evaluated/i.test(text));
+    }
+    if (fellBack) {
+      check("a fallback quotes the solver's own reason",
+        text.includes(String(solver.reason).replace(/\s+/g, ' ').trim()));
+    }
     // …and the PLATE says it too, not only the page prose beside it. WP-6.3 put the
     // disclosure one level out, which is the one place it cannot travel: a printed or
     // exported plate leaves the prose behind and a reader cannot tell a proof from a
-    // search. Measured on the plate's own caption element.
+    // search. Measured on the plate's own caption element, and held to the SAME contract:
+    // the plate names the engine, and prints "proved" only where the record carries a proof.
     const plate = await page.evaluate(() => {
       const n = document.querySelector('[data-plate-note]');
       return n ? n.textContent.replace(/\s+/g, ' ').trim() : '';
     });
     check(`the plate's own caption names the engine (${eng})`,
-      eng === 'cp-sat'
-        ? /placement proved \(cp-sat\)/i.test(plate)
-        : /placement searched, not proved/i.test(plate));
+      cp ? /CP-SAT/.test(plate) : /searched, not proved/i.test(plate));
+    check(`the plate claims a proof only where the record carries one (${head} → ${expectVerdict})`,
+      mayClaimProof ? /\bproved\b/i.test(plate) && !/not proved/i.test(plate)
+                    : !/placement proved/i.test(plate));
   }
 }
 check('relaxations counted', /cut\(s\) off the bay line/i.test(body));

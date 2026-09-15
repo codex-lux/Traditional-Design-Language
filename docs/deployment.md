@@ -80,6 +80,25 @@ exactly like the change not working. The client had the same hole from the other
 `fresh: true` skipped the app's own map and then took the browser's cache, which is not
 what the flag promises its one caller.
 
+**`/api/health` names the build that answered** (WP-13.2, 15 September 2026). Until then a
+screenshot of the bench could not be attributed to a commit — the WP-13.1 pass had to record
+"which build drew Lucas's sheet" as COULD NOT EVALUATE. The payload carries `sha` and
+`sha_source`, and the sha comes from one of three named sources, in order: the environment
+variable `TDL_GIT_SHA`, which the image stamps at build time; `git rev-parse --short HEAD` at
+the checkout, where one is reachable; or the word `unknown`, with `sha_source: null`. It is read
+once at import, never per request. **Inside the container only the first source can answer**:
+`.dockerignore` keeps `.git` out and `python:3.11-slim` ships no git, so the Dockerfile declares
+`ARG GIT_SHA=unknown` and `ENV TDL_GIT_SHA=$GIT_SHA`, and the build has to be told —
+`docker build --build-arg GIT_SHA=$(git rev-parse --short HEAD) .`. **Railway's build must pass
+it too**, or every deploy reports `unknown`: declare a service variable `GIT_SHA` whose value
+references the platform's own commit variable (`RAILWAY_GIT_COMMIT_SHA`), which the Dockerfile's
+`ARG` then receives at build time. That mechanism is written, as the hostname discovery above
+was, without access to the platform's documentation; the check is the endpoint itself — after
+the first deploy, `curl -s https://<host>/api/health | grep sha` must show a hex sha and
+`"sha_source": "env"`, and an `unknown` there means the build was not told. The CI `docker
+build` in `.github/workflows/ci.yml` passes no build argument, so an image it produces reads
+`unknown` by design; it is a build check, not a deploy.
+
 **Caps on the rail** (`workbench/server/limits.py`). Two different things needed bounding
 and only one of them is a rate.
 
@@ -343,6 +362,11 @@ Everything below is done once, by hand, in the named service's own UI.
      generated domain with nothing configured. Set this only for a custom domain, or if
      `/api/health` shows the platform's own host missing from `mcp.allowed_hosts`.
      A bare hostname or a full URL both work — it is normalised either way.
+   - `GIT_SHA` — set it to a reference to the platform's own commit variable
+     (`RAILWAY_GIT_COMMIT_SHA`), so the Dockerfile's `ARG GIT_SHA` receives it and
+     `/api/health` can say which build is answering. Without it the endpoint reports
+     `"sha": "unknown"` — a named state, and the sign the build was not told. See "names the
+     build that answered" under *What was built*.
    - `PORT` — **set it explicitly**, and use the same number when the platform asks which
      port to route the domain to. Railway's "Generate Domain" dialog asks for a target
      port, and stating the number on both sides removes any dependence on the platform
