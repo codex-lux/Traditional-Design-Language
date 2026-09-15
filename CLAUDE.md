@@ -1406,6 +1406,35 @@ REVERT makes every later result meaningless and reads as success; what this adds
 damage outlives the harness**. After an interrupted mutation run, restore the file and re-derive
 every figure taken since.
 
+**PHASE 13 — THE COHERENT SHEET — IS IN PROGRESS (15 Sep 2026), AND `check_all.py` IS RED ON THIS
+BRANCH BY DESIGN UNTIL IT LANDS.** Lucas read two plates of a Tidewater sheet off the Drawing Set and
+listed nine things a fluent reader sees at once — the stairs do not stack, the door swings are
+mirrored, the furniture is nonsense and unlabelled, the chimneys stand on windows and relate to no
+fireplace, the powder room is not enclosed, the bays are not coordinated between floors, plans or
+elevations, the scale does not scale — his SECOND such list, eleven days after the 4 Sep diagnosis
+whose structural items Phase 11 built on the SEARCH engine, measured inert there and stood down.
+**Measured on `840c7f1`: all nine reproduce, and the cause is one thing with nine faces — the bench
+draws the prover, and the prover has been told nothing about the type.** `geometry_cp.py`'s hard set is
+no-overlap, containment, a 97% coverage floor (so 26.5 sf of the ground floor is NO ROOM and the powder
+room's south side is a 6 ft hole with no wall drawn across it), declared walls (released FIRST), doors,
+sizes, the entrance and the shape band; stacking, bearing continuity, the bay grid and the hearth are
+soft at 40 or 20 points, absent, or post-hoc — and at the Plan Workbench's 25 s budget phase B never
+runs, so the bench draws a placement to which NOT ONE soft term applied, under a green *PLACEMENT
+PROVED* line printed on the engine's NAME. Lucas ruled the same day: the type's facts become HARD on the
+prover in a stated precedence; a placement that breaks one is REFUSED, not drawn; **gate first, and no
+new surface until it is green**; the service program moves into the dependency. **`tests/test_sheet_coherence.py`
+is the gate** — seventeen rows over the reference plan and the composer's own candidate on both
+engines, 43 red at `840c7f1`, every row carrying its figure — and it was written RED before any fix, with
+no `xfail` and no ratchet on the prover's figures. Read `docs/reports/wp-13.1-the-gate.md` before touching
+a renderer or either engine; the traps it recorded on the way in: **the door arcs are mirrored on
+HORIZONTAL walls** (`render_plan.py:1142`'s `horiz` arm, since WP-6.1, `Sheet.jsx` correct); **the
+chimney breast, a lone window and the flue axis all default to the same mid-wall point**, so the dining
+and library sashes sit 100% inside their breasts; **the scale bar's zero is the plate's margin**
+(model x = −4.42 ft), not the clear face, so a straightedge reads 13.4 ft against "9"; **`STACK_HARD`
+reaches the prover through its hint and makes the sheet WORSE** — do not flip it; and the composer's own
+Tidewater candidate **cannot be proved in the 40 s batch budget**. The phase's section in
+`PLAN-OF-ACTION.md` carries the packages and the number-to-filename table.
+
 **Next, in order:**
 1. **WP-4.4** is **environment-blocked**, not deferred — the proxy answers 403 to CONNECT for
    www.loc.gov. `build/harvest_habs.py` is written, dry-run exercised and queued against the day
