@@ -24,14 +24,19 @@ What this checks:
      `plans/reference/bad-03-narrow-lot-townhome.json` is the one instance and it is expected;
      a SECOND one, or that one disappearing, both mean something and both should be read.
 
-WHAT THIS DELIBERATELY DOES NOT CHECK, AND WHY IT CANNOT
---------------------------------------------------------
+WHAT THIS DELIBERATELY DOES NOT CHECK, AND WHY
+----------------------------------------------
 **That a plan states the stacking its own parti declares.** That is how WP-11.6's own two
 claims were found — by hand, by knowing that `plans/tidewater-georgian-careful.json` is a
-`centre-passage-double-pile` and reading the parti beside it. Measured: **no plan record in
-the corpus names a parti.** There is no `parti` key on any of the sixteen, so the join does not
-exist and building it on matching room ids would be inventing a fact from a coincidence.
-Recorded in `oq/a-plan-does-not-name-the-parti-it-was-built-from` rather than guessed at.
+`centre-passage-double-pile` and reading the parti beside it. When this checker was written no
+plan record named a parti; that record has named one since WP-11.2 (plan schema 0.6.0) and it
+is still the ONLY one of the sixteen that does — re-measured 15 Sep 2026: **1 of 16 plans
+carries a `parti` key** (this file said "none of the sixteen" for a week after it stopped being
+true). Where the join exists it is `build/check_plans.py`'s, which holds a hand-authored plan to
+the parti it names; it is not made here, and not for the other fifteen, because building it on
+matching room ids would be inventing a fact from a coincidence. The gap is
+`oq/a-plan-does-not-name-the-parti-it-was-built-from`, and the count is
+`oq/fifteen-of-sixteen-plans-name-no-parti`.
 
 This checker never SOLVES anything. `kept` / `broken` / `not placed` are properties of a
 placement and belong to `geometry_report.stacking`; the errors here are properties of the

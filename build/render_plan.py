@@ -603,80 +603,31 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     # draughtsman puts a note. The MARKS stay on the field, at their locations, in the working
     # register.
     gr = plan.get("geometry_report", {})
-    _solver = gr.get("solver") or {}
-    schedule = []
-    if gr:
-        rl = gr.get("relaxations", {})
-        schedule.append((L["salmon_deep"] if rl.get("count") else L["green_deep"],
-                         f'{rl.get("count", 0)} CUT(S) OFF THE BAY LINE'
-                         + (f", WORST {rl.get('max_off_grid_ft')} FT" if rl.get("count") else "")))
-        inf = gr.get("infeasible")
-        if inf:
-            schedule.append((L["brick"], f'INFEASIBLE AS DECLARED — {len(inf.get("conflicts", []))} '
-                             f'CONFLICT(S) PROVEN; THIS DRAWING IS THE LEAST-BAD RELAXATION '
-                             f'(SEE GEOMETRY_REPORT.INFEASIBLE)'))
-        # WP-11.12 (OQ 98's reporting half). `structure.py` has measured the clear span since
-        # WP-3.1 and the search has CHARGED it since WP-7.4, and no plate had ever printed it:
-        # the Tidewater upper floor is drawn with a 60 ft run and no bearing line in it. The
-        # count is a FLOOR and the line says so, because `span_check` credits a bearing wall
-        # across the whole plate however short it runs (OQ 98's measurement half, unruled).
-        _sp = gr.get("span_capacity") or {}
-        if _sp.get("over_capacity") is None:
-            schedule.append((L["salmon_deep"], "CLEAR SPAN NOT EVALUATED — THE CONSTRUCTION "
-                             "CATALOGUE COULD NOT BE READ; NO SPAN IS CLAIMED CLEAR"))
-        elif _sp.get("over_capacity"):
-            schedule.append((L["brick"], f'{_sp["over_capacity"]} CLEAR SPAN(S) OVER THE FRAMING '
-                             f'CAPACITY, WORST {_sp.get("worst_span_ft", 0):g} FT — AT LEAST '
-                             f'THAT MANY: A BEARING LINE IS CREDITED ACROSS THE WHOLE PLATE '
-                             f'HOWEVER SHORT THE WALL RUNS'))
-        elif _sp:
-            # the zero is printed, and with the same caveat, because "no span exceeds capacity"
-            # is exactly the claim the credited-across-the-plate reading can make falsely
-            schedule.append((L["green_deep"], "0 CLEAR SPAN(S) OVER THE FRAMING CAPACITY — "
-                             "AT LEAST NONE FOUND: A BEARING LINE IS CREDITED ACROSS THE WHOLE "
-                             "PLATE HOWEVER SHORT THE WALL RUNS"))
-    if all_undrawable:
-        names = ", ".join(f'{u["from"]}–{u["to"]}' for u in all_undrawable[:6])
-        more = f" (+{len(all_undrawable)-6} MORE)" if len(all_undrawable) > 6 else ""
-        schedule.append((L["brick"], f'{len(all_undrawable)} DECLARED DOOR(S) WITHOUT A DRAWABLE '
-                         f'OPENING — IN THE RECORD, NOT THE LINEWORK: {names.upper()}{more}'))
-    if all_diverged:
-        w0 = all_diverged[0]
-        mark = ", MARKED ∗" if working else ""
-        schedule.append((L["salmon_deep"], f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE '
-                         f'RECORD DOES NOT DECLARE{mark} — WORST {(w0["name"] or "").upper()} '
-                         f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA'))
-    # THE STACK'S PLAN SIZE IS A JUDGMENT, AND THIS LINE IS READ FROM `disclosures.py` RATHER
-    # THAN SPELLED HERE (WP-12.9). `brick-course` flags the figure `judgment: true` -- 22 in is
-    # between sizes and a mason will build 18 or 27 -- and of the three surfaces that draw it,
-    # the elevation legend said so, the scene refused a solid outright, and THIS plate drew the
-    # square and its tooltip called it a measurement.
-    #
-    # AND WIRING IT THROUGH `DISC` IS DELIBERATE, BECAUSE THAT IMPORT WAS DEAD. `disclosures.py`
-    # opens by saying "ONE SPELLING, TWO SURFACES: build/render_plan.py draws these lines on the
-    # plate; the workbench gets the same list through core.placement_summary" -- and measured on
-    # this tree, `mcp_server/core.py` calls `banner()` and THIS FILE CALLED NOTHING, having
-    # imported DISC at line 20 and spelled its own copies of two of the lines at 611 and 656
-    # (`export_dxf.py` spells a third). That is the very defect the module exists to prevent,
-    # standing inside the file that claims to prevent it. Reconciling the whole schedule moves
-    # sixteen shipped sheets and is its own package -- see
-    # `oq/the-plate-does-not-read-the-disclosure-module-it-imports`, whose slug is on ONE line
-    # here because `check_citations.py` reads line by line and a wrapped slug is its truncated
-    # left half, which is the trap CLAUDE.md records and which this comment sprang on its first
-    # run. This one line is read from the one spelling, which is the direction that package
-    # will go in.
-    _sj = DISC.stack_plan_judgment(plan)
-    if _sj:
-        schedule.append((L["salmon_deep"], _sj["text"]))
-    if _solver.get("engine") == "cp-sat":
-        schedule.append((L["green_deep"], "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"))
-    elif _solver.get("engine"):
-        _reason = _solver.get("reason")
-        schedule.append((L["salmon_deep"], "PLACEMENT SEARCHED, NOT PROVED — HILL-CLIMB" + (
-            f" — {_reason.upper()}" if _reason and _reason != "requested" else "")))
-    if all_unlocated:
-        schedule.append((L["brick"], f'{len(all_unlocated)} CUT(S) OFF THE BAY LINE THE SOLVER '
-                         f'LOCATED ON NO WALL OF THEIR LEVEL — COUNTED, NOT DRAWN'))
+    # THE PLATE READS `disclosures.banner()` NOW, AND THE IMPORT AT LINE 20 IS NO LONGER DEAD
+    # (WP-13.2). Until this package the schedule was spelled HERE: the relaxation count, the
+    # infeasibility, the clear spans, and an engine line that printed PLACEMENT PROVED (CP-SAT)
+    # AGAINST THE RECORD'S DECLARED FACTS in green on `solver.engine == "cp-sat"` ALONE -- the
+    # gate measured it over a record reading `status: FEASIBLE — kept polish from the heuristic
+    # hint (best of 2 hard-valid placements)`, `objective: 518.9`. `disclosures.py` had stopped
+    # saying that in WP-11.1 and the bench's strip, which reads `banner()`, had been honest for
+    # a fortnight while the printed plate was not: two surfaces, two spellings, and the one a
+    # person prints was the wrong one. That is
+    # `oq/the-plate-does-not-read-the-disclosure-module-it-imports`, closed here: every line
+    # a RECORD can supply -- relaxations, infeasible, spans, walls set aside, the objective, the
+    # alternative, the windows, the furniture, the declared stacks, the residual void, the
+    # transfer beams, the stack judgment, the engine and the style -- is read from the one
+    # spelling, and the three derivations that are the RENDERER's (undrawable doors, diverged
+    # rooms, unlocated marks) are passed in as `banner()` expects rather than derived twice.
+    # The tones are the module's three and the inks are the sheet's; a fourth tone would fail
+    # here loudly rather than print in black.
+    _TONE = {DISC.IRON: L["brick"], DISC.COPPER: L["salmon_deep"], DISC.VERD: L["green_deep"]}
+    schedule = [(_TONE[ln["tone"]], ln["text"])
+                for ln in DISC.banner(plan, undrawable=all_undrawable, diverged=all_diverged,
+                                      unlocated=all_unlocated, styles=C.get("styles"),
+                                      partis=_partis(), marked=working)]
+    # What follows is the SHEET's own, not the placement's: the stair, an opening the band pass
+    # could not find a wall for, the wall assembly the ink is drawn with, and the face it is set
+    # in. The bench draws its own stair and its own walls and does not print these.
     _st = plan.get("stair") or {}
     if _st.get("unplaced"):
         schedule.append((L["salmon_deep"], "STAIR NOT DRAWN — " +

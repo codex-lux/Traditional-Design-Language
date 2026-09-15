@@ -110,21 +110,53 @@ def test_every_unjudged_reason_is_reachable_and_from_the_closed_set():
             f"{[u.get('reason') for u in unj]}")
 
 
-def test_a_kept_stack_and_a_broken_one_are_told_apart_by_strict_overlap():
+def test_a_kept_stack_and_a_broken_one_are_told_apart_by_containment():
+    """WP-13.2 RE-CUT THIS TEST, AND THE LINE IT REPLACED IS THE DEFECT. It read `(9.999, 0, 10,
+    10)` over `(0, 0, 10, 10)` -- a 0.01 sf sliver -- and asserted "a hair of overlap is a stack
+    that lands". To a reader of the sheet it is not: the gate measured the shipped Tidewater
+    upper passage at 38% of itself over the passage and this tally called it KEPT. A stack lands
+    when the smaller rectangle lies at least `LANDS_FRACTION` of its own area inside the larger."""
     k, b, u = STK.judge(_two_level("lo", upper_geom=(9.999, 0, 10, 10)))
-    assert (len(k), len(b), len(u)) == (1, 0, 0), "a hair of overlap is a stack that lands"
+    assert (len(k), len(b), len(u)) == (0, 1, 0), "a hair of overlap is NOT a stack that lands"
+    k, b, u = STK.judge(_two_level("lo", upper_geom=(0.4, 0.4, 0.4, 0.4)))
+    assert (len(k), len(b), len(u)) == (1, 0, 0), "a small room wholly inside a large one lands"
+    k, b, u = STK.judge(_two_level("lo", upper_geom=(1.0, 0, 10, 10)))
+    assert (len(k), len(b), len(u)) == (1, 0, 0), "exactly 90% inside is the floor and it lands"
+    k, b, u = STK.judge(_two_level("lo", upper_geom=(1.1, 0, 10, 10)))
+    assert (len(k), len(b), len(u)) == (0, 1, 0), "89% inside is drawn clear"
     k, b, u = STK.judge(_two_level("lo", upper_geom=(10.0, 0, 10, 10)))
-    assert (len(k), len(b), len(u)) == (0, 1, 0), (
-        "edge-to-edge is NOT overlap -- strict positive intersection is plan_check's own test "
-        "and the two must not drift apart")
+    assert (len(k), len(b), len(u)) == (0, 1, 0), "edge-to-edge is no stack at all"
+
+
+def test_lands_is_one_rule_for_the_record_and_for_the_searchs_charge():
+    """`geometry.declared_stack_breaks` -- the search's charge and its strict-candidate
+    selector -- and `stacking.judge` -- the record and the critic -- must give one answer on a
+    pair where INTERSECTION and CONTAINMENT disagree, or the search would keep a stack the
+    critic convicts. Mutation-checked: `declared_stack_breaks` reverted to the intersection
+    test goes red on the first assertion."""
+    g = {"passage": (0.0, 0.0, 10.0, 40.0)}
+    u = {"upperpassage": (6.0, 0.0, 10.0, 40.0)}         # 40% of itself over the passage
+    upper = [{"id": "upperpassage", "stacks_over": "passage"}]
+    assert [b["room"] for b in G.declared_stack_breaks(g, u, upper)] == ["upperpassage"]
+    plan = _two_level("passage", upper_geom=(6.0, 0.0, 10.0, 40.0), lower_geom=(0.0, 0.0, 10.0, 40.0))
+    plan["levels"][0]["rooms"][0]["id"] = "passage"
+    plan["levels"][1]["rooms"][0]["stacks_over"] = "passage"
+    _k, b, _u = STK.judge(plan)
+    assert [e["room"] for e in b] == ["up"]
+    assert STK.overlaps(g["passage"], u["upperpassage"]), (
+        "the fixture is blind: these two rectangles must TOUCH for the two rules to disagree")
+    assert not STK.lands(g["passage"], u["upperpassage"])
+    assert STK.lands((0, 0, 10, 10), (2, 2, 3, 3)) and STK.lands((2, 2, 3, 3), (0, 0, 10, 10))
+    assert not STK.lands((0, 0, 10, 10), (5, 5, 0, 0)), "no area cannot land, and is not a ZeroDivisionError"
 
 
 # --- the shipped record ----------------------------------------------------------------
 
 def test_the_tidewater_record_declares_what_its_parti_declares():
     """WP-11.6 authored the two claims `partis/centre-passage-double-pile.json` has always
-    made. Nothing joins a plan to its parti (no plan record names one), so this is pinned by
-    hand -- and that absence is itself an open question."""
+    made. When this was written no plan record named a parti, so it was pinned by hand; this
+    record names one since WP-11.2 and `build/check_plans.py` makes the join for it, while the
+    other fifteen still name none (`oq/fifteen-of-sixteen-plans-name-no-parti`)."""
     up = {r["id"]: r for lv in TIDEWATER["levels"] for r in lv["rooms"]}
     assert up["landing"].get("stacks_over") == "stair"
     assert up["upperpassage"].get("stacks_over") == "passage"
@@ -209,21 +241,33 @@ def test_the_two_new_claims_are_judged_and_the_upper_passage_still_stacks():
     from 60.0 x 40.08 to 63 x 38.17 (the massing's own bay count and its parity), and
     `primarybath` over `butlers` no longer lands. `len(kept) == 3` was pinning an outcome the
     placer is free to change, which is the very error the test below this one was re-cut for on
-    the same day. What is asserted now is the ACCOUNTING -- every claim judged into exactly one
-    list, which is WP-11.6's guarantee and no engine's outcome -- plus the two named claims and
-    a FLOOR under the count, so a collapse fails and an improvement does not."""
+    the same day.
+
+    AND WP-13.2 MOVED IT A FOURTH TIME, 2 KEPT TO 0, WITH THE PLACEMENT BYTE-IDENTICAL -- the
+    fourth cause, and this one is the RULE. `stacking.lands` asks the smaller room to lie 90%
+    inside the larger; on this placement the upper passage is 38% of itself over the passage and
+    `primary` 78% over the drawing room (the gate's own figures), so the two the intersection
+    rule called kept are drawn clear. The placement digest is unchanged across the change
+    (10f2a72af362dd9a before and after), so nothing the placer did moved; what moved is what
+    "lands" means, which is `test_declared_stacks_land_by_containment`'s red row and WP-13.3's
+    to turn green. What is asserted now is the ACCOUNTING -- every claim judged into exactly one
+    list -- plus the property every kept claim must have (re-derived here, the gate's way), and
+    the landing, which is drawn clear under either rule."""
     G._SOLVE_CACHE.clear()
     solved = G.solve(json.loads(json.dumps(TIDEWATER)), engine="heuristic")
     st = solved["geometry_report"]["stacking"]
     assert st["claims"] == 5 and len(st["unjudged"]) == 0
-    kept = {e["room"] for e in st["kept"]}
     broken = {e["room"] for e in st["broken"]}
     assert len(st["kept"]) + len(st["broken"]) + len(st["unjudged"]) == st["claims"], (
         f"a claim is judged into exactly one list, or it is not judged at all: {st}")
-    assert len(kept) >= 2, (
-        f"2 of 5 kept at the merge, 3 before it; a fall below that is the ranking losing "
-        f"stacks rather than trading them: {st}")
-    assert "upperpassage" in kept, f"the claim WP-11.8 did not cost is gone too: {st}"
+    by = STK.rooms_by_level(solved)
+    for e in st["kept"]:
+        a = STK._rect(by[e["level"]][e["room"]]); b = STK._rect(by[e["level"] - 1][e["over"]])
+        ix = max(0.0, min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0]))
+        iy = max(0.0, min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1]))
+        assert ix * iy / min(a[2] * a[3], b[2] * b[3]) >= STK.LANDS_FRACTION, (
+            f"{e['room']} is in the kept list and is not {STK.LANDS_FRACTION:.0%} inside "
+            f"{e['over']}: the tally has stopped meaning containment")
     assert "landing" in broken, (
         "the landing stacks over the stair again -- welcome, and re-derive which key did it "
         f"before moving this line: {st}")

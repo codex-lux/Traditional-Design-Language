@@ -9,8 +9,13 @@ sibling; what it needs from the corpus (`is_placed`) is passed in.
 THE FIELD, AND THE SPLIT MADE AT PLAN SCHEMA 0.8.0
 --------------------------------------------------
 `stacks_over` is a STRUCTURAL claim: this room's plan sits over the plan of a room on the level
-ONE BELOW. It is judged by strict positive rectangle intersection, charged at `geometry.STACK_W`
-by both engines, and reported by `plan_check`'s drawn layer.
+ONE BELOW. It is judged by CONTAINMENT (`lands`, below: the smaller rectangle at least 90%
+inside the larger), charged at `geometry.STACK_W` by the search through the same function, and
+reported by `plan_check`'s drawn layer. Until WP-13.2 it was judged by strict positive rectangle
+intersection, under which a 0.16 sf corner was a landed stack -- the gate
+(`tests/test_sheet_coherence.py`) measured the shipped Tidewater upper passage at 38% of itself
+over the passage and the tally called it kept. The prover's soft penalty
+(`geometry_cp.py`) still means intersection until WP-13.3 makes the stack hard there.
 
 Until 0.8.0 the field's own description read *"room id on the level below, for plumbing and
 structure"* — two duties in one field — and `plans/tidewater-georgian-careful.json` used it for
@@ -46,9 +51,9 @@ THE VERDICT IS READ OFF THE PLACED RECORD, NOT RE-DERIVED
 ---------------------------------------------------------
 This is deliberately not a third transcription of the overlap test living inside each scorer:
 it reads the coordinates the engines wrote back. So the tally cannot disagree with the
-placement it describes, and the test it applies is `plan_check.drawn_layer`'s own — for the
-reason `vertical_score`'s comment already gives, that the search and the critic may not convict
-and acquit the same house.
+placement it describes, and the test it applies (`lands`) is the one `geometry.declared_stack_breaks`
+charges by and `plan_check.drawn_layer` reports by -- for the reason `vertical_score`'s comment
+already gives, that the search and the critic may not convict and acquit the same house.
 """
 
 # The closed set of reasons a claim cannot be judged, each NAMED and the tuple built from the
@@ -129,14 +134,41 @@ def _rect(room):
 
 
 def overlaps(a, b):
-    """Strict positive rectangle intersection — `plan_check.drawn_layer`'s own test.
+    """Strict positive rectangle intersection -- TOUCHING, kept for the readers that mean it.
 
-    Do not "improve" this to a centroid or an overlap fraction in one caller: the whole point
-    of the function is that `vertical_score`, `geometry_cp`'s penalty, the drawn layer and this
-    tally all mean the same thing by a stack that lands.
+    This was the kept/broken test until WP-13.2, and `geometry_cp.py`'s reified stack penalty
+    still means exactly this. It is NOT what "the stair hall stacks" means to a reader, which is
+    why `judge` reads `lands` below; a caller wanting to know whether two plans touch at all is
+    what this function is for now.
     """
     return (min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0]) > 0
             and min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1]) > 0)
+
+
+# The share of the SMALLER rectangle that must lie inside the larger for a stack to land. 0.9
+# is the gate's own figure (`test_declared_stacks_land_by_containment`), editorial, and it is
+# a number rather than 1.0 because a landing drawn a few inches proud of its stair hall is a
+# landed landing, and a rule that convicts it is a rule nobody will keep.
+LANDS_FRACTION = 0.9
+
+
+def lands(a, b, frac=LANDS_FRACTION):
+    """A stack that LANDS: the smaller of the two rectangles lies at least `frac` of its own
+    area inside the larger -- what a reader means by "this room stands over that one".
+
+    ONE spelling. `judge` reads it for the record, `geometry.declared_stack_breaks` reads it
+    for the search's charge and its strict-candidate selector, so the search and the critic
+    cannot convict and acquit the same house. A rectangle of no area cannot land on anything and
+    nothing can land on it: that is a refusal, not a division by zero.
+    """
+    ix = min(a[0] + a[2], b[0] + b[2]) - max(a[0], b[0])
+    iy = min(a[1] + a[3], b[1] + b[3]) - max(a[1], b[1])
+    if ix <= 0 or iy <= 0:
+        return False
+    smaller = min(a[2] * a[3], b[2] * b[3])
+    if smaller <= 0:
+        return False
+    return (ix * iy) / smaller >= frac
 
 
 def judge(plan):
@@ -170,8 +202,8 @@ def judge(plan):
             elif _rect(by_level[level_of[so]][so]) is None:
                 unjudged.append(dict(e, reason=TARGET_UNPLACED))
             else:
-                (kept if overlaps(_rect(by_level[lvl][rid]),
-                                  _rect(by_level[level_of[so]][so])) else broken).append(e)
+                (kept if lands(_rect(by_level[lvl][rid]),
+                               _rect(by_level[level_of[so]][so])) else broken).append(e)
     return kept, broken, unjudged
 
 
@@ -180,7 +212,8 @@ def report(plan, weight=None):
     kept, broken, unjudged = judge(plan)
     n = len(kept) + len(broken) + len(unjudged)
     note = "This record declares no vertical stack." if not n else (
-        f"{len(kept)} of {n} declared stack(s) land; {len(broken)} are drawn clear of the room "
+        f"{len(kept)} of {n} declared stack(s) land (the smaller room at least "
+        f"{LANDS_FRACTION:.0%} inside the larger); {len(broken)} are drawn clear of the room "
         f"they name; {len(unjudged)} could not be evaluated and are named individually. "
         "Unjudged is not kept.")
     out = {"claims": n, "kept": kept, "broken": broken, "unjudged": unjudged, "note": note}

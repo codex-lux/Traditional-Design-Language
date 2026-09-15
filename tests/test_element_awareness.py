@@ -464,7 +464,17 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # parent's: 208 -> 210 rows and 238 -> 243, with the per-layer histogram
                 # UNMOVED (13/18 and 11/17), which is what says the movement is placement and
                 # not a layer going quiet. Old digests: 9da22729316445d4 / 67e42551e7ffc356.
-                ("tidewater-georgian-careful", "b8faf56908995542", 210,
+                #
+                # RE-PINNED AT WP-13.2 (15 Sep 2026), TIDEWATER ONLY, AND THE PLACEMENT DID NOT
+                # MOVE: b8faf56908995542 -> 6ccb26efc5ec42a1, 210 -> 212 rows, histogram
+                # unmoved, the spec Colonial byte-identical. `stacking.judge` reads CONTAINMENT
+                # now (the smaller room at least 90% inside the larger) where it read touching,
+                # so the two claims the old rule called kept -- the upper passage at 38% of
+                # itself over the passage and the principal chamber at 78% over the drawing
+                # room -- are `stack-broken` findings. Both rows were listed by diffing the
+                # (kind, room, statement) sets on a `git archive` checkout against this tree:
+                # +2, -0, and the placement digest 10f2a72af362dd9a identical on both.
+                ("tidewater-georgian-careful", "6ccb26efc5ec42a1", 212,
                  {"daylight": 13, "grouping": 18}),
                 ("spec-builder-colonial", "024fa784786c2469", 243,
                  {"daylight": 11, "grouping": 17})):
@@ -537,19 +547,44 @@ class TestVerticalScoreAcrossElements:
             "an unjudged claim must not be phrased as a placement that went wrong")
 
     def test_and_the_charge_it_used_to_pay_is_gone(self):
-        """40 points, measured: vertical_score 114 -> 74 on this fixture."""
+        """40 points, measured: vertical_score 114 -> 74 on this fixture.
+
+        RE-CUT AT WP-13.2. This compared the TOTAL vertical score of two different solves --
+        the claim pointed at the dependency's kitchen against the claim pointed at the main
+        block's butler's pantry -- and read the difference as the one claim's charge. Two
+        solves are two placements, and the moment `stacking.lands` (containment) changed how
+        much the OTHER claims on this fixture cost, the two winners diverged and the totals
+        stopped saying anything about the claim under test (194.0 against 196.0). The property
+        is asserted on ONE placement now: `vertical_score` re-run on the placed rectangles with
+        the claim pointed at the dependency costs exactly what it costs with the claim absent
+        (an unjudged claim is not charged), and pointed at a main-block room it costs `STACK_W`
+        more exactly when that room is not landed on."""
+        import copy as _copy
         p = _cross_element_claim()
         GEO._SOLVE_CACHE.clear()
         GEO.solve(p, engine="heuristic")
-        with_unjudged = p["geometry_report"]["vertical_score"]
-        # the same fixture with the claim naming a MAIN-block room is charged as before
-        q = _fixture()
-        next(r for r in q["levels"][1]["rooms"]
-             if r["id"] == "primarybath")["stacks_over"] = "butlers"
-        GEO._SOLVE_CACHE.clear()
-        GEO.solve(q, engine="heuristic")
-        assert q["geometry_report"]["vertical_score"] > with_unjudged, (
-            "the cross-element claim must cost less than a real break, or it is still charged")
+        ground = [r for lv in p["levels"] if lv.get("index", 0) == 0 for r in lv["rooms"]]
+        upper = [r for lv in p["levels"] if lv.get("index", 0) == 1 for r in lv["rooms"]]
+        g = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"], r["geometry"]["width_ft"],
+                       r["geometry"]["depth_ft"]) for r in ground if r.get("geometry")}
+        u = {r["id"]: (r["geometry"]["x_ft"], r["geometry"]["y_ft"], r["geometry"]["width_ft"],
+                       r["geometry"]["depth_ft"]) for r in upper if r.get("geometry")}
+        bath = next(r for r in upper if r["id"] == "primarybath")
+        assert bath["stacks_over"] == "kitchen" and "primarybath" in u and "butlers" in g
+        s_unjudged, notes = GEO.vertical_score(g, u, ground, upper, p)
+        assert any("COULD NOT EVALUATE" in n for n in notes), notes
+        absent = _copy.deepcopy(upper)
+        del next(r for r in absent if r["id"] == "primarybath")["stacks_over"]
+        s_absent, _ = GEO.vertical_score(g, u, ground, absent, p)
+        assert s_unjudged == s_absent, (
+            f"the cross-element claim is still charged: {s_unjudged} with it against "
+            f"{s_absent} without it")
+        main = _copy.deepcopy(upper)
+        next(r for r in main if r["id"] == "primarybath")["stacks_over"] = "butlers"
+        s_main, _ = GEO.vertical_score(g, u, ground, main, p)
+        _STK = modcache.load("stacking", os.path.join(ROOT, "build", "stacking.py"))
+        want = 0.0 if _STK.lands(u["primarybath"], g["butlers"]) else GEO.STACK_W
+        assert s_main - s_absent == want, (s_main, s_absent, want)
 
     def test_breaks_and_unjudged_are_TWO_LISTS_and_a_charge_reads_the_first(self):
         """`declared_stack_breaks` returns both states and `stack_breaks_only` is what a charge
@@ -709,8 +744,13 @@ class TestTheLotCapIsOnTheBuiltExtent:
         # its candidate row). Two placement changes meeting cannot leave the placement
         # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
         # the same reason in the same commit. Old values: 685.3 / 592.3.
+        # RE-PINNED AT WP-13.2, TIDEWATER ONLY, 775.2 -> 855.2, AND THE PLACEMENT DID NOT
+        # MOVE: `stacking.lands` (containment) counts two claims broken that touching called
+        # kept, at `STACK_W` = 40 each, so the SCORE rises by exactly 80.0 on rectangles whose
+        # digest (10f2a72af362dd9a) is identical before and after. The spec Colonial's two
+        # claims were broken under either rule and its score is unmoved -- the control.
         for name, score, width, capped in (
-                ("tidewater-georgian-careful", 775.2, 63, False),
+                ("tidewater-georgian-careful", 855.2, 63, False),
                 ("spec-builder-colonial", 830.1, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
@@ -1018,7 +1058,10 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         # its candidate row). Two placement changes meeting cannot leave the placement
         # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
         # the same reason in the same commit. Old values: 685.3 / 592.3.
-        for name, score, w in (("tidewater-georgian-careful", 775.2, 63),
+        # RE-PINNED AT WP-13.2, 775.2 -> 855.2 on the Tidewater plan only: +80.0 is two more
+        # declared stacks counted broken under containment, at STACK_W each, on an identical
+        # placement (see the sibling pin above for the digest).
+        for name, score, w in (("tidewater-georgian-careful", 855.2, 63),
                                ("spec-builder-colonial", 830.1, 50.0)):
             GEO._SOLVE_CACHE.clear()
             q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
