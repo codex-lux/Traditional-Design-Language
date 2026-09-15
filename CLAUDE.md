@@ -1455,7 +1455,15 @@ and it prints ONLY for fires the record stated (15 of 16 shipped plans refuse "t
 want of a hearth, and a FIRES NOT DRAWN line over a house with no fires is the fake-unjudged shape). The
 browser walk is green on the merged tree (189 checks) for the first time since PR #32; its stacks check
 pinned a count of two and reads the record now, and its 30 s wait for the sheet was one CPU hiccup from a
-TimeoutError, because the sheet arrives 28 s after the click behind the 25 s interactive solve. **The
+TimeoutError, because the sheet arrives 28 s after the click behind the 25 s interactive solve.
+**And the full `check_all.py` on the committed tree found two reds that were not the gate's, both
+attributed before they were touched**: a test that walked the directory with `os.walk` met the first
+WP-13.3 agent worktree under `.claude/worktrees/` (git-ignored, 2,031 files the checker never opens)
+and went red on a copy of the repository inside itself — enumerate with `git ls-files -co
+--exclude-standard`, never by walking, or a workflow beside a check suite reddens the build; and the
+openings hash had moved at the hearth slice, which now reserves each breast's and each stack's run
+before a window or a piece of furniture is seated — 68 paths on 7 plans, named one by one on a
+`git archive` control before the re-pin. **The
 placement rows of the gate stay red on purpose** — the stacks, the tiling, the bearing lines, the shared
 flue, the one bay system are WP-13.3's — and
 `oq/a-shared-flue-cannot-stand-behind-two-centred-breasts` needs Lucas: the reference plan puts two

@@ -323,7 +323,21 @@ CORPUS_PLACEMENT_SHA = "68b102ff6a724e47"
 # that package's own guarantee and the inverse of this one's -- WP-11.9 held both because it
 # taught six layers a concept no plan exercises; WP-11.10 holds the placement and moves the
 # openings because seating a refused door is the whole deliverable.
-CORPUS_OPENINGS_SHA = "a81aedcc3ee4b26a"
+# WP-13.2 MOVED IT A SECOND TIME, ON PURPOSE, AND THE MOVEMENT WAS NAMED PATH BY PATH BEFORE
+# THE RE-PIN. `a81aedcc3ee4b26a` -> `c6531afc0208178b`: the hearth slice runs
+# `threshold.hearth_pass` BEFORE the window and furniture passes and reserves each drawn breast
+# and each stack's run (with a pier either side) on every room's boundary wall on every level,
+# so a sash is seated beside a chimney the way it is seated beside a door. Diffed over the
+# sixteen plans on `git archive 840c7f1` against the merged tree, `engine="heuristic"`: 68
+# paths on 7 plans. Seven are a refusal sentence that now names what took the wall ("beside
+# its doors"); the other 61 are the Tidewater plan -- the dining, drawing and library sashes
+# moved off their breasts (4 positions, 2 refusals), the principal chamber's furniture
+# re-packed onto its N wall after its W sash moved off the west stack's run, and the closet
+# cl3's hanging rod is REFUSED because its only fitting wall is the E gable the east stack
+# passes (0.85 ft clear). `CORPUS_PLACEMENT_SHA` is UNCHANGED across it: the rectangles did not
+# move, what is seated on their walls did. The pin was found red by the first full check_all
+# on the merged tree, not by the slice, which ran its own suites and not this one.
+CORPUS_OPENINGS_SHA = "c6531afc0208178b"
 
 
 def test_teaching_six_layers_about_elements_moved_no_shipped_placement():

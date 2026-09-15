@@ -378,14 +378,28 @@ def test_every_file_carrying_a_slug_citation_is_actually_OPENED_by_the_checker()
     mod = _load("cc_selection", "build/check_citations.py")
     opened = set(mod.tracked_files())
     missed = []
-    for dirpath, dirnames, filenames in sorted(os.walk(ROOT)):
-        dirnames[:] = sorted(d for d in dirnames
-                             if d not in (".git", "node_modules", "__pycache__", "dist"))
-        for fn in sorted(filenames):
-            if not fn.endswith((".md", ".py", ".json", ".js", ".jsx", ".mjs")):
-                continue
-            full = os.path.join(dirpath, fn)
-            rel = os.path.relpath(full, ROOT)
+    # THE POPULATION IS GIT'S, NOT `os.walk`'s (WP-13.2's lead pass). The checker's own
+    # `tracked_files()` is a `git grep --untracked`, which reads tracked and untracked files and
+    # never an IGNORED one; this test walked the whole directory and skipped four names, so the
+    # first agent worktree checked out under `.claude/worktrees/` (git-ignored: "agent worktrees
+    # are never part of the tree") put 2,031 files in front of it that the checker rightly never
+    # opens, and the build went red on a copy of itself. Enumerating with `git ls-files -co
+    # --exclude-standard` gives exactly the checker's population, so a miss here is a file the
+    # checker COULD have opened and did not -- the property the test is about -- and never a file
+    # git itself excludes. A file the walk would have found and git ignores is, by the same
+    # token, not something the checker owes.
+    ls = subprocess.run(["git", "-C", ROOT, "ls-files", "-co", "--exclude-standard", "-z"],
+                        capture_output=True, text=True, check=True).stdout
+    candidates = sorted(p for p in ls.split("\0") if p)
+    assert len(candidates) > 1000, "git enumerated almost nothing -- not a checkout?"
+    for rel in candidates:
+        fn = os.path.basename(rel)
+        if not fn.endswith((".md", ".py", ".json", ".js", ".jsx", ".mjs")):
+            continue
+        if any(part in (".git", "node_modules", "__pycache__", "dist") for part in rel.split(os.sep)):
+            continue
+        full = os.path.join(ROOT, rel)
+        if True:
             if os.path.basename(rel) == "open-questions.md" or rel in mod.SPECIMEN:
                 continue          # excluded from the walk BY NAME and on purpose
             try:
