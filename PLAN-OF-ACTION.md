@@ -3900,3 +3900,46 @@ entries and is the next package if one is wanted rather than a debt.
 **Depends on:** nothing. **Size:** medium. **Fifteen mutations, fifteen red**, each with the match
 count asserted before the colour was believed, and four of them driving branches unreachable from
 the corpus.
+
+### WP-13.2 — the checker that accused an innocent line
+
+**Status: COMPLETE (15 September 2026).** Report:
+`docs/reports/wp-13.2-the-checker-that-accused-an-innocent-line.md` (cite the filename). No new
+question: the defect had a remedy and it was taken.
+
+**Raised by WP-13.1's own verification run and deferred in that package's §VIII.** The serial
+`check_all.py --shard 1/1` came back **1 of 53 checks failed**, and the failure was
+`check_frontend.py` printing `FAIL: three.js is not a separate chunk — round/three-scene.js has
+been imported statically somewhere` over a bundle in which that chunk could not appear.
+`workbench/app/dist/` is gitignored, was built **7 Sep 17:11**, and predates `round/three-scene.js`
+(committed **9 Sep**, WP-12.4) by two days — **22 sources newer than the bundle**. No file in the
+tree imports it statically, verified in both directions, so the message named a real file that had
+done nothing. **Two states where three are needed**, and the third is not "unactionable" but
+actionable in the WRONG DIRECTION.
+
+Two more lines down, `FAIL: 1 of 2 frontend suite(s) failed` printed directly under
+`router-unit: 63 checks passed` and `search-unit: 13 checks passed` — `bad` counted the lazy-tier
+check and the node suites in one variable, so **the summary named the wrong population**.
+
+`sources_newer_than`, `bundle_unjudged_reason` and `verdict` are the three readers, each with a
+`root=` seam; `main()` takes one too. An unjudged bundle returns COULD NOT EVALUATE and never 0.
+**The thresholds were not touched** — this package changed when the check may speak, never what it
+says — and `len(CHECKS)` did not move.
+
+**`dist/` was deliberately NOT rebuilt**: `npm install` would have put `node_modules` on the tree
+while `node --test workbench/app` was still pending in the running build, and that suite runs with
+no npm install by design. The bundle half is unjudged here and judged in CI, which builds first.
+
+**Thirteen mutations, thirteen red. FOUR were blind on their first run and every one was the
+WIRING** — deleting the staleness test, inverting it, loosening `>` to `>=`, and `main()` not
+calling the reader at all. The parts were driven and the join was not, which is WP-11.14's finding
+in a new place. The `>`/`>=` mutation needed an **equality fixture**, because at a one-second gap
+the two operators return the same answer; under `>=` every build on a fast machine reads stale and
+the check goes permanently unjudged, which is the fake-unjudged direction.
+
+**Three defects in the package's own work, each found by running it**: the reader was walked twice
+under one name; `newer[0]` was labelled "oldest offender" when the list is sorted by PATH — the very
+defect being removed, committed in the sentence removing it; and the `root=` seam was wired in one
+place and not its neighbour, so a driven tree came back as `../../../tmp/...`, caught by the
+function's own first test run.
+

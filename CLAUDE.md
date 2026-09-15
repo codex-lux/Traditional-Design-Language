@@ -1429,6 +1429,57 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
 
 ## Traps worth knowing before you hit them
 
+- **A CHECKER ACCUSED AN INNOCENT LINE, AND IT WAS JUDGING AN ARTEFACT TWO DAYS OLDER THAN THE
+  CODE (WP-13.2).** WP-13.1's own verification run came back **1 of 53 checks failed** with
+  `check_frontend.py` printing *"three.js is not a separate chunk -- `round/three-scene.js` has
+  been imported statically somewhere"*. **No file in the tree imports it statically**, verified
+  in both directions: `three` is imported by exactly one module and that module is reached only
+  by `import('./three-scene.js')` at `Round.jsx:71`. `workbench/app/dist/` is GITIGNORED, was
+  built **7 Sep 17:11**, and predates `round/three-scene.js` (committed 9 Sep by WP-12.4) --
+  **22 sources newer than the bundle**, so the chunk could not appear in it. **Two states where
+  three are needed** (COULD NOT EVALUATE for an ABSENT dist, FAIL for a present one, nothing for
+  *present but built before the code it judges*). This file's *a red build nobody can act on is
+  worse than no build* is the shape, and this is the sharper version: the message is specific and
+  confident and sends a reader to a real file that has done nothing. **A checker that reads a
+  gitignored build artefact is reading whoever last ran `npm run build`, not the corpus.**
+  `bundle_unjudged_reason` is the third state and it NAMES the file; the mtime heuristic errs
+  toward UNJUDGED in both directions that occur and **never toward a pass**, because a fresh
+  build is newer than every source by construction.
+- **AND TWO LINES UNDER IT, THE SUMMARY NAMED THE WRONG POPULATION (WP-13.2).** `bad` counted the
+  lazy-tier check and the node suites in ONE variable, so `FAIL: 1 of 2 frontend suite(s) failed`
+  printed directly beneath `router-unit: 63 checks passed` and `search-unit: 13 checks passed` --
+  a reader chasing it reads two green files. WP-11.4's *a refusal with one message for three
+  causes* one layer up. `verdict()` is a pure function now with the two counted apart, tested by
+  DRIVING each state rather than by grepping the file for a format string, which survives no
+  rewording and tells a fix from a regression not at all.
+- **FOUR BLIND MUTATIONS IN ONE PACKAGE AND EVERY ONE WAS THE WIRING (WP-13.2).** Thirteen
+  mutations, thirteen red in the end -- but deleting the staleness test, inverting it, loosening
+  `>` to `>=`, and `main()` not calling the reader AT ALL all left the suite green on the first
+  sweep. Each half was driven and the JOIN was asserted by nothing, which is WP-11.14's finding in
+  a new place. Lifting the inline logic into `bundle_unjudged_reason()` and giving `main()` the
+  same `root=` seam is what made the join drivable. **The `>`/`>=` mutation needed an EQUALITY
+  fixture**: at the one-second gap every other fixture used, the two operators return the same
+  answer -- WP-11.15's *a fixture where both branches return the same number guards neither*, met
+  in a comparison operator. Under `>=` a source written in the same instant as the bundle reads
+  stale, so on a fast machine EVERY build goes unjudged, which is the fake-unjudged direction.
+- **A `root=` SEAM WIRED IN ONE PLACE AND NOT ITS NEIGHBOUR IS INVISIBLE IN PRODUCTION
+  (WP-13.2).** `sources_newer_than` walked the passed `root` and computed
+  `os.path.relpath(path, ROOT)` against the MODULE GLOBAL, so a driven tree came back as
+  `../../../tmp/tmpwr0q60kv/...`. Correct wherever `root is None`, which is every real call --
+  **caught by the function's own first test run**, not by reading it. Two more of the package's
+  own: the reader was walked TWICE under one name (one quantity, two derivations, inside four
+  lines of its own fix) and `newer[0]` was labelled *"oldest offender"* when the list is sorted by
+  PATH -- the exact defect being removed, committed in the sentence removing it.
+- **DO NOT `npm install` WHILE A BUILD IS IN FLIGHT, AND THE REASON IS NOT CONTENTION
+  (WP-13.2).** `check_all.py` runs `node --test workbench/app` with NO npm install, deliberately,
+  so a package import there is a green local run and a red CI one. Rebuilding `dist/` mid-run to
+  make the frontend check judgeable would have put `node_modules` on the tree before that suite
+  ran and masked exactly the thing it exists to catch. **The bundle half is left unjudged here
+  and judged in CI, which builds first** -- that is what the third state is for, and it is the
+  honest resting position rather than a gap. (The corollary: on a checkout with a stale `dist/`
+  there is now a FOURTH unjudged check, so the `TOTAL_CHECKS - 3 == len(CHECKS)` identity above
+  is stated for a tree whose bundle is current or absent.)
+
 - **`detection` IS 139,070 CHARACTERS ON 210 RECORDS AND NOTHING READ ONE, AND THE READER IT WAS
   WRITTEN FOR IS THE UNJUDGED VERDICT (WP-13.1).** `core.check_measurements` returns **120 of 210
   faults COULD NOT EVALUATE** on `tidewater-georgian-careful`, naming **299 distinct missing
