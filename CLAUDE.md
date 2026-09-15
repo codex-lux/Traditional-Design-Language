@@ -1782,6 +1782,14 @@ holding a valid solution), and the solver reads the slicing tree off a heuristic
   on all eight, which is the entry's central fact and survives. **THE RATE IS A PROPERTY OF THE
   MACHINE AND THE DAY**: 2 in 8 on each tree on 8 Sep, 8 in 8 on each tree on 9 Sep. Quote neither
   as the frequency; what is stable is that the two trees agree.
+  **AND ON 15 SEP, 6 OF 6 -- 3 ON EACH TREE, AGAINST A `git archive` OF `840c7f1` WHICH CARRIES
+  NEITHER PHASE 13 PACKAGE -- WITH ALL SIX CONVICTIONS IDENTICAL**: `('chamber3', 1.4, 1.35)`,
+  the same room at the same ratio against the same ceiling, `downgraded_shape_pins` EMPTY every
+  time. A third rate confirms the rate is not quotable; what is new is that the two trees agree
+  on the **VERDICT** and not merely on the frequency, which is a stronger attribution than this
+  entry had. (The solver status was not captured -- `pytest -q` does not print it -- so which
+  path produced it is unmeasured; `chamber3` alone is the polish-path signature this entry
+  records, and that is consistency rather than evidence.)
 - **WP-11.13's "PROVED OPTIMAL WITH ZERO PINS DOWNGRADED" DOES NOT REPRODUCE (WP-11.15, measured
   while costing WP-11.16).** The tagging that proves — service programme in a west dependency,
   back hall as hyphen, butler's pantry in the BLOCK per its own OQ 59 clause, the redundant
