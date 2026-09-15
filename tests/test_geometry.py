@@ -80,7 +80,20 @@ class TestSolveSmoke:
         # FEWER relaxations is the better direction -- each one is a joist run that does not
         # land on a bearing line -- so this is a ratchet going the right way, and it is
         # pinned again immediately so the next change has to justify itself.
-        assert report["relaxations"]["count"] == 7
+        # 5 AT WP-11.16, from 7, AND THE CAUSE IS A RECORD EDIT RATHER THAN A CODE ONE.
+        # `plans/tidewater-georgian-careful.json` now declares 617 sf of service programme as a
+        # west dependency with a hyphen, so the main block is 45 x 37.24 with 5 bays instead of
+        # 63 x 38.17 with 7, and the slicer has fewer rooms to fit into a smaller pile. Measured
+        # on a stripped copy of the same record: the count comes back to exactly 7, which is how
+        # the tagging was separated from the dropped `butlers`-`kitchen` door in the same commit
+        # (the door moves the SCORE, 775.2 -> 761.2, and not this number).
+        #
+        # FEWER IS THE BETTER DIRECTION and this is still not an improvement to claim: a
+        # relaxation is a joist run that does not land on a bearing line, and a smaller box
+        # holding fewer rooms has fewer cuts to take off the grid in the first place. It is the
+        # same quantity as `test_measurement_honesty`'s and `test_site`'s and the three must
+        # move together.
+        assert report["relaxations"]["count"] == 5
         assert "vertical_score" in report, "both levels must be scored together, not independently"
         placed_rooms = [
             r for lv in result["levels"] for r in lv["rooms"]
@@ -209,10 +222,23 @@ def _tagged_dependency_plan():
     states the tag the composer will one day write. If a future package makes the composer write
     it, these tests should switch to that path and the switch should be visible in the diff --
     which is why this helper is one function rather than a line inlined in three classes.
+
+    STRIPPED FIRST SINCE WP-11.16, AND THAT IS THE WHOLE OF WHY IT STILL WORKS. That package
+    tagged `plans/tidewater-georgian-careful.json` itself -- six service rooms into a west
+    dependency, one of them the hyphen -- so building this fixture ON TOP of the shipped record
+    produced FOUR elements where every test below is written about TWO, and the inter-block gap
+    read 30 ft instead of `HYPHEN_DEFAULT_FT`. The fixture states the tags it means and inherits
+    none, which is WP-8.11's rule: a driven fixture must not inherit whatever the shipped record
+    happens to declare. It is the one place this had to be fixed -- `test_sheet_canvas.py`
+    imports this helper, so two files' worth of tests are repaired by the three lines below.
     """
     import json, os
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     plan = json.load(open(os.path.join(root, "plans", "tidewater-georgian-careful.json")))
+    for _lv in plan.get("levels") or []:
+        for _r in _lv.get("rooms") or []:
+            _r.pop("block", None)
+            _r.pop("hyphen", None)
     tagged = 0
     for r in plan["levels"][0]["rooms"]:
         if r["type"] in ("kitchen", "pantry", "breakfast-room"):
@@ -240,14 +266,47 @@ class TestASecondMassingElement:
 
 
     def test_a_one_block_plan_reports_exactly_one_element_at_the_origin(self, geometry_module):
+        """A CENSUS SINCE WP-11.16, NOT ONE SPECIMEN, because the specimen stopped being one.
+
+        This read `tidewater-georgian-careful` and asserted `len(blocks) == 1`, and that plan is
+        now a three-element house. The two repairs available were both worse than counting:
+        re-pointing at `spec-builder-colonial` would have left the arity untested on the only
+        record that exercises it, and loosening to `len(blocks) >= 1` is vacuous.
+
+        So the arity is a CENSUS -- 15 of 16 one-element, 1 three-element, and it is named -- and
+        a seventeenth tagged plan still trips this. The integer-origin claim, which is what the
+        test is actually FOR, is asserted on the main block of ALL SIXTEEN rather than on one;
+        measured, it holds everywhere, so the census made that half stronger rather than weaker.
+        """
         g = geometry_module
-        plan = self._plan("tidewater-georgian-careful")
-        levels, prep = g.prep_rooms(plan)
-        fp = g.derive_footprint(plan, None, prep)
-        blocks = g.blocks_for(plan, fp, prep, 0)
-        assert len(blocks) == 1
-        b = blocks[0]
-        assert b["role"] == "main"
+        import glob as _g, json as _j, os as _o
+        root = _o.path.dirname(_o.path.dirname(_o.path.abspath(__file__)))
+        arity, mains = {}, 0
+        for pf in sorted(_g.glob(_o.path.join(root, "plans", "*.json"))) + \
+                  sorted(_g.glob(_o.path.join(root, "plans", "reference", "*.json"))):
+            plan = _j.load(open(pf))
+            if "levels" not in plan:
+                continue
+            levels, prep = g.prep_rooms(plan)
+            fp = g.derive_footprint(plan, None, prep)
+            blocks = g.blocks_for(plan, fp, prep, 0)
+            arity[_o.path.basename(pf)] = len(blocks)
+            main = [b for b in blocks if b["role"] == "main"]
+            assert len(main) == 1, f"{_o.path.basename(pf)}: {len(main)} main elements"
+            mains += 1
+            self._origin_is_integral(main[0])
+        assert mains == 16, f"the sweep reached {mains} plans, not 16 -- it is not running"
+        multi = {k: v for k, v in arity.items() if v != 1}
+        assert multi == {"tidewater-georgian-careful.json": 3}, (
+            f"the shipped corpus's element census moved: {multi}. Exactly one record is tagged "
+            f"(WP-11.16 put the Tidewater's service programme in a west dependency with a "
+            f"hyphen) and every byte-identity hash in this file and in tests/test_elements.py "
+            f"is written about the other fifteen. A new entry here is not a failure -- it is a "
+            f"notice that those guarantees now describe a smaller corpus, and each must be "
+            f"re-read before its number is moved.")
+
+    @staticmethod
+    def _origin_is_integral(b):
         # `b["x"] == 0` CANNOT FAIL against a float: `0.0 == 0` is True in Python, so the first
         # version of this assertion pinned the claim its own comment makes and would have stayed
         # green through the very mutation it names. The type is the claim, so the type is what is
@@ -260,7 +319,6 @@ class TestASecondMassingElement:
                 "INTEGER origin. A float there writes `x_ft: 0.0` where the record carried "
                 "`x_ft: 0`: numerically identical, textually not, and it made a placement-hash "
                 "comparison report both shipped plans as moved when they had not.")
-        assert set(b["rooms"]) == {r["id"] for r in prep[0]}, "every room belongs to the one block"
 
     def test_a_one_block_plan_writes_no_blocks_key(self, geometry_module):
         """Sixteen records that have never needed the key must not grow one."""
@@ -405,9 +463,23 @@ class TestCPPlacesASecondMassingElement:
             assert "share a door" in joined, joined
         else:
             assert (gr.get("solver") or {}).get("status"), "CP must report what it did"
-            assert any(to == "kitchen" and rid == "butlers" for rid, to in crossing), (
-                "the butler's pantry and the kitchen are in two detached masses and the record "
-                f"declares a door between them: it must be reported unplaced, not drawn: {crossing}")
+            # RE-POINTED AT WP-11.16, AND THE OLD PAIR IS GONE FROM THE RECORD RATHER THAN
+            # MERELY MOVED. That package dropped the direct `butlers`-`kitchen` door on the
+            # grounds `rooms/butlers-pantry.json` has stated since OQ 59 -- in a Tidewater
+            # plantation house "the pantry is in the block and the kitchen is in another
+            # building" -- so a test naming it was asking about a door the corpus says this
+            # type does not have. `backhall`-`kitchen` is the pair that remains, and it is a
+            # genuine crossing in this fixture: the kitchen is tagged into the wing and the
+            # back hall is not.
+            #
+            # BOTH DIRECTIONS ARE ASSERTED, because the record declares the door on both rooms
+            # and a model that reported only the one it happened to visit first would satisfy
+            # a one-sided check while leaving half the drawing claiming a door it cannot draw.
+            for a, b in (("backhall", "kitchen"), ("kitchen", "backhall")):
+                assert (a, b) in crossing, (
+                    f"the back hall and the kitchen are in two detached masses and the record "
+                    f"declares a door between them: it must be reported unplaced, not drawn, "
+                    f"and in BOTH directions. {a} -> {b} is missing from {crossing}")
 
     def test_auto_no_longer_falls_back_for_being_multi_element(self, geometry_module):
         """`auto` still falls back here -- the brief is infeasible -- but the REASON must be
@@ -638,15 +710,36 @@ class TestTheAuditGapsInTheBlockWork:
         assert upper[0]["geometry"]["x_ft"] >= -0.01, "and it really was placed in the main block"
 
     def test_a_one_block_plan_discloses_nothing_because_there_is_nothing_to_disclose(self, geometry_module):
+        """A CENSUS SINCE WP-11.16. It swept two named plans and asserted neither grew the key;
+        one of the two is a three-element house now and grows it correctly. The claim the test
+        is for -- a ONE-RECTANGLE plan discloses nothing -- is unchanged, so it is asserted over
+        every one-rectangle record in the corpus (fifteen) instead of over a hand-written pair,
+        and the record that does disclose must disclose HONESTLY rather than merely be skipped.
+        """
         g = geometry_module
-        import json as _j, os as _o
+        import glob as _g, json as _j, os as _o
         root = _o.path.dirname(_o.path.dirname(_o.path.abspath(__file__)))
-        for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
-            plan = _j.load(open(_o.path.join(root, "plans", name + ".json")))
+        quiet, spoke = [], {}
+        for pf in sorted(_g.glob(_o.path.join(root, "plans", "*.json"))) + \
+                  sorted(_g.glob(_o.path.join(root, "plans", "reference", "*.json"))):
+            plan = _j.load(open(pf))
+            if "levels" not in plan:
+                continue
+            name = _o.path.basename(pf)
             g._SOLVE_CACHE.clear()
             g.solve(plan, engine="heuristic")
-            assert "multi_element" not in plan["geometry_report"], (
-                f"{name} is one rectangle and grew a key -- the byte-identity guard is broken")
+            me = plan["geometry_report"].get("multi_element")
+            (spoke.__setitem__(name, me) if me is not None else quiet.append(name))
+        assert len(quiet) + len(spoke) == 16, "the sweep is not reaching sixteen plans"
+        assert list(spoke) == ["tidewater-georgian-careful.json"], (
+            f"the set of records disclosing a second element moved: {sorted(spoke)}. Every "
+            f"byte-identity guarantee in this file is written about the ones that do NOT.")
+        me = spoke["tidewater-georgian-careful.json"]
+        # and it is not enough that it spoke -- it must not report a rectangle it does not have
+        assert me["elements"] == 3, f"tagged, and it discloses {me['elements']} element(s)"
+        assert me.get("not_element_aware") == [], (
+            "a layer that cannot judge an element is named here; WP-11.6 took this list to "
+            "empty and it may only stay empty or grow with a reason")
 
     def test_the_recorded_block_is_measured_on_the_rooms_the_placer_places(self, geometry_module):
         """Gap #6, and it was green on its own mutation until this test existed.

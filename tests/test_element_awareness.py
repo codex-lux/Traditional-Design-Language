@@ -497,12 +497,31 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 # parent's: 208 -> 210 rows and 238 -> 243, with the per-layer histogram
                 # UNMOVED (13/18 and 11/17), which is what says the movement is placement and
                 # not a layer going quiet. Old digests: 9da22729316445d4 / 67e42551e7ffc356.
-                ("tidewater-georgian-careful", "b8faf56908995542", 210,
+                # RE-DERIVED AT WP-11.16 AND EVERY ROW ATTRIBUTED. That package did TWO things
+                # to this record and only one of them is undone by `_shipped_untagged()`: it
+                # tagged six rooms into a west dependency (undone here) AND it dropped the
+                # direct `butlers`-`kitchen` door (not undone -- the door is gone from the
+                # record, tags or no tags). So the stripped plan is 63 x 38.17 with its 7
+                # relaxations back and its findings still moved, 210 -> 212.
+                #
+                # THE FOUR MOVED ROWS WERE DIFFED RATHER THAN COUNTED, because a net of +2 can
+                # hide any number of substitutions:
+                #   +/- `drawn cut-off kitchen` and `adjacency kitchen` -- the SAME two findings
+                #     reworded, the butler's pantry dropping out of the kitchen's entered-from
+                #     list. Net zero, and they are why the raw diff reads 4 lines for 2 rows.
+                #   +  `servicing butlers` and `servicing kitchen`, both "is a wet room with no
+                #     other wet room adjacent or below it". THESE ARE THE REAL +2, they are TRUE,
+                #     and they are the reason the door was worth dropping: with it, the servicing
+                #     layer called those two a wet pair, and on the TAGGED record that is a shared
+                #     plumbing chase between two detached buildings 27 ft apart.
+                #     `oq/the-servicing-layer-does-not-know-about-massing-elements`.
+                ("tidewater-georgian-careful", "ff2d664a8216897f", 212,
                  {"daylight": 13, "grouping": 18}),
                 ("spec-builder-colonial", "024fa784786c2469", 243,
                  {"daylight": 11, "grouping": 17})):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             c = PC.check(q)
             got = hashlib.sha256(json.dumps(
@@ -517,8 +536,12 @@ class TestTheCriticReadsTheRoomsOwnElement:
                 f"{ {k: counts[k] for k in hist} } against {hist}")
             assert got == want, (
                 f"{name}: the drawn layer's findings moved on a ONE-RECTANGLE plan. "
-                f"`envelopes` returns {{}} below two elements, so nothing here may change; "
-                f"re-measure before re-pinning and say what moved.")
+                f"`envelopes` returns {{}} below two elements, so nothing about massing "
+                f"elements may change this -- but note that the Tidewater record reaches this "
+                f"test through `_shipped_untagged()`, which undoes its TAGS and not the other "
+                f"edits WP-11.16 made to it. Diff the findings row by row and attribute every "
+                f"one before re-pinning; a net count can hide any number of substitutions, and "
+                f"it did here (4 rows moved for a net of 2).")
 
 
 PC = modcache.load("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
@@ -741,11 +764,19 @@ class TestTheLotCapIsOnTheBuiltExtent:
         # its candidate row). Two placement changes meeting cannot leave the placement
         # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
         # the same reason in the same commit. Old values: 685.3 / 592.3.
+        # AND RE-DERIVED AGAIN AT WP-11.16, WITH THE TWO CAUSES SEPARATED. That package tagged
+        # this record AND dropped a door, and `_shipped_untagged()` above undoes only the first:
+        # the width comes back to 63 and the relaxation count to 7, so the TAGS really are gone,
+        # and the score does not, because the `butlers`-`kitchen` door is gone from the record
+        # whether or not its rooms carry a `block`. 775.2 -> 761.2 is the door, measured by
+        # stripping. `spec-builder-colonial` is untouched by that package and is unmoved here,
+        # which is the control that says so.
         for name, score, width, capped in (
-                ("tidewater-georgian-careful", 775.2, 63, False),
+                ("tidewater-georgian-careful", 761.2, 63, False),
                 ("spec-builder-colonial", 830.1, 50.0, True)):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             g = q["geometry_report"]
             assert round(g["score"], 1) == score, (name, g["score"])
@@ -857,7 +888,8 @@ class TestTheIfcSlabIsPerElement:
         pinned literal: one box per storey, `W + 2t` by `D + 2t`, centred on the main block."""
         for name in ("tidewater-georgian-careful", "spec-builder-colonial"):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             GEO.solve(q, engine="heuristic")
             sec, t, boxes = _boxes(q)
             fp = sec["geometry"]["footprint"]
@@ -983,14 +1015,28 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         assert cross[("butlers", "hyphen")] is False, cross
 
     def test_a_door_across_OPEN_GROUND_still_does_not_place_and_should_not(self):
-        """The control, and it is what keeps this a fix rather than a loosening. `butlers` and
+        """The control, and it is what keeps this a fix rather than a loosening. `backhall` and
         `kitchen` are doored to each other across 14 ft of yard with no link: a detached
-        dependency IS detached, and drawing that door would be the lie."""
+        dependency IS detached, and drawing that door would be the lie.
+
+        RE-POINTED AT WP-11.16, AND THE OLD PAIR IS GONE RATHER THAN MOVED. This named
+        `butlers`-`kitchen`, and that package dropped that door from the record on grounds
+        `rooms/butlers-pantry.json` has stated since OQ 59 -- in a Tidewater plantation house
+        "the pantry is in the block and the kitchen is in another building", so a direct door
+        between them is not a door this type has. `backhall`-`kitchen` is the same shape and
+        still declared: the kitchen is tagged into the wing by `_fixture()`, the back hall is
+        not, and no link joins them (the hyphen doors `butlers` and `kitchen`, not `backhall`).
+
+        THE ASSERTION BELOW IS THE TEST'S WHOLE SUBJECT, so it is worth saying what True means
+        here: `_cross_doors` reports UNPLACED, and unplaced is the right answer. A False would
+        mean the placer had drawn a door across open ground."""
         p = _hyphen_fixture()
         GEO._SOLVE_CACHE.clear()
         GEO.solve(p, engine="heuristic")
         cross = _cross_doors(p)
-        assert cross[("butlers", "kitchen")] is True, cross
+        assert cross[("backhall", "kitchen")] is True, cross
+        # and the linked pair still places, so this is a control and not a blanket refusal
+        assert cross[("butlers", "hyphen")] is False, cross
         assert cross[("backhall", "kitchen")] is True, cross
 
     def test_without_a_hyphen_room_EVERY_cross_element_door_is_refused(self):
@@ -1050,10 +1096,18 @@ class TestTheFlankIsStatedRatherThanSearchedFor:
         # its candidate row). Two placement changes meeting cannot leave the placement
         # where either found it, and the other branch's `CORPUS_PLACEMENT_SHA` moved for
         # the same reason in the same commit. Old values: 685.3 / 592.3.
-        for name, score, w in (("tidewater-georgian-careful", 775.2, 63),
+        # AND RE-DERIVED AGAIN AT WP-11.16, WITH THE TWO CAUSES SEPARATED. That package tagged
+        # this record AND dropped a door, and `_shipped_untagged()` above undoes only the first:
+        # the width comes back to 63 and the relaxation count to 7, so the TAGS really are gone,
+        # and the score does not, because the `butlers`-`kitchen` door is gone from the record
+        # whether or not its rooms carry a `block`. 775.2 -> 761.2 is the door, measured by
+        # stripping. `spec-builder-colonial` is untouched by that package and is unmoved here,
+        # which is the control that says so.
+        for name, score, w in (("tidewater-georgian-careful", 761.2, 63),
                                ("spec-builder-colonial", 830.1, 50.0)):
             GEO._SOLVE_CACHE.clear()
-            q = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+            q = _shipped_untagged() if name == "tidewater-georgian-careful" \
+                else json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
             _, prep = GEO.prep_rooms(q)
             fp = GEO.derive_footprint(q, None, prep)
             assert GEO.hyphen_anchors(q, GEO.blocks_for(q, fp, prep, 0), 0) == {}, name
@@ -1412,7 +1466,16 @@ class TestCPSATPlacesPerElement:
                 if k == "door" and "Hyphen" in t and "Kitchen (Dependency)" in t]
         assert kept, [t for _l, t, k, _k in reqs.lits if k == "door" and "Hyphen" in t]
         stated = [n for n in reqs.notes if "elements that do not touch" in n]
-        assert len(stated) == 3, stated
+        # 2 AT WP-11.16, from 3: the direct `butlers`-`kitchen` door was dropped from the
+        # record, so there is one fewer declared crossing for the model to decline to model.
+        #
+        # AND A VACUITY NOTE, BECAUSE THIS COUNT IS NOW ONE DOOR FROM ZERO. The docstring above
+        # says why both halves are needed -- `kept` proves `_abuts` does not say "nothing
+        # touches", `stated` proves it does not say "everything touches". At 2 both still bite.
+        # At 0 the second half would be vacuously satisfied and this test would quietly stop
+        # proving the negative, so if a later package takes another crossing out of the record,
+        # this fixture has to declare one of its own rather than have the number lowered again.
+        assert len(stated) == 2, stated
         assert all("Kitchen (Dependency)" in n for n in stated), stated
 
     def test_abuts_is_a_shared_FACE_and_a_corner_is_not_one(self):
