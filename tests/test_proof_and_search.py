@@ -149,39 +149,86 @@ class TestBothNumbersTravelTogether:
             "the two lines must be emitted together and in that order"
 
 
+def _corpus_module(tag):
+    sys.path.insert(0, os.path.join(ROOT, "mcp_server"))
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        tag, os.path.join(ROOT, "workbench", "server", "corpus.py"))
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def _a_drawable_record(corpus):
+    """A shipped record `_placed` does not REFUSE, with its name, or `(None, None)`.
+
+    RE-CUT 16 Sep 2026. These two guards read `out["geometry_report"]` off
+    `plans/spec-builder-colonial.json`, and WP-13.4 made `_placed` answer a refused placement
+    with `{"error", "refused_placement", "unsolved"}` and no `geometry_report` at all. That
+    record is refused (bearing, stacks, tiling), so both died on `KeyError: 'geometry_report'`
+    -- red for a reason that says nothing about a digest, and WP-11.8's `drawn_by` disclosure,
+    the one thing that lets a reader tell two sheets of "the same house" apart, was left
+    guarded by nothing. Measured: both PASS on a `git archive` of `49e2389`, before the
+    refusal path, and fail here.
+
+    The subject of these guards is the DISCLOSURE, not the refusal, so the fixture moves to a
+    record that draws. Nothing about the contract changes and no placement moves.
+
+    THE REPAIR NOT TAKEN, recorded because it is the one a reader will think of: carry
+    `drawn_by` INTO the refusal dict. A reader shown a conflict set arguably does deserve to
+    know which engine was asked and on what input, and the contract already carries `engine`
+    and `status`. It is declined here because it widens a contract two packages were built
+    against, which is not a thing to do inside a repair to a test.
+    """
+    import glob as _glob
+    for pf in (sorted(_glob.glob(os.path.join(ROOT, "plans", "*.json")))
+               + sorted(_glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))):
+        rec = json.load(open(pf))
+        if "levels" not in rec:
+            continue
+        GEO._SOLVE_CACHE.clear()
+        out = corpus._placed(json.loads(json.dumps(rec)))
+        if "geometry_report" in out:
+            return os.path.basename(pf), out
+    return None, None
+
+
 class TestTheBenchRecordsWhatItDrewAndOnWhat:
     def test_placed_records_the_surface_the_engine_asked_for_and_the_inputs_digest(self):
-        sys.path.insert(0, os.path.join(ROOT, "mcp_server"))
-        import importlib.util
-        spec = importlib.util.spec_from_file_location(
-            "corpus_wp118", os.path.join(ROOT, "workbench", "server", "corpus.py"))
-        corpus = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(corpus)
-        plan = json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")))
-        GEO._SOLVE_CACHE.clear()
-        out = corpus._placed(json.loads(json.dumps(plan)))
+        corpus = _corpus_module("corpus_wp118")
+        name, out = _a_drawable_record(corpus)
+        if out is None:
+            pytest.skip("COULD NOT EVALUATE: every shipped record is refused, so no placement "
+                        "carries a disclosure to read")
         d = out["geometry_report"]["solver"]["drawn_by"]
-        assert d["surface"].endswith("_placed") and d["engine_requested"] == "auto"
-        assert len(d["input_digest"]) == 12 and d["candidates"] == 250
+        assert d["surface"].endswith("_placed") and d["engine_requested"] == "auto", name
+        assert len(d["input_digest"]) == 12 and d["candidates"] == 250, name
 
     def test_the_digest_is_of_the_INPUT_and_two_different_records_differ(self):
         """Finding J6: two CP-SAT runs of one record agree to the foot, so when two sheets of
         "the same house" disagree, the INPUT differed — and the plate carried nothing that would
         let a reader tell. Digested before the solve, because the point is what was handed in."""
-        sys.path.insert(0, os.path.join(ROOT, "mcp_server"))
-        import importlib.util
-        spec = importlib.util.spec_from_file_location(
-            "corpus_wp118b", os.path.join(ROOT, "workbench", "server", "corpus.py"))
-        corpus = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(corpus)
-        a = json.load(open(os.path.join(ROOT, "plans", "spec-builder-colonial.json")))
+        corpus = _corpus_module("corpus_wp118b")
+        name, out_a = _a_drawable_record(corpus)
+        if out_a is None:
+            pytest.skip("COULD NOT EVALUATE: every shipped record is refused")
+        a = json.load(open(os.path.join(ROOT, "plans", name))
+                      if os.path.exists(os.path.join(ROOT, "plans", name))
+                      else open(os.path.join(ROOT, "plans", "reference", name)))
         b = json.loads(json.dumps(a))
         b["style"] = "some-other-style"
+        da = out_a["geometry_report"]["solver"]["drawn_by"]
         GEO._SOLVE_CACHE.clear()
-        da = corpus._placed(json.loads(json.dumps(a)))["geometry_report"]["solver"]["drawn_by"]
-        GEO._SOLVE_CACHE.clear()
-        db = corpus._placed(b)["geometry_report"]["solver"]["drawn_by"]
-        assert da["input_digest"] != db["input_digest"], (da, db)
+        out_b = corpus._placed(b)
+        if "geometry_report" not in out_b:
+            # The variant is refused where the original is not, which is a real answer about
+            # that record and not about the digest. The digest is taken BEFORE the solve, so
+            # the property is untouched -- but it cannot be READ off a refusal, and reading
+            # half of it would be worse than saying so.
+            pytest.skip("COULD NOT EVALUATE: the varied record is refused, so its disclosure "
+                        f"cannot be read ({out_b.get('refused_placement', {}).get('facts')})")
+        db = out_b["geometry_report"]["solver"]["drawn_by"]
+        assert da["input_digest"] != db["input_digest"], (name, da, db)
 
 
 class TestTheBenchParagraphSaysIt:

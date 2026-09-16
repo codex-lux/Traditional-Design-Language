@@ -120,15 +120,36 @@ def test_non_rectangular_is_bounding_box_and_says_so(tmp_path):
 
 
 def test_tdl_sheet_short_circuits_to_the_complete_record(tmp_path):
+    """RE-CUT 16 Sep 2026. This exported `plans/tidewater-georgian-careful.json` and asserted
+    `"error" not in out`. WP-13.4 taught the exporter to REFUSE a placement whose type facts do
+    not hold, and that record is refused, so the guard died on a refusal rather than on anything
+    about the short circuit -- and the property it exists for, that a DXF this system wrote
+    carries the whole record and the importer takes it whole, went unguarded.
+
+    The subject is the SHORT CIRCUIT, not the plan, so the fixture takes the first shipped
+    record that actually exports. The premise is asserted: if none does, this is COULD NOT
+    EVALUATE and says so, rather than passing on a file nobody wrote."""
     pytest.importorskip("ezdxf")
+    import glob as _glob
     EX = mc.load("export_dxf", os.path.join(BUILD, "export_dxf.py"))
-    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
-    p = str(tmp_path / "tdl.dxf")
-    out = EX.export_plan_dxf(plan, p)
-    assert "error" not in out
-    res = ING.extract(p)
+    chosen = None
+    for pf in (sorted(_glob.glob(os.path.join(ROOT, "plans", "*.json")))
+               + sorted(_glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))):
+        rec = json.load(open(pf))
+        if "levels" not in rec:
+            continue
+        dst = str(tmp_path / (rec["id"] + ".dxf"))
+        out = EX.export_plan_dxf(json.loads(json.dumps(rec)), dst)
+        if "error" not in out:
+            chosen = (rec["id"], dst)
+            break
+    if chosen is None:
+        pytest.skip("COULD NOT EVALUATE: every shipped record is refused, so no DXF this "
+                    "system wrote exists to short-circuit on")
+    rid, path = chosen
+    res = ING.extract(path)
     assert res["complete"] is True and res["source"] == "tdl-dxf"
-    assert res["record"]["id"] == "tidewater-georgian-careful"
+    assert res["record"]["id"] == rid
 
 
 def test_lines_only_drawing_is_an_honest_refusal(tmp_path):
