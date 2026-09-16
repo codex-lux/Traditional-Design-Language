@@ -88,7 +88,11 @@ def test_every_plate_in_a_set_names_the_input_it_was_drawn_from(client):
     same house" that disagree differ because the INPUT differed, and a reader needs to be able
     to tell. This is a test of the METADATA and says so -- on its own it does not prove the
     plates were built on one placement (the first version of this file thought it did)."""
-    plan = _plan()
+    # WP-13.4: the record this asserts on must be one a surface may still DRAW. The digest is
+    # a property of every plate in a set agreeing, and a refused record produces no plates at
+    # all -- a different question, and one `test_refusal_routes.py` asks.
+    from . import drawable
+    plan = drawable.drawable_plan()
     digests = {}
     for kind in ("plan", "elevation", "roof"):
         r = client.post(f"/api/drawings/{kind}", json={"plan": plan})
@@ -182,10 +186,18 @@ def test_a_face_that_is_accepted_is_actually_drawn(client):
     WP-5.1; no client ever sent one, so nothing had ever checked that the argument reaches the
     pen. Four faces must give four drawings: asserting only that each returns 200 would pass
     with the argument dropped on the floor."""
+    # THE RECORD IS NAMED AND NOT SUBSTITUTED, AND THE TEST SKIPS RATHER THAN MOVING (WP-13.4).
+    # Four distinct drawings for four faces is a property of a house with four different
+    # elevations, and the drawable record this corpus is left with draws ONE picture for all
+    # four -- measured, 1 distinct hash of 4 -- so substituting it would turn a real guard into
+    # a red tick on a true statement about a symmetrical house. Where the Tidewater record is
+    # refused there is nothing to compare and the honest verdict is COULD NOT EVALUATE.
+    from . import drawable
     plan = _plan("tidewater-georgian-careful")
     svgs = {}
     for face in ("S", "N", "E", "W"):
         r = client.post("/api/drawings/elevation", json={"plan": plan, "face": face})
+        drawable.skip_if_refused(r, "four faces must give four drawings")
         assert r.status_code == 200, (face, r.text[:200])
         svgs[face] = hashlib.sha256(r.json()["svg"].encode()).hexdigest()
     assert len(set(svgs.values())) == 4, (
@@ -197,8 +209,13 @@ def test_the_default_face_is_still_the_entrance_front(client):
     """Sending no face must draw what it has always drawn: the server's own
     `face or elev["entrance_face"]`. The surface arrives with no face chosen, so this is the
     plate a reader who changes nothing sees."""
+    from . import drawable
     plan = _plan("tidewater-georgian-careful")
-    none = client.post("/api/drawings/elevation", json={"plan": plan}).json()
+    _r = client.post("/api/drawings/elevation", json={"plan": plan})
+    # Named rather than substituted, for the reason the test above gives: this asserts the
+    # entrance front is one of the four cardinals, and the drawable record names no front.
+    drawable.skip_if_refused(_r, "the default face is the entrance front")
+    none = _r.json()
     front = client.post("/api/drawings/elevation",
                         json={"plan": plan, "face": none["entrance_face"]}).json()
     assert none["svg"] == front["svg"]

@@ -42,7 +42,14 @@ def _metered(tool_name):
     if not reason:
         return None
     # A refusal is content, at the same weight as a result — the corpus's own discipline.
-    return J({"refused": True, "tool": tool_name, "reason": reason,
+    #
+    # `why` NAMES WHICH REFUSAL THIS IS (WP-13.4). A second kind arrived when Lucas ruled that
+    # a placement breaking a hard fact of the type is refused rather than drawn: `tdl_place_plan`
+    # answers `{"refused": true, "why": "placement", ...}` with the conflict set, and the two
+    # mean opposite things to a caller -- "come back later" against "this house cannot be drawn
+    # and here is why". They share a shape so a client needs one reader; they are told apart by
+    # this field and never by the prose.
+    return J({"refused": True, "why": "rate-limit", "tool": tool_name, "reason": reason,
               "note": "This is a rate limit on this deployment, not a judgment about the "
                       "plan or the corpus. Nothing was evaluated."})
 

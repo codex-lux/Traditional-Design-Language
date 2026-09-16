@@ -28,8 +28,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__)))))
 
 
+# WP-13.4: A DRAWABLE RECORD, FOUND RATHER THAN NAMED. Lucas ruled 15 Sep 2026 that a
+# placement breaking a hard fact of the type is refused and not drawn, and on this tree that
+# refuses 15 of the 16 shipped records on `auto`. These tests are about the DRAWING and not
+# about the refusal, so they take the record `drawable.py` finds by reading the verdict; it
+# skips with its reason where the corpus leaves nothing drawable. The refusal has its own
+# file (`test_refusal_routes.py`), which asserts the other half -- that it is live here.
 def _plan():
-    return json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    from . import drawable
+    return drawable.drawable_plan()
 
 
 @pytest.fixture(scope="module")
@@ -68,7 +75,15 @@ def test_the_scene_comes_back_with_its_plan_and_its_plates(scene_res):
         assert got["svg"].lstrip().startswith("<svg"), key
         assert got.get("kind"), f"{key} carries a drawing and no metadata"
         if key.startswith("elevation"):
-            assert got.get("entrance_face"), f"{key} does not say which face is the front"
+            # THE KEY IS ASSERTED, THE VALUE IS THE RECORD'S (WP-13.4). This read
+            # `assert got.get("entrance_face")` and was a statement about the Tidewater record,
+            # which names a front; the drawable record this file now takes names none, and a
+            # record that has no entrance front must say `None` rather than be convicted of
+            # losing a disclosure it never had. What a plate owes is the FIELD -- a plate
+            # missing it entirely has stopped disclosing, which is the defect WP-12.4 shipped.
+            assert "entrance_face" in got, (
+                f"{key} does not carry the entrance-face field at all: a plate is its drawing "
+                f"AND the things the drawing does not say for itself")
 
 
 def test_the_scene_carries_the_catalogue_the_overlays_read(scene_res):
@@ -142,6 +157,10 @@ def test_a_plate_that_could_not_be_drawn_is_named_and_not_dropped():
     assert 'refused[key] = got["error"]' in body, (
         "a plate that errors must be recorded under plates_refused, not skipped")
     assert "plates_refused" in body
+    # AND THE SOURCE PIN ABOVE IS HALF A GUARD, SAID HERE SO A READER DOES NOT READ IT AS THE
+    # WHOLE (WP-13.4). It proves the assignment exists and says nothing about the response;
+    # the behavioural half is `test_a_refused_plate_is_named_in_the_response` below, which
+    # drives an unknown kind through the same loop and reads what comes back.
 
 
 def test_a_parti_record_is_refused_and_an_id_is_not():
@@ -151,7 +170,14 @@ def test_a_parti_record_is_refused_and_an_id_is_not():
                        plates=False)
     assert bad.get("error", "").startswith("parti must be a parti id")
     ok = corpus.scene(_plan(), parti="centre-passage-double-pile", plates=False)
-    assert "error" not in ok, ok.get("error")
+    # THE ID PATH IS ASSERTED PAST THE GATE, NOT PAST THE PLACEMENT (WP-13.4). This read
+    # `assert "error" not in ok` and was a statement about the house rather than about the
+    # argument: a parti changes the bay module, so a record that draws without one can be
+    # REFUSED with one -- measured, the drawable record plus this parti is refused for its
+    # bearing and its tiling. The subject here is that a parti RECORD is turned away and an ID
+    # is not, and a placement refusal is a different refusal with a different key.
+    assert not ok.get("error", "").startswith("parti must be a parti id"), ok.get("error")
+    assert "scene" in ok or "refused_placement" in ok, ok.get("error")
 
 
 def test_plates_false_returns_the_scene_alone():
@@ -184,3 +210,27 @@ def test_the_scene_is_not_a_sixth_drawing_kind(client):
         assert r.status_code == 422, kind
         assert "kinds" in r.json()["detail"], kind
         assert kind not in r.json()["detail"]["kinds"], kind
+
+
+def test_a_refused_plate_is_named_in_the_response():
+    """The behavioural half of the pin above (WP-13.4). Driven, because the drawable record
+    draws all six: `SCENE_PLATES` is monkeypatched to name a kind `drawing()` refuses, and the
+    response must carry it under `plates_refused` with a reason rather than leave the key out.
+
+    The mutation this is written against is the obvious repair to the source pin -- deleting
+    the `refused[key] = ...` line and letting the plate fall out of both dicts, which a reader
+    of the response cannot tell from a view they have not fetched."""
+    from workbench.server import corpus
+    original = corpus.SCENE_PLATES
+    try:
+        corpus.SCENE_PLATES = original + (("axonometric", None),)
+        res = corpus.scene(_plan())
+    finally:
+        corpus.SCENE_PLATES = original
+    assert corpus.SCENE_PLATES is original, "the fixture did not restore SCENE_PLATES"
+    assert "error" not in res, res.get("error")
+    assert "axonometric" in res["plates_refused"], (
+        "a plate that could not be drawn is missing from BOTH dicts: to a viewer that is "
+        "indistinguishable from a view it has not fetched yet")
+    assert res["plates_refused"]["axonometric"], "named, and with no reason given"
+    assert "axonometric" not in res["plates"]

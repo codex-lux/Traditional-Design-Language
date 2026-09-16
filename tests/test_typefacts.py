@@ -172,12 +172,26 @@ class TestItIsOnTheRecordForBothEngines:
         GEO._disclose(p)
         tf = p["geometry_report"]["type_facts"]
         assert tf["tiling"]["uncovered_sf"] == 5.0, tf
+        # AND THE VERDICT BESIDE IT (WP-13.4). `_disclose` used to write
+        # `rep["type_facts"] = TF.report(plan)` inline; the measurement and the decision drawn
+        # from it are now written together by `TF.judge`, so a caller cannot get one without
+        # the other -- `corpus._placed`'s short circuit and `export_dxf._solved_copy`'s are the
+        # two other callers, and each is handed a record that never reaches a record writer.
+        assert p["geometry_report"]["refused"] is None or \
+            p["geometry_report"]["refused"]["facts"], "a refusal that names no fact"
         src = open(os.path.join(ROOT, "build", "geometry.py"), encoding="utf-8").read()
-        assert src.count('rep["type_facts"] = TF.report(plan)') == 1
-        assert src.count('["type_facts"]') == 1, "a second writer of the block has appeared"
+        # ONE WRITER, read as a property rather than pinned as a literal: the assignment moved
+        # into the leaf, so what this file guards is that `geometry.py` never assigns the key
+        # itself and reaches it through the one function.
+        assert 'rep["type_facts"] =' not in src, (
+            "geometry.py assigns type_facts directly again -- it and `refused` are written "
+            "together by typefacts.judge, and a second writer of either is how the record "
+            "comes to carry a measurement with no verdict")
+        assert src.count("TF.judge(plan)") == 2, (
+            "TF.judge is called from `_disclose` and from `_refuse` and nowhere else")
         body = src[src.index("def _disclose(plan):"):]
         body = body[:body.index("\ndef ")]
-        assert "TF.report(plan)" in body
+        assert "TF.judge(plan)" in body
 
     def test_the_shipped_search_placement_carries_the_fact(self):
         plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))

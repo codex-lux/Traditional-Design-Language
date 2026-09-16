@@ -1634,6 +1634,22 @@ def place_plan(plan, parti=None, candidates=250, svg_path=None, engine="auto"):
     out = geo.solve(copy_json(plan), pt, candidates, engine=engine,
                     time_limit_s=geo.BUDGET_INTERACTIVE_S)
     if "error" in out: return out
+    # REFUSED, AND NO COORDINATES AND NO FILE (WP-13.4). Lucas ruled 15 Sep 2026 that a
+    # placement breaking a hard fact of the type is refused rather than drawn. This tool
+    # returned coordinates on an infeasible placement and wrote an SVG beside them, which is
+    # the drawing surface a model hands to a person -- so it refuses, in the same shape
+    # `_metered` uses for a rate limit and distinguished from it by `why`. The verdict is read
+    # off the record; nothing here re-derives it.
+    ref = (out.get("geometry_report") or {}).get("refused")
+    if ref:
+        return {"refused": True, "why": "placement",
+                "reason": ("The type's own facts do not hold on this placement, so it is not "
+                           "drawn and no coordinates are returned. " + " ".join(ref.get("lines") or [])),
+                "placement_refused": ref,
+                "note": ("This is a judgment about THIS record, not a limit on this deployment "
+                         "and not a missing capability. The conflict set above says what could "
+                         "not hold; the brief or the parti is what changes. No file was written."
+                         + (f" {svg_path} was NOT written." if svg_path else ""))}
     if svg_path:
         rp = _mod("render_plan", os.path.join(ROOT, "build", "render_plan.py"))
         rp.render(out, svg_path); out["svg"] = svg_path
@@ -1749,6 +1765,13 @@ def critique_plan(plan, engine="auto", candidates=250, place=True, parti=None):
         out["bounded"] = bounded
     out["check_summary"] = {k: res["check"].get(k) for k in
                             ("counts", "fault_summary", "constraint_summary", "drawn_summary", "elevation_summary")}
+    # WP-13.4: under the SAME key the HTTP routes use, so a reader of either surface looks in
+    # one place. `critique()` put it on `placement.refused`; this republishes rather than
+    # re-deriving, and the critique itself is still returned -- a refused placement is exactly
+    # the one a reader most needs the findings for.
+    _ref = (res.get("placement") or {}).get("refused")
+    if _ref:
+        out["placement_refused"] = _ref
     return out
 
 
@@ -1786,6 +1809,12 @@ def revise_plan(plan, rounds=6, engine="auto", candidates=250, place=True, inclu
            "stop_reason": r["stop_reason"], **({"bounded": bounded} if bounded else {}),
            "note": ("A lower key is not a good plan. Read handed_to_architect and suspects before "
                     "rounds: what the loop could not do is as much the result as what it did.")}
+    # WP-13.4: the state the loop STOPPED at, read off the record it produced. A revision that
+    # ends on a refused placement has not produced a house anyone may draw, and the caller must
+    # be told that beside the key rather than left to infer it from a number that fell.
+    _ref = ((r.get("plan") or {}).get("geometry_report") or {}).get("refused")
+    if _ref:
+        out["placement_refused"] = _ref
     if include_plan:
         out["plan"] = r["plan"]
     return out

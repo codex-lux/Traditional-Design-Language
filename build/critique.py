@@ -59,6 +59,9 @@ def _mod(name, path):
 
 PC = _mod("plan_check", os.path.join(ROOT, "build", "plan_check.py"))
 GEO = _mod("geometry", os.path.join(ROOT, "build", "geometry.py"))
+# WP-13.4: the one verdict on whether a placement may be drawn. Read here rather than
+# re-derived, and judged here where the caller carried a placement in -- see `critique()`.
+TF = _mod("typefacts", os.path.join(ROOT, "build", "typefacts.py"))
 CS = _mod("critic_suspects", os.path.join(ROOT, "build", "critic_suspects.py"))
 
 CLASSES = ("actionable", "placement", "critic_suspect", "architect", "advisory")
@@ -427,6 +430,22 @@ def critique(plan, engine="auto", candidates=250, parti=None, place=True, seed=7
                 placement["could_not_evaluate"] = out.get("error") or out.get("reason") or "unsolved"
             else:
                 plan = out
+        # THE VERDICT TRAVELS WITH THE PLACEMENT (WP-13.4). A placement this function SOLVED
+        # already carries it, written by `geometry._disclose` through the same leaf; a
+        # placement the CALLER carried in has never reached a record writer and has therefore
+        # never been judged, so reading a missing key as "not refused" would be the fake pass
+        # this corpus names first. `typefacts.judge` writes it, and it is the same function
+        # `_disclose` and `corpus._placed` call.
+        if placement["could_not_evaluate"] is None and has_placement(plan):
+            _gr = plan.setdefault("geometry_report", {})
+            if "refused" not in _gr:
+                try:
+                    TF.judge(plan)
+                except Exception as exc:            # unjudged, and unjudged does not refuse
+                    placement["could_not_evaluate"] = (
+                        f"the carried placement could not be judged: "
+                        f"{exc.__class__.__name__}: {str(exc)[:160]}")
+            placement["refused"] = _gr.get("refused")
     solver = (plan.get("geometry_report") or {}).get("solver") or {}
     check = PC.check(plan, C)
     assessment, cne = classify(plan, check, _registry(), C, ctx)

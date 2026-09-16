@@ -66,14 +66,86 @@ def test_fault_unjudged_present(client):
 
 
 def test_evaluate_places(client):
-    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    """The route places, and the payload it returns is the one the sheet draws.
+
+    WP-13.4 SPLIT THIS IN TWO AND THE SECOND HALF IS THE NEW ONE. It used to post the Tidewater
+    record and read `r["placement"]`; under the 15 Sep ruling that record is refused, so the
+    route answers 200 with `placement_refused` and NO placement, and asserting the old shape
+    would have been asserting that the ruling had not landed. This half takes a record the
+    ruling still lets a surface draw; `test_a_refused_record_gets_the_conflict_set_and_no_
+    placement` below is the other half, and the two are kept apart because a suite where both
+    could be satisfied by one response is a suite that has stopped distinguishing them.
+
+    `len(p["rooms"]) > 10` went with the Tidewater record: it was a statement about a twelve-room
+    house, not about the route. What the route owes is that every room in the payload is a
+    PLACED room -- the payload is projected off rooms carrying geometry -- and that is asserted
+    on any record."""
+    from . import drawable
+    plan = drawable.drawable_plan()
     r = client.post("/api/plan/evaluate",
                     json={"plan": plan, "place": True, "candidates": 120}).json()
+    assert "placement_refused" not in r, r.get("placement_refused")
     p = r["placement"]
     assert p["footprint"]["bays"] >= 3
-    assert len(p["rooms"]) > 10
+    assert p["rooms"] and all(rm.get("geometry") for rm in p["rooms"]), (
+        "the payload carries a room with no rectangle: it is projected off placed rooms")
     assert "relaxations" in p["geometry_report"]
     assert r["rooms_meta"]  # overlay metadata joined server-side
+
+
+def test_a_refused_record_gets_the_conflict_set_and_no_placement(client):
+    """The ruling at this route: 200, `placement_refused`, and NOTHING to draw (WP-13.4).
+
+    The bench draws the conflict set instead of a house, so the response must carry the reason
+    and must NOT carry a placement -- a response with both would let a surface draw the refused
+    placement while displaying the refusal beside it, which is the one outcome the ruling
+    forbids. Driven off a shipped record the corpus refuses; the file skips rather than passing
+    if the ruling ever stops refusing anything, because then this test is about nothing."""
+    import pytest
+    for name in PLANS:
+        plan = json.load(open(os.path.join(ROOT, "plans", f"{name}.json")))
+        r = client.post("/api/plan/evaluate",
+                        json={"plan": plan, "place": True, "candidates": 60}).json()
+        if "placement_refused" not in r:
+            continue
+        ref = r["placement_refused"]
+        assert "placement" not in r, (
+            f"{name}: the route returned a refusal AND a placement -- a surface handed both "
+            f"will draw the placement")
+        assert ref["kind"] in ("infeasible", "type-fact-downgraded"), ref["kind"]
+        assert ref["lines"] and all(isinstance(x, str) and x for x in ref["lines"]), (
+            "a refusal is content: it names what could not hold, never a bare error")
+        assert ref["facts"] or ref["kind"] == "infeasible"
+        return
+    pytest.skip("COULD NOT EVALUATE: neither shipped plan is refused on this tree, so there "
+                "is no refusal for this test to be about")
+
+
+def test_the_wall_drag_still_gets_a_working_sketch(client):
+    """The ruling's one exemption, and it is named by ENGINE (WP-13.4).
+
+    `PlanWorkbench.jsx` asks for the heuristic BY NAME on the drag path only. A drag that
+    cannot see the rectangle it is dragging is not a drag, so that path still returns a
+    placement -- marked `sketch`, carrying the refusal inside it, and refused by every export.
+    `sketch` is written on EVERY heuristic evaluate and not only on a refused one, so a client
+    cannot read its absence as a proof."""
+    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    r = client.post("/api/plan/evaluate",
+                    json={"plan": plan, "place": True, "engine": "heuristic",
+                          "candidates": 60}).json()
+    assert "placement" in r, "the wall drag lost its sketch"
+    sk = r["placement"].get("sketch")
+    assert sk and sk["working"] is True and sk["reason"], (
+        "a heuristic placement that does not say it is a working sketch is one a surface will "
+        "print as a finished drawing")
+    # and the SAME record on the default engine is refused with no placement, which is what
+    # makes the exemption an exemption rather than the rule
+    auto = client.post("/api/plan/evaluate",
+                       json={"plan": plan, "place": True, "candidates": 60}).json()
+    if "placement_refused" in auto:
+        assert sk["refused"], (
+            "the record is refused on the default engine and the drag's sketch says nothing "
+            "about it -- the marking has to carry the reason or it is decoration")
 
 
 def test_compose_job_roundtrip(client):
