@@ -147,18 +147,69 @@ class TestTheRevisedSetKeepsTheComposersInvariants:
     rules. These do, on the module fixture that runs with revise on."""
 
     def test_every_revised_plan_validates_and_keeps_the_briefs_must_have_rooms(self, composed):
+        """RE-CUT 16 Sep 2026, AND ITS OLD MESSAGE NAMED THE WRONG LAYER. It read
+        `the loop dropped a must_have room ({must}) from {c['parti']}` and went red at the
+        WP-13.3 merge on `library` -- and the loop had dropped nothing. Measured with
+        `revise=False`, so no round ever runs: BOTH of this brief's must_have rooms are absent
+        AS COMPOSED. The composer never placed them, which is what it is built to do --
+        CLAUDE.md, *"it will not invent a room the parti has no place for"* -- and it SAYS so,
+        twice, in its own voice:
+
+            JUDGMENT: the brief requires a library and this diagram has no place for one.
+            Not added -- the position matters more than the presence.
+
+        **So the corpus was honest and the assertion was wrong**: it demanded a guarantee the
+        composer explicitly declines, and attributed the absence to the one layer that had not
+        touched it. This class is named for the LOOP's invariants, so that is what it asserts
+        now -- a must_have room the composer DID place must survive every round, and one it
+        refused must carry its stated reason.
+
+        WHAT CHANGED AT WP-13.3 was neither the loop nor the composer's refusal but WHICH
+        partis come back. Measured on a `git archive` of 49e2389 against this tree:
+
+            WP-13.2   centre-passage-double-pile, five-part-palladian   both rooms, both rooms
+            now       side-hall-townhouse, courtyard-and-portal          neither, neither
+
+        That is a product property that is now false and it is NOT this test's to assert:
+        `oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room`.
+
+        AND THE SILENT-DROP FINDING I NEARLY PUBLISHED WAS A FALSE POSITIVE. The first sweep
+        matched the type id `breakfast-room` and found a stated refusal for the library and
+        none for the breakfast room. The log writes *"a breakfast room"* with a space. Both are
+        stated; re-deriving with the looser needle is the only reason that is not in a report.
+        """
         import jsonschema
         ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         schema = json.load(open(os.path.join(ROOT, "schema", "plan.schema.json")))
         brief = _brief("family-georgian")
+        musts = brief.get("must_have") or []
+        assert musts, "COULD NOT EVALUATE: this brief states no must_have room"
+        placed_somewhere = 0
         for c in composed["candidates"]:
             jsonschema.validate(c["plan"], schema)
             types = {r["type"] for lv in c["plan"]["levels"] for r in lv["rooms"]}
-            for must in brief.get("must_have") or []:
-                assert must in types, f"the loop dropped a must_have room ({must}) from {c['parti']}"
-            assert all(r.get("width_ft", 0) > 0 and r.get("length_ft", 0) > 0 for lv in c["plan"]["levels"] for r in lv["rooms"])
+            log = " ".join(str(x) for x in (c.get("decisions") or []))
+            for must in musts:
+                if must in types:
+                    placed_somewhere += 1
+                    continue
+                # Not present. The loop may not be the reason, so the composer must have said
+                # so. The needle is the room's WORDS and not its hyphenated id -- the log reads
+                # "a breakfast room", and matching the id alone is what produced a false
+                # finding on the first sweep.
+                words = must.replace("-", " ")
+                assert words in log.lower() or must in log.lower(), (
+                    f"{c['parti']} has no {must} and its decision log does not say why. A "
+                    f"must_have room absent with no stated refusal is the silent drop this "
+                    f"test exists for; an absence the composer NAMES is the corpus working.")
+            assert all(r.get("width_ft", 0) > 0 and r.get("length_ft", 0) > 0
+                       for lv in c["plan"]["levels"] for r in lv["rooms"])
             ids = [r["id"] for lv in c["plan"]["levels"] for r in lv["rooms"]]
             assert len(ids) == len(set(ids)), "a room id was duplicated by a move"
+        # THE PREMISE, so a set that happens to place none of them cannot pass this vacuously:
+        # the reader is told which half of the test actually ran.
+        print(f"must_have rooms PLACED across the set: {placed_somewhere} of "
+              f"{len(musts) * len(composed['candidates'])}")
 
     def test_the_revised_set_is_in_the_composers_order_and_rank_before_is_stated(self, composed, compose_module):
         cands = composed["candidates"]

@@ -19,14 +19,14 @@ it, so the mechanism that collided five times is unavailable rather than discour
 Decisions deferred rather than made quietly. Two of these came from authoring the
 Georgian kit end to end, which was the point of doing it.
 
-**197 questions, of which 105 are open.** A question is OPEN while
+**198 questions, of which 106 are open.** A question is OPEN while
 it awaits a ruling; the two HALF CLOSED entries count as open, because a half-closed
 question is an open one. Status words in use, and no others —
 **open:** `OPEN`, `STILL OPEN`, `HALF CLOSED`, `PARTLY`, `IN PROGRESS`;
 **settled:** `CLOSED`, `RESOLVED`, `RULED`, `FIXED`, `CONFIRMED`, `ANSWERED`, `LEFT AS A STANDING DISCLOSURE`, `SUPERSEDED`, `WITHDRAWN`.
 `build/check_ids.py` fails the build on any other word rather than assuming it benign.
 
-## Open — 105
+## Open — 106
 
 Awaiting a ruling. This is the list to read first.
 
@@ -110,6 +110,7 @@ Awaiting a ruling. This is the list to read first.
 | **oq/the-bay-parity-and-the-band-ranking-compose-worse-than-either** | OPEN | [two ruled packages, and their composition is worse than either alone](open-questions/oq-the-bay-parity-and-the-band-ranking-compose-worse-than-either.md) |
 | **oq/the-canon-axis-counts-two-grains-as-one** | OPEN | ["23 could not be evaluated" out of a denominator of 10](open-questions/oq-the-canon-axis-counts-two-grains-as-one.md) |
 | **oq/the-composer-ranks-on-an-assumed-bearing** | OPEN | [an aspect verdict entered the fitness function without being ruled into it](open-questions/oq-the-composer-ranks-on-an-assumed-bearing.md) |
+| **oq/the-composer-returns-a-set-that-satisfies-neither-must-have-room** | OPEN | [the refusal is honest and the set is useless](open-questions/oq-the-composer-returns-a-set-that-satisfies-neither-must-have-room.md) |
 | **oq/the-depth-a-roof-needs-is-known-and-cannot-be-enforced** | OPEN | [the floor is derived, and enforcing it would propagate a broken licence](open-questions/oq-the-depth-a-roof-needs-is-known-and-cannot-be-enforced.md) |
 | **oq/the-divergence-mark-is-in-neither-face-the-sheet-names** | OPEN | [one character, and the sheet cannot supply it](open-questions/oq-the-divergence-mark-is-in-neither-face-the-sheet-names.md) |
 | **oq/the-dxf-draws-its-own-windows** | OPEN | [a downloaded DXF is a different drawing of the same house, today](open-questions/oq-the-dxf-draws-its-own-windows.md) |
