@@ -211,23 +211,39 @@ except Exception as _e:                 # noqa: BLE001 -- a refusal is content
     print(f"\nN/EV — duplicate keys: could not enumerate the tracked records "
           f"({type(_e).__name__}: {str(_e)[:80]})")
     _tracked = None
-if _tracked is not None:
-    _dups, _read = [], 0
-    for _rel in _tracked:
-        _abs = os.path.join(ROOT, _rel)
-        if not os.path.isfile(_abs):
+
+
+def duplicate_keys_over(rels, root=None):
+    """`(read, dups)` for a list of repo-relative json paths: how many this sweep actually
+    PARSED, and one sentence per duplicate.
+
+    A FUNCTION SO THE WIRING CAN BE DRIVEN (WP-13.7). `_duplicate_keys` was tested on hand-built
+    files and the loop that applies it to the corpus was module-level, so neutering the call --
+    `_found = _duplicate_keys(_abs)` -> `_found = []` -- left `tests/test_duplicate_keys.py` 8 of
+    8 green: the census below is a premise assertion about the ENUMERATOR, and a DETECTOR that
+    returns nothing prints `duplicates: 0` exactly as a clean corpus does. `export_ifc.slab_boxes`
+    is the precedent -- computed where a test can read it, printed where it cannot.
+
+    COUNTED AFTER THE PARSE, not before it, so a file this function could not read does not
+    inflate the one number that is supposed to prove the sweep looked."""
+    base = ROOT if root is None else root
+    dups, read = [], 0
+    for rel in rels:
+        abs_ = os.path.join(base, rel)
+        if not os.path.isfile(abs_):
             continue
         try:
-            _found = _duplicate_keys(_abs)
+            found = _duplicate_keys(abs_)
         except Exception:               # noqa: BLE001 -- a malformed file is the schema's finding
             continue
-        # COUNTED AFTER THE PARSE, not before it. The census below is a PREMISE assertion --
-        # a sweep that enumerated nothing prints `duplicates: 0` exactly as a clean corpus does
-        # -- so counting a file this function could not read would inflate the one number that
-        # is supposed to prove the sweep looked.
-        _read += 1
-        for _oid, _k in _found:
-            _dups.append(f"{_rel}: object '{_oid}' states '{_k}' twice")
+        read += 1
+        for oid, k in found:
+            dups.append(f"{rel}: object '{oid}' states '{k}' twice")
+    return read, dups
+
+
+if _tracked is not None:
+    _read, _dups = duplicate_keys_over(_tracked)
     print(f"\njson records read for duplicate keys: {_read}  duplicates: {len(_dups)}")
     for _d in _dups[:40]:
         print("  x " + _d)

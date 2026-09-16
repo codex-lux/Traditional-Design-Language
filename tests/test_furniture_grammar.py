@@ -43,6 +43,38 @@ def _load(name):
 
 
 F = _load("furniture")
+
+
+_CENSUS = {}
+
+
+def _rule_census():
+    """`{rule id: [placed, refused]}` over the sixteen plans on the deterministic engine.
+
+    ONE SPELLING, TWO READERS (WP-13.7). The both-directions guard below built this loop and
+    the scope-A figure asserted a STRING in the rule's own note -- so when WP-13.5's container
+    moved three items on `tidewater-georgian-careful`, the note went on saying 648 placed and
+    the guard went on agreeing with it. A figure a test reads out of the prose it is guarding
+    is not a measurement. Cached because two tests read it and a solve of all sixteen plans is
+    about 2.5 s."""
+    if not _CENSUS:
+        import glob
+        import pathlib as _pl
+        G = _load("geometry")
+        for pf in (sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))
+                   + sorted(glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))):
+            d = json.loads(_pl.Path(pf).read_text())
+            if "levels" not in d:
+                continue
+            G._SOLVE_CACHE.clear()
+            out = G.solve(json.loads(json.dumps(d)), engine="heuristic")
+            for lv in out["levels"]:
+                for r in lv["rooms"]:
+                    for f in (r.get("furniture_layout") or []):
+                        rid = f.get("rule")
+                        if rid:
+                            _CENSUS.setdefault(rid, [0, 0])[1 if f.get("unplaced") else 0] += 1
+    return _CENSUS
 RP = _load("render_plan")
 GRAMMAR = json.load(open(os.path.join(ROOT, "furniture", "grammar.json")))
 
@@ -514,8 +546,23 @@ def test_the_rule_says_what_the_code_does_about_the_wall_pack():
     assert "does NOT reach the wall pack" in rule["rule"]
     for want in ("79 drawn items lost over 39 rooms", "88 drawn items lost over 44 rooms"):
         assert want in rule["note"], f"the refused readings' cost is published: {want}"
-    assert "648 placed" in rule["note"] and "560 placed" in rule["note"], (
-        "and each figure names the scope it was measured at")
+    # SCOPE A IS DERIVED FROM THE CORPUS, NOT READ OUT OF THE NOTE (WP-13.7). This asserted
+    # `"648 placed" in rule["note"]` -- the note agreeing with itself -- and WP-13.5's container
+    # then moved three items on `tidewater-georgian-careful` and took A to 645/155 while the
+    # note and this guard went on saying 648. A published measurement whose only reader is the
+    # prose it is published in is the shape this corpus names first.
+    census = _rule_census()
+    placed = sum(v[0] for v in census.values())
+    refused = sum(v[1] for v in census.values())
+    assert f"{placed} placed, {refused} refused on the merged tree" in rule["note"], (
+        f"scope A measures {placed} placed / {refused} refused on this tree and the rule's note "
+        f"does not say so. Re-derive (it is one solve of the sixteen plans on the deterministic "
+        f"engine) and correct furniture/grammar.json, docs/reports/"
+        f"wp-13.6-furniture-to-its-own-grammar.md and CLAUDE.md together.")
+    # B and C cannot be re-measured without rebuilding the two readings they describe, so the
+    # note may keep their figures only while it names the tree they were taken on.
+    assert "560 placed" in rule["note"] and "c5d9bbd" in rule["note"], (
+        "the refused readings keep their figures and must name the tree they were measured on")
 
 
 # ------------------------------------------------------------------ the record and the plate
@@ -620,23 +667,7 @@ def test_the_unreached_list_is_held_to_the_corpus_in_both_directions():
     positioned rule off the list that the corpus never reaches is a guard nobody knows is
     vacuous. `fg-flanking-the-chimney-breast` is the case that decided the shape -- it is
     reached, eighteen times, and every one is a refusal, so it is NOT on the list."""
-    import glob
-    import pathlib
-    G = _load("geometry")
-    seen = {}
-    for pf in (sorted(glob.glob(os.path.join(ROOT, "plans", "*.json")))
-               + sorted(glob.glob(os.path.join(ROOT, "plans", "reference", "*.json")))):
-        d = json.loads(pathlib.Path(pf).read_text())
-        if "levels" not in d:
-            continue
-        G._SOLVE_CACHE.clear()
-        out = G.solve(json.loads(json.dumps(d)), engine="heuristic")
-        for lv in out["levels"]:
-            for r in lv["rooms"]:
-                for f in (r.get("furniture_layout") or []):
-                    rid = f.get("rule")
-                    if rid:
-                        seen.setdefault(rid, [0, 0])[1 if f.get("unplaced") else 0] += 1
+    seen = _rule_census()
     listed = list(GRAMMAR["executed_but_unreached_in_the_corpus"])
     assert listed, "an empty list makes both halves below vacuous"
     for rid in listed:

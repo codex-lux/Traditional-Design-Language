@@ -40,18 +40,23 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VALIDATE = os.path.join(ROOT, "build", "validate.py")
 
 
-def _lifted(name):
+def _lifted(name, also=()):
     """The real function out of `build/validate.py`, compiled from its own source.
 
     `validate.py` is a script: importing it runs the whole taxonomy check and the scene
     selftest. Lifting the one definition by AST exercises the SHIPPED text — rename it, change
     its body, or delete it and this file goes red — without a second copy to keep in step.
+
+    `also` lifts the helpers the named function calls into the SAME namespace, so a lifted
+    caller runs the shipped callee rather than a stub (WP-13.7, for `duplicate_keys_over`).
     """
     tree = ast.parse(open(VALIDATE, encoding="utf-8").read())
-    fn = next((n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == name), None)
-    assert fn is not None, f"build/validate.py no longer defines {name}"
-    ns = {"json": json}
-    exec(compile(ast.Module(body=[fn], type_ignores=[]), VALIDATE, "exec"), ns)
+    ns = {"json": json, "os": os, "ROOT": ROOT}
+    for want in (*also, name):
+        fn = next((n for n in tree.body
+                   if isinstance(n, ast.FunctionDef) and n.name == want), None)
+        assert fn is not None, f"build/validate.py no longer defines {want}"
+        exec(compile(ast.Module(body=[fn], type_ignores=[]), VALIDATE, "exec"), ns)
     return ns[name]
 
 
@@ -161,3 +166,72 @@ class TestTheWiringAndThePremise:
         rooms = {r["id"]: r for lv in json.loads(raw)["levels"] for r in lv["rooms"]}
         assert rooms["landing"]["stacks_over"] == "stair"
         assert rooms["upperpassage"]["stacks_over"] == "passage"
+
+
+class TestTheWiringIsDrivenWithAKnownBadInput:
+    """WP-13.7. The detection was driven and the WIRING was not, and the gap was measurable:
+    replacing `_found = _duplicate_keys(_abs)` with `_found = []` in `build/validate.py` left
+    every test in this file GREEN. `test_the_sweep_really_opened_the_corpus_and_found_none`
+    asserts `read > 1000` and `dups == 0`, and a DETECTOR that returns nothing satisfies both
+    exactly as a clean corpus does -- which is that test's own docstring ("a sweep that
+    enumerated nothing prints `duplicates: 0` exactly as a clean corpus does") arriving one
+    level down, about the judge instead of the enumerator.
+
+    The loop is `validate.duplicate_keys_over(rels, root=)` now, so it can be handed a list
+    containing a file that really does state a key twice. NOTHING HERE WRITES INSIDE THE
+    REPOSITORY -- the files are temporary and the root is the temp directory."""
+
+    def _sweep(self):
+        return _lifted("duplicate_keys_over", also=("_duplicate_keys",))
+
+    def test_the_loop_reports_a_duplicate_the_detector_finds(self):
+        import shutil
+        d = tempfile.mkdtemp()
+        try:
+            open(os.path.join(d, "clean.json"), "w", encoding="utf-8").write(
+                '{"id": "a", "rooms": [{"id": "kitchen", "block": "service"}]}')
+            open(os.path.join(d, "bad.json"), "w", encoding="utf-8").write(
+                '{"id": "b", "rooms": [{"id": "kitchen", "block": "service",'
+                ' "block": "main"}]}')
+            sweep = self._sweep()
+            # THE CONTROL FIRST: a sound file is read and convicts nothing, so a sweep that
+            # convicted everything would not pass this either.
+            assert sweep(["clean.json"], root=d) == (1, []), "the control file is not clean"
+            read, dups = sweep(["clean.json", "bad.json"], root=d)
+            assert read == 2, f"the loop parsed {read} of 2 files"
+            assert dups == ["bad.json: object 'kitchen' states 'block' twice"], dups
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def test_a_path_that_is_not_a_file_is_skipped_and_never_counted_as_read(self):
+        """The census is the premise assertion the corpus run rests on, so a path the sweep
+        did not open must not inflate it."""
+        import shutil
+        d = tempfile.mkdtemp()
+        try:
+            open(os.path.join(d, "clean.json"), "w", encoding="utf-8").write('{"id": "a"}')
+            sweep = self._sweep()
+            assert sweep(["clean.json", "gone.json"], root=d) == (1, [])
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def test_a_file_the_detector_cannot_parse_is_not_counted_as_read_either(self):
+        """A malformed record is the schema's finding and not this sweep's, and it may not be
+        counted as a record this sweep read."""
+        import shutil
+        d = tempfile.mkdtemp()
+        try:
+            open(os.path.join(d, "broken.json"), "w", encoding="utf-8").write("{not json")
+            sweep = self._sweep()
+            assert sweep(["broken.json"], root=d) == (0, [])
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+
+    def test_the_corpus_run_goes_through_this_very_function(self):
+        """Otherwise the three drives above are about a function nothing calls. Read from the
+        source, because the module-level block cannot be imported without running the whole
+        script."""
+        src = open(VALIDATE, encoding="utf-8").read()
+        assert "_read, _dups = duplicate_keys_over(_tracked)" in src, (
+            "the corpus sweep no longer runs through `duplicate_keys_over`, so the drives in "
+            "this class are about a function nothing calls")
