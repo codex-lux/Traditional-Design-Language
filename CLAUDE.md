@@ -1546,7 +1546,7 @@ because `31a7373` wrote `corner: true` and admitted nothing and left thirteen of
 plans invalid; every checker reads the AUTHORED record and three tests in this repository
 validate a placed one.
 **AND THE SAME COMMIT HAD MOVED ALL SIXTEEN SHEETS AND NOT RE-PINNED**, so
-`test_no_shipped_sheet_moves` was red for four commits, none of which touched a renderer.
+`test_no_shipped_sheet_moves` was red for SIX commits, none of which touched a renderer.
 BISECTED rather than assumed: `1c2ac80` reproduces the pin to the character, `31a7373` moves it,
 `bc48e5d` through `57e7b72` do not. Re-pinned here with the movement accounted -- stripped of
 `furniture_layout` and re-rendered, **3 of 16 sheets are byte-identical and the other 13 differ
