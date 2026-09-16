@@ -22,6 +22,7 @@ import {
 } from '../sheet/overlayRules.js';
 import { Round, readTokens } from './Round.jsx';
 import { extent } from './solids.js';
+import { ConflictSet } from '../components/ConflictSet.jsx';
 
 /* The plate's own frame, as build/sheet_style.py::frame_attr wrote it. Read rather than
    re-derived: the renderer states what its pixels mean and this believes it, which is the
@@ -101,7 +102,7 @@ function RecordCard({ solid, onClose }) {
 const OVERLAY_CHIPS = ['grid', 'datums', 'daylight', 'wet', 'privacy', 'relaxations'];
 
 export function RoundPlate({
-  scene, plan, meta, plates, platesRefused, view, onView, plateOn, onPlate,
+  scene, plan, meta, plates, platesRefused, refusedPlacement, view, onView, plateOn, onPlate,
   ov, onOv, explode, onExplode, cut, onCut,
   title, styleName, subtitle, disclosures,
 }) {
@@ -179,6 +180,24 @@ export function RoundPlate({
      plausible — WP-6.3's rule, and the reason `relaxationMarks` splits them at all. */
   const unlocated = scene && ovActive.includes('relaxations')
     ? relaxationMarks(scene).unlocated.length : 0;
+
+  /* A REFUSED PLATE AND A REFUSED PLACEMENT ARE THE SAME VOCABULARY ONE LEVEL APART (WP-13.4).
+     `platesRefused` has said since WP-12.4 why a FLAT PLATE could not be laid over a given view
+     -- no uniform scale at a perspective, and so no affine. A refused PLACEMENT is the whole
+     model: there is no house to draw, and drawing the massing anyway under a caption naming its
+     views would be the certification this phase exists to remove. The title block stays, because
+     a reader arriving here has to be told which record was refused. */
+  if (refusedPlacement) {
+    return (
+      <div data-round-refused={refusedPlacement.kind} style={{
+        position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
+        boxShadow: 'var(--shadow-plate)', padding: '16px 18px 10px',
+      }}>
+        <TitleBlock title={title} styleName={styleName} subtitle={subtitle} />
+        <ConflictSet refusal={refusedPlacement} where="the model" />
+      </div>
+    );
+  }
 
   return (
     <div style={{
