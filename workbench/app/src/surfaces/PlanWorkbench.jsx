@@ -82,7 +82,7 @@ function adaptFinding(f) {
   };
 }
 
-export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
+export function PlanWorkbench({ onCite, selection, lastEval, setLastEval, go }) {
   const plan = React.useSyncExternalStore(planDoc.subscribe, planDoc.get);
   const [level, setLevel] = React.useState(0);
   const [ghost, setGhost] = React.useState(true);
@@ -417,6 +417,13 @@ export function PlanWorkbench({ onCite, selection, lastEval, setLastEval }) {
               mistake behind a click — and the e2e walk, which drags a room and undoes it,
               could not find the button at all. A thing you need when something has just gone
               wrong is not a setting. */}
+          {/* WP-12.4. Out here with undo and re-solve rather than in the solver fold above: the
+              Round is a way of LOOKING at the record on the bench, which is a thing a reader
+              reaches for immediately, and the fold is for acts that cost a solve. `ActionChip`'s
+              default affix is already →, so the arrow is not typed. */}
+          <ActionChip onClick={() => go && go('drawings')} title="see this record as a model, in the Drawing Set">
+            in the round
+          </ActionChip>
           <ActionChip onClick={() => planDoc.undo()} affix="↩" title="undo the last record edit">undo</ActionChip>
           <ActionChip onClick={() => runEvaluate(plan)} affix="↻" disabled={busy}
             title={proved

@@ -61,6 +61,10 @@ def _mod(n, p):
     import modcache as _mc
     return _mc.load(n, p)
 
+# WP-12.2: the opening rectangle and the loop around it are `elevation.opening_rects`,
+# read here rather than transcribed a second time.
+EL = _mod("elevation", f"{ROOT}/build/elevation.py")
+
 APPID = "TDL"
 IN = 12.0                      # record feet -> drawing inches
 TEXT_H = 8.0                   # annotation text height, inches
@@ -458,7 +462,9 @@ def export_elevation_dxf(elev, path, face=None):
     section, roof = elev["section"], elev["roof_record"]
     ground = next(s for s in section["storeys"] if s.get("index") == 0)
     upper = next((s for s in section["storeys"] if s.get("index") == 1), ground)
-    gw, uw = elev["storey_windows"][0], elev["storey_windows"][1]
+    # WP-12.2: the two storey window records are NOT read here any more. `opening_rects` reads
+    # them, and each rectangle carries its own back under `record`, so this file cannot come to
+    # disagree with the SVG about which storey a bay's opening belongs to.
     cornice = elev["eave_cornice"]
 
     doc = _new_doc(ezdxf)
@@ -523,13 +529,16 @@ def export_elevation_dxf(elev, path, face=None):
     profile = [(x * IN, h * IN + cornice_band) for x, h in roof["elevation_profiles"][face]]
     msp.add_lwpolyline(profile, dxfattribs={"layer": rf})
 
-    floor1, floor2 = ground["grade_to_floor_ft"] * IN, upper["grade_to_floor_ft"] * IN
 
-    def _win(cx_in, floor_in, wrec):
-        sill = floor_in + wrec["sill_height_above_floor_in"]
-        head = floor_in + wrec["head_height_above_floor_in"]
-        ww = wrec["opening_width_in"]
-        x0, x1 = cx_in - ww / 2, cx_in + ww / 2
+    def _win(r):
+        """WP-12.2: the rectangle is HANDED here, from `elevation.opening_rects`, and is no
+        longer worked out a second time. This file and `render_elevation.py` had the same four
+        numbers and the same loop written out separately, which is how the CAD file went on
+        drawing a window through a chimney after the SVG had learned not to (OQ 85)."""
+        wrec = r["record"]
+        sill, head = r["sill_in"], r["head_in"]
+        x0, x1 = r["x0_in"], r["x1_in"]
+        ww = r["width_in"]
         msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
                            close=True, dxfattribs={"layer": opening})
         for i in range(1, wrec["lights_across"]):
@@ -541,29 +550,31 @@ def export_elevation_dxf(elev, path, face=None):
             msp.add_line((x0, gy), (x1, gy), dxfattribs={"layer": sash})
 
     ent = elev["entrance"]
-    for cx_ft, kind in zip(front["centres_ft"], front["kinds"]):
-        cx = cx_ft * IN
+    # WP-12.2: ONE LOOP, in `elevation.opening_rects` — the blind-bay skip, the
+    # door-at-the-entrance-face branch and the two storeys. The comment below is kept because
+    # the defect it records is the reason this loop is no longer written twice.
+    for r in EL.opening_rects(elev, face)["rects"]:
         # A BLIND BAY CARRIES NO OPENING AT EITHER STOREY (OQ 85). The bay holds its place in the
         # rhythm and a chimney stack stands on its axis, so there is nothing to draw. Missed when
         # the blind bay was introduced: this loop read `if door ... else window`, so `blind` fell
         # into the else and the CAD file drew the very collision the SVG had just stopped drawing
         # -- two surfaces disagreeing about one record, which is the class this package exists to
         # close. The selftest could not see it: it round-trips FINDINGS, not geometry.
-        if kind == "blind":
-            continue
-        if kind == "door" and face == elev["entrance_face"]:
-            dw, dh = ent["door_leaf_width_in"], ent["door_leaf_height_in"]
-            x0, x1 = cx - dw / 2, cx + dw / 2
-            msp.add_lwpolyline([(x0, floor1), (x1, floor1), (x1, floor1 + dh), (x0, floor1 + dh)],
+        if r["kind"] == "door":
+            # THE FLOOR IS THE RECTANGLE'S OWN SILL, not a `ground["grade_to_floor_ft"] * IN`
+            # computed a second time at the top of this function. It is the same number by
+            # derivation and reading it twice is how the two stop being the same number.
+            sill, head = r["sill_in"], r["head_in"]
+            x0, x1 = r["x0_in"], r["x1_in"]
+            msp.add_lwpolyline([(x0, sill), (x1, sill), (x1, head), (x0, head)],
                                close=True, dxfattribs={"layer": opening})
             cw = ent["casing_width_in"]
             eh = ent.get("entablature_height_in") or ent["surround_height_above_opening_in"]
-            msp.add_lwpolyline([(x0 - cw, floor1), (x1 + cw, floor1),
-                                (x1 + cw, floor1 + dh + eh), (x0 - cw, floor1 + dh + eh)],
+            msp.add_lwpolyline([(x0 - cw, sill), (x1 + cw, sill),
+                                (x1 + cw, head + eh), (x0 - cw, head + eh)],
                                close=True, dxfattribs={"layer": sash})
-        else:
-            _win(cx, floor1, gw)
-        _win(cx, floor2, uw)
+            continue
+        _win(r)
 
     m = roof["main"]
     pitch = f"{m['pitch_rise_per_12']}:12" if m.get("pitch_rise_per_12") else "PITCH UNJUDGED"

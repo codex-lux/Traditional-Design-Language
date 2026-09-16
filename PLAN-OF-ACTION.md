@@ -22,9 +22,10 @@ Every package below carries a **Status** line. This is the summary. Original pac
 | **8 — The register, the backlog and the scopes nothing reads** | **WP-8.1**, **8.2**, **8.3**, **8.4**, **8.6**, **8.7**, **8.8**, **8.9**, **8.10**, **8.11**, **8.12**, **8.13**, **8.14** *(no 8.5 — see the note in CLAUDE.md; it shipped as `6f9e7c7` before the numbering existed)* | **8.1-8.4, 8.6 complete (28 Aug 2026); 8.7-8.14 complete (2-4 Sep); OQ 51's delivery half FINISHED and AUDITED** — **WP-8.8** made the baked-snapshot class knowable (135 judged, 0 stale, 8 unjudgeable for want of a recorded binding) and found the evaluator the question asked for had existed in two places all along. **WP-8.9** measured OQ 51's flip before building it and found the ruling had been taken on `unendorsed` — a count of ROLE GAPS — where the thing a gate stops is DELIVERIES: 2,899 slots, not ~223, a factor of thirteen. Put back with the numbers, Lucas ruled *stage it pack by pack* and *a separate field*; the `--stranding` meter and the `delivery: opt-in` / `inherits_packs` mechanism shipped inert. **WP-8.10** landed the first flip and built the loudness the ruling required: `trim-classical` is opt-in, six vouched nodes admit it, 10 slots over 10 nodes are stranded, and every stranded slot in the corpus (2,889 of 2,889) now NAMES the pack withheld and why. It found the meter's gate and the mechanism's gate were different predicates (10 against 15, one of the five a shipped reference plan), that `measure()` could not see a flip at all, and that the flip was sold on a corpus-level writer count that described no node — the same wrong-grain error as WP-8.9's, one package later. — **WP-8.1, WP-8.2 and WP-8.3 are COMPLETE**: the open-question register is a DIRECTORY, one file per question, because a single shared file is where two parallel sessions' answers to "what is the next id" both survive a merge — four times in four days, and nothing in the corpus checked for a duplicate id at all. `check_ids.py`, a generated index, a CI gate that fires before the merge rather than after it, and §1 amended so open questions and work packages are ids like every other. **OQ 90 closed on the way**: this branch's chain moved 5.7→5.11, 5.8→5.12, 5.9→5.13, 5.10→5.14 and main's atlas kept 5.7 — 53 of WP-5.7's 87 references moved, each attributed by `git blame` rather than by `sed`. **WP-8.2** built OQ 51's refusal half (`declined_packs`), refused the per-edge deny on measurement, and found the meter wrong by 27 in the flattering direction — 222 unendorsed was really 249 and 71 endorsed really 38. Ten declines moved `unendorsed` by zero, which is why `judged` is now a floor. It raised **`oq/forbidden-stops-the-pack-cascade`**: 787 pack rules dimensioning a slot the kit forbids, not one of them chosen by a human. **WP-8.3** made `forbidden` stop the pack cascade too (`oq/forbidden-stops-the-pack-cascade`) and found that `elevation.py` reaches packs by `PE.resolve` and never through the resolver — a second path nothing had named, 46 pairs, 16 refused and 24 disclosed. **WP-8.4** read the exception preconditions -- 331 records, 123 naming a construction, and not one line of code had ever consulted any of them. `granted_when` (renamed from a second `applies_when` in the same schema), a closed 61-token construction vocabulary over variant ids that already exist, three verdicts with the unjudged case judged BOTH WAYS and reported unjudged only where the two rules disagree. It also collided head-on with main, which had shipped its own OQ 88 scope, its own OQ 99 and its own WP-8.1: **ruled -- main's `scope` field survives and this vocabulary is ported into it**, after measuring that main's substring classifier over the cladding disagreed with each node's own `construction_type` on 13 of 164 styles, `cape-dutch` among them, which is OQ 88's own bug surviving inside OQ 88's fix. OQ 86 closed (`kit_vs_pack` read the node's own file, 62 -> 1,231), OQ 90 closed at its third option (a WP number is a label; cite the report), and OQ 89's remainder swept up: `elevation.py` read `shutter` and `window_head_masonry` off the RAW kit under a comment naming `shutter` as needing the cascade. Report: `docs/reports/wp-8.4-the-exception-precondition.md` · new questions: `oq/applies-when-means-two-things`, `oq/a-baked-pack-value-is-a-second-delivery-path` **WP-8.11** flipped `facade-gable` (32 slots over 29 nodes, 29 of them `cornice_return`, whose only writer in the corpus is that pack) and found that BOTH suites drove the opt-in gate through the very pack about to be flipped -- a counterfactual that becomes the status quo, stays green and stops testing anything. **WP-8.12** flipped `sash-light` (70 slots over 34 nodes) and falsified WP-8.11's own two-point claim that the refill is roughly proportional: 4 gaps from a 10-slot flip, 13 from a 32-slot one, 10 from a 70-slot one. The refill is now landing ENTIRELY on the five packs whose `applies_to` arms a live gate (3 of 13, then 10 of 10), which follows from the staging order rather than chance and is worth a ruling before the remaining flips. `judged` is 249 after all three flips and 136 withheld arrivals: zero cases read. Reports: `docs/reports/wp-8.1{0,1,2}-*.md`. **AND THE THREE-FLIP FIGURES ABOVE ARE THAT MOMENT'S, NOT THIS TREE'S** -- WP-8.13 and WP-8.14 flipped the remaining five, and the live meter on the merged tree reads role_gaps **222**, inherited_packs **2,762**, unendorsed **180**, `judged` **250** and **396** withheld arrivals over all eight flipped packs. The row's own status cell said 8.7-8.14 complete while its narrative stopped at 8.12; re-measured at the 7 Sep merge rather than left to be read as current. |
 | **9 — Arrangement** | **WP-9.1, 9.5, 9.6, 9.7** complete · **9.2 text half done, image half waiting on Lucas's download** · **9.3 part built** · **9.4 COMPLETE AND ITS OWN PREMISE REFUSED** (`docs/reports/wp-9.4-the-unit-was-not-the-problem.md` — cite the FILENAME, two WP-9.4s exist) | **In progress (1 Sep 2026; this row was corrected on 3 Sep, having said "9.2, 9.3, 9.4, 9.5 not started" while four of those five had moved and two more packages had shipped with no section of their own — see `docs/reports/project-review-2026-09-03.md` §VII. The 9.4 cell in that same correction still said NOT STARTED and was itself wrong — the package had run on 1 Sep and refused `parti_slice` with its measurement, a probe taking fatals 3 to 8. Corrected again hours later; see that review's §IX, which is about this exact line)** — raised by Lucas against a rendered sheet, and the founding failure mode one level above Phase 6: a 10 x 30 ft kitchen, a portico off the axis of its passage, a dining room landlocked mid-house. The corpus already stated every band the sheet broke and **twenty-seven of the twenty-eight plan-measurable faults came back UNJUDGED** because nothing had ever supplied a plan-arrangement variable. **WP-9.1 is the arbiter and only the arbiter** — no solver, no renderer, both reference plans byte-identical — because seven of the solver's eight arrangement score terms had no critic counterpart at all, against `plan_check.py`'s own stated principle that the search charges preferences and the critic is the arbiter. Six of Lucas's seven complaints are named; the seventh (the passage) the corpus declines to call a fault, which is stated rather than invented around. A plant-room zero was built, convicted BOTH reference plans and was withdrawn; the first shape check convicted the GOOD plans and lost the direction the corpus does not state. Report: `docs/reports/wp-9.1-the-arbiter-for-arrangement.md` · new question: `oq/a-daily-route-is-an-editorial-model` |
 | **10 — The second massing element** | **WP-10.1** | **Complete, and two of its three packages withdrawn by its own audit (3 Sep 2026)** — OQ 40 ruled a dependency a second massing element and the machinery ships and is DORMANT: the block placer, `exterior_score(bounds=)`, plan schema 0.5.0, both reference plans byte-identical. The service strip and the hyphen-as-a-room were WITHDRAWN when the audit found eight blocking defects, five of which reduce to **six layers below the placer reading the main block as the whole building** — a garage window drawn 14 ft from the garage, a span manufactured across the hyphen gap, a house reporting `lot_capped: true` at 34 ft wider than its lot. CP-SAT refuses a multi-element plan rather than flattening it (which had also flattered a number this session published); `geometry_report.multi_element` discloses the six. Report: `docs/reports/wp-10.1-the-audit-of-the-dependency.md` · new question: `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it` |
-| **11 — The drawn sheet** | **WP-11.1 … WP-11.8** · the rest planned | **WP-11.1 complete (4 Sep 2026)** — raised by Lucas against a rendered sheet set beside four exemplar plans, and diagnosed before he said what was wrong. The finding that organises it: **the instrument already owned a written graphic standard and the plan sheet did not obey it** — `tokens.css` has carried Graphic Standard No. 1 verbatim since WP-5.2 while `render_plan.py` drew in a dark instrument palette that `svg_theme.py` translated on the way to the browser, so the sheet had the standard's COLOURS and none of its GRAMMAR. `build/sheet_style.py` is the one spelling (52 hex literals in the four renderers → 0, all ten sheets byte-identical across the move); the wall is a BODY at the three thicknesses `structure.wall_thickness` has computed since WP-3.1 and no drawing had ever read, so the sheet now says which walls CARRY; an opening is a hole cut from `derive_openings`' own spans; the room washes are gone and the paper is the room; and the six banner lines are a margin schedule below a ruled border. **Two registers, ruled by Lucas 4 Sep**: `presentation` for a reader, `working` for the marks, one renderer, the plate saying which. **Three existing guards had selectors this package retired and all three would have passed vacuously**, and widening the fourth opened a hole a mutation found — `LIGHT` vouched for itself. Reports: `docs/reports/wp-11.1-the-sheet-in-its-own-standard.md` and `docs/reports/wp-11.2-the-pen-ladder-and-the-wall-the-record-states.md` · new question: `oq/the-placement-carries-no-wall-bands`. **WP-11.2** put the workbench's own sheet on the same ladder (19 inline stroke widths → 0) and gave both renderers ONE wall to read — `footprint.wall`, plan schema 0.5.1, from `build/assemblies.py`, a leaf on `storeys.py`'s precedent. **The browser walk ran for the first time in a session on this branch** and caught a defect 81 unit tests and a clean build both missed |
-| **11 — The house the sheet should have drawn** | **WP-11.1 through 11.18 COMPLETE except 11.10, which is PART-BUILT (its container question answered and REFUSED; the three shape terms remain) · the adversarial audit of 11.9-11.11 is COMPLETE · the phase is finished** (WP-11.17 and WP-11.18 were not planned: WP-11.16 raised `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` on its way out, 11.17 closed its first cause the next day and 11.18 recovered the cost 11.17 shipped) | **In progress (4-7 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.9 and 11.11 have shipped**, 11.10 is part-built, and an adversarial audit of the last three found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **AND THIS CELL WENT STALE A SEVENTH TIME**: it read "11.1 through 11.9, 11.11 and 11.12 COMPLETE ... then the adversarial audit of 11.9-11.11" for six days, above its own sections recording 11.13, 11.14 and 11.15 shipped and that audit complete -- found by reading the Status lines rather than the row, which is the only thing that has ever caught one of these. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
+| **11 — The drawn sheet** | **WP-11.1 … WP-11.8** · the line continues in the row below | **WP-11.1 through 11.8 COMPLETE (4-6 Sep 2026); the line is COMPLETE through WP-11.18** — raised by Lucas against a rendered sheet set beside four exemplar plans, and diagnosed before he said what was wrong. The finding that organises it: **the instrument already owned a written graphic standard and the plan sheet did not obey it** — `tokens.css` has carried Graphic Standard No. 1 verbatim since WP-5.2 while `render_plan.py` drew in a dark instrument palette that `svg_theme.py` translated on the way to the browser, so the sheet had the standard's COLOURS and none of its GRAMMAR. `build/sheet_style.py` is the one spelling (52 hex literals in the four renderers → 0, all ten sheets byte-identical across the move); the wall is a BODY at the three thicknesses `structure.wall_thickness` has computed since WP-3.1 and no drawing had ever read, so the sheet now says which walls CARRY; an opening is a hole cut from `derive_openings`' own spans; the room washes are gone and the paper is the room; and the six banner lines are a margin schedule below a ruled border. **Two registers, ruled by Lucas 4 Sep**: `presentation` for a reader, `working` for the marks, one renderer, the plate saying which. **Three existing guards had selectors this package retired and all three would have passed vacuously**, and widening the fourth opened a hole a mutation found — `LIGHT` vouched for itself. Reports: `docs/reports/wp-11.1-the-sheet-in-its-own-standard.md` and `docs/reports/wp-11.2-the-pen-ladder-and-the-wall-the-record-states.md` · new question: `oq/the-placement-carries-no-wall-bands`. **WP-11.2** put the workbench's own sheet on the same ladder (19 inline stroke widths → 0) and gave both renderers ONE wall to read — `footprint.wall`, plan schema 0.5.1, from `build/assemblies.py`, a leaf on `storeys.py`'s precedent. **The browser walk ran for the first time in a session on this branch** and caught a defect 81 unit tests and a clean build both missed |
+| **11 — The house the sheet should have drawn** | **WP-11.1 through 11.18 COMPLETE — the terrace at grade (WP-11.10 in the row above, `docs/reports/wp-11.10-the-terrace-that-is-not-a-massing-element.md`) among them, its own Status line having read COMPLETE since 7 Sep, while the shape-terms WP-11.10 of THIS row remains PART-BUILT · the phase is finished** | **COMPLETE through WP-11.18 (4-16 Sep 2026); all five rulings taken the same day** — raised by Lucas against the workbench's own sheet for `tidewater-georgian-careful` with the instruction to diagnose before building. The diagnosis is `docs/reports/tidewater-layout-diagnosis-2026-09-04.md` (cite the filename): fifty-one findings in ten tiers, eight root causes, and the finding that decides the order — the sheet's *"PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"* sits over a placement that set aside SIXTEEN declared exterior walls (both ends of the passage among them) and whose compositional objective never ran (`objective: null`, "best of 1"), so every soft term the corpus has was inert on the engine the bench draws by default, and the search it refuses to draw scores 712.6 against the proof's 835.0. All five of the phase's questions were ruled on 4 Sep and **11.1 through 11.18 have shipped** — WP-11.17 and WP-11.18 were not planned: WP-11.16 raised `oq/the-search-loses-the-entrance-front-on-a-multi-element-plan` on its way out, 11.17 closed its first cause the next day and 11.18 recovered the cost 11.17 shipped by stating the hyphen anchor's BAND — the terrace WP-11.10 among them, and an adversarial audit of 11.9-11.11 found 38 things (`docs/reports/audit-2026-09-07-the-things-the-session-did-not-measure.md`); **this row still read "11.1 through 11.5 COMPLETE" after the 7 Sep merge**, which is the board going stale at exactly a merge for the sixth time, **and it then went stale a SEVENTH — this sentence went on saying 11.10 was part-built and stopping at 11.11 for two days after WP-11.10's own Status line read COMPLETE and 11.13, 11.14 and 11.15 shipped, and the summary cell above it was corrected on 10 Sep with this sentence left saying the old thing until the diff was read**; the container (11.6) is unblocked by the four rulings of `oq/a-massing-element-is-placed-and-nothing-below-the-placer-knows-it`, taken the same day. **This sentence said the container WAITED on those four rulings in the same breath as saying all five were taken** -- a contradiction inside one sentence, corrected by WP-11.5 and the same class as WP-11.6's own status line below. The phase's own section carries the ruling on each. **WP-11.12 is not about the house**: Lucas raised the corpus job at 39 min 32 s, which was the whole wall-clock of a pull request, and it is six parallel shards at about seven minutes now -- `pytest tests/` was 87% of it, and 46 s of the checkers were `jsonschema.validate()` rebuilding the same validator 2,400 times a build |
 | **11 — The precedent bench** | **COMPLETE — WP-11.1 through 11.7** | **Every buildable node carries a precedent and every node at every rank cites a source (5-7 Sep 2026)** — Lucas asked where the research is thin and for each style's most beautiful and iconic precedents with links. The corpus WAS templated on the surface when surveyed (2-4 exemplars, 4-5 sources, 5 constraints on every buildable node; the three tranches moved the exemplar clause to 800 and moved none of the other three) and what discriminates was tracked nowhere: 542 `measured` kit figures with no source (536 today — six were sourced to a building under Ruling A), an exemplar with no locator, 24 nodes citing only what ANOTHER NODE cites ("a sibling" until WP-11.7 corrected it in ten places across eight files). `precedents/` is the building's own record now, `check_precedents.py` and `check_research.py` are the guards, `tdl_precedents` the 27th tool; the research ran in four tranches. **Tranche 4 (WP-11.7, 7 Sep) wrote 156 sources over the 32 higher-rank nodes — 111 citations of 109 DISTINCT works new to the corpus, plus 45 reuses — and took `sourceless_nodes` 32 → 0**, and found the layer has no identities: 422 free strings, 0 URLs, one confirmed fiction cited by five nodes, and 23 works under 51 spellings whose correction would redden the `shared_only` ceiling by six. Report: `docs/reports/wp-11.1-the-bench-without-a-literature.md` |
+| **12 — The sheet in the round** | **WP-12.0 through 12.9** | **COMPLETE — WP-12.0 through 12.9 (8-9 Sep 2026), 12.8 being the adversarial audit of the other eight and 12.9 the five items it deferred** — raised by Lucas against Dilum Sanjaya's post on 2D schematics transitioning into 3D, with the question whether SVG remained the medium. **The brief is the PRD**, `docs/prd/phase-12-the-sheet-in-the-round.md` (cite the filename; it is the first document in a new `docs/prd/`). The answer is WP-5.11's, one dimension up: the format was never the constraint, and the missing thing is a constructed-3D layer between the record and the camera — `build/scene.py` — with three.js drawing what Python models and the SVG plates staying authoritative and held to it. **All nine rulings taken the day they were put, and an APPROACH perspective view added to v1.** The review that adopted the PRD found the defect that made WP-12.0: **the drawing set is not one building** — the elevation and roof plates are built with no section, so they take `structure.build_section`'s heuristic default while the plan beside them is a CP proof, under a banner WP-6.4 wrote saying one drawing set is one building or it is nothing. It also found that `render_elevation` has taken a `face` since WP-3.2 and no client has ever sent one, so three of the four elevations this system can draw have never been seen |
 
 **Revised order for the remaining work** (supersedes the recommended order in Section 0, which assumed nothing had been built):
 
@@ -175,6 +176,12 @@ Several packages are blocked on decisions that are design judgments rather than 
 **Ruled 1 Sep 2026 (Phase 9):**
 
 - **The revision loop's authority** (`oq/the-revision-loops-authority-over-topology`). Ruled: the reflection is a DETERMINISTIC loop — a move registry executing corpus rules, `plan_check` re-judging every round, no language model editing the record; it may change dimensions, declared choices, openings and optional rooms — add the door the grammar prescribes to reach a stranded room, drop a room the parti marks optional, split where a grouping says to — and never a room the parti has no place for, a judgment slot, geometry, a critic-suspect, or a measurement the record did not declare; and it runs BY DEFAULT on the returned candidates everywhere a product is made, with `--no-revise` to opt out.
+
+**Ruled 8 Sep 2026 (Phase 12), all nine on the day they were put:**
+
+- **The Round's nine rulings** (PRD §12, `docs/prd/phase-12-the-sheet-in-the-round.md`). Ruled as recommended: **R1** `three` is the workbench's third runtime npm dependency, pinned exactly and reachable only through a dynamic `import()` in one module, with `check_frontend.py` holding it out of the entry chunk; **R2** the plan cut is 4′-0″ above finished floor, `kind: editorial`, one named constant printed in the caption; **R3** the cornice is swept to the envelope rule with the order's own projection drawn as a construction-weight ghost and both named on the plate, and the overhang is the swept cornice and nothing more; **R4** porch columns are placed only where a bound pack states an intercolumniation, never inferred from a width; **R5** the door height where the record states none is `export_ifc.py`'s own editorial constant, imported rather than restated; **R6** the Round lives on the Drawing Set, with a chip from the Plan Workbench; **R7** the phase stays in JS/JSX with JSDoc types — a TypeScript migration is an app-wide package with its own ruling, and mixing conventions in one folder is what WP-5.6 spent a package removing; **R8** the axon is true isometric, as a token so a dimetric ruling is a one-line change; **R9** grade is drawn flat in v1 and the caption says so.
+- **And one addition to the PRD: an APPROACH view is in v1, not v2.** A perspective camera at 5′-6″ on the entrance axis, named in the view bar, its dimensions and datums withheld with the caption saying why — a perspective dimension is never true. It is a camera and the camera is a serialiser; no geometry changes to carry it.
+- *Each of these is recorded on the day it was given rather than the day it was expected, which is `docs/reports/wp-8.14-the-number-nobody-policed.md`'s sibling finding: an unverified ruling reads exactly like a ruling, and nothing in this tree checks one.*
 
 ---
 
@@ -3514,6 +3521,378 @@ and that test's own docstring records an audit having already proved it vacuous 
 unfailable guards is not a price worth paying for time six runners buy for nothing.
 
 
+## Phase 12 — The sheet in the round
+
+*Raised by Lucas on 8 September 2026 against Dilum Sanjaya's post on 2D schematics transitioning into 3D,
+with the question attached whether SVG remained the medium. **The PRD is this phase's brief** —
+`docs/prd/phase-12-the-sheet-in-the-round.md`, the first document in a new `docs/prd/` directory, cited by
+its filename. Its §1 is the answer: the format was never the constraint (WP-5.11's finding, unchanged and
+adopted rather than re-asked), and the missing thing is a constructed-3D layer between the record and the
+camera — `build/scene.py` — with the camera as a serialiser and JavaScript learning no more about a house
+than it knows about a cyma today. Its §0.1 is the reviewing session's addendum, §8 the packages, §9 the
+instrument every package is held to, and §12 the nine rulings. Everything here is Stratum 2 of the
+4 September diagnosis's Part IX: a capability of the instrument, inherited by every style. **Nothing in
+this phase proposes a score term, a style rule, a parti rule or a room rule.***
+
+**ALL NINE RULINGS WERE TAKEN ON 8 SEPTEMBER 2026, THE DAY THEY WERE PUT, AND AN APPROACH VIEW WAS ADDED
+TO v1.** R1 `three` as the third runtime npm dependency, pinned and behind a dynamic `import()`; R2 the
+plan cut at 4′-0″, editorial and named; R3 the cornice swept to the envelope rule with the order's own
+projection drawn as a ghost line and both named; R4 porch columns only from a stated intercolumniation;
+R5 the IFC door default imported rather than restated; R6 the Round lives on the Drawing Set; R7 JS/JSX,
+not TypeScript, for this phase; R8 the isometric axon as a token; R9 a flat grade, said out loud. The
+addition: **an APPROACH view — a perspective camera at 5′-6″ on the entrance axis — is in v1**, with its
+dimensions and datums withheld and the caption saying so, because a perspective dimension is never true.
+*Recorded on the day it was given rather than the day it was expected, which is
+`docs/reports/wp-8.13-the-programme-that-dissolved-its-own-finding.md`'s finding about an unverified
+ruling.*
+
+**THE REVIEW FOUND THAT THE DRAWING SET IS NOT ONE BUILDING, AND THAT IS WHY THERE IS A WP-12.0.**
+`workbench/server/corpus.py` routes the plan, section and bearing plates through `_placed` — WP-6.4's one
+placement per set — and then calls `build_elevation(plan, pt)` and `build_roof(plan, pt)` with no section,
+so both fall into `structure.build_section`'s heuristic default, whose own comment says that default is
+*"for INTERNAL callers ONLY"*. The elevation reads placement, so wherever CP-SAT reaches a proof the
+elevation plate is of a different house from the plan plate beside it, under a banner WP-6.4 wrote saying
+*"one drawing set is one building or it is nothing"*. Pre-existing, invisible to every test, and it would
+have been discovered as a failure of the scene's own agreement assertion — so it is fixed first. In the
+same package the review spends the cheapest visible win it found: **`render_elevation` has taken a `face`
+argument since WP-3.2 and `corpus.drawing` has passed `body.face` since WP-5.1, and no client has ever
+sent one**, so three of the four elevations this system can already draw have never been looked at.
+
+**And two citations in the PRD would have failed the build the moment it was committed** — seven report
+paths for reports that do not exist yet, which `check_ids.py::check_reports` refuses by construction, and
+one open-question slug wrapped across a newline, which `check_citations.py` reads line by line and sees as
+its truncated left half. Both corrected in place before the commit, and **both guards were then driven to
+prove they fire** rather than reasoned about. The concrete report paths are bare filenames until each
+report exists; the `<n>`/`<slug>` template forms do not match the checker's regex and were left alone.
+
+The packages below carry the PRD's own text. **The PRD is the authority on scope and the tree is the
+authority on fact** (its own rule 6): where a package finds them disagreeing, the tree wins and the report
+says so.
+
+### WP-12.0 The drawing set is one building, and the four faces are addressable
+
+**Status: COMPLETE (8 Sep 2026).** Report:
+`docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`. **The defect was real and it landed on the Four-Foot Porch**: on `spec-builder-colonial`, where `auto` reaches a proof, the elevation record was built on a hill-climb placement and published `porch_clear_depth_ft` at **4.75 ft for a porch the plan beside it drew at 4.00** -- the measurement `porch-too-shallow-to-inhabit` reads, three quarters of a foot in the flattering direction, which is the OQ 52 family. **And the drawn half could not have been seen**: the front is drawn on the WIDTH, which does not move between the two placements, and only the gable ends move -- the faces no client could ask for. On `tidewater-georgian-careful` nothing moves at all, because `auto` spends its budget there and falls back to the same engine, so a sweep of one shipped plan would have found nothing. **The two extra placements are free**, measured: `geometry._SOLVE_CACHE` returns the second and third in 0.00 s against the first call's 25.70. **And the first version of the guards passed with the fix reverted** -- they read the plate's reported solver, which comes from `_placed` whatever the plate was built on; a test of what a plate REPORTS is not a test of what it was DRAWN from. Three mutations, each verified to have landed, each caught by exactly one test from a green baseline of seven.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** Added by the review, not in the original PRD, and first because the scene's
+agreement test is written against a drawing set that is one building and it is not. The elevation and roof
+plates take the set's own placement (`_placed`) in both `corpus.drawing` and `corpus.export_cad`; both
+plates carry the solver's engine and `input_digest`; `api.drawing` becomes a typed wrapper and the Drawing
+Set gains the four face chips the server has accepted since WP-5.1. Acceptance: every plate in a set
+reports the same digest, and two different faces return different SVGs — a `face` argument accepted and
+ignored is the defect this half removes, and equal output would pass a weaker assertion.
+**Depends on:** nothing. **Size:** small. Full text: PRD §8.
+
+**RE-DERIVED ON THE MERGED TREE, 9 SEP, AND THE DEFECT WAS WORSE THAN PUBLISHED.** The merge with `main` is done, and this package's own closing instruction -- re-derive rather than quote -- was paid: `porch_clear_depth_ft` on the spec Colonial is **6.00 against a drawn 4.00**, fifty per cent over rather than the three quarters of a foot measured on `f54c5af`; and **the Tidewater plan now reaches a proof inside its budget**, so its two placements no longer coincide and **ten** measurements move -- the ridge height, the eave-to-ridge height and the roof plane area among them -- with **all four faces differing** where none did before. Two published sentences are now false of the tree and are corrected in the report's addendum rather than overwritten: *nothing moves on the Tidewater plan*, and *the front is drawn on the width and the width does not move*. The second was never a rule; it was a property of one plan on one tree, and it read as an explanation. The code is unchanged and all 15 tests pass; what changed is how much the fix was worth.
+
+**AND THREE STATES OF THE TREE THIS PACKAGE DID NOT CAUSE.** The browser walk is RED on `main`, measured by walking a worktree of `origin/main` ALONE and comparing: a label spill on the Pantry, twice, and the Plan Workbench's engine-caption parity check. Byte-identical there and on `main` + this package, which also carries this package's six new Drawing Set checks, all passing. **The spill moved rooms between trees** -- the Centre Passage on `f54c5af`, the Pantry on `main` -- because the merge moved the placement, so attributing it by the room name would have been wrong. On `main` at `5869012` every corpus shard, the aggregate gate, the server tests and the docker build are green and the walk is the only red job. *(The other half of this note -- that `main` had moved six commits past the PRD's `f54c5af`, carrying the other Phase 11's merge -- is SPENT: the merge landed on 9 Sep with no conflicts, and re-deriving the figures across it is the addendum above. Left in the past tense rather than deleted, because it is the record of why the re-derivation was owed.)*
+
+### WP-12.1 The scene record
+
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.1-the-scene-record.md`; layer doc:
+`docs/scene.md`. `build/scene.py` (pure arithmetic, a leaf), `schema/scene.schema.json` 0.1.0,
+`tests/test_scene.py` (15 tests, six mutations, all caught). **Measured on the heuristic: 61
+solids on the Tidewater plan and 43 on the spec Colonial, 2 and 3 things not modelled, agreement
+0.001 ft between the wall envelope and `slab_boxes` and 0.000 between the datums and the storeys,
+every placed room inside the envelope by at least half a wall.** The figures are on the heuristic
+DELIBERATELY: `auto` reaches a proof on one machine and spends its budget on another, which is
+exactly what WP-12.0 measured happening to the elevation between two trees hours earlier.
+**THE FINDING IS THAT THE ROOF WAS NEVER OVER THE HOUSE.** `roof_outline` and
+`elevation_profile` lay the roof out from (0, 0) over the OUTSIDE footprint while `wall_lines`
+lays the walls out from (0, 0) over the CLEAR one -- two origins half an exterior wall apart, so
+read literally the roof sits 1.29 ft east and north of what it covers. It has never mattered
+because no surface has ever drawn a roof and a room in one picture, and the scene is the first
+thing that had to. Resolved by FOLLOWING `export_ifc.slab_boxes`, whose slabs are already centred
+on the clear rectangle, rather than inventing a third convention;
+`oq/the-roof-record-and-the-plan-record-do-not-share-an-origin` asks which record should move,
+and carries the smaller disagreement underneath it -- `section.footprint` and `slab_boxes` differ
+by 0.17 ft about the outside depth of one house, and both are called the outside footprint.
+**And two of this package's own defects were invisible in every part and obvious in the whole**:
+every exterior wall grew INWARD, each one the right thickness in the right place along its own
+axis and the envelope 2.58 ft too small, and the east gable stood at a y coordinate. Both were
+caught by summing the extent rather than by reading the expression, which is why the guard is an
+agreement between two independent derivations rather than a pinned number. The selftest runs
+INSIDE `validate.py` so `TOTAL_CHECKS` does not move (WP-11.6's precedent).
+
+**AMENDED 9 SEP 2026 BY WP-12.2, WHICH FOUND THREE THINGS IN THIS PACKAGE AND MOVED ITS
+FIGURES.** The solid counts above are pre-openings: with WP-12.2's `opening-frame` solids they are
+**101 and 75**, and `not_modelled` is **1 and 2**; the suite is 18 tests. The three defects: an
+opening extruded OUT of its wall on the north and east faces, because `at` was written on the
+outside face with an always-positive thickness (it is the LOW face now, and the schema says so);
+**the same error in the GABLE ENDS**, which stood 1.29 ft clear of the east and north walls above
+the eave, **with this package's own test ratifying it** -- `test_a_gable_stands_on_the_face_it_
+names` compared the gable's `at` against the OUTER face of the wall extent, which is exactly where
+the wrong contract put it; and a `bounds` block that was the right SIZE in the wrong PLACE, offset
+by one wall thickness, **which none of the three agreement figures could see, because not one of
+them reads `bounds`**. All three were found by drawing the scene and looking at it -- the same
+instrument that found the roof that was a box with a lid, now three defects in two packages that
+every number in the record accepted.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** `schema/scene.schema.json` 0.1.0 and `build/scene.py` — pure arithmetic, a leaf
+in the manner of `storeys.py` and `axis.py`, importing `export_ifc.slab_boxes`,
+`structure.wall_thickness`, `render_plan.relaxation_marks`, `openings.JAMB_FT`, `hearths.breast`,
+`compass` and `disclosures` rather than restating any of them. Slabs, walls, gables, roof planes for the
+gable family, decks and porch roofs, hearths; spaces, datums, grid, faces, marks, `not_modelled`,
+`judgment`, `provenance_counts`, `solver`. `scene.py selftest` runs inside `validate.py` so
+`TOTAL_CHECKS` does not move (WP-11.6's precedent). A source-reading test refuses any numeric literal that
+is a dimension outside a named editorial allowlist. **Depends on:** WP-12.0 for the placement it is built
+on. **Size:** large. Full text: PRD §8.
+
+### WP-12.2 One opening rectangle, three callers
+
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.2-one-opening-rectangle.md`.
+`build/elevation.py::opening_rects(elev, face)` is the one spelling of `(x0, x1, sill, head)`
+**and of the loop around it**, with `render_elevation._window`, `render_elevation._entrance`,
+`export_dxf._win` and `build/scene.py::_openings` reading it and every copy deleted.
+`tests/test_opening_rects.py` (10 tests, 9 mutations, all red from green).
+**AND ITS LARGEST FINDING WAS INVISIBLE ON THE TWO SHIPPED PLANS.** Both renderers resolved the
+upper storey with a fallback to the GROUND one and then drew a second row of windows at that datum
+unconditionally; **six of the eleven plans that build an elevation state only storey 0**, so each
+was drawing a row of openings its record does not hold. Corpus-wide, **244 window rectangles become
+124 over 24 plates**. The first measurement of this package was taken over the two shipped plans,
+which are both two-storey, and reported that the lift changed nothing but four pixels.
+**Measured over all 44 elevation plates against `9aa3a35`: 16 of 44 SVG and 20 of 44 DXF
+byte-identical**, both sides proved reproducible run-to-run first; on the two shipped plans alone
+it is 6 of 8 and 8 of 8. The two that move are one decimal tie -- the
+exact value is 203.35 px and `:.1f` resolves a tie by whichever side of it the double lands on --
+and **the unit was then chosen by measurement rather than taste**: over the 144 opening edges the
+two shipped plans actually draw, an inches-first rectangle moves 0 DXF coordinates and 2 printed
+SVG ones, a feet-first one 0 and **64**. Scene solids 61 -> **101** and 43 -> **75**; `not_modelled` 2 -> 1 and 3 -> 2.
+**THE BRANCH THIS PACKAGE EXISTS TO GUARD IS UNREACHABLE FROM THE CORPUS.** OQ 85's blind bay is
+what the DXF failed to skip; **all sixteen plan records now produce ZERO blind bays**, because
+WP-11.4 moved the stacks off the gable centre line and onto the flues the plan states. A parity
+test over the shipped plans would pass with the skip deleted, so the guard is driven and asserts
+its own premise. It also found three defects in WP-12.1 (see that package's amendment) and two
+false claims in `docs/export.md` -- a 0.9x window shrink and a fixed 3 ft door, neither of which
+has existed since WP-6.2, **cited to a test that could never have caught it** because that test
+asserts the DXF's widths are a SUBSET of the recorded ones, which is true whether or not the SVG
+shrinks.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** `elevation.py::opening_rects(elev, face)` as the one spelling of
+`(x0, x1, sill, head)`, with `render_elevation._window`, `export_dxf._win` and `scene.py` as its three
+callers and the copies deleted. The review found a third transcription the PRD did not name — the DOOR
+rectangle at `render_elevation.py:451` — so it is three removed, not two. The precedent is
+`plan_check.furniture_shortfalls` (one spelling, two callers), NOT `openings.required_wall_ft`, which is
+deliberately spelled three times. **Depends on:** WP-12.1. **Size:** medium. Full text: PRD §8.
+
+### WP-12.3 The scene route
+
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.3-the-scene-route.md`.
+`workbench/server/corpus.py::scene()` on `_placed`, `POST /api/scene` behind `_heavy` and `_plan`,
+`api.scene` in the client, `workbench/server/tests/test_scene_endpoint.py` (8 tests, 77.0 s).
+**THE MEASUREMENT THE PACKAGE OWED WAS TAKEN AND IT DECIDES THE SHAPE, ON THE METER AND NOT ON THE
+CLOCK.** On `tidewater-georgian-careful` at `auto`: a cold solve **37.48 s**, a record that already
+carries `geometry` **0.00 s**, `build_scene` **0.00 s**, all six named views' plates **0.38 s**, the
+whole call end to end **38.46 s** -- so everything but the placement is **2.6% of it**, and the
+response is **376,574 bytes raw, about 71 KB gzipped**. Six plates fetched one at a time beside the
+scene is SEVEN metered calls per record change against `limits.heavy_calls_per_hour()` of 60:
+**eight record changes an hour, where one call buys sixty.** A reader who profiled this route would
+have concluded the plates were free and reached the opposite design. `SCENE_PLATES` is the six views
+that carry a plate -- **APPROACH is deliberately absent, because a perspective dimension is never
+true and a view with no true dimensions has no plate to be held to**. The placed record comes back
+for a second reason and it is NOT a cache: it is WP-6.4's rule, one placement and every surface
+reading the same building, and a client that keeps it pays 0.00 s on every later export or evaluate.
+**TWO DEFECTS, AND THE INSTRUCTIVE ONE WAS FOUND BY READING RATHER THAN BY RUNNING.** `B` and `_os`
+are per-function LOCALS in the three neighbouring functions that use them, not module names -- two
+`NameError`s on the tests' first two runs, and neither visible to a reader because the surrounding
+code reads exactly as though they were module-level. The other was the first draft forwarding the
+RESOLVED parti record to `drawing()`, which calls `core.load_parti` itself and takes a caller's
+STRING: handed a dict it does `os.path.basename(str(dict))`, finds no file and returns `None`, **so
+every plate would have been drawn with NO PARTI while the scene beside it used one** -- WP-12.0's own
+defect one layer up, reintroduced by the package that depends on WP-12.0, and **invisible to this
+package's own digest guard**, because the digest is stamped on the record `_placed` was handed and
+that record is the same either way. **And the first plate figure published was 0.70 s against a
+reproducible 0.38** -- it was measured in a process that had not yet loaded the drawing pipeline, so
+it carried the module loads; those are real and are accounted for in the 0.98 s end-to-end remainder,
+where they belong.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** `corpus.scene()` on `_placed`, `POST /api/scene` behind `_heavy` and `_plan`,
+`api.scene` in the client. It is **not** a sixth drawing kind: `test_unknown_kind_names_the_kinds` uses
+`axonometric` as its negative fixture and stays true. The package owes a measurement the PRD did not ask
+for: six named views each fetching a plate plus the scene is seven metered calls per record change against
+a budget of sixty an hour, and the walk already exhausts that budget — so it decides how the plate overlay
+is fed before WP-12.4 wires it. **Depends on:** WP-12.1. **Size:** small.
+
+### WP-12.4 The Round: named views, the tween, the plate held to the model
+
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.4-the-round.md`. `round/frame.js`
+(the camera), `round/solids.js` (the record's four primitives as triangles and edges),
+`round/annotate.js` (what a drawing is called) are Three-free LEAVES under `node --test`;
+`round/three-scene.js` is the only importer of `three` and is reached only by `await import()`,
+which puts it in a **564 KB chunk of its own** (entry 460 -> 477 KB against a 700 KB ceiling)
+and keeps it out of `no_bare_imports.test.mjs`'s walk. `Round.jsx` and `RoundPlate.jsx` are the
+canvas and the sheet chrome; surface 8's first plate is the model and the five flat plates are
+chips beneath it. `data-frame` on all four Python renderers states each plate's own affine --
+**16 of 16 plates byte-identical across it, WITH THE ATTRIBUTE STRIPPED** -- and that qualifier
+is the package's last finding. The corpus sheet hash itself MOVED
+(`373d0116be7cecb8 -> 535077ae0bca1ea2`) and three commits shipped red on
+`test_no_shipped_sheet_moves`, because the property was verified by hand and the guard that
+measures it was not run. Stripped of the attribute the corpus is WP-11.14's value to the
+character; the pin asserts the stripped hash FIRST, so a later package cannot buy a green tick by
+re-pinning the raw number. App suite 86 -> 117 tests, router-unit 61 -> 63,walk 152 -> 162 check sites, `check_frontend.py` gains a third lazy-chunk assertion, driven both
+ways.
+**THE APPROACH VIEW IS NOT HERE AND THE VIEW-BAR LINE BELOW IS CORRECTED FOR IT.** The 8 Sep
+ruling putting a 5'-6" perspective view in v1 stands; **WP-12.7 lands it**, beside the entrance
+and porch it exists to show. At this package the model is an undressed massing and eye height is
+where a missing cornice is least forgivable, so `frame.js` carries ONE projection kind. Leaving
+the bar's line naming a chip that is not there is the "until X lands" lie in the other direction.
+**TWO FINDINGS, BOTH FROM A MUTATION BEING BLIND RATHER THAN FROM READING.** `PLANES.xz` maps
+(u, v, n) to (x, z, y) and **x cross z is MINUS y**, so that frame is LEFT-handed while the other
+two are right-handed: swept solids came out wound inward while the hand-wound box came out right,
+and a flat sun would have lit every opening reveal and gable from inside the house. Orientation is
+COMPUTED from the solid's centroid now. And serving the flat plates out of `scene.plates` stored
+`got["svg"]` alone, so the bench's elevation silently lost WP-3.2's disclosure, the entrance face
+and the engine-and-digest line -- **the browser walk was the only thing that caught it**, on two
+checks that read the caption; no Python test saw it, because `test_scene_endpoint.py` was
+asserting that the picture was a picture. Also measured: **no plan in this corpus states a lot**
+(0 of 16), so `render_plan`'s whole site block is unreachable and its guard had to be driven.
+New question: `oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from`.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** `round/frame.js` and `round/annotate.js` pure and tested under `node --test`;
+`round/three-scene.js` the only file that imports `three`, behind a dynamic `import()`; `Round.jsx` and
+`RoundPlate.jsx`; the view bar `PLAN·Ln · S N E W · AXON·SW/SE/NW/NE · ROOF · APPROACH`; `data-frame` on
+the four Python renderers so the plate overlays the model at the same frame. Every colour and pen width
+resolves to a `tokens.css` name, and the pen does not magnify with the zoom — which answers OQ 66 in the
+Round by construction and should say so. **`annotate.js` may not import `sheet/label.js`**: that file
+imports React and `no_bare_imports.test.mjs` would turn a green local run red in CI, which is the
+`coastTiers.js` trap. **The bundle baseline is measured rather than assumed: the entry chunk was 444 KB when this package was planned and is 477 KB today against `check_frontend.py`'s 700 KB ceiling**, with the two coastline tiers already kept out of it -- so there is about 223 KB of headroom, which is not enough for `three` to be allowed into the entry chunk and is why R1's condition is that it is not. **Depends on:** WP-12.3. **Size:** large.
+
+### WP-12.5 Overlays and modifiers
+
+**Status: COMPLETE (9 Sep 2026).** Report: `docs/reports/wp-12.5-overlays-and-modifiers.md`.
+Six overlays and three modifiers, each a pure leaf under `node --test`, each stated in the caption
+when active and addressable in the URL. `sheet/overlayRules.js` is the one spelling of the three
+analytic rules, which lived inline in `Sheet.jsx`'s JSX; `derive.js::elementBounds` and
+`corpus.rooms_meta` are two further copies removed before a second surface could make them.
+**THE FINDING IS THAT LOOKING AT THE SHEET PRODUCED A FALSE POSITIVE, for the first time in eight
+packages.** I read one tone off a screenshot, concluded the privacy overlay drew nothing, and
+pushed that as `46f612f` ("AND THEY DRAW NOTHING"). It is false. The canvas states what it built
+(`privacy:24, wet:4`, reconciling exactly with the record) and a pixel band gives ONE floor tone
+with the overlay off and THREE with it on, on the ramp. **Looking at the sheet finds defects; it
+does not adjudicate them** -- on a translucent mark the absent overlay and the faint one are the
+same picture. The half that stands: the walk checks asserted the URL and the caption and never
+that anything was drawn.
+Two defects found by the lift, both unreachable from the corpus and both driven: `|| 2.25` eating
+a stated `depth_multiplier: 0` (12 placements, **0 drawing a wash**), and a privacy ramp unbounded
+in both directions whose falsy guard covers one bad rank by accident. Three PRD sentences the tree
+had overtaken are corrected in the modules rather than followed. App suite 117 -> 147, walk
+162 -> 177.
+
+*Original package text follows, as written.*
+
+**Status when written: NOT STARTED.** The bay grid, datums, daylight reach, wet stack, privacy gradient, the △ marks
+and the 2D plate as overlays; explode by level, explode by element, and a real section cut with poché
+caps as modifiers; each computed in a pure module, each composing with any view, each stated in the
+caption when active and addressable in the URL. The exploded drop-line count is held to
+`disclosures.transfers(plan)` — **not** to `geometry_report.vertical`, which the review found is prose
+rather than a count. **Depends on:** WP-12.4. **Size:** medium.
+
+### WP-12.6 The envelope dressed
+
+**Status: BUILT (9 Sep 2026).** `docs/reports/wp-12.6-the-envelope-dressed.md`. Sashes, meeting rails,
+shutters and chimneys: **Tidewater 101 -> 492 solids, the spec Colonial 75 -> 368**, `opening-frame`
+unchanged at 40 and 32 — this package changed how an opening is dressed and not which openings exist. The
+sill is REFUSED, because `window_sill.projection_in` resolves to a BAND and a drawing cannot draw one
+(`oq/a-child-band-replaces-an-ancestor-derivation` reaching its first consumer). A stack whose plan size
+carries `judgment: true` is a two-vertex AXIS and never a solid; `judgment` 0 -> 2. The dormer solids and
+the swept cornice, water table and belt are NOT built and are refused by name — the cornice goes with the
+columns in WP-12.7, where one sweep serves both, and the eave-projection question R3 records goes with it.
+
+**AND THE PARAGRAPH THIS ONE REPLACES CARRIED A FALSE CORRECTION, WHICH IS HOW THE PACKAGE'S SECOND
+DEFECT WAS FOUND.** It said to read `refused` / `placed_count` / `placement_shortfall_note` / `positions_ft`
+because *"there is no `placeable` and no `not_drawn_reason`, which the PRD assumed"*. Both fields exist:
+`elevation.py` 1971-1980 writes them and `render_elevation.py` has read them in two places since the day
+they landed. Following the plan would have re-derived `placeable`'s judgment from `refused` — a second
+reader of one question. **Reading the writer to verify that claim is what exposed the real defect**: the
+key is `dormers`, PLURAL (`elevation.py` 2012), and `scene._dormers` read the singular, so it took `{}` on
+every record in the corpus and drew, refused and disclosed nothing. Its own three tests could not see it,
+because all three drive the function with a hand-built dict carrying the same wrong key as the code. That
+is the SECOND field this package read off the wrong record — `shutters_carried` is per storey window, not
+on the elevation, and drew no shutter anywhere until a class census caught it. **Neither was found by
+reading the code that consumed it.**
+**Depends on:** WP-12.2 and WP-12.4. **Size:** large.
+
+### WP-12.7 The entrance and the porch
+
+**Status: BUILT (9 Sep 2026).** `docs/reports/wp-12.7-the-entrance-and-the-porch.md`. The doorcase and
+the stoop, and the APPROACH view the 8 Sep ruling put in v1. Tidewater 492 -> 500 solids, the spec
+Colonial 368 -> 374; app suite 147 -> 156.
+
+**THE REFUSAL THIS PACKAGE WAS ASKED TO WRITE HAD BEEN IN THE RECORD SINCE WP-11.4.** R4 asks for porch
+columns "placed only by a stated intercolumniation and refused by name otherwise" -- and
+`build/threshold.py` already refuses exactly that on both shipped plans, in the record's own words
+(*"'tidewater-georgian' states no canonical portico (canonical porch type: stoop-only), and its
+`portico_bays` of 1 is conditioned by its own slot rule"*). `_porch` READS `plan.threshold.unplaced` and
+republishes each reason; a source guard refuses `portico_bays`, `intercolumniation`, `porch_support` and
+`porch_type` in that function. Following this text literally would have written a second reader of one
+rule. Re-derived first: 23 nodes make a portico canonical, 8 resolve a bay count, 1 states a diameter,
+**0 have all three**.
+
+**AND A PILASTER IS NOT IN THIS DOORCASE, MEASURED.** door + 2 casings + 2 sidelights = 84.199 =
+`entrance_composition_width_in` to the thousandth; with pilasters it is 88.875. So the composition's own
+arithmetic excludes one, and the entablature, the casing band and the two sidelights are what is drawn.
+
+**THREE MORE OF THE TEXT ABOVE ARE OVERTAKEN.** `order_at_the_eave` NAMES NO ORDER -- it is a
+three-state verdict on whether an order engages the WALL, and both plans read 0. The shaft diameters are
+equal by a stated, disclosed parallel-shaft fact, so a lathe would invent a taper. And the Four-Foot
+Porch cannot become visible as an outbuilding: **both shipped plans place their `entry-porch` INSIDE the
+footprint**, so its floor is the ground slab and its roof is the main roof -- `deck` and `porch-roof`
+stay unused classes and that is the record rather than a gap. The stoop, which really is outside, is
+drawn.
+
+**THE APPROACH IS IN, WITH ITS DIMENSIONS WITHHELD.** Eye at the ruled 5'-6", standing off the front the
+record names, at a distance DERIVED from the framing and a field of view that is EDITORIAL and says so.
+Four refusals come with it: a point behind the eye returns null rather than a mirrored coordinate, no
+flat plate is laid over a perspective, a move between the two projections is a CUT, and the furniture
+table gives it a compass and nothing else.
+**AND LOOKING AT THE APPROACH VIEW FOUND THE TWO DOORS.** The stoop stands away from the door it
+serves, because `elevation._face_bays` puts the entrance in the MIDDLE BAY of the front whatever
+the placement did: the elevation draws it at 32.79 ft against a placed 38.21 on the Tidewater
+plan and **25.67 against 47.00** on the spec Colonial, where the drawn front door stands over the
+GARAGE. The scene is the first surface to draw both, and `plan_check` already convicts the
+PLACEMENT for the displacement the DRAWING corrects. Nothing moved -- the disagreement is stated
+naming both positions, and
+`oq/the-elevation-draws-the-front-door-where-the-composition-wants-it` carries the ruling.
+**Depends on:** WP-12.6. **Size:** medium.
+
+### WP-12.8 The adversarial audit of WP-12.0 through 12.7
+
+**Status: COMPLETE (9 Sep 2026) — `docs/reports/wp-12.8-the-adversarial-audit-of-phase-12.md`.**
+Four read-only auditors on different angles (call chain and consumers; second-order risk; second
+occurrences of the five patterns 12.6 and 12.7 had already fixed once; whether the new tests can fail,
+in an isolated worktree with sixty mutations). **Four blocking defects, all introduced by that session,
+and three of them one mistake made three ways: a coordinate read in the wrong frame.** Every dressed
+member on the north and east faces drawn INSIDE its wall (1,769 of 3,482 solids, the spec Colonial's whole
+doorcase, since its entrance front is the N face); `_chimneys` reading `grade_to_cap_ft`, which nothing
+writes, so every stack stood 6 ft short of its own record and below a style minimum the same record
+judges `ok: true`; `_entrance_agreement` comparing the elevation's `u` against a clear-frame plan
+coordinate, so a house whose two records AGREE would have been convicted by one wall thickness; and a
+caller-supplied `threshold` able to build half a million solids on `POST /api/scene`.
+
+**NONE WAS VISIBLE TO ANY ASSERTION IN THE TREE, AND THE REASON IS THE FINDING**: every test written for
+those two packages read a member's IN-PLANE extent and not one read the third coordinate. When a package
+adds a dimension, assert on that dimension.
+
+Also fixed: `_chimneys` nested inside `_roof`'s success path, so a house whose massing calls for stacks
+and whose roof judges no ridge had them UNCONSIDERED rather than refused; `bounds` no longer being the
+envelope `frame.js::modelAt` reads it as (the Tidewater E plate slid 2.166 ft); no pen for the
+`construction` ink, so the corpus's only two `judgment` solids drew as measured edges; a drag on the
+approach moving the sun and not the house; the level join, taking solids that state their storey from 57
+to 494; and eight smaller refusals-about-nothing and guards-that-could-not-fire. Three published figures
+re-derived. **Twenty-three mutations, all red; two of this session's own guards were blind on their
+first run and are recorded rather than quietly fixed. Depends on:** all of the above. **Size:** medium.
+
+
 ## 6. Parallelisation map
 
 ```
@@ -3539,3 +3918,138 @@ Agent-count guidance: Phase 0 is one agent, sequential. Phase 1 is one schema ow
 ## 7. What "finished" looks like
 
 A brief — 3,200 sf, four bedrooms, Tidewater Georgian, a 120 ft lot facing south, two cars — goes in. The system resolves the kit at the declared date, selects the native partis the lot can hold, composes four candidates whose entrance is on the south front and whose service is to the rear, places them on the bay grid with walls and a section, raises a five-bay front composed to Gibbs with the sash lights correct for 1760 and one head datum per storey, puts the garage in a hyphened dependency with its ridge at 70%, runs 209 faults and 441 hard constraints against the result and reports every one as present, clear, or unjudged, and exports a DXF a drafter can open — with a decision log of every assumption and a list of the judgment calls that belong to the architect. That last list is not a limitation. It is the system knowing the difference between grammar and poetry, and leaving the poetry to the person.
+
+### WP-12.9 The five items WP-12.8 deferred
+
+**Status: COMPLETE (9 Sep 2026) — `docs/reports/wp-12.9-the-deferred-items.md`.** Closes §V of the
+audit. Two of the five needed a ruling and both were given the day they were put: *snapshot +
+checker + plan disclosure* for the chimney judgment, and *remove them from the schema* for `sweep`
+and `lathe`.
+
+**THE FIRST ITEM WAS NOT THE QUESTION THE AUDIT ASKED.** It was deferred as *"a data question about
+which record owns the figure"* — the two readers agreeing at 22 in by construction. Measured, they
+agree on the NUMBER on all 14 styles that resolve one, 0 disagreements, and disagree on whether it
+is a JUDGMENT. **Over the 93 baked snapshots matchable to a source rule, 13 drop a `judgment: true`
+and ZERO carry one** — the bake has never carried the flag, and `check_baked_snapshots` was green
+over every one because it re-derives the value and compares nothing else. `schema/kit.schema.json`
+admitted `judgment` on a SLOT and not a PARAMETER, so the corpus had no way to say the number was a
+decision; the data edit failed validation on its first run, which is how that surfaced.
+`check_baked_flags` holds every snapshot to its source rule in BOTH directions (93 matched and
+agreeing, 50 could not be compared, ratcheted at 50 with the two-unit gap from 52 accounted).
+
+**AND THE PLAN SHEET WAS A THIRD SURFACE THE AUDIT HAD NOT COUNTED** — elevation legend and scene
+disclosed, `render_plan.py` and `Sheet.jsx` drew a poché square and called it a measurement. Fixed
+through `disclosures.stack_plan_judgment`, one spelling, with the BASIS carried beside the flag.
+
+**Deferred out of it:** `oq/the-plate-does-not-read-the-disclosure-module-it-imports` —
+`render_plan.py` imports `disclosures.py` and, before this package, called nothing from it, while
+`mcp_server/core.py` calls `banner()`. The two lists have diverged in both directions and all
+sixteen sheets move on a reconciliation, so it is its own package with three things to rule first.
+
+**One shipped sheet moved (+296 bytes), and removing the one field this package added gives all
+sixteen byte-identical to the previous commit** — the accounting proved rather than reasoned.
+**Depends on:** WP-12.8. **Size:** small.
+
+---
+
+## Phase 13 — The procedure nobody read
+
+*Raised by Lucas on 15 September 2026: "do the faults.detection package next." Diagnosed before it
+was built, which is this phase's own rule and the one Phase 11 was founded on.*
+
+`detection` is required on all 210 fault records and is **139,070 characters** — nearly ten times
+the 14,154 of `daylight.orientation`, the field whose zero readers WP-11.9 closed — and **nothing
+read one of them**. (It is not the largest prose field in the corpus: `correct_practice` is 191,878
+over the same records and has a reader. The report's first draft claimed otherwise and the claim was
+corrected by measuring.) What makes it a phase rather than a curiosity is what it
+was written FOR: on `tidewater-georgian-careful`, **120 of 210 faults come back COULD NOT EVALUATE**
+naming **299 distinct missing measurements**, and `detection` is the corpus's own written account
+of how to obtain each one.
+
+### WP-13.1 — the reader, and the verdict that did not carry what the corpus knows
+
+**Status: COMPLETE (15 September 2026).** Report: `docs/reports/wp-13.1-the-procedure-nobody-read.md`
+(cite the filename). New questions: `oq/clear-counts-a-pass-and-a-tautology-as-one-thing`,
+`oq/the-net-clear-opening-is-half-of-every-sash`,
+`oq/two-hundred-and-seventy-six-measurements-nobody-refuses-and-nobody-supplies`.
+
+`build/detection.py` is the ONE reader. It supplies no measurement and copies no refusal:
+`refusals()` reads `arrangement.NOT_DERIVABLE` and `elevation.NOT_MODELLED` live, proved by a test
+that moves a table at runtime. `plan_check`'s unjudged rows carry the refusal and its verbatim
+reason — **13 annotated on the Tidewater plan, 8 of them wholly accounted for**, so
+`plant-room-that-was-never-drawn` no longer reads as a gap nobody has looked at when WP-9.1 built
+that measurement, swept it, found it convicted both reference plans and withdrew it.
+`check_faults.py` gains three checks, the sharpest being that **every refusal names a quantity some
+fault test actually reads** (36 of 36 live) — a refusal that cannot fire looks exactly like a
+decision taken.
+
+**Two discriminators were built, measured and FALSIFIED**, and both read perfectly well.
+`measurable_from: photograph` does not mean out of reach — **54 photograph-only faults are judged**,
+and the census that discriminator produced said the work list was 15 names when it is **276**. And
+the detection prose cannot be held to the tests' declared surface by word match, because in this
+prose **`elevation` means the FACE of the building**, which accounts for all 21 apparent
+disagreements.
+
+**The largest finding was not what the package was sent to look at.** `clear` counts two different
+things: **26 of the 65 faults clear on the Tidewater plan and 27 of 56 on the spec Colonial are
+cleared on a test reading a name `critic_suspects` already lists as the generator's own constant** —
+`one-bay-symmetry-break` on a symmetry count of 0, from a generator that draws a symmetric facade by
+construction. They are not false passes and they are vacuous as verdicts, and `critique.classify`
+is structurally blind to every one of them because it iterates findings and a fault that passes
+emits none. `plan_check.fault_clear_on_a_generator_constant` makes the question askable and decides
+nothing.
+
+**What was deliberately not done, and the reasons are in the report's §VIII:** no measurement was
+supplied (`exterior_openings_on_the_passage_axis` is *very nearly* what
+`arrangement.passage_ends_with_a_door` counts, and very nearly is the reason — that fault scores a
+rear window 0.5 and a door 1.0, which is one quantity under two meanings); no refusal was deleted,
+only two reasons corrected; no fault was moved from clear to unjudged; no instrument ceiling was
+moved; and the detection prose was not made machine-readable, which is roughly six hundred authored
+entries and is the next package if one is wanted rather than a debt.
+
+**Depends on:** nothing. **Size:** medium. **Fifteen mutations, fifteen red**, each with the match
+count asserted before the colour was believed, and four of them driving branches unreachable from
+the corpus.
+
+### WP-13.2 — the checker that accused an innocent line
+
+**Status: COMPLETE (15 September 2026).** Report:
+`docs/reports/wp-13.2-the-checker-that-accused-an-innocent-line.md` (cite the filename). No new
+question: the defect had a remedy and it was taken.
+
+**Raised by WP-13.1's own verification run and deferred in that package's §VIII.** The serial
+`check_all.py --shard 1/1` came back **1 of 53 checks failed**, and the failure was
+`check_frontend.py` printing `FAIL: three.js is not a separate chunk — round/three-scene.js has
+been imported statically somewhere` over a bundle in which that chunk could not appear.
+`workbench/app/dist/` is gitignored, was built **7 Sep 17:11**, and predates `round/three-scene.js`
+(committed **9 Sep**, WP-12.4) by two days — **22 sources newer than the bundle**. No file in the
+tree imports it statically, verified in both directions, so the message named a real file that had
+done nothing. **Two states where three are needed**, and the third is not "unactionable" but
+actionable in the WRONG DIRECTION.
+
+Two more lines down, `FAIL: 1 of 2 frontend suite(s) failed` printed directly under
+`router-unit: 63 checks passed` and `search-unit: 13 checks passed` — `bad` counted the lazy-tier
+check and the node suites in one variable, so **the summary named the wrong population**.
+
+`sources_newer_than`, `bundle_unjudged_reason` and `verdict` are the three readers, each with a
+`root=` seam; `main()` takes one too. An unjudged bundle returns COULD NOT EVALUATE and never 0.
+**The thresholds were not touched** — this package changed when the check may speak, never what it
+says — and `len(CHECKS)` did not move.
+
+**`dist/` was deliberately NOT rebuilt**: `npm install` would have put `node_modules` on the tree
+while `node --test workbench/app` was still pending in the running build, and that suite runs with
+no npm install by design. The bundle half is unjudged here and judged in CI, which builds first.
+
+**Thirteen mutations, thirteen red. FOUR were blind on their first run and every one was the
+WIRING** — deleting the staleness test, inverting it, loosening `>` to `>=`, and `main()` not
+calling the reader at all. The parts were driven and the join was not, which is WP-11.14's finding
+in a new place. The `>`/`>=` mutation needed an **equality fixture**, because at a one-second gap
+the two operators return the same answer; under `>=` every build on a fast machine reads stale and
+the check goes permanently unjudged, which is the fake-unjudged direction.
+
+**Three defects in the package's own work, each found by running it**: the reader was walked twice
+under one name; `newer[0]` was labelled "oldest offender" when the list is sorted by PATH — the very
+defect being removed, committed in the sentence removing it; and the `root=` seam was wired in one
+place and not its neighbour, so a driven tree came back as `../../../tmp/...`, caught by the
+function's own first test run.
+

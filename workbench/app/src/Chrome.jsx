@@ -9,6 +9,7 @@
    permanent furniture — a third of a laptop screen — held whether you were navigating or
    reading a map. Both fold now, both pull, and `state/layout.js` owns the numbers. */
 import React from 'react';
+import { KINDS as DRAWING_KINDS } from './surfaces/drawingKinds.js';
 import { Eyebrow } from './components/Eyebrow.jsx';
 import { Icon } from './components/Icon.jsx';
 import { layout } from './state/layout.js';
@@ -45,7 +46,7 @@ export function surfaces(counts) {
       { id: 'workbench', label: 'Plan Workbench', meta: 'place and solve' },
     ] },
     { group: 'take it out', items: [
-      { id: 'drawings', label: 'Drawing Set', meta: '5 sheets' },
+      { id: 'drawings', label: 'Drawing Set · in the round', meta: `the model · ${DRAWING_KINDS.length} sheets` },
       // The four format names fit the Overview, not a 236px rail — spelled out here they
       // pushed "Details & Export" onto three lines, broken at the ampersand.
       { id: 'export', label: 'Details & Export', meta: '4 formats' },

@@ -277,6 +277,57 @@ def main(argv):
     for value, k in measurable.most_common():
         print("  %-14s %4d" % (value, k))
 
+    # ---------------------------------------------------------------- the detection layer
+    #
+    # WP-13.1. `detection` is required on every record and, until build/detection.py, nothing
+    # read one. These checks hold the three things the layer states about itself:
+    #
+    #   * the prose is really there (the schema requires the KEY, never its content, so a
+    #     record could carry `"detection": " "` and validate);
+    #   * no two records share it verbatim, which would be one procedure filed twice;
+    #   * and every REFUSAL in the two tables names a quantity some fault test actually
+    #     reads. A refusal for a name nothing reads is a refusal that cannot fire, which is
+    #     this corpus's most-repeated defect and the one it is worst at seeing -- it looks
+    #     exactly like a decision taken.
+    #
+    # The contradiction check -- a name a table refuses that a layer supplies anyway -- is NOT
+    # here: it needs an elevation per plan and this checker runs on every build. It lives in
+    # tests/test_detection.py, ratcheted, with both live instances named.
+    DET = modcache.load("detection", os.path.join(ROOT, "build", "detection.py"))
+    by_prose = defaultdict(list)
+    n_split = 0
+    det_chars = 0
+    for fid, rec in sorted(records.items()):
+        prose = rec.get("detection")
+        if not isinstance(prose, str) or not prose.strip():
+            errors.append("%s: detection is empty; the schema requires the key, not the prose" % fid)
+            continue
+        det_chars += len(prose)
+        by_prose[prose.strip()].append(fid)
+        if len(DET.checks(rec)) > 1:
+            n_split += 1
+    for prose, ids in sorted(by_prose.items()):
+        if len(ids) > 1:
+            errors.append("detection prose is shared verbatim by %s" % ", ".join(sorted(ids)))
+
+    refs = DET.refusals()
+    read = set()
+    for rec in records.values():
+        read |= DET.measurement_names(rec)
+    for name in sorted(refs):
+        if name not in read:
+            errors.append(
+                "%s refuses %r and no fault test reads that name: a refusal that cannot fire "
+                "reads exactly like a decision taken" % (refs[name]["by"], name))
+
+    print("\ndetection layer (build/detection.py)")
+    print("  %-38s %4d of %d" % ("records carrying detection prose", len(by_prose), n))
+    print("  %-38s %6d" % ("characters of detection prose", det_chars))
+    print("  %-38s %4d" % ("records whose prose numbers its checks", n_split))
+    print("  %-38s %4d" % ("identifiers read by fault tests", len(read)))
+    print("  %-38s %4d" % ("of those, refused by name with a reason", len(read & set(refs))))
+    print("  %-38s %4d" % ("refusals naming nothing any test reads", len([x for x in refs if x not in read])))
+
     uncovered = [s for s in slots if s not in by_slot]
     print("\nslot coverage: %d of %d slots carry at least one fault" % (len(by_slot), len(slots)))
     if uncovered and not quiet:

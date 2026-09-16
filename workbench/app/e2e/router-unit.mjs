@@ -133,6 +133,31 @@ ok(() => {
     formatHash('phylogeny', {}, { rank: 'family', view: 'map' }));
 });
 
+/* WP-12.4: the Round's axes ride in the query and round-trip, so a copied link reproduces the
+   view, the overlays and the cut. None of them is a SELECTION key — `router.js` puts any query
+   key that is neither a selection key nor one of the surface's path keys into `params`, so this
+   needed no table change, and adding them to SELECTION_KEYS would quietly change what a
+   citation means. */
+ok(() => {
+  const p = parseHash('#/drawings?cut=x:20.4&explode=levels&ov=grid,datums&view=axon-sw');
+  assert.deepEqual(p.selection, {});
+  assert.deepEqual(p.params, { view: 'axon-sw', ov: 'grid,datums', explode: 'levels', cut: 'x:20.4' });
+  // Asserted as a ROUND TRIP rather than as a byte string: `formatHash` percent-encodes the
+  // ':' in a cut and the ',' in an overlay list, and `parseHash` decodes them again. Pinning
+  // the encoded literal would pin the encoder rather than the property a copied link needs.
+  const params = { view: 'axon-sw', ov: 'grid,datums', explode: 'levels', cut: 'x:20.4' };
+  assert.deepEqual(parseHash(formatHash('drawings', {}, params)).params, params);
+  assert.deepEqual(parseHash(formatHash('drawings', {}, params)).surface, 'drawings');
+});
+
+/* A plan view carries its level, and the level survives as a STRING — NUMERIC_KEYS holds only
+   `candidate`, so a surface comparing `level === 0` against '0' silently never matches. */
+ok(() => {
+  const p = parseHash('#/drawings?level=1&view=plan-l1');
+  assert.deepEqual(p.params, { view: 'plan-l1', level: '1' });
+  assert.equal(typeof p.params.level, 'string');
+});
+
 /* Empty, false and null params clear rather than serialize. */
 ok(() => {
   assert.equal(formatHash('phylogeny', {}, { view: null, rank: '', ghost: false }), '#/phylogeny');

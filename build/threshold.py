@@ -663,6 +663,19 @@ def hearth_pass(plan, C, report):
 
     size = (_param(resolved_slots(style), "chimney", "stack_plan_in") or {})
     s_in = size.get("computed_at", {}).get("value") if "computed_at" in size else size.get("value")
+    # AND WHETHER THAT FIGURE IS A DECISION SOMEBODY STILL OWES (WP-12.9). `brick-course`'s rule
+    # is flagged `judgment: true` -- "twenty-two inches on the default coursing is between sizes;
+    # the mason will build 18 or 27" -- and the snapshot of it in the kit carried no flag at all
+    # until WP-12.9, so this function read a settled measurement out of a deferred decision. The
+    # elevation has disclosed it since WP-5.11 and the scene refuses a solid over it (WP-12.6);
+    # the PLAN drew a poche square and its tooltip called it a measurement, which is the one
+    # surface of the three where a reader cannot tell a decision from a fact.
+    # AND ITS BASIS TRAVELS WITH IT. A judgment with no basis named is what this corpus forbids
+    # one step further than a figure with no source -- the shape the two-Phase-11 merge met when
+    # the hearth tooltip's "Morris 1734, judgment" became a bare "judgment". The parameter's own
+    # note is what the record at hand states, so that is what is read: one reader, one sentence.
+    s_judgment = bool(size.get("judgment"))
+    s_basis = size.get("note") if s_judgment else None
     if s_in is None:
         out["unplaced"].append({"what": "the stacks", "reason":
                                 f"'{style}' states no chimney stack_plan_in anywhere in its cascade "
@@ -686,6 +699,8 @@ def hearth_pass(plan, C, report):
     for (x, y), wall in zip(gable_end_points(W, D, axis), gable_end_walls(axis)):
         rect = _stack_rect(wall, s, t_ft, W, D, side, x if axis == "y" else y)
         out["stacks"].append({"wall": wall, "side": side, "stack_plan_in": s_in,
+                              "stack_plan_judgment": s_judgment,
+                              "stack_plan_basis": s_basis,
                               "source": out["source"], **rect,
                               **_graded("th-stack-at-the-gable-end")})
     return out

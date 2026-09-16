@@ -795,6 +795,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "storey-graduation",
           "note": "the dormer follows the ATTIC storey (0.62) rather than the storey below it"
         },
@@ -872,6 +873,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "brick-course",
           "note": "chimney plan dimensions are whole bricks; a stack is 1.5 x 2 bricks (13.5 x 18 in), 2 x 2 (18 in), 2 x 3 (18 x 27 in)"
         },
@@ -985,6 +987,7 @@
           },
           "unit": "ratio",
           "kind": "derived",
+          "judgment": true,
           "source": "storey-graduation",
           "note": "attic or half-storey over the floor below"
         },
@@ -3527,6 +3530,7 @@
           },
           "unit": "count",
           "kind": "derived",
+          "judgment": true,
           "source": "opening-proportion",
           "note": "two, or at a push three"
         },
@@ -4182,6 +4186,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "opening-proportion"
         },
         "sidelight_width_if_permitted_in": {
@@ -4744,6 +4749,7 @@
           },
           "unit": "ratio",
           "kind": "derived",
+          "judgment": true,
           "source": "facade-classical",
           "note": "at a 45 ft span; the ratio is 1:5"
         },
@@ -4801,6 +4807,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "gibbs-ionic",
           "note": "marked judgment in the pack"
         },
@@ -4878,6 +4885,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "gibbs-ionic",
           "note": "marked judgment in the pack"
         },
@@ -5404,6 +5412,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "brick-course",
           "note": "two and a half courses, which is a good riser and NOT a whole number of courses — the honest problem in coursed step construction"
         },
@@ -5673,6 +5682,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "trim-classical",
           "note": "the line where the entablature begins; also the top of full-height panelling"
         },
@@ -5686,6 +5696,7 @@
           },
           "unit": "count",
           "kind": "derived",
+          "judgment": true,
           "source": "trim-classical",
           "note": "Georgian 5: bed ovolo, dentils, corona, cyma, fillet. Federal 6, Greek Revival 4"
         },
@@ -6013,6 +6024,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "trim-classical",
           "confidence": "low",
           "note": "The pure nineteenth-part derivation. Out of calibration below an 11 ft ceiling — see packs."
@@ -6447,6 +6459,7 @@
           },
           "unit": "in",
           "kind": "derived",
+          "judgment": true,
           "source": "trim-classical",
           "note": "marked judgment; the measured Georgian band is 42-56 in"
         },

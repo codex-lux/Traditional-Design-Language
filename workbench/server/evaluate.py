@@ -79,32 +79,10 @@ def evaluate(plan, strict=False, place=True, parti=None, candidates=250,
         out["timing_ms"]["place"] = round((t_place - t0) * 1000)
     if "error" in check:
         return out
-    # Per-room-type catalogue facts the overlays draw from (privacy rank, wet walls,
-    # daylight multiplier). Joined here so the client never re-derives corpus data.
-    D = core._data()
-    meta = {}
-    for lv in plan.get("levels", []):
-        for r in lv.get("rooms", []):
-            t = r.get("type")
-            if t and t not in meta:
-                room = D["rooms"].get(t) or {}
-                meta[t] = {
-                    "function_class": room.get("function_class"),
-                    "privacy_rank": room.get("privacy_rank"),
-                    "plumbing": (room.get("servicing") or {}).get("plumbing"),
-                    "daylight_multiplier": (room.get("daylight") or {}).get("depth_multiplier"),
-                    # WP-6.2: the catalogue's own furniture, with the footprints and
-                    # clearances it has always carried. The client could not draw a stair,
-                    # a tub or a range because this dict did not ship them — 60 of 60 room
-                    # records hold them and nothing downstream had ever seen one.
-                    "furniture": [
-                        {"item": f.get("item"), "footprint_in": f.get("footprint_in"),
-                         "clearance_in": f.get("clearance_in"), "essential": f.get("essential")}
-                        for f in (room.get("furniture") or [])
-                        if f.get("footprint_in")
-                    ],
-                }
-    out["rooms_meta"] = meta
+    # WP-12.5 lifted this into `corpus.rooms_meta`, because the scene route needs the same
+    # dict for the Round's overlays and a second copy is how two surfaces of one house come
+    # to disagree about which rooms are wet.
+    out["rooms_meta"] = corpus.rooms_meta(plan)
     # check() (build/plan_check.py) now returns fault_unjudged beside fault_summary —
     # the could-not-judge detail, kept distinct from both failed and passed.
     out["fault_unjudged"] = check.get("fault_unjudged", [])

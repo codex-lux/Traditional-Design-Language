@@ -89,6 +89,21 @@ export const api = {
   briefSchema: () => getJSON('/api/schema/brief'),
   examplePlan: (name) => getJSON(`/api/plans/examples/${seg(name)}`, { fresh: true }),
 
+  // WP-12.0. The Drawing Set was the last surface calling `fetch` directly, so it was also
+  // the last one outside `noteUnauthorized` -- a session that expired while a reader was on
+  // it threw instead of showing the password screen. `face` is one of S/N/E/W: the server
+  // has accepted it since WP-5.1 and `render_elevation` has taken it since WP-3.2, and no
+  // client had ever sent one, so three of the four elevations this system can draw had
+  // never been looked at.
+  drawing: (kind, plan, opts = {}) => postJSON(`/api/drawings/${seg(kind)}`, { plan, ...opts }),
+
+  /* The Round's one call (WP-12.3). Returns the scene record, the PLACED plan and every named
+     view's plate together, because seven metered calls per record change against a budget of
+     sixty an hour buys eight edits and one call buys sixty. Keep the returned `plan`: a record
+     carrying `geometry` short-circuits the server's placement, 37.48 s -> 0.00 s, on every
+     later export or evaluate. */
+  scene: (plan, opts = {}) => postJSON('/api/scene', { plan, ...opts }),
+
   evaluate: (plan, opts = {}) => postJSON('/api/plan/evaluate', { plan, ...opts }),
   // WP-9.3: the analyst (synchronous) and the loop (a job; rounds arrive through jobEvents,
   // the revised record through jobPlan -- stripped of its placement, the bench re-solves)

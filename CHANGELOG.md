@@ -2,6 +2,168 @@
 
 One line per layer per notable change. Versions here track the project's own `v0.x` designation, not any single schema's version number (those are tracked in the schema files themselves — `ontology_version`, `kit_version`, and so on).
 
+## Unreleased (8–9 Sep 2026 — Phase 12 planned, WP-12.0 through 12.9 built)
+
+### WP-12.9 — the five items the audit deferred, and the one it under-read
+
+- **The bake has never carried a judgment flag.** `brick-course` states the chimney's plan size
+  `judgment: true` — *"the mason will build 18 or 27"* — and its baked snapshot carried
+  `kind: derived` and nothing else. Over the 93 snapshots matchable to a source rule, **13 drop a
+  judgment and ZERO carry one**. `check_baked_snapshots` was green over all of them: it re-derives
+  the VALUE and compares nothing else.
+- **The kit schema admitted `judgment` on a slot and not on a parameter**, so the corpus could say
+  "this slot is a decision" and had no way to say "this number is". Widened; the data edit failed
+  validation on its first run, which is how it was found.
+- **`check_kits.py::check_baked_flags`** holds every snapshot to its source rule in both
+  directions — a dropped flag and a claimed one are each an error. 93 matched and agreeing, 50
+  could not be compared (ratcheted).
+- **The plan sheet was a third surface.** The elevation legend and the scene both disclosed the
+  judgment; `render_plan.py` and `Sheet.jsx` drew a poché square whose tooltip called 22 in a
+  measurement. The flag and its BASIS now travel onto the stack and
+  `disclosures.stack_plan_judgment` is the one spelling both read.
+- **`render_plan.py` imports `disclosures.py` and called nothing from it** — found because the new
+  line reached the bench strip and not the printed plate. Raised as
+  `oq/the-plate-does-not-read-the-disclosure-module-it-imports`.
+- **`sweep` and `lathe` removed from the scene schema** — declared by field name with no shape,
+  units or frame, emitted by nothing, so an extent rule would have been invented. `_extent` is now
+  total over everything a valid record can hold.
+- **`geometry.py`'s CLI conflict printer read a key nothing writes**, so it printed nothing in the
+  one case it exists for. Extracted as `conflict_lines` and held against the prover's own output.
+- **Two schema-impossible grouping keys left `moves.py`** — impossible rather than absent, which is
+  what makes it a removal rather than a kept fallback.
+- One shipped sheet moved (+296 bytes); removing the single field added gives all sixteen
+  byte-identical to the previous commit.
+
+
+### WP-12.8 — the adversarial audit, and four coordinates read in the wrong frame
+
+- **Four blocking defects, all introduced by WP-12.6 and WP-12.7, and three of them one mistake
+  made three ways.** None was visible to any assertion in the tree: every test written for those
+  two packages read a member's in-plane extent and not one read the third coordinate.
+- **Every dressed member on the N and E faces was drawn INSIDE its own wall** — 1,769 solids
+  against 1,713 right, including the whole doorcase of `spec-builder-colonial`, whose entrance
+  front is the N face. `_face_extrude` returns the LOW face, which is the outside face only on S
+  and W. `scene._on_the_outside_face` is the one spelling.
+- **`_chimneys` read `grade_to_cap_ft`, which nothing in the repository writes**, so every stack
+  on every plan stood at an editorial 2 ft above the ridge: 41.03 ft against a stated 47.03, and
+  below the 6 ft minimum the same roof record judges `ok: true`. `CHIMNEY_ABOVE_RIDGE_FT` is
+  deleted; a missing height is refused.
+- **`_chimneys` was also nested inside `_roof`'s success path**, so a house whose massing calls
+  for stacks and whose roof judges no ridge had them unconsidered rather than refused. It is read
+  beside the other layers now, and republishes `roof.chimneys.note`.
+- **`_entrance_agreement` compared two coordinate frames** — the elevation's `u` against a
+  clear-frame plan coordinate — so every published gap was short by one exterior wall (5.42 →
+  6.71, 21.33 → 22.00) and a house whose records AGREE would have been convicted by `t_ext`.
+- **A caller-supplied `threshold` could build half a million solids** on `POST /api/scene`: a
+  non-positive `tread_depth_in` defeats the loop's break. Three bounds now, two the record's own
+  and one a named guard that refuses the excess by name.
+- **`bounds.envelope` is published beside the frame**, and `frame.js::modelAt` reads it: the
+  union of everything drawn had slid the Tidewater E plate 2.166 ft and the spec Colonial's W
+  plate 0.459.
+- **The viewer had no pen for the `construction` ink**, so the corpus's only two `judgment`
+  solids drew as measured edges. The schema's enum, the two maps and `Round.jsx`'s token list are
+  held to each other, in both directions.
+- **A drag on the approach moved the sun and not the house.** Refused rather than orbited.
+- **Every hearth was drawn two feet underground** — `hearths.breast` is a plan rectangle with
+  no z and `_hearths` wrote 0.0, so on a house whose ground floor is 2 ft above grade the fires
+  lay on the lawn outside it. Pre-existing since WP-12.1, invisible in every orthographic view,
+  found in the approach and then measured through the camera rather than read off the picture.
+- **Solids stating their storey: 57 → 494 of 500**, so `explode: levels` no longer lifts the
+  structure and leaves every window, bar, shutter and doorcase behind.
+- **Three published figures re-derived**: the `three` chunk 544.7 → 564 KB; `POST /api/scene`
+  376,574 raw / ~71 KB → 621,870 / 97,442 (half the scene growing, half a published gzip level 6
+  where the server deploys 4); the search index 665 → 666 in `docs/workbench.md`.
+- **Twenty-four mutations, all red from a green baseline.** Two of this session's own guards were
+  blind on their first run and are recorded; four guards from 12.6 and 12.7 could not fail at all.
+
+### WP-12.7 — the entrance and the porch, and the refusal that was already written
+
+- **The doorcase and the stoop stand up, and the model can be walked up to at 5′-6″.**
+  Tidewater **492 → 500** solids, the spec Colonial **368 → 374**; app suite 147 → 156.
+- **The refusal the brief asked for had been in the record since WP-11.4.** `build/threshold.py`
+  already refuses the portico's columns on both plans in the record's own words, so `_porch`
+  republishes that reason and a source guard keeps the question out of this layer. Following
+  the brief literally would have written a second reader of one rule.
+- **A pilaster is not a member of this doorcase, and that is measured**: door + 2 casings +
+  2 sidelights = 84.199 = the stated composition width to the thousandth; with pilasters,
+  88.875.
+- **Both shipped plans place their `entry-porch` inside the footprint**, so there is no deck and
+  no porch roof to draw. `deck` and `porch-roof` stay unused classes.
+- **The stoop's treads reconcile and its risers do not** — 1.719 ft against a stated
+  `grade_to_floor_ft` of 2.0. `oq/a-child-band-replaces-an-ancestor-derivation` reaching its
+  second consumer; reported, and no fourth riser is invented.
+- **The transom is stated by the record and drawn by nothing**, so the scene refuses it rather
+  than making the model and the plate two different doorcases:
+  `oq/the-record-dimensions-a-transom-and-no-drawing-draws-one`.
+- **`bounds` is the union of what is drawn** rather than the footprint plus hand-written
+  exceptions — and **containment alone was half a guard**: swapping the axes in `_extent` left
+  the whole suite green, because a wrong mapping makes the frame a superset. The frame is
+  asserted tight now.
+- **And the approach screenshot showed the stoop standing away from the door it serves.**
+  Measured: the elevation draws the front door at 32.79 ft and the placement seats it at 38.21
+  (Tidewater), 25.67 against 47.00 (spec Colonial) — **5.4 ft and 21.3 ft apart**, and on the
+  spec Colonial the drawn front door stands over the garage. `_face_bays` puts the entrance in
+  the middle bay of the front whatever the placement did. **The scene is the first surface to
+  draw both**, and `plan_check` already convicts the placement for the displacement the drawing
+  corrects. Nothing moved; the disagreement is stated, naming both positions:
+  `oq/the-elevation-draws-the-front-door-where-the-composition-wants-it`.
+- **APPROACH**, with four refusals: a point behind the eye returns null rather than a mirrored
+  coordinate; no flat plate is laid over a perspective; a move between projections is a cut; the
+  view carries a compass and no measurement. Eye height is the ruling's, the field of view is
+  editorial and says so.
+
+### WP-12.6 — the envelope dressed, and two fields read off the wrong record
+
+- **The model has sash bars, meeting rails, shutters and chimneys.** Tidewater **101 → 492**
+  solids, the spec Colonial **75 → 368**; `opening-frame` unchanged at 40 and 32, because this
+  package changed how an opening is dressed and not which openings exist. The two shipped plans
+  exercise opposite halves — the Tidewater house carries no shutters and draws two chimney axes,
+  the spec Colonial carries 62 shutters and draws no chimney — so a change that drew either
+  everywhere fails on one of the two.
+- **The sill is refused.** `kit.window_sill.projection_in` resolves to a BAND and a drawing
+  cannot draw one: `oq/a-child-band-replaces-an-ancestor-derivation` reaching its first consumer.
+- **A stack whose plan size carries `judgment: true` is a two-vertex AXIS and never a solid.**
+  `judgment` 0 → 2 on the Tidewater plan.
+- **`shutters_carried` was read off the elevation and is set per storey window**, so the first
+  draft drew no shutter anywhere while the picture looked dressed. Caught only by a census of
+  solid classes before against after.
+- **`dormers` is plural and `scene._dormers` read the singular**, taking `{}` on every record in
+  the corpus. **Its own three tests could not see it**, because all three drive the function with
+  a hand-built dict carrying the same wrong key as the code. Found by reading the writer to check
+  a claim in `PLAN-OF-ACTION.md` — which was itself false, and is corrected: `placeable` and
+  `not_drawn_reason` do exist.
+- **And the fix's first version filed a refusal about nothing.** Both shipped plans state
+  `dormers.count: 0`, a measured zero, and the function gated on `stated` refused to model
+  dormers that are not there. Gated on the count instead, which is the writer's own gate.
+- **One opening had two names.** The frame rebuilt `{face}-{bay}-{storey}-{kind}` while its
+  dressing keyed off `opening_rects`' own `r["id"]`. The frame takes the record's name now;
+  restoring the second spelling left every suite in the tree green, so the guard is a test.
+- WP-12.2's blind-bay guard counted every solid where its own docstring named the frames, and
+  went red on a package that had not touched the blinding. Re-cut against the property.
+
+- **Overlays and modifiers (WP-12.5, 9 Sep 2026).** Six analytic overlays and three modifiers on the Round, each a pure leaf under `node --test`, each stated in the caption when active and addressable in the URL. `sheet/overlayRules.js` is the one spelling of the daylight reach, the privacy ramp, the wet predicate and the two wash strengths — all inline in `Sheet.jsx`'s JSX until now; `derive.js::elementBounds` and `corpus.rooms_meta` are two more copies removed before a second surface could make them. App suite 117 → 147, walk 162 → 177 check sites.
+  **The finding is that looking at the sheet produced a false positive, for the first time in eight packages.** I read one tone off a screenshot, concluded the privacy overlay drew nothing, and pushed that conclusion as `46f612f`, whose subject reads "AND THEY DRAW NOTHING". It is false, and the commit cannot be rewritten. The canvas states what it built — `privacy:24, wet:4`, which reconciles exactly with the record — and a pixel band across the model gives **one floor tone with the overlay off and three with it on**, sitting on the sepia ramp. The wash is 4–24% of `--sepia` over cream and I read *I cannot see it* as *it is not there*. **Looking at the sheet finds defects; it does not adjudicate them**: on a translucent mark the absent overlay and the faint one are the same picture. The half that stands is that the six new walk checks asserted the URL and the caption and never that anything was drawn, which is why the count attribute exists.
+  Two defects found by the lift, both real, both authorised by the records, both unreachable from the corpus and so driven by hand: `daylight_multiplier || 2.25` turning a **stated zero** into the default (three records, 12 placements, **0 of them drawing a wash**), and a privacy ramp with **no bound in either direction** whose `if (!rank)` covers one bad rank by accident — a claim I first got wrong, and a mutation left the suite 24 of 24 green under a full revert to prove it. Three of the PRD's sentences the tree had overtaken are corrected in the modules rather than followed. New questions: `oq/the-privacy-ramp-is-unbounded-and-does-not-cover-the-rank-its-own-band-admits`, `oq/the-transfer-count-lives-only-inside-an-english-sentence`. See `docs/reports/wp-12.5-overlays-and-modifiers.md`.
+
+- **The Round (WP-12.4, 9 Sep 2026).** Surface ⑧'s first plate is the model; the five flat plates are chips beneath it. `round/frame.js`, `round/solids.js` and `round/annotate.js` are Three-free leaves under `node --test` — the camera, the four primitives as triangles and edges, and what a drawing is called; `round/three-scene.js` is the only importer of `three` and is reached only by `await import()`, which puts it in a **544.7 KB chunk of its own** (entry 460 → 478 KB against a 700 KB ceiling) and keeps it out of `no_bare_imports.test.mjs`'s walk. The pen is drawn at screen-space width, so **OQ 66 is answered in the Round by construction**. `data-frame` on all four Python renderers states each plate's own affine, and 16 of 16 plates are byte-identical across it **once the attribute is stripped** — the corpus sheet hash itself moved (`373d0116be7cecb8` → `535077ae0bca1ea2`) and three commits shipped red on `test_no_shipped_sheet_moves`, because the property was verified by hand and the guard that measures it was not run; the pin asserts the stripped hash first now, so re-pinning the raw number cannot buy a green tick. App suite 86 → 117 tests, router-unit 61 → 63, walk 152 → 162 check sites.
+  **Both findings came from a mutation being blind rather than from reading.** `PLANES.xz` maps `(u, v, n)` to `(x, z, y)` and x × z is **minus** y, so that frame is left-handed while the other two are right-handed: swept solids came out wound inward while the hand-wound box came out right, and a flat sun would have lit every opening reveal and gable from inside the house — WP-5.11's mirrored-arc class, a model that is self-consistent and ink that is wrong. And serving the flat plates out of `scene.plates` stored the SVG alone, so the bench's elevation silently lost WP-3.2's disclosure, the entrance face and the engine-and-digest line; **the browser walk was the only thing that caught it**, because `test_scene_endpoint.py` was asserting that the picture was a picture and the defect was in everything the picture does not say for itself. Also measured: no plan in this corpus states a lot (0 of 16), so `render_plan`'s whole site block is unreachable and its guard is driven. APPROACH is deferred to WP-12.7, beside the entrance and porch it exists to show. New question: `oq/an-elevation-does-not-state-which-end-of-the-face-it-starts-from`. See `docs/reports/wp-12.4-the-round.md`.
+
+- **The scene route (WP-12.3, 9 Sep 2026).** `workbench/server/corpus.py::scene()` returns the scene record, the PLACED plan and every named view's plate together, behind `POST /api/scene` with `_heavy` and `_plan`; `api.scene` is the client wrapper. **The measurement the package owed is about the meter and not the clock.** On `tidewater-georgian-careful` at `auto`: a cold solve 37.48 s, an already-placed record 0.00 s, `build_scene` 0.00 s, all six plates 0.38 s, the whole call 38.46 s — so everything but the placement is 2.6% of it, and the response is 376,574 bytes raw, about 71 KB gzipped. Six plates fetched one at a time beside the scene is seven calls against `limits.heavy_calls_per_hour()` of 60: eight record changes an hour, where one call buys sixty. **A reader who profiled this route would have concluded the plates were free and reached the opposite design.** `SCENE_PLATES` holds the six views that carry a plate and APPROACH is deliberately absent, because a perspective dimension is never true. The placed record comes back for a second reason and it is not a cache — it is WP-6.4's rule, and a client that keeps it pays 0.00 s on every later export or evaluate.
+  **The package's two defects split the opposite way from what a reader would guess.** `B` and `_os` are per-function locals in the three neighbouring functions that use them, so two `NameError`s reached the tests' first two runs and neither was reachable by reading, because the surrounding code reads as though both were module-level. The one found *by* reading was the serious one: the first draft forwarded the resolved parti record to `drawing()`, which calls `core.load_parti` itself and takes a caller's string — handed a dict it does `os.path.basename(str(dict))`, finds no file and returns `None`, so every plate would have been drawn with no parti while the scene beside it used one. That is WP-12.0's own defect reintroduced by the package that depends on WP-12.0, and **this package's own digest guard cannot see it**, because `_placed` stamps the digest on the record it was handed and that record is the same either way. And the first plate figure published was 0.70 s against a reproducible 0.38 — measured in a process that had not yet loaded the drawing pipeline — corrected in five files by sweeping for the retired number. See `docs/reports/wp-12.3-the-scene-route.md`.
+
+- **One opening rectangle, three callers (WP-12.2, 9 Sep 2026).** `(x0, x1, sill, head)` was written out three times — `render_elevation._window` for a sash, `render_elevation._entrance` for the door, and `export_dxf._win` — and **so was the loop around it**, which is the half that bit: when the blind bay arrived (OQ 85) the SVG learned to skip the bay a chimney stack stands on and the DXF did not, so the CAD file drew a window through a chimney and the export selftest could not see it, because it round-trips findings and not geometry. `build/elevation.py::opening_rects(elev, face)` is the one spelling now, and `build/scene.py` is its third caller: 40 and 32 `opening-frame` solids on the two shipped plans, `not_modelled` 2 → 1 and 3 → 2. **Its largest finding was invisible on the two shipped plans**: both renderers resolved the upper storey with a fallback to the ground one and then drew a second row of windows at that datum unconditionally, so each of the six one-storey plans that build an elevation was drawing a row of openings its record does not hold — 244 window rectangles become 124 over 24 plates. The first measurement of this package was taken over the two shipped plans, which are both two-storey, and reported that the lift changed nothing but four pixels; *verifying a corpus-wide change on the plans that happen to ship is verifying it on 2 of 164 styles* is in `CLAUDE.md` and was still the thing that nearly shipped. **Measured over all 44 elevation plates: 16 of 44 SVG and 20 of 44 DXF byte-identical** (on the two shipped plans, 6 of 8 and 8 of 8), both sides proved reproducible run-to-run first; the four that move without losing a row are one decimal tie at exactly 203.35 px, and **the unit was chosen by measurement** — over the 144 opening edges the two shipped plans actually draw, inches-first moves 0 DXF coordinates and 2 printed SVG ones, feet-first moves 0 and 64.
+  **The branch the package exists to guard is unreachable from the corpus.** All sixteen plan records now produce zero blind bays, because WP-11.4 moved the stacks off the gable centre line and onto the flues the plan states, so a parity test over the shipped plans would pass with the skip deleted. The guard is driven and asserts its own premise; `CLAUDE.md`'s sentence calling the collision measurement "a measured zero — it resolved a collision" is corrected, because it is now a zero for the other reason.
+  **It found three defects in WP-12.1 and two false claims in `docs/export.md`.** An opening extruded out of its wall on the north and east faces; **the same error in the gable ends, with WP-12.1's own test ratifying it** (that test compared the gable's `at` against the outer face of the wall extent, which is exactly where the wrong contract put it, so both gables stood 1.29 ft clear of the house above the eave under a green assertion); and a `bounds` block that was the right size in the wrong place, offset by one wall thickness, **which none of the three agreement figures could see because not one of them reads `bounds`**. The doc claims — a 0.9× window shrink in the SVG and a fixed 3 ft door — have been false since WP-6.2, and the test the paragraph cited could never have caught them, because it asserts the DXF's widths are a subset of the recorded ones, which is true whether or not the SVG shrinks. All three geometry defects were found by drawing the scene and looking at it.
+
+- **The scene record (WP-12.1, 9 Sep 2026).** `build/scene.py` — constructed 3D geometry between a placed plan and any camera, pure arithmetic and a leaf, importing `export_ifc.slab_boxes`, `structure.wall_thickness`, `hearths.breast`, `elevation.opening_rects` and `compass` rather than restating one of them. `schema/scene.schema.json` 0.1.0: six primitives so a viewer needs no domain knowledge, `ink` and `tone` as closed enums of `tokens.css` names so a solid can never carry a hex, `kind` as the weakest provenance among the numbers that made it, and three states rather than two. The selftest runs inside `build/validate.py` so `TOTAL_CHECKS` does not move. **Its finding is that the roof was never over the house**: `roof.py` lays the roof out over the outside footprint from (0,0) and `structure.py` lays the walls out over the clear one from (0,0), so read literally the roof sits 1.29 ft east and north of what it covers — invisible for as long as no surface drew a roof and a room in one picture. **And the roof was a box with a lid**: each plane was written as a prism between the eave and ridge heights, which every agreement figure accepted because all three measure the plan extent, and only the picture refused. See `docs/reports/wp-12.1-the-scene-record.md` and `docs/scene.md`.
+
+- **The drawing set is one building again (WP-12.0, 8–9 Sep 2026).** The elevation and roof plates were built with no section, so they took `structure.build_section`'s heuristic default while the plan beside them was a CP proof. Fixed at the one place both are built, and the four faces are addressable from the client for the first time since WP-3.2. **Re-derived across the merge with `main` rather than quoted, and the defect was worse than published**: the spec Colonial's `porch_clear_depth_ft` is 6.00 against a drawn 4.00, and the Tidewater plan now reaches a proof inside its budget, so ten of its measurements move and all four of its faces differ. See `docs/reports/wp-12.0-the-drawing-set-was-not-one-building.md`.
+
+
+- **Phase 12, the sheet in the round (8 Sep 2026).** Lucas asked for the interaction in Dilum Sanjaya's post on 2D schematics transitioning into 3D — named views, a camera tween, annotations anchored to the model, furniture that appears only where it is true — and asked whether SVG was still the medium or a BIM or Blender layer was now required. The brief is a PRD, `docs/prd/phase-12-the-sheet-in-the-round.md`, the first document in a new `docs/prd/` directory, adopted after a review against the tree. **The answer is WP-5.11's finding one dimension up: the format was never the constraint.** A format serialises what is modelled and cannot invent what is not, so what is missing is the layer between — a constructed-3D scene record built in Python from the placed record, with three.js drawing what Python models, the SVG plates staying authoritative and laid over the model at every named view to keep the two honest, and Blender and IFC staying export targets. Nine packages, WP-12.0 through 12.8; all nine of the PRD's rulings taken the day they were put, and an APPROACH perspective view at 5′-6″ added to v1 with its dimensions withheld, because a perspective dimension is never true.
+  **The review found the defect that made WP-12.0: the drawing set is not one building.** `corpus.drawing` routes the plan, section and bearing plates through the set's one placement and then builds the elevation and the roof with no section, so both take `structure.build_section`'s heuristic default — whose own comment says that default is for internal callers only — while the plan beside them is a CP proof. The elevation reads placement, so the two plates are of different houses wherever a proof is reached, under the banner WP-6.4 wrote saying one drawing set is one building or it is nothing. Pre-existing and invisible to every test. **In the same package: `render_elevation` has taken a `face` argument since WP-3.2 and no client has ever sent one**, so three of the four elevations the system can already draw have never been looked at.
+  **And two citations in the PRD would have failed the build on commit** — seven report paths for reports that do not exist yet, which `check_ids.py` refuses by construction, and an open-question slug wrapped across a newline, which `check_citations.py` reads line by line and sees as its truncated left half. Both corrected before the commit, and **both guards driven to prove they fire** rather than reasoned about.
+
 ## Unreleased (24–26 Aug 2026 — Phase 4 closed on the data, Phase 5 part-built, and the 25 Aug merge)
 
 *(Backfilled 26 Aug 2026 by the project review — the log had stopped at WP-4.1/4.2 while six further packages shipped. Entries below are summaries; each package's full record is its report.)*

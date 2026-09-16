@@ -225,6 +225,39 @@ def transfers(plan):
     return None
 
 
+def stack_plan_judgment(plan):
+    """The chimney's plan size is a decision somebody still owes, drawn as though it were not.
+
+    WP-12.9. `brick-course`'s rule for it is flagged `judgment: true` and its own note says why:
+    twenty-two inches on the default coursing is between sizes, and a mason will build 18 or 27.
+    THREE SURFACES DRAW THAT FIGURE AND UNTIL NOW ONLY TWO SAID SO -- `render_elevation.py` puts
+    it in the plate's own legend, `build/scene.py` refuses to draw a solid at all and files a
+    `judgment` naming it, and the PLAN drew a poche square whose tooltip read "22.0 in square"
+    with nothing anywhere to say the number is not settled.
+
+    IT IS READ AND NOT RE-DERIVED, which is this module's own standing rule: `build/threshold.py`
+    put `stack_plan_judgment` and `stack_plan_basis` on each stack when it placed it, and this
+    prints them. The BASIS travels with the flag because a judgment with no basis named is what
+    this corpus forbids one step further than a figure with no source."""
+    stacks = [sk for sk in ((plan.get("hearths") or {}).get("stacks") or [])
+              if sk.get("stack_plan_judgment") and sk.get("stack_plan_in") is not None]
+    if not stacks:
+        return None
+    sk = stacks[0]
+    # CUT AT A CLAUSE AND MARK THE ELISION, which is WP-11.5's rule for exactly this: OQ 18's
+    # first version cut a quoted basis at a hard 150 characters and landed mid-word 148 times.
+    raw = (sk.get("stack_plan_basis") or "").strip()
+    basis, elided = raw, False
+    for stop in (";", ". ", ":"):
+        if stop in basis:
+            basis, elided = basis.split(stop, 1)[0], True
+    basis = basis.strip().rstrip(".")
+    return {"id": "stack-judgment", "tone": COPPER,
+            "text": f'{_plural(len(stacks), "stack").upper()} DRAWN {sk["stack_plan_in"]}″ '
+                    f'SQUARE — A JUDGMENT, NOT A MEASUREMENT'
+                    + (f': {basis.upper()}' + (" …" if elided else "") if basis else '')}
+
+
 def style_disagreement(plan, styles=None, partis=None):
     """The plate is judged against `plan.style` and nothing else, and the reader has no way to
     see when that disagrees with the plan's own title or with the parti it names.
@@ -319,6 +352,10 @@ def banner(plan, undrawable=None, diverged=None, unlocated=None, styles=None, pa
                               f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA'})
 
     line = transfers(plan)
+    if line:
+        lines.append(line)
+
+    line = stack_plan_judgment(plan)
     if line:
         lines.append(line)
 

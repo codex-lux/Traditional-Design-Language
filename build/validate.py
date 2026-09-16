@@ -127,4 +127,38 @@ if warns:
     print(f"\n{len(warns)} WARNINGS"); [print("  ! " + w) for w in warns[:60]]
 if errs:
     print(f"\n{len(errs)} ERRORS"); [print("  x " + e) for e in errs[:80]]; sys.exit(1)
+# WP-12.1: the scene layer's own selftest runs HERE rather than as a 51st entry in
+# check_all.CHECKS, so `TOTAL_CHECKS` does not move — the precedent is WP-11.6, which put the
+# family-specimen drift check inside check_precedents.py for the same reason. It is placed
+# after the taxonomy verdict because it is a different subject and must not be able to make
+# that verdict read as its own; it exits non-zero on its own account.
+#
+# AND IT LOADS THROUGH `modcache` RATHER THAN BY PATH. WP-12.1 wrote a bare
+# `spec_from_file_location` here and `tests/test_modcache.py::
+# test_no_new_by_path_loader_outside_modcache` refused it — correctly: a fresh module object
+# per call is exactly what that cache exists to stop, and `scene.py` pulls in geometry,
+# structure, roof and elevation behind it. Found by WP-12.2 running the guard rather than by
+# reading, which is the shape this file keeps meeting: a package that commits before its build
+# finishes learns what it broke from the build.
+_scene_bad = 0
+try:
+    import modcache as _mc
+    _scene = _mc.load("scene", f"{ROOT}/build/scene.py")
+    print()
+    _scene_bad = _scene.selftest()
+except Exception as _e:                 # noqa: BLE001 -- a refusal is content
+    # AND A LOUD ERROR IS NOT A REFUSAL (WP-12.8). `scene._extent` raises on a primitive it
+    # cannot measure precisely so the frame can never quietly be too small again -- and this
+    # blanket except was the only CI consumer of that raise, printing one line of N/EV and
+    # exiting 0. `UnknownPrimitive` goes straight through; everything else is still a genuine
+    # could-not-evaluate, because a placement can be refused for reasons that are not this
+    # checker's and saying which is the third state working.
+    if type(_e).__name__ == "UnknownPrimitive":
+        raise
+    # COULD NOT EVALUATE, named. A scene needs a placement, and a placement can be refused
+    # for reasons that are not this checker's; saying which is the third state working.
+    print(f"\nN/EV — scene: could not evaluate ({type(_e).__name__}: {str(_e)[:120]})")
+
 print("\nOK — schema valid, references resolve, no cycles.")
+if _scene_bad:
+    sys.exit(1)

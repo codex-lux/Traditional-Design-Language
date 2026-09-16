@@ -646,6 +646,28 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
         schedule.append((L["salmon_deep"], f'{len(all_diverged)} ROOM(S) DRAWN AT A SIZE THE '
                          f'RECORD DOES NOT DECLARE{mark} — WORST {(w0["name"] or "").upper()} '
                          f'{"+" if w0["pct"] > 0 else ""}{w0["pct"]:.0f}% BY AREA'))
+    # THE STACK'S PLAN SIZE IS A JUDGMENT, AND THIS LINE IS READ FROM `disclosures.py` RATHER
+    # THAN SPELLED HERE (WP-12.9). `brick-course` flags the figure `judgment: true` -- 22 in is
+    # between sizes and a mason will build 18 or 27 -- and of the three surfaces that draw it,
+    # the elevation legend said so, the scene refused a solid outright, and THIS plate drew the
+    # square and its tooltip called it a measurement.
+    #
+    # AND WIRING IT THROUGH `DISC` IS DELIBERATE, BECAUSE THAT IMPORT WAS DEAD. `disclosures.py`
+    # opens by saying "ONE SPELLING, TWO SURFACES: build/render_plan.py draws these lines on the
+    # plate; the workbench gets the same list through core.placement_summary" -- and measured on
+    # this tree, `mcp_server/core.py` calls `banner()` and THIS FILE CALLED NOTHING, having
+    # imported DISC at line 20 and spelled its own copies of two of the lines at 611 and 656
+    # (`export_dxf.py` spells a third). That is the very defect the module exists to prevent,
+    # standing inside the file that claims to prevent it. Reconciling the whole schedule moves
+    # sixteen shipped sheets and is its own package -- see
+    # `oq/the-plate-does-not-read-the-disclosure-module-it-imports`, whose slug is on ONE line
+    # here because `check_citations.py` reads line by line and a wrapped slug is its truncated
+    # left half, which is the trap CLAUDE.md records and which this comment sprang on its first
+    # run. This one line is read from the one spelling, which is the direction that package
+    # will go in.
+    _sj = DISC.stack_plan_judgment(plan)
+    if _sj:
+        schedule.append((L["salmon_deep"], _sj["text"]))
     if _solver.get("engine") == "cp-sat":
         schedule.append((L["green_deep"], "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"))
     elif _solver.get("engine"):
@@ -746,8 +768,32 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
     top = M + BP + head_h + grid_h
     total_h = top + extra_top + ph + extra_bottom + foot_h + sched_h + table_h + BP + M
 
+    # ONE SPELLING OF THE PLATE'S ORIGIN (WP-12.4). `data-frame` states the affine this
+    # renderer actually uses, and the level loop below reads the SAME function, so the
+    # attribute and the ink cannot drift. That is the whole reason the Round can lay this
+    # plate over the model and trust it to land on the house rather than near it.
+    #
+    # The attribute states this file's own arithmetic and NOTHING about the model frame --
+    # which model axis runs along a face, and which way, is the camera's business and lives
+    # under test in workbench/app/src/round/frame.js. A renderer that also claimed a model
+    # mapping would be a second authority over the one thing that convention decides, and
+    # the two would disagree about the north elevation on the day somebody mirrored it.
+    #
+    # A PLAN CARRIES SEVERAL PLATES SIDE BY SIDE, so `plates` is a list: one entry per level,
+    # each with its own origin. A single root frame would describe the ground floor and
+    # silently mis-register every plate to the right of it.
+    def _plate_origin(i):
+        return (M + BP + i * (panel_w + gap) + extra_left, top + extra_top)
+
+    _frames = {"plates": [
+        {"id": lv.get("id") or str(i), "proj": "plan", "level": lv.get("index", i),
+         "px_per_ft": scale,
+         "origin_px": [round(_plate_origin(i)[0], 3), round(_plate_origin(i)[1], 3)],
+         "at_origin_ft": [round(draw_x0, 3), round(draw_H + draw_y0, 3)]}
+        for i, lv in enumerate(levels)]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{L["paper"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{L["paper"]}">']
     s.append(_style_block(register))
     # OQ 55: the hatch a reserved void that is open to the sky is filled with.
     s.append(f'<defs><pattern id="openvoid" width="9" height="9" patternUnits="userSpaceOnUse" '
@@ -767,7 +813,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
              f'{" · " + str(_date) if _date else ""} · {register.upper()} REGISTER</text>')
 
     for i, lv in enumerate(levels):
-        ox = M + BP + i * (panel_w + gap) + extra_left; oy = top + extra_top
+        ox, oy = _plate_origin(i)          # the SAME function data-frame was built from
         X = lambda v, ox=ox: ox + (v - draw_x0) * scale
         Y = lambda v, oy=oy: oy + (draw_H + draw_y0 - v) * scale
         # `data-plate` carries the plate's own top edge. The levels of one house are drawn
@@ -846,7 +892,7 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
             s.append(f'<rect class="st" data-stack="{sk["wall"]}" x="{X(sk["x_ft"]):.1f}" '
                      f'y="{Y(sk["y_ft"] + sk["depth_ft"]):.1f}" '
                      f'width="{sk["width_ft"]*scale:.1f}" height="{sk["depth_ft"]*scale:.1f}">'
-                     f'<title>{_esc("chimney stack, %s in square, %s to the %s gable end" % (sk["stack_plan_in"], sk["side"], sk["wall"]))}</title></rect>')
+                     f'<title>{_esc("chimney stack, %s in square%s, %s to the %s gable end" % (sk["stack_plan_in"], " (a judgment, not a measurement)" if sk.get("stack_plan_judgment") else "", sk["side"], sk["wall"]))}</title></rect>')
         # ------------------------------------------------- the terrace at grade (WP-11.10)
         # Drawn OPEN -- an edge and a name, no poché and no wash -- which is what OQ 55's
         # reserved voids already do and what all four exemplar plans do with a terrace. On the

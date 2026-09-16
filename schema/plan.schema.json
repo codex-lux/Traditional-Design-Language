@@ -932,6 +932,14 @@
               "stack_plan_in": {
                 "type": "number"
               },
+              "stack_plan_basis": {
+                "type": ["string", "null"],
+                "description": "The sentence the record gives for that judgment, carried with it. A judgment with no basis named is what this corpus forbids one step further than a figure with no source."
+              },
+              "stack_plan_judgment": {
+                "type": "boolean",
+                "description": "The plan size is a decision somebody still owes rather than a settled measurement -- read from the kit parameter's own `judgment` flag, which is read in turn from the proportion rule it was baked from. WP-12.9: the elevation plate has disclosed this since WP-5.11 and the scene refuses to draw a solid over it (WP-12.6), while the plan sheet drew the square and its tooltip called it a measurement. Three surfaces, one judgment, and only two of them said so."
+              },
               "source": {
                 "type": "string"
               },

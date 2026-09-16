@@ -341,3 +341,74 @@ class TestOnTheProvingEngine:
         # and the engine line must no longer claim the whole record
         assert text_of(lines, "engine") != \
             "PLACEMENT PROVED (CP-SAT) AGAINST THE RECORD'S DECLARED FACTS"
+
+
+# ------------------------------------------------- the stack's plan size is a judgment (WP-12.9)
+class TestTheStackPlanJudgment:
+    """The chimney's 22 in is a decision the corpus declines to settle, drawn on three surfaces.
+
+    `brick-course`'s rule for it carries `judgment: true` and says why -- twenty-two inches on
+    the default coursing is between sizes, and a mason will build 18 or 27. `render_elevation.py`
+    has printed that in the plate's legend since WP-5.11 and `build/scene.py` refuses to draw a
+    solid over it at all (WP-12.6). THE PLAN SHEET DREW THE SQUARE AND CALLED IT A MEASUREMENT --
+    its tooltip read "chimney stack, 22.0 in square" and no line anywhere said the number was not
+    settled, on the one surface of the three where a reader is choosing a brick.
+
+    The root was one field: the baked snapshot of that rule in `kits/georgian-colonial-american
+    .kit.json` carried `kind: derived` and NO judgment flag, and `check_kits.py` re-derived only
+    the VALUE, so nothing could see it. Measured over the 93 snapshots matchable to a source
+    rule, 13 dropped a `judgment: true` and ZERO carried one.
+    """
+
+    def _placed(self, **stack):
+        sk = {"wall": "W", "side": "exterior", "stack_plan_in": 22.0,
+              "stack_plan_judgment": True,
+              "stack_plan_basis": "chimney plan dimensions are whole bricks; a stack is 2 x 3",
+              "x_ft": 0.0, "y_ft": 10.0, "width_ft": 1.83, "depth_ft": 1.83}
+        sk.update(stack)
+        return _plan(hearths={"stacks": [sk]})
+
+    def test_the_line_names_the_figure_and_says_it_is_not_a_measurement(self):
+        t = text_of(DISC.banner(self._placed()), "stack-judgment")
+        assert t is not None, "a stack flagged a judgment produces no line at all"
+        assert "22.0" in t, t
+        assert "JUDGMENT, NOT A MEASUREMENT" in t, t
+
+    def test_the_basis_travels_with_the_flag(self):
+        """A judgment with no basis named is what this corpus forbids one step further than a
+        figure with no source -- the shape the two-Phase-11 merge met when the hearth tooltip's
+        `Morris 1734, judgment` became a bare `judgment`."""
+        t = text_of(DISC.banner(self._placed()), "stack-judgment")
+        assert "WHOLE BRICKS" in t, t
+        # cut at a clause and MARK the elision, which is WP-11.5's rule: OQ 18's first version
+        # cut a quoted basis at a hard 150 characters and landed mid-word 148 times.
+        assert t.endswith("…"), f"the basis was elided and the line does not say so: {t}"
+        assert "2 X 3" not in t, f"the clause cut did not happen: {t}"
+
+    def test_a_basis_that_needs_no_cutting_carries_no_elision_mark(self):
+        """The other half, without which the mark above could be unconditional."""
+        t = text_of(DISC.banner(self._placed(stack_plan_basis="whole bricks")), "stack-judgment")
+        assert t.endswith("WHOLE BRICKS"), t
+        assert "…" not in t, t
+
+    def test_a_stack_whose_size_the_corpus_HAS_settled_takes_no_line(self):
+        """The absent half, and it is the half that catches a line hard-coded to fire. A stack
+        drawn at a figure the corpus settled is a measurement and must say nothing."""
+        assert text_of(DISC.banner(self._placed(stack_plan_judgment=False)), "stack-judgment") is None
+
+    def test_a_house_with_no_stack_takes_no_line(self):
+        assert text_of(DISC.banner(_plan()), "stack-judgment") is None
+        assert text_of(DISC.banner(_plan(hearths={"stacks": []})), "stack-judgment") is None
+
+    def test_a_judgment_with_no_figure_takes_no_line_rather_than_printing_None(self):
+        """`stack_plan_in` absent is the record declining to state a size at all. Printing
+        "None SQUARE" would be a disclosure that says nothing and looks like one that does."""
+        assert text_of(DISC.banner(self._placed(stack_plan_in=None)), "stack-judgment") is None
+
+    def test_the_count_is_the_stacks_that_carry_the_judgment_and_not_every_stack(self):
+        p = _plan(hearths={"stacks": [
+            dict(self._placed()["hearths"]["stacks"][0]),
+            dict(self._placed()["hearths"]["stacks"][0], wall="E"),
+            dict(self._placed()["hearths"]["stacks"][0], wall="N", stack_plan_judgment=False)]})
+        t = text_of(DISC.banner(p), "stack-judgment")
+        assert t.startswith("2 STACKS"), f"three stacks, two of them judgments: {t}"

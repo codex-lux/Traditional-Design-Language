@@ -106,6 +106,49 @@ and the projection disagreement of **OQ 79** printed rather than silently resolv
 guards are `tests/test_profiles.py` and `TestCorniceProfileGeometry`, which assert geometry
 (tangency, convexity, scale invariance, the datum) instead of path strings.
 
+## The opening rectangle, and its three callers (WP-12.2)
+
+`opening_rects(elev, face)` is **the one spelling of `(x0, x1, sill, head)` and of the loop
+around it**. Until 12 September 2026 that arithmetic was written out three times — `_window` for
+a sash and `_entrance` for the door in `build/render_elevation.py`, and `_win` in
+`build/export_dxf.py` — and so was the loop: each renderer independently read the face's bays and
+the two storey windows, derived the two floor datums, skipped a blind bay and branched on the
+entrance door.
+
+**That duplication had already cost this corpus once.** When the blind bay arrived (OQ 85) the SVG
+learned to skip it and the DXF did not, so the CAD file went on drawing a window through a chimney;
+the export selftest could not see it, because it round-trips FINDINGS and not geometry.
+
+- **Units are inches, x along the face from its own left edge, y above GRADE**, and the figures
+  are **not rounded**. The DXF draws in inches and the SVG in feet, so one of them must divide;
+  inches is the unit the record states every opening in, and it is the choice with the smaller
+  residue — measured over the 144 opening edges the two shipped plans actually draw, an inches-first
+  rectangle leaves **0** DXF coordinates changed and **2** printed SVG coordinates, where a
+  feet-first one leaves 0 SVG and **64** DXF.
+- **Three states, as everywhere else.** A rectangle is returned, or the bay is in `refused` with
+  its reason and the record path that could not answer — a blind bay, a storey stating no window,
+  an entrance stating no leaf. A bay that draws nothing is never silently absent.
+- **A storey the section does not state gets no openings, and that removed a row of windows from
+  six houses.** Both renderers resolved the upper storey as
+  `next((s for s in storeys if s["index"] == 1), ground)` and then drew a second row of windows at
+  that datum unconditionally, so every one-storey house came out with an invented row above the
+  real one. Six of the eleven plan records that build an elevation state only storey 0, and over
+  those 24 plates **244 window rectangles become 124**. **The refusal carries the right reason of
+  two**: a storey the section does not state is a fact about the BUILDING (*"the section states 1
+  storey(s), so this building has no storey 1 for an opening to stand in"*), while a storey that
+  exists with no `grade_to_floor_ft` is a fact about the RECORD.
+- **A bay the record calls a door draws a WINDOW on any face but the entrance front.** Both
+  renderers already did this and the lift carried the behaviour across rather than correcting it:
+  which faces carry a door is this generator's judgment, not the rectangle's, and a silent
+  correction inside a refactor is the thing the package was written against.
+- The third caller is `build/scene.py`, which turns each rectangle into an `opening-frame` solid.
+  A dormer's window is deliberately NOT one of these: it sits on a roof plane at a position
+  `dormers()` computed, so it is a different rectangle and is built where it is used.
+
+Guarded by `tests/test_opening_rects.py`, and **the blind-bay skip is driven rather than read off
+the corpus**: all sixteen plan records produce zero blind bays today, because WP-11.4 moved this
+house's stacks off the gable centre line and onto its stated flues.
+
 ## What was found
 
 **Window sizing, run the wrong way round, put the sill 55 in off the floor.** The first version of

@@ -439,6 +439,89 @@ def furniture_shortfalls(rt, w, l):
     return out
 
 
+# ------------------------------------------------- the passes that are the generator's own
+#
+# See the note on `fault_clear_on_a_generator_constant` in check()'s return. Cheap: the two AST
+# instruments read one file and memoise on its mtime (measured 0.091 s cold). The SLOW third
+# instrument, `critic_suspects.sweep()`, is deliberately not used -- it builds an elevation per
+# plan and this runs on every evaluate.
+def _clear_on_a_constant(fr):
+    try:
+        CS = _load("critic_suspects", f"{ROOT}/build/critic_suspects.py")
+        DET = _load("detection", f"{ROOT}/build/detection.py")
+        suspects = CS.suspect_names()
+    except Exception:                                      # noqa: BLE001
+        # As `_with_dispositions`: additive or absent, never wrong. An empty list here would
+        # read as "no pass is suspect", which is a claim; the key is omitted instead by the
+        # caller seeing None, and the reader is told.
+        return None
+    # A TRUNCATED LIST IS NOT A SHORTER ANSWER. `core.check_measurements` cuts `faults_clear`
+    # at `limit` and reports how many it dropped; `plan_check` passes 10**6 so it never does,
+    # but a caller who did would get a count that reads as "fewer suspect passes" rather than
+    # "I was not shown them all". Could not evaluate, with the reason.
+    if fr.get("faults_clear_truncated"):
+        return {"could_not_evaluate":
+                f"faults_clear was truncated: {fr['faults_clear_truncated']} row(s) unseen, "
+                f"so a count taken here would understate"}
+    out = []
+    for row in fr.get("faults_clear") or []:
+        names = set()
+        for res in row.get("results") or []:
+            expr = res.get("expression") if isinstance(res, dict) else None
+            if isinstance(expr, str):
+                names |= DET.identifiers(expr)
+        hit = sorted(names & suspects)
+        if hit:
+            out.append({"fault": row.get("fault"), "name": row.get("name"), "reads": hit})
+    return out
+
+
+# ------------------------------------------------- what the corpus has already decided
+#
+# A COULD NOT EVALUATE names the measurements it wanted and says nothing else, and for some of
+# those names this corpus has ALREADY taken a decision and written it down: `arrangement.py`'s
+# NOT_DERIVABLE and `elevation.py`'s NOT_MODELLED each name a quantity and give the reason it
+# will not be supplied. On this corpus's own most carefully authored plan, 120 of 210 faults
+# come back unjudged naming 299 distinct measurements, and 23 of those 299 are refusals taken
+# deliberately -- a plant-room area built, measured, found to convict both reference plans and
+# withdrawn; a chimney breast that exists and carries `judgment: true`. A reader told only
+# "needs dedicated_plant_room_area_sqft" is being handed a work item for a question that was
+# closed, which is an unjudged whose reason is recorded elsewhere and never quoted.
+#
+# `build/detection.py` is the one reader of that join and of the `detection` prose beside it.
+# The prose itself is NOT attached: 120 rows at a median 639 characters is 77 KB on a result
+# that measures 110 KB entire, on the route the infrastructure audit measured as the whole
+# server's bound. The fault record is served whole by the corpus API and by `tdl_fault`.
+#
+# Additive and never destructive: a row that has no refused name is returned unchanged, so a
+# caller reading `needs` and `measurable_from` sees exactly what it saw before.
+def _with_dispositions(rows):
+    try:
+        DET = _load("detection", f"{ROOT}/build/detection.py")
+        refs = DET.refusals()
+    except Exception:                                      # noqa: BLE001
+        # Never silent in the flattering direction, and never fatal: the fault verdicts are
+        # correct with or without this annotation, so a failure here degrades to the rows as
+        # they were rather than taking the validator down. It cannot make an unjudged look
+        # judged -- it adds a field and removes none.
+        return rows
+    out = []
+    for row in rows:
+        if not isinstance(row, dict):
+            out.append(row)
+            continue
+        names = [n for n in (row.get("needs") or []) if isinstance(n, str)]
+        refused = [dict(DET.disposition(n, refs)) for n in names if n in refs]
+        if not refused:
+            out.append(row)
+            continue
+        r = dict(row)
+        r["refused"] = refused
+        r["refused_all"] = len(refused) == len(names)
+        out.append(r)
+    return out
+
+
 def drawn_layer(plan, rooms, level_of, C, F):
     """Judge the house that was PLACED, not the one that was declared.
 
@@ -2621,13 +2704,34 @@ def check(plan, C=None, strict=False):
             # The could-not-judge detail, not just its count. fault_summary already counts
             # unjudged; without the list itself a caller cannot say WHICH faults were
             # beyond evaluation, and unjudged-is-not-passed needs the which. Additive.
-            "fault_unjudged": fr.get("could_not_judge", []),
+            "fault_unjudged": _with_dispositions(fr.get("could_not_judge", [])),
             # NOT APPLICABLE is a fourth state and not a fifth kind of pass. Every test of the
             # fault is preconditioned on a measurement this house does not meet -- a house that
             # states it carries no dormers has no dormer rhythm to be off -- so no test ran.
             # Before core.check_measurements grew this list such a fault appeared in none of the
             # others, which reads to a caller exactly like clear.
             "fault_not_applicable": fr.get("not_applicable", []),
+            # CLEAR COUNTS TWO DIFFERENT THINGS AND NOTHING COULD TELL THEM APART (WP-13.1).
+            # A pass earned on a measurement OF THE HOUSE and a pass earned on the generator
+            # asserting its own output are both `clear`. 26 of the 65 faults clear on
+            # `tidewater-georgian-careful` and 27 of 56 on `spec-builder-colonial` are cleared
+            # on a test reading a name `critic_suspects` already lists as build/elevation.py's
+            # own constant -- `count_of_openings_without_a_mirror_twin_about_the_facade_
+            # centreline = 0` on a generator that draws a symmetric facade by construction,
+            # `equipment_units_visible_on_the_entrance_elevation = 0.0` on one that models no
+            # equipment. Those are true of the house it drew and VACUOUS AS VERDICTS.
+            #
+            # `critique.classify` cannot see one of them: it iterates `findings`, and a fault
+            # that passes emits none. So OQ 52's "a fault can be CLEARED by an invented
+            # constant, and NOT_MODELLED cannot see it" -- recorded as one instance at OQ 89 --
+            # is a population, and until this line nothing in the tree could ask how large.
+            #
+            # It is REPORTED and decides nothing. A suspect pass is not a false pass: the
+            # measurement may be perfectly true of the drawn building, which is why
+            # `critic_suspects.py`'s own docstring says being a suspect is not being wrong.
+            # What it may not do is be counted as the same kind of thing.
+            # `oq/clear-counts-a-pass-and-a-tautology-as-one-thing`.
+            "fault_clear_on_a_generator_constant": _clear_on_a_constant(fr),
             "findings": F.sorted(),
             "note": ("Style exceptions are honoured throughout — a rule a style legitimately breaks is not reported. "
                      "Code findings are advisory. Anything the fault corpus could not judge is unknown, not passed.")}

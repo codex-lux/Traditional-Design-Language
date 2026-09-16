@@ -59,15 +59,20 @@ def render_roof(roof, path, scale=7.0):
     total_w = max(pad * 2 + pw, pad * 2 + len(LEGEND) * 4.55)
     total_h = top + ph + 60
 
+    # WP-12.4: see build/sheet_style.py::frame_attr. A roof plan's two axes are the model's
+    # own east and north, and its origin is hoisted so the attribute and the ink read one pair.
+    ox, oy = pad, top
+    _frames = {"plates": [{"id": "roof", "proj": "roof", "px_per_ft": scale,
+                           "origin_px": [ox, oy], "at_origin_ft": [0.0, round(H, 3)]}]}
     s = [f'<svg xmlns="http://www.w3.org/2000/svg" width="{total_w:.0f}" height="{total_h:.0f}" '
-         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" style="background:{PAL["ground"]}">']
+         f'viewBox="0 0 {total_w:.0f} {total_h:.0f}" data-frame=\'{SS.frame_attr(_frames)}\' '
+         f'style="background:{PAL["ground"]}">']
     s.append(_style_block())
     s.append(f'<text class="hd" x="{pad}" y="26">{_esc(roof.get("plan_id",""))} — ROOF PLAN</text>')
     m = roof["main"]
     pitch_txt = f'{m["pitch_rise_per_12"]}:12' if m.get("pitch_rise_per_12") else "pitch unjudged"
     s.append(f'<text class="lb" x="{pad}" y="42">{_esc(roof.get("style",""))} · {_esc(m.get("form",""))} · {pitch_txt}</text>')
 
-    ox, oy = pad, top
     X = lambda v: ox + v * scale
     Y = lambda v: oy + (H - v) * scale   # model y-north-up, screen y-down -- same convention as render_plan.py/render_section.py
 
