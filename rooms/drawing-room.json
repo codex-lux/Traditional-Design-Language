@@ -44,6 +44,8 @@
         84,
         34
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 30,
       "note": "and they face each other across no more than 10 ft, because beyond that people stop talking across and start talking around - the conversation limit sets the group, and the group sets the room",
       "placement": "against-wall"
@@ -55,6 +57,7 @@
         24,
         26
       ],
+      "footprint_of": "piece",
       "clearance_in": 24,
       "note": "the drawing room's chairs are light and are MOVED, which is a real requirement: heavy fixed seating cannot absorb a party of variable size",
       "placement": "freestanding"
@@ -78,6 +81,8 @@
         36,
         36
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 30,
       "essential": false,
       "placement": "freestanding"

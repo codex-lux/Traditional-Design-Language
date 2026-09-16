@@ -827,14 +827,15 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
             <g key={r.id + 'key'} data-furniture-key={r.id}
               data-furniture-key-fit={fit ? (fit.turned ? 'turned' : 'flat') : 'margin'}
               pointerEvents="none">
-              {kr.numerals.map((nu) => (
-                <text key={'n' + nu.n} data-key-numeral={nu.n} x={ox + nu.x} y={oy + nu.y}
+              {kr.numerals.map((nu, i) => (
+                <text key={'n' + i} data-key-numeral={nu.n} x={ox + nu.x} y={oy + nu.y}
                   fontSize={nu.size} fontFamily="var(--mono)" fill="var(--ink-2)"
                   textAnchor={nu.anchor}>{nu.n}</text>
               ))}
               {fit && kr.lines.map((line, k) => {
                 const size = fit.size;
-                const count = keyCount(kr.entries[k].item);
+                // the record's own `of` where a counted piece states one, else the name's word
+                const count = kr.entries[k].of || keyCount(kr.entries[k].item);
                 if (fit.turned) {
                   // read from the foot of the sheet: each line is a column, the first leftmost
                   const tx = ox + fit.x0 + k * size * KEY.lead + 0.8 * size;

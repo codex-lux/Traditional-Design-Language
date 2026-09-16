@@ -268,9 +268,13 @@ def key_count(name):
     and a table'), in which case it is unjudged. None is unjudged and never one. The key line
     carries the name whole, so the record's own words -- 'pair', 'seats 4', 'six to eight' --
     reach the reader whatever this returns; this is the machine-readable half, published as
-    `data-count` on the line. A mark is drawn ONCE whatever the count, which is
-    `oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`, and a key naming
-    'nightstands, pair' beside one drawn nightstand is that question stated on the plate."""
+    `data-count` on the line where the record states no `of` of its own. Until WP-13.6 a
+    mark was drawn ONCE whatever the count
+    (`oq/a-furniture-footprint-is-sometimes-one-and-sometimes-the-group`); a catalogue item
+    authored `footprint_of: piece` with a `count` is drawn that many times now, the entries
+    carry `piece`/`of`, and the key names the type once with the number drawn (`key_lines`)
+    rather than once per piece -- which is how a draughtsman keys a set of chairs, and what
+    lets one numeral stand on every piece."""
     words = [w.strip(",.;:()/'\"") for w in (name or "").lower().split()]
     words = [w for w in words if w]
     if not words: return None
@@ -281,28 +285,64 @@ def key_count(name):
     return None
 
 
-def key_entries(room):
-    """(numeral, entry, kind) for every mark this plate draws in `room`, numbered in drawing
-    order -- the wet fixtures first, because the fixture pass draws first, then the furniture.
-    An unplaced fixture and a furniture entry with no marks are not on the plate and take no
-    numeral: a numeral for a thing that is not drawn would be a key to nothing."""
+def _key_groups(room):
+    """[(numeral, [entries], kind)] for every mark this plate draws in `room`, numbered in
+    drawing order -- the wet fixtures first, because the fixture pass draws first, then the
+    furniture. An unplaced fixture and a furniture entry with no marks are not on the plate
+    and take no numeral: a numeral for a thing that is not drawn would be a key to nothing.
+
+    THE PIECES OF ONE COUNTED ITEM SHARE A NUMERAL (WP-13.6): consecutive drawn entries of one
+    item carrying `piece` -- the two nightstands, the eight chairs a table seats -- are ONE
+    key line and one numeral, stood on every piece, which is how a draughtsman keys a set and
+    what keeps a dining room's key eight lines shorter than its chairs."""
     out, n = [], 0
     for f in (room.get("fixture_layout") or []):
         if f.get("unplaced") or f.get("x_ft") is None: continue
         n += 1
-        out.append((n, f, "fixture"))
+        out.append((n, [f], "fixture"))
     for f in (room.get("furniture_layout") or []):
         if not f.get("marks"): continue
+        if out and out[-1][2] == "furniture" and f.get("piece") and out[-1][1][0].get("piece") \
+                and out[-1][1][0].get("item") == f.get("item"):
+            out[-1][1].append(f)
+            continue
         n += 1
-        out.append((n, f, "furniture"))
+        out.append((n, [f], "furniture"))
     return out
 
 
-def key_lines(entries):
+def key_entries(room):
+    """(numeral, entry, kind) per key line -- the FIRST piece of a counted item stands for
+    the group, and `key_pieces` gives every piece under that numeral."""
+    return [(n, fs[0], kind) for n, fs, kind in _key_groups(room)]
+
+
+def key_pieces(room):
+    """{numeral: [every drawn piece]} -- the rectangles a numeral stands on."""
+    return {n: fs for n, fs, _kind in _key_groups(room)}
+
+
+def key_suffix(f, drawn):
+    """What a counted item's key line says after its name: ` xN` for the N pieces drawn, or
+    ` xK OF N` where the record asked for N and only K could be seated -- so the plate says
+    the shortfall in the line a reader looks at, and not only in the schedule's count."""
+    of = f.get("of")
+    if not f.get("piece") or not of:
+        return ""
+    return f" x{drawn}" if drawn >= of else f" x{drawn} OF {of}"
+
+
+def key_lines(entries, pieces=None):
     """One line per entry: the numeral and the item's name as recorded, whitespace
-    normalised, set in capitals like everything else lettered on this sheet. Never
-    abbreviated: a key that shortens a name is a key to a different item."""
-    return [f'{n} {" ".join(str(f["item"]).split()).upper()}' for n, f, _kind in entries]
+    normalised, set in capitals like everything else lettered on this sheet, and for a counted
+    item the number of pieces drawn (`key_suffix`). Never abbreviated: a key that shortens a
+    name is a key to a different item. `pieces` is `key_pieces(room)`; without it a counted
+    entry is keyed as the one piece handed in."""
+    out = []
+    for n, f, _kind in entries:
+        drawn = len((pieces or {}).get(n) or [f])
+        out.append(f'{n} {" ".join(str(f["item"]).split()).upper()}{key_suffix(f, drawn)}')
+    return out
 
 
 def key_block_px(lines, size, lead=KEY_LEAD):
@@ -529,7 +569,9 @@ def furniture_key_plan(levels, level_openings, level_bands, plan, wall, W, H, sc
                         (mx + mw - x) * scale, (y + h - my) * scale)
 
             room_px = (0.0, 0.0, w * scale, h * scale)
-            obstacles = [loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]) for _n, f, _k in entries]
+            pieces = key_pieces(r)
+            obstacles = [loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"])
+                         for n, _f, _k in entries for f in pieces[n]]
             for hh in (r.get("hearth") or []):
                 b = HEARTH.breast(r, hh)
                 if b and not b.get("undrawable"):
@@ -548,12 +590,13 @@ def furniture_key_plan(levels, level_openings, level_bands, plan, wall, W, H, sc
                               cx + lab["ink_w"] / 2.0, cy + lab["ink_h"] / 2.0)]
                 obstacles.extend(label_box)
             numerals = []
-            for n, f, _kind in entries:
-                nb = numeral_at(loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]),
-                                f.get("wall"), n, room_px, avoid=label_box)
-                numerals.append((n, nb))
-                obstacles.append(nb[4])
-            lines = key_lines(entries)
+            for n, _f, _kind in entries:
+                for f in pieces[n]:          # one numeral on EVERY piece of a counted item
+                    nb = numeral_at(loc(f["x_ft"], f["y_ft"], f["width_ft"], f["depth_ft"]),
+                                    f.get("wall"), n, room_px, avoid=label_box)
+                    numerals.append((n, nb))
+                    obstacles.append(nb[4])
+            lines = key_lines(entries, pieces)
             fit = fit_key(floor_px, obstacles, lines)
             here[r["id"]] = {"entries": entries, "lines": lines, "numerals": numerals, "fit": fit}
             if fit is None:
@@ -1724,7 +1767,8 @@ def render(plan, path, scale=PX_PER_FT, register="working"):
                 continue          # refused: in the margin schedule, under the room's name
             size = fit["size"]
             for k, (line, (n, f, _kind)) in enumerate(zip(kr["lines"], kr["entries"])):
-                count = key_count(f["item"])
+                # the record's own `of` where a counted piece states one, else the name's word
+                count = f.get("of") or key_count(f["item"])
                 cnt = f' data-count="{count}"' if count else ""
                 if fit["turned"]:
                     # read from the foot of the sheet: the block stands on its bottom edge and

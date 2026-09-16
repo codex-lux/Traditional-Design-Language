@@ -26,7 +26,7 @@
     {"item": "music stands and chairs for a small group",
      "kind": "object", "footprint_in": [24, 24], "clearance_in": 30, "essential": false, "note": "a string quartet needs a 9 ft circle; four players and twelve listeners is the type's real design case", "placement": "freestanding"},
     {"item": "seating for twelve to twenty",
-     "kind": "object", "footprint_in": [22, 22], "clearance_in": 24, "note": "movable and light, set out for the occasion - which is why a music room is sparsely furnished when not in use", "placement": "freestanding"},
+     "kind": "object", "footprint_in": [22, 22], "footprint_of": "piece", "clearance_in": 24, "note": "movable and light, set out for the occasion - which is why a music room is sparsely furnished when not in use", "placement": "freestanding"},
     {"item": "rug, sized to sit UNDER the piano",
      "kind": "covering", "footprint_in": [108, 144], "clearance_in": 0, "note": "the single most effective acoustic control in the room, and it must be under the instrument rather than beside it, because the first reflection is off the floor", "placement": "against-wall"},
     {"item": "lined curtains",

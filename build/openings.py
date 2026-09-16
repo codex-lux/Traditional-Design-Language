@@ -900,7 +900,7 @@ def fixture_pass(level_rooms, C, report, occupied=None):
 
 
 
-def furniture_pass(level_rooms, C, report, occupied=None, stair=None, level_index=0):
+def furniture_pass(level_rooms, C, report, occupied=None, stair=None, level_index=0, breasts=None):
     """Arrange the DRY rooms' furniture, after the openings, the stair and the fixtures.
 
     WP-11.3, on OQ 92's ruling. `fixture_pass` owns the wet and service rooms and reads the
@@ -911,11 +911,16 @@ def furniture_pass(level_rooms, C, report, occupied=None, stair=None, level_inde
     list names are reported as not drawn rather than left to be noticed.
 
     The rules are furniture/grammar.json's and `build/furniture.py` executes them. Every one
-    declares a grade there: four are `editorial` and say so, one is a `reading`. Three more
-    rules the corpus states in prose are named in that file as STATED AND NOT EXECUTED, which
-    is where OQ 92 drew the line -- "seating that makes a group rather than a line" needs a
-    fact no record carries, and inventing it would be the confident nonsense this program
-    exists to remove.
+    declares a grade there (the census is that file's, and build/check_furniture.py prints it
+    every run). Three rules the corpus states in prose are named in that file as STATED AND
+    NOT EXECUTED, which is where OQ 92 drew the line -- "seating that makes a group rather
+    than a line" needs a fact no record carries, and inventing it would be the confident
+    nonsense this program exists to remove.
+
+    `breasts` (WP-13.6) is `threshold.hearth_pass`'s `breasts` list for the whole plan; each
+    room is handed ITS OWN rows on its own level, because `furniture.py` is a leaf and may
+    read no sibling, and two of its rules -- flanking the breast, the facing pair astride the
+    hearth's axis -- read a breast the pass DREW and refuse where there is none.
 
     THIS PASS NEVER WRITES A DIMENSION. docs/model.md carries the ruling and the direction of
     authority: a room's size comes from its programme and its band, and the furniture is
@@ -945,7 +950,9 @@ def furniture_pass(level_rooms, C, report, occupied=None, stair=None, level_inde
                 and stair.get("room") == r["id"]:
             wl = stair["well"]
             blocked.append((wl["x_ft"], wl["y_ft"], wl["width_ft"], wl["depth_ft"]))
-        layout, skipped = F.arrange_room(r, rt, rect, occupied, blocked)
+        mine = [b for b in (breasts or [])
+                if b.get("room") == r["id"] and b.get("level") == level_index]
+        layout, skipped = F.arrange_room(r, rt, rect, occupied, blocked, breasts=mine)
         if layout:
             r["furniture_layout"] = layout
             report["furniture_placed"] += sum(1 for f in layout if "unplaced" not in f)
@@ -1042,7 +1049,20 @@ def place(plan, C=None):
     # keeps the fixture layouts and the placement byte-identical -- tests/test_furniture_drawn.py
     # pins its drawn counts as an EQUALITY over all sixteen plans and re-solves to get them.
     for i, (rooms, occupied) in enumerate(holds):
-        furniture_pass(rooms, C, report, occupied, stair=stair, level_index=i)
+        # WP-13.6: the hearth pass ran above the level loop, so its drawn breasts are known here
+        # and the furniture that the record seats beside or astride a fire can read them.
+        #
+        # `level_index` IS THE RECORD'S OWN `index` AND NOT THE LOOP POSITION, because
+        # `threshold.hearth_pass` writes `{"level": lv.get("index")}` on every breast and
+        # `_place_windows` above already takes it that way. The one other reader of this
+        # argument is the stair well, and `stair_pass` writes a LITERAL `level: 0` meaning the
+        # ground level -- two meanings in one argument, which coincide because every level of
+        # all sixteen plans has `index` equal to its position. Measured, and
+        # tests/test_furniture_grammar.py asserts that premise, so the day a record states
+        # otherwise (a cellar at `index: -1` is what the plan schema documents) the suite says
+        # so rather than the well quietly ceasing to be blocked.
+        furniture_pass(rooms, C, report, occupied, stair=stair,
+                       level_index=plan["levels"][i].get("index", i), breasts=he.get("breasts"))
     # WP-11.4. The stoop is PLAN-level and runs last, after every room-level pass, because it
     # reads the placed exterior doors and writes to no room. (The stacks ran here too until
     # WP-13.2 moved them above the level loop so the windows could be seated clear of them;
