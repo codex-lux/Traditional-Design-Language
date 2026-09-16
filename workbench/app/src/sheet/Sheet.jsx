@@ -17,6 +17,7 @@ import { fitLabel, fitLine, useFontMetrics } from './label.js';
 import { PEN, POCHE, DASH, inked } from './pen.js';
 import { furnitureKeyPlan, keyCount, KEY } from './furnitureKey.js';
 import { engineClaim, statusHead } from './engineClaim.js';
+import { sketchOf } from './refusal.js';
 
 function DimRun({ from, to, at, vertical, stops }) {
   const marks = stops || [from, to];
@@ -460,6 +461,20 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
      optimum (quoting the solver's own status, and saying when the composition was not evaluated),
      searched, or nothing where no engine is recorded. */
   const claim = engineClaim(placement?.geometry_report?.solver);
+  /* THE WALL DRAG'S WORKING SKETCH, ON THE PLATE (WP-13.4).
+
+     Since 15 Sep 2026 a placement that breaks a hard fact of the type is refused and no surface
+     draws it — with ONE exception, the wall drag, which asks for the hill-climb by name because
+     a gesture cannot wait for a proof. `workbench/server/evaluate.py` marks that one
+     `placement.sketch = {working, refused, reason}`, and this is the only sheet in the app that
+     draws one.
+
+     IT IS SAID HERE AND NOT ONLY IN THE PROSE BESIDE THE SHEET, for WP-6.4's reason: a printed,
+     screenshotted or exported plate leaves the prose behind, and a reader then cannot tell a
+     working sketch from a drawing. The state is read once, from the record, through the one
+     leaf — the Plan Workbench reads the same function for the same placement, and neither
+     derives it. */
+  const sketch = sketchOf(placement);
   const engineLine = claim.verdict === 'unjudged' ? ''
     : claim.proved
       ? "Placement proved (CP-SAT) against the record's own declared facts"
@@ -478,6 +493,22 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
   return (
     <div style={{ position: 'relative', background: 'var(--paper)', border: '1px solid var(--ink-2)',
       boxShadow: 'var(--shadow-plate)', padding: '18px 22px 14px' }}>
+      {sketch && (
+        <div data-working-sketch="" data-sketch-refused={sketch.refused ? sketch.refused.kind : ''}
+          style={{ border: '1px solid var(--refusal)', padding: '6px 10px', margin: '0 0 10px',
+            font: 'var(--type-eyebrow)', letterSpacing: 'var(--tr-eyebrow)',
+            textTransform: 'uppercase', color: 'var(--refusal)' }}>
+          working sketch — not a drawing
+          <span style={{ font: 'italic var(--fw-reg) 12px/1.45 var(--serif)', letterSpacing: 0,
+            textTransform: 'none', color: 'var(--ink-2)', marginLeft: 10 }}>
+            {sketch.refused
+              ? 'this placement was refused; it is drawn only because a wall drag asked for the '
+                + 'fast search by name, and it may not be exported'
+              : 'placed by the fast search behind a gesture, and it may not be exported'}
+            {sketch.reason ? ` — ${sketch.reason}` : ''}
+          </span>
+        </div>
+      )}
       <div style={{ textAlign: 'center', margin: '4px 0 2px' }}>
         <div style={{ font: 'var(--fw-med) 17px/1.35 var(--serif)', letterSpacing: 'var(--tr-drawing)',
           textTransform: 'uppercase', color: 'var(--ink)' }}>{interpunct}</div>
@@ -965,6 +996,13 @@ export function Sheet({ plan, placement, levelIndex = 0, overlays, ghost, select
           flex: '1 0 auto' }}>{interpunct}</div>
         <div data-plate-note="" style={{ font: 'italic var(--fw-reg) 13px/1.45 var(--serif)',
           color: 'var(--ink-2)', textAlign: 'right', flex: '1 1 34ch', minWidth: '22ch' }}>
+          {/* FIRST, because it governs everything after it: a plate a reader may not measure
+              from must say so before it says what engine drew it. */}
+          {sketch
+            ? 'A WORKING SKETCH, not a drawing — placed by the fast search behind a wall drag'
+              + (sketch.refused ? ', on a placement the type’s facts refuse' : '')
+              + '; it may not be exported. '
+            : ''}
           {engineLine}
           {/* THE WALL IS A READING OR IT IS A CONVENTION, AND THE PLATE HAS TO SAY WHICH.
               Before plan schema 0.5.1 this sheet drew a 9 in envelope and a 5 in partition

@@ -8,6 +8,9 @@ import { planDoc } from '../state/planDoc.js';
 import { session } from '../state/session.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip, ActionChip } from '../Chrome.jsx';
+import { ConflictSet } from '../components/ConflictSet.jsx';
+import { evaluateRefusal, placementRefusal, sketchOf, errorText, refusalFromError, isMissingLibrary }
+  from '../sheet/refusal.js';
 
 function save(name, content, type = 'application/json') {
   const a = document.createElement('a');
@@ -28,18 +31,43 @@ export function ExportDetails({ lastEval }) {
   const s = React.useSyncExternalStore(session.subscribe, session.get);
   const [busySvg, setBusySvg] = React.useState(null);
   const [busyCad, setBusyCad] = React.useState(null);
-  const [cadNote, setCadNote] = React.useState(null);
+  const [note, setNote] = React.useState(null);
+  const [refusal, setRefusal] = React.useState(null);
 
+  /* NOTHING LEAVES THIS SYSTEM FROM A REFUSED PLACEMENT, AND NOTHING LEAVES IT FROM A SKETCH
+     (WP-13.4). The verdict is the one the bench already holds — `/api/plan/evaluate`'s own
+     `placement_refused`, or the placed record's `geometry_report.refused`, or the wall drag's
+     `placement.sketch` — read through `sheet/refusal.js` and derived nowhere here. A working
+     sketch is a legitimate thing to look at and is never a legitimate thing to hand a drafter,
+     so it blocks an export while it does not block the bench's own plate. */
+  const evalRefusal = evaluateRefusal(lastEval) || placementRefusal(lastEval?.placement);
+  const sketch = sketchOf(lastEval?.placement);
+  const blocked = Boolean(evalRefusal) || Boolean(sketch);
+  const blockedWhy = evalRefusal
+    ? 'the placement was refused — nothing may be exported from it'
+    : sketch
+      ? 'the bench is showing a working sketch from a wall drag — a sketch is never a file'
+      : '';
+  const shown = refusal || evalRefusal;
+
+  /* THE ROUTES GO THROUGH `api/client.js` NOW, AND A REFUSAL REACHES THE READER.
+     `saveSvg` was a raw fetch with `if (r.ok)` and NO else, so a 422 downloaded nothing and
+     said nothing — a button that appeared to do its job and did not. `saveCad` painted every
+     failure in `var(--forthcoming)`, the colour this surface reserves for what is DESIGNED AND
+     NOT BUILT, so a refused house read as a missing feature. Both report through the one leaf:
+     a refused placement shows its conflict set, a 501 keeps saying the server has no CAD
+     library, and anything else is stated as itself. */
   async function saveSvg(kind) {
-    if (!plan) return;
-    setBusySvg(kind);
+    if (!plan || blocked) return;
+    setBusySvg(kind); setNote(null); setRefusal(null);
     try {
-      const r = await fetch(`/api/drawings/${kind}`, {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ plan }),
-      });
-      const j = await r.json();
-      if (r.ok) save(`${plan.id}-${kind}.svg`, j.svg, 'image/svg+xml');
+      const j = await api.drawing(kind, plan);
+      save(`${plan.id}-${kind}.svg`, j.svg, 'image/svg+xml');
+    } catch (e) {
+      const r = refusalFromError(e);
+      if (r) setRefusal(r);
+      else setNote({ text: errorText(e) || 'the drawing could not be generated',
+        missing: isMissingLibrary(e) });
     } finally {
       setBusySvg(null);
     }
@@ -50,25 +78,16 @@ export function ExportDetails({ lastEval }) {
      elevation outside the classical-front family) is shown stated, not
      swallowed into an empty download. */
   async function saveCad(fmt, kind) {
-    if (!plan) return;
+    if (!plan || blocked) return;
     const key = kind ? `${fmt}:${kind}` : fmt;
-    setBusyCad(key);
-    setCadNote(null);
+    setBusyCad(key); setNote(null); setRefusal(null);
     try {
-      const r = await fetch(`/api/export/${fmt}`, {
-        method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ plan, kind }),
-      });
-      const j = await r.json();
-      if (r.ok) {
-        save(j.filename, j.text,
-          fmt === 'dxf' ? 'application/dxf' : 'application/x-step');
-      } else {
-        const d = j.detail || j;
-        setCadNote(d.refusal ? `refused — ${d.error}` : d.error || 'export failed');
-      }
+      const j = await api.exportCad(fmt, plan, kind ? { kind } : {});
+      save(j.filename, j.text, fmt === 'dxf' ? 'application/dxf' : 'application/x-step');
     } catch (e) {
-      setCadNote(String(e));
+      const r = refusalFromError(e);
+      if (r) setRefusal(r);
+      else setNote({ text: errorText(e) || 'the export failed', missing: isMissingLibrary(e) });
     } finally {
       setBusyCad(null);
     }
@@ -84,6 +103,24 @@ export function ExportDetails({ lastEval }) {
       </FilterStrip>
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 36px' }}>
+        {/* WHAT MAY NOT LEAVE, AND WHY, BEFORE THE BUTTONS THAT WOULD HAVE SENT IT (WP-13.4).
+            The conflict set is the same component the bench draws where the plate would be, so
+            a reader who came here from a refused sheet meets the same words rather than a
+            second account of one verdict. */}
+        <ConflictSet refusal={shown} where="every export of this record" />
+        {note && (
+          <p data-export-note={note.missing ? 'missing-library' : 'error'}
+            style={{ font: 'var(--type-data-s)',
+              // the NOT-BUILT colour is for what is not built. An export that FAILED is not a
+              // forthcoming feature, and painting the two the same made a refused house read
+              // as a gap in the product.
+              color: note.missing ? 'var(--forthcoming)' : 'var(--sev-serious)',
+              margin: '0 0 14px', maxWidth: '76ch' }}>
+            {note.missing
+              ? `not built on this server — ${note.text}`
+              : `refused — ${note.text}`}
+          </p>
+        )}
         <Eyebrow style={{ marginBottom: 12 }}>leaves the system today</Eyebrow>
         <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'stretch' }}>
           <div style={card}>
@@ -121,7 +158,9 @@ export function ExportDetails({ lastEval }) {
             </p>
             <span style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {['plan', 'elevation', 'section', 'bearing', 'roof'].map((k) => (
-                <ActionChip key={k} affix={busySvg === k ? '…' : '↓'} disabled={!plan} onClick={plan ? () => saveSvg(k) : undefined}>
+                <ActionChip key={k} affix={busySvg === k ? '…' : '↓'} disabled={!plan || blocked}
+                  title={blocked ? blockedWhy : ''}
+                  onClick={plan && !blocked ? () => saveSvg(k) : undefined}>
                   {busySvg === k ? 'generating…' : k}
                 </ActionChip>
               ))}
@@ -137,18 +176,21 @@ export function ExportDetails({ lastEval }) {
             </p>
             <span style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {['plan', 'section', 'roof', 'elevation'].map((k) => (
-                <ActionChip key={k} affix={busyCad === `dxf:${k}` ? '…' : '↓'} disabled={!plan}
-                  onClick={plan ? () => saveCad('dxf', k) : undefined}>
+                <ActionChip key={k} affix={busyCad === `dxf:${k}` ? '…' : '↓'}
+                  disabled={!plan || blocked} title={blocked ? blockedWhy : ''}
+                  onClick={plan && !blocked ? () => saveCad('dxf', k) : undefined}>
                   {busyCad === `dxf:${k}` ? 'generating…' : `${k} dxf`}
                 </ActionChip>
               ))}
-              <ActionChip affix={busyCad === 'ifc' ? '…' : '↓'} disabled={!plan} onClick={plan ? () => saveCad('ifc') : undefined}>
+              <ActionChip affix={busyCad === 'ifc' ? '…' : '↓'} disabled={!plan || blocked}
+                title={blocked ? blockedWhy : ''}
+                onClick={plan && !blocked ? () => saveCad('ifc') : undefined}>
                 {busyCad === 'ifc' ? 'generating…' : 'ifc model'}
               </ActionChip>
             </span>
-            {cadNote && (
-              <p style={{ font: 'var(--type-data-s)', color: 'var(--forthcoming)',
-                margin: '10px 0 0' }}>{cadNote}</p>
+            {blocked && (
+              <p data-export-blocked="" style={{ font: 'var(--type-data-s)',
+                color: 'var(--refusal)', margin: '10px 0 0' }}>{blockedWhy}</p>
             )}
           </div>
         </div>

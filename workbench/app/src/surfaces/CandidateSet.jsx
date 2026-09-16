@@ -17,6 +17,8 @@ import { session } from '../state/session.js';
 import { planDoc } from '../state/planDoc.js';
 import { CandidateColumn } from '../components/CandidateColumn.jsx';
 import { RefusalCard } from '../components/RefusalCard.jsx';
+import { ConflictSet } from '../components/ConflictSet.jsx';
+import { readRefusal, refusalHeadline } from '../sheet/refusal.js';
 import { Eyebrow } from '../components/Eyebrow.jsx';
 import { nav } from '../state/nav.js';
 import { Spotlight } from '../components/Spotlight.jsx';
@@ -55,6 +57,12 @@ function adaptCandidate(c, i, nativePartis, axisWhat) {
     warnings: (c.footprint?.notes || []),
     worst: c.worst || [],
     plan_rooms: c.plan_rooms,
+    /* WP-13.4. A composed candidate whose placement breaks a hard fact of the type carries the
+       refusal the composer's own placer wrote; `sheet/refusal.js` reads it and this surface
+       derives nothing. Until this, `open in the workbench` loaded such a candidate straight
+       onto the bench, where the reader met a blank plate and a status line — the refusal was on
+       the record the whole time and no surface had read it. */
+    refused: readRefusal(c.refused),
     // WP-9.2/9.3: what the placed revision loop bought on this candidate. `score_before` is
     // the same instrument as `score` (both on the stripped declared record); `rank_before`
     // is the SERVER's order before revision and is labelled as such, because `rank` on
@@ -160,6 +168,10 @@ export function CandidateSet({ onCite, go, selection }) {
   const askedFor = s.brief?.candidates || 4;
 
   async function openInWorkbench(c) {
+    // A refused candidate is not loaded. The conflict set beside its column says what could not
+    // hold; loading it would put a record on the bench that no surface there may draw, which
+    // reads as the bench being broken rather than as the candidate being refused.
+    if (c.refused) return;
     const n = cands.findIndex((x) => x.id === c.id);
     const plan = await api.candidatePlan(s.jobId, n);
     planDoc.load(plan);
@@ -218,13 +230,31 @@ export function CandidateSet({ onCite, go, selection }) {
           {list.map((c, i) => (
             <CandidateColumn key={c.id} candidate={c} rank={i + 1} selected={sel === c.id}
               onSelect={() => setSel(c.id)} style={{ minWidth: 0 }}>
-              <button type="button" onClick={() => openInWorkbench(c)}
-                style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', marginTop: 14 }}>
-                open in the workbench
-              </button>
+              {c.refused
+                ? <span data-candidate-refused={c.refused.kind}
+                    style={{ display: 'block', font: 'var(--type-data-s)', color: 'var(--refusal)',
+                      marginTop: 14 }}
+                    title={refusalHeadline(c.refused)}>
+                    refused — not loadable; the conflict set is below
+                  </span>
+                : <button type="button" onClick={() => openInWorkbench(c)}
+                    style={{ font: 'var(--type-data-s)', color: 'var(--gilt-deep)', marginTop: 14 }}>
+                    open in the workbench
+                  </button>}
             </CandidateColumn>
           ))}
         </div>
+
+        {/* WHAT EACH REFUSED CANDIDATE COULD NOT HOLD, in the corpus's own words and in the same
+            component the bench and the Drawing Set use — one account of one verdict, wherever a
+            reader meets it. A refused candidate is DIFFERENT from a dropped one below: dropped is
+            the LOT refusing a diagram before it was placed, refused is the TYPE refusing a
+            placement after it was. */}
+        {list.filter((c) => c.refused).map((c) => (
+          <div key={'r' + c.id} style={{ marginTop: 14 }}>
+            <ConflictSet refusal={c.refused} where={`candidate ${c.parti_name || c.parti}`} />
+          </div>
+        ))}
 
         {dropped.length > 0 && (
           <div style={{ marginTop: 16, border: '1px solid var(--rule)', padding: '11px 13px',

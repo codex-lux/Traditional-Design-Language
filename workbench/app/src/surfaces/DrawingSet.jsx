@@ -10,6 +10,9 @@ import { Eyebrow } from '../components/Eyebrow.jsx';
 import { FilterStrip, Chip, ChipGroup, ActionChip } from '../Chrome.jsx';
 import { PlateViewer } from '../components/PlateViewer.jsx';
 import { KINDS } from './drawingKinds.js';
+import { ConflictSet } from '../components/ConflictSet.jsx';
+import { engineClaim, statusHead } from '../sheet/engineClaim.js';
+import { errorText, refusalFromError, placementRefusal } from '../sheet/refusal.js';
 import { RoundPlate } from '../round/RoundPlate.jsx';
 import { useSurfaceFilters } from '../filters/useFilters.js';
 
@@ -134,7 +137,10 @@ export function DrawingSet({ go }) {
         // view the URL already names — a copied link must reproduce what its sender saw
         if (!view) setView(defaultAxon(j.scene?.entrance_face));
       })
-      .catch((e) => { if (!dead) setSceneErr(String(e.body?.detail?.error || e.message || e)); });
+      /* THE ERROR OBJECT, NOT A STRING (WP-13.4). `String(e.body?.detail?.error || …)` threw
+         away everything but the sentence, and a refused placement arrives as a 422 whose
+         detail carries the whole conflict set. `sheet/refusal.js` is the one reader of it. */
+      .catch((e) => { if (!dead) setSceneErr(e); });
     return () => { dead = true; };
   }, [plan, kind, scene, sceneErr]);
 
@@ -158,9 +164,24 @@ export function DrawingSet({ go }) {
     setBusy(true); setError(null); setResult(null);
     api.drawing(kind, plan, kind === 'elevation' && face ? { face } : {})
       .then((j) => { cache.current[key] = j; setResult(j); })
-      .catch((e) => setError(String(e.body?.detail?.error || e.message || e)))
+      .catch((e) => setError(e))
       .finally(() => setBusy(false));
   }, [plan, kind, face, key, scene]);
+
+  /* REFUSED, NOT DRAWN (WP-13.4). A drawing route answers 422 with `corpus._placed`'s own
+     return when the placement breaks a hard fact of the type, so the refusal arrives here as a
+     thrown error and `sheet/refusal.js` is the one reader of it. The scene route answers the
+     same way; a scene that DID come back carries its placed record, so its verdict is read off
+     that record rather than re-derived. Nothing here counts a downgraded fact for itself. */
+  const plateRefusal = refusalFromError(error);
+  const sceneRefusal = refusalFromError(sceneErr) || placementRefusal(scene && scene.plan);
+  const refusal = kind === 'model' ? sceneRefusal : plateRefusal;
+  const errText = kind === 'model' ? errorText(sceneErr) : errorText(error);
+  // A PLATE IS WHAT MAKES A DOWNLOAD POSSIBLE. The control was unconditional, so on the model
+  // view and on every refusal it was a button that silently did nothing -- and the moment a
+  // refused placement can reach this surface, a live one would be a file of a house the corpus
+  // refused. It is offered only where there is a rendered plate to save.
+  const downloadable = kind !== 'model' && Boolean(result && result.svg);
 
   if (!plan) {
     return (
@@ -196,7 +217,11 @@ export function DrawingSet({ go }) {
           <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', whiteSpace: 'nowrap' }}>
             {plan.id} · {plan.style}
           </span>
-          <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
+          {downloadable
+            ? <ActionChip affix="↓" onClick={download}>download SVG</ActionChip>
+            : <span style={{ font: 'var(--type-data-s)', color: 'var(--ink-4)', whiteSpace: 'nowrap' }}>
+                {refusal ? 'nothing to download — refused' : 'nothing to download yet'}
+              </span>}
         </span>
       }>
         <Eyebrow as="span">sheet</Eyebrow>
@@ -224,12 +249,18 @@ export function DrawingSet({ go }) {
 
       <div style={{ flex: 1, overflow: 'auto', minHeight: 0, padding: '22px 26px 34px' }}>
         {busy && <p style={{ font: 'var(--type-body)', color: 'var(--ink-3)' }}>generating from the record…</p>}
-        {error && (
+        {/* THE CONFLICT SET STANDS WHERE THE PLATE WOULD BE (WP-13.4). This panel has been "the
+            generator refused" since WP-5.1 and it is the natural host: what is new is that a
+            refusal may now be the TYPE's rather than the record's, and it arrives with the facts
+            that could not hold. The plain panel below it is for everything else -- a missing
+            library, an unreadable record -- which is a different sentence and keeps its own. */}
+        <ConflictSet refusal={refusal} where={'the ' + kind} />
+        {!refusal && error && (
           <div style={{ border: '1px solid var(--rule)', borderLeft: '2px solid var(--refusal)',
             background: 'var(--paper-deep)', padding: '12px 14px', maxWidth: 640 }}>
             <Eyebrow tone="secondary" style={{ marginBottom: 6 }}>the generator refused</Eyebrow>
             <p style={{ font: 'var(--fw-reg) 13.5px/1.6 var(--body)', color: 'var(--ink)', margin: 0 }}>
-              {error}
+              {errText}
             </p>
             <p style={{ font: 'var(--fw-reg) 12.5px/1.55 var(--body)', color: 'var(--ink-3)', margin: '7px 0 0' }}>
               A refusal is content: this record does not carry what the {kind} generator
@@ -240,10 +271,15 @@ export function DrawingSet({ go }) {
         {kind === 'model' && (
           <div style={{ maxWidth: 1180 }}>
             {sceneErr ? (
+              /* A REFUSAL IS NOT A COULD-NOT-EVALUATE, and printing one as the other is the
+                 fake-unjudged shape. Where the placement was refused the conflict set above says
+                 so in the corpus's own words and this line does not appear at all. */
+              refusal ? null : (
               <div data-round-error="" style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
-                COULD NOT EVALUATE — the scene could not be built: {sceneErr}
+                COULD NOT EVALUATE — the scene could not be built: {errText}
               </div>
-            ) : !scene ? (
+              )
+            ) : sceneRefusal ? null : !scene ? (
               <div style={{ font: 'italic 13px/1.6 var(--serif)', color: 'var(--ink-2)', padding: '18px 2px' }}>
                 placing the house and building the model…
               </div>
@@ -253,6 +289,7 @@ export function DrawingSet({ go }) {
                   scene={scene.scene}
                   plates={scene.plates}
                   platesRefused={scene.plates_refused}
+                  refusedPlacement={sceneRefusal}
                   plan={scene.plan}
                   meta={scene.rooms_meta}
                   view={view || defaultAxon(scene.scene?.entrance_face)}
@@ -336,11 +373,24 @@ export function DrawingSet({ go }) {
                 {/* Three states, not two. A ternary here would have made an ABSENT engine
                     read as "searched", which is a definite claim about a placement nobody
                     can name — the one collapse this corpus refuses first. */}
-                placed by {result.solver.engine === 'cp-sat' ? 'proof (CP-SAT)'
-                  : result.solver.engine === 'heuristic' ? 'search (hill-climb)'
-                    : 'an engine this plate does not name'}
+                {/* WP-13.4: `sheet/engineClaim.js` is the app's ONE reader of a solver block and
+                    this was a SECOND one -- a three-state ternary on the engine's NAME, which
+                    cannot tell an OPTIMAL from a FEASIBLE truncation and so had no way to say
+                    "not proved at the optimum". It reads the leaf now and prints its verdict
+                    beside the engine, so this plate and the bench's caption cannot disagree
+                    about one record. */}
+                placed by {(() => {
+                  const c = engineClaim(result.solver);
+                  if (!c.engine) return 'an engine this plate does not name';
+                  if (c.cp) return c.proved
+                    ? 'proof (CP-SAT), proved at the optimum'
+                    : `CP-SAT, NOT proved at the optimum — ${statusHead(c.status) || 'no status recorded'}`;
+                  return 'search (hill-climb)';
+                })()}
                 {result.solver.drawn_by?.input_digest
                   ? ` · input ${result.solver.drawn_by.input_digest}` : ''}
+                {/* `fallback` is the drawing route's own word for the same fact `solver.reason`
+                    carries; both are printed because neither is derivable from the other here. */}
                 {result.solver.fallback ? ` · fell back: ${result.solver.fallback}` : ''}
               </p>
             )}

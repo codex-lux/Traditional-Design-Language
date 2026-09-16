@@ -97,6 +97,16 @@ export const api = {
   // never been looked at.
   drawing: (kind, plan, opts = {}) => postJSON(`/api/drawings/${seg(kind)}`, { plan, ...opts }),
 
+  /* WP-13.4. `Details & Export` was the last surface calling `fetch` by hand, and it was the
+     last one outside `noteUnauthorized` AND outside every error convention this file keeps.
+     Its SVG save had an `if (r.ok)` with no `else`, so a 422 downloaded nothing and said
+     nothing; its CAD save parsed `j.detail || j` itself and painted the result in
+     `var(--forthcoming)` — the NOT-BUILT colour — so a refused house read as a feature nobody
+     had written. Both go through here now, and `sheet/refusal.js` is the one reader of what
+     comes back. 501 with `refusal` still means a missing ezdxf/ifcopenshell on the server and
+     nothing else: see `isMissingLibrary`. */
+  exportCad: (fmt, plan, opts = {}) => postJSON(`/api/export/${seg(fmt)}`, { plan, ...opts }),
+
   /* The Round's one call (WP-12.3). Returns the scene record, the PLACED plan and every named
      view's plate together, because seven metered calls per record change against a budget of
      sixty an hour buys eight edits and one call buys sixty. Keep the returned `plan`: a record
