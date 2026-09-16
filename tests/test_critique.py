@@ -372,6 +372,15 @@ def _derive_measurements(elev):
         CS = mc.load("critic_suspects", os.path.join(BUILD, "critic_suspects.py"))
         assert CK.LITERALS_CEILING == len(CS.source_literals()), \
             "the ceiling is not the measurement; lower it in the same commit that lowers the count"
+        # AND THE RATIO CEILING, WHICH THIS TEST DID NOT ASSERT UNTIL 16 Sep 2026. The checker
+        # publishes TWO counts and notes a fall in either; noting is not failing, so this test
+        # was the only thing that could say it, and it said it about one. Measured at the WP-13.3
+        # merge: literals had fallen 44 -> 41 AND ratios 7 -> 6, and only the literals half went
+        # red. WP-8.14's rule -- when a layer publishes N figures and a guard derives N-1, name
+        # the one it does not -- met in the guard rather than in the prose.
+        assert CK.RATIOS_CEILING == len(CS.literal_ratios()), \
+            "the ratio ceiling is not the measurement; lower it in the same commit that lowers " \
+            "the count. This half was unasserted until 16 Sep 2026 and had already rotted."
         real = CS.source_literals()
         more = dict(real, **{"an_invented_measurement_in": {"value": 1.0, "line": 0, "shape": "Constant"}})
         monkeypatch.setattr(CS, "source_literals", lambda *a, **k: more)

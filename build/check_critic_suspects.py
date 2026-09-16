@@ -40,8 +40,26 @@ COULD_NOT_EVALUATE = 3      # check_all.py's protocol -- 2 read as FAIL, which i
 # (SASH_FRAME, four measurements), a ternary with a literal branch, an `or 3` fallback, a
 # literal inside max(), a literal one level down a BinOp -- and exempted 0.5 and 2.0 as
 # "unit conversions". The jump is the instrument seeing, not the generator inventing.
-LITERALS_CEILING = 44
-RATIOS_CEILING = 7
+#
+# BOTH FELL AT WP-13.3 AND NEITHER CEILING MOVED WITH THEM (lowered 16 Sep 2026, four days
+# after the count did). 44 -> 41 and 7 -> 6. The checker NOTED both every run -- *"literals
+# fell to 41; lower LITERALS_CEILING to 41 in the same commit"* -- and noting is not failing,
+# so only `tests/test_critique.py` was ever going to say it, and that test asserted the
+# literals half alone. **A layer publishing two figures with a guard on one is WP-8.14's
+# `unreached` exactly**: the unguarded half is the half that rots, and here it rotted in the
+# same package as the guarded one. The test asserts both now.
+#
+# THE MOVEMENT IS ACCOUNTED FOR BY NAME rather than accepted, measured against a `git archive`
+# of 49e2389 (WP-13.2 complete) with the checker's OWN readers on both trees. Three literals
+# GONE and none added: `max_abs_offset_between_upper_and_lower_opening_centrelines_in`,
+# `count_of_openings_without_a_mirror_twin_about_the_facade_centreline` and
+# `width_of_the_largest_asymmetric_element_in` -- the three alignment and mirror names WP-13.3
+# stopped stating as `0.0`, `0` and `False` and made read the plan's own placed openings, which
+# is the OQ 52 family leaving this file. One ratio GONE and none added:
+# `openings_on_the_front_elevation`, which was the front's count scaled by a literal and is the
+# placed openings now. **Four measurements became real; nothing was renamed away.**
+LITERALS_CEILING = 41
+RATIOS_CEILING = 6
 UNJUDGED_CEILING = 0     # basis citations whose key path the walker could not follow
 MIN_SWEEP_PLANS = 8
 
