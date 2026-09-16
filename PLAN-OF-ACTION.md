@@ -3836,7 +3836,7 @@ number-to-filename table, so a bare "WP-13.n" can always be resolved:
 | WP-13.1 | `docs/reports/wp-13.1-the-gate.md` |
 | WP-13.2 | `docs/reports/wp-13.2-the-plate-tells-the-truth.md` |
 | WP-13.3 | `docs/reports/wp-13.3-the-prover-learns-the-type.md` |
-| WP-13.4 | refuse to draw — `wp-13.4-…` |
+| WP-13.4 | `docs/reports/wp-13.4-refuse-to-draw.md` |
 | WP-13.5 | the container — `wp-13.5-…` |
 | WP-13.6 | `docs/reports/wp-13.6-furniture-to-its-own-grammar.md` |
 | WP-13.7 | the adversarial audit — `wp-13.7-…` |
