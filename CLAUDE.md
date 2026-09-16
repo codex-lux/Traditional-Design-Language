@@ -1523,6 +1523,28 @@ and one sash over a ground front of five. Not edited, because every available fi
 withheld on that very house, or a parti authored blind);
 `oq/a-side-hall-front-is-convicted-by-a-band-written-for-centred-fronts`.
 
+**RULED 16 SEP 2026: CAPACITY DOES NOT REFUSE A DRAWING, CONTINUITY DOES.** Lucas's words:
+*"capacity shouldn't refuse a drawing -- continuity only"*. `typefacts.bearing` measured two
+halves and returned ONE verdict, DOWNGRADED if either was, so a single over-capacity clear span
+refused a whole sheet -- and WP-13.4's sweep measured that half alone refusing **33 of the 37**
+shipped records and partis it swept. The 15 Sep precedence list names *bearing CONTINUITY on the
+bay grid* and never capacity; `plan_check` grades an over-capacity span SERIOUS and not fatal on
+`structure.span_check`'s own words, *an intermediate support or an engineered member* -- a floor
+framed differently, not a plan that cannot be walked. **The status is continuity's alone;
+capacity is still measured and still reported** (`halves`, `detail`, `spans_over_capacity`, plus
+`capacity_status` and `capacity_refuses` so no reader infers it), because a fact that stops
+DECIDING must not stop being SAID. Measured on `engine="heuristic"`, both columns from one run:
+**records with no type fact downgraded 2 of 16 -> 12 of 16**, eleven moving, **EIGHT of them with
+continuity UNJUDGED** -- a one-level house or a record stating no bay module, refused a drawing by
+capacity alone. **AND THE SHIPPED TIDEWATER RECORD IS NOW REFUSED FOR ONE FACT ONLY, `stacks`**:
+5 of 5 declared stacks broken, the landing at **0%** over the stair, which is Lucas's own
+complaint 1 of 15 Sep -- the refusal that remains is the house's and not the instrument's.
+**NOT DONE AND NAMED RATHER THAN EXTENDED**: `geometry_cp`'s BEARING rank still carries
+continuity AND capacity as one hard rank, so the prover still tries to satisfy capacity and
+releases both halves together when it cannot. The ruling was given about refusing a DRAWING and
+is executed there; whether capacity should leave the prover's hard set is a separate question
+with a placement behind it.
+
 **WP-13.6 IS THE FURNITURE ARRANGED TO ITS OWN GRAMMAR, AND ITS SHARPEST FINDING IS THAT THE
 PACKAGE'S OWN FIRST COMMIT HAD ALREADY SHIPPED TWO RED ASSERTIONS
 (`docs/reports/wp-13.6-furniture-to-its-own-grammar.md`).** Catalogue items state their POSITION
