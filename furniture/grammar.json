@@ -15,7 +15,9 @@
     "order": ["item rule", "placement default", "refusal"],
     "note": "First match wins. A `placement` value always resolves to a rule, so no item is ever seated from nothing; an item whose kind is not `object` resolves to a refusal rule that says why it was not drawn, which is a verdict and not a silence."
   },
-  "executed": ["fg-against-wall", "fg-built-in", "fg-corner", "fg-freestanding", "fg-wall-run"],
+  "executed": ["fg-against-wall", "fg-built-in", "fg-corner", "fg-freestanding", "fg-wall-run", "fg-at-the-foot", "fg-beside-the-bed", "fg-between-the-windows", "fg-flanking-the-chimney-breast", "fg-opposite-the-bed", "fg-on-the-end-wall", "fg-facing-down-the-hall", "fg-pair-facing", "fg-chairs-around-the-table", "fg-count", "fg-clear-in-front", "fg-bed-aisle"],
+  "executed_but_unreached_in_the_corpus": ["fg-opposite-the-bed", "fg-on-the-end-wall"],
+  "executed_but_unreached_note": "Rules the code executes and no shipped plan REACHES AT ALL -- not a placement, not a refusal, nothing on any record. Measured at WP-13.6 by solving the sixteen plans on the deterministic engine and counting every `furniture_layout` entry by rule: both are positioned rules whose one catalogue item `fg-too-thin-to-draw` refuses first (a 4 in television, a 3 in mirror), so the position the record states most plainly is on a thing the plan never draws. Each is DRIVEN by tests/test_furniture_grammar.py, build/check_furniture.py holds every id here to be in `executed` too (a rule listed as unreached and not executed is a rule nobody wrote), and that test holds the list to the corpus IN BOTH DIRECTIONS -- every id here emits nothing, and every other positioned rule emits something. **fg-flanking-the-chimney-breast IS NOT ON THIS LIST AND THE FIRST DRAFT PUT IT HERE.** It is reached on nine living rooms over five plans and REFUSES all eighteen pieces, naming the missing breast; what no shipped plan reaches is its PLACING branch, which is a different claim and is made in that rule's own note. A refusal is an entry on the record and a line on the plate: calling a rule that produces eighteen of them unreached would be the fake-unjudged shape one layer out.",
   "stated_not_executed": ["fg-library-table-in-the-middle", "fg-parlor-peripheral", "fg-hall-high-table-one-side"],
   "placement_rules": [
     {
@@ -55,6 +57,129 @@
       "rule": "An item stating a run of wall unbroken by openings may only be seated in a free segment at least that long.",
       "basis": "rooms/dining-room.json furniture[sideboard].note: \"Needs an uninterrupted wall of at least 6 ft. This is what the second window usually kills.\"",
       "note": "Five items carry the field and every one of them has the figure in its own sentence, which is what makes this a reading rather than a judgment. WP-7.4 refused a sixth -- the keeping room's hearth at 9.0 ft, taken from 'its chimney breast is 9 to 10 ft' -- because that is a band explaining why first-period halls are wide and not a run the hearth requires. The figure was withdrawn rather than the test loosened, and that refusal is the standard this rule is held to."
+    },
+    {
+      "id": "fg-at-the-foot",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "item_contains": "chest at the foot"
+      },
+      "rule": "Seat the item at the FOOT of the room's bed: centred on the bed, touching its foot edge, its along-the-wall side along the bed's width, its back to the bed. It is let into the bed's own clear strip, because the record puts it there. Where the room has no bed seated against a wall it is REFUSED naming that.",
+      "basis": "rooms/primary-bedroom.json furniture[bench or blanket chest at the foot].item: \"bench or blanket chest at the foot\"",
+      "note": "The sentence is the item's own name and it states the relation and no figure: the bench touches the foot, which is the zero the rule supplies. One item in the catalogue states it. build/furniture.py::_place_relative_to_bed."
+    },
+    {
+      "id": "fg-beside-the-bed",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "item_contains": "nightstand"
+      },
+      "rule": "Seat the item on the bed's own wall, touching the bed's side, inside the bedside aisle the bed's clearance already reserves. A pair takes both sides -- the first piece the side the packer's order reaches first, the second the other; a single takes the first side that is clear of the bed, of what is already seated and of any opening on that wall. No bed seated: REFUSED naming that.",
+      "basis": "rooms/bedroom.json furniture[nightstand].note: \"Sits within the 24 in bedside aisle, so it costs no extra width\"",
+      "note": "The record states WHERE (within the bedside aisle, so against the bed's side) and gives the aisle's figure, not the nightstand's; the nightstand's own offset from the bed -- none -- is ours. Reaches the bedroom's nightstand and the primary bedroom's pair, whose own note is empty and whose position is read from this sentence on the bedroom's. build/furniture.py::_place_relative_to_bed."
+    },
+    {
+      "id": "fg-between-the-windows",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "item_contains": "between the windows"
+      },
+      "rule": "Seat the item on a PIER -- the run of wall between two sashes the placement seated on one wall -- centred on it, on the first wall in the packer's order whose pier is long enough and clear of openings and of what is already seated. No pier long enough: REFUSED naming that.",
+      "basis": "rooms/drawing-room.json furniture[pier tables and glasses between the windows].note: \"the pier - the wall between two windows - is a piece of the room's architecture that exists to be furnished\"",
+      "note": "The pier is read from the record's own placed sashes (`positions_ft`, `width_ft`), never from the declared count. Centring on it is the figure the rule supplies. build/furniture.py::_place_on_pier."
+    },
+    {
+      "id": "fg-flanking-the-chimney-breast",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "item_contains": "flanking the chimney breast"
+      },
+      "rule": "Seat the item on the breast's own wall touching the breast's side -- a pair one either side, a single on the first side that is clear. Only a breast the hearth pass DREW (`plan.hearths.breasts[].drawn`) is a thing to flank: a room that draws none REFUSES the item naming that, and never seats it against some other wall as though the sentence had not been read.",
+      "basis": "rooms/living-room.json furniture[bookcases or built-ins flanking the chimney breast].note: \"the residual space beside a chimney breast is the one place in the room where built-ins cost no floor at all\"",
+      "note": "MEASURED ON THE CORPUS AT WP-13.6, AND THE RULE IS REACHED WHILE ITS PLACING BRANCH IS NOT: the item is a pair and nine living rooms over nine of the sixteen plans carry it, every one of them drawing NO chimney breast (fourteen of sixteen plan records state no massing and only the Tidewater plan states any fire, and its fires are in the drawing room, the dining room and the library), so all EIGHTEEN pieces are refused by name where the against-wall default used to seat them somewhere, and not one shipped plan reaches the branch that places one. That is why this rule is NOT in `executed_but_unreached_in_the_corpus`: eighteen refusals are eighteen entries on the record and eighteen lines a reader can see, and a rule producing them is reached. It is DRIVEN by tests/test_furniture_grammar.py on a hand-built breast (WP-8.11's rule for an unreachable branch). build/furniture.py::_place_flanking; the breasts reach it through openings.furniture_pass, which hands the room its own rows from threshold.hearth_pass, because furniture.py is a leaf."
+    },
+    {
+      "id": "fg-opposite-the-bed",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "note_contains": "opposite the bed"
+      },
+      "rule": "Seat the item against the wall OPPOSITE the bed's, and no other: the packer is handed that one wall. No bed seated, or no clear run on that wall: REFUSED naming which.",
+      "basis": "rooms/primary-bedroom.json furniture[television].note: \"the only wall that works is the one opposite the bed\"",
+      "note": "EXECUTED AND UNREACHED FROM THE CORPUS. The only catalogue item stating it is the primary bedroom's television at [60, 4] -- 4 in deep -- and fg-too-thin-to-draw refuses it before any placement rule is consulted (the scale rule, plan_check's own `fw < 8`). So the position the record states most plainly is on an item the plan never draws; oq/a-stated-position-on-an-item-too-thin-to-draw. The branch is driven by tests/test_furniture_grammar.py."
+    },
+    {
+      "id": "fg-on-the-end-wall",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "note_contains": "on the END wall"
+      },
+      "rule": "Seat the item against one of the room's two END walls -- the pair whose run is the room's shorter dimension -- and no other; the packer is handed those two walls in its own order. Neither clear: REFUSED naming that.",
+      "basis": "rooms/walk-in-closet.json furniture[full-length mirror].note: \"Put the mirror on the END wall looking down the length of the room\"",
+      "note": "EXECUTED AND UNREACHED FROM THE CORPUS, for the same reason as fg-opposite-the-bed: the one item stating it is a mirror at [24, 3], 3 in deep, refused by fg-too-thin-to-draw first. The record also offers the back of the door, which this grammar does not read. Driven by tests/test_furniture_grammar.py."
+    },
+    {
+      "id": "fg-facing-down-the-hall",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "item_contains": "high table on the dais"
+      },
+      "rule": "Seat the high table against an END wall of the hall, so it faces down the room's length; the packer is handed the two end walls in its own order and takes the first with a clear run. WHICH end is the dais the record does not say, and this rule does not decide it: the end taken is the packer's order and not a reading.",
+      "basis": "rooms/hall.json furniture[high table on the dais].note: \"seated on ONE side only, facing down the hall\"",
+      "note": "This executes the FACING half of fg-hall-high-table-one-side, which stays listed as stated and not executed for its other half -- the dais end is a fact no plan record carries. One hall is placed in the sixteen plans (bad-07)."
+    },
+    {
+      "id": "fg-pair-facing",
+      "grade": "reading",
+      "applies_to": {
+        "item_contains": "sofas, pair, facing"
+      },
+      "max_gap_ft": 10,
+      "hearth_standoff_ft": 1.0,
+      "rule": "Draw the two sofas facing each other across a gap of at most `max_gap_ft`, each turning its back to the other: astride the hearth's axis and running out from the breast's face by `hearth_standoff_ft` where the room draws a chimney breast, and astride the room's long axis at its centre where it draws none or where the floor by the hearth is already taken -- both axes are ours and are tried in that order, and the entry says which. The gap is the room's own where the ceiling does not fit; a room too shallow for two sofas and a foot between them, or with neither axis clear, REFUSES the pair.",
+      "basis": "rooms/drawing-room.json furniture[sofas, pair, facing].note: \"they face each other across no more than 10 ft, because beyond that people stop talking across and start talking around\"",
+      "note": "A READING for the relation and the ceiling on the gap, both in the sentence; `max_gap_ft` is that sentence's figure and lives here beside it. Two things in the rule are OURS and said so: the axis (a hearth's where one is drawn, the room's centre line where none is) and `hearth_standoff_ft`, an editorial foot between the breast's face and the sofas' ends. The record authors this item `placement: against-wall`, and the sentence cannot be satisfied against two walls of any drawing room in this corpus (18 ft and more apart), so the sentence outranks the field here and the disagreement is named in docs/reports/wp-13.6-furniture-to-its-own-grammar.md rather than resolved in the record. build/furniture.py::_place_pair_facing."
+    },
+    {
+      "id": "fg-chairs-around-the-table",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "item_contains": "dining chair"
+      },
+      "rule": "Pull as many chairs up to the table as the table's own name seats ('seats 8', 'for eight'), each touching the table's edge and turning its back to the room: one at each end, the rest split along the two long sides. A chair whose place fouls a door swing, a clearance strip or something already seated is REFUSED and counted, never moved somewhere plausible. No table stating its seats placed in the room: REFUSED naming that. A table naming a BAND ('for six to eight') states no count and seats no chairs by this rule.",
+      "basis": "rooms/dining-room.json furniture[dining table, seats 8].note: \"36 in chair pull plus 18 in passage. Seats 10 at 40 x 120.\"",
+      "note": "The count is the record's, read from the table's name by build/furniture.py::seats_of, whose one refusal is the band; the arrangement (ends first, sides split, touching) is ours. The chair's own catalogue `count` is not read -- the table decides -- and the key names the chairs once with the number drawn."
+    },
+    {
+      "id": "fg-count",
+      "grade": "reading",
+      "applies_to": {
+        "field": "count"
+      },
+      "rule": "An item whose record says its footprint is ONE piece (`footprint_of: piece`) and states a `count` is drawn that many times, each piece seated by the same rule as the first; a `count` is never read from the item's name. An item whose footprint is the GROUP is drawn once, whatever its name counts. An item naming a band carries no count and is drawn once with its name whole on the key.",
+      "basis": "rooms/bedroom.json furniture[twin beds, pair].note: \"38 + 24 + 38 = 100 in across\"",
+      "note": "The quoted sentence is the case that decided the field: the twin beds' [100, 80] IS both beds and the aisle between them, so 'pair' there is not two rectangles. `footprint_of` and `count` were authored at WP-13.6 by reading each item (schema/room.schema.json says how) and one item was left unjudged and unauthored -- the morning room's 'two easy chairs and a small sofa' at [60, 32], which is either one small sofa or a group of three. build/furniture.py::piece_count."
+    },
+    {
+      "id": "fg-clear-in-front",
+      "grade": "reading",
+      "applies_to": {
+        "field": "clearance_in"
+      },
+      "rule": "An item seated against a wall reserves the clear floor its record states (`clearance_in`) as a strip in FRONT of it -- off the face away from its wall, the item's full run wide -- and no later POSITIONED item may be seated in that strip: a pair of sofas may not run across a chest's drawers, and a bookcase may not flank a breast where a sideboard's drawers open. The strip does NOT reach the wall pack itself (the wall items are seated in one call and the strips are known only after it), nor the freestanding items, nor the chairs a table seats; each of those exemptions has a reason and they are not the same reason. A FREESTANDING item is not refused by a strip, and the reason is the record's: the coffee table stands '16 to 18 in from the sofa', inside the sofa's own 30, and a table's chairs stand inside the table's 54 -- a clearance is sometimes the floor its companions take and sometimes a prohibition, and no field says which (oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition). Nothing is drawn for a strip.",
+      "basis": "rooms/study.json furniture[desk].note: \"42 in behind, not 36, because the shelving behind the chair takes 12 in and a person must be able to rise and turn\"",
+      "note": "The figure is every item's own `clearance_in` and the rule -- that the gap is beyond the footprint -- is the field's own definition; what is ours is reading the gap as IN FRONT, which the sentences that state a direction all say (the desk chair's floor behind the desk, the television's 'clear floor between screen and seated eye'). THE SCOPE IS OURS AND WAS CHOSEN BY MEASUREMENT, ON A LADDER OF THREE, all on the sixteen plans on the deterministic engine and each named so no figure can be read at the wrong scope. **A: against later POSITIONED items only** -- what is shipped -- 648 placed, 152 refused. **B: and against the freestanding items and the table's chairs as well** -- 569 placed, 203 refused, **79 drawn items lost over 39 rooms**, the living room's coffee table among them, against its own sentence: which is why a freestanding item is exempt. **C: and against the wall pack too**, tried on a `front_ft` spec field gated exactly as `aisle_ft` is so the fixture layouts stay byte-identical by construction -- 560 placed, 212 refused, **88 drawn items lost over 44 rooms**: 32 dining chairs, 7 hall chairs, 4 dining tables, 4 coffee tables and the rest. B and C were REFUSED and the rule reworded to A instead. (WP-13.6 first published a pair -- 41 items, then 87 over 43 -- whose SCOPE was not stated; both are superseded by this ladder, measured on the committed tree, because a figure without its scope is a figure a reader will apply to the wrong one.) The reason is the one the freestanding exemption already gives: the FIGURE is a reading and the SCOPE is not, a chest's 36 in and a sofa's 30 overlap across any room under about 7 ft, and no record says that is forbidden. The measurement is published rather than netted off. A freestanding item's clearance is not a strip: it steps the next freestanding item, as fg-freestanding says. A BED's is not a strip in front either: its own sentence says each side, and fg-bed-aisle reads it. build/furniture.py::_front_strip."
+    },
+    {
+      "id": "fg-bed-aisle",
+      "grade": "editorial-from-prose",
+      "applies_to": {
+        "symbol": "bed",
+        "field": "clearance_in"
+      },
+      "rule": "A bed seated against a wall keeps its `clearance_in` clear ALONG the wall on each side of itself -- the bedside aisle -- inside the wall's own extent and clear of everything already placed, though not necessarily clear of an opening: a door may open into the aisle and a window may light it. The aisle is floor and not the item, so nothing is drawn for it; the next item on that wall packs beyond it; and the things the record puts inside it -- the nightstand 'within the 24 in bedside aisle', the bench at the foot -- are let in. A bed that cannot stand with an aisle either side on any wall is REFUSED naming the aisle.",
+      "basis": "rooms/primary-bedroom.json furniture[king bed].note: \"Two people getting out of a bed on different schedules is the actual programme, so 30 in each side, not 24.\"",
+      "note": "Two records state the direction -- the king bed's 'each side' and the twin beds' 'plus 24 at each outer side' (rooms/bedroom.json) -- and the figure is every bed's own `clearance_in`; reading every bed that way (the tester bedstead's note says nothing about sides) is ours, which is the grade. It is a rule about the BED and not about fg-clear-in-front: a chest's clearance is in front of it, a bed's is beside it, and the first draft reserved the bed's at its foot, which packed the chest of drawers flush against the bed's side on every bedroom in the corpus and refused every nightstand -- measured before it was believed. build/furniture.py::pack_against_walls, on a spec field (`aisle_ft`) no fixture carries, so the fixture layouts are byte-identical by construction."
     }
   ],
   "refusal_rules": [
@@ -92,7 +217,7 @@
       "item": "six to eight side chairs, set against the walls",
       "rule": "Parlor seating stands round the wall, not in a group in the middle.",
       "basis": "rooms/parlor.json furniture[six to eight side chairs, set against the walls].note: \"THE PERIPHERAL ARRANGEMENT is the thing modern furniture planning gets wrong about this room. Before about 1840 parlor furniture stood against the wall and was drawn into the centre only when used; the room's default state was an empty floor\"",
-      "note": "STATED AND NOT EXECUTED. The item is authored `against-wall`, so the packer already seats it correctly -- but the record says SIX TO EIGHT chairs and the footprint is one chair, so executing the rule properly means knowing the count, and nothing states whether a footprint is one piece or a group. That is the open question this package raises."
+      "note": "STATED AND NOT EXECUTED. The item is authored `against-wall`, so the packer already seats it correctly -- but the record says SIX TO EIGHT chairs and the footprint is one chair. WP-13.6 authored `footprint_of: piece` on it and NO `count`, because six to eight is a band and a band is not a count (fg-count): it is drawn once with its name whole on the key, and the peripheral arrangement of a number nobody stated stays with the architect."
     },
     {
       "id": "fg-hall-high-table-one-side",
@@ -101,7 +226,7 @@
       "item": "high table on the dais",
       "rule": "The high table is seated on one side only, facing down the hall, which is what makes the room directional.",
       "basis": "rooms/hall.json furniture[high table on the dais].note: \"seated on ONE side only, facing down the hall - this is what makes the room directional and why the dais end is the high end\"",
-      "note": "STATED AND NOT EXECUTED. Nothing in the plan record says which end of a hall is the dais end, so executing this needs a fact the corpus does not carry. Named here so the gap is counted rather than felt."
+      "note": "STATED AND NOT EXECUTED IN ITS DAIS HALF. Nothing in the plan record says which end of a hall is the dais end, so that half needs a fact the corpus does not carry. Its FACING half -- against an end wall, facing down the hall -- is executed by fg-facing-down-the-hall (WP-13.6), which takes the first end wall with a clear run in the packer's order and says that choice is not a reading. Named here so the gap is counted rather than felt."
     }
   ]
 }

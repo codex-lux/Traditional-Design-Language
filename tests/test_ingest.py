@@ -222,7 +222,12 @@ def test_provenance_validates_and_gates_method():
     # `geometry.void.heated`, two reference plans invalid for three phases -- met again by a
     # package that had this very entry to read. A pin on the version cannot see a field added
     # without one; what saw it was validating the output.
-    assert schema["version"] == "0.11.0"
+    # 0.12.0 (WP-13.6, the same day): `furniture_layout[].piece`, `of`, `by` and `back` -- the
+    # four the grammar package itself writes. They were admitted BEFORE the commit, because the
+    # entry above cost a day: the package's own gate now solves all sixteen plans on the
+    # deterministic engine and validates each PLACED record against this schema, 16 of 16, and a
+    # field the placer writes and this file does not name fails that gate rather than a reader.
+    assert schema["version"] == "0.12.0"
     plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
     plan["provenance"] = {
         "source": "HABS VA-1234 sheet 2", "method": "traced",

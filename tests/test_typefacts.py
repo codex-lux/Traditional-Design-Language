@@ -203,11 +203,17 @@ ST = modcache.load("structure", os.path.join(ROOT, "build", "structure.py"))
 HE = modcache.load("hearths", os.path.join(ROOT, "build", "hearths.py"))
 STK = modcache.load("stacking", os.path.join(ROOT, "build", "stacking.py"))
 DISC = modcache.load("disclosures", os.path.join(ROOT, "build", "disclosures.py"))
+# `sorted(` ON THE SAME LINE AS EACH READ. The outer `sorted()` below already made this list
+# deterministic, and `tests/test_determinism.py::test_corpus_globs_are_sorted` reads LINE BY
+# LINE -- a sort that opens on the line above reads to it as an unsorted glob, and it went red
+# on this file from `af8acff` until WP-13.6 met it. The value is unchanged either way: the
+# outer sort is over the whole concatenation. tests/test_furniture_drawn.py carries the same
+# note for the same reason; write for the reader you have.
 PLANS = sorted(
-    [os.path.join(ROOT, "plans", f) for f in os.listdir(os.path.join(ROOT, "plans"))
+    [os.path.join(ROOT, "plans", f) for f in sorted(os.listdir(os.path.join(ROOT, "plans")))
      if f.endswith(".json")]
     + [os.path.join(ROOT, "plans", "reference", f)
-       for f in os.listdir(os.path.join(ROOT, "plans", "reference")) if f.endswith(".json")])
+       for f in sorted(os.listdir(os.path.join(ROOT, "plans", "reference"))) if f.endswith(".json")])
 
 
 def _solved(path):

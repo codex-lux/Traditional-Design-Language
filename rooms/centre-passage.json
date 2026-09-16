@@ -45,6 +45,7 @@
     20,
     20
    ],
+   "footprint_of": "piece",
    "clearance_in": 36,
    "note": "the southern passage's characteristic furnishing, and it needs 20 + 36 = 56 in before the route even starts",
    "placement": "against-wall"

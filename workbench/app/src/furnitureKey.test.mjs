@@ -45,6 +45,35 @@ test('entries are numbered in drawing order, fixtures first, and the unplaced ta
     [[1, 'small sink', 'fixture'], [2, 'sofa, pair', 'furniture'], [3, 'tea table', 'furniture']]);
 });
 
+/* WP-13.6: the pieces of one counted item are ONE key line and ONE numeral. The fixture is
+   spelled here and in tests/test_furniture_grammar.py in the same words, and both files expect
+   the same two lines, so the two spellings of `_key_groups` cannot quietly disagree about what
+   a set of chairs is keyed as. */
+const counted = () => ({
+  id: 'dining', name: 'Dining Room', x: 0, y: 0, w: 20, h: 15,
+  furniture_layout: [
+    { item: 'dining chairs', piece: 1, of: 8, x_ft: 0, y_ft: 0, width_ft: 1, depth_ft: 1, marks: [{ rect: [0, 0, 1, 1] }] },
+    { item: 'dining chairs', piece: 2, of: 8, x_ft: 2, y_ft: 0, width_ft: 1, depth_ft: 1, marks: [{ rect: [2, 0, 1, 1] }] },
+    { item: 'sideboard', x_ft: 4, y_ft: 0, width_ft: 1, depth_ft: 1, marks: [{ rect: [4, 0, 1, 1] }] },
+  ],
+});
+
+test('the pieces of a counted item share one numeral and one key line, and say the shortfall', () => {
+  const es = keyEntries(counted());
+  assert.deepEqual(es.map((e) => [e.n, (e.rects || [e.rect]).length]), [[1, 2], [2, 1]],
+    'two chairs are one entry with two rectangles; the sideboard is the next numeral');
+  assert.deepEqual(keyLines(es), ['1 DINING CHAIRS x2 OF 8', '2 SIDEBOARD']);
+  // a set drawn whole says x2 and no shortfall
+  const whole = counted();
+  whole.furniture_layout[0].of = 2; whole.furniture_layout[1].of = 2;
+  assert.deepEqual(keyLines(keyEntries(whole)), ['1 DINING CHAIRS x2', '2 SIDEBOARD']);
+  // and one numeral stands on EVERY piece
+  const { byRoom } = furnitureKeyPlan([counted()]);
+  const nums = byRoom.get('dining').numerals;
+  assert.equal(nums.length, 3, 'three marks carry a numeral');
+  assert.deepEqual(nums.map((u) => u.n), [1, 1, 2]);
+});
+
 test('a key line is the numeral and the name whole, in capitals, never abbreviated', () => {
   const lines = keyLines(keyEntries(room()));
   assert.deepEqual(lines, ['1 SMALL SINK', '2 SOFA, PAIR', '3 TEA TABLE']);

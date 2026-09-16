@@ -57,6 +57,8 @@
         34,
         34
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 30,
       "placement": "freestanding"
     },
@@ -78,6 +80,8 @@
         24,
         24
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 0,
       "placement": "freestanding"
     },
@@ -99,6 +103,8 @@
         30,
         12
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 30,
       "essential": false,
       "note": "the residual space beside a chimney breast is the one place in the room where built-ins cost no floor at all",

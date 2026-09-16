@@ -55,6 +55,8 @@
         24,
         18
       ],
+      "footprint_of": "piece",
+      "count": 2,
       "clearance_in": 0,
       "placement": "against-wall"
     },
@@ -86,6 +88,7 @@
         72,
         36
       ],
+      "footprint_of": "group",
       "clearance_in": 30,
       "essential": false,
       "note": "The 'sitting area' every brief asks for. It needs about 60 sq ft clear of every aisle, so it adds 5 ft to the room's length and it should be at the WINDOW end, in the light, not in the dark corner it usually gets.",

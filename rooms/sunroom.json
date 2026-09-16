@@ -23,7 +23,7 @@
     {"item": "wicker or rattan seating group",
      "kind": "object", "footprint_in": [72, 32], "clearance_in": 30, "note": "light furniture is not a style preference here: the room is used differently by season and the furniture gets moved toward and away from the glass", "placement": "freestanding"},
     {"item": "two chairs and a small table",
-     "kind": "object", "footprint_in": [60, 30], "clearance_in": 30, "placement": "freestanding"},
+     "kind": "object", "footprint_in": [60, 30], "footprint_of": "group", "clearance_in": 30, "placement": "freestanding"},
     {"item": "small dining or games table",
      "kind": "object", "footprint_in": [42, 42], "clearance_in": 36, "essential": false, "note": "a sunroom that can seat four to eat is worth twice one that cannot, and 42 in of table plus 36 in of pull each side is 114 in = 9 ft 6 in, which sets the room's minimum depth if this use is wanted", "placement": "freestanding"},
     {"item": "plant shelf or staging at the glass",

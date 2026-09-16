@@ -242,8 +242,41 @@ def test_the_two_renderers_take_bounds_in_the_same_place():
 # were checking by hand. That is this repository's own *a package that commits before its
 # build finishes learns what it broke from the build*, met by the package that had just
 # written the sentence down.
-CORPUS_SHEET_SHA = "01771d3656231ba9"
-CORPUS_SHEET_SHA_NO_FRAME = "0fd105825eda19e0"
+CORPUS_SHEET_SHA = "1a63f71dda3b6bee"
+CORPUS_SHEET_SHA_NO_FRAME = "4413ad13a9e35766"
+# BOTH MOVED AT WP-13.6, IN TWO STEPS, AND THE FIRST STEP SHIPPED RED FOR THREE COMMITS.
+# Was 01771d3656231ba9 / 0fd105825eda19e0. The attribution was BISECTED rather than assumed,
+# with this test's own loop copied verbatim and run on `git worktree` checkouts:
+#
+#     1c2ac80  (before WP-13.6)                 01771d3656231ba9 / 0fd105825eda19e0  == the pin
+#     31a7373  (WP-13.6's first commit)         41314f5e3f8ba600 / 4fa5209dca42afb8
+#     bc48e5d, 4d95654, be63848, fb0e97f, 57e7b72   unchanged at 41314f5e... / 4fa5209d...
+#     this commit                               1a63f71dda3b6bee / 4413ad13a9e35766
+#
+# So WP-13.6's FIRST commit moved all sixteen sheets (a corner item now takes a corner) and
+# did not re-pin; four commits then shipped on a red assertion, none of which had touched a
+# renderer. It is the same failure as that package's other one, one layer out: a package that
+# commits before its build finishes learns what it broke from somebody else's build. WP-12.4
+# is the precedent this file already records -- "three commits had already shipped on it".
+#
+# WHAT MOVED IN THIS SECOND STEP, PROVED RATHER THAN REASONED. Re-rendering both trees with
+# `furniture_layout` stripped from every placed room -- WP-12.9's control -- leaves 3 of 16
+# sheets byte-identical and the other 13 differing in the FURNITURE DISCLOSURE LINE ALONE
+# (26 lines: "N FURNITURE ITEM(S) NOT DRAWN - ...", whose count moves), except on
+# `good-02-portico-library-house`, where that line wraps onto a second schedule row and pushes
+# every row below it down by exactly 14 px, growing the canvas 1039 -> 1053. NOT ONE LINE of
+# the drawing field, the walls, the openings, the datum or the title block moves for any other
+# reason. With the furniture in, all 16 move: the marks (rect/line/circle/path), the key
+# numerals and the key lines, and 5 canvases where a key changed corner or went to the margin.
+#
+# AND THE PLACEMENT IS UNTOUCHED. Every placed record on the deterministic engine is
+# byte-identical across the package but for `furniture_layout` and the two furniture counters
+# in `opening_report` -- room rectangles, footprint, openings, fixtures, stair, hearths,
+# threshold and `geometry_report` all identical, 16 of 16.
+#
+# THE HARNESS WAS PROVED BEFORE THE RE-PIN: run on a checkout of `1c2ac80` it reproduces
+# 01771d3656231ba9 / 0fd105825eda19e0 to the character. A re-pin whose instrument has not been
+# shown to reproduce the OLD value is not a measurement, it is a new number.
 # BOTH MOVED AT THE MERGE OF WP-13.2's SIX SLICES (15 Sep 2026), AND RE-PINNED ONCE, ON THE
 # MERGED TREE, WITH EACH SLICE'S OWN ACCOUNTING -- because five parallel worktrees each moved
 # the sixteen sheets and a pin per slice was stale the moment the next one merged. The value
