@@ -48,16 +48,22 @@ def test_tdl_sheet_returns_the_complete_record(client):
         sys.path.insert(0, b)
     import modcache as mc
     EX = mc.load("export_dxf", os.path.join(b, "export_dxf.py"))
-    plan = json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    # WP-13.4: a record the ruling still lets a surface DRAW. The Tidewater plan is refused
+    # now, so `export_plan_dxf` returns a refusal and there is no sheet to ingest -- which is
+    # a statement about the placement and not about the round trip this test is for.
+    from . import drawable
+    plan = drawable.drawable_plan()
     import tempfile
     with tempfile.TemporaryDirectory() as td:
         p = os.path.join(td, "tdl.dxf")
-        assert "error" not in EX.export_plan_dxf(plan, p)
+        res = EX.export_plan_dxf(plan, p)
+        drawable.skip_if_refused(res, "the DXF a TDL sheet round-trips through")
+        assert "error" not in res, res.get("error")
         text = open(p).read()
     r = client.post("/api/ingest/dxf", json={"dxf": text})
     assert r.status_code == 200
     j = r.json()
-    assert j["complete"] is True and j["record"]["id"] == "tidewater-georgian-careful"
+    assert j["complete"] is True and j["record"]["id"] == plan["id"]
 
 
 def test_unreadable_dxf_is_a_stated_422(client):

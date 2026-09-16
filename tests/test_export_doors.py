@@ -37,6 +37,22 @@ def _b(name):
 LEAFLESS = _b("render_plan").LEAFLESS
 
 
+# WP-13.4: THE RECORD THIS FILE IS ABOUT IS REFUSED, AND THE FIXTURE SAYS SO RATHER THAN
+# SUBSTITUTING ONE. Lucas ruled 15 Sep 2026 that a placement breaking a hard fact of the type
+# is not drawn, and the reference plan's own bearing fact is downgraded on the search -- so
+# `export_dxf._solved_copy` refuses it and there is no DXF to read arcs out of.
+#
+# The substitution every other suite in this package took is NOT available here, and the reason
+# is this file's own first test: it asserts that the record "states leaves in every quadrant so
+# no arm is untested", which is a property of a twelve-room house with doors hinged both ways on
+# both axes. The drawable record this corpus is left with is a seven-room open-concept plan; run
+# on it, three of the four arms of `_expected_leaves` would never be entered and the file would
+# go GREEN having checked a quarter of what it claims. A guard that runs only where the bug
+# cannot occur is not a guard, and one that keeps its docstring while losing its population is
+# worse -- it converts a gap into a claim.
+#
+# So this is a COULD NOT EVALUATE with the loss named. It comes back the moment a record with
+# leaves in every quadrant is drawable again, which is what WP-13.5's container edit is for.
 @pytest.fixture(scope="module")
 def dxf(tmp_path_factory):
     ezdxf = pytest.importorskip("ezdxf", reason="COULD NOT EVALUATE: ezdxf is not installed")
@@ -47,6 +63,13 @@ def dxf(tmp_path_factory):
     assert "error" not in placed, placed.get("error")
     path = str(tmp_path_factory.mktemp("doors") / "plan.dxf")
     res = EX.export_plan_dxf(placed, path)      # carries geometry, so drawn as it stands
+    if "refused_placement" in res:
+        pytest.skip(
+            "COULD NOT EVALUATE: the reference plan's placement is REFUSED under the 15 Sep "
+            "2026 ruling, so the exporter draws no sheet and there are no arcs to read. "
+            "WP-13.2's door-arc guard is DARK until a record with leaves in every quadrant is "
+            "drawable again -- it is not passing, and it is not deleted. Refused for: "
+            + "; ".join(res["refused_placement"].get("facts") or []))
     assert "error" not in res, res
     return placed, res, ezdxf.readfile(path)
 

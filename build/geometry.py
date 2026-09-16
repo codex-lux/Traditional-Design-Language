@@ -3004,7 +3004,7 @@ def _finish(plan, best, fpd, levels, solver=None, infeasible=None):
     if solver:
         plan["geometry_report"]["solver"] = solver
     if infeasible:
-        plan["geometry_report"]["infeasible"] = infeasible
+        _refuse(plan, infeasible)      # attach the conflict set, then re-decide (WP-13.4)
     return plan
 
 
@@ -3039,8 +3039,9 @@ def _disclose(plan):
     # room, which the prover's 0.97 coverage floor leaves and across which no wall is drawn --
     # per placed level, located. HERE, beside the stacking tally, for the reason this function
     # exists: a block written from one record writer and not the other shipped that way for two
-    # phases. WP-13.3 adds the rest of the ruled precedence under this same key.
-    rep["type_facts"] = TF.report(plan)
+    # phases. WP-13.3 adds the rest of the ruled precedence under this same key, and WP-13.4
+    # the verdict drawn from it -- both written at the FOOT of this function by `TF.judge`,
+    # because `bearing` reads `span_capacity` and `_disclose_spans` below has not run yet.
     # WP-11.8: how many rooms are drawn outside the proportion ceiling their own record states.
     # HERE rather than in `solve_heuristic`'s report dict, because `_finish` builds the CP
     # path's report from named keys and a figure added to one writer and not the other is the
@@ -3112,6 +3113,32 @@ def _disclose(plan):
     if _me:
         rep["multi_element"] = _me
     _disclose_spans(plan)
+    # LAST, because every fact it measures reads something written above it: `stacks` reads the
+    # tally at the head of this function and `bearing` reads `span_capacity.over_capacity`, which
+    # `_disclose_spans` has just finished. `TF.judge` writes `type_facts` AND `refused` -- one
+    # spelling of "measure the type's facts and decide whether this may be drawn".
+    TF.judge(plan)
+
+
+def _refuse(plan, infeasible=None):
+    """Attach a proven infeasibility and RE-DECIDE. The one writer of `geometry_report.refused`
+    beside `_disclose` (WP-13.4).
+
+    `_disclose` runs inside each record writer and the infeasible block arrives AFTER it, from
+    two places -- `_finish`'s own argument and the `auto` fallback in `_solve_uncached`, which
+    hands the heuristic's least-bad placement the conflict set CP-SAT proved. A refusal computed
+    before that block lands would miss the one case it most exists for, so those two sites route
+    through here instead of assigning the key themselves, and `TF.judge` re-runs.
+
+    The record keeps the placement. Lucas's 15 Sep ruling moves the refusal to the SURFACES: the
+    least-bad placement is the conflict set's own explanation and the wall drag's working sketch,
+    and `geometry_report.refused` is what every route, exporter and tool reads before drawing
+    any of it."""
+    rep = plan.setdefault("geometry_report", {})
+    if infeasible:
+        rep["infeasible"] = infeasible
+    TF.judge(plan)
+    return rep.get("refused")
 
 
 def _disclose_spans(plan):
@@ -3481,7 +3508,7 @@ def _solve_uncached(plan, parti, candidates, seed, engine, time_limit_s):
             "engine": "heuristic (least-bad, labelled)",
             "reason": "CP-SAT proved the declared facts cannot all hold; this drawing is the "
                       "heuristic's least-bad relaxation and the conflicts below say what it relaxes"}
-        out["geometry_report"]["infeasible"] = res["infeasible"]
+        _refuse(out, res["infeasible"])   # the conflict set, and the refusal drawn from it
         return out
     if res.get("unsolved"):
         if engine == "cp":
@@ -3646,7 +3673,23 @@ def main():
           f"vertical {gr['vertical_score']}, spans {_sc}, relaxations {_rx:g})")
     print(f"  relaxations {gr['relaxations']['count']}, worst {gr['relaxations']['max_off_grid_ft']} ft off the bay line")
     for n in gr["vertical"][:6]: print(f"    · {n}")
+    # THE REFUSAL, AND IT STOPS THE DRAWING (WP-13.4, Lucas's ruling of 15 Sep 2026). A placement
+    # that breaks a hard fact of the type is refused, not drawn; the record still carries the
+    # least-bad placement, because it is what the conflict set is ABOUT. So `--out` still writes
+    # the record -- a reader diagnosing a refusal needs it -- and `--svg` writes nothing, because
+    # a sheet is a surface a person reads. The verdict is `TF.refusal`'s and is read off the
+    # record rather than re-derived here: one spelling.
+    ref = gr.get("refused")
     if a.out: json.dump(out, open(a.out, "w"), indent=1, ensure_ascii=False); print(f"  wrote {a.out}")
+    if ref:
+        print(f"\n  PLACEMENT REFUSED ({ref['kind']}) — this house is not drawn.")
+        for line in ref["lines"]:
+            print(f"    · {line}")
+        if a.svg:
+            print(f"  {a.svg} NOT written: a refused placement is not drawn. The record above "
+                  f"carries it under geometry_report, with the conflict set.")
+        print()
+        return
     if a.svg:
         rp = _mod("render_plan", f"{ROOT}/build/render_plan.py")
         rp.render(out, a.svg); print(f"  wrote {a.svg}")

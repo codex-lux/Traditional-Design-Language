@@ -10,8 +10,15 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 DARK = ["#0B1B29", "#0F2536", "#EDE7DA", "#24455E", "#D8B26A", "#C4553A"]
 
 
+# WP-13.4: A DRAWABLE RECORD, FOUND RATHER THAN NAMED. Lucas ruled 15 Sep 2026 that a
+# placement breaking a hard fact of the type is refused and not drawn, and on this tree that
+# refuses 15 of the 16 shipped records on `auto`. These tests are about the DRAWING and not
+# about the refusal, so they take the record `drawable.py` finds by reading the verdict; it
+# skips with its reason where the corpus leaves nothing drawable. The refusal has its own
+# file (`test_refusal_routes.py`), which asserts the other half -- that it is live here.
 def _plan():
-    return json.load(open(os.path.join(ROOT, "plans", "tidewater-georgian-careful.json")))
+    from . import drawable
+    return drawable.drawable_plan()
 
 
 def test_all_five_kinds(client):
@@ -44,8 +51,16 @@ def test_the_plan_sheet_has_two_registers_and_says_which(client):
     for reg, r in (("presentation", pres), ("working", work)):
         assert "CUT(S) OFF THE BAY LINE" in r["svg"], (
             f"the {reg} sheet has dropped the relaxation count from its schedule")
-        assert "DECLARED DOOR(S) WITHOUT A DRAWABLE OPENING" in r["svg"], (
-            f"the {reg} sheet has dropped the undrawable-door disclosure")
+    # THE UNDRAWABLE-DOOR LINE IS ASSERTED AS A PROPERTY RATHER THAN AS A PRESENCE (WP-13.4).
+    # It used to be asserted on both sheets outright, which was a statement about the Tidewater
+    # record -- the drawable record this file now takes has no undrawable door and would have
+    # gone red on something the test is not about. What the docstring above actually claims is
+    # that the presentation register DELETES no disclosure, and that is checkable on any
+    # record: the line is on both sheets or on neither, never on the working sheet alone.
+    _door = "DECLARED DOOR(S) WITHOUT A DRAWABLE OPENING"
+    assert (_door in pres["svg"]) == (_door in work["svg"]), (
+        "the presentation register has dropped the undrawable-door disclosure: nothing is "
+        "DELETED by it, the marks merely leave the field for the margin")
     assert len(work["svg"]) > len(pres["svg"]), "the working sheet carries strictly more"
 
 

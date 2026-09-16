@@ -1646,6 +1646,13 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
             "decisions_structured": structure_decisions(log + _summarise(rlog)),
             "worst": [{"severity": f["severity"], "layer": f["layer"], "statement": f["statement"]}
                       for f in res["findings"] if f["severity"] in ("fatal", "serious")][:8],
+            # WP-13.4: whether this candidate's record may be DRAWN, beside the score that says
+            # how good it is. `GET /api/jobs/{id}/candidates/{n}/plan` hands the record back raw
+            # and unmetered, so a client has to be able to see the refusal before it loads the
+            # candidate into a surface. It is `None` here on purpose and that is not an omission:
+            # `repair` runs the DECLARED loop, this record carries no placement at all, and a
+            # refusal about a house nobody has placed would be a verdict with no subject.
+            "refused": ((plan.get("geometry_report") or {}).get("refused")),
             "plan": plan})
         if on_candidate:
             on_candidate({k: v for k, v in out[-1].items() if k != "plan"})
@@ -1747,6 +1754,13 @@ def compose(brief, candidates=4, on_candidate=None, revise=True, revise_rounds=4
                              "handed_to_architect": rep["handed_to_architect"],
                              "suspects": [{"id": s["id"], "statement": s["statement"]} for s in rep["suspects"]],
                              "refused": len(rep["refused"]), "declared_pass": rep.get("declared_pass")},
+                # WP-13.4, and THIS is the one that carries a value: the revision loop PLACES,
+                # so `plan2` is a placed record and `geometry._disclose` has written the verdict
+                # onto it. Read, never re-derived. (Note the neighbour above it inside
+                # `revision`: `refused` there is the loop's count of refused ROUNDS, an integer
+                # and a different question -- two words one nesting level apart, kept apart by
+                # being read from two different places.)
+                "refused": ((plan2.get("geometry_report") or {}).get("refused")),
                 "plan": plan2})
             if on_candidate:
                 on_candidate({**{k: v for k, v in c.items() if k != "plan"}, "revised": True})
