@@ -1026,8 +1026,10 @@ def arrange_room(room, catalogue_room, rect, occupied, blocked=None, breasts=Non
     # A strip does NOT refuse a freestanding item: the record puts the coffee table "16 to 18 in
     # from the sofa" -- inside the sofa's own 30 -- and the table's chairs inside the table's 54,
     # so a strip that refused them would contradict the sentences the clearance was read from.
-    # Measured before it was believed: as an exclusion against everything, the strips refused
-    # 41 items the previous packer had seated, the coffee table among them.
+    # Measured before it was believed, over the sixteen plans on the deterministic engine:
+    # extending the strips to the freestanding items and the table's chairs loses 79 drawn
+    # items over 39 rooms (648 placed -> 569), the coffee table among them, and extending them
+    # to the wall pack as well loses 88 over 44 (-> 560).
     # oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition.
     for i, spec in enumerate(freestanding):
         r0 = place_freestanding(rect, spec, placed, i)

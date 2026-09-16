@@ -21,15 +21,22 @@ companion is another item in the same room's own list:
 
 **WP-13.6 executed the field and had to choose a scope, and it chose by measuring.**
 `fg-clear-in-front` reserves the strip against later POSITIONED items and against nothing else.
-Two measurements decided it, both over the sixteen plans on the deterministic engine:
+**The measurement is a LADDER of three scopes, all over the sixteen plans on the deterministic
+engine, and each rung is named so no figure can be read at the wrong one:**
 
-* against EVERY later item, the strips refuse **41** items the previous packer had seated, the
-  living room's coffee table among them — against that table's own sentence;
-* against every later WALL-SEATED item as well (tried on a `front_ft` spec field gated exactly
-  as `aisle_ft`, so the fixture layouts stay byte-identical by construction), it costs
-  **87 drawn items over 43 rooms** — placed 648 → 561, refusals 152 → 211 — and the losses are
-  32 dining chairs, 7 hall chairs, 4 dining tables, 4 coffee tables, 4 games tables and the
-  rest. A chest's 36 in and a sofa's 30 overlap across any room under about 7 ft.
+| scope | placed | refused | drawn items lost against the shipped scope |
+|---|---|---|---|
+| **A — later POSITIONED items only (shipped)** | **648** | **152** | — |
+| B — and the freestanding items and the table's chairs | 569 | 203 | **79 over 39 rooms** |
+| C — and the wall pack too (a `front_ft` spec field gated as `aisle_ft` is, so the fixture layouts stay byte-identical by construction) | 560 | 212 | **88 over 44 rooms** |
+
+B loses the living room's coffee table, against that table's own sentence, which is why a
+freestanding item is exempt. C loses 32 dining chairs, 7 hall chairs, 4 dining tables, 4 coffee
+tables and 4 games tables besides: a chest's 36 in and a sofa's 30 in overlap across any room
+under about 7 ft. WP-13.6 first published a 41 it inherited from the pass before and an
+"87 over 43" measured with the `front_ft` field alone — which leaks the strips into `placed` and
+so silently blocks the freestanding items too, making it neither B nor C. Both are superseded
+here: **a figure without its scope is a figure the next reader applies to the wrong one.**
 
 Neither scope is derivable from the records. **The figure is a reading and the scope is ours**,
 which is why `fg-clear-in-front` is graded `reading` for the number and says in its own rule

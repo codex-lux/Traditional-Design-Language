@@ -1561,10 +1561,17 @@ BOTH DIRECTIONS by `tests/test_furniture_grammar.py`.
 **`fg-clear-in-front`'s RULE TEXT CLAIMED SOMETHING THE CODE DOES NOT DO**, and the wider
 reading was BUILT, MEASURED AND REFUSED: a strip refusing later WALL items too (on a `front_ft`
 spec field gated exactly as `aisle_ft`, so the fixtures stay byte-identical by construction)
-costs **87 drawn items over 43 rooms**, 648 placed -> 561. The figure is a reading and the SCOPE
-is not; a chest's 36 in and a sofa's 30 overlap across any room under about 7 ft and no record
-forbids that. Published rather than netted off:
+costs **88 drawn items over 44 rooms** (648 placed -> 560), and extending them to the
+freestanding items and the table's chairs alone costs **79 over 39** (-> 569). The figure is a
+reading and the SCOPE is not; a chest's 36 in and a sofa's 30 overlap across any room under
+about 7 ft and no record forbids that. Published rather than netted off:
 `oq/a-clearance-is-sometimes-a-companions-place-and-sometimes-a-prohibition`.
+**AND THE FIRST TWO FIGURES PUBLISHED FOR THIS HAD NO SCOPE ON THEM** -- a 41 inherited from the
+pass before, and an 87/43 measured with the `front_ft` field alone, which leaks the strips into
+`placed` and silently blocks the freestanding items too, so it was neither of the two scopes it
+was quoted as. Superseded by the ladder above, and `ce80895`'s own message carries the retired
+pair. **A figure without its scope is a figure the next reader applies to the wrong one**, which
+is this file's *a figure is a statement about the tree it was measured on* one axis over.
 **THE DRAWN-SHORTFALL RATCHET DID NOT MOVE AND THAT IS A MEASUREMENT** -- `_sweep` reads the
 CATALOGUE's footprints against the DRAWN rectangle, and this package touched neither, so the
 pair stays 68/82. CLAUDE.md records three causes for that one pair; the fourth possible cause,

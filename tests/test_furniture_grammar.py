@@ -504,13 +504,17 @@ def test_a_clearance_strip_moves_a_positioned_item_and_lets_a_freestanding_one_t
 
 
 def test_the_rule_says_what_the_code_does_about_the_wall_pack():
-    """WP-13.6 tried the wider reading -- a strip refusing a later WALL item too -- and
-    measured it at 87 drawn items over 43 rooms, then refused it. The rule's text may not go
-    on claiming what was refused."""
+    """WP-13.6 tried two wider readings and refused both. The rule's text may not go on
+    claiming what was refused, and the cost of each refusal has to be on the rule WITH ITS
+    SCOPE NAMED -- the package's first draft published a pair of figures whose scope was not
+    stated, which is a number the next reader applies to the wrong one."""
     rule = next(r for r in GRAMMAR["placement_rules"] if r["id"] == "fg-clear-in-front")
     assert "no later POSITIONED item" in rule["rule"]
     assert "does NOT reach the wall pack" in rule["rule"]
-    assert "87 drawn items" in rule["note"], "the refused reading's cost is published"
+    for want in ("79 drawn items lost over 39 rooms", "88 drawn items lost over 44 rooms"):
+        assert want in rule["note"], f"the refused readings' cost is published: {want}"
+    assert "648 placed" in rule["note"] and "560 placed" in rule["note"], (
+        "and each figure names the scope it was measured at")
 
 
 # ------------------------------------------------------------------ the record and the plate

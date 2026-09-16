@@ -3960,8 +3960,8 @@ but for `furniture_layout` and its two counters, so the placement was not touche
 own gate solves all sixteen plans and validates the PLACED record: 16 of 16. The drawn-shortfall
 ratchet did NOT move and §III says why -- it reads the catalogue against the drawn rectangle, and
 this package touched neither. **THREE THINGS IT REFUSED, EACH WITH ITS MEASUREMENT**: the wider
-`fg-clear-in-front` scope (a strip refusing later WALL items too, tried on a gated spec field,
-**87 drawn items over 43 rooms**); a position for an item `fg-too-thin-to-draw` refuses; and the
+`fg-clear-in-front` scopes (strips against the freestanding items and the table's chairs too,
+**79 drawn items over 39 rooms**; and against the wall pack as well, **88 over 44**); a position for an item `fg-too-thin-to-draw` refuses; and the
 dais end of a hall, which no plan record carries. It also found that WP-13.6's own first commit
 (`31a7373`) had moved all sixteen sheets and left `test_no_shipped_sheet_moves` red for four
 commits, and that `executed_but_unreached_in_the_corpus` named a rule the corpus reaches eighteen
